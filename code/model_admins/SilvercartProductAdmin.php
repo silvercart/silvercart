@@ -150,21 +150,14 @@ class SilvercartProductAdmin extends ModelAdmin {
      * @since 01.08.2011
      */
     public function resultsTableClassName() {
-        $extensionClassName = '';
-        $this->extend('updateResultsTableClassname', $extensionClassName);
+        $className = $this->resultsTableClassName;
 
-        if (empty($extensionClassName)) {
-            $className = $this->resultsTableClassName;
-
-            if (isset($this->urlParams['Action']) ) {
-                if ($this->urlParams['Action'] == 'SilvercartProduct') {
-                    $className = 'SilvercartProductTableListField';
-                }
+        if (isset($this->urlParams['Action']) ) {
+            if ($this->urlParams['Action'] == 'SilvercartProduct') {
+                $className = 'SilvercartProductTableListField';
             }
-        } else {
-            $className = $extensionClassName;
         }
-
+        
         return $className;
     }
 }

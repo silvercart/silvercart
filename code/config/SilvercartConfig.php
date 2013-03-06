@@ -151,8 +151,8 @@ class SilvercartConfig extends DataObject {
      */
     public static $defaults = array(
         'SilvercartVersion'             => '1.3',
-        'SilvercartMinorVersion'        => '6',
-        'SilvercartUpdateVersion'       => '9',
+        'SilvercartMinorVersion'        => '5',
+        'SilvercartUpdateVersion'       => '7',
         'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',

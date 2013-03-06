@@ -49,7 +49,6 @@ SilvercartHasManyTextAutoCompleteField.init = function() {
     });
 }
 
-jQuery;
 (function($) {
     $(document).ready(function() {
         setTimeout('SilvercartHasManyTextAutoCompleteField.init();', 1000);

@@ -38,8 +38,26 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      * into caching problems when using it.
      * 
      * @var boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 22.07.2011
      */
     protected $securityTokenEnabled = false;
+
+    /**
+     * Returns the Cache Key for the current step
+     *
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        if (empty($this->cacheKeyExtension)) {
+            $silvercartProduct       = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
+            $cacheKeyExtension       = $silvercartProduct->ID . '_' . $silvercartProduct->LastEditedForCache;
+            $this->cacheKeyExtension = md5($cacheKeyExtension);
+        }
+
+        return $this->cacheKeyExtension;
+    }
     
     /**
      * field configuration
@@ -58,28 +76,6 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             )
         )
     );
-    
-    /**
-     * Custom form action to use for this form
-     *
-     * @var string
-     */
-    protected $customHtmlFormAction = 'addToCart';
-
-    /**
-     * Returns the Cache Key for the current step
-     *
-     * @return string
-     */
-    public function getCacheKeyExtension() {
-        if (empty($this->cacheKeyExtension)) {
-            $silvercartProduct       = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
-            $cacheKeyExtension       = $silvercartProduct->ID . '_' . $silvercartProduct->LastEditedForCache;
-            $this->cacheKeyExtension = md5($cacheKeyExtension);
-        }
-
-        return $this->cacheKeyExtension;
-    }
 
     /**
      * Preferences

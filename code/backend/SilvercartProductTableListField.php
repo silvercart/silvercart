@@ -59,7 +59,7 @@ class SilvercartProductTableListField extends TableListField {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.08.2011
      */
-    public static $fieldListCsvSpecial = array(
+    protected $fieldListCsvSpecial = array(
         'ID'                                    => 'ID',
         'Title'                                 => 'Title',
         'ShortDescription'                      => 'ShortDescription',
@@ -91,33 +91,6 @@ class SilvercartProductTableListField extends TableListField {
         'SilvercartTaxID'                       => 'SilvercartTaxID',
         'SilvercartProductMirrorGroupIDs'       => 'SilvercartProductMirrorGroupIDs'
     );
-
-    /**
-     * Clears the complete CSV field list
-     *
-     * @return void
-     *
-     * @since 2013-03-04
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     */
-    public static function clearCsvFieldList() {
-        self::$fieldListCsvSpecial = array();
-    }
-
-    /**
-     * Add a new field to the CSV field list
-     *
-     * @param string $fieldName  The field name
-     * @param string $fieldTitle The title of the field
-     *
-     * @return void
-     *
-     * @since 2013-03-04
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     */
-    public static function addToCsvFieldList($fieldName, $fieldTitle) {
-        self::$fieldListCsvSpecial[$fieldName] = $fieldTitle;
-    }
     
     /**
      * We have to replace some field contents here to gain real CSV
@@ -138,7 +111,7 @@ class SilvercartProductTableListField extends TableListField {
         $columnData = array();
 
         if ($this->csvHasHeader) {
-            $fileData .= "\"" . implode("\"{$separator}\"", array_values(self::$fieldListCsvSpecial)) . "\"";
+            $fileData .= "\"" . implode("\"{$separator}\"", array_values($this->fieldListCsvSpecial)) . "\"";
             $fileData .= "\n";
         }
 
@@ -160,7 +133,7 @@ class SilvercartProductTableListField extends TableListField {
                     $item = new $className($item);
                 }
 
-                $fields     = self::$fieldListCsvSpecial;
+                $fields = $this->fieldListCsvSpecial;
                 $columnData = array();
 
                 if ($fields) {

@@ -58,22 +58,6 @@ class SilvercartDataObject extends DataObjectDecorator {
     }
     
     /**
-     * Removes the LastEditedForCache field.
-     * 
-     * @param FieldSet &$fields Fields to update
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.03.2013
-     */
-    public function updateCMSFields(FieldSet &$fields) {
-        if ($fields->dataFieldByName('LastEditedForCache') instanceof FormField) {
-            $fields->removeByName('LastEditedForCache');
-        }
-    }
-    
-    /**
      * Returns a quick preview to use in a related models admin form
      * 
      * @return string
@@ -173,6 +157,7 @@ class SilvercartDataObject extends DataObjectDecorator {
                     }
                 }
                 if ($cacheRelevantFieldIsChanged) {
+                    var_dump($cacheRelevantFieldIndex, $cacheRelevantFieldValue);
                     break;
                 }
             }
