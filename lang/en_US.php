@@ -229,10 +229,6 @@ $lang['en_US']['SilvercartMenu']['SECTION_externalConnections'] = 'External conn
 $lang['en_US']['SilvercartMenu']['SECTION_others']              = 'Others';
 $lang['en_US']['SilvercartMenu']['SECTION_maintenance']         = 'Maintenance';
 
-$lang['en_US']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'There are no orders yet.';
-$lang['en_US']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Number of orders per day';
-$lang['en_US']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Order time line';
-
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
 $lang['en_US']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV separator';

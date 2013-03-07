@@ -229,10 +229,6 @@ $lang['de_DE']['SilvercartMenu']['SECTION_externalConnections'] = 'Externe Anbin
 $lang['de_DE']['SilvercartMenu']['SECTION_others']              = 'Anderes';
 $lang['de_DE']['SilvercartMenu']['SECTION_maintenance']         = 'Wartung';
 
-$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'Es wurden noch keine Bestellungen aufgegeben.';
-$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Bestellungen pro Tag';
-$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Bestellverlauf';
-
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Zugewiesene Felder';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['CSV_SEPARATOR_LABEL']     = 'CSV Trennzeichen';
