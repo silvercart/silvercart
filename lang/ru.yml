@@ -573,9 +573,6 @@ ru:
     TYPE: "тип"
   SilvercartCustomerAdmin:
     MENUTITLE: "колиенты"
-  SilvercartDashboard:
-    NEWS_HEADLINE: "новинки"
-    NEWS_READ_MORE: "читай дальше"
   SilvercartDataPage:
     DEFAULT_TITLE: "мои данные"
     DEFAULT_URLSEGMENT: "мои данные"
@@ -741,10 +738,6 @@ ru:
   SilvercartMetaNavigationPage:
     PLURALNAME: "страницы метаинформации"
     SINGULARNAME: "страница метаинформации"
-  SilvercartMetricsFieldOrdersByDay:
-    CHART_HEADLINE: "количество заказов в день"
-    FIELD_HEADLINE: "журнал заказов "
-    NO_ORDERS_YET: "заказов не было"
   SilvercartMultiSelectAndOrderField:
     ADD_CALLBACK_FIELD: "поле обратного вызова"
     ATTRIBUTED_FIELDS: "ассоциированные поля"
@@ -1480,7 +1473,6 @@ ru:
     TITLE: "Корзина"
   SilvercartSiteConfig:
     CREATE_TRANSLATION_DESC: "Новый перевод будет действителен для всей иерархии страниц. Каждая страница будет создана как шаблон, и при наличии стандартного содержимого будет показана на выбранном языке. Если нет стандартного содержимого будут выбраны актуальные настройки."
-    DASHBOARD_TAB: "SilverCart Dashboard"
     PUBLISHBUTTON: "Опубликовать все страницы данного языка. "
     TESTDATA_HEADLINE: "тестовые данные"
     TESTDATA_LINKTEXT: "Перейти с секции тестовых данных."

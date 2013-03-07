@@ -162,9 +162,6 @@ $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME']          = 'Übersetzung';
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            = 'Übersetzungen';
 
-$lang['de_DE']['SilvercartDashboard']['NEWS_HEADLINE'] = 'Neuigkeiten';
-$lang['de_DE']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Weiterlesen';
-
 $lang['de_DE']['SilvercartDeeplink']['PLURALNAME'] = 'Deeplinks';
 $lang['de_DE']['SilvercartDeeplink']['SINGULARNAME'] = 'Deeplink';
 
@@ -212,10 +209,6 @@ $lang['de_DE']['SilvercartMenu']['SECTION_shipping']            = 'Versand';
 $lang['de_DE']['SilvercartMenu']['SECTION_externalConnections'] = 'Externe Anbindung';
 $lang['de_DE']['SilvercartMenu']['SECTION_others']              = 'Anderes';
 $lang['de_DE']['SilvercartMenu']['SECTION_maintenance']         = 'Wartung';
-
-$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'Es wurden noch keine Bestellungen aufgegeben.';
-$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Bestellungen pro Tag';
-$lang['de_DE']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Bestellverlauf';
 
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Callback-Feld hinzufügen';
 $lang['de_DE']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Zugewiesene Felder';
@@ -1810,7 +1803,6 @@ $lang['de_DE']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS']     
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['EXPAND_ACTIVE_SECTION_ONLY']  = 'Nur aktiven Zweig aufklappen';
 
 $lang['de_DE']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist.';
-$lang['de_DE']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';
 $lang['de_DE']['SilvercartSiteConfig']['PUBLISHBUTTON']             = 'Alle Seiten der aktuellen Sprache veröffentlichen';
 $lang['de_DE']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Willkommen bei SilverCart';
 $lang['de_DE']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdaten';

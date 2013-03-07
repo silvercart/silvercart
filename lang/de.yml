@@ -638,9 +638,6 @@ de:
   SilvercartCustomerGroup:
     PLURALNAME: "Kundengruppen"
     SINGULARNAME: "Kundengruppe"
-  SilvercartDashboard:
-    NEWS_HEADLINE: "Neuigkeiten"
-    NEWS_READ_MORE: "Weiterlesen"
   SilvercartDataPage:
     DEFAULT_TITLE: "Meine Daten"
     DEFAULT_URLSEGMENT: "meine-daten"
@@ -851,10 +848,6 @@ de:
   SilvercartMetaNavigationPage:
     PLURALNAME: "Meta-Informations-Seiten"
     SINGULARNAME: "Meta-Informations-Seite"
-  SilvercartMetricsFieldOrdersByDay:
-    CHART_HEADLINE: "Bestellungen pro Tag"
-    FIELD_HEADLINE: "Bestellverlauf"
-    NO_ORDERS_YET: "Es wurden noch keine Bestellungen aufgegeben."
   SilvercartMultiSelectAndOrderField:
     ADD_CALLBACK_FIELD: "Callback-Feld hinzufügen"
     ATTRIBUTED_FIELDS: "Zugewiesene Felder"
@@ -1699,7 +1692,6 @@ de:
     TITLE: "Warenkorb"
   SilvercartSiteConfig:
     CREATE_TRANSLATION_DESC: "Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist."
-    DASHBOARD_TAB: "SilverCart Dashboard"
     FACEBOOK_LINK: "Facebook Link"
     GOOGLE_ANALYTICS_TRACKING_CODE: "Google Analytics Tracking Code"
     GOOGLE_CONVERSION_TRACKING_CODE: "Google Conversion Tracking Code"

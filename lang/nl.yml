@@ -1258,7 +1258,6 @@ nl:
     DESCRIPTION: "Deze widget toont de inhoud van de winkelwagen. Daarnaast de links naar de winkelwagen en (als er producten in de winkelwagen) de Afrekenen pagina's."
     TITLE: "Winkelwagen"
   SilvercartSiteConfig:
-    DASHBOARD_TAB: "SilverCart Dashboard"
     TESTDATA_HEADLINE: "Testdata"
     TESTDATA_LINKTEXT: "Spring naar de testdata sectie"
     TESTDATA_TEXT: "Er zijn nog geen producten, als je wat testdata wilt maken klik je op de volgende link:"

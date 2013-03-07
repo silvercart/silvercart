@@ -162,9 +162,6 @@ $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 
 $lang['en_GB']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME']          = _t('Silvercart.TRANSLATION');
 $lang['en_GB']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            = _t('Silvercart.TRANSLATIONS');
 
-$lang['en_GB']['SilvercartDashboard']['NEWS_HEADLINE'] = 'News';
-$lang['en_GB']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Read more';
-
 $lang['en_GB']['SilvercartDeeplink']['PLURALNAME'] = 'Deeplinks';
 $lang['en_GB']['SilvercartDeeplink']['SINGULARNAME'] = 'Deeplink';
 
@@ -212,10 +209,6 @@ $lang['en_GB']['SilvercartMenu']['SECTION_shipping']            = 'Shipping';
 $lang['en_GB']['SilvercartMenu']['SECTION_externalConnections'] = 'External connections';
 $lang['en_GB']['SilvercartMenu']['SECTION_others']              = 'Others';
 $lang['en_GB']['SilvercartMenu']['SECTION_maintenance']         = 'Maintenance';
-
-$lang['en_GB']['SilvercartMetricsFieldOrdersByDay']['NO_ORDERS_YET']  = 'There are no orders yet.';
-$lang['en_GB']['SilvercartMetricsFieldOrdersByDay']['CHART_HEADLINE'] = 'Number of orders per day';
-$lang['en_GB']['SilvercartMetricsFieldOrdersByDay']['FIELD_HEADLINE'] = 'Order time line';
 
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ADD_CALLBACK_FIELD']      = 'Add callback field';
 $lang['en_GB']['SilvercartMultiSelectAndOrderField']['ATTRIBUTED_FIELDS']       = 'Attributed fields';
@@ -1810,7 +1803,6 @@ $lang['en_GB']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS']     
 $lang['en_GB']['SilvercartProductGroupNavigationWidget']['EXPAND_ACTIVE_SECTION_ONLY']  = 'Expand only active branch';
 
 $lang['en_GB']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.';
-$lang['en_GB']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';
 $lang['en_GB']['SilvercartSiteConfig']['PUBLISHBUTTON']             = 'Publish all pages of this translation';
 $lang['en_GB']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Welcome to SilverCart';
 $lang['en_GB']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdata';

@@ -1347,7 +1347,6 @@ $lang['nl_NL']['SilvercartProductGroupNavigationWidget']['TITLE']           = 'P
 $lang['nl_NL']['SilvercartProductGroupNavigationWidget']['CMSTITLE']        = 'SilverCart productgroep navigatie';
 $lang['nl_NL']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']     = 'Deze widget maakt een hiërarchische navigatie voor de productgroepen. U kunt bepalen wat productgroep dient te worden gebruikt als root.';
 
-$lang['nl_NL']['SilvercartSiteConfig']['DASHBOARD_TAB']             = 'SilverCart Dashboard';
 $lang['nl_NL']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Welkom bij SilverCart';
 $lang['nl_NL']['SilvercartSiteConfig']['TESTDATA_HEADLINE']         = 'Testdata';
 $lang['nl_NL']['SilvercartSiteConfig']['TESTDATA_TEXT']             = 'Er zijn nog geen producten, als je wat testdata wilt maken klik je op de volgende link:';
