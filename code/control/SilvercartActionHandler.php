@@ -71,14 +71,9 @@ class SilvercartActionHandler extends DataObjectDecorator {
         } else {
             $isValidRequest = true;
         }
-        
+
         if ($isValidRequest) {
-            SilvercartShoppingCart::addProduct(
-                    array(
-                        'productID'         => $productID,
-                        'productQuantity'   => $quantity,
-                    )
-            );
+            SilvercartShoppingCart::addProduct($postVars);
             
             if (SilvercartConfig::getRedirectToCartAfterAddToCartAction()) {
                 $backLink = SilvercartTools::PageByIdentifierCodeLink('SilvercartCartPage');

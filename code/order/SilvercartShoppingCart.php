@@ -476,7 +476,7 @@ class SilvercartShoppingCart extends DataObject {
         if (!$member) {
             $member = SilvercartCustomer::createAnonymousCustomer();
         }
-        
+
         $overwriteAddProduct = SilvercartPlugin::call($member->getCart(), 'overwriteAddProduct', array($formData), false, 'boolean');
         
         if ($overwriteAddProduct) {
