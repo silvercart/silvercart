@@ -1,5 +1,5 @@
 <% if SilvercartAddresses %>
-    <h2>$Top.Title</h2>
+    <h2>$CurrentPage.Title</h2>
     <% loop SilvercartAddresses %>
         <% if Odd %>
     <div class="subcolumns">
@@ -45,11 +45,11 @@
                             </div>
                         </div>
                         <div class="c33r align_right">
-                            <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="$Top.PageByIdentifierCodeLink(SilvercartAddressPage)$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
+                            <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartAddressPage)$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
                                 <span class="silvercart-icon-button_content">
                                     &nbsp;
                                 </span>
-                            </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$Top.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
+                            </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
                                 <span class="silvercart-icon-button_content">
                                     &nbsp;
                                 </span>
@@ -69,7 +69,7 @@
                                 <% else %>
                                     <div class="silvercart-button left">
                                         <div class="silvercart-button_content">
-                                            <a href="{$Top.Link}setInvoiceAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
+                                            <a href="{$CurrentPage.Link}setInvoiceAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
                                         </div>
                                     </div>
                                 <% end_if %>
@@ -86,7 +86,7 @@
                                 <% else %>
                                     <div class="silvercart-button right">
                                         <div class="silvercart-button_content">
-                                            <a href="{$Top.Link}setShippingAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
+                                            <a href="{$CurrentPage.Link}setShippingAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
                                         </div>
                                     </div>
                                 <% end_if %>

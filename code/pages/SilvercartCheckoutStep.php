@@ -125,9 +125,8 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 09.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2013
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
@@ -168,8 +167,10 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             
             $requestParams = $this->getRequest()->allParams();
             if ($requestParams['Action'] == 'editAddress') {
-                $addressID = (int) $requestParams['ID'];
-                if (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+                $addressID          = (int) $requestParams['ID'];
+                $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+                $membersAddress     = $membersAddresses->find('ID', $addressID);
+                if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                     Session::set("redirect", $this->Link());
                     $preferences = array();
                     $preferences['submitAction'] = 'editAddress/' . $addressID . '/customHtmlFormSubmit';
@@ -364,7 +365,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @return type 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2011
+     * @since 07.03.2013
      */
     public function editAddress(SS_HTTPRequest $request) {
         $rendered = '';
@@ -381,8 +382,10 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                     $rendered = $this->renderWith(array('SilvercartCheckoutFormStep2RegularEditAddress','Page'));
                 }
             } else {
-                $addressID = (int) $params['ID'];
-                if (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+                $addressID          = (int) $params['ID'];
+                $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+                $membersAddress     = $membersAddresses->find('ID', $addressID);
+                if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                     // Address contains to logged in user - render edit form
                     $rendered = $this->renderWith(array('SilvercartCheckoutFormStep2RegularEditAddress','Page'));
                 } else {

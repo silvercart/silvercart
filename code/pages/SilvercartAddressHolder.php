@@ -182,7 +182,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
+     * @since 07.03.2013
      */
     public function deleteAddress(SS_HTTPRequest $request, $context = '') {
         $params = $request->allParams();
@@ -190,12 +190,14 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
         if ( array_key_exists('ID', $params) &&
             !empty ($params['ID'])) {
 
-            $addressID = (int) $params['ID'];
+            $addressID          = (int) $params['ID'];
+            $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+            $membersAddress     = $membersAddresses->find('ID', $addressID);
 
-            if (Member::currentUser()->SilvercartAddresses()->count() == 1) {
+            if ($membersAddresses->count() == 1) {
                 // address can't be deleted because it's the only one
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_CANT_BE_DELETED', "Sorry, but you can't delete your only address."));
-            } elseif (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+            } elseif ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                 // Address contains to logged in user - delete it
                 if (Member::currentUser()->SilvercartInvoiceAddress()->ID == $addressID) {
                     // set shipping address as users invoice address
@@ -207,7 +209,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                     Member::currentUser()->SilvercartShippingAddressID = Member::currentUser()->SilvercartInvoiceAddress()->ID;
                     Member::currentUser()->write();
                 }
-                DataObject::get_by_id('SilvercartAddress', $addressID)->delete();
+                $membersAddress->delete();
                 $this->setSuccessMessage(_t('SilvercartAddressHolder.ADDRESS_SUCCESSFULLY_DELETED', 'Your address was successfully deleted.'));
             } else {
                 // possible break in attempt!
@@ -229,14 +231,16 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
+     * @since 07.03.2013
      */
     public function setInvoiceAddress(SS_HTTPRequest $request) {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
          && !empty ($params['ID'])) {
-            $addressID = (int) $params['ID'];
-            if (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+            $addressID          = (int) $params['ID'];
+            $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+            $membersAddress     = $membersAddresses->find('ID', $addressID);
+            if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                 // Address contains to logged in user - set as invoice address
                 Member::currentUser()->SilvercartInvoiceAddressID = $addressID;
                 Member::currentUser()->write();
@@ -257,14 +261,16 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
+     * @since 07.03.2013
      */
     public function setShippingAddress(SS_HTTPRequest $request) {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
          && !empty ($params['ID'])) {
-            $addressID = (int) $params['ID'];
-            if (Member::currentUser()->SilvercartAddresses()->containsIDs(array($addressID))) {
+            $addressID          = (int) $params['ID'];
+            $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+            $membersAddress     = $membersAddresses->find('ID', $addressID);
+            if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                 // Address contains to logged in user - set as invoice address
                 Member::currentUser()->SilvercartShippingAddressID = $addressID;
                 Member::currentUser()->write();
