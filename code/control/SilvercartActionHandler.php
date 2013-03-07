@@ -73,6 +73,9 @@ class SilvercartActionHandler extends DataObjectDecorator {
         }
 
         if ($isValidRequest) {
+            $postVars['productID']       = $productID;
+            $postVars['productQuantity'] = $quantity;
+
             SilvercartShoppingCart::addProduct($postVars);
             
             if (SilvercartConfig::getRedirectToCartAfterAddToCartAction()) {
