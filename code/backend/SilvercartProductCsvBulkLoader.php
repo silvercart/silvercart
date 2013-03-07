@@ -307,12 +307,14 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                     $silvercartProductMirrorGroupIDs = explode(',', $record['SilvercartProductMirrorGroupIDs']);
 
                     foreach ($silvercartProductMirrorGroupIDs as $silvercartProductMirrorGroupID) {
-                        $silvercartProductGroupMirrorPage = DataObject::get_by_id('SilvercartProductGroupPage', $silvercartProductMirrorGroupID);
+                        if (!empty($silvercartProductMirrorGroupID)) {
+                            $silvercartProductGroupMirrorPage = DataObject::get_by_id('SilvercartProductGroupPage', $silvercartProductMirrorGroupID);
 
-                        if ($silvercartProductGroupMirrorPage) {
-                            $silvercartProduct->SilvercartProductGroupMirrorPages()->add($silvercartProductGroupMirrorPage);
+                            if ($silvercartProductGroupMirrorPage) {
+                                $silvercartProduct->SilvercartProductGroupMirrorPages()->add($silvercartProductGroupMirrorPage);
+                            }
+                            unset($silvercartProductGroupMirrorPage);
                         }
-                        unset($silvercartProductGroupMirrorPage);
                     }
                     unset($silvercartProductMirrorGroupIDs);
 
