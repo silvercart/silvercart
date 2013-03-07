@@ -6,7 +6,7 @@
     <col width="7%"></col>
     <col width="15%"></col>
     <col width="12%"></col>
-<% if Top.EditableShoppingCart %>
+<% if CurrentPage.EditableShoppingCart %>
     <col width="5%"></col>
 <% end_if %>
 </colgroup>
@@ -28,7 +28,7 @@
         
         <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
 
-        <% if Top.EditableShoppingCart %>
+        <% if CurrentPage.EditableShoppingCart %>
             <th>&nbsp;</th>
         <% end_if %>
     </tr>

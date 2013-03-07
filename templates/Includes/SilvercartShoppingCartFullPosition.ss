@@ -15,7 +15,7 @@
     <td class="right">$getPrice(true).Nice</td>
     <td class="right">{$SilvercartProduct.TaxRate}%</td>
     <td class="right borderlr">
-        <% if Top.EditableShoppingCart %>
+        <% if CurrentPage.EditableShoppingCart %>
         <div class="subcolumns">
             <div class="c33l">
                 $DecrementPositionQuantityForm                                
@@ -25,7 +25,7 @@
             <span class="silvercart-quantity-label">
                 $getTypeSafeQuantity
             </span>
-        <% if Top.EditableShoppingCart %>
+        <% if CurrentPage.EditableShoppingCart %>
             </div>
             <div class="c33r">
                 <% if isQuantityIncrementableBy %>
@@ -39,7 +39,7 @@
     </td>
     <td class="right">$Price.Nice</td>
 
-    <% if Top.EditableShoppingCart %>
+    <% if CurrentPage.EditableShoppingCart %>
         <td>$RemovePositionForm</td>
     <% end_if %>
 </tr>

@@ -9,13 +9,13 @@
 <% if CurrentMember.SilvercartShoppingCart.isFilled %>
     <% with CurrentMember %>
         <% with SilvercartShoppingCart %>
-            <% if Top.showPricesGross %>
+            <% if CurrentPage.showPricesGross %>
                 <% include SilvercartShoppingCartFullGross %>
             <% else %>
                 <% include SilvercartShoppingCartFullNet %>
             <% end_if %>
 
-            <% if Top.EditableShoppingCart %>
+            <% if CurrentPage.EditableShoppingCart %>
                 <div class="shoppingCartActions">
                     <% if registeredModules %>
                         <% loop registeredModules %>
