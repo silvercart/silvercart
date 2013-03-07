@@ -59,7 +59,7 @@ class SilvercartActionHandler extends DataObjectDecorator {
         $params         = $request->allParams();
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
-        
+
         if (is_null($productID) ||
             is_null($quantity)) {
             if (array_key_exists('productID',       $postVars) &&

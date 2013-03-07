@@ -96,6 +96,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         $this->preferences['doJsValidationScrolling'] = false;
 
         $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
+        $this->setCustomParameter('backLink', Controller::curr()->Link());
 
         if (array_key_exists('productID', $this->customParameters)) {
             $silvercartProduct = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
@@ -116,40 +117,4 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             $this->formFields['productQuantity']['maxLength'] = 3 + 1 + $numberOfDecimalPlaces;
         }
     }
-
-    /**
-     * executed if there are no validation errors on submit
-     *
-     * @param SS_HTTPRequest $data     contains the frameworks form data
-     * @param Form           $form     not used
-     * @param array          $formData contains the modules form data
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @return void
-     * @since 23.10.2010
-     */
-    protected function submitSuccess($data, $form, $formData) {
-        $backLink = $this->controller->Link();
-
-        if (SilvercartConfig::getRedirectToCartAfterAddToCartAction()) {
-            $backLink = SilvercartPage_Controller::PageByIdentifierCodeLink('SilvercartCartPage');
-        } else if (isset($formData['backLink'])) {
-            $backLink = $formData['backLink'];
-        }
-
-        // Preserve back link if available
-        if (array_key_exists('_REDIRECT_BACK_URL', $formData)) {
-            if (strpos('?', $backLink) === -1) {
-                $backLink .= '?';
-            } else {
-                $backLink .= '&';
-            }
-
-            $backLink .= '_REDIRECT_BACK_URL='.$formData['_REDIRECT_BACK_URL'];
-        }
-
-        SilvercartShoppingCart::addProduct($formData);
-        Director::redirect($backLink, 302);
-    }
-
 }
