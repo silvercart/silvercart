@@ -46,14 +46,6 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
         'ProductNumberManufacturer',
         'ProductNumberShop',
     );
-
-
-    /**
-     * Delimiter character
-     *
-     * @var string
-     */
-    public $delimiter = ';';
     
     /**
      * Indicator to check whether to create a new product if no existing one is
