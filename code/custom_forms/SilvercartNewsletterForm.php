@@ -37,14 +37,11 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * Form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.03.2011
      */
     protected $formFields = array(
         'Salutation' => array(
             'type'  => 'DropdownField',
-            'title' => 'Anrede',
+            'title' => 'Salutation',
             'value' => array(
                 ''      => 'Bitte wählen',
                 'Frau'  => 'Frau',
@@ -56,7 +53,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         ),
         'FirstName' => array(
             'type'  => 'TextField',
-            'title' => 'Vorname',
+            'title' => 'Firstname',
             'checkRequirements' => array(
                 'isFilledIn'    => true,
                 'hasMinLength'  => 3
@@ -64,7 +61,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         ),
         'Surname' => array(
             'type'  => 'TextField',
-            'title' => 'Nachname',
+            'title' => 'Surname',
             'checkRequirements' => array(
                 'isFilledIn'    => true,
                 'hasMinLength'  => 3
@@ -72,7 +69,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         ),
         'Email' => array(
             'type'  => 'TextField',
-            'title' => 'Email Adresse',
+            'title' => 'Email Address',
             'value' => '',
             'checkRequirements' => array(
                 'isFilledIn'        => true,
@@ -81,11 +78,11 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         ),
         'NewsletterAction' => array(
             'type'          => 'OptionsetField',
-            'title'         => 'Was wollen Sie tun',
+            'title'         => 'What do you want to do?',
             'selectedValue' => '1',
             'value' => array(
-                '1' => 'Ich möchte den Newsletter erhalten',
-                '2' => 'Ich möchte den Newsletter abbestellen'
+                '1' => 'I want to subscribe to the newsletter',
+                '2' => 'I want to unsubscribe from the newsletter'
             ),
             'checkRequirements' => array(
                 'isFilledIn'        => true
@@ -96,9 +93,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * Form settings.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.03.2011
      */
     protected $preferences = array(
         'submitButtonTitle'         => 'Abschicken',
@@ -114,10 +108,10 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 22.03.2011
      */
     protected function fillInFieldValues() {
+        parent::fillInFieldValues();
         $member = SilvercartCustomer::currentRegisteredCustomer();
 
         $this->clearSessionMessages();
@@ -186,6 +180,10 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         $member = SilvercartCustomer::currentRegisteredCustomer();
 
         if ($member) {
+            $formData['Salutation'] = $member->Salutation;
+            $formData['FirstName']  = $member->FirstName;
+            $formData['Surname']    = $member->Surname;
+            $formData['Email']      = $member->Email;
             // ----------------------------------------------------------------
             // For registered and logged in customers all we have to do is set
             // the respective field in the customer object.

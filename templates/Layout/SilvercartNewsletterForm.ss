@@ -22,7 +22,7 @@
             </div>
         </div>
         $CustomHtmlFormFieldByName(Email)
-        $CustomHtmlFormFieldByName(NewsletterAction,CustomHtmlFormFieldCheck)
+        $CustomHtmlFormFieldByName(NewsletterAction,CustomHtmlFormFieldCheckGroup)
     </fieldset>
 
     $CustomHtmlFormSpecialFields
