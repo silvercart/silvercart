@@ -23,10 +23,9 @@
  * @subpackage i18n
  * @ignore
  */
+i18n::include_locale_file('silvercart', 'en_US');
 
 global $lang;
-
-i18n::include_locale_file('silvercart', 'en_US');
 
 if (array_key_exists('ru_RU', $lang) && is_array($lang['ru_RU'])) {
     $lang['ru_RU'] = array_merge($lang['en_US'], $lang['ru_RU']);
@@ -67,9 +66,9 @@ $lang['ru_RU']['Silvercart']['TRANSLATIONS'] = 'переводы';
 $lang['ru_RU']['Silvercart']['MARK_ALL'] = 'все маркировать';
 $lang['ru_RU']['Silvercart']['UNMARK_ALL'] = 'убрать маркировку';
 $lang['ru_RU']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'использовать адрес как адрес доставки ';
-$lang['ru_RU']['SilvercartAddress']['ADDITION'] = 'адрес';
+$lang['ru_RU']['SilvercartAddress']['ADDITION'] = 'доп. адрес';
 $lang['ru_RU']['SilvercartAddress']['CITY'] = 'город';
-$lang['ru_RU']['SilvercartAddress']['COMPANY'] = 'фоирма';
+$lang['ru_RU']['SilvercartAddress']['COMPANY'] = 'фирма';
 $lang['ru_RU']['SilvercartAddress']['EDITADDRESS'] = 'изменить адрес';
 $lang['ru_RU']['SilvercartAddress']['EDITINVOICEADDRESS'] = 'изменить адрес';
 $lang['ru_RU']['SilvercartAddress']['EDITSHIPPINGADDRESS'] = 'изменить адрес получателя';
@@ -82,7 +81,7 @@ $lang['ru_RU']['SilvercartAddress']['MISTER'] = 'господин';
 $lang['ru_RU']['SilvercartAddress']['NO_ADDRESS_AVAILABLE'] = 'адрес отсутствует';
 $lang['ru_RU']['SilvercartAddress']['PHONE'] = 'номер телефона';
 $lang['ru_RU']['SilvercartAddress']['PHONE_SHORT'] = 'телефон';
-$lang['ru_RU']['SilvercartAddress']['PHONEAREACODE'] = 'код';
+$lang['ru_RU']['SilvercartAddress']['PHONEAREACODE'] = 'код страны/города';
 $lang['ru_RU']['SilvercartAddress']['PLURALNAME'] = 'адреса ';
 $lang['ru_RU']['SilvercartAddress']['POSTCODE'] = 'индекс';
 $lang['ru_RU']['SilvercartAddress']['SALUTATION'] = 'обращение';
@@ -90,7 +89,7 @@ $lang['ru_RU']['SilvercartAddress']['SINGULARNAME'] = 'адрес';
 $lang['ru_RU']['SilvercartAddress']['STREET'] = 'улица';
 $lang['ru_RU']['SilvercartAddress']['STREETNUMBER'] = 'номер дома';
 $lang['ru_RU']['SilvercartAddress']['SURNAME'] = 'фамилия';
-$lang['ru_RU']['SilvercartAddress']['TAXIDNUMBER'] = 'идентификационный номер';
+$lang['ru_RU']['SilvercartAddress']['TAXIDNUMBER'] = 'ИНН';
 $lang['ru_RU']['SilvercartAddressHolder']['ADD'] = 'добавить новый адрес';
 $lang['ru_RU']['SilvercartAddressHolder']['ADDED_ADDRESS_SUCCESS'] = 'ваш адрес сохранен';
 $lang['ru_RU']['SilvercartAddressHolder']['ADDED_ADDRESS_FAILURE'] = 'ваш адрес не сохранен';
@@ -107,7 +106,7 @@ $lang['ru_RU']['SilvercartAddressHolder']['DEFAULT_SHIPPING'] = 'актуаль�
 $lang['ru_RU']['SilvercartAddressHolder']['DEFAULT_INVOICEADDRESS'] = 'стандартный адрес';
 $lang['ru_RU']['SilvercartAddressHolder']['DEFAULT_SHIPPINGADDRESS'] = 'стандартный адрес доставки';
 $lang['ru_RU']['SilvercartAddressHolder']['DELETE'] = 'удалить';
-$lang['ru_RU']['SilvercartAddressHolder']['EDIT'] = 'обработать';
+$lang['ru_RU']['SilvercartAddressHolder']['EDIT'] = 'изменить';
 $lang['ru_RU']['SilvercartAddressHolder']['EXCUSE_INVOICEADDRESS'] = 'Извините, Вы не задали адрес плательщика.';
 $lang['ru_RU']['SilvercartAddressHolder']['EXCUSE_SHIPPINGADDRESS'] = 'Извините, Вы не задали адрес доставки.';
 $lang['ru_RU']['SilvercartAddressHolder']['INVOICEADDRESS'] = 'адрес плательщика';
@@ -175,7 +174,7 @@ $lang['ru_RU']['SilvercartMultiSelectAndOrderField']['FIELD_NAME'] = 'назва
 $lang['ru_RU']['SilvercartMultiSelectAndOrderField']['MOVE_DOWN'] = 'сдвинуть вниз';
 $lang['ru_RU']['SilvercartMultiSelectAndOrderField']['MOVE_UP'] = 'сдвинуть наверх';
 $lang['ru_RU']['SilvercartMultiSelectAndOrderField']['NOT_ATTRIBUTED_FIELDS'] = 'не ассоциированные поля';
-$lang['ru_RU']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE'] = 'дла активации получения рассылки, нажмите на присланную Вам ссылку';
+$lang['ru_RU']['SilvercartNewsletter']['OPTIN_NOT_FINISHED_MESSAGE'] = 'Вы будете плчать нашу рассылку после активации по эл.почте';
 $lang['ru_RU']['SilvercartNewsletter']['SUBSCRIBED'] = 'Вы подписались на Newsletter';
 $lang['ru_RU']['SilvercartNewsletter']['UNSUBSCRIBED'] = 'Вы не подписались на Newsletter';
 $lang['ru_RU']['SilvercartNewsletterPage']['DEFAULT_TITLE'] = 'рассылка';
@@ -371,7 +370,7 @@ $lang['ru_RU']['SilvercartCheckoutFormStep1NewCustomerForm']['CONTINUE_WITH_CHEC
 $lang['ru_RU']['SilvercartCheckoutFormStep1NewCustomerForm']['OPTIN_TEMP_TEXT'] = 'после активанции Вашей учётной записи при помощи высланной ссалки Вы можете продолжить покупку.';
 $lang['ru_RU']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'дальше';
 $lang['ru_RU']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--Страна--';
-$lang['ru_RU']['SilvercartCheckoutFormStep2']['TITLE'] = 'данные по доставки и оплате';
+$lang['ru_RU']['SilvercartCheckoutFormStep2']['TITLE'] = 'доставка и оплата';
 $lang['ru_RU']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'введённый адрес не найден';
 $lang['ru_RU']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '-выбрать вид доставки';
 $lang['ru_RU']['SilvercartCheckoutFormStep3']['TITLE'] = 'способ доставки';
@@ -1001,12 +1000,12 @@ $lang['ru_RU']['SilvercartPage']['CHECKOUT'] = 'к оплате';
 $lang['ru_RU']['SilvercartPage']['CHECK_FIELDS_CALL'] = 'проверьте правильность заполнения следующих полей';
 $lang['ru_RU']['SilvercartPage']['CONTACT_FORM'] = 'контактный формуляр';
 $lang['ru_RU']['SilvercartPage']['CONTINUESHOPPING'] = 'дальше покупать';
-$lang['ru_RU']['SilvercartPage']['CREDENTIALS_WRONG'] = 'данные доступа неверны';
+$lang['ru_RU']['SilvercartPage']['CREDENTIALS_WRONG'] = 'введены неверные данные';
 $lang['ru_RU']['SilvercartPage']['DAY'] = 'день ';
 $lang['ru_RU']['SilvercartPage']['DECEMBER'] = 'Декабрь';
 $lang['ru_RU']['SilvercartPage']['DETAILS'] = 'детали ';
 $lang['ru_RU']['SilvercartPage']['DETAILS_FOR'] = 'детали к  %s';
-$lang['ru_RU']['SilvercartPage']['DIDNOT_RETURN_RESULTS'] = 'не принёс резултатов';
+$lang['ru_RU']['SilvercartPage']['DIDNOT_RETURN_RESULTS'] = 'не дал результатов';
 $lang['ru_RU']['SilvercartPage']['DO_NOT_EDIT'] = 'пожалуйста, не менять!';
 $lang['ru_RU']['SilvercartPage']['EMAIL_ADDRESS'] = 'адрес электронной почты';
 $lang['ru_RU']['SilvercartPage']['EMAIL_ALREADY_REGISTERED'] = 'пользователь с таким адресом эл.почты уже зарегистрирован';
@@ -1024,8 +1023,8 @@ $lang['ru_RU']['SilvercartPage']['GOTO_CONTACT_LINK'] = 'на страницу �
 $lang['ru_RU']['SilvercartPage']['GOTO_PAGE'] = 'перейти к %s  странице';
 $lang['ru_RU']['SilvercartPage']['HEADERPICTURE'] = 'рисунок заголовка';
 $lang['ru_RU']['SilvercartPage']['INCLUDED_VAT'] = 'вкл. НДС';
-$lang['ru_RU']['SilvercartPage']['ADDITIONAL_VAT'] = 'доп. К НДС';
-$lang['ru_RU']['SilvercartPage']['I_ACCEPT'] = 'я акцептирую';
+$lang['ru_RU']['SilvercartPage']['ADDITIONAL_VAT'] = 'сумма НДС';
+$lang['ru_RU']['SilvercartPage']['I_ACCEPT'] = 'я принимаю';
 $lang['ru_RU']['SilvercartPage']['I_HAVE_READ'] = 'я уже';
 $lang['ru_RU']['SilvercartPage']['ISACTIVE'] = 'актив';
 $lang['ru_RU']['SilvercartPage']['JANUARY'] = 'Январь';
@@ -1085,8 +1084,8 @@ $lang['ru_RU']['SilvercartPage']['SUM'] = 'сумма';
 $lang['ru_RU']['SilvercartPage']['INCLUDING_TAX'] = 'вкл.%s%% НДС';
 $lang['ru_RU']['SilvercartPage']['EXCLUDING_TAX'] = '+ НДС';
 $lang['ru_RU']['SilvercartPage']['TAX'] = 'вкл.%s%% НДС';
-$lang['ru_RU']['SilvercartPage']['TERMSOFSERVICE_PRIVACY'] = 'Пользовательское соглашение  защита данных';
-$lang['ru_RU']['SilvercartPage']['THE_QUERY'] = 'понятие';
+$lang['ru_RU']['SilvercartPage']['TERMSOFSERVICE_PRIVACY'] = 'Условия заказа';
+$lang['ru_RU']['SilvercartPage']['THE_QUERY'] = 'запрос';
 $lang['ru_RU']['SilvercartPage']['TITLE'] = 'заголовок';
 $lang['ru_RU']['SilvercartPage']['TITLE_IMPRINT'] = 'о фирме';
 $lang['ru_RU']['SilvercartPage']['TITLE_TERMS'] = 'условия заключения сделки';
