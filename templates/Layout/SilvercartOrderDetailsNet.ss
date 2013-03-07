@@ -145,18 +145,18 @@
         <% end_loop %>
 
         <% if TaxTotal %>
-            <% with TaxTotal %>
+            <% loop TaxTotal %>
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
+                    <td colspan="<% if CurrentPage.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.ADDITIONAL_VAT','Additional VAT') %> ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
 
-                    <% if Top.EditableShoppingCart %>
+                    <% if CurrentPage.EditableShoppingCart %>
                         <td>&nbsp;</td>
                     <% end_if %>
                 </tr>
-            <% end_with %>
+            <% end_loop %>
         <% end_if %>
 
         <tr>

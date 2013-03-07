@@ -91,7 +91,7 @@
                 <tr class="new-block">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                    <td colspan="<% if CurrentPage.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
                 </tr>
             <% end_loop %>
@@ -127,7 +127,7 @@
                 <tr class="new-block">
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                    <td colspan="<% if CurrentPage.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
                 </tr>
             <% end_loop %>
@@ -187,18 +187,18 @@
             <td class="right"><strong>$AmountTotal.Nice<% with SilvercartShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %></strong></td>
         </tr>
         <% if TaxTotal %>
-            <% with TaxTotal %>
+            <% loop TaxTotal %>
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td colspan="<% if Top.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
+                    <td colspan="<% if CurrentPage.EditableShoppingCart %>5<% else %>3<% end_if %>" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                     <td class="right">$Amount.Nice</td>
 
-                    <% if Top.EditableShoppingCart %>
+                    <% if CurrentPage.EditableShoppingCart %>
                         <td>&nbsp;</td>
                     <% end_if %>
                 </tr>
-            <% end_with %>
+            <% end_loop %>
         <% end_if %>
 
         <% if HasIncludedInTotalPositions %>

@@ -7,10 +7,10 @@
         
         <% with CurrentFormInstance %>
             <% if ShowCustomHtmlFormStepNavigation %>
-                <% if Top.CustomHtmlFormStepLinkCancel %>
+                <% if CurrentPage.CustomHtmlFormStepLinkCancel %>
                     <div class="silvercart-button left">
                         <div class="silvercart-button_content">
-                            <a href="$Top.CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
+                            <a href="$CurrentPage.CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
                         </div>
                     </div>
                 <% end_if %>
@@ -32,16 +32,16 @@
                         <h2><% _t('SilvercartPage.STEPS','steps') %></h2>
                         <div class="silvercart-widget-content_frame">
                             <ul class="vlist">
-                                <% loop Controller.StepList %>
+                                <% loop CurrentPage.StepList %>
                                     <% with step %>
                                         <% if StepIsVisible %>
                                         <li<% if IsCurrentStep %> class="active"<% end_if %>>
                                             <% if IsCurrentStep %>
                                             <strong><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</strong>
                                             <% else_if isStepCompleted %>
-                                            <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
+                                            <a href="{$CurrentPage.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
                                             <% else_if isPreviousStepCompleted %>
-                                            <a href="{$Top.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
+                                            <a href="{$CurrentPage.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
                                             <% else %>
                                             <span><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</span>
                                             <% end_if %>
