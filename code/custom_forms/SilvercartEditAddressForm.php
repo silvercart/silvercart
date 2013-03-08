@@ -95,6 +95,10 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
                     $this->formFields['Packstation']['value']           = $this->address->Packstation;
                     $this->formFields['IsPackstation']['selectedValue'] = $this->address->IsPackstation;
                 }
+                if (SilvercartConfig::enableBusinessCustomers()) {
+                    $this->formFields['Company']['value']     = $this->address->Company;
+                    $this->formFields['TaxIdNumber']['value'] = $this->address->TaxIdNumber;
+                }
             }
         }
     }
@@ -154,5 +158,4 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
 
         return $title;
     }
-    
 }

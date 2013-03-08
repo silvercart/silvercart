@@ -92,6 +92,32 @@ class SilvercartAddressForm extends CustomHtmlForm {
         if (empty($this->formFields)) {
             $address            = singleton('SilvercartAddress');
             $this->formFields   = array(
+                'IsBusinessAccount' => array(
+                    'type'      => 'CheckboxField',
+                    'title'     => $address->fieldLabel('IsBusinessAccount')
+                ),
+                'TaxIdNumber' => array(
+                    'type'      => 'TextField',
+                    'title'     => $address->fieldLabel('TaxIdNumber'),
+                    'maxLength' => 30,
+                    'checkRequirements' => array(
+                        'isFilledInDependantOn' => array(
+                            'field'     => 'IsBusinessAccount',
+                            'hasValue'  => '1'
+                        )
+                    )
+                ),
+                'Company' => array(
+                    'type'      => 'TextField',
+                    'title'     => $address->fieldLabel('Company'),
+                    'maxLength' => 50,
+                    'checkRequirements' => array(
+                        'isFilledInDependantOn' => array(
+                            'field'     => 'IsBusinessAccount',
+                            'hasValue'  => '1'
+                        )
+                    )
+                ),
                 'Salutation' => array(
                     'type' => 'DropdownField',
                     'title' => $address->fieldLabel('Salutation'),
@@ -177,39 +203,6 @@ class SilvercartAddressForm extends CustomHtmlForm {
                     ),
                 )
             );
-            if ($this->EnableBusinessCustomers()) {
-                $this->formFields = array_merge(
-                    $this->formFields,
-                    array(
-                         'IsBusinessAccount' => array(
-                             'type'      => 'CheckboxField',
-                             'title'     => $address->fieldLabel('IsBusinessAccount')
-                         ),
-                         'TaxIdNumber' => array(
-                             'type'      => 'TextField',
-                             'title'     => $address->fieldLabel('TaxIdNumber'),
-                             'maxLength' => 30,
-                             'checkRequirements' => array(
-                                 'isFilledInDependantOn' => array(
-                                     'field'     => 'IsBusinessAccount',
-                                     'hasValue'  => '1'
-                                 )
-                             )
-                         ),
-                         'Company' => array(
-                             'type'      => 'TextField',
-                             'title'     => $address->fieldLabel('Company'),
-                             'maxLength' => 50,
-                             'checkRequirements' => array(
-                                 'isFilledInDependantOn' => array(
-                                     'field'     => 'IsBusinessAccount',
-                                     'hasValue'  => '1'
-                                 )
-                             )
-                         ),
-                    )
-                );
-            }
             if ($this->EnablePackstation()) {
                 $this->formFields = array_merge(
                     $this->formFields,
