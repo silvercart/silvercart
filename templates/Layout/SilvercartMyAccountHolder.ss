@@ -26,27 +26,27 @@
                                 <% loop CurrentMembersOrders(3) %>
                                     <tr>
                                         <td>
-                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$Created.Nice</a>
+                                            <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$Created.Nice</a>
                                         </td>
                                         <td>
-                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$OrderNumber</a>
+                                            <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$OrderNumber</a>
                                         </td>
                                         <td>
-                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
+                                            <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
                                             <% loop SilvercartOrderPositions %>
                                                 $Title <% if Last %><% else %> | <% end_if %>
                                             <% end_loop %>
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
+                                            <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
                                                 $SilvercartOrderStatus.Title
                                             </a>
                                         </td>
                                         <td>
                                             <div class="silvercart-button">
                                                 <div class="silvercart-button_content">
-                                                    <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                                                    <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
                                                 </div>
                                             </div>
                                         </td>

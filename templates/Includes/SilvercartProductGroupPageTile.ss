@@ -32,7 +32,7 @@
                                             <% else_if CurrentPage.showPricesNet %>
                                                 <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
                                             <% end_if %>
-                                            <% with Top.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                            <% with CurrentPage.PageByIdentifierCode(SilvercartShippingFeesPage) %>
                                                 <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
                                                     <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
                                                 </a>

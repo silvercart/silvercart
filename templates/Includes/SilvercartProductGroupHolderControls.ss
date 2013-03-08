@@ -32,7 +32,7 @@
                                             <li>
                                                 <div class="silvercart-group-view-link">
                                                     <div class="silvercart-group-view-link_content">
-                                                        <a href="{$Top.Link}switchGroupHolderView/$Code" title="$Label">
+                                                        <a href="{$CurrentPage.Link}switchGroupHolderView/$Code" title="$Label">
                                                             <img src="$Image" width="20" height="20" alt="$Label" />
                                                         </a>
                                                     </div>

@@ -119,7 +119,7 @@
             $Field
             <div class="silvercart-button">
                 <div class="silvercart-button_content">
-                    <a id="silvercart-edit-address-form-cancel-id" href="$Top.CancelLink"><% _t('SilvercartPage.CANCEL') %></a>
+                    <a id="silvercart-edit-address-form-cancel-id" href="$CurrentPage.CancelLink"><% _t('SilvercartPage.CANCEL') %></a>
                 </div>
             </div>
         <% end_loop %>
