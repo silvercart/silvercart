@@ -147,7 +147,7 @@ class SilvercartAddress extends DataObject {
      * 
      * @param array $params Scaffolding parameters
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields($params = null) {
         $fields = SilvercartDataObject::getCMSFields($this);

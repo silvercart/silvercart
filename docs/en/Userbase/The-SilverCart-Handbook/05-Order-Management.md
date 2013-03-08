@@ -12,7 +12,7 @@ Let's have a look at an order's details in two steps (otherwise the screenshot w
 
 You can see the amounts and the currencies the customer payed his order in. Beneath there amounts vou can see the tax information. If the customer left a note, it will be displayed here too. The total weight was calculated from the position weight sum and has the unit gram(or whatever unit's figure you entered when editing the products.
 
-There are two additional tabs for the shipping address and the invoice address. Their fields are read only to prevent anyone from changing them. There is one tab for the order's positions too which gives all info about the products. The details view of an order position shows the current name of a product in case it differs from the name of the product when it was bought.
+There are two additional tabs for the shipping address and the invoice address. Notice that the fields 'street' and 'street number' will be deleted if you activate the checkbox 'Address is Packstation'. There is one tab for the order's positions too which gives all info about the products. The details view of an order position shows the current name of a product in case it differs from the name of the product when it was bought.
 
 Now for the second part of the order details:
 
