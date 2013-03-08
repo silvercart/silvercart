@@ -86,15 +86,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     );
 
     /**
-     * m:n relations
-     *
-     * @var array
-     */
-    public static $many_many = array(
-        'SilvercartProducts' => 'SilvercartProduct'
-    );
-
-    /**
      * Casting.
      *
      * @var array

@@ -92,3 +92,33 @@ class SilvercartModelAdmin extends ModelAdmin {
     }
 }
 
+/**
+ * This interface marks a DataObject to use SilvercartGridFieldConfig_Readonly 
+ * in the CMS fields of a related one.
+ * 
+ * @package Silvercart
+ * @subpackage Admin_Interfaces
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 08.03.2013
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+interface SilvercartModelAdmin_ReadonlyInterface {
+    
+}
+
+/**
+ * This interface marks a DataObject to use 
+ * SilvercartGridFieldConfig_ExclusiveRelationEditor in the CMS fields of a
+ * related one.
+ * 
+ * @package Silvercart
+ * @subpackage Admin_Interfaces
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 08.03.2013
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+interface SilvercartModelAdmin_ExclusiveRelationInterface {
+    
+}

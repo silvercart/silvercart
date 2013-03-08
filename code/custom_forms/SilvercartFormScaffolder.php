@@ -40,7 +40,7 @@ class SilvercartFormScaffolder extends FormScaffolder {
      * contain {@link TabSet}s etc.
      * 
      * Uses SilvercartGridFieldConfig_RelationEditor and 
-     * SilvercartGridFieldConfig_LanguageRelationEditor instead of
+     * SilvercartGridFieldConfig_ExclusiveRelationEditor instead of
      * GridFieldConfig_RelationEditor.
      * 
      * @return FieldList
@@ -115,8 +115,11 @@ class SilvercartFormScaffolder extends FormScaffolder {
                         );
                     }
                     $fieldClass = (isset($this->fieldClasses[$relationship])) ? $this->fieldClasses[$relationship] : 'GridField';
-                    if ($this->obj->has_extension($this->obj->$relationship()->dataClass(), 'SilvercartLanguageDecorator')) {
-                        $config = SilvercartGridFieldConfig_LanguageRelationEditor::create();
+                    if (singleton($component) instanceof SilvercartModelAdmin_ReadonlyInterface) {
+                        $config = SilvercartGridFieldConfig_Readonly::create();
+                    } elseif (singleton($component) instanceof SilvercartModelAdmin_ExclusiveRelationInterface ||
+                              $this->obj->has_extension($this->obj->$relationship()->dataClass(), 'SilvercartLanguageDecorator')) {
+                        $config = SilvercartGridFieldConfig_ExclusiveRelationEditor::create();
                     } else {
                         $config = SilvercartGridFieldConfig_RelationEditor::create();
                     }

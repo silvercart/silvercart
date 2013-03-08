@@ -33,7 +33,7 @@
  * @since 17.10.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartOrderLog extends DataObject {
+class SilvercartOrderLog extends DataObject implements SilvercartModelAdmin_ReadonlyInterface {
     
     /**
      * DB attributes

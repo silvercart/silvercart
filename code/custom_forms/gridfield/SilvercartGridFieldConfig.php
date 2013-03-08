@@ -22,6 +22,38 @@
  */
 
 /**
+ * Similar to {@link GridFieldConfig}, but adds some static helper methods.
+ *
+ * @package Silvercart
+ * @subpackage Forms_GridField
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 08.03.2013
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartGridFieldConfig extends GridFieldConfig {
+
+    /**
+     * Converts a GridField into a read only one.
+     *
+     * @param GridField $gridField GridField to convert
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.03.2013
+     */
+    public static function convertToReadonly(GridField $gridField) {
+        $gridFieldConfig = $gridField->getConfig();
+        $gridFieldConfig->removeComponentsByType('GridFieldEditButton');
+        $gridFieldConfig->removeComponentsByType('GridFieldDeleteAction');
+        $gridFieldConfig->removeComponentsByType('GridFieldAddNewButton');
+        $gridFieldConfig->removeComponentsByType('GridFieldAddExistingAutocompleter');
+    }
+
+}
+
+/**
  * Similar to {@link GridFieldConfig_RelationEditor}, but uses
  * SilvercartGridFieldAddExistingAutocompleter instead of
  * GridFieldAddExistingAutocompleter.
@@ -77,7 +109,7 @@ class SilvercartGridFieldConfig_RelationEditor extends GridFieldConfig {
  * @since 12.02.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartGridFieldConfig_LanguageRelationEditor extends GridFieldConfig {
+class SilvercartGridFieldConfig_ExclusiveRelationEditor extends GridFieldConfig {
 
     /**
      * Loads the components, sets default properties.
@@ -100,6 +132,42 @@ class SilvercartGridFieldConfig_LanguageRelationEditor extends GridFieldConfig {
         $this->addComponent(new GridFieldDataColumns());
         $this->addComponent(new GridFieldEditButton());
         $this->addComponent(new GridFieldDeleteAction());
+        $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
+        $this->addComponent(new GridFieldDetailForm());
+
+        $sort->setThrowExceptionOnBadDataType(false);
+        $filter->setThrowExceptionOnBadDataType(false);
+        $pagination->setThrowExceptionOnBadDataType(false);
+    }
+
+}
+
+/**
+ * Won't add any component to edit the context fields entries.
+ *
+ * @package Silvercart
+ * @subpackage Forms_GridField
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 08.03.2013
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartGridFieldConfig_Readonly extends GridFieldConfig {
+
+    /**
+     * Loads the components, sets default properties.
+     *
+     * @param int $itemsPerPage How many items per page should show up
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.03.2013
+     */
+    public function __construct($itemsPerPage = null) {
+        $this->addComponent($sort = new GridFieldSortableHeader());
+        $this->addComponent($filter = new GridFieldFilterHeader());
+        $this->addComponent(new GridFieldDataColumns());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
         $this->addComponent(new GridFieldDetailForm());
 

@@ -142,7 +142,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
                 'SilvercartSlidorionProductGroupWidgetLanguages',
                 $this->fieldLabel('translations'),
                 $this->SilvercartSlidorionProductGroupWidgetLanguages(),
-                SilvercartGridFieldConfig_LanguageRelationEditor::create()
+                SilvercartGridFieldConfig_ExclusiveRelationEditor::create()
         );
         
         $widgetHeightField = new TextField(
