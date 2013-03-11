@@ -10,22 +10,28 @@ var silvercart          = silvercart            ? silvercart            : [];
  * @return void
  * 
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 04.07.2011
+ * @since 11.03.2013
  */
 silvercart.address.toggleAddForm = function(event) {
     event.preventDefault();
     $('#silvercart-add-address-form').slideToggle('slow', function() {
-        if ($(this).is(':visible')) {
-            $('#silvercart-add-address-link').fadeOut();
-        } else {
-            $('#silvercart-add-address-link').fadeIn();
+        if ($('#silvercart-add-address-link').length) {
+            if ($(this).is(':visible')) {
+                $('#silvercart-add-address-link').fadeOut();
+            } else {
+                $('#silvercart-add-address-link').fadeIn();
+            }
+        }
+        if ($('#silvercart-add-address-form-scrolltarget').length > 0) {
+            document.location.hash = $('#silvercart-add-address-form-scrolltarget').attr('name');
+            
         }
     });
 };
 
 // Define the document ready actions here.
 $(function(){
-    $('#silvercart-add-address-link').click(function(event) {
+    $('#silvercart-add-address-link, .silvercart-trigger-add-address-link').click(function(event) {
         silvercart.address.toggleAddForm(event);
     });
     $('#silvercart-add-address-form-cancel-id').click(function(event) {
