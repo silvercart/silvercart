@@ -159,8 +159,8 @@ $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'not av
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'available in %s %s';
 $lang['en_GB']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'available within %s to %s %s';
 
-$lang['en_GB']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME']          = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME']          = 'Translation';
+$lang['en_GB']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            = 'Translations';
 
 $lang['en_GB']['SilvercartDeeplink']['PLURALNAME'] = 'Deeplinks';
 $lang['en_GB']['SilvercartDeeplink']['SINGULARNAME'] = 'Deeplink';
@@ -194,15 +194,15 @@ $lang['en_GB']['SilvercartImageSliderImage']['LINKPAGE'] = 'Page that shall be l
 $lang['en_GB']['SilvercartImageSliderImage']['SINGULARNAME'] = 'slider image';
 $lang['en_GB']['SilvercartImageSliderImage']['PLURALNAME'] = 'slider images';
 
-$lang['en_GB']['SilvercartImageSliderImageLanguage']['PLURALNAME']              = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartImageSliderImageLanguage']['SINGULARNAME']            = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartImageSliderImageLanguage']['PLURALNAME']              = 'Translations';
+$lang['en_GB']['SilvercartImageSliderImageLanguage']['SINGULARNAME']            = 'Translation';
 
 $lang['en_GB']['SilvercartImageSliderWidget']['TITLE']          = 'Images';
 $lang['en_GB']['SilvercartImageSliderWidget']['CMSTITLE']       = 'Imageslider';
 $lang['en_GB']['SilvercartImageSliderWidget']['DESCRIPTION']    = 'Provides an image slider for displaying multiple images in a slide show.';
 
-$lang['en_GB']['SilvercartImageSliderWidgetLanguage']['SINGULARNAME']           = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartImageSliderWidgetLanguage']['PLURALNAME']             = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartImageSliderWidgetLanguage']['SINGULARNAME']           = 'Translation';
+$lang['en_GB']['SilvercartImageSliderWidgetLanguage']['PLURALNAME']             = 'Translations';
 
 $lang['en_GB']['SilvercartMenu']['SECTION_payment']             = 'Payment';
 $lang['en_GB']['SilvercartMenu']['SECTION_shipping']            = 'Shipping';
@@ -438,8 +438,8 @@ $lang['en_GB']['SilvercartCarrier']['PLURALNAME'] = 'Carriers';
 $lang['en_GB']['SilvercartCarrier']['SINGULARNAME'] = 'Carrier';
 $lang['en_GB']['SilvercartCarrierAdmin']['MENUTITLE'] = 'Carrier';
 
-$lang['en_GB']['SilvercartCarrierLanguage']['SINGULARNAME']                     = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartCarrierLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartCarrierLanguage']['SINGULARNAME']                     = 'Translation';
+$lang['en_GB']['SilvercartCarrierLanguage']['PLURALNAME']                       = 'Translations';
 
 $lang['en_GB']['SilvercartCartPage']['DEFAULT_TITLE']                           = 'Cart';
 $lang['en_GB']['SilvercartCartPage']['DEFAULT_URLSEGMENT']                      = 'cart';
@@ -626,8 +626,8 @@ $lang['en_GB']['SilvercartCountry']['ISPRIORITIVE_SHORT']                       
 $lang['en_GB']['SilvercartCountry']['DISPLAYPOSITION']                          = 'Display position (if prioritive)';
 $lang['en_GB']['SilvercartCountryAdmin']['MENUTITLE']                           = 'Countries';
 
-$lang['en_GB']['SilvercartCountryLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartCountryLanguage']['SINGULARNAME']                     = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartCountryLanguage']['PLURALNAME']                       = 'Translations';
+$lang['en_GB']['SilvercartCountryLanguage']['SINGULARNAME']                     = 'Translation';
 
 $lang['en_GB']['SilvercartCountry']['TITLE_AD'] = 'Andorra';
 $lang['en_GB']['SilvercartCountry']['TITLE_AE'] = 'United Arab Emirates';
@@ -945,8 +945,8 @@ $lang['en_GB']['SilvercartFile']['TITLE'] = 'Display name';
 $lang['en_GB']['SilvercartFile']['TYPE'] = 'Type';
 $lang['en_GB']['SilvercartFile']['SIZE'] = 'Size';
 
-$lang['en_GB']['SilvercartFileLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartFileLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartFileLanguage']['PLURALNAME']                          = 'Translations';
+$lang['en_GB']['SilvercartFileLanguage']['SINGULARNAME']                        = 'Translation';
 
 $lang['en_GB']['SilvercartFrontPage']['CONTENT'] = '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src="/silvercart/images/silvercart_passion_teaser.jpg" alt="" title="SilverCart - created with passion for eCommerce"/>';
 $lang['en_GB']['SilvercartFrontPage']['DEFAULT_CONTENT'] = $lang['en_GB']['SilvercartFrontPage']['CONTENT'];
@@ -979,8 +979,8 @@ $lang['en_GB']['SilvercartImage']['SINGULARNAME'] = 'Image';
 $lang['en_GB']['SilvercartImage']['THUMBNAIL'] = 'Preview';
 $lang['en_GB']['SilvercartImage']['TITLE'] = 'Display name';
 
-$lang['en_GB']['SilvercartImageLanguage']['PLURALNAME']                         = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartImageLanguage']['SINGULARNAME']                       = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartImageLanguage']['PLURALNAME']                         = 'Translations';
+$lang['en_GB']['SilvercartImageLanguage']['SINGULARNAME']                       = 'Translation';
 
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING']                       = 'All information in one string with separators';
 $lang['en_GB']['SilvercartInboundShoppingCartTransfer']['COMBINED_STRING_KEY']                   = 'Request variable name for combined string method';
@@ -1017,8 +1017,8 @@ $lang['en_GB']['SilvercartManufacturer']['SINGULARNAME'] = 'Manufacturer';
 
 $lang['en_GB']['SilvercartManufacturerAdmin']['MENUTITLE'] = 'Manufacturers';
 
-$lang['en_GB']['SilvercartManufacturerLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartManufacturerLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartManufacturerLanguage']['PLURALNAME']   = 'Translations';
+$lang['en_GB']['SilvercartManufacturerLanguage']['SINGULARNAME'] = 'Translation';
 
 $lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigation';
 $lang['en_GB']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
@@ -1187,7 +1187,7 @@ $lang['en_GB']['SilvercartOrderPosition']['TAXRATE']                            
 $lang['en_GB']['SilvercartOrderPosition']['PRODUCTDESCRIPTION']                 = 'Description';
 $lang['en_GB']['SilvercartOrderPosition']['QUANTITY']                           = 'Quantity';
 $lang['en_GB']['SilvercartOrderPosition']['TITLE']                              = 'Title';
-$lang['en_GB']['SilvercartOrderPosition']['PRODUCTNUMBER']                      = 'Product nr.';
+$lang['en_GB']['SilvercartOrderPosition']['PRODUCTNUMBER']                      = 'Product no.';
 $lang['en_GB']['SilvercartOrderPosition']['CHARGEORDISCOUNTMODIFICATIONIMPACT'] = 'Charge/Discount Type';
 
 $lang['en_GB']['SilvercartOrderSearchForm']['PLEASECHOOSE'] = 'Please choose';
@@ -1206,8 +1206,8 @@ $lang['en_GB']['SilvercartOrderStatus']['SINGULARNAME'] = 'Order status';
 
 $lang['en_GB']['SilvercartOrderStatusAdmin']['MENUTITLE'] = 'Order Status';
 
-$lang['en_GB']['SilvercartOrderStatusLanguage']['PLURALNAME']                   = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartOrderStatusLanguage']['SINGULARNAME']                 = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartOrderStatusLanguage']['PLURALNAME']                   = "Translations";
+$lang['en_GB']['SilvercartOrderStatusLanguage']['SINGULARNAME']                 = "Translation";
 $lang['en_GB']['SilvercartOrderStatusLanguage']['TITLE']                        = 'Title';
 
 $lang['en_GB']['SilvercartPage']['ABOUT_US'] = 'About us';
@@ -1401,11 +1401,11 @@ $lang['en_GB']['SilvercartPaymentMethodsPage']['DEFAULT_URLSEGMENT']            
 $lang['en_GB']['SilvercartPaymentMethodsPage']['PLURALNAME']                    = 'Payment method pages';
 $lang['en_GB']['SilvercartPaymentMethodsPage']['SINGULARNAME']                  = 'Payment method page';
 
-$lang['en_GB']['SilvercartPaymentMethodLanguage']['SINGULARNAME']               = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartPaymentMethodLanguage']['PLURALNAME']                 = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartPaymentMethodLanguage']['SINGULARNAME']               = 'Translation';
+$lang['en_GB']['SilvercartPaymentMethodLanguage']['PLURALNAME']                 = 'Translations';
 
-$lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['SINGULARNAME']           = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['PLURALNAME']             = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['SINGULARNAME']           = 'Translation';
+$lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['PLURALNAME']             = 'Translations';
 $lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['TEXTBANKACCOUNTINFO']    = 'informations for payment method prepayment';
 $lang['en_GB']['SilvercartPaymentPrepaymentLanguage']['INVOICEINFO']            = 'informations for payment method invoice';
 
@@ -1427,8 +1427,8 @@ $lang['en_GB']['SilvercartProductCondition']['USE_AS_STANDARD_CONDITION']       
 
 $lang['en_GB']['SilvercartProductConditionAdmin']['MENUTITLE'] = 'Product Condition';
 
-$lang['en_GB']['SilvercartProductConditionLanguage']['SINGULARNAME']            = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartProductConditionLanguage']['PLURALNAME']              = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartProductConditionLanguage']['SINGULARNAME']            = 'Translation';
+$lang['en_GB']['SilvercartProductConditionLanguage']['PLURALNAME']              = 'Translations';
 
 $lang['en_GB']['SilvercartQuickSearchForm']['SUBMITBUTTONTITLE'] = 'Search';
 
@@ -1516,8 +1516,8 @@ $lang['en_GB']['SilvercartShippingMethod']['CHOOSE_SHIPPING_METHOD'] = 'Please c
 
 $lang['en_GB']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Shipping Methods';
 
-$lang['en_GB']['SilvercartShippingMethodLanguage']['SINGULARNAME']              = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartShippingMethodLanguage']['PLURALNAME']                = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartShippingMethodLanguage']['SINGULARNAME']              = 'Translation';
+$lang['en_GB']['SilvercartShippingMethodLanguage']['PLURALNAME']                = 'Translations';
 
 $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_DESCRIPTION'] = 'Description';
 $lang['en_GB']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'Activated';
@@ -1553,8 +1553,8 @@ $lang['en_GB']['SilvercartShopEmail']['FORGOT_PASSWORD_SUBJECT']                
 
 $lang['en_GB']['SilvercartShopEmailAdmin']['MENUTITLE'] = 'Shop Emails';
 
-$lang['en_GB']['SilvercartShopEmailLanguage']['PLURALNAME']                     = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartShopEmailLanguage']['SINGULARNAME']                   = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartShopEmailLanguage']['PLURALNAME']                     = 'Translations';
+$lang['en_GB']['SilvercartShopEmailLanguage']['SINGULARNAME']                   = 'Translation';
 
 $lang['en_GB']['SilvercartShoppingCart']['ERROR_MINIMUMORDERVALUE_NOT_REACHED'] = 'The minimum order value is %s';
 $lang['en_GB']['SilvercartShoppingCart']['PLURALNAME'] = 'Carts';
@@ -1575,8 +1575,8 @@ $lang['en_GB']['SilvercartTax']['ISDEFAULT']                                    
 
 $lang['en_GB']['SilvercartTaxAdmin']['MENUTITLE'] = 'Tax Rates';
 
-$lang['en_GB']['SilvercartTaxLanguage']['SINGULARNAME']                         = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartTaxLanguage']['PLURALNAME']                           = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartTaxLanguage']['SINGULARNAME']                         = 'Translation';
+$lang['en_GB']['SilvercartTaxLanguage']['PLURALNAME']                           = 'Translations';
 
 $lang['en_GB']['SilvercartTestData']['CURRENCY']                                    = 'EUR';
 $lang['en_GB']['SilvercartTestData']['IMAGEFOLDERNAME']                             = 'Image folder name';
@@ -1636,8 +1636,8 @@ $lang['en_GB']['SilvercartZone']['VALID_FOR_ALL_AVAILABLE'] = 'Valid for all sel
 
 $lang['en_GB']['SilvercartZoneAdmin']['MENUTITLE'] = 'Zones';
 
-$lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME']                        = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME']                          = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartZoneLanguage']['SINGULARNAME']                        = 'Translation';
+$lang['en_GB']['SilvercartZoneLanguage']['PLURALNAME']                          = 'Translations';
 
 $lang['en_GB']['SilvercartQuantityUnit']['NAME']                                = 'Name';
 $lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abbreviation';
@@ -1648,8 +1648,8 @@ $lang['en_GB']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            
 
 $lang['en_GB']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'quantity units';
 
-$lang['en_GB']['SilvercartQuantityUnitLanguage']['PLURALNAME']                  = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartQuantityUnitLanguage']['PLURALNAME']                  = 'Translations';
+$lang['en_GB']['SilvercartQuantityUnitLanguage']['SINGULARNAME']                = 'Translation';
 
 // Widgets ----------------------------------------------------------------- */
 
@@ -1661,8 +1661,8 @@ $lang['en_GB']['SilvercartLatestBlogPostsWidget']['STOREADMIN_NUMBEROFPOSTS']   
 $lang['en_GB']['SilvercartLatestBlogPostsWidget']['TITLE']                      = 'Show latest blog posts';
 $lang['en_GB']['SilvercartLatestBlogPostsWidget']['WIDGET_TITLE']               = 'Widget headline';
 
-$lang['en_GB']['SilvercartLatestBlogPostsWidgetLanguage']['SINGULARNAME']       = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartLatestBlogPostsWidgetLanguage']['PLURALNAME']         = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartLatestBlogPostsWidgetLanguage']['SINGULARNAME']       = 'Translation';
+$lang['en_GB']['SilvercartLatestBlogPostsWidgetLanguage']['PLURALNAME']         = 'Translations';
 
 $lang['en_GB']['SilvercartLoginWidget']['TITLE']                    = 'Login';
 $lang['en_GB']['SilvercartLoginWidget']['TITLE_LOGGED_IN']          = 'My account';
@@ -1702,8 +1702,8 @@ $lang['en_GB']['SilvercartProductGroupChildProductsWidget']['CMSTITLE']    = 'Si
 $lang['en_GB']['SilvercartProductGroupChildProductsWidget']['DESCRIPTION'] = 'This widget displays products of a child productgroup if there are no products assigned to the current productgroup.';
 $lang['en_GB']['SilvercartProductGroupChildProductsWidget']['TITLE']        = 'Products of child productgroups';
 
-$lang['en_GB']['SilvercartProductGroupChildProductsWidgetLanguage']['PLURALNAME']   = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartProductGroupChildProductsWidgetLanguage']['SINGULARNAME'] = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartProductGroupChildProductsWidgetLanguage']['PLURALNAME']   = 'Translations';
+$lang['en_GB']['SilvercartProductGroupChildProductsWidgetLanguage']['SINGULARNAME'] = 'Translation';
 
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTGROUPTABNAME']              = 'Product group';
 $lang['en_GB']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTSTABNAME']                  = 'Products';
@@ -1729,18 +1729,18 @@ $lang['en_GB']['SilvercartBargainProductsWidget']['FETCHMETHOD_SORTORDERASC']   
 $lang['en_GB']['SilvercartBargainProductsWidget']['FETCHMETHOD_SORTORDERDESC']  = 'Price difference descending';
 $lang['en_GB']['SilvercartBargainProductsWidget']['TITLE']                      = 'Bargain products';
 
-$lang['en_GB']['SilvercartBargainProductsWidgetLanguage']['PLURALNAME']         = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartBargainProductsWidgetLanguage']['SINGULARNAME']       = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartBargainProductsWidgetLanguage']['PLURALNAME']         = 'Translations';
+$lang['en_GB']['SilvercartBargainProductsWidgetLanguage']['SINGULARNAME']       = 'Translation';
 
-$lang['en_GB']['SilvercartProductGroupItemsWidgetLanguage']['SINGULARNAME']     = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartProductGroupItemsWidgetLanguage']['PLURALNAME']       = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartProductGroupItemsWidgetLanguage']['SINGULARNAME']     = 'Translation';
+$lang['en_GB']['SilvercartProductGroupItemsWidgetLanguage']['PLURALNAME']       = 'Translations';
 
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['CMSTITLE']                = 'Slider for product groups';
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['DESCRIPTION']             = 'Creates a slider that displays all product groups.';
 $lang['en_GB']['SilvercartProductGroupSliderWidget']['TITLE']                   = 'Slider for product groups';
 
-$lang['en_GB']['SilvercartProductLanguage']['SINGULARNAME']                     = _t('Silvercart.TRANSLATION');
-$lang['en_GB']['SilvercartProductLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
+$lang['en_GB']['SilvercartProductLanguage']['SINGULARNAME']                     = 'Translation';
+$lang['en_GB']['SilvercartProductLanguage']['PLURALNAME']                       = 'Translations';
 $lang['en_GB']['SilvercartProductLanguage']['LOCALE']                           = 'Language';
 
 $lang['en_GB']['SilvercartSearchWidget']['TITLE']                   = 'Search form';
@@ -1787,8 +1787,8 @@ $lang['en_GB']['SilvercartText']['HEADLINEFIELD_LABEL'] = 'Headline (optional):'
 
 $lang['en_GB']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       = 'use content view instead of widget view';
 
-$lang['en_GB']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = _t('Silvercart.TRANSLATIONS');
-$lang['en_GB']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = _t('Silvercart.TRANSLATION');
+$lang['en_GB']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = 'Translations';
+$lang['en_GB']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = 'Translation';
 
 $lang['en_GB']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Top sellers';
 $lang['en_GB']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'SilverCart top selling products';

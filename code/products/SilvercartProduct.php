@@ -714,7 +714,7 @@ class SilvercartProduct extends DataObject {
                 'PackagingQuantity'                     => _t('SilvercartProduct.PACKAGING_QUANTITY', 'purchase quantity'),
                 'ID'                                    => 'ID', //needed for the deeplink feature
                 'SilvercartProductLanguages'            => _t('SilvercartConfig.TRANSLATIONS'),
-                'SilvercartProductGroupItemsWidgets'    => _t('SilvercartProductGroupItemsWidget.TITLE'),
+                'SilvercartProductGroupItemsWidgets'    => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
                 'WidgetArea'                            => _t('SilvercartProduct.WIDGETAREA'),
                 'Prices'                                => _t('SilvercartPrice.PLURALNAME'),
                 'SEO'                                   => _t('Silvercart.SEO'),
@@ -1162,12 +1162,13 @@ class SilvercartProduct extends DataObject {
      * @todo Check widget admin
      */
     public function getFieldsForWidgets($fields) {
-        
+        $fields->findOrMakeTab('Root.Widgets', $this->fieldLabel('WidgetArea'));
         $fields->addFieldsToTab(
                 'Root.Widgets',
-                $this->WidgetArea()->scaffoldFormFields(
+                SilvercartDataObject::scaffoldFormFields(
+                        $this->WidgetArea(),
                         array(
-                            'includeRelations'  => ($this->ID > 0),
+                            'includeRelations'  => ($this->isInDB()),
                             'tabbed'            => false,
                             'ajaxSafe'          => true
                         )
@@ -1201,7 +1202,7 @@ class SilvercartProduct extends DataObject {
         $fields->insertAfter($productNumberGroup, 'isActive');
 
         $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', $this->fieldLabel('SilvercartAvailabilityStatus'), $fields);
-        $availabilityGroup->push($fields->dataFieldByName('SilvercartAvailabilityStatusID'));
+        $availabilityGroup->push(           $fields->dataFieldByName('SilvercartAvailabilityStatusID'));
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('PurchaseMinDuration'));
         $availabilityGroup->push(           $fields->dataFieldByName('PurchaseMaxDuration'));
         $availabilityGroup->push(           $fields->dataFieldByName('PurchaseTimeUnit'));
@@ -1227,6 +1228,7 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForPrices($fields, $addToMain = false) {
+        $fields->findOrMakeTab('Root.Prices', $this->fieldLabel('Prices'));
         SilvercartTax::presetDropdownWithDefault($fields->dataFieldByName('SilvercartTaxID'), $this);
         
         $pricesGroup  = new SilvercartFieldGroup('PricesGroup', '', $fields);
@@ -1250,6 +1252,7 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForSeo($fields) {
+        $fields->findOrMakeTab('Root.SEO', $this->fieldLabel('SEO'));
         $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
         $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
         $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
@@ -1299,6 +1302,7 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForDeeplinks($fields) {
+        $fields->findOrMakeTab('Root.Deeplinks', $this->fieldLabel('Deeplinks'));
         $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
         if ($this->canView()) {
             $deeplinks = SilvercartDeeplink::get()->filter('isActive', 1);
@@ -1321,69 +1325,18 @@ class SilvercartProduct extends DataObject {
     }
     
     /**
-     * Replaces the SilvercartProductGroupID DropDownField with a GroupedDropDownField.
-     * Be aware that new properties/relations will not be scaffolded any more.
-     *
-     * @param array $params See {@link scaffoldFormFields()}
+     * CMS fields of a product
      *
      * @return FieldList
      */
-    public function getCMSFields($params = null) {
-        $this->getCMSFieldsIsCalled = true;
-        $fields = $this->scaffoldFormFields($params);
+    public function getCMSFields() {
+        $fields = SilvercartDataObject::getCMSFields($this, 'isActive');
         
-        /***********************************************************************
-         * TRANSLATION SECTION
-         **********************************************************************/
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        $afterFieldName = 'EANCode';
-        foreach ($languageFields as $languageField) {
-            $fields->insertAfter($languageField, $afterFieldName);
-            $afterFieldName = $languageField->getName();
-        }
-
-        if (!$this->ID) {
-            $this->getFieldsForMain($fields);
-            $this->getFieldsForPrices($fields, true);
-        } else {
-            /***********************************************************************
-            * TAB SECTION
-            **********************************************************************/
-            $root                   = $fields->findOrMakeTab('Root');
-            $main                   = $fields->findOrMakeTab('Root.Main');
-            $prices                 = $fields->findOrMakeTab('Root.Prices',                 $this->fieldLabel('Prices'));
-            $seo                    = $fields->findOrMakeTab('Root.SEO',                    $this->fieldLabel('SEO'));
-            $productGroups          = $fields->findOrMakeTab('Root.ProductGroups',          $this->fieldLabel('SilvercartProductGroups'));
-            $widgets                = $fields->findOrMakeTab('Root.Widgets',                $this->fieldLabel('WidgetArea'));
-            $deeplinks              = $fields->findOrMakeTab('Root.Deeplinks',              $this->fieldLabel('Deeplinks'));
-
-            /***********************************************************************
-            * TAB SORT SECTION
-            **********************************************************************/
-            $root->removeByName('Prices');
-            $fields->insertBefore($prices, 'SilvercartProductLanguages');
-            $root->removeByName('SEO');
-            $fields->insertBefore($seo, 'SilvercartProductLanguages');
-            $root->removeByName('ProductGroups');
-            $fields->insertBefore($productGroups, 'SilvercartProductLanguages');
-
-            /***********************************************************************
-            * TAB REMOVAL SECTION
-            **********************************************************************/
-            $root->removeByName('SilvercartShoppingCartPositions');
-
-            /***********************************************************************
-            * FIELDS SECTION
-            **********************************************************************/
-            $this->getFieldsForMain($fields);
-            $this->getFieldsForPrices($fields);
-            $this->getFieldsForSeo($fields);
-            $this->getFieldsForProductGroups($fields);
-            $this->getFieldsForWidgets($fields);
-            $this->getFieldsForDeeplinks($fields);
-            $this->getFieldsForImages($fields);
-            $this->getFieldsForFiles($fields);
-        }
+        $this->getFieldsForMain($fields);
+        $this->getFieldsForPrices($fields);
+        $this->getFieldsForWidgets($fields);
+        $this->getFieldsForSeo($fields);
+        $this->getFieldsForDeeplinks($fields);
         
         $this->extend('updateCMSFields', $fields);
         return $fields;
@@ -1413,6 +1366,28 @@ class SilvercartProduct extends DataObject {
         );
 
         return $output;
+    }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array(
+            'SilvercartShoppingCartPositions',
+            'WidgetArea',
+            'SilvercartShoppingCarts',
+            'SilvercartOrders',
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
     }
 
     /**
