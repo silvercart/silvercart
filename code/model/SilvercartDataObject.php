@@ -223,6 +223,12 @@ class SilvercartDataObject extends DataExtension {
                 if (!is_null($neighbourFieldOfLanguageFields)) {
                     if ($insertLangugeFieldsAfter) {
                         $tabbedFields->insertAfter($languageField, $neighbourFieldOfLanguageFields);
+                        
+                        /*
+                         * Change the name of the field the insert the next field
+                         * Otherwise the sort order would be inverted
+                         */
+                        $neighbourFieldOfLanguageFields = $languageField->getName();
                     } else {
                         $tabbedFields->insertBefore($languageField, $neighbourFieldOfLanguageFields);
                     }
