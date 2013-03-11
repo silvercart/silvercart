@@ -1566,7 +1566,7 @@ $lang['de_DE']['SilvercartShoppingCartPosition']['MAX_QUANTITY_REACHED_MESSAGE']
 $lang['de_DE']['SilvercartShoppingCartPosition']['PLURALNAME'] = 'Warenkorbpositionen';
 $lang['de_DE']['SilvercartShoppingCartPosition']['QUANTITY_ADDED_MESSAGE'] = 'Der Artikel wurde in den Warenkorb gelegt.';
 $lang['de_DE']['SilvercartShoppingCartPosition']['QUANTITY_ADJUSTED_MESSAGE'] = 'Die Menge dieser Position wurde an den verfügbaren Lagerbestand angepasst.';
-$lang['de_DE']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'Da wir die angeforderte Menge nicht mehr auf lager haben, haben wir die verfügbare Menge in Ihren Warenkorb gelegt.';
+$lang['de_DE']['SilvercartShoppingCartPosition']['REMAINING_QUANTITY_ADDED_MESSAGE'] = 'Da wir die angeforderte Menge nicht mehr auf Lager haben, haben wir die verfügbare Menge in Ihren Warenkorb gelegt.';
 $lang['de_DE']['SilvercartShoppingCartPosition']['SINGULARNAME'] = 'Warenkorbposition';
 
 $lang['de_DE']['SilvercartTax']['LABEL']                                        = 'Bezeichnung';
