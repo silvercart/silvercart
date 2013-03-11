@@ -66,6 +66,19 @@ body {
     width:                          90%;
 }
 
+.m20l {
+    margin-left: 20%;
+}
+.m25l {
+    margin-left: 25%;
+}
+.m30l {
+    margin-left: 30%;
+}
+.m33l {
+    margin-left: 33%;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family:                    verdana, sans-serif;
 }
