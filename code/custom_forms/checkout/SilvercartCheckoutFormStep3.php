@@ -41,21 +41,9 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
     protected $excludeFromCache = true;
 
     /**
-     * Returns the Cache Key for the current step
-     * 
-     * @return string
-     */
-    public function getCacheKeyExtension() {
-        return $this->Controller()->getCacheKey();
-    }
-
-    /**
      * The form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
      */
     protected $formFields = array(
         'ShippingMethod' => array(
@@ -68,6 +56,20 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
     );
 
     /**
+     * Set of shipping methods
+     *
+     * @var DataObjectSet
+     */
+    protected $shippingMethods = null;
+    
+    /**
+     * Determines whether to skip this step or not.
+     *
+     * @var bool
+     */
+    protected $skipShippingStep = null;
+
+    /**
      * constructor
      *
      * @param Controller $controller  the controller object
@@ -78,7 +80,6 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
@@ -109,16 +110,9 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
      * @since 31.03.2011
      */
     public function preferences() {
-        $shippingMethods    = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-        $stepIsVisible      = true;
-        if ($shippingMethods->Count() === 1) {
+        $stepIsVisible = true;
+        if ($this->SkipShippingStep()) {
             $stepIsVisible = false;
-        } elseif ($shippingMethods->Count() === 0) {
-            $shippingMethods = DataObject::get('SilvercartShippingMethod');
-            if ($shippingMethods instanceof DataObjectSet &&
-                $shippingMethods->Count() === 1) {
-                $stepIsVisible = false;
-            }
         }
         $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
@@ -156,7 +150,7 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
 
         $this->formFields['ShippingMethod']['title'] = $title;
                     
-        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
+        $shippingMethods = $this->getShippingMethods();
         if ($shippingMethods) {
             $this->formFields['ShippingMethod']['value'] = $shippingMethods->map('ID', 'TitleWithCarrierAndFee');
         }
@@ -184,8 +178,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
      * @since 10.09.2012
      */
     public function process() {
-        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-        if ($shippingMethods->Count() === 1) {
+        $shippingMethods = $this->getShippingMethods();
+        if ($this->SkipShippingStep()) {
             // there is only one shipping method, set it and skip this step
             $formData = array(
                 'ShippingMethod' => $shippingMethods->First()->ID,
@@ -226,6 +220,55 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
      */
     public function getShippingAddress() {
         return $this->Controller()->getShippingAddress();
+    }
+
+    /**
+     * Returns the Cache Key for the current step
+     * 
+     * @return string
+     */
+    public function getCacheKeyExtension() {
+        return $this->Controller()->getCacheKey();
+    }
+
+    /**
+     * Returns the shipping methods.
+     * 
+     * @return DataObjectSet
+     */
+    public function getShippingMethods() {
+        if (is_null($this->shippingMethods)) {
+            $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
+            if (!($shippingMethods instanceof DataObjectSet) ||
+                $shippingMethods->Count() == 0) {
+                $shippingMethods = DataObject::get('SilvercartShippingMethod');
+                if (!($shippingMethods instanceof DataObjectSet)) {
+                    $shippingMethods = new DataObjectSet();
+                }
+            }
+            $this->shippingMethods = $shippingMethods;
+        }
+        return $this->shippingMethods;
+    }
+
+    /**
+     * Returns whether to skip this step or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function SkipShippingStep() {
+        if (is_null($this->skipShippingStep)) {
+            if (SilvercartConfig::SkipShippingStepIfUnique() &&
+                $this->getShippingMethods()->Count() == 1) {
+                $this->skipShippingStep = true;
+            } else {
+                $this->skipShippingStep = false;
+            }
+        }
+        return $this->skipShippingStep;
     }
 }
 

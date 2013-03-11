@@ -119,6 +119,9 @@ class SilvercartConfig extends DataObject {
         'enableStockManagement'                 => 'Boolean(0)',
         'isStockManagementOverbookable'         => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
+        'SkipPaymentStepIfUnique'               => 'Boolean(0)',
+        'SkipShippingStepIfUnique'              => 'Boolean(0)',
+        'redirectToCartAfterAddToCart'          => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
         'addToCartMaxQuantity'                  => 'Int(999)',
         'Locale'                                => 'DBLocale',
@@ -216,6 +219,8 @@ class SilvercartConfig extends DataObject {
     public static $defaultMailOrderNotificationRecipient    = null;
     public static $defaultContactMessageRecipient           = null;
     public static $userAgentBlacklist                       = null;
+    public static $skipPaymentStepIfUnique                  = null;
+    public static $skipShippingStepIfUnique                 = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -428,6 +433,8 @@ class SilvercartConfig extends DataObject {
 
         $basicCheckoutTab->push(new CheckboxField('enableSSL', _t('SilvercartConfig.ENABLESSL')));
         $basicCheckoutTab->push(new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
+        $basicCheckoutTab->push(new CheckboxField('SkipShippingStepIfUnique', $this->fieldLabel('SkipShippingStepIfUnique')));
+        $basicCheckoutTab->push(new CheckboxField('SkipPaymentStepIfUnique', $this->fieldLabel('SkipPaymentStepIfUnique')));
 
         $minimumOrderValueTab->push(new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
         $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
@@ -511,6 +518,8 @@ class SilvercartConfig extends DataObject {
                     'DefaultMailOrderNotificationRecipient' => _t('SilvercartConfig.DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT'),
                     'DefaultContactMessageRecipient'        => _t('SilvercartConfig.DEFAULT_CONTACT_MESSAGE_RECIPIENT'),
                     'userAgentBlacklist'                    => _t('SilvercartConfig.USER_AGENT_BLACKLIST'),
+                    'SkipPaymentStepIfUnique'               => _t('SilvercartConfig.SKIP_PAYMENT_STEP_IF_UNIQUE'),
+                    'SkipShippingStepIfUnique'              => _t('SilvercartConfig.SKIP_SHIPPING_STEP_IF_UNIQUE'),
                 )
         );
     }
@@ -1065,6 +1074,36 @@ class SilvercartConfig extends DataObject {
             }
         }
         return self::$defaultContactMessageRecipient;
+    }
+    
+    /**
+     * Returns the SkipPaymentStepIfUnique property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public static function SkipPaymentStepIfUnique() {
+        if (is_null(self::$skipPaymentStepIfUnique)) {
+            self::$skipPaymentStepIfUnique = self::getConfig()->SkipPaymentStepIfUnique;
+        }
+        return self::$skipPaymentStepIfUnique;
+    }
+    
+    /**
+     * Returns the SkipShippingStepIfUnique property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public static function SkipShippingStepIfUnique() {
+        if (is_null(self::$skipShippingStepIfUnique)) {
+            self::$skipShippingStepIfUnique = self::getConfig()->SkipShippingStepIfUnique;
+        }
+        return self::$skipShippingStepIfUnique;
     }
 
     /**

@@ -44,9 +44,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      * The form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
      */
     protected $formFields = array(
         'PaymentMethod' => array(
@@ -71,6 +68,13 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      * @var DataObjectSet
      */
     protected $registeredNestedForms = array();
+    
+    /**
+     * Determines whether to skip this step or not.
+     *
+     * @var bool
+     */
+    protected $skipPaymentStep = null;
 
     /**
      * constructor
@@ -83,7 +87,6 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.01.2011
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
@@ -103,32 +106,21 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
             }
             
             if (Member::currentUserID() > 0) {
-            
-                $stepData = $this->controller->getCombinedStepData();
-
-                if ($stepData) {
-                    if ($stepData['Shipping_Country'] != "") {
-                        $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
-                        if ($shippingCountry) {
-                            $this->setAllowedPaymentMethods(SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->SilvercartShoppingCart()));
-                            foreach ($this->getAllowedPaymentMethods() as $paymentMethod) {
-                                if ($paymentMethod->getNestedFormName()) {
-                                    $formName = $paymentMethod->getNestedFormName();
-                                } else {
-                                    $formName = "SilvercartCheckoutFormStep4DefaultPayment";
-                                }
-                                $params = array(
-                                    'PaymentMethod'     => $paymentMethod->ID,
-                                );
-                                $preferences = array(
-                                    'submitButtonTitle' => sprintf(_t('SilvercartCheckoutFormStep4.CHOOSE_PAYMENT_METHOD', 'I want to pay with %s'), $paymentMethod->Name),
-                                    );
-                                $registeredNestedForm = new $formName($this->controller, $params, $preferences, $barebone);
-                                $this->registerCustomHtmlForm($formName . $paymentMethod->ID, $registeredNestedForm);
-                                $this->addRegisteredNestedForm($registeredNestedForm);
-                            }
-                        }
+                foreach ($this->getAllowedPaymentMethods() as $paymentMethod) {
+                    if ($paymentMethod->getNestedFormName()) {
+                        $formName = $paymentMethod->getNestedFormName();
+                    } else {
+                        $formName = "SilvercartCheckoutFormStep4DefaultPayment";
                     }
+                    $params = array(
+                        'PaymentMethod'     => $paymentMethod->ID,
+                    );
+                    $preferences = array(
+                        'submitButtonTitle' => sprintf(_t('SilvercartCheckoutFormStep4.CHOOSE_PAYMENT_METHOD', 'I want to pay with %s'), $paymentMethod->Name),
+                        );
+                    $registeredNestedForm = new $formName($this->controller, $params, $preferences, $barebone);
+                    $this->registerCustomHtmlForm($formName . $paymentMethod->ID, $registeredNestedForm);
+                    $this->addRegisteredNestedForm($registeredNestedForm);
                 }
             }
         }
@@ -148,9 +140,8 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
      */
     public function preferences() {
         $paymentMethods = DataObject::get('SilvercartPaymentMethod', "`isActive` = 1");
@@ -158,9 +149,8 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
 
         if (!$paymentMethods) {
             $this->addMessage('Keine Zahlungsarten definiert!');
-
         } else {
-            if ($paymentMethods->Count() === 1) {
+            if ($this->SkipPaymentStep()) {
                 $stepIsVisible = false;
             }
             $this->preferences['stepIsVisible']             = $stepIsVisible;
@@ -211,15 +201,13 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      * processor method
      *
      * @return void
-     *
+     * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.09.2012
+     * @since 11.03.2013
      */
     public function process() {
         $allowedPaymentMethods = $this->getAllowedPaymentMethods();
-        if ($allowedPaymentMethods->Count() === 1 &&
-            $this->getRegisteredNestedForms()->Count() == 1 &&
-            $this->getRegisteredNestedForms()->First() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
+        if ($this->SkipPaymentStep()) {
             // there is only one payment method, set it and skip this step
             $paymentMethod  = $allowedPaymentMethods->First();
             $formData       = array(
@@ -294,6 +282,24 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      * @return DataObjectSet|Boolean
      */
     public function getAllowedPaymentMethods() {
+        if (is_null($this->allowedPaymentMethods)) {
+            $allowedPaymentMethods  = new DataObjectSet();
+            $stepData               = $this->controller->getCombinedStepData();
+
+            if (is_array($stepData) &&
+                array_key_exists('Shipping_Country', $stepData) &&
+                $stepData['Shipping_Country'] != "") {
+                
+                $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                if ($shippingCountry instanceof SilvercartCountry) {
+                    $allowedPaymentMethods  = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->SilvercartShoppingCart());
+                    if (!($allowedPaymentMethods instanceof DataObjectSet)) {
+                        $allowedPaymentMethods = new DataObjectSet();
+                    }
+                }
+            }
+            $this->setAllowedPaymentMethods($allowedPaymentMethods);
+        }
         return $this->allowedPaymentMethods;
     }
 
@@ -343,6 +349,32 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
             $this->registeredNestedForms = new DataObjectSet();
         }
         $this->registeredNestedForms->push($registeredNestedForm);
+    }
+
+    /**
+     * Returns whether to skip this step or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function SkipPaymentStep() {
+        if (is_null($this->skipPaymentStep)) {
+            if (SilvercartConfig::SkipPaymentStepIfUnique() &&
+                $this->getAllowedPaymentMethods()->Count() == 1) {
+                if ($this->getRegisteredNestedForms() instanceof DataObjectSet &&
+                    $this->getRegisteredNestedForms()->Count() >= 1 &&
+                    $this->getRegisteredNestedForms()->First() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
+                    $this->skipPaymentStep = false;
+                } else {
+                    $this->skipPaymentStep = true;
+                }
+            } else {
+                $this->skipPaymentStep = false;
+            }
+        }
+        return $this->skipPaymentStep;
     }
 
 }
