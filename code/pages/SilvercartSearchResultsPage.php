@@ -353,6 +353,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     ) OR
                     `MetaKeywords` LIKE '%%%s%%' OR
                     `ProductNumberShop` LIKE '%%%s%%' OR
+                    `EANCode` LIKE '%%%s%%' OR
                     STRCMP(
                         SOUNDEX(`Title`), SOUNDEX('%s')
                     ) = 0
@@ -372,6 +373,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $minRelevance,
                 $searchQuery,// MetaKeywords
                 $searchQuery,// ProductNumberShop
+                $searchQuery,// EANCode
                 $searchQuery// Title SOUNDEX
             );
 
