@@ -50,7 +50,7 @@ class SilvercartActionHandler extends DataObjectDecorator {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.03.2013
+     * @since 12.03.2013
      */
     public function addToCart(SS_HTTPRequest $request) {
         $isValidRequest = false;
@@ -76,7 +76,11 @@ class SilvercartActionHandler extends DataObjectDecorator {
             $postVars['productID']       = $productID;
             $postVars['productQuantity'] = $quantity;
 
-            SilvercartShoppingCart::addProduct($postVars);
+            if ($quantity == 0) {
+                SilvercartShoppingCart::removeProduct($postVars);
+            } else {
+                SilvercartShoppingCart::addProduct($postVars);
+            }
             
             if (SilvercartConfig::getRedirectToCartAfterAddToCartAction()) {
                 $backLink = SilvercartTools::PageByIdentifierCodeLink('SilvercartCartPage');

@@ -42,12 +42,6 @@ class SilvercartShoppingCart extends DataObject {
     public static $registeredModules = array();
 
     /**
-     * Singular-Beschreibung zur Darstellung im Backend.
-     *
-     * @var string
-     */
-
-    /**
      * 1:n relations
      *
      * @var array
@@ -91,7 +85,6 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @var Int
      */
-
     protected $shippingMethodID;
 
     /**
@@ -466,7 +459,6 @@ class SilvercartShoppingCart extends DataObject {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 21.12.2010
      */
     public static function addProduct($formData) {
@@ -501,7 +493,42 @@ class SilvercartShoppingCart extends DataObject {
 
         return !$error;
     }
-    
+
+    /**
+     * Removes a product out of the cart.
+     *
+     * @param array $data Data to use to identify the position.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.03.2013
+     */
+    public static function removeProduct($data) {
+        $error  = true;
+        $member = Member::currentUser();
+        
+        if (!$member) {
+            $member = SilvercartCustomer::createAnonymousCustomer();
+        }
+        
+        $overwriteRemoveProduct = SilvercartPlugin::call($member->getCart(), 'overwriteRemoveProduct', array($data), false, 'boolean');
+        
+        if ($overwriteRemoveProduct) {
+            $error = false;
+        } elseif ($member instanceof Member) {
+            $cart       = $member->getCart();
+            $position   = $cart->SilvercartShoppingCartPositions()->find('SilvercartProductID', $data['productID']);
+            if ($position instanceof SilvercartShoppingCartPosition) {
+                $position->delete();
+                $error = false;
+            }
+        }
+
+        return !$error;
+    }
+
+
     /**
      * Returns one or more plugged in rows for the shopping carts editable table
      * as a DataobjectSet

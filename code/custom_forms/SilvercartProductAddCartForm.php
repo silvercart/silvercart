@@ -65,6 +65,13 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      * @var string
      */
     protected $customHtmlFormAction = 'addToCart';
+    
+    /**
+     * The context product
+     *
+     * @var SilvercartProduct
+     */
+    protected $product = null;
 
     /**
      * Returns the Cache Key for the current step
@@ -73,9 +80,9 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      */
     public function getCacheKeyExtension() {
         if (empty($this->cacheKeyExtension)) {
-            $silvercartProduct       = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
-            $cacheKeyExtension       = $silvercartProduct->ID . '_' . $silvercartProduct->LastEditedForCache;
-            $this->cacheKeyExtension = md5($cacheKeyExtension);
+            $product                    = $this->getProduct();
+            $cacheKeyExtension          = $product->ID . '_' . $product->LastEditedForCache . '_' . $product->getQuantityInCart();
+            $this->cacheKeyExtension    = md5($cacheKeyExtension);
         }
 
         return $this->cacheKeyExtension;
@@ -86,22 +93,25 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
      */
     public function preferences() {
         $numberOfDecimalPlaces = false;
 
-        $this->preferences['submitButtonTitle']       = _t('SilvercartProduct.ADD_TO_CART');
+        if ($this->getProduct()->isInCart()) {
+            $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.CHANGE_QUANTITY_CART');
+        } else {
+            $this->preferences['submitButtonTitle'] = _t('SilvercartProduct.ADD_TO_CART');
+        }
         $this->preferences['doJsValidationScrolling'] = false;
 
         $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
         $this->setCustomParameter('backLink', Controller::curr()->Link());
 
         if (array_key_exists('productID', $this->customParameters)) {
-            $silvercartProduct = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
-
-            if ($silvercartProduct) {
+            $silvercartProduct = $this->getProduct();
+            if ($silvercartProduct instanceof SilvercartProduct) {
                 $numberOfDecimalPlaces = $silvercartProduct->SilvercartQuantityUnit()->numberOfDecimalPlaces;
             }
         }
@@ -116,5 +126,32 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             $this->formFields['productQuantity']['checkRequirements']['isDecimalNumber'] = $numberOfDecimalPlaces;
             $this->formFields['productQuantity']['maxLength'] = 3 + 1 + $numberOfDecimalPlaces;
         }
+    }
+    
+    /**
+     * Fills in the field values
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    protected function fillInFieldValues() {
+        parent::fillInFieldValues();
+        if ($this->getProduct()->isInCart()) {
+            $this->formFields['productQuantity']['value'] = $this->getProduct()->getQuantityInCart();
+        }
+    }
+    
+    /**
+     * Returns the product in context of this form
+     * 
+     * @return SilvercartProduct
+     */
+    public function getProduct() {
+        if (is_null($this->product)) {
+            $this->product = DataObject::get_by_id('SilvercartProduct', $this->customParameters['productID']);
+        }
+        return $this->product;
     }
 }

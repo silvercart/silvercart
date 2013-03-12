@@ -262,6 +262,27 @@ class SilvercartProduct extends DataObject {
      * @var SilvercartTax
      */
     protected $cachedSilvercartTax = null;
+    
+    /**
+     * The position of the product in cart.
+     *
+     * @var array
+     */
+    protected $positionInCart = array();
+    
+    /**
+     * The quantity of the product in cart.
+     *
+     * @var array
+     */
+    protected $quantityInCart = array();
+    
+    /**
+     * The quantity of the product in cart as a human readable string.
+     *
+     * @var string
+     */
+    protected $quantityInCartString = array();
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1747,8 +1768,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return mixed SilvercartShoppingCartPosition|boolean false
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
      */
     public function addToCart($cartID, $quantity = 1) {
         $addToCartAllowed = true;
@@ -1778,35 +1799,146 @@ class SilvercartProduct extends DataObject {
             $shoppingCartPosition->write();
             $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
         }
-
-        if ($shoppingCartPosition->isQuantityIncrementableBy($quantity)) {
-            if ($shoppingCartPosition->Quantity + $quantity > SilvercartConfig::addToCartMaxQuantity()) {
-                $shoppingCartPosition->Quantity += SilvercartConfig::addToCartMaxQuantity() - $shoppingCartPosition->Quantity;
-                $shoppingCartPosition->write(); //we have to write because we need the ID
-                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "maxQuantityReached");
-            } else {
-                $shoppingCartPosition->Quantity += $quantity;
-            }
-        } else {
-            if ($this->StockQuantity > 0) {
-                if ($shoppingCartPosition->Quantity + $this->StockQuantity > SilvercartConfig::addToCartMaxQuantity()) {
-                    $shoppingCartPosition->Quantity += SilvercartConfig::addToCartMaxQuantity() - $shoppingCartPosition->Quantity;
-                    $shoppingCartPosition->write(); //we have to write because we need the ID
-                    SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "maxQuantityReached");
+        
+        $positionNotice = null;
+        if ($shoppingCartPosition->Quantity < $quantity) {
+            $quantityToAdd = $quantity - $shoppingCartPosition->Quantity;
+            if ($shoppingCartPosition->isQuantityIncrementableBy($quantityToAdd)) {
+                if ($quantity > SilvercartConfig::addToCartMaxQuantity()) {
+                    $shoppingCartPosition->Quantity = SilvercartConfig::addToCartMaxQuantity();
+                    $positionNotice = 'maxQuantityReached';
                 } else {
-                    $shoppingCartPosition->Quantity += $this->StockQuantity - $shoppingCartPosition->Quantity;
-                    $shoppingCartPosition->write(); //we have to write because we need the ID
-                    SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, "remaining");
+                    $shoppingCartPosition->Quantity = $quantity;
+                }
+            } elseif ($this->StockQuantity > 0) {
+                if ($shoppingCartPosition->Quantity + $this->StockQuantity > SilvercartConfig::addToCartMaxQuantity()) {
+                    $shoppingCartPosition->Quantity = SilvercartConfig::addToCartMaxQuantity();
+                    $positionNotice = 'maxQuantityReached';
+                } else {
+                    $shoppingCartPosition->Quantity = $this->StockQuantity;
+                    $positionNotice = 'remaining';
                 }
             } else {
-                return false;
+                $shoppingCartPosition = false;
             }
+        } else {
+            $shoppingCartPosition->Quantity = $quantity;
         }
-        $shoppingCartPosition->write();
 
-        SilvercartPlugin::call($this, 'onAfterAddToCart', array($shoppingCartPosition));
+        if ($shoppingCartPosition instanceof SilvercartShoppingCartPosition) {
+            $shoppingCartPosition->write();
+            if (!is_null($positionNotice)) {
+                SilvercartShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, $positionNotice);
+            }
+            SilvercartPlugin::call($this, 'onAfterAddToCart', array($shoppingCartPosition));
+        }
 
         return $shoppingCartPosition;
+    }
+    
+    /**
+     * Checks whether the product is inside the cart with the given ID
+     * 
+     * @param int $cartID Cart ID to check positions for
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function isInCart($cartID = null) {
+        $isInCart = false;
+        if ($this->getPositionInCart($cartID) instanceof SilvercartShoppingCartPosition) {
+            $isInCart = true;
+        }
+        $this->extend('updateIsInCart', $isInCart);
+        return $isInCart;
+    }
+    
+    /**
+     * Returns the position of the product in cart
+     * 
+     * @param int $cartID Cart ID to check positions for
+     * 
+     * @return SilvercartShoppingCartPosition
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function getPositionInCart($cartID = null) {
+        if (is_null($cartID) &&
+            Member::currentUser() instanceof Member) {
+            $cartID = Member::currentUser()->getCart()->ID;
+        }
+        if (!array_key_exists($cartID, $this->positionInCart)) {
+            $this->positionInCart[$cartID] = DataObject::get_one(
+                    'SilvercartShoppingCartPosition',
+                    sprintf(
+                            "\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'",
+                            $this->ID,
+                            $cartID
+                    )
+            );
+            $this->extend('updatePositionInCart', $this->positionInCart[$cartID]);
+        }
+        return $this->positionInCart[$cartID];
+    }
+    
+    /**
+     * Returns the quantity of the product in cart
+     * 
+     * @param int $cartID Cart ID to check positions for
+     * 
+     * @return float
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function getQuantityInCart($cartID = null) {
+        if (!array_key_exists($cartID, $this->quantityInCart)) {
+            $quantityInCart = 0;
+            $position       = $this->getPositionInCart($cartID);
+            $precision      = 0;
+            if ($this->SilvercartQuantityUnit()->isInDb()) {
+                $precision = $this->SilvercartQuantityUnit()->numberOfDecimalPlaces;
+            }
+            if ($position instanceof SilvercartShoppingCartPosition) {
+                $quantityInCart = round($position->Quantity, $precision);
+            }
+            $this->quantityInCart[$cartID] = $quantityInCart;
+            $this->extend('updateQuantityInCart', $this->quantityInCart[$cartID]);
+        }
+        return $this->quantityInCart[$cartID];
+    }
+    
+    /**
+     * Returns the quantity of the product in cart as a human readable string.
+     * 
+     * @param int $cartID Cart ID to check positions for
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function getQuantityInCartString($cartID = null) {
+        if (is_null($cartID) &&
+            Member::currentUser() instanceof Member) {
+            $cartID = Member::currentUser()->getCart()->ID;
+        }
+        if (!array_key_exists($cartID, $this->quantityInCartString)) {
+            $quantityInCartString = '';
+            if ($this->isInCart($cartID)) {
+                $quantityInCartString = sprintf(
+                        _t('SilvercartProduct.QUANTITY_IS_IN_CART'),
+                        $this->getQuantityInCart($cartID),
+                        $this->SilvercartQuantityUnit()->Title
+                );
+            }
+            $this->quantityInCartString[$cartID] = $quantityInCartString;
+            $this->extend('updateQuantityInCartString', $this->quantityInCartString[$cartID]);
+        }
+        return $this->quantityInCartString[$cartID];
     }
 
     /**

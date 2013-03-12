@@ -76,6 +76,33 @@ class SilvercartShoppingCartPluginProvider extends SilvercartPlugin {
         
         return $result;
     }
+    
+    /**
+     * This method will replace SilvercartShoppingCart's method "removeProduct".
+     * In order to not execute the original "removeProduct" method you have to
+     * return boolean true in your plugin method.
+     *
+     * @param array &$arguments     The arguments to pass
+     * @param mixed &$callingObject The calling object
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.03.2013
+     */
+    public function overwriteRemoveProduct(&$arguments = array(), &$callingObject) {
+        $result = $this->extend('pluginOverwriteRemoveProduct', $arguments, $callingObject);
+
+        if (is_array($result)) {
+            if (count($result) > 0) {
+                return $result[0];
+            } else {
+                return false;
+            }
+        }
+        
+        return $result;
+    }
 
     /**
      * This method will return a DataObject with additional table row data to 

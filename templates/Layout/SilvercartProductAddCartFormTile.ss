@@ -12,5 +12,8 @@
         $SilvercartPlugin(AddCartFormTileAdditionalFields)
         
         $CustomHtmlFormFieldByName(productQuantity,SilvercartProductAddCartFormField)
+        <% if Product.isInCart %>
+            <p class="silvercart-add-cart-form-hint">$Product.QuantityInCartString</p>
+        <% end_if %>
     </fieldset>
 </form>
