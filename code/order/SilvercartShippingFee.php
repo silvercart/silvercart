@@ -75,12 +75,14 @@ class SilvercartShippingFee extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'PriceFormatted'                => 'Varchar(20)',
-        'PriceFormattedPlain'           => 'Varchar(20)',
-        'AttributedShippingMethods'     => 'Varchar(255)',
-        'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
-        'PriceAmount'                   => 'Varchar(255)',
-        'PriceCurrency'                 => 'Varchar(255)',
+        'PriceFormatted'                    => 'Varchar(20)',
+        'PriceFormattedPlain'               => 'Varchar(20)',
+        'AttributedShippingMethods'         => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'         => 'Varchar(255)',
+        'PriceAmount'                       => 'Varchar(255)',
+        'PriceCurrency'                     => 'Varchar(255)',
+        'MaximumWeightNice'                 => 'Varchar(255)',
+        'getMaximumWeightUnitAbreviation'   => 'Varchar(2)',
     );
 
     /**
@@ -523,6 +525,37 @@ class SilvercartShippingFee extends DataObject {
      */
     public function getPriceCurrency() {
         return $this->Price->getCurrency();
+    }
+    
+    /**
+     * Returns the maximum weight with unit abreviation in context of
+     * SilvercartConfig::DisplayWeightsInKilogram().
+     * 
+     * @return string
+     */
+    public function getMaximumWeightNice() {
+        $maximumWeightInGram = $this->MaximumWeight;
+        if (SilvercartConfig::DisplayWeightsInKilogram()) {
+            $maximumWeightNice = str_replace('.', ',', ($maximumWeightInGram / 1000));
+        } else {
+            $maximumWeightNice = $maximumWeightInGram;
+        }
+        $maximumWeightNice .= ' ' . $this->MaximumWeightUnitAbreviation;
+        return $maximumWeightNice;
+    }
+    
+    /**
+     * Returns the maximum weights unit abreviation in context of
+     * SilvercartConfig::DisplayWeightsInKilogram().
+     * 
+     * @return string
+     */
+    public function getMaximumWeightUnitAbreviation() {
+        $maximumWeightUnitAbreviation = 'g';
+        if (SilvercartConfig::DisplayWeightsInKilogram()) {
+            $maximumWeightUnitAbreviation = 'kg';
+        }
+        return $maximumWeightUnitAbreviation;
     }
 }
 

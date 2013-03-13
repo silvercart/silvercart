@@ -29,11 +29,13 @@
                         <col width="15%"></col>
                     </colgroup>
                     <tr>
-                        <th><% _t('SilvercartProduct.WEIGHT') %> (g)</th><th><% _t('SilvercartZone.SINGULARNAME') %></th><th><% _t('SilvercartProduct.PRICE') %></th>
+                        <th class="align_right"><% _t('SilvercartProduct.WEIGHT') %> ({$MaximumWeightUnitAbreviation})</th>
+                        <th><% _t('SilvercartZone.SINGULARNAME') %></th>
+                        <th class="align_right"><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
                     <% control SilvercartShippingFees %>
                     <tr class="$EvenOdd">
-                        <td class="align_right align_top padding_right"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeight<% end_if %></td>
+                        <td class="align_right align_top padding_right"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeightNice<% end_if %></td>
                         <td>
                             <% control SilvercartZone %>
                                 <b>$Title:</b><br/>
