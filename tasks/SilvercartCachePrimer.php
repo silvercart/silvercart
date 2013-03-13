@@ -69,7 +69,21 @@ class SilvercartCachePrimer extends SilvercartTask {
     protected $urlToPrimeCacheFor = null;
 
     /**
-     * Prints the usage of this sake script
+     * Locales to prime the cache for
+     * 
+     * @var array
+     */
+    protected $localesToPrimceCacheFor = null;
+
+    /**
+     * context locale to start threads from
+     * 
+     * @var string
+     */
+    protected $currentLocale = null;
+
+    /**
+     * Prints the usage of this  sake script
      * 
      * @return void
      *
@@ -77,7 +91,7 @@ class SilvercartCachePrimer extends SilvercartTask {
      * @since 06.02.2013
      */
     public function printUsage() {
-        $this->printInfo('Usage: sake SilvercartCachePrimer url="http://www.silvercart.org/" [threads=10]');
+        $this->printInfo('Usage: sake SilvercartCachePrimer url="http://www.silvercart.org/" [threads=10] [locale=de_DE,en_US]');
     }
     
     /**
@@ -91,7 +105,7 @@ class SilvercartCachePrimer extends SilvercartTask {
      * @since 07.02.2013
      */
     protected function LogForThread($text) {
-        $this->Log('THREAD#' . $this->getPrimeIndex(), $text);
+        $this->Log('LOCALE:' . $this->getCurrentLocale() . ' THREAD#' . $this->getPrimeIndex(), $text);
     }
 
     /**
@@ -107,31 +121,48 @@ class SilvercartCachePrimer extends SilvercartTask {
         
         $primeIndex         = $this->getPrimeIndex();
         $threads            = $this->getThreads();
-        
-        if (is_null($primeIndex)) {
+        $locales            = $this->getLocales();
+        if (count($locales) > 1) {
+            foreach ($locales as $locale) {
+                // start locale thread
+                chdir(Director::baseFolder());
+                $command = sprintf(
+                    'sake SilvercartCachePrimer url="%s" threads=%s locale=%s',
+                    $this->getUrlToPrimeCacheFor(),
+                    $threads,
+                    $locale
+                );
+                $PID = self::run_process_in_background($command);
+                $this->printInfo('Started thread for locale ' . $locale . ' with PID ' . $PID . '.');
+            }
+        } elseif (is_null($primeIndex)) {
+            $this->buildSitemapXmlFiles();
+            // only one locale, split and call with prime index
             $this->splitSitemapForThreads();
             $countOfUrlsToCall  = $this->getCountOfUrlsToCall();
             $urlsPerThread      = ceil($countOfUrlsToCall / $threads);
-            
+            $currentLocale      = $this->getCurrentLocale();
+
             if ($countOfUrlsToCall == 0) {
                 $this->printError('The target URL has no pages to prime cache for.');
                 $this->printUsage();
                 exit();
             }
             
-            $this->printInfo('There are ' . $countOfUrlsToCall . ' pages to prime cache for.');
+            $this->printInfo('There are ' . $countOfUrlsToCall . ' pages to prime cache for locale ' . $currentLocale . '.');
             $this->printInfo('Primer will be splitted into ' . $threads . ' threads (threads are running in background).');
             $this->printInfo('One thread will handle ' . $urlsPerThread . ' (or less) URLs.');
             
             chdir(Director::baseFolder());
             for ($x = 1; $x <= $threads; $x++) {
                 $command = sprintf(
-                        'sake SilvercartCachePrimer url="%s" prime-index=%s',
+                        'sake SilvercartCachePrimer url="%s" locale=%s prime-index=%s',
                         $this->getUrlToPrimeCacheFor(),
+                        $currentLocale,
                         $x
                 );
                 $PID = self::run_process_in_background($command);
-                $this->printInfo('Started Thread #' . $x . ' with PID ' . $PID . '.');
+                $this->printInfo('Started ' . $currentLocale . ' thread #' . $x . ' with PID ' . $PID . '.');
             }
             exit();
         } else {
@@ -142,7 +173,7 @@ class SilvercartCachePrimer extends SilvercartTask {
     }
     
     /**
-     * Calls the treads related urls to prime the cache.
+     * Calls the threads related urls to prime the cache.
      * 
      * @return void
      *
@@ -150,15 +181,17 @@ class SilvercartCachePrimer extends SilvercartTask {
      * @since 07.02.2013
      */
     public function primeCache() {
-        $countOfUrlsToCall      = $this->getCountOfUrlsToCall();
         $duration               = 0;
         $urlsToPrimeCacheFor    = unserialize(file_get_contents($this->getThreadTmpFilePath($this->getPrimeIndex())));
+        $countOfUrlsToCall      = count($urlsToPrimeCacheFor);
+
         foreach ($urlsToPrimeCacheFor as $url) {
             $this->LogForThread('Priming cache for ' . $url);
             $start = microtime(true);
             $filecontent = @file_get_contents($url);
             if ($filecontent === false) {
                 $this->printError('Error loading file.');
+                $this->printError(var_export(error_get_last(), true));
                 $countOfUrlsToCall--;
                 continue;
             } else {
@@ -168,6 +201,7 @@ class SilvercartCachePrimer extends SilvercartTask {
                 $duration += $timeDifference;
             }
         }
+        
         $this->setCountOfUrlsToCall($countOfUrlsToCall);
         $avg = $duration / $countOfUrlsToCall;
         $this->LogForThread('Average prime time is ' . $avg . ' seconds');
@@ -201,30 +235,50 @@ class SilvercartCachePrimer extends SilvercartTask {
      * @since 07.02.2013
      */
     protected function getSitemapXml() {
+        $currentLocale = $this->getCurrentLocale();
+        if (!is_null($currentLocale)) {
+            $this->buildSitemapXmlFiles();
+        }
+        return $this->sitemapXml;
+    }
+
+    /**
+     * builds the tmp files for sitemap 
+     *
+     * @return void
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    protected function buildSitemapXmlFiles() {
         if (is_null($this->sitemapXml)) {
-            $urlToPrimeCacheFor = $this->getUrlToPrimeCacheFor();
-            $urlToSitemapXml    = $this->buildUrlToSitemapXml($urlToPrimeCacheFor);
-            $tmpFilePath        = $this->getBaseTmpFilePath() . 'sitemap.xml';
+            $urlToPrimeCacheFor  = $this->getUrlToPrimeCacheFor();
+            $baseUrlToSitemapXml = $this->buildUrlToSitemapXml($urlToPrimeCacheFor);
+            $tmpFilePathBase     = $this->getBaseTmpFilePath() . 'sitemap.xml';
 
             if (empty($urlToPrimeCacheFor)) {
                 $this->printError('Please add a valid URL to prime cache for.');
                 $this->printUsage();
                 exit();
             }
-
+           
             $this->printInfo('Priming cache for ' . $urlToPrimeCacheFor);
+            $locale = $this->getCurrentLocale();
+            $tmpFilePathForLocale = $tmpFilePathBase . "-" . $locale;
 
-            if (file_exists($tmpFilePath)) {
-                $this->printInfo('Taking locally stored sitemap.xml, no need to request server');
-                $xmlstring = file_get_contents($tmpFilePath);
+            if (file_exists($tmpFilePathForLocale)) {
+                $this->printInfo('Taking locally stored sitemap.xml for locale ' . $locale . ', no need to request server');
+                $xmlstring = file_get_contents($tmpFilePathForLocale);
             } else {
+                
+                $urlToSitemapXml = $baseUrlToSitemapXml . "?locale=" . $locale;
 
                 $this->printInfo('Requesting ' . $urlToSitemapXml);
 
                 SilvercartDebugHelper::startTimer();
 
                 $xmlstring = @file_get_contents($urlToSitemapXml);
-                file_put_contents($tmpFilePath, $xmlstring);
+                file_put_contents($tmpFilePathForLocale, $xmlstring);
 
                 if ($xmlstring === false) {
                     $this->printError('The target URL ' . $urlToSitemapXml . ' is invalid.');
@@ -232,25 +286,22 @@ class SilvercartCachePrimer extends SilvercartTask {
                     $this->printUsage();
                     exit();
                 }
-
-                $this->printInfo('Got sitemap.xml after ' . number_format(SilvercartDebugHelper::getTimeDifference(false), 2) . ' seconds.');
+                $this->printInfo('Got sitemap.xml for locale ' . $locale . ' after ' . number_format(SilvercartDebugHelper::getTimeDifference(false), 2) . ' seconds.');
             }
-
+        
             try {
                 libxml_use_internal_errors(true);
                 $xml = new SimpleXMLElement($xmlstring);
                 libxml_clear_errors();
             } catch (Exception $exc) {
                 $this->printError($exc->getMessage());
-                $this->printError('The target URL ' . $urlToSitemapXml . ' is invalid.');
+                $this->printError('The target URL ' . $baseUrlToSitemapXml . ' is invalid.');
                 $this->printError('Please add a valid URL to prime cache for.');
                 $this->printUsage();
                 exit();
             }
             $this->sitemapXml = $xml;
         }
-        
-        return $this->sitemapXml;
     }
 
     /**
@@ -269,7 +320,7 @@ class SilvercartCachePrimer extends SilvercartTask {
         $count              = 0;
         $urlsForThread      = array();
         $thread             = 1;
-        
+
         foreach ($sitemapXml->url as $url) {
             $urlsForThread[] = (string) $url->loc;
             $count++;
@@ -280,10 +331,10 @@ class SilvercartCachePrimer extends SilvercartTask {
                 $thread++;
             }
         }
-        
+
         if ($count > 0) {
             file_put_contents($this->getThreadTmpFilePath($thread), serialize($urlsForThread));
-        }
+        }        
     }
     
     /**
@@ -304,7 +355,7 @@ class SilvercartCachePrimer extends SilvercartTask {
      * @return string
      */
     protected function getThreadTmpFilePath($thread) {
-        return $this->getBaseTmpFilePath() . 'thread-' . $thread;
+        return $this->getBaseTmpFilePath() . 'locale-' . $this->getCurrentLocale() . '-thread-' . $thread;
     }
 
     /**
@@ -314,7 +365,7 @@ class SilvercartCachePrimer extends SilvercartTask {
      */
     public function getCountOfUrlsToCall() {
         if (is_null($this->countOfUrlsToCall)) {
-            $this->countOfUrlsToCall = count($this->getSitemapXml()->url);;
+            $this->setCountOfUrlsToCall(count($this->getSitemapXml()->url));
         }
         return $this->countOfUrlsToCall;
     }
@@ -400,6 +451,57 @@ class SilvercartCachePrimer extends SilvercartTask {
      */
     public function setUrlToPrimeCacheFor($urlToPrimeCacheFor) {
         $this->urlToPrimeCacheFor = $urlToPrimeCacheFor;
+    }
+
+    /**
+     * returns a array with all locales to prime cache for
+     * 
+     * @return array
+     */
+    public function getLocales() {
+        if (is_null($this->localesToPrimceCacheFor)) {
+            $this->setLocales($this->getCliArg('locales'));
+        }
+        return $this->localesToPrimceCacheFor;
+    }
+
+    /**
+     * set the locales to prime cache for
+     *
+     * @param string $locales "de_DE" or comma seperated "de_DE,en_US"
+     * 
+     * @return void
+     */
+    public function setLocales($locales = null) {
+        $this->localesToPrimceCacheFor = explode(",", $locales);
+    }
+
+    /**
+     * sets the context locale into $currentLocale
+     *
+     * @param string $locale locale e.g. en_US
+     * 
+     * @return void
+     */
+    public function setCurrentLocale($locale) {
+        $this->currentLocale = $locale;
+    }
+
+    /**
+     * returns the context locale as string e.g. en_US
+     * if no locale is given Silvercarts default language is used
+     *
+     * @return string
+     */
+    public function getCurrentLocale() {
+        if (is_null($this->currentLocale)) {
+            $currentLocale = $this->getCliArg('locale');
+            if (is_null($currentLocale)) {
+                $currentLocale = SilvercartConfig::DefaultLanguage();
+            }
+            $this->setCurrentLocale($currentLocale);
+        }
+        return $this->currentLocale;
     }
     
 }
