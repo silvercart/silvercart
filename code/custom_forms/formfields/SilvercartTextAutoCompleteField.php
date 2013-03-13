@@ -170,10 +170,10 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.06.2012
+     * @since 13.03.2013
      */
     public function SmallFieldHolder() {
-        return '<div class="silvercarttextautocomplete">' . parent::SmallFieldHolder() . '</div>' . $this->FieldHolderScript();
+        return '<div class="' . strtolower(str_replace('Field', '', get_class($this))) . '">' . parent::SmallFieldHolder() . '</div>' . $this->FieldHolderScript();
     }
     
     /**
