@@ -1,4 +1,4 @@
-# Getting and setting up Silvercart
+# Getting and setting up SilverCart
 
 Here you can find everything that's necessary to install SilverCart. We describe where you can download everything and how to install it step by step.
 ## Get it
@@ -17,12 +17,12 @@ Take me to the download page!
 A shop application is a lot about forms. In order to handle forms more comfortable we wrote a module for this task, which is mandatory for SilverCart to work.
 
 Take me to the download page!
-#### Module "Silvercart Prepayment"
+#### Module "SilverCart Prepayment"
 
 This is the most basic payment module for SilverCart. You should always install this one if you just want to test SilverCart or don't know what payment options you're going to offer.
 
 Take me to the download page!
-#### Module "Silvercart Paypal"
+#### Module "SilverCart Paypal"
 
 This is a payment module for the Paypal service. It's not a requirement for SilverCart, but as Paypal is a widespread and well-known payment service, chances are high that your customers will appreciate this payment option.
 
@@ -30,7 +30,7 @@ Take me to the download page!
 Get external dependencies
 #### Module "DataObjectManager"
 
-Since the default Silverstripe options for managing large datasets are not so comfortable we use the DataObjectManager module from Silverstripe developer Uncle Cheese. It adds nice functionality to object management via the storeadmin and it even looks good :) You have to install the DataObjectManager to use SilverCart.
+Since the default SilverStripe options for managing large datasets are not so comfortable we use the DataObjectManager module from SilverStripe developer Uncle Cheese. It adds nice functionality to object management via the storeadmin and it even looks good :) You have to install the DataObjectManager to use SilverCart.
 
 Take me to the module page!
 #### Module "Uploadify"
@@ -46,7 +46,7 @@ Take me to the module page!
 Now that you have all necessary components just follow these instructions to install SilverCart. Please note that during the installation many new pages will be added automatically to your site tree. They are used by SilverCart to provide useful functions to your shop visitors, so do not delete them unless you know exactly what you are doing.
 #### Copy and rename the downloaded modules:
 
-Copy the downloaded modules to the Silverstripe installation root (that is the level where the “mysite” directory is located). Note that you should rename all modules (when extracting the downloaded SilverCart archive the name of the folder is something like “silvercart-silvercart-68eba10ebeed”).
+Copy the downloaded modules to the SilverStripe installation root (that is the level where the “mysite” directory is located). Note that you should rename all modules (when extracting the downloaded SilverCart archive the name of the folder is something like “silvercart-silvercart-68eba10ebeed”).
 
 The correct names would be: - silvercart - silvercart_payment_prepayment - silvercart_payment_paypal - customhtmlform - dataobject_manager - uploadify
 #### Alter the file "/mysite/_config.php":

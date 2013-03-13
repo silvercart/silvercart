@@ -1,4 +1,4 @@
-# Integrating SilverCart into an existing Silverstripeinstallation
+# Integrating SilverCart into an existing Silverstripe installation
 
  I presume that you already have a SilverStripe installation running and you want to integrate SilverCart into that existing project.
 
