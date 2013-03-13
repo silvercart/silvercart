@@ -251,6 +251,27 @@ SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',      
 // use custom classes
 Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
 
+SilvercartRestfulServer::addApiAccessBlackListFields('Member', array(
+    'NewsletterConfirmationHash',
+    'HasAcceptedTermsAndConditions',
+    'HasAcceptedRevocationInstruction',
+    'Password',
+    'RememberLoginToken',
+    'NumVisit',
+    'LastVisited',
+    'Bounced',
+    'AutoLoginHash',
+    'AutoLoginExpired',
+    'PasswordEncryption',
+    'Salt',
+    'PasswordExpiry',
+    'LockedOutUntil',
+    'Locale',
+    'FailedLoginCount',
+    'DateFormat',
+    'TimeFormat',
+ ));
+
 // ----------------------------------------------------------------------------
 // Register i18n plugins
 // ----------------------------------------------------------------------------

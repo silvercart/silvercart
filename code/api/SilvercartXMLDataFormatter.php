@@ -124,6 +124,9 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
 
         foreach ($this->getFieldsForObj($obj) as $fieldName => $fieldType) {
             // Field filtering
+            if (SilvercartRestfulServer::isBlackListField($obj->class, $fieldName)) {
+                continue;
+            }
             if ($fields && !in_array($fieldName, $fields)) {
                 continue;
             }

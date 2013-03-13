@@ -82,11 +82,7 @@ class SilvercartCustomer extends DataObjectDecorator {
             'belongs_many_many' => array(
                 'SilvercartPaymentMethods' => 'SilvercartPaymentMethod'
             ),
-            'api_access' => array(
-                'view' => array(
-                    'Email'
-                )
-            ),
+            'api_access' => true,
             'casting' => array(
                 'GroupNames' => 'Text',
             ),

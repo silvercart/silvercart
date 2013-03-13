@@ -34,12 +34,116 @@
 class SilvercartRestfulServer extends RestfulServer {
 
     /**
+     * Contains black listed fields for classes.
+     *
+     * @var array
+     */
+    public static $apiAccessBlackListFields = array();
+
+    /**
      * Defines the URL for this RestfulServer.
      *
      * @var string
      * @see silvercart/_config.php => Director::addRules(...)
      */
     protected static $api_base = "api/silvercart/";
+
+    /**
+     * Adds the given field to the api black list.
+     *
+     * @param string $class     The name of the class
+     * @param string $fieldName The name of the field to add
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-03-13
+     */
+    public static function addApiAccessBlackListField($class, $fieldName) {
+        if (!array_key_exists($class, self::$apiAccessBlackListFields)) {
+            self::$apiAccessBlackListFields[$class] = array();
+        }
+
+        if (!in_array($fieldName, self::$apiAccessBlackListFields[$class])) {
+            self::$apiAccessBlackListFields[$class][] = $fieldName;
+        }
+    }
+
+    /**
+     * Adds the given fields to the api black list.
+     *
+     * @param string $class      The name of the class
+     * @param array  $fieldNames The names of the fields to add
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-03-13
+     */
+    public static function addApiAccessBlackListFields($class, $fieldNames) {
+        foreach ($fieldNames as $fieldName) {
+            self::addApiAccessBlackListField($class, $fieldName);
+        }
+    }
+
+    /**
+     * Removes the given field from the api black list.
+     *
+     * @param string $class     The name of the class
+     * @param string $fieldName The name of the field to remove
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-03-13
+     */
+    public static function removeApiAccessBlackListField($class, $fieldName) {
+        if (array_key_exists($class, self::$apiAccessBlackListFields) &&
+            in_array($fieldName, self::$apiAccessBlackListFields[$class])) {
+
+            unset(self::$apiAccessBlackListFields[$class][$fieldName]);
+        }
+    }
+
+    /**
+     * Removes the given fields from the api black list.
+     *
+     * @param string $class      The name of the class
+     * @param array  $fieldNames The names of the fields to add
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-03-13
+     */
+    public static function removeApiAccessBlackListFields($class, $fieldNames) {
+        foreach ($fieldNames as $fieldName) {
+            self::removeApiAccessBlackListField($class, $fieldName);
+        }
+    }
+
+    /**
+     * Checks if the given field in the given class is black listed.
+     *
+     * @param string $class     The name of the class
+     * @param string $fieldName The name of the field to remove
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-03-13
+     */
+    public static function isBlackListField($class, $fieldName) {
+        $isBlackListed = false;
+
+        if (array_key_exists($class, self::$apiAccessBlackListFields) &&
+            in_array($fieldName, self::$apiAccessBlackListFields[$class])) {
+
+            $isBlackListed = true;
+        }
+
+        return $isBlackListed;
+    }
 
     /**
      * This handler acts as the switchboard for the controller.

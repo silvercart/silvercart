@@ -125,7 +125,16 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public static $extensions = array(
         "Versioned('Live')",
     );
-    
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-13
+     */
+    public static $api_access = true;
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
