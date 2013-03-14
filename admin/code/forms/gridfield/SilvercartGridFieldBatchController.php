@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright 2013 pixeltricks GmbH
  *
