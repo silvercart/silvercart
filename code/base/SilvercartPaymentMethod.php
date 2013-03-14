@@ -138,6 +138,15 @@ class SilvercartPaymentMethod extends DataObject {
             'title' => 'Zugeordnete Länder'
         )
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-14
+     */
+    public static $api_access = true;
     
     /**
      * The link to direct after cancelling by user or session expiry.

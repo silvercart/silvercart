@@ -49,7 +49,8 @@ class SilvercartGroupDecorator extends DataObjectDecorator {
             'belongs_many_many' => array(
                 'SilvercartPaymentMethods'  => 'SilvercartPaymentMethod',
                 'SilvercartShippingMethods' => 'SilvercartShippingMethod',
-            )
+            ),
+            'api_access' => true
         );
     }
     

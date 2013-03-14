@@ -318,8 +318,7 @@ class SilvercartRestfulServer extends RestfulServer {
      * @since 2013-02-22
      */
     protected function getDataFormatter($includeAcceptHeader = false) {
-        $formatter      = new SilvercartXMLDataFormatter();
-        $relationDepth  = $this->request->getVar('relationdepth');
+        $formatter      = new SilvercartRestfulXMLDataFormatter();
 
         // set custom fields
         if ($customAddFields = $this->request->getVar('add_fields')) {
@@ -342,9 +341,25 @@ class SilvercartRestfulServer extends RestfulServer {
             }
         }
 
-        // Set the relation depth
-        if (!is_numeric($relationDepth)) {
-            $relationDepth = 1;
+        switch ($this->urlParams['ClassName']) {
+            case 'SilvercartShippingMethod':
+                $relationDepth = 0;
+                $formatter->setCustomAddFields(array('Title'));
+                break;
+            case 'SilvercartPaymentMethod':
+                $relationDepth = 0;
+                $formatter->setCustomAddFields(array('Name'));
+                break;
+            case 'SilvercartOrderStatus':
+            case 'Group':
+                $relationDepth = 0;
+                break;
+            default:
+                $relationDepth  = $this->request->getVar('relationdepth');
+
+                if (!is_numeric($relationDepth)) {
+                    $relationDepth = 1;
+                }
         }
 
         $formatter->setRelationDepth((int) $relationDepth);

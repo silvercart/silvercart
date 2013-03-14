@@ -87,6 +87,15 @@ class SilvercartOrderStatus extends DataObject {
     public static $default_sort = "`SilvercartOrderStatusLanguage`.`Title`";
 
     /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-14
+     */
+    public static $api_access = true;
+
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 

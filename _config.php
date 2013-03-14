@@ -252,7 +252,7 @@ SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',      
 Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
 
 // ----------------------------------------------------------------------------
-// Blacklisting preferences for SilvercartRestfulServer
+// Blacklists for SilvercartRestfulServer
 // ----------------------------------------------------------------------------
 SilvercartRestfulServer::addApiAccessBlackListFields(
     'Member',
@@ -283,12 +283,19 @@ SilvercartRestfulServer::addApiAccessBlackListFields(
         'HasAcceptedTermsAndConditions',
         'HasAcceptedRevocationInstruction',
         'IsSeen',
-        'Version'
+        'Version',
 ));
 SilvercartRestfulServer::addApiAccessBlackListFields(
     'SilvercartOrderPosition',
     array(
-        'numberOfDecimalPlaces'
+        'numberOfDecimalPlaces',
+    )
+);
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'SilvercartShippingMethod',
+    array(
+         'isActive',
+         'priority',
     )
 );
 

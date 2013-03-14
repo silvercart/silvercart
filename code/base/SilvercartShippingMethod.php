@@ -91,6 +91,15 @@ class SilvercartShippingMethod extends DataObject {
         'Title'                     => 'Text',
         'Description'               => 'Text',
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-14
+     */
+    public static $api_access = true;
     
     /**
      * Default sort field and direction
