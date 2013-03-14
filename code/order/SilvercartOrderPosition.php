@@ -106,6 +106,15 @@ class SilvercartOrderPosition extends DataObject {
     );
 
     /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-14
+     */
+    public static $api_access = true;
+
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields

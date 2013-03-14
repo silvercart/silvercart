@@ -35,3 +35,4 @@
  * [Enhanced Cache Keys](6-Enhanced-Cache-Keys)
    * [Why do we need enhanced cache keys](6-Enhanced-Cache-Keys#why-do-we-need-enhanced-cache-keys)
    * [How to limit the cache relevant fields](6-Enhanced-Cache-Keys#how-to-limit-the-cache-relevant-fields)
+ * [Restful API](7-Restful-API)

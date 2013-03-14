@@ -251,26 +251,46 @@ SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',      
 // use custom classes
 Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
 
-SilvercartRestfulServer::addApiAccessBlackListFields('Member', array(
-    'NewsletterConfirmationHash',
-    'HasAcceptedTermsAndConditions',
-    'HasAcceptedRevocationInstruction',
-    'Password',
-    'RememberLoginToken',
-    'NumVisit',
-    'LastVisited',
-    'Bounced',
-    'AutoLoginHash',
-    'AutoLoginExpired',
-    'PasswordEncryption',
-    'Salt',
-    'PasswordExpiry',
-    'LockedOutUntil',
-    'Locale',
-    'FailedLoginCount',
-    'DateFormat',
-    'TimeFormat',
- ));
+// ----------------------------------------------------------------------------
+// Blacklisting preferences for SilvercartRestfulServer
+// ----------------------------------------------------------------------------
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'Member',
+    array(
+        'NewsletterConfirmationHash',
+        'HasAcceptedTermsAndConditions',
+        'HasAcceptedRevocationInstruction',
+        'Password',
+        'RememberLoginToken',
+        'NumVisit',
+        'LastVisited',
+        'Bounced',
+        'AutoLoginHash',
+        'AutoLoginExpired',
+        'PasswordEncryption',
+        'Salt',
+        'PasswordExpiry',
+        'LockedOutUntil',
+        'Locale',
+        'FailedLoginCount',
+        'DateFormat',
+        'TimeFormat',
+    )
+);
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'SilvercartOrder',
+    array(
+        'HasAcceptedTermsAndConditions',
+        'HasAcceptedRevocationInstruction',
+        'IsSeen',
+        'Version'
+));
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'SilvercartOrderPosition',
+    array(
+        'numberOfDecimalPlaces'
+    )
+);
 
 // ----------------------------------------------------------------------------
 // Register i18n plugins
