@@ -155,7 +155,7 @@ class SilvercartOrderStatus extends DataObject {
                 'Code'                                  => _t('SilvercartOrderStatus.CODE'),
                 'SilvercartOrders'                      => _t('SilvercartOrder.PLURALNAME'),
                 'SilvercartPaymentMethodRestrictions'   => _t('SilvercartPaymentMethod.PLURALNAME'),
-                'SilvercartOrderStatusLanguages'        => _t('SilvercartOrderStatusLanguage.PLURALNAME'),
+                'SilvercartOrderStatusLanguages'        => _t('Silvercart.TRANSLATIONS'),
                 'ShopEmailsTab'                         => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
                 'ShopEmailLabelField'                   => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC'),
                 'SilvercartShopEmails'                  => _t('SilvercartShopEmail.PLURALNAME')

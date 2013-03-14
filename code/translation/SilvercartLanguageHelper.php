@@ -92,27 +92,6 @@ class SilvercartLanguageHelper {
         }
         return $languageFields;
     }
-
-    /**
-     * Default scaffolding for language objects in a popup.
-     *
-     * @param DataObject $dataobject DataObject to scaffold the form fields for
-     * 
-     * @return FieldList
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.01.2012
-     */
-    public static function prepareCMSFields_forPopup($dataobject) {
-        $fields = $dataobject->getCMSFields();
-        $fields->removeByName('Locale');
-        foreach ($dataobject->has_one() as $has_oneName => $has_oneObject) {
-            $fields->removeByName($has_oneName . 'ID');
-        }
-        $localeDropdown = self::prepareLanguageDropdownField($dataobject);
-        $fields->insertFirst($localeDropdown);
-        return $fields;
-    }
     
     /**
      * Creates and returns the language dropdown field
