@@ -38,3 +38,4 @@
    * [How to limit the cache relevant fields](7-Enhanced-Cache-Keys#how-to-limit-the-cache-relevant-fields)
  * [Backend](8-Backend)
    * [How to make a ModelAdmin sortable?](8-Backend#how-to-make-a-modeladmin-sortable)
+   * [How to add a Batch Action to a GridField?](8-Backend#how-to-add-a-batch-action-to-a-gridfield)

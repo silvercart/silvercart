@@ -89,3 +89,108 @@ Now, your ModelAdmin should extend **SilvercartModelAdmin**. The class **Silverc
 	}
 
 Run a dev/build and the result is a sortable GridField.
+
+## How to add a Batch Action to a GridField?
+- - -
+
+The first step to get batch actions working for a GridField used by a ModelAdmin is to create them.
+Let's create a batch action to set a DataObject with a BD property "isActive" to active and one to set the property to not active.
+
+Action to activate:
+
+	:::php
+	<?php
+	
+	/**
+	 * Batch action to mark an DataObject as active.
+	 *
+	 * @package Silvercart
+	 * @subpackage Forms_GridField_BatchActions
+	 * @author Sebastian Diel <sdiel@pixeltricks.de>
+	 * @copyright 2013 pixeltricks GmbH
+	 * @since 14.03.2013
+	 * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+	 */
+	class SilvercartGridFieldBatchAction_ActivateDataObject extends SilvercartGridFieldBatchAction {
+	    
+	    /**
+	     * Handles the action.
+	     * 
+	     * @param GridField $gridField GridField to handle action for
+	     * @param array     $recordIDs Record IDs to handle action for
+	     * @param array     $data      Data to handle action for
+	     * 
+	     * @return void
+	     *
+	     * @author Sebastian Diel <sdiel@pixeltricks.de>
+	     * @since 14.03.2013
+	     */
+	    public function handle(GridField $gridField, $recordIDs, $data) {
+	        foreach ($recordIDs as $recordID) {
+	            $record = DataObject::get_by_id($gridField->getModelClass(), $recordID);
+	            if ($record->exists()) {
+	                $record->isActive = true;
+	                $record->write();
+	            }
+	        }
+	    }
+	}
+
+Action to deactivate:
+
+	:::php
+	<?php
+	
+	/**
+	 * Batch action to mark an DataObject as not active.
+	 *
+	 * @package Silvercart
+	 * @subpackage Forms_GridField_BatchActions
+	 * @author Sebastian Diel <sdiel@pixeltricks.de>
+	 * @copyright 2013 pixeltricks GmbH
+	 * @since 14.03.2013
+	 * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+	 */
+	class SilvercartGridFieldBatchAction_DeactivateDataObject extends SilvercartGridFieldBatchAction {
+	    
+	    /**
+	     * Handles the action.
+	     * 
+	     * @param GridField $gridField GridField to handle action for
+	     * @param array     $recordIDs Record IDs to handle action for
+	     * @param array     $data      Data to handle action for
+	     * 
+	     * @return void
+	     *
+	     * @author Sebastian Diel <sdiel@pixeltricks.de>
+	     * @since 14.03.2013
+	     */
+	    public function handle(GridField $gridField, $recordIDs, $data) {
+	        foreach ($recordIDs as $recordID) {
+	            $record = DataObject::get_by_id($gridField->getModelClass(), $recordID);
+	            if ($record->exists()) {
+	                $record->isActive = false;
+	                $record->write();
+	            }
+	        }
+	    }
+	}
+
+We can add a human readable action name by adding a "TITLE" property for the batch actions classname into the i18n .yml files.
+
+Snippet for en.yml:
+
+	:::php
+	  SilvercartGridFieldBatchAction_ActivateDataObject:
+	    TITLE: "Activate"
+	  SilvercartGridFieldBatchAction_DeactivateDataObject:
+	    TITLE: "Deactivate"
+
+To get batch actions working, register them to the managed model.
+It is also important that your **"MyModelAdmin extends SilvercartModelAdmin"**.
+
+	:::php
+	SilvercartGridFieldBatchController::addBatchActionFor('MyDataObject', 'SilvercartGridFieldBatchAction_ActivateDataObject');
+	SilvercartGridFieldBatchController::addBatchActionFor('MyDataObject', 'SilvercartGridFieldBatchAction_DeactivateDataObject');
+
+After doing that the work ist done and you can use the batch action on your MyDataObject.

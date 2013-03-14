@@ -31,7 +31,7 @@
  * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartProductAdmin extends ModelAdmin {
+class SilvercartProductAdmin extends SilvercartModelAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -85,12 +85,14 @@ class SilvercartProductAdmin extends ModelAdmin {
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
      * 
+     * @param bool $skipUpdateInit Set to true to skip the parents updateInit extension
+     * 
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2013
      */
-    public function init() {
+    public function init($skipUpdateInit = false) {
         /*
          * we tweeked the backend behavior so that when you press the button 'add' on the
          * tab files the file object will be created. This was neccessary because we
@@ -121,20 +123,7 @@ class SilvercartProductAdmin extends ModelAdmin {
             }
         }
         
-        parent::init();
-        $this->extend('updateInit');
-    }
-    
-    /**
-     * title in the upper bar of the CMS
-     *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.08.2012
-     */
-    public function SectionTitle() {
-        return _t('SilvercartProduct.PLURALNAME');
+        parent::init($skipUpdateInit);
     }
 }
 

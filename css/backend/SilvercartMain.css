@@ -156,6 +156,19 @@
 .field.important label {
     color: #fff !important;
 }
+.field.plain {
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+    display: inline-block;
+    vertical-align: bottom;
+}
+.field.plain div {
+    vertical-align: bottom;
+}
+.field.plain:after {
+    display: none;
+}
 
 .silvercart-formfield-label {
     color: #666;
@@ -302,6 +315,69 @@
 }
 .icon.icon-16.icon-widgetsetadmin {
     background-position: -238px 0;
+}
+
+.icon.icon-24 {
+    background-color: transparent;
+    background-image: url("../images/glyphicons_mini.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 0;
+    height: 24px;
+    width: 24px;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block;
+}
+.icon.icon-24.white {
+    background-image: url("../images/glyphicons_mini_white.png");
+}
+.icon.icon-24.icon-checked {
+    background-position: -62px -480px;
+}
+.icon.icon-24.icon-not-checked {
+    background-position: -94px -480px;
+}
+
+.icon.icon-32 {
+    background-color: transparent;
+    background-image: url("../images/glyphicons.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 0;
+    height: 32px;
+    width: 32px;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block;
+}
+.icon.icon-32.white {
+    background-image: url("../images/glyphicons_white.png");
+}
+.icon.icon-32.icon-checked {
+    background-position: -94px -720px;
+}
+.icon.icon-32.icon-not-checked {
+    background-position: -142px -720px;
+}
+
+tr [class^="col-SilvercartGridFieldBatchControllerCheckbox"],
+tr [class*=" col-SilvercartGridFieldBatchControllerCheckbox"] {
+    width: 72px;
+}
+tr [class^="col-SilvercartGridFieldBatchControllerCheckbox"] span,
+tr [class*=" col-SilvercartGridFieldBatchControllerCheckbox"] span {
+    margin: 0 !important;
+    vertical-align: middle;
+}
+tr [class^="col-SilvercartGridFieldBatchControllerCheckbox"] span.check-all,
+tr [class*=" col-SilvercartGridFieldBatchControllerCheckbox"] span.check-all,
+tr [class^="col-SilvercartGridFieldBatchControllerCheckbox"] span.uncheck-all,
+tr [class*=" col-SilvercartGridFieldBatchControllerCheckbox"] span.uncheck-all {
+    cursor: pointer;
+}
+.col-batch-action-selector.action {
+    text-align: center;
 }
 
 .silvercart-permanent-notification {

@@ -184,6 +184,16 @@ $lang['en_GB']['SilvercartGoogleMerchantTaxonomy']['PLURALNAME']   = 'Google tax
 
 $lang['en_GB']['SilvercartGoogleMerchantTaxonomyAdmin']['MENUTITLE'] = 'Google Taxonomy';
 
+$lang['en_GB']['SilvercartGridFieldBatchAction_ChangeAvailabilityStatus']['TITLE']  = 'Change availability status to...';
+$lang['en_GB']['SilvercartGridFieldBatchAction_ChangeProductGroup']['TITLE']    = 'Change product group to...';
+$lang['en_GB']['SilvercartGridFieldBatchAction_ChangeManufacturer']['TITLE']    = 'Change manufacturer to...';
+$lang['en_GB']['SilvercartGridFieldBatchAction_ChangeOrderStatus']['TITLE']     = 'Change order status to...';
+$lang['en_GB']['SilvercartGridFieldBatchAction_PrintOrders']['TITLE']           = 'Print orders (HTML)';
+$lang['en_GB']['SilvercartGridFieldBatchAction_MarkAsSeen']['TITLE']            = 'Mark as seen';
+$lang['en_GB']['SilvercartGridFieldBatchAction_MarkAsNotSeen']['TITLE']         = 'Mark as not seen';
+$lang['en_GB']['SilvercartGridFieldBatchAction_ActivateDataObject']['TITLE']    = 'Activate';
+$lang['en_GB']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  = 'Deactivate';
+
 $lang['en_GB']['SilvercartImageAdmin']['MENUTITLE'] = 'Images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Product images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Payment method images';

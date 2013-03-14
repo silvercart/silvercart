@@ -721,6 +721,24 @@ de:
     SINGULARNAME: "Google Taxonomie"
   SilvercartGoogleMerchantTaxonomyAdmin:
     MENUTITLE: "Google Taxonomie"
+  SilvercartGridFieldBatchAction_ActivateDataObject:
+    TITLE: "Aktivieren"
+  SilvercartGridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: "Verfügbarkeit ändern auf..."
+  SilvercartGridFieldBatchAction_ChangeManufacturer:
+    TITLE: "Hersteller ändern auf..."
+  SilvercartGridFieldBatchAction_ChangeOrderStatus:
+    TITLE: "Bestellstatus ändern auf..."
+  SilvercartGridFieldBatchAction_ChangeProductGroup:
+    TITLE: "Warengruppe ändern auf..."
+  SilvercartGridFieldBatchAction_DeactivateDataObject:
+    TITLE: "Deaktivieren"
+  SilvercartGridFieldBatchAction_MarkAsNotSeen:
+    TITLE: "Als nicht gesehen markieren"
+  SilvercartGridFieldBatchAction_MarkAsSeen:
+    TITLE: "Als gesehen markieren"
+  SilvercartGridFieldBatchAction_PrintOrders:
+    TITLE: "Bestellungen drucken (HTML)"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Preistyp"

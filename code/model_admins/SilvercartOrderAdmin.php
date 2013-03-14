@@ -31,7 +31,7 @@
  * @since 16.01.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartOrderAdmin extends ModelAdmin {
+class SilvercartOrderAdmin extends SilvercartModelAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -55,13 +55,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
     public static $url_segment = 'silvercart-orders';
 
     /**
-     * The menu title
-     *
-     * @var string
-     */
-    public static $menu_title = 'Orders';
-
-    /**
      * Managed models
      *
      * @var array
@@ -74,13 +67,15 @@ class SilvercartOrderAdmin extends ModelAdmin {
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
      * 
+     * @param bool $skipUpdateInit Set to true to skip the parents updateInit extension
+     * 
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.07.2012
+     * @since 14.03.2013
      */
-    public function init() {
-        parent::init();
+    public function init($skipUpdateInit = false) {
+        parent::init(true);
         $baseUrl = SilvercartTools::getBaseURLSegment();
 
         Requirements::javascript($baseUrl.FRAMEWORK_DIR.'/thirdparty/jquery-ui/jquery-ui-1.8rc3.custom.js');
@@ -90,32 +85,10 @@ class SilvercartOrderAdmin extends ModelAdmin {
         Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/date.js');
         Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/daterangepicker.jQuery.js');
         Requirements::css($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css');
-
-        $orderStatusDropdownLink = Director::baseURL();
-        if (empty($orderStatusDropdownLink)) {
-            $orderStatusDropdownLink = '/';
-        }
-        $orderStatusDropdownLink .= $this->Link();
-        $orderStatusDropdownLink .= 'SilvercartOrder/OrderStatusDropdown';
         
         Requirements::customScript(
                 sprintf(
                         "
-            function silvercartBatch_changeOrderStatus() {
-                (function($) {
-                    $.ajax({
-                        url     : '%s',
-                        async   : false,
-                        success : function(data) {
-                            $('.silvercart-batch-option-callback-target').html(data);
-                            $('select[name=\"SilvercartOrderStatus\"]').live('change', function() {
-                                var status = $('select[name=\"SilvercartOrderStatus\"] option:selected').val();
-                                $('input[name=\"silvercart-batch-option-callback-data\"]').val(status);
-                            });
-                        }
-                    });
-                })(jQuery);
-            }
             (function($) {
                 $(document).ready(function() { 
                     //Date picker
@@ -142,7 +115,6 @@ class SilvercartOrderAdmin extends ModelAdmin {
                     });
                 });
             })(jQuery);",
-                        $orderStatusDropdownLink,
                         _t('SilvercartDateRangePicker.TODAY'),
                         _t('SilvercartDateRangePicker.LAST_7_DAYS'),
                         _t('SilvercartDateRangePicker.THIS_MONTH'),
@@ -162,15 +134,4 @@ class SilvercartOrderAdmin extends ModelAdmin {
         $this->extend('updateInit');
     }
     
-    /**
-     * title in the top bar of the CMS
-     *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.08.2012
-     */
-    public function SectionTitle() {
-        return _t('SilvercartOrder.PLURALNAME');
-    }
 }

@@ -245,6 +245,17 @@ Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotP
 // configure WidgetSet
 WidgetSetWidgetExtension::preventWidgetCreationByClass('SilvercartWidget');
 
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_ChangeOrderStatus');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_PrintOrders');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_MarkAsSeen');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_MarkAsNotSeen');
+
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ActivateDataObject');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_DeactivateDataObject');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeAvailabilityStatus');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeManufacturer');
+SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeProductGroup');
+
 // ----------------------------------------------------------------------------
 // Register i18n plugins
 // ----------------------------------------------------------------------------

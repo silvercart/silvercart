@@ -42,6 +42,20 @@ class SilvercartModelAdmin extends ModelAdmin {
     public static $sortable_field = '';
     
     /**
+     * GridField of the edit form
+     *
+     * @var GridField
+     */
+    protected $gridField = null;
+    
+    /**
+     * GridFieldConfig of the edit form
+     *
+     * @var GridFieldConfig
+     */
+    protected $gridFieldConfig = null;
+    
+    /**
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
      * 
@@ -84,11 +98,58 @@ class SilvercartModelAdmin extends ModelAdmin {
         $sortable_field = $this->stat('sortable_field');
         if (class_exists('GridFieldSortableRows') &&
             !empty($sortable_field)) {
-            $gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
-            $gridFieldConfig = $gridField->getConfig();
-            $gridFieldConfig->addComponent(new GridFieldSortableRows($sortable_field));
+            $this->getGridFieldConfig($form)->addComponent(new GridFieldSortableRows($sortable_field));
+        }
+        if (SilvercartGridFieldBatchController::hasBatchActionsFor($this->sanitiseClassName($this->modelClass))) {
+            $this->getGridFieldConfig($form)->addComponent(new SilvercartGridFieldBatchController($this->sanitiseClassName($this->modelClass)));
         }
         return $form;
+    }
+    
+    /**
+     * Handles a batch action
+     * 
+     * @param SS_HTTPRequest $request Request to handle
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2013
+     */
+    public function handleBatchCallback(SS_HTTPRequest $request) {
+        $result = '';
+        if (SilvercartGridFieldBatchController::hasBatchActionsFor($this->sanitiseClassName($this->modelClass))) {
+            $result = SilvercartGridFieldBatchController::handleBatchCallback($this->sanitiseClassName($this->modelClass), $request);
+        }
+        return $result;
+    }
+
+    /**
+     * Returns the GridField of the given edit form
+     * 
+     * @param Form $form The edit form to get GridField for
+     * 
+     * @return GridField
+     */
+    public function getGridField($form) {
+        if (is_null($this->gridField)) {
+            $this->gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
+        }
+        return $this->gridField;
+    }
+    
+    /**
+     * Returns the GridFieldConfig of the given edit form
+     * 
+     * @param Form $form The edit form to get GridField for
+     * 
+     * @return GridFieldConfig
+     */
+    public function getGridFieldConfig($form) {
+        if (is_null($this->gridFieldConfig)) {
+            $this->gridFieldConfig = $this->getGridField($form)->getConfig();
+        }
+        return $this->gridFieldConfig;
     }
 }
 

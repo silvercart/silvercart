@@ -10,8 +10,8 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
         'SilvercartConfig.EXAMPLE_CONFIGURATION_ALREADY_ADDED': 'Example Configuration already added',
         'SilvercartConfig.CLEANED_DATABASE':                    'Database was optimized',
         'SilvercartRegistrationPage.EMAIL_EXISTS_ALREADY':      'This email address already exists.',
-        'SilvercartEditableTableListField.BATCH_FAILED':        'Batch action failed!',
-        'SilvercartEditableTableListField.NO_ENTRY_SELECTED':   'No objects selected! Please select at least one object entry.',
-        'SilvercartEditableTableListField.NO_ACTION_SELECTED':  'No action selected! Please select an action to execute.'
+        'SilvercartGridFieldBatchController.BATCH_FAILED':      'Batch action failed!',
+        'SilvercartGridFieldBatchController.NO_ENTRY_SELECTED': 'No objects selected! Please select at least one object entry.',
+        'SilvercartGridFieldBatchController.NO_ACTION_SELECTED':'No action selected! Please select an action to execute.'
     });
 }
