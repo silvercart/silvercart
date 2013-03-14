@@ -2088,15 +2088,17 @@ class SilvercartProduct extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @since 14.03.2013
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
-        foreach ($this->WidgetArea()->Widgets() as $widget) {
-            $widget->delete();
+        if ($this->WidgetArea()->exists()) {
+            foreach ($this->WidgetArea()->Widgets() as $widget) {
+                $widget->delete();
+            }
+
+            $this->WidgetArea()->delete();
         }
-        
-        $this->WidgetArea()->delete();
         $this->extend('updateOnBeforeDelete');
     }
 
