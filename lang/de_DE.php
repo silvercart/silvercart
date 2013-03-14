@@ -531,6 +531,7 @@ $lang['de_DE']['SilvercartConfig']['DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT'] 
 $lang['de_DE']['SilvercartConfig']['DEFAULT_CONTACT_MESSAGE_RECIPIENT'] = 'Standard E-Mail-Empfänger für Kontaktanfragen';
 $lang['de_DE']['SilvercartConfig']['DEMAND_BIRTHDAY_DATE_ON_REGISTRATION'] = 'Geburtsdatum bei Registrierung abfragen?';
 $lang['de_DE']['SilvercartConfig']['DISPLAY_TYPE_OF_PRODUCT_ADMIN'] = 'Anzeigeart der Artikelverwaltung';
+$lang['de_DE']['SilvercartConfig']['DISPLAY_WEIGHTS_IN_KILOGRAM'] = 'Gewichte in Kilogramm (kg) anzeigen';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER'] = 'E-Mail Absender';
 $lang['de_DE']['SilvercartConfig']['ENABLEBUSINESSCUSTOMERS'] = 'Geschäftskunden erlauben';
 $lang['de_DE']['SilvercartConfig']['ENABLEPACKSTATION'] = 'Adresseingabefelder für PACKSTATION aktivieren';

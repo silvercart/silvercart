@@ -122,6 +122,7 @@ class SilvercartConfig extends DataObject {
         'SkipPaymentStepIfUnique'               => 'Boolean(0)',
         'SkipShippingStepIfUnique'              => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
+        'DisplayWeightsInKilogram'              => 'Boolean(1)',
         'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
         'addToCartMaxQuantity'                  => 'Int(999)',
         'Locale'                                => 'DBLocale',
@@ -221,6 +222,7 @@ class SilvercartConfig extends DataObject {
     public static $userAgentBlacklist                       = null;
     public static $skipPaymentStepIfUnique                  = null;
     public static $skipShippingStepIfUnique                 = null;
+    public static $displayWeightsInKilogram                 = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -435,6 +437,7 @@ class SilvercartConfig extends DataObject {
         $basicCheckoutTab->push(new CheckboxField('redirectToCartAfterAddToCart', _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART')));
         $basicCheckoutTab->push(new CheckboxField('SkipShippingStepIfUnique', $this->fieldLabel('SkipShippingStepIfUnique')));
         $basicCheckoutTab->push(new CheckboxField('SkipPaymentStepIfUnique', $this->fieldLabel('SkipPaymentStepIfUnique')));
+        $basicCheckoutTab->push(new CheckboxField('DisplayWeightsInKilogram', $this->fieldLabel('DisplayWeightsInKilogram')));
 
         $minimumOrderValueTab->push(new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
         $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
@@ -520,6 +523,7 @@ class SilvercartConfig extends DataObject {
                     'userAgentBlacklist'                    => _t('SilvercartConfig.USER_AGENT_BLACKLIST'),
                     'SkipPaymentStepIfUnique'               => _t('SilvercartConfig.SKIP_PAYMENT_STEP_IF_UNIQUE'),
                     'SkipShippingStepIfUnique'              => _t('SilvercartConfig.SKIP_SHIPPING_STEP_IF_UNIQUE'),
+                    'DisplayWeightsInKilogram'              => _t('SilvercartConfig.DISPLAY_WEIGHTS_IN_KILOGRAM'),
                 )
         );
     }
@@ -1104,6 +1108,21 @@ class SilvercartConfig extends DataObject {
             self::$skipShippingStepIfUnique = self::getConfig()->SkipShippingStepIfUnique;
         }
         return self::$skipShippingStepIfUnique;
+    }
+    
+    /**
+     * Returns the DisplayWeightsInKilogram property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2013
+     */
+    public static function DisplayWeightsInKilogram() {
+        if (is_null(self::$displayWeightsInKilogram)) {
+            self::$displayWeightsInKilogram = self::getConfig()->DisplayWeightsInKilogram;
+        }
+        return self::$displayWeightsInKilogram;
     }
 
     /**
