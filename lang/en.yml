@@ -1,4 +1,9 @@
 en:
+  GridAction:
+    DUPLICATE_DESCRIPTION: "Duplicates this object"
+    Duplicate: "Duplicate"
+  GridFieldAction_Duplicate:
+    DuplicatePermissionsFailure: "No duplicate permissions"
   ImprintPage:
     DEFAULT_TITLE: "Imprint"
     DEFAULT_URLSEGMENT: "imprint"
@@ -1040,6 +1045,7 @@ en:
     MESSAGE: "Action"
     MESSAGE_CHANGED: "Changed: %s -> %s"
     MESSAGE_CREATED: "Created: %s was created"
+    MESSAGE_MARKEDASNOTSEEN: "Marked as not seen"
     MESSAGE_MARKEDASSEEN: "Marked as seen"
     PLURALNAME: "Order Log"
     SINGULARNAME: "Order Log"

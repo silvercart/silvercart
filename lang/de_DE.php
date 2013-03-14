@@ -191,7 +191,6 @@ $lang['de_DE']['SilvercartGridFieldBatchAction_ChangeOrderStatus']['TITLE']     
 $lang['de_DE']['SilvercartGridFieldBatchAction_PrintOrders']['TITLE']           = 'Bestellungen drucken (HTML)';
 $lang['de_DE']['SilvercartGridFieldBatchAction_MarkAsSeen']['TITLE']            = 'Als gesehen markieren';
 $lang['de_DE']['SilvercartGridFieldBatchAction_MarkAsNotSeen']['TITLE']         = 'Als nicht gesehen markieren';
-$lang['de_DE']['SilvercartGridFieldBatchAction_MarkAsNotSeen']['TITLE']         = 'Als nicht gesehen markieren';
 $lang['de_DE']['SilvercartGridFieldBatchAction_ActivateDataObject']['TITLE']    = 'Aktivieren';
 $lang['de_DE']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  = 'Deaktivieren';
 
@@ -1184,6 +1183,7 @@ $lang['de_DE']['SilvercartOrderLog']['MESSAGE']                                 
 $lang['de_DE']['SilvercartOrderLog']['MESSAGE_CHANGED']                         = 'Verändert: %s -> %s';
 $lang['de_DE']['SilvercartOrderLog']['MESSAGE_CREATED']                         = 'Erstellt: %s wurde erstellt';
 $lang['de_DE']['SilvercartOrderLog']['MESSAGE_MARKEDASSEEN']                    = 'Als gesehen markiert';
+$lang['de_DE']['SilvercartOrderLog']['MESSAGE_MARKEDASNOTSEEN']                 = 'Als nicht gesehen markiert';
 
 $lang['de_DE']['SilvercartOrderPosition']['PLURALNAME']                         = 'Bestellpositionen';
 $lang['de_DE']['SilvercartOrderPosition']['SINGULARNAME']                       = 'Bestellposition';
@@ -1858,6 +1858,10 @@ $lang['de_DE']['SilvercartDateRangePicker']['START_DATE']                       
 $lang['de_DE']['SilvercartDateRangePicker']['END_DATE']                         = 'Enddatum';
 $lang['de_DE']['SilvercartDateRangePicker']['NEXT']                             = 'Nächster';
 $lang['de_DE']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Vorheriger';
+
+$lang['de_DE']['GridAction']['Duplicate']                                       = 'Duplizieren';
+$lang['de_DE']['GridAction']['DUPLICATE_DESCRIPTION']                           = 'Dupliziert dieses Objekt';
+$lang['de_DE']['GridFieldAction_Duplicate']['DuplicatePermissionsFailure']      = 'Duplizieren nicht erlaubt';
 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';

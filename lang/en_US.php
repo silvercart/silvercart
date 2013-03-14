@@ -1183,6 +1183,7 @@ $lang['en_US']['SilvercartOrderLog']['MESSAGE']                                 
 $lang['en_US']['SilvercartOrderLog']['MESSAGE_CHANGED']                         = 'Changed: %s -> %s';
 $lang['en_US']['SilvercartOrderLog']['MESSAGE_CREATED']                         = 'Created: %s was created';
 $lang['en_US']['SilvercartOrderLog']['MESSAGE_MARKEDASSEEN']                    = 'Marked as seen';
+$lang['en_US']['SilvercartOrderLog']['MESSAGE_MARKEDASNOTSEEN']                 = 'Marked as not seen';
 
 $lang['en_US']['SilvercartOrderPosition']['PLURALNAME']                         = 'Order positions';
 $lang['en_US']['SilvercartOrderPosition']['SINGULARNAME']                       = 'Order Position';
@@ -1857,3 +1858,7 @@ $lang['en_US']['SilvercartDateRangePicker']['START_DATE']                       
 $lang['en_US']['SilvercartDateRangePicker']['END_DATE']                         = 'End date';
 $lang['en_US']['SilvercartDateRangePicker']['NEXT']                             = 'Next';
 $lang['en_US']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Previous';
+
+$lang['en_US']['GridAction']['Duplicate']                                       = 'Duplicate';
+$lang['en_US']['GridAction']['DUPLICATE_DESCRIPTION']                           = 'Duplicates this object';
+$lang['en_US']['GridFieldAction_Duplicate']['DuplicatePermissionsFailure']      = 'No duplicate permissions';

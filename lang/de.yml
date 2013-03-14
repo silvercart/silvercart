@@ -1,4 +1,9 @@
 de:
+  GridAction:
+    DUPLICATE_DESCRIPTION: "Dupliziert dieses Objekt"
+    Duplicate: "Duplizieren"
+  GridFieldAction_Duplicate:
+    DuplicatePermissionsFailure: "Duplizieren nicht erlaubt"
   ImprintPage:
     DEFAULT_TITLE: "Impressum"
     DEFAULT_URLSEGMENT: "impressum"
@@ -1041,6 +1046,7 @@ de:
     MESSAGE: "Aktion"
     MESSAGE_CHANGED: "Verändert: %s -> %s"
     MESSAGE_CREATED: "Erstellt: %s wurde erstellt"
+    MESSAGE_MARKEDASNOTSEEN: "Als nicht gesehen markiert"
     MESSAGE_MARKEDASSEEN: "Als gesehen markiert"
     PLURALNAME: "Bestellungs-Log"
     SINGULARNAME: "Bestellungs-Log"

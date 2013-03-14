@@ -125,6 +125,21 @@ class SilvercartProductAdmin extends SilvercartModelAdmin {
         
         parent::init($skipUpdateInit);
     }
+    
+    /**
+     * Builds and returns the edit form.
+     * Add the component SilvercartGridFieldDuplicateAction to the GridField.
+     * 
+	 * @param int       $id     The current records ID. Won't be used for ModelAdmins.
+	 * @param FieldList $fields Fields to use. Won't be used for ModelAdmins.
+     * 
+     * @return Form
+     */
+    public function getEditForm($id = null, $fields = null) {
+        $form = parent::getEditForm($id, $fields);
+        $this->getGridFieldConfig($form)->addComponent(new SilvercartGridFieldDuplicateAction());
+        return $form;
+    }
 }
 
 

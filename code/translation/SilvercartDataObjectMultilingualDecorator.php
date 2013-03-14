@@ -359,6 +359,43 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
     }
     
     /**
+     * Sets the property isActive to false.
+     * 
+     * @param DataObject $original DataObject to add clone for
+     * @param boolean    &$doWrite Write clone to database?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2013
+     */
+    public function onBeforeDuplicate($original, &$doWrite) {
+        $this->owner->isActive = false;
+    }
+    
+    /**
+     * Clones the translation data.
+     * 
+     * @param DataObject $original DataObject to add clone for
+     * @param boolean    &$doWrite Write clone to database?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2013
+     */
+    public function onAfterDuplicate($original, &$doWrite) {
+        $languageClassName = $this->getLanguageClassName();
+        foreach ($original->getLanguageRelation() as $language) {
+            $clonedLanguage = new $languageClassName();
+            $clonedLanguage->castedUpdate($language->toMap());
+            $clonedLanguage->ID = 0;
+            $clonedLanguage->write();
+            $this->owner->getLanguageRelation()->add($language);
+        }
+    }
+    
+    /**
      * determin wether all multilingual attributes for all existing translations
      * are empty
      *
