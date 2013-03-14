@@ -2295,4 +2295,20 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
     }
     
+    /**
+     * Marks the order as not seen
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2013
+     */
+    public function markAsNotSeen() {
+        if ($this->IsSeen) {
+            $this->IsSeen = false;
+            $this->write();
+            SilvercartOrderLog::addMarkedAsNotSeenLog($this, 'SilvercartOrder');
+        }
+    }
+    
 }

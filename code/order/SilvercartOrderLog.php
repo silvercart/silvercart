@@ -118,6 +118,25 @@ class SilvercartOrderLog extends DataObject implements SilvercartModelAdmin_Read
     }
     
     /**
+     * Adds an log with the action MarkedAsNotSeen
+     * 
+     * @param SilvercartOrder $order   Order to add log for
+     * @param string          $context Context object
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.03.2012
+     */
+    public static function addMarkedAsNotSeenLog($order, $context) {
+        $orderLog = new SilvercartOrderLog();
+        $orderLog->Context              = $context;
+        $orderLog->SilvercartOrderID    = $order->ID;
+        $orderLog->setMarkedAsNotSeenAction();
+        $orderLog->write();
+    }
+    
+    /**
      * Adds an log with the action Created
      * 
      * @param SilvercartOrder $order   Order to add log for
@@ -162,6 +181,15 @@ class SilvercartOrderLog extends DataObject implements SilvercartModelAdmin_Read
     public function setMarkedAsSeenAction() {
         $this->Action = 'MarkedAsSeen';
     }
+    
+    /**
+     * Sets the action to MarkedAsSeen.
+     * 
+     * @return void
+     */
+    public function setMarkedAsNotSeenAction() {
+        $this->Action = 'MarkedAsNotSeen';
+    }
 
     /**
      * Returns the Context of the log in a human readable state
@@ -191,6 +219,9 @@ class SilvercartOrderLog extends DataObject implements SilvercartModelAdmin_Read
                 break;
             case 'MarkedAsSeen':
                 $message = _t('SilvercartOrderLog.MESSAGE_MARKEDASSEEN');
+                break;
+            case 'MarkedAsNotSeen':
+                $message = _t('SilvercartOrderLog.MESSAGE_MARKEDASNOTSEEN');
                 break;
             case 'Changed':
             default:
