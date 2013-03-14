@@ -57,19 +57,23 @@ class SilvercartPrint {
      * Returns the print URL for the given DataObject
      * (silvercart-print/$DataObjectName/$DataObjectID)
      *
-     * @param ArrayList $dataObjectSet ArrayList to get print URL for
+     * @param ArrayList $dataObjectList ArrayList to get print URL for
      * 
      * @return string 
      */
-    public static function getPrintURLForMany($dataObjectSet) {
+    public static function getPrintURLForMany($dataObjectList) {
         $printURL = '';
-        if ($dataObjectSet instanceof SS_List) {
-            $dataObject = $dataObjectSet->first();
+        if ($dataObjectList instanceof SS_List) {
+            $dataObject = $dataObjectList->first();
             if ($dataObject instanceof DataObject) {
+                $map = $dataObjectList->map('ID','ID');
+                if ($map instanceof SS_Map) {
+                    $map = $map->toArray();
+                }
                 $printURL = sprintf(
                         'silvercart-print-many/%s/%s',
                         $dataObject->ClassName,
-                        implode('-', $dataObjectSet->map('ID','ID')->toArray())
+                        implode('-', $map)
                 );
             }
         }
@@ -108,7 +112,7 @@ class SilvercartPrint {
      */
     public static function loadDefaultRequirements($withJavascript = true) {
         Requirements::clear();
-        Requirements::themedCSS('SilvercartPrintDefault');
+        Requirements::themedCSS('SilvercartPrintDefault', 'silvercart');
         if ($withJavascript) {
             Requirements::javascript('silvercart/script/SilvercartPrintDefault.js');
         }
@@ -163,7 +167,7 @@ class SilvercartPrint {
     public static function getPrintManyOutput($dataObjectName, $dataObjectIDs) {
         $printResult = '';
         self::loadDefaultRequirements(false);
-        Requirements::themedCSS('SilvercartPrint' . $dataObjectName);
+        Requirements::themedCSS('SilvercartPrint' . $dataObjectName, 'silvercart');
         foreach ($dataObjectIDs as $dataObjectID) {
             $dataObject = DataObject::get_by_id($dataObjectName, $dataObjectID);
             if ($dataObject &&
