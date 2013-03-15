@@ -84,11 +84,7 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
      * @return FieldList
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        $fields->push(new TextField(    'TagsPerCloud',     $this->fieldLabel('TagsPerCloud')));
-        $fields->push(new TextField(    'FontSizeCount',    $this->fieldLabel('FontSizeCount')));
-        $fields->push(new CheckboxField('isContentView',    $this->fieldLabel('isContentView')));
+        $fields = SilvercartDataObject::getCMSFields($this);
         
         return $fields;
     }

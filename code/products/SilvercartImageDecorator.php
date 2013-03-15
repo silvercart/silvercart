@@ -65,7 +65,7 @@ class SilvercartImageDecorator extends DataExtension {
     /**
      * Returns the nicely formatted Price of the product.
      * 
-     * @return string
+     * @return Image_Cached
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @copyright 2011 pixeltricks GmbH

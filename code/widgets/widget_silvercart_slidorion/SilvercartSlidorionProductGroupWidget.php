@@ -114,7 +114,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     }
     
     /**
-     * Returns the input fields for this widget.
+     * Returns the input fields for this widget without scaffolding
      * 
      * @return FieldList
      * 
@@ -172,9 +172,9 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
             $this->fieldLabel('autoPlay')
         );
         
-        $basicTab->push($imageTable);
         $basicTab->push($titleField);
         $basicTab->push($contentField);
+        $basicTab->push($imageTable);
 
         $advancedTab->push($widgetHeightField);
         $advancedTab->push($speedField);

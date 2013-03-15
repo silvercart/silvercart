@@ -1217,7 +1217,7 @@ en:
   SilvercartPageListWidget:
     CMSTITLE: "SilverCart page list"
     DESCRIPTION: "This widget shows a list of pages with links to those pages."
-    Pages: "Attributed pages"
+    PAGES: "Attributed pages"
     TITLE: "Page list"
   SilvercartPageListWidgetPage:
     WIDGET_IMAGE: "Image"
@@ -1711,7 +1711,7 @@ en:
   SilvercartShoppingcartWidget:
     CMSTITLE: "SilverCart shopping cart"
     DESCRIPTION: "This widget shows the content of the customers' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages."
-    SHOWONLYWHENFILLED: "Show only if cart is filled."
+    SHOWONLYWHENFILLED: "Show this widget only if the cart is filled."
     TITLE: "Shopping cart"
   SilvercartSiteConfig:
     CREATE_TRANSLATION_DESC: "New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset."

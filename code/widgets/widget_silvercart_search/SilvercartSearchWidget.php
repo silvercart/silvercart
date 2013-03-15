@@ -54,6 +54,20 @@ class SilvercartSearchWidget extends SilvercartWidget {
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldSet the fields for the backend
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @copyright 2010 pixeltricks GmbH
+     * @since 15.03.2013
+ */
+    public function getCMSFields() {
+        $fields = SilvercartDataObject::getCMSFields($this);
+        return $fields;
+    }
 }
 
 /**

@@ -98,6 +98,7 @@ class SilvercartZone extends DataObject {
                         'SilvercartCountries'       => _t('SilvercartCountry.PLURALNAME'),
                         'UseAllCountries'           => _t('SilvercartZone.USE_ALL_COUNTRIES'),
                         'SilvercartZoneLanguages'   => _t('SilvercartZoneLanguage.PLURALNAME'),
+                        'SilvercartHandlingCosts'   => _t('SilvercartHandlingCost.PLURALNAME')
                 )
         );
         $this->extend('updateFieldLabels', $fieldLabels);

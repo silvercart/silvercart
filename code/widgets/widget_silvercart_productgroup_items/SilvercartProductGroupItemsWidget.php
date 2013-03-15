@@ -150,7 +150,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                     'stopAtEnd',
                     'transitionEffect',
                     'useSlider',
-                    'useRoundabout'
+                    'useRoundabout',
+                    'GroupView'
                 )
         );
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
@@ -167,7 +168,20 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
-        
+        $fields->dataFieldByName('fetchMethod')->setSource(
+                    array(
+                        'random'       => $this->fieldLabel('fetchMethodRandom'),
+                        'sortOrderAsc' => $this->fieldLabel('fetchMethodSortOrderAsc')
+                    )
+                );
+        $fields->dataFieldByName('useSelectionMethod')->setSource(
+                    array(
+                        'productGroup' => $this->fieldLabel('SelectionMethodProductGroup'),
+                        'products'     => $this->fieldLabel('SelectionMethodProducts')
+                    )
+        );
+        $groupViewField = SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView'), $this->GroupView);
+        $fields->insertAfter($groupViewField, 'fetchMethod');
         return $fields;
     }
     
@@ -222,7 +236,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                     'ProductGroupTab'                            => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
                     'SilvercartProductGroupItemsWidgetLanguages' => _t('SilvercartConfig.TRANSLATIONS'),
                     'SelectProductDescription'                   => _t("SilvercartProductGroupItemsWidget.SELECT_PRODUCT_DESCRIPTION"),
-                    'Products'                                   => _t('SilvercartProduct.PLURALNAME'),
+                    'SilvercartProducts'                         => _t('SilvercartProduct.PLURALNAME')    
                 )
         );
 

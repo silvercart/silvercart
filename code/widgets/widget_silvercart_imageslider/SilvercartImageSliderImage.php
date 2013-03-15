@@ -191,22 +191,17 @@ class SilvercartImageSliderImage extends DataObject {
     /**
      * Returns the URL to a thumbnail if an image is assigned.
      *
-     * @return string
+     * @return Image_Cached|false thumbnail ratio 50:50
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.05.2012
      */
     public function getThumbnail() {
-        $thumbnail = '';
+        $result = false;
 
-        if ($this->ImageID > 0) {
-            $image     = $this->Image()->SetRatioSize(50, 50);
-            
-            if ($image) {
-                $thumbnail = $image->getTag();
-            }
+        if ($this->Image()->isInDB()) {
+            $result = $this->Image()->SetRatioSize(50, 50);
         }
-
-        return $thumbnail;
+        return $result;
     }
 }

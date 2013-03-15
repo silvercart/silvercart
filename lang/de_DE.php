@@ -1353,7 +1353,7 @@ $lang['de_DE']['SilvercartPage']['YEAR'] = 'Jahr';
 $lang['de_DE']['SilvercartPageListWidget']['TITLE']       = 'Seitenliste';
 $lang['de_DE']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart Seitenliste';
 $lang['de_DE']['SilvercartPageListWidget']['DESCRIPTION'] = 'Dieses Widget zeigt eine Liste von Seiten mit Links zu den jeweiligen Seiten.';
-$lang['de_DE']['SilvercartPageListWidget']['Pages']       = 'Zugeordnete Seiten';
+$lang['de_DE']['SilvercartPageListWidget']['PAGES']       = 'Zugeordnete Seiten';
 
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_IMAGE'] = 'Bild';
 $lang['de_DE']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB'] = 'Widget Infos';
@@ -1754,7 +1754,7 @@ $lang['de_DE']['SilvercartProductLanguage']['SINGULARNAME']                     
 $lang['de_DE']['SilvercartProductLanguage']['PLURALNAME']                       = 'Übersetzungen';
 $lang['de_DE']['SilvercartProductLanguage']['LOCALE']                           = 'Sprache';
 
-$lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';
+$lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchformular';
 $lang['de_DE']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart Suche';
 $lang['de_DE']['SilvercartSearchWidget']['DESCRIPTION']             = 'Dieses Widget zeigt ein Suchformular für die Artikelsuche an.';
 
@@ -1770,7 +1770,7 @@ $lang['de_DE']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  
 $lang['de_DE']['SilvercartShoppingcartWidget']['TITLE']                 = 'Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Artikel im Warenkorb befinden) Checkoutseiten angezeigt';
-$lang['de_DE']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Widget nur Anzeigen, wenn Warenkorb gefüllt.';
+$lang['de_DE']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Dieses Widget nur anzeigen, wenn der Warenkorb gefüllt ist';
 
 $lang['de_DE']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';

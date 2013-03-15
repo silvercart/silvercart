@@ -305,7 +305,7 @@ class SilvercartImage extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'Image.StripThumbnail' => $this->fieldLabel('Thumbnail'),
+            'Image.ImageThumbnail' => $this->fieldLabel('Thumbnail'),
             'Title'                => $this->fieldLabel('Title')
         );
 

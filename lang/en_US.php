@@ -1353,7 +1353,7 @@ $lang['en_US']['SilvercartPage']['YEAR'] = 'Year';
 $lang['en_US']['SilvercartPageListWidget']['TITLE']       = 'Page list';
 $lang['en_US']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart page list';
 $lang['en_US']['SilvercartPageListWidget']['DESCRIPTION'] = 'This widget shows a list of pages with links to those pages.';
-$lang['en_US']['SilvercartPageListWidget']['Pages']       = 'Attributed pages';
+$lang['en_US']['SilvercartPageListWidget']['PAGES']       = 'Attributed pages';
 
 $lang['en_US']['SilvercartPageListWidgetPage']['WIDGET_IMAGE'] = 'Image';
 $lang['en_US']['SilvercartPageListWidgetPage']['WIDGET_INFO_TAB'] = 'Widget infos';
@@ -1770,7 +1770,7 @@ $lang['en_US']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  
 $lang['en_US']['SilvercartShoppingcartWidget']['TITLE']                 = 'Shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart shopping cart';
 $lang['en_US']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'This widget shows the content of the customers\' shoppingcart. Additionally it provides links to the shoppingcart and (if there are products in the cart) the checkout pages.';
-$lang['en_US']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Show only if cart is filled.';
+$lang['en_US']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Show this wiget only if the cart is filled.';
 
 $lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';

@@ -107,27 +107,6 @@ class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
-    
-    /**
-     * Returns an array of field/relation names (db, has_one, has_many, 
-     * many_many, belongs_many_many) to exclude from form scaffolding in
-     * backend.
-     * This is a performance friendly way to exclude fields.
-     * 
-     * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.02.2013
-     */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
-            'Sort',
-            'Parent',
-            'Type'
-        );
-        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
-        return $excludeFromScaffolding;
-    }
 
     /**
      * Returns the input fields for this widget.
@@ -138,7 +117,7 @@ class SilvercartProductGroupChildProductsWidget extends SilvercartWidget {
      * @since 13.11.2012
      */
     public function getCMSFields() {
-        $fields = SilvercartDataObject::getCMSFields($this);
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
 
         return $fields;
     }

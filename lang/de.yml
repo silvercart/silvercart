@@ -1218,7 +1218,7 @@ de:
   SilvercartPageListWidget:
     CMSTITLE: "SilverCart Seitenliste"
     DESCRIPTION: "Dieses Widget zeigt eine Liste von Seiten mit Links zu den jeweiligen Seiten."
-    Pages: "Zugeordnete Seiten"
+    PAGES: "Zugeordnete Seiten"
     TITLE: "Seitenliste"
   SilvercartPageListWidgetPage:
     WIDGET_IMAGE: "Bild"
@@ -1619,7 +1619,7 @@ de:
   SilvercartSearchWidget:
     CMSTITLE: "SilverCart Suche"
     DESCRIPTION: "Dieses Widget zeigt ein Suchformular für die Artikelsuche an."
-    TITLE: "Suchen Sie etwas?"
+    TITLE: "Suchformular"
   SilvercartSearchWidgetForm:
     SEARCHLABEL: "Geben Sie bitte Ihren Suchbegriff ein:"
     SUBMITBUTTONTITLE: "Suchen"
@@ -1712,7 +1712,7 @@ de:
   SilvercartShoppingcartWidget:
     CMSTITLE: "SilverCart Warenkorb"
     DESCRIPTION: "Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Artikel im Warenkorb befinden) Checkoutseiten angezeigt"
-    SHOWONLYWHENFILLED: "Widget nur Anzeigen, wenn Warenkorb gefüllt."
+    SHOWONLYWHENFILLED: "Dieses Widget nur anzeigen, wenn der Warenkorb gefüllt ist"
     TITLE: "Warenkorb"
   SilvercartSiteConfig:
     CREATE_TRANSLATION_DESC: "Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist."

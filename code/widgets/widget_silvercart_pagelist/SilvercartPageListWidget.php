@@ -116,29 +116,48 @@ class SilvercartPageListWidget extends SilvercartWidget {
             parent::fieldLabels($includerelations),
             SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
             array(
-                'Pages'       => _t('SilvercartPageListWidget.PAGES'),
+                'Pages'                             => _t('SilvercartPageListWidget.PAGES'),
+                'SilvercartPageListWidgetLanguages' => _t('Silvercart.TRANSLATIONS'),
+                
             )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
+    
+    /**
+     * Returns an array of field/relation names (db, has_one, has_many, 
+     * many_many, belongs_many_many) to exclude from form scaffolding in
+     * backend.
+     * This is a performance friendly way to exclude fields.
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 14.03.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFromScaffolding = array_merge(
+                parent::excludeFromScaffolding(),
+                array(
+                    'Pages'
+                )
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
+        return $excludeFromScaffolding;
+    }
 
     /**
      * GUI fields
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.12.2012
      */
     public function getCMSFields() {
-        $fields     = new FieldList();
-        $rootTabSet = new TabSet('Root');
-        $basicTab   = new Tab('Basic', $this->fieldLabel('BasicTab'));
-
-        $titleField     = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
-        $contentField   = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
         $pagesField     = new TreeMultiselectField(
             'Pages',
             $this->fieldLabel('Pages'),
@@ -146,14 +165,7 @@ class SilvercartPageListWidget extends SilvercartWidget {
             'ID',
             'Title'
         );
-        $basicTab->push($titleField);
-        $basicTab->push($contentField);
-        $basicTab->push($pagesField);
-        $basicTab->push(new LiteralField('spacer', '<div style="height: 200px;"></div>'));
-
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-
+        $fields->insertAfter($pagesField, 'FrontContent');
         return $fields;
     }
 }

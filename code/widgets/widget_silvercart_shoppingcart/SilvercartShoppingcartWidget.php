@@ -117,8 +117,7 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      * @return FieldList
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $fields->push(new CheckboxField('ShowOnlyWhenFilled', $this->fieldLabel('ShowOnlyWhenFilled')));
+        $fields = SilvercartDataObject::getCMSFields($this);
         return $fields;
     }
     

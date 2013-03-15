@@ -201,7 +201,7 @@ class SilvercartWidget extends WidgetSetWidget {
 
         return $fields;
     }
-
+    
     /**
      * Indicate whether to use the widget container divs or not.
      *
