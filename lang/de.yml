@@ -1760,7 +1760,7 @@ de:
   SilvercartSubNavigationWidget:
     CMSTITLE: "SilverCart Subnavigation"
     DESCRIPTION: "Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an."
-    LABEL_TITEL: "Titel"
+    LABEL_TITLE: "Titel"
     PLURALNAME: "Subnavigationen"
     SHOW_SIBLINGS: "Seiten auf gleicher Ebene anzeigen"
     SINGULARNAME: "Subnavigation"
@@ -1806,13 +1806,12 @@ de:
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "Warengruppenseiten Seitenleiste"
     slidorion_productGroupHolder_TITLE: "Vorteile von SilverCart"
     slidorion_productGroupHolder_URLSEGMENT: "vorteile-von-silvercart"
-  SilvercartText:
+  SilvercartTextWidget:
     CSSFIELD_LABEL: "Zusätzliche CSS Klassen (optional):"
     DESCRIPTION: "Geben Sie beliebigen Text ein."
     FREETEXTFIELD_LABEL: "Ihr Text:"
     HEADLINEFIELD_LABEL: "Überschrift (optional):"
     TITLE: "Freitext"
-  SilvercartTextWidget:
     IS_CONTENT_VIEW: "Inhaltsansicht statt Widgetansicht verwenden"
   SilvercartTextWidgetLanguage:
     PLURALNAME: "Übersetzungen"

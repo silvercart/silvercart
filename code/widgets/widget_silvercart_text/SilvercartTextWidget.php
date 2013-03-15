@@ -126,27 +126,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @since 20.06.2012
      */
     public function getCMSFields() {
-        $fields             = new FieldList();
-        $rootTabSet         = new TabSet('Root');
-        $mainTab            = new Tab('Main', $this->fieldLabel('Content'));
-        $translationsTab    = new Tab('TranslationsTab', $this->fieldLabel('Translations'));
-        
-        $cssField           = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
-        $languageTableField = new ComplexTableField($this, 'SilvercartTextWidgetLanguages', 'SilvercartTextWidgetLanguage');
-        $isContentView      = new CheckboxField('isContentView', $this->fieldLabel('isContentView'));
-        
-        $fields->push($rootTabSet);
-        $rootTabSet->push($mainTab);
-        $rootTabSet->push($translationsTab);
-        
-        $mainTab->push($cssField);
-        $mainTab->push($isContentView);
-        $translationsTab->push($languageTableField);
-        //multilingual fields, in fact just the title
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $mainTab->push($languageField);
-        }
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
 
         return $fields;
     }

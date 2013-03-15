@@ -94,8 +94,8 @@ class SilvercartTextWidgetLanguage extends DataObject {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Headline' => _t('SilvercartText.HEADLINEFIELD_LABEL'),
-                    'FreeText' => _t('SilvercartText.FREETEXTFIELD_LABEL'),
+                    'Headline' => _t('SilvercartTextWidget.HEADLINEFIELD_LABEL'),
+                    'FreeText' => _t('SilvercartTextWidget.FREETEXTFIELD_LABEL'),
                 )
         );
 

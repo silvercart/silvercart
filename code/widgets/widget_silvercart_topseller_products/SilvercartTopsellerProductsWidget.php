@@ -62,11 +62,7 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        $numberOfProductsField = new TextField('numberOfProductsToShow', _t('SilvercartTopsellerProductsWidget.STOREADMIN_FIELDLABEL'));
-        
-        $fields->push($numberOfProductsField);
+        $fields = SilvercartDataObject::getCMSFields($this);
         
         return $fields;
     }
@@ -85,7 +81,7 @@ class SilvercartTopsellerProductsWidget extends SilvercartWidget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-                    
+                    'numberOfProductsToShow' => _t('SilvercartTopsellerProductsWidget.STOREADMIN_FIELDLABEL')
                 )
         );
 

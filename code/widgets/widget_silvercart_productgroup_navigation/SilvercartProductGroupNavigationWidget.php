@@ -58,16 +58,29 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),             array(
-                    'FieldLabel'                => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
-                    'levelsToShow'              => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
-                    'ShowAllLevels'             => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
-                    'expandActiveSectionOnly'   => _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
+                    'FieldLabel'                   => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
+                    'levelsToShow'                 => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
+                    'ShowAllLevels'                => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
+                    'expandActiveSectionOnly'      => _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
+                    'SilvercartProductGroupPageID' => _t('SilvercartProductGroupPage.SINGULARNAME')
 
                 )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+
+    public function excludeFromScaffolding() {
+        $fields = array_merge(
+            parent::excludeFromScaffolding(),
+            array(
+                'levelsToShow',
+                'SilvercartProductGroupPageID'
+            )
+                );
+        return $fields;
     }
     
     /**
@@ -79,17 +92,8 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * @since 26.05.2011
      */
     public function getCMSFields() {
-        $fields            = parent::getCMSFields();
-        $productGroupField = new GroupedDropdownField(
-            'SilvercartProductGroupPageID',
-            $this->fieldLabel('FieldLabel'),
-            SilvercartProductGroupHolder_Controller::getAllProductGroupsWithChildrenAsArray(),
-            $this->SilvercartProductGroupPageID
-        );
-        $levelsToShowField = new DropdownField(
-            'levelsToShow',
-            $this->fieldLabel('LevelsToShow'),
-            array(
+        $fields = SilvercartDataObject::getCMSFields($this);
+        $levels = array(
                 '1' => '1',
                 '2' => '2',
                 '3' => '3',
@@ -98,19 +102,20 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
                 '6' => '6',
                 '7' => '7',
                 '0' => $this->fieldLabel('ShowAllLevels')
-            ),
-            $this->levelsToShow
         );
-        $expandActiveSectionOnlyField = new CheckboxField(
-            'expandActiveSectionOnly',
-            _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
-            $this->expandActiveSectionOnly
+        $levelsToShow = new DropdownField(
+                'levelsToShow',
+                $this->fieldLabel('levelsToShow'),
+                $levels
         );
-
-        $fields->push($productGroupField);
-        $fields->push($levelsToShowField);
-        $fields->push($expandActiveSectionOnlyField);
-
+        $fields->insertBefore($levelsToShow, 'ExtraCssClasses');
+        $productGroupField = new GroupedDropdownField(
+            'SilvercartProductGroupPageID',
+            $this->fieldLabel('SilvercartProductGroupPageID'),
+            SilvercartProductGroupHolder_Controller::getAllProductGroupsWithChildrenAsArray(),
+            $this->SilvercartProductGroupPageID
+        );
+        $fields->insertBefore($productGroupField, 'ExtraCssClasses');
         return $fields;
     }
 }

@@ -1775,7 +1775,7 @@ $lang['de_DE']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Diese
 $lang['de_DE']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an.';
-$lang['de_DE']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Titel';
+$lang['de_DE']['SilvercartSubNavigationWidget']['LABEL_TITLE']          = 'Titel';
 $lang['de_DE']['SilvercartSubNavigationWidget']['STARTATLEVEL']         = 'Zeige Hierarchie ab folgender Stufe an';
 $lang['de_DE']['SilvercartSubNavigationWidget']['SINGULARNAME']         = 'Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['PLURALNAME']           = 'Subnavigationen';
@@ -1790,13 +1790,12 @@ $lang['de_DE']['SilvercartStoreAdminMenu']['HANDLING'] = 'Abwicklung';
 $lang['de_DE']['SilvercartStoreAdminMenu']['FILES'] = 'Dateien';
 $lang['de_DE']['SilvercartStoreAdminMenu']['CUSTOMER'] = 'Kunden';
 
-$lang['de_DE']['SilvercartText']['TITLE']               = 'Freitext';
-$lang['de_DE']['SilvercartText']['DESCRIPTION']         = 'Geben Sie beliebigen Text ein.';
-$lang['de_DE']['SilvercartText']['CSSFIELD_LABEL']      = 'Zusätzliche CSS Klassen (optional):';
-$lang['de_DE']['SilvercartText']['FREETEXTFIELD_LABEL'] = 'Ihr Text:';
-$lang['de_DE']['SilvercartText']['HEADLINEFIELD_LABEL'] = 'Überschrift (optional):';
-
-$lang['de_DE']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       = 'Inhaltsansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartTextWidget']['TITLE']               = 'Freitext';
+$lang['de_DE']['SilvercartTextWidget']['DESCRIPTION']         = 'Geben Sie beliebigen Text ein.';
+$lang['de_DE']['SilvercartTextWidget']['CSSFIELD_LABEL']      = 'Zusätzliche CSS Klassen (optional):';
+$lang['de_DE']['SilvercartTextWidget']['FREETEXTFIELD_LABEL'] = 'Ihr Text:';
+$lang['de_DE']['SilvercartTextWidget']['HEADLINEFIELD_LABEL'] = 'Überschrift (optional):';
+$lang['de_DE']['SilvercartTextWidget']['IS_CONTENT_VIEW']     = 'Inhaltsansicht statt Widgetansicht verwenden';
 
 $lang['de_DE']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = 'Übersetzungen';
 $lang['de_DE']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = 'Übersetzung';

@@ -61,7 +61,7 @@ class SilvercartSubNavigationWidgetLanguage extends DataObject {
      * @since 13.07.2012
      */
     public function singular_name() {
-        return SilvercartTools::singular_name_for($this);
+        return _t('Silvercart.TRANSLATION');
     }
 
 
@@ -75,7 +75,7 @@ class SilvercartSubNavigationWidgetLanguage extends DataObject {
      * @since 13.07.2012
      */
     public function plural_name() {
-        return SilvercartTools::plural_name_for($this);
+        return _t('Silvercart.TRANSLATIONS');
     }
 
     /**
@@ -92,7 +92,7 @@ class SilvercartSubNavigationWidgetLanguage extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'FrontTitle'                        => _t('SilvercartWidget.FRONTTITLE'),
+                'FrontTitle'                        => _t('SilvercartProductSliderWidget.FRONTTITLE'),
                 'SilvercartSubNavigationWidget'     => _t('SilvercartSubNavigationWidget.SINGULARNAME')
             )
         );

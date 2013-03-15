@@ -1775,7 +1775,7 @@ $lang['en_US']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Show 
 $lang['en_US']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'This widget shows a subnavigation of the current section and his child pages.';
-$lang['en_US']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Title';
+$lang['en_US']['SilvercartSubNavigationWidget']['LABEL_TITLE']          = 'Title';
 $lang['en_US']['SilvercartSubNavigationWidget']['STARTATLEVEL']         = 'Start at level';
 $lang['en_US']['SilvercartSubNavigationWidget']['SINGULARNAME']         = 'Subnavigation';
 $lang['en_US']['SilvercartSubNavigationWidget']['PLURALNAME']           = 'Subnavigations';
@@ -1790,13 +1790,12 @@ $lang['en_US']['SilvercartStoreAdminMenu']['HANDLING'] = 'Handling';
 $lang['en_US']['SilvercartStoreAdminMenu']['FILES'] = 'Files';
 $lang['en_US']['SilvercartStoreAdminMenu']['CUSTOMER'] = 'Customers';
 
-$lang['en_US']['SilvercartText']['TITLE']               = 'Free text';
-$lang['en_US']['SilvercartText']['DESCRIPTION']         = 'Enter any text you want.';
-$lang['en_US']['SilvercartText']['CSSFIELD_LABEL']      = 'Extra CSS classes (optional):';
-$lang['en_US']['SilvercartText']['FREETEXTFIELD_LABEL'] = 'Your text:';
-$lang['en_US']['SilvercartText']['HEADLINEFIELD_LABEL'] = 'Headline (optional):';
-
-$lang['en_US']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       = 'use content view instead of widget view';
+$lang['en_US']['SilvercartTextWidget']['TITLE']               = 'Free text';
+$lang['en_US']['SilvercartTextWidget']['DESCRIPTION']         = 'Enter any text you want.';
+$lang['en_US']['SilvercartTextWidget']['CSSFIELD_LABEL']      = 'Extra CSS classes (optional):';
+$lang['en_US']['SilvercartTextWidget']['FREETEXTFIELD_LABEL'] = 'Your text:';
+$lang['en_US']['SilvercartTextWidget']['HEADLINEFIELD_LABEL'] = 'Headline (optional):';
+$lang['en_US']['SilvercartTextWidget']['IS_CONTENT_VIEW']     = 'use content view instead of widget view';
 
 $lang['en_US']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = "Translations";
 $lang['en_US']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = "Translation";

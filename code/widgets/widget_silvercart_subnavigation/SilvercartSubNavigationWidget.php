@@ -62,7 +62,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @var array
      */
     public static $db = array(
-        'FrontTitle'   => 'VarChar(255)',
         'Title'        => 'VarChar(255)',
         'startAtLevel' => 'Int',
         'showSiblings' => 'Boolean(0)',
@@ -106,9 +105,10 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'startAtLevel'  => _t('SilvercartSubNavigationWidget.STARTATLEVEL'),
-                'showSiblings'  => _t('SilvercartSubNavigationWidget.SHOW_SIBLINGS'),
-                'FrontTitle'    => _t('SilvercartWidget.FRONTTITLE'),
+                'startAtLevel'                           => _t('SilvercartSubNavigationWidget.STARTATLEVEL'),
+                'showSiblings'                           => _t('SilvercartSubNavigationWidget.SHOW_SIBLINGS'),
+                'SilvercartSubNavigationWidgetLanguages' => _t('Silvercart.TRANSLATIONS'),
+                'Title'                                  => _t('SilvercartSubNavigationWidget.LABEL_TITLE')
             )
         );
 
@@ -117,24 +117,55 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     }
     
     /**
+     * getter for multilingual FrontTitle
+     *
+     * @return string the fronttitle depending on the current locale 
+     */
+    public function getFrontTitle() {
+        return $this->getLanguageFieldValue('FrontTitle');
+    }
+    
+    /**
+     * evade scaffolding performance friendly
+     *
+     * @return array name of fields that should be excluded 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 15.03.2013
+     */
+    public function excludeFromScaffolding() {
+        $fields = array_merge(
+            parent::excludeFromScaffolding(),
+            array(
+                'startAtLevel'
+            )
+        );
+        return $fields;
+    }
+    
+    /**
      * Returns the input fields for this widget.
      * 
-     * @return FieldSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @return FieldList CMS fields
      */
     public function getCMSFields() {
-        $fields         = parent::getCMSFields();
-
-        $frontTitleField    = new TextField('FrontTitle',   $this->fieldLabel('FrontTitle'));
-        $startAtLevelField  = new TextField('startAtLevel', $this->fieldLabel('startAtLevel'));
-        $siblingsField      = new CheckboxField('showSiblings', $this->fieldLabel('showSiblings'));
-
-        $fields->push($frontTitleField);
-        $fields->push($startAtLevelField);
-        $fields->push($siblingsField);
-
+        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
+        $source = array(
+                '1' => '1',
+                '2' => '2',
+                '3' => '3',
+                '4' => '4',
+                '5' => '5',
+                '6' => '6',
+                '7' => '7'
+        );
+        $startAtLevel = new DropdownField(
+                'startAtLevel', 
+                $this->fieldLabel('startAtLevel'), 
+                $source, 
+                $this->startAtLevel
+        );
+        $fields->insertAfter($startAtLevel, 'Title');
         return $fields;
     }
 

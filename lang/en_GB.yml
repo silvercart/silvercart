@@ -1756,7 +1756,7 @@ en_GB:
   SilvercartSubNavigationWidget:
     CMSTITLE: "SilverCart Subnavigation"
     DESCRIPTION: "This widget shows a subnavigation of the current section and his child pages."
-    LABEL_TITEL: "Title"
+    LABEL_TITLE: "Title"
     PLURALNAME: "Subnavigations"
     SHOW_SIBLINGS: "Show pages on same level"
     SINGULARNAME: "Subnavigation"
@@ -1802,13 +1802,12 @@ en_GB:
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "product group pages sidebar area"
     slidorion_productGroupHolder_TITLE: "Advantages of SilverCart"
     slidorion_productGroupHolder_URLSEGMENT: "advantages-of-silvercart"
-  SilvercartText:
+  SilvercartTextWidget:
     CSSFIELD_LABEL: "Extra CSS classes (optional):"
     DESCRIPTION: "Enter any text you want."
     FREETEXTFIELD_LABEL: "Your text:"
     HEADLINEFIELD_LABEL: "Headline (optional):"
     TITLE: "Free text"
-  SilvercartTextWidget:
     IS_CONTENT_VIEW: "use content view instead of widget view"
   SilvercartTextWidgetLanguage:
     PLURALNAME: "Translations"
