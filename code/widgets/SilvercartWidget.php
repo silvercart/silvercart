@@ -57,7 +57,7 @@ class SilvercartWidget extends WidgetSetWidget {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.03.2012
      */
-    public function Title() {
+    public function getTitle() {
         return _t($this->ClassName() . '.TITLE');
     }
     
