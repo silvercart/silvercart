@@ -151,7 +151,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                     'transitionEffect',
                     'useSlider',
                     'useRoundabout',
-                    'GroupView'
+                    'GroupView',
+                    'SilvercartProductGroupPageID'
                 )
         );
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
@@ -180,6 +181,13 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                         'products'     => $this->fieldLabel('SelectionMethodProducts')
                     )
         );
+        $productGroupField          = new SilvercartGroupedDropdownField(
+            'SilvercartProductGroupPageID',
+            $this->fieldLabel('SilvercartProductGroupPage'),
+            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
+            $this->SilvercartProductGroupPageID
+        );
+        $fields->insertAfter($productGroupField, 'fetchMethod');
         $groupViewField = SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView'), $this->GroupView);
         $fields->insertAfter($groupViewField, 'fetchMethod');
         return $fields;
