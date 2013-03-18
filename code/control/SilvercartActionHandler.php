@@ -106,12 +106,18 @@ class SilvercartActionHandler extends DataObjectDecorator {
             if (array_key_exists('HTTP_REFERER', $_SERVER) &&
                 array_key_exists('backLink', $postVars)) {
                 // add potential HTTP GET params to back link
-                $referer            = $_SERVER['HTTP_REFERER'];
-                $relativeReferer    = '/' . Director::makeRelative($referer);
-                $backLink           = $postVars['backLink'];
-                $relativeBackLink   = '/' . Director::makeRelative($backLink);
+                $referer                    = $_SERVER['HTTP_REFERER'];
+                $relativeReferer            = '/' . Director::makeRelative($referer);
+                $backLink                   = $postVars['backLink'];
+                $relativeBackLink           = '/' . Director::makeRelative($backLink);
+                $urlParts                   = explode('/', Director::makeRelative($backLink));
+                $relativeUrlEncodedBackLink = '';
+                foreach ($urlParts as $urlPart) {
+                    $relativeUrlEncodedBackLink .= '/' . str_replace('+', '%20', urlencode($urlPart));
+                }
 
-                if (strpos($relativeReferer, $relativeBackLink) === 0 &&
+                if ((strpos($relativeReferer, $relativeBackLink) === 0 ||
+                     strpos($relativeReferer, $relativeUrlEncodedBackLink) === 0) &&
                     strpos($relativeReferer, '?') > 0) {
                     $refererParts           = explode('?', $relativeReferer);
                     $paramPart              = $refererParts[1];
