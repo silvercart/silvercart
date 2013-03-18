@@ -59,7 +59,7 @@ class SilvercartActionHandler extends DataObjectDecorator {
         $params         = $request->allParams();
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
-
+        
         if (is_null($productID) ||
             is_null($quantity)) {
             if (array_key_exists('productID',       $postVars) &&
@@ -97,12 +97,27 @@ class SilvercartActionHandler extends DataObjectDecorator {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.03.2013
+     * @since 18.03.2013
      */
     protected function redirectBack($backLink = null) {
         $postVars = $this->owner->getRequest()->postVars();
         if (is_null($backLink) &&
             array_key_exists('backLink', $postVars)) {
+            if (array_key_exists('HTTP_REFERER', $_SERVER) &&
+                array_key_exists('backLink', $postVars)) {
+                // add potential HTTP GET params to back link
+                $referer            = $_SERVER['HTTP_REFERER'];
+                $relativeReferer    = '/' . Director::makeRelative($referer);
+                $backLink           = $postVars['backLink'];
+                $relativeBackLink   = '/' . Director::makeRelative($backLink);
+
+                if (strpos($relativeReferer, $relativeBackLink) === 0 &&
+                    strpos($relativeReferer, '?') > 0) {
+                    $refererParts           = explode('?', $relativeReferer);
+                    $paramPart              = $refererParts[1];
+                    $postVars['backLink']   = $backLink . '?' . $paramPart;
+                }
+            }
             $backLink = $postVars['backLink'];
         }
 
