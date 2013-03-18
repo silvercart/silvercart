@@ -76,8 +76,6 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
             $filter = sprintf("`MemberID` = '%s' AND `ID` = '%s'", $member->ID, $id);
             $this->address = DataObject::get_one('SilvercartAddress', $filter);
             if ($this->address) {
-                $this->formFields['TaxIdNumber']['value']           = $this->address->TaxIdNumber;
-                $this->formFields['Company']['value']               = $this->address->Company;
                 $this->formFields['Salutation']['selectedValue']    = $this->address->Salutation;
                 $this->formFields['FirstName']['value']             = $this->address->FirstName;
                 $this->formFields['Surname']['value']               = $this->address->Surname;

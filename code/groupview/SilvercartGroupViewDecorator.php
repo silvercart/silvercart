@@ -229,7 +229,7 @@ class SilvercartGroupViewDecorator extends DataObjectDecorator {
             $groupView = $this->owner->getDefaultGroupViewInherited();
         }
         if (empty($groupView)) {
-            $groupView = SilvercartGroupViewHandler::getDefaultGroupView();
+            $groupView = SilvercartGroupViewHandler::getDefaultGroupViewInherited();
         }
         return SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($groupView, $templateBase);
     }

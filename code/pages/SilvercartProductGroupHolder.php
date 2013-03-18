@@ -199,7 +199,7 @@ class SilvercartProductGroupHolder extends Page {
             } else if ($context->Parent() instanceof SilvercartProductGroupHolder) {
                 $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
             } else {
-                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupViewInherited();
             }
         }
         return $defaultGroupView;

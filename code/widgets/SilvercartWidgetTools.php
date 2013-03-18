@@ -389,7 +389,7 @@ class SilvercartWidgetTools extends Object {
      */
     public static function getGroupViewTemplateName(SilvercartWidget_Controller $widget, $templateBaseContent = 'SilvercartProductGroupPage', $templateBaseSidebar = 'SilvercartWidgetProductBox') {
         if (empty($widget->GroupView)) {
-            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupViewInherited();
         }
         if ($widget->isContentView) {
             $groupViewTemplateName = SilvercartGroupViewHandler::getProductGroupPageTemplateNameFor($widget->GroupView, $templateBaseContent);
@@ -415,7 +415,7 @@ class SilvercartWidgetTools extends Object {
     public static function registerAddCartFormForProductWidget(SilvercartWidget_Controller $widget, $element, &$elementIdx, $addCartFormName = 'ProductAddCartForm') {
         if ($element instanceof SilvercartProduct) {
             if (empty($widget->GroupView)) {
-                $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+                $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupViewInherited();
             }
             $controller             = Controller::curr();
             $groupView              = $widget->GroupView;
@@ -460,7 +460,7 @@ class SilvercartWidgetTools extends Object {
             $widget->isContentView = 0;
         }
         if (!array_key_exists('GroupView', $data)) {
-            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+            $widget->GroupView = SilvercartGroupViewHandler::getDefaultGroupViewInherited();
         }
         if (!array_key_exists('Autoplay', $data)) {
             $widget->autoplay = 0;

@@ -211,6 +211,15 @@ class SilvercartGroupViewHandler {
      * @return string
      */
     public static function getDefaultGroupView() {
+        return self::$defaultGroupView;
+    }
+
+    /**
+     * returns the class name of the default group view
+     *
+     * @return string
+     */
+    public static function getDefaultGroupViewInherited() {
         $controller = @Controller::curr();
 
         if ($controller) {
@@ -331,7 +340,7 @@ class SilvercartGroupViewHandler {
             if (is_null(Session::get('SilvercartGroupView')) ||
                 !$isGroupViewAllowed) {
 
-                if (is_null(self::getDefaultGroupView())) {
+                if (is_null(self::getDefaultGroupViewInherited())) {
                     if ($isGroupViewAllowed) {
                         self::setDefaultGroupView();
                     } else {

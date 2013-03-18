@@ -7,18 +7,20 @@
             $CustomHtmlFormFieldByName(IsPackstation,CustomHtmlFormFieldCheckGroup)
         <% end_if %>
         <% if EnableBusinessCustomers %>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(TaxIdNumber)
+            $CustomHtmlFormFieldByName(IsBusinessAccount,CustomHtmlFormFieldCheck)
+
+            <div class="subcolumns">
+                <div class="c50l">
+                    <div class="subcl">
+                        $CustomHtmlFormFieldByName(TaxIdNumber)
+                    </div>
+                </div>
+                <div class="c50r">
+                    <div class="subcr">
+                        $CustomHtmlFormFieldByName(Company)
+                    </div>
                 </div>
             </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Company)
-                </div>
-            </div>
-        </div>
         <% end_if %>
         
         <div class="subcolumns">
