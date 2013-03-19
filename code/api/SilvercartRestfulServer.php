@@ -352,6 +352,7 @@ class SilvercartRestfulServer extends RestfulServer {
                 break;
             case 'SilvercartOrderStatus':
             case 'Group':
+            case 'Member':
                 $relationDepth = 0;
                 break;
             default:

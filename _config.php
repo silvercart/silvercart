@@ -255,6 +255,15 @@ Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotP
 // Blacklists for SilvercartRestfulServer
 // ----------------------------------------------------------------------------
 SilvercartRestfulServer::addApiAccessBlackListFields(
+    'Group',
+    array(
+         'Locked',
+         'Sort',
+         'IPRestrictions',
+         'HtmlEditorConfig',
+    )
+);
+SilvercartRestfulServer::addApiAccessBlackListFields(
     'Member',
     array(
         'NewsletterConfirmationHash',
