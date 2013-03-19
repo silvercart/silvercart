@@ -81,9 +81,29 @@ class SilvercartRestfulServer extends RestfulServer {
      * @since 2013-03-13
      */
     public static function addApiAccessBlackListFields($class, $fieldNames) {
-        foreach ($fieldNames as $fieldName) {
-            self::addApiAccessBlackListField($class, $fieldName);
+        if (self::isApiCall()) {
+            foreach ($fieldNames as $fieldName) {
+                self::addApiAccessBlackListField($class, $fieldName);
+            }
         }
+    }
+
+    /**
+     * Returns whether the current request is an API call or not.
+     *
+     * @return boolean
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 2013-03-19
+     */
+    public static function isApiCall() {
+        $isApiCall = false;
+
+        if (strpos($_SERVER['REQUEST_URI'], '/api/silvercart') !== false) {
+            $isApiCall = true;
+        }
+
+        return $isApiCall;
     }
 
     /**
