@@ -29,7 +29,7 @@
                         <col width="15%"></col>
                     </colgroup>
                     <tr>
-                        <th class="align_right"><% _t('SilvercartProduct.WEIGHT') %> ({$MaximumWeightUnitAbreviation})</th>
+                        <th class="align_right"><% _t('SilvercartProduct.WEIGHT') %> ({$SilvercartShippingFees.First.MaximumWeightUnitAbreviation})</th>
                         <th><% _t('SilvercartZone.SINGULARNAME') %></th>
                         <th class="align_right"><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
