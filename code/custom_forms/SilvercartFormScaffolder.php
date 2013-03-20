@@ -163,5 +163,21 @@ class SilvercartFormScaffolder extends FormScaffolder {
 
         return $fields;
     }
+    
+    /**
+	 * Return an array suitable for passing on to {@link DBField->scaffoldFormField()}
+	 * without tying this call to a FormScaffolder interface.
+     * Adds a reference to the context object.
+	 * 
+	 * @return array
+	 */
+    protected function getParamsArray() {
+        return array_merge(
+                parent::getParamsArray(),
+                array(
+                    'object' => $this->obj
+                )
+        );
+    }
 
 }

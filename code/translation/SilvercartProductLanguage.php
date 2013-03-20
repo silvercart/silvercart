@@ -110,7 +110,7 @@ class SilvercartProductLanguage extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @copyright 2010 pixeltricks GmbH
      * @since 27.02.2013
- */
+     */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this);
         
