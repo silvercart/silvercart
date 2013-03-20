@@ -429,7 +429,7 @@ foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
         'File',
         array(
             'cache_dir'              => $cacheDirectory,
-            'hashed_directory_level' => 2,
+            'hashed_directory_level' => 1,
         )
     );
     SS_Cache::set_cache_lifetime($cacheName, $cachelifetime);
