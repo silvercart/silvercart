@@ -2218,13 +2218,14 @@ class SilvercartProduct extends DataObject {
         return $this->cachedSilvercartTax;
     }
 
-        /**
-     * We want to delete all attributed WidgetAreas and Widgets before deletion.
+    /**
+     * Deletes all related WidgetAreas and Widgets before deletion.
+     * Deletes all related shopping cart positions before deletion.
      *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @since 21.03.2013
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
@@ -2233,6 +2234,10 @@ class SilvercartProduct extends DataObject {
         }
         
         $this->WidgetArea()->delete();
+        
+        foreach ($this->SilvercartShoppingCartPositions() as $position) {
+            $position->delete();
+        }
         $this->extend('updateOnBeforeDelete');
     }
 
@@ -2243,9 +2248,8 @@ class SilvercartProduct extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.03.2013
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -2287,6 +2291,12 @@ class SilvercartProduct extends DataObject {
                 }
                 $this->SilvercartProductGroupMirrorPages()->add($translation);
                 }
+            }
+        }
+        
+        if (!$this->isActive) {
+            foreach ($this->SilvercartShoppingCartPositions() as $position) {
+                $position->delete();
             }
         }
     }
