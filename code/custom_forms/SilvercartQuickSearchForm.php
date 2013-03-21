@@ -52,10 +52,16 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
             'title' => '',
             'value' => '',
             'maxLength' => '30',
-            'checkRequirements' => array(
-            )
+            'checkRequirements' => array()
         )
     );
+    
+    /**
+     * Custom form action to use for this form
+     *
+     * @var string
+     */
+    protected $customHtmlFormAction = 'doSearch';
 
     /**
      * executed if there are no valdation errors on submit
@@ -68,17 +74,11 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @return array to be rendered in the controller
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Oliver Scheer <oscheer@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 25.09.2012
+     * @since 21.03.2013
      */
     protected function submitSuccess($data, $form, $formData) {
-        $formData['quickSearchQuery'] = trim($formData['quickSearchQuery']);
-        Session::set("searchQuery", $formData['quickSearchQuery']);
-        $searchQuery = SilvercartSearchQuery::get_by_query(Convert::raw2sql($formData['quickSearchQuery']));
-        $searchQuery->Count++;
-        $searchQuery->write();
-        $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
-        SilvercartProduct::setDefaultSort('relevance');
-        Director::redirect($searchResultsPage->RelativeLink());
+        $handler = new SilvercartActionHandler();
+        $handler->doSearch($this->controller->getRequest());
     }
 
     /**

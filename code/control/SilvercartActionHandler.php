@@ -40,6 +40,7 @@ class SilvercartActionHandler extends DataObjectDecorator {
      */
     public static $allowed_actions = array(
         'addToCart',
+        'doSearch',
     );
     
     /**
@@ -132,5 +133,28 @@ class SilvercartActionHandler extends DataObjectDecorator {
         } else {
             Director::redirect($backLink, 302);
         }
+    }
+    
+    /**
+     * Action to execute a search query
+     * 
+     * @param SS_HTTPRequest $request Request to check for product data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.03.2013
+     */
+    public function doSearch(SS_HTTPRequest $request) {
+        $postVars           = $request->postVars();
+        $quickSearchQuery   = trim($postVars['quickSearchQuery']);
+        $searchResultsPage  = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
+        $searchQuery        = SilvercartSearchQuery::get_by_query(Convert::raw2sql($quickSearchQuery));
+        $searchQuery->Count++;
+        $searchQuery->write();
+        SilvercartProduct::setDefaultSort('relevance');
+        Session::set("searchQuery", $quickSearchQuery);
+        Session::save();
+        Director::redirect($searchResultsPage->RelativeLink());
     }
 }
