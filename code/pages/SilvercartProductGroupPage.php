@@ -652,7 +652,8 @@ class SilvercartProductGroupPage extends Page {
         $defaultGroupHolderView = $context->DefaultGroupHolderView;
         if (empty($defaultGroupHolderView) ||
             SilvercartGroupViewHandler::getGroupHolderView($defaultGroupHolderView) === false) {
-            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
                 $defaultGroupHolderView = $this->getDefaultGroupHolderViewInherited($context->Parent());
             } else {
                 $defaultGroupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
@@ -674,7 +675,8 @@ class SilvercartProductGroupPage extends Page {
         }
         $useOnlyDefaultGroupHolderView = $context->UseOnlyDefaultGroupHolderView;
         if ($useOnlyDefaultGroupHolderView == 'inherit') {
-            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
                 $useOnlyDefaultGroupHolderView = $this->getUseOnlyDefaultGroupHolderViewInherited($context->Parent());
             } else {
                 $useOnlyDefaultGroupHolderView = false;
