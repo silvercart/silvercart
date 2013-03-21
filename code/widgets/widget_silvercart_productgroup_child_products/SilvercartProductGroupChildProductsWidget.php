@@ -157,13 +157,13 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
      *
      * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.11.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.03.2013
      */
     public function getElementsByProductGroup() {
         $cache                = false;
         $productGroupPage     = Controller::curr();
-        $elements             = new PaginatedList();
+        $elements             = new PaginatedList(new ArrayList());
 
         if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
             $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
