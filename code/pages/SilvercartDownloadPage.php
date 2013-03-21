@@ -74,23 +74,11 @@ class SilvercartDownloadPage extends Page {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
-        $silvercartFileField = new ComplexTableField(
-                $this,
+        $silvercartFileField = new GridField(
                 'SilvercartFiles',
-                'SilvercartFile',
-                null,
-                'getCMSFieldsForDownloadPage',
-                sprintf(
-                        "\"SilvercartFile\".\"SilvercartDownloadPageID\" = '%s'",
-                        $this->ID
-                )
-        );
-        $silvercartFileField->setPermissions(
-                array(
-                    'add',
-                    'edit',
-                    'delete',
-                )
+                $this->fieldLabel('SilvercartFiles'),
+                $this->SilvercartFiles(),
+                SilvercartGridFieldConfig_RelationEditor::create()
         );
         $fields->findOrMakeTab('Root.SilvercartFiles', $this->fieldLabel('SilvercartFiles'));
         $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
