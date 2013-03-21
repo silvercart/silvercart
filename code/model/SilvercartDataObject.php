@@ -145,44 +145,46 @@ class SilvercartDataObject extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.02.2013
+     * @since 21.03.2013
      */
     public function onAfterWrite() {
         if (!$this->onAfterWriteInProgress) {
             $this->onAfterWriteInProgress   = true;
-            $cacheRelevantFieldIsChanged    = false;
-            $cacheRelevantFields            = $this->owner->getCacheRelevantFields();
-            foreach ($cacheRelevantFields as $cacheRelevantFieldIndex => $cacheRelevantFieldValue) {
-                if (is_numeric($cacheRelevantFieldIndex)) {
-                    $cacheRelevantFieldIsChanged = $this->owner->isChanged($cacheRelevantFieldValue, 2);
-                } else {
-                    if ($this->owner->isChanged($cacheRelevantFieldIndex, 2)) {
-                        $changedFields = $this->owner->getChangedFields();
-                        if ($changedFields[$cacheRelevantFieldIndex]['before'] != $changedFields[$cacheRelevantFieldIndex]['after'] &&
-                            ($this->owner->{$cacheRelevantFieldIndex} == $cacheRelevantFieldValue ||
-                             $changedFields[$cacheRelevantFieldIndex]['before'] == $cacheRelevantFieldValue)) {
-                            $cacheRelevantFieldIsChanged = true;
+            if ($this->owner->hasMethod('getCacheRelevantFields')) {
+                $cacheRelevantFieldIsChanged    = false;
+                $cacheRelevantFields            = $this->owner->getCacheRelevantFields();
+                foreach ($cacheRelevantFields as $cacheRelevantFieldIndex => $cacheRelevantFieldValue) {
+                    if (is_numeric($cacheRelevantFieldIndex)) {
+                        $cacheRelevantFieldIsChanged = $this->owner->isChanged($cacheRelevantFieldValue, 2);
+                    } else {
+                        if ($this->owner->isChanged($cacheRelevantFieldIndex, 2)) {
+                            $changedFields = $this->owner->getChangedFields();
+                            if ($changedFields[$cacheRelevantFieldIndex]['before'] != $changedFields[$cacheRelevantFieldIndex]['after'] &&
+                                ($this->owner->{$cacheRelevantFieldIndex} == $cacheRelevantFieldValue ||
+                                 $changedFields[$cacheRelevantFieldIndex]['before'] == $cacheRelevantFieldValue)) {
+                                $cacheRelevantFieldIsChanged = true;
+                            }
                         }
                     }
-                }
-                if ($cacheRelevantFieldIsChanged) {
-                    break;
-                }
-            }
-
-            if ($cacheRelevantFieldIsChanged) {
-                if ($this->owner->has_extension($this->owner->ClassName, 'SilvercartLanguageDecorator')) {
-                    $relation = DataObject::get_by_id(
-                            $this->owner->getRelationClassName(),
-                            $this->owner->{$this->owner->getRelationFieldName()}
-                    );
-                    if ($relation) {
-                        $this->owner->markForCacheRefresh();
-                        $relation->write();
+                    if ($cacheRelevantFieldIsChanged) {
+                        break;
                     }
-                } else {
-                    $this->owner->markForCacheRefresh();
-                    $this->owner->write();
+                }
+
+                if ($cacheRelevantFieldIsChanged) {
+                    if ($this->owner->has_extension($this->owner->ClassName, 'SilvercartLanguageDecorator')) {
+                        $relation = DataObject::get_by_id(
+                                $this->owner->getRelationClassName(),
+                                $this->owner->{$this->owner->getRelationFieldName()}
+                        );
+                        if ($relation) {
+                            $this->owner->markForCacheRefresh();
+                            $relation->write();
+                        }
+                    } else {
+                        $this->owner->markForCacheRefresh();
+                        $this->owner->write();
+                    }
                 }
             }
             $this->onAfterWriteInProgress = false;
