@@ -1496,6 +1496,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
+     * returns the original page link. This is needed by the breadcrumbs. When
+     * a product detail view is requested, the default method self::Link() will
+     * return a modified link to the products detail view. This controller handles
+     * both (product group views and product detail views), so a product detail
+     * view won't have a related parent to show in breadcrumbs. The controller
+     * itself will be the parent, so there must be two different links for one
+     * controller.
+     *
+     * @return string
+     *
+     * @see self::Link()
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function OriginalLink() {
+        return $this->data()->OriginalLink();
+    }
+
+    /**
      * manipulates the parts the pages breadcrumbs if a product detail view is 
      * requested.
      *
