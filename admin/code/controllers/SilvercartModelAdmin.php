@@ -103,6 +103,9 @@ class SilvercartModelAdmin extends ModelAdmin {
         if (SilvercartGridFieldBatchController::hasBatchActionsFor($this->sanitiseClassName($this->modelClass))) {
             $this->getGridFieldConfig($form)->addComponent(new SilvercartGridFieldBatchController($this->sanitiseClassName($this->modelClass)));
         }
+        if (singleton($this->modelClass)->hasMethod('getQuickAccessFields')) {
+            $this->getGridFieldConfig($form)->addComponent(new SilvercartGridFieldQuickAccessController());
+        }
         return $form;
     }
     

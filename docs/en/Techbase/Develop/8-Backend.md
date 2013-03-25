@@ -194,3 +194,115 @@ It is also important that your **"MyModelAdmin extends SilvercartModelAdmin"**.
 	SilvercartGridFieldBatchController::addBatchActionFor('MyDataObject', 'SilvercartGridFieldBatchAction_DeactivateDataObject');
 
 After doing that the work ist done and you can use the batch action on your MyDataObject.
+
+## How to add Quick Access Fields to a GridField?
+- - -
+
+The ModelAdmin you want to add Quick Access Fields to its GridField needs to extend SilvercartModelAdmin.
+
+	:::php
+	<?php
+	
+	/**
+	 * Documentation of MyObjectAdmin.
+	 */
+	class MyObjectAdmin extends SilvercartModelAdmin {
+	
+		/**
+		 * Name of DB field to make records sortable by.
+		 *
+		 * @var string
+		 */
+		public static $sortable_field = 'Priority';
+	
+		/**
+		 * The code of the menu under which this admin should be shown.
+		 * 
+		 * @var string
+		 */
+		public static $menuCode = 'default';
+		
+		/**
+		 * The section of the menu under which this admin should be grouped.
+		 * 
+		 * @var string
+		 */
+		public static $menuSortIndex = 50;
+		
+		/**
+		 * The URL segment
+		 *
+		 * @var string
+		 */
+		public static $url_segment = 'my-object';
+		
+		/**
+		 * The menu title
+		 *
+		 * @var string
+		 */
+		public static $menu_title = 'My Objects';
+		
+		/**
+		 * Managed models
+		 *
+		 * @var array
+		 */
+		public static $managed_models = array(
+			'MyObject',
+		);
+		
+	}
+
+The managed model needs to have the method **getQuickAccessFields()** which should return a FieldList or rendered HTML code to display.
+
+	:::php
+	<?php
+	
+	/**
+	 * Documentation of MyObject.
+	 */
+	class MyObject extends DataObject {
+	
+		/**
+		 * DB attributes
+		 *
+		 * @var array
+		 */
+		public static $db = array(
+			'Title'		=> 'VarChar(64)',
+			'Priority'	=> 'Int',
+		);
+	
+		public static $has_many = array(
+			'HasManyObjects' => 'HasManyObject',
+		);
+		
+		/**
+		 * Default sort field and direction
+		 *
+		 * @var string
+		 */
+		public static $default_sort = "Priority DESC";
+		
+		/**
+		 * Returns the quick access fields to display in GridField
+		 * 
+		 * @return FieldSet
+		 */
+		public function getQuickAccessFields() {
+		    $quickAccessFields = new FieldList();
+		    $manyManyObjectTable = new SilvercartTableField(
+	                'HasManyObjects__' . $this->ID,
+	                $this->fieldLabel('HasManyObjects'),
+	                $this->HasManyObjects()
+	        );
+	        
+	        $quickAccessFields->push($orderPositionTable);
+	        
+	        $this->extend('updateQuickAccessFields', $quickAccessFields);
+	        
+	        return $quickAccessFields;
+	    }
+	}
+

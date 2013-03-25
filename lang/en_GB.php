@@ -194,6 +194,8 @@ $lang['en_GB']['SilvercartGridFieldBatchAction_MarkAsNotSeen']['TITLE']         
 $lang['en_GB']['SilvercartGridFieldBatchAction_ActivateDataObject']['TITLE']    = 'Activate';
 $lang['en_GB']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  = 'Deactivate';
 
+$lang['en_GB']['SilvercartGridFieldQuickAccessController']['QUICKACCESSLABEL']  = 'Quick access';
+
 $lang['en_GB']['SilvercartImageAdmin']['MENUTITLE'] = 'Images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Product images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Payment method images';

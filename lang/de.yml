@@ -744,6 +744,8 @@ de:
     TITLE: "Als gesehen markieren"
   SilvercartGridFieldBatchAction_PrintOrders:
     TITLE: "Bestellungen drucken (HTML)"
+  SilvercartGridFieldQuickAccessController:
+    QUICKACCESSLABEL: "Schnellansicht"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Preistyp"
@@ -1811,8 +1813,8 @@ de:
     DESCRIPTION: "Geben Sie beliebigen Text ein."
     FREETEXTFIELD_LABEL: "Ihr Text:"
     HEADLINEFIELD_LABEL: "Überschrift (optional):"
-    TITLE: "Freitext"
     IS_CONTENT_VIEW: "Inhaltsansicht statt Widgetansicht verwenden"
+    TITLE: "Freitext"
   SilvercartTextWidgetLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"

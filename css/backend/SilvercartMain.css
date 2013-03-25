@@ -149,6 +149,20 @@
     text-align: right;
     padding: 3px 12px;
 }
+.silvercart-table-field {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+.silvercart-table-field th {
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: none repeat scroll 0 0 #98AAB6;
+}
+.silvercart-table-field td {
+    text-align: right;
+    padding: 3px 12px;
+}
 
 .field.important {
     background: #f00;
@@ -338,6 +352,12 @@
 .icon.icon-24.icon-not-checked {
     background-position: -94px -480px;
 }
+.icon.icon-24.icon-magnifier {
+    background-position: -222px -60px;
+}
+.icon.icon-24.icon-eye {
+    background-position: -30px -156px;
+}
 
 .icon.icon-32 {
     background-color: transparent;
@@ -378,6 +398,10 @@ tr [class*=" col-SilvercartGridFieldBatchControllerCheckbox"] span.uncheck-all {
 }
 .col-batch-action-selector.action {
     text-align: center;
+}
+
+.cursor-context-menu {
+    cursor: context-menu;
 }
 
 .silvercart-permanent-notification {

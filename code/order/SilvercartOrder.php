@@ -624,7 +624,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
     
     /**
-     * Returns the quick access fields to use by SilvercartEditableTableListField
+     * Returns the quick access fields to display in GridField
      * 
      * @return FieldSet
      */
@@ -633,19 +633,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         $orderNumberField   = new TextField('OrderNumber__' . $this->ID,            $this->fieldLabel('OrderNumber'),           $this->OrderNumber);
         $orderStatusField   = new TextField('SilvercartOrderStatus__' . $this->ID,  $this->fieldLabel('SilvercartOrderStatus'), $this->SilvercartOrderStatus()->Title);
-        $orderPositionTable = new TableListField(
+        $orderPositionTable = new SilvercartTableField(
                 'SilvercartOrderPositions__' . $this->ID,
-                'SilvercartOrderPosition',
-                null,
-                sprintf(
-                        "SilvercartOrderID = '%s'",
-                        $this->ID
-                )
+                $this->fieldLabel('SilvercartOrderPositions'),
+                $this->SilvercartOrderPositions()
         );
         
         $orderNumberField->setDisabled(true);
         $orderStatusField->setDisabled(true);
-        $orderPositionTable->setPermissions(array());
         
         $mainGroup = new SilvercartFieldGroup('MainGroup');
         $mainGroup->push($orderNumberField);
