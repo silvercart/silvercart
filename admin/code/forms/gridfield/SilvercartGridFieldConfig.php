@@ -54,6 +54,49 @@ class SilvercartGridFieldConfig extends GridFieldConfig {
 }
 
 /**
+ * Similar to {@link GridFieldConfig_RecordEditor}, but uses
+ * SilvercartGridFieldDataColumns instead of GridFieldDataColumns.
+ *
+ * @package Silvercart
+ * @subpackage Forms_GridField
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 26.03.2013
+ * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ */
+class SilvercartGridFieldConfig_RecordEditor extends GridFieldConfig_RecordEditor {
+
+    /**
+     * Loads the components, sets default properties.
+     *
+     * @param int $itemsPerPage How many items per page should show up
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
+     */
+    public function __construct($itemsPerPage = null) {
+
+        $this->addComponent(new GridFieldButtonRow('before'));
+        $this->addComponent(new GridFieldAddNewButton('buttons-before-left'));
+        $this->addComponent(new GridFieldToolbarHeader());
+        $this->addComponent($sort = new GridFieldSortableHeader());
+        $this->addComponent($filter = new GridFieldFilterHeader());
+        $this->addComponent(new SilvercartGridFieldDataColumns());
+        $this->addComponent(new GridFieldEditButton());
+        $this->addComponent(new GridFieldDeleteAction());
+        $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
+        $this->addComponent(new GridFieldDetailForm());
+
+        $sort->setThrowExceptionOnBadDataType(false);
+        $filter->setThrowExceptionOnBadDataType(false);
+        $pagination->setThrowExceptionOnBadDataType(false);
+    }
+
+}
+
+/**
  * Similar to {@link GridFieldConfig_RelationEditor}, but uses
  * SilvercartGridFieldAddExistingAutocompleter instead of
  * GridFieldAddExistingAutocompleter.

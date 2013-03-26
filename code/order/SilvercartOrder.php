@@ -91,14 +91,16 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @var array
      */
     public static $casting = array(
-        'Created'                   => 'Date',
-        'CreatedNice'               => 'VarChar',
-        'ShippingAddressSummary'    => 'Text',
-        'ShippingAddressTable'      => 'HtmlText',
-        'InvoiceAddressSummary'     => 'Text',
-        'InvoiceAddressTable'       => 'HtmlText',
-        'AmountTotalNice'           => 'VarChar',
-        'PriceTypeText'             => 'VarChar(24)',
+        'Created'                       => 'Date',
+        'CreatedNice'                   => 'VarChar',
+        'ShippingAddressSummary'        => 'Text',
+        'ShippingAddressSummaryHtml'    => 'HtmlText',
+        'ShippingAddressTable'          => 'HtmlText',
+        'InvoiceAddressSummary'         => 'Text',
+        'InvoiceAddressSummaryHtml'     => 'HtmlText',
+        'InvoiceAddressTable'           => 'HtmlText',
+        'AmountTotalNice'               => 'VarChar',
+        'PriceTypeText'                 => 'VarChar(24)',
     );
     
         /**
@@ -234,8 +236,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $summaryFields = array(
             'CreatedNice'                       => $this->fieldLabel('Created'),
             'OrderNumber'                       => $this->fieldLabel('OrderNumber'),
-            'ShippingAddressSummary'            => $this->fieldLabel('SilvercartShippingAddress'),
-            'InvoiceAddressSummary'             => $this->fieldLabel('SilvercartInvoiceAddress'),
+            'ShippingAddressSummaryHtml'        => $this->fieldLabel('SilvercartShippingAddress'),
+            'InvoiceAddressSummaryHtml'         => $this->fieldLabel('SilvercartInvoiceAddress'),
             'AmountTotalNice'                   => $this->fieldLabel('AmountTotal'),
             'SilvercartPaymentMethod.Title'     => $this->fieldLabel('SilvercartPaymentMethod'),
             'SilvercartOrderStatus.Title'       => $this->fieldLabel('SilvercartOrderStatus'),
@@ -244,6 +246,22 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $this->extend('updateSummaryFields', $summaryFields);
 
         return $summaryFields;
+    }
+    
+    /**
+     * Returns a list of fields which are allowed to display HTML inside a
+     * GridFields data column.
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
+     */
+    public function allowHtmlDataFor() {
+        return array(
+            'ShippingAddressSummaryHtml',
+            'InvoiceAddressSummaryHtml',
+        );
     }
 
     /**
@@ -451,7 +469,16 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         return $shippingAddressSummary;
     }
-    
+
+    /**
+     * return the orders shipping address as complete HTML string.
+     *
+     * @return string
+     */
+    public function getShippingAddressSummaryHtml() {
+        return str_replace(PHP_EOL, '<br/>', $this->ShippingAddressSummary);
+    }
+
     /**
      * Returns the shipping address rendered with a HTML table
      * 
@@ -489,6 +516,15 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $this->extend('updateInvoiceAddressSummary', $invoiceAddressSummary);
         }
         return $invoiceAddressSummary;
+    }
+
+    /**
+     * return the orders invoice address as complete HTML string.
+     *
+     * @return string
+     */
+    public function getInvoiceAddressSummaryHtml() {
+        return str_replace(PHP_EOL, '<br/>', $this->InvoiceAddressSummary);
     }
     
     /**
