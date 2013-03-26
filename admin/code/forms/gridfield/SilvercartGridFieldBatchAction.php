@@ -105,7 +105,7 @@ class SilvercartGridFieldBatchAction {
         if (is_null($filename)) {
             $filename = $this->class;
         }
-        Requirements::javascript('silvercart/admin/javascript/' . $filename . '.js');
+        Requirements::javascript(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/javascript/' . $filename . '.js');
     }
     
     /**
