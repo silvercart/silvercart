@@ -78,7 +78,7 @@ class SilvercartImage extends DataObject {
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
-        if ($this->ImageID) {
+        if ($this->Image()->exists()) {
             $this->Image()->Title = $this->Title;
         }
     }
@@ -147,7 +147,17 @@ class SilvercartImage extends DataObject {
      * @return FieldList the fields for the backend
      */
     public function getCMSFields() {
-        $fields = SilvercartDataObject::getCMSFields($this, 'SortOrder', false);
+        $fields = SilvercartDataObject::getCMSFields($this);
+        $fields->removeByName('SilvercartProductID');
+        $fields->removeByName('SilvercartPaymentMethodID');
+        
+        $controller = Controller::curr();
+        if ($controller instanceof SilvercartProductAdmin ||
+            $controller instanceof SilvercartPaymentMethodAdmin) {
+            $fields->removeByName('Content');
+            $fields->removeByName('Description');
+        }
+        
         return $fields;
     }
     
@@ -161,6 +171,7 @@ class SilvercartImage extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForContext($params = null) {
         /* @var $request SS_HTTPRequest */
@@ -184,6 +195,7 @@ class SilvercartImage extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 08.02.2013
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForProduct($params = null) {
         $fields = $this->getCMSFieldsForContext(
@@ -213,6 +225,8 @@ class SilvercartImage extends DataObject {
      * @param array $params Scaffolding params
      * 
      * @return FieldList
+     * 
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForPayment($params = null) {
         $fields = $this->getCMSFieldsForContext(
@@ -242,6 +256,7 @@ class SilvercartImage extends DataObject {
      * @param array $params Scaffolding params
      * 
      * @return FieldList
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForWidget($params = null) {
         $fields = $this->getCMSFieldsForContext(
@@ -395,4 +410,24 @@ class SilvercartImage extends DataObject {
             $image->delete();
         }
     }
+    
+    /**
+     * On before write hook.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
+     */
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if ($this->SilvercartProduct()->exists() &&
+            empty($this->Title)) {
+            $this->Title = $this->SilvercartProduct()->Title;
+        } elseif ($this->Image()->exists() &&
+            empty($this->Title)) {
+            $this->Title = $this->Image()->Title;
+        }
+    }
+    
 }

@@ -136,6 +136,7 @@ class SilvercartFile extends DataObject {
             array(
                 'Title'                     => _t('SilvercartFile.TITLE'),
                 'FileIcon'                  => _t('SilvercartFile.FILEICON'),
+                'FileType'                  => _t('SilvercartFile.TYPE'),
                 'SilvercartFileLanguages'   => _t('SilvercartFileLanguage.PLURALNAME'),
                 'SilvercartProduct'         => _t('SilvercartProduct.SINGULARNAME'),
                 'File'                      => _t('File.SINGULARNAME'),
@@ -159,8 +160,9 @@ class SilvercartFile extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
-            'FileIcon'       => $this->fieldLabel('FileIcon'),
-            'Title'          => $this->fieldLabel('Title'),
+            'FileIcon'      => $this->fieldLabel('FileIcon'),
+            'File.FileType' => $this->fieldLabel('FileType'),
+            'Title'         => $this->fieldLabel('Title'),
         );
 
 
@@ -169,19 +171,32 @@ class SilvercartFile extends DataObject {
     }
     
     /**
+     * Returns a list of fields which are allowed to display HTML inside a
+     * GridFields data column.
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
+     */
+    public function allowHtmlDataFor() {
+        return array(
+            'FileIcon'
+        );
+    }
+
+    /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldList the fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @since 26.03.2013
      */
     public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->addFieldToTab('Root.Main', $languageField);
-        }
+        $fields = SilvercartDataObject::getCMSFields($this);
+        $fields->removeByName('SilvercartProductID');
+        $fields->removeByName('SilvercartDownloadPageID');
         return $fields;
     }
     
@@ -196,6 +211,7 @@ class SilvercartFile extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForContext($params = null) {
         /* @var $request SS_HTTPRequest */
@@ -219,6 +235,7 @@ class SilvercartFile extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.07.2012
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForProduct($params = null) {
         $fields = $this->getCMSFieldsForContext($params);
@@ -240,6 +257,7 @@ class SilvercartFile extends DataObject {
      * 
      * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2012
+     * @deprecated should be removed before release
      */
     public function getCMSFieldsForDownloadPage($params = null) {
         
@@ -274,13 +292,29 @@ class SilvercartFile extends DataObject {
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
-        if ($this->File()) {
+        if ($this->File()->exists()) {
             $this->File()->delete();
+        }
+    }
+    
+    /**
+     * On before write hook.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
+     */
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if ($this->File()->exists() &&
+            empty($this->Title)) {
+            $this->Title = $this->File()->Title;
         }
     }
 }

@@ -353,6 +353,7 @@ class SilvercartPaymentMethod extends DataObject {
                     'ShowNotForGroups'                  => _t('SilvercartPaymentMethod.SHOW_NOT_FOR_GROUPS_LABEL'),
                     'ShowNotForUsers'                   => _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL'),
                     'ShowOnlyForUsers'                  => _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_USERS_LABEL'),
+                    'AddPaymentLogos'                   => _t('SilvercartPaymentMethod.AddPaymentLogos'),
                     
                 )
         );
@@ -1240,10 +1241,19 @@ class SilvercartPaymentMethod extends DataObject {
                 $this->fieldLabel('PaymentLogos'),
                 $this->PaymentLogos(),
                 SilvercartGridFieldConfig_RelationEditor::create()
-                );
+        );
+        
+        $paymentLogosTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
+        $paymentLogosTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+        $paymentLogosTable->getConfig()->addComponent(new GridFieldDeleteAction());
+        
+        $paymentLogosUploadField = new SilvercartImageUploadField('UploadPaymentLogos', $this->fieldLabel('AddPaymentLogos'));
+        $paymentLogosUploadField->setFolderName('Uploads/payment-images');
+        
         $tabLogos->setChildren(
             new FieldList(
                 new CheckboxField('showPaymentLogos', _t('SilvercartShopAdmin.SHOW_PAYMENT_LOGOS')),
+                $paymentLogosUploadField,
                 $paymentLogosTable
             )
         );

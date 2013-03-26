@@ -725,6 +725,8 @@ class SilvercartProduct extends DataObject {
                 'PriceAmountDesc'                       => _t('SilvercartProduct.PRICE_AMOUNT_DESC'),
                 'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
                 'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
+                'AddSilvercartImage'                    => _t('SilvercartProduct.AddSilvercartImage'),
+                'AddSilvercartFile'                     => _t('SilvercartProduct.AddSilvercartFile'),
             )
         );
 
@@ -1265,14 +1267,15 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForImages($fields) {
-        $config = new GridFieldConfig_RelationEditor();
-        $silvercartImageField = new GridField(
-                'SilvercartImages',
-                $this->fieldLabel('SilvercartImages'),
-                $this->SilvercartImages(),
-                $config
-        );
-        $fields->addFieldToTab('Root.SilvercartImages', $silvercartImageField);
+        $imageGridField = $fields->dataFieldByName('SilvercartImages');
+        $imageGridField->getConfig()->removeComponentsByType('GridFieldAddNewButton');
+        $imageGridField->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+        $imageGridField->getConfig()->addComponent(new GridFieldDeleteAction());
+        
+        $imageUploadField = new SilvercartImageUploadField('UploadSilvercartImages', $this->fieldLabel('AddSilvercartImage'));
+        $imageUploadField->setFolderName('Uploads/product-images');
+        
+        $fields->addFieldToTab('Root.SilvercartImages', $imageUploadField, 'SilvercartImages');
     }
 
     /**
@@ -1283,14 +1286,15 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForFiles($fields) {
-        $config = new GridFieldConfig_RelationEditor();
-        $silvercartFileField = new GridField(
-                'SilvercartFiles',
-                $this->fieldLabel('SilvercartFiles'),
-                $this->SilvercartFiles(),
-                $config
-        );
-        $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
+        $fileGridField = $fields->dataFieldByName('SilvercartFiles');
+        $fileGridField->getConfig()->removeComponentsByType('GridFieldAddNewButton');
+        $fileGridField->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+        $fileGridField->getConfig()->addComponent(new GridFieldDeleteAction());
+        
+        $fileUploadField = new SilvercartFileUploadField('UploadSilvercartFiles', $this->fieldLabel('AddSilvercartFile'));
+        $fileUploadField->setFolderName('Uploads/product-files');
+        
+        $fields->addFieldToTab('Root.SilvercartFiles', $fileUploadField, 'SilvercartFiles');
     }
 
     /**
@@ -1336,6 +1340,8 @@ class SilvercartProduct extends DataObject {
         $this->getFieldsForWidgets($fields);
         $this->getFieldsForSeo($fields);
         $this->getFieldsForDeeplinks($fields);
+        $this->getFieldsForImages($fields);
+        $this->getFieldsForFiles($fields);
         
         $this->extend('updateCMSFields', $fields);
         return $fields;

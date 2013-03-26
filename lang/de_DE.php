@@ -343,6 +343,8 @@ $lang['de_DE']['SilvercartProduct']['TITLE_DESC'] = 'Bezeichnung absteigend';
 $lang['de_DE']['SilvercartProduct']['VAT'] = 'MwSt';
 $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 $lang['de_DE']['SilvercartProduct']['WIDGETAREA'] = 'Widgets';
+$lang['de_DE']['SilvercartProduct']['AddSilvercartImage'] = 'Bild hinzufügen';
+$lang['de_DE']['SilvercartProduct']['AddSilvercartFile'] = 'Datei hinzufügen';
 
 $lang['de_DE']['SilvercartProductAdmin']['MENUTITLE'] = 'Artikel';
 
@@ -1406,6 +1408,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard Bestellstatus für diese Zahlart';
 $lang['de_DE']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'bis Warenwert';
 $lang['de_DE']['SilvercartPaymentMethod']['TITLE'] = 'Zahlart';
+$lang['de_DE']['SilvercartPaymentMethod']['AddPaymentLogos'] = 'Logo hinzufügen';
 
 $lang['de_DE']['SilvercartPaymentMethodAdmin']['MENUTITLE'] = 'Zahlarten';
 

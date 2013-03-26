@@ -1303,6 +1303,8 @@ de:
   SilvercartProduct:
     ADD_TO_CART: "in den Warenkorb"
     AMOUNT_UNIT: "Verkaufsmengeneinheit"
+    AddSilvercartFile: "Datei hinzufügen"
+    AddSilvercartImage: "Bild hinzufügen"
     CATALOGSORT: "Katalogsortierung"
     CHOOSE_MASTER: "-- Master wählen --"
     COLUMN_TITLE: "Name"

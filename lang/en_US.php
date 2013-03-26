@@ -343,6 +343,8 @@ $lang['en_US']['SilvercartProduct']['TITLE_DESC'] = 'Title descending';
 $lang['en_US']['SilvercartProduct']['VAT'] = 'VAT';
 $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
 $lang['en_US']['SilvercartProduct']['WIDGETAREA'] = 'Widgets';
+$lang['en_US']['SilvercartProduct']['AddSilvercartImage'] = 'Add Image';
+$lang['en_US']['SilvercartProduct']['AddSilvercartFile'] = 'Add File';
 
 $lang['en_US']['SilvercartProductAdmin']['MENUTITLE'] = 'Products';
 
@@ -1406,6 +1408,7 @@ $lang['en_US']['SilvercartPaymentMethod']['SINGULARNAME'] = 'Payment method';
 $lang['en_US']['SilvercartPaymentMethod']['STANDARD_ORDER_STATUS'] = 'Standard order status for this payment method';
 $lang['en_US']['SilvercartPaymentMethod']['TILL_PURCHASE_VALUE'] = 'till purchase value';
 $lang['en_US']['SilvercartPaymentMethod']['TITLE'] = 'Payment method';
+$lang['en_US']['SilvercartPaymentMethod']['AddPaymentLogos'] = 'Add Logo';
 
 $lang['en_US']['SilvercartPaymentMethodAdmin']['MENUTITLE'] = 'Payment Methods';
 

@@ -1301,6 +1301,8 @@ en_GB:
   SilvercartProduct:
     ADD_TO_CART: "Add to cart"
     AMOUNT_UNIT: "purchase unit"
+    AddSilvercartFile: "Add File"
+    AddSilvercartImage: "Add Image"
     CATALOGSORT: "Cataloge sort"
     CHOOSE_MASTER: "-- choose master --"
     COLUMN_TITLE: "Name"
