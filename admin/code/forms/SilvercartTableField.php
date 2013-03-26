@@ -18,14 +18,14 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Forms
+ * @subpackage Forms_Fields
  */
 
 /**
  * Field to show some DataObjects in a simple table.
  *
  * @package Silvercart
- * @subpackage Forms
+ * @subpackage Forms_Fields
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 22.03.2013
