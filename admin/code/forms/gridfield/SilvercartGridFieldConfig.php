@@ -85,7 +85,7 @@ class SilvercartGridFieldConfig_RelationEditor extends GridFieldConfig {
         $this->addComponent(new GridFieldToolbarHeader());
         $this->addComponent($sort = new GridFieldSortableHeader());
         $this->addComponent($filter = new GridFieldFilterHeader());
-        $this->addComponent(new GridFieldDataColumns());
+        $this->addComponent(new SilvercartGridFieldDataColumns());
         $this->addComponent(new GridFieldEditButton());
         $this->addComponent(new GridFieldDeleteAction(true));
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
@@ -129,7 +129,7 @@ class SilvercartGridFieldConfig_ExclusiveRelationEditor extends GridFieldConfig 
         $this->addComponent(new GridFieldToolbarHeader());
         $this->addComponent($sort = new GridFieldSortableHeader());
         $this->addComponent($filter = new GridFieldFilterHeader());
-        $this->addComponent(new GridFieldDataColumns());
+        $this->addComponent(new SilvercartGridFieldDataColumns());
         $this->addComponent(new GridFieldEditButton());
         $this->addComponent(new GridFieldDeleteAction());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
@@ -167,7 +167,7 @@ class SilvercartGridFieldConfig_Readonly extends GridFieldConfig {
     public function __construct($itemsPerPage = null) {
         $this->addComponent($sort = new GridFieldSortableHeader());
         $this->addComponent($filter = new GridFieldFilterHeader());
-        $this->addComponent(new GridFieldDataColumns());
+        $this->addComponent(new SilvercartGridFieldDataColumns());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
         $this->addComponent(new GridFieldDetailForm());
 
