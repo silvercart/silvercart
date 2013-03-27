@@ -99,7 +99,8 @@ class SilvercartRestfulServer extends RestfulServer {
     public static function isApiCall() {
         $isApiCall = false;
 
-        if (strpos($_SERVER['REQUEST_URI'], '/api/silvercart') !== false) {
+        if (array_key_exists('REQUEST_URI', $_SERVER) &&
+            strpos($_SERVER['REQUEST_URI'], '/api/silvercart') !== false) {
             $isApiCall = true;
         }
 
