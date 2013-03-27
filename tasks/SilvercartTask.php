@@ -71,18 +71,21 @@ class SilvercartTask extends ScheduledTask {
      */
     public function init() {
         $result = parent::init();
-        foreach ($_REQUEST as $name => $value) {
-            if ($name == 'args') {
-                if (is_array($value)) {
-                    foreach ($value as $index => $singleArg) {
-                        if (is_numeric($index) &&
-                            !array_key_exists($singleArg, $_REQUEST)) {
-                            $this->setCliArg($singleArg, true);
-                        }
+        
+        if (array_key_exists('argv', $_SERVER)) {
+            $args = $_SERVER['argv'];
+            if (is_array($args)) {
+                array_shift($args);
+                array_shift($args);
+                foreach ($args as $arg) {
+                    if (strpos($arg, '=') !== false) {
+                        list($name, $value) = explode('=', $arg);
+                    } else {
+                        $name = $arg;
+                        $value = true;
                     }
+                    $this->setCliArg($name, $value);
                 }
-            } else {
-                $this->setCliArg($name, $value);
             }
         }
         return $result;
