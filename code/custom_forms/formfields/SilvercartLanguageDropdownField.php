@@ -164,7 +164,7 @@ class SilvercartLanguageDropdownField extends DropdownField {
             'class' => ($this->extraClass() ? $this->extraClass() : ''),
             'id' => $this->id(),
             'name' => $this->name,
-            'tabindex' => $this->getTabIndex()
+            'tabindex' => $this->getAttribute("tabindex")
         );
 
         if ($this->disabled) {
