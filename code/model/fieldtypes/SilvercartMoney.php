@@ -30,7 +30,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 13.02.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartMoney extends Money implements CompositeDBField {
 
@@ -192,7 +192,7 @@ class SilvercartMoney extends Money implements CompositeDBField {
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 13.02.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartMoneyExtension extends DataExtension {
 

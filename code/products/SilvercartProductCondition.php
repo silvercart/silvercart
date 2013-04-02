@@ -28,7 +28,7 @@
  * @subpackage Products
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 09.08.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartProductCondition extends DataObject {
@@ -109,8 +109,6 @@ class SilvercartProductCondition extends DataObject {
 
     /**
      * define the CMS fields
-     *
-     * @param array $params Parameters for scaffolding
      *
      * @return FieldList 
      * 

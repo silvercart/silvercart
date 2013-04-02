@@ -29,7 +29,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartShippingFeesPage extends SilvercartMetaNavigationHolder {
 
@@ -83,7 +83,7 @@ class SilvercartShippingFeesPage extends SilvercartMetaNavigationHolder {
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 18.11.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 

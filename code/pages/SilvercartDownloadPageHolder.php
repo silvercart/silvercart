@@ -29,7 +29,7 @@
  * @author Patrick Schneider <pschneider@pixeltricks.de>
  * @since 12.07.2012
  * @copyright 2012 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License 
+ * @license see license file in modules root directory 
  */
 class SilvercartDownloadPageHolder extends Page {
     
@@ -76,7 +76,7 @@ class SilvercartDownloadPageHolder extends Page {
  * @author Patrick Schneider <pschneider@pixeltricks.de>
  * @since 12.07.2012
  * @copyright 2012 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License 
+ * @license see license file in modules root directory 
  */
 class SilvercartDownloadPageHolder_Controller extends Page_Controller {
     

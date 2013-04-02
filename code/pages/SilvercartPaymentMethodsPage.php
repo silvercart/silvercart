@@ -29,7 +29,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright pixeltricks GmbH
  * @since 14.05.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartPaymentMethodsPage extends SilvercartMetaNavigationHolder {
     
@@ -80,7 +80,7 @@ class SilvercartPaymentMethodsPage extends SilvercartMetaNavigationHolder {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright pixeltricks GmbH
  * @since 14.05.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 

@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 24.11.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartTax extends DataObject {
 

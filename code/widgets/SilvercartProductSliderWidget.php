@@ -28,7 +28,7 @@
  * @subpackage Widgets
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 28.03.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 interface SilvercartProductSliderWidget {
@@ -79,7 +79,7 @@ interface SilvercartProductSliderWidget {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2012 pixeltricks GmbH
  * @since 28.03.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 interface SilvercartProductSliderWidget_Controller {
     

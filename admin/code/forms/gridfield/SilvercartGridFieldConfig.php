@@ -29,7 +29,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldConfig extends GridFieldConfig {
 
@@ -62,7 +62,7 @@ class SilvercartGridFieldConfig extends GridFieldConfig {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 26.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldConfig_RecordEditor extends GridFieldConfig_RecordEditor {
 
@@ -106,7 +106,7 @@ class SilvercartGridFieldConfig_RecordEditor extends GridFieldConfig_RecordEdito
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 12.02.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldConfig_RelationEditor extends GridFieldConfig {
 
@@ -150,7 +150,7 @@ class SilvercartGridFieldConfig_RelationEditor extends GridFieldConfig {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 12.02.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldConfig_ExclusiveRelationEditor extends GridFieldConfig {
 
@@ -193,7 +193,7 @@ class SilvercartGridFieldConfig_ExclusiveRelationEditor extends GridFieldConfig 
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldConfig_Readonly extends GridFieldConfig {
 

@@ -28,7 +28,7 @@
  * @subpackage Widgets
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 19.10.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartImageSliderWidget extends SilvercartWidget {
@@ -213,7 +213,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
  * @subpackage Widgets
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 20.10.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller {

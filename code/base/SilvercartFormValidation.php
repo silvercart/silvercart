@@ -29,7 +29,7 @@
  * @author Patrick Schneider <pschneider@pixeltricks.de>
  * @since 09.11.2012
  * @copyright 2012 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartFormValidation extends Object {
     /**

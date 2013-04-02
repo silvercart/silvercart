@@ -29,7 +29,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2012 pixeltricks GmbH
  * @since 25.04.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartSiteMapPage extends SilvercartMetaNavigationHolder {
     
@@ -78,7 +78,7 @@ class SilvercartSiteMapPage extends SilvercartMetaNavigationHolder {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2012 pixeltricks GmbH
  * @since 25.04.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartSiteMapPage_Controller extends SilvercartMetaNavigationHolder_Controller {
     

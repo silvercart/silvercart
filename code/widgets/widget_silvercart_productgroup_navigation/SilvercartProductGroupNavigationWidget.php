@@ -28,7 +28,7 @@
  * @subpackage Widgets
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 26.05.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
@@ -71,7 +71,14 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         return $fieldLabels;
     }
     
-
+    /**
+     * Returns a list of fields to exclude from scaffolding
+     * 
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.04.2013
+     */
     public function excludeFromScaffolding() {
         $fields = array_merge(
             parent::excludeFromScaffolding(),
@@ -127,7 +134,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
  * @subpackage Widgets
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 26.05.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget_Controller {

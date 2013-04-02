@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2012 pixeltricks GmbH
  * @since 16.01.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartConfigAdmin extends SilvercartLeftAndMain {
 
@@ -220,7 +220,7 @@ class SilvercartConfigAdmin extends SilvercartLeftAndMain {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 02.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * 
  * @deprecated should be outsourced into a SilvercartTask or deleted.
  */

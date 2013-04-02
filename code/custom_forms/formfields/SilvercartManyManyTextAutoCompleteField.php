@@ -29,7 +29,7 @@
  * @subpackage FormFields
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 05.10.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartManyManyTextAutoCompleteField extends SilvercartHasManyTextAutoCompleteField {

@@ -28,7 +28,7 @@
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @since 23.10.2010
  */
 class SilvercartProductGroupHolder extends Page {
@@ -309,7 +309,7 @@ class SilvercartProductGroupHolder extends Page {
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartProductGroupHolder_Controller extends Page_Controller {

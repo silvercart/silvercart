@@ -28,7 +28,7 @@
  * @subpackage Backend
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 10.07.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartEditableTableListField extends TableListField {
@@ -310,7 +310,7 @@ HTML;
  * @subpackage Backend
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 24.09.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartEditableTableListField_Item extends TableListField_Item {

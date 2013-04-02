@@ -28,7 +28,7 @@
  * @subpackage Plugins
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 09.01.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartProductGroupPage_ControllerPluginProvider extends SilvercartPlugin {

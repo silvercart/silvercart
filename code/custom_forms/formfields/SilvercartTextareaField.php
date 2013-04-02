@@ -28,7 +28,7 @@
  * @subpackage Forms
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 2013-01-03
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartTextareaField extends TextareaField {
@@ -39,9 +39,12 @@ class SilvercartTextareaField extends TextareaField {
      * makes use of {@link FormField->createTag()} functionality.
      *
      * @return HTML code for the textarea OR span element
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.04.2013
      */
-    function Field() {
-        if($this->readonly) {
+    public function Field() {
+        if ($this->readonly) {
             $attributes = array(
                 'id' => $this->id(),
                 'class' => 'readonly' . ($this->extraClass() ? $this->extraClass() : ''),
@@ -67,7 +70,9 @@ class SilvercartTextareaField extends TextareaField {
                 'tabindex' => $this->getTabIndex()
             );
 
-            if($this->disabled) $attributes['disabled'] = 'disabled';
+            if ($this->disabled) {
+                $attributes['disabled'] = 'disabled';
+            }
 
             return $this->createTag('textarea', $attributes, htmlentities($this->value, ENT_COMPAT, 'UTF-8'));
         }

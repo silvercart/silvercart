@@ -30,7 +30,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @since 04.05.2012
  * @copyright pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartLanguageDecorator extends DataExtension {
     

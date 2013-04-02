@@ -30,7 +30,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2010 pixeltricks GmbH
  * @since 14.02.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGroupViewDecorator extends DataExtension {
 
@@ -196,6 +196,8 @@ class SilvercartGroupViewDecorator extends DataExtension {
      * returns the required ProductGroupHolder template name required by the
      * decorators owner in dependence on the active group view.
      *
+     * @param string $templateBase Base name for the template to use.
+     * 
      * @return string
      */
     public function getProductGroupHolderTemplateName($templateBase = 'SilvercartProductGroupHolder') {
@@ -212,6 +214,8 @@ class SilvercartGroupViewDecorator extends DataExtension {
     /**
      * returns the required ProductGroupPage template name required by the
      * decorators owner in dependence on the active group view.
+     *
+     * @param string $templateBase Base name for the template to use.
      *
      * @return string
      */

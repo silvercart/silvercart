@@ -29,7 +29,7 @@
  * @subpackage Customer
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 10.10.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2011 pixeltricks GmbH
  */
 class SilvercartCustomer extends DataExtension {
@@ -848,7 +848,7 @@ class SilvercartCustomer extends DataExtension {
  * @subpackage Validator
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 05.04.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartCustomer_Validator extends DataExtension {
@@ -920,7 +920,7 @@ class SilvercartCustomer_Validator extends DataExtension {
  * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @since 19.09.2012
  * @copyright 2012 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License 
+ * @license see license file in modules root directory 
  */
 class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail {
     

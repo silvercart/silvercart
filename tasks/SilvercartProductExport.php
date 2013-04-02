@@ -40,7 +40,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 08.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartProductExport extends ScheduledTask {
     

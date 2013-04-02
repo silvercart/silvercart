@@ -31,7 +31,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 2013-01-18
  * @copyright pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartUpdate1_3__7 extends SilvercartUpdate {
 

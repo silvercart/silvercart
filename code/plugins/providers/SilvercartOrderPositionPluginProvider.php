@@ -28,7 +28,7 @@
  * @subpackage Plugins
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 26.06.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartOrderPositionPluginProvider extends SilvercartPlugin {

@@ -28,7 +28,7 @@
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 15.11.10
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
@@ -83,7 +83,7 @@ class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
  * @package Silvercart
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2010 pixeltricks GmbH
  * @since 15.11.2010
  */

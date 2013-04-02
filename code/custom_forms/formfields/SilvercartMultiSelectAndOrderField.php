@@ -56,7 +56,7 @@
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 06.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartMultiSelectAndOrderField extends DropdownField {
     
@@ -198,7 +198,7 @@ class SilvercartMultiSelectAndOrderField extends DropdownField {
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 13.08.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_RecordController {
     

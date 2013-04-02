@@ -29,7 +29,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
  * @copyright 2010 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartPage extends SiteTree {
 
@@ -247,7 +247,7 @@ class SilvercartPage extends SiteTree {
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
  * @copyright 2010 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartPage_Controller extends ContentController {
 
@@ -290,7 +290,7 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 08.02.2011
-     * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+     * @license see license file in modules root directory
      * @return void
      * @copyright 2010 pixeltricks GmbH
      */

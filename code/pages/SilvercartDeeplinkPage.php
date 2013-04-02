@@ -32,7 +32,7 @@
  * @copyright 2011 pixeltricks GmbH
  * @copyright Pixeltricks GmbH
  * @since 29.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartDeeplinkPage extends Page {
     
@@ -79,7 +79,7 @@ class SilvercartDeeplinkPage extends Page {
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright 2011 pixeltricks GmbH
  * @since 29.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartDeeplinkPage_Controller extends Page_Controller {
     

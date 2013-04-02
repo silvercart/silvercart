@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright 2012 pixeltricks GmbH
  * @since 16.02.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartTools extends Object {
     

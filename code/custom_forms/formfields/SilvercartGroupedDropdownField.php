@@ -30,14 +30,14 @@
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 03.06.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGroupedDropdownField extends DropdownField {
 
     /**
      * Markup to render the field with
      * 
-     * @param $properties only declared to be compatible with parent
+     * @param array $properties only declared to be compatible with parent
      * 
      * @return string
      * 

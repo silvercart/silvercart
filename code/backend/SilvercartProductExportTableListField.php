@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 07.07.2011
  * @copyright 2011 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartProductExportTableListField extends TableListField {
     
@@ -127,7 +127,7 @@ class SilvercartProductExportTableListField extends TableListField {
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 07.07.2011
  * @copyright 2011 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartProductExportTableListField_Item extends TableListField_Item {
 
@@ -167,7 +167,7 @@ class SilvercartProductExportTableListField_Item extends TableListField_Item {
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 07.07.2011
  * @copyright 2011 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartProductExportTableListField_ItemRequest extends TableListField_ItemRequest {
 

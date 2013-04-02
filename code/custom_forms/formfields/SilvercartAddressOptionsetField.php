@@ -30,7 +30,7 @@
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @since 13.02.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartAddressOptionsetField extends OptionsetField {
     

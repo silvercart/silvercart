@@ -27,7 +27,7 @@
  * @package Silvercart
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2010 pixeltricks GmbH
  * @since 23.10.2010
  */
@@ -84,7 +84,7 @@ class SilvercartDataPage extends SilvercartMyAccountHolder {
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartDataPage_Controller extends SilvercartMyAccountHolder_Controller {

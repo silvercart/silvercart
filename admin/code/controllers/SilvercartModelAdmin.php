@@ -30,7 +30,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 19.02.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartModelAdmin extends ModelAdmin {
     
@@ -174,7 +174,7 @@ class SilvercartModelAdmin extends ModelAdmin {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 interface SilvercartModelAdmin_ReadonlyInterface {
     
@@ -190,7 +190,7 @@ interface SilvercartModelAdmin_ReadonlyInterface {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 interface SilvercartModelAdmin_ExclusiveRelationInterface {
     

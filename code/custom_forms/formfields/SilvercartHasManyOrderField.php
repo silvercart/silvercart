@@ -56,7 +56,7 @@
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 06.07.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @deprecated since version 2.0 class is incompatible; functionallity no longer needed
  */
 class SilvercartHasManyOrderField extends DropdownField {

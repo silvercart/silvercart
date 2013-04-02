@@ -29,7 +29,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 27.01.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartImageSliderWidgetLanguage extends DataObject {
     

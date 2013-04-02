@@ -29,7 +29,7 @@
  * @copyright 2010 pixeltricks GmbH
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 16.02.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartAddressHolder extends SilvercartMyAccountHolder {
     
@@ -138,7 +138,7 @@ class SilvercartAddressHolder extends SilvercartMyAccountHolder {
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 16.02.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2010 pixeltricks GmbH
  */
 class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Controller {

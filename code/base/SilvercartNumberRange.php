@@ -28,7 +28,7 @@
  * @subpackage Base
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright Pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @since 05.04.2011
  */
 class SilvercartNumberRange extends DataObject {

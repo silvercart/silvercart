@@ -28,7 +28,7 @@
  * @subpackage Pages
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright Pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @since 25.08.2011
  */
 class SilvercartNewsletterOptInConfirmationPage extends Page {
@@ -108,7 +108,7 @@ class SilvercartNewsletterOptInConfirmationPage extends Page {
  * @subpackage Pages
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @copyright Pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @since 25.08.2011
  */
 class SilvercartNewsletterOptInConfirmationPage_Controller extends Page_Controller {

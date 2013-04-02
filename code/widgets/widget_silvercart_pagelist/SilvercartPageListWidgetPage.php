@@ -28,24 +28,39 @@
  * @subpackage Widgets
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 06.12.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartPageListWidgetPage extends DataExtension {
 
+    /**
+     * DB attributes
+     *
+     * @var array
+     */
     public static $db = array(
-                'widgetTitle'       => 'VarChar(255)',
-                'widgetText'        => 'HTMLText',
-                'widgetPriority'    => 'Int(0)'
-            );
+        'widgetTitle'       => 'VarChar(255)',
+        'widgetText'        => 'HTMLText',
+        'widgetPriority'    => 'Int(0)'
+    );
     
+    /**
+     * Has one relations
+     *
+     * @var array
+     */
     public static $has_one = array(
-                'widgetImage' => 'Image'
-            );
+        'widgetImage' => 'Image'
+    );
     
+    /**
+     * Belongs many many relations
+     *
+     * @var array
+     */
     public static $belongs_many_many = array(
-                'SilvercartPageListWidgets' => 'SilvercartPageListWidget'
-            );
+        'SilvercartPageListWidgets' => 'SilvercartPageListWidget'
+    );
 
     /**
      * Add labels.
@@ -68,7 +83,7 @@ class SilvercartPageListWidgetPage extends DataExtension {
     /**
      * Add fields to CMS fields.
      *
-     * @param FieldSet &$fields The FieldSet
+     * @param FieldSet $fields The FieldSet
      *
      * @return void
      *

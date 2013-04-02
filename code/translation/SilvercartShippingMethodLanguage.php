@@ -29,7 +29,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright pixeltricks GmbH
  * @since 11.01.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartShippingMethodLanguage extends DataObject {
     

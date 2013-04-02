@@ -30,7 +30,7 @@
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction {
     
@@ -173,7 +173,7 @@ class SilvercartGridFieldBatchAction {
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_ChangeOrderStatus extends SilvercartGridFieldBatchAction {
     
@@ -234,7 +234,7 @@ class SilvercartGridFieldBatchAction_ChangeOrderStatus extends SilvercartGridFie
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_PrintOrders extends SilvercartGridFieldBatchAction {
     
@@ -285,7 +285,7 @@ class SilvercartGridFieldBatchAction_PrintOrders extends SilvercartGridFieldBatc
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_MarkAsSeen extends SilvercartGridFieldBatchAction {
     
@@ -320,7 +320,7 @@ class SilvercartGridFieldBatchAction_MarkAsSeen extends SilvercartGridFieldBatch
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_MarkAsNotSeen extends SilvercartGridFieldBatchAction {
     
@@ -354,7 +354,7 @@ class SilvercartGridFieldBatchAction_MarkAsNotSeen extends SilvercartGridFieldBa
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 14.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_ActivateDataObject extends SilvercartGridFieldBatchAction {
     
@@ -389,7 +389,7 @@ class SilvercartGridFieldBatchAction_ActivateDataObject extends SilvercartGridFi
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 14.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_DeactivateDataObject extends SilvercartGridFieldBatchAction {
     
@@ -424,7 +424,7 @@ class SilvercartGridFieldBatchAction_DeactivateDataObject extends SilvercartGrid
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_ChangeManufacturer extends SilvercartGridFieldBatchAction {
     
@@ -478,7 +478,7 @@ class SilvercartGridFieldBatchAction_ChangeManufacturer extends SilvercartGridFi
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_ChangeProductGroup extends SilvercartGridFieldBatchAction {
     
@@ -532,7 +532,7 @@ class SilvercartGridFieldBatchAction_ChangeProductGroup extends SilvercartGridFi
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
  * @since 08.03.2013
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartGridFieldBatchAction_ChangeAvailabilityStatus extends SilvercartGridFieldBatchAction {
     

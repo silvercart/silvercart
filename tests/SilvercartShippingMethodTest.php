@@ -28,7 +28,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @copyright Pixeltricks GmbH
  * @since 08.03.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartShippingMethodTest extends SapphireTest {
     

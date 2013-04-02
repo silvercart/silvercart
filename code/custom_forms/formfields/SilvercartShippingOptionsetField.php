@@ -30,7 +30,7 @@
  * @copyright pixeltricks GmbH
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 04.04.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartShippingOptionsetField extends OptionsetField {
 

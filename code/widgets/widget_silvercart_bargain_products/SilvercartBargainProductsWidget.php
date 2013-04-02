@@ -30,7 +30,7 @@
  * @subpackage Widgets
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.03.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartBargainProductsWidget extends SilvercartWidget implements SilvercartProductSliderWidget {
@@ -254,7 +254,7 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
  * @subpackage Widgets
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.03.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Controller implements SilvercartProductSliderWidget_Controller {

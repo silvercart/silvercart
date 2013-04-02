@@ -29,7 +29,7 @@
  * @copyright pixeltricks GmbH
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 21.10.2010
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  */
 class SilvercartContactForm extends CustomHtmlForm {
 

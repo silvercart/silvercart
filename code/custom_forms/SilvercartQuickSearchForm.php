@@ -28,7 +28,7 @@
  * @subpackage Forms
  * @copyright pixeltricks GmbH
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @since 23.10.2010
  */
 class SilvercartQuickSearchForm extends CustomHtmlForm {
@@ -77,7 +77,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
         $searchQuery->Count++;
         $searchQuery->write();
         $searchResultsPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
-	SilvercartProduct::setDefaultSort('relevance');
+        SilvercartProduct::setDefaultSort('relevance');
         $this->controller->redirect($searchResultsPage->RelativeLink());
     }
 

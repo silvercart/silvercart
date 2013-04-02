@@ -28,7 +28,7 @@
  * @subpackage Translation
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 10.12.2012
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @license see license file in modules root directory
  * @copyright 2012 pixeltricks GmbH
  */
 class SilvercartSubNavigationWidgetLanguage extends DataObject {
