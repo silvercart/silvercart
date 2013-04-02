@@ -1,33 +1,20 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Pages Checkout
  */
 
 /**
- * Seite fuer den Checkoutprozess.
+ * Checkout step page
  *
  * @package Silvercart
  * @subpackage Pages Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @since 09.11.2010
  * @license see license file in modules root directory
  */
@@ -87,19 +74,19 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 }
 
 /**
- * Seite fuer den Checkoutprozess.
+ * checkout step controller.
  *
  * @package Silvercart
  * @subpackage Pages Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @since 09.11.2010
  * @license see license file in modules root directory
  */
 class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
 
     /**
-     * Legt Voreinstellungen fest.
+     * Preferences
      *
      * @var array
      */
@@ -107,7 +94,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         'templateDir' => ''
     );
     /**
-     * Enthaelt das Zahlungsmodul-Objekt.
+     * The payment method object.
      *
      * @var PaymentMethod
      */
@@ -121,7 +108,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     protected $cacheKey = null;
 
     /**
-     * Bindet Formulare ein und laedt CSS- und Javascriptdateien.
+     * Initializes the step form. Includes forms and requirements.
      *
      * @return void
      *
@@ -213,13 +200,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
-     * Gibt zurueck, ob ein Fehler im Zahlungsmodul aufgetreten ist.
+     * Returns whether an error occured.
      *
      * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function getErrorOccured() {
         if ($this->paymentMethodObj) {
@@ -230,13 +213,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
-     * Gibt die Fehlerliste als DataList zurueck.
+     * Returns occured errors.
      *
      * @return DataList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function getErrorList() {
         if ($this->paymentMethodObj) {
@@ -247,7 +226,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
-     * Loescht den Warenkorb.
+     * Deletes the cart.
      *
      * @param bool $includeShoppingCart set wether the shoppingcart should be
      *                                  deleted
@@ -255,7 +234,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pxieltricks GmbH
      * @since 22.11.2010
      */
     public function deleteSessionData($includeShoppingCart = true) {
@@ -333,7 +311,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @return boolean false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.02.2011
      */
     public function getEditableShoppingCart() {

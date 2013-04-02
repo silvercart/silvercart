@@ -1,22 +1,8 @@
 <?php
-
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Base
@@ -30,7 +16,7 @@
  * @package Silvercart
  * @subpackage Base
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @since 07.11.2010
  * @license see license file in modules root directory
  */
@@ -364,7 +350,6 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 28.02.2011
-     * @copyright 2010 pixeltricks GmbH
      * @return array
      */
     public function summaryFields() {
@@ -637,10 +622,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Retunrns a path to a picture with additional information for this payment method
      *
      * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 07.11.2010
      */
     public function getDescriptionImage() {
         
@@ -663,10 +644,6 @@ class SilvercartPaymentMethod extends DataObject {
      * Returns a ArrayList with errors
      *
      * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 18.11.2010
      */
     public function getErrorList() {
         $errorList = array();
@@ -867,7 +844,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return ArrayList
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 11.05.2011
      */
     public function getAllowedShippingMethods() {
@@ -909,7 +885,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
     public function isAvailableForZone($zoneId) {
@@ -924,7 +899,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
     public function isAvailableForShippingMethod($shippingMethodId) {
@@ -939,7 +913,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
     public function isAvailableForAmount($amount) {
@@ -977,7 +950,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
     public function processPaymentBeforeOrder() {
@@ -993,7 +965,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 07.11.2010
      */
     public function processPaymentAfterOrder($orderObj) {
@@ -1008,7 +979,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 19.11.2010
      */
     public function processReturnJumpFromPaymentProvider() {
@@ -1025,7 +995,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 06.01.2011
      */
     public function processPaymentConfirmationText($orderObj) {
@@ -1509,7 +1478,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 17.11.2010
      */
     public function Log($context, $text) {
@@ -1524,7 +1492,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 18.11.2010
      */
     public function addError($errorText) {
@@ -1752,7 +1719,6 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.04.2011
      */
     public function getStepConfiguration() {

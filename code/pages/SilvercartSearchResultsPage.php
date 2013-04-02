@@ -1,21 +1,8 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Pages
@@ -29,7 +16,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 23.10.2010
  * @license see license file in modules root directory
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
     
@@ -86,7 +73,6 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
      * @return array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 20.04.2011
      */
     public function fieldLabels($includerelations = true) {
@@ -105,10 +91,6 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
      * Return all fields of the backend.
      *
      * @return FieldList Fields of the CMS
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 20.04.2011
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -127,7 +109,7 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @license see license file in modules root directory
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @since 23.10.2010
  */
 class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_Controller {
@@ -433,10 +415,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @param int|bool $numberOfProducts only defined because it exists on parent::getSqlOffset() to avoid strict notice
      *
      * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 12.06.2011
      */
     public function getSqlOffset($numberOfProducts = false) {
         $productsPerPage = $this->getProductsPerPageSetting();
@@ -525,7 +503,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 20.04.2011
      */
     public function HasMorePagesThan($maxResults = 10) {
@@ -591,7 +568,6 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return int
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 12.06.2011
      */
     public function TotalSearchResults() {

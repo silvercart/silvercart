@@ -103,7 +103,6 @@ function checkShippingMethodOptions(parameters) {
  * @return void
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
  * @since 13.03.2011
  */
 function toggleShippingAddressSection(definition) {
@@ -126,7 +125,6 @@ function toggleShippingAddressSection(definition) {
  * @return void
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
  * @since 13.03.2011
  */
 function deactivateShippingAddressValidation() {
@@ -160,7 +158,6 @@ function deactivateShippingAddressValidation() {
  * @return void
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
  * @since 13.03.2011
  */
 function activateShippingAddressValidation() {
@@ -203,7 +200,6 @@ function activateShippingAddressValidation() {
  * @return void
  *
  * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2013 pixeltricks GmbH
  * @since 24.01.2013
  */
 function SilvercartToggleQuickLoginBox() {

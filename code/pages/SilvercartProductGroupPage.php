@@ -1,21 +1,8 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Pages
@@ -29,7 +16,7 @@
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 20.10.2010
  * @license see license file in modules root directory
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartProductGroupPage extends Page {
 
@@ -406,10 +393,6 @@ class SilvercartProductGroupPage extends Page {
      * Return all fields of the backend.
      *
      * @return FieldList Fields of the CMS
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.03.2011
      */
     public function getCMSFields() {
         $this->getCMSFieldsIsCalled = true;
@@ -681,10 +664,6 @@ class SilvercartProductGroupPage extends Page {
      * group.
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.03.2011
      */
     public function getMirroredProductIDs() {
         $mirroredProductIDs         = array();
@@ -726,7 +705,6 @@ class SilvercartProductGroupPage extends Page {
      * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.03.2011
      */
     public function drawCMSFields() {
@@ -1092,7 +1070,7 @@ class SilvercartProductGroupPage extends Page {
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
  * @since 18.10.2010
  * @license see license file in modules root directory
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
@@ -2145,7 +2123,6 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 20.04.2011
      */
     public function HasMorePagesThan($maxResults = 10) {

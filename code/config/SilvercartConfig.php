@@ -1,21 +1,8 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Config
@@ -34,9 +21,9 @@
  * @package Silvercart
  * @subpackage Config
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @since 23.02.2011
- * @license LGPL
+ * @license see license file in modules root directory
  */
 class SilvercartConfig extends DataObject {
     
@@ -687,7 +674,6 @@ class SilvercartConfig extends DataObject {
      * @return boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 07.04.2011
      */
     public static function EnableSSL() {
@@ -703,7 +689,6 @@ class SilvercartConfig extends DataObject {
      * @return bool is stock management enabled? 
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 17.7.2011
      */
     public static function EnableStockManagement() {
@@ -721,7 +706,6 @@ class SilvercartConfig extends DataObject {
      * @return bool is stock management overbookable?
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 17.7.2011
      */
     public static function isStockManagementOverbookable() {
@@ -737,7 +721,6 @@ class SilvercartConfig extends DataObject {
      * @return mixed float|bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 09.06.2011
      */
     public static function MinimumOrderValue() {
@@ -753,7 +736,6 @@ class SilvercartConfig extends DataObject {
      * @return Boolean
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
      * @since 15.03.2012
      */
     public static function UseFreeOfShippingCostsFrom() {
@@ -771,7 +753,6 @@ class SilvercartConfig extends DataObject {
      * @return Money
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
      * @since 13.03.2012
      */
     public static function FreeOfShippingCostsFrom($shippingCountry = null) {
@@ -898,7 +879,6 @@ class SilvercartConfig extends DataObject {
      * @return int
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 16.03.2011
      */
     public static function ProductsPerPage() {
@@ -1612,7 +1592,6 @@ class SilvercartConfig extends DataObject {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 17.11.2010
      */
     public static function Log($context, $text, $filename = 'default') {

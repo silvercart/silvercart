@@ -1,21 +1,8 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Order
@@ -27,7 +14,7 @@
  * @package Silvercart
  * @subpackage Order
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @since 22.11.2010
  * @license see license file in modules root directory
  */
@@ -756,7 +743,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
     public function createFromShoppingCart() {
@@ -836,7 +822,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
     public function convertShoppingCartPositionsToOrderPositions() {
@@ -1054,7 +1039,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
     public function save() {
@@ -1067,10 +1051,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @param int $paymentMethodID id of payment method
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 05.01.2011
      */
     public function setPaymentMethod($paymentMethodID) {
         $paymentMethodObj = DataObject::get_by_id(
@@ -1093,7 +1073,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 22.11.2010
      */
     public function setOrderStatus($orderStatus) {
@@ -1135,10 +1114,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @param string $note the customers notice
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.12.10
      */
     public function setNote($note) {
         $this->setField('Note', $note);
@@ -1148,10 +1127,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * getter
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 02.02.2011
      *
      */
     public function getFormattedNote() {
@@ -1168,9 +1143,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * save the carts weight
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      * @return void
      */
     public function setWeight() {
@@ -1184,10 +1156,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * set the total price for this order
      *
      * @return void
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      */
     public function setAmountTotal() {
         $member = Member::currentUser();
@@ -1202,9 +1170,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @param string $email the email address of the customer
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 16.12.10
      * @return void
      */
     public function setCustomerEmail($email = null) {
@@ -1258,9 +1223,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @param int $shippingMethodID the ID of the shipping method
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.12.10
-     * @copyright 2010 pixeltricks GmbH
      * @return void
      */
     public function setShippingMethod($shippingMethodID) {
@@ -1281,10 +1243,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * returns tax included in $this
      *
      * @return float
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
      */
     public function getTax() {
         $tax = 0.0;
@@ -1313,10 +1271,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * returns the cart's net amount
      *
      * @return Money money object
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
      */
     public function getPriceNet() {
         $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
@@ -1332,10 +1286,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * returns the cart's gross amount
      *
      * @return Money money object
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
      */
     public function getPriceGross() {
         return $this->AmountTotal;
@@ -1501,10 +1451,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *                                           discounts for the shopping cart total
      * 
      * @return Money
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
      */
     public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         $priceGross = new Money();
@@ -1556,10 +1502,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *                                           discounts for the shopping cart total
      * 
      * @return Money
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
      */
     public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         $priceNet = new Money();
@@ -1732,10 +1674,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *                                           discounts for the shopping cart total
      * 
      * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
      */
     public function getTaxRatesWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         if ($includeChargesForTotal === 'false') {
@@ -1836,10 +1774,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *                                           discounts for the shopping cart total
      * 
      * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
      */
     public function getTaxRatesWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         if ($includeChargesForTotal === 'false') {
@@ -2088,7 +2022,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 17.11.2010
      */
     public function Log($context, $text) {

@@ -1,21 +1,8 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Pages
@@ -28,7 +15,7 @@
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
 class SilvercartPage extends SiteTree {
@@ -246,7 +233,7 @@ class SilvercartPage extends SiteTree {
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
  * @since 20.09.2010
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
 class SilvercartPage_Controller extends ContentController {
@@ -288,11 +275,10 @@ class SilvercartPage_Controller extends ContentController {
     /**
      * standard page controller
      *
+     * @return void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 08.02.2011
-     * @license see license file in modules root directory
-     * @return void
-     * @copyright 2010 pixeltricks GmbH
      */
     public function init() {
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
@@ -697,10 +683,6 @@ class SilvercartPage_Controller extends ContentController {
      * @param string $identifierCode The code of the parent page.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 31.03.2011
      */
     public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
         $output = '';
@@ -770,10 +752,6 @@ class SilvercartPage_Controller extends ContentController {
      * @param int $nrOfProducts The number of products to return
      *
      * @return mixed DataList|Boolean false
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 29.03.2011
      */
     public function getTopsellerProducts($nrOfProducts = 5) {
         $cachekey = 'TopsellerProducts'.$nrOfProducts;
@@ -825,10 +803,6 @@ class SilvercartPage_Controller extends ContentController {
      * @param int    $nrOfProducts    The number of products to return
      *
      * @return DataList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 24.03.2011
      */
     public function getProductGroupItems($groupIdentifier = 'SilvercartOffers', $nrOfProducts = 4) {
         $products = array();

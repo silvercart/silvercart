@@ -98,7 +98,7 @@ The class SilvercartGroupViewFourtile should look like this:
 	 * @package Silvercart
 	 * @subpackage Groupview
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
-	 * @copyright 2012 pixeltricks GmbH
+	 * @copyright 2013 pixeltricks GmbH
 	 * @since 10.01.2012
 	 *
 	 * @see SilvercartGroupViewBase (base class)
@@ -187,7 +187,7 @@ The icons are needed to display the buttons to switch to the GroupView or indica
 	 * @package Silvercart
 	 * @subpackage Groupview
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
-	 * @copyright 2012 pixeltricks GmbH
+	 * @copyright 2013 pixeltricks GmbH
 	 * @since 10.01.2012
 	 *
 	 * @see SilvercartGroupViewBase (base class)
@@ -288,7 +288,7 @@ silvercart_groupview_fourtile.tar.gz
 	 * @package Silvercart
 	 * @subpackage Groupview
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
-	 * @copyright 2012 pixeltricks GmbH
+	 * @copyright 2013 pixeltricks GmbH
 	 * @since 10.01.2012
 	 * @license see license file in modules root directory
 	 */
