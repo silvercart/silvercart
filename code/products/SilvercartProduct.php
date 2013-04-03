@@ -1324,11 +1324,13 @@ class SilvercartProduct extends DataObject {
         
         $this->getFieldsForMain($fields);
         $this->getFieldsForPrices($fields);
-        $this->getFieldsForWidgets($fields);
         $this->getFieldsForSeo($fields);
-        $this->getFieldsForDeeplinks($fields);
-        $this->getFieldsForImages($fields);
-        $this->getFieldsForFiles($fields);
+        if ($this->exists()) {
+            $this->getFieldsForWidgets($fields);
+            $this->getFieldsForDeeplinks($fields);
+            $this->getFieldsForImages($fields);
+            $this->getFieldsForFiles($fields);
+        }
         
         $this->extend('updateCMSFields', $fields);
         return $fields;
