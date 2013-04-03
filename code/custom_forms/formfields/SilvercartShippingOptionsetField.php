@@ -30,7 +30,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.03.2013
+     * @since 03.04.2013
      */
     public function Field($properties = array()) {
         $odd            = 0;
@@ -57,7 +57,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
                     }
 
                     $items['item_'.$itemIdx] = new ArrayData(array(
-                        'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                        'ID'                => $this->id() . "_" . preg_replace('@[^a-zA-Z0-9]+@','',$key),
                         'checked'           => $checked,
                         'odd'               => $odd,
                         'even'              => !$odd,
@@ -65,7 +65,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
                         'value'             => $key,
                         'label'             => $value,
                         'name'              => $this->name,
-                        'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                        'htmlId'            => $this->id() . "_" . preg_replace('@[^a-zA-Z0-9]+@','',$key),
                         'description'       => Convert::raw2xml($shippingMethod->Description),
                     ));
                 }

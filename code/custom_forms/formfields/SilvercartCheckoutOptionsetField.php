@@ -30,7 +30,7 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
      * @return string
      *
      * @author Sascha Köhler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2011
+     * @since 03.04.2013
      */
     public function Field($properties = array()) {
         $odd            = 0;
@@ -59,7 +59,7 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
                 }
 
                 $items['item_'.$itemIdx] = new ArrayData(array(
-                    'ID'                => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'ID'                => $this->id() . "_" . preg_replace('@[^a-zA-Z0-9]+@','',$key),
                     'checked'           => $checked,
                     'odd'               => $odd,
                     'even'              => !$odd,
@@ -67,7 +67,7 @@ class SilvercartCheckoutOptionsetField extends OptionsetField {
                     'value'             => $key,
                     'label'             => $value,
                     'name'              => $this->name,
-                    'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
+                    'htmlId'            => $this->id() . "_" . preg_replace('@[^a-zA-Z0-9]+@','',$key),
                     'description'       => Convert::raw2xml($paymentMethod->getPaymentDescription()),
                     'showPaymentLogos'  => $paymentMethod->showPaymentLogos,
                     'PaymentLogos'      => $paymentMethod->PaymentLogos()
