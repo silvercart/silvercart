@@ -223,6 +223,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $summaryFields = array(
             'CreatedNice'                       => $this->fieldLabel('Created'),
             'OrderNumber'                       => $this->fieldLabel('OrderNumber'),
+            'Member.CustomerNumber'             => $this->Member()->fieldLabel('CustomerNumber'),
             'ShippingAddressSummaryHtml'        => $this->fieldLabel('SilvercartShippingAddress'),
             'InvoiceAddressSummaryHtml'         => $this->fieldLabel('SilvercartInvoiceAddress'),
             'AmountTotalNice'                   => $this->fieldLabel('AmountTotal'),
