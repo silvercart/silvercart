@@ -202,7 +202,7 @@ class SilvercartCustomer extends DataExtension {
         $addressesCountryFilter = array();
         if ($this->owner->SilvercartAddresses()->exists()) {
             $addressesCountryFilter = array(
-                'SilvercartAddresses.first.SilvercartCountry' => array(
+                'SilvercartAddresses.first.SilvercartCountry.ID' => array(
                     'title'     => $address->fieldLabel('SilvercartCountry'),
                     'filter'    => 'ExactMatchFilter',
                 ),
@@ -346,6 +346,22 @@ class SilvercartCustomer extends DataExtension {
                     $fields
             );
         }
+    }
+    
+    /**
+     * Returns a list of fields which are allowed to display HTML inside a
+     * GridFields data column.
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.03.2013
+     */
+    public function allowHtmlDataFor() {
+        return array(
+            'ShippingAddressSummary',
+            'InvoiceAddressSummary',
+        );
     }
 
     /**

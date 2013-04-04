@@ -13,12 +13,13 @@
  * 
  * @package Silvercart
  * @subpackage ModelAdmins
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
- * @since 16.01.2012
+ * @since 04.04.2013
  * @license see license file in modules root directory
  */
-class SilvercartContactMessageAdmin extends ModelAdmin {
+class SilvercartContactMessageAdmin extends SilvercartModelAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -32,7 +33,7 @@ class SilvercartContactMessageAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuSortIndex = 10;
+    public static $menuSortIndex = 20;
 
     /**
      * The URL segment
@@ -56,31 +57,6 @@ class SilvercartContactMessageAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartContactMessage'
     );
-    
-    /**
-     * Provides hook for decorators, so that they can overwrite css
-     * and other definitions.
-     * 
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
-     */
-    public function init() {
-        parent::init();
-        $this->extend('updateInit');
-    }
-    
-    /**
-     * title in the top bar of the CMS
-     *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.08.2012
-     */
-    public function SectionTitle() {
-        return _t('SilvercartContactMessage.PLURALNAME');
-    }
+
 }
 

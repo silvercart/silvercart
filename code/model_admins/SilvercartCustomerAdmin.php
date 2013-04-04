@@ -15,10 +15,10 @@
  * @subpackage ModelAdmins
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
- * @since 05.09.2012
+ * @since 04.04.2013
  * @license see license file in modules root directory
  */
-class SilvercartCustomerAdmin extends ModelAdmin {
+class SilvercartCustomerAdmin extends SilvercartModelAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -32,7 +32,7 @@ class SilvercartCustomerAdmin extends ModelAdmin {
      * 
      * @var string
      */
-    public static $menuSortIndex = 20;
+    public static $menuSortIndex = 10;
 
     /**
      * The URL segment
@@ -57,29 +57,4 @@ class SilvercartCustomerAdmin extends ModelAdmin {
         'Member'
     );
     
-    /**
-     * Provides hook for decorators, so that they can overwrite css
-     * and other definitions.
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.09.2012
-     */
-    public function init() {
-        parent::init();
-        $this->extend('updateInit');
-    }
-    
-    /**
-     * label for backend
-     *
-     * @return string title for backend navigation 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2013
-     */
-    public function SectionTitle() {
-        return _t("SilvercartCustomer.PLURALNAME");
-    }
 }
