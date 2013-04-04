@@ -1863,6 +1863,7 @@ $lang['de_DE']['Translatable']['CREATEBUTTON_DESC']                             
 $lang['de_DE']['Translatable']['PUBLISHBUTTON']                                 = 'Alle Seiten der aktuellen Sprache veröffentlichen';
 $lang['de_DE']['Translatable']['EXISTING']                                      = 'Vorhandene Übersetzungen:';
 $lang['de_DE']['Translatable']['CURRENTLOCALE']                                 = 'Aktuelle Sprache';
+$lang['de_DE']['Translatable']['TRANSLATIONS']                                  = 'Übersetzungen';
 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';

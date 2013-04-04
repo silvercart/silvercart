@@ -1863,3 +1863,4 @@ $lang['en_US']['Translatable']['CREATEBUTTON_DESC']                             
 $lang['en_US']['Translatable']['PUBLISHBUTTON']                                 = 'Publish all pages of this translation';
 $lang['en_US']['Translatable']['EXISTING']                                      = 'Existing translations:';
 $lang['en_US']['Translatable']['CURRENTLOCALE']                                 = 'Current Locale';
+$lang['en_US']['Translatable']['TRANSLATIONS']                                  = 'Translations';

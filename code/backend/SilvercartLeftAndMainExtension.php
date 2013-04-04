@@ -269,8 +269,9 @@ class SilvercartLeftAndMainExtension extends DataExtension {
      * @since 04.04.2013
      */
     public function publishsitetree($data, $form) {
+        $request = $this->owner->getRequest();
         // Protect against CSRF on destructive action
-        if (!SecurityToken::inst()->checkRequest($this->owner->getRequest())) {
+        if (!SecurityToken::inst()->checkRequest($request)) {
             return $this->owner->httpError(400);
         }
 
