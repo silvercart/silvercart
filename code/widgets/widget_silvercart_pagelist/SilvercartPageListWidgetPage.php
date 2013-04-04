@@ -56,15 +56,21 @@ class SilvercartPageListWidgetPage extends DataExtension {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.12.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2013
      */
     public function updateFieldLabels(&$labels) {
-        $labels['widgetInfoTab']    = _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB');
-        $labels['widgetImage']      = _t('SilvercartPageListWidgetPage.WIDGET_IMAGE');
-        $labels['widgetText']       = _t('SilvercartPageListWidgetPage.WIDGET_TEXT');
-        $labels['widgetTitle']      = _t('SilvercartPageListWidgetPage.WIDGET_TITLE');
-        $labels['widgetPriority']   = _t('SilvercartPageListWidgetPage.WIDGET_PRIORITY');
+        $labels = array_merge(
+                $labels,
+                array(
+                    'widgetInfoTab'     => _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB'),
+                    'widgetInfoTabInfo' => _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB_EXPLANATION'),
+                    'widgetImage'       => _t('SilvercartPageListWidgetPage.WIDGET_IMAGE'),
+                    'widgetText'        => _t('SilvercartPageListWidgetPage.WIDGET_TEXT'),
+                    'widgetTitle'       => _t('SilvercartPageListWidgetPage.WIDGET_TITLE'),
+                    'widgetPriority'    => _t('SilvercartPageListWidgetPage.WIDGET_PRIORITY'),
+                )
+        );
     }
 
     /**
@@ -74,37 +80,22 @@ class SilvercartPageListWidgetPage extends DataExtension {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.12.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2013
      */
     public function updateCMSFields(FieldList $fields) {
-        $widgetInfoTab = $fields->findOrMakeTab('Root.WidgetInfoTab', $this->owner->fieldLabel('widgetInfoTab'));
+        $widgetInfoField = ToggleCompositeField::create(
+                'widgetInfoTab',
+                $this->owner->fieldLabel('widgetInfoTab'),
+                array(
+                    new LiteralField(   'widgetInfoTabExplanation',             '<div class="field">' . $this->owner->fieldLabel('widgetInfoTabInfo') . '</div>'),
+                    new TextField(      'widgetPriority',                       $this->owner->fieldLabel('widgetPriority')),
+                    new TextField(      'widgetTitle',                          $this->owner->fieldLabel('widgetTitle')),
+                    new HtmlEditorField('widgetText',                           $this->owner->fieldLabel('widgetText')),
+                    new UploadField(    'widgetImage',                          $this->owner->fieldLabel('widgetImage')),
+                )
+        )->setHeadingLevel(4);
 
-        $infoField = new LabelField(
-            'widgetInfoTabExplanation',
-            _t('SilvercartPageListWidgetPage.WIDGET_INFO_TAB_EXPLANATION')
-        );
-        $priorityField = new TextField(
-            'widgetPriority',
-            $this->owner->fieldLabel('widgetPriority')
-        );
-        $titleField = new TextField(
-            'widgetTitle',
-            $this->owner->fieldLabel('widgetTitle')
-        );
-        $textField = new HtmlEditorField(
-            'widgetText',
-            $this->owner->fieldLabel('widgetText')
-        );
-        $imageField = new UploadField(
-            'widgetImage',
-            $this->owner->fieldLabel('widgetImage')
-        );
-
-        $widgetInfoTab->push($infoField);
-        $widgetInfoTab->push($priorityField);
-        $widgetInfoTab->push($titleField);
-        $widgetInfoTab->push($textField);
-        $widgetInfoTab->push($imageField);
+        $fields->addFieldToTab('Root.Widgets', $widgetInfoField);
     }
 }
