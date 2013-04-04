@@ -54,6 +54,7 @@ $lang['en_GB']['Silvercart']['SORTORDER'] = 'Sort order';
 $lang['en_GB']['Silvercart']['PAGE'] = 'Page';
 $lang['en_GB']['Silvercart']['X_OF_Y'] = '%s of %s';
 $lang['en_GB']['Silvercart']['EXECUTE'] = 'Execute';
+$lang['en_GB']['Silvercart']['SOCIALMEDIA']                                     = 'Social Media';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
 
@@ -1853,3 +1854,12 @@ $lang['en_GB']['SilvercartDateRangePicker']['PREVIOUS']                         
 $lang['en_GB']['GridAction']['Duplicate']                                       = 'Duplicate';
 $lang['en_GB']['GridAction']['DUPLICATE_DESCRIPTION']                           = 'Duplicates this object';
 $lang['en_GB']['GridFieldAction_Duplicate']['DuplicatePermissionsFailure']      = 'No duplicate permissions';
+
+$lang['en_GB']['Translatable']['CREATE']                                        = 'Create new translation';
+$lang['en_GB']['Translatable']['CREATE_TRANSLATION_DESC']                       = 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.';
+$lang['en_GB']['Translatable']['NEWLANGUAGE']                                   = 'New language';
+$lang['en_GB']['Translatable']['CREATEBUTTON']                                  = 'Create';
+$lang['en_GB']['Translatable']['CREATEBUTTON_DESC']                             = 'Creates a translation template for every single page of the current visible language.';
+$lang['en_GB']['Translatable']['PUBLISHBUTTON']                                 = 'Publish all pages of this translation';
+$lang['en_GB']['Translatable']['EXISTING']                                      = 'Existing translations:';
+$lang['en_GB']['Translatable']['CURRENTLOCALE']                                 = 'Current Locale';

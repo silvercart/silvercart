@@ -14,9 +14,9 @@
  *
  * @package Silvercart
  * @subpackage Config
- * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 04.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 15.06.2012
  * @license see license file in modules root directory
  */
 class SilvercartSiteConfig extends DataExtension {
@@ -27,14 +27,14 @@ class SilvercartSiteConfig extends DataExtension {
      * @var array
      */
     public static $db = array(
-                'GoogleAnalyticsTrackingCode'   => 'Text',
-                'GoogleConversionTrackingCode'  => 'Text',
-                'GoogleWebmasterCode'           => 'Text',
-                'PiwikTrackingCode'             => 'Text',
-                'FacebookLink'                  => 'Text',
-                'TwitterLink'                   => 'Text',
-                'XingLink'                      => 'Text',
-            );
+        'GoogleAnalyticsTrackingCode'   => 'Text',
+        'GoogleConversionTrackingCode'  => 'Text',
+        'GoogleWebmasterCode'           => 'Text',
+        'PiwikTrackingCode'             => 'Text',
+        'FacebookLink'                  => 'Text',
+        'TwitterLink'                   => 'Text',
+        'XingLink'                      => 'Text',
+    );
     
     /**
      * Updates the fields labels
@@ -44,7 +44,7 @@ class SilvercartSiteConfig extends DataExtension {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.06.2012
+     * @since 04.04.2013
      */
     public function updateFieldLabels(&$labels) {
         $labels = array_merge(
@@ -57,6 +57,17 @@ class SilvercartSiteConfig extends DataExtension {
                     'FacebookLink'                  => _t('SilvercartSiteConfig.FACEBOOK_LINK'),
                     'TwitterLink'                   => _t('SilvercartSiteConfig.TWITTER_LINK'),
                     'XingLink'                      => _t('SilvercartSiteConfig.XING_LINK'),
+                    'SeoTab'                        => _t('Silvercart.SEO'),
+                    'SocialMediaTab'                => _t('Silvercart.SOCIALMEDIA'),
+                    'TranslationsTab'               => _t('Silvercart.TRANSLATIONS'),
+                    'CreateTransHeader'             => _t('Translatable.CREATE'),
+                    'CreateTransDescription'        => _t('Translatable.CREATE_TRANSLATION_DESC'),
+                    'NewTransLang'                  => _t('Translatable.NEWLANGUAGE'),
+                    'createsitetreetranslation'     => _t('Translatable.CREATEBUTTON'),
+                    'createsitetreetranslationDesc' => _t('Translatable.CREATEBUTTON_DESC'),
+                    'publishsitetree'               => _t('Translatable.PUBLISHBUTTON'),
+                    'ExistingTransHeader'           => _t('Translatable.EXISTING'),
+                    'CurrentLocale'                 => _t('Translatable.CURRENTLOCALE'),
                 )
         );
     }
@@ -69,10 +80,12 @@ class SilvercartSiteConfig extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.06.2012
+     * @since 04.04.2013
      */
     public function updateCMSFields(FieldList $fields) {
-        $seoTab = $fields->findOrMakeTab('Root.SEO', _t('Silvercart.SEO'));
+        $fields->findOrMakeTab('Root.SEO')          ->setTitle($this->owner->fieldLabel('SeoTab'));
+        $fields->findOrMakeTab('Root.SocialMedia')  ->setTitle($this->owner->fieldLabel('SocialMediaTab'));
+        $fields->findOrMakeTab('Root.Translations') ->setTitle($this->owner->fieldLabel('TranslationsTab'));
         
         $googleWebmasterCodeField           = new TextField('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
         $googleAnalyticsTrackingCodeField   = new TextareaField('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
@@ -84,9 +97,6 @@ class SilvercartSiteConfig extends DataExtension {
         $fields->addFieldToTab('Root.SEO', $googleConversionTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
         
-        
-        $socialMediaTab = $fields->findOrMakeTab('Root.SocialMedia', _t('Silvercart.SOCIALMEDIA'));
-        
         $facebookLinkField  = new TextField('FacebookLink',     $this->owner->fieldLabel('FacebookLink'));
         $twitterLinkField   = new TextField('TwitterLink',      $this->owner->fieldLabel('TwitterLink'));
         $xingLinkField      = new TextField('XingLink',         $this->owner->fieldLabel('XingLink'));
@@ -95,60 +105,22 @@ class SilvercartSiteConfig extends DataExtension {
         $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
         
-        // used in CMSMain->init() to set language state when reading/writing record
-        $fields->push(new HiddenField("Locale", "Locale", $this->owner->Locale));
+        $localeField    = new TextField('CurrentLocale',                        $this->owner->fieldLabel('CurrentLocale'),              i18n::get_locale_name($this->owner->Locale));
+        $createButton   = new InlineFormAction('createsitetreetranslation',     $this->owner->fieldLabel('createsitetreetranslation'));
+        $publishButton  = new InlineFormAction('publishsitetree',               $this->owner->fieldLabel('publishsitetree'));
         
-        $alreadyTranslatedLocales = Translatable::get_existing_content_languages('SiteConfig');
-        foreach ($alreadyTranslatedLocales as $locale => $name) {
-            $alreadyTranslatedLocales[$locale] = $locale;
-        }
-                
-        $fields->addFieldsToTab(
-                'Root', new Tab('Translations', _t('Translatable.TRANSLATIONS', 'Translations'),
-                        new HeaderField('CreateTransHeader', _t('Translatable.CREATE', 'Create new translation'), 2),
-                        new LiteralField('CreateTransDescription', '<p>' . _t('SilvercartSiteConfig.CREATE_TRANSLATION_DESC', 'Create new translation') . '</p>'),
-                        $langDropdown = new LanguageDropdownField(
-                                "NewTransLang",
-                                _t('Translatable.NEWLANGUAGE', 'New language'),
-                                $alreadyTranslatedLocales,
-                                'SiteConfig',
-                                'Locale-English',
-                                $this->owner
-                        ),
-                        $createButton = new InlineFormAction('createsitetreetranslation', _t('Translatable.CREATEBUTTON', 'Create')),
-                        $publishButton = new InlineFormAction('publishsitetree', _t('SilvercartSiteConfig.PUBLISHBUTTON', 'Publish all pages of this translation'))
-                )
-        );
+        $localeField->setReadonly(true);
+        $localeField->setDisabled(true);
+        $createButton->setRightTitle($this->owner->fieldLabel('createsitetreetranslationDesc'));
         $createButton->includeDefaultJS(false);
-        $publishButton->includeDefaultJS(false);
-
-        if ($alreadyTranslatedLocales) {
-            $fields->addFieldToTab(
-                    'Root.Translations', new HeaderField('ExistingTransHeader', _t('Translatable.EXISTING', 'Existing translations:'), 3)
-            );
-            $existingTransHTML = '<ul>';
-            foreach ($alreadyTranslatedLocales as $i => $langCode) {
-                $existingTranslation = DataObject::get_one(
-                        'SiteConfig',
-                        sprintf(
-                                "\"Locale\" = '%s'",
-                                $langCode
-                        )
-                );
-                if ($existingTranslation) {
-                    $existingTransHTML .= sprintf('<li><a href="%s">%s</a></li>', sprintf('admin/show/root/?locale=%s', $langCode), i18n::get_locale_name($langCode)
-                    );
-                }
-            }
-            $existingTransHTML .= '</ul>';
-            $fields->addFieldToTab(
-                    'Root.Translations', new LiteralField('existingtrans', $existingTransHTML)
-            );
-        }
-
-        $langDropdown->addExtraClass('languageDropdown');
         $createButton->addExtraClass('createTranslationButton');
+        $publishButton->includeDefaultJS(false);
         $publishButton->addExtraClass('createTranslationButton');
+        
+        $fields->addFieldToTab('Root.Translations', $localeField,   'CreateTransHeader');
+        $fields->addFieldToTab('Root.Translations', $createButton,  'createtranslation');
+        $fields->addFieldToTab('Root.Translations', $publishButton, 'createtranslation');
+        $fields->removeByName('createtranslation');
     }
     
 }

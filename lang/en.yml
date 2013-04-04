@@ -40,6 +40,7 @@ en:
     SEC: "second"
     SECS: "seconds"
     SEO: "SEO"
+    SOCIALMEDIA: "Social Media"
     SORTORDER: "Sort order"
     TIMES: "Time"
     TRANSLATION: "Translation"
@@ -1234,6 +1235,7 @@ en:
     ACCESS_MANAGEMENT_USER_LABEL: "By user(s)"
     ACCESS_SETTINGS: "Access management"
     ATTRIBUTED_COUNTRIES: "Attributed countries"
+    AddPaymentLogos: "Add Logo"
     BASIC_SETTINGS: "Basic settings"
     ENABLE_RESTRICTION_BY_ORDER_LABEL: "Use the following rule"
     FROM_PURCHASE_VALUE: "From purchase value"
@@ -1862,3 +1864,12 @@ en:
   TermsOfServicePage:
     DEFAULT_TITLE: "terms of service"
     DEFAULT_URLSEGMENT: "terms-of-service"
+  Translatable:
+    CREATE: "Create new translation"
+    CREATEBUTTON: "Create"
+    CREATEBUTTON_DESC: "Creates a translation template for every single page of the current visible language."
+    CREATE_TRANSLATION_DESC: "New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset."
+    CURRENTLOCALE: "Current Locale"
+    EXISTING: "Existing translations:"
+    NEWLANGUAGE: "New language"
+    PUBLISHBUTTON: "Publish all pages of this translation"

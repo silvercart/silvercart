@@ -54,6 +54,7 @@ $lang['de_DE']['Silvercart']['SORTORDER'] = 'Sortierreihenfolge';
 $lang['de_DE']['Silvercart']['PAGE'] = 'Seite';
 $lang['de_DE']['Silvercart']['X_OF_Y'] = '%s von %s';
 $lang['de_DE']['Silvercart']['EXECUTE'] = 'Ausführen';
+$lang['de_DE']['Silvercart']['SOCIALMEDIA']                                     = 'Social Media';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE']                                = 'Es ist ein Update verfügbar';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Laden Sie sich die aktuellste Version von SilverCart unter <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a> herunter.';
 
@@ -1853,6 +1854,15 @@ $lang['de_DE']['SilvercartDateRangePicker']['PREVIOUS']                         
 $lang['de_DE']['GridAction']['Duplicate']                                       = 'Duplizieren';
 $lang['de_DE']['GridAction']['DUPLICATE_DESCRIPTION']                           = 'Dupliziert dieses Objekt';
 $lang['de_DE']['GridFieldAction_Duplicate']['DuplicatePermissionsFailure']      = 'Duplizieren nicht erlaubt';
+
+$lang['de_DE']['Translatable']['CREATE']                                        = 'Neue Übersetzung erstellen';
+$lang['de_DE']['Translatable']['CREATE_TRANSLATION_DESC']                       = 'Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist.';
+$lang['de_DE']['Translatable']['NEWLANGUAGE']                                   = 'Neue Sprache';
+$lang['de_DE']['Translatable']['CREATEBUTTON']                                  = 'Erstellen';
+$lang['de_DE']['Translatable']['CREATEBUTTON_DESC']                             = 'Erstellt automatisch eine Übersetzungsvorlage aller Seiten der aktuell sichtbaren Sprache.';
+$lang['de_DE']['Translatable']['PUBLISHBUTTON']                                 = 'Alle Seiten der aktuellen Sprache veröffentlichen';
+$lang['de_DE']['Translatable']['EXISTING']                                      = 'Vorhandene Übersetzungen:';
+$lang['de_DE']['Translatable']['CURRENTLOCALE']                                 = 'Aktuelle Sprache';
 
 $lang['de_DE']['DataObjectManager']['DESELECTALL'] = 'Auswahl aufheben';
 $lang['de_DE']['DataObjectManager']['ONLYRELATED'] = 'Nur verknüpfte Einträge anzeigen';

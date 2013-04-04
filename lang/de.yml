@@ -40,6 +40,7 @@ de:
     SEC: "Sekunde"
     SECS: "Sekunden"
     SEO: "SEO"
+    SOCIALMEDIA: "Social Media"
     SORTORDER: "Sortierreihenfolge"
     TIMES: "Zeiten"
     TRANSLATION: "Übersetzung"
@@ -1235,6 +1236,7 @@ de:
     ACCESS_MANAGEMENT_USER_LABEL: "Nach Kunde(n)"
     ACCESS_SETTINGS: "Zugriffsverwaltung"
     ATTRIBUTED_COUNTRIES: "zugeordnete Länder"
+    AddPaymentLogos: "Logo hinzufügen"
     BASIC_SETTINGS: "Grundeinstellungen"
     ENABLE_RESTRICTION_BY_ORDER_LABEL: "Die folgende Regel anwenden"
     FROM_PURCHASE_VALUE: "ab Warenwert"
@@ -1863,3 +1865,12 @@ de:
   TermsOfServicePage:
     DEFAULT_TITLE: "Allgemeine Geschäftsbedingungen"
     DEFAULT_URLSEGMENT: "allgemeine-geschaeftsbedingungen-kaeuferinformationen"
+  Translatable:
+    CREATE: "Neue Übersetzung erstellen"
+    CREATEBUTTON: "Erstellen"
+    CREATEBUTTON_DESC: "Erstellt automatisch eine Übersetzungsvorlage aller Seiten der aktuell sichtbaren Sprache."
+    CREATE_TRANSLATION_DESC: "Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist."
+    CURRENTLOCALE: "Aktuelle Sprache"
+    EXISTING: "Vorhandene Übersetzungen:"
+    NEWLANGUAGE: "Neue Sprache"
+    PUBLISHBUTTON: "Alle Seiten der aktuellen Sprache veröffentlichen"

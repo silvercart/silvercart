@@ -13,9 +13,10 @@
  * 
  * @package Silvercart
  * @subpackage Backend
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 04.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 16.01.2012
  * @license see license file in modules root directory
  */
 class SilvercartLeftAndMainExtension extends DataExtension {
@@ -27,6 +28,8 @@ class SilvercartLeftAndMainExtension extends DataExtension {
      */
     public static $allowed_actions = array(
         'isUpdateAvailable',
+        'createsitetreetranslation',
+        'publishsitetree',
     );
     
     /**
@@ -36,7 +39,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.01.2011
+     * @since 04.04.2013
      */
     public function onAfterInit() {
         if (Director::is_ajax()) {
@@ -44,6 +47,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
         }
         $baseUrl = SilvercartTools::getBaseURLSegment();
         Requirements::javascript($baseUrl . 'silvercart/script/SilvercartLeftAndMain.js');
+        Requirements::css('silvercart/css/backend/SilvercartMain.css');
     }
     
     /**
@@ -63,7 +67,8 @@ class SilvercartLeftAndMainExtension extends DataExtension {
      * 
      * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.02.2013
      */
     public function SilvercartMenus() {
@@ -209,4 +214,74 @@ class SilvercartLeftAndMainExtension extends DataExtension {
         print (int) $this->UpdateAvailable();
         exit();
     }
+    
+    /**
+     * This action will create a translation template for all pages of the 
+     * SiteTree for the given language.
+     * 
+     * @param array $data Request data
+     * @param Form  $form Request form
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2013
+     */
+    public function createsitetreetranslation($data, $form) {
+        $request = $this->owner->getRequest();
+        // Protect against CSRF on destructive action
+        if (!SecurityToken::inst()->checkRequest($request)) {
+            return $this->owner->httpError(400);
+        }
+
+        $langCode               = Convert::raw2sql($request->postVar('NewTransLang'));
+        $record                 = $this->owner->getRecord($request->postVar('ID'));
+        $this->owner->Locale    = $langCode;
+
+        if ($record instanceof SiteConfig) {
+            $translatedRecord = $record->createTranslation($langCode);
+            SilvercartRequireDefaultRecords::doTranslateSiteTree($langCode);
+
+            $url = Controller::join_links(
+                $this->owner->Link('show'),
+                $translatedRecord->ID
+            );
+
+            // set the X-Pjax header to Content, so that the whole admin panel will be refreshed
+            $this->owner->getResponse()->addHeader('X-Pjax', 'Content');
+
+            $result = $this->owner->redirect($url);
+        } else {
+            $result = $this->owner->httpError(404);
+        }
+        return $result;
+    }
+    
+    /**
+     * This action will publish all pages for the given language
+     * 
+     * @param array $data Request data
+     * @param Form  $form Request form
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.04.2013
+     */
+    public function publishsitetree($data, $form) {
+        // Protect against CSRF on destructive action
+        if (!SecurityToken::inst()->checkRequest($this->owner->getRequest())) {
+            return $this->owner->httpError(400);
+        }
+
+        $langCode               = Convert::raw2sql($request->postVar('Locale'));
+        $this->owner->Locale    = $langCode;
+
+        SilvercartRequireDefaultRecords::doPublishSiteTree($langCode);
+        
+        $url = $this->owner->Link('show');
+        
+        return $this->owner->redirect($url);
+    }
+    
 }
