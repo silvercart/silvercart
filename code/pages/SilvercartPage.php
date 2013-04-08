@@ -13,8 +13,10 @@
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
- * @since 20.09.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Jiri Ripa <jripa@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
@@ -231,8 +233,10 @@ class SilvercartPage extends SiteTree {
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>, Jiri Ripa <jripa@pixeltricks.de>
- * @since 20.09.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Jiri Ripa <jripa@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
@@ -277,8 +281,9 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 08.02.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
     public function init() {
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
@@ -292,6 +297,7 @@ class SilvercartPage_Controller extends ContentController {
             return true;
         }
         
+        SilvercartTools::initSession();
         $controller = Controller::curr();
         
         if ($this != $controller &&
@@ -299,12 +305,6 @@ class SilvercartPage_Controller extends ContentController {
             $registeredCustomHtmlForms = $controller->getRegisteredCustomHtmlForms();
         }
         
-        if (!isset($_SESSION['Silvercart'])) {
-            $_SESSION['Silvercart'] = array();
-        }
-        if (!isset($_SESSION['Silvercart']['errors'])) {
-            $_SESSION['Silvercart']['errors'] = array();
-        }
         if ($controller == $this || $controller->forceLoadOfWidgets) {
             $this->loadWidgetControllers();
         }
@@ -450,19 +450,21 @@ class SilvercartPage_Controller extends ContentController {
      *
      * @return string
      * 
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since 09.06.2011
+     * @author Sascha koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
     public function SilvercartErrors() {
         $errorStr = '';
         
-        if (!empty($_SESSION['Silvercart']['errors'])) {
-            foreach ($_SESSION['Silvercart']['errors'] as $error) {
+        $silvercartSessionErrors = Session::get('Silvercart.errors');
+        if (is_array($silvercartSessionErrors)) {
+            foreach ($silvercartSessionErrors as $error) {
                 $errorStr .= '<p>'.$error.'</p>';
             }
+            Session::set('Silvercart.errors', array());
+            Session::save();
         }
-        
-        $_SESSION['Silvercart']['errors'] = array();
         
         return $errorStr;
     }

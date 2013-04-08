@@ -13,9 +13,10 @@
  * 
  * @package Silvercart
  * @subpackage Base
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 16.02.2012
  * @license see license file in modules root directory
  */
 class SilvercartTools extends Object {
@@ -55,6 +56,27 @@ class SilvercartTools extends Object {
      * @var ArrayList
      */
     public static $pageHierarchy = array();
+
+    /**
+     * Initializes silvercart specific session data.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
+     */
+    public static function initSession() {
+        $silvercartSession = Session::get('Silvercart');
+        if (is_null($silvercartSession)) {
+            Session::set('Silvercart', array());
+            Session::save();
+            $silvercartSession = Session::get('Silvercart');
+        }
+        if (!array_key_exists('errors', $silvercartSession)) {
+            Session::set('Silvercart.errors', array());
+            Session::save();
+        }
+    }
 
     /**
      * Returns the base URL segment that's used for inclusion of css and

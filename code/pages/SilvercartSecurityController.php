@@ -13,8 +13,9 @@
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 15.10.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
@@ -25,16 +26,13 @@ class SilvercartSecurityController extends DataExtension {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 08.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Patrick Schneider <pschneider@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
     public function onBeforeInit() {
-        if (!isset($_SESSION['Silvercart'])) {
-            $_SESSION['Silvercart'] = array();
-        }
-        if (!isset($_SESSION['Silvercart']['errors'])) {
-            $_SESSION['Silvercart']['errors'] = array();
-        }
+        SilvercartTools::initSession();
         
         $controllerParams   = Controller::curr()->getURLParams();
         $anonymousCustomer  = SilvercartCustomer::currentAnonymousCustomer();

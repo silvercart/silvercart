@@ -12,10 +12,11 @@
  * Checkout step page
  *
  * @package Silvercart
- * @subpackage Pages Checkout
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @subpackage Pages_Checkout
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 09.11.2010
  * @license see license file in modules root directory
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
@@ -32,14 +33,16 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 02.10.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
     public static function deleteSessionStepData() {
-        if (isset($_SESSION['CustomHtmlFormStep']) &&
-            is_array($_SESSION['CustomHtmlFormStep'])) {
+        $sessionStepData = Session::get('CustomHtmlFormStep');
+        if (!is_null($sessionStepData) &&
+            is_array($sessionStepData)) {
 
-            foreach ($_SESSION['CustomHtmlFormStep'] as $sessionIdx => $sessionContent) {
+            foreach ($sessionStepData as $sessionIdx => $sessionContent) {
                 unset($_SESSION['CustomHtmlFormStep'][$sessionIdx]);
             }
         }
@@ -78,9 +81,10 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
  *
  * @package Silvercart
  * @subpackage Pages Checkout
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 09.11.2010
  * @license see license file in modules root directory
  */
 class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
@@ -137,10 +141,13 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                  SilvercartConfig::MinimumOrderValue() &&
                  SilvercartConfig::MinimumOrderValue()->getAmount() > $shoppingCart->getAmountTotalWithoutFees()->getAmount()) {
                 
-                $_SESSION['Silvercart']['errors'][] = sprintf(
+                $silvercartSessionErrors    = Session::get('Silvercart.errors');
+                $silvercartSessionErrors[]  = sprintf(
                     _t('SilvercartShoppingCart.ERROR_MINIMUMORDERVALUE_NOT_REACHED'),
                     SilvercartConfig::MinimumOrderValue()->Nice()
                 );
+                Session::set('Silvercart.errors', $silvercartSessionErrors);
+                Session::save();
                 
                 $this->redirect(SilvercartPage_Controller::PageByIdentifierCode('SilvercartCartPage')->Link());
             }
