@@ -16,6 +16,6 @@
 	</fieldset>
 </form>
 
-<% control Controller %>
+<% with Controller %>
 {$SiteConfig.GoogleConversionTrackingCode.Raw}
-<% end_control %>
+<% end_with %>

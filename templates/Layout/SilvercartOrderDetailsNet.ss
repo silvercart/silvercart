@@ -169,12 +169,12 @@
         </tr>
 
         <% if HasIncludedInTotalPositions %>
-            <% control SilvercartOrderIncludedInTotalPositions %>
+            <% loop SilvercartOrderIncludedInTotalPositions %>
                 <tr class="$EvenOrOdd">
                     <td colspan="5" class="right">$Title.RAW</td>
                     <td class="right">$Price.Nice</td>
                 </tr>
-            <% end_control %>
+            <% end_loop %>
         <% end_if %>
     </tbody>
 </table>

@@ -82,9 +82,9 @@
                 </div>
                 <% if PluggedInProductListAdditionalData %>
                 <div class="silvercart-product-list-additional-data">
-                    <% control PluggedInProductListAdditionalData %>
+                    <% loop PluggedInProductListAdditionalData %>
                         $AdditionalData
-                    <% end_control %>
+                    <% end_loop %>
                 </div>
                 <% end_if %>
             </div>

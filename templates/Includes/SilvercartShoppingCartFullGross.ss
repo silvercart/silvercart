@@ -177,9 +177,9 @@
                 <% end_loop %>
             <% end_if %>
         <% else %>
-            <% control registeredModules %>
+            <% loop registeredModules %>
                 <% if NonTaxableShoppingCartPositions %>
-                    <% control NonTaxableShoppingCartPositions %>
+                    <% loop NonTaxableShoppingCartPositions %>
                         <tr>
                             <td colspan="3">TEST 1$Name</td>
                             <td class="right">$PriceFormatted</td>
@@ -191,9 +191,9 @@
                             <td>$removeFromCartForm</td>
                             <% end_if %>
                         </tr>
-                    <% end_control %>
+                    <% end_loop %>
                 <% end_if %>
-            <% end_control %>
+            <% end_loop %>
 
             <tr>
                 <td colspan="3">&nbsp;</td>
@@ -219,18 +219,18 @@
                 <% end_loop %>
             <% end_if %>
 
-            <% control registeredModules %>
+            <% loop registeredModules %>
                 <% if IncludedInTotalShoppingCartPositions %>
-                    <% control IncludedInTotalShoppingCartPositions %>
+                    <% loop IncludedInTotalShoppingCartPositions %>
                         <tr>
                             <td colspan="3">&nbsp;</td>
                             <td colspan="3" class="right">$Name</td>
                             <td class="right">{$PriceTotalFormatted}</td>
                             <td>&nbsp;</td>
                         </tr>
-                    <% end_control %>
+                    <% end_loop %>
                 <% end_if %>
-            <% end_control %>
+            <% end_loop %>
         <% end_if %>
         
         <% if CurrentPage.EditableShoppingCart %>

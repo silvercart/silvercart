@@ -2,9 +2,9 @@
 	$CustomHtmlFormMetadata
 
     <% if errorMessages %>
-        <% control errorMessages %>
+        <% loop errorMessages %>
             <p>$message</p>
-        <% end_control %>
+        <% end_loop %>
     <% end_if %>
 
     <fieldset>
