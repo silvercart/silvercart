@@ -941,9 +941,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 22.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.04.2013
      */
     public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
@@ -1027,7 +1027,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->ProductNumber       = '';
                     $orderPosition->Title               = $chargeAndDiscountForProduct->Name;
                     $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->SilvercartProductID = $product->ID;
                     $orderPosition->write();
                     unset($orderPosition);
                 }
