@@ -263,7 +263,7 @@ class SilvercartConfig extends DataObject {
         return true;
     }
 
-        /**
+    /**
      * Add notes to the CMS fields.
      *
      * @param array $params custom params

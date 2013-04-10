@@ -1763,15 +1763,17 @@ class SilvercartProduct extends DataObject {
      * -If the stock quantity of a product is NOT overbookable and the products
      *  stock quantity is less than zero false will be returned.
      *
-     * @param int   $cartID   ID of the users shopping cart
-     * @param float $quantity Amount of products to be added
+     * @param int     $cartID    ID of the users shopping cart
+     * @param float   $quantity  Amount of products to be added
+     * @param boolean $increment Set to true to increment the quantity instead
+     *                           of setting it absolutely
      *
      * @return mixed SilvercartShoppingCartPosition|boolean false
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.03.2013
      */
-    public function addToCart($cartID, $quantity = 1) {
+    public function addToCart($cartID, $quantity = 1, $increment = false) {
         $addToCartAllowed = true;
 
         $this->extend('updateAddToCart', $addToCartAllowed);
@@ -1822,7 +1824,11 @@ class SilvercartProduct extends DataObject {
                 $shoppingCartPosition = false;
             }
         } else {
-            $shoppingCartPosition->Quantity = $quantity;
+            if ($increment) {
+                $shoppingCartPosition->Quantity += $quantity;
+            } else {
+                $shoppingCartPosition->Quantity = $quantity;
+            }
         }
 
         if ($shoppingCartPosition instanceof SilvercartShoppingCartPosition) {
