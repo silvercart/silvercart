@@ -77,7 +77,7 @@ class SilvercartIncrementPositionQuantityForm extends CustomHtmlForm {
                 $member = Member::currentUser();
                 $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
                 if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
-                    $position->SilvercartProduct()->addToCart($member->SilvercartShoppingCart()->ID, 1);
+                    $position->SilvercartProduct()->addToCart($member->SilvercartShoppingCart()->ID, 1, true);
 
                     $backLinkPage = DataObject::get_by_id('SiteTree', $formData['BlID']);
                     Director::redirect($backLinkPage->Link());
