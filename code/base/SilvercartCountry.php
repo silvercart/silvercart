@@ -241,10 +241,6 @@ class SilvercartCountry extends DataObject {
                 'title'     => $this->fieldLabel('SilvercartZones'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'SilvercartPaymentMethods.ID' => array(
-                'title'     => $this->fieldLabel('SilvercartPaymentMethods'),
-                'filter'    => 'PartialMatchFilter',
-            ),
             'Active' => array(
                 'title'     => $this->fieldLabel('Active'),
                 'filter'    => 'ExactMatchFilter',
