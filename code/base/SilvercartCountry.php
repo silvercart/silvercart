@@ -237,6 +237,10 @@ class SilvercartCountry extends DataObject {
                 'title'     => $this->fieldLabel('Currency'),
                 'filter'    => 'PartialMatchFilter',
             ),
+            'SilvercartPaymentMethods.ID' => array(
+                'title'     => $this->fieldLabel('SilvercartPaymentMethods'),
+                'filter'    => 'PartialMatchFilter',
+            ),
             'SilvercartZones.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartZones'),
                 'filter'    => 'PartialMatchFilter',
@@ -318,9 +322,10 @@ class SilvercartCountry extends DataObject {
             'getCmsFields_forPopup'
         );
         $paymentMethodsTable->setAddTitle(_t('SilvercartPaymentMethod.TITLE', 'payment method'));
+
         $tabParam = "Root." . _t('SilvercartPaymentMethod.TITLE');
         $fields->addFieldToTab($tabParam, $paymentMethodsTable);
-        
+
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'ISO2');
