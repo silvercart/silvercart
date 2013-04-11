@@ -109,6 +109,13 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
         $this->setCustomParameter('backLink', Controller::curr()->Link());
 
+        // Get maxlength for quantity field
+        $quantityFieldMaxLength = strlen((string) SilvercartConfig::addToCartMaxQuantity());
+
+        if ($quantityFieldMaxLength == 0) {
+            $quantityFieldMaxLength = 1;
+        }
+
         if (array_key_exists('productID', $this->customParameters)) {
             $silvercartProduct = $this->getProduct();
             if ($silvercartProduct instanceof SilvercartProduct) {
@@ -124,7 +131,9 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
             }
 
             $this->formFields['productQuantity']['checkRequirements']['isDecimalNumber'] = $numberOfDecimalPlaces;
-            $this->formFields['productQuantity']['maxLength'] = 3 + 1 + $numberOfDecimalPlaces;
+            $this->formFields['productQuantity']['maxLength'] = $quantityFieldMaxLength + 1 + $numberOfDecimalPlaces;
+        } else {
+            $this->formFields['productQuantity']['maxLength'] = $quantityFieldMaxLength;
         }
     }
     
