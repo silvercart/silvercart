@@ -311,8 +311,9 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return SilvercartShippingFee the most convenient shipping fee for this shipping method
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.04.2013
      */
     public function getShippingFee($weight = null) {
         $fee = false;
@@ -354,7 +355,7 @@ class SilvercartShippingMethod extends DataObject {
                         $weight,
                         $zoneIDsAsString
                     ),
-                    'PriceAmount'
+                    'PostPricing, PriceAmount'
                 );
 
                 if ($fees) {
