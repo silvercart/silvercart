@@ -153,6 +153,18 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
     public function Description() {
         return $this->fieldLabel('Description');
     }
+    
+    /**
+     * Returns the extra css classes.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2013
+     */
+    public function ExtraCssClasses() {
+        return 'silvercart-product-group-navigation-widget';
+    }
 }
 
 /**
@@ -273,9 +285,11 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
                     'MenuTitle'         => $rootPage->getMenuTitle(),
                     'Title'             => $rootPage->getTitle(),
                     'Link'              => $rootPage->Link(),
+                    'LinkOrSection'     => $rootPage->LinkOrSection(),
                     'ChildPages'        => $childPageStr,
                     'IsActivePage'      => $isActivePage,
-                    'IsActiveSection'   => $isActiveSection
+                    'IsActiveSection'   => $isActiveSection,
+                    'Level'             => $level,
                 );
 
                 $parser     = new SSViewer('SilvercartProductGroupNavigationWidgetEntry');
