@@ -402,7 +402,7 @@ class SilvercartProduct extends DataObject {
             if (empty($metaTitle)) {
                 $metaTitle = Convert::raw2att($this->getTitle());
             }
-            $this->extend('updateMetaTitle', $metaDescription);
+            $this->extend('updateMetaTitle', $metaTitle);
         }
         return $metaTitle;
     }
