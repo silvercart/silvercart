@@ -2568,14 +2568,20 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 13.11.10
      */
     protected function DetailViewProductMetaTitle() {
-        $product = $this->getDetailViewProduct();
-        if ($product && $product->MetaTitle) {
-            if ($product->SilvercartManufacturer()->ID > 0) {
-                return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+        $product        = $this->getDetailViewProduct();
+        $extendedOutput = $this->extend('overwriteDetailViewProductMetaTitle', $product);
+
+        if (empty($extendedOutput)) {
+            if ($product && $product->MetaTitle) {
+                if ($product->SilvercartManufacturer()->ID > 0) {
+                    return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+                }
+                return $product->MetaTitle;
+            } else {
+                return false;
             }
-            return $product->MetaTitle;
         } else {
-            return false;
+            return $extendedOutput[0];
         }
     }
 
