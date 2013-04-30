@@ -26,23 +26,13 @@
  * 
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 29.04.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2010 pixeltricks GmbH
- * @since 23.10.2010
  */
 class SilvercartMyAccountHolder extends Page {
-    
-    /**
-     * list of allowed children page types
-     *
-     * @var array
-     */
-    public static $allowed_children = array(
-        "SilvercartDataPage",
-        "SilvercartOrderHolder",
-        "SilvercartAddressHolder"
-    );
     
     /**
      * Icon to display in CMS site tree
