@@ -152,6 +152,9 @@ class SilvercartCustomer extends DataObjectDecorator {
                     'Birthday'                          => _t('SilvercartCustomer.BIRTHDAY', 'birthday'),
                     'ClassName'                         => _t('SilvercartCustomer.TYPE', 'type'),
                     'CustomerNumber'                    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
+                    'CustomerNumberShort'               => _t('SilvercartCustomer.CUSTOMERNUMBER_SHORT'),
+                    'EmailAddress'                      => _t('SilvercartPage.EMAIL_ADDRESS'),
+                    'FullName'                          => _t('SilvercartCustomer.FULL_NAME'),
                     'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
                     'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                     'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
@@ -385,6 +388,26 @@ class SilvercartCustomer extends DataObjectDecorator {
     // ------------------------------------------------------------------------
     
     /**
+     * Returns whether the current customer is a registered one.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2013
+     */
+    public function isRegisteredCustomer() {
+        $isRegisteredCustomer = false;
+        if ($this->owner->Groups()->find('Code', 'b2c') ||
+            $this->owner->Groups()->find('Code', 'b2b') ||
+            $this->owner->Groups()->find('Code', 'administrators')) {
+
+            $isRegisteredCustomer = true;
+        }
+        return $isRegisteredCustomer;
+    }
+
+
+    /**
      * Creates an anonymous customer if there's no currentMember object.
      *
      * @return Member
@@ -449,7 +472,9 @@ class SilvercartCustomer extends DataObjectDecorator {
      *
      * @return mixed Member|boolean(false)
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.10.2010
      */
     public static function currentRegisteredCustomer() {
@@ -459,12 +484,7 @@ class SilvercartCustomer extends DataObjectDecorator {
         if ($member &&
             $member->Groups()) {
             
-            if ($member->Groups()->find('Code', 'b2c') ||
-                $member->Groups()->find('Code', 'b2b') ||
-                $member->Groups()->find('Code', 'administrators')) {
-                
-                $isRegisteredCustomer = true;
-            }
+            $isRegisteredCustomer = $member->isRegisteredCustomer();
         }
         
         if ($isRegisteredCustomer) {

@@ -899,6 +899,7 @@ $lang['en_US']['SilvercartCustomer']['BUSINESSCUSTOMER'] = 'Business customer';
 $lang['en_US']['SilvercartCustomer']['CUSTOMERNUMBER'] = 'Customernumber';
 $lang['en_US']['SilvercartCustomer']['CUSTOMERNUMBER_SHORT'] = 'Customer-No.';
 $lang['en_US']['SilvercartCustomer']['ERROR_MULTIPLE_PRICETYPES'] = 'Customer groups with different pricetypes are invalid!';
+$lang['en_US']['SilvercartCustomer']['FULL_NAME'] = 'Full name';
 $lang['en_US']['SilvercartCustomer']['GROSS'] = 'gross';
 $lang['en_US']['SilvercartCustomer']['ISBUSINESSACCOUNT'] = 'Is business account';
 $lang['en_US']['SilvercartCustomer']['NET'] = 'net';
