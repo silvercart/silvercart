@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -26,9 +26,11 @@
  *
  * @package Silvercart
  * @subpackage Products
- * @author Sascha Koehler <skoehler@pixeltricks.de>, <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
- * @since 22.11.2010
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 25.04.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartProduct extends DataObject {
@@ -283,6 +285,13 @@ class SilvercartProduct extends DataObject {
      * @var string
      */
     protected $quantityInCartString = array();
+    
+    /**
+     * Images to show
+     *
+     * @var array
+     */
+    protected $images = array();
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -2473,49 +2482,58 @@ class SilvercartProduct extends DataObject {
      *
      * @return mixed DataObjectSet|bool false
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 27.06.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2013
      */
     public function getSilvercartImages($filter = '') {
-        $images = $this->SilvercartImages($filter);
+        if (!array_key_exists($filter, $this->images)) {
+            $images = false;
+            $this->extend('overwriteSilvercartImages', $images);
+            if ($images == false) {
+                $images = $this->SilvercartImages($filter);
 
-        $this->extend('updateGetSilvercartImages', $images);
+                $this->extend('updateGetSilvercartImages', $images);
 
-        if ($images->Count() > 0) {
-            $existingImages = new DataObjectSet();
-            foreach ($images as $image) {
-                if (!file_exists($image->Image()->getFullPath())) {
-                    $noImageObj = SilvercartConfig::getNoImage();
+                if ($images->Count() > 0) {
+                    $existingImages = new DataObjectSet();
+                    foreach ($images as $image) {
+                        if (!file_exists($image->Image()->getFullPath())) {
+                            $noImageObj = SilvercartConfig::getNoImage();
 
-                    if ($noImageObj) {
-                        $noImageObj->setField('Title', 'No Image');
+                            if ($noImageObj) {
+                                $noImageObj->setField('Title', 'No Image');
 
-                        $image = new SilvercartImage();
-                        $image->ImageID             = $noImageObj->ID;
-                        $image->SilvercartProductID = $this->ID;
+                                $image = new SilvercartImage();
+                                $image->ImageID             = $noImageObj->ID;
+                                $image->SilvercartProductID = $this->ID;
+                            }
+                        }
+                        $existingImages->push($image);
                     }
+                    $images = $existingImages;
                 }
-                $existingImages->push($image);
             }
-            return $existingImages;
-        } else {
-            $noImageObj = SilvercartConfig::getNoImage();
 
-            if ($noImageObj) {
-                $noImageObj->setField('Title', 'No Image');
-                $silvercartImageObj = new SilvercartImage();
-                $silvercartImageObj->ImageID             = $noImageObj->ID;
-                $silvercartImageObj->SilvercartProductID = $this->ID;
+            if (!($images instanceof DataObjectSet) ||
+                $images->Count() == 0) {
+                $noImageObj = SilvercartConfig::getNoImage();
 
-                $images = new DataObjectSet();
-                $images->addWithoutWrite($silvercartImageObj);
+                if ($noImageObj) {
+                    $noImageObj->setField('Title', 'No Image');
+                    $silvercartImageObj = new SilvercartImage();
+                    $silvercartImageObj->ImageID             = $noImageObj->ID;
+                    $silvercartImageObj->SilvercartProductID = $this->ID;
 
-                return $images;
+                    $images = new DataObjectSet();
+                    $images->addWithoutWrite($silvercartImageObj);
+                }
             }
+            
+            $this->images[$filter] = $images;
         }
 
-        return false;
+        return $this->images[$filter];
     }
 
     /**
