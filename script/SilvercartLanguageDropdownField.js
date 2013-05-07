@@ -1,6 +1,6 @@
 
 (function($) {
-    
+
     $('.silvercart-change-language-selector li.selectable').live('click', function() {
         $('.silvercart-change-language-selector li.first').removeClass('first').addClass('selectable');
         $(this).removeClass('selectable').addClass('first');
@@ -26,9 +26,10 @@
         var markup = '<ul class="silvercart-change-language-selector">';
         
         languageSelectorOptions.each(function() {
-            var locale  = $(this).val();
+            var locale  = $(this).attr('value').split('|')[0];
             var iso2    = $(this).attr('class');
-            var link    = $(this).attr('rel');
+            var link    = $(this).attr('value').split('|')[1];
+
             if (firstLanguage) {
                 languageCssClass    = 'first';
                 firstLanguage       = false;
