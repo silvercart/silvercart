@@ -11,8 +11,13 @@
         if (typeof classes != 'object') {
             classes= [classes];
         }
+        $('.silvercart-change-language-form select option').each(function() {
+            if ($(this).attr('value').substr(0, 5) === classes[0]) {
+                $(this).attr('selected', true);
+            }
+        });
 
-        $('.silvercart-change-language-form select option[value="' + classes[0] + '"]').attr('selected',true);
+        //$('.silvercart-change-language-form select option[value="' + classes[0] + '"]').attr('selected',true);
 
         $('.silvercart-change-language-form').submit();
 
