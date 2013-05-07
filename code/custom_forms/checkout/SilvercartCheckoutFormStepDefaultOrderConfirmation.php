@@ -35,6 +35,8 @@
  */
 class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlFormStep {
 
+    public static $customOutput = array();
+
     /**
      * Don't cache this form.
      *
@@ -71,8 +73,40 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlFormS
      * @since 18.04.2011
      */
     public function defaultOrderConfirmation() {
-        
-        
         return $this->renderWith('SilvercartCheckoutFormStepDefaultOrderConfirmation');
+    }
+
+    /**
+     * Add a custom output snippet.
+     *
+     * @param string $output the output to add
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since  2013-05-06
+     */
+    public static function addCustomOutput($output) {
+        self::$customOutput[] = $output;
+    }
+
+    /**
+     * Returns the combined custom output snippets as string.
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since  2013-05-06
+     */
+    public function CustomOutput() {
+        $this->extend('updateCustomOutput');
+
+        $output = '';
+
+        if (count(self::$customOutput) > 0) {
+            $output = implode("\n", self::$customOutput);
+        }
+
+        return $output;
     }
 }
