@@ -71,6 +71,16 @@
                             <td>$Addition</td>
                         </tr>
                         <% end_if %>
+                        <% if IsPackstation %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.POSTNUMBER_PLAIN') %></td>
+                            <td>$PostNumber</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.PACKSTATION_PLAIN') %></td>
+                            <td>$Packstation</td>
+                        </tr>
+                        <% else %>
                         <tr>
                             <td><% _t('SilvercartAddress.STREET') %></td>
                             <td>$Street</td>
@@ -79,6 +89,7 @@
                             <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
                             <td>$StreetNumber</td>
                         </tr>
+                        <% end_if %>
                         <tr>
                             <td><% _t('SilvercartAddress.POSTCODE') %></td>
                             <td>$Postcode</td>

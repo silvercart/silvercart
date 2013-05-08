@@ -107,6 +107,7 @@ $lang['en_US']['SilvercartAddress']['PHONEAREACODE'] = 'Phone area code';
 $lang['en_US']['SilvercartAddress']['PLURALNAME'] = 'Addresses';
 $lang['en_US']['SilvercartAddress']['POSTCODE'] = 'Postcode';
 $lang['en_US']['SilvercartAddress']['POSTNUMBER'] = 'Your PostNumber';
+$lang['en_US']['SilvercartAddress']['POSTNUMBER_PLAIN'] = 'PostNumber';
 $lang['en_US']['SilvercartAddress']['PACKSTATION'] = 'Packstation (e.g. "Packstation 105")';
 $lang['en_US']['SilvercartAddress']['PACKSTATION_PLAIN'] = 'Packstation';
 $lang['en_US']['SilvercartAddress']['PACKSTATION_LABEL'] = 'PACKSTATION';
