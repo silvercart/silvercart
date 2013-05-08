@@ -1,7 +1,7 @@
 <% if ShowWidget %>
     <% if SilvercartManufacturers %>
         <% if Title %>
-            <h2>
+            <h2 <% if isFilteredByManufacturer %>class="is-filtered"<% end_if %>>
                 $Title
             </h2>
         <% end_if %>

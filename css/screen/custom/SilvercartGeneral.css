@@ -43,15 +43,27 @@ body {
     padding:                        0px 12px;
 }
 
-.c90l, .c65l, .c45l, .c30l, .c10l {
+.c90l, .c76l, .c74l, .c65l, .c45l, .c30l, .c19l, .c10l, .c7l, .c6l, .c5l {
     float:                          left;
 }
-.c90r, .c65r, .c45r, .c30r, .c10r {
+.c90r, .c76r, .c74r, .c65r, .c45r, .c30r, .c19r, .c10r, .c7r, .c6r, .c5r {
     float:                          right;
     margin-left:                    -5px;
 }
+.c5l, .c5r {
+    width:                          5%;
+}
+.c6l, .c6r {
+    width:                          6%;
+}
+.c7l, .c7r {
+    width:                          7%;
+}
 .c10l, .c10r {
     width:                          10%;
+}
+.c19l, .c19r {
+    width:                          19%;
 }
 .c30l, .c30r {
     width:                          30%;
@@ -61,6 +73,12 @@ body {
 }
 .c65l, .c65r {
     width:                          65%;
+}
+.c74l, .c74r {
+    width:                          74%;
+}
+.c76l, .c76r {
+    width:                          76%;
 }
 .c90l, .c90r {
     width:                          90%;

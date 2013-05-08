@@ -26,9 +26,10 @@
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 20.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 29.04.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrderHolder extends SilvercartMyAccountHolder {
@@ -81,6 +82,36 @@ class SilvercartOrderHolder extends SilvercartMyAccountHolder {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
+    }
+    
+    /**
+     * Returns whether this page has a summary.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.04.2013
+     */
+    public function hasSummary() {
+        return true;
+    }
+    
+    /**
+     * Returns the summary of this page.
+     * 
+     * @return string
+     */
+    public function getSummary() {
+        return $this->renderWith('SilvercartOrderSummary');
+    }
+    
+    /**
+     * Returns the summary of this page.
+     * 
+     * @return string
+     */
+    public function getSummaryTitle() {
+        return _t('SilvercartMyAccountHolder.YOUR_MOST_CURRENT_ORDERS');
     }
 }
 

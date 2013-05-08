@@ -128,10 +128,15 @@ class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
      * @return string
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2012
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.04.2013
      */
     public function Title() {
-        return $this->fieldLabel('Title');
+        $title = $this->FrontTitle;
+        if (empty($title)) {
+            $title = $this->fieldLabel('Title');
+        }
+        return $title;
     }
     
     /**
@@ -157,6 +162,18 @@ class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
      */
     public function Description() {
         return $this->fieldLabel('Description');
+    }
+    
+    /**
+     * Returns the extra css classes.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2013
+     */
+    public function ExtraCssClasses() {
+        return 'silvercart-product-group-manufacturers-widget';
     }
 
     /**

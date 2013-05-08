@@ -900,6 +900,7 @@ $lang['de_DE']['SilvercartCustomer']['BUSINESSCUSTOMER'] = 'Geschäftskunde';
 $lang['de_DE']['SilvercartCustomer']['CUSTOMERNUMBER'] = 'Kundennummer';
 $lang['de_DE']['SilvercartCustomer']['CUSTOMERNUMBER_SHORT'] = 'Kunden-Nr.';
 $lang['de_DE']['SilvercartCustomer']['ERROR_MULTIPLE_PRICETYPES'] = 'Kundengruppen mit unterschiedlichen Preistypen sind nicht zulässig!';
+$lang['de_DE']['SilvercartCustomer']['FULL_NAME'] = 'Voller Name';
 $lang['de_DE']['SilvercartCustomer']['GROSS'] = 'Brutto';
 $lang['de_DE']['SilvercartCustomer']['ISBUSINESSACCOUNT'] = 'Ist Geschäftskunden Konto';
 $lang['de_DE']['SilvercartCustomer']['NET'] = 'Netto';

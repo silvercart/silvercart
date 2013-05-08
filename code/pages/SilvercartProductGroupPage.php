@@ -1586,6 +1586,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
     /**
      * manipulates the defaul logic of building the pages breadcrumbs if a
+     * product detail view is requested and returns the breadcrumbs without 
+     * product title.
+     *
+     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
+     * @param string $stopAtPageType   name of pagetype to stop at
+     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
+     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2013
+     */
+    public function BreadcrumbsWithoutLink($maxDepth = 20, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
+        return $this->Breadcrumbs($maxDepth, true, $stopAtPageType, $showHidden, $showProductTitle);
+    }
+
+    /**
+     * manipulates the defaul logic of building the pages breadcrumbs if a
      * product detail view is requested.
      *
      * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
@@ -1607,7 +1626,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 if (empty($part->Link)) {
                     $partsArray[] = Convert::raw2xml($part->Title);
                 } else {
-                    $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
+                    if ($unlinked) {
+                        $partsArray[] = Convert::raw2xml($part->Title);
+                    } else {
+                        $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
+                    }
                 }
             }
             
@@ -2545,14 +2568,20 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 13.11.10
      */
     protected function DetailViewProductMetaTitle() {
-        $product = $this->getDetailViewProduct();
-        if ($product && $product->MetaTitle) {
-            if ($product->SilvercartManufacturer()->ID > 0) {
-                return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+        $product        = $this->getDetailViewProduct();
+        $extendedOutput = $this->extend('overwriteDetailViewProductMetaTitle', $product);
+
+        if (empty($extendedOutput)) {
+            if ($product && $product->MetaTitle) {
+                if ($product->SilvercartManufacturer()->ID > 0) {
+                    return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+                }
+                return $product->MetaTitle;
+            } else {
+                return false;
             }
-            return $product->MetaTitle;
         } else {
-            return false;
+            return $extendedOutput[0];
         }
     }
 
