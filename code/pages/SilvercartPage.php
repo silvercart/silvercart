@@ -408,9 +408,12 @@ class SilvercartPage_Controller extends ContentController {
         if ($controller == $this || $controller->forceLoadOfWidgets) {
             $this->loadWidgetControllers();
         }
-        
-        if (!SilvercartConfig::DefaultLayoutLoaded() ||
-            SilvercartConfig::$forceLoadingOfDefaultLayout) {
+
+        if (SilvercartConfig::DefaultLayoutEnabled() &&
+            (
+                !SilvercartConfig::DefaultLayoutLoaded() ||
+                SilvercartConfig::$forceLoadingOfDefaultLayout)
+        ) {
             RequirementsEngine::handleRegisteredFiles();
             Requirements::customScript('
                 jQuery(window).focus(function() {jQuery.fx.off = false;});
