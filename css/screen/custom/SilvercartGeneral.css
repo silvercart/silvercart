@@ -431,6 +431,51 @@ a.silvercart-button-small:hover,
     font-size:                      11px;
 }
 
+/* Dropdown buttons ------------------------------------------------------- */
+
+.silvercart-button.with-submenu,
+.silvercart-button-small.with-submenu {
+    position:                       relative;
+    margin-left:                    9px;
+}
+.silvercart-button.with-submenu ul,
+.silvercart-button-small.with-submenu ul {
+    position:                       absolute;
+    z-index:                        15;
+    right:                          0px;
+    background:                     #fff;
+    border:                         1px solid #CFCFCF;
+    border-radius:                  3px 3px 3px 3px;
+    box-shadow:                     0 -1px 4px #D2D2D2;
+    width:                          auto;
+    display:                        none;
+    max-height:                     200px;
+    min-width:                      500px;
+    overflow:                       auto;
+    margin:                         0;
+}
+.silvercart-button.with-submenu:hover ul,
+.silvercart-button-small.with-submenu:hover ul {
+    display:                        block;
+}
+.silvercart-button.with-submenu ul li,
+.silvercart-button-small.with-submenu ul li {
+    margin:                         0;
+}
+.silvercart-button.with-submenu ul a,
+.silvercart-button-small.with-submenu ul a {
+    background:                     none;
+    border:                         none;
+    margin:                         0;
+    padding:                        4px 8px;
+    text-align:                     left;
+    border-radius:                  none;
+}
+.silvercart-button.with-submenu ul a:hover,
+.silvercart-button-small.with-submenu ul a:hover {
+    background:                     #e6f2f7;
+}
+
 /* Icon only buttons ------------------------------------------------------- */
 
 .silvercart-icon-with-text-button,
