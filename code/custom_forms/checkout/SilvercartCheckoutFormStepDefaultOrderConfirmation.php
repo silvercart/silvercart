@@ -28,13 +28,20 @@
  *
  * @package Silvercart
  * @subpackage Forms Checkout
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 03.01.2011
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>,
+ *         Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 14.05.2013
+ * @copyright pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlFormStep {
 
+    /**
+     * A list of custom output to add to the content area.
+     *
+     * @var array
+     */
     public static $customOutput = array();
 
     /**
