@@ -702,7 +702,7 @@ class SilvercartPage_Controller extends ContentController {
     public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         $parts = new DataObjectSet();
         $page  = $this;
-            
+
         while (
             $page
             && (!$maxDepth ||
@@ -719,15 +719,22 @@ class SilvercartPage_Controller extends ContentController {
                 } else {
                     $link = $page->Link();
                 }
-                
+
+                if ($page->ID == $this->ID) {
+                    $isActive = true;
+                } else {
+                    $isActive = false;
+                }
+
                 $parts->unshift(
-                        new ArrayData(
-                                array(
-                                    'Title'  => $page->Title,
-                                    'Link'   => $link,
-                                    'Parent' => $page->Parent,
-                                )
+                    new ArrayData(
+                        array(
+                            'Title'     => $page->Title,
+                            'Link'      => $link,
+                            'Parent'    => $page->Parent,
+                            'IsActive'  => $isActive,
                         )
+                    )
                 );
             }
             $page = $page->Parent;
