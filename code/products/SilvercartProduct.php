@@ -1716,12 +1716,13 @@ class SilvercartProduct extends DataObject {
             $addCartFormName = 'ProductAddCartForm';
 
             if (method_exists($controller, 'isProductDetailView') &&
-                $controller->isProductDetailView()) {
+                $controller->isProductDetailView() &&
+                $controller->getDetailViewProduct()->ID == $this->ID) {
 
                 $addCartFormName = 'SilvercartProductAddCartFormDetail';
             }
         }
-        
+
         $formIdentifier = $addCartFormName.$addCartFormIdentifier;
         $this->registerProductAddCartForm($addCartFormName, $formIdentifier);
         
@@ -2534,6 +2535,26 @@ class SilvercartProduct extends DataObject {
         }
 
         return $this->images[$filter];
+    }
+
+    /**
+     * Returns $this->getSilvercartImages() without the first image.
+     *
+     * @param string $filter An optional sql filter statement
+     *
+     * @return mixed DataObjectSet|bool false
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since  2013-05-21
+     */
+    public function getSilvercartThumbnails($filter = '') {
+        $images = $this->getSilvercartImages($filter);
+
+        if ($images) {
+            $images->shift();
+        }
+
+        return $images;
     }
 
     /**
