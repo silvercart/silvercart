@@ -1536,23 +1536,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'sortOrder'                 => 1
                 ),
                 array(
-                    'PriceGrossAmount'          => 9.99,
-                    'PriceGrossCurrency'        => _t('SilvercartTestData.CURRENCY'),
-                    'PriceNetAmount'            => 9.99 / 119 * 100,
-                    'PriceNetCurrency'          => _t('SilvercartTestData.CURRENCY'),
-                    'MSRPriceAmount'            => 9.99 / 100 * 120,
-                    'MSRPriceCurrency'          => _t('SilvercartTestData.CURRENCY'),
-                    'PurchasePriceAmount'       => 9.99,
-                    'PurchasePriceCurrency'     => _t('SilvercartTestData.CURRENCY'),
-                    'Weight'                    => 25,
-                    'StockQuantity'             => 0,
-                    'ProductNumberShop'         => '10010',
-                    'ProductNumberManufacturer' => 'SC_Mod_108',
-                    'SilvercartProductGroupID'  => $productGroupOthers->ID,
-                    'productImage'              => 'logosolr.png',
-                    'sortOrder'                 => 2
-                ),
-                array(
                     'en_US'                     => array(
                         'Title'            => 'PDF Invoice',
                         'ShortDescription' => 'Automatically generate PDF invoices',
