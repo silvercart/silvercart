@@ -1206,6 +1206,7 @@ $lang['en_GB']['SilvercartOrderShippingAddress']['SINGULARNAME'] = 'Order shippi
 
 $lang['en_GB']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_DESC'] = 'The following checked emails get sent when this order status is set for an order:';
 $lang['en_GB']['SilvercartOrderStatus']['ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'] = 'Attributed emails';
+$lang['en_GB']['SilvercartOrderStatus']['BADGECOLOR'] = 'Colour code';
 $lang['en_GB']['SilvercartOrderStatus']['CODE'] = 'Code';
 $lang['en_GB']['SilvercartOrderStatus']['INWORK'] = 'In work';
 $lang['en_GB']['SilvercartOrderStatus']['PAYED'] = 'Paid';

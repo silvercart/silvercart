@@ -39,7 +39,8 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Code' => 'VarChar',
+        'Code'       => 'VarChar',
+        'badgeColor' => "Enum('default,success,warning,important,info,inverse','default')",
     );
     
     /**
@@ -100,6 +101,7 @@ class SilvercartAvailabilityStatus extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
+                'badgeColor'                            => _t('SilvercartOrderStatus.BADGECOLOR'),
                 'Code'                                  => _t('SilvercartOrderStatus.CODE'),
                 'Title'                                 => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
                 'AdditionalText'                        => _t('SilvercartAvailabilityStatus.ADDITIONALTEXT'),
@@ -127,6 +129,19 @@ class SilvercartAvailabilityStatus extends DataObject {
         foreach ($languageFields as $languageField) {
             $fields->insertBefore($languageField, 'Code');
         }
+
+        $badgeColorSource = singleton('SilvercartAvailabilityStatus')->dbObject('badgeColor')->enumValues();
+
+        $fields->removeByName('badgeColor');
+        $fields->addFieldToTab(
+            'Root.Main',
+            new DropdownField(
+                'badgeColor',
+                $this->fieldLabel('badgeColor'),
+                $badgeColorSource
+            )
+        );
+
         return $fields;
     }
 
