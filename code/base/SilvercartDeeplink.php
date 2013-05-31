@@ -29,9 +29,10 @@
  *
  * @package Silvercart
  * @subpackage Base
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 29.07.2011
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 29.05.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartDeeplink extends DataObject {
@@ -42,8 +43,10 @@ class SilvercartDeeplink extends DataObject {
      * @var array additional attributes 
      */
     public static $db = array(
-        'productAttribute' => 'VarChar(50)',
-        'isActive'         => 'Boolean(0)'
+        'productAttribute'  => 'VarChar(50)',
+        'isActive'          => 'Boolean(0)',
+        'Prefix'            => 'Varchar(32)',
+        'Suffix'            => 'Varchar(32)',
     );
 
     /**
@@ -63,13 +66,16 @@ class SilvercartDeeplink extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 01.10.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
+                parent::fieldLabels($includerelations),
+                array(
+                    'Prefix'            => _t('SilvercartDeeplink.Prefix'),
+                    'Suffix'            => _t('SilvercartDeeplink.Suffix'),
                     'isActive'          => _t('SilvercartPage.ISACTIVE'),
                     'productAttribute'  => _t('SilvercartProductGroupPage.ATTRIBUTES'),
                     'deeplinkAttribute' => _t('SilvercartDeeplinkAttribute.SINGULARNAME'),
@@ -98,9 +104,6 @@ class SilvercartDeeplink extends DataObject {
      * Returns the text label for the deeplinks activion status.
      *
      * @return string answer as text
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.7.2011
      */
     public function getActivationStatus() {
         if ($this->isActive()) {
@@ -114,13 +117,10 @@ class SilvercartDeeplink extends DataObject {
      * filter;
      * 
      * @return string The absolute link to this deeplink setting or an empty string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * since 28.7.2011
      */
     public function getDeeplinkUrl() {
         $url = "";
-        $deeplinkPage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartDeeplinkPage");
+        $deeplinkPage = SilvercartTools::PageByIdentifierCode("SilvercartDeeplinkPage");
         if ($deeplinkPage && $this->productAttribute != "" && $this->isActive()) {
             $url = $deeplinkPage->AbsoluteLink() . $this->productAttribute . "/";
         }
@@ -132,10 +132,7 @@ class SilvercartDeeplink extends DataObject {
      * 
      * @param array $params Additional parameters
      * 
-     * @return FieldSet a set of fields 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @return FieldSet a set of fields
      */
     public function getCMSFields($params = null) {
         $productFields  = array();
@@ -160,7 +157,6 @@ class SilvercartDeeplink extends DataObject {
      * @return array
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 30.7.2011
      */
     public function summaryFields() {

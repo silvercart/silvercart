@@ -29,9 +29,8 @@
  * @package Silvercart
  * @subpackage Pages
  * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @copyright Pixeltricks GmbH
  * @since 29.07.2011
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartDeeplinkPage extends Page {
@@ -76,9 +75,10 @@ class SilvercartDeeplinkPage extends Page {
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 29.07.2011
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 29.05.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartDeeplinkPage_Controller extends Page_Controller {
@@ -101,7 +101,8 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * 
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2012
      */
     public function init() {
@@ -132,7 +133,20 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
         }
         parent::init();
     }
-
+    
+    /**
+     * Checks whether the given group view is allowed to render for this group
+     *
+     * @param string $groupView GroupView code
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2013
+     */
+    public function isGroupViewAllowed($groupView) {
+        return true;
+    }
 
     /**
      * Redefine the rules to interpret the url parameters as strings:
@@ -181,14 +195,14 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * Getter for a Deeplink object determined by url param Action
      * A param ID must be there too.
      * 
-     * @return SilvercartDeeplink|false 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.7.2011
+     * @return SilvercartDeeplink
      */
     public function getDeeplink() {
         if (isset ($this->urlParams['Action'])) {
-            $filter = sprintf("`isActive` = 1 AND `productAttribute` = '%s'", $this->urlParams['Action']);
+            $filter = sprintf(
+                    "`isActive` = 1 AND `productAttribute` = '%s'",
+                    $this->getDeeplinkAttributeName()
+            );
             $deeplinkObject = DataObject::get_one('SilvercartDeeplink', $filter);
             return $deeplinkObject;
         }
@@ -199,14 +213,15 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * Returns the result of an exact match search with the url parameters Action
      * and ID
      * 
-     * @return SilvercartProduct|false
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.7.2011 
+     * @return SilvercartProduct
      */
     public function getExactlyMatchingProduct() {
         if ($this->getDeeplink()) {
-            $whereClause = sprintf("`%s` = '%s'", $this->urlParams['Action'], $this->urlParams['ID']);
+            $whereClause = sprintf(
+                    "`%s` = '%s'",
+                    $this->getDeeplinkAttributeName(),
+                    $this->getDeeplinkValue()
+            );
             $products = SilvercartProduct::get($whereClause);
             if ($products) {
                 return $products->First();
@@ -219,10 +234,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * Returns the result of a partial match search with the url parameters Action
      * and ID
      * 
-     * @return DataObjectSet|false a set of products 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.7.2011
+     * @return DataObjectSet
      */
     public function getPartiallyMatchingProducts() {
         if ($this->getDeeplink()) {
@@ -232,7 +244,11 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
                 $SQL_start = (int)$_GET['start'];
             }
             $productsPerPage = SilvercartConfig::ProductsPerPage();
-            $likeClause = sprintf("`%s` LIKE '%%%s%%'", $this->urlParams['Action'], $this->urlParams['ID']);
+            $likeClause = sprintf(
+                    "`%s` LIKE '%%%s%%'",
+                    $this->getDeeplinkAttributeName(),
+                    $this->getDeeplinkValue()
+            );
             $products = SilvercartProduct::get($likeClause, null, null, "$SQL_start,$productsPerPage");
             return $products;
         }
@@ -243,9 +259,6 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * Returns the relative path for the current view with identifier sections.
      * 
      * @return string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 1.8.2011
      */
     protected function getRelativeDeepLinkForPartiallyMatchingProducts() {
         $link = '';
@@ -258,5 +271,36 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
         }
         
         return $link;
+    }
+    
+    /**
+     * Returns the deeplink value
+     * 
+     * @return string
+     */
+    protected function getDeeplinkValue() {
+        $deeplinkValue  = '';
+        $deeplink       = $this->getDeeplink();
+        if ($deeplink instanceof SilvercartDeeplink) {
+            $deeplinkValue = $this->urlParams['ID'];
+            if (strpos($deeplinkValue, $deeplink->Prefix) === 0) {
+                $deeplinkValue = substr($deeplinkValue, strlen($deeplink->Prefix));
+            }
+            $revertedDeeplinkValue  = strrev($deeplinkValue);
+            $revertedSuffix         = strrev($deeplink->Suffix);
+            if (strpos($revertedDeeplinkValue, $revertedSuffix) === 0) {
+                $deeplinkValue = strrev(substr($revertedDeeplinkValue, strlen($revertedSuffix)));
+            }
+        }
+        return $deeplinkValue;
+    }
+    
+    /**
+     * Returns the deeplink name
+     * 
+     * @return string
+     */
+    protected function getDeeplinkAttributeName() {
+        return $this->urlParams['Action'];
     }
 }

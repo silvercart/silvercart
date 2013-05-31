@@ -184,6 +184,8 @@ $lang['en_GB']['SilvercartDashboard']['NEWS_READ_MORE'] = 'Read more';
 
 $lang['en_GB']['SilvercartDeeplink']['PLURALNAME'] = 'Deeplinks';
 $lang['en_GB']['SilvercartDeeplink']['SINGULARNAME'] = 'Deeplink';
+$lang['en_GB']['SilvercartDeeplink']['Prefix']                                  = 'Prefix';
+$lang['en_GB']['SilvercartDeeplink']['Suffix']                                  = 'Suffix';
 
 $lang['en_GB']['SilvercartDeeplinkAdmin']['MENUTITLE'] = 'Deeplinks';
 
