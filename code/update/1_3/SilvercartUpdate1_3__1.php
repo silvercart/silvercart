@@ -179,9 +179,11 @@ class SilvercartUpdate1_3__1 extends SilvercartUpdate {
                                 }
                                 $languageClass->{$fieldName} = $fieldValue;
                             }
+                            $relationFieldName = $languageClass->getRelationFieldName();
+                            $languageClass->{$relationFieldName} = $object->ID;
                             $languageClass->write();
-                            $object->getLanguageRelation()->add($languageClass);
                         }
+                        unset($object);
                     }
                 }
                 $this->cliOutput("updated " . $count . " entries", 3);
