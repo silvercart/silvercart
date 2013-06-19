@@ -1007,7 +1007,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @since 19.06.2013
      */
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
@@ -1017,7 +1017,7 @@ class SilvercartProductGroupPage extends Page {
                 $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
                         array_merge(
                             array(
-                                utf8_decode($this->Title)
+                                $this->Title
                             ),
                             $products->map()
                         )
