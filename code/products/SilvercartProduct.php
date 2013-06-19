@@ -2149,7 +2149,7 @@ class SilvercartProduct extends DataObject {
              && !empty($this->PurchaseTimeUnit)
              && (!empty($this->PurchaseMinDuration)
               || !empty($this->PurchaseMaxDuration))) {
-                $class = 'available-in';
+                $class = 'available-in label label-warning';
                 if (empty($this->PurchaseMinDuration)) {
                     $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMinDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
                 } elseif (empty($this->PurchaseMinDuration)) {
@@ -2158,7 +2158,7 @@ class SilvercartProduct extends DataObject {
                     $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN_MIN_MAX'), $this->PurchaseMinDuration, $this->PurchaseMaxDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
                 }
             } else {
-                $class = $this->SilvercartAvailabilityStatus()->Code;
+                $class = $this->SilvercartAvailabilityStatus()->Code.' label label-'.$this->SilvercartAvailabilityStatus()->badgeColor;
                 $title = $this->SilvercartAvailabilityStatus()->Title;
             }
             $html = '<span class="' . $class . '">' . $title . '</span>';
