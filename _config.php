@@ -420,6 +420,7 @@ if (Director::isDev()) {
 }
 
 foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
+    SilvercartCleanCacheTask::register_cache_directory($cacheDirectory);
     if (!is_dir($cacheDirectory)) {
         mkdir($cacheDirectory);
     }
