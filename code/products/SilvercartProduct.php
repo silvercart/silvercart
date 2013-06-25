@@ -1698,8 +1698,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.03.2013
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2013
      */
     public function productAddCartForm() {
         $controller = Controller::curr();
@@ -1713,7 +1714,7 @@ class SilvercartProduct extends DataObject {
         if ($this->addCartFormName !== null) {
             $addCartFormName = $this->addCartFormName;
         } else {
-            $addCartFormName = 'ProductAddCartForm';
+            $addCartFormName = 'SilvercartProductAddCartForm';
 
             if (method_exists($controller, 'isProductDetailView') &&
                 $controller->isProductDetailView() &&
