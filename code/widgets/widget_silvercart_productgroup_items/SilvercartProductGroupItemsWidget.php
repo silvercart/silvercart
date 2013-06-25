@@ -368,7 +368,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
     public function initRoundabout() {
@@ -380,14 +381,16 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * 
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2013
      */
     public function ProductPages() {
         if ($this->elements !== null &&
             $this->elements !== false) {
+            $template = SilvercartWidgetTools::getGroupViewTemplateName($this);
             foreach ($this->elements as $page) {
-                $page->Content = Controller::curr()->customise($page)->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
+                $page->Content = $page->renderWith($template);
             }
             return $this->elements;
         }
