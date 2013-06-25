@@ -1007,7 +1007,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @since 19.06.2013
      */
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
@@ -1017,7 +1017,7 @@ class SilvercartProductGroupPage extends Page {
                 $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
                         array_merge(
                             array(
-                                utf8_decode($this->Title)
+                                $this->Title
                             ),
                             $products->map()
                         )
@@ -2428,7 +2428,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if ($this->isProductDetailView()) {
             $this->ProductDetailRequirements();
             $output = $this->customise(array())->renderWith(array('SilvercartProductPage','Page'));
-
+            
             return $output;
         }
         return false;
@@ -2538,15 +2538,19 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param boolean $includeTitle should the title tag be parsed?
      *
      * @return string with all meta tags
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.06.2013
      */
     protected function DetailViewProductMetaTags($includeTitle = false) {
         $canonicalTag = '';
         if ($this->isProductDetailView()) {
             $product = $this->getDetailViewProduct();
-            $this->MetaKeywords     = $product->MetaKeywords;
-            $this->MetaDescription  = $product->MetaDescription;
+            $this->MetaKeywords                 = $product->MetaKeywords;
+            $this->MetaDescription              = $product->MetaDescription;
+            $this->dataRecord->MetaKeywords     = $product->MetaKeywords;
+            $this->dataRecord->MetaDescription  = $product->MetaDescription;
+                    
             if ($product->IsMirroredView()) {
                 $canonicalTag = sprintf(
                         '<link rel="canonical" href="%s"/>' . "\n",
