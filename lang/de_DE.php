@@ -344,6 +344,7 @@ $lang['de_DE']['SilvercartProduct']['QUANTITY_SHORT'] = 'Anz.';
 $lang['de_DE']['SilvercartProduct']['QUANTITY_IS_IN_CART'] = '%s %s bereits im Warenkorb';
 $lang['de_DE']['SilvercartProduct']['PRODUCT_QUESTION'] = 'Bitte beantworten Sie mir die folgenden Fragen zum Artikel %s (%s):';
 $lang['de_DE']['SilvercartProduct']['PRODUCT_QUESTION_LABEL'] = 'Fragen zum Artikel';
+$lang['de_DE']['SilvercartProduct']['RefreshCache'] = 'Nach dem Speichern den Cache für diesen Artikel erneuern';
 $lang['de_DE']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listenbeschreibung';
 $lang['de_DE']['SilvercartProduct']['SINGULARNAME'] = 'Artikel';
 $lang['de_DE']['SilvercartProduct']['STOCK_QUANTITY'] = 'Ist der Lagerbestand dieses Artikels überbuchbar?';

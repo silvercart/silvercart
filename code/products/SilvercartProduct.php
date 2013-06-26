@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>,
  *         Roland Lehmann <rlehmann@pixeltricks.de>,
  *         Sebastian Diel <sdiel@pixeltricks.de>
- * @since 25.04.2013
+ * @since 26.06.2013
  * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -693,8 +693,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -761,6 +762,7 @@ class SilvercartProduct extends DataObject {
                 'PriceAmountDesc'                       => _t('SilvercartProduct.PRICE_AMOUNT_DESC'),
                 'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
                 'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
+                'RefreshCache'                          => _t('SilvercartProduct.RefreshCache'),
             )
         );
 
@@ -1162,6 +1164,7 @@ class SilvercartProduct extends DataObject {
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
         $productNumberGroup->push($fields->dataFieldByName('EANCode'));
         $fields->insertAfter($productNumberGroup, 'isActive');
+        $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
         
         $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', $this->fieldLabel('SilvercartAvailabilityStatus'), $fields);
         $availabilityGroup->push($fields->dataFieldByName('SilvercartAvailabilityStatusID'));
@@ -2267,8 +2270,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2013
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2013
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -2305,10 +2309,10 @@ class SilvercartProduct extends DataObject {
             $translations = $this->SilvercartProductGroup()->getTranslations();
             if ($translations) {
                 foreach ($translations as $translation) {
-                if ($this->SilvercartProductGroupMirrorPages()->find('ID', $translation->ID)) {
-                    continue;
-                }
-                $this->SilvercartProductGroupMirrorPages()->add($translation);
+                    if ($this->SilvercartProductGroupMirrorPages()->find('ID', $translation->ID)) {
+                        continue;
+                    }
+                    $this->SilvercartProductGroupMirrorPages()->add($translation);
                 }
             }
         }
@@ -2317,6 +2321,12 @@ class SilvercartProduct extends DataObject {
             foreach ($this->SilvercartShoppingCartPositions() as $position) {
                 $position->delete();
             }
+        }
+        
+        if (array_key_exists('RefreshCache', $_POST) &&
+            ($_POST['RefreshCache'] == '1' ||
+             $_POST['RefreshCache'] == 'on')) {
+            $this->markForCacheRefresh();
         }
     }
 

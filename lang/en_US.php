@@ -344,6 +344,7 @@ $lang['en_US']['SilvercartProduct']['QUANTITY_SHORT'] = 'Qty.';
 $lang['en_US']['SilvercartProduct']['QUANTITY_IS_IN_CART'] = '%s %s already in cart';
 $lang['en_US']['SilvercartProduct']['PRODUCT_QUESTION'] = 'Please answer the following questions for the product %s (%s):';
 $lang['en_US']['SilvercartProduct']['PRODUCT_QUESTION_LABEL'] = 'Questions for the product';
+$lang['en_US']['SilvercartProduct']['RefreshCache'] = 'Refresh cache of this product on after write';
 $lang['en_US']['SilvercartProduct']['SHORTDESCRIPTION'] = 'Listdescription';
 $lang['en_US']['SilvercartProduct']['SINGULARNAME'] = 'Product';
 $lang['en_US']['SilvercartProduct']['STOCK_QUANTITY'] = 'Is the stock quantity of this product overbookable?';
