@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -49,10 +49,10 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      */
     protected $formFields = array(
         'quickSearchQuery' => array(
-            'type' => 'SilvercartTextField',
-            'title' => '',
-            'value' => '',
-            'maxLength' => '30',
+            'type'              => 'SilvercartTextField',
+            'title'             => '',
+            'value'             => '',
+            'maxLength'         => '30',
             'checkRequirements' => array()
         )
     );
@@ -87,8 +87,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
     }
 
     /**
-     * executed if there are no valdation errors on submit
-     * Form data is saved in session
+     * executed if there are no valdation errors on submit.
      *
      * @param SS_HTTPRequest $data     contains the frameworks form data
      * @param Form           $form     not used
@@ -96,7 +95,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      *
      * @return array to be rendered in the controller
      * 
-     * @author Sebastian Diel <sdiel@πixeltricks.de>
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.03.2013
      */
     protected function submitSuccess($data, $form, $formData) {
@@ -109,7 +108,8 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.02.2011
      */
     public function preferences() {

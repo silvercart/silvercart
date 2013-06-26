@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -26,22 +26,30 @@
  *
  * @package Silvercart
  * @subpackage Widgets
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 26.06.2013
  * @copyright pixeltricks GmbH
- * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @since 26.05.2011
  */
 class SilvercartSearchWidgetForm extends CustomHtmlForm {
+    
+    /**
+     * Don't enable Security token for this type of form because we'll run
+     * into caching problems when using it.
+     * 
+     * @var boolean
+     */
+    protected $securityTokenEnabled = false;
 
     /**
      * Form field definition
      *
      * @var array
-     * @since 26.05.2011
      */
     protected $formFields = array(
         'quickSearchQuery' => array(
-            'type'              => 'TextField',
+            'type'              => 'SilvercartTextField',
             'title'             => '',
             'value'             => '',
             'checkRequirements' => array(
@@ -49,16 +57,35 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
             )
         )
     );
-
+    
     /**
-     * Preferences
+     * Custom form action to use for this form
      *
-     * @var array
-     * @since 30.10.2012
+     * @var string
      */
-    protected $preferences = array(
-        'doJsValidationScrolling' => false,
-    );
+    protected $customHtmlFormAction = 'doSearch';
+    
+    /**
+     * Creates a form object with a free configurable markup.
+     * Adds the current locale to the custom params.
+     *
+     * @param ContentController $controller  the calling controller instance
+     * @param array             $params      optional parameters
+     * @param array             $preferences optional preferences
+     * @param bool              $barebone    defines if a form should only be instanciated or be used too
+     *
+     * @return CustomHtmlForm
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2013
+     */
+    public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        if (is_null($params)) {
+            $params = array();
+        }
+        $params['locale'] = Translatable::get_current_locale();
+        parent::__construct($controller, $params, $preferences, $barebone);
+    }
 
     /**
      * Save search query in session and Redirect to the search results page.
@@ -69,33 +96,12 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
      *
      * @return array to be rendered in the controller
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2013
      */
     protected function submitSuccess($data, $form, $formData) {
-        Session::set("searchQuery", $formData['quickSearchQuery']);
-        $searchResultsPage = SilvercartTools::PageByIdentifierCode("SilvercartSearchResultsPage");
-
-        if (!$searchResultsPage) {
-            $searchResultsPage = Translatable::get_one_by_locale('SiteTree', Translatable::default_locale(), "ClassName='SilvercartSearchResultsPage'");
-
-            if ($searchResultsPage) {
-                $translatedPage = $searchResultsPage->createTranslation(Translatable::get_current_locale());
-                $translatedPage->write();
-                $translatedPage->publish('Live', 'Stage');
-
-                Director::redirect($translatedPage->RelativeLink());
-            } else {
-                throw new Exception(
-                    sprintf(
-                        _t('SilvercartPage.NOT_FOUND'),
-                        _t('SilvercartSearchResultsPage.SINGULARNAME')
-                    )
-                );
-            }
-        } else {
-            Director::redirect($searchResultsPage->RelativeLink());
-        }
+        $handler = new SilvercartActionHandler();
+        $handler->doSearch($this->controller->getRequest());
     }
 
     /**
@@ -103,12 +109,13 @@ class SilvercartSearchWidgetForm extends CustomHtmlForm {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2013
      */
     public function preferences() {
-        $this->preferences['submitButtonTitle'] = _t('SilvercartSearchWidgetForm.SUBMITBUTTONTITLE');
+        $this->preferences['submitButtonTitle']         = _t('SilvercartSearchWidgetForm.SUBMITBUTTONTITLE');
+        $this->preferences['doJsValidationScrolling']   = false;
         
         $this->formFields['quickSearchQuery']['title'] = _t('SilvercartSearchWidgetForm.SEARCHLABEL');
 
