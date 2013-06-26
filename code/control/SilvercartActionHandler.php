@@ -27,8 +27,8 @@
  * @package Silvercart
  * @subpackage Controller
  * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 26.06.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 01.03.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartActionHandler extends DataObjectDecorator {
@@ -143,10 +143,12 @@ class SilvercartActionHandler extends DataObjectDecorator {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2013
+     * @since 26.06.2013
      */
     public function doSearch(SS_HTTPRequest $request) {
         $postVars           = $request->postVars();
+        Translatable::set_current_locale($postVars['locale']);
+        i18n::set_locale($postVars['locale']);
         $quickSearchQuery   = trim($postVars['quickSearchQuery']);
         $searchResultsPage  = SilvercartPage_Controller::PageByIdentifierCode("SilvercartSearchResultsPage");
         $searchQuery        = SilvercartSearchQuery::get_by_query(Convert::raw2sql($quickSearchQuery));

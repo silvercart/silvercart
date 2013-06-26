@@ -26,10 +26,11 @@
  *
  * @package Silvercart
  * @subpackage Forms
- * @copyright pixeltricks GmbH
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 26.06.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @since 23.10.2010
  */
 class SilvercartQuickSearchForm extends CustomHtmlForm {
     
@@ -62,6 +63,28 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      * @var string
      */
     protected $customHtmlFormAction = 'doSearch';
+    
+    /**
+     * Creates a form object with a free configurable markup.
+     * Adds the current locale to the custom params.
+     *
+     * @param ContentController $controller  the calling controller instance
+     * @param array             $params      optional parameters
+     * @param array             $preferences optional preferences
+     * @param bool              $barebone    defines if a form should only be instanciated or be used too
+     *
+     * @return CustomHtmlForm
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.06.2013
+     */
+    public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
+        if (is_null($params)) {
+            $params = array();
+        }
+        $params['locale'] = Translatable::get_current_locale();
+        parent::__construct($controller, $params, $preferences, $barebone);
+    }
 
     /**
      * executed if there are no valdation errors on submit
@@ -73,7 +96,7 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
      *
      * @return array to be rendered in the controller
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Oliver Scheer <oscheer@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
+     * @author Sebastian Diel <sdiel@πixeltricks.de>
      * @since 21.03.2013
      */
     protected function submitSuccess($data, $form, $formData) {
@@ -84,10 +107,10 @@ class SilvercartQuickSearchForm extends CustomHtmlForm {
     /**
      * Set texts for preferences with i18n methods.
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 23.02.2011
      * @return void
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.02.2011
      */
     public function preferences() {
         $this->preferences['submitButtonTitle']         = _t('SilvercartQuickSearchForm.SUBMITBUTTONTITLE');
