@@ -1705,7 +1705,7 @@ class SilvercartProduct extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.06.2013
+     * @since 27.06.2013
      */
     public function productAddCartForm() {
         $controller = Controller::curr();
@@ -1719,7 +1719,7 @@ class SilvercartProduct extends DataObject {
         if ($this->addCartFormName !== null) {
             $addCartFormName = $this->addCartFormName;
         } else {
-            $addCartFormName = 'SilvercartProductAddCartForm';
+            $addCartFormName = 'ProductAddCartForm';
 
             if (method_exists($controller, 'isProductDetailView') &&
                 $controller->isProductDetailView() &&
@@ -1750,9 +1750,12 @@ class SilvercartProduct extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.03.2013
+     * @since 27.06.2013
      */
     public function registerProductAddCartForm($addCartFormName, $formIdentifier, $controller = null) {
+        if ($addCartFormName == 'ProductAddCartForm') {
+            $addCartFormName = 'SilvercartProductAddCartForm';
+        }
         if (is_null($controller)) {
             $controller = Controller::curr();
         }
