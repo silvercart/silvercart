@@ -2249,8 +2249,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2013
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2013
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
@@ -2258,7 +2259,9 @@ class SilvercartProduct extends DataObject {
             $widget->delete();
         }
         
-        $this->WidgetArea()->delete();
+        if ($this->WidgetArea()->isInDB()) {
+            $this->WidgetArea()->delete();
+        }
         
         foreach ($this->SilvercartShoppingCartPositions() as $position) {
             $position->delete();
