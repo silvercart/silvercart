@@ -198,9 +198,9 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 27.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -211,8 +211,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
                     'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
                     'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),
-                    'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME')
-                    
+                    'Images'                                => _t('SilvercartImage.PLURALNAME'),
                 )
         );
 

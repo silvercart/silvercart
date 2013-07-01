@@ -35,14 +35,23 @@
 class SilvercartImageSliderImage extends DataObject {
     
     /**
+     * DB properties
+     *
+     * @var array
+     */
+    public static $db = array(
+        'ProductNumberToReference'  => 'Varchar(128)',
+    );
+    
+    /**
      * Casted properties
      *
      * @var array
      */
     public static $casting = array(
-        'Title'          => 'VarChar',
-        'TableIndicator' => 'Text',
-        'Thumbnail'      => 'HTMLText'
+        'Title'             => 'VarChar',
+        'TableIndicator'    => 'Text',
+        'Thumbnail'         => 'HTMLText',
     );
     
     /**
@@ -77,9 +86,6 @@ class SilvercartImageSliderImage extends DataObject {
      * getter for the Title, looks for set translation
      * 
      * @return string The Title from the translation object or an empty string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
@@ -89,9 +95,6 @@ class SilvercartImageSliderImage extends DataObject {
      * Returns the input fields for this widget.
      * 
      * @return FieldSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
@@ -111,8 +114,9 @@ class SilvercartImageSliderImage extends DataObject {
             $fields->insertBefore($languageField, 'SortOrder');
         }
         $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
+        $fields->addFieldToTab('Root.Main', new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference')), 'SiteTreeID');
         $fields->removeByName('SilvercartImageSliderWidgets');
-        $fields->removeByName('SortOrder');
+        $fields->dataFieldByName('ProductNumberToReference')->setRightTitle($this->fieldLabel('ProductNumberToReferenceInfo'));
         
         return $fields;
     }
@@ -124,16 +128,20 @@ class SilvercartImageSliderImage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 20.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'SilvercartImageSliderImageLanguages' => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
-                    'Image'                               => _t("Image.SINGULARNAME"),
-                    'Linkpage'                            => _t('SilvercartImageSliderImage.LINKPAGE'),
+                parent::fieldLabels($includerelations),
+                array(
+                    'SilvercartImageSliderImageLanguages'   => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
+                    'Image'                                 => _t("Image.SINGULARNAME"),
+                    'Linkpage'                              => _t('SilvercartImageSliderImage.LINKPAGE'),
+                    'ProductNumberToReference'              => _t('SilvercartImageSliderImage.ProductNumberToReference'),
+                    'ProductNumberToReferenceInfo'          => _t('SilvercartImageSliderImage.ProductNumberToReferenceInfo'),
+                    'SortOrder'                             => _t('SilvercartWidget.SORT_ORDER_LABEL'),
                 )
         );
 
@@ -167,15 +175,24 @@ class SilvercartImageSliderImage extends DataObject {
      *
      * @return mixed SiteTree|boolean false
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.10.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
     public function LinkedSite() {
-        if ($this->SiteTreeID > 0) {
-            return $this->SiteTree();
+        $linkedSite = false;
+        if (!empty($this->ProductNumberToReference)) {
+            $product = DataObject::get_one('SilvercartProduct', sprintf('"SilvercartProduct"."ProductNumberShop" = \'%s\'', $this->ProductNumberToReference));
+            if ($product instanceof SilvercartProduct) {
+                $linkedSite = $product;
+            }
+        }
+        if ($linkedSite == false &&
+            $this->SiteTreeID > 0) {
+            $linkedSite = $this->SiteTree();
         }
         
-        return false;
+        return $linkedSite;
     }
     
     /**
