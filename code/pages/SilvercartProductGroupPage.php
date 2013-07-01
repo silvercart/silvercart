@@ -1292,8 +1292,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param bool $skip When set to true, the init routine will be skipped
      * 
      * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
     public function init($skip = false) {
         parent::init();
@@ -1340,10 +1341,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 // Register selector forms, e.g. the "products per page" selector
                 $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
                 $selectorForm->setSecurityTokenDisabled();
+                $selectorFormBottom = new SilvercartProductGroupPageSelectorsForm($this);
+                $selectorFormBottom->setSecurityTokenDisabled();
 
                 $this->registerCustomHtmlForm(
                     'SilvercartProductGroupPageSelectors',
                     $selectorForm
+                );
+                $this->registerCustomHtmlForm(
+                    'SilvercartProductGroupPageSelectorsBottom',
+                    $selectorFormBottom
                 );
             }
         }
