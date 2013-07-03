@@ -13,8 +13,9 @@
  *
  * @package Silvercart
  * @subpackage Products
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 23.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 02.07.2013
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
@@ -26,9 +27,10 @@ class SilvercartManufacturer extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title'         => 'VarChar',
-        'URL'           => 'VarChar',
-        'URLSegment'    => 'VarChar'
+        'ManufacturerNumber'    => 'VarChar',
+        'Title'                 => 'VarChar',
+        'URL'                   => 'VarChar',
+        'URLSegment'            => 'VarChar'
     );
     /**
      * Has-one relationships.
@@ -108,10 +110,11 @@ class SilvercartManufacturer extends DataObject {
      * @uses FormField::name_to_label()
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.02.2011
+     * @since 03.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = parent::fieldLabels($includerelations);
+        $fieldLabels['ManufacturerNumber']               = _t('SilvercartManufacturer.ManufacturerNumber');
         $fieldLabels['Title']                            = _t('SilvercartPage.TITLE', 'title');
         $fieldLabels['URL']                              = _t('SilvercartPage.URL', 'URL');
         $fieldLabels['logo']                             = _t('SilvercartPage.LOGO', 'logo');
