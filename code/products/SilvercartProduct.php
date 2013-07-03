@@ -1834,8 +1834,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return string URL of $this
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.01.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.05.2013
      */
     public function Link() {
         $link = '';
@@ -1843,18 +1844,18 @@ class SilvercartProduct extends DataObject {
         if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
             !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
             $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
-            $link = Controller::curr()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
+            $link = Controller::curr()->OriginalLink() . 'detail/' . $this->ID . '/' . $this->title2urlSegment();
         } elseif (Controller::curr() instanceof SilvercartProductGroupPage_Controller && 
                   Translatable::get_current_locale() != SilvercartConfig::DefaultLanguage()) {
             Translatable::disable_locale_filter();
             if ($this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->getTranslation(SilvercartConfig::DefaultLanguage())->ID)) {
-                $link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
+                $link = Controller::curr()->Link('detail') . $this->ID . '/' . $this->title2urlSegment();
             }
             Translatable::enable_locale_filter();
         }
         if (empty($link) &&
             $this->SilvercartProductGroup()) {
-            $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
+            $link = $this->SilvercartProductGroup()->OriginalLink() . 'detail/' . $this->ID . '/' . $this->title2urlSegment();
         }
         
         return $link;

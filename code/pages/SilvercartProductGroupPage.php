@@ -1170,6 +1170,22 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     protected $sqlOffsets = array();
     
     /**
+     * List of allowed actions.
+     *
+     * @var array
+     */
+    public static $allowed_actions = array(
+        'detail'
+    );
+    
+    /**
+     * Detail product to show
+     *
+     * @var SilvercartProduct
+     */
+    protected $product = null;
+
+    /**
      * Indicates wether a filter plugin can be registered for the current view.
      *
      * @return boolean
@@ -2228,6 +2244,45 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
+     * Action to show a product detail page.
+     * Returns the rendered detail page.
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2013
+     */
+    public function detail(SS_HTTPRequest $request) {
+        $params     = $request->allParams();
+        $productID  = $params['ID'];
+        $product = DataObject::get_by_id('SilvercartProduct', $productID);
+        $this->setProduct($product);
+        return $this->render();
+    }
+    
+    /**
+     * Returns the detail product to show
+     * 
+     * @return SilvercartProduct
+     */
+    public function getProduct() {
+        return $this->product;
+    }
+    
+    /**
+     * Sets the detail product to show
+     * 
+     * @param SilvercartProduct $product The detail product to show
+     * 
+     * @return void
+     */
+    public function setProduct($product) {
+        $this->product = $product;
+    }
+
+    /**
      * handles the requested action.
      * If a product detail view is requested, the detail view template will be
      * rendered an displayed.
@@ -2237,30 +2292,15 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return mixed
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
+     * @since 03.07.2013
      */
     public function handleAction($request) {
-        if ($this->isProductDetailView()) {
+        if (is_numeric($this->urlParams['Action'])) {
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
-
-            if (!empty($this->urlParams['OtherID'])) {
-                $secondaryAction = $this->urlParams['OtherID'];
-                if ($this->hasMethod($secondaryAction) &&
-                    $this->hasAction($secondaryAction)) {
-
-                    $result = $this->{$secondaryAction}($request);
-                    if (is_array($result)) {
-                        return $this->getViewer($this->action)->process($this->customise($result));
-                    } else {
-                        return $result;
-                    }
-                }
-            }
-            $view = $this->ProductDetailView(
-                $this->urlParams['ID']
-            );
-            if ($view !== false) {
-                return $view;
+            $product = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
+            if ($product instanceof SilvercartProduct) {
+                $this->redirect($product->Link());
+                return;
             }
         } elseif ($this->isFilteredByManufacturer()) {
             $url = str_replace($this->urlParams['Action'] . '/' . $this->urlParams['ID'], '', $_REQUEST['url']);
@@ -2387,16 +2427,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 17.02.2011
      */
     public function isProductDetailView() {
-        if (empty($this->urlParams['Action'])) {
-            return false;
-        }
-        if ($this->hasMethod($this->urlParams['Action'])) {
-            return false;
-        }
+        $isProductDetailView = false;
         if ($this->getDetailViewProduct() instanceof SilvercartProduct) {
-            return true;
+            $isProductDetailView = true;
         }
-        return false;
+        return $isProductDetailView;
     }
 
     /**
@@ -2405,11 +2440,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return SilvercartProduct
      */
     public function getDetailViewProduct() {
-        if (is_numeric($this->urlParams['Action']) == false) {
+        if ($this->urlParams['Action'] != 'detail' ||
+            is_numeric($this->urlParams['ID']) == false) {
             return null;
         }
         if (is_null($this->detailViewProduct)) {
-            $this->detailViewProduct = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
+            $this->detailViewProduct = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['ID']));
         }
 
         return $this->detailViewProduct;
