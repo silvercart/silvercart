@@ -303,4 +303,15 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     protected function getDeeplinkAttributeName() {
         return $this->urlParams['Action'];
     }
+    
+    /**
+     * Returns the inherited UseOnlyDefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getUseOnlyDefaultGroupViewInherited($context = null) {
+        return true;
+    }
 }
