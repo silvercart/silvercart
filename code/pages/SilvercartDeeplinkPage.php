@@ -283,14 +283,15 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
         $deeplink       = $this->getDeeplink();
         if ($deeplink instanceof SilvercartDeeplink) {
             $deeplinkValue = $this->urlParams['ID'];
-            if (!empty($deeplink->Prefix)) {
+            var_dump($deeplinkValue);
+            if (strlen($deeplink->Prefix) > 0) {
                 while (strpos($deeplinkValue, $deeplink->Prefix) === 0) {
                     $deeplinkValue = substr($deeplinkValue, strlen($deeplink->Prefix));
                 }
-                $revertedDeeplinkValue  = strrev($deeplinkValue);
+                $revertedDeeplinkValue = strrev($deeplinkValue);
             }
-            if (!empty($deeplink->Suffix)) {
-                $revertedSuffix         = strrev($deeplink->Suffix);
+            if (strlen($deeplink->Suffix) > 0) {
+                $revertedSuffix = strrev($deeplink->Suffix);
                 while (strpos($revertedDeeplinkValue, $revertedSuffix) === 0) {
                     $deeplinkValue = strrev(substr($revertedDeeplinkValue, strlen($revertedSuffix)));
                 }
