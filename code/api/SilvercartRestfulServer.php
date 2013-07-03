@@ -13,9 +13,10 @@
  *
  * @package Silvercart
  * @subpackage API
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 01.07.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 2013-02-22
  * @license see license file in modules root directory
  */
 class SilvercartRestfulServer extends RestfulServer {
@@ -86,9 +87,6 @@ class SilvercartRestfulServer extends RestfulServer {
      * @param Member $member The current member
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-02-25
      */
     protected function getAllowedRelations($class, $member = null) {
         $allowedRelations = array();
@@ -115,15 +113,20 @@ class SilvercartRestfulServer extends RestfulServer {
      * Returns a SilvercartXMLDataFormatter.
      *
      * @param boolean $includeAcceptHeader Determines wether to inspect and prioritize any HTTP Accept headers
+	 * @param string  $className           Classname of a DataObject
      *
      * @return DataFormatter
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-02-22
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
-    protected function getDataFormatter($includeAcceptHeader = false) {
+    protected function getDataFormatter($includeAcceptHeader = false, $className = null) {
         $formatter      = new SilvercartXMLDataFormatter();
         $relationDepth  = $this->request->getVar('relationdepth');
+        if (!$className) {
+            $className = $this->urlParams['ClassName'];
+        }
 
         // set custom fields
         if ($customAddFields = $this->request->getVar('add_fields')) {
@@ -134,10 +137,10 @@ class SilvercartRestfulServer extends RestfulServer {
         }
 
         $formatter->setCustomRelations(
-            $this->getAllowedRelations($this->urlParams['ClassName'])
+            $this->getAllowedRelations($className)
         );
 
-        $apiAccess = singleton($this->urlParams['ClassName'])->stat('api_access');
+        $apiAccess = singleton($className)->stat('api_access');
         if (is_array($apiAccess)) {
             if ($formatter->getCustomFields()) {
                 $formatter->setCustomFields(array_intersect((array) $formatter->getCustomFields(), (array) $apiAccess['view']));
