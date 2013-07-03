@@ -217,7 +217,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return array
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2012
+     * @since 03.04.2013
      */
     public function summaryFields() {
         $summaryFields = array(
@@ -858,6 +858,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->SilvercartOrderID       = $this->ID;
                     $orderPosition->SilvercartProductID     = $product->ID;
                     $orderPosition->log                     = false;
+                    $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
                     $orderPosition->write();
 
                     // Call hook method on product if available
@@ -869,6 +870,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                         $product->decrementStockQuantity($shoppingCartPosition->Quantity);
                     }
                     
+                    $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
                     $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
                     
                     if (!empty($result)) {
