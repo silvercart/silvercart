@@ -314,4 +314,15 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
     public function getUseOnlyDefaultGroupViewInherited($context = null) {
         return true;
     }
+
+    /**
+     * Returns the inherited DefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getDefaultGroupViewInherited($context = null) {
+        return SilvercartGroupViewHandler::getDefaultGroupView();
+    }
 }
