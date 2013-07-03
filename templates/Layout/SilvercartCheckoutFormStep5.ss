@@ -22,6 +22,8 @@
             </div>
         </div>
     </div>
+    
+    {$CustomHtmlFormSpecialFields}
 
     <% if hasOnlyOneStandardAddress %>
         <% with AddressData %>
