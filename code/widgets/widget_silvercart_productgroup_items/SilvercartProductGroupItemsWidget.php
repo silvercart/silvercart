@@ -419,24 +419,28 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             $this->numberOfProductsToFetch = $this->numberOfProductsToShow;
         }
 
-        $productgroupPage = DataObject::get_by_id(
-            'SilvercartProductGroupPage',
-            $this->SilvercartProductGroupPageID
-        );
+        if ($this->numberOfProductsToFetch == $this->numberOfProductsToShow) {
+            $products = $this->elements;
+        } else {
+            $productgroupPage = DataObject::get_by_id(
+                'SilvercartProductGroupPage',
+                $this->SilvercartProductGroupPageID
+            );
 
-        if (!$productgroupPage) {
-            return false;
+            if (!$productgroupPage) {
+                return false;
+            }
+            $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
+
+            switch ($this->fetchMethod) {
+                case 'sortOrderAsc':
+                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
+                    break;
+                case 'random':
+                default:
+                    $products = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToFetch);
+            }
         }
-        $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-        
-        switch ($this->fetchMethod) {
-            case 'sortOrderAsc':
-                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
-                break;
-            case 'random':
-            default:
-                $products = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToFetch);
-        } 
 
         $pages          = array();
         $pageProducts   = array();
@@ -492,22 +496,20 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 03.02.2012
      */
     public function Elements() {
-        if ($this->elements != null) {
-            return $this->elements;
-        }
+        if (is_null($this->elements)) {
+            switch ($this->useSelectionMethod) {
+                case 'products':
+                    $this->elements = $this->getElementsByProducts();
+                    break;
+                case 'productGroup':
+                default:
+                    $this->elements = $this->getElementsByProductGroup();
+                    break;
+            }
 
-        switch ($this->useSelectionMethod) {
-            case 'products':
-                $this->elements = $this->getElementsByProducts();
-                break;
-            case 'productGroup':
-            default:
-                $this->elements = $this->getElementsByProductGroup();
-                break;
-        }
-
-        foreach ($this->elements as $element) {
-            $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
+            foreach ($this->elements as $element) {
+                $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
+            }
         }
 
         return $this->elements;
@@ -557,7 +559,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
 
         return $products;
     }
-    
+
     /**
      * Returns a number of products from the chosen productgroup.
      * 
@@ -572,7 +574,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         if (!$this->SilvercartProductGroupPageID) {
             return $elements;
         }
-        
+
         if (!$this->numberOfProductsToShow) {
             $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
         }
@@ -586,7 +588,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             return false;
         }
         $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-        
+
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
                 $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
@@ -594,7 +596,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             case 'random':
             default:
                 $elements = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToShow);
-        } 
+        }
         
         return $elements;
     }
