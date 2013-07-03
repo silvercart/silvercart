@@ -294,26 +294,33 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2011
+     * @since 03.07.2013
      */
     public function generateAutoCompleteList() {
-        $dataObjectSet = DataObject::get($this->getAutoCompleteSourceDataObject());
-        $autoCompleteList = array();
-        $attribute = $this->getAutoCompleteSourceAttribute();
-        if ($dataObjectSet) {
-            foreach ($dataObjectSet as $dataObject) {
-                if (is_array($attribute)) {
-                    $listEntries = array();
-                    foreach ($attribute as $key => $fieldName) {
-                        $listEntries[] = $this->prepareValue($dataObject->{$fieldName});
+        $autoCompleteList   = array();
+        $records            = DB::query('SELECT COUNT(ID) AS ObjectCount FROM ' . $this->getAutoCompleteSourceDataObject());
+        foreach ($records as $record) {
+            $objectCount = $record['ObjectCount'];
+        }
+        if ($objectCount < 5000) {
+            $dataObjectSet = DataObject::get($this->getAutoCompleteSourceDataObject());
+            $attribute = $this->getAutoCompleteSourceAttribute();
+            if ($dataObjectSet instanceof DataObjectSet) {
+                foreach ($dataObjectSet as $dataObject) {
+                    if (is_array($attribute)) {
+                        $listEntries = array();
+                        foreach ($attribute as $key => $fieldName) {
+                            $listEntries[] = $this->prepareValue($dataObject->{$fieldName});
+                        }
+                        $listEntry = implode($this->getFieldDelimiter(), $listEntries);
+                    } else {
+                        $listEntry = $this->prepareValue($dataObject->{$attribute});
                     }
-                    $listEntry = implode($this->getFieldDelimiter(), $listEntries);
-                } else {
-                    $listEntry = $this->prepareValue($dataObject->{$attribute});
+                    $autoCompleteList[] = $listEntry;
                 }
-                $autoCompleteList[] = $listEntry;
             }
         }
+        
         $this->setAutoCompleteList($autoCompleteList);
     }
     
