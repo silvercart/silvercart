@@ -1016,6 +1016,7 @@ $lang['de_DE']['SilvercartInvoiceAddress']['SINGULARNAME'] = 'Rechnungsadresse';
 $lang['de_DE']['SilvercartManufacturer']['DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartManufacturer']['PLURALNAME'] = 'Hersteller';
 $lang['de_DE']['SilvercartManufacturer']['SINGULARNAME'] = 'Hersteller';
+$lang['de_DE']['SilvercartManufacturer']['ManufacturerNumber'] = 'Herstellernummer';
 
 $lang['de_DE']['SilvercartManufacturerAdmin']['MENUTITLE'] = 'Hersteller';
 

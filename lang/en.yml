@@ -847,6 +847,7 @@ en:
     DESCRIPTION: "Description"
     PLURALNAME: "Manufacturers"
     SINGULARNAME: "Manufacturer"
+    ManufacturerNumber: "Manufacturer Number"
   SilvercartManufacturerAdmin:
     MENUTITLE: "Manufacturers"
   SilvercartManufacturerLanguage:
