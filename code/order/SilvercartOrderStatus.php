@@ -172,6 +172,31 @@ class SilvercartOrderStatus extends DataObject {
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
     }
+    
+    /**
+     * The searchable fields.
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.07.2013
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartOrderStatusLanguages.Title' => array(
+                'title'     => $this->fieldLabel('Title'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'Code' => array(
+                'title'     => $this->fieldLabel('Code'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+        );
+        
+        $this->extend('updateSearchableFields', $searchableFields);
+        
+        return $searchableFields;
+    }
 
     /**
      * remove attribute Code from the CMS fields
