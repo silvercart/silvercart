@@ -121,6 +121,9 @@ $lang['de_DE']['SilvercartAddress']['USE_ABSOLUTEADDRESS']      = 'Hausanschrift
 $lang['de_DE']['SilvercartAddress']['USE_PACKSTATION']          = 'Packstation als Adresse verwenden';
 $lang['de_DE']['SilvercartAddress']['IS_PACKSTATION']           = 'Adresse ist Packstation';
 $lang['de_DE']['SilvercartAddress']['ADDRESSTYPE']              = 'Art der Adresse';
+$lang['de_DE']['SilvercartAddress']['SILVERCART_ADDRESS_DELETE']    = 'Adresse löschen';
+$lang['de_DE']['SilvercartAddress']['SILVERCART_ADDRESS_EDIT']      = 'Adresse bearbeiten';
+$lang['de_DE']['SilvercartAddress']['SILVERCART_ADDRESS_VIEW']      = 'Adresse anschauen';
 
 $lang['de_DE']['SilvercartAddressHolder']['ADD'] = 'Neue Adresse hinzuf&uuml;gen';
 $lang['de_DE']['SilvercartAddressHolder']['ADDED_ADDRESS_SUCCESS'] = 'Ihre Adresse wurde gespeichert.';

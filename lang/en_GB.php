@@ -121,6 +121,9 @@ $lang['en_GB']['SilvercartAddress']['USE_ABSOLUTEADDRESS']      = 'This is an ab
 $lang['en_GB']['SilvercartAddress']['USE_PACKSTATION']          = 'This is a PACKSTATION address';
 $lang['en_GB']['SilvercartAddress']['IS_PACKSTATION']           = 'Address is PACKSTATION';
 $lang['en_GB']['SilvercartAddress']['ADDRESSTYPE']              = 'Type of address';
+$lang['en_GB']['SilvercartAddress']['SILVERCART_ADDRESS_DELETE']    = 'Delete address';
+$lang['en_GB']['SilvercartAddress']['SILVERCART_ADDRESS_EDIT']      = 'Edit address';
+$lang['en_GB']['SilvercartAddress']['SILVERCART_ADDRESS_VIEW']      = 'View address';
 
 $lang['en_GB']['SilvercartAddressHolder']['ADD'] = 'Add new address';
 $lang['en_GB']['SilvercartAddressHolder']['ADDED_ADDRESS_SUCCESS'] = 'Your address was successfully saved.';
