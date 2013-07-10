@@ -76,7 +76,8 @@ class SilvercartImageAdmin extends ModelAdmin {
     public static $managed_models = array(
         'SilvercartImage' => array(
             'collection_controller' => 'SilvercartImageAdmin_CollectionController'
-        )
+        ),
+        'SilvercartImageSliderImage',
     );
 
     /**
