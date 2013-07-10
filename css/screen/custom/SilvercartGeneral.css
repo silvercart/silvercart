@@ -683,3 +683,49 @@ a.silvercart-button-small:hover,
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
 }
+
+
+/* Select bar navigation ------------------------------------------------------ */
+
+ul.silvercart-select-bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 3px 0;
+}
+ul.silvercart-select-bar li {
+    display: inline-block;
+    padding: 0 1px 0 0;
+    margin: 0;
+}
+ul.silvercart-select-bar li span {
+    padding: 1px 9px;
+    background: none;
+    color: #666;
+    border: 1px solid transparent;
+}
+ul.silvercart-select-bar li span,
+ul.silvercart-select-bar li a {
+    padding: 1px 9px;
+    background: none;
+    color: #666;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+ul.silvercart-select-bar li a:hover {
+    color: #fff;
+    background: #aaa;
+    border: 1px solid #aaa;
+    text-decoration: none;
+}
+ul.silvercart-select-bar li span.active,
+ul.silvercart-select-bar li a.active,
+ul.silvercart-select-bar li a.active:hover {
+    color: #fff;
+    background: #888;
+    border: 1px solid #888;
+    -webkit-box-shadow: inset 0px 0px 6px 2px #666666;
+    box-shadow: inset 0px 0px 6px 2px #666666;
+    cursor: default;
+}
