@@ -93,6 +93,13 @@ class SilvercartAddress extends DataObject {
         'SilvercartCountryISON',
         'SilvercartCountryFIPS',
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     */
+    public static $api_access = true;
     
     /**
      * Property to indicate whether this is an anonymous address
@@ -114,6 +121,13 @@ class SilvercartAddress extends DataObject {
      * @var bool
      */
     protected $isAnonymousInvoiceAddress = false;
+    
+    /**
+     * Determines whether the current search context is restful.
+     *
+     * @var bool
+     */
+    protected $isRestfulContext = false;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -140,6 +154,64 @@ class SilvercartAddress extends DataObject {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
+    }
+
+    /**
+     * Set permissions.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2013
+     */
+    public function providePermissions() {
+        return array(
+            'SILVERCART_ADDRESS_VIEW'   => _t('SilvercartAddress.SILVERCART_ADDRESS_VIEW'),
+            'SILVERCART_ADDRESS_EDIT'   => _t('SilvercartAddress.SILVERCART_ADDRESS_EDIT'),
+            'SILVERCART_ADDRESS_DELETE' => _t('SilvercartAddress.SILVERCART_ADDRESS_DELETE')
+        );
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2013
+     */
+    public function CanView() {
+        $canView = false;
+        if ((Member::currentUserID() == $this->MemberID &&
+             !is_null($this->MemberID)) ||
+            Permission::check('SILVERCART_ADDRESS_VIEW')) {
+            $canView = true;
+        }
+        return $canView;
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2013
+     */
+    public function CanEdit() {
+        return Permission::check('SILVERCART_ADDRESS_EDIT');
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2013
+     */
+    public function CanDelete() {
+        return Permission::check('SILVERCART_ADDRESS_DELETE');
     }
     
     /**
@@ -175,6 +247,120 @@ class SilvercartAddress extends DataObject {
         );
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Searchable fields of this object.
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.05.2013
+     */
+    public function searchableFields() {
+        $fields = array(
+            'TaxIdNumber'       => array(
+                'title'     => $this->fieldLabel('TaxIdNumber'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Company'           => array(
+                'title'     => $this->fieldLabel('Company'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Salutation'        => array(
+                'title'     => $this->fieldLabel('Salutation'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'FirstName'         => array(
+                'title'     => $this->fieldLabel('FirstName'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Surname'           => array(
+                'title'     => $this->fieldLabel('Surname'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Addition'          => array(
+                'title'     => $this->fieldLabel('Addition'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'PostNumber'        => array(
+                'title'     => $this->fieldLabel('PostNumber'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Packstation'       => array(
+                'title'     => $this->fieldLabel('Packstation'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Street'            => array(
+                'title'     => $this->fieldLabel('Street'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'StreetNumber'      => array(
+                'title'     => $this->fieldLabel('StreetNumber'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Postcode'          => array(
+                'title'     => $this->fieldLabel('Postcode'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'City'              => array(
+                'title'     => $this->fieldLabel('City'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'PhoneAreaCode'     => array(
+                'title'     => $this->fieldLabel('PhoneAreaCode'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Phone'             => array(
+                'title'     => $this->fieldLabel('Phone'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'Fax'               => array(
+                'title'     => $this->fieldLabel('Fax'),
+                'filter'    => 'PartialMatchFilter'
+            ),
+            'IsPackstation'     => array(
+                'title'     => $this->fieldLabel('IsPackstation'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'Member.ID'        => array(
+                'title'     => $this->fieldLabel('Member'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+            'SilvercartCountry.ID'        => array(
+                'title'     => $this->fieldLabel('SilvercartCountry'),
+                'filter'    => 'ExactMatchFilter'
+            ),
+        );
+        
+        if ($this->isRestfulContext) {
+            $fields = array_merge(
+                    $fields,
+                    array(
+                        'LastEdited' => array(
+                            'title'     => $this->fieldLabel('LastEdited'),
+                            'filter'    => 'GreaterThanFilter'
+                        ),
+                        'ID'        => array(
+                            'title'     => $this->fieldLabel('ID'),
+                            'filter'    => 'ExactMatchFilter'
+                        ),
+                    )
+            );
+        }
+        
+        return $fields;
+    }
+
+    /**
+     * Generates a SearchContext to be used for building and processing
+     * a generic search form for properties on this object.
+     *
+     * @return SearchContext
+     */
+    public function getRestfulSearchContext() {
+        $this->isRestfulContext = true;
+        return $this->getDefaultSearchContext();
     }
 
     /**
