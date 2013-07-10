@@ -26,9 +26,10 @@
  *
  * @package Silvercart
  * @subpackage Translation
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 21.01.2012
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 19.06.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartImageSliderImageLanguage extends DataObject {
@@ -39,7 +40,8 @@ class SilvercartImageSliderImageLanguage extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title'     => 'VarChar',
+        'Content'   => 'HTMLText',
     );
     
     /**
@@ -85,17 +87,18 @@ class SilvercartImageSliderImageLanguage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 20.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.06.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-            'SilvercartImageSliderImage' => _t('SilvercartImageSliderImage.SINGULARNAME'),
-            'Title' => _t('SilvercartProduct.COLUMN_TITLE')
-                    
-                )
+            parent::fieldLabels($includerelations),
+            array(
+                'SilvercartImageSliderImage'    => _t('SilvercartImageSliderImage.SINGULARNAME'),
+                'Title'                         => _t('SilvercartProduct.COLUMN_TITLE'),
+                'Content'                       => _t('SilvercartImage.CONTENT'),
+            )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
