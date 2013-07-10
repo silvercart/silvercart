@@ -177,6 +177,36 @@ class SilvercartImage extends DataObject {
     }
     
     /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet the fields for the backend
+     */
+    public function getMinimizedCMSFields($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        if ($this->ID) {
+            $imageUploadField = new ImageUploadField('Image', $this->fieldLabel('Image'));
+            $imageUploadField->setUploadFolder('assets/Uploads/PartnerLogos');
+            $fields->insertBefore($imageUploadField, 'SortOrder');
+        }
+        $fields->removeByName('Content');
+        $fields->removeByName('Description');
+        $fields->removeByName('SortOrder');
+        
+        return $fields;
+    }
+    
+    /**
      * wrapper that changes add behavior for better user experience
      * images may directly be added without pressing the save/add button
      *
