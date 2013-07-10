@@ -5,10 +5,10 @@ var SilvercartManyManyTextAutoCompleteField = [];
 
 SilvercartManyManyTextAutoCompleteField.split = function(val, fieldName) {
     return val.split(SilvercartManyManyTextAutoCompleteField.EntryDelimiter[fieldName]);
-}
+};
 SilvercartManyManyTextAutoCompleteField.extractLast = function(term, fieldName) {
     return this.split(term, fieldName).pop();
-}
+};
 SilvercartManyManyTextAutoCompleteField.init = function() {
     jQuery('.silvercartmanymanytextautocomplete input').live(
         "focus",
@@ -16,7 +16,7 @@ SilvercartManyManyTextAutoCompleteField.init = function() {
             var fieldName     = jQuery(this).attr('name');
             var availableTags = SilvercartManyManyTextAutoCompleteField.AutoCompleteList[fieldName];
             jQuery(this).autocomplete({
-                minLength: 0,
+                minLength: 3,
                 source: function(request, response) {
                     // delegate back to autocomplete, but extract the last term
                     response(jQuery.ui.autocomplete.filter(
@@ -37,8 +37,8 @@ SilvercartManyManyTextAutoCompleteField.init = function() {
                     this.value = terms.join(SilvercartManyManyTextAutoCompleteField.EntryDelimiter[fieldName]);
                     return false;
                 }
-            })
-    })
+            });
+    });
     jQuery('.silvercartmanymanytextautocomplete input').live(
         "keydown",
         function(event) {
@@ -47,8 +47,9 @@ SilvercartManyManyTextAutoCompleteField.init = function() {
                 event.preventDefault();
             }
     });
-}
+};
 
+jQuery;
 (function($) {
     $(document).ready(function() {
         setTimeout('SilvercartManyManyTextAutoCompleteField.init();', 1000);

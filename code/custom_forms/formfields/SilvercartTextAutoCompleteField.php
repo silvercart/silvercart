@@ -303,21 +303,32 @@ class SilvercartTextAutoCompleteField extends TextField {
             $objectCount = $record['ObjectCount'];
         }
         if ($objectCount < 5000) {
-            $dataObjectSet = DataObject::get($this->getAutoCompleteSourceDataObject());
-            $attribute = $this->getAutoCompleteSourceAttribute();
-            if ($dataObjectSet instanceof DataObjectSet) {
-                foreach ($dataObjectSet as $dataObject) {
-                    if (is_array($attribute)) {
-                        $listEntries = array();
-                        foreach ($attribute as $key => $fieldName) {
-                            $listEntries[] = $this->prepareValue($dataObject->{$fieldName});
-                        }
-                        $listEntry = implode($this->getFieldDelimiter(), $listEntries);
-                    } else {
-                        $listEntry = $this->prepareValue($dataObject->{$attribute});
+            $attribute  = $this->getAutoCompleteSourceAttribute();
+            if (is_array($attribute)) {
+                $attributeList = implode(',', $attribute);
+            } else {
+                $attributeList = $attribute;
+            }
+            $query      = sprintf(
+                    "SELECT %s FROM %s AS SO LEFT JOIN %sLanguage AS SOL ON (SOL.%sID = SO.ID) WHERE SOL.Locale = '%s'",
+                    $attributeList,
+                    $this->getAutoCompleteSourceDataObject(),
+                    $this->getAutoCompleteSourceDataObject(),
+                    $this->getAutoCompleteSourceDataObject(),
+                    Translatable::get_current_locale()
+            );
+            $rows = DB::query($query);
+            if (is_array($attribute)) {
+                foreach ($rows as $row) {
+                    $listEntries = array();
+                    foreach ($attribute as $key => $fieldName) {
+                        $listEntries[] = $this->prepareValue($row[$fieldName]);
                     }
+                    $listEntry = implode($this->getFieldDelimiter(), $listEntries);
                     $autoCompleteList[] = $listEntry;
                 }
+            } else {
+                $autoCompleteList = array_keys($rows->map());
             }
         }
         
