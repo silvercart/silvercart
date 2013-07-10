@@ -1498,6 +1498,7 @@ $lang['en_GB']['SilvercartSearchResultsPage']['TITLE'] = 'Search results';
 $lang['en_GB']['SilvercartSearchResultsPage']['URL_SEGMENT'] = 'search-results';
 $lang['en_GB']['SilvercartSearchResultsPage']['RESULTTEXT'] = 'Search results for query <b>&rdquo;%s&rdquo;</b>';
 $lang['en_GB']['SilvercartSearchResultsPage']['RELEVANCESORT'] = 'Relevance';
+$lang['en_GB']['SilvercartSearchResultsPage']['CHOOSE_CONTEXT'] = 'Results for';
 
 $lang['en_GB']['SilvercartShippingAddress']['PLURALNAME'] = 'Shipping addresses';
 $lang['en_GB']['SilvercartShippingAddress']['SINGULARNAME'] = 'Shipping address';
