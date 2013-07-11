@@ -497,8 +497,8 @@ $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['CONTINUE_WITH_CHEC
 $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['OPTIN_TEMP_TEXT'] = 'After activating your customer account you\'ll be provided a link to proceed with your checkout.';
 $lang['en_US']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Continue';
 $lang['en_US']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--country--';
-$lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Addresses';
 $lang['en_US']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'The given address could not be found.';
+$lang['en_US']['SilvercartCheckoutFormStep2']['TITLE'] = 'Addresses';
 $lang['en_US']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--choose shipping method--';
 $lang['en_US']['SilvercartCheckoutFormStep3']['TITLE'] = 'Shipment';
 $lang['en_US']['SilvercartCheckoutFormStep4']['CHOOSE_PAYMENT_METHOD'] = 'I would like to pay with %s';
@@ -1394,6 +1394,7 @@ $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_MODIFY_TYPE_CHARGE'] = 'Charg
 $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_MODIFY_TYPE_DISCOUNT'] = 'Discount';
 $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACT'] = 'Discount';
 $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONLABELFIELD'] = 'Label for shopping cart/order';
+$lang['en_US']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD'] = 'Product number to use for XML order export';
 $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACTTYPE'] = 'Type';
 $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONVALUE'] = 'Value';
 $lang['en_US']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFIERS'] = 'Charges/Discounts';

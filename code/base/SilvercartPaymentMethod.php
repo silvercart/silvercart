@@ -56,6 +56,7 @@ class SilvercartPaymentMethod extends DataObject {
         'sumModificationValue'                  => 'Float',
         'sumModificationValueType'              => "enum('absolute,percent','absolute')",
         'sumModificationLabel'                  => 'VarChar(255)',
+        'sumModificationProductNumber'          => 'VarChar(255)',
         'useSumModification'                    => 'Boolean(0)'
     );
     /**
@@ -358,7 +359,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.04.2011
+     * @since 11.07.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -375,6 +376,7 @@ class SilvercartPaymentMethod extends DataObject {
                     'SilvercartShippingMethods'         => _t('SilvercartShippingMethod.PLURALNAME'),
                     'SilvercartCountries'               => _t('SilvercartCountry.PLURALNAME'),
                     'LongPaymentDescription'            => _t('SilvercartPaymentMethod.LONG_PAYMENT_DESCRIPTION'),
+                    'sumModificationProductNumber'      => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD'),
                 )
         );
     }
@@ -1436,6 +1438,7 @@ class SilvercartPaymentMethod extends DataObject {
         $impactValueTypeField = new OptionsetField('sumModificationValueType', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE').':', $impactValueTypeValues);
         
         $impactLabelField = new TextField('sumModificationLabel', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONLABELFIELD'));
+        $impactProductNumberField = new TextField('sumModificationProductNumber', $this->fieldLabel('sumModificationProductNumber'));
         
         $tabSumModifiers->push($useSumModificationField);
         $tabSumModifiers->push($impactField);
@@ -1443,6 +1446,7 @@ class SilvercartPaymentMethod extends DataObject {
         $tabSumModifiers->push($impactValueField);
         $tabSumModifiers->push($impactValueTypeField);
         $tabSumModifiers->push($impactLabelField);
+        $tabSumModifiers->push($impactProductNumberField);
         
         // --------------------------------------------------------------------
         // Countries

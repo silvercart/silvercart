@@ -1395,6 +1395,7 @@ $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_MODIFY_TYPE_DISCOUNT'] = 'Abs
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACTTYPE'] = 'Art';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONIMPACT'] = 'Beeinflusst';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONLABELFIELD'] = 'Beschriftung in Warenkorb/Bestellung';
+$lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD'] = 'Artikelnummer für XML-Bestell-Export';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFICATIONVALUE'] = 'Wert';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_SUMMODIFIERS'] = 'Auf-/Abschläge';
 $lang['de_DE']['SilvercartPaymentMethod']['PAYMENT_USE_SUMMODIFICATION'] = 'Aktivieren';

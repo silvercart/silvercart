@@ -943,7 +943,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.04.2013
+     * @since 11.07.2013
      */
     public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
@@ -1024,7 +1024,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->TaxRate             = $chargeAndDiscountForProduct->SilvercartTax->Rate;
                     $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
                     $orderPosition->Quantity            = 1;
-                    $orderPosition->ProductNumber       = '';
+                    $orderPosition->ProductNumber       = $chargeAndDiscountForProduct->sumModificationProductNumber;
                     $orderPosition->Title               = $chargeAndDiscountForProduct->Name;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->write();
@@ -1127,7 +1127,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->TaxRate             = $chargeAndDiscountForTotal->SilvercartTax->Rate;
                     $orderPosition->ProductDescription  = $chargeAndDiscountForTotal->Name;
                     $orderPosition->Quantity            = 1;
-                    $orderPosition->ProductNumber       = '';
+                    $orderPosition->ProductNumber       = $chargeAndDiscountForTotal->sumModificationProductNumber;
                     $orderPosition->Title               = $chargeAndDiscountForTotal->Name;
                     $orderPosition->SilvercartOrderID   = $this->ID;
                     $orderPosition->write();

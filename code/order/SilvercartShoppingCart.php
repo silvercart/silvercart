@@ -327,8 +327,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2013
      */
     public function ChargesAndDiscountsForProducts($priceType = false) {
         $cacheHash = md5($priceType);
@@ -351,11 +352,12 @@ class SilvercartShoppingCart extends DataObject {
 
                 $chargesAndDiscounts = new DataObject(
                     array(
-                        'Name'                  => $paymentMethodObj->sumModificationLabel,
-                        'sumModificationImpact' => $paymentMethodObj->sumModificationImpact,
-                        'PriceFormatted'        => $handlingCostPayment->Nice(),
-                        'Price'                 => $handlingCostPayment,
-                        'SilvercartTax'         => $silvercartTax
+                        'Name'                          => $paymentMethodObj->sumModificationLabel,
+                        'sumModificationImpact'         => $paymentMethodObj->sumModificationImpact,
+                        'sumModificationProductNumber'  => $paymentMethodObj->sumModificationProductNumber,
+                        'PriceFormatted'                => $handlingCostPayment->Nice(),
+                        'Price'                         => $handlingCostPayment,
+                        'SilvercartTax'                 => $silvercartTax
                     )
                 );
 
@@ -376,8 +378,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2013
      */
     public function ChargesAndDiscountsForTotal($priceType = false) {
         $cacheHash = md5($priceType);
@@ -403,11 +406,12 @@ class SilvercartShoppingCart extends DataObject {
                 );
                 $chargesAndDiscounts = new DataObject(
                     array(
-                        'Name'                  => $paymentMethodObj->sumModificationLabel,
-                        'sumModificationImpact' => $paymentMethodObj->sumModificationImpact,
-                        'PriceFormatted'        => $handlingCostPayment->Nice(),
-                        'Price'                 => $handlingCostPayment,
-                        'SilvercartTax'         => $silvercartTax
+                        'Name'                          => $paymentMethodObj->sumModificationLabel,
+                        'sumModificationImpact'         => $paymentMethodObj->sumModificationImpact,
+                        'sumModificationProductNumber'  => $paymentMethodObj->sumModificationProductNumber,
+                        'PriceFormatted'                => $handlingCostPayment->Nice(),
+                        'Price'                         => $handlingCostPayment,
+                        'SilvercartTax'                 => $silvercartTax
                     )
                 );
 
