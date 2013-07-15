@@ -525,7 +525,7 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.07.2013
+     * @since 15.07.2013
      */
     public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -549,7 +549,6 @@ class SilvercartPaymentMethod extends DataObject {
                         $amount = $silvercartShoppingCart->getAmountTotalNetWithoutFees(array(), false, true);
                     }
                     $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
-                    $silvercartShoppingCart->SilvercartShoppingCartPositions();
                     $index = 1;
                     foreach ($silvercartShoppingCart->SilvercartShoppingCartPositions() as $position) {
                         if ($position->SilvercartProductID > 0 &&
@@ -611,11 +610,13 @@ class SilvercartPaymentMethod extends DataObject {
             }
 
             $handlingCosts->setAmount($handlingCostAmount);
-
-            return $handlingCosts;
         }
         
-        return false;
+        $this->extend('updateChargesAndDiscountsForProducts', $handlingCosts);
+        if ($handlingCosts->getAmount() == 0) {
+            $handlingCosts = false;
+        }
+        return $handlingCosts;
     }
     
     /**
@@ -627,8 +628,9 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return mixed boolean|DataObject
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.09.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.07.2013
      */
     public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -642,14 +644,40 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'totalValue') {
             
+            $excludedPositions = array();
+            
             switch ($this->sumModificationValueType) {
                 case 'percent':
                     $amount            = $silvercartShoppingCart->getAmountTotal(array(), false, true);
                     $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    $index = 1;
+                    foreach ($silvercartShoppingCart->SilvercartShoppingCartPositions() as $position) {
+                        if ($position->SilvercartProductID > 0 &&
+                            $position->SilvercartProduct() instanceof SilvercartProduct &&
+                            $position->SilvercartProduct()->ExcludeFromPaymentDiscounts) {
+                            $modificationValue -= $position->getPrice()->getAmount() / 100 * $this->sumModificationValue;
+                            $excludedPositions[] = $index;
+                        }
+                        $index++;
+                    }
                     break;
                 case 'absolute':
                 default:
                     $modificationValue = $this->sumModificationValue;
+            }
+            
+            if (count($excludedPositions) > 0) {
+                if (count($excludedPositions) == 1) {
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ExcludedPosition'),
+                            implode(', ', $excludedPositions)
+                    ) . ')';
+                } else {
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ExcludedPositions'),
+                            implode(', ', $excludedPositions)
+                    ) . ')';
+                }
             }
             
             if ($this->sumModificationImpactType == 'charge') {
