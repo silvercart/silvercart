@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>,
  *         Roland Lehmann <rlehmann@pixeltricks.de>,
  *         Sebastian Diel <sdiel@pixeltricks.de>
- * @since 26.06.2013
+ * @since 12.07.2013
  * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
@@ -71,6 +71,7 @@ class SilvercartProduct extends DataObject {
         'StockQuantityExpirationDate' => 'Date',
         'PackagingQuantity'           => 'Int',
         'Weight'                      => 'Int', //unit is gramm
+        'ExcludeFromPaymentDiscounts' => 'Boolean(0)',
     );
 
     /**
@@ -695,7 +696,7 @@ class SilvercartProduct extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.06.2013
+     * @since 12.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -763,6 +764,7 @@ class SilvercartProduct extends DataObject {
                 'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
                 'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
                 'RefreshCache'                          => _t('SilvercartProduct.RefreshCache'),
+                'ExcludeFromPaymentDiscounts'           => _t('SilvercartProduct.ExcludeFromPaymentDiscounts'),
             )
         );
 
@@ -1022,8 +1024,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return FieldSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.07.2013
      */
     public function scaffoldFormFields($params) {
         $params = array(
@@ -1058,6 +1061,7 @@ class SilvercartProduct extends DataObject {
                 'StockQuantityOverbookable',
                 'StockQuantityExpirationDate',
                 'PackagingQuantity',
+                'ExcludeFromPaymentDiscounts',
             ),
             'includeRelations' => array(
                 'has_many'  => true,
@@ -1180,6 +1184,7 @@ class SilvercartProduct extends DataObject {
         if ($fields->hasField('SilvercartManufacturerID')) {
             $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
         }
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('ExcludeFromPaymentDiscounts'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartQuantityUnitID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
