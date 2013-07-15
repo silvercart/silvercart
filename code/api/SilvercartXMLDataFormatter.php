@@ -250,10 +250,10 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
      * @return boolean 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @since 15.07.2015
      */
     public function skipRelation($relName, $relClass, $fields) {
-        $skipRelation = false;
+        $skipRelation = true;
         $obj          = singleton($relClass);
         $this->getDataObjectFieldPermissions($obj);
         $fields       = array_intersect((array) $this->getCustomAddFields(), (array) $this->getCustomFields());
