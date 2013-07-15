@@ -27,8 +27,8 @@
  * @package Silvercart
  * @subpackage API
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2012 pixeltricks GmbH
- * @since 13.07.2012
+ * @copyright 2013 pixeltricks GmbH
+ * @since 15.07.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartXMLDataFormatter extends XMLDataFormatter {
@@ -88,14 +88,22 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-02-25
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.07.2012
      */
     public function getDataObjectFieldPermissions($obj) {
         $apiAccess = $obj->stat('api_access');
 
         if ($apiAccess === true) {
-            $this->setCustomFields(array_keys($obj->stat('db')));
+            $inheritedDbFields  = $obj->inheritedDatabaseFields();
+            $dbFields           = $obj->stat('db');
+            foreach ($inheritedDbFields as $key => $value) {
+                if (!array_key_exists($key, $dbFields)) {
+                    $dbFields[$key] = $value;
+                }
+            }
+            $this->setCustomFields(array_keys($dbFields));
         } else if (is_array($apiAccess)) {
             $this->setCustomAddFields((array) $apiAccess['view']);
             $this->setCustomFields((array) $apiAccess['view']);
@@ -121,7 +129,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
 
         $this->getDataObjectFieldPermissions($obj);
         $fields = array_intersect((array) $this->getCustomAddFields(), (array) $this->getCustomFields());
-
+        
         foreach ($this->getFieldsForObj($obj) as $fieldName => $fieldType) {
             // Field filtering
             if (SilvercartRestfulServer::isBlackListField($obj->class, $fieldName)) {
