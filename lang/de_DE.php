@@ -1009,6 +1009,8 @@ $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_PRODUCT_IDENT
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_QUANTITY_IDENTIFIER']         = 'Name der Mengen-Variable';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']                            = 'Externe Warenkorbbefüllung';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Artikel-Bezugsfeld';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['productMatchingFieldPrefix']            = 'Präfix für Artikel-Bezugsfeld';
+$lang['de_DE']['SilvercartInboundShoppingCartTransfer']['productMatchingFieldSuffix']            = 'Suffix für Artikel-Bezugsfeld';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Kurzname des externen Partners';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
 $lang['de_DE']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']              = 'Shared secret aktivieren';

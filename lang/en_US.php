@@ -1009,6 +1009,8 @@ $lang['en_US']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_PRODUCT_IDENT
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['KEY_VALUE_QUANTITY_IDENTIFIER']         = 'Request variable name for quantity identifer';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PLURALNAME']                            = 'Inbound Shopping Cart Transfer';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['PRODUCT_MATCHING_FIELD']                = 'Product matching field';
+$lang['en_US']['SilvercartInboundShoppingCartTransfer']['productMatchingFieldPrefix']            = 'Prefix for product matching field';
+$lang['en_US']['SilvercartInboundShoppingCartTransfer']['productMatchingFieldSuffix']            = 'Suffix for product matching field';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['REFERER_IDENTIFIER']                    = 'Referer identifier';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET']                         = 'Shared secret';
 $lang['en_US']['SilvercartInboundShoppingCartTransfer']['SHARED_SECRET_ACTIVATION']              = 'activate shared secret';
