@@ -20,9 +20,11 @@
                 <h4>$Title</h4>
             </div>
             <div class="c80r">
-                    <% if Description %>
-                        $Description
-                    <% end_if %>
+                <% if DescriptionForShippingFeesPage %>
+                    {$DescriptionForShippingFeesPage}
+                <% else_if Description %>
+                    {$Description}
+                <% end_if %>
                 <table class="full silvercart-default-table">
                     <colgroup>
                         <col width="20%"></col>

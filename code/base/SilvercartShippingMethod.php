@@ -85,14 +85,15 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'AttributedCountries'       => 'Varchar(255)',
-        'activatedStatus'           => 'Varchar(255)',
-        'AttributedCustomerGroups'  => 'Text',
-        'AttributedZones'           => 'Text',
-        'AttributedZoneIDs'         => 'Text',
-        'Title'                     => 'Text',
-        'Description'               => 'Text',
-        'ShowOnShippingFeesPage'    => 'Boolean',
+        'AttributedCountries'               => 'Varchar(255)',
+        'activatedStatus'                   => 'Varchar(255)',
+        'AttributedCustomerGroups'          => 'Text',
+        'AttributedZones'                   => 'Text',
+        'AttributedZoneIDs'                 => 'Text',
+        'Title'                             => 'Text',
+        'Description'                       => 'Text',
+        'DescriptionForShippingFeesPage'    => 'Text',
+        'ShowOnShippingFeesPage'            => 'Boolean',
     );
 
     /**
@@ -167,8 +168,9 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -176,6 +178,7 @@ class SilvercartShippingMethod extends DataObject {
             array(
                 'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
                 'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
+                'DescriptionForShippingFeesPage'    => _t('SilvercartShippingMethod.DescriptionForShippingFeesPage'),
                 'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
                 'priority'                          => _t('Silvercart.PRIORITY'),
                 'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
@@ -387,6 +390,15 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getDescription() {
         return $this->getLanguageFieldValue('Description');
+    }
+    
+    /**
+     * getter for the shipping methods DescriptionForShippingFeesPage
+     *
+     * @return string the title in the corresponding front end language
+     */
+    public function getDescriptionForShippingFeesPage() {
+        return $this->getLanguageFieldValue('DescriptionForShippingFeesPage');
     }
     
     /**

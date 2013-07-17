@@ -1534,6 +1534,7 @@ $lang['en_GB']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'shipping-fees';
 $lang['en_GB']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'For payment methods';
 $lang['en_GB']['SilvercartShippingMethod']['FOR_ZONES'] = 'For zones';
 $lang['en_GB']['SilvercartShippingMethod']['DESCRIPTION'] = 'Description';
+$lang['en_GB']['SilvercartShippingMethod']['DescriptionForShippingFeesPage'] = 'Description for Shipping Fees Page (will be used instead of "Description")';
 $lang['en_GB']['SilvercartShippingMethod']['PACKAGE'] = 'Package';
 $lang['en_GB']['SilvercartShippingMethod']['PLURALNAME'] = 'Shipping methods';
 $lang['en_GB']['SilvercartShippingMethod']['SINGULARNAME'] = 'Shipping method';

@@ -1534,6 +1534,7 @@ $lang['de_DE']['SilvercartShippingFeesPage']['URL_SEGMENT'] = 'versandgebuehren'
 $lang['de_DE']['SilvercartShippingMethod']['FOR_PAYMENTMETHODS'] = 'für Bezahlart';
 $lang['de_DE']['SilvercartShippingMethod']['FOR_ZONES'] = 'für Zonen';
 $lang['de_DE']['SilvercartShippingMethod']['DESCRIPTION'] = 'Beschreibung';
+$lang['de_DE']['SilvercartShippingMethod']['DescriptionForShippingFeesPage'] = 'Beschreibung für Versandgebührenseite (wird anstelle von "Beschreibung" verwendet)';
 $lang['de_DE']['SilvercartShippingMethod']['PACKAGE'] = 'Paket';
 $lang['de_DE']['SilvercartShippingMethod']['PLURALNAME'] = 'Versandarten';
 $lang['de_DE']['SilvercartShippingMethod']['SINGULARNAME'] = 'Versandart';
