@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -26,9 +26,10 @@
  *
  * @package Silvercart
  * @subpackage Base
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 20.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 17.07.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartShippingMethod extends DataObject {
@@ -39,8 +40,9 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $db = array(
-        'isActive' => 'Boolean',
-        'priority' => 'Int'
+        'isActive'                      => 'Boolean',
+        'priority'                      => 'Int',
+        'DoNotShowOnShippingFeesPage'   => 'Boolean',
     );
     /**
      * Has-one relationships.
@@ -90,6 +92,7 @@ class SilvercartShippingMethod extends DataObject {
         'AttributedZoneIDs'         => 'Text',
         'Title'                     => 'Text',
         'Description'               => 'Text',
+        'ShowOnShippingFeesPage'    => 'Boolean',
     );
 
     /**
@@ -182,6 +185,7 @@ class SilvercartShippingMethod extends DataObject {
                 'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
                 'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
                 'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
+                'DoNotShowOnShippingFeesPage'       => _t('SilvercartShippingMethod.DoNotShowOnShippingFeesPage'),
             )
         );
     }
@@ -301,6 +305,15 @@ class SilvercartShippingMethod extends DataObject {
         }
 
         return $fields;
+    }
+    
+    /**
+     * Returns whether to show this shipping method on shipping fees page.
+     * 
+     * @return bool
+     */
+    public function getShowOnShippingFeesPage() {
+        return !$this->DoNotShowOnShippingFeesPage;
     }
     
     /**

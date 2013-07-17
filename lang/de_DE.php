@@ -1540,6 +1540,7 @@ $lang['de_DE']['SilvercartShippingMethod']['SINGULARNAME'] = 'Versandart';
 $lang['de_DE']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'Was wollen Sie importieren?';
 $lang['de_DE']['SilvercartShippingMethod']['NO_SHIPPING_METHOD_AVAILABLE'] = 'Keine Versandart verfügbar';
 $lang['de_DE']['SilvercartShippingMethod']['CHOOSE_SHIPPING_METHOD'] = 'Bitte wählen Sie Ihre Versandart für die Lieferung nach "%s"';
+$lang['de_DE']['SilvercartShippingMethod']['DoNotShowOnShippingFeesPage'] = 'Nicht auf Versandgebührenseite anzeigen';
 
 $lang['de_DE']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Versandarten';
 

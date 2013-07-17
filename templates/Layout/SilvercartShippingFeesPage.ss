@@ -14,6 +14,7 @@
         <h3>$Title</h3>
             <% control AllowedSilvercartShippingMethods %>
                 <% if isActive %>
+                    <% if ShowOnShippingFeesPage %>
         <div class="subcolumns">
             <div class="c20l">
                 <h4>$Title</h4>
@@ -57,6 +58,7 @@
                 <% if hasFeeWithPostPricing %>* <% _t('SilvercartShippingFee.POST_PRICING_INFO') %><% end_if %>
             </div>
         </div>
+                    <% end_if %>
                 <% end_if %>
             <% end_control %>
         <% end_if %>
