@@ -390,8 +390,9 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.05.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public function getGroupPictureList() {
         $list = '';
@@ -399,6 +400,9 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         foreach ($this->getImagesToDisplay() as $imageToDisplay) {
             $list .= '<div class="silvercart-slidorion-slide" style="background: url(' . $imageToDisplay->resizedImage->getURL() . ') no-repeat center;">';
             $list .= '<div class="silvercart-slidorion-slide-prev"><div class="arrow"><div></div></div></div>';
+            if ($imageToDisplay->Link()) {
+                $list .= '<a class="silvercart-slidorion-slide-click" href="' . $imageToDisplay->Link() . '"></a>';
+            }
             $list .= '<div class="silvercart-slidorion-slide-next"><div class="arrow_outer"><div class="arrow"><div></div></div></div></div>';
             $list .= $imageToDisplay->Content;
             $list .= '</div>';
