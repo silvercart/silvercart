@@ -778,14 +778,12 @@ class SilvercartConfig extends DataObject {
      *
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 13.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public static function FreeOfShippingCostsFrom($shippingCountry = null) {
-        if (is_null(self::$freeOfShippingCostsFrom)) {
-            self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
-        }
+        self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
         if (!($shippingCountry instanceof SilvercartCountry) &&
             Controller::curr()->hasMethod('getCombinedStepData')) {
             $checkoutData       = Controller::curr()->getCombinedStepData();

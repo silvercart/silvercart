@@ -266,6 +266,41 @@ class SilvercartShippingFee extends DataObject {
     }
 
     /**
+     * Returns the Price for the current detail product formatted by locale.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
+     */
+    public function PriceFormattedForDetailViewProduct() {
+        $country = null;
+        $amount = null;
+        if (Controller::curr()->hasMethod('getDetailViewProduct')) {
+            $product = Controller::curr()->getDetailViewProduct();
+            if ($product instanceof SilvercartProduct) {
+                $amount = $product->getPrice()->getAmount();
+            }
+        }
+        
+        if ($this->SilvercartZone()->SilvercartCountries()->Count() == 1) {
+            $country = $this->SilvercartZone()->SilvercartCountries()->First();
+        }
+        
+        $priceFormatted = '';
+        if ($this->PostPricing) {
+            $priceFormatted = '---';
+        } else {
+            $priceObj = new Money();
+            $priceObj->setAmount($this->getPriceAmount(false, $amount, $country));
+            $priceObj->setCurrency($this->getPriceCurrency());
+
+            $priceFormatted = $priceObj->Nice();
+        }
+        return $priceFormatted;
+    }
+
+    /**
      * Returns the Price formatted by locale.
      * 
      * @param bool $plain Set to true to load the price amount without any manipulation
@@ -424,8 +459,9 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.07.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public function getPriceAmount($plain = false, $amountToGetFeeFor = null, $countryToGetFeeFor = null) {
         $price = (float) $this->Price->getAmount();
@@ -439,8 +475,12 @@ class SilvercartShippingFee extends DataObject {
                 Member::currentUser()->SilvercartShoppingCartID > 0) {
                 $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
                 $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
-                $amountToGetFeeFor      = $shoppingCartValue->getAmount();
-                $countryToGetFeeFor     = $this->SilvercartShippingMethod()->getShippingCountry();
+                if (is_null($amountToGetFeeFor)) {
+                    $amountToGetFeeFor  = $shoppingCartValue->getAmount();
+                }
+                if (is_null($countryToGetFeeFor)) {
+                    $countryToGetFeeFor = $this->SilvercartShippingMethod()->getShippingCountry();
+                }
                 if ($this->ShippingIsFree($amountToGetFeeFor, $countryToGetFeeFor)) {
                     $price = 0.0;
                 }
