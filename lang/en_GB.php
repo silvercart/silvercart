@@ -1380,6 +1380,7 @@ $lang['en_GB']['SilvercartPaymentMethod']['ACCESS_MANAGEMENT_USER_LABEL'] = 'By 
 $lang['en_GB']['SilvercartPaymentMethod']['ACCESS_SETTINGS'] = 'Access management';
 $lang['en_GB']['SilvercartPaymentMethod']['ATTRIBUTED_COUNTRIES'] = 'Attributed countries';
 $lang['en_GB']['SilvercartPaymentMethod']['BASIC_SETTINGS'] = 'Basic settings';
+$lang['en_GB']['SilvercartPaymentMethod']['ChargeOrDiscountForAmount'] = 'on %s';
 $lang['en_GB']['SilvercartPaymentMethod']['ENABLE_RESTRICTION_BY_ORDER_LABEL'] = 'Use the following rule';
 $lang['en_GB']['SilvercartPaymentMethod']['ExcludedPosition'] = 'position %s is excluded';
 $lang['en_GB']['SilvercartPaymentMethod']['ExcludedPositions'] = 'the positions %s are excluded';

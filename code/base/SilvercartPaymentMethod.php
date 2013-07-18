@@ -525,7 +525,7 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.07.2013
+     * @since 18.07.2013
      */
     public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -539,16 +539,12 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'productValue') {
             
-            $excludedPositions = array();
+            $excludedPositions  = array();
+            $shoppingCartAmount = $silvercartShoppingCart->getAmountTotalWithoutFees(array(), false, true);
             
             switch ($this->sumModificationValueType) {
                 case 'percent':
-                    if (SilvercartConfig::PriceType() == 'gross') {
-                        $amount = $silvercartShoppingCart->getAmountTotalGrossWithoutFees(array(), false, true);
-                    } else {
-                        $amount = $silvercartShoppingCart->getAmountTotalNetWithoutFees(array(), false, true);
-                    }
-                    $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    $modificationValue = $shoppingCartAmount->getAmount() / 100 * $this->sumModificationValue;
                     $index = 1;
                     foreach ($silvercartShoppingCart->SilvercartShoppingCartPositions() as $position) {
                         if ($position->SilvercartProductID > 0 &&
@@ -559,6 +555,10 @@ class SilvercartPaymentMethod extends DataObject {
                         }
                         $index++;
                     }
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ChargeOrDiscountForAmount'),
+                            $shoppingCartAmount->Nice()
+                    ) . ')';
                     break;
                 case 'absolute':
                 default:
