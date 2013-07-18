@@ -645,6 +645,7 @@ $lang['en_GB']['SilvercartCountry']['SINGULARNAME']                             
 $lang['en_GB']['SilvercartCountry']['ISPRIORITIVE']                             = 'Show country prioritive at the top of dropdown lists?';
 $lang['en_GB']['SilvercartCountry']['ISPRIORITIVE_SHORT']                       = 'Prioritive';
 $lang['en_GB']['SilvercartCountry']['DISPLAYPOSITION']                          = 'Display position (if prioritive)';
+$lang['en_GB']['SilvercartCountry']['IsNonTaxable']                             = 'Non-taxable';
 $lang['en_GB']['SilvercartCountryAdmin']['MENUTITLE']                           = 'Countries';
 
 $lang['en_GB']['SilvercartCountryLanguage']['PLURALNAME']                       = _t('Silvercart.TRANSLATIONS');
