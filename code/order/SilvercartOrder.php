@@ -943,7 +943,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.07.2013
+     * @since 18.07.2013
      */
     public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
@@ -1000,6 +1000,57 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     unset($orderPosition);
                 }
             }
+            
+            // Get taxable positions from registered modules
+            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                'ShoppingCartPositions',
+                array(
+                    $member->SilvercartShoppingCart(),
+                    $member,
+                    true
+                )
+            );
+
+            foreach ($registeredModules as $moduleName => $moduleOutput) {
+                foreach ($moduleOutput as $modulePosition) {
+                    $orderPosition = new SilvercartOrderPosition();
+                    if ($this->IsPriceTypeGross()) {
+                        if ($modulePosition->Price instanceof Money) {
+                            $price = $modulePosition->Price->getAmount();
+                        } else {
+                            $price = $modulePosition->Price;
+                        }
+                        $orderPosition->Price->setAmount($price);
+                    } else {
+                        if ($modulePosition->Price instanceof Money) {
+                            $price = $modulePosition->PriceNet->getAmount();
+                        } else {
+                            $price = $modulePosition->PriceNet;
+                        }
+                        $orderPosition->Price->setAmount($price);
+                    }
+                    $orderPosition->Price->setCurrency($modulePosition->Currency);
+                    if ($this->IsPriceTypeGross()) {
+                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                    } else {
+                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
+                    }
+                    $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
+                    $orderPosition->Tax                 = 0;
+                    $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
+                    $orderPosition->TaxRate             = $modulePosition->TaxRate;
+                    $orderPosition->ProductDescription  = $modulePosition->LongDescription;
+                    $orderPosition->Quantity            = $modulePosition->Quantity;
+                    $orderPosition->Title               = $modulePosition->Name;
+                    if ($modulePosition->isChargeOrDiscount) {
+                        $orderPosition->isChargeOrDiscount                  = true;
+                        $orderPosition->chargeOrDiscountModificationImpact  = $modulePosition->chargeOrDiscountModificationImpact;
+                    }
+                    $orderPosition->SilvercartOrderID   = $this->ID;
+                    $orderPosition->write();
+                    unset($orderPosition);
+                }
+            }
 
             // Get charges and discounts for product values
             if ($silvercartShoppingCart->HasChargesAndDiscountsForProducts()) {
@@ -1031,46 +1082,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     unset($orderPosition);
                 }
             }
-            
-            // Get taxable positions from registered modules
-            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
-                'ShoppingCartPositions',
-                array(
-                    $member->SilvercartShoppingCart(),
-                    $member,
-                    true
-                )
-            );
-
-            foreach ($registeredModules as $moduleName => $moduleOutput) {
-                foreach ($moduleOutput as $modulePosition) {
-                    $orderPosition = new SilvercartOrderPosition();
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->Price->setAmount($modulePosition->Price);
-                    } else {
-                        $orderPosition->Price->setAmount($modulePosition->PriceNet);
-                    }
-                    $orderPosition->Price->setCurrency($modulePosition->Currency);
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
-                    } else {
-                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
-                    }
-                    $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
-                    $orderPosition->Tax                 = 0;
-                    $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
-                    $orderPosition->TaxRate             = $modulePosition->TaxRate;
-                    $orderPosition->ProductDescription  = $modulePosition->LongDescription;
-                    $orderPosition->Quantity            = $modulePosition->Quantity;
-                    $orderPosition->Title               = $modulePosition->Name;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->write();
-                    unset($orderPosition);
-                }
-            }
 
             // Get nontaxable positions from registered modules
-            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+            $registeredModulesNonTaxablePositions = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
                 array(
                     $member->SilvercartShoppingCart(),
@@ -1079,7 +1093,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 )
             );
 
-            foreach ($registeredModules as $moduleName => $moduleOutput) {
+            foreach ($registeredModulesNonTaxablePositions as $moduleName => $moduleOutput) {
                 foreach ($moduleOutput as $modulePosition) {
                     $orderPosition = new SilvercartOrderPosition();
                     if ($this->IsPriceTypeGross()) {

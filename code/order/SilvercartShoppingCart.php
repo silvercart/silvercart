@@ -934,7 +934,6 @@ class SilvercartShoppingCart extends DataObject {
      * @return Money a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 15.12.2011
      */
     public function getTaxableAmountGrossWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
@@ -972,6 +971,22 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
+     * Returns the price of the cart positions, including taxes.
+     *
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                           can contain the ID or the className of the position
+     * 
+     * @return Money a price amount
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
+     */
+    public function getTaxableAmountGrossWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) {
+        $excludeModules = self::$registeredModules;
+        return $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
+    }
+
+    /**
      * Returns the price of the cart positions.
      *
      * @param array $excludeModules              An array of registered modules that shall not
@@ -982,7 +997,6 @@ class SilvercartShoppingCart extends DataObject {
      * @return Money a price amount
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 15.12.2011
      */
     public function getTaxableAmountNetWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
@@ -1016,6 +1030,22 @@ class SilvercartShoppingCart extends DataObject {
         $this->cacheHashes[$cacheKey] = $amountObj;
     
         return $amountObj;
+    }
+
+    /**
+     * Returns the price of the cart positions.
+     *
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                           can contain the ID or the className of the position
+     * 
+     * @return Money a price amount
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
+     */
+    public function getTaxableAmountNetWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) {
+        $excludeModules = self::$registeredModules;
+        return $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
     }
 
     /**
@@ -1808,8 +1838,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return SilvercartTax
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function getMostValuableTaxRate($taxes) {
         $highestTaxValue        = 0;
@@ -1817,6 +1848,7 @@ class SilvercartShoppingCart extends DataObject {
 
         foreach ($taxes as $tax) {
             if ($tax->AmountRaw > $highestTaxValue) {
+                $highestTaxValue     = $tax->AmountRaw;
                 $mostValuableTaxRate = $tax->Rate;
             }
         }
@@ -1951,9 +1983,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return DataObjectSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 21.01.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public function registeredModules() {
         $customer = Member::currentUser();
@@ -1968,7 +2000,8 @@ class SilvercartShoppingCart extends DataObject {
         );
 
         foreach ($registeredModules as $registeredModule) {
-            $registeredModuleObjPlain = new $registeredModule();
+            $registeredModuleObjPlain   = new $registeredModule();
+            $registeredModuleObj        = false;
 
             if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
                 $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);

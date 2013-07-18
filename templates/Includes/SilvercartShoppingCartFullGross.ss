@@ -18,6 +18,14 @@
 
         <% control registeredModules %>
             <% if TaxableShoppingCartPositions %>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                    <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
+                    <td class="right" id="Sum"><strong><% control CurrentMember.SilvercartShoppingCart %>$TaxableAmountGrossWithoutFeesAndChargesAndModules.Nice<% end_control %></strong></td>
+                    <% if Top.EditableShoppingCart %>
+                        <td>&nbsp;</td>
+                    <% end_if %>
+                </tr>
                 <% control TaxableShoppingCartPositions %>
                     <tr>
                         <td colspan="3">$Name</td>
