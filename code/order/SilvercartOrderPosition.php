@@ -81,7 +81,8 @@ class SilvercartOrderPosition extends DataObject {
         'Quantity'                           => 'Decimal',
         'Title'                              => 'VarChar(255)',
         'ProductNumber'                      => 'VarChar',
-        'numberOfDecimalPlaces'              => 'Int'
+        'numberOfDecimalPlaces'              => 'Int',
+        'IsNonTaxable'                       => 'Boolean(0)',
     );
 
     /**

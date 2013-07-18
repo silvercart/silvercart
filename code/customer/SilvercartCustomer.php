@@ -691,15 +691,24 @@ class SilvercartCustomer extends DataObjectDecorator {
         return $hasOnlyOneStandardAddress;
     }
     
-     /**
+    /**
      * used to determine weather something should be shown on a template or not
+     * 
+     * @param bool $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
      * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
-    public function showPricesGross() {
+    public function showPricesGross($ignoreTaxExemption = false) {
         $pricetype = SilvercartConfig::Pricetype();
+        
+        if (!$ignoreTaxExemption &&
+            $this->doesNotHaveToPayTaxes()) {
+            $pricetype = 'net';
+        }
         
         if ($pricetype == "gross") {
             return true;
@@ -708,6 +717,24 @@ class SilvercartCustomer extends DataObjectDecorator {
         }
     }
     
+    /**
+     * Returns whether the customer has to pay tax or not.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
+     */
+    public function doesNotHaveToPayTaxes() {
+        $doesNotHaveToPayTaxes = false;
+        if ($this->owner->SilvercartShippingAddress() instanceof SilvercartAddress &&
+            $this->owner->SilvercartShippingAddress()->SilvercartCountry()->IsNonTaxable) {
+            $doesNotHaveToPayTaxes = true;
+        }
+        return $doesNotHaveToPayTaxes;
+    }
+
+
     /**
      * Returns the members price type
      *

@@ -293,6 +293,13 @@ class SilvercartProduct extends DataObject {
      * @var array
      */
     protected $images = array();
+    
+    /**
+     * Determines whether to ignore tax exemption or not.
+     *
+     * @var bool 
+     */
+    protected $ignoreTaxExemption = false;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1487,17 +1494,19 @@ class SilvercartProduct extends DataObject {
      * Getter for product price
      * May be decorated by the module silvercart_graduatedprices
      *
-     * @param string $priceType Set to 'gross' or 'net' to get the desired prices.
-     *                          If not given the price type will be automatically determined.
+     * @param string $priceType          Set to 'gross' or 'net' to get the desired prices.
+     *                                   If not given the price type will be automatically determined.
+     * @param bool   $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
      * @return Money price dependent on customer class and configuration
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.10.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
-    public function getPrice($priceType = '') {
+    public function getPrice($priceType = '', $ignoreTaxExemption = false) {
         $cacheHash = md5($priceType);
-        $cacheKey = 'getPrice_'.$cacheHash;
+        $cacheKey = 'getPrice_' . $cacheHash . '_' . $ignoreTaxExemption ? '1' : '0';
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
@@ -1513,6 +1522,16 @@ class SilvercartProduct extends DataObject {
             $price = clone $this->PriceGross;
         } else {
             $price = clone $this->PriceGross;
+        }
+        
+        $member = Member::currentUser();
+        if (!$ignoreTaxExemption &&
+            !$this->ignoreTaxExemption &&
+            $member instanceof Member &&
+            $member->doesNotHaveToPayTaxes()) {
+            $this->ignoreTaxExemption = true;
+            $price->setAmount($price->getAmount() - $this->getTaxAmount());
+            $this->ignoreTaxExemption = false;
         }
 
         $price->setAmount(round($price->getAmount(), 2));
@@ -2111,16 +2130,16 @@ class SilvercartProduct extends DataObject {
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 25.11.2010
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function getTaxAmount() {
         $showPricesGross = false;
         $member          = Member::currentUser();
 
         if ($member) {
-            if ($member->showPricesGross()) {
+            if ($member->showPricesGross(true)) {
                 $showPricesGross = true;
             }
         } else {
@@ -2221,14 +2240,19 @@ class SilvercartProduct extends DataObject {
      * Returns the tax rate in percent. The attribute 'Rate' of the relation
      * 'SilvercartTax' is not used to handle with complex tax systems without
      * clearly defined product taxes.
+     * 
+     * @param bool $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
      * @return float the tax rate in percent
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.03.2011
+     * @since 18.07.2013
      */
-    public function getTaxRate() {
-        return $this->SilvercartTax()->getTaxRate();
+    public function getTaxRate($ignoreTaxExemption = false) {
+        if ($this->ignoreTaxExemption) {
+            $ignoreTaxExemption = $this->ignoreTaxExemption;
+        }
+        return $this->SilvercartTax()->getTaxRate($ignoreTaxExemption);
     }
 
     /**

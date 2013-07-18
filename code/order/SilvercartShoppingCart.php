@@ -1782,14 +1782,16 @@ class SilvercartShoppingCart extends DataObject {
 
         // products
         foreach ($positions as $position) {
-            $taxRate = $position->SilvercartProduct()->getTaxRate();
+            $taxRate            = $position->SilvercartProduct()->getTaxRate();
+            $originalTaxRate    = $position->SilvercartProduct()->getTaxRate(true);
 
             if (!$taxes->find('Rate', $taxRate)) {
                 $taxes->push(
                     new DataObject(
                         array(
-                            'Rate' => $taxRate,
-                            'AmountRaw' => (float) 0.0,
+                            'Rate'          => $taxRate,
+                            'OriginalRate'  => $originalTaxRate,
+                            'AmountRaw'     => (float) 0.0,
                         )
                     )
                 );
@@ -1806,8 +1808,9 @@ class SilvercartShoppingCart extends DataObject {
                     $taxes->push(
                         new DataObject(
                             array(
-                                'Rate' => $taxRate,
-                                'AmountRaw' => (float) 0.0,
+                                'Rate'          => $taxRate,
+                                'OriginalRate'  => $taxRate,
+                                'AmountRaw'     => (float) 0.0,
                             )
                         )
                     );
@@ -1843,26 +1846,32 @@ class SilvercartShoppingCart extends DataObject {
      * @since 18.07.2013
      */
     public function getMostValuableTaxRate($taxes) {
-        $highestTaxValue        = 0;
-        $mostValuableTaxRate    = null;
+        $highestTaxValue                = 0;
+        $mostValuableTaxRate            = null;
+        $originalMostValuableTaxRate    = null;
 
         foreach ($taxes as $tax) {
-            if ($tax->AmountRaw > $highestTaxValue) {
-                $highestTaxValue     = $tax->AmountRaw;
-                $mostValuableTaxRate = $tax->Rate;
+            if ($tax->AmountRaw >= $highestTaxValue) {
+                $highestTaxValue                = $tax->AmountRaw;
+                $mostValuableTaxRate            = $tax->Rate;
+                $originalMostValuableTaxRate    = $tax->OriginalRate;
             }
         }
 
-        if ($mostValuableTaxRate) {
+        if ($originalMostValuableTaxRate) {
             $silvercartTax = DataObject::get_one(
                 'SilvercartTax',
                 sprintf(
                     "Rate = %f",
-                    $mostValuableTaxRate
+                    $originalMostValuableTaxRate
                 )
             );
             
             if ($silvercartTax) {
+                if ($originalMostValuableTaxRate != $mostValuableTaxRate) {
+                    $silvercartTax->Rate    = $mostValuableTaxRate;
+                    $silvercartTax->setTitle($mostValuableTaxRate . '%');
+                }
                 return $silvercartTax;
             }
         }

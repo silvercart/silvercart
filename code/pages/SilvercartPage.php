@@ -878,11 +878,20 @@ class SilvercartPage_Controller extends ContentController {
      * used to determine weather something should be shown on a template or not
      *
      * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function showPricesGross() {
-        $pricetype = SilvercartConfig::Pricetype();
+        $pricetype  = SilvercartConfig::Pricetype();
+        $member     = Member::currentUser();
+        
+        if ($member instanceof Member &&
+            $member->doesNotHaveToPayTaxes()) {
+            $pricetype = 'net';
+        }
+        
         if ($pricetype == "gross") {
             return true;
         } else {
@@ -894,11 +903,20 @@ class SilvercartPage_Controller extends ContentController {
      * used to determine weather something should be shown on a template or not
      *
      * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function showPricesNet() {
-        $pricetype = SilvercartConfig::Pricetype();
+        $pricetype  = SilvercartConfig::Pricetype();
+        $member     = Member::currentUser();
+        
+        if ($member instanceof Member &&
+            $member->doesNotHaveToPayTaxes()) {
+            $pricetype = 'net';
+        }
+        
         if ($pricetype == "net") {
             return true;
         } else {

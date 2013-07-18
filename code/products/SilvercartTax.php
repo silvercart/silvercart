@@ -74,6 +74,13 @@ class SilvercartTax extends DataObject {
     );
     
     /**
+     * The i18n dependent title
+     *
+     * @var string
+     */
+    protected $i18nTitle = null;
+    
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -181,14 +188,25 @@ class SilvercartTax extends DataObject {
      * retirieves title from related language class depending on the set locale
      *
      * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
     public function getTitle() {
-        return $this->getLanguageFieldValue('Title');
+        if (is_null($this->i18nTitle)) {
+            $this->i18nTitle = $this->getLanguageFieldValue('Title');
+        }
+        return $this->i18nTitle;
     }
     
+    /**
+     * Sets the title
+     * 
+     * @param string $title Title to set
+     * 
+     * @return void
+     */
+    public function setTitle($title) {
+        $this->i18nTitle = $title;
+    }
+
     /**
      * Casting to get the IsDefault state as a readable string
      *
@@ -204,17 +222,31 @@ class SilvercartTax extends DataObject {
     
     /**
      * determine the tax rate. This method can be extended via DataObjectDecorator to implement own behaviour.
+     * 
+     * @param bool $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
      * @return float the tax rate in percent
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
-    public function getTaxRate() {
+    public function getTaxRate($ignoreTaxExemption = false) {
         $overwritten = $this->extend('getTaxRate');
         if (empty ($overwritten)) {
-            return $this->Rate;
+            
+            $member = Member::currentUser();
+            if (!$ignoreTaxExemption &&
+                $member instanceof Member &&
+                $member->doesNotHaveToPayTaxes()) {
+                $rate = 0;
+            } else {
+                $rate = $this->Rate;
+            }
+        } else {
+            $rate = $overwritten[0];
         }
-        return $overwritten[0];
+        return $rate;
     }
     
     /**

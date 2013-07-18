@@ -977,6 +977,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                     $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
                     $orderPosition->Title                   = $product->Title;
                     $orderPosition->SilvercartOrderID       = $this->ID;
+                    $orderPosition->IsNonTaxable            = $member->doesNotHaveToPayTaxes();
                     $orderPosition->SilvercartProductID     = $product->ID;
                     $orderPosition->log                     = false;
                     $orderPosition->write();
@@ -1466,15 +1467,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function SilvercartOrderPositionsWithoutTax() {
         $orderPositions = new DataObjectSet();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount &&
-                 $orderPosition->TaxRate == 0) {
+                 ($orderPosition->TaxRate == 0 &&
+                  !$orderPosition->IsNonTaxable)) {
                 
                 $orderPositions->push($orderPosition);
             }
@@ -1509,15 +1512,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function SilvercartOrderListPositions() {
         $orderPositions = new DataObjectSet();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount &&
-                 $orderPosition->TaxRate > 0) {
+                 ($orderPosition->TaxRate > 0 ||
+                  $orderPosition->IsNonTaxable)) {
                 
                 $orderPositions->push($orderPosition);
             }
@@ -1622,9 +1627,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         $priceGross = new Money();
@@ -1652,7 +1657,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 continue;
             }
             
-            if ($position->TaxRate > 0) {
+            if ($position->TaxRate > 0 ||
+                $position->IsNonTaxable) {
                 $priceGross->setAmount(
                     $priceGross->getAmount() + $position->PriceTotal->getAmount()
                 );
@@ -1677,9 +1683,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
         $priceNet = new Money();
@@ -1707,7 +1713,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 continue;
             }
             
-            if ($position->TaxRate > 0) {
+            if ($position->TaxRate > 0 ||
+                $position->IsNonTaxable) {
                 $priceNet->setAmount(
                     $priceNet->getAmount() + $position->PriceTotal->getAmount()
                 );
