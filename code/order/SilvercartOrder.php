@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -26,9 +26,10 @@
  *
  * @package Silvercart
  * @subpackage Order
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
- * @since 22.11.2010
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 21.07.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartOrder extends DataObject implements PermissionProvider {
@@ -2286,7 +2287,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.04.2011
+     * @since 21.07.2013
      */
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -2295,6 +2296,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
         if ($this->ID > 0 && $this->isChanged('SilvercartOrderStatusID')) {
+            $this->extend('onBeforeOrderStatusChange');
             if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
