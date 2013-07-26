@@ -31,7 +31,15 @@
     border:                         0px solid transparent;
     background:                     transparent;
     box-shadow:                     none;
-}.silvercart-widget-content_frame.center {
+    padding:                        0px;
+}
+.widget.plain h2 {
+    border:                         0px solid transparent;
+    background:                     transparent;
+    background-image:               none;
+    box-shadow:                     none;
+}
+.silvercart-widget-content_frame.center {
     margin:                         0;
 }
 .silvercart-widget-content-area {
