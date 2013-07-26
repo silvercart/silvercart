@@ -77,6 +77,20 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     );
     
     /**
+     * Width in pixel for the slidorion image
+     *
+     * @var int
+     */
+    public static $image_width = 426;
+    
+    /**
+     * padding in pixel for the slidorion image
+     *
+     * @var int
+     */
+    public static $image_padding = 15;
+
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -422,7 +436,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         foreach ($this->SilvercartImages() as $SilvercartImage) {
             if ($SilvercartImage->ImageID > 0) {
                 $image          = $SilvercartImage->Image();
-                $resizedImage   = $image->SetRatioSize(426, $this->getSliderHeight());
+                $resizedImage   = $image->SetRatioSize(self::$image_width, $this->getSliderHeight());
                 if ($resizedImage) {
                     $SilvercartImage->resizedImage = $resizedImage;
                     $imagesToDisplay->push($SilvercartImage);
@@ -442,7 +456,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      * @since 30.05.2012
      */
     public function getSliderHeight() {
-        return $this->getWidgetHeightValue() - 15;
+        return $this->getWidgetHeightValue() - self::$image_padding;
     }
     
     /**
