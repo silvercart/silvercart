@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -27,7 +27,8 @@
  * @package Silvercart
  * @subpackage Widgets
  * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 18.08.2011
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 22.07.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
@@ -89,18 +90,19 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 13.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'Content' => _t('Silvercart.CONTENT'),
-                    'Translations' => _t('SilvercartConfig.TRANSLATIONS'),
-                    'NumberOfPosts' => _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'),
-                    'IsContentView' => _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'),
-                    
+                parent::fieldLabels($includerelations),
+                array(
+                    'Content'           => _t('Silvercart.CONTENT'),
+                    'Translations'      => _t('SilvercartConfig.TRANSLATIONS'),
+                    'NumberOfPosts'     => _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'),
+                    'IsContentView'     => _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'),
+                    'ExtraCssClasses'   => _t('SilvercartText.CSSFIELD_LABEL'),
                 )
         );
 
@@ -113,8 +115,9 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      *
      * @return FieldSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.07.2013
      */
     public function getCMSFields() {
         $fields             = new FieldSet();
@@ -123,6 +126,7 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
         $mainTab            = new Tab('Root', $this->fieldLabel('Content'));
         $translationsTab    = new Tab('TranslationsTab', $this->fieldLabel('Translations'));
         
+        $cssField               = new TextField('ExtraCssClasses', $this->fieldLabel('ExtraCssClasses'));
         $numberOfPostsField     = new TextField('numberOfPostsToShow', $this->fieldLabel('NumberOfPosts'));
         $isContentView          = new CheckboxField('isContentView', $this->fieldLabel('IsContentView'));
         $translationsTableField = new ComplexTableField($this, 'SilvercartLatestBlogPostsWidgetLanguages', 'SilvercartLatestBlogPostsWidgetLanguage');
@@ -135,6 +139,7 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
         $fields->push($rootTabSet);
         $rootTabSet->push($mainTab);
         $rootTabSet->push($translationsTab);
+        $mainTab->push($cssField);
         $mainTab->push($numberOfPostsField);
         $mainTab->push($isContentView);
         $translationsTab->push($translationsTableField);
