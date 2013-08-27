@@ -111,9 +111,10 @@ class SilvercartWidgetSet extends DataObject {
                 if ($class == 'SilvercartWidget') {
                     continue;
                 }
-                $widgetClass        = singleton($class);
-                $availableWidgets[] = array($widgetClass->ClassName, $widgetClass->Title());
+                $widgetClass                                = singleton($class);
+                $availableWidgets[$widgetClass->Title()]    = array($widgetClass->ClassName, $widgetClass->Title());
             }
+            ksort($availableWidgets);
 
             $widgetAreaField = new SilvercartHasManyOrderField(
                 $this->WidgetArea(),
