@@ -216,11 +216,16 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.08.2013
      */
     public function Title() {
-        return $this->fieldLabel('Title');
+        $title = $this->fieldLabel('Title');
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
     }
     
     /**
@@ -228,11 +233,16 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.08.2013
      */
     public function CMSTitle() {
-        return $this->fieldLabel('CMSTitle');
+        $title = $this->fieldLabel('CMSTitle');
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
     }
     
     /**
