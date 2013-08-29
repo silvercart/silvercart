@@ -393,7 +393,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.06.2013
+     * @since 29.08.2013
      */
     public function ProductPages() {
         if ($this->elements !== null &&
@@ -429,7 +429,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             $this->numberOfProductsToFetch = $this->numberOfProductsToShow;
         }
 
-        if ($this->numberOfProductsToFetch == $this->numberOfProductsToShow) {
+        if ($this->numberOfProductsToFetch == $this->numberOfProductsToShow ||
+            $this->useSelectionMethod == 'products') {
             $products = $this->elements;
         } else {
             $productgroupPage = DataObject::get_by_id(
