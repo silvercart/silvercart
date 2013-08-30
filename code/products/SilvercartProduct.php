@@ -838,8 +838,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@œÄixeltricks.de>
-     * @since 22.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@œÄixeltricks.de>
+     * @since 30.08.2013
      */
     public static function defaultSort() {
         if (is_null(self::$scDefaultSort)) {
@@ -852,8 +853,11 @@ class SilvercartProduct extends DataObject {
                 $sort = Object::get_static('SilvercartProduct', 'default_sort');
                 if (strpos($sort, '.') === false) {
                     $sort = 'SilvercartProduct.' . $sort;
-                    self::setDefaultSort($sort);
                 }
+                self::setDefaultSort($sort);
+                Object::set_static('SilvercartProduct', 'default_sort', '');
+            } else {
+                Object::set_static('SilvercartProduct', 'default_sort', '');
             }
             self::$scDefaultSort = $sort;
         }
@@ -883,8 +887,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return DataObjectSet DataObjectSet of products or false
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.08.2013
      */
     public static function get($whereClause = "", $sort = null, $join = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
@@ -1006,19 +1011,6 @@ class SilvercartProduct extends DataObject {
             $databaseFilteredProducts) {
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
             $databaseFilteredProducts->setPageLimits($start, $length, $productCount);
-        }
-
-        // Result sorting
-        if (strpos($sort, 'SilvercartProductLanguage.') !== false) {
-            $dataObjectSort = str_replace('SilvercartProductLanguage.', '', $sort);
-        } else {
-            if (strpos($sort, 'PriceGrossAmount') !== false) {
-                $dataObjectSort = str_replace('SilvercartProduct.PriceGrossAmount', 'Price', $sort);
-            } else if (strpos($sort, 'PriceNetAmount') !== false) {
-                $dataObjectSort = str_replace('SilvercartProduct.PriceNetAmount', 'Price', $sort);
-            } else {
-                $dataObjectSort = $sort;
-            }
         }
 
         return $databaseFilteredProducts;
