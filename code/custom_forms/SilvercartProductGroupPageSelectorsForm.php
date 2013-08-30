@@ -29,7 +29,7 @@
  * @subpackage Forms
  * @author Sascha Koehler <skoehler@pixeltricks.de>,
  *         Sebastian Diel <sdiel@pixeltricks.de>
- * @since 22.04.2013
+ * @since 30.08.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @copyright 2011 pixeltricks GmbH
  */
@@ -40,8 +40,9 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      *
      * @return mixed boolean false|string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 04.12.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.08.2013
      */
     public function getCacheKeyExtension() {
         $controller = Controller::curr();
@@ -49,11 +50,13 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         if ($controller &&
             $controller instanceof SilvercartProductGroupPage_Controller) {
 
-            $extension = $controller->ID.'_'.
-                         SilvercartProduct::defaultSort().'_'.
-                         $controller->getProductsPerPageSetting().'_'.
+            $product   = singleton('SilvercartProduct');
+            $extension = $controller->ID . '_' . 
+                         SilvercartProduct::defaultSort() . '_' . 
+                         $controller->getProductsPerPageSetting() . '_' .
+                         $product->getDefaultSort() . '_' .
                          $this->getTotalNumberOfProducts();
-
+            
             return md5($extension);
         }
 

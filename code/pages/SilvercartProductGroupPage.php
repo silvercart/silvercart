@@ -1086,11 +1086,13 @@ class SilvercartProductGroupPage extends Page {
         } else {
             $singularOrPlural = 'PRODUCTS_ON_PAGES';
         }
-        $productsOnPagesString = sprintf(
-                _t('SilvercartProductGroupPage.' . $singularOrPlural),
-                $products->TotalItems(),
-                $products->TotalPages()
-        );
+        if ($products->TotalItems() > 0) {
+            $productsOnPagesString = sprintf(
+                    _t('SilvercartProductGroupPage.' . $singularOrPlural),
+                    $products->TotalItems(),
+                    $products->TotalPages()
+            );
+        }
         return $productsOnPagesString;
     }
 
@@ -1129,10 +1131,11 @@ class SilvercartProductGroupPage extends Page {
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 18.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 30.08.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2010 pixeltricks GmbH
+ * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartProductGroupPage_Controller extends Page_Controller {
 
@@ -1844,10 +1847,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.11.2012
+     * @since 30.08.2013
      */
     public function CacheKeyParts() {
         if (is_null($this->cacheKeyParts)) {
+            $product                = singleton('SilvercartProduct');
             $products               = $this->getProducts();
             $productMapIDs          = '';
             $productMapLastEdited   = '';
@@ -1877,6 +1881,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->getSqlOffset(),
                 SilvercartProduct::defaultSort(),
                 SilvercartGroupViewHandler::getActiveGroupView(),
+                $product->getDefaultSort(),
             );
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;
