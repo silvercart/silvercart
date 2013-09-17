@@ -950,6 +950,8 @@ $lang['de_DE']['SilvercartDownloadPage']['SINGULARNAME'] = 'Downloadseite';
 $lang['de_DE']['SilvercartDownloadPage']['PLURALNAME'] = 'Downloadseiten';
 $lang['de_DE']['SilvercartDownloadPageHolder']['SINGULARNAME'] = 'Downloadseitenübersicht';
 $lang['de_DE']['SilvercartDownloadPageHolder']['PLURALNAME'] = 'Downloadseitenübersichten';
+$lang['de_DE']['SilvercartDownloadPageHolder']['SearchResults'] = 'Suchergebnisse';
+$lang['de_DE']['SilvercartDownloadSearchForm']['submitButtonTitle'] = 'Downloads durchsuchen';
 
 $lang['de_DE']['SilvercartEditAddressForm']['EMPTYSTRING_PLEASECHOOSE'] = '--bitte wählen--';
 

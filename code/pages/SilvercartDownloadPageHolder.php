@@ -66,6 +66,32 @@ class SilvercartDownloadPageHolder extends Page {
         return SilvercartTools::plural_name_for($this);
     }
     
+    /**
+     * Adds the part for 'download search' to the breadcrumbs. Sets the link for
+     * The default action in breadcrumbs.
+     *
+     * @param int  $maxDepth       maximum levels
+     * @param bool $unlinked       link breadcrumbs elements
+     * @param bool $stopAtPageType name of PageType to stop at
+     * @param bool $showHidden     show pages that will not show in menus
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.06.2011
+     */
+    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+        if (Controller::curr()->getAction() == 'results') {
+            $parts = explode(self::$breadcrumbs_delimiter, $breadcrumbs);
+            $downloadHolder = array_pop($parts);
+            $parts[] = ("<a href=\"" . $this->Link() . "\">" . $downloadHolder . "</a>");
+            $parts[] = _t('SilvercartDownloadPageHolder.SearchResults');
+            $breadcrumbs = implode(self::$breadcrumbs_delimiter, $parts);
+        }
+        return $breadcrumbs;
+    }
+    
 }
 
 /**
@@ -79,5 +105,63 @@ class SilvercartDownloadPageHolder extends Page {
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License 
  */
 class SilvercartDownloadPageHolder_Controller extends Page_Controller {
+    
+    /**
+     * Allowed actions
+     * 
+     * @var array
+     */
+    public static $allowed_actions = array(
+        'results',
+    );
+
+    /**
+     * Init
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2013
+     */
+    public function init() {
+        parent::init();
+        $this->registerCustomHtmlForm('SilvercartDownloadSearchForm', new SilvercartDownloadSearchForm($this));
+    }
+    
+    /**
+     * Action to reder the search results
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2013
+     */
+    public function results(SS_HTTPRequest $request) {
+        $results = SilvercartDownloadSearchForm::get_current_results();
+        if (is_null($results)) {
+            $this->redirect($this->Link());
+        }
+        return $this->render();
+    }
+    
+    /**
+     * Returns the search results
+     * 
+     * @return DataObjectSet
+     */
+    public function getSearchResults() {
+        return SilvercartDownloadSearchForm::get_current_results();
+    }
+    
+    /**
+     * Returns the search query
+     * 
+     * @return string
+     */
+    public function getSearchQuery() {
+        return SilvercartDownloadSearchForm::get_current_query();
+    }
     
 }
