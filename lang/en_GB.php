@@ -514,6 +514,13 @@ $lang['en_GB']['SilvercartCheckoutStep']['BACK_TO_SHOPPINGCART'] = 'Back to the 
 $lang['en_GB']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Steps';
 $lang['en_GB']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Step';
 $lang['en_GB']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
+$lang['en_GB']['SilvercartCheckoutStep']['ContentStep1']                        = 'Content Step 1 - Login/Register';
+$lang['en_GB']['SilvercartCheckoutStep']['ContentStep2']                        = 'Content Step 2 - Shipping-/Invoiceaddress';
+$lang['en_GB']['SilvercartCheckoutStep']['ContentStep3']                        = 'Content Step 3 - Shippingmethod';
+$lang['en_GB']['SilvercartCheckoutStep']['ContentStep4']                        = 'Content Step 4 - Paymentmethod';
+$lang['en_GB']['SilvercartCheckoutStep']['ContentStep5']                        = 'Content Step 5 - Overview';
+$lang['en_GB']['SilvercartCheckoutStep']['ContentStep6']                        = 'Content Step 6 - Confirmation';
+$lang['en_GB']['SilvercartCheckoutStep']['StepContent']                         = 'Content for single steps';
 
 $lang['en_GB']['SilvercartCheckoutFormStepDefaultOrderConfirmation']['TITLE'] = 'Order Confirmation';
 

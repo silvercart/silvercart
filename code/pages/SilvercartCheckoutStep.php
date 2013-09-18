@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2010, 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -18,20 +18,35 @@
  * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
- * @subpackage Pages Checkout
+ * @subpackage Pages_Checkout
  */
 
 /**
- * Seite fuer den Checkoutprozess.
+ * Checkout step page.
  *
  * @package Silvercart
  * @subpackage Pages Checkout
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2010 pixeltricks GmbH
- * @since 09.11.2010
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 18.09.2013
+ * @copyright 2013 pixeltricks GmbH
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
+    
+    /**
+     * DB attributes
+     *
+     * @var array
+     */
+    public static $db = array(
+        'ContentStep1'  => 'HtmlText',
+        'ContentStep2'  => 'HtmlText',
+        'ContentStep3'  => 'HtmlText',
+        'ContentStep4'  => 'HtmlText',
+        'ContentStep5'  => 'HtmlText',
+        'ContentStep6'  => 'HtmlText',
+    );
 
     /**
      * icon for site tree
@@ -39,6 +54,35 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
      * @var string
      */
     public static $icon = "silvercart/images/page_icons/checkout_page";
+    
+    /**
+     * Field labels
+     * 
+     * @param bool $includerelations Include relations?
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.09.2013
+     */
+    public function fieldLabels($includerelations = true) {
+        $labels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'ContentStep1'  => _t('SilvercartCheckoutStep.ContentStep1'),
+                    'ContentStep2'  => _t('SilvercartCheckoutStep.ContentStep2'),
+                    'ContentStep3'  => _t('SilvercartCheckoutStep.ContentStep3'),
+                    'ContentStep4'  => _t('SilvercartCheckoutStep.ContentStep4'),
+                    'ContentStep5'  => _t('SilvercartCheckoutStep.ContentStep5'),
+                    'ContentStep6'  => _t('SilvercartCheckoutStep.ContentStep6'),
+                    'StepContent'   => _t('SilvercartCheckoutStep.StepContent'),
+                )
+        );
+        
+        $this->extend('updateFieldLabels', $labels);
+        
+        return $labels;
+    }
 
     /**
      * Deletes the step session data.
@@ -84,10 +128,29 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
     }
+    
+    /**
+     * CMS fields
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $fields->findOrMakeTab('Root.Content.StepContent', $this->fieldLabel('StepContent'));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep1', $this->fieldLabel('ContentStep1'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep2', $this->fieldLabel('ContentStep2'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep3', $this->fieldLabel('ContentStep3'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep4', $this->fieldLabel('ContentStep4'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep5', $this->fieldLabel('ContentStep5'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep6', $this->fieldLabel('ContentStep6'), 15));
+        
+        return $fields;
+    }
 }
 
 /**
- * Seite fuer den Checkoutprozess.
+ * Checkout step page controller.
  *
  * @package Silvercart
  * @subpackage Pages Checkout

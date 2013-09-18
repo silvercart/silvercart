@@ -1,3 +1,4 @@
+{$Controller.ContentStep6}
 <form class="yform" $FormAttributes>
 
     $CustomHtmlFormMetadata

@@ -514,6 +514,13 @@ $lang['de_DE']['SilvercartCheckoutStep']['BACK_TO_SHOPPINGCART'] = 'Zurück zum 
 $lang['de_DE']['SilvercartCheckoutStep']['PLURALNAME'] = 'Checkout Schritte';
 $lang['de_DE']['SilvercartCheckoutStep']['SINGULARNAME'] = 'Checkout Schritt';
 $lang['de_DE']['SilvercartCheckoutStep']['URL_SEGMENT'] = 'checkout';
+$lang['de_DE']['SilvercartCheckoutStep']['ContentStep1']                        = 'Inhalt Schritt 1 - Login/Registrierung';
+$lang['de_DE']['SilvercartCheckoutStep']['ContentStep2']                        = 'Inhalt Schritt 2 - Liefer-/Rechungsadresse';
+$lang['de_DE']['SilvercartCheckoutStep']['ContentStep3']                        = 'Inhalt Schritt 3 - Versandart';
+$lang['de_DE']['SilvercartCheckoutStep']['ContentStep4']                        = 'Inhalt Schritt 4 - Zahlart';
+$lang['de_DE']['SilvercartCheckoutStep']['ContentStep5']                        = 'Inhalt Schritt 5 - Übersicht';
+$lang['de_DE']['SilvercartCheckoutStep']['ContentStep6']                        = 'Inhalt Schritt 6 - Bestellbestätigung';
+$lang['de_DE']['SilvercartCheckoutStep']['StepContent']                         = 'Inhalt für einzelne Schritte';
 
 $lang['de_DE']['SilvercartCheckoutFormStepDefaultOrderConfirmation']['TITLE'] = 'Bestellbestätigung';
 

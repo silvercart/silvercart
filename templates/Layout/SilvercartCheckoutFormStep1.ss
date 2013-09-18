@@ -1,2 +1,3 @@
+{$Controller.ContentStep1}
 $InsertCustomHtmlForm(SilvercartCheckoutFormStep1LoginForm)
 $InsertCustomHtmlForm(SilvercartCheckoutFormStep1NewCustomerForm)

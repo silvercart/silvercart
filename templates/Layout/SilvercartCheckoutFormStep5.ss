@@ -1,3 +1,4 @@
+{$Controller.ContentStep5}
 <form class="yform full" $FormAttributes >
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages

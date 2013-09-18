@@ -1,3 +1,4 @@
+{$Controller.ContentStep4}
 <div class="yform">
     <fieldset>
           <legend><% _t('SilvercartPaymentMethod.TITLE') %></legend>
