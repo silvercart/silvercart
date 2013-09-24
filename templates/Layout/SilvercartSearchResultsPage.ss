@@ -1,8 +1,7 @@
-<% cached CacheKey %>
 <div id="col1">
     <div id="col1_content" class="clearfix">
         
-        <h2><% _t('SilvercartSearchResultsPage.TITLE','Search Results') %></h2>
+        <h1><% _t('SilvercartSearchResultsPage.TITLE','Search Results') %></h1>
         <% if EncodedSearchQuery %>
             <p><% sprintf(_t('SilvercartSearchResultsPage.RESULTTEXT'),$EncodedSearchQuery) %> ($TotalSearchResults <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):</p>
         <% end_if %>
@@ -27,7 +26,6 @@
         
     </div>
 </div>
-<% end_cached %>
 <div id="col3">
     <div id="col3_content" class="clearfix">
         $InsertWidgetArea(Sidebar)
