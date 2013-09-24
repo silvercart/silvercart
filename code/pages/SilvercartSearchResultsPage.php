@@ -429,31 +429,16 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @return void
      * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 06.07.2013
+     * @author Patrick Schneider <pschneider@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.09.2013
      */
     protected function searchSilvercartProducts() {  
-        $searchQuery            = $this->getSearchQuery();       
-        $searchResultProducts   = $this->searchResultProducts;
+        $SQL_start              = $this->getSqlOffset();
+        $searchResultProducts   = $this->buildSearchResultProducts();
 
-        $SQL_start = $this->getSqlOffset();
-
-        $cachekey = 'SilvercartSearchResultsPage'.sha1($searchQuery).'_'.md5($searchQuery).'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
-        $cache    = SS_Cache::factory($cachekey);
-        $result   = $cache->load($cachekey);
-        
-        
-        // Cache is deactivated because of form registration problems.
-        if (1 == 2 && $result) {
-            $searchResultProducts= unserialize($result);
-        } else {
-            $searchResultProducts = $this->buildSearchResultProducts();
-
-            if (!$searchResultProducts) {
-                $searchResultProducts = new DataObjectSet();
-            }
-            
-            $cache->save(serialize($searchResultProducts));
+        if (!$searchResultProducts) {
+            $searchResultProducts = new DataObjectSet();
         }
 
         $this->searchResultProducts = $searchResultProducts;
