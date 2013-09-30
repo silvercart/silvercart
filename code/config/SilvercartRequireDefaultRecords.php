@@ -240,7 +240,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 30.09.2013
      */
     public function createDefaultTranslatableDataObject($translatableDataObjectEntries, $translatableDataObjectName, $translatableDataObjectLanguageName = '', $translatableDataObjectRelationName = '') {
         if (empty($translatableDataObjectLanguageName)) {
@@ -269,7 +269,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $obj->Code = $code;
                 $obj->write();
             }
-            if (!array_key_exists($translationLocale, $languages) &&
+            if (!is_null($translationLocale) &&
+                !array_key_exists($translationLocale, $languages) &&
                 array_key_exists('en_US', $languages)) {
                 $languages[$translationLocale] = $languages['en_US'];
             }
@@ -924,7 +925,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.05.2012
+     * @since 30.09.2013
      */
     public function translateSiteTree($parentID = 0) {
         $translatableFieldTypes = array(
@@ -943,7 +944,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
         );
         if ($pages) {
             foreach ($pages as $page) {
-                if (!$page->getTranslation($translationLocale)) {
+                if (!is_null($translationLocale) &&
+                    !$page->getTranslation($translationLocale)) {
                     $translation = $page->createTranslation($translationLocale);
                     
                     foreach ($translation->db() as $name => $type) {
