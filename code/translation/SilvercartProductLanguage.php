@@ -65,7 +65,8 @@ class SilvercartProductLanguage extends DataObject {
     public static $indexes = array(
         'Title'             => 'Fulltext (Title)',
         'ShortDescription'  => 'Fulltext (ShortDescription)',
-        'LongDescription'   => 'Fulltext (LongDescription)'
+        'LongDescription'   => 'Fulltext (LongDescription)',
+        'MetaKeywords'      => '(MetaKeywords)',
     );
     
     /**
