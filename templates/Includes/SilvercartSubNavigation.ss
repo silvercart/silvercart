@@ -3,6 +3,7 @@
     <div class="widget_content">
         <div class="silvercart-widget">
             <div class="silvercart-widget_content">
+<% if SubElementsTitle %><h2>{$SubElementsTitle}</h2><% end_if %>
                 <div class="vlist">
                     <ul>
                     <% control SubElements %>

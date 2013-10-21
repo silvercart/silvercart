@@ -133,7 +133,8 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
      */
     public function getSubNavigation() {
         $elements = array(
-            'SubElements' => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
+            'SubElementsTitle'  => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
+            'SubElements'       => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
         );
         $output = $this->customise($elements)->renderWith(
             array(

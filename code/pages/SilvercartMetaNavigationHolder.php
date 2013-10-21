@@ -130,7 +130,8 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
         }
         if (!is_null($root)) {
             $elements = array(
-                'SubElements' => $root->Children(),
+                'SubElementsTitle'  => $root->MenuTitle,
+                'SubElements'       => $root->Children(),
             );
             $output = $this->customise($elements)->renderWith(
                 array(
