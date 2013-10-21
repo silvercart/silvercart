@@ -1,6 +1,6 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <div id="Breadcrumbs">
+        <div id="silvercart-breadcrumbs-id" class="silvercart-breadcrumbs clearfix">
             <p>$getBreadcrumbs</p>
         </div>
 

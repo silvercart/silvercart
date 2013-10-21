@@ -1,5 +1,5 @@
 
-<% if CurrentMembersOrders %>
+<% if CurrentPage.CurrentMembersOrders %>
     <table id="silvercart-order-holder-table-id" class="full">
         <thead>
             <tr>
@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <% control CurrentMembersOrders(3) %>
+            <% control CurrentPage.CurrentMembersOrders(3) %>
                 <tr>
                     <td>
                         <a href="$Top.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$Created.Nice</a>
