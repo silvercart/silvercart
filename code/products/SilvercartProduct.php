@@ -132,6 +132,8 @@ class SilvercartProduct extends DataObject {
         'PriceGrossAmount'  => '(PriceGrossAmount)',
         'PriceNetAmount'    => '(PriceNetAmount)',
         'MSRPriceAmount'    => '(MSRPriceAmount)',
+        'ProductNumberShop' => '(ProductNumberShop)',
+        'EANCode'           => '(EANCode)',
     );
 
     /**
