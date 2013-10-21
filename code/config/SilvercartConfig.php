@@ -1129,36 +1129,37 @@ class SilvercartConfig extends DataObject {
      *
      * @return string returns "gross" or "net"
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2013
      */
     public static function Pricetype() {
-        $member             = Member::currentUser();
-        $configObject       = self::getConfig();
+        if (is_null(self::$priceType)) {
+            $member         = Member::currentUser();
+            $configObject   = self::getConfig();
 
-        $silvercartPluginResult = SilvercartPlugin::call(
-            $configObject,
-            'overwritePricetype',
-            array()
-        );
+            $silvercartPluginResult = SilvercartPlugin::call(
+                $configObject,
+                'overwritePricetype',
+                array()
+            );
 
-        if (!empty($silvercartPluginResult)) {
-            return $silvercartPluginResult;
-        }
-
-        if ($member) {
-            foreach ($member->Groups() as $group) {
-                if (!empty($group->Pricetype) &&
-                    $group->Pricetype != '---') {
-                    self::$priceType = $group->Pricetype;
-                    break;
+            if (!empty($silvercartPluginResult)) {
+                self::$priceType = $silvercartPluginResult;
+            } elseif ($member) {
+                foreach ($member->Groups() as $group) {
+                    if (!empty($group->Pricetype) &&
+                        $group->Pricetype != '---') {
+                        self::$priceType = $group->Pricetype;
+                        break;
+                    }
                 }
-            }
-            if (is_null(self::$priceType)) {
+                if (is_null(self::$priceType)) {
+                    self::$priceType = self::DefaultPriceType();
+                }
+            } else {
                 self::$priceType = self::DefaultPriceType();
             }
-        } else {
-            self::$priceType = self::DefaultPriceType();
         }
         return self::$priceType;
     }
