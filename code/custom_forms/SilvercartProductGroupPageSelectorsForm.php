@@ -103,7 +103,7 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.04.2013
+     * @since 13.09.2013
      */
     public function getFormFields() {
         if (!array_key_exists('SortOrder', $this->formFields)) {
@@ -124,14 +124,6 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
             asort($sortableFrontendFieldsForDropdown);
 
             $this->formFields = array(
-                'productsPerPage' => array(
-                    'type'              => 'DropdownField',
-                    'title'             => _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE'),
-                    'value'             => SilvercartConfig::getProductsPerPageOptions(),
-                    'selectedValue'     => $productsPerPage,
-                    'checkRequirements' => array(
-                    )
-                ),
                 'SortOrder' => array(
                     'type'              => 'DropdownField',
                     'title'             => _t('SilvercartProductGroupPageSelector.SORT_ORDER'),
@@ -141,11 +133,26 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
                     )
                 ),
             );
+            $productsPerPageOptions = SilvercartConfig::getProductsPerPageOptions();
+            if (!empty($productsPerPageOptions)) {
+                $this->formFields['productsPerPage'] = array(
+                    'type'              => 'DropdownField',
+                    'title'             => _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE'),
+                    'value'             => SilvercartConfig::getProductsPerPageOptions(),
+                    'selectedValue'     => $productsPerPage,
+                    'checkRequirements' => array(
+                    )
+                );
+            } else {
+                $this->formFields['productsPerPage'] = array(
+                    'type'              => 'HiddenField',
+                    'value'             => SilvercartConfig::getProductsPerPageDefault(),
+                );
+            }
         }
         return parent::getFormFields();
     }
-    
-    
+
     /**
      * We save the chosen value for the products per page in the customer's
      * configuration object here and redirect to the last view.
@@ -183,5 +190,18 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         }
         
         Director::redirect($backLink, 302);
+    }
+    
+    /**
+     * Returns whether there are products per page options.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2013
+     */
+    public function hasProductsPerPageOptions() {
+        $productsPerPageOptions = SilvercartConfig::getProductsPerPageOptions();
+        return !empty($productsPerPageOptions);
     }
 }
