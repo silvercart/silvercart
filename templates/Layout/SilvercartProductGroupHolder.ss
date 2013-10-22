@@ -1,7 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
-        <h2>$Title</h2>
+        <h1>$Title</h1>
         $Content
         
         <% if ViewableChildren %>

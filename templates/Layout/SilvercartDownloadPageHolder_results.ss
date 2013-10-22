@@ -1,7 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="silvercart-download-page-holder clearfix">
         <% include SilvercartBreadCrumbs %>
-        <h2>{$Title}</h2>
+        <h1>{$Title}</h1>
         {$Content}
         $InsertCustomHtmlForm(SilvercartDownloadSearchForm)
         Ihre Suche nach <strong>&quot;{$SearchQuery}&quot;</strong> ergab <strong>{$SearchResults.Count} Treffer</strong>.<br/>
