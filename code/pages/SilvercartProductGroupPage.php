@@ -2343,7 +2343,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return mixed
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
+     * @since 24.10.2013
      */
     public function handleAction($request) {
         if ($this->isProductDetailView()) {
@@ -2361,6 +2361,21 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                         return $result;
                     }
                 }
+            }
+            $product     = $this->getDetailViewProduct();
+            $productLink = $product->Link();
+            $calledLink  = $request->getURL();
+            
+            if (strpos($calledLink, '/') != strpos($productLink, '/')) {
+                if (strpos($productLink, '/') == 0) {
+                    $calledLink = '/' . $calledLink;
+                } elseif (strpos($calledLink, '/') == 0) {
+                    $productLink = '/' . $productLink;
+                }
+            }
+            
+            if ($calledLink != $productLink) {
+                SilvercartTools::redirectPermanentlyTo($productLink);
             }
             $view = $this->ProductDetailView(
                 $this->urlParams['ID']
