@@ -614,4 +614,20 @@ class SilvercartTools extends Object {
         }
         return $updateAvailable;
     }
+    
+    /**
+     * Redirects to the given URL with status "303 See other".
+     * 
+     * @param string $url Relative or absolute URL to redirect to
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.10.2013
+     */
+    public static function redirectPermanentlyTo($url) {
+        header("HTTP/1.1 303 See Other");
+        header('Location: ' . Director::absoluteURL($url));
+        exit();
+    }
 }
