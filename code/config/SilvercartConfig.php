@@ -656,7 +656,7 @@ class SilvercartConfig extends DataObject {
         if (is_null(self::$defaultCurrencySymbol)) {
             
             $zend_currency = new Zend_Currency(null, i18n::default_locale());
-            self::$defaultCurrencySymbol = $zend_currency->getSymbol(self::DefaultCurrency());
+            self::$defaultCurrencySymbol = $zend_currency->getSymbol(self::DefaultCurrency(), i18n::get_locale());
         }
         return self::$defaultCurrencySymbol;
     }
