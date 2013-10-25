@@ -190,6 +190,7 @@ class SilvercartConfig extends DataObject {
      */
     public static $addToCartMaxQuantity                     = null;
     public static $defaultCurrency                          = null;
+    public static $defaultCurrencySymbol                    = null;
     public static $defaultPricetype                         = null;
     public static $emailSender                              = null;
     public static $enableBusinessCustomers                  = null;
@@ -641,6 +642,23 @@ class SilvercartConfig extends DataObject {
             self::$defaultCurrency = self::getConfig()->DefaultCurrency;
         }
         return self::$defaultCurrency;
+    }
+
+    /**
+     * Returns the configured default currency symbol.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.10.2013
+     */
+    public static function DefaultCurrencySymbol() {
+        if (is_null(self::$defaultCurrencySymbol)) {
+            
+            $zend_currency = new Zend_Currency(null, i18n::default_locale());
+            self::$defaultCurrencySymbol = $zend_currency->getSymbol(self::DefaultCurrency());
+        }
+        return self::$defaultCurrencySymbol;
     }
 
     /**
