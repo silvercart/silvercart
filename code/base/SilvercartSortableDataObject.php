@@ -32,6 +32,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartSortableDataObject extends DataObjectDecorator {
+    
+    /**
+     * List of objects to prevent from extending.
+     *
+     * @var array
+     */
+    public static $blacklist = array();
 
     /**
      * Adds the missing index
@@ -60,10 +67,11 @@ class SilvercartSortableDataObject extends DataObjectDecorator {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @since 28.10.2013
      */
     public static function add_sortable_class($className) {
-        if (!SortableDataObject::is_sortable_class($className)) {
+        if (!SortableDataObject::is_sortable_class($className) &&
+            !in_array($className, self::$blacklist)) {
             DataObject::add_extension($className, 'SilvercartSortableDataObject');
             DataObject::add_extension($className, 'SortableDataObject');
             SortableDataObject::$sortable_classes[] = $className;
