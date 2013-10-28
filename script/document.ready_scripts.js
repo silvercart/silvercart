@@ -69,6 +69,37 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
     }
     
     // ------------------------------------------------------------------------
+    // Show loading state on search input field.
+    // ------------------------------------------------------------------------
+    if ($('input[name="quickSearchQuery"]').length > 0) {
+        var scSearchInProgress = false;
+        $('input[name="quickSearchQuery"]').closest('form').submit(function(event) {
+            event.preventDefault();
+            if (scSearchInProgress) {
+                return;
+            }
+            var uri  = document.baseURI ? document.baseURI : '/',
+                form = $(this);
+            scSearchInProgress = true;
+            $('input[name="quickSearchQuery"]').attr('readonly', 'readonly');
+            $('input[name="quickSearchQuery"]').css('background-color',     '#ffffff');
+            $('input[name="quickSearchQuery"]').css('background-image',     'url("' + uri + 'silvercart/images/loader-circle.gif")');
+            $('input[name="quickSearchQuery"]').css('background-repeat',    'no-repeat');
+            $('input[name="quickSearchQuery"]').css('background-position',  '4px center');
+            $('input[name="quickSearchQuery"]').css('padding-left',         '25px');
+            $('input[name="quickSearchQuery"]').addClass('loading');
+            
+            if ($('.silvercart-search-autocompletion-results ul').length > 0) {
+                $('.silvercart-search-autocompletion-results ul').html('');
+            }
+            
+            setTimeout(function() {
+                form.unbind('submit').submit();
+            }, 1);
+        });
+    }
+    
+    // ------------------------------------------------------------------------
     // Hide submit buttons for the select-fields on product group pages and
     // add onchange events to the select-fields so that the form ist submitted
     // on change.
