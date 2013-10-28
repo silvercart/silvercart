@@ -43,6 +43,34 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         'levelsToShow'                  => 'Int',
         'expandActiveSectionOnly'       => 'Boolean(0)'
     );
+
+    /**
+     * Has-many relationships.
+     *
+     * @var array
+     */
+    public static $has_many = array(
+        'SilvercartProductGroupNavigationWidgetLanguages' => 'SilvercartProductGroupNavigationWidgetLanguage'
+    );
+
+    /**
+     * Casted attributes.
+     * 
+     * @var array
+     */
+    public static $casting = array(
+        'FrontTitle' => 'Text',
+    );
+
+    /**
+     * retirieves the attribute FreeText from related language class depending
+     * on the set locale
+     *
+     * @return string
+     */
+    public function getFrontTitle() {
+        return $this->getLanguageFieldValue('FrontTitle');
+    }
     
     /**
      * Field labels for display in tables.
@@ -51,13 +79,15 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 13.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
+                parent::fieldLabels($includerelations),
+                array(
+                    'FrontTitle'                => _t('SilvercartWidget.FRONTTITLE'),
                     'FieldLabel'                => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
                     'levelsToShow'              => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
                     'ShowAllLevels'             => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
@@ -77,9 +107,6 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * Returns the input fields for this widget.
      * 
      * @return FieldSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public function getCMSFields() {
         $fields            = parent::getCMSFields();
@@ -109,6 +136,11 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
             _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
             $this->expandActiveSectionOnly
         );
+        
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->push($languageField);
+        }
 
         $fields->push($productGroupField);
         $fields->push($levelsToShowField);
@@ -122,11 +154,15 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2013
      */
     public function Title() {
-        return $this->fieldLabel('Title');
+        $title = $this->fieldLabel('Title');
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
     }
     
     /**

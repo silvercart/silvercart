@@ -39,7 +39,8 @@ class SilvercartWidgetSet extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title' => 'VarChar(255)'
+        'Title'         => 'VarChar(255)',
+        'UseAsSlider'   => 'Boolean',
     );
     
     /**
@@ -161,8 +162,10 @@ class SilvercartWidgetSet extends DataObject {
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'Title' => _t('SilvercartAvailabilityStatus.TITLE')
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title'         => _t('SilvercartWidgetSet.TITLE'),
+                    'UseAsSlider'   => _t('SilvercartWidgetSet.UseAsSlider'),
                 )
         );
 

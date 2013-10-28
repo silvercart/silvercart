@@ -37,7 +37,6 @@ class SilvercartWidget extends Widget {
      * Set whether to use the widget container divs or not.
      *
      * @var bool
-     * @since 2012-11-14
      */
     public $useWidgetContainer = true;
 
@@ -49,6 +48,19 @@ class SilvercartWidget extends Widget {
     public static $db = array(
         'ExtraCssClasses'   => 'VarChar(255)',
     );
+    
+    /**
+     * Returns the related WidgetSet.
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.10.2013
+     */
+    public function WidgetSet() {
+        $widgetSet = DataObject::get_one('SilvercartWidgetSet', 'WidgetAreaID = ' . $this->ParentID);
+        return $widgetSet;
+    }
 }
 
 /**

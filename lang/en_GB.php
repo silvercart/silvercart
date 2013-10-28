@@ -1674,6 +1674,8 @@ $lang['en_GB']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['en_GB']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['en_GB']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';
 $lang['en_GB']['SilvercartWidgetSet']['INFO'] = '<strong>Caution:</strong><br/>To add or edit a Widget Set, choose the "SC Config" area in main menu. There, choose "Widget Set" out of the dropdown list on the upper left side to get the forms to add or edit a widget set.';
+$lang['en_GB']['SilvercartWidgetSet']['TITLE'] = 'Title';
+$lang['en_GB']['SilvercartWidgetSet']['UseAsSlider'] = 'Use as a slider';
 
 $lang['en_GB']['SilvercartWidgetSetAdmin']['MENUTITLE'] = 'Widget Sets';
 
@@ -1696,8 +1698,8 @@ $lang['en_GB']['SilvercartQuantityUnit']['NAME']                                
 $lang['en_GB']['SilvercartQuantityUnit']['ABBREVIATION']                        = 'Abbreviation';
 $lang['en_GB']['SilvercartQuantityUnit']['SINGULARNAME']                        = 'quantity unit';
 $lang['en_GB']['SilvercartQuantityUnit']['PLURALNAME']                          = 'quantity units';
-$lang['en_US']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
-$lang['en_US']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Number of decimal places';
+$lang['en_GB']['SilvercartQuantityUnit']['EXPLANATION_TO_DECIMAL_PLACES']       = 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.';
+$lang['en_GB']['SilvercartQuantityUnit']['NUMBER_OF_DECIMAL_PLACES']            = 'Number of decimal places';
 
 $lang['en_GB']['SilvercartQuantityUnitAdmin']['MENUTITLE'] = 'quantity units';
 
@@ -1843,6 +1845,16 @@ $lang['en_GB']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       
 
 $lang['en_GB']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = _t('Silvercart.TRANSLATIONS');
 $lang['en_GB']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = _t('Silvercart.TRANSLATION');
+
+$lang['en_GB']['SilvercartTextWithLinkWidget']['SINGULARNAME']                  = 'Text-with-Link-Widget';
+$lang['en_GB']['SilvercartTextWithLinkWidget']['PLURALNAME']                    = 'Text-with-Link-Widgets';
+$lang['en_GB']['SilvercartTextWithLinkWidget']['Link']                          = 'Link';
+$lang['en_GB']['SilvercartTextWithLinkWidget']['LinkText']                      = 'Link-Text';
+$lang['en_GB']['SilvercartTextWithLinkWidget']['TITLE']                         = 'Text with Link';
+$lang['en_GB']['SilvercartTextWithLinkWidget']['DESCRIPTION']                   = 'Widget to display a text with title and link.';
+
+$lang['en_GB']['SilvercartTextWithLinkWidgetLanguage']['SINGULARNAME']          = 'Translation';
+$lang['en_GB']['SilvercartTextWithLinkWidgetLanguage']['PLURALNAME']            = 'Translations';
 
 $lang['en_GB']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Top sellers';
 $lang['en_GB']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'SilverCart top selling products';

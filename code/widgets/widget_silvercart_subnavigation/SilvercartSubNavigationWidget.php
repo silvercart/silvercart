@@ -62,7 +62,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * @var array
      */
     public static $db = array(
-        'FrontTitle'   => 'VarChar(255)',
         'Title'        => 'VarChar(255)',
         'startAtLevel' => 'Int',
         'showSiblings' => 'Boolean(0)',
@@ -78,6 +77,15 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     );
 
     /**
+     * Casted attributes.
+     * 
+     * @var array
+     */
+    public static $casting = array(
+        'FrontTitle' => 'Text',
+    );
+    
+    /**
      * Load the page hierarchy.
      *
      * @param array|null $record      This will be null for a new database record.
@@ -90,6 +98,16 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         parent::__construct($record, $isSingleton);
 
         $this->pageHierarchy = SilvercartTools::getPageHierarchy(Controller::curr());
+    }
+
+    /**
+     * retirieves the attribute FreeText from related language class depending
+     * on the set locale
+     *
+     * @return string
+     */
+    public function getFrontTitle() {
+        return $this->getLanguageFieldValue('FrontTitle');
     }
     
     /**
@@ -123,19 +141,19 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
      * Returns the input fields for this widget.
      * 
      * @return FieldSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public function getCMSFields() {
         $fields         = parent::getCMSFields();
         $fieldLabels    = $this->fieldLabels();
 
-        $frontTitleField    = new TextField('FrontTitle',   $this->fieldLabel('FrontTitle'));
         $startAtLevelField  = new TextField('startAtLevel', $fieldLabels['startAtLevel']);
         $siblingsField      = new CheckboxField('showSiblings', $fieldLabels['showSiblings']);
 
-        $fields->push($frontTitleField);
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->push($languageField);
+        }
+        
         $fields->push($startAtLevelField);
         $fields->push($siblingsField);
 
@@ -154,6 +172,9 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         $title = $this->fieldLabel('CMSTitle');
         if (!is_null($this->Title)) {
             $title = $this->Title;
+        }
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
         }
         return $title;
     }

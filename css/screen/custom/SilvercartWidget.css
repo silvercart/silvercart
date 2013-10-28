@@ -78,6 +78,29 @@
     font-size:                      11px;
 }
 
+/* WidgetSet as slider  ---------------------------------------------------- */
+
+.silvercart-widget-content-area.silvercart-widget-slider-element {
+    display: none;
+}
+
+.silvercart-widget-slider {
+    position:                       relative;
+    overflow:                       hidden;
+    width:                          100%;
+    height:                         594px;
+    margin-bottom:                  15px;
+}
+.silvercart-widget-slider .silvercart-widget-slider-content {
+    position:                       absolute;
+    left:                           0px;
+}
+
+.silvercart-widget-slider .silvercart-widget-content-area {
+    display:                        block;
+    float:                          left;
+}
+
 /* YAML vlist -------------------------------------------------------------- */
 
 .silvercart-widget .vlist {

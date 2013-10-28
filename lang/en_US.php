@@ -1674,6 +1674,8 @@ $lang['en_US']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['en_US']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['en_US']['SilvercartWidgetSet']['PAGES'] = 'assigned pages';
 $lang['en_US']['SilvercartWidgetSet']['INFO'] = '<strong>Caution:</strong><br/>To add or edit a Widget Set, choose the "SC Config" area in main menu. There, choose "Widget Set" out of the dropdown list on the upper left side to get the forms to add or edit a widget set.';
+$lang['en_US']['SilvercartWidgetSet']['TITLE'] = 'Title';
+$lang['en_US']['SilvercartWidgetSet']['UseAsSlider'] = 'Use as a slider';
 
 $lang['en_US']['SilvercartWidgetSetAdmin']['MENUTITLE'] = 'Widget Sets';
 
@@ -1843,6 +1845,16 @@ $lang['en_US']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       
 
 $lang['en_US']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = _t('Silvercart.TRANSLATIONS');
 $lang['en_US']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = _t('Silvercart.TRANSLATION');
+
+$lang['en_US']['SilvercartTextWithLinkWidget']['SINGULARNAME']                  = 'Text-with-Link-Widget';
+$lang['en_US']['SilvercartTextWithLinkWidget']['PLURALNAME']                    = 'Text-with-Link-Widgets';
+$lang['en_US']['SilvercartTextWithLinkWidget']['Link']                          = 'Link';
+$lang['en_US']['SilvercartTextWithLinkWidget']['LinkText']                      = 'Link-Text';
+$lang['en_US']['SilvercartTextWithLinkWidget']['TITLE']                         = 'Text with Link';
+$lang['en_US']['SilvercartTextWithLinkWidget']['DESCRIPTION']                   = 'Widget to display a text with title and link.';
+
+$lang['en_US']['SilvercartTextWithLinkWidgetLanguage']['SINGULARNAME']          = 'Translation';
+$lang['en_US']['SilvercartTextWithLinkWidgetLanguage']['PLURALNAME']            = 'Translations';
 
 $lang['en_US']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Topsellers';
 $lang['en_US']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'SilverCart topseller products';

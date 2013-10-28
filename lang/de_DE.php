@@ -1373,7 +1373,7 @@ $lang['de_DE']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'willkommen';
 $lang['de_DE']['SilvercartPage']['YEAR'] = 'Jahr';
 
 $lang['de_DE']['SilvercartPageListWidget']['TITLE']       = 'Seitenliste';
-$lang['de_DE']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart Seitenliste';
+$lang['de_DE']['SilvercartPageListWidget']['CMSTITLE']    = 'Seitenliste';
 $lang['de_DE']['SilvercartPageListWidget']['DESCRIPTION'] = 'Dieses Widget zeigt eine Liste von Seiten mit Links zu den jeweiligen Seiten.';
 $lang['de_DE']['SilvercartPageListWidget']['Pages']       = 'Zugeordnete Seiten';
 
@@ -1674,6 +1674,8 @@ $lang['de_DE']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['de_DE']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['de_DE']['SilvercartWidgetSet']['PAGES'] = 'zugeordnete Seiten';
 $lang['de_DE']['SilvercartWidgetSet']['INFO'] = '<strong>Achtung:</strong><br/>Um ein Widget Set hinzuzufügen oder zu verändern, wählen Sie den "SC Konfig" Bereich im Hauptmenü. Dort gelangen Sie über die Auswahl "Widget Set" in der Drowdown-Liste zur Bearbeitungsmaske der Widget Sets.';
+$lang['de_DE']['SilvercartWidgetSet']['TITLE'] = 'Bezeichnung';
+$lang['de_DE']['SilvercartWidgetSet']['UseAsSlider'] = 'Als Slider verwenden';
 
 $lang['de_DE']['SilvercartWidgetSetAdmin']['MENUTITLE'] = 'Widgetsets';
 
@@ -1802,7 +1804,7 @@ $lang['de_DE']['SilvercartProductLanguage']['PLURALNAME']                       
 $lang['de_DE']['SilvercartProductLanguage']['LOCALE']                           = 'Sprache';
 
 $lang['de_DE']['SilvercartSearchWidget']['TITLE']                   = 'Suchen Sie etwas?';
-$lang['de_DE']['SilvercartSearchWidget']['CMSTITLE']                = 'SilverCart Suche';
+$lang['de_DE']['SilvercartSearchWidget']['CMSTITLE']                = 'Suche';
 $lang['de_DE']['SilvercartSearchWidget']['DESCRIPTION']             = 'Dieses Widget zeigt ein Suchformular für die Artikelsuche an.';
 
 $lang['de_DE']['SilvercartSearchWidgetForm']['SEARCHLABEL']         = 'Geben Sie bitte Ihren Suchbegriff ein:';
@@ -1815,12 +1817,12 @@ $lang['de_DE']['SilvercartSearchCloudWidget']['TAGSPERCLOUD']                   
 $lang['de_DE']['SilvercartSearchCloudWidget']['FONTSIZECOUNT']                  = 'Anzahl der Schriftgrade';
 
 $lang['de_DE']['SilvercartShoppingcartWidget']['TITLE']                 = 'Warenkorb';
-$lang['de_DE']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'SilverCart Warenkorb';
+$lang['de_DE']['SilvercartShoppingcartWidget']['CMSTITLE']              = 'Warenkorb';
 $lang['de_DE']['SilvercartShoppingcartWidget']['DESCRIPTION']           = 'Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Artikel im Warenkorb befinden) Checkoutseiten angezeigt';
 $lang['de_DE']['SilvercartShoppingcartWidget']['SHOWONLYWHENFILLED']    = 'Widget nur Anzeigen, wenn Warenkorb gefüllt.';
 
 $lang['de_DE']['SilvercartSubNavigationWidget']['TITLE']                = 'Subnavigation';
-$lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'SilverCart Subnavigation';
+$lang['de_DE']['SilvercartSubNavigationWidget']['CMSTITLE']             = 'Subnavigation';
 $lang['de_DE']['SilvercartSubNavigationWidget']['DESCRIPTION']          = 'Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an.';
 $lang['de_DE']['SilvercartSubNavigationWidget']['LABEL_TITEL']          = 'Titel';
 $lang['de_DE']['SilvercartSubNavigationWidget']['STARTATLEVEL']         = 'Zeige Hierarchie ab folgender Stufe an';
@@ -1844,13 +1846,23 @@ $lang['de_DE']['SilvercartTextWidget']['IS_CONTENT_VIEW']                       
 $lang['de_DE']['SilvercartTextWidgetLanguage']['PLURALNAME']                    = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartTextWidgetLanguage']['SINGULARNAME']                  = _t('Silvercart.TRANSLATION');
 
+$lang['de_DE']['SilvercartTextWithLinkWidget']['SINGULARNAME']                  = 'Freitext-mit-Link-Widget';
+$lang['de_DE']['SilvercartTextWithLinkWidget']['PLURALNAME']                    = 'Freitext-mit-Link-Widgets';
+$lang['de_DE']['SilvercartTextWithLinkWidget']['Link']                          = 'Link';
+$lang['de_DE']['SilvercartTextWithLinkWidget']['LinkText']                      = 'Link-Text';
+$lang['de_DE']['SilvercartTextWithLinkWidget']['TITLE']                         = 'Freitext mit Link';
+$lang['de_DE']['SilvercartTextWithLinkWidget']['DESCRIPTION']                   = 'Widget um einen Text mit Titel und Link anzuzeigen.';
+
+$lang['de_DE']['SilvercartTextWithLinkWidgetLanguage']['SINGULARNAME']          = 'Übersetzung';
+$lang['de_DE']['SilvercartTextWithLinkWidgetLanguage']['PLURALNAME']            = 'Übersetzungen';
+
 $lang['de_DE']['SilvercartTopsellerProductsWidget']['TITLE']                    = 'Topseller';
-$lang['de_DE']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'SilverCart Topseller';
+$lang['de_DE']['SilvercartTopsellerProductsWidget']['CMSTITLE']                 = 'Topseller';
 $lang['de_DE']['SilvercartTopsellerProductsWidget']['DESCRIPTION']              = 'Dieses Widget zeigt eine konfigurierbare Anzahl der meistverkauften Artikel an.';
 $lang['de_DE']['SilvercartTopsellerProductsWidget']['STOREADMIN_FIELDLABEL']    = 'Anzahl der Artikel, die angezeigt werden sollen:';
 
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['TITLE']                       = 'Warengruppennavigation';
-$lang['de_DE']['SilvercartProductGroupNavigationWidget']['CMSTITLE']                    = 'SilverCart Warengruppennavigation';
+$lang['de_DE']['SilvercartProductGroupNavigationWidget']['CMSTITLE']                    = 'Warengruppennavigation';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['DESCRIPTION']                 = 'Dieses Widget erstellt eine Navigationshierarchie für Warengruppen. Es kann angegeben werden, welche Warengruppe als Wurzel genutzt werden soll.';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['LEVELS_TO_SHOW']              = 'Ebenen bis zu welcher Tiefe anzeigen';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS']             = 'Alle Ebenen anzeigen';

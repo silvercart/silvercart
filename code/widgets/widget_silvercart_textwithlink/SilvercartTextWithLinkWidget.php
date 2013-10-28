@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2013 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -26,12 +26,12 @@
  * 
  * @package Silvercart
  * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 09.06.2011
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 20.06.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTextWidget extends SilvercartWidget {
+class SilvercartTextWithLinkWidget extends SilvercartTextWidget {
     
     /**
      * DB attributes
@@ -39,7 +39,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @var array
      */
     public static $db = array(
-        'isContentView'     => 'Boolean',
+        'Link' => 'Varchar(256)',
     );
     
     /**
@@ -48,8 +48,7 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @var array
      */
     public static $casting = array(
-        'Headline'          => 'Text',
-        'FreeText'          => 'Text',
+        'LinkText' => 'Text',
     );
     
     /**
@@ -58,33 +57,17 @@ class SilvercartTextWidget extends SilvercartWidget {
      * @var array
      */
     public static $has_many = array(
-        'SilvercartTextWidgetLanguages' => 'SilvercartTextWidgetLanguage'
+        'SilvercartTextWithLinkWidgetLanguages' => 'SilvercartTextWithLinkWidgetLanguage'
     );
 
     /**
      * retirieves the attribute FreeText from related language class depending
      * on the set locale
      *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.01.2012
+     * @return string
      */
-    public function getFreeText() {
-        return $this->getLanguageFieldValue('FreeText');
-    }
-
-    /**
-     * retirieves the attribute Headline from related language class depending
-     * on the current locale
-     *
-     * @return string 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
-     */
-    public function getHeadline() {
-        return $this->getLanguageFieldValue('Headline');
+    public function getLinkText() {
+        return $this->getLanguageFieldValue('LinkText');
     }
 
     /**
@@ -110,23 +93,18 @@ class SilvercartTextWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2012 pixeltricks GmbH
-     * @since 26.01.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ExtraCssClasses'               => _t('SilvercartText.CSSFIELD_LABEL'),
-                'SilvercartTextWidgetLanguages' => _t('SilvercartTextWidgetLanguage.PLURALNAME'),
-                'Headline'                      => _t('SilvercartText.HEADLINEFIELD_LABEL'),
-                'FreeText'                      => _t('SilvercartText.FREETEXTFIELD_LABEL'),
-                'isContentView'                 => _t('SilvercartTextWidget.IS_CONTENT_VIEW'),
-                'Title'                         => _t('SilvercartText.TITLE'),
-                'Description'                   => _t('SilvercartText.DESCRIPTION'),
-                'Content'                       => _t('Silvercart.CONTENT'),
-                'Translations'                  => _t('SilvercartConfig.TRANSLATIONS'),
+                'Link'                                  => _t('SilvercartTextWithLinkWidget.Link'),
+                'LinkText'                              => _t('SilvercartTextWithLinkWidget.LinkText'),
+                'SilvercartTextWithLinkWidgetLanguages' => _t('SilvercartTextWithLinkWidgetLanguage.PLURALNAME'),
+                'Title'                                 => _t('SilvercartTextWithLinkWidget.TITLE'),
+                'Description'                           => _t('SilvercartTextWithLinkWidget.DESCRIPTION'),
                 
             )
         );
@@ -157,8 +135,8 @@ class SilvercartTextWidget extends SilvercartWidget {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2013
      */
     public function Description() {
         return $this->fieldLabel('Description');
@@ -168,9 +146,6 @@ class SilvercartTextWidget extends SilvercartWidget {
      * Returns the input fields for this widget.
      * 
      * @return FieldSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
     public function getCMSFields() {
         $fields             = new FieldSet();
@@ -194,6 +169,10 @@ class SilvercartTextWidget extends SilvercartWidget {
         foreach ($languageFields as $languageField) {
             $mainTab->push($languageField);
         }
+        $linkField = new TextField('Link', $this->fieldLabel('Link'));
+        $mainTab->push($linkField);
+        
+        $this->extend('updateCMSFields', $fields);
 
         return $fields;
     }
@@ -204,12 +183,12 @@ class SilvercartTextWidget extends SilvercartWidget {
  * 
  * @package Silvercart
  * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 09.06.2011
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2013 pixeltricks GmbH
+ * @since 20.06.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2011 pixeltricks GmbH
  */
-class SilvercartTextWidget_Controller extends SilvercartWidget_Controller {
+class SilvercartTextWithLinkWidget_Controller extends SilvercartTextWidget_Controller {
 
     /**
      * Overloaded from {@link Widget->Content()}
@@ -217,8 +196,8 @@ class SilvercartTextWidget_Controller extends SilvercartWidget_Controller {
      *
      * @return string HTML
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.04.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2013
      */
     public function Content() {
         $renderData = array(
@@ -229,10 +208,12 @@ class SilvercartTextWidget_Controller extends SilvercartWidget_Controller {
 
         $data = new ArrayData(
             array(
-                'FreeText' => $freeText
+                'FreeText'  => $freeText,
+                'LinkText'  => $this->LinkText,
+                'Link'      => $this->Link
             )
         );
-
-        return $this->customise($data)->renderWith(array_reverse(ClassInfo::ancestry($this->widget->class)));
+        
+        return $this->customise($data)->renderWith($this->widget->class);
     }
 }

@@ -1,7 +1,7 @@
 <% if isContentView %>
     <% if Content %>
         <% if DoUseWidgetContainer %>
-        <div class="silvercart-widget-content-area {$ExtraCssClasses}">
+        <div class="silvercart-widget-content-area {$ExtraCssClasses} <% if WidgetSet.UseAsSlider %>silvercart-widget-slider-element" rel="silvercart-widget-slider-{$WidgetSet.ID}<% end_if %>">
             <div class="silvercart-widget-content-area_content">
         <% end_if %>
                 $Content
