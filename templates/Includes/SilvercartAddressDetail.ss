@@ -24,7 +24,7 @@
                                         <br/>
                                     </div>
                                 <% else %>
-                                    <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+                                    <br />
                                     <br/>
                                 <% end_if %>
                                 $SalutationText $FirstName $Surname<br/>
