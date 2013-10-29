@@ -95,7 +95,7 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
             
             setTimeout(function() {
                 form.unbind('submit').submit();
-            }, 1);
+            }, 100);
         });
     }
     
