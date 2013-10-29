@@ -72,14 +72,15 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
     // Show loading state on search input field.
     // ------------------------------------------------------------------------
     if ($('input[name="quickSearchQuery"]').length > 0) {
-        var scSearchInProgress = false;
+        var scSearchInProgress = false,
+            uri  = document.baseURI ? document.baseURI : '/';
+        $('body').append('<img src="' + uri + 'silvercart/images/loader-circle.gif" alt="" style="display:none;" />');
         $('input[name="quickSearchQuery"]').closest('form').submit(function(event) {
             event.preventDefault();
             if (scSearchInProgress) {
                 return;
             }
-            var uri  = document.baseURI ? document.baseURI : '/',
-                form = $(this);
+            var form = $(this);
             scSearchInProgress = true;
             $('input[name="quickSearchQuery"]').attr('readonly', 'readonly');
             $('input[name="quickSearchQuery"]').css('background-color',     '#ffffff');
