@@ -10,11 +10,11 @@
         
         <% if getProducts %>
             <div class="silvercart-product-group-page-control-top">
-                <% include SilvercartProductGroupPageControls %>
+                <% include SilvercartProductGroupPageControlsTop %>
             </div>
             $RenderProductGroupPageGroupView
             <div class="silvercart-product-group-page-control-top">
-                <% include SilvercartProductGroupPageControls %>
+                <% include SilvercartProductGroupPageControlsBottom %>
             </div>
         <% else %>
             <p>
