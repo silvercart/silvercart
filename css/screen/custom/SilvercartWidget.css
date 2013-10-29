@@ -91,6 +91,9 @@
     height:                         594px;
     margin-bottom:                  15px;
 }
+ul.silvercart-widget-slider {
+    height:                         auto;
+}
 .silvercart-widget-slider .silvercart-widget-slider-content {
     position:                       absolute;
     left:                           0px;
