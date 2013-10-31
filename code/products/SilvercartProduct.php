@@ -2022,8 +2022,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return string URL of $this
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.01.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.10.2013
      */
     public function Link() {
         $link = '';
@@ -2036,7 +2037,7 @@ class SilvercartProduct extends DataObject {
                   Translatable::get_current_locale() != SilvercartConfig::DefaultLanguage()) {
             Translatable::disable_locale_filter();
             if ($this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->getTranslation(SilvercartConfig::DefaultLanguage())->ID)) {
-                $link = Controller::curr()->Link() . $this->ID . '/' . $this->title2urlSegment();
+                $link = Controller::curr()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
             }
             Translatable::enable_locale_filter();
         }
@@ -2049,8 +2050,8 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
-     * Canonical link to the controller, that shows this product
-     * An product has a unique URL
+     * Canonical link to the controller, that shows this product.
+     * Any product has an unique URL
      *
      * @return string URL of $this
      *
