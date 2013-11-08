@@ -36,3 +36,7 @@
    * [Why do we need enhanced cache keys](6-Enhanced-Cache-Keys#why-do-we-need-enhanced-cache-keys)
    * [How to limit the cache relevant fields](6-Enhanced-Cache-Keys#how-to-limit-the-cache-relevant-fields)
  * [Restful API](7-Restful-API)
+ * [How to extend SilverCart Tax Handling](8-How-to-extend-SilverCart-Tax-Handling)
+   * [What do I need to extend the SilverCart Tax Handling?](8-How-to-extend-SilverCart-Tax-Handling#what-do-i-need-to-extend-the-silvercart-tax-handling)
+   * [Example #1: Adding Country Dependant Tax Rates](8-How-to-extend-SilverCart-Tax-Handling#example-1-adding-country-dependant-tax-rates)
+   * [Example #2: Adding Custom API Dependant Tax Rates](8-How-to-extend-SilverCart-Tax-Handling#example-2-adding-custom-api-dependant-tax-rates)
