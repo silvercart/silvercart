@@ -94,18 +94,23 @@ class SilvercartDebugHelper {
      *
      * @param string $string      String to print
      * @param bool   $withCounter Print counter?
+     * @param bool   $plain       Set this to true to use \n for line break (HTML will be used by default).
      * 
      * @return void 
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @since 04.11.2013
      */
-    public static function printString($string, $withCounter = true) {
+    public static function printString($string, $withCounter = true, $plain = false) {
         if ($withCounter) {
             print '#' . ++self::$printCounter . ': ';
         }
         print $string;
-        print "<br/>" . PHP_EOL;
+        if ($plain) {
+            print PHP_EOL;
+        } else {
+            print "<br/>" . PHP_EOL;
+        }
     }
     
     /**
@@ -137,6 +142,37 @@ class SilvercartDebugHelper {
         self::printString($label);
         self::getTimeDifference();
         self::printString("<hr/>", false);
+    }
+
+    /**
+     * Prints the current memory usage.
+     * 
+     * @return void 
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.11.2013
+     */
+    public static function printCurrentMemoryUsage() {
+        self::printString('Current Memory Usage: ' . self::getCurrentMemoryUsage() . ' (' . self::getCurrentMemoryUsage(true) . ')', true, true);
+    }
+
+    /**
+     * Returns the current memory usage.
+     * 
+     * @param bool $real_usage [optional] <p>Set this to <b>TRUE</b> to get the 
+     *                          real size of memory allocated from system. If 
+     *                          not set or <b>FALSE</b> only the memory used by
+     *                          emalloc() is reported.</p>
+     * 
+     * @return void 
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.11.2013
+     */
+    public static function getCurrentMemoryUsage($real_usage = false) {
+        $memory_get_usage    = memory_get_usage($real_usage);
+        $memory_get_usage_mb = ($memory_get_usage / 1024) / 1024;
+        return number_format($memory_get_usage_mb, 2, ',', '.');
     }
     
     /**
