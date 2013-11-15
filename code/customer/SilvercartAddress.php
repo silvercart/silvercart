@@ -574,14 +574,7 @@ class SilvercartAddress extends DataObject {
      * @return string
      */
     public function getSalutationText() {
-        if ($this->Salutation == 'Herr') {
-            $salutation = _t('SilvercartAddress.MISTER', 'Mister');
-        } elseif ($this->Salutation == 'Frau') {
-            $salutation = _t('SilvercartAddress.MISSES', 'Misses');
-        } else {
-            $salutation = _t('SilvercartAddress.' . strtoupper($this->Salutation), $this->Salutation);
-        }
-        return $salutation;
+        return SilvercartTools::getSalutationText($this->Salutation);
     }
     
     /**

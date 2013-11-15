@@ -382,6 +382,15 @@ class SilvercartCustomer extends DataObjectDecorator {
         }
         return $this->groupIDs;
     }
+
+    /**
+     * Returns the localized salutation string.
+     *
+     * @return string
+     */
+    public function getSalutationText() {
+        return SilvercartTools::getSalutationText($this->owner->Salutation);
+    }
     
     // ------------------------------------------------------------------------
     // Regular methods
@@ -942,11 +951,12 @@ class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.09.2012
+     * @since 15.11.2013
      */
     public function send() {
         $variables                      = $this->template_data->toMap();
         $variables['PasswordResetLink'] = Director::absoluteURL($this->template_data->PasswordResetLink);
+        $variables['SalutationText']    = SilvercartTools::getSalutationText($variables['Salutation']);
         
         SilvercartShopEmail::send(
                 'ForgotPasswordEmail',

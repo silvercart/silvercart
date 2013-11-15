@@ -457,6 +457,24 @@ class SilvercartTools extends Object {
     }
 
     /**
+     * Returns the localized salutation string.
+     * 
+     * @param string $salutation Enum value for salutation to get i18n for
+     *
+     * @return string
+     */
+    public static function getSalutationText($salutation) {
+        if ($salutation == 'Herr') {
+            $salutationText = _t('SilvercartAddress.MISTER', 'Mister');
+        } elseif ($salutation == 'Frau') {
+            $salutationText = _t('SilvercartAddress.MISSES', 'Misses');
+        } else {
+            $salutationText = _t('SilvercartAddress.' . strtoupper($salutation), $salutation);
+        }
+        return $salutationText;
+    }
+
+    /**
      * Removes a prefix from a checkout address data array.
      *
      * @param string $prefix Prefix
