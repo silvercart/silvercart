@@ -353,26 +353,15 @@ class SilvercartShippingFee extends DataObject {
      * 
      * @return int
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function getTaxRate() {
-        if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCartID > 0) {
-
-            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
-
-            $taxRate = $silvercartShoppingCart->getMostValuableTaxRate(
-                $silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher')
-            );
-
-            if ($taxRate) {
-                $taxRate = $taxRate->Rate;
-            }
-        } else {
+        $taxRate = SilvercartShoppingCart::get_most_valuable_tax_rate();
+        if ($taxRate === false) {
             $taxRate = $this->SilvercartTax()->getTaxRate();
         }
-
         return $taxRate;
     }
 

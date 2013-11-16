@@ -890,7 +890,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
                 if ($shippingFee) {
                     if ($shippingFee->SilvercartTax()) {
-                        $this->TaxRateShipment   = $shippingFee->SilvercartTax()->getTaxRate();
+                        $this->TaxRateShipment   = $shippingFee->getTaxRate();
                         $this->TaxAmountShipment = $shippingFee->getTaxAmount();
                     }
                 }
@@ -1452,35 +1452,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return Money money object
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
      * @since 24.11.2010
      */
     public function getPriceGross() {
         return $this->AmountTotal;
-    }
-    
-    /**
-     * Returns all order positions without a tax value.
-     *
-     * @return DataObjectSet
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
-     */
-    public function SilvercartOrderPositionsWithoutTax() {
-        $orderPositions = new DataObjectSet();
-        
-        foreach ($this->SilvercartOrderPositions() as $orderPosition) {
-            if (!$orderPosition->isChargeOrDiscount &&
-                 ($orderPosition->TaxRate == 0 &&
-                  !$orderPosition->IsNonTaxable)) {
-                
-                $orderPositions->push($orderPosition);
-            }
-        }
-        
-        return $orderPositions;
     }
 
     /**
@@ -1510,16 +1485,15 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return DataObjectSet
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     *         Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function SilvercartOrderListPositions() {
         $orderPositions = new DataObjectSet();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
-            if (!$orderPosition->isChargeOrDiscount &&
-                 ($orderPosition->TaxRate > 0 ||
-                  $orderPosition->IsNonTaxable)) {
+            if (!$orderPosition->isChargeOrDiscount) {
                 
                 $orderPositions->push($orderPosition);
             }

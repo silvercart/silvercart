@@ -525,7 +525,7 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     * @since 16.11.2013
      */
     public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -602,7 +602,7 @@ class SilvercartPaymentMethod extends DataObject {
             }
 
             if (SilvercartConfig::PriceType() == 'net') {
-                $taxRate = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $taxRate = $silvercartShoppingCart->getMostValuableTaxRate();
 
                 if ($taxRate) {
                     $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
@@ -630,7 +630,7 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.07.2013
+     * @since 16.11.2013
      */
     public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -690,7 +690,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $shoppingCartTotal = $silvercartShoppingCart->getAmountTotal(array(), false, true);
             } else {
                 $shoppingCartTotal  = $silvercartShoppingCart->getAmountTotalNetWithoutVat(array(), false, true);
-                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate();
                 $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
             }
 
