@@ -651,12 +651,19 @@ class SilvercartAddress extends DataObject {
      *
      * @return bool
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function isShippingAddress() {
         $isShippingAddress = false;
-        if ($this->ID == Member::currentUser()->SilvercartShippingAddressID ||
+        if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+            $checkoutData = Controller::curr()->getCombinedStepData();
+            if (array_key_exists('ShippingAddress', $checkoutData) && 
+                $this->ID === $checkoutData['ShippingAddress']) {
+                $isShippingAddress = true; 
+            }
+        } else if ($this->ID == Member::currentUser()->SilvercartShippingAddressID ||
             $this->isAnonymousShippingAddress()) {
             $isShippingAddress = true;
         }
@@ -668,15 +675,16 @@ class SilvercartAddress extends DataObject {
      *
      * @return bool
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.11.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function isInvoiceAndShippingAddress() {
         $isInvoiceAndShippingAddress = false;
         
         if ($this->ID > 0) {
-            if (Member::currentUser()->SilvercartInvoiceAddressID == $this->ID &&
-                Member::currentUser()->SilvercartShippingAddressID == $this->ID) {
+            if ($this->isInvoiceAddress() &&
+                $this->isShippingAddress()) {
 
                 $isInvoiceAndShippingAddress = true;
             }
