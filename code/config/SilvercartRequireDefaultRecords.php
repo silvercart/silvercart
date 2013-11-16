@@ -630,6 +630,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $registerConfirmationPage->ParentID         = $registrationPage->ID;
             $registerConfirmationPage->ShowInMenus      = false;
             $registerConfirmationPage->ShowInSearch     = false;
+            $registerConfirmationPage->CanViewType      = "LoggedInUsers";
             $registerConfirmationPage->IdentifierCode   = "SilvercartRegisterConfirmationPage";
             $registerConfirmationPage->write();
             $registerConfirmationPage->publish("Stage", "Live");
