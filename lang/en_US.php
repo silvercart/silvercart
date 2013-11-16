@@ -1243,6 +1243,7 @@ $lang['en_US']['SilvercartOrderStatusLanguage']['TITLE']                        
 
 $lang['en_US']['SilvercartPage']['ABOUT_US'] = 'About us';
 $lang['en_US']['SilvercartPage']['ABOUT_US_URL_SEGMENT'] = 'about-us';
+$lang['en_US']['SilvercartPage']['ACCESS_CREDENTIALS'] = 'Access Credentials';
 $lang['en_US']['SilvercartPage']['ACCESS_CREDENTIALS_CALL'] = 'Please fill in your access credentials:';
 $lang['en_US']['SilvercartPage']['ADDRESS'] = 'Address';
 $lang['en_US']['SilvercartPage']['ADDRESSINFORMATION'] = 'Address information';

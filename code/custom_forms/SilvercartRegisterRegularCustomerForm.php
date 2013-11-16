@@ -93,6 +93,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                 'hasMinLength'  => 3
             )
         ),
+        'Addition' => array(
+            'type'      => 'TextField',
+            'title'     => 'Addition',
+        ),
         'Street' => array(
             'type'              => 'TextField',
             'title'             => 'Straße',
@@ -254,8 +258,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * Set initial values in form fields
      *
      * @return void
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.10.2010
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     protected function fillInFieldValues() {
         parent::fillInFieldValues();
@@ -266,6 +272,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $this->formFields['Salutation']['value']                = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), "Frau" => _t('SilvercartAddress.MISSES'), "Herr" => _t('SilvercartAddress.MISTER'));
         $this->formFields['FirstName']['title']                 = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Surname']['title']                   = _t('SilvercartAddress.SURNAME', 'surname');
+        $this->formFields['Addition']['title']                  = _t('SilvercartAddress.ADDITION', 'Addition');
         $this->formFields['Email']['title']                     = _t('SilvercartAddress.EMAIL', 'email address');
         $this->formFields['EmailCheck']['title']                = _t('SilvercartAddress.EMAIL_CHECK', 'email address check');
         $this->formFields['Street']['title']                    = _t('SilvercartAddress.STREET', 'street');
