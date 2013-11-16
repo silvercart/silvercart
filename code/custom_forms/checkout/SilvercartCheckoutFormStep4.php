@@ -210,21 +210,26 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.03.2013
+     * @since 16.11.2013
      */
     public function process() {
         $allowedPaymentMethods = $this->getAllowedPaymentMethods();
         if ($this->SkipPaymentStep()) {
             // there is only one payment method, set it and skip this step
-            $paymentMethod  = $allowedPaymentMethods->First();
-            $formData       = array(
-                'PaymentMethod' => $allowedPaymentMethods->First()->ID,
-            );
+            $paymentMethod     = $allowedPaymentMethods->First();
+            $stepConfiguration = array();
+            $formData          = array();
+            
+            if (!is_null($paymentMethod)) {
+                $stepConfiguration = $paymentMethod->getStepConfiguration();
+                $formData          = array(
+                    'PaymentMethod' => $paymentMethod->ID,
+                );
+            }
+            
             $this->controller->setStepData($formData);
             $this->controller->resetStepMapping();
-            $this->controller->registerStepDirectory(
-                $paymentMethod->getStepConfiguration()
-            );
+            $this->controller->registerStepDirectory($stepConfiguration);
             $this->controller->generateStepMapping();
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
@@ -293,7 +298,8 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
             $allowedPaymentMethods  = new DataObjectSet();
             $stepData               = $this->controller->getCombinedStepData();
 
-            if (is_array($stepData) &&
+            if (Member::currentUser() instanceof Member&&
+                is_array($stepData) &&
                 array_key_exists('Shipping_Country', $stepData) &&
                 $stepData['Shipping_Country'] != "") {
                 
