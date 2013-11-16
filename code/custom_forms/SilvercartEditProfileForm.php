@@ -26,12 +26,20 @@
  *
  * @package Silvercart
  * @subpackage Forms
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright Pixeltricks GmbH
- * @since 22.11.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright pixeltricks GmbH
+ * @since 16.11.2013
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartEditProfileForm extends CustomHtmlForm {
+
+    /**
+     * Exclude from cache.
+     *
+     * @var bool
+     */
+    protected $excludeFromCache = true;
 
     /**
      * Form field definition
@@ -122,10 +130,6 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      * form preferences
      *
      * @var array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.10.2010
-     * @return void
      */
     protected $preferences = array(
         'submitButtonTitle' => 'Speichern'
@@ -134,9 +138,10 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
     /**
      * Set initial form values
      *
+     * @return void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.10.2010
-     * @return void
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
@@ -217,6 +222,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      * @param array          $registrationData contains the modules form data
      *
      * @return void
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.10.2010
      */
