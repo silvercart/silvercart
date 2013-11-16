@@ -760,7 +760,19 @@ class SilvercartPaymentMethod extends DataObject {
     }
     
     /**
-     * Returns allowed shipping methods.
+     * Returns active payment methods.
+     * 
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2012
+     */
+    public static function getActivePaymentMethods() {
+        return DataObject::get('SilvercartPaymentMethod', 'isActive = 1');
+    }
+    
+    /**
+     * Returns allowed payment methods.
      * 
      * @param string                 $shippingCountry                  The SilvercartCountry to check the payment methods for.
      * @param SilvercartShoppingCart $shoppingCart                     The shopping cart object

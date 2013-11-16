@@ -63,6 +63,13 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
     protected $allowedPaymentMethods = null;
     
     /**
+     * List of active payment methods
+     *
+     * @var DataObjectSet 
+     */
+    protected $activePaymentMethods = null;
+    
+    /**
      * A list of registered nested forms to render into this checkout step
      *
      * @var DataObjectSet
@@ -350,6 +357,33 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
         }
         $this->registeredNestedForms->push($registeredNestedForm);
     }
+    
+    /**
+     * Returns the active payment methods.
+     *
+     * @return DataObjectSet|Boolean
+     */
+    public function getActivePaymentMethods() {
+        if (is_null($this->activePaymentMethods)) {
+            $activePaymentMethods  = SilvercartPaymentMethod::getActivePaymentMethods();
+            if (!($activePaymentMethods instanceof DataObjectSet)) {
+                $activePaymentMethods = new DataObjectSet();
+            }
+            $this->setActivePaymentMethods($activePaymentMethods);
+        }
+        return $this->activePaymentMethods;
+    }
+
+    /**
+     * Sets the active payment methods.
+     *
+     * @param DataObjectSet $activePaymentMethods Active payment method
+     * 
+     * @return void
+     */
+    public function setActivePaymentMethods($activePaymentMethods) {
+        $this->activePaymentMethods = $activePaymentMethods;
+    }
 
     /**
      * Returns whether to skip this step or not.
@@ -363,6 +397,15 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
         if (is_null($this->skipPaymentStep)) {
             if (SilvercartConfig::SkipPaymentStepIfUnique() &&
                 $this->getAllowedPaymentMethods()->Count() == 1) {
+                if ($this->getRegisteredNestedForms() instanceof DataObjectSet &&
+                    $this->getRegisteredNestedForms()->Count() >= 1 &&
+                    $this->getRegisteredNestedForms()->First() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
+                    $this->skipPaymentStep = false;
+                } else {
+                    $this->skipPaymentStep = true;
+                }
+            } elseif (SilvercartConfig::SkipPaymentStepIfUnique() &&
+                $this->getActivePaymentMethods()->Count() == 1) {
                 if ($this->getRegisteredNestedForms() instanceof DataObjectSet &&
                     $this->getRegisteredNestedForms()->Count() >= 1 &&
                     $this->getRegisteredNestedForms()->First() instanceof SilvercartCheckoutFormStep4DefaultPayment) {
