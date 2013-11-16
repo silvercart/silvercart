@@ -573,7 +573,7 @@ $lang['de_DE']['SilvercartConfig']['PRICETYPEREGULARCUSTOMERS'] = 'Preistyp für
 $lang['de_DE']['SilvercartConfig']['PRICETYPEBUSINESSCUSTOMERS'] = 'Preistyp für Geschäftskunden';
 $lang['de_DE']['SilvercartConfig']['EMAILSENDER_INFO'] = 'Der E-Mail Absender wird als Absenderadresse aller E-Mails verwendet, die von SilverCart gesendet werden.';
 $lang['de_DE']['SilvercartConfig']['ERROR_TITLE'] = 'Es ist ein Fehler aufgetreten!';
-$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde nicht konfiguriert.<br/>Bitte <a href="%sadmin/' . SilvercartConfigAdmin::$url_segment . '/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SC Konfig -> Allgemeine Konfiguration".';
+$lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE'] = 'Der Parameter "%s" wurde nicht konfiguriert.<br/>Bitte <a href="%sadmin/' . SilvercartConfigAdmin::$url_segment . '/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "Einstellungen -> Grundeinstellungen".';
 $lang['de_DE']['SilvercartConfig']['ERROR_MESSAGE_NO_ACTIVATED_COUNTRY'] = 'Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href="%sadmin/' . SilvercartConfigAdmin::$url_segment . '/">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter "SC Konfig -> Länder".';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT'] = 'Globaler E-Mail Empfänger';
 $lang['de_DE']['SilvercartConfig']['GLOBALEMAILRECIPIENT_INFO'] = 'Der globale E-Mail Empfänger kann optional gesetzt werden. An diese E-Mail-Adresse werden ALLE E-Mails (Bestellbestätigungen, Kontaktanfragen, etc.) gesendet. Die bei den E-Mail-Templates gesetzten Empfängeradressen bleiben davon unberührt. Diese werden nicht ersetzt, sondern nur ergänzt.';
@@ -611,7 +611,7 @@ $lang['de_DE']['SilvercartConfig']['OPEN_RECORD'] = 'Datensatz öffnen';
 $lang['de_DE']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'Anzahl gleichzeitig angezeigter Seitenzahlen';
 $lang['de_DE']['SilvercartConfig']['USE_STRICT_SEARCH_RELEVANCE'] = 'Strengere Suche verwenden. Zeigt ausschließlich exakte Treffer an.';
 $lang['de_DE']['SilvercartConfig']['USER_AGENT_BLACKLIST'] = 'Gesperrte UserAgent-Kennungen (pro Zeile ein UserAgent)';
-$lang['de_DE']['SilvercartConfigAdmin']['MENUTITLE'] = 'SC Konfiguration';
+$lang['de_DE']['SilvercartConfigAdmin']['MENUTITLE'] = 'Grundeinstellungen';
 
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_URLSEGMENT'] = 'kontakt';
@@ -1569,7 +1569,7 @@ $lang['de_DE']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Logos anzeigen';
 
 $lang['de_DE']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';
 
-$lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'SC Konfig';
+$lang['de_DE']['SilvercartShopConfigurationAdmin']['SILVERCART_CONFIG'] = 'Grundeinstellungen';
 
 $lang['de_DE']['SilvercartShopEmail']['SINGULARNAME'] = 'E-Mail des Shops';
 $lang['de_DE']['SilvercartShopEmail']['PLURALNAME'] = 'E-Mails des Shops';
@@ -1673,7 +1673,7 @@ $lang['de_DE']['SilvercartWidgetSet']['MANAGE_WIDGETS_BUTTON'] = 'Widgets Sets v
 $lang['de_DE']['SilvercartWidgetSet']['PLURALNAME'] = 'Widget Sets';
 $lang['de_DE']['SilvercartWidgetSet']['SINGULARNAME'] = 'Widget Set';
 $lang['de_DE']['SilvercartWidgetSet']['PAGES'] = 'zugeordnete Seiten';
-$lang['de_DE']['SilvercartWidgetSet']['INFO'] = '<strong>Achtung:</strong><br/>Um ein Widget Set hinzuzufügen oder zu verändern, wählen Sie den "SC Konfig" Bereich im Hauptmenü. Dort gelangen Sie über die Auswahl "Widget Set" in der Drowdown-Liste zur Bearbeitungsmaske der Widget Sets.';
+$lang['de_DE']['SilvercartWidgetSet']['INFO'] = '<strong>Achtung:</strong><br/>Um ein Widget Set hinzuzufügen oder zu verändern, wählen Sie den "Grundeinstellungen" Bereich im Hauptmenü. Dort gelangen Sie über die Auswahl "Widget Set" in der Drowdown-Liste zur Bearbeitungsmaske der Widget Sets.';
 $lang['de_DE']['SilvercartWidgetSet']['TITLE'] = 'Bezeichnung';
 $lang['de_DE']['SilvercartWidgetSet']['UseAsSlider'] = 'Als Slider verwenden';
 
