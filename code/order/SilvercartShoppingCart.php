@@ -1173,9 +1173,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return Money
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 26.1.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
@@ -1190,8 +1190,10 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if (SilvercartConfig::PriceType() == 'net') {
-            $taxRate              = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
-            $handlingCostShipment = round(($handlingCostShipmentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+            $taxRate = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'), true);
+            if ($taxRate !== false) {
+                $handlingCostShipment = round(($handlingCostShipmentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+            }
 
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
         }
