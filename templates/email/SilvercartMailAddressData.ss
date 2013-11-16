@@ -11,6 +11,10 @@
     </tr>
 <% end_if %>
     <tr>
+        <td>$fieldLabel(Salutation)</td>
+        <td>$SalutationText</td>
+    </tr>
+    <tr>
         <td>$fieldLabel(FirstName)</td>
         <td>$FirstName</td>
     </tr>
