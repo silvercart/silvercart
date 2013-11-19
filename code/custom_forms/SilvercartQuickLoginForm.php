@@ -66,7 +66,6 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright pixeltricks GmbH
      * @since 11.04.2011
      */
     public function preferences() {
@@ -87,8 +86,10 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
      * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2010
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.11.2013
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -132,8 +133,10 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
                 $customer->logIn();
                 $customer->write();
-                $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
-                Director::redirect($myAccountHolder->RelativeLink());
+                if ($this->Controller()->redirectedTo() == '') {
+                    $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
+                    $this->Controller()->redirect($myAccountHolder->RelativeLink());
+                }
             } else {
                 $this->messages = array(
                     'Authentication' => array(
