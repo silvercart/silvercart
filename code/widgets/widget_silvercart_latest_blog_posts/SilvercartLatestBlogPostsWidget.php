@@ -223,15 +223,17 @@ class SilvercartLatestBlogPostsWidget_Controller extends SilvercartWidget_Contro
      *
      * @return DataObjectSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.11.2013
      */
     public function BlogPosts() {
         if (class_exists('BlogEntry')) {
             $blogEntries = DataObject::get(
                 'BlogEntry',
                 '',
-                'Sort DESC',
+                'Date DESC',
                 '',
                 $this->numberOfPostsToShow
             );
