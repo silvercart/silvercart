@@ -1947,10 +1947,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2013
      */
-    public function getRandomProducts($numberOfProducts) {
+    public function getRandomProducts($numberOfProducts, $addFilter = null) {
         $listFilters = array();
         $filter      = '';
 
@@ -1998,6 +1999,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
         foreach ($listFilters as $listFilterIdentifier => $listFilter) {
             $filter .= ' ' . $listFilter;
+        }
+        
+        if (!is_null($addFilter)) {
+            $filter .= ' AND ' . $addFilter;
         }
 
         $sort = 'RAND()';
