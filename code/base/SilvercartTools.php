@@ -70,6 +70,20 @@ class SilvercartTools extends Object {
     public static $pageHierarchy = array();
 
     /**
+     * List of already called pages
+     *
+     * @var array
+     */
+    protected static $pagesByIdentifierCode = array();
+    
+    /**
+     * locale to restore.
+     *
+     * @var string
+     */
+    public static $localeToRestore = null;
+
+    /**
      * Returns the base URL segment that's used for inclusion of css and
      * javascript files via Requirements.
      *
@@ -196,22 +210,20 @@ class SilvercartTools extends Object {
      * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @since 18.11.2013
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $page = DataObject::get_one(
-            "SiteTree",
-            sprintf(
-                "`IdentifierCode` = '%s'",
-                $identifierCode
-            )
-        );
-
-        if ($page) {
-            return $page;
-        } else {
-            return false;
+        if (!array_key_exists($identifierCode, self::$pagesByIdentifierCode)) {
+            self::$pagesByIdentifierCode[$identifierCode] = DataObject::get_one(
+                "SiteTree",
+                sprintf(
+                    "`IdentifierCode` = '%s'",
+                    $identifierCode
+                )
+            );
         }
+
+        return self::$pagesByIdentifierCode[$identifierCode];
     }
 
     /**
@@ -608,8 +620,10 @@ class SilvercartTools extends Object {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.01.2013
+     * @todo Do something with this
      */
     public static function checkForUpdate() {
+        return false;
         $updateAvailable = false;
         try {
             $checkForUpdateUrl = sprintf(
@@ -647,5 +661,72 @@ class SilvercartTools extends Object {
         header("HTTP/1.1 303 See Other");
         header('Location: ' . Director::absoluteURL($url));
         exit();
+    }
+    
+    /**
+     * Returns the given date with time in a nice format
+     * 
+     * @param string $date Date to format
+     * 
+     * @return string
+     */
+    public static function getDateWithTimeNice($date) {
+        $dateNice           = self::getDateNice($date);
+        $dateTimestamp      = strtotime($date);
+        $timeNiceFormat     = '%H:%M';
+        $timeNice           = strftime($timeNiceFormat, $dateTimestamp) . ' ' .  _t('Silvercart.Oclock');
+        $dateWithTimeNice   = $dateNice . ' ' . $timeNice;
+        return $dateWithTimeNice;
+    }
+    
+    /**
+     * Returns the given date in a nice format
+     * 
+     * @param string $date Date to format
+     * 
+     * @return string
+     */
+    public static function getDateNice($date) {
+        self::switchLocale(false);
+        $dateTimestamp  = strtotime($date);
+        $dateNiceFormat = '%d. %b.';
+        if (date('Y', $dateTimestamp) != date('Y')) {
+            $dateNiceFormat = '%d. %b. %Y';
+        } elseif (date('m-d', $dateTimestamp) == date('m-d')) {
+            $dateNiceFormat = ucfirst(_t('Silvercart.TODAY'));
+        } elseif (date('m-d', $dateTimestamp) == date('m-d', time() - 24*60*60)) {
+            $dateNiceFormat = ucfirst(_t('Silvercart.YESTERDAY'));
+        }
+        $dateNice = strftime($dateNiceFormat, $dateTimestamp);
+        self::switchLocale();
+        return $dateNice;
+    }
+
+    /**
+     * Switchs the locale from default to the current SS locale and back.
+     * This method is called in constructor and destructor.
+     * 
+     * @param bool $doRestore Should this call restore the locale to the default value?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.05.2011
+     */
+    public static function switchLocale($doRestore = true) {
+        if (!$doRestore &&
+            !is_null(self::$localeToRestore)) {
+            return;
+        }
+        if (is_null(self::$localeToRestore)) {
+            self::$localeToRestore  = setlocale(LC_ALL, null);
+            $currentLocale          = i18n::get_locale();
+        } else {
+            $currentLocale          = self::$localeToRestore;
+            self::$localeToRestore  = null;
+        }
+        // it's a kind of dirty, because this will not match every possible
+        // system locale... It works for plain and utf8 locales.
+        setlocale(LC_ALL, $currentLocale . '.utf8', $currentLocale . '.UTF-8', $currentLocale);
     }
 }
