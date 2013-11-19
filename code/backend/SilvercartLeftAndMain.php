@@ -43,6 +43,13 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
     );
     
     /**
+     * ModelAdmins to ignore.
+     *
+     * @var array
+     */
+    public static $model_admins_to_ignore = array();
+
+    /**
      * Injects some custom javascript to provide instant loading of DataObject
      * tables.
      *
@@ -177,12 +184,16 @@ class SilvercartLeftAndMain extends DataObjectDecorator {
                 if (empty($menuItem->controller)) {
                     continue;
                 }
+                
+                if (in_array($menuItem->controller, self::$model_admins_to_ignore)) {
+                    continue;
+                }
 
                 $menuCode       = Object::get_static($menuItem->controller, 'menuCode');
                 $menuSection    = Object::get_static($menuItem->controller, 'menuSection');
                 $menuSortIndex  = Object::get_static($menuItem->controller, 'menuSortIndex');
                 $url_segment    = Object::get_static($menuItem->controller, 'url_segment');
-
+                
                 if ($menuCode == $menu['code']) {
                     $defaultTitle = LeftAndMain::menu_title_for_class($menuItem->controller);
                     $title = _t("{$menuItem->controller}.MENUTITLE", $defaultTitle);
