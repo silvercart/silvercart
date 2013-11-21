@@ -82,6 +82,13 @@ class SilvercartTools extends Object {
      * @var string
      */
     public static $localeToRestore = null;
+    
+    /**
+     * Set this to true to disable checking for updates.
+     *
+     * @var boolean
+     */
+    public static $disableUpdateCheck = false;
 
     /**
      * Returns the base URL segment that's used for inclusion of css and
@@ -612,7 +619,7 @@ class SilvercartTools extends Object {
 
         return $isSibling;
     }
-    
+
     /**
      * Checks on silvercart.org whether there is an update available.
      * 
@@ -620,10 +627,11 @@ class SilvercartTools extends Object {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.01.2013
-     * @todo Do something with this
      */
     public static function checkForUpdate() {
-        return false;
+        if (self::$disableUpdateCheck) {
+            return false;
+        }
         $updateAvailable = false;
         try {
             $checkForUpdateUrl = sprintf(
