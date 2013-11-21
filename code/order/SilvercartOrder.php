@@ -55,6 +55,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
         'IsSeen'                            => 'Boolean(0)',
+        'TrackingCode'                      => 'VarChar(64)',
+        'TrackingLink'                      => 'Text',
         /**
          * @deprecated
          */
@@ -308,6 +310,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
                 'SilvercartOrderLogs'                   => _t('SilvercartOrderLog.PLURALNAME'),
                 'ValueOfGoods'                          => _t('SilvercartPage.VALUE_OF_GOODS'),
+                'TrackingCode'                          => _t('SilvercartOrder.TrackingCode'),
+                'TrackingLink'                          => _t('SilvercartOrder.TrackingLink'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -410,6 +414,30 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $this->scaffoldSearchFields(),
             $this->defaultSearchFilters()
         );
+    }
+    
+    /**
+     * Returns the orders tracking code.
+     * Tracking code is extendable by decorator.
+     * 
+     * @return string
+     */
+    public function getTrackingCode() {
+        $trackingCode = $this->getField('TrackingCode');
+        $this->extend('updateTrackingCode', $trackingCode);
+        return $trackingCode;
+    }
+    
+    /**
+     * Returns the orders tracking link.
+     * Tracking link is extendable by decorator.
+     * 
+     * @return string
+     */
+    public function getTrackingLink() {
+        $trackingLink = $this->getField('TrackingLink');
+        $this->extend('updateTrackingLink', $trackingLink);
+        return $trackingLink;
     }
 
     /**

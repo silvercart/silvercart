@@ -1162,6 +1162,10 @@ $lang['en_US']['SilvercartOrder']['TAXAMOUNTPAYMENT'] = 'Pamyent tax amount';
 $lang['en_US']['SilvercartOrder']['TAXAMOUNTSHIPMENT'] = 'Shipping tax amount';
 $lang['en_US']['SilvercartOrder']['TAXRATEPAYMENT'] = 'Payment tax rate';
 $lang['en_US']['SilvercartOrder']['TAXRATESHIPMENT'] = 'Shipping tax rate';
+$lang['en_US']['SilvercartOrder']['Tracking']                         = 'Tracking';
+$lang['en_US']['SilvercartOrder']['TrackingCode']                     = 'Tracking Code';
+$lang['en_US']['SilvercartOrder']['TrackingLink']                     = 'Tracking Link';
+$lang['en_US']['SilvercartOrder']['TrackingLinkLabel']                = 'Reveal where my shipment currently is';
 $lang['en_US']['SilvercartOrder']['WEIGHTTOTAL'] = 'Total weight';
 $lang['en_US']['SilvercartOrder']['YOUR_REMARK'] = 'Your remark';
 

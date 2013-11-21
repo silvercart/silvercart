@@ -36,6 +36,12 @@
                     <td>$getFormattedNote</td>
                 </tr>
                 <% end_if %>
+                <% if TrackingCode %>
+                <tr>
+                    <td><strong><% _t('SilvercartOrder.Tracking') %></strong></td>
+                    <td><a href="{$TrackingLink}" target="blank" title="<% _t('SilvercartOrder.TrackingLinkLabel') %>"><% _t('SilvercartOrder.TrackingLinkLabel') %></a></td>
+                </tr>
+                <% end_if %>
 
                 $OrderDetailInformation
             </tbody>

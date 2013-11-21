@@ -1162,6 +1162,10 @@ $lang['de_DE']['SilvercartOrder']['TAXAMOUNTPAYMENT'] = 'Steuer der Bezahlart';
 $lang['de_DE']['SilvercartOrder']['TAXAMOUNTSHIPMENT'] = 'Steuer der Versandart';
 $lang['de_DE']['SilvercartOrder']['TAXRATEPAYMENT'] = 'Steuersatz der Bezahlart';
 $lang['de_DE']['SilvercartOrder']['TAXRATESHIPMENT'] = 'Steuersatz der Versandart';
+$lang['de_DE']['SilvercartOrder']['Tracking']                         = 'Sendungsverfolgung';
+$lang['de_DE']['SilvercartOrder']['TrackingCode']                     = 'Sendungsverfolgungsnummer';
+$lang['de_DE']['SilvercartOrder']['TrackingLink']                     = 'Link zur Sendungsverfolgung';
+$lang['de_DE']['SilvercartOrder']['TrackingLinkLabel']                = 'Anzeigen, wo sich meine Sendung gerade befindet';
 $lang['de_DE']['SilvercartOrder']['WEIGHTTOTAL'] = 'Gesamtgewicht';
 $lang['de_DE']['SilvercartOrder']['YOUR_REMARK'] = 'Ihre Bemerkung';
 
