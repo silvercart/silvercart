@@ -1169,7 +1169,9 @@ class SilvercartProduct extends DataObject {
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
         $productNumberGroup->push($fields->dataFieldByName('EANCode'));
         $fields->insertAfter($productNumberGroup, 'isActive');
-        $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
+        if ($this->isInDB()) {
+            $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
+        }
         
         $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', $this->fieldLabel('SilvercartAvailabilityStatus'), $fields);
         $availabilityGroup->push($fields->dataFieldByName('SilvercartAvailabilityStatusID'));
