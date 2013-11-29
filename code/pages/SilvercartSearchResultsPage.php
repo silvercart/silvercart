@@ -431,7 +431,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * 
      * @author Patrick Schneider <pschneider@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.09.2013
+     * @since 26.11.2013
      */
     protected function searchSilvercartProducts() {  
         $SQL_start              = $this->getSqlOffset();
@@ -458,10 +458,16 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         // Register selector forms, e.g. the "products per page" selector
         $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
         $selectorForm->setSecurityTokenDisabled();
+        $selectorFormBottom = new SilvercartProductGroupPageSelectorsForm($this);
+        $selectorFormBottom->setSecurityTokenDisabled();
 
         $this->registerCustomHtmlForm(
             'SilvercartProductGroupPageSelectors',
             $selectorForm
+        );
+        $this->registerCustomHtmlForm(
+            'SilvercartProductGroupPageSelectorsBottom',
+            $selectorFormBottom
         );
     }
     
