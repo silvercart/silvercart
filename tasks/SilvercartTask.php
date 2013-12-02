@@ -173,18 +173,30 @@ class SilvercartTask extends ScheduledTask {
     
     /**
      * Prints the given info
+     * Colors:
+     * <ul>
+     *      <li>30 -> black</li>
+     *      <li>31 -> red</li>
+     *      <li>32 -> green</li>
+     *      <li>33 -> yellow</li>
+     *      <li>34 -> blue</li>
+     *      <li>35 -> magenta</li>
+     *      <li>36 -> cyan</li>
+     *      <li>37 -> white</li>
+     * </ul>
      * 
-     * @param string $info Info to print
+     * @param string $info  Info to print
+     * @param string $color Color to use
      * 
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.12.2012
      */
-    public function printInfo($info) {
+    public function printInfo($info, $color = '33') {
         if (!$this->isInSilentMode()) {
             $tab        = "\t";
-            $infoText   = $tab . "\033[33m" . $info . "\033[0m" . PHP_EOL;
+            $infoText   = $tab . "\033[" . $color . 'm' . $info . "\033[0m" . PHP_EOL;
             print $infoText;
         }
         $this->Log('INFO', $info);
