@@ -22,7 +22,7 @@
                     <td>
                         <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
                         <% control SilvercartOrderPositions %>
-                            $Title <% if Last %><% else %> | <% end_if %>
+                            $Title.RAW <% if Last %><% else %> | <% end_if %>
                         <% end_control %>
                         </a>
                     </td>
