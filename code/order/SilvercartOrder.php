@@ -905,6 +905,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             if (SilvercartPlugin::call($this, 'overwriteCreateFromShoppingCart', array($silvercartShoppingCart))) {
                 return true;
             }
+            
+            $this->extend('onBeforeCreateFromShoppingCart', $silvercartShoppingCart);
 
             $paymentObj = DataObject::get_by_id(
                 'SilvercartPaymentMethod',
@@ -962,6 +964,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
             // write order to have an id
             $this->write();
+            
+            $this->extend('onAfterCreateFromShoppingCart', $silvercartShoppingCart);
 
             SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $silvercartShoppingCart));
         }
@@ -1191,6 +1195,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                         $this
                     )
                 );
+                
+                $this->extend('onAfterConvertShoppingCartPositionsToOrderPositions', $silvercartShoppingCart);
 
                 // Delete the shoppingcart positions
                 foreach ($shoppingCartPositions as $shoppingCartPosition) {
