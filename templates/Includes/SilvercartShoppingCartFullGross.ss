@@ -16,7 +16,13 @@
             <% end_if %>
         <% end_control %>
 
+    <% if registeredModules %>
         <% control registeredModules %>
+            <% if CustomShoppingCartPositions %>
+                <% control CustomShoppingCartPositions %>
+                    {$CustomShoppingCartPosition}
+                <% end_control %>
+            <% end_if %>
             <% if TaxableShoppingCartPositions %>
                 <tr>
                     <td colspan="3">&nbsp;</td>
@@ -40,6 +46,7 @@
                 <% end_control %>
             <% end_if %>
         <% end_control %>
+    <% end_if %>
 
         <% if HasFeesOrChargesOrModules %>
             <tr>
@@ -189,7 +196,7 @@
                 <% if NonTaxableShoppingCartPositions %>
                     <% control NonTaxableShoppingCartPositions %>
                         <tr>
-                            <td colspan="3">TEST 1$Name</td>
+                            <td colspan="3">{$Name}</td>
                             <td class="right">$PriceFormatted</td>
                             <td>&nbsp;</td>
                             <td class="right">$getTypeSafeQuantity</td>
