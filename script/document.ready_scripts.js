@@ -161,4 +161,19 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
             });
         }
     }
+    
+    // ------------------------------------------------------------------------
+    // Refresh cart position quantity on change.
+    // ------------------------------------------------------------------------
+    $('.addToCartField input').change(function() {
+        var uri  = document.baseURI ? document.baseURI : '/';
+        $(this).attr('readonly', 'readonly');
+        $(this).css('background-color',     '#ffffff');
+        $(this).css('background-image',     'url("' + uri + 'silvercart/images/loader-circle.gif")');
+        $(this).css('background-repeat',    'no-repeat');
+        $(this).css('background-position',  '4px center');
+        $(this).css('padding-left',         '25px');
+        $(this).addClass('loading');
+        $(this).closest('form').submit();
+    });
 })})(jQuery);

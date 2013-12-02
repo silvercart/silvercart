@@ -16,6 +16,13 @@
     margin:                         0px;
     padding:                        0px;
 }
+.silvercart-shopping-cart-full tbody td form + form {
+    
+}
+.silvercart-shopping-cart-full tbody td form .addToCartField {
+    position:                       relative;
+    top:                            -3px;
+}
 .silvercart-shopping-cart-full tbody td form .type-button {
     margin:                         0px;
     padding:                        0px;
@@ -23,6 +30,7 @@
 .silvercart-shopping-cart-full tbody td form.yform .type-button input[type="submit"]{
     height:                         auto;
     padding:                        2px 5px;
+    margin:                         0px;
 }
 .silvercart-shopping-cart-full tbody td .silvercart-quantity-value div {
     padding:                        4px 0px 0px 0px;
