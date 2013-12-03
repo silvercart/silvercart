@@ -141,6 +141,13 @@ class SilvercartShoppingCart extends DataObject {
     public static $cartCleaningFinished = false;
 
     /**
+     * Set of registered modules.
+     *
+     * @var DataObjectSet
+     */
+    protected $registeredModulesSet = null;
+
+    /**
      * default constructor
      *
      * @param array $record      array of field values
@@ -2004,44 +2011,48 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2013
+     * @since 02.12.2013
      */
     public function registeredModules() {
-        $customer = Member::currentUser();
-        $modules = array();
-        $registeredModules = self::$registeredModules;
-        $hookMethods = array(
-            'NonTaxableShoppingCartPositions',
-            'TaxableShoppingCartPositions',
-            'IncludedInTotalShoppingCartPositions',
-            'ShoppingCartActions',
-            'ShoppingCartTotal',
-        );
+        if (is_null($this->registeredModulesSet)) {
+            $customer = Member::currentUser();
+            $modules = array();
+            $registeredModules = self::$registeredModules;
+            $hookMethods = array(
+                'NonTaxableShoppingCartPositions',
+                'TaxableShoppingCartPositions',
+                'IncludedInTotalShoppingCartPositions',
+                'ShoppingCartActions',
+                'ShoppingCartTotal',
+                'CustomShoppingCartPositions',
+            );
 
-        foreach ($registeredModules as $registeredModule) {
-            $registeredModuleObjPlain   = new $registeredModule();
-            $registeredModuleObj        = false;
+            foreach ($registeredModules as $registeredModule) {
+                $registeredModuleObjPlain   = new $registeredModule();
+                $registeredModuleObj        = false;
 
-            if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
-                $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
-            }
+                if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
+                    $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
+                }
 
-            if (!$registeredModuleObj) {
-                $registeredModuleObj = $registeredModuleObjPlain;
-            }
+                if (!$registeredModuleObj) {
+                    $registeredModuleObj = $registeredModuleObjPlain;
+                }
 
-            if ($registeredModuleObj) {
-                foreach ($hookMethods as $hookMethod) {
-                    if ($registeredModuleObj->hasMethod($hookMethod)) {
-                        $modules[] = array(
-                            $hookMethod => $registeredModuleObj->$hookMethod($this, $customer)
-                        );
+                if ($registeredModuleObj) {
+                    $hooks = array();
+                    foreach ($hookMethods as $hookMethod) {
+                        if ($registeredModuleObj->hasMethod($hookMethod)) {
+                            $hooks[$hookMethod] = $registeredModuleObj->$hookMethod($this, $customer);
+                        }
                     }
+                    $modules[] = $hooks;
                 }
             }
-        }
 
-        return new DataObjectSet($modules);
+            $this->registeredModulesSet = new DataObjectSet($modules);
+        }
+        return $this->registeredModulesSet;
     }
 
     /**
