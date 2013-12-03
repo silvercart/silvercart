@@ -49,6 +49,13 @@ class SilvercartCustomer extends DataObjectDecorator {
     protected $groupIDs = null;
     
     /**
+     * Determines whether the customer has to pay taxes or not
+     *
+     * @var bool
+     */
+    protected $doesNotHaveToPayTaxes = null;
+    
+    /**
      * Extends the database fields and relations of the decorated class.
      *
      * @return array
@@ -725,24 +732,36 @@ class SilvercartCustomer extends DataObjectDecorator {
             return false;
         }
     }
-    
+
     /**
      * Returns whether the customer has to pay tax or not.
      * 
      * @return boolean
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     * @since 03.12.2013
      */
     public function doesNotHaveToPayTaxes() {
-        $doesNotHaveToPayTaxes = false;
-        if ($this->owner->SilvercartShippingAddress() instanceof SilvercartAddress &&
-            $this->owner->SilvercartShippingAddress()->SilvercartCountry()->IsNonTaxable) {
-            $doesNotHaveToPayTaxes = true;
+        if (is_null($this->doesNotHaveToPayTaxes)) {
+            if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+                $stepData = Controller::curr()->getCombinedStepData();
+                if (array_key_exists('Shipping_Country', $stepData)) {
+                    $country = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                    if ($country instanceof SilvercartCountry) {
+                        $this->doesNotHaveToPayTaxes = (boolean) $country->IsNonTaxable;
+                    }
+                }
+            }
+            if (is_null($this->doesNotHaveToPayTaxes) && 
+                $this->owner->SilvercartShippingAddress() instanceof SilvercartAddress &&
+                $this->owner->SilvercartShippingAddress()->SilvercartCountry()->IsNonTaxable) {
+                $this->doesNotHaveToPayTaxes = true;
+            } elseif (is_null($this->doesNotHaveToPayTaxes)) {
+                $this->doesNotHaveToPayTaxes = false;
+            }
         }
-        return $doesNotHaveToPayTaxes;
+        return $this->doesNotHaveToPayTaxes;
     }
-
 
     /**
      * Returns the members price type
