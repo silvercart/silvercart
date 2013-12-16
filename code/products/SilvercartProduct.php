@@ -1322,6 +1322,8 @@ class SilvercartProduct extends DataObject {
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'isActive');
         
+        $fields->removeByName('SilvercartProductGroupItemsWidgets');
+        
         $this->getFieldsForMain($fields);
         $this->getFieldsForPrices($fields);
         $this->getFieldsForSeo($fields);
