@@ -316,7 +316,8 @@ if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
     SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
 }
 
-if (method_exists('GoogleSitemap', 'register_dataobject')) {
+if (class_exists('GoogleSitemap') &&
+    method_exists('GoogleSitemap', 'register_dataobject')) {
     GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
 }
 
