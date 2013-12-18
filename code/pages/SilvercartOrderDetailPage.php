@@ -176,10 +176,10 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      *
      * @return string
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricksde>
      * @since 05.04.2012
      */
-    public function handleAction($request) {
+    public function handleAction(SS_HTTPRequest $request) {
         if (!$this->hasMethod($this->urlParams['Action'])) {
             $secondaryAction = $this->urlParams['ID'];
             if ($this->hasMethod($secondaryAction) &&
