@@ -118,14 +118,16 @@ class SilvercartManyManyOrderField extends DropdownField {
     }
 
     /**
-     * Returns the select field.
+     * Returns the selected field.
      *
+     * @param Array $properties Field properties
+     * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
      * @since 10.03.2012
      */
-    public function FieldHolder() {
+    public function FieldHolder($properties = array()) {
         $source             = $this->getSource();
         $availableItemIdx   = 0;
         $selectedItemIdx    = 0;
@@ -293,7 +295,7 @@ class SilvercartManyManyOrderField extends DropdownField {
  * @since 10.03.2012
  * @license see license file in modules root directory
  */
-class SilvercartManyManyOrderField_RecordController extends ModelAdmin_RecordController {
+class SilvercartManyManyOrderField_RecordController extends SilvercartModelAdmin {
 
     /**
      * Adds the abillity to execute additional actions to the model admin's
