@@ -81,7 +81,7 @@ class SilvercartActionHandler extends DataExtension {
      * 
      * @return void
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
      * @since 01.03.2013
      */
     protected function redirectBack($backLink = null) {
@@ -92,9 +92,9 @@ class SilvercartActionHandler extends DataExtension {
         }
 
         if (is_null($backLink)) {
-            Director::redirectBack();
+            $this->owner->redirectBack();
         } else {
-            Director::redirect($backLink, 302);
+            $this->owner->redirect($backLink, 302);
         }
     }
 }
