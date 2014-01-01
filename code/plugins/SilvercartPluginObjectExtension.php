@@ -13,12 +13,12 @@
  *
  * @package Silvercart
  * @subpackage Plugins
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 22.09.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>, Ramon Kupper <rkupperpixeltricks.de>
+ * @since 01.01.2014
  * @license see license file in modules root directory
- * @copyright 2013 pixeltricks GmbH
+ * @copyright 2014 pixeltricks GmbH
  */
-class SilvercartPluginObjectDecorator extends DataExtension {
+class SilvercartPluginObjectExtension extends DataExtension {
     
     /**
      * Passes through calls to SilvercartPlugins.
