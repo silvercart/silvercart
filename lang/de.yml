@@ -1639,7 +1639,7 @@ de:
     EMPTYSTRING_CHOOSEZONE: "--Zone wählen--"
     FOR_SHIPPINGMETHOD: "für Versandart"
     FREEOFSHIPPINGCOSTSDISABLED: "Versandkostenfreiheit für diese Versandgebühr deaktivieren"
-    FREEOFSHIPPINGCOSTSFROM: "Versandkostenfrei ab (überschreibt Länderspeziefische und globale Einstellung)"
+    FREEOFSHIPPINGCOSTSFROM: "Versandkostenfrei ab (überschreibt Länderspezifische und globale Einstellung)"
     MAXIMUM_WEIGHT: "Maximalgewicht (g)"
     PLURALNAME: "Versandgebühren"
     POST_PRICING: "Nachträgliche Preisermittlung"
