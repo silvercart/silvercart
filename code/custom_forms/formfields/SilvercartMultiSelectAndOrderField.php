@@ -221,7 +221,7 @@ class SilvercartMultiSelectAndOrderField_RecordController extends ModelAdmin_Rec
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.07.2011
      */
-    public function handleAction(SS_HTTPRequest $request) {
+    public function handleAction($request) {
         $vars = $request->requestVars();
         
         $this->relationFieldName  = $this->currentRecord->ClassName.'Field';

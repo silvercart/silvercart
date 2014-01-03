@@ -2047,6 +2047,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $viewableChildrenPage->setPageLength($pageLength);
 
                 $this->viewableChildren = $viewableChildrenPage;
+                return false;
             } else {
                 return false;
             }
@@ -2294,7 +2295,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.07.2013
      */
-    public function handleAction(SS_HTTPRequest $request) {
+    public function handleAction($request) {
         if (is_numeric($this->urlParams['Action'])) {
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
             $product = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));

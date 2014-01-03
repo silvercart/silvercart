@@ -308,7 +308,7 @@ class SilvercartManyManyOrderField_RecordController extends SilvercartModelAdmin
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 10.03.2012
      */
-    public function handleAction(SS_HTTPRequest $request) {
+    public function handleAction($request) {
         $vars = $request->requestVars();
 
         if (array_key_exists('doAttributeItems', $vars)) {
