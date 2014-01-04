@@ -121,8 +121,8 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * 
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.02.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 04.01.2014
      */
     public function excludeFromScaffolding() {
         $parentExcludes = parent::excludeFromScaffolding();
@@ -130,17 +130,6 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $excludeFromScaffolding = array_merge(
                 $parentExcludes,
                 array(
-                    'Autoplay',
-                    'autoPlayDelayed',
-                    'autoPlayLocked',
-                    'buildArrows',
-                    'buildNavigation',
-                    'buildStartStop',
-                    'slideDelay',
-                    'stopAtEnd',
-                    'transitionEffect',
-                    'useSlider',
-                    'useRoundabout',
                     'slideImages'
                 )
         );
