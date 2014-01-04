@@ -1137,7 +1137,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * Contains the viewable children of this page for caching purposes.
      *
-     * @var mixed null|ArrayList
+     * @var mixed null|PaginatedList
      */
     protected $viewableChildren = null;
     
@@ -2014,21 +2014,21 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      *
      * @param int $numberOfProductGroups Number of product groups to display
      * 
-     * @return DataList
+     * @return PaginatedList
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.07.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 04.01.2014
      */
     public function getViewableChildren($numberOfProductGroups = false) {
         if ($this->viewableChildren === null) {
-            $viewableChildren = array();
+            $viewableChildren = new ArrayList();
             
             foreach ($this->Children() as $child) {
                 if ($child->hasProductsOrChildren()) {
-                    $viewableChildren[] = $child;
+                    $viewableChildren->push($child);
                 }
             }
-            if (count($viewableChildren) > 0) {
+            if ($viewableChildren->count() > 0) {
                 if ($numberOfProductGroups == false) {
                     if ($this->productGroupsPerPage) {
                         $pageLength = $this->productGroupsPerPage;
@@ -2045,15 +2045,12 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $viewableChildrenPage->setPaginationGetVar('groupStart');
                 $viewableChildrenPage->setPageStart($pageStart);
                 $viewableChildrenPage->setPageLength($pageLength);
-
-                $this->viewableChildren = $viewableChildrenPage;
-                return false;
+                
+                $this->viewableChildren = $viewableChildrenPage;         
             } else {
                 return false;
             }
-
         }
-        
         return $this->viewableChildren;
     }
     
