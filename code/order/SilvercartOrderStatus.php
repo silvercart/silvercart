@@ -132,7 +132,7 @@ class SilvercartOrderStatus extends DataObject {
      * @uses FormField::name_to_label()
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.02.2011
+     * @since 07.01.2014
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -145,7 +145,8 @@ class SilvercartOrderStatus extends DataObject {
                 'SilvercartOrderStatusLanguages'        => _t('Silvercart.TRANSLATIONS'),
                 'ShopEmailsTab'                         => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE'),
                 'ShopEmailLabelField'                   => _t('SilvercartOrderStatus.ATTRIBUTED_SHOPEMAILS_LABEL_DESC'),
-                'SilvercartShopEmails'                  => _t('SilvercartShopEmail.PLURALNAME')
+                'SilvercartShopEmails'                  => _t('SilvercartShopEmail.PLURALNAME'),
+                'SilvercartOrderStatusLanguages.Title'  => _t('SilvercartPage.TITLE'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -261,6 +262,27 @@ class SilvercartOrderStatus extends DataObject {
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+
+    /**
+     * Searchable fields.
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.01.2014
+     */
+    public function  searchableFields() {
+        return array(
+            'SilvercartOrderStatusLanguages.Title' => array(
+                'title'     => $this->fieldLabel('Title'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'Code' => array(
+                'title'     => $this->fieldLabel('Code'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+        );
     }
     
 }
