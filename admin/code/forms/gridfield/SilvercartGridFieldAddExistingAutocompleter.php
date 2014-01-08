@@ -38,7 +38,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.02.2013
+     * @since 08.01.2014
      */
     public function doSearch($gridField, $request) {
         $dataClass = $gridField->getList()->dataClass();
@@ -48,6 +48,12 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
         if (!$searchFields) {
             throw new LogicException(
                     sprintf('GridFieldAddExistingAutocompleter: No searchable fields could be found for class "%s"', $dataClass));
+        }
+        $useCurrentLocale = false;
+        if (!in_array('Locale', $searchFields) &&
+            singleton($dataClass)->hasExtension('Translatable')) {
+            $searchFields['Locale'] = 'Locale';
+            $useCurrentLocale = true;
         }
 
         $stmts          = array();
@@ -88,9 +94,27 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
                     }
                 }
             } else {
-                $searchField = $dataClass . '"."' . $searchField;
+                $foundFilterClass = false;
+                $ancestry         = singleton($dataClass)->getClassAncestry();
+                do {
+                    if (count($ancestry) == 0) {
+                        throw new LogicException(
+                                sprintf('GridFieldAddExistingAutocompleter: Searchable field "%s" could be found for class "%s" and its ancestors', $searchField, $dataClass));
+                    }
+                    $filterClass = array_pop($ancestry);
+                    $db          = Object::get_static($filterClass, 'db');
+                    if (array_key_exists($searchField, $db)) {
+                        $foundFilterClass = true;
+                    }
+                } while (!$foundFilterClass);
+                $searchField = $filterClass . '"."' . $searchField;
             }
-            $stmts[] = sprintf('"%s" LIKE \'%s%%\'', $searchField, Convert::raw2sql($request->getVar('gridfield_relationsearch')));
+            if ($searchField == $filterClass . '"."Locale' &&
+                $useCurrentLocale) {
+                $allList->where(sprintf('"%s" = \'%s\'', $searchField, Translatable::get_current_locale()));
+            } else {
+                $stmts[] = sprintf('"%s" LIKE \'%s%%\'', $searchField, Convert::raw2sql($request->getVar('gridfield_relationsearch')));
+            }
         }
         foreach ($joinClassNames as $relationName => $joinClassName) {
             $allList->leftJoin(
