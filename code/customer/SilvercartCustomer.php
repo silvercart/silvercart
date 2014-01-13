@@ -113,8 +113,9 @@ class SilvercartCustomer extends DataExtension {
      * 
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.01.2014
      */
     public function updateCMSFields(FieldList $fields) {
         parent::updateCMSFields($fields);
@@ -125,11 +126,20 @@ class SilvercartCustomer extends DataExtension {
             'Frau' => _t('SilvercartAddress.MISSES')
         ));
         
-        //make addresses deletable in the grid field
-        $addressesGrid = $fields->dataFieldByName('SilvercartAddresses');
-        $addressesConfig = $addressesGrid->getConfig();
-        $addressesConfig->removeComponentsByType('GridFieldDeleteAction');
-        $addressesConfig->addComponent(new GridFieldDeleteAction());
+        if ($this->owner->exists()) {
+            //make addresses deletable in the grid field
+            $addressesGrid = $fields->dataFieldByName('SilvercartAddresses');
+            $addressesConfig = $addressesGrid->getConfig();
+            $addressesConfig->removeComponentsByType('GridFieldDeleteAction');
+            $addressesConfig->addComponent(new GridFieldDeleteAction());
+        }
+        
+        $fields->removeByName('NewsletterOptInStatus');
+        $fields->removeByName('NewsletterConfirmationHash');
+        $fields->removeByName('SilvercartShoppingCartID');
+        $fields->removeByName('SilvercartInvoiceAddressID');
+        $fields->removeByName('SilvercartShippingAddressID');
+        $fields->removeByName('SilvercartCustomerConfigID');
     }
     
     /**
