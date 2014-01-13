@@ -24,9 +24,6 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
      * Defines form fields
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2011
      */
     protected $formFields = array(
         'emailaddress' => array(
@@ -72,8 +69,10 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
      * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2010
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 13.01.2014
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -120,11 +119,7 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
                 $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
                 $this->controller->redirect($myAccountHolder->RelativeLink());
             } else {
-                $this->messages = array(
-                    'Authentication' => array(
-                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.')
-                    )
-                );
+                $this->addMessage(_t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.'));
 
                 Requirements::customScript('jQuery(document).ready(function(){ $("#silvercart-quicklogin-form").slideDown(); });');
                 
@@ -134,11 +129,7 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
                 );
             }
         } else {
-            $this->messages = array(
-                'Authentication' => array(
-                    'message' => _t('SilvercartPage.CREDENTIALS_WRONG')
-                )
-            );
+            $this->addMessage(_t('SilvercartPage.CREDENTIALS_WRONG'));
             
             Requirements::customScript('jQuery(document).ready(function(){ $("#silvercart-quicklogin-form").slideDown(); });');
 
