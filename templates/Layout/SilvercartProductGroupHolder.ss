@@ -1,6 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
+<% cached CacheKey %>
         <h1>$Title</h1>
         $Content
         
@@ -10,6 +11,7 @@
         </div>
             $RenderProductGroupHolderGroupView
         <% end_if %>
+<% end_cached %>
     </div>
 </div>
 <div id="col3">

@@ -556,4 +556,52 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         
         return $SQL_start;
     }
+
+    /**
+     * Returns the cache key parts for this product group holder
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            
+            $lastEditedChildID = 0;
+            if ($this->dataRecord->Children()->Count() > 0) {
+                $this->dataRecord->Children()->sort('LastEdited', 'DESC');
+                $lastEditedChildID = $this->dataRecord->Children()->First()->ID;
+            }
+            
+            $cacheKeyParts = array(
+                i18n::get_locale(),
+                $this->dataRecord->LastEdited,
+                $this->getSqlOffsetForProductGroups(),
+                SilvercartGroupViewHandler::getActiveGroupHolderView(),
+                $lastEditedChildID,
+            );
+            $this->extend('updateCacheKeyParts', $cacheKeyParts);
+            $this->cacheKeyParts = $cacheKeyParts;
+        }
+        return $this->cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group holder
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function CacheKey() {
+        if (is_null($this->cacheKey)) {
+            $cacheKey = implode('_', $this->CacheKeyParts());
+            $this->extend('updateCacheKey', $cacheKey);
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
+    }
+    
 }
