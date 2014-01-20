@@ -1809,8 +1809,10 @@ class SilvercartProduct extends DataObject {
      *
      * @return mixed SilvercartShoppingCartPosition|boolean false
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 20.01.2014
      */
     public function addToCart($cartID, $quantity = 1, $increment = false) {
         $addToCartAllowed = true;
@@ -1822,6 +1824,10 @@ class SilvercartProduct extends DataObject {
         }
 
         if (!$addToCartAllowed) {
+            return false;
+        }
+        
+        if (!$this->isBuyableDueToStockManagementSettings()) {
             return false;
         }
 
