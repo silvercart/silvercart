@@ -709,6 +709,30 @@ class SilvercartTools extends Object {
         self::switchLocale();
         return $dateNice;
     }
+    
+    /**
+     * Returns a map of month number and name to use in a drop down.
+     * 
+     * @return array
+     */
+    public static function getMonthMap() {
+        $monthMap = array(
+            ''   => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            '1'  => _t('SilvercartPage.JANUARY'),
+            '2'  => _t('SilvercartPage.FEBRUARY'),
+            '3'  => _t('SilvercartPage.MARCH'),
+            '4'  => _t('SilvercartPage.APRIL'),
+            '5'  => _t('SilvercartPage.MAY'),
+            '6'  => _t('SilvercartPage.JUNE'),
+            '7'  => _t('SilvercartPage.JULY'),
+            '8'  => _t('SilvercartPage.AUGUST'),
+            '9'  => _t('SilvercartPage.SEPTEMBER'),
+            '10' => _t('SilvercartPage.OCTOBER'),
+            '11' => _t('SilvercartPage.NOVEMBER'),
+            '12' => _t('SilvercartPage.DECEMBER')
+        );
+        return $monthMap;
+    }
 
     /**
      * Switchs the locale from default to the current SS locale and back.
