@@ -371,6 +371,30 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
     public function demandBirthdayDate() {
         return SilvercartConfig::demandBirthdayDateOnRegistration();
     }
+    
+    /**
+     * Returns whether there is a minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function UseMinimumAgeToOrder() {
+        return SilvercartConfig::UseMinimumAgeToOrder();
+    }
+    
+    /**
+     * Returns the minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function MinimumAgeToOrder() {
+        return SilvercartConfig::MinimumAgeToOrder();
+    }
 
     /**
      * No validation errors occured, so we register the customer and send
@@ -403,6 +427,33 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             $formData['Birthday']           = $formData['BirthdayYear'] . '-' .
                                               $formData['BirthdayMonth'] . '-' .
                                               $formData['BirthdayDay'];
+            if ($this->UseMinimumAgeToOrder()) {
+                if (!SilvercartConfig::CheckMinimumAgeToOrder($formData['Birthday'])) {
+                    $this->errorMessages['BirthdayDay'] = array(
+                        'message'     => SilvercartConfig::MinimumAgeToOrderError(),
+                        'fieldname'   => _t('SilvercartPage.BIRTHDAY'),
+                        'BirthdayDay' => array(
+                            'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                        )
+                    );
+                    $this->errorMessages['BirthdayMonth'] = array(
+                        'message'       => SilvercartConfig::MinimumAgeToOrderError(),
+                        'fieldname'     => _t('SilvercartPage.BIRTHDAY'),
+                        'BirthdayMonth' => array(
+                            'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                        )
+                    );
+                    $this->errorMessages['BirthdayYear'] = array(
+                        'message'      => SilvercartConfig::MinimumAgeToOrderError(),
+                        'fieldname'    => _t('SilvercartPage.BIRTHDAY'),
+                        'BirthdayYear' => array(
+                            'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                        )
+                    );
+                    $this->setSubmitSuccess(false);
+                    return $this->submitFailure($data, $form);
+                }
+            }
         }
 
         // Create new regular customer and perform a log in

@@ -140,8 +140,10 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      *
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.01.2014
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
@@ -150,7 +152,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         $this->formFields['Surname']['title'] = _t('SilvercartAddress.SURNAME', 'surname');
         $this->formFields['Email']['title'] = _t('SilvercartAddress.EMAIL');
         $this->formFields['BirthdayDay']['title'] = _t('SilvercartPage.DAY', 'day');
-        $this->formFields['BirthdayDay']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '20' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31');
+        $this->formFields['BirthdayDay']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '21' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31');
         $this->formFields['BirthdayMonth']['title'] = _t('SilvercartPage.MONTH', 'month');
         $this->formFields['BirthdayMonth']['value'] = array('' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'), '1' => _t('SilvercartPage.JANUARY', 'january'), '2' => _t('SilvercartPage.FEBRUARY', 'february'), '3' => _t('SilvercartPage.MARCH', 'march'), '4' => _t('SilvercartPage.APRIL', 'april'), '5' => _t('SilvercartPage.MAY', 'may'), '6' => _t('SilvercartPage.JUNE', 'june'), '7' => _t('SilvercartPage.JULY', 'july'), '8' => _t('SilvercartPage.AUGUST', 'august'), '9' => _t('SilvercartPage.SEPTEMBER', 'september'), '10' => _t('SilvercartPage.OCTOBER', 'october'), '11' => _t('SilvercartPage.NOVEMBER', 'november'), '12' => _t('SilvercartPage.DECEMBER', 'december'));
         $this->formFields['BirthdayYear']['title'] = _t('SilvercartPage.YEAR', 'year');
@@ -167,9 +169,9 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
             $this->formFields['Surname']['value'] = stripcslashes($member->Surname);
 
             if ($member->Birthday) {
-                $this->formFields['BirthdayDay']['selectedValue'] = date('d', strtotime($member->Birthday));
+                $this->formFields['BirthdayDay']['selectedValue']   = date('j', strtotime($member->Birthday));
                 $this->formFields['BirthdayMonth']['selectedValue'] = date('m', strtotime($member->Birthday));
-                $this->formFields['BirthdayYear']['value'] = date('Y', strtotime($member->Birthday));
+                $this->formFields['BirthdayYear']['value']          = date('Y', strtotime($member->Birthday));
             }
 
             if ($member->Email) {
@@ -197,6 +199,30 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      */
     public function demandBirthdayDate() {
         return SilvercartConfig::demandBirthdayDateOnRegistration();
+    }
+    
+    /**
+     * Returns whether there is a minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function UseMinimumAgeToOrder() {
+        return SilvercartConfig::UseMinimumAgeToOrder();
+    }
+    
+    /**
+     * Returns the minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function MinimumAgeToOrder() {
+        return SilvercartConfig::MinimumAgeToOrder();
     }
     
     /**
@@ -246,6 +272,33 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
                 $registrationData['Birthday'] = $registrationData['BirthdayYear'] . '-' .
                     $registrationData['BirthdayMonth'] . '-' .
                     $registrationData['BirthdayDay'];
+            }
+            if ($this->UseMinimumAgeToOrder()) {
+                if (!SilvercartConfig::CheckMinimumAgeToOrder($registrationData['Birthday'])) {
+                    $this->errorMessages['BirthdayDay'] = array(
+                        'message'     => SilvercartConfig::MinimumAgeToOrderError(),
+                        'fieldname'   => _t('SilvercartPage.BIRTHDAY'),
+                        'BirthdayDay' => array(
+                            'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                        )
+                    );
+                    $this->errorMessages['BirthdayMonth'] = array(
+                        'message'       => SilvercartConfig::MinimumAgeToOrderError(),
+                        'fieldname'     => _t('SilvercartPage.BIRTHDAY'),
+                        'BirthdayMonth' => array(
+                            'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                        )
+                    );
+                    $this->errorMessages['BirthdayYear'] = array(
+                        'message'      => SilvercartConfig::MinimumAgeToOrderError(),
+                        'fieldname'    => _t('SilvercartPage.BIRTHDAY'),
+                        'BirthdayYear' => array(
+                            'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                        )
+                    );
+                    $this->setSubmitSuccess(false);
+                    return $this->submitFailure($data, $form);
+                }
             }
         }
 

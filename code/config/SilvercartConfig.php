@@ -124,6 +124,8 @@ class SilvercartConfig extends DataObject {
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
         'DisplayWeightsInKilogram'              => 'Boolean(1)',
         'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
+        'UseMinimumAgeToOrder'                  => 'Boolean(0)',
+        'MinimumAgeToOrder'                     => 'Varchar(3)',
         'addToCartMaxQuantity'                  => 'Int(999)',
         'Locale'                                => 'DBLocale',
         'useDefaultLanguageAsFallback'          => 'Boolean(1)',
@@ -212,6 +214,8 @@ class SilvercartConfig extends DataObject {
     public static $isStockManagementOverbookable            = null;
     public static $redirectToCartAfterAddToCart             = null;
     public static $demandBirthdayDateOnRegistration         = null;
+    public static $useMinimumAgeToOrder                     = null;
+    public static $minimumAgeToOrder                        = null;
     public static $useDefaultLanguageAsFallback             = null;
     public static $forceLoadingOfDefaultLayout              = false;
     public static $productDescriptionFieldForCart           = null;
@@ -510,6 +514,8 @@ class SilvercartConfig extends DataObject {
                     'productGroupsPerPage'                  => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
                     'isStockManagementOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
                     'demandBirthdayDateOnRegistration'      => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
+                    'UseMinimumAgeToOrder'                  => _t('SilvercartConfig.UseMinimumAgeToOrder', 'Use minimum age to order?'),
+                    'MinimumAgeToOrder'                     => _t('SilvercartConfig.MinimumAgeToOrder', 'Minimum age to order'),
                     'GeoNamesActive'                        => _t('SilvercartConfig.GEONAMES_ACTIVE'),
                     'GeoNamesUserName'                      => _t('SilvercartConfig.GEONAMES_USERNAME'),
                     'GeoNamesAPI'                           => _t('SilvercartConfig.GEONAMES_API'),
@@ -690,6 +696,79 @@ class SilvercartConfig extends DataObject {
             self::$demandBirthdayDateOnRegistration = self::getConfig()->demandBirthdayDateOnRegistration;
         }
         return self::$demandBirthdayDateOnRegistration;
+    }
+    
+    /**
+     * Returns whether there is a minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function UseMinimumAgeToOrder() {
+        if (is_null(self::$useMinimumAgeToOrder)) {
+            self::$useMinimumAgeToOrder = self::getConfig()->UseMinimumAgeToOrder;
+        }
+        return self::$useMinimumAgeToOrder;
+    }
+    
+    /**
+     * Returns the minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function MinimumAgeToOrder() {
+        if (is_null(self::$minimumAgeToOrder)) {
+            self::$minimumAgeToOrder = self::getConfig()->MinimumAgeToOrder;
+        }
+        return self::$minimumAgeToOrder;
+    }
+    
+    /**
+     * Returns the minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function MinimumAgeToOrderError() {
+        $error = sprintf(
+                _t('SilvercartConfig.MinimumAgeToOrderError'),
+                self::MinimumAgeToOrder()
+        );
+        return $error;
+    }
+    
+    /**
+     * Checks whether the given birthdate is allowed to order.
+     *
+     * @param string $birthdate Birthdate in format 'yyyy-mm-dd'
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function CheckMinimumAgeToOrder($birthdate) {
+        $ageIsOk       = true;
+        $minimumAge    = self::MinimumAgeToOrder();
+        $birthdayParts = explode('-', $birthdate);
+
+        $age = (date("Y") - $birthdayParts[0]);
+        if (date('md') < date('md', strtotime($birthdate))) {
+            $age = $age - 1;
+        }
+        
+        if ($age < $minimumAge) {
+            $ageIsOk = false;
+        }
+        
+        return $ageIsOk;
     }
 
     /**
