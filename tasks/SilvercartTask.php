@@ -448,7 +448,8 @@ class SilvercartTask extends ScheduledTask {
                         continue;
                     }
 
-                    if (strtolower(substr($fileName, -(strlen($extension) + 1))) == '.' . strtolower($extension)) {
+                    if (strtolower(substr($fileName, -(strlen($extension) + 1))) == '.' . strtolower($extension) ||
+                        $extension == '*') {
                         $matchingFiles[] = $filePath;
                     }
                 }
@@ -457,4 +458,34 @@ class SilvercartTask extends ScheduledTask {
 
         return $matchingFiles;
     }
+    
+    /**
+     * Extracts the given ZIP file into the given target folder.
+     * 
+     * @param string $sourceFile            Source file path.
+     * @param string $targetFolder          Target folder path.
+     * @param bool   $deleteAfterExtraction Set this to false to NOT delete the 
+     *                                      given soource file after extraction.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.12.2013
+     */
+    protected function extractZipFile($sourceFile, $targetFolder, $deleteAfterExtraction = true) {
+        $this->printInfo('extracting file ' . basename($sourceFile));
+        $zipArchive = new ZipArchive();
+        if ($zipArchive->open($sourceFile)) {
+            $zipArchive->extractTo($targetFolder);
+            $zipArchive->close();
+            unset($zipArchive);
+        } else {
+            unset($zipArchive);
+        }
+        if ($deleteAfterExtraction) {
+            $this->printInfo('deleting ZIP file...');
+            unlink($sourceFile);
+        }
+    }
+    
 }
