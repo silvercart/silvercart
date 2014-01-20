@@ -7,7 +7,28 @@
             $CustomHtmlFormFieldByName(Email)
         </div>
     </fieldset>
-
+<% if UseMinimumAgeToOrder %>
+    <fieldset>
+        <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
+        <div class="subcolumns">
+            <div class="c33l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
+                 </div>
+            </div>
+            <div class="c33l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
+                </div>
+            </div>
+            <div class="c33r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(BirthdayYear)
+                </div>
+            </div>
+        </div>
+    </fieldset>
+<% end_if %>
     <fieldset>
         <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
 

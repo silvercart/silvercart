@@ -114,6 +114,47 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
                     'isFilledIn'        => true
                 )
             );
+            if ($this->UseMinimumAgeToOrder()) {
+                
+                $days = array(
+                    '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                );
+                for ($day = 1; $day <= 31; $day++) {
+                    $days[$day] = $day;
+                }
+
+                $this->formFields = array_merge(
+                        $this->formFields,
+                        array(
+                            'BirthdayDay' => array(
+                                'type'              => 'DropdownField',
+                                'title'             => _t('SilvercartPage.DAY'),
+                                'value'             => $days,
+                                'checkRequirements' => array(
+                                    'isFilledIn' => true
+                                )
+                            ),
+                            'BirthdayMonth' => array(
+                                'type'              => 'DropdownField',
+                                'title'             => _t('SilvercartPage.MONTH'),
+                                'value'             => SilvercartTools::getMonthMap(),
+                                'checkRequirements' => array(
+                                    'isFilledIn' => true
+                                )
+                            ),
+                            'BirthdayYear' => array(
+                                'type'              => 'TextField',
+                                'title'             => _t('SilvercartPage.YEAR'),
+                                'maxLength'         => 4,
+                                'checkRequirements' => array(
+                                    'isFilledIn'    => true,
+                                    'isNumbersOnly' => true,
+                                    'hasLength'     => 4
+                                )
+                            ),
+                        )
+                );
+            }
             
         }
 
@@ -192,9 +233,9 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
      *
      * @return ViewableData
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pxieltricks GmbH
-     * @since 13.03.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
      */
     public function submit($data, $form) {
 
@@ -214,6 +255,39 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             $this->deactivateValidationFor('Shipping_Country');
         }
 
+        $formData = $data->postVars();
+        if ($this->UseMinimumAgeToOrder()) {
+            
+            $formData['Birthday'] = $formData['BirthdayYear'] . '-' .
+                                    $formData['BirthdayMonth'] . '-' .
+                                    $formData['BirthdayDay'];
+            
+            if (!SilvercartConfig::CheckMinimumAgeToOrder($formData['Birthday'])) {
+                $this->errorMessages['BirthdayDay'] = array(
+                    'message'     => SilvercartConfig::MinimumAgeToOrderError(),
+                    'fieldname'   => _t('SilvercartPage.BIRTHDAY') . ' - ' . _t('SilvercartPage.DAY'),
+                    'BirthdayDay' => array(
+                        'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                    )
+                );
+                $this->errorMessages['BirthdayMonth'] = array(
+                    'message'       => SilvercartConfig::MinimumAgeToOrderError(),
+                    'fieldname'     => _t('SilvercartPage.BIRTHDAY') . ' - ' . _t('SilvercartPage.MONTH'),
+                    'BirthdayMonth' => array(
+                        'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                    )
+                );
+                $this->errorMessages['BirthdayYear'] = array(
+                    'message'      => SilvercartConfig::MinimumAgeToOrderError(),
+                    'fieldname'    => _t('SilvercartPage.BIRTHDAY') . ' - ' . _t('SilvercartPage.YEAR'),
+                    'BirthdayYear' => array(
+                        'message' => SilvercartConfig::MinimumAgeToOrderError(),
+                    )
+                );
+                $this->setSubmitSuccess(false);
+                return $this->submitFailure($data, $form);
+            }
+        }
         parent::submit($data, $form);
     }
 
@@ -265,5 +339,18 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
         $this->controller->addCompletedStep();
         $this->controller->NextStep();
     }
+    
+    /**
+     * Returns thether to use a minimum age to order
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function UseMinimumAgeToOrder() {
+        return SilvercartConfig::UseMinimumAgeToOrder();
+    }
+    
 }
 
