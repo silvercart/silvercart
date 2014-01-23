@@ -107,6 +107,13 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     );
     
     /**
+     * Prevents multiple handling of order status change.
+     *
+     * @var bool
+     */
+    protected $didHandleOrderStatusChange = false;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -2095,7 +2102,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.04.2011
+     * @since 23.01.2014
      */
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -2103,7 +2110,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = SilvercartNumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
-        if ($this->ID > 0 && $this->isChanged('SilvercartOrderStatusID')) {
+        if (!$this->didHandleOrderStatusChange &&
+            $this->ID > 0 && $this->isChanged('SilvercartOrderStatusID')) {
+            $this->didHandleOrderStatusChange = true;
             if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }
@@ -2145,14 +2154,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * hook triggered after write
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 9.11.10
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 23.01.2014
      */
     protected function onAfterWrite() {
         parent::onAfterWrite();
 
         $this->extend('updateOnAfterWrite');
+        $this->didHandleOrderStatusChange = false;
     }
 
     /**
