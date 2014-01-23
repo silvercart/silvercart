@@ -683,10 +683,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 23.01.2014
      */
     public function createDefaultShopEmails() {
-        $shopEmailRegistrationOptIn = SilvercartTools::PageByIdentifierCode('RegistrationOptIn');
+        $shopEmailRegistrationOptIn = SilvercartShopEmail::get()->filter('Identifier', 'RegistrationOptIn')->first();
         if (!$shopEmailRegistrationOptIn) {
             $shopEmailRegistrationOptIn = new SilvercartShopEmail();
             $shopEmailRegistrationOptIn->setField('Identifier', 'RegistrationOptIn');
@@ -694,7 +694,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailRegistrationOptIn->setField('EmailText', _t('SilvercartRegistrationPage.CONFIRMATION_TEXT', '<h1>Complete registration</h1><p>Please confirm Your activation or copy the link to Your Browser.</p><p><a href="$ConfirmationLink">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>'));
             $shopEmailRegistrationOptIn->write();
         }
-        $shopEmailRegistrationConfirmation = SilvercartTools::PageByIdentifierCode('RegistrationConfirmation');
+        $shopEmailRegistrationConfirmation = SilvercartShopEmail::get()->filter('Identifier', 'RegistrationConfirmation')->first();
         if (!$shopEmailRegistrationConfirmation) {
             $shopEmailRegistrationConfirmation = new SilvercartShopEmail();
             $shopEmailRegistrationConfirmation->setField('Identifier', 'RegistrationConfirmation');
@@ -702,7 +702,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailRegistrationConfirmation->setField('EmailText', _t('SilvercartRegistrationPage.SUCCESS_TEXT', '<h1>Registration completed successfully!</h1><p>Many thanks for Your registration.</p><p>Have a nice time on our website!</p><p>Your webshop team</p>'));
             $shopEmailRegistrationConfirmation->write();
         }
-        $checkOrderMail = SilvercartTools::PageByIdentifierCode('MailOrderConfirmation');
+        $checkOrderMail = SilvercartShopEmail::get()->filter('Identifier', 'MailOrderConfirmation')->first();
         if (!$checkOrderMail) {
             $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderConfirmation');
@@ -710,34 +710,29 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderConfirmation.ss';
             if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-                $defaultTemplate = SilvercartShopEmail::parse($defaultTemplate);
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
             } else {
                 $defaultTemplate = '';
             }
             $orderMail->setField('EmailText',    $defaultTemplate);
             $orderMail->write();
         }
-        $checkOrderMail = SilvercartTools::PageByIdentifierCode('MailOrderNotification');
-        if (!$checkOrderMail) {
+        $orderMail = SilvercartShopEmail::get()->filter('Identifier', 'MailOrderNotification')->first();
+        if (!$orderMail) {
             $orderMail = new SilvercartShopEmail();
             $orderMail->setField('Identifier',   'MailOrderNotification');
             $orderMail->setField('Subject', _t('SilvercartShopEmail.NEW_ORDER_PLACED'));
             $orderMail->setField('Variables',    "\$FirstName\n\$Surname\n\$Salutation\n\$Order");
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderNotification.ss';
             if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-                $defaultTemplate = SilvercartShopEmail::parse($defaultTemplate);
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
             } else {
                 $defaultTemplate = '';
             }
             $orderMail->setField('EmailText',    $defaultTemplate);
             $orderMail->write();
         }
-        $contactEmail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "\"Identifier\" = 'ContactMessage'"
-        );
+        $contactEmail = SilvercartShopEmail::get()->filter('Identifier', 'ContactMessage')->first();
         if (!$contactEmail) {
             $contactEmail = new SilvercartShopEmail();
             $contactEmail->setField('Identifier',   'ContactMessage');
@@ -746,10 +741,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactEmail->setField('EmailText',    _t('SilvercartContactMessage.TEXT'));
             $contactEmail->write();
         }
-        $shopEmailNewsletterOptIn = DataObject::get_one(
-            'SilvercartShopEmail',
-            "Identifier = 'NewsletterOptIn'"
-        );
+        $shopEmailNewsletterOptIn = SilvercartShopEmail::get()->filter('Identifier', 'NewsletterOptIn')->first();
         if (!$shopEmailNewsletterOptIn) {
             $shopEmailNewsletterOptIn = new SilvercartShopEmail();
             $shopEmailNewsletterOptIn->setField('Identifier', 'NewsletterOptIn');
@@ -757,7 +749,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailNewsletterOptIn->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.EMAIL_CONFIRMATION_TEXT'));
             $shopEmailNewsletterOptIn->write();
         }
-            $shopEmailNewsletterOptInConfirmation = SilvercartTools::PageByIdentifierCode('NewsletterOptInConfirmation');
+        $shopEmailNewsletterOptInConfirmation = SilvercartShopEmail::get()->filter('Identifier', 'NewsletterOptInConfirmation')->first();
         if (!$shopEmailNewsletterOptInConfirmation) {
             $shopEmailNewsletterOptInConfirmation = new SilvercartShopEmail();
             $shopEmailNewsletterOptInConfirmation->setField('Identifier', 'NewsletterOptInConfirmation');
@@ -765,10 +757,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailNewsletterOptInConfirmation->setField('EmailText', _t('SilvercartNewsletterOptInConfirmationPage.CONFIRMATIONSUCCESSMESSAGE'));
             $shopEmailNewsletterOptInConfirmation->write();
         }
-        $shopEmailForgotPasswordEmail = DataObject::get_one(
-            'SilvercartShopEmail',
-            "Identifier = 'ForgotPasswordEmail'"
-        );
+        $shopEmailForgotPasswordEmail = SilvercartShopEmail::get()->filter('Identifier', 'ForgotPasswordEmail')->first();
         if (!$shopEmailForgotPasswordEmail) {
             $shopEmailForgotPasswordEmail = new SilvercartShopEmail();
             $shopEmailForgotPasswordEmail->Identifier   = 'ForgotPasswordEmail';
@@ -783,10 +772,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailForgotPasswordEmail->EmailText    = $defaultTemplate;
             $shopEmailForgotPasswordEmail->write();
         }
-        $shopEmailOrderShippedNotification = DataObject::get_one(
-            'SilvercartShopEmail',
-            "Identifier = 'OrderShippedNotification'"
-        );
+        $shopEmailOrderShippedNotification = SilvercartShopEmail::get()->filter('Identifier', 'OrderShippedNotification')->first();
         if (!$shopEmailOrderShippedNotification) {
             $shopEmailOrderShippedNotification = new SilvercartShopEmail();
             $shopEmailOrderShippedNotification->setField('Identifier', 'OrderShippedNotification');
@@ -794,8 +780,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailOrderShippedNotification->setField('Variables',   "\$FirstName\n\$Surname\n\$Salutation\n\$SilvercartOrder");
             $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailOrderShippedNotification.ss';
             if (is_file($defaultTemplateFile)) {
-                $defaultTemplate = file_get_contents($defaultTemplateFile);
-                $defaultTemplate = SilvercartShopEmail::parse($defaultTemplate);
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
             } else {
                 $defaultTemplate = '';
             }
