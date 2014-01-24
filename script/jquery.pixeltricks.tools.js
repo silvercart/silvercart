@@ -222,12 +222,12 @@ function SilvercartToggleQuickLoginBox() {
  * @return void
  *
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 10.10.2012
+ * @since 24.01.2014
  */
 function initAddressForm(form) {
     var hideAddressData = '.absolute-address-data';
-    if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
-        $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+    if ($('#' + form.formName + ' .optionset input[name="IsPackstation"]:checked').val() == 0 ||
+        $('#' + form.formName + ' .optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
         hideAddressData = '.packstation-address-data';
         with(form) {
             deactivateValidationFor('PostNumber');
@@ -243,12 +243,12 @@ function initAddressForm(form) {
             deactivateValidationFor('Shipping_StreetNumber');
         }
     }
-    $(hideAddressData).hide();
-    $('.optionset input[name="IsPackstation"], .optionset input[name="Shipping_IsPackstation"]').live('change', function() {
+    $('#' + form.formName + ' ' + hideAddressData).hide();
+    $('#' + form.formName + ' .optionset input[name="IsPackstation"], .optionset input[name="Shipping_IsPackstation"]').live('change', function() {
         var slideIn     = '.packstation-address-data';
         var slideOut    = '.absolute-address-data';
-        if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
-            $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+        if ($('#' + form.formName + ' .optionset input[name="IsPackstation"]:checked').val() == 0 ||
+            $('#' + form.formName + ' .optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
             slideIn     = '.absolute-address-data';
             slideOut    = '.packstation-address-data';
 
@@ -274,7 +274,7 @@ function initAddressForm(form) {
                 activateValidationFor('Shipping_Packstation');
             }
         }
-        $(slideOut).slideUp('slow');
-        $(slideIn).slideDown('slow');
+        $('#' + form.formName + ' ' + slideOut).slideUp('slow');
+        $('#' + form.formName + ' ' + slideIn).slideDown('slow');
     });
 }
