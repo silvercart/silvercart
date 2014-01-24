@@ -387,6 +387,51 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
+     * Adds a prefix to a plain address data array.
+     *
+     * @param string $prefix       Prefix
+     * @param array  $checkoutData Checkout address data
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2014
+     */
+    public function extractAddressDataFrom($prefix, $checkoutData) {
+        $addressData = array();
+        $checkoutDataFields = array(
+            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
+            $prefix.'_Company'          => 'Company',
+            $prefix.'_Salutation'       => 'Salutation',
+            $prefix.'_FirstName'        => 'FirstName',
+            $prefix.'_Surname'          => 'Surname',
+            $prefix.'_Addition'         => 'Addition',
+            $prefix.'_Street'           => 'Street',
+            $prefix.'_StreetNumber'     => 'StreetNumber',
+            $prefix.'_Postcode'         => 'Postcode',
+            $prefix.'_City'             => 'City',
+            $prefix.'_Phone'            => 'Phone',
+            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Fax'              => 'Fax',
+            $prefix.'_Country'          => 'CountryID',
+            $prefix.'_Country'          => 'SilvercartCountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
+        );
+        
+        if (is_array($checkoutData)) {
+            foreach ($checkoutDataFields as $checkoutFieldName => $dataFieldName) {
+                if (isset($checkoutData[$checkoutFieldName])) {
+                    $addressData[$dataFieldName] = $checkoutData[$checkoutFieldName];
+                }
+            }
+        }
+
+        return $addressData;
+    }
+
+    /**
      * Indicates wether ui elements for removing items and altering their
      * quantity should be shown in the shopping cart templates.
      *
