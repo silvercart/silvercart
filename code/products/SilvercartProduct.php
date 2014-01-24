@@ -2197,7 +2197,7 @@ class SilvercartProduct extends DataObject {
                 $class = $this->SilvercartAvailabilityStatus()->Code.' label label-'.$this->SilvercartAvailabilityStatus()->badgeColor;
                 $title = $this->SilvercartAvailabilityStatus()->Title;
             }
-            $html = '<span class="' . $class . '">' . $title . '</span>';
+            $html = '<span class="' . $class . '" title="' . $title . '">' . $title . '</span>';
         } else {
             $html = '';
         }
