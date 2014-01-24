@@ -83,6 +83,15 @@ class SilvercartAddress extends DataObject {
     );
     
     /**
+     * Defaults for attributes.
+     *
+     * @var array
+     */
+    public static $defaults = array(
+        'IsPackstation' => '0',
+    );
+    
+    /**
      * Custom Add Export fields to export by XML
      *
      * @var array
@@ -559,6 +568,52 @@ class SilvercartAddress extends DataObject {
         return $isLastAddress;
     }
     
+    /**
+     * Checks whether the given address equals this address.
+     * 
+     * @param SilvercartAddress $address Address to check equality for.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2014
+     */
+    public function isEqual(SilvercartAddress $address) {
+        $isEqual = true;
+        
+        $propertiesToCheck = array(
+            'Salutation',
+            'FirstName',
+            'Surname',
+            'Addition',
+            'Street',
+            'StreetNumber',
+            'Postcode',
+            'City',
+            'Phone',
+            'PhoneAreaCode',
+            'Fax',
+            'SilvercartCountryID',
+            'TaxIdNumber',
+            'Company',
+            'PostNumber',
+            'Packstation',
+            'IsPackstation',
+        );
+        $this->extend('updateIsEqualPropertiesToCheck', $propertiesToCheck);
+        
+        foreach ($propertiesToCheck as $property) {
+            if ($this->{$property} != $address->{$property}) {
+                $isEqual = false;
+                break;
+            }
+        }
+        
+        $this->extend('updateIsEqual', $address, $isEqual);
+        
+        return $isEqual;
+    }
+
     /**
      * Returns the full name (first name + sur name)
      * 
