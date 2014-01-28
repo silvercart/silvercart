@@ -60,6 +60,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
         $joinClassNames = array();
         foreach ($searchFields as $index => $searchField) {
             if (strpos($searchField, '.') !== false) {
+                $filterClass                = '';
                 $originalSearchableField    = $searchField;
                 $parts                      = explode('.', $searchField);
                 $relationName               = $parts[0];
