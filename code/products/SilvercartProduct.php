@@ -334,11 +334,14 @@ class SilvercartProduct extends DataObject {
      * 
      * @return string The Title from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 29.01.2014
      */
     public function getTitle() {
-        return $this->getLanguageFieldValue('Title');
+        $title = $this->getLanguageFieldValue('Title');
+        $this->extend('updateTitle', $title);
+        return $title;
     }
     
     /**
@@ -1547,9 +1550,6 @@ class SilvercartProduct extends DataObject {
      * Returns the formatted (Nice) price.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.08.2011
      */
     public function getPriceNice() {
         $priceNice = '';
@@ -1558,6 +1558,7 @@ class SilvercartProduct extends DataObject {
         if ($price) {
             $priceNice = $price->Nice();
         }
+        $this->extend('updatePriceNice', $priceNice);
 
         return $priceNice;
     }

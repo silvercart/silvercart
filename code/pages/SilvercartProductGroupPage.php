@@ -1814,6 +1814,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                     $filter .= ' ' . $listFilter;
                 }
+                $this->extend('updateGetProductsFilter', $filter);
                
                 if (!$sort) {
                     $sort = SilvercartProduct::defaultSort();
@@ -1943,7 +1944,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int $numberOfProducts The number of products to return
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $addFilter        Optional filter to add
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 

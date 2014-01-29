@@ -19,7 +19,7 @@
 
                             <div class="silvercart-product-price-details">
                                 <p class="silvercart-price">
-                                    <strong>$Price.Nice</strong>
+                                    <strong>$PriceNice</strong>
                                 </p>
                                 <p class="silvercart-price-notes">
                                     <small>
