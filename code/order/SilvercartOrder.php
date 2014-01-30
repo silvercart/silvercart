@@ -829,8 +829,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 30.01.2014
      */
     public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
@@ -1038,6 +1039,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             foreach ($shoppingCartPositions as $shoppingCartPosition) {
                 $shoppingCartPosition->delete();
             }
+            
+            $this->write();
         }
 
         SilvercartPlugin::call($this, 'convertShoppingCartPositionsToOrderPositions', array($this), true);
