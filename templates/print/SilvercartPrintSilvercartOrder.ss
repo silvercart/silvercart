@@ -42,7 +42,11 @@
                     </table>
                 </td>
                 <td valign="top">
+                <% if InvoiceAddressEqualsShippingAddress %>
+                    <h2><% _t('SilvercartPage.SHIPPING_AND_BILLING') %>:</h2>
+                <% else %>
                     <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
+                <% end_if %>
                     <% control SilvercartShippingAddress %>
                     <table>
                         <% if TaxIdNumber %>
@@ -114,6 +118,8 @@
                     <% end_control %>
                 </td>
                 <td valign="top">
+                <% if InvoiceAddressEqualsShippingAddress %>
+                <% else %>
                     <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
                     <% control SilvercartInvoiceAddress %>
                     <table>
@@ -173,6 +179,7 @@
                         </tr>
                     </table>
                     <% end_control %>
+                <% end_if %>
                 </td>
             </tr>
         </table>

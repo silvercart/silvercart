@@ -487,6 +487,19 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getShippingAddressTable() {
         return $this->SilvercartShippingAddress()->renderWith('SilvercartMailAddressData');
     }
+    
+    /**
+     * Returns whether the invoice address equals the shipping address.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.02.2014
+     */
+    public function InvoiceAddressEqualsShippingAddress() {
+        $isEqual = $this->SilvercartInvoiceAddress()->isEqual($this->SilvercartShippingAddress());
+        return $isEqual;
+    }
 
     /**
      * return the orders invoice address as complete string.
