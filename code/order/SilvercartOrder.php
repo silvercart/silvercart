@@ -1475,12 +1475,18 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
     
     /**
-     * Returns the tax amount of all order positions.
+     * Returns the gross amount of all order positions.
      * 
-     * @return float
+     * @return Money
      */
-    public function getPositionsTaxAmount() {
-        return $this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount() + $this->getTax(true,true,true)->getAmount();
+    public function getPositionsPriceGross() {
+        $positionsPriceGross = $this->AmountTotal->getAmount() - ($this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount());
+
+        $positionsPriceGrossObj = new Money();
+        $positionsPriceGrossObj->setAmount($positionsPriceGross);
+        $positionsPriceGrossObj->setCurrency(SilvercartConfig::DefaultCurrency());
+        
+        return $positionsPriceGrossObj;
     }
 
     /**
@@ -1488,8 +1494,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return Money
      */
-    public function getPriceNet() {
-        $priceNet = $this->AmountTotal->getAmount() - $this->getPositionsTaxAmount();
+    public function getPositionsPriceNet() {
+        $priceNet = $this->getPositionsPriceGross()->getAmount() - $this->getTax(true,true,true)->getAmount();
 
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
@@ -1499,7 +1505,18 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
-     * Returns the gross amount of all order positions.
+     * Returns the net amount of all order positions.
+     *
+     * @return Money
+     * 
+     * @deprecated
+     */
+    public function getPriceNet() {
+        return $this->getPositionsPriceNet();
+    }
+
+    /**
+     * Returns the gross amount of the order.
      *
      * @return Money
      */
