@@ -336,11 +336,13 @@ class SilvercartProduct extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 29.01.2014
+     * @since 11.02.2014
      */
     public function getTitle() {
         $title = $this->getLanguageFieldValue('Title');
-        $this->extend('updateTitle', $title);
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateTitle', $title);
+        }
         return $title;
     }
     
