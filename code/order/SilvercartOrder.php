@@ -1480,7 +1480,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return float
      */
     public function getPositionsTaxAmount() {
-        return $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
+        return $this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount() + $this->getTax(true,true,true)->getAmount();
     }
 
     /**
