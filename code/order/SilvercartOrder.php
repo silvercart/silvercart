@@ -1473,18 +1473,23 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getCurrency() {
         return $this->AmountTotal->getCurrency();
     }
+    
+    /**
+     * Returns the tax amount of all order positions.
+     * 
+     * @return float
+     */
+    public function getPositionsTaxAmount() {
+        return $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
+    }
 
     /**
-     * returns the cart's net amount
+     * Returns the net amount of all order positions.
      *
-     * @return Money money object
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2010 pixeltricks GmbH
-     * @since 24.11.2010
+     * @return Money
      */
     public function getPriceNet() {
-        $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
+        $priceNet = $this->AmountTotal->getAmount() - $this->getPositionsTaxAmount();
 
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
@@ -1494,12 +1499,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
-     * returns the cart's gross amount
+     * Returns the gross amount of all order positions.
      *
-     * @return Money money object
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.11.2010
+     * @return Money
      */
     public function getPriceGross() {
         return $this->AmountTotal;
