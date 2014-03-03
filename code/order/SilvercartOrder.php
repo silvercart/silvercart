@@ -645,7 +645,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $printPreviewField = new LiteralField(
                 'PrintPreviewField',
                 sprintf(
-                    '<iframe width="100%%" height="100%%" border="0" src="%s"></iframe>',
+                    '<iframe width="100%%" height="100%%" border="0" src="%s" class="print-preview"></iframe>',
                     SilvercartPrint::getPrintInlineURL($this)
                 )
         );
