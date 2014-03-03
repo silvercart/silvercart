@@ -26,8 +26,8 @@ class SilvercartGroupDecorator extends DataExtension {
      * @var array
      */
     public static $db = array(
-                'Pricetype' => 'Enum("---,gross,net","---")'
-        );
+        'Pricetype' => 'Enum("---,gross,net","---")'
+    );
     
      /**
      * extra relations
@@ -35,9 +35,9 @@ class SilvercartGroupDecorator extends DataExtension {
      * @var array
      */
     public static $belongs_many_many = array(
-                'SilvercartPaymentMethods'  => 'SilvercartPaymentMethod',
-                'SilvercartShippingMethods' => 'SilvercartShippingMethod'
-        );
+        'SilvercartPaymentMethods'  => 'SilvercartPaymentMethod',
+        'SilvercartShippingMethods' => 'SilvercartShippingMethod'
+    );
     
     /**
      * Adds or removes GUI elements for the backend editing mask.
@@ -46,18 +46,15 @@ class SilvercartGroupDecorator extends DataExtension {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.03.2014
      */
     public function updateCMSFields(FieldList $fields) {
         $fields->addFieldToTab('Root.Members', new TextField('Code', _t('Group.CODE')));
         if ($this->owner->ID) {
-            $shippingMethodsTable = new SilvercartManyManyComplexTableField(
-                            $this->owner,
-                            'SilvercartShippingMethods',
-                            'SilvercartShippingMethod'
-            );
-            $shippingMethodsTable->pageSize = 50;
+            $gridFieldConfig      = SilvercartGridFieldConfig_RelationEditor::create();
+            $shippingMethodsTable = new GridField('SilvercartShippingMethods', $this->owner->fieldLabel('SilvercartShippingMethods'), $this->owner->SilvercartShippingMethods(), $gridFieldConfig);
             $fields->findOrMakeTab('Root.SilvercartShippingMethod', $this->owner->fieldLabel('SilvercartShippingMethods'));
             $fields->addFieldToTab("Root.SilvercartShippingMethod", $shippingMethodsTable);
         }
