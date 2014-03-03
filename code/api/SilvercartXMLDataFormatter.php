@@ -14,8 +14,8 @@
  * @package Silvercart
  * @subpackage API
  * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2012
  * @copyright 2013 pixeltricks GmbH
- * @since 13.07.2012
  * @license see license file in modules root directory
  */
 class SilvercartXMLDataFormatter extends XMLDataFormatter {
@@ -99,7 +99,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 31.01.2013
+     * @since 08.04.2013
      */
     public function convertDataObjectWithoutHeader(DataObject $obj, $fields = null, $relations = null) {
         $className  = $obj->class;
@@ -147,7 +147,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                         $this->setRelationDepth($relationDepth - 1);
                         
                         $originalCustomAddFields = $this->getCustomAddFields();
-                        $customAddFields = Object::get_static($relObj->ClassName, 'custom_add_export_fields');
+                        $customAddFields = Config::inst()->get($relObj->ClassName, 'custom_add_export_fields');
                         $this->setCustomAddFields((array) $customAddFields);
                         $xml .= $this->convertDataObjectWithoutHeader($relObj, $fields);
                         $this->setCustomAddFields($originalCustomAddFields);
