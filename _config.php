@@ -102,90 +102,83 @@ Requirements::add_i18n_javascript('silvercart/javascript/lang');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
-Object::add_extension('DataObject',                                 'SilvercartDataObject');
-Object::add_extension('Member',                                     'SilvercartCustomer');
-Object::add_extension('SilvercartPage',                             'SilvercartPageListWidgetPage');
-Object::add_extension('SiteTree',                                   'Translatable');
-Object::add_extension('SiteConfig',                                 'Translatable');
-Object::add_extension('SiteConfig',                                 'SilvercartSiteConfig');
-Object::add_extension('Group',                                      'SilvercartGroupDecorator');
-Object::add_extension('ModelAdmin',                                 'SilvercartModelAdminDecorator');
-Object::add_extension('Money',                                      'SilvercartMoneyExtension');
-Object::add_extension('LeftAndMain',                                'SilvercartLeftAndMainExtension');
-Object::add_extension('Security',                                   'SilvercartSecurityController');
-Object::add_extension('Security',                                   'CustomHtmlFormPage_Controller');
-Object::add_extension('SilvercartProductGroupHolder_Controller',    'SilvercartGroupViewDecorator');
-Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartGroupViewDecorator');
-Object::add_extension('SilvercartSearchResultsPage_Controller',     'SilvercartGroupViewDecorator');
-Object::add_extension('SilvercartDeeplinkPage_Controller',          'SilvercartGroupViewDecorator');
-Object::add_extension('Image',                                      'SilvercartImageDecorator');
-Object::add_extension('SilvercartProduct',                          'SilvercartDataObject');
-Object::add_extension('SilvercartProductLanguage',                  'SilvercartDataObject');
-Object::add_extension('WidgetSet',                                  'SilvercartWidgetSet');
+DataObject::add_extension('SilvercartDataObject');
+Group::add_extension('SilvercartGroupDecorator');
+Image::add_extension('SilvercartImageDecorator');
+LeftAndMain::add_extension('SilvercartLeftAndMainExtension');
+Member::add_extension('SilvercartCustomer');
+Member_Validator::add_extension('SilvercartCustomer_Validator');
+ModelAdmin::add_extension('SilvercartModelAdminDecorator');
+Money::add_extension('SilvercartMoneyExtension');
+Security::add_extension('SilvercartSecurityController');
+Security::add_extension('CustomHtmlFormPage_Controller');
+SilvercartDeeplinkPage_Controller::add_extension('SilvercartGroupViewDecorator');
+SilvercartPage::add_extension('SilvercartPageListWidgetPage');
+SilvercartProduct::add_extension('SilvercartDataObject');
+SilvercartProductGroupHolder_Controller::add_extension('SilvercartGroupViewDecorator');
+SilvercartProductGroupPage_Controller::add_extension('SilvercartGroupViewDecorator');
+SilvercartProductLanguage::add_extension('SilvercartDataObject');
+SilvercartSearchResultsPage_Controller::add_extension('SilvercartGroupViewDecorator');
+SiteTree::add_extension('Translatable');
+SiteConfig::add_extension('Translatable');
+SiteConfig::add_extension('SilvercartSiteConfig');
+WidgetSet::add_extension('SilvercartWidgetSet');
 // DataObject Translations
-Object::add_extension('SilvercartAvailabilityStatusLanguage',       'SilvercartLanguageDecorator');
-Object::add_extension('Member_Validator',                           'SilvercartCustomer_Validator');
-Object::add_extension('Security',                                   'SilvercartSecurityController');
-Object::add_extension('SilvercartCarrierLanguage',                  'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartCountryLanguage',                  'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartFileLanguage',                     'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartImageLanguage',                    'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartManufacturerLanguage',             'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartOrderStatusLanguage',              'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartPaymentMethodLanguage',            'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartProductConditionLanguage',         'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartProductLanguage',                  'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartQuantityUnitLanguage',             'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartShippingMethodLanguage',           'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartShopEmailLanguage',                'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartTaxLanguage',                      'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartZoneLanguage',                     'SilvercartLanguageDecorator');
+SilvercartAvailabilityStatusLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartCarrierLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartCountryLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartFileLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartImageLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartManufacturerLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartOrderStatusLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartPaymentMethodLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartProductConditionLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartProductLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartQuantityUnitLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartShippingMethodLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartShopEmailLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartTaxLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartZoneLanguage::add_extension('SilvercartLanguageDecorator');
 
 // Widget Translations
-Object::add_extension('SilvercartBargainProductsWidgetLanguage',            'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartImageSliderImageLanguage',                 'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartImageSliderWidgetLanguage',                'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartLatestBlogPostsWidgetLanguage',            'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartPageListWidgetLanguage',                   'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartProductGroupChildProductsWidgetLanguage',  'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartProductGroupItemsWidgetLanguage',          'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartProductGroupManufacturersWidgetLanguage',  'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartSlidorionProductGroupWidgetLanguage',      'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartSubNavigationWidgetLanguage',              'SilvercartLanguageDecorator');
-Object::add_extension('SilvercartTextWidgetLanguage',                       'SilvercartLanguageDecorator');
+SilvercartBargainProductsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartImageSliderImageLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartImageSliderWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartLatestBlogPostsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartPageListWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartProductGroupChildProductsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartProductGroupItemsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartProductGroupManufacturersWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartSlidorionProductGroupWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartSubNavigationWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartTextWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 // Translatable DataObjects
-Object::add_extension('SilvercartAvailabilityStatus',               'SilvercartDataObjectMultilingualDecorator');
-
-Object::add_extension('SilvercartCarrier',                          'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartCountry',                          'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartFile',                             'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartImage',                            'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartManufacturer',                     'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartOrderStatus',                      'SilvercartDataObjectMultilingualDecorator');
-
-Object::add_extension('SilvercartProduct',                          'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartProductCondition',                 'SilvercartDataObjectMultilingualDecorator');
-
-Object::add_extension('SilvercartQuantityUnit',                     'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartShippingMethod',                   'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartShopEmail',                        'SilvercartDataObjectMultilingualDecorator');
-
-Object::add_extension('SilvercartTax',                              'SilvercartDataObjectMultilingualDecorator');
-
-Object::add_extension('SilvercartZone',                             'SilvercartDataObjectMultilingualDecorator');
-
+SilvercartAvailabilityStatus::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartCarrier::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartCountry::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartFile::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartImage::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartManufacturer::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartOrderStatus::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartProduct::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartProductCondition::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartQuantityUnit::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartShippingMethod::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartShopEmail::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartTax::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartZone::add_extension('SilvercartDataObjectMultilingualDecorator');
 // Translatable Widgets
-Object::add_extension('SilvercartBargainProductsWidget',            'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartImageSliderImage',                 'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartImageSliderWidget',                'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartLatestBlogPostsWidget',            'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartPageListWidget',                   'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartProductGroupChildProductsWidget',  'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartProductGroupItemsWidget',          'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartProductGroupManufacturersWidget',  'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartSlidorionProductGroupWidget',      'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartSubNavigationWidget',              'SilvercartDataObjectMultilingualDecorator');
-Object::add_extension('SilvercartTextWidget',                       'SilvercartDataObjectMultilingualDecorator');
+SilvercartBargainProductsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartImageSliderImage::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartImageSliderWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartLatestBlogPostsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartPageListWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartProductGroupChildProductsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartProductGroupItemsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartProductGroupManufacturersWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartSlidorionProductGroupWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartSubNavigationWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartTextWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
     "SilvercartProduct",
@@ -196,19 +189,19 @@ SilvercartSortableDataObject::add_sortable_classes(array(
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
-Object::add_extension('SilvercartConfig',                           'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartContactMessage',                   'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartIncrementPositionQuantityForm',    'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartOrder',                            'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProduct',                          'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductAddCartFormDetail',         'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductAddCartFormList',           'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductAddCartFormTile',           'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductCsvBulkLoader',             'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartProductGroupPage_Controller',      'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartRemovePositionForm',               'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartShoppingCart',                     'SilvercartPluginObjectExtension');
-Object::add_extension('SilvercartShoppingCartPosition',             'SilvercartPluginObjectExtension');
+SilvercartConfig::add_extension('SilvercartPluginObjectDecorator');
+SilvercartContactMessage::add_extension('SilvercartPluginObjectDecorator');
+SilvercartIncrementPositionQuantityForm::add_extension('SilvercartPluginObjectDecorator');
+SilvercartOrder::add_extension('SilvercartPluginObjectDecorator');
+SilvercartProduct::add_extension('SilvercartPluginObjectDecorator');
+SilvercartProductAddCartFormDetail::add_extension('SilvercartPluginObjectDecorator');
+SilvercartProductAddCartFormList::add_extension('SilvercartPluginObjectDecorator');
+SilvercartProductAddCartFormTile::add_extension('SilvercartPluginObjectDecorator');
+SilvercartProductCsvBulkLoader::add_extension('SilvercartPluginObjectDecorator');
+SilvercartProductGroupPage_Controller::add_extension('SilvercartPluginObjectDecorator');
+SilvercartRemovePositionForm::add_extension('SilvercartPluginObjectDecorator');
+SilvercartShoppingCart::add_extension('SilvercartPluginObjectDecorator');
+SilvercartShoppingCartPosition::add_extension('SilvercartPluginObjectDecorator');
 
 SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');
@@ -352,20 +345,20 @@ SilvercartConfig::registerMenu('config',    _t('SilvercartStoreAdminMenu.CONFIG'
 SilvercartConfig::registerMenu('modules',   _t('SilvercartStoreAdminMenu.MODULES'));
 
 //AssetAdmin::$menuCode = 'files';
-Object::set_static('AssetAdmin',            'menuCode', 'files');
-Object::set_static('CMSFileAddController',  'menuCode', 'files');
-Object::set_static('CMSSettingsController', 'menuCode', 'config');
-Object::set_static('SecurityAdmin',         'menuCode', 'customer');
+Config::inst()->update('AssetAdmin',            'menuCode', 'files');
+Config::inst()->update('CMSFileAddController',  'menuCode', 'files');
+Config::inst()->update('CMSSettingsController', 'menuCode', 'config');
+Config::inst()->update('SecurityAdmin',         'menuCode', 'customer');
 
-Object::set_static('CMSPagesController',    'menuSortIndex', 10);
-Object::set_static('WidgetSetAdmin',        'menuSortIndex', 20);
-Object::set_static('ReportAdmin',           'menuSortIndex', 30);
+Config::inst()->update('CMSPagesController',    'menuSortIndex', 10);
+Config::inst()->update('WidgetSetAdmin',        'menuSortIndex', 20);
+Config::inst()->update('ReportAdmin',           'menuSortIndex', 30);
 
-Object::set_static('AssetAdmin',            'menuSortIndex', 1);
+Config::inst()->update('AssetAdmin',            'menuSortIndex', 1);
 
-Object::set_static('SecurityAdmin',         'menuSortIndex', 30);
+Config::inst()->update('SecurityAdmin',         'menuSortIndex', 30);
 
-Object::set_static('CMSSettingsController', 'menuSortIndex', 1);
+Config::inst()->update('CMSSettingsController', 'menuSortIndex', 1);
 
 
 // ----------------------------------------------------------------------------
