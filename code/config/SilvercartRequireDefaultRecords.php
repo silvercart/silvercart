@@ -14,9 +14,10 @@
  *
  * @package Silvercart
  * @subpackage Config
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2013 pixeltricks GmbH
- * @since 16.02.2011
+ * @since 08.04.2013
  * @license see license file in modules root directory
  */
 class SilvercartRequireDefaultRecords extends DataObject {
@@ -683,7 +684,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.01.2014
+     * @since 02.05.2012
      */
     public function createDefaultShopEmails() {
         $shopEmailRegistrationOptIn = SilvercartShopEmail::get()->filter('Identifier', 'RegistrationOptIn')->first();
@@ -822,10 +823,10 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.02.2013
+     * @since 08.04.2013
      */
     public function increaseSilvercartVersion() {
-        $defaults       = Object::get_static('SilvercartConfig', 'defaults');
+        $defaults       = Config::inst()->get('SilvercartConfig', 'defaults');
         $minorVersion   = $defaults['SilvercartMinorVersion'];
         $config         = SilvercartConfig::getConfig();
         if ($config->SilvercartMinorVersion != $minorVersion) {
