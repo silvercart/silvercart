@@ -23,14 +23,14 @@
 	<div class="cms-panel-content center">
         <ul class="cms-menu-list">
         <% loop SilvercartMenus %>
-            <li<% if MenuSection %> class="active opened"<% end_if %>>
+            <li<% if MenuSection %> class="active opened"<% end_if %> id="menu-section-{$Code.LowerCase}">
                 <a href="<% with ModelAdmins.First %>$Link<% end_with %>">
                     <span class="icon icon-16 icon-{$Code.LowerCase}">&nbsp;</span>
 					<span class="text">$name</span>
                 </a>
                 <ul class="collapse">
                 <% loop ModelAdmins %>
-                    <li class="$LinkingMode<% if First %> first<% end_if %>">
+                    <li class="$LinkingMode<% if First %> first<% end_if %>" rel="menu-section-{$MenuCode.LowerCase}">
                         <a href="$Link">
                             <span class="icon icon-16 icon-{$Code.LowerCase}">&nbsp;</span>
                             <span class="text">$Title</span>

@@ -42,9 +42,9 @@ class SilvercartModelAdminDecorator extends DataExtension {
         #Requirements::javascript($baseUrl . "silvercart/script/SilvercartManyManyComplexTableField.js");
         
         Requirements::block($baseUrl . FRAMEWORK_DIR. '/thirdparty/jquery-ui/jquery.ui.core.js');
-        Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.core.js');
-        Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.position.js');
-        Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.widget.js');
+        //Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.core.js');
+        //Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.position.js');
+        //Requirements::javascript($baseUrl . 'silvercart/script/jquery-ui/jquery.ui.widget.js');
         
         Requirements::css('silvercart/css/backend/SilvercartMain.css');
     }

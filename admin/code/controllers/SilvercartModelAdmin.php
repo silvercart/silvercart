@@ -20,6 +20,13 @@
  * @license see license file in modules root directory
  */
 class SilvercartModelAdmin extends ModelAdmin {
+
+    /**
+     * Menu icon
+     *
+     * @var string
+     */
+    private static $menu_icon = 'silvercart/css/images/glyphicons_halflings.png';
     
     /**
      * Name of DB field to make records sortable by.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2013 pixeltricks GmbH
+ * Copyright 2014 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -14,11 +14,11 @@
  * @package Silvercart
  * @subpackage Backend
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 29.03.2011
- * @copyright 2013 pixeltricks GmbH
+ * @copyright 2014 pixeltricks GmbH
+ * @since 03.03.2014
  * @license see license file in modules root directory
  */
-class SilvercartUpdateAdmin extends ModelAdmin {
+class SilvercartUpdateAdmin extends SilvercartModelAdmin {
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -84,7 +84,7 @@ class SilvercartUpdateAdmin extends ModelAdmin {
     public function SectionTitle() {
         $sectionTitle = _t('SilvercartUpdateAdmin.SILVERCART_UPDATE');
         if (SilvercartUpdate::get()->filter("Status", "remaining")->exists()) {
-        $sectionTitle .= ' (' . SilvercartUpdate::get()->filter("Status", "remaining")->count() . ')';
+            $sectionTitle .= ' (' . SilvercartUpdate::get()->filter("Status", "remaining")->count() . ')';
         }
         return $sectionTitle;
     }

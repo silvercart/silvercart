@@ -28,5 +28,10 @@
                 return false;
             }
         });
+        
+        $('.opened .collapse li').live('click', function() {
+            $('.opened.current').removeClass('current');
+            $('#' + $(this).attr('rel')).addClass('current');
+        });
     });
 }(jQuery));

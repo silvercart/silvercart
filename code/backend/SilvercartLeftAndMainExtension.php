@@ -130,6 +130,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
                                 "MenuItem"    => $menuItem,
                                 "Title"       => Convert::raw2xml($title),
                                 "Code"        => $code,
+                                'MenuCode'    => $menu['code'],
                                 "IsSection"   => false,
                                 "Section"     => $menuSection,
                                 "SortIndex"   => $menuSortIndex,
@@ -142,7 +143,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
                 }
             }
 
-            $modelAdmins->sort('SortIndex', 'ASC');
+            $modelAdmins = $modelAdmins->sort('SortIndex', 'ASC');
 
             if ($modelAdmins->exists()) {
                 $menu['name'] = _t('SilvercartStoreAdminMenu.' . strtoupper($menu['code']), $menu['name']);

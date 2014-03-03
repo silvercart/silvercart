@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2013 pixeltricks GmbH
+ * Copyright 2014 pixeltricks GmbH
  *
  * This file is part of SilverCart.
 *
@@ -13,12 +13,13 @@
 * 
 * @package Silvercart
 * @subpackage ModelAdmins
-* @author Sascha Koehler <skoehler@pixeltricks.de>
-* @copyright 2013 pixeltricks GmbH
-* @since 31.05.2012
+ * @author Sebastian Diel <sdiel@pixeltricks.de>,
+ *         Sascha Koehler <skoehler@pixeltricks.de>
+ * @copyright 2014 pixeltricks GmbH
+ * @since 03.03.2014
 * @license see license file in modules root directory
 */
-class SilvercartImageAdmin extends ModelAdmin {
+class SilvercartImageAdmin extends SilvercartModelAdmin {
 
     /**
     * The code of the menu under which this admin should be shown.
@@ -57,29 +58,4 @@ class SilvercartImageAdmin extends ModelAdmin {
         'SilvercartImage'
     );
 
-    /**
-    * Provides hook for decorators, so that they can overwrite css
-    * and other definitions.
-    * 
-    * @return void
-    *
-    * @author Sascha Koehler <skoehler@pixeltricks.de>
-    * @since 31.05.2012
-    */
-    public function init() {
-        parent::init();
-        $this->extend('updateInit');
-    }
-    
-    /**
-     * title in the top bar of the CMS
-     *
-     * @return string 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.08.2012
-     */
-    public function SectionTitle() {
-        return _t('SilvercartImage.PLURALNAME');
-    }
 }

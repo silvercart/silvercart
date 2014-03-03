@@ -193,7 +193,6 @@
     padding: 0 10px 0 20px;
 }
 .cms-menu-list li ul.collapse li a .icon {
-    margin-top: 8px;
     margin-right: 8px;
 }
 
@@ -202,133 +201,133 @@
     background-image: url("../images/glyphicons_halflings.png");
     background-repeat: no-repeat;
     background-attachment: scroll;
-    background-position: -432px 0;
+    background-position: -432px 0 !important;
 }
 .current .icon.icon-16 {
-    background-image: url("../images/glyphicons_halflings_white.png");
+    background-image: url("../images/glyphicons_halflings_white.png") !important;
 }
 
 .icon.icon-16.icon-default {
-    background-position: -22px -24px;
+    background-position: -22px -24px !important;
 }
 .icon.icon-16.icon-files {
-    background-position: -408px -120px;
+    background-position: -408px -120px !important;
 }
 .icon.icon-16.icon-orders {
-    background-position: -166px -24px;
+    background-position: -166px -24px !important;
 }
 .icon.icon-16.icon-products {
-    background-position: -358px -120px;
+    background-position: -358px -120px !important;
 }
 .icon.icon-16.icon-handling {
-    background-position: -216px -120px;
+    background-position: -216px -120px !important;
 }
 .icon.icon-16.icon-customer {
-    background-position: -168px 0;
+    background-position: -168px 0 !important;
 }
 
 .icon.icon-16.icon-silvercartimageadmin {
-    background-position: -456px -48px;
+    background-position: -456px -48px !important;
 }
 .icon.icon-16.icon-assetadmin {
-    background-position: -384px -120px;
+    background-position: -384px -120px !important;
 }
 
 .icon.icon-16.icon-silvercartorderadmin {
-    background-position: -168px -168px;
+    background-position: -168px -168px !important;
 }
 .icon.icon-16.icon-silvercartorderstatusadmin {
-    background-position: -24px -48px;
+    background-position: -24px -48px !important;
 }
 .icon.icon-16.icon-silvercartnumberrangeadmin {
-    background-position: -288px -168px;
+    background-position: -288px -168px !important;
 }
 
 .icon.icon-16.icon-silvercartproductadmin {
-    background-position: -454px -24px;
+    background-position: -454px -24px !important;
 }
 .icon.icon-16.icon-silvercartmanufactureradmin {
-    background-position: -310px -24px;
+    background-position: -310px -24px !important;
 }
 .icon.icon-16.icon-silvercartproductconditionadmin {
-    background-position: -72px -144px;
+    background-position: -72px -144px !important;
 }
 .icon.icon-16.icon-silvercartproductavailabilitystatusadmin {
-    background-position: -336px -168px;
+    background-position: -336px -168px !important;
 }
 .icon.icon-16.icon-silvercartquantityunitadmin {
-    background-position: -456px -96px;
+    background-position: -456px -96px !important;
 }
 .icon.icon-16.icon-silvercarttaxadmin {
-    background-position: -408px -96px;
+    background-position: -408px -96px !important;
 }
 .icon.icon-16.icon-silvercartproductexporteradmin {
-    background-position: -120px -72px;
+    background-position: -120px -72px !important;
 }
 
 .icon.icon-16.icon-silvercartpaymentmethodadmin {
-    background-position: -144px -168px;
+    background-position: -144px -168px !important;
 }
 .icon.icon-16.icon-silvercartshippingmethodadmin {
-    background-position: -240px -144px;
+    background-position: -240px -144px !important;
 }
 .icon.icon-16.icon-silvercartzoneadmin {
-    background-position: -48px -72px;
+    background-position: -48px -72px !important;
 }
 .icon.icon-16.icon-silvercartcountryadmin {
-    background-position: -336px -144px;
+    background-position: -336px -144px !important;
 }
 .icon.icon-16.icon-silvercartcarrieradmin {
-    background-position: -72px -24px;
+    background-position: -72px -24px !important;
 }
 
 .icon.icon-16.icon-silvercartcustomeradmin {
-    background-position: -168px 0;
+    background-position: -168px 0 !important;
 }
 .icon.icon-16.icon-silvercartcontactmessageadmin {
-    background-position: -72px 0;
+    background-position: -72px 0 !important;
 }
 .icon.icon-16.icon-securityadmin {
-    background-position: -288px -24px;
+    background-position: -288px -24px !important;
 }
 
 .icon.icon-16.icon-cmssettingscontroller {
-    background-position: -432px 0;
+    background-position: -432px 0 !important;
 }
 .icon.icon-16.icon-silvercartconfigadmin {
-    background-position: -432px 0;
+    background-position: -432px 0 !important;
 }
 .icon.icon-16.icon-silvercartshopemailadmin {
-    background-position: -72px 0;
+    background-position: -72px 0 !important;
 }
 .icon.icon-16.icon-silvercartinboundshoppingcarttransferadmin {
-    background-position: -358px -120px;
+    background-position: -358px -120px !important;
 }
 .icon.icon-16.icon-silvercartdeeplinkadmin {
-    background-position: -72px -168px;
+    background-position: -72px -168px !important;
 }
 .icon.icon-16.icon-customhtmlformadmin {
-    background-position: -96px -72px;
+    background-position: -96px -72px !important;
 }
 .icon.icon-16.icon-silvercartgooglemerchanttaxonomyadmin {
-    background-position: -432px -24px;
+    background-position: -432px -24px !important;
 }
 .icon.icon-16.icon-silvercartupdateadmin {
-    background-position: -384px -144px;
+    background-position: -384px -144px !important;
 }
 
 .icon.icon-16.icon- {
-    background-position: -384px -144px;
+    background-position: -384px -144px !important;
 }
 
 .icon.icon-16.icon-cmspagescontroller {
-    background-position: -22px -24px;
+    background-position: -22px -24px !important;
 }
 .icon.icon-16.icon-reportadmin {
-    background-position: -264px -24px;
+    background-position: -264px -24px !important;
 }
 .icon.icon-16.icon-widgetsetadmin {
-    background-position: -238px 0;
+    background-position: -238px 0 !important;
 }
 
 .icon.icon-24 {
@@ -379,6 +378,13 @@
 }
 .icon.icon-32.icon-not-checked {
     background-position: -142px -720px;
+}
+
+.cms-menu-list li a .text {
+    display: inline-block;
+}
+.cms-menu-list li.current li.current a {
+    font-weight: normal;
 }
 
 tr [class^="col-SilvercartGridFieldBatchControllerCheckbox"],
