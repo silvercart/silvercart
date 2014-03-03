@@ -55,10 +55,11 @@ class SilvercartInboundShoppingCartTransferPage extends Page {
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 01.08.2011
- * @license see license file in modules root directory
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
+ * @license see license file in modules root directory
  */
 class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controller {
     
@@ -75,13 +76,15 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * SilvercartInboundShoppingCartTransfer object.
      *
      * @param SS_HTTPRequest $request The request parameters
+     * @param string         $action  Action
      *
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricksde>
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
-    public function handleAction($request) {
+    public function handleAction($request, $action) {
         $this->action           = str_replace("-","_",$request->param('Action'));
         $this->requestParams    = $request->requestVars();
         
