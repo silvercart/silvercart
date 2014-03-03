@@ -13,9 +13,11 @@
  *
  * @package Silvercart
  * @subpackage Products
- * @author Sascha Koehler <skoehler@pixeltricks.de>, <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 22.11.2010
  * @license see license file in modules root directory
  */
 class SilvercartProduct extends DataObject {
@@ -780,8 +782,9 @@ class SilvercartProduct extends DataObject {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
     public static function defaultSort() {
         if (is_null(self::$scDefaultSort)) {
@@ -791,7 +794,7 @@ class SilvercartProduct extends DataObject {
                 $sort === false ||
                 !is_string($sort) ||
                 !array_key_exists($sort, $sortableFrontendFields)) {
-                $sort = Object::get_static('SilvercartProduct', 'default_sort');
+                $sort = Config::inst()->get('SilvercartProduct', 'default_sort');
                 if (strpos($sort, '.') === false) {
                     $sort = 'SilvercartProduct.' . $sort;
                     self::setDefaultSort($sort);
