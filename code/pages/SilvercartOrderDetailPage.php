@@ -103,10 +103,11 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license see license file in modules root directory
- * @since 19.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
+ * @license see license file in modules root directory
  */
 class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Controller {
 
@@ -173,13 +174,14 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * requested. This method manipulates the handling for this case.
      *
      * @param SS_HTTPRequest $request Request
+     * @param string         $action  Action
      *
      * @return string
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricksde>
-     * @since 05.04.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
-    public function handleAction($request) {
+    public function handleAction($request, $action) {
         if (!$this->hasMethod($this->urlParams['Action'])) {
             $secondaryAction = $this->urlParams['ID'];
             if ($this->hasMethod($secondaryAction) &&
@@ -194,7 +196,7 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
                 return $this->getViewer('index')->process($this);
             }
         }
-        return parent::handleAction($request);
+        return parent::handleAction($request, $action);
     }
 
     /**
