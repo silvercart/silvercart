@@ -2286,7 +2286,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * rendered an displayed.
      *
      * @param SS_HTTPRequest $request request data
-     * @param string         $action Action
+     * @param string         $action  Action
      *
      * @return mixed
      * 
