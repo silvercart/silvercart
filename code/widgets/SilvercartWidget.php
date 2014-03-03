@@ -26,15 +26,6 @@ class SilvercartWidget extends WidgetSetWidget {
      * @var bool
      */
     public $useWidgetContainer = true;
-
-    /**
-     * Attributes
-     *
-     * @var array
-     */
-    public static $db = array(
-        'ExtraCssClasses' => 'VarChar(255)'
-    );
     
     /**
      * Returns the title of this widget.

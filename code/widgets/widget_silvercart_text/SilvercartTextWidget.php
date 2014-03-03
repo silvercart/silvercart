@@ -81,14 +81,13 @@ class SilvercartTextWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.01.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.03.2014
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'ExtraCssClasses'               => _t('SilvercartTextWidget.CSSFIELD_LABEL'),
                 'SilvercartTextWidgetLanguages' => _t('SilvercartTextWidgetLanguage.PLURALNAME'),
                 'Headline'                      => _t('SilvercartTextWidget.HEADLINEFIELD_LABEL'),
                 'FreeText'                      => _t('SilvercartTextWidget.FREETEXTFIELD_LABEL'),

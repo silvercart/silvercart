@@ -216,14 +216,13 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @since 03.03.2014
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
-                    'ExtraCssClasses'                            => _t('SilvercartTextWidget.CSSFIELD_LABEL'),
                     'SilvercartProductGroupPage'                 => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
                     'useSelectionMethod'                         => _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
                     'SelectionMethodProductGroup'                => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
