@@ -189,19 +189,19 @@ SilvercartSortableDataObject::add_sortable_classes(array(
 // ----------------------------------------------------------------------------
 // Register SilvercartPlugins
 // ----------------------------------------------------------------------------
-SilvercartConfig::add_extension('SilvercartPluginObjectDecorator');
-SilvercartContactMessage::add_extension('SilvercartPluginObjectDecorator');
-SilvercartIncrementPositionQuantityForm::add_extension('SilvercartPluginObjectDecorator');
-SilvercartOrder::add_extension('SilvercartPluginObjectDecorator');
-SilvercartProduct::add_extension('SilvercartPluginObjectDecorator');
-SilvercartProductAddCartFormDetail::add_extension('SilvercartPluginObjectDecorator');
-SilvercartProductAddCartFormList::add_extension('SilvercartPluginObjectDecorator');
-SilvercartProductAddCartFormTile::add_extension('SilvercartPluginObjectDecorator');
-SilvercartProductCsvBulkLoader::add_extension('SilvercartPluginObjectDecorator');
-SilvercartProductGroupPage_Controller::add_extension('SilvercartPluginObjectDecorator');
-SilvercartRemovePositionForm::add_extension('SilvercartPluginObjectDecorator');
-SilvercartShoppingCart::add_extension('SilvercartPluginObjectDecorator');
-SilvercartShoppingCartPosition::add_extension('SilvercartPluginObjectDecorator');
+SilvercartConfig::add_extension('SilvercartPluginObjectExtension');
+SilvercartContactMessage::add_extension('SilvercartPluginObjectExtension');
+SilvercartIncrementPositionQuantityForm::add_extension('SilvercartPluginObjectExtension');
+SilvercartOrder::add_extension('SilvercartPluginObjectExtension');
+SilvercartProduct::add_extension('SilvercartPluginObjectExtension');
+SilvercartProductAddCartFormDetail::add_extension('SilvercartPluginObjectExtension');
+SilvercartProductAddCartFormList::add_extension('SilvercartPluginObjectExtension');
+SilvercartProductAddCartFormTile::add_extension('SilvercartPluginObjectExtension');
+SilvercartProductCsvBulkLoader::add_extension('SilvercartPluginObjectExtension');
+SilvercartProductGroupPage_Controller::add_extension('SilvercartPluginObjectExtension');
+SilvercartRemovePositionForm::add_extension('SilvercartPluginObjectExtension');
+SilvercartShoppingCart::add_extension('SilvercartPluginObjectExtension');
+SilvercartShoppingCartPosition::add_extension('SilvercartPluginObjectExtension');
 
 SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');
