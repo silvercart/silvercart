@@ -125,14 +125,16 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * -The first parameter must be interpreted as a product attribute
      * -The second parameter must be interpreted as the attributes value
      * 
-     * @param SS_HTTPRequest $request the HTTP request
+     * @param SS_HTTPRequest $request The HTTP request
+     * @param string         $action  Action
      * 
      * @return string|void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricksde>
-     * @since 28.7.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2013
      */
-    public function handleAction($request) {
+    public function handleAction($request, $action) {
         if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
             if ($this->getExactlyMatchingProduct()) {
                 return $this->redirect($this->getExactlyMatchingProduct()->Link(), 301);
