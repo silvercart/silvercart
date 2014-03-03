@@ -26,7 +26,7 @@
     border-right-color:         rgba(0, 0, 0, 0.25);
     border-width:               11px 11px 11px 0;
     bottom:                     -34px;
-    left:                       -1px;
+    left:                       -5px;
 }
 .SilvercartQuickAccess_content {
     background:                 #fff;
@@ -86,4 +86,17 @@
 }
 .TriggerSilvercartQuickAccess .silvercart-fieldgroup {
     margin-top: 0px;
+}
+
+.multi-col-field {
+    text-align: right;
+    border-bottom: 1px solid #d0d3d5;
+    margin: 6px 0px;
+    padding: 0px 10px;
+}
+.multi-col-field strong {
+}
+.multi-col-field span {
+    display: inline-block;
+    width: 100px;
 }

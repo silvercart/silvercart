@@ -425,6 +425,15 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $this->defaultSearchFilters()
         );
     }
+    
+    /**
+     * Returns the OrderNumber as Title.
+     * 
+     * @return string
+     */
+    public function getTitle() {
+        return '#' . $this->OrderNumber;
+    }
 
     /**
      * returns the orders creation date formated: dd.mm.yyyy hh:mm
@@ -662,6 +671,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getQuickAccessFields() {
         $quickAccessFields = new FieldList();
         
+        $threeColField = '<div class="multi-col-field"><strong>%s</strong><span>%s</span><span>%s</span></div>';
+        $twoColField   = '<div class="multi-col-field"><strong>%s</strong><span></span><span>%s</span></div>';
+        
         $orderNumberField   = new TextField('OrderNumber__' . $this->ID,            $this->fieldLabel('OrderNumber'),           $this->OrderNumber);
         $orderStatusField   = new TextField('SilvercartOrderStatus__' . $this->ID,  $this->fieldLabel('SilvercartOrderStatus'), $this->SilvercartOrderStatus()->Title);
         $orderPositionTable = new SilvercartTableField(
@@ -669,9 +681,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 $this->fieldLabel('SilvercartOrderPositions'),
                 $this->SilvercartOrderPositions()
         );
+        $shippingField      = new LiteralField('SilvercartShippingMethod__' . $this->ID,    sprintf($threeColField, $this->fieldLabel('SilvercartShippingMethod'), $this->SilvercartShippingMethod()->TitleWithCarrier, $this->HandlingCostShipmentNice));
+        $paymentField       = new LiteralField('SilvercartPaymentMethod__' . $this->ID,     sprintf($threeColField, $this->fieldLabel('SilvercartPaymentMethod'),  $this->SilvercartPaymentMethod()->Title, $this->HandlingCostPaymentNice));
+        $amountTotalField   = new LiteralField('AmountTotal__' . $this->ID,                 sprintf($twoColField,   $this->fieldLabel('AmountTotal'), $this->AmountTotalNice));
         
-        $orderNumberField->setDisabled(true);
-        $orderStatusField->setDisabled(true);
+        $orderNumberField->setReadonly(true);
+        $orderStatusField->setReadonly(true);
         
         $mainGroup = new SilvercartFieldGroup('MainGroup');
         $mainGroup->push($orderNumberField);
@@ -679,6 +694,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         $quickAccessFields->push($mainGroup);
         $quickAccessFields->push($orderPositionTable);
+        $quickAccessFields->push($shippingField);
+        $quickAccessFields->push($paymentField);
+        $quickAccessFields->push($amountTotalField);
         
         $this->extend('updateQuickAccessFields', $quickAccessFields);
         
@@ -2218,6 +2236,24 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getAmountTotalNice() {
         return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getHandlingCostShipmentNice() {
+        return str_replace('.', ',', number_format($this->HandlingCostShipmentAmount, 2)) . ' ' . $this->HandlingCostShipmentCurrency;
+    }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return string
+     */
+    public function getHandlingCostPaymentNice() {
+        return str_replace('.', ',', number_format($this->HandlingCostPaymentAmount, 2)) . ' ' . $this->HandlingCostPaymentCurrency;
     }
 
     /**
