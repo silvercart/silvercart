@@ -22,12 +22,6 @@ SiteTree::set_create_default_pages(false);
 // ----------------------------------------------------------------------------
 // Add some URL rules for custom controllers
 // ----------------------------------------------------------------------------
-Director::addRules(100, array(
-    'silvercart-print/$DataObjectName/$DataObjectID'        => 'SilvercartPrint_Controller',
-    'silvercart-print-inline/$DataObjectName/$DataObjectID' => 'SilvercartPrint_Controller',
-    'silvercart-print-many/$DataObjectName/$DataObjectID'   => 'SilvercartPrint_Controller',
-    'api/silvercart'                                        => 'SilvercartRestfulServer',
-));
 
 if (!class_exists('RequirementsEngine')) {
     trigger_error('Missing dependency: module RequirementsEngine is missing!', E_USER_ERROR);

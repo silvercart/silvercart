@@ -1,0 +1,14 @@
+---
+Name: silvercart_print_routes
+---
+Director:
+  rules:
+    'silvercart-print/$DataObjectName/$DataObjectID': 'SilvercartPrint_Controller'
+    'silvercart-print-inline/$DataObjectName/$DataObjectID': 'SilvercartPrint_Controller'
+    'silvercart-print-many/$DataObjectName/$DataObjectID': 'SilvercartPrint_Controller'
+---
+Name: silvercart_api_routes
+---
+Director:
+  rules:
+    'api/silvercart': 'SilvercartRestfulServer'
