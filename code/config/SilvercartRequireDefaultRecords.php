@@ -1089,7 +1089,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public static function createTestData() {
         if (self::$enableTestData === true) {
-            if (SiteTree::get_by_link('testgroup1')) {
+            if (SiteTree::get_by_link(_t('SilvercartTestData.PRODUCTGROUPPAYMENT_URLSEGMENT'))) {
                 // test data already created
                 return false;
             }
@@ -1100,7 +1100,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             //create a manufacturer
             $manufacturer = new SilvercartManufacturer();
-            $manufacturer->Title = 'Pixeltricks GmbH';
+            $manufacturer->Title = 'pixeltricks GmbH';
             $manufacturer->URL = 'http://www.pixeltricks.de/';
             $manufacturer->write();
             
@@ -1116,7 +1116,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupPayment->ShowInSearch = true;
             $productGroupPayment->Sort = 1;
             $productGroupPayment->write();
-            $productGroupPayment->publish("Stage", "Live");
+            $productGroupPayment->publish("Live", "Stage");
             
             $productGroupMarketing = new SilvercartProductGroupPage();
             $productGroupMarketing->Title = _t('SilvercartTestData.PRODUCTGROUPMARKETING_TITLE');
@@ -1129,7 +1129,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupMarketing->ShowInSearch = true;
             $productGroupMarketing->Sort = 2;
             $productGroupMarketing->write();
-            $productGroupMarketing->publish("Stage", "Live");
+            $productGroupMarketing->publish("Live", "Stage");
             
             $productGroupOthers = new SilvercartProductGroupPage();
             $productGroupOthers->Title = _t('SilvercartTestData.PRODUCTGROUPOTHERS_TITLE');
@@ -1142,7 +1142,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupOthers->ShowInSearch = true;
             $productGroupOthers->Sort = 3;
             $productGroupOthers->write();
-            $productGroupOthers->publish("Stage", "Live");
+            $productGroupOthers->publish("Live", "Stage");
             
             // Define products
             $products = array(
