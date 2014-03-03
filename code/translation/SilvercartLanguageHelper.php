@@ -13,9 +13,10 @@
  * 
  * @package Silvercart
  * @subpackage Translation
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 04.01.2012
  * @license see license file in modules root directory
  */
 class SilvercartLanguageHelper {
@@ -270,7 +271,7 @@ class SilvercartLanguageHelper {
                 continue;
             }
 
-            $extensions = Object::get_static($className, 'extensions');
+            $extensions = Config::inst()->get($className, 'extensions');
             if (!is_null($extensions) &&
                 is_array($extensions) &&
                 in_array('SilvercartDataObjectMultilingualDecorator', $extensions)) {
