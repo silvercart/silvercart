@@ -89,10 +89,10 @@ class SilvercartLeftAndMainExtension extends DataExtension {
                     continue;
                 }
 
-                $menuCode       = Object::get_static($menuItem->controller, 'menuCode');
-                $menuSection    = Object::get_static($menuItem->controller, 'menuSection');
-                $menuSortIndex  = Object::get_static($menuItem->controller, 'menuSortIndex');
-                $url_segment    = Object::get_static($menuItem->controller, 'url_segment');
+                $menuCode       = Config::inst()->get($menuItem->controller, 'menuCode');
+                $menuSection    = Config::inst()->get($menuItem->controller, 'menuSection');
+                $menuSortIndex  = Config::inst()->get($menuItem->controller, 'menuSortIndex');
+                $url_segment    = Config::inst()->get($menuItem->controller, 'url_segment');
 
                 if ($menuCode == $menu['code'] ||
                     (is_null($menuCode)) &&
