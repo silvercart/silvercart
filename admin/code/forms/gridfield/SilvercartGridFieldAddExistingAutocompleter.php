@@ -23,8 +23,8 @@
  * @package Silvercart
  * @subpackage Forms_GridField
  * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 12.02.2013
  * @license see license file in modules root directory
  */
 class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAutocompleter {
@@ -38,7 +38,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.01.2014
+     * @since 08.04.2013
      */
     public function doSearch($gridField, $request) {
         $dataClass = $gridField->getList()->dataClass();
@@ -66,7 +66,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
                 $relationName               = $parts[0];
                 $searchField                = $parts[1];
                 $joinClassName              = null;
-                $relationClassName          = Object::get_static($dataClass, 'has_many');
+                $relationClassName          = Config::inst()->get($dataClass, 'has_many');
                 if (is_array($relationClassName)) {
                     $relationClassName = $relationClassName[$relationName];
                 }
@@ -87,7 +87,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
                     $searchFields[$index]           = $relationClassName . '.' . $searchField;
                     $searchField                    = $relationClassName . '"."' . $searchField;
                 }
-                $has_one = Object::get_static($relationClassName, 'has_one');
+                $has_one = Config::inst()->get($relationClassName, 'has_one');
                 foreach ($has_one as $hasOneRelationName => $hasOneRelationClassName) {
                     if ($hasOneRelationClassName == $dataClass) {
                         $targetRelationName = $hasOneRelationName;
@@ -149,7 +149,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
      * @return array|null
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.02.2013
+     * @since 08.04.2013
      */
     public function scaffoldSearchFields($dataClass) {
         $obj                = singleton($dataClass);
@@ -161,7 +161,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
                 if (strpos($searchableFieldKey, ".") !== false) {
                     $parts = explode('.', $searchableFieldKey);
                     $relationName = $parts[0];
-                    $has_many = Object::get_static($dataClass, 'has_many');
+                    $has_many = Config::inst()->get($dataClass, 'has_many');
                     if (is_array($has_many) && array_key_exists($relationName, $has_many)) {
                         $searchableFields[] = $searchableFieldKey;
                     }
