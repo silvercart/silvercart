@@ -36,8 +36,9 @@
  * @package Silvercart
  * @subpackage Forms_FormFields
  * @copyright 2013 pixeltricks GmbH
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 10.03.2012
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.04.2013
  * @license see license file in modules root directory
  */
 class SilvercartManyManyOrderField extends DropdownField {
@@ -103,8 +104,9 @@ class SilvercartManyManyOrderField extends DropdownField {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2013
      */
     public function __construct($manyManyClass, $relationName, $name, $title = '') {
         parent::__construct($name, $title, null, null, null);
@@ -112,7 +114,7 @@ class SilvercartManyManyOrderField extends DropdownField {
         $this->manyManyClass        = $manyManyClass;
         $this->relationName         = $relationName;
 
-        $manyManyClassRelation = Object::get_static($manyManyClass->class, 'many_many');
+        $manyManyClassRelation = Config::inst()->get($manyManyClass->class, 'many_many');
 
         $this->belongsManyManyClass = $manyManyClassRelation[$relationName];
     }
@@ -302,13 +304,14 @@ class SilvercartManyManyOrderField_RecordController extends SilvercartModelAdmin
      * action handling.
      *
      * @param SS_HTTPRequest $request The request
+     * @param string         $action  The action
      *
      * @return mixed
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 10.03.2012
      */
-    public function handleAction($request) {
+    public function handleAction($request, $action) {
         $vars = $request->requestVars();
 
         if (array_key_exists('doAttributeItems', $vars)) {
