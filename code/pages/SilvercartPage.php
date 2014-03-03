@@ -27,7 +27,7 @@ class SilvercartPage extends SiteTree {
      * 
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'IdentifierCode' => 'VarChar(50)'
     );
     
@@ -36,7 +36,7 @@ class SilvercartPage extends SiteTree {
      * 
      * @var array
      */
-    public static $has_one = array(
+    private static $has_one = array(
         'HeaderPicture'     => 'Image'
     );
     
@@ -45,7 +45,7 @@ class SilvercartPage extends SiteTree {
      * 
      * @var array
      */
-    public static $many_many = array(
+    private static $many_many = array(
         'WidgetSetSidebar'  => 'WidgetSet',
         'WidgetSetContent'  => 'WidgetSet'
     );
@@ -55,7 +55,7 @@ class SilvercartPage extends SiteTree {
      *
      * @var array
      */
-    public static $indexes = array(
+    private static $indexes = array(
         'IdentifierCode' => '(IdentifierCode)'
     );
     
