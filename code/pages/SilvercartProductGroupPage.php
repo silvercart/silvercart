@@ -2286,13 +2286,14 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * rendered an displayed.
      *
      * @param SS_HTTPRequest $request request data
+     * @param string         $action Action
      *
      * @return mixed
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2013
+     * @since 03.03.2014
      */
-    public function handleAction($request) {
+    public function handleAction($request, $action) {
         if (is_numeric($this->urlParams['Action'])) {
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
             $product = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
@@ -2305,10 +2306,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             $this->urlParams['Action'] = '';
             $this->urlParams['ID'] = '';
             $customRequest = new SS_HTTPRequest('GET', $url, array(), array(), null);
-            return parent::handleAction($customRequest);
+            return parent::handleAction($customRequest, $action);
             exit();
         }
-        return parent::handleAction($request);
+        return parent::handleAction($request, $action);
     }
 
     /**
