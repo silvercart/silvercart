@@ -354,15 +354,14 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $sort = SilvercartProduct::defaultSort();
             }
             
-            $searchResultProducts = SilvercartProduct::getProducts(
+            $searchResultProductsRaw = SilvercartProduct::getProducts(
                 $filter,
                 $sort,
                 "LEFT JOIN \"SilvercartProductGroupPage_Live\" ON \"SilvercartProductGroupPage_Live\".\"ID\" = \"SilvercartProductGroupID\""
             );
-            $searchResultProducts = new PaginatedList($searchResultProducts, $this->getRequest());
+            $searchResultProducts = new PaginatedList($searchResultProductsRaw, $this->getRequest());
             $searchResultProducts->setPageStart($SQL_start);
             $searchResultProducts->setPageLength($productsPerPage);
-            $searchResultProducts->setTotalItems($foundProductsTotal);
         }
         
         $this->searchResultProducts  = $searchResultProducts;
