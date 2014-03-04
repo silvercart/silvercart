@@ -83,15 +83,16 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.01.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 04.03.2014
      */
     public function Link() {
         $controller = Controller::curr();
         $link       = parent::Link();
 
         if ($controller instanceof SilvercartOrderDetailPage_Controller) {
-            $link .= $controller->getOrderID();
+            $link .= 'detail' . $controller->getOrderID();
         }
 
         return $link;
@@ -118,6 +119,11 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      */
     protected $orderID;
     
+    /**
+     * Allowed actions
+     *
+     * @var array
+     */
     private static $allowed_actions = array(
         'detail',
     );
@@ -134,7 +140,7 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
         $this->setOrderID($orderID);
         $this->setBreadcrumbElementID($orderID);
         // get the order to check whether it is related to the actual customer or not.
-        $order = DataObject::get_by_id('SilvercartOrder', $this->getOrderID());
+        $order = SilvercartOrder::get()->byID($this->getOrderID());
        
         if ($order && $order->MemberID > 0) {
             if ($order->Member()->ID != Member::currentUserID()) {
@@ -184,11 +190,11 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     * @since 04.03.2014
      */
     public function handleAction($request, $action) {
         if (!$this->hasMethod($request->param('Action'))) {
-            $secondaryAction = $request->param('ID');
+            $secondaryAction = $request->param('OtherID');
             if ($this->hasMethod($secondaryAction) &&
                 $this->hasAction($secondaryAction)) {
                 $result = $this->{$secondaryAction}($request);
