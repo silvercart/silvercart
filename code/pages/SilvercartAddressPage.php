@@ -79,14 +79,14 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 04.03.2014
      */
     public function Link() {
         $controller = Controller::curr();
         $link       = parent::Link();
 
         if ($controller instanceof SilvercartAddressPage_Controller) {
-            $link .= $controller->getAddressID();
+            $link .= 'edit/' . $controller->getAddressID();
         }
 
         return $link;
@@ -105,6 +105,15 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
  * @license see license file in modules root directory
  */
 class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Controller {
+    
+    /**
+     * Allowed actions
+     *
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'edit',
+    );
 
     /**
      * ID of the requested address
@@ -119,7 +128,7 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
+     * @since 04.03.2014
      */
     public function init() {
         $addressID = false;
@@ -127,19 +136,24 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
         if (isset($_POST['addressID'])) {
             $addressID = Convert::raw2sql($_POST['addressID']);
         } else {
-            $addressID = $this->urlParams['Action'];
+            $addressID = $this->getRequest()->param('ID');
         }
         $this->setAddressID($addressID);
         $this->setBreadcrumbElementID($addressID);
 
-        // get the address to check whether it is related to the actual customer or not.
-        $address = DataObject::get_by_id('SilvercartAddress', $addressID);
-        
-        if ($address->MemberID > 0) {
-            if ($address->Member()->ID != Member::currentUserID()) {
-                // the address is not related to the customer, redirect elsewhere...
-                $this->redirect($this->PageByIdentifierCode()->Link());
+        if (is_numeric($addressID)) {
+            // get the address to check whether it is related to the actual customer or not.
+            $address = SilvercartAddress::get()->byID($addressID);
+            if ($address->MemberID > 0) {
+                if ($address->Member()->ID != Member::currentUserID()) {
+                    // the address is not related to the customer, redirect elsewhere...
+                    $this->redirect($this->Parent()->Link());
+                }
+            } else {
+                $this->redirect($this->Parent()->Link());
             }
+        } else {
+            $this->redirect($this->Parent()->Link());
         }
 
         $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressID)));
@@ -157,11 +171,11 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     * @since 04.03.2014
      */
     public function handleAction($request, $action) {
-        if (!$this->hasMethod($this->urlParams['Action'])) {
-            $secondaryAction = $this->urlParams['ID'];
+        if (!$this->hasMethod($request->param('Action'))) {
+            $secondaryAction = $request->param('OtherID');
             if ($this->hasMethod($secondaryAction) &&
                 $this->hasAction($secondaryAction)) {
                 $result = $this->{$secondaryAction}($request);
@@ -170,7 +184,8 @@ class SilvercartAddressPage_Controller extends SilvercartMyAccountHolder_Control
                 } else {
                     return $result;
                 }
-            } elseif (is_numeric($this->urlParams['Action'])) {
+            } elseif ($request->param('Action') == 'edit' &&
+                      is_numeric($request->param('ID'))) {
                 return $this->getViewer('index')->process($this);
             }
         }

@@ -19,37 +19,40 @@
                                 <% else_if isCompanyAddress %>
                                     <div class="silvercart-address-company-section">
                                         <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
-                                        <% if TaxIdNumber %>$fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
-                                        <% if Company %>$fieldLabel(Company): $Company<br /><% end_if %>
+                                        <% if TaxIdNumber %>{$fieldLabel(TaxIdNumber)}: {$TaxIdNumber}<br /><% end_if %>
+                                        <% if Company %>{$fieldLabel(Company)}: {$Company}<br /><% end_if %>
                                         <br/>
                                     </div>
                                 <% else %>
                                     <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
                                     <br/>
                                 <% end_if %>
-                                $SalutationText $FirstName $Surname<br/>
+                                {$SalutationText} {$FirstName} {$Surname}<br/>
                                 <% if Addition %>
-                                    $Addition<br/>
+                                    {$Addition}<br/>
                                 <% end_if %>
                                 <% if IsPackstation %>
-                                    $PostNumber<br/>
-                                    $Packstation<br/>
+                                    {$PostNumber}<br/>
+                                    {$Packstation}<br/>
                                 <% else %>
-                                    $Street $StreetNumber<br/>
+                                    {$Street} {$StreetNumber}<br/>
                                 <% end_if %>
-                                $Postcode $City<br/>
-                                $SilvercartCountry.Title<br/>
+                                {$Postcode} {$City}<br/>
+                                {$SilvercartCountry.Title}<br/>
                                 <% if Phone %>
-                                    $fieldLabel(PhoneShort): $PhoneAreaCode/$Phone
+                                    {$fieldLabel(PhoneShort)}: {$PhoneAreaCode}/{$Phone}<br/>
+                                <% end_if %>
+                                <% if Fax %>
+                                    {$fieldLabel(Fax)}: {$Fax}<br/>
                                 <% end_if %>
                             </div>
                         </div>
                         <div class="c33r align_right">
-                            <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartAddressPage)$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
+                            <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.PageByIdentifierCodeLink(SilvercartAddressPage)}edit/{$ID}" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
                                 <span class="silvercart-icon-button_content">
                                     &nbsp;
                                 </span>
-                            </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
+                            </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/{$ID}" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
                                 <span class="silvercart-icon-button_content">
                                     &nbsp;
                                 </span>

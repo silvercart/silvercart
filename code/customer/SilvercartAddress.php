@@ -232,6 +232,17 @@ class SilvercartAddress extends DataObject {
     }
     
     /**
+     * Returns the title to represent this address.
+     * 
+     * @return string
+     */
+    public function getTitle() {
+        $title = $this->singular_name();
+        $this->extend('updateTitle', $title);
+        return $title;
+    }
+    
+    /**
      * Indicates wether this address is set as a standard address for shipping
      * or invoicing.
      *

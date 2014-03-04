@@ -23,25 +23,27 @@
             <br />
             <% if isCompanyAddress %>
                 <div class="silvercart-address-company-section">
-                    <% if TaxIdNumber %>$fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
-                    <% if Company %>$fieldLabel(Company): $Company<br /><% end_if %>
+                    <% if TaxIdNumber %>{$fieldLabel(TaxIdNumber)}: {$TaxIdNumber}<br /><% end_if %>
+                    <% if Company %>{$fieldLabel(Company)}: {$Company}<br /><% end_if %>
                 </div>
             <% end_if %>
-        
-            $SalutationText $FirstName $Surname<br/>
+            {$SalutationText} {$FirstName} {$Surname}<br/>
             <% if Addition %>
-                $Addition<br/>
+                {$Addition}<br/>
             <% end_if %>
             <% if IsPackstation %>
-                $PostNumber<br/>
-                $Packstation<br/>
+                {$PostNumber}<br/>
+                {$Packstation}<br/>
             <% else %>
-                $Street $StreetNumber<br/>
+                {$Street} {$StreetNumber}<br/>
             <% end_if %>
-            $Postcode $City<br/>
-            $SilvercartCountry.Title<br/>
+                {$Postcode} {$City}<br/>
+                {$SilvercartCountry.Title}<br/>
             <% if Phone %>
-                $fieldLabel(PhoneShort): $PhoneAreaCode/$Phone
+                {$fieldLabel(PhoneShort)}: {$PhoneAreaCode}/{$Phone}<br/>
+            <% end_if %>
+            <% if Fax %>
+                {$fieldLabel(Fax)}: {$Fax}<br/>
             <% end_if %>
         <% else %>
             <p class="silvercart-message">
