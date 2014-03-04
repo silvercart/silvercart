@@ -545,13 +545,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * 
      * @param int $numberOfPositions The number of positions to get.
      *
-     * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.01.2012
+     * @return DataList
      */
     public function getLimitedSilvercartOrderPositions($numberOfPositions = 2) {
-        return $this->SilvercartOrderPositions()->limit(0, $numberOfPositions);
+        return $this->SilvercartOrderPositions()->limit($numberOfPositions);
     }
 
     /**

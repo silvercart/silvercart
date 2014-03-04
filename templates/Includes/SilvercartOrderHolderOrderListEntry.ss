@@ -5,7 +5,7 @@
     </td>
     <td>
         <ul>
-        <% loop LimitedSilvercartOrderPositions(2) %>
+        <% loop getLimitedSilvercartOrderPositions(2) %>
             <li><a href="{$CurrentPage.OrderDetailLink}{$SilvercartOrder.ID}">{$Title.RAW}</a></li>
         <% end_loop %>
         <% if hasMoreSilvercartOrderPositionsThan(2) %>

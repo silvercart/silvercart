@@ -167,19 +167,20 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
      * @param bool       $stopAtPageType name of PageType to stop at
      * @param bool       $showHidden     show pages that will not show in menus
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 3.11.2010
      * @return string html for breadcrumbs
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 04.03.2014
      */
     public function ContextBreadcrumbs($context, $maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         $page = $context;
         $parts = array();
 
-        // Get address type
-        $address = DataObject::get_by_id($context->getSection(), $this->getBreadcrumbElementID());
+        $contextObject = DataObject::get($context->getSection())->byID($this->getBreadcrumbElementID());
         
-        if ($address) {
-            $parts[] = $address->i18n_singular_name();
+        if ($contextObject) {
+            $parts[] = $contextObject->Title;
         }
 
         $i = 0;
@@ -233,6 +234,6 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
      * @since 22.02.2011
      */
     public function OrderDetailLink() {
-        return $this->PageByIdentifierCode('SilvercartOrderDetailPage')->Link();
+        return $this->PageByIdentifierCode('SilvercartOrderDetailPage')->Link() . 'detail/';
     }
 }

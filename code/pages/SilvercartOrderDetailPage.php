@@ -117,6 +117,10 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * @var int 
      */
     protected $orderID;
+    
+    private static $allowed_actions = array(
+        'detail',
+    );
 
     /**
      * statements to be called on instanciation
@@ -126,18 +130,19 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * @return void
      */
     public function init() {
-        $this->setOrderID($this->urlParams['Action']);
-        $this->setBreadcrumbElementID($this->urlParams['Action']);
+        $orderID = $this->getRequest()->param('ID');
+        $this->setOrderID($orderID);
+        $this->setBreadcrumbElementID($orderID);
         // get the order to check whether it is related to the actual customer or not.
         $order = DataObject::get_by_id('SilvercartOrder', $this->getOrderID());
        
         if ($order && $order->MemberID > 0) {
             if ($order->Member()->ID != Member::currentUserID()) {
                 // the order is not related to the customer, redirect elsewhere...
-                $this->redirect($this->PageByIdentifierCode()->Link());
+                $this->redirect($this->Parent()->Link());
             }
         } else {
-            $this->redirect($this->PageByIdentifierCode()->Link());
+            $this->redirect($this->Parent()->Link());
         }
         parent::init();
     }
@@ -182,8 +187,8 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * @since 08.04.2013
      */
     public function handleAction($request, $action) {
-        if (!$this->hasMethod($this->urlParams['Action'])) {
-            $secondaryAction = $this->urlParams['ID'];
+        if (!$this->hasMethod($request->param('Action'))) {
+            $secondaryAction = $request->param('ID');
             if ($this->hasMethod($secondaryAction) &&
                 $this->hasAction($secondaryAction)) {
                 $result = $this->{$secondaryAction}($request);
@@ -192,7 +197,8 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
                 } else {
                     return $result;
                 }
-            } elseif (is_numeric($this->urlParams['Action'])) {
+            } elseif ($request->param('Action') == 'detail' &&
+                      is_numeric($request->param('ID'))) {
                 return $this->getViewer('index')->process($this);
             }
         }
