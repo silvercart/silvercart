@@ -846,9 +846,9 @@ de:
     VISIT_TEXT: "Bitte besuchen Sie den folgenden Link, um Ihr Passwort zu ändern:"
   SilvercartManufacturer:
     DESCRIPTION: "Beschreibung"
+    ManufacturerNumber: "Herstellernummer"
     PLURALNAME: "Hersteller"
     SINGULARNAME: "Hersteller"
-    ManufacturerNumber: "Herstellernummer"
   SilvercartManufacturerAdmin:
     MENUTITLE: "Hersteller"
   SilvercartManufacturerLanguage:
@@ -1542,8 +1542,10 @@ de:
     FRONTTITLE: "Überschrift"
     GROUPVIEW: "Produktlisten-Ansicht"
     IS_CONTENT_VIEW: "Normale Artikelansicht statt Widgetansicht verwenden"
+    IS_CONTENT_VIEW_INFO: "Diese Option sollte gewählt werden, wenn das Widget für den Inhaltsbereich einer Seite vorgesehen ist."
     NUMBEROFPRODUCTSTOFETCH: "Anzahl der Artikel, die geladen werden sollen:"
-    NUMBEROFPRODUCTSTOSHOW: "Anzahl der Artikel, die angezeigt werden sollen (nur relevant, wenn Slider aktiviert wurde, ansonsten werden alle Artikel angezeigt, die geladen werden):"
+    NUMBEROFPRODUCTSTOSHOW: "Anzahl der Artikel, die angezeigt werden sollen"
+    NUMBEROFPRODUCTSTOSHOW_INFO: "nur relevant, wenn Slider aktiviert wurde, ansonsten werden alle Artikel angezeigt, die geladen werden"
     SLIDEDELAY: "Dauer der Anzeige pro Bild für die automatische Slideshow"
     STOPATEND: "Stoppt die automatische Slideshow nach dem letzten Panel"
     TRANSITIONEFFECT: "Übergangeffekt"

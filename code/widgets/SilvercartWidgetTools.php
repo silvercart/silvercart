@@ -46,6 +46,9 @@ class SilvercartWidgetTools extends Object {
         $fetchMethod                = new DropdownField('fetchMethod',          $widget->fieldLabel('fetchMethod'), $fetchMethods);
         $groupViewField             = SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView);
         
+        $numberOfProductsShowField->setDescription($widget->fieldLabel('numberOfProductsToShowInfo'));
+        $isContentView->setDescription($widget->fieldLabel('isContentViewInfo'));
+        
         $rootTabSet                 = new TabSet('Root');
         $basicTab                   = new Tab('Basic',          $widget->fieldLabel('BasicTab'));
         $displayTabSet              = new TabSet('DisplaySet');
@@ -494,11 +497,13 @@ class SilvercartWidgetTools extends Object {
             'FrontTitle'                    => _t('SilvercartProductSliderWidget.FRONTTITLE'),
             'FrontContent'                  => _t('SilvercartProductSliderWidget.FRONTCONTENT'),
             'numberOfProductsToShow'        => _t('SilvercartProductSliderWidget.NUMBEROFPRODUCTSTOSHOW'),
+            'numberOfProductsToShowInfo'    => _t('SilvercartProductSliderWidget.NUMBEROFPRODUCTSTOSHOW_INFO'),
             'numberOfProductsToFetch'       => _t('SilvercartProductSliderWidget.NUMBEROFPRODUCTSTOFETCH'),
             'fetchMethod'                   => _t('SilvercartProductSliderWidget.FETCHMETHOD'),
             'useListView'                   => _t('SilvercartProductSliderWidget.USE_LISTVIEW'),
             'GroupView'                     => _t('SilvercartProductSliderWidget.GROUPVIEW'),
             'isContentView'                 => _t('SilvercartProductSliderWidget.IS_CONTENT_VIEW'),
+            'isContentViewInfo'             => _t('SilvercartProductSliderWidget.IS_CONTENT_VIEW_INFO'),
             'Autoplay'                      => _t('SilvercartProductSliderWidget.AUTOPLAY'),
             'autoPlayDelayed'               => _t('SilvercartProductSliderWidget.AUTOPLAYDELAYED'),
             'autoPlayLocked'                => _t('SilvercartProductSliderWidget.AUTOPLAYLOCKED'),

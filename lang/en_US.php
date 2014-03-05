@@ -1691,8 +1691,10 @@ $lang['en_US']['SilvercartProductSliderWidget']['FRONTTITLE']                   
 $lang['en_US']['SilvercartProductSliderWidget']['FRONTCONTENT']                         = 'Content';
 $lang['en_US']['SilvercartProductSliderWidget']['GROUPVIEW']                            = 'Product list view';
 $lang['en_US']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW']                      = 'Use regular productview instead of widgetview';
+$lang['en_US']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW_INFO']                 = 'If this widget is created to display inside the content area of a page, this option should be checked.';
 $lang['en_US']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOFETCH']              = 'Number of products to fetch:';
 $lang['en_US']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW']               = 'Number of products to show:';
+$lang['en_US']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW_INFO']          = '';
 $lang['en_US']['SilvercartProductSliderWidget']['SLIDEDELAY']                           = 'Duration of panel display for the automatic slideshow';
 $lang['en_US']['SilvercartProductSliderWidget']['STOPATEND']                            = 'Stop automatic slideshow after the last panel';
 $lang['en_US']['SilvercartProductSliderWidget']['TRANSITIONEFFECT']                     = 'Transition effect';

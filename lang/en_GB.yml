@@ -845,9 +845,9 @@ en_GB:
     VISIT_TEXT: "Please visit <a href=\"%s\">this page</a> to reset your password."
   SilvercartManufacturer:
     DESCRIPTION: "Description"
+    ManufacturerNumber: "Manufacturer Number"
     PLURALNAME: "Manufacturers"
     SINGULARNAME: "Manufacturer"
-    ManufacturerNumber: "Manufacturer Number"
   SilvercartManufacturerAdmin:
     MENUTITLE: "Manufacturers"
   SilvercartManufacturerLanguage:
@@ -1538,8 +1538,10 @@ en_GB:
     FRONTTITLE: "Headline"
     GROUPVIEW: "Product list view"
     IS_CONTENT_VIEW: "Use regular productview instead of widgetview"
+    IS_CONTENT_VIEW_INFO: "If this widget is created to display inside the content area of a page, this option should be checked."
     NUMBEROFPRODUCTSTOFETCH: "Number of products to fetch:"
     NUMBEROFPRODUCTSTOSHOW: "Number of products to show:"
+    NUMBEROFPRODUCTSTOSHOW_INFO: ""
     SLIDEDELAY: "Duration of panel display for the automatic slideshow"
     STOPATEND: "Stop automatic slideshow after the last panel"
     TRANSITIONEFFECT: "Transition effect"

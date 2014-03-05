@@ -1691,8 +1691,10 @@ $lang['de_DE']['SilvercartProductSliderWidget']['FRONTTITLE']                   
 $lang['de_DE']['SilvercartProductSliderWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
 $lang['de_DE']['SilvercartProductSliderWidget']['GROUPVIEW']                            = 'Produktlisten-Ansicht';
 $lang['de_DE']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
+$lang['de_DE']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW_INFO']                 = 'Diese Option sollte gewählt werden, wenn das Widget für den Inhaltsbereich einer Seite vorgesehen ist.';
 $lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOFETCH']              = 'Anzahl der Artikel, die geladen werden sollen:';
-$lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW']               = 'Anzahl der Artikel, die angezeigt werden sollen (nur relevant, wenn Slider aktiviert wurde, ansonsten werden alle Artikel angezeigt, die geladen werden):';
+$lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW']               = 'Anzahl der Artikel, die angezeigt werden sollen';
+$lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW_INFO']          = 'nur relevant, wenn Slider aktiviert wurde, ansonsten werden alle Artikel angezeigt, die geladen werden';
 $lang['de_DE']['SilvercartProductSliderWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
 $lang['de_DE']['SilvercartProductSliderWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductSliderWidget']['TRANSITIONEFFECT']                     = 'Übergangeffekt';

@@ -151,8 +151,9 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 
      * @return FieldList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.03.2014
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
@@ -168,6 +169,8 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                         'products'     => $this->fieldLabel('SelectionMethodProducts')
                     )
         );
+        $fields->dataFieldByName('numberOfProductsToShow')->setDescription($this->fieldLabel('numberOfProductsToShowInfo'));
+        $fields->dataFieldByName('isContentView')->setDescription($this->fieldLabel('isContentViewInfo'));
         $productGroupField          = new SilvercartGroupedDropdownField(
             'SilvercartProductGroupPageID',
             $this->fieldLabel('SilvercartProductGroupPage'),
