@@ -56,7 +56,7 @@ class SilvercartManufacturer extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'LogoForTable'  => 'HtmlText',
+        'LogoThumbnail' => 'HtmlText',
         'Description'   => 'Text'
     );
 
@@ -118,7 +118,7 @@ class SilvercartManufacturer extends DataObject {
         $fieldLabels['Title']                            = _t('SilvercartPage.TITLE', 'title');
         $fieldLabels['URL']                              = _t('SilvercartPage.URL', 'URL');
         $fieldLabels['logo']                             = _t('SilvercartPage.LOGO', 'logo');
-        $fieldLabels['LogoForTable']                     = _t('SilvercartPage.LOGO', 'logo');
+        $fieldLabels['LogoThumbnail']                    = _t('SilvercartPage.LOGO', 'logo');
         $fieldLabels['SilvercartProducts']               = _t('SilvercartProduct.PLURALNAME', 'products');
         $fieldLabels['SilvercartManufacturerLanguages']  = _t('SilvercartConfig.TRANSLATIONS');
         return $fieldLabels;
@@ -134,7 +134,7 @@ class SilvercartManufacturer extends DataObject {
      */
     public function  summaryFields() {
         $summaryFields = array(
-            'LogoForTable'  => $this->fieldLabel('logo'),
+            'LogoThumbnail' => $this->fieldLabel('logo'),
             'Title'         => $this->fieldLabel('Title'),
             'URL'           => $this->fieldLabel('URL'),
         );
@@ -257,15 +257,7 @@ class SilvercartManufacturer extends DataObject {
      *
      * @return string
      */
-    public function getLogoForTable() {
-        $logoForTable = '';
-        if ($this->logo()->ID > 0) {
-            $logoForTable = sprintf(
-                '<img src="%s" alt="%s" />',
-                $this->logo()->SetRatioSize(200,25)->Link(),
-                $this->logo()->Name
-            );
-        }
-        return $logoForTable;
+    public function getLogoThumbnail() {
+        return $this->logo()->SetRatioSize(200,25);
     }
 }

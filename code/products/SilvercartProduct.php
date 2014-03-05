@@ -512,6 +512,7 @@ class SilvercartProduct extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
+            'ListImageThumbnail'                    => $this->fieldLabel(''),
             'ProductNumberShop'                     => $this->fieldLabel('ProductNumberShop'),
             'Title'                                 => $this->singular_name(),
             'SilvercartProductGroup.Title'          => $this->fieldLabel('SilvercartProductGroup'),
@@ -2331,6 +2332,33 @@ class SilvercartProduct extends DataObject {
         }
 
         return $silvercartImages;
+    }
+    
+    /**
+     * Returns the list image as a SilvercartImage.
+     * 
+     * @return SilvercartImage
+     */
+    public function getListImage() {
+        return $this->getSilvercartImages()->first();
+    }
+    
+    /**
+     * Returns the list image as an Image.
+     * 
+     * @return Image
+     */
+    public function getListImageFile() {
+        return $this->getListImage()->Image();
+    }
+    
+    /**
+     * Returns the list image as a thumbnail Image.
+     * 
+     * @return Image
+     */
+    public function getListImageThumbnail() {
+        return $this->getListImageFile()->SetRatioSize(30,30);
     }
 
     /**
