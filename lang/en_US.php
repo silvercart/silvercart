@@ -333,6 +333,14 @@ $lang['en_US']['SilvercartProduct']['WEIGHT'] = 'Weight';
 $lang['en_US']['SilvercartProduct']['WIDGETAREA'] = 'Widgets';
 $lang['en_US']['SilvercartProduct']['AddSilvercartImage'] = 'Add Image';
 $lang['en_US']['SilvercartProduct']['AddSilvercartFile'] = 'Add File';
+$lang['en_US']['SilvercartProduct']['BasicData']                                    = 'Basic data';
+$lang['en_US']['SilvercartProduct']['TimeGroup']                                    = 'Time control';
+$lang['en_US']['SilvercartProduct']['ReleaseDate']                                  = 'Release date';
+$lang['en_US']['SilvercartProduct']['ReleaseDateInfo']                              = '<strong>Optional</strong> - Set this to delay the start date and time of sale.';
+$lang['en_US']['SilvercartProduct']['LaunchDate']                                   = 'Launch date';
+$lang['en_US']['SilvercartProduct']['LaunchDateInfo']                               = '<strong>Optional</strong> - Set this if <i>release date</i> is set but the item should be displayed before its <i>release date</i>.';
+$lang['en_US']['SilvercartProduct']['SalesBanDate']                                 = 'Sales ban date';
+$lang['en_US']['SilvercartProduct']['SalesBanDateInfo']                             = '<strong>Optional</strong> - Set this if there is a sales ban date.';
 
 $lang['en_US']['SilvercartProductAdmin']['MENUTITLE'] = 'Products';
 

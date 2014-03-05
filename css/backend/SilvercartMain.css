@@ -47,6 +47,13 @@
     display: block;
     margin: 0px !important;
 }
+.silvercart-fieldgroup .fieldgroupField {
+    padding-left: 12px !important;
+}
+.silvercart-fieldgroup .fieldgroupField.silvercart-clearfix,
+.silvercart-fieldgroup .fieldgroupField:first-child {
+    padding-left: 0px !important;
+}
 .silvercart-fieldgroup .fieldgroupField label {
     display: block;
     width: auto !important;
@@ -73,8 +80,9 @@
 
 .right form .field span.readonly.silvercartmoney,
 .right form input.silvercartmoney,
-.right form .field.silvercartmoney input.text {
-    width: 100px;
+.right form .field.silvercartmoney input.text,
+input.text.silvercartmoney {
+    width: 115px;
     text-align: right;
 }
 .right form .field span.readonly.silvercartmoney {

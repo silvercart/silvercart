@@ -333,6 +333,14 @@ $lang['de_DE']['SilvercartProduct']['WEIGHT'] = 'Gewicht';
 $lang['de_DE']['SilvercartProduct']['WIDGETAREA'] = 'Widgets';
 $lang['de_DE']['SilvercartProduct']['AddSilvercartImage'] = 'Bild hinzufügen';
 $lang['de_DE']['SilvercartProduct']['AddSilvercartFile'] = 'Datei hinzufügen';
+$lang['de_DE']['SilvercartProduct']['BasicData']                                    = 'Grunddaten';
+$lang['de_DE']['SilvercartProduct']['TimeGroup']                                    = 'Zeitstuerung';
+$lang['de_DE']['SilvercartProduct']['ReleaseDate']                                  = 'Verkauf ab';
+$lang['de_DE']['SilvercartProduct']['ReleaseDateInfo']                              = '<strong>Optional</strong> - Nur setzen, wenn der Verkaufsstart verzögert werden soll.';
+$lang['de_DE']['SilvercartProduct']['LaunchDate']                                   = 'Anzeige ab';
+$lang['de_DE']['SilvercartProduct']['LaunchDateInfo']                               = '<strong>Optional</strong> - Nur setzen, wenn <i>Verkauf ab</i> gesetzt ist und die Anzeige bereits vor dem Verkaufsstart erfolgen soll.';
+$lang['de_DE']['SilvercartProduct']['SalesBanDate']                                 = 'Anzeige bis';
+$lang['de_DE']['SilvercartProduct']['SalesBanDateInfo']                             = '<strong>Optional</strong> - Nur setzen, wenn die Dauer des Verkaufs begrenzt ist.';
 
 $lang['de_DE']['SilvercartProductAdmin']['MENUTITLE'] = 'Artikel';
 

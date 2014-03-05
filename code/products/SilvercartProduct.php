@@ -58,6 +58,9 @@ class SilvercartProduct extends DataObject {
         'StockQuantityExpirationDate' => 'Date',
         'PackagingQuantity'           => 'Int',
         'Weight'                      => 'Int', //unit is gramm
+        'ReleaseDate'                 => 'Datetime',
+        'LaunchDate'                  => 'Datetime',
+        'SalesBanDate'                => 'Datetime',
     );
 
     /**
@@ -679,6 +682,15 @@ class SilvercartProduct extends DataObject {
                 'ProductNumberShop'                     => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
                 'ProductNumberManufacturer'             => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
                 'EANCode'                               => _t('SilvercartProduct.EAN', 'EAN'),
+                'BasicData'                             => _t('SilvercartProduct.BasicData'),
+                'MiscGroup'                             => _t('SilvercartRegistrationPage.OTHERITEMS'),
+                'TimeGroup'                             => _t('SilvercartProduct.TimeGroup', 'Time Control'),
+                'ReleaseDate'                           => _t('SilvercartProduct.ReleaseDate', 'Release Date'),
+                'ReleaseDateInfo'                       => _t('SilvercartProduct.ReleaseDateInfo', 'Release Date Info'),
+                'LaunchDate'                            => _t('SilvercartProduct.LaunchDate', 'Launch Date'),
+                'LaunchDateInfo'                        => _t('SilvercartProduct.LaunchDateInfo', 'Launch Date Info'),
+                'SalesBanDate'                          => _t('SilvercartProduct.SalesBanDate', 'Sale Ban Date'),
+                'SalesBanDateInfo'                      => _t('SilvercartProduct.SalesBanDateInfo', 'Sale Ban Date Info'),
                 'SilvercartTax'                         => _t('SilvercartTax.SINGULARNAME', 'tax'),
                 'SilvercartManufacturer'                => _t('SilvercartManufacturer.SINGULARNAME', 'manufacturer'),
                 'SilvercartProductGroup'                => _t('SilvercartProductGroupPage.SINGULARNAME', 'product group'),
@@ -1135,15 +1147,20 @@ class SilvercartProduct extends DataObject {
         }
         $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolderID);
         
-        $silvercartProductGroupMirrorPagesField   = new TreeMultiselectField(
-                'SilvercartProductGroupMirrorPages',
-                $this->fieldLabel('SilvercartProductGroupMirrorPages'),
-                'SiteTree'
-        );
-        $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolderID);
+        if ($this->exists()) {
+            $silvercartProductGroupMirrorPagesField   = new TreeMultiselectField(
+                    'SilvercartProductGroupMirrorPages',
+                    $this->fieldLabel('SilvercartProductGroupMirrorPages'),
+                    'SiteTree'
+            );
+            $silvercartProductGroupMirrorPagesField->setTreeBaseID($productGroupHolderID);
 
-        $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupDropdown);
-        $fields->addFieldToTab('Root.ProductGroups', $silvercartProductGroupMirrorPagesField);
+            $fields->removeByName('SilvercartProductGroupMirrorPages');
+            $fields->insertBefore($silvercartProductGroupDropdown, 'ProductNumberGroup');
+            $fields->insertAfter($silvercartProductGroupMirrorPagesField, 'SilvercartProductGroupID');
+        } else {
+            $fields->insertBefore($silvercartProductGroupDropdown, 'ProductNumberGroup');
+        }
     }
 
     /**
@@ -1189,13 +1206,49 @@ class SilvercartProduct extends DataObject {
         );
         $fields->dataFieldByName('PurchaseTimeUnit')->setSource($purchaseTimeUnitSource);
 
+        $fields->dataFieldByName('ReleaseDate')
+                ->getDateField()
+                ->addExtraClass("date")
+                ->setConfig('showcalendar', true);
+        $fields->dataFieldByName('LaunchDate')
+                ->getDateField()
+                ->addExtraClass("date")
+                ->setConfig('showcalendar', true);
+        $fields->dataFieldByName('SalesBanDate')
+                ->getDateField()
+                ->addExtraClass("date")
+                ->setConfig('showcalendar', true);
+        
         $productNumberGroup = new SilvercartFieldGroup('ProductNumberGroup', '', $fields);
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberShop'));
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
         $productNumberGroup->push($fields->dataFieldByName('EANCode'));
-        $fields->insertAfter($productNumberGroup, 'isActive');
+        $baseDataToggle = ToggleCompositeField::create(
+                'ProductBaseDataToggle',
+                $this->fieldLabel('BasicData'),
+                array(
+                    $fields->dataFieldByName('isActive'),
+                    $productNumberGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(false);
+        $fields->removeByName('isActive');
+        $fields->insertBefore($baseDataToggle, 'Title');
+        
+        $descriptionToggle = ToggleCompositeField::create(
+                'ProductDescriptionToggle',
+                $this->fieldLabel('LongDescription'),
+                array(
+                    $fields->dataFieldByName('Title'),
+                    $fields->dataFieldByName('ShortDescription'),
+                    $fields->dataFieldByName('LongDescription'),
+                )
+        )->setHeadingLevel(4)->setStartClosed(false);
+        $fields->removeByName('Title');
+        $fields->removeByName('ShortDescription');
+        $fields->removeByName('LongDescription');
+        $fields->insertAfter($descriptionToggle, 'ProductBaseDataToggle');
 
-        $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', $this->fieldLabel('SilvercartAvailabilityStatus'), $fields);
+        $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', '', $fields);
         $availabilityGroup->push(           $fields->dataFieldByName('SilvercartAvailabilityStatusID'));
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('PurchaseMinDuration'));
         $availabilityGroup->push(           $fields->dataFieldByName('PurchaseMaxDuration'));
@@ -1203,26 +1256,55 @@ class SilvercartProduct extends DataObject {
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('StockQuantity'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityOverbookable'));
         $availabilityGroup->push(           $fields->dataFieldByName('StockQuantityExpirationDate'));
-        $fields->insertAfter($availabilityGroup, 'LongDescription');
-        $miscGroup = new SilvercartFieldGroup('MiscGroup', _t('SilvercartRegistrationPage.OTHERITEMS'), $fields);
+        $availabilityGroupToggle = ToggleCompositeField::create(
+                'AvailabilityGroupToggle',
+                $this->fieldLabel('SilvercartAvailabilityStatus'),
+                array(
+                    $availabilityGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        $fields->insertAfter($availabilityGroupToggle, 'ProductDescriptionToggle');
+        
+        $timeGroup = new SilvercartFieldGroup('TimeGroup', '', $fields);
+        $timeGroup->push(        $fields->dataFieldByName('ReleaseDate'));
+        $timeGroup->pushAndBreak(new LabelField('ReleaseDateInfo', '<br/><br/><br/>' . $this->fieldLabel('ReleaseDateInfo')));
+        $timeGroup->push(        $fields->dataFieldByName('LaunchDate'));
+        $timeGroup->pushAndBreak(new LabelField('LaunchDateInfo', '<br/><br/><br/>' . $this->fieldLabel('LaunchDateInfo')));
+        $timeGroup->push(        $fields->dataFieldByName('SalesBanDate'));
+        $timeGroup->pushAndBreak(new LabelField('SalesBanDateInfo', '<br/><br/><br/>' . $this->fieldLabel('SalesBanDateInfo')));
+        $timeGroupToggle = ToggleCompositeField::create(
+                'TimeGroupToggle',
+                $this->fieldLabel('TimeGroup'),
+                array(
+                    $timeGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        $fields->insertAfter($timeGroupToggle, 'AvailabilityGroupToggle');
+        
+        $miscGroup = new SilvercartFieldGroup('MiscGroup', '', $fields);
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartManufacturerID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('SilvercartQuantityUnitID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('SilvercartProductConditionID'));
-        $fields->insertAfter($miscGroup, 'AvailabilityGroup');
+        $miscGroupToggle = ToggleCompositeField::create(
+                'AvailabilityGroupToggle',
+                $this->fieldLabel('MiscGroup'),
+                array(
+                    $miscGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        $fields->insertAfter($miscGroupToggle, 'TimeGroupToggle');
     }
 
     /**
      * Adds or modifies the fields for the Prices tab
      *
-     * @param FieldList $fields    FieldList to add fields to
-     * @param bool      $addToMain Should the price fields be added to main tab?
+     * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
      */
-    public function getFieldsForPrices($fields, $addToMain = false) {
-        $fields->findOrMakeTab('Root.Prices', $this->fieldLabel('Prices'));
+    public function getFieldsForPrices($fields) {
         SilvercartTax::presetDropdownWithDefault($fields->dataFieldByName('SilvercartTaxID'), $this);
         
         $pricesGroup  = new SilvercartFieldGroup('PricesGroup', '', $fields);
@@ -1231,11 +1313,8 @@ class SilvercartProduct extends DataObject {
         $pricesGroup->push($fields->dataFieldByName('MSRPrice'));
         $pricesGroup->push($fields->dataFieldByName('PurchasePrice'));
         $pricesGroup->push($fields->dataFieldByName('SilvercartTaxID'));
-        if ($addToMain) {
-            $fields->insertBefore($pricesGroup, 'Title');
-        } else {
-            $fields->addFieldToTab('Root.Prices', $pricesGroup);
-        }
+        
+        $fields->insertAfter($pricesGroup, 'ProductNumberGroup');
     }
 
     /**
@@ -1246,10 +1325,19 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForSeo($fields) {
-        $fields->findOrMakeTab('Root.SEO', $this->fieldLabel('SEO'));
-        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaTitle'));
-        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaDescription'));
-        $fields->addFieldToTab('Root.SEO', $fields->dataFieldByName('MetaKeywords'));
+        $seoToggle = ToggleCompositeField::create(
+                'SEOToggle',
+                $this->fieldLabel('SEO'),
+                array(
+                    $fields->dataFieldByName('MetaTitle'),
+                    $fields->dataFieldByName('MetaDescription'),
+                    $fields->dataFieldByName('MetaKeywords'),
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        $fields->removeByName('MetaTitle');
+        $fields->removeByName('MetaDescription');
+        $fields->removeByName('MetaKeywords');
+        $fields->insertAfter($seoToggle, 'ProductDescriptionToggle');
     }
 
     /**
@@ -1298,11 +1386,11 @@ class SilvercartProduct extends DataObject {
      * @return void
      */
     public function getFieldsForDeeplinks($fields) {
-        $fields->findOrMakeTab('Root.Deeplinks', $this->fieldLabel('Deeplinks'));
-        $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
         if ($this->canView()) {
             $deeplinks = SilvercartDeeplink::get()->filter('isActive', 1);
-            if ($deeplinks) {
+            if ($deeplinks->exists()) {
+                $fields->findOrMakeTab('Root.Deeplinks', $this->fieldLabel('Deeplinks'));
+                $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
                 $idx = 1;
                 foreach ($deeplinks as $deeplink) {
                     if (isset($deeplink->productAttribute)) {
@@ -1329,9 +1417,11 @@ class SilvercartProduct extends DataObject {
         $fields = SilvercartDataObject::getCMSFields($this, 'isActive');
         
         $fields->removeByName('SilvercartProductGroupItemsWidgets');
+        $fields->removeByName('SilvercartMasterProductID');
         
         $this->getFieldsForMain($fields);
         $this->getFieldsForPrices($fields);
+        $this->getFieldsForProductGroups($fields);
         $this->getFieldsForSeo($fields);
         if ($this->exists()) {
             $this->getFieldsForWidgets($fields);
