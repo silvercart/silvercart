@@ -20,6 +20,15 @@
  * @license see license file in modules root directory
  */
 class SilvercartModelAdmin extends ModelAdmin {
+    
+    /**
+     * Allowed actions.
+     *
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'handleBatchCallback',
+    );
 
     /**
      * Menu icon
