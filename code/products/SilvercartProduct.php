@@ -519,6 +519,8 @@ class SilvercartProduct extends DataObject {
             'SilvercartManufacturer.Title'          => $this->fieldLabel('SilvercartManufacturer'),
             'SilvercartAvailabilityStatus.Title'    => $this->fieldLabel('SilvercartAvailabilityStatus'),
             'isActiveString'                        => $this->fieldLabel('isActive'),
+            'PriceGross'                            => $this->fieldLabel('PriceGross'),
+            'PriceNet'                              => $this->fieldLabel('PriceNet'),
         );
 
         $this->extend('updateSummaryFields', $summaryFields);
