@@ -1169,22 +1169,10 @@ class SilvercartProduct extends DataObject {
      * @param FieldList $fields FieldList to add fields to
      * 
      * @return void
-     * 
-     * @todo Check widget admin
      */
     public function getFieldsForWidgets($fields) {
-        $fields->findOrMakeTab('Root.Widgets', $this->fieldLabel('WidgetArea'));
-        $fields->addFieldsToTab(
-                'Root.Widgets',
-                SilvercartDataObject::scaffoldFormFields(
-                        $this->WidgetArea(),
-                        array(
-                            'includeRelations'  => ($this->isInDB()),
-                            'tabbed'            => false,
-                            'ajaxSafe'          => true
-                        )
-                )
-        );
+        $widgetAreaFields = WidgetSet::scaffold_widget_area_fields_for($this);
+        $fields->addFieldsToTab('Root.Widgets', $widgetAreaFields);
     }
 
     /**
