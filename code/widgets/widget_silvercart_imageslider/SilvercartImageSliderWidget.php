@@ -92,23 +92,33 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * 
      * @return FieldList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
-        $slideImagesToggleChildren[] = new GridField(
-                    'slideImages', 
-                    $this->fieldLabel('slideImages'), 
-                    $this->slideImages(), 
-                    SilvercartGridFieldConfig_RelationEditor::create()
-                );
-        $slideImagesToggle = new ToggleCompositeField(
-                    'slideImagesToggle', 
-                    $this->fieldLabel('slideImages'), 
-                    $slideImagesToggleChildren
-                );
-        $fields->addFieldToTab('Root.Main', $slideImagesToggle);
+        
+        $slideImagesTable = new GridField(
+                'slideImages',
+                $this->fieldLabel('slideImages'),
+                $this->slideImages(),
+                SilvercartGridFieldConfig_RelationEditor::create()
+        );
+        
+        $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
+        $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+        $slideImagesTable->getConfig()->addComponent(new GridFieldDeleteAction());
+        
+        $slideImagesUploadField = new SilvercartImageUploadField('UploadSlideImages', $this->fieldLabel('AddImage'));
+        $slideImagesUploadField->setFolderName('Uploads/slider-images');
+        $slideImagesUploadField->setRelationClassName('SilvercartImageSliderImage');
+        
+        $fields->findOrMakeTab('Root.slideImages', $this->fieldLabel('slideImages'));
+        $fields->addFieldToTab('Root.slideImages', $slideImagesUploadField);
+        $fields->addFieldToTab('Root.slideImages', $slideImagesTable);
+        
+        $this->getCMSFieldsSliderTab($fields);
+        
         return $fields;
     }
     
@@ -130,7 +140,18 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $excludeFromScaffolding = array_merge(
                 $parentExcludes,
                 array(
-                    'slideImages'
+                    'slideImages',
+                    'Autoplay',
+                    'autoPlayDelayed',
+                    'autoPlayLocked',
+                    'buildArrows',
+                    'buildNavigation',
+                    'buildStartStop',
+                    'slideDelay',
+                    'stopAtEnd',
+                    'transitionEffect',
+                    'useSlider',
+                    'useRoundabout'
                 )
         );
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
@@ -171,7 +192,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
                     'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME'),
                     'SilvercartImageSliderImage'            => _t('SilvercartImageSliderImage.PLURALNAME'),
-                    'slideImages'                           => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME')
+                    'slideImages'                           => _t('SilvercartProductSliderWidget.CMS_SLIDERIMAGES')
                     
                 )
         );

@@ -515,9 +515,11 @@ class SilvercartWidgetTools extends Object {
             'transitionEffect'              => _t('SilvercartProductSliderWidget.TRANSITIONEFFECT'),
             'useSlider'                     => _t('SilvercartProductSliderWidget.USE_SLIDER'),
             'useRoundabout'                 => _t('SilvercartProductSliderWidget.USE_ROUNDABOUT'),
+            'AddImage'                      => _t('SilvercartProductSliderWidget.AddImage'),
 
             'RoundaboutTab'                 => _t('SilvercartProductSliderWidget.CMS_ROUNDABOUTTABNAME'),
             'SliderTab'                     => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME'),
+            'SlideshowTab'                  => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME'),
             'BasicTab'                      => _t('SilvercartProductSliderWidget.CMS_BASICTABNAME'),
             'DisplayTab'                    => _t('SilvercartProductSliderWidget.CMS_DISPLAYTABNAME'),
 

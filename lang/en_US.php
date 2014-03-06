@@ -1692,7 +1692,8 @@ $lang['en_US']['SilvercartProductSliderWidget']['BUILDSTARTSTOP']               
 $lang['en_US']['SilvercartProductSliderWidget']['CMS_BASICTABNAME']                     = 'Basic preferences';
 $lang['en_US']['SilvercartProductSliderWidget']['CMS_DISPLAYTABNAME']                   = 'Display';
 $lang['en_US']['SilvercartProductSliderWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
-$lang['en_US']['SilvercartProductSliderWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow';
+$lang['en_US']['SilvercartProductSliderWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow Settings';
+$lang['en_US']['SilvercartProductSliderWidget']['CMS_SLIDERIMAGES']                     = 'Slideshow Images';
 $lang['en_US']['SilvercartProductSliderWidget']['FETCHMETHOD']                          = 'Selection method for products';
 $lang['en_US']['SilvercartProductSliderWidget']['FETCHMETHOD_RANDOM']                   = 'Random';
 $lang['en_US']['SilvercartProductSliderWidget']['FRONTTITLE']                           = 'Headline';
@@ -1712,6 +1713,7 @@ $lang['en_US']['SilvercartProductSliderWidget']['TRANSITION_VERTICALSLIDE']     
 $lang['en_US']['SilvercartProductSliderWidget']['USE_LISTVIEW']                         = 'Use listview';
 $lang['en_US']['SilvercartProductSliderWidget']['USE_ROUNDABOUT']                       = 'Use roundabout';
 $lang['en_US']['SilvercartProductSliderWidget']['USE_SLIDER']                           = 'Use slider';
+$lang['en_US']['SilvercartProductSliderWidget']['AddImage']                             = 'Add Image';
 
 $lang['en_US']['SilvercartProductGroupChildProductsWidget']['CMSTITLE']     = 'SilverCart show products of child productgroups';
 $lang['en_US']['SilvercartProductGroupChildProductsWidget']['DESCRIPTION']  = 'This widget displays products of a child productgroup if there are no products assigned to the current productgroup.';

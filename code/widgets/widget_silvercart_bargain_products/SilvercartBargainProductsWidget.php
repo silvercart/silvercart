@@ -210,7 +210,6 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
                     'ProductGroupTab'                           => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
                     'ProductsTab'                               => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTSTABNAME'),
                     'SilvercartBargainProductsWidgetLanguages'  => _t('Silvercart.TRANSLATIONS'),
-                    'SlideshowTab'                              => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME')
                 )
         );
     }

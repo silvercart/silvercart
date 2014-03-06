@@ -72,6 +72,32 @@ class SilvercartImageSliderImage extends DataObject {
     }
     
     /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function singular_name() {
+        return SilvercartTools::singular_name_for($this);
+    }
+    
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function plural_name() {
+        return SilvercartTools::plural_name_for($this);
+    }
+    
+    /**
      * Returns an array of field/relation names (db, has_one, has_many, 
      * many_many, belongs_many_many) to exclude from form scaffolding in
      * backend.
@@ -122,16 +148,21 @@ class SilvercartImageSliderImage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.03.2014
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'SilvercartImageSliderImageLanguages' => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
-                    'Image'                               => _t("Image.SINGULARNAME"),
-                    'Linkpage'                            => _t('SilvercartImageSliderImage.LINKPAGE'),
-                )
+            parent::fieldLabels($includerelations),
+            array(
+                'SilvercartImageSliderImageLanguages'       => _t('SilvercartImageSliderImageLanguage.PLURALNAME'),
+                'Image'                                     => _t('Image.SINGULARNAME'),
+                'Linkpage'                                  => _t('SilvercartImageSliderImage.LINKPAGE'),
+                'Thumbnail'                                 => _t('SilvercartImage.THUMBNAIL'),
+                'Title'                                     => _t('SilvercartImage.TITLE'),
+                'SilvercartImageSliderImageLanguages.Title' => _t('SilvercartImage.TITLE'),
+            )
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -155,6 +186,25 @@ class SilvercartImageSliderImage extends DataObject {
 
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Searchable fields definition
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'SilvercartImageSliderImageLanguages.Title' => array(
+                'title'  => $this->fieldLabel('Title'),
+                'filter' => 'PartialMatchFilter'
+            )
+        );
+            
+        return $searchableFields;
     }
     
     /**
