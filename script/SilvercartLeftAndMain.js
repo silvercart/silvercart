@@ -33,6 +33,10 @@
             $('.opened.current').removeClass('current');
             $('#' + $(this).attr('rel')).addClass('current');
         });
+        $('.cms-menu.collapsed .collapsed-flyout li').live('click', function() {
+            $('.cms-menu li.current').removeClass('current');
+            $('#' + $(this).attr('rel')).addClass('current');
+        });
         
         $('li[aria-controls="Root_PrintPreviewTab"]').live('click', function() {
             $('iframe.print-preview').height($('.cms-content-fields').height() - 54);

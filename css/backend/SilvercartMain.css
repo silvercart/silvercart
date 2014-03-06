@@ -207,6 +207,19 @@ input.text.silvercartmoney {
 .cms-menu-list li ul.collapse li a .icon {
     margin-right: 8px;
 }
+.cms-menu.cms-panel.cms-panel-layout.collapsed,
+.cms-menu.cms-panel.cms-panel-layout.collapsed .cms-panel-content,
+.cms-menu.cms-panel.cms-panel-layout.collapsed .cms-menu-list {
+    overflow: visible;
+}
+.cms-menu-list.collapsed li:hover ul {
+    position: absolute;
+    z-index: 50;
+    display: block;
+}
+.cms-menu-list.collapsed li:hover ul li {
+    display: block !important;
+}
 
 .icon.icon-16 {
     background-color: transparent;
