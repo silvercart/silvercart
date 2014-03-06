@@ -273,15 +273,12 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.03.2014
      */
     public function searchableFields() {
         $searchableFields = array(
-            'Name' => array(
-                'title'  => _t('SilvercartProduct.COLUMN_TITLE'),
-                'filter' => 'PartialMatchFilter'
-            ),
             'isActive' => array(
                 'title'  => _t("SilvercartShopAdmin.PAYMENT_ISACTIVE"),
                 'filter' => 'ExactMatchFilter'
