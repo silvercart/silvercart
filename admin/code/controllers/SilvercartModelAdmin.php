@@ -59,6 +59,14 @@ class SilvercartModelAdmin extends ModelAdmin {
     protected $gridFieldConfig = null;
     
     /**
+     * If this is set to true the ModelAdmins SearchForm will be collapsed on
+     * load.
+     *
+     * @var bool
+     */
+    protected static $search_form_is_collapsed = true;
+
+    /**
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
      * 
@@ -119,6 +127,22 @@ class SilvercartModelAdmin extends ModelAdmin {
             $this->getGridFieldConfig($form)->addComponent(new SilvercartGridFieldQuickAccessController());
         }
         return $form;
+    }
+    
+    /**
+     * Returns the CSS class to use for the SearchForms collapse state.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function SearchFormCollapseClass() {
+        $collapseClass = '';
+        if (self::$search_form_is_collapsed) {
+            $collapseClass = 'collapsed';
+        }
+        return $collapseClass;
     }
     
     /**
