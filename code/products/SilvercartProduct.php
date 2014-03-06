@@ -2156,7 +2156,21 @@ class SilvercartProduct extends DataObject {
         return $this->cachedSilvercartTax;
     }
 
-        /**
+    /**
+     * Returns the related WidgetArea object.
+     * If there is no WidgetArea related, a new one will be created and related.
+     * 
+     * @return WidgetArea
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function WidgetArea() {
+        $widgetArea = $this->addWidgetAreaIfNotExists($this->getComponent('WidgetArea'));
+        return $widgetArea;
+    }
+
+    /**
      * We want to delete all attributed WidgetAreas and Widgets before deletion.
      *
      * @return void
@@ -2287,15 +2301,32 @@ class SilvercartProduct extends DataObject {
             }
         }
         
-        if ($this->WidgetAreaID == 0) {
+        $this->addWidgetAreaIfNotExists();
+    }
+    
+    /**
+     * Adds a new WidgetArea to the product if not existing yet.
+     * 
+     * @param WidgetArea $widgetArea Optional WidgetArea to use as fallback
+     * 
+     * @return WidgetArea
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function addWidgetAreaIfNotExists($widgetArea = null) {
+        if ($this->WidgetAreaID == 0 ||
+            ($widgetArea instanceof WidgetArea &&
+             !$widgetArea->exists())) {
             $widgetArea = new WidgetArea();
             $widgetArea->write();
             
             $this->WidgetAreaID = $widgetArea->ID;
             $this->write();
         }
+        return $widgetArea;
     }
-    
+
     /**
      * Sets the cache relevant fields.
      * 
