@@ -1685,8 +1685,8 @@ de:
     PAYMENT_ISACTIVE: "aktiviert"
     PAYMENT_MAXAMOUNTFORACTIVATION: "Höchstbetrag für Modul"
     PAYMENT_MINAMOUNTFORACTIVATION: "Mindestbetrag für Modul"
-    PAYMENT_MODE_DEV: "Dev"
-    PAYMENT_MODE_LIVE: "Live"
+    PAYMENT_MODE_DEV: "Entwicklung & Test"
+    PAYMENT_MODE_LIVE: "Live / in Betrieb"
     SHOW_PAYMENT_LOGOS: "Logos anzeigen"
   SilvercartShopAdministrationAdmin:
     TITLE: "SC Admin"

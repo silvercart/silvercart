@@ -1536,8 +1536,8 @@ $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_DESCRIPTION'] = 'Beschreibung';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_ISACTIVE'] = 'aktiviert';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MAXAMOUNTFORACTIVATION'] = 'Höchstbetrag für Modul';
 $lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MINAMOUNTFORACTIVATION'] = 'Mindestbetrag für Modul';
-$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Dev';
-$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live';
+$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_DEV'] = 'Entwicklung & Test';
+$lang['de_DE']['SilvercartShopAdmin']['PAYMENT_MODE_LIVE'] = 'Live / in Betrieb';
 $lang['de_DE']['SilvercartShopAdmin']['SHOW_PAYMENT_LOGOS'] = 'Logos anzeigen';
 
 $lang['de_DE']['SilvercartShopAdministrationAdmin']['TITLE'] = 'SC Admin';

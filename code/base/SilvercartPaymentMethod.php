@@ -27,7 +27,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'isActive'                              => 'Boolean',
         'minAmountForActivation'                => 'Float',
         'maxAmountForActivation'                => 'Float',
@@ -49,7 +49,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $has_one = array(
+    private static $has_one = array(
         'SilvercartZone'            => 'SilvercartZone'
     );
     /**
@@ -57,7 +57,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $has_many = array(
+    private static $has_many = array(
         'SilvercartHandlingCosts'   => 'SilvercartHandlingCost',
         'SilvercartOrders'          => 'SilvercartOrder',
         'PaymentLogos'              => 'SilvercartImage'
@@ -67,7 +67,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $many_many = array(
+    private static $many_many = array(
         'SilvercartShippingMethods' => 'SilvercartShippingMethod',
         'ShowOnlyForGroups'         => 'Group',
         'ShowNotForGroups'          => 'Group',
@@ -80,7 +80,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $belongs_many_many = array(
+    private static $belongs_many_many = array(
         'SilvercartCountries' => 'SilvercartCountry'
     );
     /**
@@ -88,7 +88,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $casting = array(
+    private static $casting = array(
         'AttributedCountries'       => 'Varchar(255)',
         'AttributedZones'           => 'Varchar(255)',
         'activatedStatus'           => 'Varchar(255)',
@@ -101,7 +101,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @var array
      */
-    public static $defaults = array(
+    private static $defaults = array(
         'showPaymentLogos'                 => true,
         'ShowFormFieldsOnPaymentSelection' => false,
     );
@@ -337,7 +337,15 @@ class SilvercartPaymentMethod extends DataObject {
                     'ShowNotForUsers'                   => _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL'),
                     'ShowOnlyForUsers'                  => _t('SilvercartPaymentMethod.SHOW_ONLY_FOR_USERS_LABEL'),
                     'AddPaymentLogos'                   => _t('SilvercartPaymentMethod.AddPaymentLogos'),
+                    'modeLive'                          => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
+                    'modeDev'                           => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV'),
+                    'SumModifiers'                      => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFIERS'),
                     
+                    'sumModificationImpact'             => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACT'),
+                    'sumModificationImpactType'         => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTTYPE'),
+                    'sumModificationValue'              => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONVALUE'),
+                    'sumModificationValueType'          => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE'),
+                    'sumModificationLabel'              => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONLABELFIELD'),
                 )
         );
     }
@@ -1136,6 +1144,42 @@ class SilvercartPaymentMethod extends DataObject {
         $fields = SilvercartDataObject::getCMSFields($this);
         return $fields;
     }
+    
+    /**
+     * GUI for additional charges / discounts
+     * 
+     * @param FieldList $fields Fields to modify
+     * 
+     * @return void
+     */
+    public function getFieldsForChargesAndDiscounts($fields) {
+        $impactFieldValues = array(
+            'productValue'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_PRODUCTVALUE'),
+            'totalValue'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TOTALVALUE')
+        );
+        $impactTypeValues = array(
+            'charge'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TYPE_CHARGE'),
+            'discount'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TYPE_DISCOUNT')
+        );
+        $impactValueTypeValues = array(
+            'absolute'  => _t('SilvercartPaymentMethod.PAYMENT_IMPACT_TYPE_ABSOLUTE'),
+            'percent'   => _t('SilvercartPaymentMethod.PAYMENT_IMPACT_TYPE_PERCENT')
+        );
+        
+        $sumModifiersDataToggle = ToggleCompositeField::create(
+                'SumModifiers',
+                $this->fieldLabel('SumModifiers'),
+                array(
+                        new OptionsetField('sumModificationImpact',     $this->fieldLabel('sumModificationImpact'),     $impactFieldValues),
+                        new OptionsetField('sumModificationImpactType', $this->fieldLabel('sumModificationImpactType'), $impactTypeValues),
+                        new TextField(    'sumModificationValue',       $this->fieldLabel('sumModificationValue')),
+                        new OptionsetField('sumModificationValueType',  $this->fieldLabel('sumModificationValueType'),  $impactValueTypeValues),
+                        new TextField(     'sumModificationLabel',      $this->fieldLabel('sumModificationLabel')),
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        
+        $fields->addFieldToTab('Root.Basic', $sumModifiersDataToggle);
+    }
 
     /**
      * Returns modified CMS fields for the payment modules
@@ -1144,6 +1188,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getCMSFieldsForModules() {
         $tabset = new TabSet('Root');
+        $fields = new FieldList($tabset);
         
         // --------------------------------------------------------------------
         // Common GUI elements for all payment methods
@@ -1157,44 +1202,46 @@ class SilvercartPaymentMethod extends DataObject {
         $tabBasic->setChildren($tabBasicFieldSet);
         //multilingual fields
         $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
+        $tabBasicFieldSet->push(new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode'),
+                    array(
+                        'Live' => $this->fieldLabel('modeLive'),
+                        'Dev'  => $this->fieldLabel('modeDev'),
+                    ),
+                    $this->mode
+                ));
         if ($this->isExtendingSilvercartPaymentMethod()) {
            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
             foreach ($languageFields as $languageField) {
                 $tabBasicFieldSet->push($languageField);
             } 
         }
-        $tabBasicFieldSet->push(new DropdownField(
-                    'mode',
-                    _t('SilvercartPaymentMethod.MODE', 'mode', null, 'Modus'
-                    ),
-                    array(
-                        'Live' => _t('SilvercartShopAdmin.PAYMENT_MODE_LIVE'),
-                        'Dev' => _t('SilvercartShopAdmin.PAYMENT_MODE_DEV')
-                    ),
-                    $this->mode
-                ));
         $tabBasicFieldSet->push(new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')));
         $tabBasicFieldSet->push(new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')));
         $tabBasicFieldSet->push(new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
-                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title')->toArray(),
-                    null,
-                    null,
-                    _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE")
+                    SilvercartOrderStatus::getStatusList()->map('Code', 'Title')->toArray()
                 ));
+        $tabBasicFieldSet->dataFieldByName('orderStatus')->setEmptyString( _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE"));
         
         // --------------------------------------------------------------------
         // Handling cost table
         // --------------------------------------------------------------------
         $tabHandlingCosts= new Tab('HandlingCosts', _t('SilvercartPaymentMethod.HANDLINGCOSTS_SETTINGS'));
         $tabset->push($tabHandlingCosts);
-        $handlingCostField = new DropdownField('SilvercartHandlingCost', $this->fieldLabel('SilvercartHandlingCosts'));
+        
+        $handlingCostField = new GridField(
+                'SilvercartHandlingCosts',
+                $this->fieldLabel('SilvercartHandlingCosts'),
+                $this->SilvercartHandlingCosts(),
+                SilvercartGridFieldConfig_RelationEditor::create(50)
+        );
         $tabHandlingCosts->setChildren(
             new FieldList(
                 $handlingCostField
             )
         );
+        
 
         // --------------------------------------------------------------------
         // GUI for management of logo images
@@ -1315,44 +1362,7 @@ class SilvercartPaymentMethod extends DataObject {
             new HeaderField('ShowNotForUsersLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL').':', 2)
         );
         $tabAccessManagementUser->push($showNotForUsersTable);
-        
-        // --------------------------------------------------------------------
-        // GUI for additional charges / discounts
-        // --------------------------------------------------------------------
-        $tabSumModifiers = new Tab('SumModifiers', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFIERS'));
-        $tabset->push($tabSumModifiers);
-        
-        $useSumModificationField = new CheckboxField('useSumModification', _t('SilvercartPaymentMethod.PAYMENT_USE_SUMMODIFICATION'));
-        
-        $impactFieldValues = array(
-            'productValue'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_PRODUCTVALUE'),
-            'totalValue'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TOTALVALUE')
-        );
-        $impactField = new OptionsetField('sumModificationImpact', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACT').':', $impactFieldValues);
-        
-        $impactTypeValues = array(
-            'charge'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TYPE_CHARGE'),
-            'discount'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TYPE_DISCOUNT')
-        );
-        $impactTypeField = new OptionsetField('sumModificationImpactType', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTTYPE').':', $impactTypeValues);
-
-        $impactValueField = new TextField('sumModificationValue', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONVALUE').':');
-
-        $impactValueTypeValues = array(
-            'absolute'  => _t('SilvercartPaymentMethod.PAYMENT_IMPACT_TYPE_ABSOLUTE'),
-            'percent'   => _t('SilvercartPaymentMethod.PAYMENT_IMPACT_TYPE_PERCENT')
-        );
-        $impactValueTypeField = new OptionsetField('sumModificationValueType', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE').':', $impactValueTypeValues);
-        
-        $impactLabelField = new TextField('sumModificationLabel', _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONLABELFIELD'));
-        
-        $tabSumModifiers->push($useSumModificationField);
-        $tabSumModifiers->push($impactField);
-        $tabSumModifiers->push($impactTypeField);
-        $tabSumModifiers->push($impactValueField);
-        $tabSumModifiers->push($impactValueTypeField);
-        $tabSumModifiers->push($impactLabelField);
-        
+                
         // --------------------------------------------------------------------
         // Countries
         // --------------------------------------------------------------------
@@ -1381,7 +1391,10 @@ class SilvercartPaymentMethod extends DataObject {
         $tabset->push($shippingMethodsTab);
         $shippingMethodsTab->push($shippingMethodsDesc);
         $shippingMethodsTab->push($shippingMethodsTable);
-        return new FieldList($tabset);
+        
+        $this->getFieldsForChargesAndDiscounts($fields);
+        
+        return $fields;
     }
 
     /**
