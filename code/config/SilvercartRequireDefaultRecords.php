@@ -262,6 +262,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $languages[$translationLocale] = $languages['en_US'];
             }
             foreach ($languages as $locale => $title) {
+                if (empty($locale)) {
+                    continue;
+                }
                 $objLanguage = $translatableDataObjectLanguageName::get()->filter(array('Locale'=> $locale, $translatableDataObjectRelationName => $obj->ID))->first();
                 if (!$objLanguage) {
                     $objLanguage = new $translatableDataObjectLanguageName();
