@@ -311,21 +311,10 @@ if (class_exists('GoogleSitemap') &&
 // ----------------------------------------------------------------------------
 // add silvercart branding if no other branding is set
 // ----------------------------------------------------------------------------
-/*
-if (LeftAndMain::$application_link == 'http://www.silverstripe.org/' &&
-    LeftAndMain::$application_logo == 'cms/images/mainmenu/logo.gif' &&
-    LeftAndMain::$application_name == 'SilverStripe CMS' &&
-    LeftAndMain::$application_logo_text = 'SilverStripe') {
-    LeftAndMain::setApplicationName(
-        'SilverCart - ' . SilvercartConfig::SilvercartFullVersion() . ' | SilverStripe CMS',
-        'SilverCart<br />eCommerce software',
-        'http://www.silvercart.org'
-    );
-    LeftAndMain::set_loading_image(
-        '/silvercart/images/logo.jpg'
-    );
+if (Config::inst()->get('LeftAndMain', 'application_name') == 'SilverStripe') {
+    Config::inst()->update('LeftAndMain', 'application_name', 'SilverCart - ' . SilvercartConfig::SilvercartFullVersion());
+    Config::inst()->update('LeftAndMain', 'application_link', 'http://www.silvercart.org');
 }
-*/
 // ----------------------------------------------------------------------------
 // Register menus for the storeadmin
 // ----------------------------------------------------------------------------
