@@ -59,6 +59,7 @@
     width: auto !important;
     margin: auto !important;
     float: none !important;
+    font-weight: bold;
 }
 .silvercart-fieldgroup .fieldgroupField select {
     
@@ -76,6 +77,9 @@
 .silvercart-field-group {
     padding:    0px;
     margin:     6px 0;
+}
+.ss-toggle .ui-accordion-content .field label {
+    width: auto;
 }
 
 .right form .field span.readonly.silvercartmoney,
