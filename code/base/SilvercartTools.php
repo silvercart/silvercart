@@ -146,11 +146,42 @@ class SilvercartTools extends Object {
                 $string = strtolower($originalString);
             }
         }
-        $string     = trim($string, '-');
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    '.',    ',',    ' ', '%', '"', "'", '<', '>');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '-',    '-',    '',  '',  '',  '',  '',  '');
-        $string     = str_replace($remove, $replace, $string);
+        $string = trim($string, '-');
+        self::replace_special_chars($string);
+        self::replace_cyrillic_chars($string);
         return urlencode($string);
+    }
+    
+    /**
+     * Replaces special chars.
+     * 
+     * @param string &$string String reference to replace special chars for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2014
+     */
+    public static function replace_special_chars(&$string) {
+        $remove  = array('ä',  'ö',  'ü',  'Ä',  'Ö',  'Ü',  '/', '?', '&', '#', '.', ',', ' ', '%', '"', "'", '<', '>');
+        $replace = array('ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', '-', '-', '-', '-', '-', '-', '-', '',  '',  '',  '',  '');
+        $string  = str_replace($remove, $replace, $string);
+    }
+    
+    /**
+     * Replaces cyrillic chars with latin chars
+     * 
+     * @param string &$string String reference to replace cyrillic chars for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2014
+     */
+    public static function replace_cyrillic_chars(&$string) {
+        $remove  = array('а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я');
+        $replace = array('a', 'b', 'v', 'g', 'd', 'e', 'yo', 'zh', 'z', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'shh', '-', 'y', '-', 'e-', 'yu', 'ya');
+        $string  = str_replace($remove, $replace, $string);
     }
 
     /**
