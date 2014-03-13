@@ -21,7 +21,15 @@
  * @license see license file in modules root directory
  */
 class SilvercartFileUploadField extends UploadField {
-    
+
+    /**
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'upload',
+        'attach',
+    );
+
     /**
      * Class name of the file object
      *
@@ -125,6 +133,82 @@ class SilvercartFileUploadField extends UploadField {
                 $record->write();
             }
         }
+    }
+
+    /**
+     * Action to handle upload of a single file
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return SS_HTTPResponse
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2014
+     */
+    public function upload(SS_HTTPRequest $request) {
+        if ($this->isDisabled() || $this->isReadonly() || !$this->canUpload()) {
+            return $this->httpError(403);
+        }
+
+        // Protect against CSRF on destructive action
+        $token = $this->getForm()->getSecurityToken();
+        if (!$token->checkRequest($request)) {
+            return $this->httpError(400);
+        }
+
+        // Get form details
+        $name     = $this->getName();
+        $postVars = $request->postVar($name);
+
+        // Save the temporary file into a File object
+        $uploadedFiles = $this->extractUploadedFileData($postVars);
+        $firstFile     = reset($uploadedFiles);
+        $file          = $this->saveTemporaryFile($firstFile, $error);
+        if (empty($file)) {
+            $return = array('error' => $error);
+        } else {
+            $this->attachFile($file);
+            $return = $this->encodeFileAttributes($file);
+        }
+
+        // Format response with json
+        $response = new SS_HTTPResponse(Convert::raw2json(array($return)));
+        $response->addHeader('Content-Type', 'text/plain');
+        if (!empty($return['error'])) {
+            $response->setStatusCode(403);
+        }
+        return $response;
+    }
+
+    /**
+     * Retrieves details for files that this field wishes to attache to the 
+     * client-side form
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return SS_HTTPResponse
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2014
+     */
+    public function attach(SS_HTTPRequest $request) {
+        if (!$request->isPOST()) {
+            return $this->httpError(403);
+        }
+        if (!$this->canAttachExisting()) {
+            return $this->httpError(403);
+        }
+
+        // Retrieve file attributes required by front end
+        $return = array();
+        $files  = File::get()->byIDs($request->postVar('ids'));
+        foreach ($files as $file) {
+            $this->attachFile($file);
+            $return[] = $this->encodeFileAttributes($file);
+        }
+        $response = new SS_HTTPResponse(Convert::raw2json($return));
+        $response->addHeader('Content-Type', 'application/json');
+        return $response;
     }
 
 }
