@@ -42,6 +42,15 @@ class SilvercartImage extends DataObject {
     );
     
     /**
+     * Belongs many many relations.
+     *
+     * @var array
+     */
+    public static $belongs_many_many = array(
+        'SilvercartSlidorionProductGroupWidgets' => 'SilvercartSlidorionProductGroupWidget',
+    );
+
+    /**
      * Casted properties
      *
      * @var array
@@ -411,9 +420,6 @@ class SilvercartImage extends DataObject {
         if ($this->SilvercartProduct()->exists() &&
             empty($this->Title)) {
             $this->Title = $this->SilvercartProduct()->Title;
-        } elseif ($this->Image()->exists() &&
-            empty($this->Title)) {
-            $this->Title = $this->Image()->Title;
         }
     }
     
