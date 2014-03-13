@@ -731,6 +731,13 @@ class SilvercartProduct extends DataObject {
                 'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
                 'AddSilvercartImage'                    => _t('SilvercartProduct.AddSilvercartImage'),
                 'AddSilvercartFile'                     => _t('SilvercartProduct.AddSilvercartFile'),
+                
+                'SilvercartProductLanguages.Title'            => _t('SilvercartProduct.COLUMN_TITLE'),
+                'SilvercartProductLanguages.ShortDescription' => _t('SilvercartProduct.SHORTDESCRIPTION'),
+                'SilvercartProductLanguages.LongDescription'  => _t('SilvercartProduct.DESCRIPTION'),
+                'SilvercartManufacturer.Title'                => _t('SilvercartProduct.COLUMN_TITLE'),
+                'SilvercartProductGroupMirrorPages.ID'        => _t('SilvercartProductGroupMirrorPage.PLURALNAME'),
+                'SilvercartAvailabilityStatus.ID'             => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
             )
         );
 
