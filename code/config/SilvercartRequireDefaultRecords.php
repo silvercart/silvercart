@@ -1841,7 +1841,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
             $widgetSetProductGroupPagesSidebarArea->Widgets()->add($widgetProductGroupPageSidebar3);
             
-            self::createTestDataSlidorion($widgetSetFrontPageContentArea);
+            //self::createTestDataSlidorion($widgetSetFrontPageContentArea);
             
             return true;
         }
