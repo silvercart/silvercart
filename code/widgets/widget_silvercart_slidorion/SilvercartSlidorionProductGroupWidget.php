@@ -54,6 +54,28 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     );
     
     /**
+     * Has_many relationships.
+     *
+     * @var array
+     */
+    private static $many_many_extraFields = array(
+        'SilvercartImages' => array(
+            'Sort' => 'Int',
+        ),
+    );
+    /**
+     * Default attributes
+     *
+     * @var array
+     */
+    private static $defaults = array(
+        'widgetHeight' => 400,
+        'speed'        => 500,
+        'interval'     => 3000,
+        'autoPlay'     => true,
+    );
+    
+    /**
      * Castings.
      *
      * @var array
@@ -77,22 +99,22 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'SilvercartImages' => _t('SilvercartSlidorionProductGroupWidget.SILVERCARTIMAGES'),
-                    'BasicTab'         => _t('SilvercartSlidorionProductGroupWidget.CMS_BASICTABNAME'),
-                    'AdvancedTab'      => _t('SilvercartSlidorionProductGroupWidget.CMS_ADVANCEDTABNAME'),
-                    'TranslationsTab'  => _t('SilvercartConfig.TRANSLATIONS'),
-                    'FrontTitle'       => _t('SilvercartSlidorionProductGroupWidget.FRONT_TITLE'),
-                    'FrontContent'     => _t('SilvercartSlidorionProductGroupWidget.FRONT_CONTENT'),
-                    'widgetHeight'     => _t('SilvercartSlidorionProductGroupWidget.WIDGET_HEIGHT'),
-                    'speed'            => _t('SilvercartSlidorionProductGroupWidget.SPEED'),
-                    'interval'         => _t('SilvercartSlidorionProductGroupWidget.INTERVAL'),
-                    'hoverPause'       => _t('SilvercartSlidorionProductGroupWidget.HOVERPAUSE'),
-                    'autoPlay'         => _t('SilvercartSlidorionProductGroupWidget.AUTOPLAY'),
-                    'effect'           => _t('SilvercartSlidorionProductGroupWidget.EFFECT'),
-                    'translations'     => _t('SilvercartConfig.TRANSLATIONS'),
-                    'Images'           => _t('SilvercartImage.PLURALNAME'),
-                    
-                    
+                    'SilvercartImages'            => _t('SilvercartSlidorionProductGroupWidget.SILVERCARTIMAGES'),
+                    'SilvercartImagesDescription' => _t('SilvercartSlidorionProductGroupWidget.SilvercartImagesDescription'),
+                    'BasicTab'                    => _t('SilvercartSlidorionProductGroupWidget.CMS_BASICTABNAME'),
+                    'AdvancedTab'                 => _t('SilvercartSlidorionProductGroupWidget.CMS_ADVANCEDTABNAME'),
+                    'TranslationsTab'             => _t('SilvercartConfig.TRANSLATIONS'),
+                    'FrontTitle'                  => _t('SilvercartSlidorionProductGroupWidget.FRONT_TITLE'),
+                    'FrontContent'                => _t('SilvercartSlidorionProductGroupWidget.FRONT_CONTENT'),
+                    'widgetHeight'                => _t('SilvercartSlidorionProductGroupWidget.WIDGET_HEIGHT'),
+                    'speed'                       => _t('SilvercartSlidorionProductGroupWidget.SPEED'),
+                    'interval'                    => _t('SilvercartSlidorionProductGroupWidget.INTERVAL'),
+                    'hoverPause'                  => _t('SilvercartSlidorionProductGroupWidget.HOVERPAUSE'),
+                    'autoPlay'                    => _t('SilvercartSlidorionProductGroupWidget.AUTOPLAY'),
+                    'effect'                      => _t('SilvercartSlidorionProductGroupWidget.EFFECT'),
+                    'translations'                => _t('SilvercartConfig.TRANSLATIONS'),
+                    'Images'                      => _t('SilvercartImage.PLURALNAME'),
+                    'AddImage'                    => _t('SilvercartProductSliderWidget.AddImage'),
                 )
         );
 
@@ -112,7 +134,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $fields = new FieldList();
         $rootTabSet     = new TabSet('Root');
         $basicTab       = new Tab('Basic', $this->fieldLabel('BasicTab'));
-        $advancedTab    = new Tab('Advanced', $this->fieldLabel('AdvancedTab'));
         $translationTab = new Tab('Translations', $this->fieldLabel('TranslationsTab'));
         
         $titleField   = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
@@ -121,10 +142,24 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $imageTable = new GridField(
                 'SilvercartImages',
                 $this->fieldLabel('Images'),
-                SilvercartImage::get()->filter(array('SilvercartProductID' => 0, 'SilvercartPaymentMethodID' => 0)),
+                $this->SilvercartImages()->sort('Sort'),
                 SilvercartGridFieldConfig_RelationEditor::create()
         );
         
+        $imageTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
+        $imageTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+        $imageTable->getConfig()->addComponent(new GridFieldDeleteAction());
+        $imageTable->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
+        
+        $imagesUploadDescription = sprintf(
+                $this->fieldLabel('SilvercartImagesDescription'),
+                $this->getSliderHeight()
+        );
+        
+        $imagesUploadField = new SilvercartImageUploadField('UploadSilvercartImages', $this->fieldLabel('AddImage'));
+        $imagesUploadField->setFolderName('Uploads/silvercart-images');
+        $imagesUploadField->setDescription($imagesUploadDescription);
+                
         $translationsTableField = new GridField(
                 'SilvercartSlidorionProductGroupWidgetLanguages',
                 $this->fieldLabel('translations'),
@@ -159,22 +194,29 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
             $this->fieldLabel('autoPlay')
         );
         
+        $advancedToggle = ToggleCompositeField::create(
+                'AdvancedToggle',
+                $this->fieldLabel('AdvancedTab'),
+                array(
+                    $widgetHeightField,
+                    $speedField,
+                    $intervalField,
+                    $effectField,
+                    $hoverPauseField,
+                    $autoPlayField,
+                )
+        )->setHeadingLevel(4);
+        
         $basicTab->push($titleField);
         $basicTab->push($contentField);
+        $basicTab->push($imagesUploadField);
         $basicTab->push($imageTable);
-
-        $advancedTab->push($widgetHeightField);
-        $advancedTab->push($speedField);
-        $advancedTab->push($intervalField);
-        $advancedTab->push($effectField);
-        $advancedTab->push($hoverPauseField);
-        $advancedTab->push($autoPlayField);
+        $basicTab->push($advancedToggle);
         
         $translationTab->push($translationsTableField);
         
         $fields->push($rootTabSet);
         $rootTabSet->push($basicTab);
-        $rootTabSet->push($advancedTab);
         $rootTabSet->push($translationTab);
         
         return $fields;
@@ -366,7 +408,7 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
     public function getImagesToDisplay() {
         $imagesToDisplay = new ArrayList();
 
-        foreach ($this->SilvercartImages() as $SilvercartImage) {
+        foreach ($this->SilvercartImages()->sort('Sort') as $SilvercartImage) {
             if ($SilvercartImage->ImageID > 0) {
                 $image          = $SilvercartImage->Image();
                 $resizedImage   = $image->SetRatioSize(426, $this->getSliderHeight());
@@ -402,39 +444,6 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
      */
     public function isContentView() {
         return true;
-    }
-    
-    /**
-     * Save relations
-     *
-     * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.05.2012
-     */
-    public function onBeforeWrite() {
-        parent::onBeforeWrite();
-                
-        if (array_key_exists('SilvercartImages', $_REQUEST) &&
-            is_array($_REQUEST['SilvercartImages'])) {
-        
-            $this->SilvercartImages()->removeAll();    
-        
-            if (array_key_exists('selected', $_REQUEST['SilvercartImages'])) {
-                unset($_REQUEST['SilvercartImages']['selected']);
-            }
-            
-            foreach ($_REQUEST['SilvercartImages'] as $idx => $silvercartImageId) {
-                $silvercartImage = DataObject::get_by_id(
-                    'SilvercartImage',
-                    Convert::raw2sql((int) $silvercartImageId)
-                );
-                
-                if ($silvercartImage) {
-                    $this->SilvercartImages()->add($silvercartImage);
-                }
-            }
-        }
     }
     
     /**
@@ -509,7 +518,8 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
                 $this->getEffectValue(),
                 $this->getHoverPauseValue(),
                 $this->getAutoPlayValue()
-            )
+            ),
+            'silvercart-slidorion-' . $this->ID
         );
         
         $slidorionHeight        = $this->getWidgetHeightValue();
@@ -542,7 +552,8 @@ class SilvercartSlidorionProductGroupWidget_Controller extends SilvercartWidget_
                 $this->getWidgetHeightValue(),
                 $this->ID,
                 $accordeonContentHeight
-            )
+            ),
+            'silvercart-slidorion-' . $this->ID . '-css'
         );
     }
 }

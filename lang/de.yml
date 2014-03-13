@@ -1768,6 +1768,7 @@ de:
     SCPRODUCTGROUPPAGES: "Anzuzeigende Slides"
     SINGULARNAME: "Slidorion Akkordeon"
     SPEED: "Animationsgeschwindigkeit"
+    SilvercartImagesDescription: "<strong>Achtung:</strong> Die optimalen Dimensionen für ein anzuzeigendes Bild sind <strong><u>426x%s Pixel</u></strong>."
     TITLE: "Slidorion Akkordeon"
     WIDGET_HEIGHT: "Höhe des Widgets (in Pixel)"
   SilvercartStoreAdminMenu:

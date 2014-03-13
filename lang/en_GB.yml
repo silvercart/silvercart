@@ -1764,6 +1764,7 @@ en_GB:
     SCPRODUCTGROUPPAGES: "Slides to show"
     SINGULARNAME: "Slidorion accordion"
     SPEED: "Animation speed"
+    SilvercartImagesDescription: "<strong>Caution:</strong> Optimal dimensions to display an image are <strong><u>426x%s pixels</u></strong>."
     TITLE: "Slidorion Accordion"
     WIDGET_HEIGHT: "Height of the widget (in pixels)"
   SilvercartStoreAdminMenu:

@@ -1059,6 +1059,7 @@ $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['INTERVAL']            =
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['HOVERPAUSE']          = 'Pausieren, wenn sich der Mauszeiger über dem Widget befindet';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['AUTOPLAY']            = 'Automatisch starten';
 $lang['de_DE']['SilvercartSlidorionProductGroupWidget']['EFFECT']              = 'Effekt';
+$lang['de_DE']['SilvercartSlidorionProductGroupWidget']['SilvercartImagesDescription'] = '<strong>Achtung:</strong> Die optimalen Dimensionen für ein anzuzeigendes Bild sind <strong><u>426x%s Pixel</u></strong>.';
 
 $lang['de_DE']['SilvercartMailForgotPassword']['TITLE']                         = 'Passwort zurücksetzen';
 $lang['de_DE']['SilvercartMailForgotPassword']['VISIT_TEXT']                    = 'Bitte besuchen Sie den folgenden Link, um Ihr Passwort zu ändern:';

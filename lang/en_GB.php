@@ -1059,6 +1059,7 @@ $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['INTERVAL']            =
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['HOVERPAUSE']          = 'Pause on hover';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['AUTOPLAY']            = 'Start playing automatically';
 $lang['en_GB']['SilvercartSlidorionProductGroupWidget']['EFFECT']              = 'Type of effect';
+$lang['en_GB']['SilvercartSlidorionProductGroupWidget']['SilvercartImagesDescription'] = '<strong>Caution:</strong> Optimal dimensions to display an image are <strong><u>426x%s pixels</u></strong>.';
 
 $lang['en_GB']['SilvercartMailForgotPassword']['TITLE']                         = 'Reset Password';
 $lang['en_GB']['SilvercartMailForgotPassword']['VISIT_TEXT']                    = 'Please visit <a href="%s">this page</a> to reset your password.';
