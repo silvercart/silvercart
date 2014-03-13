@@ -39,8 +39,9 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2013
+     * @deprecated since version 3.1 - Seems not to be needed anymore. Should be checked.
      */
-    public function doSearch($gridField, $request) {
+    public function doSearch_DEPRECATED($gridField, $request) {
         $dataClass = $gridField->getList()->dataClass();
         $allList = $this->searchList ? $this->searchList : DataList::create($dataClass);
 
@@ -103,7 +104,7 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
                                 sprintf('GridFieldAddExistingAutocompleter: Searchable field "%s" could be found for class "%s" and its ancestors', $searchField, $dataClass));
                     }
                     $filterClass = array_pop($ancestry);
-                    $db          = Object::get_static($filterClass, 'db');
+                    $db          = Config::inst()->get($filterClass, 'db');
                     if (array_key_exists($searchField, $db)) {
                         $foundFilterClass = true;
                     }
