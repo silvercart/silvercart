@@ -525,7 +525,7 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2013
+     * @since 13.03.2014
      */
     public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -609,7 +609,7 @@ class SilvercartPaymentMethod extends DataObject {
                 }
             }
 
-            $handlingCosts->setAmount($handlingCostAmount);
+            $handlingCosts->setAmount(round($handlingCostAmount, 2));
         }
         
         $this->extend('updateChargesAndDiscountsForProducts', $handlingCosts);
