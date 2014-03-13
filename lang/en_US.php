@@ -1714,6 +1714,8 @@ $lang['en_US']['SilvercartProductSliderWidget']['USE_LISTVIEW']                 
 $lang['en_US']['SilvercartProductSliderWidget']['USE_ROUNDABOUT']                       = 'Use roundabout';
 $lang['en_US']['SilvercartProductSliderWidget']['USE_SLIDER']                           = 'Use slider';
 $lang['en_US']['SilvercartProductSliderWidget']['AddImage']                             = 'Add Image';
+$lang['en_US']['SilvercartProductSliderWidget']['ProductDataToggle']                    = 'Product Settings';
+$lang['en_US']['SilvercartProductSliderWidget']['ProductRelationToggle']                = 'Product Relation';
 
 $lang['en_US']['SilvercartProductGroupChildProductsWidget']['CMSTITLE']     = 'SilverCart show products of child productgroups';
 $lang['en_US']['SilvercartProductGroupChildProductsWidget']['DESCRIPTION']  = 'This widget displays products of a child productgroup if there are no products assigned to the current productgroup.';
@@ -1734,6 +1736,7 @@ $lang['en_US']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']    
 $lang['en_US']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Products';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Selection method for products';
 $lang['en_US']['SilvercartProductGroupItemsWidget']['SELECT_PRODUCT_DESCRIPTION']           = 'Select products by product number seperated by semicolon';
+$lang['en_US']['SilvercartProductGroupItemsWidget']['SilvercartProductGroupPageDescription'] = 'Only needed, if "Selection method for products" is set to "From product group".';
 
 $lang['en_US']['SilvercartProductGroupManufacturersWidget']['CMSTITLE']    = 'SilverCart manufacturer list';
 $lang['en_US']['SilvercartProductGroupManufacturersWidget']['DESCRIPTION'] = 'This widget displays a list of manufacturer logos for a product group page.';

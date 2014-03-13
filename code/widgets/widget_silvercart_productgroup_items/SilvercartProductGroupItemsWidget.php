@@ -151,35 +151,16 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
      * 
      * @return FieldList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.03.2014
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2014
      */
     public function getCMSFields() {
-        $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
-        $fields->dataFieldByName('fetchMethod')->setSource(
-                    array(
-                        'random'       => $this->fieldLabel('fetchMethodRandom'),
-                        'sortOrderAsc' => $this->fieldLabel('fetchMethodSortOrderAsc')
-                    )
-                );
-        $fields->dataFieldByName('useSelectionMethod')->setSource(
-                    array(
-                        'productGroup' => $this->fieldLabel('SelectionMethodProductGroup'),
-                        'products'     => $this->fieldLabel('SelectionMethodProducts')
-                    )
+        $fetchMethods = array(
+            'random'       => $this->fieldLabel('fetchMethodRandom'),
+            'sortOrderAsc' => $this->fieldLabel('fetchMethodSortOrderAsc')
         );
-        $fields->dataFieldByName('numberOfProductsToShow')->setDescription($this->fieldLabel('numberOfProductsToShowInfo'));
-        $fields->dataFieldByName('isContentView')->setDescription($this->fieldLabel('isContentViewInfo'));
-        $productGroupField          = new SilvercartGroupedDropdownField(
-            'SilvercartProductGroupPageID',
-            $this->fieldLabel('SilvercartProductGroupPage'),
-            SilvercartProductGroupHolder_Controller::getRecursiveProductGroupsForGroupedDropdownAsArray(null, true),
-            $this->SilvercartProductGroupPageID
-        );
-        $fields->insertAfter($productGroupField, 'fetchMethod');
-        $groupViewField = SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView'), $this->GroupView);
-        $fields->insertAfter($groupViewField, 'fetchMethod');
+        $fields = SilvercartWidgetTools::getCMSFieldsForProductSliderWidget($this, $fetchMethods);
+        
         return $fields;
     }
     
@@ -227,6 +208,7 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
                 SilvercartWidgetTools::fieldLabelsForProductSliderWidget($this),
                 array(
                     'SilvercartProductGroupPage'                 => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
+                    'SilvercartProductGroupPageDescription'      => _t('SilvercartProductGroupItemsWidget.SilvercartProductGroupPageDescription'),
                     'useSelectionMethod'                         => _t('SilvercartProductGroupItemsWidget.USE_SELECTIONMETHOD'),
                     'SelectionMethodProductGroup'                => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTGROUP'),
                     'SelectionMethodProducts'                    => _t('SilvercartProductGroupItemsWidget.SELECTIONMETHOD_PRODUCTS'),

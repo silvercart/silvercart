@@ -21,62 +21,6 @@
 class SilvercartWidgetTools extends Object {
     
     /**
-     * Returns the input fields for this widget.
-     * 
-     * @param SilvercartWidget_Controller $widget Widget to initialize
-     * 
-     * @return FieldList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
-     */
-    public static function getCMSFieldsForProductSliderWidget(SilvercartWidget_Controller $widget) {
-        $fetchMethods               = array(
-                'random'        => $widget->fieldLabel('fetchMethodRandom'),
-                'sortOrderAsc'  => $widget->fieldLabel('fetchMethodSortOrderAsc'),
-                'sortOrderDesc' => $widget->fieldLabel('fetchMethodSortOrderDesc'),
-        );
-        
-        $fields                     = new FieldList();
-        $titleField                 = new TextField('FrontTitle',               $widget->fieldLabel('FrontTitle'));
-        $contentField               = new TextareaField('FrontContent',         $widget->fieldLabel('FrontContent'), 10);
-        $numberOfProductsShowField  = new TextField('numberOfProductsToShow',   $widget->fieldLabel('numberOfProductsToShow'));
-        $numberOfProductsFetchField = new TextField('numberOfProductsToFetch',  $widget->fieldLabel('numberOfProductsToFetch'));
-        $isContentView              = new CheckboxField('isContentView',        $widget->fieldLabel('isContentView'));
-        $fetchMethod                = new DropdownField('fetchMethod',          $widget->fieldLabel('fetchMethod'), $fetchMethods);
-        $groupViewField             = SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView);
-        
-        $numberOfProductsShowField->setDescription($widget->fieldLabel('numberOfProductsToShowInfo'));
-        $isContentView->setDescription($widget->fieldLabel('isContentViewInfo'));
-        
-        $rootTabSet                 = new TabSet('Root');
-        $basicTab                   = new Tab('Basic',          $widget->fieldLabel('BasicTab'));
-        $displayTabSet              = new TabSet('DisplaySet');
-        $displayTab                 = new Tab('Display',        $widget->fieldLabel('DisplayTab'));
-        
-        $fields->push($rootTabSet);
-        $rootTabSet->push($basicTab);
-        $basicTab->push($displayTabSet);
-        $displayTabSet->push($displayTab);
-
-        $displayTab->push($titleField);
-        $displayTab->push($contentField);
-        $displayTab->push($groupViewField);
-        $displayTab->push($isContentView);
-        $displayTab->push($fetchMethod);
-        $displayTab->push($numberOfProductsShowField);
-        $displayTab->push($numberOfProductsFetchField);
-        
-        $widget->getCMSFieldsSliderTab($rootTabSet);
-        /*
-         * does not work on a standard installation yet
-         */
-        //$widget->getCMSFieldsRoundaboutTab($rootTabSet);
-        
-        return $fields;
-    }
-    
-    /**
      * Returns the slider tab input fields for this widget.
      * 
      * @param SilvercartWidget $widget      Widget to initialize
@@ -85,9 +29,104 @@ class SilvercartWidgetTools extends Object {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @since 07.03.2014
+     * @deprecated since version 3.1 - Use getCMSFieldsSliderToggleForSliderWidget instead.
      */
     public static function getCMSFieldsSliderTabForProductSliderWidget(SilvercartWidget $widget, &$rootTabSet) {
+        self::getCMSFieldsSliderToggleForSliderWidget($widget, $rootTabSet);
+    }
+    
+    /**
+     * Returns the input fields for this widget.
+     * 
+     * @param SilvercartWidget_Controller $widget       Widget to initialize
+     * @param array                       $fetchMethods Optional list of product fetch methods
+     * 
+     * @return FieldList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2014
+     */
+    public static function getCMSFieldsForProductSliderWidget(SilvercartWidget_Controller $widget, $fetchMethods = array()) {
+        if (empty($fetchMethods)) {
+            $fetchMethods               = array(
+                    'random'        => $widget->fieldLabel('fetchMethodRandom'),
+                    'sortOrderAsc'  => $widget->fieldLabel('fetchMethodSortOrderAsc'),
+                    'sortOrderDesc' => $widget->fieldLabel('fetchMethodSortOrderDesc'),
+            );
+        }
+        $fields = SilvercartDataObject::getCMSFields($widget, 'ExtraCssClasses', false);
+        
+        $productGroupDropdown = new TreeDropdownField(
+                'SilvercartProductGroupPageID',
+                $widget->fieldLabel('SilvercartProductGroupPage'),
+                'SiteTree'
+        );
+        $productGroupDropdown->setTreeBaseID(SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder')->ID);
+        
+        $toggleFields = array(
+            $fields->dataFieldByName('numberOfProductsToShow'),
+            $fields->dataFieldByName('numberOfProductsToFetch'),
+            $fields->dataFieldByName('fetchMethod'),
+            SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView),
+        );
+        
+        $fields->dataFieldByName('fetchMethod')->setSource($fetchMethods);
+        $fields->dataFieldByName('numberOfProductsToShow')->setDescription($widget->fieldLabel('numberOfProductsToShowInfo'));
+        $fields->dataFieldByName('isContentView')->setDescription($widget->fieldLabel('isContentViewInfo'));
+        
+        if (is_object($fields->dataFieldByName('useSelectionMethod'))) {
+            $fields->dataFieldByName('useSelectionMethod')->setSource(
+                        array(
+                            'productGroup' => $widget->fieldLabel('SelectionMethodProductGroup'),
+                            'products'     => $widget->fieldLabel('SelectionMethodProducts')
+                        )
+            );
+            $toggleFields[] = $fields->dataFieldByName('useSelectionMethod');
+            $productGroupDropdown->setDescription($widget->fieldLabel('SilvercartProductGroupPageDescription'));
+        }
+        $toggleFields[] = $productGroupDropdown;
+        $productDataToggle = ToggleCompositeField::create(
+                'ProductDataToggle',
+                $widget->fieldLabel('ProductDataToggle'),
+                $toggleFields
+        )->setHeadingLevel(4);
+        
+        $productRelationToggle = ToggleCompositeField::create(
+                'ProductRelationToggle',
+                $widget->fieldLabel('ProductRelationToggle'),
+                array(
+                    $fields->dataFieldByName('SilvercartProducts'),
+                )
+        )->setHeadingLevel(4);
+        
+        $fields->removeByName('numberOfProductsToShow');
+        $fields->removeByName('numberOfProductsToFetch');
+        $fields->removeByName('fetchMethod');
+        $fields->removeByName('useSelectionMethod');
+        $fields->removeByName('SilvercartProducts');
+        
+        $fields->addFieldToTab("Root.Main", $productDataToggle);
+        $fields->addFieldToTab("Root.Main", $productRelationToggle);
+        
+        $widget->getCMSFieldsSliderTab($fields);
+        //$widget->getCMSFieldsRoundaboutTab($fields);
+        
+        return $fields;
+    }
+    
+    /**
+     * Adds the slider toggle input fields for this widget.
+     * 
+     * @param SilvercartWidget $widget Widget to initialize
+     * @param TabList          $fields Fields to add toggle to
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2014
+     */
+    public static function getCMSFieldsSliderToggleForSliderWidget(SilvercartWidget $widget, $fields) {
         $useSlider          = new CheckboxField('useSlider',        $widget->fieldLabel('useSlider'));
         $autoplay           = new CheckboxField('Autoplay',         $widget->fieldLabel('Autoplay'));
         $slideDelay         = new TextField('slideDelay',           $widget->fieldLabel('slideDelay'));
@@ -123,7 +162,7 @@ class SilvercartWidgetTools extends Object {
                     $transitionEffect,
                 )
         )->setHeadingLevel(4);
-        $rootTabSet->addFieldToTab("Root.Main", $sliderToggle);
+        $fields->addFieldToTab("Root.Main", $sliderToggle);
     }
     
     /**
@@ -517,6 +556,8 @@ class SilvercartWidgetTools extends Object {
             'useRoundabout'                 => _t('SilvercartProductSliderWidget.USE_ROUNDABOUT'),
             'AddImage'                      => _t('SilvercartProductSliderWidget.AddImage'),
 
+            'ProductDataToggle'             => _t('SilvercartProductSliderWidget.ProductDataToggle'),
+            'ProductRelationToggle'         => _t('SilvercartProductSliderWidget.ProductRelationToggle'),
             'RoundaboutTab'                 => _t('SilvercartProductSliderWidget.CMS_ROUNDABOUTTABNAME'),
             'SliderTab'                     => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME'),
             'SlideshowTab'                  => _t('SilvercartProductSliderWidget.CMS_SLIDERTABNAME'),

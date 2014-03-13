@@ -185,7 +185,7 @@ $lang['de_DE']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  
 $lang['de_DE']['SilvercartGridFieldQuickAccessController']['QUICKACCESSLABEL']  = 'Schnellansicht';
 
 $lang['de_DE']['SilvercartImageAdmin']['MENUTITLE'] = 'Bilder';
-$lang['de_DE']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Produktbilder';
+$lang['de_DE']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Artikelbilder';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Bilder für Zahlungsarten';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_OTHER_IMAGES'] = 'Andere Bilder';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_IMAGE_TYPE'] = 'Bildtyp wählen';
@@ -285,7 +285,7 @@ $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVE
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_HEADLINE'] = 'Bilder nachträglich importieren';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY'] = 'Verzeichnis';
 $lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC'] = 'Absoluter Pfad zum Verzeichnis auf dem Webserver, in dem die Bilder liegen. (Beispiel: /var/www/silvercart/images/)';
-$lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Es wurden %d Dateien gefunden.</p><p>%d davon konnten Produkten zugeordnet werden und wurden importiert.</p>';
+$lang['de_DE']['SilvercartProduct']['IMPORTIMAGESFORM_REPORT'] = '<p>Es wurden %d Dateien gefunden.</p><p>%d davon konnten Artikeln zugeordnet werden und wurden importiert.</p>';
 $lang['de_DE']['SilvercartProduct']['LIST_PRICE'] = 'Listenpreis';
 $lang['de_DE']['SilvercartProduct']['MASTERPRODUCT'] = 'Basisartikel';
 $lang['de_DE']['SilvercartProduct']['METADATA'] = 'Meta Daten';
@@ -404,9 +404,9 @@ $lang['de_DE']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Spiegel-W
 
 $lang['de_DE']['SilvercartProductGroupPage']['ATTRIBUTES'] = 'Attribut';
 $lang['de_DE']['SilvercartProductGroupPage']['BREADCRUMBS'] = 'Warengruppen-Breadcrumbs';
-$lang['de_DE']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = '<strong>keine</strong> Produkte in der Übersicht anzeigen';
+$lang['de_DE']['SilvercartProductGroupPage']['DONOTSHOWPRODUCTS'] = '<strong>keine</strong> Artikel in der Übersicht anzeigen';
 $lang['de_DE']['SilvercartProductGroupPage']['GROUP_PICTURE'] = 'Bild der Gruppe';
-$lang['de_DE']['SilvercartProductGroupPage']['MANAGE_PRODUCTS_BUTTON'] = 'Produkte verwalten';
+$lang['de_DE']['SilvercartProductGroupPage']['MANAGE_PRODUCTS_BUTTON'] = 'Artikel verwalten';
 $lang['de_DE']['SilvercartProductGroupPage']['MANUFACTURER_LINK'] = 'hersteller';
 $lang['de_DE']['SilvercartProductGroupPage']['PLURALNAME'] = 'Warengruppen';
 $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGE'] = 'Artikel pro Seite';
@@ -414,17 +414,17 @@ $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTSPERPAGEHINT'] = 'Geben Sie
 $lang['de_DE']['SilvercartProductGroupPage']['PRODUCTGROUPSPERPAGE'] = 'Warengruppen pro Seite';
 $lang['de_DE']['SilvercartProductGroupPage']['SINGULARNAME'] = 'Warengruppe';
 $lang['de_DE']['SilvercartProductGroupPage']['USE_CONTENT_FROM_PARENT'] = 'Inhalte von übergeordneten Seiten übernehmen';
-$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Standard-Produktlisten-Ansicht';
+$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW'] = 'Standard-Artikellisten-Ansicht';
 $lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPVIEW_DEFAULT'] = 'Übernehmen von übergeordneter Gruppe/Standartkonfiguration';
-$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPHOLDERVIEW'] = 'Standard-Produktgruppen-Ansicht';
-$lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Ausschließlich die Standard-Produktlisten-Ansicht verwenden';
-$lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 'Ausschließlich die Standard-Produktgruppen-Ansicht verwenden';
-$lang['de_DE']['SilvercartProductGroupPage']['PRODUCT_ON_PAGE'] = '%s Produkt auf %s Seite';
-$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s Produkte auf %s Seite';
-$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s Produkte auf %s Seiten';
+$lang['de_DE']['SilvercartProductGroupPage']['DEFAULTGROUPHOLDERVIEW'] = 'Standard-Warengruppen-Ansicht';
+$lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPVIEW'] = 'Ausschließlich die Standard-Artikellisten-Ansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 'Ausschließlich die Standard-Warengruppen-Ansicht verwenden';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCT_ON_PAGE'] = '%s Artikel auf %s Seite';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s Artikel auf %s Seite';
+$lang['de_DE']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s Artikel auf %s Seiten';
 
 $lang['de_DE']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
-$lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_FOUND']          = '%d Produkte gefunden';
+$lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_FOUND']          = '%d Artikel gefunden';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['PRODUCTS_PER_PAGE']       = 'Artikel pro Seite';
 $lang['de_DE']['SilvercartProductGroupPageSelector']['SORT_ORDER']              = 'Sortierung';
 
@@ -1694,17 +1694,17 @@ $lang['de_DE']['SilvercartProductSliderWidget']['CMS_DISPLAYTABNAME']           
 $lang['de_DE']['SilvercartProductSliderWidget']['CMS_ROUNDABOUTTABNAME']                = 'Roundabout';
 $lang['de_DE']['SilvercartProductSliderWidget']['CMS_SLIDERTABNAME']                    = 'Slideshow Einstellungen';
 $lang['de_DE']['SilvercartProductSliderWidget']['CMS_SLIDERIMAGES']                     = 'Slideshow Bilder';
-$lang['de_DE']['SilvercartProductSliderWidget']['FETCHMETHOD']                          = 'Auswahlmehode für Produkte';
+$lang['de_DE']['SilvercartProductSliderWidget']['FETCHMETHOD']                          = 'Auswahlmehode für Artikel';
 $lang['de_DE']['SilvercartProductSliderWidget']['FETCHMETHOD_RANDOM']                   = 'Zufällig';
 $lang['de_DE']['SilvercartProductSliderWidget']['FRONTTITLE']                           = 'Überschrift';
 $lang['de_DE']['SilvercartProductSliderWidget']['FRONTCONTENT']                         = 'Beschreibungstext';
-$lang['de_DE']['SilvercartProductSliderWidget']['GROUPVIEW']                            = 'Produktlisten-Ansicht';
+$lang['de_DE']['SilvercartProductSliderWidget']['GROUPVIEW']                            = 'Artikellisten-Ansicht';
 $lang['de_DE']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW']                      = 'Normale Artikelansicht statt Widgetansicht verwenden';
 $lang['de_DE']['SilvercartProductSliderWidget']['IS_CONTENT_VIEW_INFO']                 = 'Diese Option sollte gewählt werden, wenn das Widget für den Inhaltsbereich einer Seite vorgesehen ist.';
 $lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOFETCH']              = 'Anzahl der Artikel, die geladen werden sollen:';
 $lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW']               = 'Anzahl der Artikel, die angezeigt werden sollen';
 $lang['de_DE']['SilvercartProductSliderWidget']['NUMBEROFPRODUCTSTOSHOW_INFO']          = 'nur relevant, wenn Slider aktiviert wurde, ansonsten werden alle Artikel angezeigt, die geladen werden';
-$lang['de_DE']['SilvercartProductSliderWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow';
+$lang['de_DE']['SilvercartProductSliderWidget']['SLIDEDELAY']                           = 'Dauer der Anzeige pro Bild für die automatische Slideshow (in Millisekunden)';
 $lang['de_DE']['SilvercartProductSliderWidget']['STOPATEND']                            = 'Stoppt die automatische Slideshow nach dem letzten Panel';
 $lang['de_DE']['SilvercartProductSliderWidget']['TRANSITIONEFFECT']                     = 'Übergangeffekt';
 $lang['de_DE']['SilvercartProductSliderWidget']['TRANSITION_FADE']                      = 'Überblenden';
@@ -1714,8 +1714,10 @@ $lang['de_DE']['SilvercartProductSliderWidget']['USE_LISTVIEW']                 
 $lang['de_DE']['SilvercartProductSliderWidget']['USE_ROUNDABOUT']                       = 'Roundabout verwenden';
 $lang['de_DE']['SilvercartProductSliderWidget']['USE_SLIDER']                           = 'Slider verwenden';
 $lang['de_DE']['SilvercartProductSliderWidget']['AddImage']                             = 'Bild hinzufügen';
+$lang['de_DE']['SilvercartProductSliderWidget']['ProductDataToggle']                    = 'Artikel Einstellungen';
+$lang['de_DE']['SilvercartProductSliderWidget']['ProductRelationToggle']                = 'Artikel Zuordnung';
 
-$lang['de_DE']['SilvercartProductGroupChildProductsWidget']['CMSTITLE']     = 'SilverCart Anzeige von Produkten aus Unterwarengruppen';
+$lang['de_DE']['SilvercartProductGroupChildProductsWidget']['CMSTITLE']     = 'SilverCart Anzeige von Artikeln aus Unterwarengruppen';
 $lang['de_DE']['SilvercartProductGroupChildProductsWidget']['DESCRIPTION']  = 'Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind.';
 $lang['de_DE']['SilvercartProductGroupChildProductsWidget']['TITLE']        = 'Artikel aus Unterwarengruppen';
 
@@ -1724,16 +1726,17 @@ $lang['de_DE']['SilvercartProductGroupChildProductsWidgetLanguage']['SINGULARNAM
 
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTGROUPTABNAME']              = 'Warengruppe';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['CMS_PRODUCTSTABNAME']                  = 'Artikel';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                             = 'SilverCart Slider für Produkte';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['CMSTITLE']                             = 'SilverCart Slider für Artikel';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['DESCRIPTION']                          = 'Dieses Widget zeigt Artikel aus einer Warengruppe an. Es kann definiert werden, aus welcher Warengruppe und wieviele Artikel angezeigt werden sollen.';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERASC']             = 'Anordnung aufsteigend';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['FETCHMETHOD_SORTORDERDESC']            = 'Anordnung absteigend';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTGROUP']         = 'Aus Warengruppe';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS']             = 'Produkte von Hand wählen';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECTIONMETHOD_PRODUCTS']             = 'Artikel von Hand wählen';
 $lang['de_DE']['SilvercartProductGroupItemsWidget']['STOREADMIN_FIELDLABEL']                = 'Bitte wählen Sie die anzuzeigende Warengruppe:';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Produkte';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Auswahlmethode für Produkte';
-$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECT_PRODUCT_DESCRIPTION']           = 'Bitte Produktnummern eingeben, durch Strichpunkt getrennt';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['TITLE']                                = 'Artikel';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['USE_SELECTIONMETHOD']                  = 'Auswahlmethode für Artikel';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SELECT_PRODUCT_DESCRIPTION']           = 'Bitte Artikelnummern eingeben, durch Strichpunkt getrennt';
+$lang['de_DE']['SilvercartProductGroupItemsWidget']['SilvercartProductGroupPageDescription'] = 'Nur relevant, wenn "Auswahlmethode für Artikel" auf "Aus Warengruppe" gesetzt ist.';
 
 $lang['de_DE']['SilvercartProductGroupManufacturersWidget']['CMSTITLE']    = 'SilverCart Herstellerliste';
 $lang['de_DE']['SilvercartProductGroupManufacturersWidget']['DESCRIPTION'] = 'Dieses Widget stellt eine Liste aller Hersteller der betreffenden Warengruppe dar.';
