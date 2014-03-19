@@ -1376,7 +1376,7 @@ de:
     TITLE: "Artikel"
     TITLE_ASC: "Bezeichnung aufsteigend"
     TITLE_DESC: "Bezeichnung absteigend"
-    TimeGroup: "Zeitstuerung"
+    TimeGroup: "Zeitsteuerung"
     VAT: "MwSt"
     WEIGHT: "Gewicht"
     WIDGETAREA: "Widgets"
