@@ -128,8 +128,9 @@ class SilvercartPlugin extends Object {
      *
      * @return mixed
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.09.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.03.2014
      */
     public static function call($callingObject, $methodName, $arguments = array(), $passArgumentsByReference = false, $returnContainer = '') {
         if (!is_array($arguments)) {
@@ -166,7 +167,12 @@ class SilvercartPlugin extends Object {
                         } else if ($returnContainer == 'ArrayList') {
                             $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else {
-                            $returnContainer .= $pluginProvider->$methodName($arguments,$callingObject);
+                            $result = $pluginProvider->$methodName($arguments,$callingObject);
+                            if (is_string($result)) {
+                                $returnContainer .= $result;
+                            } else {
+                                $returnContainer = $result;
+                            }
                         }
                     } else {
                         if (is_array($returnContainer)) {
@@ -184,7 +190,12 @@ class SilvercartPlugin extends Object {
                         } else if ($returnContainer == 'ArrayList') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else {
-                            $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);
+                            $result = $pluginProvider->$methodName($arguments, $callingObject);
+                            if (is_string($result)) {
+                                $returnContainer .= $result;
+                            } else {
+                                $returnContainer = $result;
+                            }
                         }
                     }
                 } else {
