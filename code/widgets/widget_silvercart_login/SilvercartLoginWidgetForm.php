@@ -72,8 +72,9 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
      *
      * @return array to be rendered in the controller
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.03.2014
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -117,7 +118,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
 
                 $customer->logIn();
                 $customer->write();
-                $this->getController->redirect($formData['redirect_to']);
+                $this->Controller()->redirect($formData['redirect_to']);
             } else {
 
                 $this->messages = array(

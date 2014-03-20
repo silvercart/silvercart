@@ -54,21 +54,28 @@ class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
      * 
      * @param string $widget Not documented in parent class unfortunately
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.03.2014
      */
     public function __construct($widget = null) {
         parent::__construct($widget);
         
-        Controller::curr()->registerCustomHtmlForm(
-            'SilvercartLoginWidgetForm'.$this->classInstanceIdx,
-            new SilvercartLoginWidgetForm(
-                Controller::curr(),
-                array(
-                    'redirect_to' => Controller::curr()->Link()
-                )
-            )
-        );
+        if ($this->widget instanceof Widget &&
+            $this->widget->exists()) {
+            
+            if (Controller::curr()->getRegisteredCustomHtmlForm('SilvercartLoginWidgetForm' . $this->widget->ID) === false) {
+                Controller::curr()->registerCustomHtmlForm(
+                    'SilvercartLoginWidgetForm' . $this->widget->ID,
+                    new SilvercartLoginWidgetForm(
+                        Controller::curr(),
+                        array(
+                            'redirect_to' => $_SERVER['REQUEST_URI']
+                        )
+                    )
+                );
+            }
+        }
     }
     
     /**
@@ -76,11 +83,12 @@ class SilvercartLoginWidget_Controller extends SilvercartWidget_Controller {
      * 
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 20.03.2014
      */
     public function InsertCustomHtmlForm() {
-        return Controller::curr()->InsertCustomHtmlForm('SilvercartLoginWidgetForm'.$this->classInstanceIdx);
+        return Controller::curr()->InsertCustomHtmlForm('SilvercartLoginWidgetForm' . $this->widget->ID);
     }
     
     /**
