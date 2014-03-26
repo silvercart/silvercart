@@ -32,6 +32,13 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartCheckoutFormStep1 extends CustomHtmlFormStep {
+    
+    /**
+     * Set this to false to hide the step in navigation
+     *
+     * @var bool
+     */
+    public static $show_in_step_navigation = true;
 
     /**
      * Don't cache this form.
@@ -106,13 +113,13 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlFormStep {
      * Here we set some preferences.
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 08.04.2011
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.03.2014
      */
     public function preferences() {
-        $this->preferences['stepIsVisible']             = true;
+        $this->preferences['stepIsVisible']             = self::$show_in_step_navigation;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep1.TITLE');
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.FORWARD');
         $this->preferences['fillInRequestValues']       = true;
