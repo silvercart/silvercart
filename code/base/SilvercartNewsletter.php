@@ -168,10 +168,8 @@ class SilvercartNewsletter extends DataObject {
             )
         );
         
-        if ( $regularCustomer &&
-            ($regularCustomer->Groups()->find('Code', 'b2b') ||
-             $regularCustomer->Groups()->find('Code', 'b2c'))
-            ) {
+        if ($regularCustomer &&
+            $regularCustomer->isValidCustomer()) {
             
             $emailIsAllocated = true;
         }

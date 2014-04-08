@@ -410,19 +410,11 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $customer->changePassword($formData['Password']);
 
         // Add customer to intermediate group
-        
         if (array_key_exists('IsBusinessAccount', $formData) &&
             $formData['IsBusinessAccount'] == '1') {
-            
-            $customerGroup = DataObject::get_one(
-                'Group',
-                "\"Code\" = 'b2b'"
-            );
+            $customerGroup = SilvercartCustomer::default_customer_group_b2b();
         } else {
-            $customerGroup = DataObject::get_one(
-                'Group',
-                "\"Code\" = 'b2c'"
-            );
+            $customerGroup = SilvercartCustomer::default_customer_group();
         }
         if ($customerGroup) {
             $customer->Groups()->add($customerGroup);

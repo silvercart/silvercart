@@ -102,6 +102,31 @@ class SilvercartCustomer extends DataExtension {
         'GroupNames' => 'Text',
     );
 
+    /**
+     * Code of default B2C customer group
+     *
+     * @var string
+     */
+    public static $default_customer_group_code = 'b2c';
+
+    /**
+     * Code of default B2B customer group
+     *
+     * @var string
+     */
+    public static $default_customer_group_code_b2b = 'b2b';
+
+    /**
+     * List of codes of valid customer group.
+     *
+     * @var array
+     */
+    public static $valid_customer_group_codes = array(
+        'b2c',
+        'b2b',
+        'administrators',
+    );
+
     // ------------------------------------------------------------------------
     // Extension methods
     // ------------------------------------------------------------------------
@@ -493,6 +518,78 @@ class SilvercartCustomer extends DataExtension {
         
         return false;
     }
+    
+    /**
+     * Returns the default customer group code.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public static function default_customer_group_code() {
+        return self::$default_customer_group_code;
+    }
+    
+    /**
+     * Returns the default customer group code B2B.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public static function default_customer_group_code_b2b() {
+        return self::$default_customer_group_code_b2b;
+    }
+    
+    /**
+     * Returns the default B2C group.
+     * 
+     * @return Group
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public static function default_customer_group() {
+        return Group::get()->filter('Code', self::default_customer_group_code())->first();
+    }
+    
+    /**
+     * Returns the default B2B group.
+     * 
+     * @return Group
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public static function default_customer_group_b2b() {
+        return Group::get()->filter('Code', self::default_customer_group_code_b2b())->first();
+    }
+
+        /**
+     * Returns whether this is a valid customer.
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public function isValidCustomer() {
+        $isValidCustomer = false;
+        $member          = $this->owner;
+        
+        if ($member->Groups()->exists()) {
+            $map = $member->Groups()->map('ID', 'Code')->toArray();
+            foreach ($map as $groupCode) {
+                if (in_array($groupCode, self::$valid_customer_group_codes)) {
+                    $isValidCustomer = true;
+                    break;
+                }
+            }
+        }
+        return $isValidCustomer;
+    }
 
     /**
      * Function similar to Member::currentUser(); Determins if we deal with a
@@ -501,29 +598,19 @@ class SilvercartCustomer extends DataExtension {
      *
      * @return mixed Member|boolean(false)
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 18.10.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
      */
     public static function currentRegisteredCustomer() {
-        $member                 = Member::currentUser();
-        $isRegisteredCustomer   = false;
+        $member             = Member::currentUser();
+        $registeredCustomer = false;
         
         if ($member &&
-            $member->Groups()) {
-            
-            if ($member->Groups()->find('Code', 'b2c') ||
-                $member->Groups()->find('Code', 'b2b') ||
-                $member->Groups()->find('Code', 'administrators')) {
-                
-                $isRegisteredCustomer = true;
-            }
+            $member->isValidCustomer()) {
+            $registeredCustomer = $member;
         }
         
-        if ($isRegisteredCustomer) {
-            return $member;
-        }
-        
-        return false;
+        return $registeredCustomer;
     }
     
     /**
