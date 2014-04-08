@@ -283,7 +283,7 @@ class SilvercartPage_Controller extends ContentController {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     * @since 08.04.2014
      */
     public function init() {
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
@@ -342,7 +342,7 @@ class SilvercartPage_Controller extends ContentController {
             array_key_exists('Action', $allParams) &&
             strtolower($allParams['Action']) == 'lostpassword' &&
             Member::currentUserID() > 0) {
-            Security::logout(false);
+            Member::currentUser()->logOut();
         }
 
         // check the SilverCart configuration
