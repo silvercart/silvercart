@@ -125,6 +125,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['createShoppingcartForms']   = false;
         $this->preferences['doJsValidationScrolling']   = false;
+        $this->preferences['submitButtonUseButtonTag']  = true;
 
         $checkoutData = $this->controller->getCombinedStepData();
 
