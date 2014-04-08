@@ -295,6 +295,7 @@ de:
     ProductConfiguration: "Artikel-Einstellungen"
     QUANTITY_OVERBOOKABLE: "Ist der Lagerbestand generell überbuchbar?"
     REDIRECTTOCARTAFTERADDTOCART: "Kunde zum Warenkorb umleiten nach Aktion \"In den Warenkorb legen\""
+    redirectToCheckoutWhenInCart: "Sofort zum Checkout umleiten, wenn Kunde den Warenkorb betritt."
     SEARCH: "Suche"
     SERVER: "Server"
     SHOW_CONFIG: "Konfiguration anzeigen"

@@ -564,6 +564,7 @@ $lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE'] = 'Products per page';
 $lang['en_US']['SilvercartConfig']['PRODUCTSPERPAGE_ALL'] = 'Show all';
 $lang['en_US']['SilvercartConfig']['PRODUCTGROUPSPERPAGE'] = 'Product groups per page';
 $lang['en_US']['SilvercartConfig']['REDIRECTTOCARTAFTERADDTOCART'] = 'Redirect customer to cart after "add to cart" action';
+$lang['en_US']['SilvercartConfig']['redirectToCheckoutWhenInCart'] = 'Redirect customer to checkout when entering shopping cart';
 $lang['en_US']['SilvercartConfig']['SEARCH'] = 'Search';
 $lang['en_US']['SilvercartConfig']['SERVER'] = 'Server';
 $lang['en_US']['SilvercartConfig']['SINGULARNAME'] = 'General configuration';

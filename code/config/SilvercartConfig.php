@@ -105,6 +105,7 @@ class SilvercartConfig extends DataObject {
         'enableStockManagement'                 => 'Boolean(0)',
         'isStockManagementOverbookable'         => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
+        'redirectToCheckoutWhenInCart'          => 'Boolean(0)',
         'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
         'addToCartMaxQuantity'                  => 'Int(999)',
         'Locale'                                => 'DBLocale',
@@ -191,6 +192,7 @@ class SilvercartConfig extends DataObject {
     public static $enableStockManagement                    = null;
     public static $isStockManagementOverbookable            = null;
     public static $redirectToCartAfterAddToCart             = null;
+    public static $redirectToCheckoutWhenInCart             = null;
     public static $demandBirthdayDateOnRegistration         = null;
     public static $useDefaultLanguageAsFallback             = null;
     public static $forceLoadingOfDefaultLayout              = false;
@@ -333,6 +335,7 @@ class SilvercartConfig extends DataObject {
                 array(
                     new CheckboxField('enableSSL',                          $this->fieldLabel('enableSSL')),
                     new CheckboxField('redirectToCartAfterAddToCart',       $this->fieldLabel('redirectToCartAfterAddToCart')),
+                    new CheckboxField('redirectToCheckoutWhenInCart',       $this->fieldLabel('redirectToCheckoutWhenInCart')),
                     new CheckboxField('useProductDescriptionFieldForCart',  $this->fieldLabel('useProductDescriptionFieldForCart')),
                     new DropdownField('productDescriptionFieldForCart',     $this->fieldLabel('productDescriptionFieldForCart')),
                     new TextField('addToCartMaxQuantity',                   $this->fieldLabel('addToCartMaxQuantity')),
@@ -484,6 +487,7 @@ class SilvercartConfig extends DataObject {
                     'DefaultContactMessageRecipient'        => _t('SilvercartConfig.DEFAULT_CONTACT_MESSAGE_RECIPIENT'),
                     'userAgentBlacklist'                    => _t('SilvercartConfig.USER_AGENT_BLACKLIST'),
                     'redirectToCartAfterAddToCart'          => _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART'),
+                    'redirectToCheckoutWhenInCart'          => _t('SilvercartConfig.redirectToCheckoutWhenInCart'),
                     'addExampleData'                        => _t('SilvercartConfig.ADD_EXAMPLE_DATA'),
                     'addExampleConfig'                      => _t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION'),
                     'displayedPaginationPages'              => _t('SilvercartConfig.DISPLAYEDPAGINATION'),
@@ -1145,18 +1149,42 @@ class SilvercartConfig extends DataObject {
     }
     
     /**
-     * Returns the standard product condition.
+     * Alias for RedirectToCartAfterAddToCart.
      * 
-     * @return mixed SilvercartProductCondition|bool false
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
+     * @return bool
      */
     public static function getRedirectToCartAfterAddToCartAction() {
+        return self::RedirectToCartAfterAddToCart();
+    }
+    
+    /**
+     * Returns whether to redirect to cart after adding a product into.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public static function RedirectToCartAfterAddToCart() {
         if (is_null(self::$redirectToCartAfterAddToCart)) {
             self::$redirectToCartAfterAddToCart = self::getConfig()->redirectToCartAfterAddToCart;
         }
         return self::$redirectToCartAfterAddToCart;
+    }
+    
+    /**
+     * Returns whether to redirect to checkout after going to cart.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2014
+     */
+    public static function RedirectToCheckoutWhenInCart() {
+        if (is_null(self::$redirectToCheckoutWhenInCart)) {
+            self::$redirectToCheckoutWhenInCart = self::getConfig()->redirectToCheckoutWhenInCart;
+        }
+        return self::$redirectToCheckoutWhenInCart;
     }
 
     /**
@@ -1238,18 +1266,22 @@ class SilvercartConfig extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2011
+     * @since 08.04.2014
      */
     public static function triggerError($errorMessage) {
-        $elements = array(
-            'ErrorMessage' => $errorMessage,
-        );
-        $output = Controller::curr()->customise($elements)->renderWith(
-                        array(
-                            'SilvercartErrorPage',
-                            'Page'
-                        )
-        );
+        if (SilvercartTools::isIsolatedEnvironment()) {
+            $output = $errorMessage;
+        } else {
+            $elements = array(
+                'ErrorMessage' => $errorMessage,
+            );
+            $output = Controller::curr()->customise($elements)->renderWith(
+                            array(
+                                'SilvercartErrorPage',
+                                'Page'
+                            )
+            );
+        }
         print $output;
         exit();
     }

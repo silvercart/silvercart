@@ -295,6 +295,7 @@ en_GB:
     ProductConfiguration: "Product Settings"
     QUANTITY_OVERBOOKABLE: "Is the stock quantity of a product generally overbookable?"
     REDIRECTTOCARTAFTERADDTOCART: "Redirect customer to cart after \"add to cart\" action"
+    redirectToCheckoutWhenInCart: "Redirect customer to checkout when entering shopping cart"
     SEARCH: "Search"
     SERVER: "Server"
     SHOW_CONFIG: "Show configuration"

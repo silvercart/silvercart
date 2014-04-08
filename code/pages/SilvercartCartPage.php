@@ -73,8 +73,9 @@ class SilvercartCartPage_Controller extends Page_Controller {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 11.02.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.04.2014
      */
     public function init() {
         if (Member::currentUser() &&
@@ -83,6 +84,13 @@ class SilvercartCartPage_Controller extends Page_Controller {
             Member::currentUser()->SilvercartShoppingCart();
         }
         parent::init();
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartShoppingCart()->exists() &&
+            Member::currentUser()->SilvercartShoppingCart()->SilvercartShoppingCartPositions()->count() > 0 &&
+            SilvercartConfig::RedirectToCheckoutWhenInCart()) {
+            
+            $this->redirect(SilvercartTools::PageByIdentifierCode('SilvercartCheckoutStep')->Link());
+        }
     }
 
     /** Indicates wether ui elements for removing items and altering their
