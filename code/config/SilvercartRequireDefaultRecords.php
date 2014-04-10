@@ -531,7 +531,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $dataPrivacyStatementPage->URLSegment       = _t('SilvercartDataPrivacyStatementPage.DEFAULT_URLSEGMENT', 'data-privacy-statement');
             $dataPrivacyStatementPage->Status           = "Published";
             $dataPrivacyStatementPage->ShowInMenus      = 1;
-            $dataPrivacyStatementPage->IdentifierCode   = "SilvercartDataPrivacyStatementPage";
+            $dataPrivacyStatementPage->IdentifierCode   = "DataPrivacyStatementPage";
             $dataPrivacyStatementPage->ParentID         = $metaNavigationHolder->ID;
             $dataPrivacyStatementPage->write();
             $dataPrivacyStatementPage->publish("Stage", "Live");
