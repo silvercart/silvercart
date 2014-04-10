@@ -174,7 +174,8 @@ class SilvercartShoppingCart extends DataObject {
                     );
 
                     $this->callMethodOnRegisteredModules(
-                        'ShoppingCartInit'
+                        'ShoppingCartInit',
+                        array($this)
                     );
                 }
             }
@@ -1832,8 +1833,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return DataList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.01.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 09.04.2014
      */
     public function registeredModules() {
         $customer = Member::currentUser();
@@ -1849,6 +1851,7 @@ class SilvercartShoppingCart extends DataObject {
 
         foreach ($registeredModules as $registeredModule) {
             $registeredModuleObjPlain = new $registeredModule();
+            $registeredModuleObj      = false;
 
             if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
                 $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
