@@ -280,6 +280,34 @@ class SilvercartTools extends Object {
         }
 
     }
+    
+    /**
+     * Returns the default field labels for the given DataObject.
+     * 
+     * @param string $objectName Object name to get field labels for
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.04.2014
+     */
+    public static function field_labels_for($objectName) {
+        
+        $fieldLabels = array();
+        
+        $params = array('db', 'casting', 'has_one');
+        foreach ($params as $param) {
+            $source = Config::inst()->get($objectName, $param);
+            if (is_array($source)) {
+                foreach (array_keys($source) as $fieldname) {
+                    $fieldLabels[$fieldname]          = _t($objectName . '.' . $fieldname);
+                    $fieldLabels[$fieldname . 'Desc'] = _t($objectName . '.' . $fieldname . 'Desc');
+                }
+            }
+        }
+        
+        return $fieldLabels;
+    }
 
     /**
      * Checks if the installation is complete. We assume a complete
