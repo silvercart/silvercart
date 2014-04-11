@@ -126,7 +126,7 @@ class SilvercartTools extends Object {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.06.2012
+     * @since 10.04.2014
      */
     public static function string2urlSegment($originalString) {
         if (function_exists('mb_strtolower')) {
@@ -134,7 +134,11 @@ class SilvercartTools extends Object {
         } else {
             $string = strtolower($originalString);
         }
-        $string     = Object::create('Transliterator')->toASCII($string);
+        $transliteratorClass = 'Transliterator';
+        if (class_exists('SS_Transliterator')) {
+            $transliteratorClass = 'SS_Transliterator';
+        }
+        $string     = Object::create($transliteratorClass)->toASCII($string);
         $string     = str_replace('&amp;','-and-',$string);
         $string     = str_replace('&','-and-',$string);
         $string     = ereg_replace('[^A-Za-z0-9]+','-',$string);
