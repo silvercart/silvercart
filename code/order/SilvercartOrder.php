@@ -1926,8 +1926,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             }
             
             $taxRate = $orderPosition->TaxRate;
-
-            if ($taxRate > 0 &&
+            if ($taxRate == '') {
+                $taxRate = 0;
+            }
+            if ($taxRate >= 0 &&
                 !$taxes->find('Rate', $taxRate)) {
                 
                 $taxes->push(
@@ -2017,7 +2019,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         // Shipping cost tax
         $taxRate = $this->TaxRateShipment;
-        if ($taxRate > 0 &&
+        if ($taxRate == '') {
+            $taxRate = 0;
+        }
+        if ($taxRate >= 0 &&
             !$taxes->find('Rate', $taxRate)) {
 
             $taxes->push(
@@ -2034,7 +2039,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         // Payment cost tax
         $taxRate = $this->TaxRatePayment;
-        if ($taxRate > 0 &&
+        if ($taxRate == '') {
+            $taxRate = 0;
+        }
+        if ($taxRate >= 0 &&
             !$taxes->find('Rate', $taxRate)) {
 
             $taxes->push(
