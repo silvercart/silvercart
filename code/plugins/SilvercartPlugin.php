@@ -179,7 +179,12 @@ class SilvercartPlugin extends Object {
                         } else if ($returnContainer == 'DataObjectSet') {
                             $returnContainer = $pluginProvider->$methodName($arguments,$callingObject);
                         } else {
-                            $returnContainer .= $pluginProvider->$methodName($arguments,$callingObject);
+                            $result = $pluginProvider->$methodName($arguments, $callingObject);
+                            if (is_string($result)) {
+                                $returnContainer .= $result;
+                            } else {
+                                $returnContainer = $result;
+                            }
                         }
                     } else {
                         if (is_array($returnContainer)) {
@@ -197,7 +202,12 @@ class SilvercartPlugin extends Object {
                         } else if ($returnContainer == 'DataObjectSet') {
                             $returnContainer = $pluginProvider->$methodName($arguments, $callingObject);
                         } else {
-                            $returnContainer .= $pluginProvider->$methodName($arguments, $callingObject);
+                            $result = $pluginProvider->$methodName($arguments, $callingObject);
+                            if (is_string($result)) {
+                                $returnContainer .= $result;
+                            } else {
+                                $returnContainer = $result;
+                            }
                         }
                     }
                 } else {
