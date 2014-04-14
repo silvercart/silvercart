@@ -200,11 +200,11 @@ class SilvercartCountry extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.06.2012
+     * @since 14.04.2014
      */
     public function  searchableFields() {
         return array(
-            'SilvercartCountryLanguages.Title' => array(
+            'Title' => array(
                 'title'     => $this->singular_name(),
                 'filter'    => 'PartialMatchFilter',
             ),
