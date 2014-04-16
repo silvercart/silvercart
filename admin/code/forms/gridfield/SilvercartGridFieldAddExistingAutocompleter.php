@@ -30,115 +30,6 @@
 class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAutocompleter {
 
     /**
-     * Returns a json array of a search results that can be used by for example Jquery.ui.autosuggestion
-     *
-     * @param GridField      $gridField GridField to execute search for
-     * @param SS_HTTPRequest $request   Request to extract search data from
-     * 
-     * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
-     * @deprecated since version 3.1 - Seems not to be needed anymore. Should be checked.
-     */
-    public function doSearch_DEPRECATED($gridField, $request) {
-        $dataClass = $gridField->getList()->dataClass();
-        $allList = $this->searchList ? $this->searchList : DataList::create($dataClass);
-
-        $searchFields = ($this->getSearchFields()) ? $this->getSearchFields() : $this->scaffoldSearchFields($dataClass);
-        if (!$searchFields) {
-            throw new LogicException(
-                    sprintf('GridFieldAddExistingAutocompleter: No searchable fields could be found for class "%s"', $dataClass));
-        }
-        $useCurrentLocale = false;
-        if (!in_array('Locale', $searchFields) &&
-            singleton($dataClass)->hasExtension('Translatable')) {
-            $searchFields['Locale'] = 'Locale';
-            $useCurrentLocale = true;
-        }
-
-        $stmts          = array();
-        $joinClassNames = array();
-        foreach ($searchFields as $index => $searchField) {
-            if (strpos($searchField, '.') !== false) {
-                $filterClass                = '';
-                $originalSearchableField    = $searchField;
-                $parts                      = explode('.', $searchField);
-                $relationName               = $parts[0];
-                $searchField                = $parts[1];
-                $joinClassName              = null;
-                $relationClassName          = Config::inst()->get($dataClass, 'has_many');
-                if (is_array($relationClassName)) {
-                    $relationClassName = $relationClassName[$relationName];
-                }
-                if (!is_null($relationClassName)) {
-                    foreach (singleton($relationClassName)->getClassAncestry() as $ancestor) {
-                        if (DataObject::has_own_table($ancestor)) {
-                            $joinClassName = $ancestor;
-                            break;
-                        }
-                    }
-                }
-                if (is_null($joinClassName)) {
-                    throw new LogicException(
-                            sprintf('GridFieldAddExistingAutocompleter: Searchable field "%s" could not be found for class "%s"', $originalSearchableField, $dataClass)
-                    );
-                } else {
-                    $joinClassNames[$relationName]  = $joinClassName;
-                    $searchFields[$index]           = $relationClassName . '.' . $searchField;
-                    $searchField                    = $relationClassName . '"."' . $searchField;
-                }
-                $has_one = Config::inst()->get($relationClassName, 'has_one');
-                foreach ($has_one as $hasOneRelationName => $hasOneRelationClassName) {
-                    if ($hasOneRelationClassName == $dataClass) {
-                        $targetRelationName = $hasOneRelationName;
-                        continue;
-                    }
-                }
-            } else {
-                $foundFilterClass = false;
-                $ancestry         = singleton($dataClass)->getClassAncestry();
-                do {
-                    if (count($ancestry) == 0) {
-                        throw new LogicException(
-                                sprintf('GridFieldAddExistingAutocompleter: Searchable field "%s" could be found for class "%s" and its ancestors', $searchField, $dataClass));
-                    }
-                    $filterClass = array_pop($ancestry);
-                    $db          = Config::inst()->get($filterClass, 'db');
-                    if (array_key_exists($searchField, $db)) {
-                        $foundFilterClass = true;
-                    }
-                } while (!$foundFilterClass);
-                $searchField = $filterClass . '"."' . $searchField;
-            }
-            if ($searchField == $filterClass . '"."Locale' &&
-                $useCurrentLocale) {
-                $allList->where(sprintf('"%s" = \'%s\'', $searchField, Translatable::get_current_locale()));
-            } else {
-                $stmts[] = sprintf('"%s" LIKE \'%s%%\'', $searchField, Convert::raw2sql($request->getVar('gridfield_relationsearch')));
-            }
-        }
-        foreach ($joinClassNames as $relationName => $joinClassName) {
-            $allList->leftJoin(
-                    $joinClassName, sprintf(
-                            '"%s"."ID" = "%s"."%sID"', $dataClass, $joinClassName, $targetRelationName
-                    )
-            );
-        }
-        $results = $allList
-                ->where(implode(' OR ', $stmts))
-                ->subtract($gridField->getList())
-                ->sort($searchFields[0], 'ASC')
-                ->limit($this->getResultsLimit());
-
-        $json = array();
-        foreach ($results as $result) {
-            $json[$result->ID] = SSViewer::fromString($this->resultsFormat)->process($result);
-        }
-        return Convert::array2json($json);
-    }
-
-    /**
      * Detect searchable fields and searchable relations
      * Only has_many relations may be searched.
      * Falls back to Title or Name if no earchableFields are defined.
@@ -150,35 +41,68 @@ class SilvercartGridFieldAddExistingAutocompleter extends GridFieldAddExistingAu
      * @return array|null
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     * @since 15.04.2014
      */
     public function scaffoldSearchFields($dataClass) {
-        $obj                = singleton($dataClass);
-        $searchableFields   = null;
-        if ($obj->searchableFields()) {
-            foreach ($obj->searchableFields() as $name => $specOrName) {
-                //searchableFields() may return a multidimensional array
-                $searchableFieldKey = (is_int($name)) ? $specOrName : $name;
-                if (strpos($searchableFieldKey, ".") !== false) {
-                    $parts = explode('.', $searchableFieldKey);
-                    $relationName = $parts[0];
-                    $has_many = Config::inst()->get($dataClass, 'has_many');
-                    if (is_array($has_many) && array_key_exists($relationName, $has_many)) {
-                        $searchableFields[] = $searchableFieldKey;
-                    }
-                } else {
-                    $searchableFields[] = $searchableFieldKey;
+        $fields            = parent::scaffoldSearchFields($dataClass);
+        $has_many          = Config::inst()->get($dataClass, 'has_many');
+        $many_many         = Config::inst()->get($dataClass, 'many_many');
+        $belongs_many_many = Config::inst()->get($dataClass, 'belongs_many_many');
+
+        foreach ($fields as $key => $value) {
+            if (strpos($value, '.') !== false) {
+                $parts        = explode('.', $value, 2);
+                $relationName = $parts[0];
+                $searchField  = $parts[1];
+                if (is_array($has_many) && array_key_exists($relationName, $has_many)) {
+                    $fields[$key] = $has_many[$relationName] . '.' . $searchField;
+                } elseif (is_array($many_many) && array_key_exists($relationName, $many_many)) {
+                    unset($fields[$key]);
+                } elseif (is_array($belongs_many_many) && array_key_exists($relationName, $belongs_many_many)) {
+                    unset($fields[$key]);
                 }
             }
         }
-        if (is_null($searchableFields)) {
-            if ($obj->hasDatabaseField('Title')) {
-                $searchableFields = array('Title');
-            } elseif ($obj->hasDatabaseField('Name')) {
-                $searchableFields = array('Name');
+        
+        return $fields;
+    }
+
+    /**
+     * Returns the placeholder text to display in search field.
+     * 
+     * @param String $dataClass The class of the object being searched for
+     * 
+     * @return String
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.04.2014
+     */
+    public function getPlaceholderText($dataClass) {
+        $searchFields = ($this->getSearchFields()) ? $this->getSearchFields() : $this->scaffoldSearchFields($dataClass);
+
+        if ($this->placeholderText) {
+            return $this->placeholderText;
+        } else {
+            $labels = array();
+            if ($searchFields) {
+                foreach ($searchFields as $searchField) {
+                    $parts = explode(':', $searchField);
+                    $label = singleton($dataClass)->fieldLabel($parts[0]);
+                    if ($label) {
+                        $labels[] = $label;
+                    }
+                }
+            }
+            if ($labels) {
+                return _t(
+                        'GridField.PlaceHolderWithLabels', 'Find {type} by {name}', array('type' => singleton($dataClass)->plural_name(), 'name' => implode(', ', $labels))
+                );
+            } else {
+                return _t(
+                        'GridField.PlaceHolder', 'Find {type}', array('type' => singleton($dataClass)->plural_name())
+                );
             }
         }
-        return $searchableFields;
     }
 
 }
