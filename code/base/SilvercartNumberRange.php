@@ -205,10 +205,25 @@ class SilvercartNumberRange extends DataObject {
      * increments and returns the actual number.
      *
      * @return string
-     */
-    protected function getNewNumber() {
-        $this->ActualCount++;
-        $this->write();
+	 */
+    public function getNewNumber() {
+        DB::query("LOCK TABLES SilvercartNumberRange WRITE");
+        DB::query(
+                sprintf(
+                        "UPDATE SilvercartNumberRange SET ActualCount=ActualCount+1 WHERE Identifier = '%s'",
+                        $this->Identifier
+                )
+        );
+        $results = DB::query(
+                sprintf(
+                        "SELECT ActualCount FROM SilvercartNumberRange WHERE Identifier = '%s'",
+                        $this->Identifier
+                )
+        );
+        DB::query("UNLOCK TABLES");
+        
+        $firstRow          = $results->first();
+        $this->ActualCount = $firstRow['ActualCount'];
         return $this->getActualNumber();
     }
 
