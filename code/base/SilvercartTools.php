@@ -295,7 +295,7 @@ class SilvercartTools extends Object {
         
         $fieldLabels = array();
         
-        $params = array('db', 'casting', 'has_one');
+        $params = array('db', 'casting', 'has_one', 'has_many', 'many_many');
         foreach ($params as $param) {
             $source = Config::inst()->get($objectName, $param);
             if (is_array($source)) {
@@ -494,36 +494,19 @@ class SilvercartTools extends Object {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 2012-12-14
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.04.2014
      */
     public static function extractAddressDataFrom($prefix, $data) {
         $addressData = array();
-        $dataFields = array(
-            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
-            $prefix.'_Company'          => 'Company',
-            $prefix.'_Salutation'       => 'Salutation',
-            $prefix.'_FirstName'        => 'FirstName',
-            $prefix.'_Surname'          => 'Surname',
-            $prefix.'_Addition'         => 'Addition',
-            $prefix.'_Street'           => 'Street',
-            $prefix.'_StreetNumber'     => 'StreetNumber',
-            $prefix.'_Postcode'         => 'Postcode',
-            $prefix.'_City'             => 'City',
-            $prefix.'_Phone'            => 'Phone',
-            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
-            $prefix.'_Fax'              => 'Fax',
-            $prefix.'_Country'          => 'CountryID',
-            $prefix.'_PostNumber'       => 'PostNumber',
-            $prefix.'_Packstation'      => 'Packstation',
-            $prefix.'_IsPackstation'    => 'IsPackstation',
-        );
 
-        if (is_array($data)) {
-            foreach ($dataFields as $shippingFieldName => $dataFieldName) {
-                if (isset($data[$shippingFieldName])) {
-                    $addressData[$dataFieldName] = $data[$shippingFieldName];
+        foreach ($data as $key => $value) {
+            if (strpos($key, $prefix . '_') === 0) {
+                $dataFieldName = str_replace($prefix . '_', '', $key);
+                if ($dataFieldName == 'Country') {
+                    $dataFieldName = 'CountryID';
                 }
+                $addressData[$dataFieldName] = $value;
             }
         }
 
