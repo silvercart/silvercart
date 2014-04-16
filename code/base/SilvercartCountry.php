@@ -190,6 +190,7 @@ class SilvercartCountry extends DataObject {
                 'IsPrioritiveShort'                 => _t('SilvercartCountry.ISPRIORITIVE_SHORT'),
                 'DisplayPosition'                   => _t('SilvercartCountry.DISPLAYPOSITION'),
                 'SilvercartCountryLanguages.Title'  => _t('SilvercartCountry.TITLE'),
+                'SilvercartCountryLanguage.Title'  => _t('SilvercartCountry.TITLE'),
             )
         );
     }
@@ -204,7 +205,7 @@ class SilvercartCountry extends DataObject {
      */
     public function  searchableFields() {
         return array(
-            'Title' => array(
+            'SilvercartCountryLanguages.Title' => array(
                 'title'     => $this->singular_name(),
                 'filter'    => 'PartialMatchFilter',
             ),
