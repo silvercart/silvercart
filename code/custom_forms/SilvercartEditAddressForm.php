@@ -52,16 +52,20 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
      *
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.10.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 15.04.2014
      */
     protected function fillInFieldValues() {
         $member = Member::currentUser();
         $id     = $this->customParameters['addressID'];
         
         if ($member && $id) {
-            $filter = sprintf("\"MemberID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
-            $this->address = DataObject::get_one('SilvercartAddress', $filter);
+            $filter = array(
+                "MemberID" => $member->ID,
+                "ID"       => $id
+            );
+            $this->address = SilvercartAddress::get()->filter($filter)->first();
             if ($this->address) {
                 $this->formFields['TaxIdNumber']['value']           = $this->address->TaxIdNumber;
                 $this->formFields['Company']['value']               = $this->address->Company;
@@ -95,17 +99,22 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
      * @param array          $formData contains the modules form data
      *
      * @return void
-     * @since 19.10.2010
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 15.04.2014
      */
     protected function submitSuccess($data, $form, $formData) {
         $member = Member::currentUser();
         $id = $formData['addressID'];
         if ($member && $id) {
-            $filter = sprintf("\"MemberID\" = '%s' AND \"ID\" = '%s'", $member->ID, $id);
-            $address = DataObject::get_one('SilvercartAddress', $filter);
+            $filter = array(
+                "MemberID" => $member->ID,
+                "ID"       => $id
+            );
+            $address = SilvercartAddress::get()->filter($filter)->first();
             $address->castedUpdate($formData);
-            $country = DataObject::get_by_id('SilvercartCountry', $formData['Country']);
+            $country = SilvercartCountry::get()->byID($formData['Country']);
             if ($country) {
                 $address->SilvercartCountryID = $country->ID;
             }
