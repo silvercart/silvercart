@@ -9,7 +9,7 @@
         <title><% if MetaTitle %>$MetaTitle<% else %>$Title<% end_if %></title>
 		$MetaTags(false)
     </head>
-    <body>
+    <body lang="$ContentLocale">
         <div id="silvercart-headerbar">
             <div id="silvercart-headerbar_content">
                 <div class="subcolumns">
