@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2014 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -37,9 +37,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * Form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.03.2011
      */
     protected $formFields = array(
         'Salutation' => array(
@@ -82,7 +79,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         'NewsletterAction' => array(
             'type'          => 'OptionsetField',
             'title'         => 'Was wollen Sie tun',
-            'selectedValue' => '1',
+            'selectedValue' => '',
             'value' => array(
                 '1' => 'Ich möchte den Newsletter erhalten',
                 '2' => 'Ich möchte den Newsletter abbestellen'
@@ -96,9 +93,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * Form settings.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.03.2011
      */
     protected $preferences = array(
         'submitButtonTitle'         => 'Abschicken',
@@ -112,10 +106,10 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * option to subscribe to or unsubscribe from the newsletter.
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 22.03.2011
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.04.2014
      */
     protected function fillInFieldValues() {
         $member = SilvercartCustomer::currentRegisteredCustomer();
@@ -157,13 +151,11 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                 $this->formFields['NewsletterAction']['value'] = array(
                     '2' => _t('SilvercartNewsletterForm.ACTIONFIELD_UNSUBSCRIBE')
                 );
-                $this->formFields['NewsletterAction']['selectedValue'] = '2';
                 $this->formFields['NewsletterAction']['title'] = _t('SilvercartNewsletter.SUBSCRIBED').' - '.$this->formFields['NewsletterAction']['title'];
             } else {
                 $this->formFields['NewsletterAction']['value'] = array(
                     '1' => _t('SilvercartNewsletterForm.ACTIONFIELD_SUBSCRIBE')
                 );
-                $this->formFields['NewsletterAction']['selectedValue'] = '1';
                 $this->formFields['NewsletterAction']['title'] = _t('SilvercartNewsletter.UNSUBSCRIBED').' - '.$this->formFields['NewsletterAction']['title'];
             }
         }
@@ -179,7 +171,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 22.03.2011
      */
     protected function submitSuccess($data, $form, $formData) {
@@ -292,10 +283,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * @param string $message The message to store
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 22.03.2011
      */
     public function setSessionMessage($message) {
         $status = Session::get('SilvercartNewsletterStatus');
@@ -329,7 +316,6 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 22.03.2011
      */
     public function clearSessionMessages() {
