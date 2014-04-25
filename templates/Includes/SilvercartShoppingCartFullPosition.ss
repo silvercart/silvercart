@@ -33,7 +33,7 @@
             </span>
         <% end_if %>
     </td>
-    <td class="right">$Price.Nice</td>
+    <td class="right price">$Price.Nice</td>
 
     <% if Top.EditableShoppingCart %>
         <td>$RemovePositionForm</td>

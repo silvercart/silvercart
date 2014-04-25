@@ -68,7 +68,7 @@
                         <p class="silvercart-highlighted-content">
                         <% control SilvercartShoppingCart %>
                             {$CarrierAndShippingMethodTitle} <% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %>
-                            <% if hasHandlingCostShipment %> ({$HandlingCostShipment.Nice})<% end_if %>
+                            <% if hasHandlingCostShipment %> (<span class="price highlighted">{$HandlingCostShipment.Nice}</span>)<% end_if %>
                         <% end_control %>
                         </p>
                     </div>
@@ -84,7 +84,7 @@
                         <p class="silvercart-highlighted-content">
                         <% control SilvercartShoppingCart %>
                             {$payment.Name}
-                            <% if hasHandlingCostPayment %> ({$HandlingCostPayment.Nice})<% end_if %>
+                            <% if hasHandlingCostPayment %> (<span class="price highlighted">{$HandlingCostPayment.Nice}</span>)<% end_if %>
                         <% end_control %>
                         </p>
                     </div>

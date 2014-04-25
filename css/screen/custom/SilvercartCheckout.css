@@ -72,3 +72,16 @@
     text-decoration: underline;
     text-align: right;
 }
+
+.price.highlighted {
+    color: {$DefaultLinkHoverColor};
+}
+.silvercart-quantity-label,
+table.silvercart-shopping-cart-full td.price {
+    font-size: 16px;
+    color: {$DefaultLinkHoverColor};
+}
+table.silvercart-shopping-cart-full td.price.total {
+    font-weight: bold;
+    text-decoration: underline;
+}
