@@ -129,6 +129,7 @@ class SilvercartConfig extends DataObject {
         'addToCartMaxQuantity'                  => 'Int(999)',
         'Locale'                                => 'DBLocale',
         'useDefaultLanguageAsFallback'          => 'Boolean(1)',
+        'ShowTaxAndDutyHint'                    => 'Boolean(0)',
         'productDescriptionFieldForCart'        => 'Enum("ShortDescription,LongDescription","ShortDescription")',
         'useProductDescriptionFieldForCart'     => 'Boolean(1)',
         'useStrictSearchRelevance'              => 'Boolean(0)',
@@ -228,6 +229,7 @@ class SilvercartConfig extends DataObject {
     public static $skipPaymentStepIfUnique                  = null;
     public static $skipShippingStepIfUnique                 = null;
     public static $displayWeightsInKilogram                 = null;
+    public static $showTaxAndDutyHint                       = false;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -241,7 +243,6 @@ class SilvercartConfig extends DataObject {
     public function singular_name() {
         return SilvercartTools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
@@ -443,6 +444,7 @@ class SilvercartConfig extends DataObject {
         $basicCheckoutTab->push(new CheckboxField('SkipShippingStepIfUnique', $this->fieldLabel('SkipShippingStepIfUnique')));
         $basicCheckoutTab->push(new CheckboxField('SkipPaymentStepIfUnique', $this->fieldLabel('SkipPaymentStepIfUnique')));
         $basicCheckoutTab->push(new CheckboxField('DisplayWeightsInKilogram', $this->fieldLabel('DisplayWeightsInKilogram')));
+        $basicCheckoutTab->push(new CheckboxField('ShowTaxAndDutyHint', $this->fieldLabel('ShowTaxAndDutyHint')));
 
         $minimumOrderValueTab->push(new CheckboxField('useMinimumOrderValue', _t('SilvercartConfig.USEMINIMUMORDERVALUE')));
         $minimumOrderValueTab->push(new CheckboxField('disregardMinimumOrderValue', _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE')));
@@ -531,6 +533,7 @@ class SilvercartConfig extends DataObject {
                     'SkipPaymentStepIfUnique'               => _t('SilvercartConfig.SKIP_PAYMENT_STEP_IF_UNIQUE'),
                     'SkipShippingStepIfUnique'              => _t('SilvercartConfig.SKIP_SHIPPING_STEP_IF_UNIQUE'),
                     'DisplayWeightsInKilogram'              => _t('SilvercartConfig.DISPLAY_WEIGHTS_IN_KILOGRAM'),
+                    'ShowTaxAndDutyHint'                    => _t('SilvercartConfig.ShowTaxAndDutyHint'),
                 )
         );
     }
@@ -1218,6 +1221,21 @@ class SilvercartConfig extends DataObject {
             self::$displayWeightsInKilogram = self::getConfig()->DisplayWeightsInKilogram;
         }
         return self::$displayWeightsInKilogram;
+    }
+    
+    /**
+     * Returns whether to show tax and duty hint in checkout or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public static function ShowTaxAndDutyHint() {
+        if (is_null(self::$showTaxAndDutyHint)) {
+            self::$showTaxAndDutyHint = self::getConfig()->ShowTaxAndDutyHint;
+        }
+        return self::$showTaxAndDutyHint;
     }
 
     /**

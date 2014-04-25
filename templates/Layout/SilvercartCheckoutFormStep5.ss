@@ -56,6 +56,12 @@
     
     $Top.getSilvercartShoppingCartFull
     
+    <% control CurrentPage %>
+        <% if SilvercartConfig.ShowTaxAndDutyHint %>
+        <p class="tax-and-duty-hint"><% _t('Silvercart.TaxAndDutyHint') %></p>
+        <% end_if %>
+    <% end_control %>
+    
     <div class="actionRow">
         <div class="type-button">
             <% control Actions %>

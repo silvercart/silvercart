@@ -53,3 +53,9 @@
 #silvercart-checkout-note textarea {
     height:                     105px;
 }
+
+.tax-and-duty-hint {
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: right;
+}

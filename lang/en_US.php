@@ -84,6 +84,7 @@ $lang['en_US']['Silvercart']['X_OF_Y'] = '%s of %s';
 $lang['en_US']['Silvercart']['EXECUTE'] = 'Execute';
 $lang['en_US']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
 $lang['en_US']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
+$lang['en_US']['Silvercart']['TaxAndDutyHint'] = 'Caution: There are additional taxes and fees for delivery to non EU countries.';
 
 $lang['en_US']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_US']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -614,6 +615,7 @@ $lang['en_US']['SilvercartConfig']['OPEN_RECORD'] = 'open record';
 $lang['en_US']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'number of simultaneously shown page numbers';
 $lang['en_US']['SilvercartConfig']['USE_STRICT_SEARCH_RELEVANCE'] = 'Use strict search. Shows only exact matches.';
 $lang['en_US']['SilvercartConfig']['USER_AGENT_BLACKLIST'] = 'UserAgent blacklist (one UserAgent per line)';
+$lang['en_US']['SilvercartConfig']['ShowTaxAndDutyHint'] = 'Show hint for additional taxes and duty for non EU countries.';
 $lang['en_US']['SilvercartConfigAdmin']['MENUTITLE'] = 'SC Configuration';
 
 $lang['en_US']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
