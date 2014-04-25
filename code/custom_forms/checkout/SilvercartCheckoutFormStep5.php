@@ -67,7 +67,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             'title' => 'gewählte Bezahlart'
         ),
         'Note' => array(
-            'type' => 'TextareaField'
+            'type' => 'TextareaField',
+            'rows' => '3',
         ),
         'HasAcceptedTermsAndConditions' => array(
             'type'              => 'CheckboxField',
@@ -362,6 +363,22 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         
         if ($member) {
             return $this->customise($member->SilvercartShoppingCart())->renderWith('SilvercartShoppingCartFull');
+        }
+    }
+
+    /**
+     * Returns the current shopping cart.
+     * 
+     * @return SilvercartShoppingCart
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function SilvercartShoppingCart() {
+        $member = Member::currentUser();
+        
+        if ($member) {
+            return $member->SilvercartShoppingCart();
         }
     }
     

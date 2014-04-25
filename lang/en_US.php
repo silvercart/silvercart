@@ -44,6 +44,7 @@ global $lang;
 $lang['en_US']['RevocationInstructionPage']['DEFAULT_TITLE']      = 'Revocation instruction';
 $lang['en_US']['RevocationInstructionPage']['DEFAULT_URLSEGMENT'] = 'revocation-instruction';
 
+$lang['en_US']['Silvercart']['Change'] = 'Change';
 $lang['en_US']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_US']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_US']['Silvercart']['CONTENT'] = 'Content';

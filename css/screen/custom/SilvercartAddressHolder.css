@@ -1,3 +1,4 @@
+.silvercart-highlighted-box,
 .silvercart-address {
     margin:                         1em 0 1em 0;
     padding:                        0px;
@@ -8,8 +9,14 @@
     box-shadow:                     0 0 5px rgba(0, 0, 0, 0.3);
     border:                         1px #bbb solid;
 }
+.silvercart-highlighted-box_content,
 .silvercart-address-field_content {
     padding:                        4px;
+}
+.silvercart-highlighted-content {
+    font-size:                      14px;
+    padding:                        8px 16px;
+    margin:                         0;
 }
 .silvercart-address-equalize .silvercart-address-top,
 .silvercart-address-equalize .silvercart-address-field_content {

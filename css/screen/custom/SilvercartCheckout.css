@@ -47,11 +47,24 @@
 /* step 5 - overview */
 #silvercart-checkout-privacy-check fieldset,
 #silvercart-checkout-note fieldset {
-    min-height:                 150px;
+    min-height:                 95px;
 }
 
 #silvercart-checkout-note textarea {
-    height:                     105px;
+    height:                     53px;
+    width:                      94.5%;
+}
+
+.checkout-change-area {
+    position: relative;
+}
+.checkout-change-button {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+.subcl.checkout-change-area .checkout-change-button {
+    margin-right: 1em;
 }
 
 .tax-and-duty-hint {

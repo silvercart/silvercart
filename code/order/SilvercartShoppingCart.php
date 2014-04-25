@@ -1205,6 +1205,38 @@ class SilvercartShoppingCart extends DataObject {
 
         return $handlingCostShipmentObj;
     }
+    
+    /**
+     * Returns whether there are handling costs for payment.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function hasHandlingCostPayment() {
+        $has = false;
+        if ($this->HandlingCostPayment()->getAmount() > 0) {
+            $has = true;
+        }
+        return $has;
+    }
+    
+    /**
+     * Returns whether there are handling costs for shipment.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function hasHandlingCostShipment() {
+        $has = false;
+        if ($this->HandlingCostShipment()->getAmount() > 0) {
+            $has = true;
+        }
+        return $has;
+    }
 
     /**
      * Returns the shipping method title.

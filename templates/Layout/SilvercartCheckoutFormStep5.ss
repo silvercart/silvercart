@@ -25,34 +25,74 @@
     </div>
 
     <% if hasOnlyOneStandardAddress %>
+    <div class="checkout-change-area">
         <% control AddressData %>
             <% control SilvercartInvoiceAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_control %>
         <% end_control %>
+        <a class="silvercart-button checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.AddressStepNumber}"><% _t('Silvercart.Change') %></a>
+    </div>
     <% else %>
         <div class="subcolumns silvercart-address-equalize">
             <div class="c50l">
-                <div class="subcl">
+                <div class="subcl checkout-change-area">
                     <% control AddressData %>
                         <% control SilvercartInvoiceAddress %>
                             <% include SilvercartAddressDetailReadOnly %>
                         <% end_control %>
                     <% end_control %>
+                    <a class="silvercart-button checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.AddressStepNumber}"><% _t('Silvercart.Change') %></a>
                 </div>
             </div>
 
             <div class="c50r">
-                <div class="subcr">
+                <div class="subcr checkout-change-area">
                     <% control AddressData %>
                         <% control SilvercartShippingAddress %>
                             <% include SilvercartAddressDetailReadOnly %>
                         <% end_control %>
                     <% end_control %>
+                    <a class="silvercart-button checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.AddressStepNumber}"><% _t('Silvercart.Change') %></a>
                 </div>
             </div>
         </div>
-    <% end_if %>    
+    <% end_if %>
+    
+    <div class="subcolumns">
+        <div class="c50l">
+            <div class="subcl checkout-change-area">
+                <div class="silvercart-highlighted-box">
+                    <div class="silvercart-highlighted-box_content">
+                        <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING') %>:</strong>
+                        <p class="silvercart-highlighted-content">
+                        <% control SilvercartShoppingCart %>
+                            {$CarrierAndShippingMethodTitle} <% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %>
+                            <% if hasHandlingCostShipment %> ({$HandlingCostShipment.Nice})<% end_if %>
+                        <% end_control %>
+                        </p>
+                    </div>
+                </div>
+                <a class="silvercart-button checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.ShipmentStepNumber}"><% _t('Silvercart.Change') %></a>
+            </div>
+        </div>
+        <div class="c50r">
+            <div class="subcr checkout-change-area">
+                <div class="silvercart-highlighted-box">
+                    <div class="silvercart-highlighted-box_content">
+                        <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT') %>:</strong>
+                        <p class="silvercart-highlighted-content">
+                        <% control SilvercartShoppingCart %>
+                            {$payment.Name}
+                            <% if hasHandlingCostPayment %> ({$HandlingCostPayment.Nice})<% end_if %>
+                        <% end_control %>
+                        </p>
+                    </div>
+                </div>
+                <a class="silvercart-button checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.PaymentStepNumber}"><% _t('Silvercart.Change') %></a>
+            </div>
+        </div>
+    </div>
     
     $Top.getSilvercartShoppingCartFull
     

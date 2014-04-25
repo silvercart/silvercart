@@ -44,6 +44,7 @@ if (array_key_exists('en_GB', $lang) && is_array($lang['en_GB'])) {
 $lang['en_GB']['RevocationInstructionPage']['DEFAULT_TITLE']      = 'Revocation instruction';
 $lang['en_GB']['RevocationInstructionPage']['DEFAULT_URLSEGMENT'] = 'revocation-instruction';
 
+$lang['en_GB']['Silvercart']['Change'] = 'Change';
 $lang['en_GB']['Silvercart']['CHOOSE'] = 'choose';
 $lang['en_GB']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
