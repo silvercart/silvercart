@@ -1311,7 +1311,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			
 		// get filter
 		$combinedFilter = "\"$joinField\" = '$id'";
-		if($filter) $combinedFilter .= " AND {$filter}";
+		if(!empty($filter)) $combinedFilter .= " AND ({$filter})";
 			
 		return singleton($componentClass)->extendedSQL($combinedFilter, $sort, $limit, $join);
 	}
@@ -1935,22 +1935,22 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 *
 	 * @param array $params See {@link scaffoldFormFields()}
 	 * @return FieldSet Returns a TabSet for usage within the CMS - don't use for frontend forms.
-         * 
-         * PTFIX
+	 * 
+	 * PTFIX
 	 */
 	public function getCMSFields($params = null) {
-                
-                /* PTFIX_START */
-                $restrictFields = array();
-                $this->extend('updateRestrictCMSFields', $restrictFields);
-                if (!empty($restrictFields)) {
-                    if (!is_array($params)) {
-                        $params = array();
-                    }
-                    $params['restrictFields'] = $restrictFields;
-                }
-                /* PTFIX_END */
-                
+		
+		/* PTFIX_START */
+		$restrictFields = array();
+		$this->extend('updateRestrictCMSFields', $restrictFields);
+		if (!empty($restrictFields)) {
+			if (!is_array($params)) {
+				$params = array();
+			}
+			$params['restrictFields'] = $restrictFields;
+		}
+		/* PTFIX_END */
+		
 		$tabbedFields = $this->scaffoldFormFields(array_merge(
 			array(
 				'includeRelations' => true,
