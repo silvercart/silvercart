@@ -187,6 +187,18 @@ class SilvercartPage extends SiteTree {
     }
     
     /**
+     * Returns the SilvercartConfig.
+     *
+     * @return SilvercartConfig
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function SilvercartConfig() {
+        return SilvercartConfig::getConfig();
+    }
+    
+    /**
      * Returns the generic image for products without an own image. If none is
      * defined, boolean false is returned.
      *
