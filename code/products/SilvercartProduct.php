@@ -2429,7 +2429,10 @@ class SilvercartProduct extends DataObject {
                 $newProductGroupMirrorSortOrder = new SilvercartProductGroupMirrorSortOrder();
                 $newProductGroupMirrorSortOrder->setField('SilvercartProductID', $this->ID);
                 $newProductGroupMirrorSortOrder->setField('SilvercartProductGroupPageID', $mirrorPageID);
-                $newProductGroupMirrorSortOrder->setField('SortOrder', $this->original['SortOrder'] ? $this->original['SortOrder'] : $this->record['SortOrder']);
+                if (array_key_exists('SortOrder', $this->original) ||
+                    array_key_exists('SortOrder', $this->record)) {
+                    $newProductGroupMirrorSortOrder->setField('SortOrder', $this->original['SortOrder'] ? $this->original['SortOrder'] : $this->record['SortOrder']);
+                }
                 $newProductGroupMirrorSortOrder->write();
             }
         }
