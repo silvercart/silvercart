@@ -71,6 +71,13 @@ class SilvercartPage extends SiteTree {
     );
     
     /**
+     * Indicator to check whether getCMSFields is called
+     *
+     * @var boolean
+     */
+    protected $getCMSFieldsIsCalled = false;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -119,6 +126,7 @@ class SilvercartPage extends SiteTree {
      * @since 15.10.2010
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields();
 
         if (Member::currentUser()->isAdmin()) {
@@ -287,6 +295,32 @@ class SilvercartPage extends SiteTree {
     public function getIso2($locale) {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
+    }
+    
+    /**
+     * Adds a decorator hook and returns the Content.
+     * 
+     * @return string
+     */
+    public function getContent() {
+        $content = $this->getField('Content');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateContent', $content);
+        }
+        return $content;
+    }
+    
+    /**
+     * Adds a decorator hook and returns the MetaDescription.
+     * 
+     * @return string
+     */
+    public function getMetaDescription() {
+        $metaDescription = $this->getField('MetaDescription');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateMetaDescription', $metaDescription);
+        }
+        return $metaDescription;
     }
 
     /**
