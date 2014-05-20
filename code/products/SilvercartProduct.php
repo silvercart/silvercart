@@ -353,16 +353,20 @@ class SilvercartProduct extends DataObject {
      * 
      * @return string The ShortDescription from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 15.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 19.05.2014
      */
     public function getShortDescription($includeHtml = true) {
         $shortDescription = $this->getLanguageFieldValue('ShortDescription');
-        if (!$includeHtml) {
-            // decode
-            $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
+        if (!$this->getCMSFieldsIsCalled) {
+            if (!$includeHtml) {
+                // decode
+                $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
+            }
+            $this->extend('updateShortDescription', $shortDescription);
         }
-        $this->extend('updateShortDescription', $shortDescription);
         return $shortDescription;
     }
     
@@ -373,16 +377,20 @@ class SilvercartProduct extends DataObject {
      * 
      * @return string The LongDescription from the translation object or an empty string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 15.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 19.05.2014
      */
     public function getLongDescription($includeHtml = true) {
         $longDescription = $this->getLanguageFieldValue('LongDescription');
-        if (!$includeHtml) {
-            // decode
-            $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
+        if (!$this->getCMSFieldsIsCalled) {
+            if (!$includeHtml) {
+                // decode
+                $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
+            }
+            $this->extend('updateLongDescription', $longDescription);
         }
-        $this->extend('updateLongDescription', $longDescription);
         return $longDescription;
     }
     
