@@ -1223,4 +1223,55 @@ class SilvercartPage_Controller extends ContentController {
         }
         return $pages;
     }
+    
+    /**
+     * Returns all payment methods
+     *
+     * @return DataObjectSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.05.2012
+     */
+    public function PaymentMethods() {
+        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), new SilvercartShoppingCart(), true);
+        return $PaymentMethods;
+    }
+    
+    /**
+     * Returns the current shipping country
+     *
+     * @return SilvercartCountry
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2012
+     */
+    public function ShippingCountry() {
+        $customer           = Member::currentUser();
+        $shippingCountry    = null;
+        if ($customer) {
+            $shippingCountry = $customer->SilvercartShippingAddress()->SilvercartCountry();
+        }
+        if (is_null($shippingCountry) ||
+            $shippingCountry->ID == 0) {
+            $shippingCountry = DataObject::get_one(
+                    'SilvercartCountry',
+                    sprintf(
+                            "`ISO2` = '%s' AND `Active` = 1",
+                            substr(Translatable::get_current_locale(), 3)
+                    )
+            );
+        }
+        return $shippingCountry;
+    }
+    
+    /**
+     * Returns the footer columns.
+     * 
+     * @return DataObjectSet
+     */
+    public function getFooterColumns() {
+        $metanavigationHolder = DataObject::get('SilvercartMetaNavigationHolder', "ClassName = 'SilvercartMetaNavigationHolder'");
+        return $metanavigationHolder;
+    }
+    
 }
