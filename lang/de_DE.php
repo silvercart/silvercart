@@ -83,6 +83,7 @@ $lang['de_DE']['Silvercart']['SORTORDER'] = 'Sortierreihenfolge';
 $lang['de_DE']['Silvercart']['PAGE'] = 'Seite';
 $lang['de_DE']['Silvercart']['X_OF_Y'] = '%s von %s';
 $lang['de_DE']['Silvercart']['EXECUTE'] = 'Ausführen';
+$lang['de_DE']['Silvercart']['TOTAL'] = 'Gesamt';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE']                                = 'Es ist ein Update verfügbar';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Laden Sie sich die aktuellste Version von SilverCart unter <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a> herunter.';
 $lang['de_DE']['Silvercart']['TaxAndDutyHint'] = 'Achtung: Bei Lieferungen in das Nicht-EU- Ausland fallen zusätzliche Zölle, Steuern und Gebühren an.';
@@ -501,14 +502,14 @@ $lang['de_DE']['SilvercartCheckoutFormStep1NewCustomerForm']['OPTIN_TEMP_TEXT'] 
 $lang['de_DE']['SilvercartCheckoutFormStep1NewCustomerForm']['TITLE'] = 'Weiter';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['EMPTYSTRING_COUNTRY'] = '--Land--';
 $lang['de_DE']['SilvercartCheckoutFormStep2']['ERROR_ADDRESS_NOT_FOUND'] = 'Die von Ihnen gewählte Adresse konnte nicht gefunden werden.';
-$lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Liefer- & Rechnungsdaten';
+$lang['de_DE']['SilvercartCheckoutFormStep2']['TITLE'] = 'Adresse';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['EMPTYSTRING_SHIPPINGMETHOD'] = '--Versandart wählen--';
 $lang['de_DE']['SilvercartCheckoutFormStep3']['TITLE'] = 'Versandart';
 $lang['de_DE']['SilvercartCheckoutFormStep4']['CHOOSE_PAYMENT_METHOD'] = 'Ich möchte per %s bezahlen';
 $lang['de_DE']['SilvercartCheckoutFormStep4']['EMPTYSTRING_PAYMENTMETHOD'] = '--Zahlart wählen--';
-$lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Zahlungsinformationen';
+$lang['de_DE']['SilvercartCheckoutFormStep4']['TITLE'] = 'Zahlungsart';
 $lang['de_DE']['SilvercartCheckoutFormStep4']['FIELDLABEL'] = 'Bitte wählen Sie, auf welche Weise Sie bezahlen wollen:';
-$lang['de_DE']['SilvercartCheckoutFormStep5']['TITLE'] = 'Bestellung überprüfen';
+$lang['de_DE']['SilvercartCheckoutFormStep5']['TITLE'] = 'Bestätigen';
 
 $lang['de_DE']['SilvercartCheckoutStep']['DEFAULT_TITLE'] = 'zur Kasse';
 $lang['de_DE']['SilvercartCheckoutStep']['DEFAULT_URLSEGMENT'] = 'checkout';

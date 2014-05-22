@@ -83,6 +83,7 @@ $lang['en_GB']['Silvercart']['SORTORDER'] = 'Sort order';
 $lang['en_GB']['Silvercart']['PAGE'] = 'Page';
 $lang['en_GB']['Silvercart']['X_OF_Y'] = '%s of %s';
 $lang['en_GB']['Silvercart']['EXECUTE'] = 'Execute';
+$lang['en_GB']['Silvercart']['TOTAL'] = 'Total';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
 $lang['en_US']['Silvercart']['TaxAndDutyHint'] = 'Caution: There are additional taxes and fees for delivery to non EU countries.';
