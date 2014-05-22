@@ -129,7 +129,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         $this->formFields['NewsletterAction']['title']      = _t('SilvercartNewsletterForm.ACTIONFIELD_TITLE');
         $this->formFields['NewsletterAction']['value']['1'] = _t('SilvercartNewsletterForm.ACTIONFIELD_SUBSCRIBE');
         $this->formFields['NewsletterAction']['value']['2'] = _t('SilvercartNewsletterForm.ACTIONFIELD_UNSUBSCRIBE');
-        $this->preferences['submitButtonTitle']             = _t('SilvercartPage.SUBMIT_MESSAGE', 'submit message');
+        $this->preferences['submitButtonTitle']             = _t('SilvercartPage.SUBMIT');
 
         // Fill in field values for registered customers and set them to readonly.
         if ($member) {
