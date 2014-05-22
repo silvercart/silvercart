@@ -1078,6 +1078,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      */
     public function getProductsOnPagesString() {
+        $productsOnPagesString = '';
         $products = $this->getProducts();
         if ($products->TotalItems() == 1) {
             $singularOrPlural = 'PRODUCT_ON_PAGE';
@@ -1720,15 +1721,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * 
      * @return DataObjectSet all products of this group or FALSE
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.06.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2014
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
         $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit . Translatable::get_current_locale());
         if ($this->data()->DoNotShowProducts &&
             !$force) {
             $this->groupProducts[$hashKey] = new DataObjectSet();
-        } elseif (!array_key_exists($hashKey, $this->groupProducts)) {
+        } elseif (!array_key_exists($hashKey, $this->groupProducts) || $force) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
             $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new DataObjectSet());
