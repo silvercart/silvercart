@@ -12,3 +12,4 @@ Name: silvercart_api_routes
 Director:
   rules:
     'api/silvercart': 'SilvercartRestfulServer'
+    'api/v1': 'RestfulServer'
