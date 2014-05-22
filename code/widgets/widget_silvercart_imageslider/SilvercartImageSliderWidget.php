@@ -241,6 +241,9 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
      * @since 20.10.2011
      */
     public function init() {
+        if (!SilvercartWidget::$use_anything_slider) {
+            return;
+        }
         $autoplay           = 'false';
         $autoPlayDelayed    = 'false';
         $autoPlayLocked     = 'true';

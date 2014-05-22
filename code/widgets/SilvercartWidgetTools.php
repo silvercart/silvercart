@@ -161,8 +161,9 @@ class SilvercartWidgetTools extends Object {
      * @since 28.03.2012
      */
     public static function initProductSliderWidget(SilvercartWidget_Controller $widget) {
-        if ($widget->useSlider ||
-            $widget->useRoundabout) {
+        if (SilvercartWidget::$use_product_pages_for_slider &&
+            ($widget->useSlider ||
+             $widget->useRoundabout)) {
             $widget->ProductPages();
         } else {
             $widget->Elements();
@@ -171,8 +172,9 @@ class SilvercartWidgetTools extends Object {
         if ($widget->getElements()) {
             $elementIdx = 0;
 
-            if ($widget->useSlider ||
-                $widget->useRoundabout) {
+            if (SilvercartWidget::$use_product_pages_for_slider &&
+                ($widget->useSlider ||
+                 $widget->useRoundabout)) {
                 // Roundabout / Slider
                 foreach ($widget->getElements() as $productPage) {
                     foreach ($productPage as $elementHolder) {
@@ -207,6 +209,9 @@ class SilvercartWidgetTools extends Object {
      * @since 28.03.2012
      */
     public static function initAnythingSliderForProductSliderWidget(SilvercartWidget_Controller $widget) {
+        if (!SilvercartWidget::$use_anything_slider) {
+            return;
+        }
         $autoplay           = 'false';
         $autoPlayDelayed    = 'false';
         $autoPlayLocked     = 'true';

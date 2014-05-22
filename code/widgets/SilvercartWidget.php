@@ -39,6 +39,20 @@ class SilvercartWidget extends Widget {
      * @var bool
      */
     public $useWidgetContainer = true;
+    
+    /**
+     * Set this to false to use single elements for product slider
+     *
+     * @var bool
+     */
+    public static $use_product_pages_for_slider = true;
+    
+    /**
+     * Set this to false to disable anything slider.
+     *
+     * @var bool
+     */
+    public static $use_anything_slider = true;
 
     /**
      * Attributes

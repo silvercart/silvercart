@@ -600,13 +600,20 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         }
         $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
 
+        if (!SilvercartWidget::$use_product_pages_for_slider &&
+            $this->useSlider) {
+            $fetchLimit = $this->numberOfProductsToFetch;
+        } else {
+            $fetchLimit = $this->numberOfProductsToShow;
+        }
+        
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
-                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+                $elements = $productgroupPageSiteTree->getProducts($fetchLimit);
                 break;
             case 'random':
             default:
-                $elements = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToShow);
+                $elements = $productgroupPageSiteTree->getRandomProducts($fetchLimit);
         }
         
         return $elements;
