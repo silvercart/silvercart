@@ -565,7 +565,7 @@ class SilvercartShippingFee extends DataObject {
     public function getMaximumWeightNice() {
         $maximumWeightInGram = $this->MaximumWeight;
         if (SilvercartConfig::DisplayWeightsInKilogram()) {
-            $maximumWeightNice = str_replace('.', ',', ($maximumWeightInGram / 1000));
+            $maximumWeightNice = number_format($maximumWeightInGram / 1000, 2, ',', '.');
         } else {
             $maximumWeightNice = $maximumWeightInGram;
         }
