@@ -304,14 +304,14 @@ class SilvercartPlugin extends Object {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.04.2012
+     * @since 23.04.2014
      */
     public function returnExtensionResultAsHtmlString($extensionResultSet, $prefix = '') {
         $result = '';
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $key => $extensionResult) {
                 if (!is_string($extensionResult) ||
-                    strlen($extensionResult) == 0 ||
+                    strlen(trim($extensionResult)) == 0 ||
                     empty($extensionResult)) {
                     unset($extensionResultSet[$key]);
                 }
