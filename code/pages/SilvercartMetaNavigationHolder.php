@@ -138,6 +138,22 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
                     'SilvercartSubNavigation',
                 )
             );
+            
+            $sisters = DataObject::get('SilvercartMetaNavigationHolder');
+            if ($sisters instanceof DataObjectSet) {
+                $sisters->remove($sisters->find('ID', $root->ID));
+                foreach ($sisters as $sister) {
+                    $elements = array(
+                        'SubElementsTitle'  => $sister->MenuTitle,
+                        'SubElements'       => $sister->Children(),
+                    );
+                    $output .= $this->customise($elements)->renderWith(
+                        array(
+                            'SilvercartSubNavigation',
+                        )
+                    );
+                }
+            }
         }
         return $output;
     }
