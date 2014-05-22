@@ -708,19 +708,19 @@ class SilvercartAddress extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 16.11.2013
+     * @since 22.05.2014
      */
     public function isShippingAddress() {
         $isShippingAddress = false;
-        if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+        if ($this->ID == Member::currentUser()->SilvercartShippingAddressID ||
+            $this->isAnonymousShippingAddress()) {
+            $isShippingAddress = true;
+        } else if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
             $checkoutData = Controller::curr()->getCombinedStepData();
             if (array_key_exists('ShippingAddress', $checkoutData) && 
                 $this->ID === $checkoutData['ShippingAddress']) {
                 $isShippingAddress = true; 
             }
-        } else if ($this->ID == Member::currentUser()->SilvercartShippingAddressID ||
-            $this->isAnonymousShippingAddress()) {
-            $isShippingAddress = true;
         }
         return $isShippingAddress;
     }
