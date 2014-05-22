@@ -288,7 +288,6 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $associativeAddress['isCompanyAddress'] = false;
         }
         
-        $silvercartAddress = new SilvercartAddress();
         return $associativeAddress;
     }
     
