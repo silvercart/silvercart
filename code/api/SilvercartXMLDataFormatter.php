@@ -104,7 +104,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
     public function convertDataObjectWithoutHeader(DataObject $obj, $fields = null, $relations = null) {
         $className  = $obj->class;
         $id         = $obj->ID;
-        $objHref    = Director::absoluteURL(self::$api_base . $obj->class . "/" . $obj->ID);
+        $objHref    = Director::absoluteURL($this->config()->api_base . $obj->class . "/" . $obj->ID);
         $xml        = "<$className href=\"$objHref.xml\">\n";
 
         $this->getDataObjectFieldPermissions($obj);
@@ -154,10 +154,10 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                         
                         $this->setRelationDepth($relationDepth);
                     } else {
-                        $href = Director::absoluteURL(self::$api_base . "$relClass/" . $obj->$fieldName);
+                        $href = Director::absoluteURL($this->config()->api_base . "$relClass/" . $obj->$fieldName);
                     }
                 } else {
-                    $href = Director::absoluteURL(self::$api_base . "$className/$id/$relName");
+                    $href = Director::absoluteURL($this->config()->api_base . "$className/$id/$relName");
                 }
                 if (!empty($href)) {
                     $xml .= "<$relName linktype=\"has_one\" href=\"$href.xml\" id=\"" . $obj->$fieldName . "\"></$relName>\n";
@@ -208,7 +208,7 @@ class SilvercartXMLDataFormatter extends XMLDataFormatter {
                     $xmlPart .= $this->convertDataObjectWithoutHeader($item, $fields);
                     $this->setRelationDepth($relationDepth);
                 } else {
-                    $href       = Director::absoluteURL(self::$api_base . "$relClass/$item->ID");
+                    $href       = Director::absoluteURL($this->config()->api_base . "$relClass/$item->ID");
                     $xmlPart    .= "<$relClass href=\"$href.xml\" id=\"{$item->ID}\"></$relClass>\n";
                 }
             }
