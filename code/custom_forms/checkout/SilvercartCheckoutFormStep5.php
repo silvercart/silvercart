@@ -135,7 +135,6 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['createShoppingcartForms']   = false;
-        $this->preferences['doJsValidationScrolling']   = false;
 
         $checkoutData = $this->controller->getCombinedStepData();
 
