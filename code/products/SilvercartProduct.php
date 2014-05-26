@@ -2623,18 +2623,56 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Increments or decrements the products stock quantity.
+     * By default the quantity will be incremented.
+     *
+     * @param int  $quantity  The amount to subtract from the current stock quantity
+     * @param bool $increment Set to false to decrement quantity.
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2014
+     */
+    public function changeStockQuantityBy($quantity, $increment = true) {
+        if ($increment) {
+            $operator = '+';
+        } else {
+            $operator = '-';
+        }
+        DB::query("LOCK TABLES SilvercartProduct WRITE");
+        DB::query(
+                sprintf(
+                        "UPDATE SilvercartProduct SET StockQuantity=StockQuantity%s%s WHERE ID = '%s'",
+                        $operator,
+                        $quantity,
+                        $this->ID
+                )
+        );
+        $results = DB::query(
+                sprintf(
+                        "SELECT StockQuantity FROM SilvercartProduct WHERE ID = '%s'",
+                        $this->ID
+                )
+        );
+        DB::query("UNLOCK TABLES");
+        
+        $firstRow = $results->first();
+        $this->StockQuantity = $firstRow['StockQuantity'];
+    }
+
+    /**
      * decrements the products stock quantity of this product
      *
      * @param integer $quantity the amount to subtract from the current stock quantity
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.7.2011
-     *
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2014
      */
     public function decrementStockQuantity($quantity) {
-        $this->StockQuantity = $this->StockQuantity - $quantity;
-        $this->write();
+        $this->changeStockQuantityBy($quantity, false);
     }
 
     /**
@@ -2642,14 +2680,13 @@ class SilvercartProduct extends DataObject {
      *
      * @param integer $quantity the amount to add to the current stock quantity
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.03.2012
-     *
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2014
      */
     public function incrementStockQuantity($quantity) {
-        $this->StockQuantity = $this->StockQuantity + $quantity;
-        $this->write();
+        $this->changeStockQuantityBy($quantity);
     }
 
     /**
