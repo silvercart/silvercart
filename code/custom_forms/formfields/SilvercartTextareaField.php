@@ -32,6 +32,33 @@
  * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartTextareaField extends TextareaField {
+    
+    /**
+     * Placeholder to set
+     *
+     * @var string
+     */
+    protected $placeholder = '';
+    
+    /**
+     * Returns the placeholder
+     *
+     * @return string
+     */
+    public function getPlaceholder() {
+        return $this->placeholder;
+    }
+
+    /**
+     * Sets the placeholder
+     *
+     * @param string $placeholder Placeholder to set
+     * 
+     * @return void
+     */
+    public function setPlaceholder($placeholder) {
+        $this->placeholder = $placeholder;
+    }
 
     /**
      * Create the <textarea> or <span> HTML tag with the
@@ -39,9 +66,12 @@ class SilvercartTextareaField extends TextareaField {
      * makes use of {@link FormField->createTag()} functionality.
      *
      * @return HTML code for the textarea OR span element
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.05.2014
      */
-    function Field() {
-        if($this->readonly) {
+    public function Field() {
+        if ($this->readonly) {
             $attributes = array(
                 'id' => $this->id(),
                 'class' => 'readonly' . ($this->extraClass() ? $this->extraClass() : ''),
@@ -51,6 +81,11 @@ class SilvercartTextareaField extends TextareaField {
                 'tabindex' => $this->getTabIndex(),
                 'readonly' => 'readonly'
             );
+        
+            $placeholder = $this->getPlaceholder();
+            if (!empty($placeholder)) {
+                $attributes['placeholder'] = $placeholder;
+            }
 
             return $this->createTag(
                 'span',
@@ -66,8 +101,15 @@ class SilvercartTextareaField extends TextareaField {
                 'cols' => $this->cols,
                 'tabindex' => $this->getTabIndex()
             );
+        
+            $placeholder = $this->getPlaceholder();
+            if (!empty($placeholder)) {
+                $attributes['placeholder'] = $placeholder;
+            }
 
-            if($this->disabled) $attributes['disabled'] = 'disabled';
+            if ($this->disabled) {
+                $attributes['disabled'] = 'disabled';
+            }
 
             return $this->createTag('textarea', $attributes, htmlentities($this->value, ENT_COMPAT, 'UTF-8'));
         }
