@@ -487,7 +487,7 @@ $lang['de_DE']['SilvercartCheckoutFormStep']['I_ACCEPT_REVOCATION'] = 'Ich akzep
 $lang['de_DE']['SilvercartCheckoutFormStep']['I_ACCEPT_TERMS'] = 'Ich akzeptiere die Allgemeinen Geschäftsbedingungen.';
 $lang['de_DE']['SilvercartCheckoutFormStep']['I_SUBSCRIBE_NEWSLETTER'] = 'Ich möchte den Newsletter abonnieren.';
 $lang['de_DE']['SilvercartCheckoutFormStep']['ORDER'] = 'Bestellung';
-$lang['de_DE']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Kaufen';
+$lang['de_DE']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Jetzt kaufen';
 $lang['de_DE']['SilvercartCheckoutFormStep']['OVERVIEW'] = 'Übersicht';
 
 $lang['de_DE']['SilvercartCheckoutFormStep1']['LOGIN'] = 'Anmeldung';
@@ -1345,6 +1345,7 @@ $lang['de_DE']['SilvercartPage']['PLUS_SHIPPING'] = 'zzgl. Versand';
 $lang['de_DE']['SilvercartPage']['PREV'] = 'Zurück';
 $lang['de_DE']['SilvercartPage']['REGISTER'] = 'Registrieren';
 $lang['de_DE']['SilvercartPage']['REMARKS'] = 'Bemerkungen';
+$lang['de_DE']['SilvercartPage']['YOUR_REMARKS'] = 'Ihre Nachricht an uns';
 $lang['de_DE']['SilvercartPage']['REMOVE_FROM_CART'] = 'entfernen';
 $lang['de_DE']['SilvercartPage']['RETURNTOPRODUCTGROUP'] = 'Zurück zu "%s"';
 $lang['de_DE']['SilvercartPage']['REVOCATION'] = 'Widerrufsbelehrung';

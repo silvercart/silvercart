@@ -1345,6 +1345,7 @@ $lang['en_US']['SilvercartPage']['PLUS_SHIPPING'] = 'plus shipping';
 $lang['en_US']['SilvercartPage']['PREV'] = 'Prev';
 $lang['en_US']['SilvercartPage']['REGISTER'] = 'Register';
 $lang['en_US']['SilvercartPage']['REMARKS'] = 'Remarks';
+$lang['en_US']['SilvercartPage']['YOUR_REMARKS'] = 'Your remarks';
 $lang['en_US']['SilvercartPage']['REMOVE_FROM_CART'] = 'Remove';
 $lang['en_US']['SilvercartPage']['RETURNTOPRODUCTGROUP'] = 'Return to "%s"';
 $lang['en_US']['SilvercartPage']['REVOCATION'] = 'revocation instruction';
