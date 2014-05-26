@@ -178,4 +178,38 @@ class SilvercartRegistrationPage_Controller extends Page_Controller {
         $this->registerCustomHtmlForm('SilvercartRegisterRegularCustomerForm', new SilvercartRegisterRegularCustomerForm($this));
         parent::init();
     }
+    
+    /**
+     * Returns whether the registration context is in checkout.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.05.2014
+     */
+    public function IsInCheckout() {
+        $isInCheckout = false;
+        if (array_key_exists('backlink', $_GET) &&
+            !empty($_GET['backlink'])) {
+            $backlink       = Convert::raw2sql($_GET['backlink']);
+            $backlinkedPage = Page::get_by_link($backlink);
+            if ($backlinkedPage instanceof SilvercartCheckoutStep) {
+                $isInCheckout = true;
+            }
+        }
+        return $isInCheckout;
+    }
+
+    /**
+     * Returns the current form instance object
+     *
+     * @return CustomHtmlForm
+     */
+    public function getCheckoutFormInstance() {
+        $checkoutStepPage = SilvercartTools::PageByIdentifierCode('SilvercartCheckoutStep');
+        $checkoutStepPageController = ModelAsController::controller_for($checkoutStepPage);
+        $checkoutStepPageController->handleRequest($this->getRequest());
+        return new SilvercartCheckoutFormStep2($checkoutStepPageController);
+    }
+    
 }
