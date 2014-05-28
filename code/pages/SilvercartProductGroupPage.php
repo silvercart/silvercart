@@ -291,7 +291,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.05.2012
+     * @since 28.05.2014
      */
     public function BackLink() {
         if (Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL')) {
@@ -302,7 +302,7 @@ class SilvercartProductGroupPage extends Page {
             $url = $this->OriginalLink();
         }
         if (!$this->isInternalUrl($url) ||
-            $url == $this->Link()) {
+            Director::makeRelative($url) == Director::makeRelative($this->Link())) {
             $url = $this->OriginalLink();
         }
         return $url;
