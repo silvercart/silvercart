@@ -68,6 +68,15 @@ class SilvercartPaymentNotification extends Page {
 class SilvercartPaymentNotification_Controller extends Page_Controller {
     
     /**
+     * Allowed actions.
+     *
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'process',
+    );
+
+    /**
      * Initialisierung
      *
      * @return void
