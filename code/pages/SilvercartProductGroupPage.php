@@ -1027,7 +1027,59 @@ class SilvercartProductGroupPage extends Page {
         }
         return $metaDescription;
     }
-
+    
+    /**
+     * Returns the productsPerPage setting.
+     * 
+     * @return string
+     */
+    public function getproductsPerPage() {
+        $productsPerPage = $this->getField('productsPerPage');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateProductsPerPage', $productsPerPage);
+        }
+        return $productsPerPage;
+    }
+    
+    /**
+     * Returns the productGroupsPerPage setting.
+     * 
+     * @return string
+     */
+    public function getproductGroupsPerPage() {
+        $productGroupsPerPage = $this->getField('productGroupsPerPage');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateProductGroupsPerPage', $productGroupsPerPage);
+        }
+        return $productGroupsPerPage;
+    }
+    
+    /**
+     * Returns the useContentFromParent setting.
+     * 
+     * @return string
+     */
+    public function getuseContentFromParent() {
+        $useContentFromParent = $this->getField('useContentFromParent');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateUseContentFromParent', $useContentFromParent);
+        }
+        return $useContentFromParent;
+    }
+    
+    /**
+     * Returns the DoNotShowProducts setting.
+     * 
+     * @return string
+     */
+    public function getDoNotShowProducts() {
+        $doNotShowProducts = $this->getField('DoNotShowProducts');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateDoNotShowProducts', $doNotShowProducts);
+        }
+        return $doNotShowProducts;
+    }
+    
     /**
      * Set LastEdited field to now for the SilvercartProductGroupHolder.
      *
