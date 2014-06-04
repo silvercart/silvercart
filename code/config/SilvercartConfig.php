@@ -230,6 +230,13 @@ class SilvercartConfig extends DataObject {
     public static $skipShippingStepIfUnique                 = null;
     public static $displayWeightsInKilogram                 = null;
     public static $showTaxAndDutyHint                       = false;
+    
+    /**
+     * Indicator to check whether getCMSFields is called
+     *
+     * @var boolean
+     */
+    protected $getCMSFieldsIsCalled = false;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -280,6 +287,7 @@ class SilvercartConfig extends DataObject {
      * @since 24.02.2011
      */
     public function getCMSFields($params = array()) {
+        $this->getCMSFieldsIsCalled = true;
         $defaultCMSFields = parent::getCMSFields(
                 array_merge(
                         $params,
@@ -596,6 +604,19 @@ class SilvercartConfig extends DataObject {
                 $this->record = array();
             }
         }
+    }
+    
+    /**
+     * Returns whether to enable SSL.
+     * 
+     * @return bool
+     */
+    public function getEnableSSL() {
+        $enableSSL = $this->getField('EnableSSL');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateEnableSSL', $enableSSL);
+        }
+        return $enableSSL;
     }
 
     /**
