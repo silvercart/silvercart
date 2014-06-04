@@ -34,6 +34,16 @@
 class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
     
     /**
+     * DB attributes.
+     *
+     * @var array
+     */
+    public static $db = array(
+        'EnablePhoneNumber'     => 'Boolean(0)',
+        'PhoneNumberIsRequired' => 'Boolean(0)',
+    );
+
+        /**
      * list of allowed children page types
      *
      * @var array
@@ -74,6 +84,42 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
      */
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
+    }
+    
+    /**
+     * Returns the field labels.
+     * 
+     * @param bool $includerelations Include relations?
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2014
+     */
+    public function fieldLabels($includerelations = true) {
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'EnablePhoneNumber'     => _t('SilvercartContactFormPage.EnablePhoneNumber'),
+                    'PhoneNumberIsRequired' => _t('SilvercartContactFormPage.PhoneNumberIsRequired'),
+                )
+        );
+        $this->extend('updateFieldLabels', $fieldLabels);
+        return $fieldLabels;
+    }
+    
+    /**
+     * Returns the CMS fields.
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $fields->addFieldToTab('Root.Content.Main', new CheckboxField('EnablePhoneNumber', $this->fieldLabel('EnablePhoneNumber')),         'Content');
+        $fields->addFieldToTab('Root.Content.Main', new CheckboxField('PhoneNumberIsRequired', $this->fieldLabel('PhoneNumberIsRequired')), 'Content');
+        
+        return $fields;
     }
 
 }

@@ -627,6 +627,8 @@ $lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kont
 $lang['de_DE']['SilvercartContactFormPage']['SINGULARNAME'] = 'Kontaktformularseite';
 $lang['de_DE']['SilvercartContactFormPage']['TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['URL_SEGMENT'] = 'kontakt';
+$lang['de_DE']['SilvercartContactFormPage']['EnablePhoneNumber'] = 'Feld für Telefonnummer aktivieren';
+$lang['de_DE']['SilvercartContactFormPage']['PhoneNumberIsRequired'] = 'Telefonnummer ist Pflichtfeld';
 
 $lang['de_DE']['SilvercartContactFormResponsePage']['DEFAULT_TITLE'] = 'Kontaktbestätigung';
 $lang['de_DE']['SilvercartContactFormResponsePage']['DEFAULT_CONTENT'] = 'Vielen Dank für Ihre Nachricht. Wir werden Ihnen in Kürze antworten.';
@@ -640,7 +642,7 @@ $lang['de_DE']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'kontaktbes
 $lang['de_DE']['SilvercartContactMessage']['PLURALNAME'] = 'Kontaktanfragen';
 $lang['de_DE']['SilvercartContactMessage']['SINGULARNAME'] = 'Kontaktanfrage';
 $lang['de_DE']['SilvercartContactMessage']['MESSAGE'] = 'Nachricht';
-$lang['de_DE']['SilvercartContactMessage']['TEXT'] = "<h1>Anfrage über Kontaktformular</h1>\n<h2>Hallo,</h2>\n<p>Über die Webseite wurde eine Anfrage an euch gestellt.<br />\nDer Kunde <strong>\"\$FirstName \$Surname\"</strong> hat die Email Adresse <strong>\"\$Email\"</strong> für Rückantworten angegeben.</p>\n<h2>Die Nachricht</h2>\n<p>\$Message</p>\n";
+$lang['de_DE']['SilvercartContactMessage']['TEXT'] = "<h1>Anfrage über Kontaktformular</h1>\n<h2>Hallo,</h2>\n<p>Über die Webseite wurde eine Anfrage an euch gestellt.<br />\nDer Kunde <strong>\"\$FirstName \$Surname\"</strong> hat die Email Adresse <strong>\"\$Email\"</strong> für Rückantworten angegeben.</p>\n<% if Phone %><p><strong>Telefon: {\$Phone}</strong></p><% end_if %>\n<h2>Die Nachricht</h2>\n<p>\$Message</p>\n";
 
 $lang['de_DE']['SilvercartContactMessageAdmin']['MENUTITLE'] = 'Kontaktanfragen';
 

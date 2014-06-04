@@ -27,8 +27,9 @@
  * @package Silvercart
  * @subpackage Forms
  * @copyright pixeltricks GmbH
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 21.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 04.06.2014
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
 class SilvercartContactForm extends CustomHtmlForm {
@@ -41,100 +42,111 @@ class SilvercartContactForm extends CustomHtmlForm {
     protected $excludeFromCache = true;
 
     /**
-     * definition of the form fields
-     *
-     * @var array
+     * Returns the form fields
+     * 
+     * @param bool $withUpdate Execute update method of decorators?
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2014
      */
-    protected $formFields = array(
-        'Salutation' => array(
-            'type' => 'DropdownField',
-            'title' => 'Anrede',
-            'value' => array('' => 'Bitte wählen', 'Frau' => 'Frau', 'Herr' => 'Herr'),
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'FirstName' => array(
-            'type' => 'TextField',
-            'title' => 'Vorname',
-            'checkRequirements' => array(
-                'isFilledIn' => true,
-                'hasMinLength' => 3
-            )
-        ),
-        'Surname' => array
-            (
-            'type' => 'TextField',
-            'title' => 'Nachname',
-            'checkRequirements' => array
-                (
-                'isFilledIn' => true,
-                'hasMinLength' => 3
-            )
-        ),
-        'Email' => array(
-            'type' => 'TextField',
-            'title' => 'Email Adresse',
-            'value' => '',
-            'checkRequirements' => array(
-                'isFilledIn' => true,
-                'isEmailAddress' => true
-            )
-        ),
-        'Message' => array(
-            'type' => 'TextareaField',
-            'title' => 'Nachricht',
-            'checkRequirements' => array
-                (
-                'isFilledIn' => true,
-                'hasMinLength' => 3
-            )
-        )
-    );
+    public function getFormFields($withUpdate = true) {
+        if (empty($this->formFields)) {
+            if (Member::currentUserID() > 0) {
+                $member = Member::currentUser();
+            } else {
+                $member = singleton('Member');
+            }
+            $address            = singleton('SilvercartAddress');
+            $this->formFields   = array(
+                'Salutation' => array(
+                    'type'              => 'DropdownField',
+                    'title'             => $address->fieldLabel('Salutation'),
+                    'selectedValue'     => $member->Salutation,
+                    'value'             => array(
+                        ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+                        "Frau"  => _t('SilvercartAddress.MISSES'),
+                        "Herr"  => _t('SilvercartAddress.MISTER')
+                    ),
+                    'checkRequirements' => array(
+                        'isFilledIn' => true
+                    )
+                ),
+                'FirstName' => array(
+                    'type'              => 'TextField',
+                    'title'             => $address->fieldLabel('FirstName'),
+                    'value'             => $member->FirstName,
+                    'checkRequirements' => array(
+                        'isFilledIn'   => true,
+                        'hasMinLength' => 3
+                    )
+                ),
+                'Surname' => array(
+                    'type'              => 'TextField',
+                    'title'             => $address->fieldLabel('Surname'),
+                    'value'             => $member->Surname,
+                    'checkRequirements' => array(
+                        'isFilledIn'   => true,
+                        'hasMinLength' => 3
+                    )
+                ),
+                'Email' => array(
+                    'type'              => 'TextField',
+                    'title'             => $member->fieldLabel('Email'),
+                    'value'             => $member->Email,
+                    'checkRequirements' => array(
+                        'isFilledIn'     => true,
+                        'isEmailAddress' => true
+                    )
+                ),
+                'Message' => array(
+                    'type'              => 'TextareaField',
+                    'title'             => _t('SilvercartPage.MESSAGE', 'message'),
+                    'checkRequirements' => array(
+                        'isFilledIn'   => true,
+                        'hasMinLength' => 3
+                    )
+                )
+            );
 
-    /**
-     * form settings, mainly submit button´s name
-     *
-     * @var array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 02.02.2011
-     */
-    protected $preferences = array(
-        'submitButtonTitle'  => 'Nachricht senden',
-        'markRequiredFields' => true
-    );
-
-    /**
-     * logged in users get there fields filled
-     *
-     * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.12.2012
-     */
-    protected function fillInFieldValues() {
-        parent::fillInFieldValues();
-        $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION');
-        $this->formFields['Salutation']['value'] = array(
-            ''      => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
-            "Frau"  => _t('SilvercartAddress.MISSES'),
-            "Herr"  => _t('SilvercartAddress.MISTER')
-        );
-        $this->formFields['FirstName']['title']  = _t('SilvercartAddress.FIRSTNAME', 'firstname');
-        $this->formFields['Surname']['title']    = _t('SilvercartAddress.SURNAME');
-        $this->formFields['Email']['title']      = _t('SilvercartAddress.EMAIL', 'email address');
-        $this->formFields['Message']['title']    = _t('SilvercartPage.MESSAGE', 'message');
-        $this->preferences['submitButtonTitle']  = _t('SilvercartPage.SUBMIT_MESSAGE', 'submit message');
-
-        $member = Member::currentUser();
-        if ($member &&
-            (!array_key_exists('value', $this->formFields['FirstName']) ||
-             empty($this->formFields['FirstName']['value']))) {
-            $this->formFields['Salutation']['selectedValue'] = $member->Salutation;
-            $this->formFields['FirstName']['value']          = $member->FirstName;
-            $this->formFields['Surname']['value']            = $member->Surname;
-            $this->formFields['Email']['value']              = $member->Email;
+            if ($this->EnablePhoneNumber()) {
+                $requirements = array();
+                if ($this->PhoneNumberIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'Phone' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Phone'),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
         }
+        return parent::getFormFields($withUpdate);
+    }
+    
+    /**
+     * Sets the preferences for this form
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2014
+     */
+    public function preferences() {
+        $this->preferences  = array(
+            'submitButtonTitle'  => _t('SilvercartPage.SUBMIT_MESSAGE', 'submit message'),
+            'markRequiredFields' => true,
+        );
+        parent::preferences();
+        return $this->preferences;
     }
 
     /**
@@ -162,5 +174,29 @@ class SilvercartContactForm extends CustomHtmlForm {
          */
         $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
         Director::redirect($contactFormResponsePage->RelativeLink());
+    }
+    
+    /**
+     * Returns whether to enable the phone number field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2014
+     */
+    public function EnablePhoneNumber() {
+        return $this->Controller()->EnablePhoneNumber;
+    }
+
+    /**
+     * Returns whether to set the phone number field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.06.2014
+     */
+    public function PhoneNumberIsRequired() {
+        return $this->Controller()->PhoneNumberIsRequired;
     }
 }
