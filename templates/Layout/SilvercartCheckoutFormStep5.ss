@@ -62,13 +62,14 @@
     <div class="subcolumns">
         <div class="c50l">
             <div class="subcl checkout-change-area">
-                <div class="silvercart-highlighted-box">
+                <div class="silvercart-highlighted-box h90">
                     <div class="silvercart-highlighted-box_content">
                         <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING') %>:</strong>
                         <p class="silvercart-highlighted-content">
                         <% control SilvercartShoppingCart %>
                             {$CarrierAndShippingMethodTitle} <% control ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_control %>
                             <% if hasHandlingCostShipment %> (<span class="price highlighted">{$HandlingCostShipment.Nice}</span>)<% end_if %>
+                            <% if ShippingMethod.DeliveryTime %><br/><small class="delivery-time-hint">$ShippingMethod.fieldLabel(ExpectedDelivery):<br/>{$ShippingMethod.DeliveryTime}</small><% end_if %>
                         <% end_control %>
                         </p>
                     </div>
@@ -78,7 +79,7 @@
         </div>
         <div class="c50r">
             <div class="subcr checkout-change-area">
-                <div class="silvercart-highlighted-box">
+                <div class="silvercart-highlighted-box h90">
                     <div class="silvercart-highlighted-box_content">
                         <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT') %>:</strong>
                         <p class="silvercart-highlighted-content">

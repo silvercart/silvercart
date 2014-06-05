@@ -14,6 +14,12 @@
                             <i>$description</i>
                         </span>
                     <% end_if %>
+                    <% if ShippingMethod.DeliveryTime %>
+                        <br/>
+                        <span class="silvercart-checkout-shipping-additionalInfo-description">
+                            <strong><i>$ShippingMethod.fieldLabel(ExpectedDelivery): {$ShippingMethod.DeliveryTime}</i></strong>
+                        </span>
+                    <% end_if %>
                 </span>
             </li>
         <% end_control %>

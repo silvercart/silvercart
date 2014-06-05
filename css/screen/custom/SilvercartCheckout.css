@@ -85,3 +85,12 @@ table.silvercart-shopping-cart-full td.price.total {
     font-weight: bold;
     text-decoration: underline;
 }
+small.delivery-time-hint {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+.silvercart-highlighted-box.h90 {
+    min-height: 90px;
+}

@@ -43,6 +43,9 @@ class SilvercartShippingMethod extends DataObject {
         'isActive'                      => 'Boolean',
         'priority'                      => 'Int',
         'DoNotShowOnShippingFeesPage'   => 'Boolean',
+        'DeliveryTimeMin'               => 'Int',
+        'DeliveryTimeMax'               => 'Int',
+        'DeliveryTimeText'              => 'Varchar(256)',
     );
     /**
      * Has-one relationships.
@@ -94,6 +97,7 @@ class SilvercartShippingMethod extends DataObject {
         'Description'                       => 'Text',
         'DescriptionForShippingFeesPage'    => 'Text',
         'ShowOnShippingFeesPage'            => 'Boolean',
+        'DeliveryTime'                      => 'Text',
     );
 
     /**
@@ -170,7 +174,7 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2013
+     * @since 05.06.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -189,6 +193,14 @@ class SilvercartShippingMethod extends DataObject {
                 'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
                 'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
                 'DoNotShowOnShippingFeesPage'       => _t('SilvercartShippingMethod.DoNotShowOnShippingFeesPage'),
+                'ExpectedDelivery'                  => _t('SilvercartShippingMethod.ExpectedDelivery'),
+                'DeliveryTime'                      => _t('SilvercartShippingMethod.DeliveryTime'),
+                'DeliveryTimeMin'                   => _t('SilvercartShippingMethod.DeliveryTimeMin'),
+                'DeliveryTimeMinDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
+                'DeliveryTimeMax'                   => _t('SilvercartShippingMethod.DeliveryTimeMax'),
+                'DeliveryTimeMaxDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMaxDesc'),
+                'DeliveryTimeText'                  => _t('SilvercartShippingMethod.DeliveryTimeText'),
+                'DeliveryTimeTextDesc'              => _t('SilvercartShippingMethod.DeliveryTimeTextDesc'),
             )
         );
     }
@@ -262,6 +274,10 @@ class SilvercartShippingMethod extends DataObject {
         $fields->removeByName('SilvercartOrders');
         $fields->removeByName('SilvercartZones');
 
+        $fields->dataFieldByName('DeliveryTimeMin')->setRightTitle($this->fieldLabel('DeliveryTimeMinDesc'));
+        $fields->dataFieldByName('DeliveryTimeMax')->setRightTitle($this->fieldLabel('DeliveryTimeMaxDesc'));
+        $fields->dataFieldByName('DeliveryTimeText')->setRightTitle($this->fieldLabel('DeliveryTimeTextDesc'));
+        
         if ($this->ID > 0) {
             $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
             if ($feeTable) {
@@ -440,6 +456,82 @@ class SilvercartShippingMethod extends DataObject {
             return $this->SilvercartCarrier()->Title . " - " . $this->Title;
         }
         return false;
+    }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @return string
+     */
+    public function getDeliveryTime() {
+        $deliveryTime = '';
+        if (!empty($this->DeliveryTimeText)) {
+            $deliveryTime = $this->DeliveryTimeText;
+        } elseif ($this->DeliveryTimeMin > 0) {
+            if ($this->isInCheckoutContextWithPrepayment()) {
+                $deliveryTime  = $this->DeliveryTimeMin;
+                if ($this->DeliveryTimeMax > 0) {
+                    $deliveryTime .= ' - ';
+                    $deliveryTime .= $this->DeliveryTimeMax;
+                }
+                if ($deliveryTime == 1) {
+                    $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
+                } else {
+                    $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
+                }
+                $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
+            } else {
+                $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + ($this->addSundaysToDeliveryTime($this->DeliveryTimeMin)*60*60*24)), true, true, true);
+                if ($this->DeliveryTimeMax > 0) {
+                    $deliveryTime .= ' - ';
+                    $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + ($this->addSundaysToDeliveryTime($this->DeliveryTimeMax)*60*60*24)), true, true, true);
+                }
+            }
+        }
+        return $deliveryTime;
+    }
+    
+    /**
+     * Adds the sundays to the delivery time.
+     * 
+     * @param int $deliveryTime Delivery time in days
+     * 
+     * @return int
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2014
+     */
+    protected function addSundaysToDeliveryTime($deliveryTime) {
+        $currentWeekDay = date('N');
+        $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
+        $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
+        return $deliveryTime + $sundaysTotal;
+    }
+    
+    /**
+     * Returns whether the current application context is in checkout with 
+     * prepayment as payment method.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2014
+     */
+    protected function isInCheckoutContextWithPrepayment() {
+        $isPrepayment = false;
+        if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+            $checkout = Controller::curr();
+            /*@var $checkout SilvercartCheckoutStep_Controller */
+            $checkoutStep = $checkout->getCurrentFormInstance();
+            if ($checkoutStep instanceof SilvercartCheckoutFormStep5) {
+                $paymentMethod = $checkoutStep->SilvercartShoppingCart()->getPaymentMethod();
+                if ($paymentMethod instanceof SilvercartPaymentPrepayment &&
+                    $paymentMethod->PaymentChannel == 'prepayment') {
+                    $isPrepayment = true;
+                }
+            }
+        }
+        return $isPrepayment;
     }
 
     /**

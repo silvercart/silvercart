@@ -56,6 +56,8 @@ $lang['en_GB']['Silvercart']['LINKS'] = 'Links';
 $lang['en_GB']['Silvercart']['MISC_CONFIG'] = 'Misc. Configuration';
 $lang['en_GB']['Silvercart']['TIMES'] = 'Time';
 $lang['en_GB']['Silvercart']['DATE'] = 'Date';
+$lang['en_GB']['Silvercart']['BusinessDay'] = 'Business day';
+$lang['en_GB']['Silvercart']['BusinessDays'] = 'Business days';
 $lang['en_GB']['Silvercart']['DAY'] = 'day';
 $lang['en_GB']['Silvercart']['DAYS'] = 'days';
 $lang['en_GB']['Silvercart']['WEEK'] = 'week';
@@ -86,7 +88,8 @@ $lang['en_GB']['Silvercart']['EXECUTE'] = 'Execute';
 $lang['en_GB']['Silvercart']['TOTAL'] = 'Total';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
-$lang['en_US']['Silvercart']['TaxAndDutyHint'] = 'Caution: There are additional taxes and fees for delivery to non EU countries.';
+$lang['en_GB']['Silvercart']['TaxAndDutyHint'] = 'Caution: There are additional taxes and fees for delivery to non EU countries.';
+$lang['en_GB']['Silvercart']['DateFormat'] = 'd.m.Y';
 
 $lang['en_GB']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_GB']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -1568,6 +1571,15 @@ $lang['en_GB']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'Wha
 $lang['en_GB']['SilvercartShippingMethod']['NO_SHIPPING_METHOD_AVAILABLE'] = 'No shipping method available.';
 $lang['en_GB']['SilvercartShippingMethod']['CHOOSE_SHIPPING_METHOD'] = 'Please choose a shipping method for the delivery to "%s"';
 $lang['en_GB']['SilvercartShippingMethod']['DoNotShowOnShippingFeesPage'] = 'Do not show on Shipping Fees Page';
+$lang['en_GB']['SilvercartShippingMethod']['ExpectedDelivery'] = 'Expected Delivery';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTime'] = 'Delivery time';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimeMin'] = 'Minimum delivery time';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimeMinDesc'] = 'Minimum delivery time in business days';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimeMax'] = 'Maximum delivery time';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimeMaxDesc'] = 'Maximum delivery time in business days';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimeText'] = 'Own text for delivery time';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimeTextDesc'] = 'Will be used instead of "Minimum delivery time" and "Maximum delivery time".';
+$lang['en_GB']['SilvercartShippingMethod']['DeliveryTimePrepaymentHint'] = 'when cashed';
 
 $lang['en_GB']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Shipping Methods';
 

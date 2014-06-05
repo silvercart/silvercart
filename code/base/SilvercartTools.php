@@ -725,20 +725,32 @@ class SilvercartTools extends Object {
     /**
      * Returns the given date in a nice format
      * 
-     * @param string $date Date to format
+     * @param string $date          Date to format
+     * @param bool   $fullMonthName Set to true to show the full month name
+     * @param bool   $forceYear     Set to true to force showing the year
+     * @param bool   $withWeekDay   Set to true to show the name of the week day
      * 
      * @return string
      */
-    public static function getDateNice($date) {
+    public static function getDateNice($date, $fullMonthName = false, $forceYear = false, $withWeekDay = false) {
         self::switchLocale(false);
+        if ($fullMonthName) {
+            $month = '%B';
+        } else {
+            $month = '%b.';
+        }
         $dateTimestamp  = strtotime($date);
-        $dateNiceFormat = '%d. %b.';
-        if (date('Y', $dateTimestamp) != date('Y')) {
-            $dateNiceFormat = '%d. %b. %Y';
+        $dateNiceFormat = '%d. ' . $month;
+        if (date('Y', $dateTimestamp) != date('Y') ||
+            $forceYear) {
+            $dateNiceFormat = '%d. ' . $month . ' %Y';
         } elseif (date('m-d', $dateTimestamp) == date('m-d')) {
             $dateNiceFormat = ucfirst(_t('Silvercart.TODAY'));
         } elseif (date('m-d', $dateTimestamp) == date('m-d', time() - 24*60*60)) {
             $dateNiceFormat = ucfirst(_t('Silvercart.YESTERDAY'));
+        }
+        if ($withWeekDay) {
+            $dateNiceFormat = '%A, ' . $dateNiceFormat;
         }
         $dateNice = strftime($dateNiceFormat, $dateTimestamp);
         self::switchLocale();

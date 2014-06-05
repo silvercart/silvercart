@@ -56,6 +56,8 @@ $lang['de_DE']['Silvercart']['LINKS'] = 'Links';
 $lang['de_DE']['Silvercart']['MISC_CONFIG'] = 'Sonstige Einstellungen';
 $lang['de_DE']['Silvercart']['TIMES'] = 'Zeiten';
 $lang['de_DE']['Silvercart']['DATE'] = 'Datum';
+$lang['de_DE']['Silvercart']['BusinessDay'] = 'Werktag';
+$lang['de_DE']['Silvercart']['BusinessDays'] = 'Werktage';
 $lang['de_DE']['Silvercart']['DAY'] = 'Tag';
 $lang['de_DE']['Silvercart']['DAYS'] = 'Tage';
 $lang['de_DE']['Silvercart']['WEEK'] = 'Woche';
@@ -87,6 +89,7 @@ $lang['de_DE']['Silvercart']['TOTAL'] = 'Gesamt';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE']                                = 'Es ist ein Update verfügbar';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Laden Sie sich die aktuellste Version von SilverCart unter <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a> herunter.';
 $lang['de_DE']['Silvercart']['TaxAndDutyHint'] = 'Achtung: Bei Lieferungen in das Nicht-EU- Ausland fallen zusätzliche Zölle, Steuern und Gebühren an.';
+$lang['de_DE']['Silvercart']['DateFormat'] = 'd.m.Y';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
@@ -1568,6 +1571,15 @@ $lang['de_DE']['SilvercartShippingMethod']['CHOOSE_DATAOBJECT_TO_IMPORT'] = 'Was
 $lang['de_DE']['SilvercartShippingMethod']['NO_SHIPPING_METHOD_AVAILABLE'] = 'Keine Versandart verfügbar';
 $lang['de_DE']['SilvercartShippingMethod']['CHOOSE_SHIPPING_METHOD'] = 'Bitte wählen Sie Ihre Versandart für die Lieferung nach "%s"';
 $lang['de_DE']['SilvercartShippingMethod']['DoNotShowOnShippingFeesPage'] = 'Nicht auf Versandgebührenseite anzeigen';
+$lang['de_DE']['SilvercartShippingMethod']['ExpectedDelivery'] = 'Voraussichtliche Lieferung';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTime'] = 'Lieferzeit';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeMin'] = 'Minimale Lieferzeit';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeMinDesc'] = 'Minimale Lieferzeit in Werktagen';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeMax'] = 'Maximale Lieferzeit';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeMaxDesc'] = 'Maximale Lieferzeit in Werktagen';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeText'] = 'Eigener Text für die Angabe der Lieferzeit';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeTextDesc'] = 'Wird anstelle von "Minimale Lieferzeit" und "Maximale Lieferzeit" angezeigt.';
+$lang['de_DE']['SilvercartShippingMethod']['DeliveryTimePrepaymentHint'] = 'nach Zahlungseingang';
 
 $lang['de_DE']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Versandarten';
 

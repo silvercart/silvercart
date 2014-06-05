@@ -41,7 +41,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2012
+     * @since 05.06.2014
      */
     public function Field() {
         $odd            = 0;
@@ -78,6 +78,7 @@ class SilvercartShippingOptionsetField extends OptionsetField {
                     'name'              => $this->name,
                     'htmlId'            => $this->id() . "_" . ereg_replace('[^a-zA-Z0-9]+','',$key),
                     'description'       => Convert::raw2xml($shippingMethod->Description),
+                    'ShippingMethod'    => $shippingMethod,
                 ));
             }
 
