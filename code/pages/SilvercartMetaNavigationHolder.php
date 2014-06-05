@@ -143,6 +143,9 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
             if ($sisters instanceof DataObjectSet) {
                 $sisters->remove($sisters->find('ID', $root->ID));
                 foreach ($sisters as $sister) {
+                    if ($sister->Parent() instanceof SilvercartMetaNavigationHolder) {
+                        continue;
+                    }
                     $elements = array(
                         'SubElementsTitle'  => $sister->MenuTitle,
                         'SubElements'       => $sister->Children(),
