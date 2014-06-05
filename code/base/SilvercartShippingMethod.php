@@ -281,13 +281,12 @@ class SilvercartShippingMethod extends DataObject {
         if ($this->ID > 0) {
             $feeTable = $fields->dataFieldByName('SilvercartShippingFees');
             if ($feeTable) {
-                $permissions = array_merge(
-                        $feeTable->getPermissions(),
-                        array(
-                            'export',
-                        )
-                );
-                $feeTable->setPermissions($permissions);
+                $feeTable->setPermissions(array(
+                    'add',
+                    'edit',
+                    'delete',
+                    'export',
+                ));
                 $feeTable->setFieldListCsv(
                         array(
                             'ID'                            => 'ID',
@@ -464,15 +463,32 @@ class SilvercartShippingMethod extends DataObject {
      * @return string
      */
     public function getDeliveryTime() {
+        $deliveryTime = self::get_delivery_time($this->getShippingFee());
+        if (empty($deliveryTime)) {
+            $deliveryTime = self::get_delivery_time($this);
+        }
+        return $deliveryTime;
+    }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @param DataObject $context            Context object to get delivery time for
+     * @param bool       $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public static function get_delivery_time($context, $forceDisplayInDays = false) {
         $deliveryTime = '';
-        if (!empty($this->DeliveryTimeText)) {
-            $deliveryTime = $this->DeliveryTimeText;
-        } elseif ($this->DeliveryTimeMin > 0) {
-            if ($this->isInCheckoutContextWithPrepayment()) {
-                $deliveryTime  = $this->DeliveryTimeMin;
-                if ($this->DeliveryTimeMax > 0) {
+        if (!empty($context->DeliveryTimeText)) {
+            $deliveryTime = $context->DeliveryTimeText;
+        } elseif ($context->DeliveryTimeMin > 0) {
+            if (self::isInCheckoutContextWithPrepayment() ||
+                $forceDisplayInDays) {
+                $deliveryTime  = $context->DeliveryTimeMin;
+                if ($context->DeliveryTimeMax > 0) {
                     $deliveryTime .= ' - ';
-                    $deliveryTime .= $this->DeliveryTimeMax;
+                    $deliveryTime .= $context->DeliveryTimeMax;
                 }
                 if ($deliveryTime == 1) {
                     $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
@@ -481,10 +497,10 @@ class SilvercartShippingMethod extends DataObject {
                 }
                 $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
             } else {
-                $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + ($this->addSundaysToDeliveryTime($this->DeliveryTimeMin)*60*60*24)), true, true, true);
-                if ($this->DeliveryTimeMax > 0) {
+                $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
+                if ($context->DeliveryTimeMax > 0) {
                     $deliveryTime .= ' - ';
-                    $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + ($this->addSundaysToDeliveryTime($this->DeliveryTimeMax)*60*60*24)), true, true, true);
+                    $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
                 }
             }
         }
@@ -501,7 +517,7 @@ class SilvercartShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2014
      */
-    protected function addSundaysToDeliveryTime($deliveryTime) {
+    protected static function addSundaysToDeliveryTime($deliveryTime) {
         $currentWeekDay = date('N');
         $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
         $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
@@ -517,7 +533,7 @@ class SilvercartShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2014
      */
-    protected function isInCheckoutContextWithPrepayment() {
+    protected static function isInCheckoutContextWithPrepayment() {
         $isPrepayment = false;
         if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
             $checkout = Controller::curr();

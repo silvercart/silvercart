@@ -47,6 +47,9 @@ class SilvercartShippingFee extends DataObject {
         'freeOfShippingCostsDisabled'   => 'Boolean',
         'freeOfShippingCostsFrom'       => 'Money',
         'priority'                      => 'Int',
+        'DeliveryTimeMin'               => 'Int',
+        'DeliveryTimeMax'               => 'Int',
+        'DeliveryTimeText'              => 'Varchar(256)',
     );
 
     /**
@@ -165,6 +168,13 @@ class SilvercartShippingFee extends DataObject {
                     'freeOfShippingCostsDisabled'   => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSDISABLED'),
                     'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
                     'priority'                      => _t('Silvercart.PRIORITY'),
+                    'DeliveryTimeMin'               => _t('SilvercartShippingMethod.DeliveryTimeMin'),
+                    'DeliveryTimeMinDesc'           => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
+                    'DeliveryTimeMax'               => _t('SilvercartShippingMethod.DeliveryTimeMax'),
+                    'DeliveryTimeMaxDesc'           => _t('SilvercartShippingMethod.DeliveryTimeMaxDesc'),
+                    'DeliveryTimeText'              => _t('SilvercartShippingMethod.DeliveryTimeText'),
+                    'DeliveryTimeTextDesc'          => _t('SilvercartShippingMethod.DeliveryTimeTextDesc'),
+                    'DeliveryTimeHint'              => _t('SilvercartShippingFee.DeliveryTimeHint'),
                 )
         );
     }
@@ -259,6 +269,20 @@ class SilvercartShippingFee extends DataObject {
         }
         $fieldGroup->breakAndPush(  $fields->dataFieldByName('freeOfShippingCostsDisabled'));
         $fieldGroup->breakAndPush(  $fields->dataFieldByName('freeOfShippingCostsFrom'));
+
+        $fields->dataFieldByName('DeliveryTimeMin')->setRightTitle($this->fieldLabel('DeliveryTimeMinDesc'));
+        $fields->dataFieldByName('DeliveryTimeMax')->setRightTitle($this->fieldLabel('DeliveryTimeMaxDesc'));
+        $fields->dataFieldByName('DeliveryTimeText')->setRightTitle($this->fieldLabel('DeliveryTimeTextDesc'));
+        
+        $parentDeliveryTime = '';
+        if ($this->SilvercartShippingMethod()->exists()) {
+            $parentDeliveryTime = '<br/>(' . SilvercartShippingMethod::get_delivery_time($this->SilvercartShippingMethod(), true) . ')';
+        }
+        
+        $fieldGroup->pushAndBreak(  new LiteralField('DeliveryTimeHint', '<strong>' . $this->fieldLabel('DeliveryTimeHint') . $parentDeliveryTime . '</strong>'));
+        $fieldGroup->push(          $fields->dataFieldByName('DeliveryTimeMin'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('DeliveryTimeMax'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('DeliveryTimeText'));
         
         $fields->addFieldToTab('Root.Main', $fieldGroup);
 
