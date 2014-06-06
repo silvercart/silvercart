@@ -95,6 +95,11 @@ class SilvercartConfig extends DataObject {
      * @var array
      */
     public static $db = array(
+        'ShopName'         => 'Varchar(256)',
+        'ShopStreet'       => 'Varchar(256)',
+        'ShopStreetNumber' => 'Varchar(6)',
+        'ShopPostcode'     => 'Varchar(32)',
+        'ShopCity'         => 'Varchar(256)',
         'SilvercartVersion'                     => 'VarChar(16)',
         'SilvercartMinorVersion'                => 'VarChar(16)',
         'SilvercartUpdateVersion'               => 'VarChar(16)',
@@ -148,7 +153,8 @@ class SilvercartConfig extends DataObject {
      */
     public static $has_one = array(
         'SilvercartNoImage'         => 'Image',
-        'StandardProductCondition'  => 'SilvercartProductCondition'
+        'StandardProductCondition'  => 'SilvercartProductCondition',
+        'ShopCountry'               => 'SilvercartCountry',
     );
     
     /**
@@ -170,6 +176,7 @@ class SilvercartConfig extends DataObject {
         'Locale'                        => 'de_DE',
         'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
     );
+
     /**
      * Define all required configuration fields in this array. The given fields
      * will be handled in self::Check().
@@ -338,6 +345,7 @@ class SilvercartConfig extends DataObject {
                     $tabServerMain      = new Tab('Server',     _t('SilvercartConfig.SERVER')),
                     $tabStockMain       = new Tab('Stock',      _t('SilvercartConfig.STOCK')),
                     $tabCheckoutMain    = new Tab('Checkout',   _t('SilvercartPage.CHECKOUT')),
+                    $shopDataTab        = new Tab('ShopData',   _t('SilvercartConfig.ShopData')),
                     $tabCleanMain       = new Tab('Clean',      _t('SilvercartConfig.CLEAN'))
                 ),
                 $interfacesTab = new TabSet(
@@ -461,6 +469,14 @@ class SilvercartConfig extends DataObject {
         $freeOfShippingCostsTab->push(new CheckboxField('useFreeOfShippingCostsFrom', _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM')));
         $freeOfShippingCostsTab->push($defaultCMSFields->dataFieldByName('freeOfShippingCostsFrom'));
         
+        // Shop data tab
+        $shopDataTab->push($defaultCMSFields->dataFieldByName('ShopName'));
+        $shopDataTab->push($defaultCMSFields->dataFieldByName('ShopStreet'));
+        $shopDataTab->push($defaultCMSFields->dataFieldByName('ShopStreetNumber'));
+        $shopDataTab->push($defaultCMSFields->dataFieldByName('ShopPostcode'));
+        $shopDataTab->push($defaultCMSFields->dataFieldByName('ShopCity'));
+        $shopDataTab->push($defaultCMSFields->dataFieldByName('ShopCountryID'));
+        
         // FormFields for Test Data right here        
         $addExampleData = new FormAction('addExampleData', _t('SilvercartConfig.ADD_EXAMPLE_DATA', 'Add Example Data'));
         $addExampleData->setRightTitle(_t('SilvercartConfig.ADD_EXAMPLE_DATA_DESCRIPTION'));
@@ -507,6 +523,13 @@ class SilvercartConfig extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
+                    'ShopData'                              => _t('SilvercartConfig.ShopData'),
+                    'ShopName'                              => _t('SilvercartConfig.ShopName'),
+                    'ShopStreet'                            => _t('SilvercartConfig.ShopStreet'),
+                    'ShopStreetNumber'                      => _t('SilvercartConfig.ShopStreetNumber'),
+                    'ShopPostcode'                          => _t('SilvercartConfig.ShopPostcode'),
+                    'ShopCity'                              => _t('SilvercartConfig.ShopCity'),
+                    'ShopCountry'                           => _t('SilvercartConfig.ShopCountry'),
                     'addToCartMaxQuantity'                  => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
                     'DefaultCurrency'                       => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
                     'DefaultPriceType'                      => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
