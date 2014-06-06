@@ -282,6 +282,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'AmountTotal'                           => _t('SilvercartOrder.AMOUNTTOTAL'),
                 'PriceType'                             => _t('SilvercartOrder.PRICETYPE'),
                 'AmountGrossTotal'                      => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
+                'HandlingCost'                          => _t('SilvercartOrder.HandlingCost'),
                 'HandlingCostPayment'                   => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
                 'HandlingCostShipment'                  => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
                 'TaxRatePayment'                        => _t('SilvercartOrder.TAXRATEPAYMENT'),
@@ -398,6 +399,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
+    }
+    
+    /**
+     * Returns the Title.
+     * 
+     * @return string
+     */
+    public function getTitle() {
+        $title = $this->fieldLabel('OrderNumber') . ': ' . $this->OrderNumber . ' | ' . $this->fieldLabel('Created') . ': ' . date(_t('Silvercart.DATEFORMAT'), strtotime($this->Created)) . ' | ' . $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
+        $this->extend('updateTitle', $title);
+        return $title;
     }
 
     /**
@@ -1472,6 +1484,39 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getCurrency() {
         return $this->AmountTotal->getCurrency();
+    }
+    
+    /**
+     * Returns the Order Positions as a string.
+     * 
+     * @param bool $asHtmlString    Set to true to use HTML inside the string.
+     * @param bool $withAmountTotal Set to true add the orders total amount.
+     * 
+     * @return string
+     */
+    public function getPositionsAsString($asHtmlString = false, $withAmountTotal = false) {
+        if ($asHtmlString) {
+            $seperator = '<br/>';
+        } else {
+            $seperator = PHP_EOL;
+        }
+        $positionsStrings = array();
+        foreach ($this->SilvercartOrderPositions() as $position) {
+            $positionsString = $position->getTypeSafeQuantity() . 'x #' . $position->ProductNumber . ' "' . $position->Title . '" ' . $position->getPriceTotalNice();
+            $positionsStrings[] = $positionsString;
+        }
+        $positionsAsString = implode($seperator . '------------------------' . $seperator, $positionsStrings);
+        if ($withAmountTotal) {
+            $shipmentAndPayment = new Money();
+            $shipmentAndPayment->setAmount($this->HandlingCostPayment->getAmount() + $this->HandlingCostShipment->getAmount());
+            $shipmentAndPayment->setCurrency($this->HandlingCostPayment->getCurrency());
+            
+            $positionsAsString .= $seperator . '------------------------' . $seperator;
+            $positionsAsString .= $this->fieldLabel('HandlingCost') . ': ' . $shipmentAndPayment->Nice() . $seperator;
+            $positionsAsString .= '________________________' . $seperator . $seperator;
+            $positionsAsString .= $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
+        }
+        return $positionsAsString;
     }
     
     /**
