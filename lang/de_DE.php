@@ -89,7 +89,7 @@ $lang['de_DE']['Silvercart']['TOTAL'] = 'Gesamt';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE']                                = 'Es ist ein Update verfügbar';
 $lang['de_DE']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Laden Sie sich die aktuellste Version von SilverCart unter <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a> herunter.';
 $lang['de_DE']['Silvercart']['TaxAndDutyHint'] = 'Achtung: Bei Lieferungen in das Nicht-EU- Ausland fallen zusätzliche Zölle, Steuern und Gebühren an.';
-$lang['de_DE']['Silvercart']['DateFormat'] = 'd.m.Y';
+$lang['de_DE']['Silvercart']['To'] = 'An';
 
 $lang['de_DE']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Rechnungsadresse als Lieferadresse nutzen';
 $lang['de_DE']['SilvercartAddress']['ADDITION'] = 'Adresszusatz';
@@ -621,6 +621,13 @@ $lang['de_DE']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'Anzahl gleichzeitig
 $lang['de_DE']['SilvercartConfig']['USE_STRICT_SEARCH_RELEVANCE'] = 'Strengere Suche verwenden. Zeigt ausschließlich exakte Treffer an.';
 $lang['de_DE']['SilvercartConfig']['USER_AGENT_BLACKLIST'] = 'Gesperrte UserAgent-Kennungen (pro Zeile ein UserAgent)';
 $lang['de_DE']['SilvercartConfig']['ShowTaxAndDutyHint'] = 'Hinweis für zusätzliche Gebühren ins Nicht-EU Ausland anzeigen.';
+$lang['de_DE']['SilvercartConfig']['ShopData']                             = 'Betreiber-Daten';
+$lang['de_DE']['SilvercartConfig']['ShopName']                             = 'Shop-Name';
+$lang['de_DE']['SilvercartConfig']['ShopStreet']                           = 'Straße';
+$lang['de_DE']['SilvercartConfig']['ShopStreetNumber']                     = 'Hausnummer';
+$lang['de_DE']['SilvercartConfig']['ShopPostcode']                         = 'Postleitzahl';
+$lang['de_DE']['SilvercartConfig']['ShopCity']                             = 'Ort';
+$lang['de_DE']['SilvercartConfig']['ShopCountry']                          = 'Land';
 $lang['de_DE']['SilvercartConfigAdmin']['MENUTITLE'] = 'Grundeinstellungen';
 
 $lang['de_DE']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Kontakt';
@@ -1141,6 +1148,7 @@ $lang['de_DE']['SilvercartOrder']['BATCH_MARKASNOTSEEN']                        
 $lang['de_DE']['SilvercartOrder']['CUSTOMER'] = 'Kunde';
 $lang['de_DE']['SilvercartOrder']['CUSTOMERDATA'] = 'Kundendaten';
 $lang['de_DE']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Emailadresse des Kunden';
+$lang['de_DE']['SilvercartOrder']['HandlingCost'] = 'Zahlungs-/Versand-Gebühren';
 $lang['de_DE']['SilvercartOrder']['HANDLINGCOSTPAYMENT'] = 'Gebühren der Bezahlart';
 $lang['de_DE']['SilvercartOrder']['HANDLINGCOSTSHIPMENT'] = 'Gebühren der Versandart';
 $lang['de_DE']['SilvercartOrder']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Hat die AGB akzeptiert';
@@ -1524,6 +1532,26 @@ $lang['de_DE']['SilvercartRegistrationPage']['THANKS'] = 'Vielen Dank für Ihre 
 $lang['de_DE']['SilvercartRegistrationPage']['TITLE'] = 'Registrierungsseite';
 $lang['de_DE']['SilvercartRegistrationPage']['URL_SEGMENT'] = 'registrieren';
 $lang['de_DE']['SilvercartRegistrationPage']['YOUR_REGISTRATION'] = 'Ihre Registrierung';
+
+$lang['de_DE']['SilvercartRevocationFormPage']['DEFAULT_TITLE']      = 'Widerruf';
+$lang['de_DE']['SilvercartRevocationFormPage']['DEFAULT_URLSEGMENT'] = 'widerruf';
+$lang['de_DE']['SilvercartRevocationFormPage']['PLURALNAME']         = 'Widerruf-Seiten';
+$lang['de_DE']['SilvercartRevocationFormPage']['SINGULARNAME']       = 'Widerruf-Seite';
+$lang['de_DE']['SilvercartRevocationFormPage']['TITLE']              = 'Widerruf';
+$lang['de_DE']['SilvercartRevocationFormPage']['URL_SEGMENT']        = 'widerruf';
+$lang['de_DE']['SilvercartRevocationFormPage']['Success']            = 'Widerruf erfolgreich gesendet';
+$lang['de_DE']['SilvercartRevocationFormPage']['SuccessText']        = 'Vielen Dank! Wir haben Ihren Widerruf erhalten und werden Ihre Anfrage bearbeiten.';
+
+$lang['de_DE']['SilvercartRevocationForm']['NameOfConsumer'] = 'Name des/der Verbraucher(s)';
+$lang['de_DE']['SilvercartRevocationForm']['AddressOfConsumer'] = 'Anschrift des/der Verbraucher(s)';
+$lang['de_DE']['SilvercartRevocationForm']['Data'] = 'Daten';
+$lang['de_DE']['SilvercartRevocationForm']['RevocationOrderData'] = 'Hiermit widerrufe(n) ich/wir den von mir/uns abgeschlossenen Vertrag über den Kauf der folgenden Waren / die Erbringung der folgenden Dienstleistung';
+$lang['de_DE']['SilvercartRevocationForm']['OrderDate'] = 'Bestellt am / erhalten am';
+$lang['de_DE']['SilvercartRevocationForm']['OrderNumber'] = 'Bestellnummer';
+$lang['de_DE']['SilvercartRevocationForm']['RevocationDate'] = 'Datum des Widerrufs';
+$lang['de_DE']['SilvercartRevocationForm']['Order'] = 'Bestellung';
+$lang['de_DE']['SilvercartRevocationForm']['OrderHistory'] = 'Bestellung wählen';
+$lang['de_DE']['SilvercartRevocationForm']['GoTo'] = 'Zum Widerrufsformular';
 
 $lang['de_DE']['SilvercartSearchResultsPage']['DEFAULT_TITLE'] = 'Suchergebnisse';
 $lang['de_DE']['SilvercartSearchResultsPage']['DEFAULT_URLSEGMENT'] = 'suchergebnisse';
@@ -1942,3 +1970,10 @@ $lang['de_DE']['SilvercartDateRangePicker']['START_DATE']                       
 $lang['de_DE']['SilvercartDateRangePicker']['END_DATE']                         = 'Enddatum';
 $lang['de_DE']['SilvercartDateRangePicker']['NEXT']                             = 'Nächster';
 $lang['de_DE']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Vorheriger';
+
+$lang['de_DE']['SilvercartMailRevocationConfirmation']['Subject'] = 'Bestätigung Ihres Widerrufs';
+$lang['de_DE']['SilvercartMailRevocationConfirmation']['Title']   = 'Bestätigung Ihres Widerrufs';
+$lang['de_DE']['SilvercartMailRevocationConfirmation']['Text']    = 'Hiermit bestätigen wir den Eingang Ihres Widerrufs mit den folgenden Daten:';
+
+$lang['de_DE']['SilvercartMailRevocationNotification']['Subject'] = 'Widerruf eines Kunden';
+$lang['de_DE']['SilvercartMailRevocationNotification']['Text']    = 'Ein Kunde hat einen Widerruf mit den folgenden Daten gesendet:';

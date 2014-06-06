@@ -502,6 +502,17 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactPage->write();
             $contactPage->publish("Stage", "Live");
 
+            //create a revocation form page as a child of the meta navigation holder
+            $revocationPage                    = new SilvercartRevocationFormPage();
+            $revocationPage->Title             = _t('SilvercartRevocationFormPage.DEFAULT_TITLE', 'Revocation');
+            $revocationPage->URLSegment        = _t('SilvercartRevocationFormPage.DEFAULT_URLSEGMENT', 'Revocation');
+            $revocationPage->Status            = "Published";
+            $revocationPage->ShowInMenus       = 1;
+            $revocationPage->IdentifierCode    = "SilvercartRevocationFormPage";
+            $revocationPage->ParentID          = $metaNavigationHolder->ID;
+            $revocationPage->write();
+            $revocationPage->publish("Stage", "Live");
+
             //create a terms of service page as a child of the meta navigation holder
             $termsOfServicePage                 = new SilvercartMetaNavigationPage();
             $termsOfServicePage->Title          = _t('TermsOfServicePage.DEFAULT_TITLE', 'terms of service');
@@ -829,6 +840,37 @@ class SilvercartRequireDefaultRecords extends DataObject {
             }
             $shopEmailOrderShippedNotification->setField('EmailText',    $defaultTemplate);
             $shopEmailOrderShippedNotification->write();
+        }
+        $shopEmailRevocationNotification = DataObject::get_one(
+            'SilvercartShopEmail',
+            "Identifier = 'RevocationNotification'"
+        );
+        if (!$shopEmailRevocationNotification) {
+            $shopEmailRevocationNotification = new SilvercartShopEmail();
+            $shopEmailRevocationNotification->Identifier = 'RevocationNotification';
+            $shopEmailRevocationNotification->Subject    = _t('SilvercartMailRevocationNotification.Subject');
+            $shopEmailRevocationNotification->Variables  = '';
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailRevocationNotification.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailRevocationNotification->EmailText = $defaultTemplate;
+            $shopEmailRevocationNotification->write();
+            
+            $shopEmailRevocationConfirmation = new SilvercartShopEmail();
+            $shopEmailRevocationConfirmation->Identifier = 'RevocationConfirmation';
+            $shopEmailRevocationConfirmation->Subject    = _t('SilvercartMailRevocationConfirmation.Subject');
+            $shopEmailRevocationConfirmation->Variables  = '';
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailRevocationConfirmation.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailRevocationConfirmation->EmailText = $defaultTemplate;
+            $shopEmailRevocationConfirmation->write();
         }
         
         // attribute ShopEmails to order status

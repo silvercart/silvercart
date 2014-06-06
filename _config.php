@@ -50,6 +50,7 @@ Director::addRules(50, array(
 // Set spam check for forms
 // ----------------------------------------------------------------------------
 CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
+CustomHtmlForm::useSpamCheckFor('SilvercartRevocationForm');
 
 // ----------------------------------------------------------------------------
 // Register CSS requirements

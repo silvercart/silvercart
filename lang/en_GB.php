@@ -50,7 +50,7 @@ $lang['en_GB']['Silvercart']['CLEAR_CACHE'] = 'Clear cache';
 $lang['en_GB']['Silvercart']['CONTENT'] = 'Content';
 $lang['en_GB']['Silvercart']['CROSSSELLING'] = 'Cross-Selling';
 $lang['en_GB']['Silvercart']['DATA'] = 'Data';
-$lang['en_GB']['Silvercart']['DATEFORMAT'] = 'Y-m-d';
+$lang['en_GB']['Silvercart']['DATEFORMAT'] = 'd.m.Y';
 $lang['en_GB']['Silvercart']['DEEPLINKS'] = 'Deeplinks';
 $lang['en_GB']['Silvercart']['LINKS'] = 'Links';
 $lang['en_GB']['Silvercart']['MISC_CONFIG'] = 'Misc. Configuration';
@@ -89,7 +89,7 @@ $lang['en_GB']['Silvercart']['TOTAL'] = 'Total';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE']                                = 'Update available';
 $lang['en_GB']['Silvercart']['UPDATE_AVAILABLE_TEXT']                           = 'Download the latest SilverCart version on <a href="http://www.silvercart.org/downloads/" target="blank">http://www.silvercart.org/downloads/</a>.';
 $lang['en_GB']['Silvercart']['TaxAndDutyHint'] = 'Caution: There are additional taxes and fees for delivery to non EU countries.';
-$lang['en_GB']['Silvercart']['DateFormat'] = 'd.m.Y';
+$lang['en_GB']['Silvercart']['To'] = 'To';
 
 $lang['en_GB']['SilvercartAddress']['InvoiceAddressAsShippingAddress'] = 'Use invoice address as shipping address';
 $lang['en_GB']['SilvercartAddress']['ADDITION'] = 'Addition';
@@ -621,6 +621,13 @@ $lang['en_GB']['SilvercartConfig']['DISPLAYEDPAGINATION'] = 'number of simultane
 $lang['en_GB']['SilvercartConfig']['USE_STRICT_SEARCH_RELEVANCE'] = 'Use strict search. Displays only exact matches.';
 $lang['en_GB']['SilvercartConfig']['USER_AGENT_BLACKLIST'] = 'UserAgent blacklist (one UserAgent per line)';
 $lang['en_GB']['SilvercartConfig']['ShowTaxAndDutyHint'] = 'Show hint for additional taxes and duty for non EU countries.';
+$lang['en_GB']['SilvercartConfig']['ShopData']                             = 'Shop data';
+$lang['en_GB']['SilvercartConfig']['ShopName']                             = 'Shop name';
+$lang['en_GB']['SilvercartConfig']['ShopStreet']                           = 'Street';
+$lang['en_GB']['SilvercartConfig']['ShopStreetNumber']                     = 'Street number';
+$lang['en_GB']['SilvercartConfig']['ShopPostcode']                         = 'Postcode';
+$lang['en_GB']['SilvercartConfig']['ShopCity']                             = 'City';
+$lang['en_GB']['SilvercartConfig']['ShopCountry']                          = 'Country';
 $lang['en_GB']['SilvercartConfigAdmin']['MENUTITLE'] = 'SC Configuration';
 
 $lang['en_GB']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
@@ -1141,6 +1148,7 @@ $lang['en_GB']['SilvercartOrder']['BATCH_MARKASNOTSEEN']                        
 $lang['en_GB']['SilvercartOrder']['CUSTOMER'] = 'Customer';
 $lang['en_GB']['SilvercartOrder']['CUSTOMERDATA'] = 'Customer Data';
 $lang['en_GB']['SilvercartOrder']['CUSTOMERSEMAIL'] = 'Customers email address';
+$lang['en_GB']['SilvercartOrder']['HandlingCost'] = 'Handling cost';
 $lang['en_GB']['SilvercartOrder']['HANDLINGCOSTPAYMENT'] = 'Payment handling costs';
 $lang['en_GB']['SilvercartOrder']['HANDLINGCOSTSHIPMENT'] = 'Shipping handling costs';
 $lang['en_GB']['SilvercartOrder']['HASACCEPTEDTERMSANDCONDITIONS'] = 'Has accepted terms and conditions';
@@ -1524,6 +1532,26 @@ $lang['en_GB']['SilvercartRegistrationPage']['THANKS'] = 'Many thanks for your r
 $lang['en_GB']['SilvercartRegistrationPage']['TITLE'] = 'Registration page';
 $lang['en_GB']['SilvercartRegistrationPage']['URL_SEGMENT'] = 'registration';
 $lang['en_GB']['SilvercartRegistrationPage']['YOUR_REGISTRATION'] = 'Your registration';
+
+$lang['en_GB']['SilvercartRevocationFormPage']['DEFAULT_TITLE']      = 'Revocation';
+$lang['en_GB']['SilvercartRevocationFormPage']['DEFAULT_URLSEGMENT'] = 'revocation';
+$lang['en_GB']['SilvercartRevocationFormPage']['PLURALNAME']         = 'Revocation Pages';
+$lang['en_GB']['SilvercartRevocationFormPage']['SINGULARNAME']       = 'Revocation Page';
+$lang['en_GB']['SilvercartRevocationFormPage']['TITLE']              = 'Revocation';
+$lang['en_GB']['SilvercartRevocationFormPage']['URL_SEGMENT']        = 'revocation';
+$lang['en_GB']['SilvercartRevocationFormPage']['Success']            = 'Successfully sent revocation';
+$lang['en_GB']['SilvercartRevocationFormPage']['SuccessText']        = 'Thank you! We received your revocation.';
+
+$lang['en_GB']['SilvercartRevocationForm']['NameOfConsumer'] = 'Name of the customer';
+$lang['en_GB']['SilvercartRevocationForm']['AddressOfConsumer'] = 'Address of the customer';
+$lang['en_GB']['SilvercartRevocationForm']['Data'] = 'Data';
+$lang['en_GB']['SilvercartRevocationForm']['RevocationOrderData'] = 'I/We hereby revoke the concluded contract for buying the following goods / the performance of the following services';
+$lang['en_GB']['SilvercartRevocationForm']['OrderDate'] = 'Order date / Delivery date';
+$lang['en_GB']['SilvercartRevocationForm']['OrderNumber'] = 'Order number';
+$lang['en_GB']['SilvercartRevocationForm']['RevocationDate'] = 'Date of revocation';
+$lang['en_GB']['SilvercartRevocationForm']['Order'] = 'Order';
+$lang['en_GB']['SilvercartRevocationForm']['OrderHistory'] = 'Choose order';
+$lang['en_GB']['SilvercartRevocationForm']['GoTo'] = 'Go to revocation form';
 
 $lang['en_GB']['SilvercartSearchResultsPage']['DEFAULT_TITLE'] = 'Search results';
 $lang['en_GB']['SilvercartSearchResultsPage']['DEFAULT_URLSEGMENT'] = 'search-results';
@@ -1942,3 +1970,10 @@ $lang['en_GB']['SilvercartDateRangePicker']['START_DATE']                       
 $lang['en_GB']['SilvercartDateRangePicker']['END_DATE']                         = 'End date';
 $lang['en_GB']['SilvercartDateRangePicker']['NEXT']                             = 'Next';
 $lang['en_GB']['SilvercartDateRangePicker']['PREVIOUS']                         = 'Previous';
+
+$lang['en_GB']['SilvercartMailRevocationConfirmation']['Subject'] = 'Revocation confirmation';
+$lang['en_GB']['SilvercartMailRevocationConfirmation']['Title']   = 'Revocation confirmation';
+$lang['en_GB']['SilvercartMailRevocationConfirmation']['Text']    = 'We hereby confirm that we received your revocation with the following data:';
+
+$lang['en_GB']['SilvercartMailRevocationNotification']['Subject'] = 'Revocation of a customer';
+$lang['en_GB']['SilvercartMailRevocationNotification']['Text']    = 'A customer performed a revocation with the following data:';
