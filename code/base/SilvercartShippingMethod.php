@@ -497,10 +497,10 @@ class SilvercartShippingMethod extends DataObject {
                 }
                 $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
             } else {
-                $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
+                $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
                 if ($context->DeliveryTimeMax > 0) {
                     $deliveryTime .= ' - ';
-                    $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DateFormat'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
+                    $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
                 }
             }
         }
