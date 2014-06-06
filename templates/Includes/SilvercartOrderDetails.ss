@@ -44,7 +44,7 @@
                 <% end_if %>
                 <tr>
                     <td><% _t('SilvercartRevocationFormPage.TITLE','Revocation') %></td>
-                    <td><a class="silvercart-button left" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartRevocationFormPage)so/{$ID}"><% _t('SilvercartRevocationForm.GoTo','Go to revocation form') %> &rarr;</a></td>
+                    <td><a class="silvercart-button left" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartRevocationFormPage)?o={$ID}"><% _t('SilvercartRevocationForm.GoTo','Go to revocation form') %> &rarr;</a></td>
                 </tr>
 
                 $OrderDetailInformation
