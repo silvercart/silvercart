@@ -2321,7 +2321,7 @@ class SilvercartProduct extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.06.2013
+     * @since 11.06.2014
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -2365,6 +2365,9 @@ class SilvercartProduct extends DataObject {
                 }
             }
         }
+        
+        $stockQuantityBefore = $this->original['StockQuantity'];
+        $this->checkForAvailabilityStatusChange($stockQuantityBefore, false);
         
         if (!$this->isActive) {
             foreach ($this->SilvercartShoppingCartPositions() as $position) {
@@ -2632,7 +2635,7 @@ class SilvercartProduct extends DataObject {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2014
+     * @since 11.06.2014
      */
     public function changeStockQuantityBy($quantity, $increment = true) {
         if ($increment) {
@@ -2658,7 +2661,9 @@ class SilvercartProduct extends DataObject {
         DB::query("UNLOCK TABLES");
         
         $firstRow = $results->first();
+        $stockQuantityBefore = $this->StockQuantity;
         $this->StockQuantity = $firstRow['StockQuantity'];
+        $this->checkForAvailabilityStatusChange($stockQuantityBefore);
     }
 
     /**
@@ -2753,6 +2758,42 @@ class SilvercartProduct extends DataObject {
             }
         }
         return true;
+    }
+    
+    /**
+     * Checks whether there is a status change needed and executes the change if 
+     * needed.
+     * 
+     * @param int  $stockQuantityBefore Stock quantity before change.
+     * @param bool $doWrite             Set to false to prevent a write.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.06.2014
+     */
+    protected function checkForAvailabilityStatusChange($stockQuantityBefore, $doWrite = true) {
+        if ($this->StockQuantity <= 0 &&
+            $stockQuantityBefore > 0) {
+            // check for automatic negative availability status and set it.
+            $newStatus = SilvercartAvailabilityStatus::get_negative_status();
+            if ($newStatus instanceof SilvercartAvailabilityStatus) {
+                $this->SilvercartAvailabilityStatusID = $newStatus->ID;
+                if ($doWrite) {
+                    $this->write();
+                }
+            }
+        } elseif ($this->StockQuantity > 0 &&
+            $stockQuantityBefore <= 0) {
+            // check for automatic positive availability status and set it.
+            $newStatus = SilvercartAvailabilityStatus::get_positive_status();
+            if ($newStatus instanceof SilvercartAvailabilityStatus) {
+                $this->SilvercartAvailabilityStatusID = $newStatus->ID;
+                if ($doWrite) {
+                    $this->write();
+                }
+            }
+        }
     }
 
     /**

@@ -184,6 +184,12 @@ $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE'] = 'verfügbar
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_NOT_AVAILABLE'] = 'nicht verfügbar';
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN'] = 'verfügbar in %s %sn';
 $lang['de_DE']['SilvercartAvailabilityStatus']['STATUS_AVAILABLE_IN_MIN_MAX'] = 'verfügbar in %s bis %s %sn';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SetForPositiveStock']         = 'Automatisch an Artikel zuweisen, wenn sich der Lagerbestand von 0 auf > 0 ändert.';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SetForPositiveStockDesc']     = '';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SetForPositiveStockShort']    = 'Auto. > 0';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SetForNegativeStock']         = 'Automatisch an Artikel zuweisen, wenn sich der Lagerbestand von > 0 auf 0 ändert.';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SetForNegativeStockDesc']     = '';
+$lang['de_DE']['SilvercartAvailabilityStatus']['SetForNegativeStockShort']    = 'Auto. < 1';
 
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME']          = _t('Silvercart.TRANSLATION');
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            = _t('Silvercart.TRANSLATIONS');
