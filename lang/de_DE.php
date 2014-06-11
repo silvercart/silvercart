@@ -1380,6 +1380,7 @@ $lang['de_DE']['SilvercartPage']['SHOW_DETAILS'] = 'Details anzeigen';
 $lang['de_DE']['SilvercartPage']['SHOW_DETAILS_FOR'] = 'Details zu %s anzeigen';
 $lang['de_DE']['SilvercartPage']['SHOWINPAGE'] = 'Sprache auf %s stellen';
 $lang['de_DE']['SilvercartPage']['SITMAP_HERE'] = 'Hier können Sie eine Übersicht über unsere Seite sehen.';
+$lang['de_DE']['SilvercartPage']['Start'] = 'Start';
 $lang['de_DE']['SilvercartPage']['STEPS'] = 'Schritte';
 $lang['de_DE']['SilvercartPage']['SUBMIT'] = 'Abschicken';
 $lang['de_DE']['SilvercartPage']['SUBMIT_MESSAGE'] = 'Nachricht absenden';

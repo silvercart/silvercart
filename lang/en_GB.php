@@ -1380,6 +1380,7 @@ $lang['en_GB']['SilvercartPage']['SHOW_DETAILS'] = 'Show details';
 $lang['en_GB']['SilvercartPage']['SHOW_DETAILS_FOR'] = 'Show details for %s';
 $lang['en_GB']['SilvercartPage']['SHOWINPAGE'] = 'Set language to %s';
 $lang['en_GB']['SilvercartPage']['SITMAP_HERE'] = 'Here You can see the complete directory to our site.';
+$lang['en_GB']['SilvercartPage']['Start'] = 'Start';
 $lang['en_GB']['SilvercartPage']['STEPS'] = 'Steps';
 $lang['en_GB']['SilvercartPage']['SUBMIT'] = 'Send';
 $lang['en_GB']['SilvercartPage']['SUBMIT_MESSAGE'] = 'Submit message';
