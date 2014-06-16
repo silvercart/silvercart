@@ -36,9 +36,9 @@ ru:
     WEEKS: "недели"
     YES: "да"
   SilvercartAddress:
-    ADDITION: "адрес"
+    ADDITION: "доп. адрес"
     CITY: "город"
-    COMPANY: "фоирма"
+    COMPANY: "фирма"
     EDITADDRESS: "изменить адрес"
     EDITINVOICEADDRESS: "изменить адрес"
     EDITSHIPPINGADDRESS: "изменить адрес получателя"
@@ -51,7 +51,7 @@ ru:
     MISTER: "господин"
     NO_ADDRESS_AVAILABLE: "адрес отсутствует"
     PHONE: "номер телефона"
-    PHONEAREACODE: "код"
+    PHONEAREACODE: "код страны/города"
     PHONE_SHORT: "телефон"
     PLURALNAME: "адреса "
     POSTCODE: "индекс"
@@ -60,7 +60,7 @@ ru:
     STREET: "улица"
     STREETNUMBER: "номер дома"
     SURNAME: "фамилия"
-    TAXIDNUMBER: "идентификационный номер"
+    TAXIDNUMBER: "ИНН"
   SilvercartAddressHolder:
     ADD: "добавить новый адрес"
     ADDED_ADDRESS_FAILURE: "ваш адрес не сохранен"
@@ -78,7 +78,7 @@ ru:
     DEFAULT_TITLE: "адрес"
     DEFAULT_URLSEGMENT: "адрес"
     DELETE: "удалить"
-    EDIT: "обработать"
+    EDIT: "изменить"
     EXCUSE_INVOICEADDRESS: "Извините, Вы не задали адрес плательщика."
     EXCUSE_SHIPPINGADDRESS: "Извините, Вы не задали адрес доставки."
     INVOICEADDRESS: "адрес плательщика"
@@ -166,7 +166,7 @@ ru:
   SilvercartCheckoutFormStep2:
     EMPTYSTRING_COUNTRY: "--Страна--"
     ERROR_ADDRESS_NOT_FOUND: "введённый адрес не найден"
-    TITLE: "данные по доставки и оплате"
+    TITLE: "доставка и оплата"
   SilvercartCheckoutFormStep3:
     EMPTYSTRING_SHIPPINGMETHOD: "-выбрать вид доставки"
     TITLE: "способ доставки"
@@ -762,7 +762,7 @@ ru:
     YOUR_MOST_CURRENT_ORDERS: "Ваши актуальные заказы"
     YOUR_PERSONAL_DATA: "Ваши персональные данные"
   SilvercartNewsletter:
-    OPTIN_NOT_FINISHED_MESSAGE: "дла активации получения рассылки, нажмите на присланную Вам ссылку"
+    OPTIN_NOT_FINISHED_MESSAGE: "Вы будете плчать нашу рассылку после активации по эл.почте"
     SUBSCRIBED: "Вы подписались на Newsletter"
     UNSUBSCRIBED: "Вы не подписались на Newsletter"
   SilvercartNewsletterForm:
@@ -932,7 +932,7 @@ ru:
     ABOUT_US: "о нас"
     ABOUT_US_URL_SEGMENT: "о нас"
     ACCESS_CREDENTIALS_CALL: "введите ваши дынные"
-    ADDITIONAL_VAT: "доп. К НДС"
+    ADDITIONAL_VAT: "сумма НДС"
     ADDRESS: "адрес"
     ADDRESSINFORMATION: "информация об адресе"
     ADDRESS_DATA: "адрес"
@@ -957,12 +957,12 @@ ru:
     CHECK_FIELDS_CALL: "проверьте правильность заполнения следующих полей"
     CONTACT_FORM: "контактный формуляр"
     CONTINUESHOPPING: "дальше покупать"
-    CREDENTIALS_WRONG: "данные доступа неверны"
+    CREDENTIALS_WRONG: "введены неверные данные"
     DAY: "день "
     DECEMBER: "Декабрь"
     DETAILS: "детали "
     DETAILS_FOR: "детали к  %s"
-    DIDNOT_RETURN_RESULTS: "не принёс резултатов"
+    DIDNOT_RETURN_RESULTS: "не дал результатов"
     DO_NOT_EDIT: "пожалуйста, не менять!"
     EMAIL_ADDRESS: "адрес электронной почты"
     EMAIL_ALREADY_REGISTERED: "пользователь с таким адресом эл.почты уже зарегистрирован"
@@ -983,7 +983,7 @@ ru:
     INCLUDED_VAT: "вкл. НДС"
     INCLUDING_TAX: "вкл.%s%% НДС"
     ISACTIVE: "актив"
-    I_ACCEPT: "я акцептирую"
+    I_ACCEPT: "я принимаю"
     I_HAVE_READ: "я уже"
     JANUARY: "Январь"
     JULY: "Июль"
@@ -1041,8 +1041,8 @@ ru:
     SUBTOTAL_NET: "сумма нетто"
     SUM: "сумма"
     TAX: "вкл.%s%% НДС"
-    TERMSOFSERVICE_PRIVACY: "Пользовательское соглашение  защита данных"
-    THE_QUERY: "понятие"
+    TERMSOFSERVICE_PRIVACY: "Условия заказа"
+    THE_QUERY: "запрос"
     TITLE: "заголовок"
     TITLE_IMPRINT: "о фирме"
     TITLE_TERMS: "условия заключения сделки"
@@ -1517,12 +1517,6 @@ ru:
     WIDGETSET_FRONTPAGE_CONTENT_TITLE: "стартовая страница содержимого"
     WIDGETSET_FRONTPAGE_SIDEBAR_TITLE: "стартовая страница панели инструментов"
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "панель инструментов групп товаров"
-  SilvercartText:
-    CSSFIELD_LABEL: "доплнительные CSS классы"
-    DESCRIPTION: "напишите любой текст"
-    FREETEXTFIELD_LABEL: "Ваш текст:"
-    HEADLINEFIELD_LABEL: "заголовок (опция)"
-    TITLE: "Текст"
   SilvercartTextWidgetLanguage:
     PLURALNAME: "Переводы"
     SINGULARNAME: "Перевод"
@@ -1547,6 +1541,9 @@ ru:
     STATUS_SKIPPED: "пропустить"
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "обновления"
+  SilvercartWidget:
+    SORT_ORDER_LABEL: "Сортировка"
+  SilvercartWidgetSet:
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "выбранная страна"
     ATTRIBUTED_SHIPPINGMETHODS: "выбранный способ доставки"

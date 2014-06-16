@@ -103,6 +103,10 @@
 .silvercart-product-page .silvercart-product-group-add-cart-form_content {
     padding:                        4px 0px;
 }
+p.silvercart-add-cart-form-hint {
+    margin:                         4px 0 0 0;
+    padding:                        0;
+}
 
 .silvercart-product-page .silvercart-product-page-product-info {
     margin:                         20px 0px 0px 0px;

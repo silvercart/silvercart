@@ -20,6 +20,15 @@
  * @license see license file in modules root directory
  */
 class SilvercartImage extends DataObject {
+    
+    /**
+     * DB properties
+     *
+     * @var array
+     */
+    public static $db = array(
+        'ProductNumberToReference'  => 'Varchar(128)',
+    );
 
     /**
      * Has one relations
@@ -61,6 +70,13 @@ class SilvercartImage extends DataObject {
         'Description'    => 'HTMLText',
     );
     
+    /**
+     * Link
+     *
+     * @var string
+     */
+    protected $link = null;
+
     /**
      * Constructor. Overwrites some basic attributes.
      *
@@ -153,6 +169,38 @@ class SilvercartImage extends DataObject {
             $fields->removeByName('Content');
             $fields->removeByName('Description');
         }
+        
+        $fields->addFieldToTab('Root.Main', new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference')));
+        
+        return $fields;
+    }
+    
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @param array $params configuration parameters
+     *
+     * @return FieldSet the fields for the backend
+     */
+    public function getMinimizedCMSFields($params = null) {
+        $fields = $this->getCMSFieldsForContext(
+                        array_merge(
+                                array(
+                                    'restrictFields' => array(
+                                        'SortOrder',
+                                    ),
+                                ),
+                                (array) $params
+                        )
+        );
+        if ($this->ID) {
+            $imageUploadField = new ImageUploadField('Image', $this->fieldLabel('Image'));
+            $imageUploadField->setUploadFolder('assets/Uploads/PartnerLogos');
+            $fields->insertBefore($imageUploadField, 'SortOrder');
+        }
+        $fields->removeByName('Content');
+        $fields->removeByName('Description');
+        $fields->removeByName('SortOrder');
         
         return $fields;
     }
@@ -299,6 +347,8 @@ class SilvercartImage extends DataObject {
                 'Description'               => _t('SilvercartImage.DESCRIPTION'),
                 'SortOrder'                 => _t('Silvercart.SORTORDER'),
                 'Image'                     => _t('Image.SINGULARNAME'),
+                'ProductNumberToReference'              => _t('SilvercartImageSliderImage.ProductNumberToReference'),
+                'ProductNumberToReferenceInfo'          => _t('SilvercartImageSliderImage.ProductNumberToReferenceInfo'),
             )
         );
 
@@ -421,6 +471,28 @@ class SilvercartImage extends DataObject {
             empty($this->Title)) {
             $this->Title = $this->SilvercartProduct()->Title;
         }
+    }
+    
+    /**
+     * Returns the link.
+     *
+     * @return mixed SiteTree|boolean false
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
+     */
+    public function Link() {
+        if (is_null($this->link)) {
+            $this->link = false;
+            if (!empty($this->ProductNumberToReference)) {
+                $product = DataObject::get_one('SilvercartProduct', sprintf('"SilvercartProduct"."ProductNumberShop" = \'%s\'', $this->ProductNumberToReference));
+                if ($product instanceof SilvercartProduct) {
+                    $this->link = $product->Link();
+                }
+            }
+        }
+        
+        return $this->link;
     }
     
 }

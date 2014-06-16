@@ -19,6 +19,15 @@
  * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartWidgetSet extends DataExtension {
+    
+    /**
+     * Attributes
+     *
+     * @var array
+     */
+    private static $db = array(
+        'UseAsSlider' => 'Boolean',
+    );
 
     /**
      * used to override the WidgetSet::getCMSFields to use the
@@ -52,5 +61,24 @@ class SilvercartWidgetSet extends DataExtension {
             'WidgetArea'
         );
         return $excludedFields;
+    }
+    
+    /**
+     * Field labels.
+     * 
+     * @param array &$fieldLabels Field labels to update
+     * 
+     * @return void
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 20.02.2013
+     */
+    public function updateFieldLabels(&$fieldLabels) {
+        $fieldLabels = array_merge(
+                $fieldLabels,
+                array(
+                    'UseAsSlider' => _t('SilvercartWidgetSet.UseAsSlider'),
+                )
+        );
     }
 }

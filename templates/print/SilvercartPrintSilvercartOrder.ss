@@ -42,7 +42,11 @@
                     </table>
                 </td>
                 <td valign="top">
+                <% if InvoiceAddressEqualsShippingAddress %>
+                    <h2><% _t('SilvercartPage.SHIPPING_AND_BILLING') %>:</h2>
+                <% else %>
                     <h2><% _t('SilvercartPage.SHIPPING_ADDRESS') %>:</h2>
+                <% end_if %>
                     <% with SilvercartShippingAddress %>
                     <table>
                         <% if TaxIdNumber %>
@@ -71,6 +75,16 @@
                             <td>$Addition</td>
                         </tr>
                         <% end_if %>
+                        <% if IsPackstation %>
+                        <tr>
+                            <td><% _t('SilvercartAddress.POSTNUMBER_PLAIN') %></td>
+                            <td>$PostNumber</td>
+                        </tr>
+                        <tr>
+                            <td><% _t('SilvercartAddress.PACKSTATION_PLAIN') %></td>
+                            <td>$Packstation</td>
+                        </tr>
+                        <% else %>
                         <tr>
                             <td><% _t('SilvercartAddress.STREET') %></td>
                             <td>$Street</td>
@@ -79,6 +93,7 @@
                             <td><% _t('SilvercartAddress.STREETNUMBER') %></td>
                             <td>$StreetNumber</td>
                         </tr>
+                        <% end_if %>
                         <tr>
                             <td><% _t('SilvercartAddress.POSTCODE') %></td>
                             <td>$Postcode</td>
@@ -103,6 +118,8 @@
                     <% end_with %>
                 </td>
                 <td valign="top">
+                <% if InvoiceAddressEqualsShippingAddress %>
+                <% else %>
                     <h2><% _t('SilvercartInvoiceAddress.SINGULARNAME') %>:</h2>
                     <% with SilvercartInvoiceAddress %>
                     <table>
@@ -162,6 +179,7 @@
                         </tr>
                     </table>
                     <% end_with %>
+                <% end_if %>
                 </td>
             </tr>
         </table>

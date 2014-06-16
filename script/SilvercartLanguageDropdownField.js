@@ -1,6 +1,6 @@
 
 (function($) {
-    
+
     $('.silvercart-change-language-selector li.selectable').live('click', function() {
         $('.silvercart-change-language-selector li.first').removeClass('first').addClass('selectable');
         $(this).removeClass('selectable').addClass('first');
@@ -11,8 +11,13 @@
         if (typeof classes != 'object') {
             classes= [classes];
         }
+        $('.silvercart-change-language-form select option').each(function() {
+            if ($(this).attr('value').substr(0, 5) === classes[0]) {
+                $(this).attr('selected', true);
+            }
+        });
 
-        $('.silvercart-change-language-form select option[value="' + classes[0] + '"]').attr('selected',true);
+        //$('.silvercart-change-language-form select option[value="' + classes[0] + '"]').attr('selected',true);
 
         $('.silvercart-change-language-form').submit();
 
@@ -26,9 +31,10 @@
         var markup = '<ul class="silvercart-change-language-selector">';
         
         languageSelectorOptions.each(function() {
-            var locale  = $(this).val();
+            var locale  = $(this).attr('value').split('|')[0];
             var iso2    = $(this).attr('class');
-            var link    = $(this).attr('rel');
+            var link    = $(this).attr('value').split('|')[1];
+
             if (firstLanguage) {
                 languageCssClass    = 'first';
                 firstLanguage       = false;

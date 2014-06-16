@@ -60,6 +60,13 @@ class SilvercartPage extends SiteTree {
     );
     
     /**
+     * Indicator to check whether getCMSFields is called
+     *
+     * @var boolean
+     */
+    protected $getCMSFieldsIsCalled = false;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -107,6 +114,7 @@ class SilvercartPage extends SiteTree {
      * @since 21.02.2013
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields();
 
         if (Permission::check('ADMIN')) {
@@ -134,6 +142,18 @@ class SilvercartPage extends SiteTree {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Returns the SilvercartConfig.
+     *
+     * @return SilvercartConfig
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function SilvercartConfig() {
+        return SilvercartConfig::getConfig();
     }
     
     /**
@@ -226,6 +246,32 @@ class SilvercartPage extends SiteTree {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
     }
+    
+    /**
+     * Adds a decorator hook and returns the Content.
+     * 
+     * @return string
+     */
+    public function getContent() {
+        $content = $this->getField('Content');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateContent', $content);
+        }
+        return $content;
+    }
+    
+    /**
+     * Adds a decorator hook and returns the MetaDescription.
+     * 
+     * @return string
+     */
+    public function getMetaDescription() {
+        $metaDescription = $this->getField('MetaDescription');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateMetaDescription', $metaDescription);
+        }
+        return $metaDescription;
+    }
 }
 
 /**
@@ -313,7 +359,7 @@ class SilvercartPage_Controller extends ContentController {
             (
                 !SilvercartConfig::DefaultLayoutLoaded() ||
                  SilvercartConfig::$forceLoadingOfDefaultLayout)
-            ) {
+        ) {
             RequirementsEngine::handleRegisteredFiles();
             Requirements::customScript('
                 jQuery(window).focus(function() {jQuery.fx.off = false;});
@@ -570,7 +616,7 @@ class SilvercartPage_Controller extends ContentController {
     public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
         $parts = new ArrayList();
         $page  = $this;
-            
+
         while (
             $page
             && (!$maxDepth ||
@@ -587,15 +633,22 @@ class SilvercartPage_Controller extends ContentController {
                 } else {
                     $link = $page->Link();
                 }
-                
+
+                if ($page->ID == $this->ID) {
+                    $isActive = true;
+                } else {
+                    $isActive = false;
+                }
+
                 $parts->unshift(
-                        new ArrayData(
-                                array(
-                                    'Title'  => $page->Title,
-                                    'Link'   => $link,
-                                    'Parent' => $page->Parent,
-                                )
+                    new ArrayData(
+                        array(
+                            'Title'     => $page->Title,
+                            'Link'      => $link,
+                            'Parent'    => $page->Parent,
+                            'IsActive'  => $isActive,
                         )
+                    )
                 );
             }
             $page = $page->Parent;
@@ -720,11 +773,20 @@ class SilvercartPage_Controller extends ContentController {
      * used to determine weather something should be shown on a template or not
      *
      * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function showPricesGross() {
-        $pricetype = SilvercartConfig::Pricetype();
+        $pricetype  = SilvercartConfig::Pricetype();
+        $member     = Member::currentUser();
+        
+        if ($member instanceof Member &&
+            $member->doesNotHaveToPayTaxes()) {
+            $pricetype = 'net';
+        }
+        
         if ($pricetype == "gross") {
             return true;
         } else {
@@ -736,11 +798,20 @@ class SilvercartPage_Controller extends ContentController {
      * used to determine weather something should be shown on a template or not
      *
      * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function showPricesNet() {
-        $pricetype = SilvercartConfig::Pricetype();
+        $pricetype  = SilvercartConfig::Pricetype();
+        $member     = Member::currentUser();
+        
+        if ($member instanceof Member &&
+            $member->doesNotHaveToPayTaxes()) {
+            $pricetype = 'net';
+        }
+        
         if ($pricetype == "net") {
             return true;
         } else {
@@ -941,4 +1012,55 @@ class SilvercartPage_Controller extends ContentController {
         }
         return $pages;
     }
+    
+    /**
+     * Returns all payment methods
+     *
+     * @return DataList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.05.2012
+     */
+    public function PaymentMethods() {
+        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), new SilvercartShoppingCart(), true);
+        return $PaymentMethods;
+    }
+    
+    /**
+     * Returns the current shipping country
+     *
+     * @return SilvercartCountry
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2012
+     */
+    public function ShippingCountry() {
+        $customer           = Member::currentUser();
+        $shippingCountry    = null;
+        if ($customer) {
+            $shippingCountry = $customer->SilvercartShippingAddress()->SilvercartCountry();
+        }
+        if (is_null($shippingCountry) ||
+            $shippingCountry->ID == 0) {
+            $shippingCountry = DataObject::get_one(
+                    'SilvercartCountry',
+                    sprintf(
+                            "`ISO2` = '%s' AND `Active` = 1",
+                            substr(Translatable::get_current_locale(), 3)
+                    )
+            );
+        }
+        return $shippingCountry;
+    }
+    
+    /**
+     * Returns the footer columns.
+     * 
+     * @return DataList
+     */
+    public function getFooterColumns() {
+        $metanavigationHolder = SilvercartMetaNavigationHolder::get()->filter('ClassName', 'SilvercartMetaNavigationHolder');
+        return $metanavigationHolder;
+    }
+    
 }

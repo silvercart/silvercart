@@ -48,6 +48,7 @@ class DateRangeSearchContext extends SearchContext {
                 $fields->push(new TextField($d->Name(), $d->Title()));
             }
         }
+
         return $fields;
     }
 
@@ -55,10 +56,10 @@ class DateRangeSearchContext extends SearchContext {
      * Alter the existing SQL query object by adding some filters for the search
      * so that the query finds objects between two dates min and max
      *
-     * @param array  $searchParams  The search parameters
-     * @param string $sort          The SQL sort statement
-     * @param string $limit         The SQL limit statement
-     * @param string $existingQuery The existing query
+     * @param array $searchParams  The search parameters
+     * @param mixed $sort          The SQL sort statement
+     * @param mixed $limit         The SQL limit statement
+     * @param mixed $existingQuery The existing query
      *
      * @return SQLQuery Query with filters applied for search
      *

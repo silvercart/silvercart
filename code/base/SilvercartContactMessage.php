@@ -30,6 +30,7 @@ class SilvercartContactMessage extends DataObject {
         'FirstName'     => 'VarChar(255)',
         'Surname'       => 'VarChar(128)',
         'Email'         => 'VarChar(255)',
+        'Phone'         => 'VarChar(255)',
         'Message'       => 'Text',
     );
 
@@ -94,6 +95,7 @@ class SilvercartContactMessage extends DataObject {
                 'FirstName'     => _t('Member.FIRSTNAME'),
                 'Surname'       => _t('Member.SURNAME'),
                 'Email'         => _t('Member.EMAIL'),
+                'Phone'         => _t('SilvercartAddress.PHONE'),
                 'Message'       => _t('SilvercartContactMessage.MESSAGE')
             )
         );
@@ -175,6 +177,7 @@ class SilvercartContactMessage extends DataObject {
                     'FirstName' => $this->FirstName,
                     'Surname'   => $this->Surname,
                     'Email'     => $this->Email,
+                    'Phone'     => $this->Phone,
                     'Message'   => str_replace('\r\n', '<br/>', nl2br($this->Message)),
                 )
             );

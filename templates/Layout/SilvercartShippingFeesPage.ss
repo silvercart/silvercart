@@ -1,8 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <% include SilvercartBreadCrumbs %>
-
-        <h2>$Title</h2>
+        <h1>{$Title}</h1>
 
         $Content
         $Form
@@ -14,14 +13,17 @@
         <h3>$Title</h3>
             <% loop AllowedSilvercartShippingMethods %>
                 <% if isActive %>
+                    <% if ShowOnShippingFeesPage %>
         <div class="subcolumns">
             <div class="c20l">
                 <h4>$Title</h4>
             </div>
             <div class="c80r">
-                    <% if Description %>
-                        $Description
-                    <% end_if %>
+                <% if DescriptionForShippingFeesPage %>
+                    {$DescriptionForShippingFeesPage}
+                <% else_if Description %>
+                    {$Description}
+                <% end_if %>
                 <table class="full silvercart-default-table">
                     <colgroup>
                         <col width="20%"></col>
@@ -29,11 +31,13 @@
                         <col width="15%"></col>
                     </colgroup>
                     <tr>
-                        <th><% _t('SilvercartProduct.WEIGHT') %> (g)</th><th><% _t('SilvercartZone.SINGULARNAME') %></th><th><% _t('SilvercartProduct.PRICE') %></th>
+                        <th class="align_right"><% _t('SilvercartProduct.WEIGHT') %> ({$SilvercartShippingFees.First.MaximumWeightUnitAbreviation})</th>
+                        <th><% _t('SilvercartZone.SINGULARNAME') %></th>
+                        <th class="align_right"><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
                     <% loop SilvercartShippingFees %>
                     <tr class="$EvenOdd">
-                        <td class="align_right align_top padding_right"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeight<% end_if %></td>
+                        <td class="align_right align_top padding_right"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeightNice<% end_if %></td>
                         <td>
                             <% with SilvercartZone %>
                                 <b>$Title:</b><br/>
@@ -55,6 +59,7 @@
                 <% if hasFeeWithPostPricing %>* <% _t('SilvercartShippingFee.POST_PRICING_INFO') %><% end_if %>
             </div>
         </div>
+                    <% end_if %>
                 <% end_if %>
             <% end_loop %>
         <% end_if %>

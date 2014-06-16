@@ -36,6 +36,13 @@ class SilvercartCustomer extends DataExtension {
     protected $groupIDs = null;
     
     /**
+     * Determines whether the customer has to pay taxes or not
+     *
+     * @var bool
+     */
+    protected $doesNotHaveToPayTaxes = null;
+    
+    /**
      * DB attributes
      *
      * @return array
@@ -57,10 +64,11 @@ class SilvercartCustomer extends DataExtension {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartShoppingCart'        => 'SilvercartShoppingCart',
-        'SilvercartInvoiceAddress'      => 'SilvercartAddress',
-        'SilvercartShippingAddress'     => 'SilvercartAddress',
-        'SilvercartCustomerConfig'      => 'SilvercartCustomerConfig',
+        'SilvercartShoppingCart'         => 'SilvercartShoppingCart',
+        'SilvercartInvoiceAddress'       => 'SilvercartAddress',
+        'SilvercartShippingAddress'      => 'SilvercartAddress',
+        'SilvercartCustomerConfig'       => 'SilvercartCustomerConfig',
+        'SilvercartShippingAddressInUse' => 'SilvercartAddress',
     );
     
     /**
@@ -204,6 +212,9 @@ class SilvercartCustomer extends DataExtension {
                     'Birthday'                          => _t('SilvercartCustomer.BIRTHDAY', 'birthday'),
                     'ClassName'                         => _t('SilvercartCustomer.TYPE', 'type'),
                     'CustomerNumber'                    => _t('SilvercartCustomer.CUSTOMERNUMBER', 'Customernumber'),
+                    'CustomerNumberShort'               => _t('SilvercartCustomer.CUSTOMERNUMBER_SHORT'),
+                    'EmailAddress'                      => _t('SilvercartPage.EMAIL_ADDRESS'),
+                    'FullName'                          => _t('SilvercartCustomer.FULL_NAME'),
                     'SilvercartShoppingCart'            => _t('SilvercartShoppingCart.SINGULARNAME', 'shopping cart'),
                     'SilvercartInvoiceAddress'          => _t('SilvercartInvoiceAddress.SINGULARNAME', 'invoice address'),
                     'SilvercartShippingAddress'         => _t('SilvercartShippingAddress.SINGULARNAME', 'shipping address'),
@@ -456,11 +467,40 @@ class SilvercartCustomer extends DataExtension {
         }
         return $this->groupIDs;
     }
+
+    /**
+     * Returns the localized salutation string.
+     *
+     * @return string
+     */
+    public function getSalutationText() {
+        return SilvercartTools::getSalutationText($this->owner->Salutation);
+    }
     
     // ------------------------------------------------------------------------
     // Regular methods
     // ------------------------------------------------------------------------
     
+    /**
+     * Returns whether the current customer is a registered one.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2013
+     */
+    public function isRegisteredCustomer() {
+        $isRegisteredCustomer = false;
+        if ($this->owner->Groups()->find('Code', 'b2c') ||
+            $this->owner->Groups()->find('Code', 'b2b') ||
+            $this->owner->Groups()->find('Code', 'administrators')) {
+
+            $isRegisteredCustomer = true;
+        }
+        return $isRegisteredCustomer;
+    }
+
+
     /**
      * Creates an anonymous customer if there's no currentMember object.
      *
@@ -808,15 +848,24 @@ class SilvercartCustomer extends DataExtension {
         return $hasOnlyOneStandardAddress;
     }
     
-     /**
+    /**
      * used to determine weather something should be shown on a template or not
+     * 
+     * @param bool $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
      * @return bool
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.3.2011
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
-    public function showPricesGross() {
+    public function showPricesGross($ignoreTaxExemption = false) {
         $pricetype = SilvercartConfig::Pricetype();
+        
+        if (!$ignoreTaxExemption &&
+            $this->doesNotHaveToPayTaxes()) {
+            $pricetype = 'net';
+        }
         
         if ($pricetype == "gross") {
             return true;
@@ -824,7 +873,37 @@ class SilvercartCustomer extends DataExtension {
             return false;
         }
     }
-    
+
+    /**
+     * Returns whether the customer has to pay tax or not.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.12.2013
+     */
+    public function doesNotHaveToPayTaxes() {
+        if (is_null($this->doesNotHaveToPayTaxes)) {
+            if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+                $stepData = Controller::curr()->getCombinedStepData();
+                if (array_key_exists('Shipping_Country', $stepData)) {
+                    $country = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
+                    if ($country instanceof SilvercartCountry) {
+                        $this->doesNotHaveToPayTaxes = (boolean) $country->IsNonTaxable;
+                    }
+                }
+            }
+            if (is_null($this->doesNotHaveToPayTaxes) && 
+                $this->owner->SilvercartShippingAddress() instanceof SilvercartAddress &&
+                $this->owner->SilvercartShippingAddress()->SilvercartCountry()->IsNonTaxable) {
+                $this->doesNotHaveToPayTaxes = true;
+            } elseif (is_null($this->doesNotHaveToPayTaxes)) {
+                $this->doesNotHaveToPayTaxes = false;
+            }
+        }
+        return $this->doesNotHaveToPayTaxes;
+    }
+
     /**
      * Returns the members price type
      *
@@ -1047,11 +1126,12 @@ class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.09.2012
+     * @since 15.11.2013
      */
     public function send($messageID = null) {
         $variables                      = $this->template_data->toMap();
         $variables['PasswordResetLink'] = Director::absoluteURL($this->template_data->PasswordResetLink);
+        $variables['SalutationText']    = SilvercartTools::getSalutationText($variables['Salutation']);
         
         SilvercartShopEmail::send(
                 'ForgotPasswordEmail',

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2013 pixeltricks GmbH
+ * Copyright 2014 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -66,7 +66,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         'NewsletterAction' => array(
             'type'          => 'OptionsetField',
             'title'         => 'What do you want to do?',
-            'selectedValue' => '1',
+            'selectedValue' => '',
             'value' => array(
                 '1' => 'I want to subscribe to the newsletter',
                 '2' => 'I want to unsubscribe from the newsletter'
@@ -93,9 +93,10 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
      * option to subscribe to or unsubscribe from the newsletter.
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.03.2011
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.04.2014
      */
     protected function fillInFieldValues() {
         parent::fillInFieldValues();
@@ -116,7 +117,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         $this->formFields['NewsletterAction']['title']      = _t('SilvercartNewsletterForm.ACTIONFIELD_TITLE');
         $this->formFields['NewsletterAction']['value']['1'] = _t('SilvercartNewsletterForm.ACTIONFIELD_SUBSCRIBE');
         $this->formFields['NewsletterAction']['value']['2'] = _t('SilvercartNewsletterForm.ACTIONFIELD_UNSUBSCRIBE');
-        $this->preferences['submitButtonTitle']             = _t('SilvercartPage.SUBMIT_MESSAGE', 'submit message');
+        $this->preferences['submitButtonTitle']             = _t('SilvercartPage.SUBMIT');
 
         // Fill in field values for registered customers and set them to readonly.
         if ($member) {
@@ -138,13 +139,11 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                 $this->formFields['NewsletterAction']['value'] = array(
                     '2' => _t('SilvercartNewsletterForm.ACTIONFIELD_UNSUBSCRIBE')
                 );
-                $this->formFields['NewsletterAction']['selectedValue'] = '2';
                 $this->formFields['NewsletterAction']['title'] = _t('SilvercartNewsletter.SUBSCRIBED').' - '.$this->formFields['NewsletterAction']['title'];
             } else {
                 $this->formFields['NewsletterAction']['value'] = array(
                     '1' => _t('SilvercartNewsletterForm.ACTIONFIELD_SUBSCRIBE')
                 );
-                $this->formFields['NewsletterAction']['selectedValue'] = '1';
                 $this->formFields['NewsletterAction']['title'] = _t('SilvercartNewsletter.UNSUBSCRIBED').' - '.$this->formFields['NewsletterAction']['title'];
             }
         }

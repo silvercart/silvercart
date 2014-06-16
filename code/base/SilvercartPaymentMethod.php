@@ -42,6 +42,7 @@ class SilvercartPaymentMethod extends DataObject {
         'sumModificationValue'                  => 'Float',
         'sumModificationValueType'              => "enum('absolute,percent','absolute')",
         'sumModificationLabel'                  => 'VarChar(255)',
+        'sumModificationProductNumber'          => 'VarChar(255)',
         'useSumModification'                    => 'Boolean(0)'
     );
     /**
@@ -105,6 +106,15 @@ class SilvercartPaymentMethod extends DataObject {
         'showPaymentLogos'                 => true,
         'ShowFormFieldsOnPaymentSelection' => false,
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-14
+     */
+    public static $api_access = true;
     
     /**
      * The link to direct after cancelling by user or session expiry.
@@ -312,7 +322,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.04.2011
+     * @since 11.07.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -346,6 +356,8 @@ class SilvercartPaymentMethod extends DataObject {
                     'sumModificationValue'              => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONVALUE'),
                     'sumModificationValueType'          => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE'),
                     'sumModificationLabel'              => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONLABELFIELD'),
+                    'sumModificationProductNumber'      => _t('SilvercartPaymentMethod.PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD'),
+                    'useSumModification'                => _t('SilvercartPaymentMethod.PAYMENT_USE_SUMMODIFICATION'),
                 )
         );
     }
@@ -492,8 +504,9 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return mixed boolean|DataObject
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2014
      */
     public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -507,18 +520,44 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'productValue') {
             
+            $excludedPositions  = array();
+            $shoppingCartAmount = $silvercartShoppingCart->getAmountTotalWithoutFees(array(), false, true);
+            
             switch ($this->sumModificationValueType) {
                 case 'percent':
-                    if (SilvercartConfig::PriceType() == 'gross') {
-                        $amount = $silvercartShoppingCart->getAmountTotalGrossWithoutFees(array(), false, true);
-                    } else {
-                        $amount = $silvercartShoppingCart->getAmountTotalNetWithoutFees(array(), false, true);
+                    $modificationValue = $shoppingCartAmount->getAmount() / 100 * $this->sumModificationValue;
+                    $index = 1;
+                    foreach ($silvercartShoppingCart->SilvercartShoppingCartPositions() as $position) {
+                        if ($position->SilvercartProductID > 0 &&
+                            $position->SilvercartProduct() instanceof SilvercartProduct &&
+                            $position->SilvercartProduct()->ExcludeFromPaymentDiscounts) {
+                            $modificationValue -= $position->getPrice()->getAmount() / 100 * $this->sumModificationValue;
+                            $excludedPositions[] = $index;
+                        }
+                        $index++;
                     }
-                    $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ChargeOrDiscountForAmount'),
+                            $shoppingCartAmount->Nice()
+                    ) . ')';
                     break;
                 case 'absolute':
                 default:
                     $modificationValue = $this->sumModificationValue;
+            }
+            
+            if (count($excludedPositions) > 0) {
+                if (count($excludedPositions) == 1) {
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ExcludedPosition'),
+                            implode(', ', $excludedPositions)
+                    ) . ')';
+                } else {
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ExcludedPositions'),
+                            implode(', ', $excludedPositions)
+                    ) . ')';
+                }
             }
             
             if ($this->sumModificationImpactType == 'charge') {
@@ -544,19 +583,21 @@ class SilvercartPaymentMethod extends DataObject {
             }
 
             if (SilvercartConfig::PriceType() == 'net') {
-                $taxRate = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $taxRate = $silvercartShoppingCart->getMostValuableTaxRate();
 
                 if ($taxRate) {
                     $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
                 }
             }
 
-            $handlingCosts->setAmount($handlingCostAmount);
-
-            return $handlingCosts;
+            $handlingCosts->setAmount(round($handlingCostAmount, 2));
         }
         
-        return false;
+        $this->extend('updateChargesAndDiscountsForProducts', $handlingCosts);
+        if ($handlingCosts->getAmount() == 0) {
+            $handlingCosts = false;
+        }
+        return $handlingCosts;
     }
     
     /**
@@ -568,8 +609,9 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return mixed boolean|DataObject
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.09.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
         $handlingCosts = new Money;
@@ -583,14 +625,40 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->useSumModification &&
             $this->sumModificationImpact == 'totalValue') {
             
+            $excludedPositions = array();
+            
             switch ($this->sumModificationValueType) {
                 case 'percent':
                     $amount            = $silvercartShoppingCart->getAmountTotal(array(), false, true);
                     $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    $index = 1;
+                    foreach ($silvercartShoppingCart->SilvercartShoppingCartPositions() as $position) {
+                        if ($position->SilvercartProductID > 0 &&
+                            $position->SilvercartProduct() instanceof SilvercartProduct &&
+                            $position->SilvercartProduct()->ExcludeFromPaymentDiscounts) {
+                            $modificationValue -= $position->getPrice()->getAmount() / 100 * $this->sumModificationValue;
+                            $excludedPositions[] = $index;
+                        }
+                        $index++;
+                    }
                     break;
                 case 'absolute':
                 default:
                     $modificationValue = $this->sumModificationValue;
+            }
+            
+            if (count($excludedPositions) > 0) {
+                if (count($excludedPositions) == 1) {
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ExcludedPosition'),
+                            implode(', ', $excludedPositions)
+                    ) . ')';
+                } else {
+                    $this->sumModificationLabel .= ' (' . sprintf(
+                            _t('SilvercartPaymentMethod.ExcludedPositions'),
+                            implode(', ', $excludedPositions)
+                    ) . ')';
+                }
             }
             
             if ($this->sumModificationImpactType == 'charge') {
@@ -603,7 +671,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $shoppingCartTotal = $silvercartShoppingCart->getAmountTotal(array(), false, true);
             } else {
                 $shoppingCartTotal  = $silvercartShoppingCart->getAmountTotalNetWithoutVat(array(), false, true);
-                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate($silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
+                $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate();
                 $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
             }
 
@@ -665,7 +733,19 @@ class SilvercartPaymentMethod extends DataObject {
     }
     
     /**
-     * Returns allowed shipping methods.
+     * Returns active payment methods.
+     * 
+     * @return DataList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2012
+     */
+    public static function getActivePaymentMethods() {
+        return SilvercartPaymentMethod::get()->filter('isActive', 1);
+    }
+    
+    /**
+     * Returns allowed payment methods.
      * 
      * @param string                 $shippingCountry                  The SilvercartCountry to check the payment methods for.
      * @param SilvercartShoppingCart $shoppingCart                     The shopping cart object
@@ -1170,11 +1250,13 @@ class SilvercartPaymentMethod extends DataObject {
                 'SumModifiers',
                 $this->fieldLabel('SumModifiers'),
                 array(
+                        new CheckboxField('useSumModification',         $this->fieldLabel('useSumModification')),
                         new OptionsetField('sumModificationImpact',     $this->fieldLabel('sumModificationImpact'),     $impactFieldValues),
                         new OptionsetField('sumModificationImpactType', $this->fieldLabel('sumModificationImpactType'), $impactTypeValues),
                         new TextField(    'sumModificationValue',       $this->fieldLabel('sumModificationValue')),
                         new OptionsetField('sumModificationValueType',  $this->fieldLabel('sumModificationValueType'),  $impactValueTypeValues),
                         new TextField(     'sumModificationLabel',      $this->fieldLabel('sumModificationLabel')),
+                        new TextField('sumModificationProductNumber',   $this->fieldLabel('sumModificationProductNumber')),
                 )
         )->setHeadingLevel(4)->setStartClosed(true);
         
@@ -1362,7 +1444,7 @@ class SilvercartPaymentMethod extends DataObject {
             new HeaderField('ShowNotForUsersLabel', _t('SilvercartPaymentMethod.SHOW_NOT_FOR_USERS_LABEL').':', 2)
         );
         $tabAccessManagementUser->push($showNotForUsersTable);
-                
+        
         // --------------------------------------------------------------------
         // Countries
         // --------------------------------------------------------------------

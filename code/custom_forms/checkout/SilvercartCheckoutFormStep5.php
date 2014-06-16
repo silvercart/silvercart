@@ -40,9 +40,6 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * The form field definitions.
      *
      * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
      */
     protected $formFields = array(
         'ChosenShippingMethod' => array(
@@ -54,7 +51,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             'title' => 'gewählte Bezahlart'
         ),
         'Note' => array(
-            'type' => 'TextareaField'
+            'type' => 'SilvercartTextareaField',
+            'rows' => '3',
         ),
         'HasAcceptedTermsAndConditions' => array(
             'type'              => 'CheckboxField',
@@ -124,7 +122,6 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep.ORDER_NOW', 'Order now');
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['createShoppingcartForms']   = false;
-        $this->preferences['doJsValidationScrolling']   = false;
         $this->preferences['submitButtonUseButtonTag']  = true;
 
         $checkoutData = $this->controller->getCombinedStepData();
@@ -157,6 +154,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS', 'I accept the terms and conditions.');
         $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION', 'I accept the revocation instructions');
         $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER', 'I subscribe to the newsletter');
+        $this->formFields['Note']['placeholder'] = _t('SilvercartPage.YOUR_REMARKS') . '...';
 
         $stepData = $this->controller->getCombinedStepData();
 
@@ -272,7 +270,6 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $associativeAddress['isCompanyAddress'] = false;
         }
         
-        $silvercartAddress = new SilvercartAddress();
         return $associativeAddress;
     }
     
@@ -346,6 +343,22 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         
         if ($member) {
             return $this->customise($member->SilvercartShoppingCart())->renderWith('SilvercartShoppingCartFull');
+        }
+    }
+
+    /**
+     * Returns the current shopping cart.
+     * 
+     * @return SilvercartShoppingCart
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function SilvercartShoppingCart() {
+        $member = Member::currentUser();
+        
+        if ($member) {
+            return $member->SilvercartShoppingCart();
         }
     }
     

@@ -80,7 +80,13 @@ class SilvercartChangeLanguageForm extends CustomHtmlForm {
      * @since 27.04.2012
      */
     protected function submitSuccess($data, $form, $formData) {
-        $translation = $this->Controller()->getTranslation($formData['Language']);
+        $language = $formData['Language'];
+        if (strpos($language, '|') !== false) {
+            $languageElems = explode('|', $language);
+            $language      = $languageElems[0];
+        }
+
+        $translation = $this->Controller()->getTranslation($language);
         if ($translation) {
             $this->controller->redirect($translation->Link());
         } else {

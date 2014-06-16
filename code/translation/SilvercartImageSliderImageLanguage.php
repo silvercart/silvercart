@@ -13,9 +13,10 @@
  *
  * @package Silvercart
  * @subpackage Translation
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 19.06.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 21.01.2012
  * @license see license file in modules root directory
  */
 class SilvercartImageSliderImageLanguage extends DataObject {
@@ -26,7 +27,8 @@ class SilvercartImageSliderImageLanguage extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title' => 'VarChar'
+        'Title'     => 'VarChar',
+        'Content'   => 'HTMLText',
     );
     
     /**
@@ -72,8 +74,9 @@ class SilvercartImageSliderImageLanguage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.06.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -81,6 +84,7 @@ class SilvercartImageSliderImageLanguage extends DataObject {
                 array(
                     'SilvercartImageSliderImage' => _t('SilvercartImageSliderImage.SINGULARNAME'),
                     'Title'                      => _t('SilvercartImage.TITLE'),
+                    'Content'                    => _t('SilvercartImage.CONTENT'),
                 )
         );
 

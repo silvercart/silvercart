@@ -1359,7 +1359,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			
 		// get filter
 		$combinedFilter = "\"$joinField\" = '$id'";
-		if($filter) $combinedFilter .= " AND {$filter}";
+		if(!empty($filter)) $combinedFilter .= " AND ({$filter})";
 			
 		return singleton($componentClass)->extendedSQL($combinedFilter, $sort, $limit, $join);
 	}
@@ -1894,20 +1894,21 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 *
 	 * @see Good example of complex FormField building: SiteTree::getCMSFields()
 	 *
-	 * @return FieldList Returns a TabSet for usage within the CMS - don't use for frontend forms.
-     * 
-     * PTFIX
+	 * @param array $params See {@link scaffoldFormFields()}
+	 * @return FieldSet Returns a TabSet for usage within the CMS - don't use for frontend forms.
+	 * 
+	 * PTFIX
 	 */
-	public function getCMSFields() {
-
-        /* PTFIX_START */
-        $restrictFields = array();
-        $this->extend('updateRestrictCMSFields', $restrictFields);
-		$params = array();
-        if (!empty($restrictFields)) {
-            $params['restrictFields'] = $restrictFields;
-        }
-
+	public function getCMSFields($params = null) {
+		
+		/* PTFIX_START */
+		$restrictFields = array();
+		$this->extend('updateRestrictCMSFields', $restrictFields);
+        $params = array();
+		if (!empty($restrictFields)) {
+			$params['restrictFields'] = $restrictFields;
+		}
+		
 		$tabbedFields = $this->scaffoldFormFields(array_merge(
 				array(
                     // Don't allow has_many/many_many relationship editing before the record is first saved

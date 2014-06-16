@@ -13,9 +13,10 @@
  *
  * @package Silvercart
  * @subpackage Translation
- * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2013 pixeltricks GmbH
- * @since 11.01.2012
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 17.07.2013
+ * @copyright pixeltricks GmbH
  * @license see license file in modules root directory
  */
 class SilvercartShippingMethodLanguage extends DataObject {
@@ -26,8 +27,9 @@ class SilvercartShippingMethodLanguage extends DataObject {
      * @var array
      */
     public static $db = array(
-        'Title'         => 'VarChar(255)',
-        'Description'   => 'Text',
+        'Title'                             => 'VarChar(255)',
+        'Description'                       => 'Text',
+        'DescriptionForShippingFeesPage'    => 'Text',
     );
     
     /**
@@ -74,15 +76,17 @@ class SilvercartShippingMethodLanguage extends DataObject {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'Title'         => _t('SilvercartProduct.COLUMN_TITLE'),
-                    'Description'   => _t('SilvercartShippingMethod.DESCRIPTION'),
+                    'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
+                    'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
+                    'DescriptionForShippingFeesPage'    => _t('SilvercartShippingMethod.DescriptionForShippingFeesPage'),
                 )
         );
 

@@ -68,7 +68,8 @@ class SilvercartOrderPosition extends DataObject {
         'Quantity'                           => 'Decimal',
         'Title'                              => 'VarChar(255)',
         'ProductNumber'                      => 'VarChar',
-        'numberOfDecimalPlaces'              => 'Int'
+        'numberOfDecimalPlaces'              => 'Int',
+        'IsNonTaxable'                       => 'Boolean(0)',
     );
 
     /**
@@ -91,6 +92,15 @@ class SilvercartOrderPosition extends DataObject {
         'PriceTotalNice'    => 'VarChar(255)',
         'FullTitle'         => 'HtmlText',
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-14
+     */
+    public static $api_access = true;
 
     /**
      * Field labels for display in tables.

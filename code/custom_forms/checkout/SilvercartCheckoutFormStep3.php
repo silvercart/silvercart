@@ -43,6 +43,20 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
     );
 
     /**
+     * Set of shipping methods
+     *
+     * @var DataList
+     */
+    protected $shippingMethods = null;
+    
+    /**
+     * Determines whether to skip this step or not.
+     *
+     * @var bool
+     */
+    protected $skipShippingStep = null;
+
+    /**
      * constructor
      *
      * @param Controller $controller  the controller object
@@ -82,15 +96,9 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
      * @since 12.02.2013
      */
     public function preferences() {
-        $shippingMethods    = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-        $stepIsVisible      = true;
-        if ($shippingMethods->count() === 1) {
+        $stepIsVisible = true;
+        if ($this->SkipShippingStep()) {
             $stepIsVisible = false;
-        } elseif ($shippingMethods->count() === 0) {
-            $shippingMethods = SilvercartShippingMethod::get();
-            if ($shippingMethods->count() === 1) {
-                $stepIsVisible = false;
-            }
         }
         $this->preferences['stepIsVisible']             = $stepIsVisible;
         $this->preferences['stepTitle']                 = _t('SilvercartCheckoutFormStep3.TITLE', 'Shipment');
@@ -126,8 +134,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
         }
 
         $this->formFields['ShippingMethod']['title'] = $title;
-                    
-        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
+        
+        $shippingMethods = $this->getShippingMethods();
         if ($shippingMethods->count() > 0) {
             $map = $shippingMethods->map('ID', 'TitleWithCarrierAndFee');
             if ($map instanceof SS_Map) {
@@ -159,8 +167,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
      * @since 10.09.2012
      */
     public function process() {
-        $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-        if ($shippingMethods->count() === 1) {
+        $shippingMethods = $this->getShippingMethods();
+        if ($this->SkipShippingStep()) {
             // there is only one shipping method, set it and skip this step
             $formData = array(
                 'ShippingMethod' => $shippingMethods->First()->ID,
@@ -210,5 +218,46 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
     public function getCacheKeyExtension() {
         return $this->Controller()->getCacheKey();
     }
+
+    /**
+     * Returns the shipping methods.
+     * 
+     * @return DataList
+     */
+    public function getShippingMethods() {
+        if (is_null($this->shippingMethods)) {
+            $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
+            if (!($shippingMethods instanceof DataList) ||
+                $shippingMethods->Count() == 0) {
+                $shippingMethods = SilvercartShippingMethod::get();
+                if (!($shippingMethods instanceof DataList)) {
+                    $shippingMethods = new DataList();
+                }
+            }
+            $this->shippingMethods = $shippingMethods;
+        }
+        return $this->shippingMethods;
+    }
+
+    /**
+     * Returns whether to skip this step or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function SkipShippingStep() {
+        if (is_null($this->skipShippingStep)) {
+            if (SilvercartConfig::SkipShippingStepIfUnique() &&
+                $this->getShippingMethods()->Count() == 1) {
+                $this->skipShippingStep = true;
+            } else {
+                $this->skipShippingStep = false;
+            }
+        }
+        return $this->skipShippingStep;
+    }
+    
 }
 

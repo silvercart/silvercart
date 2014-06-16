@@ -13,9 +13,10 @@
  *
  * @package Silvercart
  * @subpackage Base
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright 2013 pixeltricks GmbH
- * @since 20.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright pixeltricks GmbH
+ * @since 17.07.2013
  * @license see license file in modules root directory
  */
 class SilvercartShippingMethod extends DataObject {
@@ -26,8 +27,12 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $db = array(
-        'isActive' => 'Boolean',
-        'priority' => 'Int'
+        'isActive'                      => 'Boolean',
+        'priority'                      => 'Int',
+        'DoNotShowOnShippingFeesPage'   => 'Boolean',
+        'DeliveryTimeMin'               => 'Int',
+        'DeliveryTimeMax'               => 'Int',
+        'DeliveryTimeText'              => 'Varchar(256)',
     );
     /**
      * Has-one relationships.
@@ -70,14 +75,24 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'AttributedCountries'       => 'Varchar(255)',
-        'activatedStatus'           => 'Varchar(255)',
-        'AttributedCustomerGroups'  => 'Text',
-        'AttributedZones'           => 'Text',
-        'AttributedZoneIDs'         => 'Text',
-        'Title'                     => 'Text',
-        'Description'               => 'Text',
+        'AttributedCountries'               => 'Varchar(255)',
+        'activatedStatus'                   => 'Varchar(255)',
+        'AttributedCustomerGroups'          => 'Text',
+        'AttributedZones'                   => 'Text',
+        'AttributedZoneIDs'                 => 'Text',
+        'Title'                             => 'Text',
+        'Description'                       => 'Text',
+        'DescriptionForShippingFeesPage'    => 'Text',
+        'ShowOnShippingFeesPage'            => 'Boolean',
+        'DeliveryTime'                      => 'Text',
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     */
+    public static $api_access = true;
     
     /**
      * Default sort field and direction
@@ -142,8 +157,9 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @return array
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -151,6 +167,7 @@ class SilvercartShippingMethod extends DataObject {
                 array(
                         'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
                         'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
+                        'DescriptionForShippingFeesPage'    => _t('SilvercartShippingMethod.DescriptionForShippingFeesPage'),
                         'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
                         'priority'                          => _t('Silvercart.PRIORITY'),
                         'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
@@ -160,8 +177,17 @@ class SilvercartShippingMethod extends DataObject {
                         'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
                         'SilvercartCustomerGroups'          => _t('SilvercartCustomerGroup.PLURALNAME'),
                         'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
+                        'DoNotShowOnShippingFeesPage'       => _t('SilvercartShippingMethod.DoNotShowOnShippingFeesPage'),
+                        'ExpectedDelivery'                  => _t('SilvercartShippingMethod.ExpectedDelivery'),
+                        'DeliveryTime'                      => _t('SilvercartShippingMethod.DeliveryTime'),
+                        'DeliveryTimeMin'                   => _t('SilvercartShippingMethod.DeliveryTimeMin'),
+                        'DeliveryTimeMinDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
+                        'DeliveryTimeMax'                   => _t('SilvercartShippingMethod.DeliveryTimeMax'),
+                        'DeliveryTimeMaxDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMaxDesc'),
+                        'DeliveryTimeText'                  => _t('SilvercartShippingMethod.DeliveryTimeText'),
+                        'DeliveryTimeTextDesc'              => _t('SilvercartShippingMethod.DeliveryTimeTextDesc'),
                     )
-                );
+        );
     }
     
     /**
@@ -240,11 +266,16 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return FieldList the fields for the backend
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.06.2014
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'SilvercartCarrierID', false);
+        
+        $fields->dataFieldByName('DeliveryTimeMin')->setDescription($this->fieldLabel('DeliveryTimeMinDesc'));
+        $fields->dataFieldByName('DeliveryTimeMax')->setDescription($this->fieldLabel('DeliveryTimeMaxDesc'));
+        $fields->dataFieldByName('DeliveryTimeText')->setDescription($this->fieldLabel('DeliveryTimeTextDesc'));
 
         if ($this->isInDB()) {
             $feeTable           = $fields->dataFieldByName('SilvercartShippingFees');
@@ -270,8 +301,17 @@ class SilvercartShippingMethod extends DataObject {
                 $feesTableConfig->addComponent(new GridFieldSortableRows('priority'));
             }
         }
-
+        
         return $fields;
+    }
+    
+    /**
+     * Returns whether to show this shipping method on shipping fees page.
+     * 
+     * @return bool
+     */
+    public function getShowOnShippingFeesPage() {
+        return !$this->DoNotShowOnShippingFeesPage;
     }
     
     /**
@@ -282,8 +322,9 @@ class SilvercartShippingMethod extends DataObject {
      *
      * @return SilvercartShippingFee the most convenient shipping fee for this shipping method
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.04.2013
      */
     public function getShippingFee($weight = null) {
         $fee = false;
@@ -328,7 +369,7 @@ class SilvercartShippingMethod extends DataObject {
                                                                 $zoneIDsAsString
                                                         )
                                                 )
-                                                ->sort('PriceAmount');
+                                                ->sort('PostPricing, PriceAmount');
                 if ($fees->exists()) {
                     $fee = $fees->first();
                 }
@@ -344,6 +385,15 @@ class SilvercartShippingMethod extends DataObject {
      */
     public function getDescription() {
         return $this->getLanguageFieldValue('Description');
+    }
+    
+    /**
+     * getter for the shipping methods DescriptionForShippingFeesPage
+     *
+     * @return string the title in the corresponding front end language
+     */
+    public function getDescriptionForShippingFeesPage() {
+        return $this->getLanguageFieldValue('DescriptionForShippingFeesPage');
     }
     
     /**
@@ -381,6 +431,101 @@ class SilvercartShippingMethod extends DataObject {
             return $this->SilvercartCarrier()->Title . " - " . $this->Title;
         }
         return false;
+    }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @return string
+     */
+    public function getDeliveryTime() {
+        $deliveryTime = self::get_delivery_time($this->getShippingFee());
+        if (empty($deliveryTime)) {
+            $deliveryTime = self::get_delivery_time($this);
+        }
+        return $deliveryTime;
+    }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @param DataObject $context            Context object to get delivery time for
+     * @param bool       $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public static function get_delivery_time($context, $forceDisplayInDays = false) {
+        $deliveryTime = '';
+        if ($context != false) {
+            if (!empty($context->DeliveryTimeText)) {
+                $deliveryTime = $context->DeliveryTimeText;
+            } elseif ($context->DeliveryTimeMin > 0) {
+                if (self::isInCheckoutContextWithPrepayment() ||
+                    $forceDisplayInDays) {
+                    $deliveryTime  = $context->DeliveryTimeMin;
+                    if ($context->DeliveryTimeMax > 0) {
+                        $deliveryTime .= ' - ';
+                        $deliveryTime .= $context->DeliveryTimeMax;
+                    }
+                    if ($deliveryTime == 1) {
+                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
+                    } else {
+                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
+                    }
+                    $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
+                } else {
+                    $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
+                    if ($context->DeliveryTimeMax > 0) {
+                        $deliveryTime .= ' - ';
+                        $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
+                    }
+                }
+            }
+        }
+        return $deliveryTime;
+    }
+    
+    /**
+     * Adds the sundays to the delivery time.
+     * 
+     * @param int $deliveryTime Delivery time in days
+     * 
+     * @return int
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2014
+     */
+    protected static function addSundaysToDeliveryTime($deliveryTime) {
+        $currentWeekDay = date('N');
+        $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
+        $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
+        return $deliveryTime + $sundaysTotal;
+    }
+    
+    /**
+     * Returns whether the current application context is in checkout with 
+     * prepayment as payment method.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2014
+     */
+    protected static function isInCheckoutContextWithPrepayment() {
+        $isPrepayment = false;
+        if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
+            $checkout = Controller::curr();
+            /*@var $checkout SilvercartCheckoutStep_Controller */
+            $checkoutStep = $checkout->getCurrentFormInstance();
+            if ($checkoutStep instanceof SilvercartCheckoutFormStep5) {
+                $paymentMethod = $checkoutStep->SilvercartShoppingCart()->getPaymentMethod();
+                if ($paymentMethod instanceof SilvercartPaymentPrepayment &&
+                    $paymentMethod->PaymentChannel == 'prepayment') {
+                    $isPrepayment = true;
+                }
+            }
+        }
+        return $isPrepayment;
     }
 
     /**

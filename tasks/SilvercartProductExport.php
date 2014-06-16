@@ -92,11 +92,8 @@ class SilvercartProductExport extends ScheduledTask {
             'Years'             => 3749760
         );
         
-        $silvercartProductExporters = DataObject::get(
-            'SilvercartProductExporter',
-            "isActive = 1"
-        );
-        if ($silvercartProductExporters instanceof DataObjectSet) {
+        $silvercartProductExporters = SilvercartProductExporter::get()->filter('isActive', 1);
+        if ($silvercartProductExporters instanceof DataList) {
             foreach ($silvercartProductExporters as $silvercartProductExport) {
                 if ($getAll) {
                     $dueSilvercartProductExporters[] = $silvercartProductExport;

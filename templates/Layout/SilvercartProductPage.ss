@@ -28,7 +28,7 @@
                 <div class="silvercart-product-page_content">
                     
                     <div class="silvercart-product-title">
-                        <h2>$Title.HTML</h2>
+                        <h1>$Title.HTML</h1>
                         <div class="silvercart-product-meta-info">
                             <p><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</p>
                         </div>
@@ -79,7 +79,7 @@
                             <div class="subcr">
                                 <div class="silvercart-product-page-box-price">
                                     <p>
-                                        <strong class="silvercart-price">$Price.Nice</strong>
+                                        <strong class="silvercart-price">$PriceNice</strong>
                                     </p>
                                     <p>
                                         <small>

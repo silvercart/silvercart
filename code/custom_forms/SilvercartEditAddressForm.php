@@ -67,8 +67,6 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
             );
             $this->address = SilvercartAddress::get()->filter($filter)->first();
             if ($this->address) {
-                $this->formFields['TaxIdNumber']['value']           = $this->address->TaxIdNumber;
-                $this->formFields['Company']['value']               = $this->address->Company;
                 $this->formFields['Salutation']['selectedValue']    = $this->address->Salutation;
                 $this->formFields['FirstName']['value']             = $this->address->FirstName;
                 $this->formFields['Surname']['value']               = $this->address->Surname;
@@ -85,6 +83,10 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
                     $this->formFields['PostNumber']['value']            = $this->address->PostNumber;
                     $this->formFields['Packstation']['value']           = $this->address->Packstation;
                     $this->formFields['IsPackstation']['selectedValue'] = $this->address->IsPackstation;
+                }
+                if (SilvercartConfig::enableBusinessCustomers()) {
+                    $this->formFields['Company']['value']     = $this->address->Company;
+                    $this->formFields['TaxIdNumber']['value'] = $this->address->TaxIdNumber;
                 }
             }
         }
@@ -146,5 +148,4 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
 
         return $title;
     }
-    
 }

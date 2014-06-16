@@ -7,9 +7,48 @@
             $CustomHtmlFormFieldByName(Email)
         </div>
     </fieldset>
-
+<% if UseMinimumAgeToOrder %>
+    <fieldset>
+        <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
+        <div class="subcolumns">
+            <div class="c33l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
+                 </div>
+            </div>
+            <div class="c33l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
+                </div>
+            </div>
+            <div class="c33r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(BirthdayYear)
+                </div>
+            </div>
+        </div>
+    </fieldset>
+<% end_if %>
     <fieldset>
         <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
+
+        <% if EnableBusinessCustomers %>
+        $CustomHtmlFormFieldByName(Invoice_IsBusinessAccount,CustomHtmlFormFieldCheck)
+
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Invoice_TaxIdNumber)
+                </div>
+            </div>
+            <div class="c50r">
+                <div class="subcr">
+                    $CustomHtmlFormFieldByName(Invoice_Company)
+                </div>
+            </div>
+        </div>
+        <% end_if %>
+
         <div class="subcolumns">
             <div class="c33l">
                 <div class="subcl">
@@ -81,6 +120,24 @@
         $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldCheck)
 
         <div id="ShippingAddressFields">
+
+            <% if EnableBusinessCustomers %>
+            $CustomHtmlFormFieldByName(Shipping_IsBusinessAccount,CustomHtmlFormFieldCheck)
+
+            <div class="subcolumns">
+                <div class="c50l">
+                    <div class="subcl">
+                        $CustomHtmlFormFieldByName(Shipping_TaxIdNumber)
+                    </div>
+                </div>
+                <div class="c50r">
+                    <div class="subcr">
+                        $CustomHtmlFormFieldByName(Shipping_Company)
+                    </div>
+                </div>
+            </div>
+            <% end_if %>
+
             <% if EnablePackstation %>
                 $CustomHtmlFormFieldByName(Shipping_IsPackstation,CustomHtmlFormFieldCheckGroup)
             <% end_if %>

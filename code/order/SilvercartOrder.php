@@ -13,9 +13,10 @@
  *
  * @package Silvercart
  * @subpackage Order
- * @author Sascha Koehler <skoehler@pixeltricks.de>
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 21.07.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 22.11.2010
  * @license see license file in modules root directory
  */
 class SilvercartOrder extends DataObject implements PermissionProvider {
@@ -41,6 +42,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
         'IsSeen'                            => 'Boolean(0)',
+        'TrackingCode'                      => 'VarChar(64)',
+        'TrackingLink'                      => 'Text',
         /**
          * @deprecated
          */
@@ -105,7 +108,16 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public static $extensions = array(
         "Versioned('Live')",
     );
-    
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     *
+     * @since 2013-03-13
+     */
+    public static $api_access = true;
+
     /**
      * Prevents multiple handling of order status change.
      *
@@ -294,6 +306,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'AmountTotal'                           => _t('SilvercartOrder.AMOUNTTOTAL'),
                 'PriceType'                             => _t('SilvercartOrder.PRICETYPE'),
                 'AmountGrossTotal'                      => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
+                'HandlingCost'                          => _t('SilvercartOrder.HandlingCost'),
                 'HandlingCostPayment'                   => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
                 'HandlingCostShipment'                  => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
                 'TaxRatePayment'                        => _t('SilvercartOrder.TAXRATEPAYMENT'),
@@ -322,6 +335,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'IsSeen'                                => _t('SilvercartOrder.IS_SEEN'),
                 'SilvercartOrderLogs'                   => _t('SilvercartOrderLog.PLURALNAME'),
                 'ValueOfGoods'                          => _t('SilvercartPage.VALUE_OF_GOODS'),
+                'TrackingCode'                          => _t('SilvercartOrder.TrackingCode'),
+                'TrackingLink'                          => _t('SilvercartOrder.TrackingLink'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -409,6 +424,17 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         return $searchableFields;
     }
+    
+    /**
+     * Returns the Title.
+     * 
+     * @return string
+     */
+    public function getTitle() {
+        $title = $this->fieldLabel('OrderNumber') . ': ' . $this->OrderNumber . ' | ' . $this->fieldLabel('Created') . ': ' . date(_t('Silvercart.DATEFORMAT'), strtotime($this->Created)) . ' | ' . $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
+        $this->extend('updateTitle', $title);
+        return $title;
+    }
 
     /**
      * Set the default search context for this field
@@ -427,12 +453,27 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
     
     /**
-     * Returns the OrderNumber as Title.
+     * Returns the orders tracking code.
+     * Tracking code is extendable by decorator.
      * 
      * @return string
      */
-    public function getTitle() {
-        return '#' . $this->OrderNumber;
+    public function getTrackingCode() {
+        $trackingCode = $this->getField('TrackingCode');
+        $this->extend('updateTrackingCode', $trackingCode);
+        return $trackingCode;
+    }
+    
+    /**
+     * Returns the orders tracking link.
+     * Tracking link is extendable by decorator.
+     * 
+     * @return string
+     */
+    public function getTrackingLink() {
+        $trackingLink = $this->getField('TrackingLink');
+        $this->extend('updateTrackingLink', $trackingLink);
+        return $trackingLink;
     }
 
     /**
@@ -490,6 +531,19 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getShippingAddressTable() {
         return $this->SilvercartShippingAddress()->renderWith('SilvercartMailAddressData');
+    }
+    
+    /**
+     * Returns whether the invoice address equals the shipping address.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.02.2014
+     */
+    public function InvoiceAddressEqualsShippingAddress() {
+        $isEqual = $this->SilvercartInvoiceAddress()->isEqual($this->SilvercartShippingAddress());
+        return $isEqual;
     }
 
     /**
@@ -765,78 +819,85 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function createFromShoppingCart() {
-        $member                 = Member::currentUser();
-        $silvercartShoppingCart = $member->SilvercartShoppingCart();
-        $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
-        $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
-        $this->MemberID         = $member->ID;
+        $member = Member::currentUser();
+        if ($member instanceof Member) {
+            $silvercartShoppingCart = $member->SilvercartShoppingCart();
+            $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
+            $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
+            $this->MemberID         = $member->ID;
 
-        if (SilvercartPlugin::call($this, 'overwriteCreateFromShoppingCart', array($silvercartShoppingCart))) {
-            return true;
-        }
+            if (SilvercartPlugin::call($this, 'overwriteCreateFromShoppingCart', array($silvercartShoppingCart))) {
+                return true;
+            }
+            
+            $this->extend('onBeforeCreateFromShoppingCart', $silvercartShoppingCart);
 
-        $paymentObj = DataObject::get_by_id(
-            'SilvercartPaymentMethod',
-            $this->SilvercartPaymentMethodID
-        );
-        
-        // VAT tax for shipping and payment fees
-        $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
-        if ($shippingMethod) {
-            $shippingFee  = $shippingMethod->getShippingFee();
+            $paymentObj = DataObject::get_by_id(
+                'SilvercartPaymentMethod',
+                $this->SilvercartPaymentMethodID
+            );
 
-            if ($shippingFee) {
-                if ($shippingFee->SilvercartTax()) {
-                    $this->TaxRateShipment   = $shippingFee->SilvercartTax()->getTaxRate();
-                    $this->TaxAmountShipment = $shippingFee->getTaxAmount();
+            // VAT tax for shipping and payment fees
+            $shippingMethod = DataObject::get_by_id('SilvercartShippingMethod', $this->SilvercartShippingMethodID);
+            if ($shippingMethod) {
+                $shippingFee  = $shippingMethod->getShippingFee();
+
+                if ($shippingFee) {
+                    if ($shippingFee->SilvercartTax()) {
+                        $this->TaxRateShipment   = $shippingFee->getTaxRate();
+                        $this->TaxAmountShipment = $shippingFee->getTaxAmount();
+                    }
                 }
             }
-        }
 
-        $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
-        if ($paymentMethod) {
-            $paymentFee = $paymentMethod->getHandlingCost();
+            $paymentMethod = DataObject::get_by_id('SilvercartPaymentMethod', $this->SilvercartPaymentMethodID);
+            if ($paymentMethod) {
+                $paymentFee = $paymentMethod->getHandlingCost();
 
-            if ($paymentFee) {
-                if ($paymentFee->SilvercartTax()) {
-                    $this->TaxRatePayment   = $paymentFee->SilvercartTax()->getTaxRate();
-                    $this->TaxAmountPayment = $paymentFee->getTaxAmount();
+                if ($paymentFee) {
+                    if ($paymentFee->SilvercartTax()) {
+                        $this->TaxRatePayment   = $paymentFee->SilvercartTax()->getTaxRate();
+                        $this->TaxAmountPayment = $paymentFee->getTaxAmount();
+                    }
+                    $this->HandlingCostPayment->setAmount($paymentFee->amount->getAmount());
+                    $this->HandlingCostPayment->setCurrency($paymentFee->amount->getCurrency());
                 }
-                $this->HandlingCostPayment->setAmount($paymentFee->amount->getAmount());
-                $this->HandlingCostPayment->setCurrency($paymentFee->amount->getCurrency());
             }
-        }
 
-        // amount of all positions + handling fee of the payment method + shipping fee
-        $totalAmount = $member->SilvercartShoppingCart()->getAmountTotal()->getAmount();
-        
-        $this->AmountTotal->setAmount(
-            $totalAmount
-        );
-        $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
-        
-        $this->PriceType = $member->getPriceType();
+            // amount of all positions + handling fee of the payment method + shipping fee
+            $totalAmount = $member->SilvercartShoppingCart()->getAmountTotal()->getAmount();
 
-        // adjust orders standard status
-        $orderStatus = DataObject::get_one(
-            'SilvercartOrderStatus',
-            sprintf(
-                "\"Code\" = '%s'",
-                $paymentObj->getDefaultOrderStatus()
-            )
-        );
-        if ($orderStatus) {
-            $this->SilvercartOrderStatusID = $orderStatus->ID;
+            $this->AmountTotal->setAmount(
+                $totalAmount
+            );
+            $this->AmountTotal->setCurrency(SilvercartConfig::DefaultCurrency());
+
+            $this->PriceType = $member->getPriceType();
+
+            // adjust orders standard status
+            $orderStatus = DataObject::get_one(
+                'SilvercartOrderStatus',
+                sprintf(
+                    "\"Code\" = '%s'",
+                    $paymentObj->getDefaultOrderStatus()
+                )
+            );
+            if ($orderStatus) {
+                $this->SilvercartOrderStatusID = $orderStatus->ID;
+            }
+
+            // write order to have an id
+            $this->write();
+            
+            $this->extend('onAfterCreateFromShoppingCart', $silvercartShoppingCart);
+
+            SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $silvercartShoppingCart));
         }
-        
-        // write order to have an id
-        $this->write();
-        
-        SilvercartPlugin::call($this, 'createFromShoppingCart', array($this, $silvercartShoppingCart));
     }
 
     /**
@@ -854,211 +915,228 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         
         $member = Member::currentUser();
-        $silvercartShoppingCart = $member->SilvercartShoppingCart();
-        $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
-        $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
-        $shoppingCartPositions = SilvercartShoppingCartPosition::get()->filter('SilvercartShoppingCartID', $member->SilvercartShoppingCartID);
+        if ($member instanceof Member) {
+            $silvercartShoppingCart = $member->SilvercartShoppingCart();
+            $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
+            $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
+            $shoppingCartPositions = SilvercartShoppingCartPosition::get()->filter('SilvercartShoppingCartID', $member->SilvercartShoppingCartID);
 
-        if ($shoppingCartPositions->exists()) {
-            foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                $product = $shoppingCartPosition->SilvercartProduct();
+            if ($shoppingCartPositions->exists()) {
+                foreach ($shoppingCartPositions as $shoppingCartPosition) {
+                    $product = $shoppingCartPosition->SilvercartProduct();
 
-                if ($product) {
-                    $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->objectCreated = true;
-                    $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
-                    $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
-                    $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
-                    $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
-                    $orderPosition->Tax                     = $shoppingCartPosition->getTaxAmount(true);
-                    $orderPosition->TaxTotal                = $shoppingCartPosition->getTaxAmount();
-                    $orderPosition->TaxRate                 = $product->getTaxRate();
-                    $orderPosition->ProductDescription      = $product->LongDescription;
-                    $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
-                    $orderPosition->numberOfDecimalPlaces   = $product->SilvercartQuantityUnit()->numberOfDecimalPlaces;
-                    $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
-                    $orderPosition->Title                   = $product->Title;
-                    $orderPosition->SilvercartOrderID       = $this->ID;
-                    $orderPosition->SilvercartProductID     = $product->ID;
-                    $orderPosition->log                     = false;
-                    $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
-                    $orderPosition->write();
+                    if ($product) {
+                        $orderPosition = new SilvercartOrderPosition();
+                        $orderPosition->objectCreated = true;
+                        $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
+                        $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
+                        $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
+                        $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
+                        $orderPosition->Tax                     = $shoppingCartPosition->getTaxAmount(true);
+                        $orderPosition->TaxTotal                = $shoppingCartPosition->getTaxAmount();
+                        $orderPosition->TaxRate                 = $product->getTaxRate();
+                        $orderPosition->ProductDescription      = $product->LongDescription;
+                        $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
+                        $orderPosition->numberOfDecimalPlaces   = $product->SilvercartQuantityUnit()->numberOfDecimalPlaces;
+                        $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
+                        $orderPosition->Title                   = $product->Title;
+                        $orderPosition->SilvercartOrderID       = $this->ID;
+                        $orderPosition->IsNonTaxable            = $member->doesNotHaveToPayTaxes();
+                        $orderPosition->SilvercartProductID     = $product->ID;
+                        $orderPosition->log                     = false;
+                        $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
+                        $orderPosition->write();
 
-                    // Call hook method on product if available
-                    if ($product->hasMethod('ShoppingCartConvert')) {
-                        $product->ShoppingCartConvert($this, $orderPosition);
+                        // Call hook method on product if available
+                        if ($product->hasMethod('ShoppingCartConvert')) {
+                            $product->ShoppingCartConvert($this, $orderPosition);
+                        }
+                        // decrement stock quantity of the product
+                        if (SilvercartConfig::EnableStockManagement()) {
+                            $product->decrementStockQuantity($shoppingCartPosition->Quantity);
+                        }
+
+                        $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
+                        $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
+
+                        if (!empty($result)) {
+                            $orderPosition = $result[0];
+                        }
+
+                        $orderPosition->write();
+                        unset($orderPosition);
                     }
-                    // decrement stock quantity of the product
-                    if (SilvercartConfig::EnableStockManagement()) {
-                        $product->decrementStockQuantity($shoppingCartPosition->Quantity);
-                    }
-                    
-                    $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
-                    $result = SilvercartPlugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
-                    
-                    if (!empty($result)) {
-                        $orderPosition = $result[0];
-                    }
-                    
-                    $orderPosition->write();
-                    unset($orderPosition);
                 }
-            }
 
-            // Get charges and discounts for product values
-            if ($silvercartShoppingCart->HasChargesAndDiscountsForProducts()) {
-                $chargesAndDiscountsForProducts = $silvercartShoppingCart->ChargesAndDiscountsForProducts();
+                // Get taxable positions from registered modules
+                $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                    'ShoppingCartPositions',
+                    array(
+                        $member->SilvercartShoppingCart(),
+                        $member,
+                        true
+                    )
+                );
+
+                foreach ($registeredModules as $moduleName => $moduleOutput) {
+                    foreach ($moduleOutput as $modulePosition) {
+                        $orderPosition = new SilvercartOrderPosition();
+                        if ($this->IsPriceTypeGross()) {
+                            if ($modulePosition->Price instanceof Money) {
+                                $price = $modulePosition->Price->getAmount();
+                            } else {
+                                $price = $modulePosition->Price;
+                            }
+                            $orderPosition->Price->setAmount($price);
+                        } else {
+                            if ($modulePosition->Price instanceof Money) {
+                                $price = $modulePosition->PriceNet->getAmount();
+                            } else {
+                                $price = $modulePosition->PriceNet;
+                            }
+                            $orderPosition->Price->setAmount($price);
+                        }
+                        $orderPosition->Price->setCurrency($modulePosition->Currency);
+                        if ($this->IsPriceTypeGross()) {
+                            $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                        } else {
+                            $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
+                        }
+                        $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
+                        $orderPosition->Tax                 = 0;
+                        $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
+                        $orderPosition->TaxRate             = $modulePosition->TaxRate;
+                        $orderPosition->ProductDescription  = $modulePosition->LongDescription;
+                        $orderPosition->Quantity            = $modulePosition->Quantity;
+                        $orderPosition->Title               = $modulePosition->Name;
+                        if ($modulePosition->isChargeOrDiscount) {
+                            $orderPosition->isChargeOrDiscount                  = true;
+                            $orderPosition->chargeOrDiscountModificationImpact  = $modulePosition->chargeOrDiscountModificationImpact;
+                        }
+                        $orderPosition->SilvercartOrderID   = $this->ID;
+                        $orderPosition->write();
+                        unset($orderPosition);
+                    }
+                }
+
+                // Get charges and discounts for product values
+                if ($silvercartShoppingCart->HasChargesAndDiscountsForProducts()) {
+                    $chargesAndDiscountsForProducts = $silvercartShoppingCart->ChargesAndDiscountsForProducts();
+
+                    foreach ($chargesAndDiscountsForProducts as $chargeAndDiscountForProduct) {
+                        $orderPosition = new SilvercartOrderPosition();
+                        $orderPosition->Price->setAmount($chargeAndDiscountForProduct->Price->getAmount());
+                        $orderPosition->Price->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
+                        $orderPosition->PriceTotal->setAmount($chargeAndDiscountForProduct->Price->getAmount());
+                        $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
+                        $orderPosition->isChargeOrDiscount = true;
+                        $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForProduct->sumModificationImpact;
+                        $orderPosition->Tax                 = $chargeAndDiscountForProduct->SilvercartTax->Title;
+
+                        if ($this->IsPriceTypeGross()) {
+                            $orderPosition->TaxTotal = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate) * 100);
+                        } else {
+                            $orderPosition->TaxTotal = ($chargeAndDiscountForProduct->Price->getAmount() / 100 * (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate)) - $chargeAndDiscountForProduct->Price->getAmount();
+                        }
+
+                        $orderPosition->TaxRate             = $chargeAndDiscountForProduct->SilvercartTax->Rate;
+                        $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
+                        $orderPosition->Quantity            = 1;
+                        $orderPosition->ProductNumber       = $chargeAndDiscountForProduct->sumModificationProductNumber;
+                        $orderPosition->Title               = $chargeAndDiscountForProduct->Name;
+                        $orderPosition->SilvercartOrderID   = $this->ID;
+                        $orderPosition->write();
+                        unset($orderPosition);
+                    }
+                }
+
+                // Get nontaxable positions from registered modules
+                $registeredModulesNonTaxablePositions = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                    'ShoppingCartPositions',
+                    array(
+                        $member->SilvercartShoppingCart(),
+                        $member,
+                        false
+                    )
+                );
+
+                foreach ($registeredModulesNonTaxablePositions as $moduleName => $moduleOutput) {
+                    foreach ($moduleOutput as $modulePosition) {
+                        $orderPosition = new SilvercartOrderPosition();
+                        if ($this->IsPriceTypeGross()) {
+                            $orderPosition->Price->setAmount($modulePosition->Price);
+                        } else {
+                            $orderPosition->Price->setAmount($modulePosition->PriceNet);
+                        }
+                        $orderPosition->Price->setCurrency($modulePosition->Currency);
+                        if ($this->IsPriceTypeGross()) {
+                            $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
+                        } else {
+                            $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
+                        }
+                        $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
+                        $orderPosition->Tax                 = 0;
+                        $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
+                        $orderPosition->TaxRate             = $modulePosition->TaxRate;
+                        $orderPosition->ProductDescription  = $modulePosition->LongDescription;
+                        $orderPosition->Quantity            = $modulePosition->Quantity;
+                        $orderPosition->Title               = $modulePosition->Name;
+                        $orderPosition->SilvercartOrderID   = $this->ID;
+                        $orderPosition->write();
+                        unset($orderPosition);
+                    }
+                }
+
+                // Get charges and discounts for shopping cart total
+                if ($silvercartShoppingCart->HasChargesAndDiscountsForTotal()) {
+                    $chargesAndDiscountsForTotal = $silvercartShoppingCart->ChargesAndDiscountsForTotal();
+
+                    foreach ($chargesAndDiscountsForTotal as $chargeAndDiscountForTotal) {
+                        $orderPosition = new SilvercartOrderPosition();
+                        $orderPosition->Price->setAmount($chargeAndDiscountForTotal->Price->getAmount());
+                        $orderPosition->Price->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
+                        $orderPosition->PriceTotal->setAmount($chargeAndDiscountForTotal->Price->getAmount());
+                        $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
+                        $orderPosition->isChargeOrDiscount = true;
+                        $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForTotal->sumModificationImpact;
+                        $orderPosition->Tax                 = $chargeAndDiscountForTotal->SilvercartTax->Title;
+                        if ($this->IsPriceTypeGross()) {
+                            $orderPosition->TaxTotal = $chargeAndDiscountForTotal->Price->getAmount() - ($chargeAndDiscountForTotal->Price->getAmount() / (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate) * 100);
+                        } else {
+                            $orderPosition->TaxTotal = ($chargeAndDiscountForTotal->Price->getAmount() / 100 * (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate)) - $chargeAndDiscountForTotal->Price->getAmount();
+                        }
+                        $orderPosition->TaxRate             = $chargeAndDiscountForTotal->SilvercartTax->Rate;
+                        $orderPosition->ProductDescription  = $chargeAndDiscountForTotal->Name;
+                        $orderPosition->Quantity            = 1;
+                        $orderPosition->ProductNumber       = $chargeAndDiscountForTotal->sumModificationProductNumber;
+                        $orderPosition->Title               = $chargeAndDiscountForTotal->Name;
+                        $orderPosition->SilvercartOrderID   = $this->ID;
+                        $orderPosition->write();
+                        unset($orderPosition);
+                    }
+                }
+
+                // Convert positions of registered modules
+                $member->currentUser()->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                    'ShoppingCartConvert',
+                    array(
+                        Member::currentUser()->SilvercartShoppingCart(),
+                        Member::currentUser(),
+                        $this
+                    )
+                );
                 
-                foreach ($chargesAndDiscountsForProducts as $chargeAndDiscountForProduct) {
-                    $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->Price->setAmount($chargeAndDiscountForProduct->Price->getAmount());
-                    $orderPosition->Price->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
-                    $orderPosition->PriceTotal->setAmount($chargeAndDiscountForProduct->Price->getAmount());
-                    $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
-                    $orderPosition->isChargeOrDiscount = true;
-                    $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForProduct->sumModificationImpact;
-                    $orderPosition->Tax                 = $chargeAndDiscountForProduct->SilvercartTax->Title;
+                $this->extend('onAfterConvertShoppingCartPositionsToOrderPositions', $silvercartShoppingCart);
 
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->TaxTotal = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate) * 100);
-                    } else {
-                        $orderPosition->TaxTotal = ($chargeAndDiscountForProduct->Price->getAmount() / 100 * (100 + $chargeAndDiscountForProduct->SilvercartTax->Rate)) - $chargeAndDiscountForProduct->Price->getAmount();
-                    }
-
-                    $orderPosition->TaxRate             = $chargeAndDiscountForProduct->SilvercartTax->Rate;
-                    $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
-                    $orderPosition->Quantity            = 1;
-                    $orderPosition->ProductNumber       = '';
-                    $orderPosition->Title               = $chargeAndDiscountForProduct->Name;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->SilvercartProductID = $product->ID;
-                    $orderPosition->write();
-                    unset($orderPosition);
+                // Delete the shoppingcart positions
+                foreach ($shoppingCartPositions as $shoppingCartPosition) {
+                    $shoppingCartPosition->delete();
                 }
-            }
             
-            // Get taxable positions from registered modules
-            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
-                'ShoppingCartPositions',
-                array(
-                    $member->SilvercartShoppingCart(),
-                    $member,
-                    true
-                )
-            );
-
-            foreach ($registeredModules as $moduleName => $moduleOutput) {
-                foreach ($moduleOutput as $modulePosition) {
-                    $orderPosition = new SilvercartOrderPosition();
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->Price->setAmount($modulePosition->Price);
-                    } else {
-                        $orderPosition->Price->setAmount($modulePosition->PriceNet);
-                    }
-                    $orderPosition->Price->setCurrency($modulePosition->Currency);
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
-                    } else {
-                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
-                    }
-                    $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
-                    $orderPosition->Tax                 = 0;
-                    $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
-                    $orderPosition->TaxRate             = $modulePosition->TaxRate;
-                    $orderPosition->ProductDescription  = $modulePosition->LongDescription;
-                    $orderPosition->Quantity            = $modulePosition->Quantity;
-                    $orderPosition->Title               = $modulePosition->Name;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->write();
-                    unset($orderPosition);
-                }
+                $this->write();
             }
-
-            // Get nontaxable positions from registered modules
-            $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
-                'ShoppingCartPositions',
-                array(
-                    $member->SilvercartShoppingCart(),
-                    $member,
-                    false
-                )
-            );
-
-            foreach ($registeredModules as $moduleName => $moduleOutput) {
-                foreach ($moduleOutput as $modulePosition) {
-                    $orderPosition = new SilvercartOrderPosition();
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->Price->setAmount($modulePosition->Price);
-                    } else {
-                        $orderPosition->Price->setAmount($modulePosition->PriceNet);
-                    }
-                    $orderPosition->Price->setCurrency($modulePosition->Currency);
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceTotal);
-                    } else {
-                        $orderPosition->PriceTotal->setAmount($modulePosition->PriceNetTotal);
-                    }
-                    $orderPosition->PriceTotal->setCurrency($modulePosition->Currency);
-                    $orderPosition->Tax                 = 0;
-                    $orderPosition->TaxTotal            = $modulePosition->TaxAmount;
-                    $orderPosition->TaxRate             = $modulePosition->TaxRate;
-                    $orderPosition->ProductDescription  = $modulePosition->LongDescription;
-                    $orderPosition->Quantity            = $modulePosition->Quantity;
-                    $orderPosition->Title               = $modulePosition->Name;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->write();
-                    unset($orderPosition);
-                }
-            }
-            
-            // Get charges and discounts for shopping cart total
-            if ($silvercartShoppingCart->HasChargesAndDiscountsForTotal()) {
-                $chargesAndDiscountsForTotal = $silvercartShoppingCart->ChargesAndDiscountsForTotal();
-                
-                foreach ($chargesAndDiscountsForTotal as $chargeAndDiscountForTotal) {
-                    $orderPosition = new SilvercartOrderPosition();
-                    $orderPosition->Price->setAmount($chargeAndDiscountForTotal->Price->getAmount());
-                    $orderPosition->Price->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
-                    $orderPosition->PriceTotal->setAmount($chargeAndDiscountForTotal->Price->getAmount());
-                    $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
-                    $orderPosition->isChargeOrDiscount = true;
-                    $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForTotal->sumModificationImpact;
-                    $orderPosition->Tax                 = $chargeAndDiscountForTotal->SilvercartTax->Title;
-                    if ($this->IsPriceTypeGross()) {
-                        $orderPosition->TaxTotal = $chargeAndDiscountForTotal->Price->getAmount() - ($chargeAndDiscountForTotal->Price->getAmount() / (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate) * 100);
-                    } else {
-                        $orderPosition->TaxTotal = ($chargeAndDiscountForTotal->Price->getAmount() / 100 * (100 + $chargeAndDiscountForTotal->SilvercartTax->Rate)) - $chargeAndDiscountForTotal->Price->getAmount();
-                    }
-                    $orderPosition->TaxRate             = $chargeAndDiscountForTotal->SilvercartTax->Rate;
-                    $orderPosition->ProductDescription  = $chargeAndDiscountForTotal->Name;
-                    $orderPosition->Quantity            = 1;
-                    $orderPosition->ProductNumber       = '';
-                    $orderPosition->Title               = $chargeAndDiscountForTotal->Name;
-                    $orderPosition->SilvercartOrderID   = $this->ID;
-                    $orderPosition->write();
-                    unset($orderPosition);
-                }
-            }
-
-            // Convert positions of registered modules
-            $member->currentUser()->SilvercartShoppingCart()->callMethodOnRegisteredModules(
-                'ShoppingCartConvert',
-                array(
-                    Member::currentUser()->SilvercartShoppingCart(),
-                    Member::currentUser(),
-                    $this
-                )
-            );
-            
-            // Delete the shoppingcart positions
-            foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                $shoppingCartPosition->delete();
-            }
-            
-            $this->write();
+            SilvercartPlugin::call($this, 'convertShoppingCartPositionsToOrderPositions', array($this), true);
         }
-
-        SilvercartPlugin::call($this, 'convertShoppingCartPositionsToOrderPositions', array($this), true);
     }
 
     /**
@@ -1175,7 +1253,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function setWeight() {
         $member = Member::currentUser();
-        if ($member->SilvercartShoppingCart()->getWeightTotal()) {
+        if ($member instanceof Member &&
+            $member->SilvercartShoppingCart()->getWeightTotal()) {
             $this->WeightTotal = $member->SilvercartShoppingCart()->getWeightTotal();
         }
     }
@@ -1202,10 +1281,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function setCustomerEmail($email = null) {
         $member = Member::currentUser();
-        if ($member->Email) { //for registered customers
+        if ($member instanceof Member &&
+            $member->Email) {
             $email = $member->Email;
-        } else { // for anonymous customers
-            $email = $email;
         }
         $this->CustomersEmail = $email;
     }
@@ -1259,7 +1337,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $shippingMethodID
         );
 
-        if ($selectedShippingMethod) {
+        if ($selectedShippingMethod instanceof SilvercartShippingMethod &&
+            $selectedShippingMethod->getShippingFee() instanceof SilvercartShippingFee) {
             $this->SilvercartShippingMethodID    = $selectedShippingMethod->ID;
             $this->SilvercartShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
             $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->getPriceAmount());
@@ -1294,14 +1373,62 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getCurrency() {
         return $this->AmountTotal->getCurrency();
     }
+    
+    /**
+     * Returns the Order Positions as a string.
+     * 
+     * @param bool $asHtmlString    Set to true to use HTML inside the string.
+     * @param bool $withAmountTotal Set to true add the orders total amount.
+     * 
+     * @return string
+     */
+    public function getPositionsAsString($asHtmlString = false, $withAmountTotal = false) {
+        if ($asHtmlString) {
+            $seperator = '<br/>';
+        } else {
+            $seperator = PHP_EOL;
+        }
+        $positionsStrings = array();
+        foreach ($this->SilvercartOrderPositions() as $position) {
+            $positionsString = $position->getTypeSafeQuantity() . 'x #' . $position->ProductNumber . ' "' . $position->Title . '" ' . $position->getPriceTotalNice();
+            $positionsStrings[] = $positionsString;
+        }
+        $positionsAsString = implode($seperator . '------------------------' . $seperator, $positionsStrings);
+        if ($withAmountTotal) {
+            $shipmentAndPayment = new Money();
+            $shipmentAndPayment->setAmount($this->HandlingCostPayment->getAmount() + $this->HandlingCostShipment->getAmount());
+            $shipmentAndPayment->setCurrency($this->HandlingCostPayment->getCurrency());
+            
+            $positionsAsString .= $seperator . '------------------------' . $seperator;
+            $positionsAsString .= $this->fieldLabel('HandlingCost') . ': ' . $shipmentAndPayment->Nice() . $seperator;
+            $positionsAsString .= '________________________' . $seperator . $seperator;
+            $positionsAsString .= $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
+        }
+        return $positionsAsString;
+    }
+    
+    /**
+     * Returns the gross amount of all order positions.
+     * 
+     * @return Money
+     */
+    public function getPositionsPriceGross() {
+        $positionsPriceGross = $this->AmountTotal->getAmount() - ($this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount());
+
+        $positionsPriceGrossObj = new Money();
+        $positionsPriceGrossObj->setAmount($positionsPriceGross);
+        $positionsPriceGrossObj->setCurrency(SilvercartConfig::DefaultCurrency());
+        
+        return $positionsPriceGrossObj;
+    }
 
     /**
-     * returns the cart's net amount
+     * Returns the net amount of all order positions.
      *
-     * @return Money money object
+     * @return Money
      */
-    public function getPriceNet() {
-        $priceNet = $this->AmountTotal->getAmount() - $this->HandlingCostShipment->getAmount() - $this->HandlingCostPayment->getAmount() - $this->getTax(true,true,true)->getAmount();
+    public function getPositionsPriceNet() {
+        $priceNet = $this->getPositionsPriceGross()->getAmount() - $this->getTax(true,true,true)->getAmount();
 
         $priceNetObj = new Money();
         $priceNetObj->setAmount($priceNet);
@@ -1311,9 +1438,20 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
 
     /**
-     * returns the cart's gross amount
+     * Returns the net amount of all order positions.
      *
-     * @return Money money object
+     * @return Money
+     * 
+     * @deprecated
+     */
+    public function getPriceNet() {
+        return $this->getPositionsPriceNet();
+    }
+
+    /**
+     * Returns the gross amount of the order.
+     *
+     * @return Money
      */
     public function getPriceGross() {
         return $this->AmountTotal;
@@ -1321,7 +1459,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     
     /**
      * Returns all order positions without a tax value.
-     *
+     * 
      * @return ArrayList
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>
@@ -1367,15 +1505,16 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function SilvercartOrderListPositions() {
         $orderPositions = new ArrayList();
         
         foreach ($this->SilvercartOrderPositions() as $orderPosition) {
-            if (!$orderPosition->isChargeOrDiscount &&
-                 $orderPosition->TaxRate > 0) {
+            if (!$orderPosition->isChargeOrDiscount) {
                 
                 $orderPositions->push($orderPosition);
             }
@@ -1506,7 +1645,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 continue;
             }
             
-            if ($position->TaxRate > 0) {
+            if ($position->TaxRate > 0 ||
+                $position->IsNonTaxable) {
                 $priceGross->setAmount(
                     $priceGross->getAmount() + $position->PriceTotal->getAmount()
                 );
@@ -1557,7 +1697,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 continue;
             }
             
-            if ($position->TaxRate > 0) {
+            if ($position->TaxRate > 0 ||
+                $position->IsNonTaxable) {
                 $priceNet->setAmount(
                     $priceNet->getAmount() + $position->PriceTotal->getAmount()
                 );
@@ -1728,8 +1869,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             }
             
             $taxRate = $orderPosition->TaxRate;
-
-            if ($taxRate > 0 &&
+            if ($taxRate == '') {
+                $taxRate = 0;
+            }
+            if ($taxRate >= 0 &&
                 !$taxes->find('Rate', $taxRate)) {
                 
                 $taxes->push(
@@ -1815,7 +1958,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         // Shipping cost tax
         $taxRate = $this->TaxRateShipment;
-        if ($taxRate > 0 &&
+        if ($taxRate == '') {
+            $taxRate = 0;
+        }
+        if ($taxRate >= 0 &&
             !$taxes->find('Rate', $taxRate)) {
 
             $taxes->push(
@@ -1832,7 +1978,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
 
         // Payment cost tax
         $taxRate = $this->TaxRatePayment;
-        if ($taxRate > 0 &&
+        if ($taxRate == '') {
+            $taxRate = 0;
+        }
+        if ($taxRate >= 0 &&
             !$taxes->find('Rate', $taxRate)) {
 
             $taxes->push(
@@ -2131,6 +2280,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         if (!$this->didHandleOrderStatusChange &&
             $this->ID > 0 && $this->isChanged('SilvercartOrderStatusID')) {
             $this->didHandleOrderStatusChange = true;
+            $this->extend('onBeforeOrderStatusChange');
             if (method_exists($this->SilvercartPaymentMethod(), 'handleOrderStatusChange')) {
                 $this->SilvercartPaymentMethod()->handleOrderStatusChange($this);
             }

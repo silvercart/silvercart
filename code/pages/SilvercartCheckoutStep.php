@@ -5,21 +5,35 @@
  * This file is part of SilverCart.
  *
  * @package Silvercart
- * @subpackage Pages Checkout
+ * @subpackage Pages_Checkout
  */
 
 /**
- * Checkout step page
+ * Checkout step page.
  *
  * @package Silvercart
  * @subpackage Pages_Checkout
  * @author Sascha Koehler <skoehler@pixeltricks.de>,
  *         Sebastian Diel <sdiel@pixeltricks.de>
- * @since 08.04.2013
+ * @since 18.09.2013
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
 class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
+    
+    /**
+     * DB attributes
+     *
+     * @var array
+     */
+    public static $db = array(
+        'ContentStep1'  => 'HtmlText',
+        'ContentStep2'  => 'HtmlText',
+        'ContentStep3'  => 'HtmlText',
+        'ContentStep4'  => 'HtmlText',
+        'ContentStep5'  => 'HtmlText',
+        'ContentStep6'  => 'HtmlText',
+    );
 
     /**
      * icon for site tree
@@ -27,6 +41,35 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
      * @var string
      */
     public static $icon = "silvercart/images/page_icons/checkout_page";
+    
+    /**
+     * Field labels
+     * 
+     * @param bool $includerelations Include relations?
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.09.2013
+     */
+    public function fieldLabels($includerelations = true) {
+        $labels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'ContentStep1'  => _t('SilvercartCheckoutStep.ContentStep1'),
+                    'ContentStep2'  => _t('SilvercartCheckoutStep.ContentStep2'),
+                    'ContentStep3'  => _t('SilvercartCheckoutStep.ContentStep3'),
+                    'ContentStep4'  => _t('SilvercartCheckoutStep.ContentStep4'),
+                    'ContentStep5'  => _t('SilvercartCheckoutStep.ContentStep5'),
+                    'ContentStep6'  => _t('SilvercartCheckoutStep.ContentStep6'),
+                    'StepContent'   => _t('SilvercartCheckoutStep.StepContent'),
+                )
+        );
+        
+        $this->extend('updateFieldLabels', $labels);
+        
+        return $labels;
+    }
 
     /**
      * Deletes the step session data.
@@ -74,10 +117,33 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
     }
+    
+    /**
+     * CMS fields
+     * 
+     * @return FieldSet
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $fields->findOrMakeTab('Root.Content.StepContent', $this->fieldLabel('StepContent'));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep1', $this->fieldLabel('ContentStep1'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep2', $this->fieldLabel('ContentStep2'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep3', $this->fieldLabel('ContentStep3'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep4', $this->fieldLabel('ContentStep4'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep5', $this->fieldLabel('ContentStep5'), 15));
+        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep6', $this->fieldLabel('ContentStep6'), 15));
+        
+        return $fields;
+    }
 }
 
 /**
+<<<<<<< mine
  * checkout step controller.
+=======
+ * Checkout step page controller.
+>>>>>>> theirs
  *
  * @package Silvercart
  * @subpackage Pages Checkout
@@ -309,6 +375,51 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     }
 
     /**
+     * Adds a prefix to a plain address data array.
+     *
+     * @param string $prefix       Prefix
+     * @param array  $checkoutData Checkout address data
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.01.2014
+     */
+    public function extractAddressDataFrom($prefix, $checkoutData) {
+        $addressData = array();
+        $checkoutDataFields = array(
+            $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
+            $prefix.'_Company'          => 'Company',
+            $prefix.'_Salutation'       => 'Salutation',
+            $prefix.'_FirstName'        => 'FirstName',
+            $prefix.'_Surname'          => 'Surname',
+            $prefix.'_Addition'         => 'Addition',
+            $prefix.'_Street'           => 'Street',
+            $prefix.'_StreetNumber'     => 'StreetNumber',
+            $prefix.'_Postcode'         => 'Postcode',
+            $prefix.'_City'             => 'City',
+            $prefix.'_Phone'            => 'Phone',
+            $prefix.'_PhoneAreaCode'    => 'PhoneAreaCode',
+            $prefix.'_Fax'              => 'Fax',
+            $prefix.'_Country'          => 'CountryID',
+            $prefix.'_Country'          => 'SilvercartCountryID',
+            $prefix.'_PostNumber'       => 'PostNumber',
+            $prefix.'_Packstation'      => 'Packstation',
+            $prefix.'_IsPackstation'    => 'IsPackstation',
+        );
+        
+        if (is_array($checkoutData)) {
+            foreach ($checkoutDataFields as $checkoutFieldName => $dataFieldName) {
+                if (isset($checkoutData[$checkoutFieldName])) {
+                    $addressData[$dataFieldName] = $checkoutData[$checkoutFieldName];
+                }
+            }
+        }
+
+        return $addressData;
+    }
+
+    /**
      * Indicates wether ui elements for removing items and altering their
      * quantity should be shown in the shopping cart templates.
      *
@@ -434,4 +545,44 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         }
         return $address;
     }
+    
+    /**
+     * Returns the address step number.
+     * 
+     * @return int
+     */
+    public function getAddressStepNumber() {
+        $stepNumber = 2;
+        if (Member::currentUser()->isRegisteredCustomer()) {
+            $stepNumber = 1;
+        }
+        return $stepNumber;
+    }
+    
+    /**
+     * Returns the shippment step number.
+     * 
+     * @return int
+     */
+    public function getShipmentStepNumber() {
+        $stepNumber = 3;
+        if (Member::currentUser()->isRegisteredCustomer()) {
+            $stepNumber = 2;
+        }
+        return $stepNumber;
+    }
+    
+    /**
+     * Returns the payment step number.
+     * 
+     * @return int
+     */
+    public function getPaymentStepNumber() {
+        $stepNumber = 4;
+        if (Member::currentUser()->isRegisteredCustomer()) {
+            $stepNumber = 3;
+        }
+        return $stepNumber;
+    }
+    
 }

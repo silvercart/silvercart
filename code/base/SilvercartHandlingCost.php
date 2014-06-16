@@ -163,12 +163,28 @@ class SilvercartHandlingCost extends DataObject {
     }
 
     /**
+     * Returns the tax rate for this fee.
+     * 
+     * @return int
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
+     */
+    public function getTaxRate() {
+        $taxRate = SilvercartShoppingCart::get_most_valuable_tax_rate();
+        if ($taxRate === false) {
+            $taxRate = $this->SilvercartTax()->getTaxRate();
+        }
+        return $taxRate;
+    }
+
+    /**
      * returns the tax amount included in $this
      *
      * @return float
      */
     public function getTaxAmount() {
-        $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->SilvercartTax()->getTaxRate()) * 100);
+        $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->getTaxRate()) * 100);
 
         return $taxRate;
     }

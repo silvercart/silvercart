@@ -228,7 +228,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
+     * @since 30.09.2013
      */
     public function createDefaultTranslatableDataObject($translatableDataObjectEntries, $translatableDataObjectName, $translatableDataObjectLanguageName = '', $translatableDataObjectRelationName = '') {
         if (empty($translatableDataObjectLanguageName)) {
@@ -257,7 +257,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $obj->Code = $code;
                 $obj->write();
             }
-            if (!array_key_exists($translationLocale, $languages) &&
+            if (!is_null($translationLocale) &&
+                !array_key_exists($translationLocale, $languages) &&
                 array_key_exists('en_US', $languages)) {
                 $languages[$translationLocale] = $languages['en_US'];
             }
@@ -490,6 +491,17 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $contactPage->write();
             $contactPage->publish("Stage", "Live");
 
+            //create a revocation form page as a child of the meta navigation holder
+            $revocationPage                    = new SilvercartRevocationFormPage();
+            $revocationPage->Title             = _t('SilvercartRevocationFormPage.DEFAULT_TITLE', 'Revocation');
+            $revocationPage->URLSegment        = _t('SilvercartRevocationFormPage.DEFAULT_URLSEGMENT', 'Revocation');
+            $revocationPage->Status            = "Published";
+            $revocationPage->ShowInMenus       = 1;
+            $revocationPage->IdentifierCode    = "SilvercartRevocationFormPage";
+            $revocationPage->ParentID          = $metaNavigationHolder->ID;
+            $revocationPage->write();
+            $revocationPage->publish("Stage", "Live");
+
             //create a terms of service page as a child of the meta navigation holder
             $termsOfServicePage                 = new SilvercartMetaNavigationPage();
             $termsOfServicePage->Title          = _t('TermsOfServicePage.DEFAULT_TITLE', 'terms of service');
@@ -621,6 +633,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $registerConfirmationPage->ParentID         = $registrationPage->ID;
             $registerConfirmationPage->ShowInMenus      = false;
             $registerConfirmationPage->ShowInSearch     = false;
+            $registerConfirmationPage->CanViewType      = "LoggedInUsers";
             $registerConfirmationPage->IdentifierCode   = "SilvercartRegisterConfirmationPage";
             $registerConfirmationPage->write();
             $registerConfirmationPage->publish("Stage", "Live");
@@ -791,6 +804,34 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailOrderShippedNotification->setField('EmailText',    $defaultTemplate);
             $shopEmailOrderShippedNotification->write();
         }
+        $shopEmailRevocationNotification = SilvercartShopEmail::get()->filter('Identifier', 'RevocationNotification')->first();
+        if (!$shopEmailRevocationNotification) {
+            $shopEmailRevocationNotification = new SilvercartShopEmail();
+            $shopEmailRevocationNotification->Identifier = 'RevocationNotification';
+            $shopEmailRevocationNotification->Subject    = _t('SilvercartMailRevocationNotification.Subject');
+            $shopEmailRevocationNotification->Variables  = '';
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailRevocationNotification.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailRevocationNotification->EmailText = $defaultTemplate;
+            $shopEmailRevocationNotification->write();
+            
+            $shopEmailRevocationConfirmation = new SilvercartShopEmail();
+            $shopEmailRevocationConfirmation->Identifier = 'RevocationConfirmation';
+            $shopEmailRevocationConfirmation->Subject    = _t('SilvercartMailRevocationConfirmation.Subject');
+            $shopEmailRevocationConfirmation->Variables  = '';
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/SilvercartMailRevocationConfirmation.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailRevocationConfirmation->EmailText = $defaultTemplate;
+            $shopEmailRevocationConfirmation->write();
+        }
         
         // attribute ShopEmails to order status
         $orderStatus = SilvercartOrderStatus::get()->filter('Code', 'shipped')->sort('ID')->first();
@@ -884,7 +925,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.05.2012
+     * @since 30.09.2013
      */
     public function translateSiteTree($parentID = 0) {
         $translatableFieldTypes = array(
@@ -897,7 +938,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $pages = SiteTree::get()->filter("ParentID", $parentID);
         if ($pages->exists()) {
             foreach ($pages as $page) {
-                if (!$page->getTranslation($translationLocale)) {
+                if (!is_null($translationLocale) &&
+                    !$page->getTranslation($translationLocale)) {
+                    Versioned::set_reading_mode('Stage.Stage');
                     $translation = $page->createTranslation($translationLocale);
                     
                     foreach ($translation->db() as $name => $type) {
@@ -948,6 +991,8 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function publishSiteTree($parentID = 0) {
         $translationLocale = $this->getTranslationLocale();
+        Translatable::disable_locale_filter();
+        Versioned::set_reading_mode('Stage.Stage');
         $pages = SiteTree::get()->filter(array("ParentID" => $parentID, "Locale" => $translationLocale));
         if ($pages->exists()) {
             foreach ($pages as $page) {

@@ -159,10 +159,10 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.06.2012
+     * @since 13.03.2013
      */
     public function SmallFieldHolder() {
-        return '<div class="silvercarttextautocomplete">' . parent::SmallFieldHolder() . '</div>' . $this->FieldHolderScript();
+        return '<div class="' . strtolower(str_replace('Field', '', get_class($this))) . '">' . parent::SmallFieldHolder() . '</div>' . $this->FieldHolderScript();
     }
     
     /**
@@ -283,26 +283,44 @@ class SilvercartTextAutoCompleteField extends TextField {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2011
+     * @since 03.07.2013
      */
     public function generateAutoCompleteList() {
-        $dataObjectSet = DataObject::get($this->getAutoCompleteSourceDataObject());
-        $autoCompleteList = array();
-        $attribute = $this->getAutoCompleteSourceAttribute();
-        if ($dataObjectSet->exists()) {
-            foreach ($dataObjectSet as $dataObject) {
-                if (is_array($attribute)) {
+        $autoCompleteList   = array();
+        $records            = DB::query('SELECT COUNT(ID) AS ObjectCount FROM ' . $this->getAutoCompleteSourceDataObject());
+        foreach ($records as $record) {
+            $objectCount = $record['ObjectCount'];
+        }
+        if ($objectCount < 5000) {
+            $attribute  = $this->getAutoCompleteSourceAttribute();
+            if (is_array($attribute)) {
+                $attributeList = implode(',', $attribute);
+            } else {
+                $attributeList = $attribute;
+            }
+            $query      = sprintf(
+                    "SELECT %s FROM %s AS SO LEFT JOIN %sLanguage AS SOL ON (SOL.%sID = SO.ID) WHERE SOL.Locale = '%s'",
+                    $attributeList,
+                    $this->getAutoCompleteSourceDataObject(),
+                    $this->getAutoCompleteSourceDataObject(),
+                    $this->getAutoCompleteSourceDataObject(),
+                    Translatable::get_current_locale()
+            );
+            $rows = DB::query($query);
+            if (is_array($attribute)) {
+                foreach ($rows as $row) {
                     $listEntries = array();
                     foreach ($attribute as $key => $fieldName) {
-                        $listEntries[] = $this->prepareValue($dataObject->{$fieldName});
+                        $listEntries[] = $this->prepareValue($row[$fieldName]);
                     }
                     $listEntry = implode($this->getFieldDelimiter(), $listEntries);
-                } else {
-                    $listEntry = $this->prepareValue($dataObject->{$attribute});
+                    $autoCompleteList[] = $listEntry;
                 }
-                $autoCompleteList[] = $listEntry;
+            } else {
+                $autoCompleteList = array_keys($rows->map());
             }
         }
+        
         $this->setAutoCompleteList($autoCompleteList);
     }
     

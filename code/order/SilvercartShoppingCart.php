@@ -72,7 +72,6 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @var Int
      */
-
     protected $shippingMethodID;
 
     /**
@@ -127,6 +126,13 @@ class SilvercartShoppingCart extends DataObject {
      * @var bool
      */
     public static $cartCleaningFinished = false;
+
+    /**
+     * Set of registered modules.
+     *
+     * @var ArrayList
+     */
+    protected $registeredModulesSet = null;
 
     /**
      * default constructor
@@ -316,8 +322,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2013
      */
     public function ChargesAndDiscountsForProducts($priceType = false) {
         $cacheHash = md5($priceType);
@@ -335,16 +342,16 @@ class SilvercartShoppingCart extends DataObject {
             if ($handlingCostPayment === false) {
                 return false;
             } else {
-                $taxes          = $this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher');
-                $silvercartTax  = $this->getMostValuableTaxRate($taxes);
+                $tax = $this->getMostValuableTaxRate();
 
                 $chargesAndDiscounts = new DataObject(
                     array(
-                        'Name'                  => $paymentMethodObj->sumModificationLabel,
-                        'sumModificationImpact' => $paymentMethodObj->sumModificationImpact,
-                        'PriceFormatted'        => $handlingCostPayment->Nice(),
-                        'Price'                 => $handlingCostPayment,
-                        'SilvercartTax'         => $silvercartTax
+                        'Name'                          => $paymentMethodObj->sumModificationLabel,
+                        'sumModificationImpact'         => $paymentMethodObj->sumModificationImpact,
+                        'sumModificationProductNumber'  => $paymentMethodObj->sumModificationProductNumber,
+                        'PriceFormatted'                => $handlingCostPayment->Nice(),
+                        'Price'                         => $handlingCostPayment,
+                        'SilvercartTax'                 => $tax,
                     )
                 );
 
@@ -365,8 +372,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return DataObject
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2013
      */
     public function ChargesAndDiscountsForTotal($priceType = false) {
         $cacheHash = md5($priceType);
@@ -384,19 +392,19 @@ class SilvercartShoppingCart extends DataObject {
             if ($handlingCostPayment === false) {
                 return false;
             } else {
-                $taxes               = $this->getTaxRatesWithFees();
-                $silvercartTax       = $this->getMostValuableTaxRate($taxes);
+                $tax   = $this->getMostValuableTaxRate($this->getTaxRatesWithFees());
                 $handlingCostPaymentRounded = $handlingCostPayment;
                 $handlingCostPaymentRounded->setAmount(
                     round($handlingCostPayment->getAmount(), 2)
                 );
                 $chargesAndDiscounts = new DataObject(
                     array(
-                        'Name'                  => $paymentMethodObj->sumModificationLabel,
-                        'sumModificationImpact' => $paymentMethodObj->sumModificationImpact,
-                        'PriceFormatted'        => $handlingCostPayment->Nice(),
-                        'Price'                 => $handlingCostPayment,
-                        'SilvercartTax'         => $silvercartTax
+                        'Name'                          => $paymentMethodObj->sumModificationLabel,
+                        'sumModificationImpact'         => $paymentMethodObj->sumModificationImpact,
+                        'sumModificationProductNumber'  => $paymentMethodObj->sumModificationProductNumber,
+                        'PriceFormatted'                => $handlingCostPayment->Nice(),
+                        'Price'                         => $handlingCostPayment,
+                        'SilvercartTax'                 => $tax,
                     )
                 );
 
@@ -449,7 +457,7 @@ class SilvercartShoppingCart extends DataObject {
         if (!$member) {
             $member = SilvercartCustomer::createAnonymousCustomer();
         }
-        
+
         $overwriteAddProduct = SilvercartPlugin::call($member->getCart(), 'overwriteAddProduct', array($formData), false, 'boolean');
         
         if ($overwriteAddProduct) {
@@ -474,7 +482,42 @@ class SilvercartShoppingCart extends DataObject {
 
         return !$error;
     }
-    
+
+    /**
+     * Removes a product out of the cart.
+     *
+     * @param array $data Data to use to identify the position.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.03.2013
+     */
+    public static function removeProduct($data) {
+        $error  = true;
+        $member = Member::currentUser();
+        
+        if (!$member) {
+            $member = SilvercartCustomer::createAnonymousCustomer();
+        }
+        
+        $overwriteRemoveProduct = SilvercartPlugin::call($member->getCart(), 'overwriteRemoveProduct', array($data), false, 'boolean');
+        
+        if ($overwriteRemoveProduct) {
+            $error = false;
+        } elseif ($member instanceof Member) {
+            $cart       = $member->getCart();
+            $position   = $cart->SilvercartShoppingCartPositions()->find('SilvercartProductID', $data['productID']);
+            if ($position instanceof SilvercartShoppingCartPosition) {
+                $position->delete();
+                $error = false;
+            }
+        }
+
+        return !$error;
+    }
+
+
     /**
      * Returns one or more plugged in rows for the shopping carts editable table
      * as a ArrayList
@@ -909,6 +952,22 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
+     * Returns the price of the cart positions, including taxes.
+     *
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                           can contain the ID or the className of the position
+     * 
+     * @return Money a price amount
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
+     */
+    public function getTaxableAmountGrossWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) {
+        $excludeModules = self::$registeredModules;
+        return $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
+    }
+
+    /**
      * Returns the price of the cart positions.
      *
      * @param array $excludeModules              An array of registered modules that shall not
@@ -949,6 +1008,22 @@ class SilvercartShoppingCart extends DataObject {
         $this->cacheHashes[$cacheKey] = $amountObj;
     
         return $amountObj;
+    }
+
+    /**
+     * Returns the price of the cart positions.
+     *
+     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     *                                           can contain the ID or the className of the position
+     * 
+     * @return Money a price amount
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
+     */
+    public function getTaxableAmountNetWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) {
+        $excludeModules = self::$registeredModules;
+        return $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
     }
 
     /**
@@ -1064,18 +1139,6 @@ class SilvercartShoppingCart extends DataObject {
             $handlingCostPaymentObj->amount = $paymentDefaultCost;
         }
 
-        if (SilvercartConfig::PriceType() == 'net') {
-            $taxRate             = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
-
-            if ($handlingCostPaymentObj->getPriceAmount() > 0) {
-                $handlingCostPayment = round(($handlingCostPaymentObj->getPriceAmount() / (100 + $taxRate->Rate) * 100), 2);
-            } else {
-                $handlingCostPayment = 0;
-            }
-
-            $handlingCostPaymentObj->amount->setAmount($handlingCostPayment);
-        }
-
         return $handlingCostPaymentObj->amount;
     }
 
@@ -1084,8 +1147,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return Money
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.1.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
@@ -1100,13 +1164,47 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if (SilvercartConfig::PriceType() == 'net') {
-            $taxRate              = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher'));
-            $handlingCostShipment = round(($handlingCostShipmentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+            $taxRate = $this->getMostValuableTaxRate();
+            if ($taxRate !== false) {
+                $handlingCostShipment = round(($handlingCostShipmentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
+            }
 
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
         }
 
         return $handlingCostShipmentObj;
+    }
+    
+    /**
+     * Returns whether there are handling costs for payment.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function hasHandlingCostPayment() {
+        $has = false;
+        if ($this->HandlingCostPayment()->getAmount() > 0) {
+            $has = true;
+        }
+        return $has;
+    }
+    
+    /**
+     * Returns whether there are handling costs for shipment.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public function hasHandlingCostShipment() {
+        $has = false;
+        if ($this->HandlingCostShipment()->getAmount() > 0) {
+            $has = true;
+        }
+        return $has;
     }
 
     /**
@@ -1510,8 +1608,9 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.11.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function getTaxRatesWithFees() {
         if (is_null($this->taxRatesWithFees)) {
@@ -1523,24 +1622,22 @@ class SilvercartShoppingCart extends DataObject {
                 $shippingFee = $shippingMethod->getShippingFee();
 
                 if ($shippingFee) {
-                    if ($shippingFee->SilvercartTax()) {
-                        $taxRate = $shippingFee->getTaxRate();
+                    $taxRate = $shippingFee->getTaxRate();
 
-                        if ( $taxRate &&
-                            !$taxes->find('Rate', $taxRate)) {
+                    if ( $taxRate &&
+                        !$taxes->find('Rate', $taxRate)) {
 
-                            $taxes->push(
-                                new DataObject(
-                                    array(
-                                        'Rate'      => $taxRate,
-                                        'AmountRaw' => 0.0,
-                                    )
+                        $taxes->push(
+                            new DataObject(
+                                array(
+                                    'Rate'      => $taxRate,
+                                    'AmountRaw' => 0.0,
                                 )
-                            );
-                        }
-                        $taxSection = $taxes->find('Rate', $taxRate);
-                        $taxSection->AmountRaw += $shippingFee->getTaxAmount();
+                            )
+                        );
                     }
+                    $taxSection = $taxes->find('Rate', $taxRate);
+                    $taxSection->AmountRaw += $shippingFee->getTaxAmount();
                 }
             }
 
@@ -1645,14 +1742,16 @@ class SilvercartShoppingCart extends DataObject {
 
         // products
         foreach ($positions as $position) {
-            $taxRate = $position->SilvercartProduct()->getTaxRate();
+            $taxRate            = $position->SilvercartProduct()->getTaxRate();
+            $originalTaxRate    = $position->SilvercartProduct()->getTaxRate(true);
 
             if (!$taxes->find('Rate', $taxRate)) {
                 $taxes->push(
                     new DataObject(
                         array(
-                            'Rate' => $taxRate,
-                            'AmountRaw' => (float) 0.0,
+                            'Rate'          => $taxRate,
+                            'OriginalRate'  => $originalTaxRate,
+                            'AmountRaw'     => (float) 0.0,
                         )
                     )
                 );
@@ -1669,8 +1768,9 @@ class SilvercartShoppingCart extends DataObject {
                     $taxes->push(
                         new DataObject(
                             array(
-                                'Rate' => $taxRate,
-                                'AmountRaw' => (float) 0.0,
+                                'Rate'          => $taxRate,
+                                'OriginalRate'  => $taxRate,
+                                'AmountRaw'     => (float) 0.0,
                             )
                         )
                     );
@@ -1694,6 +1794,29 @@ class SilvercartShoppingCart extends DataObject {
     }
 
     /**
+     * Returns the most valuable tax rate for the current cart.
+     *
+     * @param array $taxes The tax rates array (associative)
+     * 
+     * @return int
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
+     */
+    public static function get_most_valuable_tax_rate($taxes = null) {
+        $rate = false;
+        if (Member::currentUser() &&
+            Member::currentUser()->SilvercartShoppingCartID > 0) {
+            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+            $taxRate = $silvercartShoppingCart->getMostValuableTaxRate($taxes);
+            if ($taxRate) {
+                $rate = $taxRate->Rate;
+            }
+        }
+        return $rate;
+    }
+
+    /**
      * Returns the SilvercartTax object with the highest tax value for the
      * given taxes.
      *
@@ -1701,29 +1824,40 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return SilvercartTax
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
-    public function getMostValuableTaxRate($taxes) {
-        $highestTaxValue        = 0;
-        $mostValuableTaxRate    = null;
+    public function getMostValuableTaxRate($taxes = null) {
+        if (is_null($taxes)) {
+            $taxes = $this->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher');
+        }
+        $highestTaxValue                = 0;
+        $mostValuableTaxRate            = null;
+        $originalMostValuableTaxRate    = null;
 
         foreach ($taxes as $tax) {
-            if ($tax->AmountRaw > $highestTaxValue) {
-                $mostValuableTaxRate = $tax->Rate;
+            if ($tax->AmountRaw >= $highestTaxValue) {
+                $highestTaxValue                = $tax->AmountRaw;
+                $mostValuableTaxRate            = $tax->Rate;
+                $originalMostValuableTaxRate    = $tax->OriginalRate;
             }
         }
 
-        if ($mostValuableTaxRate) {
+        if (!is_null($originalMostValuableTaxRate)) {
             $silvercartTax = DataObject::get_one(
                 'SilvercartTax',
                 sprintf(
                     "Rate = %f",
-                    $mostValuableTaxRate
+                    $originalMostValuableTaxRate
                 )
             );
             
             if ($silvercartTax) {
+                if ($originalMostValuableTaxRate != $mostValuableTaxRate) {
+                    $silvercartTax->Rate    = $mostValuableTaxRate;
+                    $silvercartTax->setTitle($mostValuableTaxRate . '%');
+                }
                 return $silvercartTax;
             }
         }
@@ -1838,41 +1972,46 @@ class SilvercartShoppingCart extends DataObject {
      * @since 09.04.2014
      */
     public function registeredModules() {
-        $customer = Member::currentUser();
-        $modules = array();
-        $registeredModules = self::$registeredModules;
-        $hookMethods = array(
-            'NonTaxableShoppingCartPositions',
-            'TaxableShoppingCartPositions',
-            'IncludedInTotalShoppingCartPositions',
-            'ShoppingCartActions',
-            'ShoppingCartTotal',
-        );
+        if (is_null($this->registeredModulesSet)) {
+            $customer = Member::currentUser();
+            $modules = array();
+            $registeredModules = self::$registeredModules;
+            $hookMethods = array(
+                'NonTaxableShoppingCartPositions',
+                'TaxableShoppingCartPositions',
+                'IncludedInTotalShoppingCartPositions',
+                'ShoppingCartActions',
+                'ShoppingCartTotal',
+                'CustomShoppingCartPositions',
+            );
 
-        foreach ($registeredModules as $registeredModule) {
-            $registeredModuleObjPlain = new $registeredModule();
-            $registeredModuleObj      = false;
+            foreach ($registeredModules as $registeredModule) {
+                $registeredModuleObjPlain = new $registeredModule();
+                $registeredModuleObj      = false;
 
-            if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
-                $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
-            }
+                if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
+                    $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
+                }
 
-            if (!$registeredModuleObj) {
-                $registeredModuleObj = $registeredModuleObjPlain;
-            }
+                if (!$registeredModuleObj) {
+                    $registeredModuleObj = $registeredModuleObjPlain;
+                }
 
-            if ($registeredModuleObj) {
-                foreach ($hookMethods as $hookMethod) {
-                    if ($registeredModuleObj->hasMethod($hookMethod)) {
-                        $modules[] = array(
-                            $hookMethod => $registeredModuleObj->$hookMethod($this, $customer)
-                        );
+                if ($registeredModuleObj) {
+                    $hooks = array();
+                    foreach ($hookMethods as $hookMethod) {
+                        if ($registeredModuleObj->hasMethod($hookMethod)) {
+                            $hooks[$hookMethod] = $registeredModuleObj->$hookMethod($this, $customer);
+                        }
                     }
+                    $modules[] = $hooks;
                 }
             }
+
+            $this->registeredModulesSet = new ArrayList($modules);
         }
 
-        return new ArrayList($modules);
+        return $this->registeredModulesSet;
     }
 
     /**

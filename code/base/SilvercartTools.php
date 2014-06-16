@@ -58,6 +58,27 @@ class SilvercartTools extends Object {
     public static $pageHierarchy = array();
 
     /**
+     * List of already called pages
+     *
+     * @var array
+     */
+    protected static $pagesByIdentifierCode = array();
+    
+    /**
+     * locale to restore.
+     *
+     * @var string
+     */
+    public static $localeToRestore = null;
+    
+    /**
+     * Set this to true to disable checking for updates.
+     *
+     * @var boolean
+     */
+    public static $disableUpdateCheck = false;
+
+    /**
      * Initializes silvercart specific session data.
      * 
      * @return void
@@ -114,7 +135,7 @@ class SilvercartTools extends Object {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.06.2012
+     * @since 10.04.2014
      */
     public static function string2urlSegment($originalString) {
         if (function_exists('mb_strtolower')) {
@@ -122,7 +143,11 @@ class SilvercartTools extends Object {
         } else {
             $string = strtolower($originalString);
         }
-        $string     = Object::create('SS_Transliterator')->toASCII($string);
+        $transliteratorClass = 'Transliterator';
+        if (class_exists('SS_Transliterator')) {
+            $transliteratorClass = 'SS_Transliterator';
+        }
+        $string     = Object::create($transliteratorClass)->toASCII($string);
         $string     = str_replace('&amp;','-and-',$string);
         $string     = str_replace('&','-and-',$string);
         $string     = preg_replace('/[^A-Za-z0-9]+/','-',$string);
@@ -134,11 +159,42 @@ class SilvercartTools extends Object {
                 $string = strtolower($originalString);
             }
         }
-        $string     = trim($string, '-');
-        $remove     = array('ä',    'ö',    'ü',    'Ä',    'Ö',    'Ü',    '/',    '?',    '&',    '#',    '.',    ',',    ' ', '%', '"', "'", '<', '>');
-        $replace    = array('ae',   'oe',   'ue',   'Ae',   'Oe',   'Ue',   '-',    '-',    '-',    '-',    '-',    '-',    '',  '',  '',  '',  '',  '');
-        $string     = str_replace($remove, $replace, $string);
+        $string = trim($string, '-');
+        self::replace_special_chars($string);
+        self::replace_cyrillic_chars($string);
         return urlencode($string);
+    }
+    
+    /**
+     * Replaces special chars.
+     * 
+     * @param string &$string String reference to replace special chars for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2014
+     */
+    public static function replace_special_chars(&$string) {
+        $remove  = array('ä',  'ö',  'ü',  'Ä',  'Ö',  'Ü',  '/', '?', '&', '#', '.', ',', ' ', '%', '"', "'", '<', '>');
+        $replace = array('ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', '-', '-', '-', '-', '-', '-', '-', '',  '',  '',  '',  '');
+        $string  = str_replace($remove, $replace, $string);
+    }
+    
+    /**
+     * Replaces cyrillic chars with latin chars
+     * 
+     * @param string &$string String reference to replace cyrillic chars for
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2014
+     */
+    public static function replace_cyrillic_chars(&$string) {
+        $remove  = array('а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я');
+        $replace = array('a', 'b', 'v', 'g', 'd', 'e', 'yo', 'zh', 'z', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'shh', '-', 'y', '-', 'e-', 'yu', 'ya');
+        $string  = str_replace($remove, $replace, $string);
     }
 
     /**
@@ -205,16 +261,13 @@ class SilvercartTools extends Object {
      * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @since 18.11.2013
      */
     public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        $page = SilvercartPage::get()->filter('IdentifierCode', $identifierCode)->first();
-
-        if ($page) {
-            return $page;
-        } else {
-            return false;
+        if (!array_key_exists($identifierCode, self::$pagesByIdentifierCode)) {
+            self::$pagesByIdentifierCode[$identifierCode] = SilvercartPage::get()->filter('IdentifierCode', $identifierCode)->first();
         }
+        return self::$pagesByIdentifierCode[$identifierCode];
     }
 
     /**
@@ -225,11 +278,12 @@ class SilvercartTools extends Object {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @since 16.06.2014
      */
     public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
         $page = self::PageByIdentifierCode($identifierCode);
-        if ($page === false) {
+        if ($page === false ||
+            is_null($page)) {
             return '';
         }
         return $page->Link();
@@ -487,6 +541,24 @@ class SilvercartTools extends Object {
     }
 
     /**
+     * Returns the localized salutation string.
+     * 
+     * @param string $salutation Enum value for salutation to get i18n for
+     *
+     * @return string
+     */
+    public static function getSalutationText($salutation) {
+        if ($salutation == 'Herr') {
+            $salutationText = _t('SilvercartAddress.MISTER', 'Mister');
+        } elseif ($salutation == 'Frau') {
+            $salutationText = _t('SilvercartAddress.MISSES', 'Misses');
+        } else {
+            $salutationText = _t('SilvercartAddress.' . strtoupper($salutation), $salutation);
+        }
+        return $salutationText;
+    }
+
+    /**
      * Removes a prefix from a checkout address data array.
      *
      * @param string $prefix Prefix
@@ -595,7 +667,7 @@ class SilvercartTools extends Object {
 
         return $isSibling;
     }
-    
+
     /**
      * Checks on silvercart.org whether there is an update available.
      * 
@@ -605,6 +677,9 @@ class SilvercartTools extends Object {
      * @since 24.01.2013
      */
     public static function checkForUpdate() {
+        if (self::$disableUpdateCheck) {
+            return false;
+        }
         $updateAvailable = false;
         try {
             $checkForUpdateUrl = sprintf(
@@ -626,5 +701,124 @@ class SilvercartTools extends Object {
             $updateAvailable = true;
         }
         return $updateAvailable;
+    }
+    
+    /**
+     * Redirects to the given URL with status "303 See other".
+     * 
+     * @param string $url Relative or absolute URL to redirect to
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.10.2013
+     */
+    public static function redirectPermanentlyTo($url) {
+        header("HTTP/1.1 303 See Other");
+        header('Location: ' . Director::absoluteURL($url));
+        exit();
+    }
+    
+    /**
+     * Returns the given date with time in a nice format
+     * 
+     * @param string $date Date to format
+     * 
+     * @return string
+     */
+    public static function getDateWithTimeNice($date) {
+        $dateNice           = self::getDateNice($date);
+        $dateTimestamp      = strtotime($date);
+        $timeNiceFormat     = '%H:%M';
+        $timeNice           = strftime($timeNiceFormat, $dateTimestamp) . ' ' .  _t('Silvercart.Oclock');
+        $dateWithTimeNice   = $dateNice . ' ' . $timeNice;
+        return $dateWithTimeNice;
+    }
+    
+    /**
+     * Returns the given date in a nice format
+     * 
+     * @param string $date          Date to format
+     * @param bool   $fullMonthName Set to true to show the full month name
+     * @param bool   $forceYear     Set to true to force showing the year
+     * @param bool   $withWeekDay   Set to true to show the name of the week day
+     * 
+     * @return string
+     */
+    public static function getDateNice($date, $fullMonthName = false, $forceYear = false, $withWeekDay = false) {
+        self::switchLocale(false);
+        if ($fullMonthName) {
+            $month = '%B';
+        } else {
+            $month = '%b.';
+        }
+        $dateTimestamp  = strtotime($date);
+        $dateNiceFormat = '%d. ' . $month;
+        if (date('Y', $dateTimestamp) != date('Y') ||
+            $forceYear) {
+            $dateNiceFormat = '%d. ' . $month . ' %Y';
+        } elseif (date('m-d', $dateTimestamp) == date('m-d')) {
+            $dateNiceFormat = ucfirst(_t('Silvercart.TODAY'));
+        } elseif (date('m-d', $dateTimestamp) == date('m-d', time() - 24*60*60)) {
+            $dateNiceFormat = ucfirst(_t('Silvercart.YESTERDAY'));
+        }
+        if ($withWeekDay) {
+            $dateNiceFormat = '%A, ' . $dateNiceFormat;
+        }
+        $dateNice = strftime($dateNiceFormat, $dateTimestamp);
+        self::switchLocale();
+        return $dateNice;
+    }
+    
+    /**
+     * Returns a map of month number and name to use in a drop down.
+     * 
+     * @return array
+     */
+    public static function getMonthMap() {
+        $monthMap = array(
+            ''   => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            '1'  => _t('SilvercartPage.JANUARY'),
+            '2'  => _t('SilvercartPage.FEBRUARY'),
+            '3'  => _t('SilvercartPage.MARCH'),
+            '4'  => _t('SilvercartPage.APRIL'),
+            '5'  => _t('SilvercartPage.MAY'),
+            '6'  => _t('SilvercartPage.JUNE'),
+            '7'  => _t('SilvercartPage.JULY'),
+            '8'  => _t('SilvercartPage.AUGUST'),
+            '9'  => _t('SilvercartPage.SEPTEMBER'),
+            '10' => _t('SilvercartPage.OCTOBER'),
+            '11' => _t('SilvercartPage.NOVEMBER'),
+            '12' => _t('SilvercartPage.DECEMBER')
+        );
+        return $monthMap;
+    }
+
+    /**
+     * Switchs the locale from default to the current SS locale and back.
+     * This method is called in constructor and destructor.
+     * 
+     * @param bool $doRestore Should this call restore the locale to the default value?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.05.2011
+     */
+    public static function switchLocale($doRestore = true) {
+        if (!$doRestore &&
+            !is_null(self::$localeToRestore)) {
+            return;
+        }
+        if (is_null(self::$localeToRestore)) {
+            self::$localeToRestore  = setlocale(LC_ALL, null);
+            $currentLocale          = i18n::get_locale();
+        } else {
+            $currentLocale          = self::$localeToRestore;
+            self::$localeToRestore  = null;
+        }
+        // it's a kind of dirty, because this will not match every possible
+        // system locale... It works for plain and utf8 locales.
+        setlocale(LC_ALL, $currentLocale . '.utf8', $currentLocale . '.UTF-8', $currentLocale);
     }
 }

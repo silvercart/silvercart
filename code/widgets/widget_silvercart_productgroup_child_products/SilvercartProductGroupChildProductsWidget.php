@@ -144,8 +144,9 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
      *
      * @return ArrayList
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 17.03.2014
      */
     public function getElementsByProductGroup() {
         $cache                = false;
@@ -172,8 +173,12 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             $page           = DataObject::get_by_id('SiteTree', $pageID);
             $productsOfPage = $page->getProducts(1000, false, true);
             $productsOfPage = new ArrayList($productsOfPage->toArray());
-            
+            $productIDs     = array_keys($productsOfPage->map());
+
             foreach ($productsOfPage as $product) {
+                if (in_array($product->ID, $productIDs)) {
+                    continue;
+                }
                 $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                 $products->push($product);
             }

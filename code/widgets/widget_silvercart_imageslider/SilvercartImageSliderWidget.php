@@ -179,8 +179,9 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.01.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -190,10 +191,10 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
                     'SilvercartImageSliderWidgetLanguages'  => _t('Silvercart.TRANSLATIONS'),
                     'FrontTitle'                            => _t('SilvercartWidget.FRONTTITLE'),
                     'FrontContent'                          => _t('SilvercartWidget.FRONTCONTENT'),
-                    'Images'                                => _t('SilvercartProductGroupItemsWidget.CMS_SLIDEIMAGESTABNAME'),
+                    'Images'                                => _t('SilvercartImage.PLURALNAME'),
                     'SilvercartImageSliderImage'            => _t('SilvercartImageSliderImage.PLURALNAME'),
-                    'slideImages'                           => _t('SilvercartProductSliderWidget.CMS_SLIDERIMAGES')
-                    
+                    'slideImages'                           => _t('SilvercartProductSliderWidget.CMS_SLIDERIMAGES'),
+                    'Translations'                          => _t('SilvercartConfig.TRANSLATIONS'),
                 )
         );
 
@@ -223,6 +224,9 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
      * @since 20.10.2011
      */
     public function init() {
+        if (!SilvercartWidget::$use_anything_slider) {
+            return;
+        }
         $autoplay           = 'false';
         $autoPlayDelayed    = 'false';
         $autoPlayLocked     = 'true';

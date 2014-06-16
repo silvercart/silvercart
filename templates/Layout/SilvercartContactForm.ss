@@ -28,6 +28,15 @@
                 </div>
             </div>
         </div>
+        <% if EnablePhoneNumber %>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Phone)
+                </div>
+            </div>
+        </div>
+        <% end_if %>
         $CustomHtmlFormFieldByName(Message)
     </fieldset>
 

@@ -82,6 +82,11 @@ class SilvercartConfig extends DataObject {
      * @var array
      */
     public static $db = array(
+        'ShopName'         => 'Varchar(256)',
+        'ShopStreet'       => 'Varchar(256)',
+        'ShopStreetNumber' => 'Varchar(6)',
+        'ShopPostcode'     => 'Varchar(32)',
+        'ShopCity'         => 'Varchar(256)',
         'SilvercartVersion'                     => 'VarChar(16)',
         'SilvercartMinorVersion'                => 'VarChar(16)',
         'SilvercartUpdateVersion'               => 'VarChar(16)',
@@ -104,12 +109,18 @@ class SilvercartConfig extends DataObject {
         'enablePackstation'                     => 'Boolean(0)',
         'enableStockManagement'                 => 'Boolean(0)',
         'isStockManagementOverbookable'         => 'Boolean(0)',
+        'SkipPaymentStepIfUnique'               => 'Boolean(0)',
+        'SkipShippingStepIfUnique'              => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
         'redirectToCheckoutWhenInCart'          => 'Boolean(0)',
+        'DisplayWeightsInKilogram'              => 'Boolean(1)',
         'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
+        'UseMinimumAgeToOrder'                  => 'Boolean(0)',
+        'MinimumAgeToOrder'                     => 'Varchar(3)',
         'addToCartMaxQuantity'                  => 'Int(999)',
         'Locale'                                => 'DBLocale',
         'useDefaultLanguageAsFallback'          => 'Boolean(1)',
+        'ShowTaxAndDutyHint'                    => 'Boolean(0)',
         'productDescriptionFieldForCart'        => 'Enum("ShortDescription,LongDescription","ShortDescription")',
         'useProductDescriptionFieldForCart'     => 'Boolean(1)',
         'useStrictSearchRelevance'              => 'Boolean(0)',
@@ -128,7 +139,8 @@ class SilvercartConfig extends DataObject {
      */
     public static $has_one = array(
         'SilvercartNoImage'         => 'Image',
-        'StandardProductCondition'  => 'SilvercartProductCondition'
+        'StandardProductCondition'  => 'SilvercartProductCondition',
+        'ShopCountry'               => 'SilvercartCountry',
     );
     
     /**
@@ -150,6 +162,7 @@ class SilvercartConfig extends DataObject {
         'Locale'                        => 'de_DE',
         'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
     );
+
     /**
      * Define all required configuration fields in this array. The given fields
      * will be handled in self::Check().
@@ -173,6 +186,7 @@ class SilvercartConfig extends DataObject {
      */
     public static $addToCartMaxQuantity                     = null;
     public static $defaultCurrency                          = null;
+    public static $defaultCurrencySymbol                    = null;
     public static $defaultPricetype                         = null;
     public static $emailSender                              = null;
     public static $enableBusinessCustomers                  = null;
@@ -194,6 +208,8 @@ class SilvercartConfig extends DataObject {
     public static $redirectToCartAfterAddToCart             = null;
     public static $redirectToCheckoutWhenInCart             = null;
     public static $demandBirthdayDateOnRegistration         = null;
+    public static $useMinimumAgeToOrder                     = null;
+    public static $minimumAgeToOrder                        = null;
     public static $useDefaultLanguageAsFallback             = null;
     public static $forceLoadingOfDefaultLayout              = false;
     public static $productDescriptionFieldForCart           = null;
@@ -203,6 +219,17 @@ class SilvercartConfig extends DataObject {
     public static $defaultMailOrderNotificationRecipient    = null;
     public static $defaultContactMessageRecipient           = null;
     public static $userAgentBlacklist                       = null;
+    public static $skipPaymentStepIfUnique                  = null;
+    public static $skipShippingStepIfUnique                 = null;
+    public static $displayWeightsInKilogram                 = null;
+    public static $showTaxAndDutyHint                       = false;
+    
+    /**
+     * Indicator to check whether getCMSFields is called
+     *
+     * @var boolean
+     */
+    protected $getCMSFieldsIsCalled = false;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -216,7 +243,6 @@ class SilvercartConfig extends DataObject {
     public function singular_name() {
         return SilvercartTools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
@@ -268,6 +294,7 @@ class SilvercartConfig extends DataObject {
      * @deprecated GeoNames should be outsourced into a module
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = new FieldList(
                 $rootTab = new TabSet("Root",
                     $tabMain = new Tab('Main')
@@ -342,9 +369,29 @@ class SilvercartConfig extends DataObject {
 
                     new CheckboxField('useMinimumOrderValue',               $this->fieldLabel('useMinimumOrderValue')),
                     new SilvercartMoneyField('minimumOrderValue',           $this->fieldLabel('minimumOrderValue')),
+                    new CheckboxField('disregardMinimumOrderValue',         $this->fieldLabel('disregardMinimumOrderValue')),
 
                     new CheckboxField('useFreeOfShippingCostsFrom',         $this->fieldLabel('useFreeOfShippingCostsFrom')),
                     new SilvercartMoneyField('freeOfShippingCostsFrom',     $this->fieldLabel('freeOfShippingCostsFrom')),
+                    
+                    new CheckboxField('SkipShippingStepIfUnique',           $this->fieldLabel('SkipShippingStepIfUnique')),
+                    new CheckboxField('SkipPaymentStepIfUnique',            $this->fieldLabel('SkipPaymentStepIfUnique')),
+                    new CheckboxField('DisplayWeightsInKilogram',           $this->fieldLabel('DisplayWeightsInKilogram')),
+                    new CheckboxField('ShowTaxAndDutyHint',                 $this->fieldLabel('ShowTaxAndDutyHint')),
+                )
+        )->setHeadingLevel(4);
+
+        // Build shop data toggle group
+        $shopDataConfigurationField = ToggleCompositeField::create(
+                'ShopDataConfiguration',
+                $this->fieldLabel('ShopDataConfiguration'),
+                array(
+                    new TextField('ShopName',          $this->fieldLabel('ShopName')),
+                    new TextField('ShopStreet',        $this->fieldLabel('ShopStreet')),
+                    new TextField('ShopStreetNumber',  $this->fieldLabel('ShopStreetNumber')),
+                    new TextField('ShopPostcode',      $this->fieldLabel('ShopPostcode')),
+                    new TextField('ShopCity',          $this->fieldLabel('ShopCity')),
+                    new DropdownField('ShopCountryID', $this->fieldLabel('ShopCountry'), SilvercartCountry::getPrioritiveDropdownMap()),
                 )
         )->setHeadingLevel(4);
 
@@ -363,6 +410,7 @@ class SilvercartConfig extends DataObject {
         $fields->addFieldToTab('Root.Main', $customerConfigurationField);
         $fields->addFieldToTab('Root.Main', $productConfigurationField);
         $fields->addFieldToTab('Root.Main', $checkoutConfigurationField);
+        $fields->addFieldToTab('Root.Main', $shopDataConfigurationField);
         $fields->addFieldToTab('Root.Main', $securityConfigurationField);
 
         // Modify field data
@@ -457,6 +505,13 @@ class SilvercartConfig extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
+                    'ShopData'                              => _t('SilvercartConfig.ShopData'),
+                    'ShopName'                              => _t('SilvercartConfig.ShopName'),
+                    'ShopStreet'                            => _t('SilvercartConfig.ShopStreet'),
+                    'ShopStreetNumber'                      => _t('SilvercartConfig.ShopStreetNumber'),
+                    'ShopPostcode'                          => _t('SilvercartConfig.ShopPostcode'),
+                    'ShopCity'                              => _t('SilvercartConfig.ShopCity'),
+                    'ShopCountry'                           => _t('SilvercartConfig.ShopCountry'),
                     'addToCartMaxQuantity'                  => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
                     'DefaultCurrency'                       => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
                     'DefaultPriceType'                      => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
@@ -468,12 +523,15 @@ class SilvercartConfig extends DataObject {
                     'enableStockManagement'                 => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
                     'minimumOrderValue'                     => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
                     'useMinimumOrderValue'                  => _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value'),
+                    'disregardMinimumOrderValue'            => _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE'),
                     'useFreeOfShippingCostsFrom'            => _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM'),
                     'freeOfShippingCostsFrom'               => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
                     'productsPerPage'                       => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
                     'productGroupsPerPage'                  => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
                     'isStockManagementOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
                     'demandBirthdayDateOnRegistration'      => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
+                    'UseMinimumAgeToOrder'                  => _t('SilvercartConfig.UseMinimumAgeToOrder', 'Use minimum age to order?'),
+                    'MinimumAgeToOrder'                     => _t('SilvercartConfig.MinimumAgeToOrder', 'Minimum age to order'),
                     'GeoNamesActive'                        => _t('SilvercartConfig.GEONAMES_ACTIVE'),
                     'GeoNamesUserName'                      => _t('SilvercartConfig.GEONAMES_USERNAME'),
                     'GeoNamesAPI'                           => _t('SilvercartConfig.GEONAMES_API'),
@@ -499,7 +557,12 @@ class SilvercartConfig extends DataObject {
                     'CustomerConfiguration'                 => _t('SilvercartConfig.CustomerConfiguration', 'Customer Configuration'),
                     'ProductConfiguration'                  => _t('SilvercartConfig.ProductConfiguration', 'Product Configuration'),
                     'CheckoutConfiguration'                 => _t('SilvercartConfig.CheckoutConfiguration', 'Checkout Configuration'),
+                    'ShopDataConfiguration'                 => _t('SilvercartConfig.ShopData', 'Shop Data Configuration'),
                     'SecurityConfiguration'                 => _t('SilvercartConfig.SecurityConfiguration', 'Security Configuration'),
+                    'SkipPaymentStepIfUnique'               => _t('SilvercartConfig.SKIP_PAYMENT_STEP_IF_UNIQUE'),
+                    'SkipShippingStepIfUnique'              => _t('SilvercartConfig.SKIP_SHIPPING_STEP_IF_UNIQUE'),
+                    'DisplayWeightsInKilogram'              => _t('SilvercartConfig.DISPLAY_WEIGHTS_IN_KILOGRAM'),
+                    'ShowTaxAndDutyHint'                    => _t('SilvercartConfig.ShowTaxAndDutyHint'),
                     
                     'EmailSenderRightTitle'                             => _t('SilvercartConfig.EMAILSENDER_INFO'),
                     'GlobalEmailRecipientRightTitle'                    => _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO'),
@@ -570,6 +633,19 @@ class SilvercartConfig extends DataObject {
             }
         }
     }
+    
+    /**
+     * Returns whether to enable SSL.
+     * 
+     * @return bool
+     */
+    public function getEnableSSL() {
+        $enableSSL = $this->getField('EnableSSL');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateEnableSSL', $enableSSL);
+        }
+        return $enableSSL;
+    }
 
     /**
      * This method checks the required configuration. If there is any missing
@@ -627,6 +703,23 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
+     * Returns the configured default currency symbol.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.10.2013
+     */
+    public static function DefaultCurrencySymbol() {
+        if (is_null(self::$defaultCurrencySymbol)) {
+            
+            $zend_currency = new Zend_Currency(null, i18n::default_locale());
+            self::$defaultCurrencySymbol = $zend_currency->getSymbol(self::DefaultCurrency(), i18n::get_locale());
+        }
+        return self::$defaultCurrencySymbol;
+    }
+
+    /**
      * Returns the configured default price type.
      *
      * @return string
@@ -655,6 +748,79 @@ class SilvercartConfig extends DataObject {
             self::$demandBirthdayDateOnRegistration = self::getConfig()->demandBirthdayDateOnRegistration;
         }
         return self::$demandBirthdayDateOnRegistration;
+    }
+    
+    /**
+     * Returns whether there is a minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function UseMinimumAgeToOrder() {
+        if (is_null(self::$useMinimumAgeToOrder)) {
+            self::$useMinimumAgeToOrder = self::getConfig()->UseMinimumAgeToOrder;
+        }
+        return self::$useMinimumAgeToOrder;
+    }
+    
+    /**
+     * Returns the minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function MinimumAgeToOrder() {
+        if (is_null(self::$minimumAgeToOrder)) {
+            self::$minimumAgeToOrder = self::getConfig()->MinimumAgeToOrder;
+        }
+        return self::$minimumAgeToOrder;
+    }
+    
+    /**
+     * Returns the minimum age to order.
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function MinimumAgeToOrderError() {
+        $error = sprintf(
+                _t('SilvercartConfig.MinimumAgeToOrderError'),
+                self::MinimumAgeToOrder()
+        );
+        return $error;
+    }
+    
+    /**
+     * Checks whether the given birthdate is allowed to order.
+     *
+     * @param string $birthdate Birthdate in format 'yyyy-mm-dd'
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public static function CheckMinimumAgeToOrder($birthdate) {
+        $ageIsOk       = true;
+        $minimumAge    = self::MinimumAgeToOrder();
+        $birthdayParts = explode('-', $birthdate);
+
+        $age = (date("Y") - $birthdayParts[0]);
+        if (date('md') < date('md', strtotime($birthdate))) {
+            $age = $age - 1;
+        }
+        
+        if ($age < $minimumAge) {
+            $ageIsOk = false;
+        }
+        
+        return $ageIsOk;
     }
 
     /**
@@ -756,13 +922,12 @@ class SilvercartConfig extends DataObject {
      *
      * @return Money
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.03.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public static function FreeOfShippingCostsFrom($shippingCountry = null) {
-        if (is_null(self::$freeOfShippingCostsFrom)) {
-            self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
-        }
+        self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
         if (!($shippingCountry instanceof SilvercartCountry) &&
             Controller::curr()->hasMethod('getCombinedStepData')) {
             $checkoutData       = Controller::curr()->getCombinedStepData();
@@ -1036,6 +1201,66 @@ class SilvercartConfig extends DataObject {
         }
         return self::$defaultContactMessageRecipient;
     }
+    
+    /**
+     * Returns the SkipPaymentStepIfUnique property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public static function SkipPaymentStepIfUnique() {
+        if (is_null(self::$skipPaymentStepIfUnique)) {
+            self::$skipPaymentStepIfUnique = self::getConfig()->SkipPaymentStepIfUnique;
+        }
+        return self::$skipPaymentStepIfUnique;
+    }
+    
+    /**
+     * Returns the SkipShippingStepIfUnique property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public static function SkipShippingStepIfUnique() {
+        if (is_null(self::$skipShippingStepIfUnique)) {
+            self::$skipShippingStepIfUnique = self::getConfig()->SkipShippingStepIfUnique;
+        }
+        return self::$skipShippingStepIfUnique;
+    }
+    
+    /**
+     * Returns the DisplayWeightsInKilogram property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2013
+     */
+    public static function DisplayWeightsInKilogram() {
+        if (is_null(self::$displayWeightsInKilogram)) {
+            self::$displayWeightsInKilogram = self::getConfig()->DisplayWeightsInKilogram;
+        }
+        return self::$displayWeightsInKilogram;
+    }
+    
+    /**
+     * Returns whether to show tax and duty hint in checkout or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2014
+     */
+    public static function ShowTaxAndDutyHint() {
+        if (is_null(self::$showTaxAndDutyHint)) {
+            self::$showTaxAndDutyHint = self::getConfig()->ShowTaxAndDutyHint;
+        }
+        return self::$showTaxAndDutyHint;
+    }
 
     /**
      * determins weather a customer gets prices shown gross or net dependent on
@@ -1043,36 +1268,37 @@ class SilvercartConfig extends DataObject {
      *
      * @return string returns "gross" or "net"
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2013
      */
     public static function Pricetype() {
-        $member             = Member::currentUser();
-        $configObject       = self::getConfig();
+        if (is_null(self::$priceType)) {
+            $member         = Member::currentUser();
+            $configObject   = self::getConfig();
 
-        $silvercartPluginResult = SilvercartPlugin::call(
-            $configObject,
-            'overwritePricetype',
-            array()
-        );
+            $silvercartPluginResult = SilvercartPlugin::call(
+                $configObject,
+                'overwritePricetype',
+                array()
+            );
 
-        if (!empty($silvercartPluginResult)) {
-            return $silvercartPluginResult;
-        }
-
-        if ($member) {
-            foreach ($member->Groups() as $group) {
-                if (!empty($group->Pricetype) &&
-                    $group->Pricetype != '---') {
-                    self::$priceType = $group->Pricetype;
-                    break;
+            if (!empty($silvercartPluginResult)) {
+                self::$priceType = $silvercartPluginResult;
+            } elseif ($member) {
+                foreach ($member->Groups() as $group) {
+                    if (!empty($group->Pricetype) &&
+                        $group->Pricetype != '---') {
+                        self::$priceType = $group->Pricetype;
+                        break;
+                    }
                 }
-            }
-            if (is_null(self::$priceType)) {
+                if (is_null(self::$priceType)) {
+                    self::$priceType = self::DefaultPriceType();
+                }
+            } else {
                 self::$priceType = self::DefaultPriceType();
             }
-        } else {
-            self::$priceType = self::DefaultPriceType();
         }
         return self::$priceType;
     }

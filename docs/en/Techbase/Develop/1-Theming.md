@@ -21,9 +21,9 @@ At pixeltricks we prefer method two (putting the theme into the project director
 
 Method two will also work better when you don't have a dedicated theme already, since SilverCart will not look good with a plain blackcandy theme.
 
-#### 1) Use the standard Silverstripe theming convention
+#### 1) Use the standard SilverStripe theming convention
 
-When using the standard Silverstripe theming convention the theme is put into the “themes” directory.
+When using the standard SilverStripe theming convention the theme is put into the “themes” directory.
 
 This tutorial assumes that you have configured the theme “blackcandy” in the file “mysite/_config.php”:
 
@@ -120,7 +120,7 @@ Now you can change the HTML code of the template file as you feel inclined. Silv
 
 ### How are CSS files organised?
 
-Silvercart CSS files are splitted into bundles ordered by sections.
+SilverCart CSS files are splitted into bundles ordered by sections.
 
 The standard CSS files are located in directory “silvercart/css/screen/”. The most basic definitions can be found in the files “content.css” for styling and “basemod.css” for layout definitions.
 

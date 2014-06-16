@@ -28,6 +28,20 @@ class SilvercartWidget extends WidgetSetWidget {
     public $useWidgetContainer = true;
     
     /**
+     * Set this to false to use single elements for product slider
+     *
+     * @var bool
+     */
+    public static $use_product_pages_for_slider = true;
+    
+    /**
+     * Set this to false to disable anything slider.
+     *
+     * @var bool
+     */
+    public static $use_anything_slider = true;
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
@@ -202,6 +216,19 @@ class SilvercartWidget extends WidgetSetWidget {
      */
     public function WidgetHolder() {
         return $this->renderWith("SilvercartWidgetHolder");
+    }
+    
+    /**
+     * Returns the related WidgetSet.
+     * 
+     * @return SilvercartWidgetSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.10.2013
+     */
+    public function WidgetSet() {
+        $widgetSet = WidgetSet::get()->filter('WidgetAreaID', $this->ParentID);
+        return $widgetSet;
     }
 }
 

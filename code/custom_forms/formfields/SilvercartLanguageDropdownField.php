@@ -138,9 +138,8 @@ class SilvercartLanguageDropdownField extends DropdownField {
                 $options .= $this->createTag(
                     'option', array(
                         'selected'  => $selected,
-                        'value'     => $value,
-                        'class'     => $rel,
-                        'rel'       => $link
+                        'value'     => $value.'|'.$link,
+                        'class'     => $rel
                     ),
                     Convert::raw2xml($title)
                 );

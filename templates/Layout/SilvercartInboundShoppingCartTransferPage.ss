@@ -1,6 +1,6 @@
 <div id="col4">
     <div id="col4_content" class="clearfix">
-        <h2>$Title</h2>
+        <h1>$Title</h1>
         $Content
         
         <% if ErrorMessages %>

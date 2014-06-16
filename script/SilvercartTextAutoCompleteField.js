@@ -5,10 +5,10 @@ var SilvercartTextAutoCompleteField = [];
 
 SilvercartTextAutoCompleteField.split = function(val, fieldName) {
     return val.split(SilvercartTextAutoCompleteField.EntryDelimiter[fieldName]);
-}
+};
 SilvercartTextAutoCompleteField.extractLast = function(term, fieldName) {
     return this.split(term, fieldName).pop();
-}
+};
 SilvercartTextAutoCompleteField.init = function() {
     jQuery('.silvercarttextautocomplete input').live(
         "focus",
@@ -16,7 +16,7 @@ SilvercartTextAutoCompleteField.init = function() {
             var fieldName     = jQuery(this).attr('name');
             var availableTags = SilvercartTextAutoCompleteField.AutoCompleteList[fieldName];
             jQuery(this).autocomplete({
-                minLength: 0,
+                minLength: 3,
                 source: function(request, response) {
                     // delegate back to autocomplete, but extract the last term
                     response(jQuery.ui.autocomplete.filter(
@@ -37,8 +37,8 @@ SilvercartTextAutoCompleteField.init = function() {
                     this.value = terms.join(SilvercartTextAutoCompleteField.EntryDelimiter[fieldName]);
                     return false;
                 }
-            })
-    })
+            });
+    });
     jQuery('.silvercarttextautocomplete input').live(
         "keydown",
         function(event) {
@@ -47,7 +47,7 @@ SilvercartTextAutoCompleteField.init = function() {
                 event.preventDefault();
             }
     });
-}
+};
 
 jQuery;
 (function($) {

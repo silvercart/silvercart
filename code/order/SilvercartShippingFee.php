@@ -34,6 +34,9 @@ class SilvercartShippingFee extends DataObject {
         'freeOfShippingCostsDisabled'   => 'Boolean',
         'freeOfShippingCostsFrom'       => 'SilvercartMoney',
         'priority'                      => 'Int',
+        'DeliveryTimeMin'               => 'Int',
+        'DeliveryTimeMax'               => 'Int',
+        'DeliveryTimeText'              => 'Varchar(256)',
     );
 
     /**
@@ -62,12 +65,14 @@ class SilvercartShippingFee extends DataObject {
      * @var array
      */
     public static $casting = array(
-        'PriceFormatted'                => 'Varchar(20)',
-        'PriceFormattedPlain'           => 'Varchar(20)',
-        'AttributedShippingMethods'     => 'Varchar(255)',
-        'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
-        'PriceAmount'                   => 'Varchar(255)',
-        'PriceCurrency'                 => 'Varchar(255)',
+        'PriceFormatted'                    => 'Varchar(20)',
+        'PriceFormattedPlain'               => 'Varchar(20)',
+        'AttributedShippingMethods'         => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'         => 'Varchar(255)',
+        'PriceAmount'                       => 'Varchar(255)',
+        'PriceCurrency'                     => 'Varchar(255)',
+        'MaximumWeightNice'                 => 'Varchar(255)',
+        'getMaximumWeightUnitAbreviation'   => 'Varchar(2)',
     );
 
     /**
@@ -152,6 +157,13 @@ class SilvercartShippingFee extends DataObject {
                     'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
                     'SilvercartShippingMethod'      => _t('SilvercartShippingMethod.SINGULARNAME'),
                     'priority'                      => _t('Silvercart.PRIORITY'),
+                    'DeliveryTimeMin'               => _t('SilvercartShippingMethod.DeliveryTimeMin'),
+                    'DeliveryTimeMinDesc'           => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
+                    'DeliveryTimeMax'               => _t('SilvercartShippingMethod.DeliveryTimeMax'),
+                    'DeliveryTimeMaxDesc'           => _t('SilvercartShippingMethod.DeliveryTimeMaxDesc'),
+                    'DeliveryTimeText'              => _t('SilvercartShippingMethod.DeliveryTimeText'),
+                    'DeliveryTimeTextDesc'          => _t('SilvercartShippingMethod.DeliveryTimeTextDesc'),
+                    'DeliveryTimeHint'              => _t('SilvercartShippingFee.DeliveryTimeHint'),
                 )
         );
     }
@@ -231,10 +243,59 @@ class SilvercartShippingFee extends DataObject {
         }
         $fieldGroup->breakAndPush(  $fields->dataFieldByName('freeOfShippingCostsDisabled'));
         $fieldGroup->breakAndPush(  $fields->dataFieldByName('freeOfShippingCostsFrom'));
+
+        $fields->dataFieldByName('DeliveryTimeMin')->setRightTitle($this->fieldLabel('DeliveryTimeMinDesc'));
+        $fields->dataFieldByName('DeliveryTimeMax')->setRightTitle($this->fieldLabel('DeliveryTimeMaxDesc'));
+        $fields->dataFieldByName('DeliveryTimeText')->setRightTitle($this->fieldLabel('DeliveryTimeTextDesc'));
+        
+        $parentDeliveryTime = '';
+        if ($this->SilvercartShippingMethod()->exists()) {
+            $parentDeliveryTime = '<br/>(' . SilvercartShippingMethod::get_delivery_time($this->SilvercartShippingMethod(), true) . ')';
+        }
+        
+        $fieldGroup->pushAndBreak(  new LiteralField('DeliveryTimeHint', '<strong>' . $this->fieldLabel('DeliveryTimeHint') . $parentDeliveryTime . '</strong>'));
+        $fieldGroup->push(          $fields->dataFieldByName('DeliveryTimeMin'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('DeliveryTimeMax'));
+        $fieldGroup->pushAndBreak(  $fields->dataFieldByName('DeliveryTimeText'));
         
         $fields->addFieldToTab('Root.Main', $fieldGroup);
 
         return $fields;
+    }
+
+    /**
+     * Returns the Price for the current detail product formatted by locale.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
+     */
+    public function PriceFormattedForDetailViewProduct() {
+        $country = null;
+        $amount = null;
+        if (Controller::curr()->hasMethod('getDetailViewProduct')) {
+            $product = Controller::curr()->getDetailViewProduct();
+            if ($product instanceof SilvercartProduct) {
+                $amount = $product->getPrice()->getAmount();
+            }
+        }
+        
+        if ($this->SilvercartZone()->SilvercartCountries()->Count() == 1) {
+            $country = $this->SilvercartZone()->SilvercartCountries()->First();
+        }
+        
+        $priceFormatted = '';
+        if ($this->PostPricing) {
+            $priceFormatted = '---';
+        } else {
+            $priceObj = new Money();
+            $priceObj->setAmount($this->getPriceAmount(false, $amount, $country));
+            $priceObj->setCurrency($this->getPriceCurrency());
+
+            $priceFormatted = $priceObj->Nice();
+        }
+        return $priceFormatted;
     }
 
     /**
@@ -290,26 +351,15 @@ class SilvercartShippingFee extends DataObject {
      * 
      * @return int
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.01.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
      */
     public function getTaxRate() {
-        if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCartID > 0) {
-
-            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
-
-            $taxRate = $silvercartShoppingCart->getMostValuableTaxRate(
-                $silvercartShoppingCart->getTaxRatesWithoutFeesAndCharges('SilvercartVoucher')
-            );
-
-            if ($taxRate) {
-                $taxRate = $taxRate->Rate;
-            }
-        } else {
+        $taxRate = SilvercartShoppingCart::get_most_valuable_tax_rate();
+        if ($taxRate === false) {
             $taxRate = $this->SilvercartTax()->getTaxRate();
         }
-
         return $taxRate;
     }
 
@@ -396,8 +446,9 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.07.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2013
      */
     public function getPriceAmount($plain = false, $amountToGetFeeFor = null, $countryToGetFeeFor = null) {
         $price = (float) $this->Price->getAmount();
@@ -411,8 +462,12 @@ class SilvercartShippingFee extends DataObject {
                 Member::currentUser()->SilvercartShoppingCartID > 0) {
                 $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
                 $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
-                $amountToGetFeeFor      = $shoppingCartValue->getAmount();
-                $countryToGetFeeFor     = $this->SilvercartShippingMethod()->getShippingCountry();
+                if (is_null($amountToGetFeeFor)) {
+                    $amountToGetFeeFor  = $shoppingCartValue->getAmount();
+                }
+                if (is_null($countryToGetFeeFor)) {
+                    $countryToGetFeeFor = $this->SilvercartShippingMethod()->getShippingCountry();
+                }
                 if ($this->ShippingIsFree($amountToGetFeeFor, $countryToGetFeeFor)) {
                     $price = 0.0;
                 }
@@ -497,6 +552,37 @@ class SilvercartShippingFee extends DataObject {
      */
     public function getPriceCurrency() {
         return $this->Price->getCurrency();
+    }
+    
+    /**
+     * Returns the maximum weight with unit abreviation in context of
+     * SilvercartConfig::DisplayWeightsInKilogram().
+     * 
+     * @return string
+     */
+    public function getMaximumWeightNice() {
+        $maximumWeightInGram = $this->MaximumWeight;
+        if (SilvercartConfig::DisplayWeightsInKilogram()) {
+            $maximumWeightNice = number_format($maximumWeightInGram / 1000, 2, ',', '.');
+        } else {
+            $maximumWeightNice = $maximumWeightInGram;
+        }
+        $maximumWeightNice .= ' ' . $this->MaximumWeightUnitAbreviation;
+        return $maximumWeightNice;
+    }
+    
+    /**
+     * Returns the maximum weights unit abreviation in context of
+     * SilvercartConfig::DisplayWeightsInKilogram().
+     * 
+     * @return string
+     */
+    public function getMaximumWeightUnitAbreviation() {
+        $maximumWeightUnitAbreviation = 'g';
+        if (SilvercartConfig::DisplayWeightsInKilogram()) {
+            $maximumWeightUnitAbreviation = 'kg';
+        }
+        return $maximumWeightUnitAbreviation;
     }
 }
 

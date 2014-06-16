@@ -47,9 +47,50 @@
 /* step 5 - overview */
 #silvercart-checkout-privacy-check fieldset,
 #silvercart-checkout-note fieldset {
-    min-height:                 150px;
+    min-height:                 95px;
 }
 
 #silvercart-checkout-note textarea {
-    height:                     105px;
+    height:                     53px;
+    width:                      94.5%;
+}
+
+.checkout-change-area {
+    position: relative;
+}
+.checkout-change-button {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+.subcl.checkout-change-area .checkout-change-button {
+    margin-right: 1em;
+}
+
+.tax-and-duty-hint {
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: right;
+}
+
+.price.highlighted {
+    color: {$DefaultLinkHoverColor};
+}
+.silvercart-quantity-label,
+table.silvercart-shopping-cart-full td.price {
+    font-size: 16px;
+    color: {$DefaultLinkHoverColor};
+}
+table.silvercart-shopping-cart-full td.price.total {
+    font-weight: bold;
+    text-decoration: underline;
+}
+small.delivery-time-hint {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+.silvercart-highlighted-box.h90 {
+    min-height: 90px;
 }

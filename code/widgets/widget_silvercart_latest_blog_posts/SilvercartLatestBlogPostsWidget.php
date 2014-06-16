@@ -13,8 +13,9 @@
  *
  * @package Silvercart
  * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 18.08.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 22.07.2013
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
@@ -76,17 +77,19 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
+                parent::fieldLabels($includerelations),
+                array(
                     'Content'                                  => _t('Silvercart.CONTENT'),
                     'Translations'                             => _t('SilvercartConfig.TRANSLATIONS'),
                     'NumberOfPosts'                            => _t('SilvercartLatestBlogPostsWidget.STOREADMIN_NUMBEROFPOSTS'),
                     'IsContentView'                            => _t('SilvercartLatestBlogPostsWidget.IS_CONTENT_VIEW'),
-                    'SilvercartLatestBlogPostsWidgetLanguages' => _t('Silvercart.TRANSLATIONS')
+                    'SilvercartLatestBlogPostsWidgetLanguages' => _t('Silvercart.TRANSLATIONS'),
                 )
         );
 
@@ -99,8 +102,9 @@ class SilvercartLatestBlogPostsWidget extends SilvercartWidget {
      *
      * @return FieldList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.07.2013
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
@@ -147,12 +151,14 @@ class SilvercartLatestBlogPostsWidget_Controller extends SilvercartWidget_Contro
      *
      * @return DataList|false returns false if the blog module is not installed. DataList may be empty
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.11.2013
      */
     public function BlogPosts() {
         if (class_exists('BlogEntry')) {
-            $blogEntries = BlogEntry::get()->sort(array('Sort' => 'ASC'))->limit($this->numberOfPostsToShow);
+            $blogEntries = BlogEntry::get()->sort(array('Date' => 'DESC'))->limit($this->numberOfPostsToShow);
 
             return $blogEntries;
         }

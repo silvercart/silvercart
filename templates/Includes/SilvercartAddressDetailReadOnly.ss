@@ -12,11 +12,11 @@
         <% end_if %>
         
         <% if IsPackstation %>
-            <br/><em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em><br />
+            <br/><em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em>
         <% else_if isCompanyAddress %>
-            <br /><em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
+            <br /><em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em>
         <% else %>
-            <br /><em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+            <br />
         <% end_if %>
 
         <% if hasAddressData %>

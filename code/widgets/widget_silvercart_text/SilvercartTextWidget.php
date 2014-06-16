@@ -73,6 +73,22 @@ class SilvercartTextWidget extends SilvercartWidget {
     public function getHeadline() {
         return $this->getLanguageFieldValue('Headline');
     }
+
+    /**
+     * Returns the title of this widget.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2013
+     */
+    public function Title() {
+        $title = $this->fieldLabel('Title');
+        if (!empty($this->Headline)) {
+            $title .= ': ' . $this->Headline;
+        }
+        return $title;
+    }
     
     /**
      * Field labels for display in tables.
@@ -100,6 +116,35 @@ class SilvercartTextWidget extends SilvercartWidget {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Returns the title of this widget for display in the WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2013
+     */
+    public function CMSTitle() {
+        $title = $this->fieldLabel('Title');
+        if (!empty($this->Headline)) {
+            $title = $this->Headline;
+        }
+        return $title;
+    }
+    
+    /**
+     * Returns the description of what this template does for display in the
+     * WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    public function Description() {
+        return $this->fieldLabel('Description');
     }
     
     /**

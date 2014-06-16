@@ -36,6 +36,7 @@ class SilvercartCountry extends DataObject {
         'freeOfShippingCostsFrom'   => 'SilvercartMoney',
         'IsPrioritive'              => 'Boolean(0)',
         'DisplayPosition'           => 'Int',
+        'IsNonTaxable'              => 'Boolean(0)',
     );
     /**
      * Default values
@@ -163,8 +164,9 @@ class SilvercartCountry extends DataObject {
      * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.02.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.07.2013
      */
     public function fieldLabels($includerelations = true) {
         return array_merge(
@@ -189,6 +191,7 @@ class SilvercartCountry extends DataObject {
                 'IsPrioritive'                      => _t('SilvercartCountry.ISPRIORITIVE'),
                 'IsPrioritiveShort'                 => _t('SilvercartCountry.ISPRIORITIVE_SHORT'),
                 'DisplayPosition'                   => _t('SilvercartCountry.DISPLAYPOSITION'),
+                'IsNonTaxable'                  => _t('SilvercartCountry.IsNonTaxable'),
                 'SilvercartCountryLanguages.Title'  => _t('SilvercartCountry.TITLE'),
                 'SilvercartCountryLanguage.Title'  => _t('SilvercartCountry.TITLE'),
             )
@@ -233,12 +236,12 @@ class SilvercartCountry extends DataObject {
                 'title'     => $this->fieldLabel('Currency'),
                 'filter'    => 'PartialMatchFilter',
             ),
-            'SilvercartZones.ID' => array(
-                'title'     => $this->fieldLabel('SilvercartZones'),
-                'filter'    => 'PartialMatchFilter',
-            ),
             'SilvercartPaymentMethods.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartPaymentMethods'),
+                'filter'    => 'PartialMatchFilter',
+            ),
+            'SilvercartZones.ID' => array(
+                'title'     => $this->fieldLabel('SilvercartZones'),
                 'filter'    => 'PartialMatchFilter',
             ),
             'Active' => array(
@@ -247,6 +250,10 @@ class SilvercartCountry extends DataObject {
             ),
             'IsPrioritive' => array(
                 'title'     => $this->fieldLabel('IsPrioritiveShort'),
+                'filter'    => 'ExactMatchFilter',
+            ),
+            'IsNonTaxable' => array(
+                'title'     => $this->fieldLabel('IsNonTaxable'),
                 'filter'    => 'ExactMatchFilter',
             ),
         );
@@ -283,6 +290,7 @@ class SilvercartCountry extends DataObject {
                     'ActivityText'                      => $this->fieldLabel('ActivityText'),
                     'getFreeOfShippingCostsFromNice'    => $this->fieldLabel('freeOfShippingCostsFrom'),
                     'IsPrioritiveText'                  => $this->fieldLabel('IsPrioritiveShort'),
+                    'IsNonTaxable'                      => $this->fieldLabel('IsNonTaxable'),
                 )
         );
         

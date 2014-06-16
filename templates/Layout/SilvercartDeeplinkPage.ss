@@ -1,7 +1,7 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
         <div class="typography">
-            <h2><% _t('SilvercartSearchResultsPage.TITLE') %></h2>
+            <h1><% _t('SilvercartSearchResultsPage.TITLE') %></h1>
 
             <% if getProducts %>
                 <% include SilvercartProductPagination %>

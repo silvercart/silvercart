@@ -218,12 +218,12 @@ function SilvercartToggleQuickLoginBox() {
  * @return void
  *
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 10.10.2012
+ * @since 24.01.2014
  */
 function initAddressForm(form) {
     var hideAddressData = '.absolute-address-data';
-    if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
-        $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+    if ($('#' + form.formName + ' .optionset input[name="IsPackstation"]:checked').val() == 0 ||
+        $('#' + form.formName + ' .optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
         hideAddressData = '.packstation-address-data';
         with(form) {
             deactivateValidationFor('PostNumber');
@@ -239,38 +239,44 @@ function initAddressForm(form) {
             deactivateValidationFor('Shipping_StreetNumber');
         }
     }
-    $(hideAddressData).hide();
-    $('.optionset input[name="IsPackstation"], .optionset input[name="Shipping_IsPackstation"]').live('change', function() {
-        var slideIn     = '.packstation-address-data';
-        var slideOut    = '.absolute-address-data';
-        if ($('.optionset input[name="IsPackstation"]:checked').val() == 0 ||
-            $('.optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
-            slideIn     = '.absolute-address-data';
-            slideOut    = '.packstation-address-data';
+    var packstationSelector = '#' + form.formName + ' .optionset input[name="IsPackstation"], .optionset input[name="Shipping_IsPackstation"]',
+        initPackstation     = function() {
+            var slideIn     = '.packstation-address-data';
+            var slideOut    = '.absolute-address-data';
+            if ($('#' + form.formName + ' .optionset input[name="IsPackstation"]:checked').val() == 0 ||
+                $('#' + form.formName + ' .optionset input[name="Shipping_IsPackstation"]:checked').val() == 0) {
+                slideIn     = '.absolute-address-data';
+                slideOut    = '.packstation-address-data';
 
-            with(form) {
-                deactivateValidationFor('PostNumber');
-                deactivateValidationFor('Packstation');
-                deactivateValidationFor('Shipping_PostNumber');
-                deactivateValidationFor('Shipping_Packstation');
-                activateValidationFor('Street');
-                activateValidationFor('StreetNumber');
-                activateValidationFor('Shipping_Street');
-                activateValidationFor('Shipping_StreetNumber');
+                with(form) {
+                    deactivateValidationFor('PostNumber');
+                    deactivateValidationFor('Packstation');
+                    deactivateValidationFor('Shipping_PostNumber');
+                    deactivateValidationFor('Shipping_Packstation');
+                    activateValidationFor('Street');
+                    activateValidationFor('StreetNumber');
+                    activateValidationFor('Shipping_Street');
+                    activateValidationFor('Shipping_StreetNumber');
+                }
+            } else {
+                with(form) {
+                    deactivateValidationFor('Street');
+                    deactivateValidationFor('StreetNumber');
+                    deactivateValidationFor('Shipping_Street');
+                    deactivateValidationFor('Shipping_StreetNumber');
+                    activateValidationFor('PostNumber');
+                    activateValidationFor('Packstation');
+                    activateValidationFor('Shipping_PostNumber');
+                    activateValidationFor('Shipping_Packstation');
+                }
             }
-        } else {
-            with(form) {
-                deactivateValidationFor('Street');
-                deactivateValidationFor('StreetNumber');
-                deactivateValidationFor('Shipping_Street');
-                deactivateValidationFor('Shipping_StreetNumber');
-                activateValidationFor('PostNumber');
-                activateValidationFor('Packstation');
-                activateValidationFor('Shipping_PostNumber');
-                activateValidationFor('Shipping_Packstation');
-            }
-        }
-        $(slideOut).slideUp('slow');
-        $(slideIn).slideDown('slow');
-    });
+            $('#' + form.formName + ' ' + slideOut).slideUp('slow');
+            $('#' + form.formName + ' ' + slideIn).slideDown('slow');
+        };
+    $('#' + form.formName + ' ' + hideAddressData).hide();
+    if (typeof $(packstationSelector).live == 'function') {
+        $(packstationSelector).live('change', initPackstation);
+    } else if (typeof $(packstationSelector).on == 'function') {
+        $(packstationSelector).on('change', initPackstation);
+    }
 }

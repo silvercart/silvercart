@@ -46,3 +46,7 @@
    * [Supported request classes](9-Restful-API#supported-request-classes)
    * [Request structure and examples](9-Restful-API#request-structure-and-examples)
    * [Response structure and examples](9-Restful-API#response-structure-and-examples)
+ * [How to extend SilverCart Tax Handling](10-How-to-extend-SilverCart-Tax-Handling)
+   * [What do I need to extend the SilverCart Tax Handling?](8-How-to-extend-SilverCart-Tax-Handling#what-do-i-need-to-extend-the-silvercart-tax-handling)
+   * [Example #1: Adding Country Dependant Tax Rates](8-How-to-extend-SilverCart-Tax-Handling#example-1-adding-country-dependant-tax-rates)
+   * [Example #2: Adding Custom API Dependant Tax Rates](8-How-to-extend-SilverCart-Tax-Handling#example-2-adding-custom-api-dependant-tax-rates)

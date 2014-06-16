@@ -13,23 +13,13 @@
  * 
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @license see license file in modules root directory
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 29.04.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 23.10.2010
+ * @license see license file in modules root directory
  */
 class SilvercartMyAccountHolder extends Page {
-    
-    /**
-     * list of allowed children page types
-     *
-     * @var array
-     */
-    public static $allowed_children = array(
-        "SilvercartDataPage",
-        "SilvercartOrderHolder",
-        "SilvercartAddressHolder"
-    );
     
     /**
      * Icon to display in CMS site tree
@@ -133,7 +123,8 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
      */
     public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
         $elements = array(
-            'SubElements' => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
+            'SubElementsTitle'  => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
+            'SubElements'       => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
         );
         $output = $this->customise($elements)->renderWith(
             array(

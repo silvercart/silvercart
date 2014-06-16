@@ -30,6 +30,34 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         'levelsToShow'                  => 'Int',
         'expandActiveSectionOnly'       => 'Boolean(0)'
     );
+
+    /**
+     * Has-many relationships.
+     *
+     * @var array
+     */
+    public static $has_many = array(
+        'SilvercartProductGroupNavigationWidgetLanguages' => 'SilvercartProductGroupNavigationWidgetLanguage'
+    );
+
+    /**
+     * Casted attributes.
+     * 
+     * @var array
+     */
+    public static $casting = array(
+        'FrontTitle' => 'Text',
+    );
+
+    /**
+     * retirieves the attribute FreeText from related language class depending
+     * on the set locale
+     *
+     * @return string
+     */
+    public function getFrontTitle() {
+        return $this->getLanguageFieldValue('FrontTitle');
+    }
     
     /**
      * Field labels for display in tables.
@@ -38,18 +66,23 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
+                parent::fieldLabels($includerelations),
+                array(
+                    'FrontTitle'                => _t('SilvercartWidget.FRONTTITLE'),
                     'FieldLabel'                   => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
                     'levelsToShow'                 => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
                     'ShowAllLevels'                => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
+                    'Title'                     => _t('SilvercartProductGroupNavigationWidget.TITLE'),
+                    'CMSTitle'                  => _t('SilvercartProductGroupNavigationWidget.CMSTITLE'),
+                    'Description'               => _t('SilvercartProductGroupNavigationWidget.DESCRIPTION'),
                     'expandActiveSectionOnly'      => _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
-                    'SilvercartProductGroupPageID' => _t('SilvercartProductGroupPage.SINGULARNAME')
-
+                    'SilvercartProductGroupPageID' => _t('SilvercartProductGroupPage.SINGULARNAME'),
                 )
         );
 
@@ -80,9 +113,6 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * Returns the input fields for this widget.
      * 
      * @return FieldList
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this);
@@ -111,6 +141,59 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         $fields->insertBefore($productGroupField, 'ExtraCssClasses');
         return $fields;
     }
+    
+    /**
+     * Returns the title of this widget.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2013
+     */
+    public function Title() {
+        $title = $this->fieldLabel('Title');
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
+    }
+    
+    /**
+     * Returns the title of this widget for display in the WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    public function CMSTitle() {
+        return $this->fieldLabel('CMSTitle');
+    }
+    
+    /**
+     * Returns the description of what this template does for display in the
+     * WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    public function Description() {
+        return $this->fieldLabel('Description');
+    }
+    
+    /**
+     * Returns the extra css classes.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2013
+     */
+    public function ExtraCssClasses() {
+        return 'silvercart-product-group-navigation-widget';
+    }
 }
 
 /**
@@ -118,8 +201,9 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
  *
  * @package Silvercart
  * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 26.05.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 20.03.2013
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
@@ -179,69 +263,64 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
      *
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.05.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2013
      */
     public function renderProductGroupNavigation($rootPage, $currentPage, $level = 0) {
         $renderStr      = '';
         $isActivePage   = false;
         $level++;
 
-        if (($this->levelsToShow != 0 &&
-             $level > $this->levelsToShow
-            )) {
+        if ($this->levelsToShow == 0 ||
+            $level <= $this->levelsToShow) {
             
-           return $renderStr; 
-        }
+            if (!($this->expandActiveSectionOnly &&
+                 (($this->levelsToShow != 0 &&
+                   $level > $this->levelsToShow) ||
+                  $level > 1) &&
+                 SilvercartTools::findPageIdInHierarchy($rootPage->getParent()->ID) === false)) {
+                
+                $childPages = $rootPage->Children();
+                $childPageStr = '';
 
-        if (
-            (
-                (
-                    $this->levelsToShow != 0 &&
-                    $level > $this->levelsToShow
-                ) ||
-                $level > 1
-            ) &&
-            SilvercartTools::findPageIdInHierarchy($rootPage->getParent()->ID) === false
-        ) {
+                if ($childPages &&
+                    $childPages->Count() > 0) {
 
-            return $renderStr;
-        }
-        
-        $childPages = $rootPage->Children();
-        $childPageStr = '';
-        
-        if ($childPages &&
-            $childPages->count() > 0) {
-            
-            foreach ($childPages as $childPage) {
-                $childPageStr .= $this->renderProductGroupNavigation($childPage, $currentPage, $level);
+                    foreach ($childPages as $childPage) {
+                        $childPageStr .= $this->renderProductGroupNavigation($childPage, $currentPage, $level);
+                    }
+                }
+
+                if (Controller::curr()->ID === $rootPage->ID) {
+                    $isActivePage = true;
+                }
+
+                if (SilvercartTools::findPageIdInHierarchy($rootPage->ID) ||
+                    $rootPage->ID === $currentPage->ID) {
+
+                    $isActiveSection = true;
+                } else {
+                    $isActiveSection = false;
+                }
+
+                $data = array(
+                    'MenuTitle'         => $rootPage->getMenuTitle(),
+                    'Title'             => $rootPage->getTitle(),
+                    'Link'              => $rootPage->Link(),
+                    'LinkOrSection'     => $rootPage->LinkOrSection(),
+                    'ChildPages'        => $childPageStr,
+                    'IsActivePage'      => $isActivePage,
+                    'IsActiveSection'   => $isActiveSection,
+                    'Level'             => $level,
+                );
+
+                $parser     = new SSViewer('SilvercartProductGroupNavigationWidgetEntry');
+                $renderStr .= $parser->process(new DataObject($data));
+                
             }
+            
         }
-        
-        if (Controller::curr()->ID === $rootPage->ID) {
-            $isActivePage = true;
-        }
-
-        if (SilvercartTools::findPageIdInHierarchy($rootPage->ID) ||
-            $rootPage->ID === $currentPage->ID) {
-
-            $isActiveSection = true;
-        } else {
-            $isActiveSection = false;
-        }
-         
-        $data = array(
-            'MenuTitle'         => $rootPage->getMenuTitle(),
-            'Title'             => $rootPage->getTitle(),
-            'Link'              => $rootPage->Link(),
-            'ChildPages'        => $childPageStr,
-            'IsActivePage'      => $isActivePage,
-            'IsActiveSection'   => $isActiveSection
-        );
-        
-        $parser     = new SSViewer('SilvercartProductGroupNavigationWidgetEntry');
-        $renderStr .= $parser->process(new DataObject($data));
         
         return $renderStr;
     }

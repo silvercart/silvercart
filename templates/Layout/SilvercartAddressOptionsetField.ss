@@ -45,7 +45,7 @@
                                                     <% if Company %>$address.fieldLabel(Company): $Company<br /><% end_if %>
                                                 </div>
                                             <% else %>
-                                                <em><% _t('SilvercartCustomer.REGULARCUSTOMER') %></em><br />
+                                                <br />
                                             <% end_if %>
                                             
                                             $SalutationText $FirstName $Surname<br/>

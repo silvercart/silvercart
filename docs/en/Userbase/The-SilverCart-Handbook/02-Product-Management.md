@@ -6,18 +6,16 @@ SilverCart's backoffice has an own area to manage all products added to the stor
 
 ![](_images/productadmin1_3.png)
 
-You might as well add products directly to a product group in the sitetree:
+A product group shows products assigned to this group though it is possible to mirror products from other groups. A product can only be assigned to one specific group. As the product group is part of the URL of a product this is necessary for search engine optimization: A product must have a unique URL otherwise it would be degraded in search engine rank.
 
 ![](_images/productcms1_3.png)
 
-A product group shows products assigned to this group though it is possible to mirror products from other groups. A product can only be assigned to one specific group. As the product group is part of the URL of a product this is necessary for search engine optimization: A product must have a unique URL otherwise it would be degraded in search engine rank.
 ## Adding a Single Product
 - - -
 
 We hope You do not have to add all Your products by hand. With SilverCart this task can be done with a bulk upload of products. For a small amount of products to add you can use the “Silvercart Administration” section of the backoffice. Add a single product by pressing the “create product” button on the left.
 
-![](_images/admincreateproduct_1-2.png)
-
+![](_images/product_1_3_create.png)
 
 * The item number is the number specific to your shop.
 * Manufacturers have their own item number which You may add. In a standard installation this is not shown in the store front.
@@ -64,3 +62,24 @@ And now for the last product attributes:
 * Assign your product a manufacturer. In this dropdown field all the manufacturers will be shown that You added in the backoffice in the “product” area.   
 * You may assign an image to You product. For logical reasons the product must be saved one time before this can be done. An image is a database level relation to a product. As long as You have not saved Your new product it does not exist.   
    
+
+## Assigning a Product Group
+- - -
+
+Like mentioned above, a product can have only one single product group.
+To assign the product group go to the tab "Product groups" inside the target products admin panel.
+There, choose an existing product group out of the "Product group" dropdown list and press the "Save" button in the lower right corner.
+
+![](_images/product_1_3_assign_productgroup.png)
+
+Important: A product without valid product group won't be displayed in frontend by default!
+
+## Assigning a Mirrored Product Group
+- - -
+
+There is a way to add more than on product group to a product.
+This is done by "mirroring" the product inside one or more existing product groups.
+To assign the product group go to the tab "Product groups" inside the target products admin panel.
+There, choose one or more existing product groups out of the "Mirror-Productgroups" multi dropdown list and press the "Save" button in the lower right corner.
+
+![](_images/product_1_3_assign_mirrorgroup.png)

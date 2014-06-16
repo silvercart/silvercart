@@ -13,8 +13,9 @@
  *
  * @package Silvercart
  * @subpackage Order
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 01.08.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 16.07.2013
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
@@ -37,7 +38,9 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
         'combinedStringQuantitySeparator'   => 'VarChar(20',
         'keyValueProductIdentifier'         => 'VarChar(50)',
         'keyValueQuantityIdentifier'        => 'VarChar(50)',
-        'productMatchingField'              => 'VarChar(255)'
+        'productMatchingField'              => 'VarChar(255)',
+        'productMatchingFieldPrefix'        => 'Varchar(32)',
+        'productMatchingFieldSuffix'        => 'Varchar(32)',
     );
     
     /**
@@ -95,8 +98,9 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
      * 
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.07.2013
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -113,7 +117,9 @@ class SilvercartInboundShoppingCartTransfer extends DataObject {
                 'combinedStringQuantitySeparator'   => _t('SilvercartInboundShoppingCartTransfer.COMBINED_STRING_QUANTITY_SEPARATOR'),
                 'keyValueProductIdentifier'         => _t('SilvercartInboundShoppingCartTransfer.KEY_VALUE_PRODUCT_IDENTIFIER'),
                 'keyValueQuantityIdentifier'        => _t('SilvercartInboundShoppingCartTransfer.KEY_VALUE_QUANTITY_IDENTIFIER'),
-                'productMatchingField'              => _t('SilvercartInboundShoppingCartTransfer.PRODUCT_MATCHING_FIELD')
+                'productMatchingField'              => _t('SilvercartInboundShoppingCartTransfer.PRODUCT_MATCHING_FIELD'),
+                'productMatchingFieldPrefix'        => _t('SilvercartInboundShoppingCartTransfer.productMatchingFieldPrefix'),
+                'productMatchingFieldSuffix'        => _t('SilvercartInboundShoppingCartTransfer.productMatchingFieldSuffix'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);

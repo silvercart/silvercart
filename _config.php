@@ -23,6 +23,12 @@ SiteTree::set_create_default_pages(false);
 // Add some URL rules for custom controllers
 // ----------------------------------------------------------------------------
 
+// ----------------------------------------------------------------------------
+// Set spam check for forms
+// ----------------------------------------------------------------------------
+CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
+CustomHtmlForm::useSpamCheckFor('SilvercartRevocationForm');
+
 if (!class_exists('RequirementsEngine')) {
     trigger_error('Missing dependency: module RequirementsEngine is missing!', E_USER_ERROR);
 }
@@ -90,6 +96,8 @@ RequirementsEngine::registerJsFile("silvercart/script/jquery.easing.1.3.js");
 RequirementsEngine::registerJsFile("silvercart/script/SilvercartProductGroupSliderWidget.js");
 RequirementsEngine::registerJsFile("silvercart/script/reflection.js");
 RequirementsEngine::registerJsFile("silvercart/script/slidorion/js/jquery.slidorion.js");
+RequirementsEngine::registerJsFile("silvercart/script/pDialog.js");
+RequirementsEngine::registerJsFile("silvercart/script/SilvercartWidget.js");
 // Require i18n javascript
 Requirements::add_i18n_javascript('silvercart/javascript/lang');
 
@@ -143,9 +151,11 @@ SilvercartPageListWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 SilvercartProductGroupChildProductsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 SilvercartProductGroupItemsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 SilvercartProductGroupManufacturersWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartProductGroupNavigationWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 SilvercartSlidorionProductGroupWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 SilvercartSubNavigationWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 SilvercartTextWidgetLanguage::add_extension('SilvercartLanguageDecorator');
+SilvercartTextWithLinkWidgetLanguage::add_extension('SilvercartLanguageDecorator');
 // Translatable DataObjects
 SilvercartAvailabilityStatus::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartCarrier::add_extension('SilvercartDataObjectMultilingualDecorator');
@@ -170,9 +180,11 @@ SilvercartPageListWidget::add_extension('SilvercartDataObjectMultilingualDecorat
 SilvercartProductGroupChildProductsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartProductGroupItemsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartProductGroupManufacturersWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartProductGroupNavigationWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartSlidorionProductGroupWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartSubNavigationWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartTextWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
+SilvercartTextWithLinkWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
     "SilvercartProduct",
@@ -229,6 +241,63 @@ SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'Silv
 SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeAvailabilityStatus');
 SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeManufacturer');
 SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeProductGroup');
+
+// ----------------------------------------------------------------------------
+// Blacklists for SilvercartRestfulServer
+// ----------------------------------------------------------------------------
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'Group',
+    array(
+         'Locked',
+         'Sort',
+         'IPRestrictions',
+         'HtmlEditorConfig',
+    )
+);
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'Member',
+    array(
+        'NewsletterConfirmationHash',
+        'HasAcceptedTermsAndConditions',
+        'HasAcceptedRevocationInstruction',
+        'Password',
+        'RememberLoginToken',
+        'NumVisit',
+        'LastVisited',
+        'Bounced',
+        'AutoLoginHash',
+        'AutoLoginExpired',
+        'PasswordEncryption',
+        'Salt',
+        'PasswordExpiry',
+        'LockedOutUntil',
+        'Locale',
+        'FailedLoginCount',
+        'DateFormat',
+        'TimeFormat',
+    )
+);
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'SilvercartOrder',
+    array(
+        'HasAcceptedTermsAndConditions',
+        'HasAcceptedRevocationInstruction',
+        'IsSeen',
+        'Version',
+));
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'SilvercartOrderPosition',
+    array(
+        'numberOfDecimalPlaces',
+    )
+);
+SilvercartRestfulServer::addApiAccessBlackListFields(
+    'SilvercartShippingMethod',
+    array(
+         'isActive',
+         'priority',
+    )
+);
 
 // ----------------------------------------------------------------------------
 // Register i18n plugins
@@ -363,6 +432,7 @@ if (Director::isDev()) {
 }
 
 foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
+    SilvercartCleanCacheTask::register_cache_directory($cacheDirectory);
     if (!is_dir($cacheDirectory)) {
         mkdir($cacheDirectory);
     }
@@ -372,7 +442,7 @@ foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
         'File',
         array(
             'cache_dir'              => $cacheDirectory,
-            'hashed_directory_level' => 2,
+            'hashed_directory_level' => 1,
         )
     );
     SS_Cache::set_cache_lifetime($cacheName, $cachelifetime);

@@ -170,7 +170,7 @@ class SilvercartPageListWidget extends SilvercartWidget {
 class SilvercartPageListWidget_Controller extends SilvercartWidget_Controller {
 
     /**
-     * Returns the attributed pages as DataObjectSet
+     * Returns the attributed pages as DataList
      *
      * @return ArrayList
      *

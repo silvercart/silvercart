@@ -17,31 +17,31 @@
 
                     <div>
                     <% loop Products.SilvercartPaginationSummary %>
-                            <% if CurrentBool %> 
-                                <div class="silvercart-pagination-marker">
-                                    <div class="silvercart-pagination-marker_content">
-                                        <strong>
+                        <% if CurrentBool %> 
+                            <div class="silvercart-pagination-marker">
+                                <div class="silvercart-pagination-marker_content">
+                                    <strong>
+                                        <span>$PageNum</span>
+                                    </strong>
+                                </div>
+                            </div>
+                        <% else %>
+                            <% if Link %>
+                                <div class="silvercart-pagination-link">
+                                    <div class="silvercart-pagination-link_content">
+                                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO_PAGE', 'go to page %s'),$PageNum) %>">
                                             <span>$PageNum</span>
-                                        </strong>
+                                        </a>
                                     </div>
                                 </div>
                             <% else %>
-                                    <% if Link %>
-                                        <div class="silvercart-pagination-link">
-                                            <div class="silvercart-pagination-link_content">
-                                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO_PAGE', 'go to page %s'),$PageNum) %>">
-                                                    <span>$PageNum</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    <% else %>
-                                        <div class="silvercart-pagination-summary">
-                                            <div class="silvercart-pagination-summary_content">
-                                                <span>&hellip;</span>
-                                            </div>
-                                        </div>
-                                    <% end_if %>
+                                <div class="silvercart-pagination-summary">
+                                    <div class="silvercart-pagination-summary_content">
+                                        <span>&hellip;</span>
+                                    </div>
+                                </div>
                             <% end_if %>
+                        <% end_if %>
                     <% end_loop %>
                     </div>
 

@@ -41,7 +41,7 @@
                         <div class="subcr">
                             <div class="silvercart-product-page-box-price">
                                 <p>
-                                    <strong class="silvercart-price">$Price.Nice</strong>
+                                    <strong class="silvercart-price">$PriceNice</strong>
                                 </p>
                                 <p class="silvercart-price-notes">
                                     <small>

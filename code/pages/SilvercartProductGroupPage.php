@@ -228,6 +228,7 @@ class SilvercartProductGroupPage extends Page {
                 Controller::curr()->data() === $this) {
                 $returnProductLink  = true;
                 $URLSegment         = Controller::curr()->urlParams['ID'];
+                $product            = Controller::curr()->getDetailViewProduct();
             } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
                       Controller::curr()->isProductDetailView()) {
                 $translations   = $this->getTranslations();
@@ -245,7 +246,7 @@ class SilvercartProductGroupPage extends Page {
             }
 
             if ($returnProductLink) {
-                $this->links[$linkKey] = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $URLSegment;
+                $this->links[$linkKey] = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $product->ID . '/' . $URLSegment;
             } else {
                 $this->links[$linkKey] = parent::Link($action);
             }
@@ -278,7 +279,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.05.2012
+     * @since 28.05.2014
      */
     public function BackLink() {
         if (Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL')) {
@@ -289,7 +290,7 @@ class SilvercartProductGroupPage extends Page {
             $url = $this->OriginalLink();
         }
         if (!$this->isInternalUrl($url) ||
-            $url == $this->Link()) {
+            Director::makeRelative($url) == Director::makeRelative($this->Link())) {
             $url = $this->OriginalLink();
         }
         return $url;
@@ -624,7 +625,8 @@ class SilvercartProductGroupPage extends Page {
         $defaultGroupHolderView = $context->DefaultGroupHolderView;
         if (empty($defaultGroupHolderView) ||
             SilvercartGroupViewHandler::getGroupHolderView($defaultGroupHolderView) === false) {
-            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
                 $defaultGroupHolderView = $this->getDefaultGroupHolderViewInherited($context->Parent());
             } else {
                 $defaultGroupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
@@ -646,7 +648,8 @@ class SilvercartProductGroupPage extends Page {
         }
         $useOnlyDefaultGroupHolderView = $context->UseOnlyDefaultGroupHolderView;
         if ($useOnlyDefaultGroupHolderView == 'inherit') {
-            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
                 $useOnlyDefaultGroupHolderView = $this->getUseOnlyDefaultGroupHolderViewInherited($context->Parent());
             } else {
                 $useOnlyDefaultGroupHolderView = false;
@@ -980,7 +983,7 @@ class SilvercartProductGroupPage extends Page {
                     $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
                             array_merge(
                                 array(
-                                    utf8_decode($this->Title)
+                                    $this->Title
                                 ),
                                 $products->map()->toArray()
                             )
@@ -991,7 +994,59 @@ class SilvercartProductGroupPage extends Page {
         }
         return $metaDescription;
     }
-
+    
+    /**
+     * Returns the productsPerPage setting.
+     * 
+     * @return string
+     */
+    public function getproductsPerPage() {
+        $productsPerPage = $this->getField('productsPerPage');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateProductsPerPage', $productsPerPage);
+        }
+        return $productsPerPage;
+    }
+    
+    /**
+     * Returns the productGroupsPerPage setting.
+     * 
+     * @return string
+     */
+    public function getproductGroupsPerPage() {
+        $productGroupsPerPage = $this->getField('productGroupsPerPage');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateProductGroupsPerPage', $productGroupsPerPage);
+        }
+        return $productGroupsPerPage;
+    }
+    
+    /**
+     * Returns the useContentFromParent setting.
+     * 
+     * @return string
+     */
+    public function getuseContentFromParent() {
+        $useContentFromParent = $this->getField('useContentFromParent');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateUseContentFromParent', $useContentFromParent);
+        }
+        return $useContentFromParent;
+    }
+    
+    /**
+     * Returns the DoNotShowProducts setting.
+     * 
+     * @return string
+     */
+    public function getDoNotShowProducts() {
+        $doNotShowProducts = $this->getField('DoNotShowProducts');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateDoNotShowProducts', $doNotShowProducts);
+        }
+        return $doNotShowProducts;
+    }
+    
     /**
      * Set LastEdited field to now for the SilvercartProductGroupHolder.
      *
@@ -1042,6 +1097,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      */
     public function getProductsOnPagesString() {
+        $productsOnPagesString = '';
         $products = $this->getProducts();
         if ($products->exists()) {
             $singularOrPlural = 'PRODUCT_ON_PAGE';
@@ -1050,11 +1106,13 @@ class SilvercartProductGroupPage extends Page {
         } else {
             $singularOrPlural = 'PRODUCTS_ON_PAGES';
         }
-        $productsOnPagesString = sprintf(
-                _t('SilvercartProductGroupPage.' . $singularOrPlural),
-                $products->count(),
-                $products->TotalPages()
-        );
+        if ($products->count() > 0) {
+            $productsOnPagesString = sprintf(
+                    _t('SilvercartProductGroupPage.' . $singularOrPlural),
+                    $products->count(),
+                    $products->TotalPages()
+            );
+        }
         return $productsOnPagesString;
     }
     
@@ -1067,8 +1125,9 @@ class SilvercartProductGroupPage extends Page {
  *
  * @package Silvercart
  * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @since 18.10.2010
+ * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 30.08.2013
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
@@ -1246,8 +1305,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param bool $skip When set to true, the init routine will be skipped
      * 
      * @return void
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2013
      */
     public function init($skip = false) {
         parent::init();
@@ -1294,10 +1354,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 // Register selector forms, e.g. the "products per page" selector
                 $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
                 $selectorForm->setSecurityTokenDisabled();
+                $selectorFormBottom = new SilvercartProductGroupPageSelectorsForm($this);
+                $selectorFormBottom->setSecurityTokenDisabled();
 
                 $this->registerCustomHtmlForm(
                     'SilvercartProductGroupPageSelectors',
                     $selectorForm
+                );
+                $this->registerCustomHtmlForm(
+                    'SilvercartProductGroupPageSelectorsBottom',
+                    $selectorFormBottom
                 );
             }
         }
@@ -1457,6 +1523,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     }
 
     /**
+     * returns the original page link. This is needed by the breadcrumbs. When
+     * a product detail view is requested, the default method self::Link() will
+     * return a modified link to the products detail view. This controller handles
+     * both (product group views and product detail views), so a product detail
+     * view won't have a related parent to show in breadcrumbs. The controller
+     * itself will be the parent, so there must be two different links for one
+     * controller.
+     *
+     * @return string
+     *
+     * @see self::Link()
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.02.2011
+     */
+    public function OriginalLink() {
+        return $this->data()->OriginalLink();
+    }
+
+    /**
      * manipulates the parts the pages breadcrumbs if a product detail view is 
      * requested.
      *
@@ -1528,6 +1613,25 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
     /**
      * manipulates the defaul logic of building the pages breadcrumbs if a
+     * product detail view is requested and returns the breadcrumbs without 
+     * product title.
+     *
+     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
+     * @param string $stopAtPageType   name of pagetype to stop at
+     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
+     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2013
+     */
+    public function BreadcrumbsWithoutLink($maxDepth = 20, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
+        return $this->Breadcrumbs($maxDepth, true, $stopAtPageType, $showHidden, $showProductTitle);
+    }
+
+    /**
+     * manipulates the defaul logic of building the pages breadcrumbs if a
      * product detail view is requested.
      *
      * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
@@ -1549,7 +1653,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 if (empty($part->Link)) {
                     $partsArray[] = Convert::raw2xml($part->Title);
                 } else {
-                    $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
+                    if ($unlinked) {
+                        $partsArray[] = Convert::raw2xml($part->Title);
+                    } else {
+                        $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
+                    }
                 }
             }
             
@@ -1629,15 +1737,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * 
      * @return DataList|false all products of this group
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.06.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2014
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
         $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit . Translatable::get_current_locale());
         if ($this->data()->DoNotShowProducts &&
             !$force) {
             $this->groupProducts[$hashKey] = new ArrayList();
-        } elseif (!array_key_exists($hashKey, $this->groupProducts)) {
+        } elseif (!array_key_exists($hashKey, $this->groupProducts) || $force) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
             $pluginProducts  = SilvercartPlugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new ArrayList());
@@ -1723,6 +1832,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                     $filter .= ' ' . $listFilter;
                 }
+                $this->extend('updateGetProductsFilter', $filter);
                
                 if (!$sort) {
                     $sort = SilvercartProduct::defaultSort();
@@ -1756,10 +1866,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.11.2012
+     * @since 30.08.2013
      */
     public function CacheKeyParts() {
         if (is_null($this->cacheKeyParts)) {
+            $product                = singleton('SilvercartProduct');
             $products               = $this->getProducts();
             $productMapIDs          = '';
             $productMapLastEdited   = '';
@@ -1789,6 +1900,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $this->getSqlOffset(),
                 SilvercartProduct::defaultSort(),
                 SilvercartGroupViewHandler::getActiveGroupView(),
+                $product->getDefaultSort(),
             );
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;
@@ -1850,14 +1962,16 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     /**
      * All products of this group
      * 
-     * @param int $numberOfProducts The number of products to return
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $addFilter        Optional filter to add
      * 
      * @return DataList all products of this group or FALSE
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.10.2010
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2013
      */
-    public function getRandomProducts($numberOfProducts) {
+    public function getRandomProducts($numberOfProducts, $addFilter = null) {
         $listFilters = array();
         $filter      = '';
 
@@ -1905,6 +2019,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
 
         foreach ($listFilters as $listFilterIdentifier => $listFilter) {
             $filter .= ' ' . $listFilter;
+        }
+        
+        if (!is_null($addFilter)) {
+            $filter .= ' AND ' . $addFilter;
         }
 
         $sort = 'RAND()';
@@ -2255,7 +2373,23 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function detail(SS_HTTPRequest $request) {
         $params     = $request->allParams();
         $productID  = $params['ID'];
-        $product = DataObject::get_by_id('SilvercartProduct', $productID);
+        $product    = SilvercartProduct::get()->byID($productID);
+        
+        $productLink = $product->Link();
+        $calledLink  = $request->getURL();
+
+        if (strpos($calledLink, '/') != strpos($productLink, '/')) {
+            if (strpos($productLink, '/') == 0) {
+                $calledLink = '/' . $calledLink;
+            } elseif (strpos($calledLink, '/') == 0) {
+                $productLink = '/' . $productLink;
+            }
+        }
+
+        if ($calledLink != $productLink) {
+            SilvercartTools::redirectPermanentlyTo($productLink);
+        }
+        
         $this->setProduct($product);
         return $this->render();
     }
@@ -2296,7 +2430,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
     public function handleAction($request, $action) {
         if (is_numeric($this->urlParams['Action'])) {
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
-            $product = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['Action']));
+            $product = SilvercartProduct::get()->byID(Convert::raw2sql($this->urlParams['Action']));
             if ($product instanceof SilvercartProduct) {
                 $this->redirect($product->Link());
                 return;
@@ -2373,7 +2507,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if ($this->isProductDetailView()) {
             $this->ProductDetailRequirements();
             $output = $this->customise(array())->renderWith(array('SilvercartProductPage','Page'));
-
+            
             return $output;
         }
         return false;
@@ -2479,15 +2613,19 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @param boolean $includeTitle should the title tag be parsed?
      *
      * @return string with all meta tags
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.07.2012
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.06.2013
      */
     protected function DetailViewProductMetaTags($includeTitle = false) {
         $canonicalTag = '';
         if ($this->isProductDetailView()) {
             $product = $this->getDetailViewProduct();
-            $this->MetaKeywords     = $product->MetaKeywords;
-            $this->MetaDescription  = $product->MetaDescription;
+            $this->MetaKeywords                 = $product->MetaKeywords;
+            $this->MetaDescription              = $product->MetaDescription;
+            $this->dataRecord->MetaKeywords     = $product->MetaKeywords;
+            $this->dataRecord->MetaDescription  = $product->MetaDescription;
+                    
             if ($product->IsMirroredView()) {
                 $canonicalTag = sprintf(
                         '<link rel="canonical" href="%s"/>' . "\n",
@@ -2509,14 +2647,20 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @since 13.11.10
      */
     protected function DetailViewProductMetaTitle() {
-        $product = $this->getDetailViewProduct();
-        if ($product && $product->MetaTitle) {
-            if ($product->SilvercartManufacturer()->ID > 0) {
-                return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+        $product        = $this->getDetailViewProduct();
+        $extendedOutput = $this->extend('overwriteDetailViewProductMetaTitle', $product);
+
+        if (empty($extendedOutput)) {
+            if ($product && $product->MetaTitle) {
+                if ($product->SilvercartManufacturer()->ID > 0) {
+                    return $product->MetaTitle ."/". $product->SilvercartManufacturer()->Title;
+                }
+                return $product->MetaTitle;
+            } else {
+                return false;
             }
-            return $product->MetaTitle;
         } else {
-            return false;
+            return $extendedOutput[0];
         }
     }
 

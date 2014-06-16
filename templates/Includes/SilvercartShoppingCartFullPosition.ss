@@ -17,27 +17,23 @@
     <td class="right borderlr">
         <% if CurrentPage.EditableShoppingCart %>
         <div class="subcolumns">
-            <div class="c33l">
-                $DecrementPositionQuantityForm                                
-            </div>
-        <div class="c33l">
-        <% end_if %>
+            {$DecrementPositionQuantityForm}
+            <form action="/customhtmlformaction/addToCart" method="post">
+                <input type="hidden" name="productID" value="{$SilvercartProductID}">
+                <div class="addToCartField">
+                    <input type="text" class="text" name="productQuantity" value="{$TypeSafeQuantity}" maxlength="3" size="3" id="productQuantity-{$ID}"> <label for="productQuantity-{$ID}">{$SilvercartProduct.SilvercartQuantityUnit.Abbreviation}</label>
+                </div>
+            </form>
+            <% if isQuantityIncrementableBy %>
+                {$IncrementPositionQuantityForm}
+            <% end_if %>
+        <% else %>
             <span class="silvercart-quantity-label">
                 $getTypeSafeQuantity
             </span>
-        <% if CurrentPage.EditableShoppingCart %>
-            </div>
-            <div class="c33r">
-                <% if isQuantityIncrementableBy %>
-                    $IncrementPositionQuantityForm
-                <% else %>
-                    &nbsp;
-                <% end_if %>
-            </div>
-        </div>
         <% end_if %>
     </td>
-    <td class="right">$Price.Nice</td>
+    <td class="right price">$Price.Nice</td>
 
     <% if CurrentPage.EditableShoppingCart %>
         <td>$RemovePositionForm</td>

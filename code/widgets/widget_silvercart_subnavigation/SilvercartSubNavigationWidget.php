@@ -64,6 +64,15 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
     );
 
     /**
+     * Casted attributes.
+     * 
+     * @var array
+     */
+    public static $casting = array(
+        'FrontTitle' => 'Text',
+    );
+    
+    /**
      * Load the page hierarchy.
      *
      * @param array|null $record      This will be null for a new database record.
@@ -76,6 +85,35 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
         parent::__construct($record, $isSingleton);
 
         $this->pageHierarchy = SilvercartTools::getPageHierarchy(Controller::curr());
+    }
+
+    /**
+     * retirieves the attribute FreeText from related language class depending
+     * on the set locale
+     *
+     * @return string
+     */
+    public function getFrontTitle() {
+        return $this->getLanguageFieldValue('FrontTitle');
+    }
+    
+    /**
+     * getter for multilingual Title
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.06.2014
+     */
+    public function Title() {
+        $title = $this->fieldLabel('CMSTitle');
+        if (!is_null($this->Title)) {
+            $title = $this->Title;
+        }
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
     }
     
     /**
@@ -101,15 +139,6 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
-    }
-    
-    /**
-     * getter for multilingual FrontTitle
-     *
-     * @return string the fronttitle depending on the current locale 
-     */
-    public function getFrontTitle() {
-        return $this->getLanguageFieldValue('FrontTitle');
     }
     
     /**

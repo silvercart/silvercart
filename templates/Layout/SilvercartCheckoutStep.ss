@@ -1,6 +1,6 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <h2>$CurrentFormInstance.StepTitle.HTML</h2>
+        <h1>$CurrentFormInstance.StepTitle.HTML</h1>
         $Content
         $Process
         $insertCustomHtmlForm

@@ -1,6 +1,6 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <h2><% _t('SilvercartConfig.ERROR_TITLE','An error occured!') %></h2>
+        <h1><% _t('SilvercartConfig.ERROR_TITLE','An error occured!') %></h1>
         <p><strong>$ErrorMessage</strong></p>
     </div>
 </div>

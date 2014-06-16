@@ -206,6 +206,27 @@ class SilvercartGroupViewHandler {
      *
      * @return string
      */
+    public static function getDefaultGroupViewInherited() {
+        $controller = @Controller::curr();
+
+        if ($controller) {
+            if ($controller->getUseOnlyDefaultGroupViewInherited()) {
+                $defaultGroupView = $controller->getDefaultGroupViewInherited();
+            } else {
+                $defaultGroupView = self::$defaultGroupView;
+            }
+        } else {
+            $defaultGroupView = self::$defaultGroupView;
+        }
+
+        return $defaultGroupView;
+    }
+
+    /**
+     * returns the class name of the default group view
+     *
+     * @return string
+     */
     public static function getDefaultGroupHolderView() {
         return self::$defaultGroupHolderView;
     }
@@ -298,11 +319,25 @@ class SilvercartGroupViewHandler {
      * @return string
      */
     public static function getActiveGroupView() {
-        if (is_null(Session::get('SilvercartGroupView'))) {
-            if (is_null(self::getDefaultGroupView())) {
-                self::setDefaultGroupView();
+        $controller = @Controller::curr();
+
+        if ($controller) {
+            $isGroupViewAllowed = $controller->isGroupViewAllowed(Session::get('SilvercartGroupView'));
+
+            if (is_null(Session::get('SilvercartGroupView')) ||
+                !$isGroupViewAllowed) {
+
+                if (is_null(self::getDefaultGroupViewInherited())) {
+                    if ($isGroupViewAllowed) {
+                        self::setDefaultGroupView();
+                    } else {
+                        self::setDefaultGroupView($controller->getDefaultGroupViewInherited());
+                    }
+                }
+                self::setGroupView(self::getDefaultGroupView());
             }
-            self::setGroupView(self::getDefaultGroupView());
+        } else {
+            self::setDefaultGroupView();
         }
         return Session::get('SilvercartGroupView');
     }

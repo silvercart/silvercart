@@ -25,15 +25,24 @@ class SilvercartDecrementPositionQuantityForm extends CustomHtmlForm {
      * form settings, mainly submit button´s name
      *
      * @var array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 09.02.2011
-     * @return void
      */
     protected $preferences = array(
         'submitButtonTitle' => '-',
         'doJsValidationScrolling' => false
     );
+    
+    /**
+     * Sets some dynamic preferences
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.03.2013
+     */
+    public function preferences() {
+        $this->preferences['submitButtonToolTip'] = _t('SilvercartPage.DECREMENT_POSITION');
+        return parent::preferences();
+    }
 
     /**
      * executed if there are no valdation errors on submit

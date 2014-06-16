@@ -116,8 +116,10 @@ class SilvercartQuickLoginForm extends CustomHtmlForm {
 
                 $customer->logIn();
                 $customer->write();
-                $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
-                $this->controller->redirect($myAccountHolder->RelativeLink());
+                if ($this->Controller()->redirectedTo() == '') {
+                    $myAccountHolder = SilvercartPage_Controller::PageByIdentifierCode("SilvercartMyAccountHolder");
+                    $this->Controller()->redirect($myAccountHolder->RelativeLink());
+                }
             } else {
                 $this->addMessage(_t('SilvercartPage.CREDENTIALS_WRONG', 'Your credentials are incorrect.'));
 

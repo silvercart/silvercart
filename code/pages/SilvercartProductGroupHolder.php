@@ -186,7 +186,7 @@ class SilvercartProductGroupHolder extends Page {
             } else if ($context->Parent() instanceof SilvercartProductGroupHolder) {
                 $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
             } else {
-                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupViewInherited();
             }
         }
         return $defaultGroupView;
@@ -253,7 +253,8 @@ class SilvercartProductGroupHolder extends Page {
         $defaultGroupHolderView = $context->DefaultGroupHolderView;
         if (empty($defaultGroupHolderView) ||
             SilvercartGroupViewHandler::getGroupHolderView($defaultGroupHolderView) === false) {
-            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
                 $defaultGroupHolderView = $this->getDefaultGroupHolderViewInherited($context->Parent());
             } else {
                 $defaultGroupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
@@ -275,7 +276,8 @@ class SilvercartProductGroupHolder extends Page {
         }
         $useOnlyDefaultGroupHolderView = $context->UseOnlyDefaultGroupHolderView;
         if ($useOnlyDefaultGroupHolderView == 'inherit') {
-            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
                 $useOnlyDefaultGroupHolderView = $this->getUseOnlyDefaultGroupHolderViewInherited($context->Parent());
             } else {
                 $useOnlyDefaultGroupHolderView = false;
@@ -543,4 +545,52 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         
         return $SQL_start;
     }
+
+    /**
+     * Returns the cache key parts for this product group holder
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            
+            $lastEditedChildID = 0;
+            if ($this->dataRecord->Children()->Count() > 0) {
+                $this->dataRecord->Children()->sort('LastEdited', 'DESC');
+                $lastEditedChildID = $this->dataRecord->Children()->First()->ID;
+            }
+            
+            $cacheKeyParts = array(
+                i18n::get_locale(),
+                $this->dataRecord->LastEdited,
+                $this->getSqlOffsetForProductGroups(),
+                SilvercartGroupViewHandler::getActiveGroupHolderView(),
+                $lastEditedChildID,
+            );
+            $this->extend('updateCacheKeyParts', $cacheKeyParts);
+            $this->cacheKeyParts = $cacheKeyParts;
+        }
+        return $this->cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group holder
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.01.2014
+     */
+    public function CacheKey() {
+        if (is_null($this->cacheKey)) {
+            $cacheKey = implode('_', $this->CacheKeyParts());
+            $this->extend('updateCacheKey', $cacheKey);
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
+    }
+    
 }

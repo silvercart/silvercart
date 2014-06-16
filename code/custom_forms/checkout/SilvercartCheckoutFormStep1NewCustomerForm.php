@@ -58,16 +58,16 @@ class SilvercartCheckoutFormStep1NewCustomerForm extends CustomHtmlFormStep {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.04.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.03.2014
      */
     public function  preferences() {
-        parent::preferences();
-
         $this->preferences['submitButtonTitle']         = _t('SilvercartCheckoutFormStep1NewCustomerForm.TITLE');
         $this->preferences['loadShoppingcartModules']   = false;
         $this->preferences['createShoppingcartForms']   = false;
         $this->preferences['doJsValidationScrolling']   = false;
+        parent::preferences();
     }
 
     /**

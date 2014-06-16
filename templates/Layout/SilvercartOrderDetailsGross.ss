@@ -132,40 +132,6 @@
                 </tr>
             <% end_loop %>
 
-            <!-- non-taxable positions -->
-            <% loop SilvercartOrderPositionsWithoutTax %>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>$Title.RAW</td>
-                    <td class="right">$PriceNice</td>
-                    <td class="right"></td>
-                    <td class="right">$getTypeSafeQuantity</td>
-                    <td class="right">$PriceTotalNice</td>
-                </tr>
-                <% if SilvercartVoucherCode %>
-                    <tr class="subrow">
-                        <td colspan="6">
-
-                            <% if MoreThanOneProduct %>
-                                <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERTITLE') %>
-                                <ul>
-                                    <% loop VoucherCodes %>
-                                        <li>"<strong>$code</strong>"</li>
-                                    <% end_loop %>
-                                </ul>
-                                <% _t('SilvercartVoucherOrderDetailPage.PLURALVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                                <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_PLURAL') %></strong>
-                            <% else %>
-                                <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERTITLE') %>
-                                "<strong>$SilvercartVoucherCode</strong>".<br />
-                                <% _t('SilvercartVoucherOrderDetailPage.SINGULARVOUCHERVALUETITLE') %> {$SilvercartVoucherValue.Nice}.<br />
-                                <strong><% _t('SilvercartVoucherOrderDetailPage.WARNING_PAYBEFOREREDEEMING_SINGULAR') %></strong>
-                            <% end_if %>
-                        </td>
-                    </tr>
-                <% end_if %>
-            <% end_loop %>
-
             <!-- charges and discounts for the shopping cart value -->
             <% loop SilvercartOrderChargePositionsTotal %>
                 <tr class="$EvenOrOdd">

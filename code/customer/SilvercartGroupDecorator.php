@@ -38,6 +38,13 @@ class SilvercartGroupDecorator extends DataExtension {
         'SilvercartPaymentMethods'  => 'SilvercartPaymentMethod',
         'SilvercartShippingMethods' => 'SilvercartShippingMethod'
     );
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     */
+    public static $api_access = true;
     
     /**
      * Adds or removes GUI elements for the backend editing mask.

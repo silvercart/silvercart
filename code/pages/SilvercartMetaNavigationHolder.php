@@ -94,13 +94,33 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
         }
         if (!is_null($root)) {
             $elements = array(
-                'SubElements' => $root->Children(),
+                'SubElementsTitle'  => $root->MenuTitle,
+                'SubElements'       => $root->Children(),
             );
             $output = $this->customise($elements)->renderWith(
                 array(
                     'SilvercartSubNavigation',
                 )
             );
+            
+            $sisters = SilvercartMetaNavigationHolder::get();
+            if ($sisters instanceof DataList) {
+                $sisters->remove($sisters->find('ID', $root->ID));
+                foreach ($sisters as $sister) {
+                    if ($sister->Parent() instanceof SilvercartMetaNavigationHolder) {
+                        continue;
+                    }
+                    $elements = array(
+                        'SubElementsTitle'  => $sister->MenuTitle,
+                        'SubElements'       => $sister->Children(),
+                    );
+                    $output .= $this->customise($elements)->renderWith(
+                        array(
+                            'SilvercartSubNavigation',
+                        )
+                    );
+                }
+            }
         }
         return $output;
     }

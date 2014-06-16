@@ -11,11 +11,11 @@
 /**
  * Central handler for form actions.
  *
- * @package SilverCart
+ * @package Silvercart
  * @subpackage Controller
  * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 26.06.2013
  * @copyright 2013 pixeltricks GmbH
- * @since 01.03.2013
  * @license see license file in modules root directory
  */
 class SilvercartActionHandler extends DataExtension {
@@ -27,6 +27,7 @@ class SilvercartActionHandler extends DataExtension {
      */
     public static $allowed_actions = array(
         'addToCart',
+        'doSearch',
     );
     
     /**
@@ -37,7 +38,7 @@ class SilvercartActionHandler extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.03.2013
+     * @since 12.03.2013
      */
     public function addToCart(SS_HTTPRequest $request) {
         $isValidRequest = false;
@@ -58,14 +59,16 @@ class SilvercartActionHandler extends DataExtension {
         } else {
             $isValidRequest = true;
         }
-        
+
         if ($isValidRequest) {
-            SilvercartShoppingCart::addProduct(
-                    array(
-                        'productID'         => $productID,
-                        'productQuantity'   => $quantity,
-                    )
-            );
+            $postVars['productID']       = $productID;
+            $postVars['productQuantity'] = $quantity;
+
+            if ($quantity == 0) {
+                SilvercartShoppingCart::removeProduct($postVars);
+            } else {
+                SilvercartShoppingCart::addProduct($postVars);
+            }
             
             if (SilvercartConfig::getRedirectToCartAfterAddToCartAction()) {
                 $backLink = SilvercartTools::PageByIdentifierCodeLink('SilvercartCartPage');
@@ -81,13 +84,34 @@ class SilvercartActionHandler extends DataExtension {
      * 
      * @return void
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 01.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.03.2013
      */
     protected function redirectBack($backLink = null) {
         $postVars = $this->owner->getRequest()->postVars();
         if (is_null($backLink) &&
             array_key_exists('backLink', $postVars)) {
+            if (array_key_exists('HTTP_REFERER', $_SERVER) &&
+                array_key_exists('backLink', $postVars)) {
+                // add potential HTTP GET params to back link
+                $referer                    = $_SERVER['HTTP_REFERER'];
+                $relativeReferer            = '/' . Director::makeRelative($referer);
+                $backLink                   = $postVars['backLink'];
+                $relativeBackLink           = '/' . Director::makeRelative($backLink);
+                $urlParts                   = explode('/', Director::makeRelative($backLink));
+                $relativeUrlEncodedBackLink = '';
+                foreach ($urlParts as $urlPart) {
+                    $relativeUrlEncodedBackLink .= '/' . str_replace('+', '%20', urlencode($urlPart));
+                }
+
+                if ((strpos($relativeReferer, $relativeBackLink) === 0 ||
+                     strpos($relativeReferer, $relativeUrlEncodedBackLink) === 0) &&
+                    strpos($relativeReferer, '?') > 0) {
+                    $refererParts           = explode('?', $relativeReferer);
+                    $paramPart              = $refererParts[1];
+                    $postVars['backLink']   = $backLink . '?' . $paramPart;
+                }
+            }
             $backLink = $postVars['backLink'];
         }
 
@@ -96,5 +120,36 @@ class SilvercartActionHandler extends DataExtension {
         } else {
             $this->owner->redirect($backLink, 302);
         }
+    }
+    
+    /**
+     * Action to execute a search query
+     * 
+     * @param SS_HTTPRequest $request Request to check for product data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.09.2013
+     */
+    public function doSearch(SS_HTTPRequest $request) {
+        $postVars           = $request->postVars();
+        if (!array_key_exists('locale', $postVars) ||
+            empty($postVars['locale'])) {
+            $postVars['locale'] = Translatable::default_locale();
+        }
+        Translatable::set_current_locale($postVars['locale']);
+        i18n::set_locale($postVars['locale']);
+        $quickSearchQuery   = trim($postVars['quickSearchQuery']);
+        $searchContext      = 'SilvercartProduct';
+        $searchResultsPage  = SilvercartTools::PageByIdentifierCode("SilvercartSearchResultsPage");
+        $searchQuery        = SilvercartSearchQuery::get_by_query(Convert::raw2sql($quickSearchQuery));
+        $searchQuery->Count++;
+        $searchQuery->write();
+        SilvercartProduct::setDefaultSort('relevance');
+        Session::set("searchQuery",     $quickSearchQuery);
+        Session::set('searchContext',   $searchContext);
+        Session::save();
+        Director::redirect($searchResultsPage->RelativeLink());
     }
 }

@@ -43,15 +43,27 @@ body {
     padding:                        0px 12px;
 }
 
-.c90l, .c65l, .c45l, .c30l, .c10l {
+.c90l, .c76l, .c74l, .c65l, .c45l, .c30l, .c19l, .c10l, .c7l, .c6l, .c5l {
     float:                          left;
 }
-.c90r, .c65r, .c45r, .c30r, .c10r {
+.c90r, .c76r, .c74r, .c65r, .c45r, .c30r, .c19r, .c10r, .c7r, .c6r, .c5r {
     float:                          right;
     margin-left:                    -5px;
 }
+.c5l, .c5r {
+    width:                          5%;
+}
+.c6l, .c6r {
+    width:                          6%;
+}
+.c7l, .c7r {
+    width:                          7%;
+}
 .c10l, .c10r {
     width:                          10%;
+}
+.c19l, .c19r {
+    width:                          19%;
 }
 .c30l, .c30r {
     width:                          30%;
@@ -62,8 +74,27 @@ body {
 .c65l, .c65r {
     width:                          65%;
 }
+.c74l, .c74r {
+    width:                          74%;
+}
+.c76l, .c76r {
+    width:                          76%;
+}
 .c90l, .c90r {
     width:                          90%;
+}
+
+.m20l {
+    margin-left: 20%;
+}
+.m25l {
+    margin-left: 25%;
+}
+.m30l {
+    margin-left: 30%;
+}
+.m33l {
+    margin-left: 33%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -400,6 +431,51 @@ a.silvercart-button-small:hover,
     font-size:                      11px;
 }
 
+/* Dropdown buttons ------------------------------------------------------- */
+
+.silvercart-button.with-submenu,
+.silvercart-button-small.with-submenu {
+    position:                       relative;
+    margin-left:                    9px;
+}
+.silvercart-button.with-submenu ul,
+.silvercart-button-small.with-submenu ul {
+    position:                       absolute;
+    z-index:                        15;
+    right:                          0px;
+    background:                     #fff;
+    border:                         1px solid #CFCFCF;
+    border-radius:                  3px 3px 3px 3px;
+    box-shadow:                     0 -1px 4px #D2D2D2;
+    width:                          auto;
+    display:                        none;
+    max-height:                     200px;
+    min-width:                      500px;
+    overflow:                       auto;
+    margin:                         0;
+}
+.silvercart-button.with-submenu:hover ul,
+.silvercart-button-small.with-submenu:hover ul {
+    display:                        block;
+}
+.silvercart-button.with-submenu ul li,
+.silvercart-button-small.with-submenu ul li {
+    margin:                         0;
+}
+.silvercart-button.with-submenu ul a,
+.silvercart-button-small.with-submenu ul a {
+    background:                     none;
+    border:                         none;
+    margin:                         0;
+    padding:                        4px 8px;
+    text-align:                     left;
+    border-radius:                  none;
+}
+.silvercart-button.with-submenu ul a:hover,
+.silvercart-button-small.with-submenu ul a:hover {
+    background:                     #e6f2f7;
+}
+
 /* Icon only buttons ------------------------------------------------------- */
 
 .silvercart-icon-with-text-button,
@@ -606,4 +682,50 @@ a.silvercart-button-small:hover,
     border-radius:                  3px;
     -moz-border-radius:             3px;
     -webkit-border-radius:          3px;
+}
+
+
+/* Select bar navigation ------------------------------------------------------ */
+
+ul.silvercart-select-bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 3px 0;
+}
+ul.silvercart-select-bar li {
+    display: inline-block;
+    padding: 0 1px 0 0;
+    margin: 0;
+}
+ul.silvercart-select-bar li span {
+    padding: 1px 9px;
+    background: none;
+    color: #666;
+    border: 1px solid transparent;
+}
+ul.silvercart-select-bar li span,
+ul.silvercart-select-bar li a {
+    padding: 1px 9px;
+    background: none;
+    color: #666;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+ul.silvercart-select-bar li a:hover {
+    color: #fff;
+    background: #aaa;
+    border: 1px solid #aaa;
+    text-decoration: none;
+}
+ul.silvercart-select-bar li span.active,
+ul.silvercart-select-bar li a.active,
+ul.silvercart-select-bar li a.active:hover {
+    color: #fff;
+    background: #888;
+    border: 1px solid #888;
+    -webkit-box-shadow: inset 0px 0px 6px 2px #666666;
+    box-shadow: inset 0px 0px 6px 2px #666666;
+    cursor: default;
 }

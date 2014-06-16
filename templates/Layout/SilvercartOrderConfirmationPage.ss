@@ -4,7 +4,7 @@
 			<p>$Breadcrumbs</p>
 		</div>
 
-		<h2>$Title</h2>
+        <h1>$Title</h1>
 
 		$Content
 		$SearchResults

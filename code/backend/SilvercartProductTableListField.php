@@ -17,6 +17,7 @@
  * @since 25.07.2011
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
+ * @todo Check to delete SilvercartProductTableListField.
  */
 class SilvercartProductTableListField extends TableListField {
     

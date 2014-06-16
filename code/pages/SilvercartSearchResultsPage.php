@@ -121,6 +121,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      */
     public static $allowed_actions = array(
         'SearchByQuery',
+        'cc',
     );
 
     /**
@@ -152,6 +153,135 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @var DataList
      */
     protected $searchResultProducts;
+
+    /**
+     * Contains all classes to use as search context
+     *
+     * @var array
+     */
+    protected static $registeredSearchContexts = array();
+
+    /**
+     * current search context used
+     *
+     * @var string
+     */
+    protected $currentSearchContext = null;
+
+    /**
+     * current search context object used
+     *
+     * @var string
+     */
+    protected $currentSearchContextObject = null;
+
+    /**
+     * search context objects 
+     *
+     * @var string
+     */
+    protected $searchContextObjects = null;
+
+    /**
+     * returns a array with all registered search contexts
+     *
+     * @return array
+     */
+    public static function getRegisteredSearchContexts() {
+        return self::$registeredSearchContexts;
+    }
+
+    /**
+     * add a object class to use as search context in SilverCart's search
+     *
+     * @param string $objectClass classname of the object to search for
+     *
+     * @return void
+     *
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 07.06.2013
+     */
+    public static function addSearchContext($objectClass) {
+        if (class_exists($objectClass) &&
+            !in_array($objectClass, self::getRegisteredSearchContexts())) {
+            self::$registeredSearchContexts = array_merge(
+                self::getRegisteredSearchContexts(),
+                array($objectClass)
+            );
+        }
+    }
+
+    /**
+     * set the current search context. default is SilvercartProduct
+     *
+     * @param string $searchContext search context
+     *
+     * @return void
+     */
+    public function setCurrentSearchContext($searchContext) {
+        if (is_null($searchContext) ||
+            !in_array($searchContext, self::getRegisteredSearchContexts())) {
+            $searchContext = 'SilvercartProduct';
+        }
+        $this->currentSearchContext = $searchContext;
+        Session::set('searchContext', $searchContext);
+        Session::save();
+    }
+
+    /**
+     * returns the current search context
+     *
+     * @return string
+     */
+    public function getCurrentSearchContext() {
+        if (is_null($this->currentSearchContext)) {
+            $this->setCurrentSearchContext(Session::get('searchContext'));
+        }
+        return $this->currentSearchContext;
+    }
+
+    /**
+     * returns the current search context
+     *
+     * @return string
+     */
+    public function getCurrentSearchContextObject() {
+        if (is_null($this->currentSearchContextObject)) {
+            $contextObject = $this->getCurrentSearchContext();
+            $this->currentSearchContextObject = singleton($contextObject);
+        }
+        return $this->currentSearchContextObject;
+    }
+
+    /**
+     * returns the current search context objects
+     *
+     * @return ArrayList
+     */
+    public function getSearchContextObjects() {
+        if (is_null($this->searchContextObjects)) {
+            $this->searchContextObjects = new ArrayList();
+            $contexts                   = self::getRegisteredSearchContexts();
+            foreach ($contexts as $context) {
+                $contextObject = new $context();
+                $contextObject->IsCurrentSearchContext = $this->getCurrentSearchContext() == $context;
+                $this->searchContextObjects->push($contextObject);
+            }
+        }
+        return $this->searchContextObjects;
+    }
+    
+    /**
+     * Returns whether the default search context is active.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2013
+     */
+    public function IsDefaultSearchContext() {
+        return $this->getCurrentSearchContext() == 'SilvercartProduct';
+    }
 
     /**
      * Registers an object as a filter plugin. Before getting the result set
@@ -208,53 +338,24 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             // product detail views are not possible on SilvercartSearchResultsPage
             Director::redirect(DataObject::get_one('ErrorPage', '"ErrorCode" = 404')->Link());
         }
-        if (isset($_GET['start'])) {
-            $this->SQL_start = (int)$_GET['start'];
-        }
-        $searchQuery            = $this->getSearchQuery();
-        $searchResultProducts   = $this->searchResultProducts;
-
-        $SQL_start = $this->getSqlOffset();
-
-        $cachekey = 'SilvercartSearchResultsPage'.sha1($searchQuery).'_'.md5($searchQuery).'_'.$SQL_start.'_'.SilvercartGroupViewHandler::getActiveGroupView();
-        $cache    = SS_Cache::factory($cachekey);
-        $result   = $cache->load($cachekey);
-        
-        
-        // Cache is deactivated because of form registration problems.
-        if (1 == 2 && $result) {
-            $searchResultProducts= unserialize($result);
-        } else {
-            $searchResultProducts = $this->buildSearchResultProducts();
-
-            if (!$searchResultProducts) {
-                $searchResultProducts = new ArrayData();
-            }
-            
-            $cache->save(serialize($searchResultProducts));
-        }
-
-        $this->searchResultProducts = $searchResultProducts;
-        
-        $productIdx                 = 0;
-        if ($searchResultProducts) {
-            $productAddCartFormName = $this->getCartFormName();
-            foreach ($searchResultProducts as $product) {
-                $backlink = $this->Link()."?start=".  $this->SQL_start;
-                $productAddCartForm = new $productAddCartFormName($this, array('productID' => $product->ID, 'backLink' => $backlink));
-                $this->registerCustomHtmlForm('ProductAddCartForm'.$product->ID, $productAddCartForm);
-                $productIdx++;
-            }
-        }
-        
-        // Register selector forms, e.g. the "products per page" selector
-        $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
-        $selectorForm->setSecurityTokenDisabled();
-
-        $this->registerCustomHtmlForm(
-            'SilvercartProductGroupPageSelectors',
-            $selectorForm
-        );
+       
+        $this->searchObjectHandler();
+    }
+    
+    /**
+     * Action to change the current search context
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.06.2013
+     */
+    public function cc(SS_HTTPRequest $request) {
+        $newContext = $request->param('ID');
+        $this->setCurrentSearchContext($newContext);
+        return $this->render();
     }
 
     /**
@@ -272,19 +373,91 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         }
         return $this->cacheKeyParts;
     }
+
+    /**
+     * Search object handler
+     *
+     * @return void
+     *
+     * @author Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 07.06.2013
+     */
+    protected function searchObjectHandler() {
+        if ($this->IsDefaultSearchContext()) {
+            $this->searchSilvercartProducts();
+        } else {
+            $context = $this->getCurrentSearchContextObject();
+            $context->initSearchHandler($this);
+        }
+    }
+    
+    /**
+     * Returns the rendered search results.
+     * 
+     * @return string
+     */
+    public function getRenderedSearchResults() {
+        $context = $this->getCurrentSearchContextObject();
+        $context->initSearchHandler($this);
+        return $context->renderSearchResults();
+    }
+
+    /**
+     * [searchSilvercartProducts description]
+     *
+     * @return void
+     * 
+     * @author Patrick Schneider <pschneider@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2013
+     */
+    protected function searchSilvercartProducts() {  
+        $SQL_start              = $this->getSqlOffset();
+        $searchResultProducts   = $this->buildSearchResultProducts();
+
+        if (!$searchResultProducts) {
+            $searchResultProducts = new ArrayList();
+        }
+
+        $this->searchResultProducts = $searchResultProducts;
+        
+        $productIdx                 = 0;
+        if ($searchResultProducts) {
+            $productAddCartFormName = $this->getCartFormName();
+            foreach ($searchResultProducts as $product) {
+                $backlink = $this->Link()."?start=" .  $SQL_start;
+                $productAddCartForm = new $productAddCartFormName($this, array('productID' => $product->ID, 'backLink' => $backlink));
+                $this->registerCustomHtmlForm('ProductAddCartForm'.$product->ID, $productAddCartForm);
+                $product->productAddCartFormObj = $productAddCartForm;
+                $productIdx++;
+            }
+        }
+        
+        // Register selector forms, e.g. the "products per page" selector
+        $selectorForm = new SilvercartProductGroupPageSelectorsForm($this);
+        $selectorForm->setSecurityTokenDisabled();
+        $selectorFormBottom = new SilvercartProductGroupPageSelectorsForm($this);
+        $selectorFormBottom->setSecurityTokenDisabled();
+
+        $this->registerCustomHtmlForm(
+            'SilvercartProductGroupPageSelectors',
+            $selectorForm
+        );
+        $this->registerCustomHtmlForm(
+            'SilvercartProductGroupPageSelectorsBottom',
+            $selectorFormBottom
+        );
+    }
     
     /**
      * Builds the DataObject of filtered products
      *
      * @return DataList
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2012
+     * @author Sebastian Diel <sdiel@πixeltricks.de>
+     * @since 12.06.2013
      */
     public function buildSearchResultProducts() {
-        if (isset($_GET['start'])) {
-            $this->SQL_start = (int)$_GET['start'];
-        }
         $searchResultProducts       = $this->searchResultProducts;
         $productsPerPage            = $this->getProductsPerPageSetting();
 
@@ -310,6 +483,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                     ) OR
                     \"MetaKeywords\" LIKE '%%%s%%' OR
                     \"ProductNumberShop\" LIKE '%%%s%%' OR
+                    \"EANCode\" LIKE '%%%s%%' OR
                     STRCMP(
                         SOUNDEX(\"Title\"), SOUNDEX('%s')
                     ) = 0
@@ -323,6 +497,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 $searchQuery,
                 $searchQuery,// MetaKeywords
                 $searchQuery,// ProductNumberShop
+                $searchQuery,// EANCode
                 $searchQuery// Title SOUNDEX
             );
 
@@ -368,7 +543,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $this->totalNumberOfProducts = $searchResultProducts->count();
         return $this->searchResultProducts;
     }
-    
+
     /**
      * Return the start value for the limit part of the sql query that
      * retrieves the product list for the current product group page.
@@ -534,8 +709,13 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     public function TotalSearchResults() {
         $totalItems = 0;
         
-        if ($this->getProducts()) {
-            $totalItems = $this->getProducts()->count();
+        if ($this->IsDefaultSearchContext()) {
+            if ($this->getProducts()) {
+                $totalItems = $this->getProducts()->count();
+            }
+        } else {
+            $context    = $this->getCurrentSearchContextObject();
+            $totalItems = $context->TotalSearchResults();
         }
         
         return $totalItems;

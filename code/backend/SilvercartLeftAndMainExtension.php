@@ -33,6 +33,13 @@ class SilvercartLeftAndMainExtension extends DataExtension {
     );
     
     /**
+     * ModelAdmins to ignore.
+     *
+     * @var array
+     */
+    public static $model_admins_to_ignore = array();
+
+    /**
      * Injects some custom javascript to provide instant loading of DataObject
      * tables.
      *
@@ -86,6 +93,10 @@ class SilvercartLeftAndMainExtension extends DataExtension {
                 }
 
                 if (empty($menuItem->controller)) {
+                    continue;
+                }
+                
+                if (in_array($menuItem->controller, self::$model_admins_to_ignore)) {
                     continue;
                 }
 

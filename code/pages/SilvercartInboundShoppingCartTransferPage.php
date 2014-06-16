@@ -57,7 +57,7 @@ class SilvercartInboundShoppingCartTransferPage extends Page {
  * @subpackage Pages
  * @author Sascha Koehler <skoehler@pixeltricks.de>,
  *         Sebastian Diel <sdiel@pixeltricks.de>
- * @since 08.04.2013
+ * @since 16.07.2013
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
@@ -69,7 +69,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * @var array
      */
     protected $errorMessages = array();
-    
+        
     /**
      * We implement our own action handling here since we use the action
      * as identifier string to look up the corresponding 
@@ -189,8 +189,9 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      *
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.07.2013
      */
     protected function handleCombinedStringShoppingCartTransferWith(SilvercartInboundShoppingCartTransfer $inboundShoppingCartTransfer, SS_HTTPRequest $request) {
         $error       = false;
@@ -231,6 +232,20 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
                 }
                 
                 list($productIdentifier, $productQuantity) = explode($inboundShoppingCartTransfer->combinedStringQuantitySeparator, $entity);
+                
+                if (strlen($inboundShoppingCartTransfer->productMatchingFieldPrefix) > 0) {
+                    while (strpos($productIdentifier, $inboundShoppingCartTransfer->productMatchingFieldPrefix) === 0) {
+                        $productIdentifier = substr($productIdentifier, strlen($inboundShoppingCartTransfer->productMatchingFieldPrefix));
+                    }
+                }
+
+                $revertedProductIdentifier = strrev($productIdentifier);
+                if (strlen($inboundShoppingCartTransfer->productMatchingFieldSuffix) > 0) {
+                    $revertedSuffix = strrev($inboundShoppingCartTransfer->productMatchingFieldSuffix);
+                    while (strpos($revertedProductIdentifier, $revertedSuffix) === 0) {
+                        $productIdentifier = strrev(substr($revertedProductIdentifier, strlen($revertedSuffix)));
+                    }
+                }
 
                 $product = DataObject::get_one(
                     'SilvercartProduct',

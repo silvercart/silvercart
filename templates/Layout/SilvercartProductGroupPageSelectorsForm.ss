@@ -2,8 +2,9 @@
 <form class="yform" $FormAttributes >
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
-    
+<% if hasProductsPerPageOptions %>
     $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
+<% end_if %>
     $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
 
     <div class="silvercart-products-found">

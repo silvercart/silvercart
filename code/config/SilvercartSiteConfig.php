@@ -105,6 +105,10 @@ class SilvercartSiteConfig extends DataExtension {
         $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
         
+        $translatable = new Translatable();
+        $translatable->setOwner($this->owner);
+        $translatable->updateCMSFields($fields);
+        
         $localeField    = new TextField('CurrentLocale',                        $this->owner->fieldLabel('CurrentLocale'),              i18n::get_locale_name($this->owner->Locale));
         $createButton   = new InlineFormAction('createsitetreetranslation',     $this->owner->fieldLabel('createsitetreetranslation'));
         $publishButton  = new InlineFormAction('publishsitetree',               $this->owner->fieldLabel('publishsitetree'));

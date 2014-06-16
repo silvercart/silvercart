@@ -191,6 +191,53 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
     public function getCMSFieldsRoundaboutTab(&$rootTabSet) {
         SilvercartWidgetTools::getCMSFieldsRoundaboutTabForProductSliderWidget($this, $rootTabSet);
     }
+    
+    /**
+     * Returns the title of this widget.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.08.2013
+     */
+    public function Title() {
+        $title = $this->fieldLabel('Title');
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
+    }
+    
+    /**
+     * Returns the title of this widget for display in the WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.08.2013
+     */
+    public function CMSTitle() {
+        $title = $this->fieldLabel('CMSTitle');
+        if (!empty($this->FrontTitle)) {
+            $title .= ': ' . $this->FrontTitle;
+        }
+        return $title;
+    }
+    
+    /**
+     * Returns the description of what this template does for display in the
+     * WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.05.2011
+     */
+    public function Description() {
+        return $this->fieldLabel('Description');
+    }
 
     /**
      * Field labels for display in tables.
@@ -308,7 +355,8 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
     public function initRoundabout() {
@@ -320,14 +368,16 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * 
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.08.2013
      */
     public function ProductPages() {
         if ($this->elements !== null &&
             $this->elements !== false) {
+            $template = SilvercartWidgetTools::getGroupViewTemplateName($this);
             foreach ($this->elements as $page) {
-                $page->Content = Controller::curr()->customise($page)->renderWith(SilvercartWidgetTools::getGroupViewTemplateName($this));
+                $page->Content = $page->renderWith($template);
             }
             return $this->elements;
         }
@@ -356,24 +406,29 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             $this->numberOfProductsToFetch = $this->numberOfProductsToShow;
         }
 
-        $productgroupPage = DataObject::get_by_id(
-            'SilvercartProductGroupPage',
-            $this->SilvercartProductGroupPageID
-        );
+        if ($this->numberOfProductsToFetch == $this->numberOfProductsToShow ||
+            $this->useSelectionMethod == 'products') {
+            $products = $this->elements;
+        } else {
+            $productgroupPage = DataObject::get_by_id(
+                'SilvercartProductGroupPage',
+                $this->SilvercartProductGroupPageID
+            );
 
-        if (!$productgroupPage) {
-            return false;
+            if (!$productgroupPage) {
+                return false;
+            }
+            $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
+
+            switch ($this->fetchMethod) {
+                case 'sortOrderAsc':
+                    $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
+                    break;
+                case 'random':
+                default:
+                    $products = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToFetch);
+            }
         }
-        $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
-        
-        switch ($this->fetchMethod) {
-            case 'sortOrderAsc':
-                $products = $productgroupPageSiteTree->getProducts($this->numberOfProductsToFetch);
-                break;
-            case 'random':
-            default:
-                $products = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToFetch);
-        } 
 
         $pages          = array();
         $pageProducts   = array();
@@ -499,7 +554,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
 
         return $products;
     }
-    
+
     /**
      * Returns a number of products from the chosen productgroup.
      * 
@@ -514,7 +569,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         if (!$this->SilvercartProductGroupPageID) {
             return $elements;
         }
-        
+
         if (!$this->numberOfProductsToShow) {
             $this->numberOfProductsToShow = SilvercartProductGroupItemsWidget::$defaults['numberOfProductsToShow'];
         }
@@ -528,15 +583,22 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
             return $elements;
         }
         $productgroupPageSiteTree = ModelAsController::controller_for($productgroupPage);
+
+        if (!SilvercartWidget::$use_product_pages_for_slider &&
+            $this->useSlider) {
+            $fetchLimit = $this->numberOfProductsToFetch;
+        } else {
+            $fetchLimit = $this->numberOfProductsToShow;
+        }
         
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
-                $elements = $productgroupPageSiteTree->getProducts($this->numberOfProductsToShow);
+                $elements = $productgroupPageSiteTree->getProducts($fetchLimit);
                 break;
             case 'random':
             default:
-                $elements = $productgroupPageSiteTree->getRandomProducts($this->numberOfProductsToShow);
-        } 
+                $elements = $productgroupPageSiteTree->getRandomProducts($fetchLimit);
+        }
         
         return $elements;
     }

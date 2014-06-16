@@ -100,6 +100,12 @@
         </tbody>
     </table>
     
+	<% if Print %><% else %><div class="utility">
+		<% control Utility %>
+			<span class="item"><a href="$Link">$Title</a></span>
+		<% end_control %>
+	</div><% end_if %>
+    
     $ExtraData
     
 </div>

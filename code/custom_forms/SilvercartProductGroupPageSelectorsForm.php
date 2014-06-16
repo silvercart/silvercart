@@ -13,8 +13,9 @@
  *
  * @package Silvercart
  * @subpackage Forms
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 23.08.2011
+ * @author Sascha Koehler <skoehler@pixeltricks.de>,
+ *         Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 30.08.2013
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
@@ -25,8 +26,9 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      *
      * @return mixed boolean false|string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 04.12.2012
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.08.2013
      */
     public function getCacheKeyExtension() {
         $controller = Controller::curr();
@@ -34,11 +36,13 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         if ($controller &&
             $controller instanceof SilvercartProductGroupPage_Controller) {
 
-            $extension = $controller->ID.'_'.
-                         SilvercartProduct::defaultSort().'_'.
-                         $controller->getProductsPerPageSetting().'_'.
+            $product   = singleton('SilvercartProduct');
+            $extension = $controller->ID . '_' . 
+                         SilvercartProduct::defaultSort() . '_' . 
+                         $controller->getProductsPerPageSetting() . '_' .
+                         $product->getDefaultSort() . '_' .
                          $this->getTotalNumberOfProducts();
-
+            
             return md5($extension);
         }
 
@@ -87,47 +91,56 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2012
+     * @since 13.09.2013
      */
     public function getFormFields($withUpdate = true) {
-        $productsPerPage = $this->controller->getProductsPerPageSetting();
-        if ($productsPerPage == SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
-            $productsPerPage = 0;
+        if (!array_key_exists('SortOrder', $this->formFields)) {
+            $productsPerPage = $this->controller->getProductsPerPageSetting();
+            if ($productsPerPage == SilvercartConfig::getProductsPerPageUnlimitedNumber()) {
+                $productsPerPage = 0;
+            }
+
+            $product                            = singleton('SilvercartProduct');
+            $sortableFrontendFields             = $product->sortableFrontendFields();
+            $sortableFrontendFieldValues        = array_keys($sortableFrontendFields);
+            $sortableFrontendFieldValues        = array_flip($sortableFrontendFieldValues);
+            if (!array_key_exists($product->getDefaultSort(), $sortableFrontendFieldValues)) {
+                $sortableFrontendFieldValues[$product->getDefaultSort()] = 0;
+            }
+            $sortOrder                          = $sortableFrontendFieldValues[$product->getDefaultSort()];
+            $sortableFrontendFieldsForDropdown  = array_values($sortableFrontendFields);
+            asort($sortableFrontendFieldsForDropdown);
+
+            $this->formFields = array(
+                'SortOrder' => array(
+                    'type'              => 'DropdownField',
+                    'title'             => _t('SilvercartProductGroupPageSelector.SORT_ORDER'),
+                    'value'             => $sortableFrontendFieldsForDropdown,
+                    'selectedValue'     => $sortOrder,
+                    'checkRequirements' => array(
+                    )
+                ),
+            );
+            $productsPerPageOptions = SilvercartConfig::getProductsPerPageOptions();
+            if (!empty($productsPerPageOptions)) {
+                $this->formFields['productsPerPage'] = array(
+                    'type'              => 'DropdownField',
+                    'title'             => _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE'),
+                    'value'             => SilvercartConfig::getProductsPerPageOptions(),
+                    'selectedValue'     => $productsPerPage,
+                    'checkRequirements' => array(
+                    )
+                );
+            } else {
+                $this->formFields['productsPerPage'] = array(
+                    'type'              => 'HiddenField',
+                    'value'             => SilvercartConfig::getProductsPerPageDefault(),
+                );
+            }
         }
-        
-        $product                            = singleton('SilvercartProduct');
-        $sortableFrontendFields             = $product->sortableFrontendFields();
-        $sortableFrontendFieldValues        = array_keys($sortableFrontendFields);
-        $sortableFrontendFieldValues        = array_flip($sortableFrontendFieldValues);
-        if (!array_key_exists($product->getDefaultSort(), $sortableFrontendFieldValues)) {
-            $sortableFrontendFieldValues[$product->getDefaultSort()] = 0;
-        }
-        $sortOrder                          = $sortableFrontendFieldValues[$product->getDefaultSort()];
-        $sortableFrontendFieldsForDropdown  = array_values($sortableFrontendFields);
-        asort($sortableFrontendFieldsForDropdown);
-        
-        $this->formFields = array(
-            'productsPerPage' => array(
-                'type'              => 'DropdownField',
-                'title'             => _t('SilvercartProductGroupPageSelector.PRODUCTS_PER_PAGE'),
-                'value'             => SilvercartConfig::getProductsPerPageOptions(),
-                'selectedValue'     => $productsPerPage,
-                'checkRequirements' => array(
-                )
-            ),
-            'SortOrder' => array(
-                'type'              => 'DropdownField',
-                'title'             => _t('SilvercartProductGroupPageSelector.SORT_ORDER'),
-                'value'             => $sortableFrontendFieldsForDropdown,
-                'selectedValue'     => $sortOrder,
-                'checkRequirements' => array(
-                )
-            ),
-        );
         return parent::getFormFields($withUpdate = true);
     }
-    
-    
+
     /**
      * We save the chosen value for the products per page in the customer's
      * configuration object here and redirect to the last view.
@@ -165,5 +178,18 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
         }
         
         $this->controller->redirect($backLink, 302);
+    }
+    
+    /**
+     * Returns whether there are products per page options.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2013
+     */
+    public function hasProductsPerPageOptions() {
+        $productsPerPageOptions = SilvercartConfig::getProductsPerPageOptions();
+        return !empty($productsPerPageOptions);
     }
 }

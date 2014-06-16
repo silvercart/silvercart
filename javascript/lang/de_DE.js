@@ -4,6 +4,7 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
     ss.i18n.addDictionary('de_DE', {
         'Boolean.NO':                                           'Nein',
         'Boolean.YES':                                          'Ja',
+        'Silvercart.ShowAll':                                   'Alle anzeigen',
         'SilvercartConfig.ADDED_EXAMPLE_DATA':                  'Beispieldaten wurden hinzugefügt',
         'SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION':         'Beispielkonfiguration wurde angelegt',
         'SilvercartConfig.EXAMPLE_DATA_ALREADY_ADDED':          'Beispieldaten wurden bereits hinzugefügt',

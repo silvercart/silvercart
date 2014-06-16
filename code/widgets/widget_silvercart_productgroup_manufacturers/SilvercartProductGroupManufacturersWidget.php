@@ -94,6 +94,60 @@ class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
     }
 
     /**
+     * Returns the title of this widget.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.04.2013
+     */
+    public function Title() {
+        $title = $this->FrontTitle;
+        if (empty($title)) {
+            $title = $this->fieldLabel('Title');
+        }
+        return $title;
+    }
+    
+    /**
+     * Returns the title of this widget for display in the WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.10.2012
+     */
+    public function CMSTitle() {
+        return $this->fieldLabel('CMSTitle');
+    }
+    
+    /**
+     * Returns the description of what this template does for display in the
+     * WidgetArea GUI.
+     * 
+     * @return string
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.10.2012
+     */
+    public function Description() {
+        return $this->fieldLabel('Description');
+    }
+    
+    /**
+     * Returns the extra css classes.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2013
+     */
+    public function ExtraCssClasses() {
+        return 'silvercart-product-group-manufacturers-widget';
+    }
+
+    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
@@ -132,7 +186,7 @@ class SilvercartProductGroupManufacturersWidget_Controller extends SilvercartWid
     /**
      * Returns a ArrayList of all manufacturers for this page.
      *
-     * @return DataObjectSet
+     * @return DataList|ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.10.2012
