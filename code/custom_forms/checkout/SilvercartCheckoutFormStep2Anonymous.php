@@ -227,7 +227,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
         $this->formFields['Shipping_PhoneAreaCode']['title']    = _t('SilvercartAddress.PHONEAREACODE');
         $this->formFields['Shipping_Country']['title']          = _t('SilvercartCountry.SINGULARNAME');
 
-        $countries = DataObject::get('SilvercartCountry', "\"SilvercartCountry\".\"Active\"=1");
+        $countries = SilvercartCountry::get()->filter('Active', 1);
         if ($countries->exists()) {
             $this->formFields['Shipping_Country']['value']  = SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY'));
             $this->formFields['Invoice_Country']['value']   = SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartCheckoutFormStep2.EMPTYSTRING_COUNTRY'));

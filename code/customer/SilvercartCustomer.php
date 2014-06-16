@@ -1062,14 +1062,8 @@ class SilvercartCustomer_Validator extends DataExtension {
         
         $groups = $data['Groups'];
         if (!empty($groups)) {
-            $groupObjects   = DataObject::get(
-                    'Group',
-                    sprintf(
-                            "\"Group\".\"ID\" IN (%s)",
-                            $groups
-                    )
-            );
-            $pricetypes = array();
+            $groupObjects = Group::get()->where(sprintf('"Group"."ID" IN (%s)', $groups));
+            $pricetypes   = array();
             foreach ($groupObjects as $group) {
                 if (!empty($group->Pricetype) &&
                     $group->Pricetype != '---') {

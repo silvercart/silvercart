@@ -257,7 +257,12 @@ class SilvercartAvailabilityStatus extends DataObject {
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
         if ($this->SetForNegativeStock) {
-            $statusList = DataObject::get('SilvercartAvailabilityStatus', 'SetForNegativeStock = 1 AND SilvercartAvailabilityStatus.ID != ' . $this->ID);
+            $statusList = SilvercartAvailabilityStatus::get()
+            ->filter(array(
+                        'SetForNegativeStock' => 1,
+            ))->exclude(array(
+                        'SilvercartAvailabilityStatus.ID' => $this->ID
+            ));
             if ($statusList) {
                 foreach ($statusList as $status) {
                     $status->SetForNegativeStock = false;
@@ -266,7 +271,12 @@ class SilvercartAvailabilityStatus extends DataObject {
             }
         }
         if ($this->SetForPositiveStock) {
-            $statusList = DataObject::get('SilvercartAvailabilityStatus', 'SetForPositiveStock = 1 AND SilvercartAvailabilityStatus.ID != ' . $this->ID);
+            $statusList = SilvercartAvailabilityStatus::get()
+            ->filter(array(
+                        'SetForPositiveStock' => 1,
+            ))->exclude(array(
+                        'SilvercartAvailabilityStatus.ID' => $this->ID
+            ));
             if ($statusList) {
                 foreach ($statusList as $status) {
                     $status->SetForPositiveStock = false;

@@ -203,7 +203,7 @@ class SilvercartZone extends DataObject {
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
         if (array_key_exists('UseAllCountries', $_POST)) {
-            $countries = DataObject::get('SilvercartCountry');
+            $countries = SilvercartCountry::get();
             foreach ($countries as $country) {
                 $this->SilvercartCountries()->add($country);
             }
