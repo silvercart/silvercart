@@ -33,10 +33,7 @@ class SilvercartFormValidation extends Object {
     public static function doesEmailExistAlready($value, $allowedMemberID = null) { 
         $emailExistsAlready = false;
 
-        $member = DataObject::get_one(
-            'Member',
-            "Email = '" . $value . "'"
-        );
+        $member = Member::get()->filter('Email', $value)->first();
 
         if ($member instanceof Member &&
             $member->ID != $allowedMemberID) {

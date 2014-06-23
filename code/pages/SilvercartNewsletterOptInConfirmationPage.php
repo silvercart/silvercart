@@ -104,9 +104,10 @@ class SilvercartNewsletterOptInConfirmationPage_Controller extends Page_Controll
      * Final step for the newsletter opt-in.
      *
      * @return array message for the template
-     * 
-     * @author Sascha Köhler <skoehler@pixeltricks.de>
-     * @since 25.08.2011
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function doConfirmation() {
         $statusMessage      = $this->ConfirmationFailureMessage;
@@ -121,13 +122,7 @@ class SilvercartNewsletterOptInConfirmationPage_Controller extends Page_Controll
                 if ($recipient) {
                     $customer = $recipient;
                 } else {
-                    $customer = DataObject::get_one(
-                        'Member',
-                        sprintf(
-                            "NewsletterConfirmationHash = '%s'",
-                            $hash
-                        )
-                    );
+                    $customer = Member::get()->filter('NewsletterConfirmationHash', $hash)->first();
                     
                     if ($customer) {
                         $anonymousCustomer = false;

@@ -59,7 +59,7 @@ class SilvercartGeoNames extends SilvercartInterface {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.03.2011
+     * @since 16.06.2014
      */
     public function countryInfo() {
         $countryInfo = file($this->getApiUrlForService('countryInfoCSV'));
@@ -84,7 +84,7 @@ class SilvercartGeoNames extends SilvercartInterface {
                 $GeoNameId,
             ) = explode("\t", $line);
 
-            $country = DataObject::get_one('SilvercartCountry', sprintf("\"SilvercartCountry\".\"ISO2\"='%s'", $ISO2));
+            $country = SilvercartCountry::get()->filter('ISO2', $ISO2)->first();
             if (!$country) {
                 $country = new SilvercartCountry();
             }

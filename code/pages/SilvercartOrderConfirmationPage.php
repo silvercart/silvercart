@@ -73,15 +73,19 @@ class SilvercartOrderConfirmationPage_Controller extends Page_Controller {
      * returns an order identified by session id
      *
      * @return Order order or false
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.11.2010
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function CustomersOrder() {
         $id = Session::get('OrderIdForConfirmation');
         $memberID = Member::currentUserID();
         if ($id && $memberID) {
-            $filter = sprintf("\"ID\"= '%s' AND \"customerID\" = '%s'", $id, $memberID);
-            $order = DataObject::get_one('SilvercartOrder', $filter);
+            $order = SilvercartOrder::get()->filter(array(
+                'ID' => $id,
+                'MemberID' => $memberID,
+            ))->first();
             return $order;
         }
     }

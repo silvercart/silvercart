@@ -232,7 +232,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @return SilvercartAvailabilityStatus
      */
     public static function get_negative_status() {
-        return DataObject::get_one('SilvercartAvailabilityStatus', 'SetForNegativeStock = 1');
+        return SilvercartAvailabilityStatus::get()->filter('SetForNegativeStock', '1')->first();
     }
     
     /**
@@ -242,7 +242,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @return SilvercartAvailabilityStatus
      */
     public static function get_positive_status() {
-        return DataObject::get_one('SilvercartAvailabilityStatus', 'SetForPositiveStock = 1');
+        return SilvercartAvailabilityStatus::get()->filter('SetForPositiveStock', '1')->first();
     }
     
     /**

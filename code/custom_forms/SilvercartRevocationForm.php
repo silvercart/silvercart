@@ -214,9 +214,9 @@ class SilvercartRevocationForm extends CustomHtmlForm {
      * @param array          $formData contains the modules form data
      *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2014
+     * @since 16.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -259,7 +259,7 @@ class SilvercartRevocationForm extends CustomHtmlForm {
             $variables
         );
         
-        $revocationPage = DataObject::get_one('SilvercartRevocationFormPage');
+        $revocationPage = SilvercartRevocationFormPage::get()->first();
         $this->Controller()->redirect($revocationPage->Link('success'));
     }
     

@@ -74,7 +74,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.03.2014
+     * @since 16.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -82,10 +82,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
         $password = $formData['password'];
 
         // get customers data
-        $user = DataObject::get_one(
-            'Member',
-            'Member.Email LIKE \'' . $formData['emailaddress'] . '\''
-        );
+        $user = Member::get()->filter('Email', $formData['emailaddress'])->first();
 
         if ($user) {
             $customer = MemberAuthenticator::authenticate(

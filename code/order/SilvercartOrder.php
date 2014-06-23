@@ -821,7 +821,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.11.2013
+     * @since 16.06.2014
      */
     public function createFromShoppingCart() {
         $member = Member::currentUser();
@@ -880,13 +880,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $this->PriceType = $member->getPriceType();
 
             // adjust orders standard status
-            $orderStatus = DataObject::get_one(
-                'SilvercartOrderStatus',
-                sprintf(
-                    "\"Code\" = '%s'",
-                    $paymentObj->getDefaultOrderStatus()
-                )
-            );
+            $orderStatus = SilvercartOrderStatus::get()->filter('Code', $paymentObj->getDefaultOrderStatus())->first();
             if ($orderStatus) {
                 $this->SilvercartOrderStatusID = $orderStatus->ID;
             }

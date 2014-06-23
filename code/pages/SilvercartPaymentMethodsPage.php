@@ -90,7 +90,7 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
      * @return SilvercartCountry
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
+     * @since 16.06.2014
      */
     public function ShippingCountry() {
         $customer           = Member::currentUser();
@@ -100,13 +100,10 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
         }
         if (is_null($shippingCountry) ||
             $shippingCountry->ID == 0) {
-            $shippingCountry = DataObject::get_one(
-                    'SilvercartCountry',
-                    sprintf(
-                            "\"ISO2\" = '%s' AND \"Active\" = 1",
-                            substr(Translatable::get_current_locale(), 3)
-                    )
-            );
+            $shippingCountry = SilvercartCountry::get()->filter(array(
+                'ISO2' => substr(Translatable::get_current_locale(), 3),
+                'Active' => 1,
+            ))->first();
         }
         return $shippingCountry;
     }

@@ -185,18 +185,13 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
      * @param string $emailAddress The email address to get the object for
      *
      * @return mixed SilvercartAnonymousNewsletterRecipient|boolean false
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.08.2011
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public static function getByEmailAddress($emailAddress) {
-        $recipient  = DataObject::get_one(
-            'SilvercartAnonymousNewsletterRecipient',
-            sprintf(
-                "Email = '%s'",
-                $emailAddress
-            )
-        );
+        $recipient = SilvercartAnonymousNewsletterRecipient::get()->filter('Email', $emailAddress)->first();
         
         return $recipient;
     }
@@ -208,18 +203,13 @@ class SilvercartAnonymousNewsletterRecipient extends DataObject {
      * @param string $confirmationHash ...
      *
      * @return mixed SilvercartAnonymousNewsletterRecipient|boolean false
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.08.2011
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public static function getByHash($confirmationHash) {
-        $recipient  = DataObject::get_one(
-            'SilvercartAnonymousNewsletterRecipient',
-            sprintf(
-                "NewsletterOptInConfirmationHash = '%s'",
-                $confirmationHash
-            )
-        );
+        $recipient = SilvercartAnonymousNewsletterRecipient::get()->filter('NewsletterOptInConfirmationHash', $confirmationHash)->first();
         
         return $recipient;
     }

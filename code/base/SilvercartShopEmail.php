@@ -214,17 +214,12 @@ class SilvercartShopEmail extends DataObject {
      *
      * @return bool
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public static function send($identifier, $to, $variables = array(), $attachments = null) {
-        $mailObj = DataObject::get_one(
-            'SilvercartShopEmail',
-            sprintf(
-                "\"Identifier\" = '%s'",
-                $identifier
-            )
-        );
+        $mailObj = SilvercartShopEmail::get()->filter('Identifier', $identifier)->first();
 
         if (!$mailObj) {
             return false;

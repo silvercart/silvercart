@@ -448,15 +448,7 @@ class SilvercartPaymentMethod extends DataObject {
                 // 3) Generate shipping address with shop's default country
                 $currentShopLocale = i18n::get_lang_from_locale(i18n::get_locale());
                 $shippingAddress = new SilvercartAddress();
-                $shippingAddress->SilvercartCountry = DataObject::get_one(
-                    'SilvercartCountry',
-                    sprintf(
-                        "
-                        ISO2 = '%s'
-                        ",
-                        strtoupper($currentShopLocale)
-                    )
-                );
+                $shippingAddress->SilvercartCountry = SilvercartCountry::get()->filter('ISO2', strtoupper($currentShopLocale))->first();
             }
         }
 
@@ -481,7 +473,7 @@ class SilvercartPaymentMethod extends DataObject {
             if ($this->SilvercartHandlingCosts()->Count() > 0) {
                 $handlingCostToUse = $this->SilvercartHandlingCosts()->First();
             } else {
-                $silvercartTax                              = DataObject::get_one('SilvercartTax', 'isDefault = 1');
+                $silvercartTax                              = SilvercartTax::get()->filter('isDefault', 1)->first();
                 $handlingCostToUse                          = new SilvercartHandlingCost();
                 $handlingCostToUse->SilvercartPaymentMethod = $this;
                 $handlingCostToUse->SilvercartTax           = $silvercartTax;
@@ -753,8 +745,9 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false) {
         $allowedPaymentMethods  = array();
@@ -768,7 +761,7 @@ class SilvercartPaymentMethod extends DataObject {
         if (!$member &&
             $forceAnonymousCustomerIfNotExist) {
             $member         = new Member();
-            $anonymousGroup = DataObject::get_one('Group', "\"Code\" = 'anonymous'");
+            $anonymousGroup = Group::get()->filter('Code', 'anonymous')->first();
             $memberGroups   = new ArrayList();
             $memberGroups->push($anonymousGroup);
         } else {
@@ -1144,7 +1137,7 @@ class SilvercartPaymentMethod extends DataObject {
                 if ($this->moduleName == "Prepayment" && SilvercartRequireDefaultRecords::isEnabledTestData()) {
                     $this->isActive = 1;
                     //As we do not know if the country is instanciated yet we do write this relation in the country class too.
-                    $germany = DataObject::get_one('SilvercartCountry', "\"ISO2\" = 'DE'");
+                    $germany = SilvercartCountry::get()->filter('ISO2', 'DE')->first();
                     if ($germany) {
                         $this->SilvercartCountries()->add($germany);
                     }
@@ -1597,12 +1590,13 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.10.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function createRequiredOrderStatus($orderStatusList) {
         foreach ($orderStatusList as $code => $title) {
-            if (!DataObject::get_one('SilvercartOrderStatus', sprintf("\"Code\"='%s'", $code), true, "SilvercartOrderStatus.ID")) {
+            if (!SilvercartOrderStatus::get()->filter('Code', $code)->sort('SilvercartOrderStatus.ID')->first()) {
                 $silvercartOrderStatus = new SilvercartOrderStatus();
                 $silvercartOrderStatus->Title = $title;
                 $silvercartOrderStatus->Code = $code;
@@ -1616,11 +1610,12 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.10.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function createUploadFolder() {
-        $uploadsFolder = DataObject::get_one('Folder', "\"Name\"='Uploads'");
+        $uploadsFolder = Folder::get()->filter('Name', 'Uploads')->first();
 
         if (!$uploadsFolder) {
             $uploadsFolder = new Folder();
@@ -1642,8 +1637,9 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.10.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
         //make sure that the folder "Uploads" exists
@@ -1659,7 +1655,7 @@ class SilvercartPaymentMethod extends DataObject {
                             foreach ($logos as $title => $logo) {
                                 $paymentLogo = new SilvercartImage();
                                 $paymentLogo->Title = $title;
-                                $storedLogo = DataObject::get_one('Image', sprintf("\"Name\"='%s'", basename($logo)));
+                                $storedLogo = Image::get()->filter('Name', basename($logo))->first();
                                 if ($storedLogo) {
                                     $paymentLogo->ImageID = $storedLogo->ID;
                                 } else {
@@ -1685,7 +1681,7 @@ class SilvercartPaymentMethod extends DataObject {
 
                         $paymentLogo = new SilvercartImage();
                         $paymentLogo->Title = $title;
-                        $storedLogo = DataObject::get_one('Image', sprintf("\"Name\"='%s'", basename($logo)));
+                        $storedLogo = Image::get()->filter('Name', basename($logo))->first();
 
                         if ($storedLogo) {
                             $paymentLogo->ImageID = $storedLogo->ID;

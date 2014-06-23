@@ -79,22 +79,16 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * @param string         $action  Action
      *
      * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function handleAction($request, $action) {
         $this->action           = str_replace("-","_",$request->param('Action'));
         $this->requestParams    = $request->requestVars();
         
-        $inboundShoppingCartTransfer = DataObject::get_one(
-            'SilvercartInboundShoppingCartTransfer',
-            sprintf(
-                "refererIdentifier = '%s'",
-                Convert::raw2sql($this->action)
-            )
-        );
+        $inboundShoppingCartTransfer = SilvercartInboundShoppingCartTransfer::get()->filter('refererIdentifier', Convert::raw2sql($this->action))->first();
         
         if ($inboundShoppingCartTransfer) {
             if ($inboundShoppingCartTransfer->useSharedSecret &&
@@ -137,9 +131,10 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * @param SS_HTTPRequest                        $request                     The request parameters
      *
      * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 01.08.2011
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     protected function handleKeyValueShoppingCartTransferWith(SilvercartInboundShoppingCartTransfer $inboundShoppingCartTransfer, SS_HTTPRequest $request) {
         $error          = false;
@@ -162,13 +157,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
                 $productQuantity = 1;
             }
             
-            $product = DataObject::get_one(
-                'SilvercartProduct',
-                sprintf(
-                    $inboundShoppingCartTransfer->productMatchingField." = '%s'",
-                    Convert::raw2sql($requestVars[$inboundShoppingCartTransfer->keyValueProductIdentifier][$identifierIdx])
-                )
-            );
+            $product = SilvercartProduct::get()->filter($inboundShoppingCartTransfer->productMatchingField, Convert::raw2sql($requestVars[$inboundShoppingCartTransfer->keyValueProductIdentifier][$identifierIdx]))->first();
             
             if ($product) {
                 $this->addProduct($product, $productQuantity);
@@ -188,10 +177,10 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
      * @param SS_HTTPRequest                        $request                     The request parameters
      *
      * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.07.2013
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     protected function handleCombinedStringShoppingCartTransferWith(SilvercartInboundShoppingCartTransfer $inboundShoppingCartTransfer, SS_HTTPRequest $request) {
         $error       = false;
@@ -247,13 +236,7 @@ class SilvercartInboundShoppingCartTransferPage_Controller extends Page_Controll
                     }
                 }
 
-                $product = DataObject::get_one(
-                    'SilvercartProduct',
-                    sprintf(
-                        $inboundShoppingCartTransfer->productMatchingField." = '%s'",
-                        $productIdentifier
-                    )
-                );
+                $product = SilvercartProduct::get()->filter($inboundShoppingCartTransfer->productMatchingField, $productIdentifier)->first();
 
                 if ($product) {
                     $this->addProduct($product, $productQuantity);

@@ -1823,10 +1823,10 @@ class SilvercartShoppingCart extends DataObject {
      * @param array $taxes The tax rates array (associative)
      *
      * @return SilvercartTax
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2013
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function getMostValuableTaxRate($taxes = null) {
         if (is_null($taxes)) {
@@ -1845,13 +1845,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         if (!is_null($originalMostValuableTaxRate)) {
-            $silvercartTax = DataObject::get_one(
-                'SilvercartTax',
-                sprintf(
-                    "Rate = %f",
-                    $originalMostValuableTaxRate
-                )
-            );
+            $silvercartTax = SilvercartTax::get()->filter('Rate', $originalMostValuableTaxRate)->first();
             
             if ($silvercartTax) {
                 if ($originalMostValuableTaxRate != $mostValuableTaxRate) {

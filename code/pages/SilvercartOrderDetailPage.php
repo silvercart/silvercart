@@ -159,7 +159,7 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
      * @return DataObject Order object
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
+     * @since 16.06.2014
      */
     public function CustomersOrder() {
         $id         = Convert::raw2sql($this->getOrderID());
@@ -167,14 +167,10 @@ class SilvercartOrderDetailPage_Controller extends SilvercartMyAccountHolder_Con
         $order      = false;
         
         if ($memberID && $id) {
-            $order = DataObject::get_one(
-                'SilvercartOrder',
-                sprintf(
-                    "\"ID\"= '%s' AND \"MemberID\" = '%s'",
-                    $id,
-                    $memberID
-                )
-            );
+            $order = SilvercartOrder::get()->filter(array(
+                'ID' => $id,
+                'MemberID' => $memberID,
+            ))->first();
 
             return $order;
         }

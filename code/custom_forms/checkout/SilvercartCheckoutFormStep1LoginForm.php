@@ -95,18 +95,16 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlFormStep {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.04.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function submitSuccess($data, $form, $formData) {
         $emailAddress   = $formData['Email'];
         $password       = $formData['Password'];
 
         // get customers data
-        $user = DataObject::get_one(
-            'Member',
-            'Member.Email = \'' . $emailAddress . '\''
-        );
+        $user = Member::get()->filter('Email', $emailAddress)->first();
 
         if ($user) {
             $customer = MemberAuthenticator::authenticate(

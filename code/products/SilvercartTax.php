@@ -239,7 +239,7 @@ class SilvercartTax extends DataObject {
      * @return SilvercartTax
      */
     public static function getDefault() {
-        $defaultTaxRate = DataObject::get_one('SilvercartTax', '"IsDefault" = 1');
+        $defaultTaxRate = SilvercartTax::get()->filter('IsDefault', '1')->first();
         return $defaultTaxRate;
     }
     

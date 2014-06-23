@@ -234,12 +234,12 @@ class SilvercartImageSliderImage extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2013
+     * @since 16.06.2014
      */
     public function LinkedSite() {
         $linkedSite = false;
         if (!empty($this->ProductNumberToReference)) {
-            $product = DataObject::get_one('SilvercartProduct', sprintf('"SilvercartProduct"."ProductNumberShop" = \'%s\'', $this->ProductNumberToReference));
+            $product = SilvercartProduct::get()->filter('ProductNumberShop', $this->ProductNumberToReference)->first();
             if ($product instanceof SilvercartProduct) {
                 $linkedSite = $product;
             }

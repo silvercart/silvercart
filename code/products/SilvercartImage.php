@@ -479,13 +479,13 @@ class SilvercartImage extends DataObject {
      * @return mixed SiteTree|boolean false
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2013
+     * @since 16.06.2014
      */
     public function Link() {
         if (is_null($this->link)) {
             $this->link = false;
             if (!empty($this->ProductNumberToReference)) {
-                $product = DataObject::get_one('SilvercartProduct', sprintf('"SilvercartProduct"."ProductNumberShop" = \'%s\'', $this->ProductNumberToReference));
+                $product = SilvercartProduct::get()->filter('ProductNumberShop', $this->ProductNumberToReference)->first();
                 if ($product instanceof SilvercartProduct) {
                     $this->link = $product->Link();
                 }

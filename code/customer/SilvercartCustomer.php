@@ -506,8 +506,9 @@ class SilvercartCustomer extends DataExtension {
      *
      * @return Member
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public static function createAnonymousCustomer() {
         $member = Member::currentUser();
@@ -517,9 +518,7 @@ class SilvercartCustomer extends DataExtension {
             $member->write();
             
             // Add customer to intermediate group
-            $customerGroup = DataObject::get_one(
-                'Group', "\"Code\" = 'anonymous'"
-            );
+            $customerGroup = Group::get()->filter('Code', 'anonymous')->first();
             
             if ($customerGroup) {
                 $member->Groups()->add($customerGroup);

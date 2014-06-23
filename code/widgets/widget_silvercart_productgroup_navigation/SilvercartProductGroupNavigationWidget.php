@@ -330,17 +330,13 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.07.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function NavigationCacheKey() {
         $key            = $this->SilvercartProductGroupPageID.'_'.$this->LastEdited.'_';
-        $lastEditedPage = DataObject::get_one(
-            'SilvercartProductGroupPage',
-            '',
-            true,
-            "LastEdited DESC"
-        );
+        $lastEditedPage = SilvercartProductGroupPage::get()->sort('LastEdited DESC')->first();
 
         if ($lastEditedPage) {
             $key .= '_'.$lastEditedPage->LastEdited;

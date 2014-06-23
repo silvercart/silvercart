@@ -147,7 +147,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2013
+     * @since 16.06.2014
      */
     public function handleAction($request, $action) {
         if ($this->getDeeplink()&& isset ($this->urlParams['ID'])) {
@@ -166,7 +166,7 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
             return $this->renderWith(array('SilvercartSearchResultsPage', 'Page'));
         }
         
-        return $this->redirect(DataObject::get_one('ErrorPage', '\"ErrorCode\" = 404')->Link());
+        return $this->redirect(ErrorPage::get()->filter('ErrorCode', '404')->first()->Link());
     } 
 
 

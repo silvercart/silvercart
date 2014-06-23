@@ -79,8 +79,10 @@ class SilvercartLoginForm extends CustomHtmlForm {
      * @param array          $formData contains the modules form data
      *
      * @return array to be rendered in the controller
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2010
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -88,10 +90,7 @@ class SilvercartLoginForm extends CustomHtmlForm {
         $password = $formData['password'];
 
         // get customers data
-        $user = DataObject::get_one(
-            'Member',
-            'Member.Email LIKE \'' . $formData['emailaddress'] . '\''
-        );
+        $user = Member::get()->filter('Email', $formData['emailaddress'])->first();
 
         if ($user) {
             $customer = MemberAuthenticator::authenticate(

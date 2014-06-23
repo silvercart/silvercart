@@ -1892,7 +1892,7 @@ class SilvercartProduct extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2014
+     * @since 16.06.2014
      */
     public function addToCart($cartID, $quantity = 1, $increment = false) {
         $addToCartAllowed = true;
@@ -1911,8 +1911,10 @@ class SilvercartProduct extends DataObject {
             return false;
         }
 
-        $filter               = sprintf("\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'", $this->ID, $cartID);
-        $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
+        $shoppingCartPosition = SilvercartShoppingCartPosition::get()->filter(array(
+            'SilvercartProductID' => $this->ID,
+            'SilvercartShoppingCartID' => $cartID,
+        ))->first();
 
         if (!$shoppingCartPosition) {
             $shoppingCartPosition = new SilvercartShoppingCartPosition();
@@ -1924,7 +1926,10 @@ class SilvercartProduct extends DataObject {
                 )
             );
             $shoppingCartPosition->write();
-            $shoppingCartPosition = DataObject::get_one('SilvercartShoppingCartPosition', $filter);
+            $shoppingCartPosition = SilvercartShoppingCartPosition::get()->filter(array(
+                'SilvercartProductID' => $this->ID,
+                'SilvercartShoppingCartID' => $cartID,
+            ))->first();
         }
         
         $positionNotice = null;
@@ -1994,7 +1999,7 @@ class SilvercartProduct extends DataObject {
      * @return SilvercartShoppingCartPosition
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.03.2013
+     * @since 16.06.2014
      */
     public function getPositionInCart($cartID = null) {
         if (is_null($cartID) &&
@@ -2002,14 +2007,10 @@ class SilvercartProduct extends DataObject {
             $cartID = Member::currentUser()->getCart()->ID;
         }
         if (!array_key_exists($cartID, $this->positionInCart)) {
-            $this->positionInCart[$cartID] = DataObject::get_one(
-                    'SilvercartShoppingCartPosition',
-                    sprintf(
-                            "\"SilvercartProductID\" = '%s' AND SilvercartShoppingCartID = '%s'",
-                            $this->ID,
-                            $cartID
-                    )
-            );
+            $this->positionInCart[$cartID] = SilvercartShoppingCartPosition::get()->filter(array(
+                'SilvercartProductID' => $this->ID,
+                'SilvercartShoppingCartID' => $cartID,
+            ))->first();
             $this->extend('updatePositionInCart', $this->positionInCart[$cartID]);
         }
         return $this->positionInCart[$cartID];
@@ -2400,7 +2401,7 @@ class SilvercartProduct extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2014
+     * @since 16.06.2014
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -2418,14 +2419,10 @@ class SilvercartProduct extends DataObject {
                 $this->record['SortOrder'] = $this->original['SortOrder'];
 
                 // Set the sort order for the relation
-                $productGroupMirrorSortOrder = DataObject::get_one(
-                    'SilvercartProductGroupMirrorSortOrder',
-                    sprintf(
-                        "SilvercartProductGroupPageID = %d AND SilvercartProductID = %d",
-                        $silvercartProductGroupPageID,
-                        $this->ID
-                    )
-                );
+                $productGroupMirrorSortOrder = SilvercartProductGroupMirrorSortOrder::get()->filter(array(
+                    'SilvercartProductGroupPageID' => $silvercartProductGroupPageID,
+                    'SilvercartProductID' => $this->ID,
+                ))->first();
                 if ($productGroupMirrorSortOrder) {
                     $productGroupMirrorSortOrder->setField('SortOrder', $sortOrder);
                     $productGroupMirrorSortOrder->write();

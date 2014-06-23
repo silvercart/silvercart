@@ -541,17 +541,13 @@ class SilvercartPage_Controller extends ContentController {
      * see _config.php
      *
      * @return string html for breadcrumbs
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 3.11.2010
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
      */
     public function getBreadcrumbs() {
-        $page = DataObject::get_one(
-            'Page',
-            sprintf(
-                    '"URLSegment" LIKE \'%s\'',
-                    $this->urlParams['URLSegment']
-            )
-        );
+        $page = Page::get()->filter('URLSegment', $this->urlParams['URLSegment'])->first();
 
         return $this->ContextBreadcrumbs($page);
     }
@@ -1030,9 +1026,9 @@ class SilvercartPage_Controller extends ContentController {
      * Returns the current shipping country
      *
      * @return SilvercartCountry
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
+     * @since 16.06.2014
      */
     public function ShippingCountry() {
         $customer           = Member::currentUser();
@@ -1042,13 +1038,10 @@ class SilvercartPage_Controller extends ContentController {
         }
         if (is_null($shippingCountry) ||
             $shippingCountry->ID == 0) {
-            $shippingCountry = DataObject::get_one(
-                    'SilvercartCountry',
-                    sprintf(
-                            "`ISO2` = '%s' AND `Active` = 1",
-                            substr(Translatable::get_current_locale(), 3)
-                    )
-            );
+            $shippingCountry = SilvercartCountry::get()->filter(array(
+                'ISO2'   => substr(Translatable::get_current_locale(), 3),
+                'Active' => 1,
+            ))->first();
         }
         return $shippingCountry;
     }
