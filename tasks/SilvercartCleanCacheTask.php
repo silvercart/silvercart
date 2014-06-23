@@ -72,7 +72,7 @@ class SilvercartCleanCacheTask extends BuildTask {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.06.2013
+     * @since 23.06.2014
      */
     public function run($request) {
         if (Member::currentUser() instanceof Member &&
@@ -84,7 +84,7 @@ class SilvercartCleanCacheTask extends BuildTask {
 
             }
         } else {
-            Director::redirect('/');
+            Controller::curr()->redirect('/');
         }
     }
     

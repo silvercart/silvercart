@@ -130,7 +130,7 @@ class SilvercartActionHandler extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.09.2013
+     * @since 23.06.2014
      */
     public function doSearch(SS_HTTPRequest $request) {
         $postVars           = $request->postVars();
@@ -150,6 +150,6 @@ class SilvercartActionHandler extends DataExtension {
         Session::set("searchQuery",     $quickSearchQuery);
         Session::set('searchContext',   $searchContext);
         Session::save();
-        Director::redirect($searchResultsPage->RelativeLink());
+        $this->owner->redirect($searchResultsPage->RelativeLink());
     }
 }

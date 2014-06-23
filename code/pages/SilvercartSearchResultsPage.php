@@ -325,7 +325,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 23.06.2014
      */
     public function init($skip = false) {
         SilvercartProduct::addExtendedSortableFrontendFields(
@@ -337,7 +337,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         
         if ($this->isProductDetailView()) {
             // product detail views are not possible on SilvercartSearchResultsPage
-            Director::redirect(ErrorPage::get()->filter('ErrorCode', '404')->first()->Link());
+            $this->redirect(ErrorPage::get()->filter('ErrorCode', '404')->first()->Link());
         }
        
         $this->searchObjectHandler();

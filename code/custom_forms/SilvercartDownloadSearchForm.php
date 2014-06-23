@@ -94,7 +94,7 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      * @return array to be rendered in the controller
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.09.2013
+     * @since 23.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
         $children    = $this->Controller()->AllChildren();
@@ -134,7 +134,7 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
         Session::set('SilvercartDownloadSearchForm.current_query', $searchQuery);
         Session::save();
         
-        Director::redirect($this->Controller()->Link('results'));
+        $this->Controller()->redirect($this->Controller()->Link('results'));
     }
     
     /**
