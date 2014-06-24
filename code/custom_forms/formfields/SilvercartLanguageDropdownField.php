@@ -102,7 +102,7 @@ class SilvercartLanguageDropdownField extends DropdownField {
      * @return string HTML tag for this dropdown field
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
+     * @since 24.06.2014
      */
     public function Field($properties = array()) {
         $options    = '';
@@ -129,10 +129,12 @@ class SilvercartLanguageDropdownField extends DropdownField {
                 }
 
 
+                $link = "#";
                 if ($controller) {
-                    $link = $controller->getTranslation($value)->Link();
-                } else {
-                    $link = "#";
+                    $translation = $controller->getTranslation($value);
+                    if ($translation instanceof SiteTree) {
+                        $link = $translation->Link();
+                    }
                 }
 
                 $options .= $this->createTag(
