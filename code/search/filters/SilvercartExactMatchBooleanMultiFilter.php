@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2013 pixeltricks GmbH
+ * Copyright 2014 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -13,10 +13,10 @@
  * indicator.
  *
  * @package Silvercart
- * @subpackage Search
+ * @subpackage Search_Filters
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2013 pixeltricks GmbH
- * @since 11.10.2012
+ * @copyright 2014 pixeltricks GmbH
+ * @since 25.06.2014
  * @license see license file in modules root directory
  */
 class SilvercartExactMatchBooleanMultiFilter extends SearchFilter {
@@ -31,14 +31,14 @@ class SilvercartExactMatchBooleanMultiFilter extends SearchFilter {
      * @return DataQuery
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.10.2012
+     * @since 25.06.2014
      */
     public function apply(DataQuery $query) {
         $result = false;
         $value  = $this->getValue();
         if (is_array($value) &&
             count($value) > 0) {
-            $query  = $this->applyRelation($query);
+            $this->model = $query->applyRelation($this->relation);
             $values = array(
                 0 => array(),
                 1 => array(),
