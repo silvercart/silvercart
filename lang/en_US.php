@@ -1180,6 +1180,7 @@ $lang['en_US']['SilvercartOrder']['NOTE'] = 'Note';
 $lang['en_US']['SilvercartOrder']['ORDER_ID'] = 'Ordernumber';
 $lang['en_US']['SilvercartOrder']['ORDERNUMBER'] = 'Ordernumber';
 $lang['en_US']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-number';
+$lang['en_US']['SilvercartOrder']['OrderNumberShort'] = 'Orderno.';
 $lang['en_US']['SilvercartOrder']['ORDERPOSITIONDATA'] = 'Position Data';
 $lang['en_US']['SilvercartOrder']['ORDERPOSITIONISLIMIT'] = 'Order may not have other positions';
 $lang['en_US']['SilvercartOrder']['ORDERPOSITIONQUANTITY'] = 'Position Quantity';

@@ -239,21 +239,20 @@ class SilvercartCustomer extends DataExtension {
      * 
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.09.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 25.06.2014
      */
     public function updateSearchableFields(&$fields) {
         $address = singleton('SilvercartAddress');
         
-        $addressesCountryFilter = array();
-        if ($this->owner->SilvercartAddresses()->exists()) {
-            $addressesCountryFilter = array(
-                'SilvercartAddresses.first.SilvercartCountry.ID' => array(
-                    'title'     => $address->fieldLabel('SilvercartCountry'),
-                    'filter'    => 'ExactMatchFilter',
-                ),
-            );
-        }
+        $addressesCountryFilter = array(
+            'SilvercartAddresses.SilvercartCountryID' => array(
+                'title'     => $address->fieldLabel('SilvercartCountry'),
+                'filter'    => 'ExactMatchFilter',
+                'field'     => new DropdownField('SilvercartAddresses.SilvercartCountryID', $address->fieldLabel('SilvercartCountry'), SilvercartCountry::getPrioritiveDropdownMap(false, '')),
+            ),
+        );
         
         $fields = array_merge(
                 $fields,

@@ -1180,6 +1180,7 @@ $lang['de_DE']['SilvercartOrder']['NOTE'] = 'Bemerkung';
 $lang['de_DE']['SilvercartOrder']['ORDER_ID'] = 'Bestellnummer';
 $lang['de_DE']['SilvercartOrder']['ORDERNUMBER'] = 'Bestellnummer';
 $lang['de_DE']['SilvercartOrder']['ORDERNUMBERSHORT'] = '-nummer';
+$lang['de_DE']['SilvercartOrder']['OrderNumberShort'] = 'Best.-Nr.';
 $lang['de_DE']['SilvercartOrder']['ORDERPOSITIONDATA'] = 'Positionsdaten';
 $lang['de_DE']['SilvercartOrder']['ORDERPOSITIONISLIMIT'] = 'Bestellung darf nur angegebene Position enthalten';
 $lang['de_DE']['SilvercartOrder']['ORDERPOSITIONQUANTITY'] = 'Positionsmenge';

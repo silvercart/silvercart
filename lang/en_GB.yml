@@ -1055,6 +1055,7 @@ en_GB:
     ORDERPOSITIONQUANTITY: "Position Quantity"
     ORDER_ID: "Order number"
     ORDER_VALUE: "Order amount"
+    OrderNumberShort: "Orderno."
     PAYMENTMETHODTITLE: "Payment method"
     PLURALNAME: "Orders"
     PRICETYPE: "Price-Display-Type"
@@ -1325,7 +1326,7 @@ en_GB:
     PAYMENT_MODIFY_TOTALVALUE: "Total value"
     PAYMENT_MODIFY_TYPE_CHARGE: "Charge"
     PAYMENT_MODIFY_TYPE_DISCOUNT: "Discount"
-    PAYMENT_SUMMODIFICATIONIMPACT: "Affects"
+    PAYMENT_SUMMODIFICATIONIMPACT: "Discount"
     PAYMENT_SUMMODIFICATIONIMPACTTYPE: "Type"
     PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: "The value is"
     PAYMENT_SUMMODIFICATIONLABELFIELD: "Label for shopping cart/order"
@@ -1515,8 +1516,6 @@ en_GB:
     PLURALNAME: "Price portal exporters"
     SINGULARNAME: "Price portal exporter"
     URL: "URL"
-  SilvercartProductExporterAdmin:
-    MENUTITLE: "Product exporter"
   SilvercartProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart show products of child productgroups"
     DESCRIPTION: "This widget displays products of a child productgroup if there are no products assigned to the current productgroup."

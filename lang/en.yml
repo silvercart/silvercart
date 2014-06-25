@@ -1055,6 +1055,7 @@ en:
     ORDERPOSITIONQUANTITY: "Position Quantity"
     ORDER_ID: "Ordernumber"
     ORDER_VALUE: "Orderamount"
+    OrderNumberShort: "Orderno."
     PAYMENTMETHODTITLE: "Payment method"
     PLURALNAME: "Orders"
     PRICETYPE: "Price-Display-Type"

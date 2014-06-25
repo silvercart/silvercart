@@ -241,8 +241,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function summaryFields() {
         $summaryFields = array(
             'CreatedNice'                       => $this->fieldLabel('Created'),
-            'OrderNumber'                       => $this->fieldLabel('OrderNumber'),
-            'Member.CustomerNumber'             => $this->Member()->fieldLabel('CustomerNumber'),
+            'OrderNumber'                       => $this->fieldLabel('OrderNumberShort'),
+            'Member.CustomerNumber'             => $this->Member()->fieldLabel('CustomerNumberShort'),
             'ShippingAddressSummaryHtml'        => $this->fieldLabel('SilvercartShippingAddress'),
             'InvoiceAddressSummaryHtml'         => $this->fieldLabel('SilvercartInvoiceAddress'),
             'AmountTotalNice'                   => $this->fieldLabel('AmountTotal'),
@@ -288,6 +288,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'ID'                                    => _t('SilvercartOrder.ORDER_ID'),
                 'Created'                               => _t('SilvercartPage.ORDER_DATE'),
                 'OrderNumber'                           => _t('SilvercartOrder.ORDERNUMBER', 'ordernumber'),
+                'OrderNumberShort'                      => _t('SilvercartOrder.OrderNumberShort'),
                 'SilvercartShippingFee'                 => _t('SilvercartOrder.SHIPPINGRATE', 'shipping costs'),
                 'Note'                                  => _t('SilvercartOrder.NOTE'),
                 'YourNote'                              => _t('SilvercartOrder.YOUR_REMARK'),
@@ -357,7 +358,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $searchableFields = array(
             'Created' => array(
                 'title'     => $this->fieldLabel('Created'),
-                'filter'    => 'DateRangeSearchFilter'
+                'filter'    => 'DateRangeSearchFilter',
+                'field'     => 'TextField',
             ),
             'OrderNumber' => array(
                 'title'     => $this->fieldLabel('OrderNumber'),

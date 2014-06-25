@@ -57,4 +57,32 @@ class SilvercartCustomerAdmin extends SilvercartModelAdmin {
         'Member'
     );
     
+    /**
+     * Manipulate search form to add some grouping.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2014
+     */
+    public function SearchForm() {
+        $searchForm             = parent::SearchForm();
+        $fields                 = $searchForm->Fields();
+        $customer               = singleton('Member');
+        
+        $basicLabelField        = new HeaderField(  'BasicLabelField',          $customer->fieldLabel('BasicData'));
+        $addressLabelField      = new HeaderField(  'AddressLabelField',        $customer->fieldLabel('AddressData'));
+        $invoiceLabelField      = new HeaderField(  'InvoiceLabelField',        $customer->fieldLabel('InvoiceData'));
+        $shippingLabelField     = new HeaderField(  'ShippingLabelField',       $customer->fieldLabel('ShippingData'));
+        
+        $fields->insertBefore($basicLabelField,                              'q[FirstName]');
+        $fields->insertBefore($fields->dataFieldByName('q[CustomerNumber]'), 'q[FirstName]');
+        $fields->insertBefore($fields->dataFieldByName('q[Email]'),          'q[FirstName]');
+        $fields->insertAfter($addressLabelField,                             'q[SubscribedToNewsletter]');
+        $fields->insertAfter($invoiceLabelField,                             'q[SilvercartAddresses__SilvercartCountryID]');
+        $fields->insertAfter($shippingLabelField,                            'q[SilvercartInvoiceAddress__SilvercartCountry__ID]');
+        
+        return $searchForm;
+    }
+    
 }

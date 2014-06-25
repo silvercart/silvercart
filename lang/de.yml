@@ -1057,6 +1057,7 @@ de:
     ORDERPOSITIONQUANTITY: "Positionsmenge"
     ORDER_ID: "Bestellnummer"
     ORDER_VALUE: "Gesamtbetrag"
+    OrderNumberShort: "Best.-Nr."
     PAYMENTMETHODTITLE: "Bezahlart"
     PLURALNAME: "Bestellungen"
     PRICETYPE: "Preis-Anzeige-Typ"

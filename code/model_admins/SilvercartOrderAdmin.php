@@ -79,7 +79,7 @@ class SilvercartOrderAdmin extends SilvercartModelAdmin {
             (function($) {
                 $(document).ready(function() { 
                     //Date picker
-                    $('#Form_SearchForm_SilvercartOrder_Created').daterangepicker({
+                    $('#Form_SearchForm_q-Created').daterangepicker({
                         arrows: false,
                         dateFormat: 'dd.mm.yy',
                         presetRanges: [
@@ -119,6 +119,48 @@ class SilvercartOrderAdmin extends SilvercartModelAdmin {
         );
 
         $this->extend('updateInit');
+    }
+    
+    /**
+     * Manipulate search form to add some grouping.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.06.2014
+     */
+    public function SearchForm() {
+        $searchForm             = parent::SearchForm();
+        $fields                 = $searchForm->Fields();
+        $order                  = singleton('SilvercartOrder');
+        
+        $basicLabelField        = new HeaderField(  'BasicLabelField',          $order->fieldLabel('BasicData'));
+        $customerLabelField     = new HeaderField(  'CustomerLabelField',       $order->fieldLabel('CustomerData'));
+        $positionLabelField     = new HeaderField(  'PositionLabelField',       $order->fieldLabel('OrderPositionData'));
+        $miscLabelField         = new HeaderField(  'MiscLabelField',           $order->fieldLabel('MiscData'));
+        
+        $origOrderStatusField   = $fields->dataFieldByName('q[SilvercartOrderStatus__ID]');
+        $orderStatusField       = new SilvercartMultiDropdownField('q[SilvercartOrderStatus__ID]', $origOrderStatusField->Title(), $origOrderStatusField->getSource());
+        $positionQuantityField  = new TextField(    'q[OrderPositionQuantity]',                    $order->fieldLabel('OrderPositionQuantity'));
+        $positionIsLimitField   = new CheckboxField('q[OrderPositionIsLimit]',                     $order->fieldLabel('OrderPositionIsLimit'));
+        $limitField             = new TextField(    'q[SearchResultsLimit]',                       $order->fieldLabel('SearchResultsLimit'));
+        
+        $fields->insertBefore($basicLabelField,                      'q[OrderNumber]');
+        $fields->insertAfter($fields->dataFieldByName('q[Created]'), 'q[OrderNumber]');
+        $fields->insertAfter($orderStatusField,                      'q[IsSeen]');
+        $fields->insertBefore($customerLabelField,                   'q[Member__CustomerNumber]');
+        $fields->insertBefore($positionLabelField,                   'q[SilvercartOrderPositions__ProductNumber]');
+        $fields->insertAfter($positionQuantityField,                 'q[SilvercartOrderPositions__ProductNumber]');
+        $fields->insertAfter($positionIsLimitField,                  'q[OrderPositionQuantity]');
+        $fields->insertAfter($miscLabelField,                        'q[OrderPositionIsLimit]');
+        $fields->insertAfter($limitField,                            'q[MiscLabelField]');
+        
+        $fields->dataFieldByName('q[SilvercartOrderStatus__ID]')->setEmptyString(                       _t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        $fields->dataFieldByName('q[SilvercartPaymentMethod__ID]')->setEmptyString(                     _t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        $fields->dataFieldByName('q[SilvercartShippingMethod__ID]')->setEmptyString(                    _t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        $fields->dataFieldByName('q[SilvercartShippingAddress__SilvercartCountry__ID]')->setEmptyString(_t('SilvercartOrderSearchForm.PLEASECHOOSE'));
+        
+        return $searchForm;
     }
     
 }
