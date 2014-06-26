@@ -760,11 +760,16 @@ class SilvercartTools extends Object {
     /**
      * Returns a map of month number and name to use in a drop down.
      * 
+     * @param string $emptyString Optional string to use instead of default empty string.
+     * 
      * @return array
      */
-    public static function getMonthMap() {
+    public static function getMonthMap($emptyString = null) {
+        if (is_null($emptyString)) {
+            $emptyString = _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE');
+        }
         $monthMap = array(
-            ''   => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE'),
+            ''   => $emptyString,
             '1'  => _t('SilvercartPage.JANUARY'),
             '2'  => _t('SilvercartPage.FEBRUARY'),
             '3'  => _t('SilvercartPage.MARCH'),
