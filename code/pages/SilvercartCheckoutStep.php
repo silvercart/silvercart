@@ -126,13 +126,13 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
-        $fields->findOrMakeTab('Root.Content.StepContent', $this->fieldLabel('StepContent'));
-        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep1', $this->fieldLabel('ContentStep1'), 15));
-        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep2', $this->fieldLabel('ContentStep2'), 15));
-        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep3', $this->fieldLabel('ContentStep3'), 15));
-        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep4', $this->fieldLabel('ContentStep4'), 15));
-        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep5', $this->fieldLabel('ContentStep5'), 15));
-        $fields->addFieldToTab('Root.Content.StepContent', new HtmlEditorField('ContentStep6', $this->fieldLabel('ContentStep6'), 15));
+        $fields->findOrMakeTab('Root.StepContent', $this->fieldLabel('StepContent'));
+        $fields->addFieldToTab('Root.StepContent', new HtmlEditorField('ContentStep1', $this->fieldLabel('ContentStep1'), 15));
+        $fields->addFieldToTab('Root.StepContent', new HtmlEditorField('ContentStep2', $this->fieldLabel('ContentStep2'), 15));
+        $fields->addFieldToTab('Root.StepContent', new HtmlEditorField('ContentStep3', $this->fieldLabel('ContentStep3'), 15));
+        $fields->addFieldToTab('Root.StepContent', new HtmlEditorField('ContentStep4', $this->fieldLabel('ContentStep4'), 15));
+        $fields->addFieldToTab('Root.StepContent', new HtmlEditorField('ContentStep5', $this->fieldLabel('ContentStep5'), 15));
+        $fields->addFieldToTab('Root.StepContent', new HtmlEditorField('ContentStep6', $this->fieldLabel('ContentStep6'), 15));
         
         return $fields;
     }
