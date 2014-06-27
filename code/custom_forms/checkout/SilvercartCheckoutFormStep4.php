@@ -80,8 +80,9 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.01.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         parent::__construct($controller, $params, $preferences, $barebone);
@@ -92,7 +93,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
              */
             $checkoutData = $this->controller->getCombinedStepData();
             if (!Member::currentUser() ||
-                (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
+                (!Member::currentUser()->getCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
                 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
@@ -282,7 +283,7 @@ class SilvercartCheckoutFormStep4 extends CustomHtmlFormStep {
                 
                 $shippingCountry = DataObject::get_by_id('SilvercartCountry', $stepData['Shipping_Country']);
                 if ($shippingCountry instanceof SilvercartCountry) {
-                    $allowedPaymentMethods  = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->SilvercartShoppingCart());
+                    $allowedPaymentMethods  = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Member::currentUser()->getCart());
                     if (!($allowedPaymentMethods instanceof ArrayList)) {
                         $allowedPaymentMethods = new ArrayList();
                     }

@@ -134,6 +134,13 @@ class SilvercartCustomer extends DataExtension {
         'b2b',
         'administrators',
     );
+    
+    /**
+     * Holds the current shopping cart.
+     *
+     * @var SilvercartShoppingCart 
+     */
+    private static $shoppingCart = null;
 
     // ------------------------------------------------------------------------
     // Extension methods
@@ -696,19 +703,23 @@ class SilvercartCustomer extends DataExtension {
      * 
      * @return SilvercartShoppingCart
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.10.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function getCart() {
-        if ($this->owner->SilvercartShoppingCartID == 0 ||
-            !DataObject::get_by_id('SilvercartShoppingCart', $this->owner->SilvercartShoppingCartID)) {
-            $cart = new SilvercartShoppingCart();
-            $cart->write();
-            $this->owner->SilvercartShoppingCartID = $cart->ID;
-            $this->owner->write();
+        if (is_null(self::$shoppingCart)) {
+            if ($this->owner->SilvercartShoppingCartID == 0 ||
+                !SilvercartShoppingCart::get()->byID($this->owner->SilvercartShoppingCartID)) {
+                $cart = new SilvercartShoppingCart();
+                $cart->write();
+                $this->owner->SilvercartShoppingCartID = $cart->ID;
+                $this->owner->write();
+            }
+
+            self::$shoppingCart = $this->owner->SilvercartShoppingCart();
         }
-        
-        return $this->owner->SilvercartShoppingCart();
+        return self::$shoppingCart;
     }
     
     /**

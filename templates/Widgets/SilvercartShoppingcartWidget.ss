@@ -3,7 +3,7 @@
         <h2><% _t('SilvercartShoppingcartWidget.TITLE') %></h2>
 
         <div class="silvercart-widget-content_frame">
-            <% if CurrentMember.SilvercartShoppingCart.isFilled %>
+            <% if CurrentMember.getCart.isFilled %>
                 <table class="full">
                     <colgroup>
                         <col width="60%"></col>
@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <% with CurrentMember %>
-                        <% with SilvercartShoppingCart %>
+                        <% with getCart %>
                             <tfoot>
                                 <tr>
                                     <td colspan="2">

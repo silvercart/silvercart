@@ -324,17 +324,17 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.04.2013
+     * @since 27.06.2014
      */
     public function getShippingFee($weight = null) {
         $fee = false;
 
         if (is_null($weight)) {
             if (!Member::currentUser() ||
-                !Member::currentUser()->SilvercartShoppingCart()) {
+                !Member::currentUser()->getCart()) {
                 return $fee;
             }
-            $weight = Member::currentUser()->SilvercartShoppingCart()->getWeightTotal();
+            $weight = Member::currentUser()->getCart()->getWeightTotal();
         }
 
         $shippingCountry = $this->getShippingCountry();
@@ -509,7 +509,7 @@ class SilvercartShippingMethod extends DataObject {
      * @return boolean
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2014
+     * @since 27.06.2014
      */
     protected static function isInCheckoutContextWithPrepayment() {
         $isPrepayment = false;
@@ -518,7 +518,7 @@ class SilvercartShippingMethod extends DataObject {
             /*@var $checkout SilvercartCheckoutStep_Controller */
             $checkoutStep = $checkout->getCurrentFormInstance();
             if ($checkoutStep instanceof SilvercartCheckoutFormStep5) {
-                $paymentMethod = $checkoutStep->SilvercartShoppingCart()->getPaymentMethod();
+                $paymentMethod = $checkoutStep->getCart()->getPaymentMethod();
                 if ($paymentMethod instanceof SilvercartPaymentPrepayment &&
                     $paymentMethod->PaymentChannel == 'prepayment') {
                     $isPrepayment = true;

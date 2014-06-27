@@ -6,9 +6,9 @@
     </div>
 <% end_if %>
 
-<% if CurrentMember.SilvercartShoppingCart.isFilled %>
+<% if CurrentMember.getCart.isFilled %>
     <% with CurrentMember %>
-        <% with SilvercartShoppingCart %>
+        <% with getCart %>
             <% if CurrentPage.showPricesGross %>
                 <% include SilvercartShoppingCartFullGross %>
             <% else %>

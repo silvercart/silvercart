@@ -947,8 +947,9 @@ class SilvercartPage_Controller extends ContentController {
      * 
      * @return mixed false|SilvercartShoppingCart
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function SilvercartShoppingCart() {
         $controller = Controller::curr();
@@ -963,10 +964,19 @@ class SilvercartPage_Controller extends ContentController {
                 return false;
             }
 
-            return $member->SilvercartShoppingCart();
+            return $member->getCart();
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Alias for self::SilvercartShoppingCart().
+     * 
+     * @return SilvercartShoppingCart
+     */
+    public function getCart() {
+        return $this->SilvercartShoppingCart();
     }
     
     /**

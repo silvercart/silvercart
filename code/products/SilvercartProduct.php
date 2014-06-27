@@ -2821,14 +2821,15 @@ class SilvercartProduct extends DataObject {
      * @return boolean Can this product be bought due to stock management
      *                 settings and the customers cart?
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.7.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function isBuyableDueToStockManagementSettings() {
         //is the product already in the cart?
         $cartPositionQuantity = 0;
-        if (Member::currentUser() && Member::currentUser()->SilvercartShoppingCart()) {
-            $cartPositionQuantity = Member::currentUser()->SilvercartShoppingCart()->getQuantity($this->ID);
+        if (Member::currentUser() && Member::currentUser()->getCart()) {
+            $cartPositionQuantity = Member::currentUser()->getCart()->getQuantity($this->ID);
         }
         if (SilvercartConfig::EnableStockManagement()) {
             if (!$this->isStockQuantityOverbookable() &&

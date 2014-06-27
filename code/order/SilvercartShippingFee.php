@@ -370,8 +370,9 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.07.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function getTaxAmount($price = null) {
         if (is_null($price)) {
@@ -383,7 +384,7 @@ class SilvercartShippingFee extends DataObject {
         if (Member::currentUser() &&
             Member::currentUser()->SilvercartShoppingCartID > 0) {
 
-            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+            $silvercartShoppingCart = Member::currentUser()->getCart();
             $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
             $amountToGetFeeFor      = $shoppingCartValue->getAmount();
             $countryToGetFeeFor     = $this->SilvercartShippingMethod()->getShippingCountry();
@@ -446,9 +447,9 @@ class SilvercartShippingFee extends DataObject {
      *
      * @return float
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function getPriceAmount($plain = false, $amountToGetFeeFor = null, $countryToGetFeeFor = null) {
         $price = (float) $this->Price->getAmount();
@@ -460,7 +461,7 @@ class SilvercartShippingFee extends DataObject {
 
             if (Member::currentUser() &&
                 Member::currentUser()->SilvercartShoppingCartID > 0) {
-                $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+                $silvercartShoppingCart = Member::currentUser()->getCart();
                 $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
                 if (is_null($amountToGetFeeFor)) {
                     $amountToGetFeeFor  = $shoppingCartValue->getAmount();

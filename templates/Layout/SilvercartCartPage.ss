@@ -11,8 +11,8 @@
             </div>
         </div>
 
-        <% if CurrentMember.SilvercartShoppingCart.isFilled %>
-            <% if CurrentMember.SilvercartShoppingCart.IsMinimumOrderValueReached %>
+        <% if CurrentMember.getCart.isFilled %>
+            <% if CurrentMember.getCart.IsMinimumOrderValueReached %>
                 <div class="silvercart-button">
                     <div class="silvercart-button_content">
                         <a href="$PageByIdentifierCode(SilvercartCheckoutStep).Link"><% _t('SilvercartPage.CHECKOUT') %></a>

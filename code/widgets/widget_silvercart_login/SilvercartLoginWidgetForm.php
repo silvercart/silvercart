@@ -74,7 +74,7 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 27.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
 
@@ -98,15 +98,15 @@ class SilvercartLoginWidgetForm extends CustomHtmlForm {
                 if ($anonymousCustomer) {
                     if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->count() > 0) {
                         //delete registered customers cart positions
-                        if ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()) {
-                            foreach ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {
+                        if ($customer->getCart()->SilvercartShoppingCartPositions()) {
+                            foreach ($customer->getCart()->SilvercartShoppingCartPositions() as $position) {
                                 $position->delete();
                             }
                         }
                         //add anonymous positions to the registered user
 
-                        foreach ($anonymousCustomer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {
-                            $customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()->add($position);
+                        foreach ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions() as $position) {
+                            $customer->getCart()->SilvercartShoppingCartPositions()->add($position);
                         }
                     }
                     $anonymousCustomer->logOut();

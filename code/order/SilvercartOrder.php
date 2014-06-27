@@ -823,12 +823,12 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 27.06.2014
      */
     public function createFromShoppingCart() {
         $member = Member::currentUser();
         if ($member instanceof Member) {
-            $silvercartShoppingCart = $member->SilvercartShoppingCart();
+            $silvercartShoppingCart = $member->getCart();
             $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
             $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
             $this->MemberID         = $member->ID;
@@ -872,7 +872,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             }
 
             // amount of all positions + handling fee of the payment method + shipping fee
-            $totalAmount = $member->SilvercartShoppingCart()->getAmountTotal()->getAmount();
+            $totalAmount = $member->getCart()->getAmountTotal()->getAmount();
 
             $this->AmountTotal->setAmount(
                 $totalAmount
@@ -903,7 +903,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.01.2014
+     * @since 27.06.2014
      */
     public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
@@ -912,7 +912,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         $member = Member::currentUser();
         if ($member instanceof Member) {
-            $silvercartShoppingCart = $member->SilvercartShoppingCart();
+            $silvercartShoppingCart = $member->getCart();
             $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
             $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
             $shoppingCartPositions = SilvercartShoppingCartPosition::get()->filter('SilvercartShoppingCartID', $member->SilvercartShoppingCartID);
@@ -965,10 +965,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 }
 
                 // Get taxable positions from registered modules
-                $registeredModules = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                $registeredModules = $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartPositions',
                     array(
-                        $member->SilvercartShoppingCart(),
+                        $member->getCart(),
                         $member,
                         true
                     )
@@ -1047,10 +1047,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 }
 
                 // Get nontaxable positions from registered modules
-                $registeredModulesNonTaxablePositions = $member->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                $registeredModulesNonTaxablePositions = $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartPositions',
                     array(
-                        $member->SilvercartShoppingCart(),
+                        $member->getCart(),
                         $member,
                         false
                     )
@@ -1113,10 +1113,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 }
 
                 // Convert positions of registered modules
-                $member->currentUser()->SilvercartShoppingCart()->callMethodOnRegisteredModules(
+                $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartConvert',
                     array(
-                        Member::currentUser()->SilvercartShoppingCart(),
+                        Member::currentUser()->getCart(),
                         Member::currentUser(),
                         $this
                     )
@@ -1250,8 +1250,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function setWeight() {
         $member = Member::currentUser();
         if ($member instanceof Member &&
-            $member->SilvercartShoppingCart()->getWeightTotal()) {
-            $this->WeightTotal = $member->SilvercartShoppingCart()->getWeightTotal();
+            $member->getCart()->getWeightTotal()) {
+            $this->WeightTotal = $member->getCart()->getWeightTotal();
         }
     }
 
@@ -1263,8 +1263,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function setAmountTotal() {
         $member = Member::currentUser();
 
-        if ($member && $member->SilvercartShoppingCart()) {
-            $this->AmountTotal = $member->SilvercartShoppingCart()->getAmountTotal();
+        if ($member && $member->getCart()) {
+            $this->AmountTotal = $member->getCart()->getAmountTotal();
         }
     }
 

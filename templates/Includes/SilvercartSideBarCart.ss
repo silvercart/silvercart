@@ -1,4 +1,4 @@
-<% if CurrentMember.SilvercartShoppingCart.isFilled %>
+<% if CurrentMember.getCart.isFilled %>
 <div class="widget">
     <div class="widget_content side-bar-cart">
         <h3><% _t('SilvercartPage.CART') %></h3>
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <% with CurrentMember %>
-            <% with SilvercartShoppingCart %>
+            <% with getCart %>
             <tfoot>
                 <tr>
                     <td class="side-bar-cart-price" colspan="2"><strong><% _t('SilvercartPage.SUM','sum') %></strong></td>

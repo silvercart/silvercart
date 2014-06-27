@@ -182,8 +182,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
@@ -197,7 +198,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
 
         if ($member) {
             $stepData       = $this->getCombinedStepData();
-            $shoppingCart   = $member->SilvercartShoppingCart();
+            $shoppingCart   = $member->getCart();
             
             // If minimum order value is set and shoppingcart value is below we
             // have to redirect the customer to the shoppingcart page and set
@@ -306,8 +307,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function deleteSessionData($includeShoppingCart = true) {
         parent::deleteSessionData();
@@ -316,7 +318,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
 
         if ($includeShoppingCart && $member) {
             if ($member->SilvercartShoppingCartID != 0) {
-                $shoppingCart = $member->SilvercartShoppingCart();
+                $shoppingCart = $member->getCart();
                 $shoppingCart->delete();
             }
         }

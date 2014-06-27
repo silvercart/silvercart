@@ -110,8 +110,8 @@
                                 <div class="c40r">
                                     <div class="subcr">
                                         <div class="silvercart-headerbar-actions right">
-                                            <% if SilvercartShoppingCart %>
-                                                <% if SilvercartShoppingCart.isFilled %>
+                                            <% if getCart %>
+                                                <% if getCart.isFilled %>
                                                     <div class="silvercart-button">
                                                         <div class="silvercart-button_content">
                                                             <a id="silvercart-checkout-link" href="$PageByIdentifierCode(SilvercartCheckoutStep).Link">
@@ -124,7 +124,7 @@
                                             <div class="silvercart-button">
                                                 <div class="silvercart-button_content">
                                                     <a id="silvercart-shoppingcart-link" href="$PageByIdentifierCode(SilvercartCartPage).Link">
-                                                        <% _t('SilvercartPage.CART', 'cart') %> (<% if CurrentMember %><% with CurrentMember %>$SilvercartShoppingCart.getQuantity<% end_with %><% else %>0<% end_if %>)
+                                                        <% _t('SilvercartPage.CART', 'cart') %> (<% if CurrentMember %><% with CurrentMember %>$getCart.getQuantity<% end_with %><% else %>0<% end_if %>)
                                                     </a>
                                                 </div>
                                             </div>

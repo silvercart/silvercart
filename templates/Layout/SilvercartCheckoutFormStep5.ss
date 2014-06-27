@@ -68,7 +68,7 @@
                     <div class="silvercart-highlighted-box_content">
                         <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING') %>:</strong>
                         <p class="silvercart-highlighted-content">
-                        <% with SilvercartShoppingCart %>
+                        <% with getCart %>
                             {$CarrierAndShippingMethodTitle} <% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %>
                             <% if hasHandlingCostShipment %> (<span class="price highlighted">{$HandlingCostShipment.Nice}</span>)<% end_if %>
                             <% if ShippingMethod.DeliveryTime %><br/><small class="delivery-time-hint">$ShippingMethod.fieldLabel(ExpectedDelivery):<br/>{$ShippingMethod.DeliveryTime}</small><% end_if %>
@@ -85,7 +85,7 @@
                     <div class="silvercart-highlighted-box_content">
                         <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT') %>:</strong>
                         <p class="silvercart-highlighted-content">
-                        <% with SilvercartShoppingCart %>
+                        <% with getCart %>
                             {$payment.Name}
                             <% if hasHandlingCostPayment %> (<span class="price highlighted">{$HandlingCostPayment.Nice}</span>)<% end_if %>
                         <% end_with %>

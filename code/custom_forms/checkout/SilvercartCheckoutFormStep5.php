@@ -84,8 +84,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.01.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         parent::__construct($controller, $params, $preferences, $barebone);
@@ -95,7 +96,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
              */
             $checkoutData = $this->controller->getCombinedStepData();
             if (!Member::currentUser() ||
-                (!Member::currentUser()->SilvercartShoppingCart()->isFilled() &&
+                (!Member::currentUser()->getCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
 
                 if (!$this->getController()->redirectedTo()) {
@@ -335,14 +336,16 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * 
      * @return string Rendered html code 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Köher <skoehler@pixeltricks.de>
-     * @since 19.7.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sascha Köher <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function getSilvercartShoppingCartFull() {
         $member = Member::currentUser();
         
         if ($member) {
-            return $this->customise($member->SilvercartShoppingCart())->renderWith('SilvercartShoppingCartFull');
+            return $this->customise($member->getCart())->renderWith('SilvercartShoppingCartFull');
         }
     }
 
@@ -352,14 +355,23 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * @return SilvercartShoppingCart
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.04.2014
+     * @since 27.06.2014
      */
     public function SilvercartShoppingCart() {
         $member = Member::currentUser();
         
         if ($member) {
-            return $member->SilvercartShoppingCart();
+            return $member->getCart();
         }
+    }
+    
+    /**
+     * Alias for self::SilvercartShoppingCart().
+     * 
+     * @return SilvercartShoppingCart
+     */
+    public function getCart() {
+        return $this->SilvercartShoppingCart();
     }
     
     /**

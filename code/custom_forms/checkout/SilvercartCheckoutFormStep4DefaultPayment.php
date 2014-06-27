@@ -64,9 +64,9 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlFormStep {
                 $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
                 $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
                 if (array_key_exists('ShippingMethod', $checkoutData)) {
-                    $member->SilvercartShoppingCart()->setShippingMethodID($checkoutData['ShippingMethod']);
+                    $member->getCart()->setShippingMethodID($checkoutData['ShippingMethod']);
                 }
-                $paymentMethod->setShoppingCart($member->SilvercartShoppingCart());
+                $paymentMethod->setShoppingCart($member->getCart());
                 $this->setPaymentMethod($paymentMethod);
             }
         }

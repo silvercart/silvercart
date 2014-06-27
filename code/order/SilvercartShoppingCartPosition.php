@@ -190,6 +190,15 @@ class SilvercartShoppingCartPosition extends DataObject {
         }
         return $titleForWidget;
     }
+    
+    /**
+     * Alias for self::SilvercartShoppingCart().
+     * 
+     * @return SilvercartShoppingCart
+     */
+    public function getCart() {
+        return $this->SilvercartShoppingCart();
+    }
 
     /**
      * Returns additional tile information provided by plugins
@@ -481,14 +490,15 @@ class SilvercartShoppingCartPosition extends DataObject {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function onBeforeDelete() {
         parent::onBeforeDelete();
         
-        $this->SilvercartShoppingCart()->LastEdited = $this->LastEdited;
-        $this->SilvercartShoppingCart()->write();
+        $this->getCart()->LastEdited = $this->LastEdited;
+        $this->getCart()->write();
         
         $this->extend('updateOnBeforeDelete');
     }
@@ -498,14 +508,15 @@ class SilvercartShoppingCartPosition extends DataObject {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     public function onAfterWrite() {
         parent::onAfterWrite();
         
-        $this->SilvercartShoppingCart()->LastEdited = $this->LastEdited;
-        $this->SilvercartShoppingCart()->write();
+        $this->getCart()->LastEdited = $this->LastEdited;
+        $this->getCart()->write();
         
         $this->extend('updateOnAfterWrite');
     }

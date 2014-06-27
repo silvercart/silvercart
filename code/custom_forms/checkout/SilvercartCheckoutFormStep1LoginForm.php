@@ -97,7 +97,7 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlFormStep {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 27.06.2014
      */
     public function submitSuccess($data, $form, $formData) {
         $emailAddress   = $formData['Email'];
@@ -120,14 +120,14 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlFormStep {
                 if ($anonymousCustomer) {
                     if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->exists()) {
                         //delete registered customers cart positions
-                        if ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()) {
-                            foreach ($customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {
+                        if ($customer->getCart()->SilvercartShoppingCartPositions()) {
+                            foreach ($customer->getCart()->SilvercartShoppingCartPositions() as $position) {
                                 $position->delete();
                             }
                         }
                         //add anonymous positions to the registered user
-                        foreach ($anonymousCustomer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $position) {
-                            $customer->SilvercartShoppingCart()->SilvercartShoppingCartPositions()->add($position);
+                        foreach ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions() as $position) {
+                            $customer->getCart()->SilvercartShoppingCartPositions()->add($position);
                         }
                     }
                     $anonymousCustomer->logOut();

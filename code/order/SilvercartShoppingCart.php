@@ -1732,7 +1732,7 @@ class SilvercartShoppingCart extends DataObject {
         $registeredModules  = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
             array(
-                Member::currentUser()->SilvercartShoppingCart(),
+                Member::currentUser()->getCart(),
                 Member::currentUser(),
                 true
             ),
@@ -1801,13 +1801,13 @@ class SilvercartShoppingCart extends DataObject {
      * @return int
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2013
+     * @since 27.06.2014
      */
     public static function get_most_valuable_tax_rate($taxes = null) {
         $rate = false;
         if (Member::currentUser() &&
             Member::currentUser()->SilvercartShoppingCartID > 0) {
-            $silvercartShoppingCart = Member::currentUser()->SilvercartShoppingCart();
+            $silvercartShoppingCart = Member::currentUser()->getCart();
             $taxRate = $silvercartShoppingCart->getMostValuableTaxRate($taxes);
             if ($taxRate) {
                 $rate = $taxRate->Rate;

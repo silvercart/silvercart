@@ -27,7 +27,7 @@
                 <tr>
                     <td colspan="3">&nbsp;</td>
                     <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
-                    <td class="right price" id="Sum"><strong><% with CurrentMember.SilvercartShoppingCart %>$TaxableAmountGrossWithoutFeesAndChargesAndModules.Nice<% end_with %></strong></td>
+                    <td class="right price" id="Sum"><strong><% with CurrentMember.getCart %>$TaxableAmountGrossWithoutFeesAndChargesAndModules.Nice<% end_with %></strong></td>
                     <% if Top.EditableShoppingCart %>
                         <td>&nbsp;</td>
                     <% end_if %>

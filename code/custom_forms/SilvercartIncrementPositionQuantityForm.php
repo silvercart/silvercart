@@ -51,9 +51,11 @@ class SilvercartIncrementPositionQuantityForm extends CustomHtmlForm {
      * @param Form           $form     not used
      * @param array          $formData contains the modules form data
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 27.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
         $overwrite = SilvercartPlugin::call($this, 'overwriteSubmitSuccess', array($data, $form, $formData), null, 'boolean');
@@ -63,8 +65,8 @@ class SilvercartIncrementPositionQuantityForm extends CustomHtmlForm {
                 //check if the position belongs to this user. Malicious people could manipulate it.
                 $member = Member::currentUser();
                 $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
-                if ($position && ($member->SilvercartShoppingCart()->ID == $position->SilvercartShoppingCartID)) {
-                    $position->SilvercartProduct()->addToCart($member->SilvercartShoppingCart()->ID, 1, true);
+                if ($position && ($member->getCart()->ID == $position->SilvercartShoppingCartID)) {
+                    $position->SilvercartProduct()->addToCart($member->getCart()->ID, 1, true);
                     $backLinkPage = DataObject::get_by_id('SiteTree', $formData['BlID']);
                     $this->controller->redirect($backLinkPage->Link());
                 }

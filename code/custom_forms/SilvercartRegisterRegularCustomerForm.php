@@ -381,8 +381,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      *
      * @return void
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.12.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.06.2014
      */
     protected function submitSuccess($data, $form, $formData) {
         $anonymousCustomer = false;
@@ -437,9 +439,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         // Pass shoppingcart to registered customer and delete the anonymous
         // customer.
         if ($anonymousCustomer) {
-            $newShoppingCart = $anonymousCustomer->SilvercartShoppingCart()->duplicate(true);
+            $newShoppingCart = $anonymousCustomer->getCart()->duplicate(true);
 
-            foreach ($anonymousCustomer->SilvercartShoppingCart()->SilvercartShoppingCartPositions() as $shoppingCartPosition) {
+            foreach ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions() as $shoppingCartPosition) {
                 $newShoppingCartPosition = $shoppingCartPosition->duplicate(false);
                 $newShoppingCartPosition->SilvercartShoppingCartID = $newShoppingCart->ID;
                 $newShoppingCartPosition->write();
