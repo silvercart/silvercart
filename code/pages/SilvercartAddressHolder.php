@@ -200,7 +200,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2013
+     * @since 27.06.2014
      */
     public function deleteAddress(SS_HTTPRequest $request, $context = '') {
         $params = $request->allParams();
@@ -209,7 +209,8 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
             !empty ($params['ID'])) {
 
             $addressID          = (int) $params['ID'];
-            $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+            $member             = Member::currentUser();
+            $membersAddresses   = $member->SilvercartAddresses();
             $membersAddress     = $membersAddresses->find('ID', $addressID);
 
             if ($membersAddresses->count() == 1) {
@@ -217,15 +218,15 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_CANT_BE_DELETED', "Sorry, but you can't delete your only address."));
             } elseif ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                 // Address contains to logged in user - delete it
-                if (Member::currentUser()->SilvercartInvoiceAddress()->ID == $addressID) {
+                if ($member->SilvercartInvoiceAddress()->ID == $addressID) {
                     // set shipping address as users invoice address
-                    Member::currentUser()->SilvercartInvoiceAddressID = Member::currentUser()->SilvercartShippingAddress()->ID;
-                    Member::currentUser()->write();
+                    $member->SilvercartInvoiceAddressID = $member->SilvercartShippingAddress()->ID;
+                    $member->write();
                 }
-                if (Member::currentUser()->SilvercartShippingAddress()->ID == $addressID) {
+                if ($member->SilvercartShippingAddress()->ID == $addressID) {
                     // set invoice address as users shipping address
-                    Member::currentUser()->SilvercartShippingAddressID = Member::currentUser()->SilvercartInvoiceAddress()->ID;
-                    Member::currentUser()->write();
+                    $member->SilvercartShippingAddressID = $member->SilvercartInvoiceAddress()->ID;
+                    $member->write();
                 }
                 $membersAddress->delete();
                 $this->setSuccessMessage(_t('SilvercartAddressHolder.ADDRESS_SUCCESSFULLY_DELETED', 'Your address was successfully deleted.'));
@@ -249,7 +250,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2013
+     * @since 27.06.2014
      */
     public function setInvoiceAddress(SS_HTTPRequest $request) {
         $params = $request->allParams();
@@ -260,8 +261,9 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
             $membersAddress     = $membersAddresses->find('ID', $addressID);
             if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                 // Address contains to logged in user - set as invoice address
-                Member::currentUser()->SilvercartInvoiceAddressID = $addressID;
-                Member::currentUser()->write();
+                $member = Member::currentUser();
+                $member->SilvercartInvoiceAddressID = $addressID;
+                $member->write();
                 $this->setSuccessMessage(_t('SilvercartAddressHolder.UPDATED_INVOICE_ADDRESS', 'Your invoice addres was successfully updated.'));
             } else {
                 // possible break in attempt!
@@ -279,7 +281,7 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2013
+     * @since 27.06.2014
      */
     public function setShippingAddress(SS_HTTPRequest $request) {
         $params = $request->allParams();
@@ -290,8 +292,9 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
             $membersAddress     = $membersAddresses->find('ID', $addressID);
             if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                 // Address contains to logged in user - set as invoice address
-                Member::currentUser()->SilvercartShippingAddressID = $addressID;
-                Member::currentUser()->write();
+                $member = Member::currentUser();
+                $member->SilvercartShippingAddressID = $addressID;
+                $member->write();
                 $this->setSuccessMessage(_t('SilvercartAddressHolder.UPDATED_SHIPPING_ADDRESS', 'Your shipping addres was successfully updated.'));
             } else {
                 // possible break in attempt!
