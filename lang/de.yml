@@ -927,11 +927,11 @@ de:
     SECTION_payment: "Zahlung"
     SECTION_shipping: "Versand"
   SilvercartMetaNavigationHolder:
-    DEFAULT_TITLE: "Metanavigationsübersicht"
-    DEFAULT_URLSEGMENT: "metanavigation"
+    DEFAULT_TITLE: "Rechtliches"
+    DEFAULT_URLSEGMENT: "rechtliches"
     PLURALNAME: "Metanavigationsübersichten"
     SINGULARNAME: "Metanavigationsübersicht"
-    URL_SEGMENT: "metanavigation"
+    URL_SEGMENT: "rechtliches"
   SilvercartMetaNavigationPage:
     PLURALNAME: "Meta-Informations-Seiten"
     SINGULARNAME: "Meta-Informations-Seite"

@@ -102,12 +102,11 @@ class SilvercartMetaNavigationHolder_Controller extends Page_Controller {
                     'SilvercartSubNavigation',
                 )
             );
-            
             $sisters = SilvercartMetaNavigationHolder::get();
             if ($sisters instanceof DataList) {
-                $sisters->remove($sisters->find('ID', $root->ID));
                 foreach ($sisters as $sister) {
-                    if ($sister->Parent() instanceof SilvercartMetaNavigationHolder) {
+                    if ($sister->ID == $root->ID ||
+                        $sister->Parent() instanceof SilvercartMetaNavigationHolder) {
                         continue;
                     }
                     $elements = array(

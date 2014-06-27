@@ -1086,11 +1086,11 @@ $lang['de_DE']['SilvercartManufacturerAdmin']['MENUTITLE'] = 'Hersteller';
 $lang['de_DE']['SilvercartManufacturerLanguage']['PLURALNAME']   = 'Übersetzungen';
 $lang['de_DE']['SilvercartManufacturerLanguage']['SINGULARNAME'] = 'Übersetzung';
 
-$lang['de_DE']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Metanavigationsübersicht';
-$lang['de_DE']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'metanavigation';
+$lang['de_DE']['SilvercartMetaNavigationHolder']['DEFAULT_TITLE'] = 'Rechtliches';
+$lang['de_DE']['SilvercartMetaNavigationHolder']['DEFAULT_URLSEGMENT'] = 'rechtliches';
 $lang['de_DE']['SilvercartMetaNavigationHolder']['PLURALNAME'] = 'Metanavigationsübersichten';
 $lang['de_DE']['SilvercartMetaNavigationHolder']['SINGULARNAME'] = 'Metanavigationsübersicht';
-$lang['de_DE']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'metanavigation';
+$lang['de_DE']['SilvercartMetaNavigationHolder']['URL_SEGMENT'] = 'rechtliches';
 
 $lang['de_DE']['SilvercartMetaNavigationPage']['PLURALNAME'] = 'Meta-Informations-Seiten';
 $lang['de_DE']['SilvercartMetaNavigationPage']['SINGULARNAME'] = 'Meta-Informations-Seite';
