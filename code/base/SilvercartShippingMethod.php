@@ -360,7 +360,8 @@ class SilvercartShippingMethod extends DataObject {
         $shippingCountry = $this->getShippingCountry();
         if (is_null($shippingCountry)) {
             $shippingAddress = $this->getShippingAddress();
-            if (is_null($shippingAddress)) {
+            if (is_null($shippingAddress) &&
+                method_exists(Controller::curr(), 'getShippingAddress')) {
                 $shippingAddress = Controller::curr()->getShippingAddress();
                 $this->setShippingAddress($shippingAddress);
                 SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
@@ -460,12 +461,14 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * Returns the delivery time as string.
      * 
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
      * @return string
      */
-    public function getDeliveryTime() {
-        $deliveryTime = self::get_delivery_time($this->getShippingFee());
+    public function getDeliveryTime($forceDisplayInDays = false) {
+        $deliveryTime = self::get_delivery_time($this->getShippingFee(), $forceDisplayInDays);
         if (empty($deliveryTime)) {
-            $deliveryTime = self::get_delivery_time($this);
+            $deliveryTime = self::get_delivery_time($this, $forceDisplayInDays);
         }
         return $deliveryTime;
     }
@@ -480,27 +483,29 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static function get_delivery_time($context, $forceDisplayInDays = false) {
         $deliveryTime = '';
-        if (!empty($context->DeliveryTimeText)) {
-            $deliveryTime = $context->DeliveryTimeText;
-        } elseif ($context->DeliveryTimeMin > 0) {
-            if (self::isInCheckoutContextWithPrepayment() ||
-                $forceDisplayInDays) {
-                $deliveryTime  = $context->DeliveryTimeMin;
-                if ($context->DeliveryTimeMax > 0) {
-                    $deliveryTime .= ' - ';
-                    $deliveryTime .= $context->DeliveryTimeMax;
-                }
-                if ($deliveryTime == 1) {
-                    $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
+        if (is_object($context)) {
+            if (!empty($context->DeliveryTimeText)) {
+                $deliveryTime = $context->DeliveryTimeText;
+            } elseif ($context->DeliveryTimeMin > 0) {
+                if (self::isInCheckoutContextWithPrepayment() ||
+                    $forceDisplayInDays) {
+                    $deliveryTime  = $context->DeliveryTimeMin;
+                    if ($context->DeliveryTimeMax > 0) {
+                        $deliveryTime .= ' - ';
+                        $deliveryTime .= $context->DeliveryTimeMax;
+                    }
+                    if ($deliveryTime == 1) {
+                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
+                    } else {
+                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
+                    }
+                    $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
                 } else {
-                    $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
-                }
-                $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
-            } else {
-                $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
-                if ($context->DeliveryTimeMax > 0) {
-                    $deliveryTime .= ' - ';
-                    $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
+                    $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
+                    if ($context->DeliveryTimeMax > 0) {
+                        $deliveryTime .= ' - ';
+                        $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
+                    }
                 }
             }
         }
