@@ -494,7 +494,7 @@ class SilvercartShippingMethod extends DataObject {
                         $deliveryTime .= ' - ';
                         $deliveryTime .= $context->DeliveryTimeMax;
                     }
-                    if ($deliveryTime == 1) {
+                    if ($deliveryTime === '1') {
                         $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
                     } else {
                         $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
