@@ -477,7 +477,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return DataObjectSet
      * 
      * @author Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 12.06.2013
+     * @since 30.06.2014
      */
     public function buildSearchResultProducts() {
         $searchResultProducts       = $this->searchResultProducts;
@@ -603,6 +603,13 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         }
         $this->searchResultProducts  = $searchResultProducts;
         $this->totalNumberOfProducts = $searchResultProducts->TotalItems();
+        
+        $searchQueryObject = SilvercartSearchQuery::get_by_query(Convert::raw2sql($searchQuery));
+        if ($searchQueryObject->Hits != $this->totalNumberOfProducts) {
+            $searchQueryObject->Hits = $this->totalNumberOfProducts;
+            $searchQueryObject->write();
+        }
+        
         return $this->searchResultProducts;
     }
 
