@@ -269,6 +269,14 @@ class SilvercartProduct extends DataObject {
     protected $cachedSilvercartTax = null;
     
     /**
+     * Cached SilvercartAvailabilityStatus object. The related status object 
+     * will be stored in this property after its first call.
+     *
+     * @var SilvercartAvailabilityStatus
+     */
+    protected $cachedSilvercartAvailabilityStatus = null;
+    
+    /**
      * The position of the product in cart.
      *
      * @var array
@@ -2213,6 +2221,31 @@ class SilvercartProduct extends DataObject {
             $html = '';
         }
         return $html;
+    }
+
+    /**
+     * Returns the related SilvercartAvailabilityStatus object.
+     * Provides an extension hook to update the status object by decorator.
+     * 
+     * @return SilvercartAvailabilityStatus
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2014
+     */
+    public function SilvercartAvailabilityStatus() {
+        if (is_null($this->cachedSilvercartAvailabilityStatus)) {
+            $this->cachedSilvercartAvailabilityStatus = $this->getComponent('SilvercartAvailabilityStatus');
+            $this->extend('updateSilvercartAvailabilityStatus', $this->cachedSilvercartAvailabilityStatus);
+            if (!$this->cachedSilvercartAvailabilityStatus instanceof SilvercartAvailabilityStatus ||
+                !$this->cachedSilvercartAvailabilityStatus->exists()) {
+                $default = SilvercartAvailabilityStatus::getDefault();
+                if ($default instanceof SilvercartAvailabilityStatus &&
+                    $default->exists()) {
+                    $this->cachedSilvercartAvailabilityStatus = $default;
+                }
+            }
+        }
+        return $this->cachedSilvercartAvailabilityStatus;
     }
 
     /**

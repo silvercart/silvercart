@@ -190,6 +190,7 @@ $lang['de_DE']['SilvercartAvailabilityStatus']['SetForPositiveStockShort']    = 
 $lang['de_DE']['SilvercartAvailabilityStatus']['SetForNegativeStock']         = 'Automatisch an Artikel zuweisen, wenn sich der Lagerbestand von > 0 auf 0 ändert.';
 $lang['de_DE']['SilvercartAvailabilityStatus']['SetForNegativeStockDesc']     = '';
 $lang['de_DE']['SilvercartAvailabilityStatus']['SetForNegativeStockShort']    = 'Auto. < 1';
+$lang['de_DE']['SilvercartAvailabilityStatus']['ISDEFAULT']                   = 'Ist Standard';
 
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['SINGULARNAME']          = _t('Silvercart.TRANSLATION');
 $lang['de_DE']['SilvercartAvailabilityStatusLanguage']['PLURALNAME']            = _t('Silvercart.TRANSLATIONS');
