@@ -2442,8 +2442,10 @@ class SilvercartProduct extends DataObject {
             }
         }
         
-        $stockQuantityBefore = $this->original['StockQuantity'];
-        $this->checkForAvailabilityStatusChange($stockQuantityBefore, false);
+        if (array_key_exists('StockQuantity', $this->original)) {
+            $stockQuantityBefore = $this->original['StockQuantity'];
+            $this->checkForAvailabilityStatusChange($stockQuantityBefore, false);
+        }
         
         if (!$this->isActive) {
             foreach ($this->SilvercartShoppingCartPositions() as $position) {
