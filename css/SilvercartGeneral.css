@@ -383,13 +383,16 @@ p.silvercart-message.vdistance {
 .silvercart-button.right .silvercart-button_content {
     padding:                        0px 0px 0px 4px;
 }
+button.silvercart-button,
 a.silvercart-button,
 .silvercart-button a {
     display:                        block;
     padding:                        3px 10px 5px 10px;
 }
+button.silvercart-button,
 a.silvercart-button,
 .silvercart-button a,
+button.silvercart-button-small,
 a.silvercart-button-small,
 .silvercart-button-small a {
     line-height:                    100%;
@@ -400,8 +403,10 @@ a.silvercart-button-small,
     -webkit-border-radius:          3px;
     $DefaultButton.Css
 }
+button.silvercart-button:hover,
 a.silvercart-button:hover,
 .silvercart-button a:hover,
+button.silvercart-button-small:hover,
 a.silvercart-button-small:hover,
 .silvercart-button-small a:hover {
     text-decoration:                none;

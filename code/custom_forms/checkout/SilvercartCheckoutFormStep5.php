@@ -112,8 +112,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.03.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 08.07.2014
      */
     public function preferences() {
         parent::preferences();
@@ -124,6 +125,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['createShoppingcartForms']   = false;
         $this->preferences['submitButtonUseButtonTag']  = true;
+        $this->preferences['submitButtonExtraClasses']  = array('silvercart-button', 'btn', 'btn-primary');
 
         $checkoutData = $this->controller->getCombinedStepData();
 
