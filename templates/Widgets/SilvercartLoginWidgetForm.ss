@@ -12,7 +12,7 @@
     $CustomHtmlFormFieldByName(emailaddress)
     $CustomHtmlFormFieldByName(password)
     
-    <a  href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
+    <a href="{$CurrentPage.LostPasswordLink}"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
 
     <div class="actionRow">
         <div class="type-button">

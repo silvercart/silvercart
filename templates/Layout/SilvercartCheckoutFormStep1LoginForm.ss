@@ -14,11 +14,10 @@
 
     <div class="actionRow">
         <div class="type-button">
-            <a class="forgot-password-plain" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a><br/>
-            <br/>
             <% loop Actions %>
                 $Field
             <% end_loop %>
+            <a class="forgot-password-plain" href="{$CurrentPage.LostPasswordLink}"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
         </div>
     </div>
 </form>

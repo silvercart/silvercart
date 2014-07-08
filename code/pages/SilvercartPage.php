@@ -1066,4 +1066,22 @@ class SilvercartPage_Controller extends ContentController {
         return $metanavigationHolder;
     }
     
+    /**
+     * Returns the link to lost password form dependant on the current locale.
+     * 
+     * @return string
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.07.2014
+     */
+    public function LostPasswordLink() {
+        $link = Director::baseURL() . 'Security/lostpassword';
+        if (Translatable::get_current_locale() != SilvercartConfig::DefaultLanguage()) {
+            $link .= '?locale=' . Translatable::get_current_locale();
+        }
+        return $link;
+    }
+    
 }

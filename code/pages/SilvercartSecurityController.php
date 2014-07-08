@@ -26,13 +26,16 @@ class SilvercartSecurityController extends DataExtension {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Patrick Schneider <pschneider@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 08.07.2014
      */
     public function onBeforeInit() {
         SilvercartTools::initSession();
+        
+        i18n::set_default_locale(Translatable::get_current_locale());
+        i18n::set_locale(Translatable::get_current_locale());
         
         $controllerParams   = Controller::curr()->getURLParams();
         $anonymousCustomer  = SilvercartCustomer::currentAnonymousCustomer();

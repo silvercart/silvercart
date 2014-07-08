@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <a href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
+    <a href="{$CurrentPage.LostPasswordLink}"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
 
     $CustomHtmlFormSpecialFields
 
