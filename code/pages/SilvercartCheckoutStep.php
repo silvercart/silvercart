@@ -587,4 +587,53 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         return $stepNumber;
     }
     
+    /**
+     * Returns the payment step number.
+     * 
+     * @return int
+     */
+    public function getLastStepNumber() {
+        $stepNumber = 5;
+        if (Member::currentUser()->isRegisteredCustomer()) {
+            $stepNumber = 4;
+        }
+        return $stepNumber;
+    }
+    
+    /**
+     * Returns the address step number.
+     * 
+     * @return int
+     */
+    public function getAddressStepLink() {
+        return $this->Link('GotoStep/' . $this->getAddressStepNumber());
+    }
+    
+    /**
+     * Returns the shippment step number.
+     * 
+     * @return int
+     */
+    public function getShipmentStepLink() {
+        return $this->Link('GotoStep/' . $this->getShipmentStepNumber());
+    }
+    
+    /**
+     * Returns the payment step number.
+     * 
+     * @return int
+     */
+    public function getPaymentStepLink() {
+        return $this->Link('GotoStep/' . $this->getPaymentStepNumber());
+    }
+    
+    /**
+     * Returns the payment step number.
+     * 
+     * @return int
+     */
+    public function getLastStepLink() {
+        return $this->Link('GotoStep/' . $this->getLastStepNumber());
+    }
+    
 }
