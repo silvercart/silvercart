@@ -41,6 +41,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static $db = array(
         'isActive'                      => 'Boolean',
+        'isPickup'                      => 'Boolean(0)',
         'priority'                      => 'Int',
         'DoNotShowOnShippingFeesPage'   => 'Boolean',
         'DeliveryTimeMin'               => 'Int',
@@ -187,6 +188,7 @@ class SilvercartShippingMethod extends DataObject {
                 'priority'                          => _t('Silvercart.PRIORITY'),
                 'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
                 'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
+                'isPickup'                          => _t('SilvercartShippingMethod.isPickup', 'Is pickup (no active shipping, customer needs to pickup himself)'),
                 'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
                 'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
                 'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
@@ -749,16 +751,23 @@ class SilvercartShippingMethod extends DataObject {
      * @param SilvercartProduct $product       Product to get fee for
      * @param SilvercartCountry $country       Country to get fee for
      * @param Group             $customerGroup Customer group to get fee for
+     * @param bool              $excludePickup Set to true to exclude pickups
      * 
      * @return DataObjectSet
      */
-    public static function getAllowedShippingFeesFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
+    public static function getAllowedShippingFeesFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup, $excludePickup = false) {
         $extendableShippingMethod   = singleton('SilvercartShippingMethod');
         
+        $addToFilter = '';
+        if ($excludePickup) {
+            $addToFilter = ' AND SilvercartShippingMethod.isPickup = 0';
+        }
+        
         $filter = sprintf(
-            "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))",
+            "`SilvercartShippingMethod`.`isActive` = 1 AND (`SilvercartShippingMethod_SilvercartCustomerGroups`.`GroupID` IN (%s) OR `SilvercartShippingMethod`.`ID` NOT IN (%s))%s",
             $customerGroup->ID,
-            "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`"
+            "SELECT `SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` FROM `SilvercartShippingMethod_SilvercartCustomerGroups`",
+            $addToFilter
         );
         $join   = "LEFT JOIN `SilvercartShippingMethod_SilvercartCustomerGroups` ON (`SilvercartShippingMethod_SilvercartCustomerGroups`.`SilvercartShippingMethodID` = `SilvercartShippingMethod`.`ID`)";
         
@@ -793,11 +802,12 @@ class SilvercartShippingMethod extends DataObject {
      * @param SilvercartProduct $product       Product to get fee for
      * @param SilvercartCountry $country       Country to get fee for
      * @param Group             $customerGroup Customer group to get fee for
+     * @param bool              $excludePickup Set to true to exclude pickups
      * 
      * @return SilvercartShippingFee
      */
-    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
-        $shippingFees = self::getAllowedShippingFeesFor($product, $country, $customerGroup);
+    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup, $excludePickup = false) {
+        $shippingFees = self::getAllowedShippingFeesFor($product, $country, $customerGroup, $excludePickup);
         return $shippingFees->First();
     }
 

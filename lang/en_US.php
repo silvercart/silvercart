@@ -1617,6 +1617,7 @@ $lang['en_US']['SilvercartShippingMethod']['DeliveryTimeMaxDesc'] = 'Maximum del
 $lang['en_US']['SilvercartShippingMethod']['DeliveryTimeText'] = 'Own text for delivery time';
 $lang['en_US']['SilvercartShippingMethod']['DeliveryTimeTextDesc'] = 'Will be used instead of "Minimum delivery time" and "Maximum delivery time".';
 $lang['en_US']['SilvercartShippingMethod']['DeliveryTimePrepaymentHint'] = 'when cashed';
+$lang['en_US']['SilvercartShippingMethod']['isPickup'] = 'Is pickup (no active shipping, customer needs to pickup himself)';
 
 $lang['en_US']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Shipping Methods';
 

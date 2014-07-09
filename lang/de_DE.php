@@ -1617,6 +1617,7 @@ $lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeMaxDesc'] = 'Maximale Li
 $lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeText'] = 'Eigener Text für die Angabe der Lieferzeit';
 $lang['de_DE']['SilvercartShippingMethod']['DeliveryTimeTextDesc'] = 'Wird anstelle von "Minimale Lieferzeit" und "Maximale Lieferzeit" angezeigt.';
 $lang['de_DE']['SilvercartShippingMethod']['DeliveryTimePrepaymentHint'] = 'nach Zahlungseingang';
+$lang['de_DE']['SilvercartShippingMethod']['isPickup'] = 'Ist Selbstabholung (kein tatsächlicher Versand)';
 
 $lang['de_DE']['SilvercartShippingMethodAdmin']['MENUTITLE'] = 'Versandarten';
 

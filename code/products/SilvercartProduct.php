@@ -502,7 +502,7 @@ class SilvercartProduct extends DataObject {
             if (is_null($customerGroup)) {
                 $customerGroup = DataObject::get_one('Group', "`Group`.`Code` = 'b2c'");
             }
-            $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
+            $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup, true);
         }
         return $shippingFee;
     }
