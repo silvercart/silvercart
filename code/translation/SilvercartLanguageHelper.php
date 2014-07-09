@@ -69,8 +69,9 @@ class SilvercartLanguageHelper {
      * 
      * @return FieldSet
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.07.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 09.07.2014
      */
     public static function prepareCMSFields($dataobject, $restrictFields = false) {
         if (!$dataobject) {
@@ -84,6 +85,7 @@ class SilvercartLanguageHelper {
                     'restrictFields'    => $restrictFields,
                 )
         );
+        $dataobject->extend('updateLanguageCMSFields', $languageFields);
         $languageFields->removeByName('Locale');
         foreach ($dataobject->has_one() as $has_oneName => $has_oneObject) {
             $languageFields->removeByName($has_oneName . 'ID');
