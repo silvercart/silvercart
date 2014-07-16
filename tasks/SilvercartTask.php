@@ -232,7 +232,7 @@ class SilvercartTask extends ScheduledTask {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.11.2013
      */
-    protected function printProgressPercentageInfo($currentIndex, $total, $level = 1) {
+    public function printProgressPercentageInfo($currentIndex, $total, $level = 1) {
         $percentage                      = $currentIndex / ($total / 100);
         $formatted_percentage            = number_format($percentage, 2, ',', '.');
         $padded_percentage               = str_pad($formatted_percentage, 6, ' ', STR_PAD_LEFT);
@@ -261,7 +261,7 @@ class SilvercartTask extends ScheduledTask {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.11.2013
      */
-    protected function printProgressPercentageInfoWithTime($currentIndex, $total, $seconds, $level = 1) {
+    public function printProgressPercentageInfoWithTime($currentIndex, $total, $seconds, $level = 1) {
         $percentage                      = $currentIndex / ($total / 100);
         $formatted_percentage            = number_format($percentage, 2, ',', '.');
         $padded_percentage               = str_pad($formatted_percentage, 6, ' ', STR_PAD_LEFT);
