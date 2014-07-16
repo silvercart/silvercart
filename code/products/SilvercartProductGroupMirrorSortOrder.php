@@ -40,8 +40,8 @@ class SilvercartProductGroupMirrorSortOrder extends DataObject {
      * @var array 
      */
     public static $indexes = array(
-        'SortOrder'                     => '(SortOrder)',
-        'SilvercartProductID'           => '(SilvercartProductID)',
-        'SilvercartProductGroupPageID'  => '(SilvercartProductGroupPageID)',
+        'SortOrder'                     => '("SortOrder")',
+        'SilvercartProductID'           => '("SilvercartProductID")',
+        'SilvercartProductGroupPageID'  => '("SilvercartProductGroupPageID")',
     );
 }

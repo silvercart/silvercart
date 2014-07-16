@@ -36,7 +36,7 @@ class SilvercartLanguageDecorator extends DataExtension {
      * @var array
      */
     public static $indexes = array(
-        'Locale' => 'INDEX (Locale)',
+        'Locale' => '("Locale")',
     );
     
     /**

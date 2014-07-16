@@ -56,7 +56,7 @@ class SilvercartPage extends SiteTree {
      * @var array
      */
     private static $indexes = array(
-        'IdentifierCode' => '(IdentifierCode)'
+        'IdentifierCode' => '("IdentifierCode")'
     );
     
     /**

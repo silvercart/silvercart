@@ -117,12 +117,12 @@ class SilvercartProduct extends DataObject {
      * @var array 
      */
     public static $indexes = array(
-        'isActive'          => '(isActive)',
-        'PriceGrossAmount'  => '(PriceGrossAmount)',
-        'PriceNetAmount'    => '(PriceNetAmount)',
-        'MSRPriceAmount'    => '(MSRPriceAmount)',
-        'ProductNumberShop' => '(ProductNumberShop)',
-        'EANCode'           => '(EANCode)',
+        'isActive'          => '("isActive")',
+        'PriceGrossAmount'  => '("PriceGrossAmount")',
+        'PriceNetAmount'    => '("PriceNetAmount")',
+        'MSRPriceAmount'    => '("MSRPriceAmount")',
+        'ProductNumberShop' => '("ProductNumberShop")',
+        'EANCode'           => '("EANCode")',
     );
 
     /**
