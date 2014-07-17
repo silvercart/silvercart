@@ -30,7 +30,11 @@
     </fieldset>
 <% end_if %>
     <fieldset>
+<% if $InvoiceAddressIsAlwaysShippingAddress %>
+        <legend><% _t('SilvercartAddressHolder.INVOICEANDSHIPPINGADDRESS') %></legend>
+<% else %>
         <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
+<% end_if %>
 
         <% if EnableBusinessCustomers %>
         $CustomHtmlFormFieldByName(Invoice_IsBusinessAccount,CustomHtmlFormFieldCheck)
@@ -114,6 +118,9 @@
         </div>
     </fieldset>
 
+<% if $InvoiceAddressIsAlwaysShippingAddress %>
+        $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldHidden)
+<% else %>
     <fieldset>
         <legend><% _t('SilvercartPage.SHIPPING_ADDRESS','shipping address') %></legend>
 
@@ -225,6 +232,7 @@
             </div>
         </div>
     </fieldset>
+<% end_if %>
 
     <div class="actionRow">
         <div class="type-button">

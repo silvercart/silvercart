@@ -152,6 +152,11 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             $this->formFields['Invoice_Company']['checkRequirements']['isFilledInDependantOn']['field'] = 'Invoice_IsBusinessAccount';
             $this->formFields['Shipping_Company']['checkRequirements']['isFilledInDependantOn']['field'] = 'Shipping_IsBusinessAccount';
         }
+        
+        if ($this->InvoiceAddressIsAlwaysShippingAddress()) {
+            $this->formFields['InvoiceAddressAsShippingAddress']['type'] = 'HiddenField';
+            unset($this->formFields['InvoiceAddressAsShippingAddress']['jsEvents']);
+        }
 
         if ($withUpdate && !empty($this->class)) {
             $this->extend('updateFormFields', $this->formFields);
@@ -375,6 +380,18 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
      */
     public function UseMinimumAgeToOrder() {
         return SilvercartConfig::UseMinimumAgeToOrder();
+    }
+    
+    /**
+     * Returns whether invoice address is always shipping address.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2014
+     */
+    public function InvoiceAddressIsAlwaysShippingAddress() {
+        return SilvercartConfig::InvoiceAddressIsAlwaysShippingAddress();
     }
     
 }

@@ -2,7 +2,11 @@
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
     <fieldset>
+<% if $InvoiceAddressIsAlwaysShippingAddress %>
+        <legend><% _t('SilvercartAddressHolder.INVOICEANDSHIPPINGADDRESS') %></legend>
+<% else %>
         <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
+<% end_if %>
         $CustomHtmlFormFieldByName(InvoiceAddress,SilvercartCustomHtmlFormFieldAddress)
         <div class="silvercart-button m25l">
             <div class="silvercart-button_content">
@@ -11,6 +15,10 @@
         </div>
     </fieldset>
 
+<% if $InvoiceAddressIsAlwaysShippingAddress %>
+        $CustomHtmlFormFieldByName(ShippingAddress,CustomHtmlFormFieldHidden)
+        $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldHidden)
+<% else %>
     <fieldset>
         <legend><% _t('SilvercartPage.SHIPPING_ADDRESS','shipping address') %></legend>
 
@@ -25,6 +33,7 @@
             </div>
         </div>
     </fieldset>
+<% end_if %>
 
     <div class="actionRow">
         <div class="type-button">

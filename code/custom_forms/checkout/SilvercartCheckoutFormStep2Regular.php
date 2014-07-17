@@ -120,12 +120,14 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
     /**
      * Set initial form values
      * 
+     * @param bool $withUpdate Set to false to skip updates by decorator.
+     * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.07.2012
+     * @since 16.07.2014
      */
-    protected function fillInFieldValues() {
+    public function getFormFields($withUpdate = true) {
 
         // --------------------------------------------------------------------
         // Set i18n labels
@@ -169,6 +171,13 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
                 )
             );
         }
+        
+        if ($this->InvoiceAddressIsAlwaysShippingAddress()) {
+            $this->formFields['InvoiceAddressAsShippingAddress']['type'] = 'HiddenField';
+            unset($this->formFields['InvoiceAddressAsShippingAddress']['jsEvents']);
+            $this->formFields['ShippingAddress']['selectedValue'] = $this->formFields['InvoiceAddress']['selectedValue'];
+        }
+        return parent::getFormFields($withUpdate);
     }
 
     /**
@@ -236,5 +245,18 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
             }
         }
     }
+    
+    /**
+     * Returns whether invoice address is always shipping address.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2014
+     */
+    public function InvoiceAddressIsAlwaysShippingAddress() {
+        return SilvercartConfig::InvoiceAddressIsAlwaysShippingAddress();
+    }
+    
 }
 

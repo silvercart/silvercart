@@ -111,6 +111,7 @@ class SilvercartConfig extends DataObject {
         'isStockManagementOverbookable'         => 'Boolean(0)',
         'SkipPaymentStepIfUnique'               => 'Boolean(0)',
         'SkipShippingStepIfUnique'              => 'Boolean(0)',
+        'InvoiceAddressIsAlwaysShippingAddress' => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
         'redirectToCheckoutWhenInCart'          => 'Boolean(0)',
         'DisplayWeightsInKilogram'              => 'Boolean(1)',
@@ -221,6 +222,7 @@ class SilvercartConfig extends DataObject {
     public static $userAgentBlacklist                       = null;
     public static $skipPaymentStepIfUnique                  = null;
     public static $skipShippingStepIfUnique                 = null;
+    public static $invoiceAddressIsAlwaysShippingAddress    = null;
     public static $displayWeightsInKilogram                 = null;
     public static $showTaxAndDutyHint                       = false;
     
@@ -378,6 +380,8 @@ class SilvercartConfig extends DataObject {
                     new CheckboxField('SkipPaymentStepIfUnique',            $this->fieldLabel('SkipPaymentStepIfUnique')),
                     new CheckboxField('DisplayWeightsInKilogram',           $this->fieldLabel('DisplayWeightsInKilogram')),
                     new CheckboxField('ShowTaxAndDutyHint',                 $this->fieldLabel('ShowTaxAndDutyHint')),
+                    
+                    new CheckboxField('InvoiceAddressIsAlwaysShippingAddress', $this->fieldLabel('InvoiceAddressIsAlwaysShippingAddress')),
                 )
         )->setHeadingLevel(4);
 
@@ -561,6 +565,7 @@ class SilvercartConfig extends DataObject {
                     'SecurityConfiguration'                 => _t('SilvercartConfig.SecurityConfiguration', 'Security Configuration'),
                     'SkipPaymentStepIfUnique'               => _t('SilvercartConfig.SKIP_PAYMENT_STEP_IF_UNIQUE'),
                     'SkipShippingStepIfUnique'              => _t('SilvercartConfig.SKIP_SHIPPING_STEP_IF_UNIQUE'),
+                    'InvoiceAddressIsAlwaysShippingAddress' => _t('SilvercartConfig.InvoiceAddressIsAlwaysShippingAddress'),
                     'DisplayWeightsInKilogram'              => _t('SilvercartConfig.DISPLAY_WEIGHTS_IN_KILOGRAM'),
                     'ShowTaxAndDutyHint'                    => _t('SilvercartConfig.ShowTaxAndDutyHint'),
                     
@@ -1230,6 +1235,21 @@ class SilvercartConfig extends DataObject {
             self::$skipShippingStepIfUnique = self::getConfig()->SkipShippingStepIfUnique;
         }
         return self::$skipShippingStepIfUnique;
+    }
+    
+    /**
+     * Returns the InvoiceAddressIsAlwaysShippingAddress property
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.07.2014
+     */
+    public static function InvoiceAddressIsAlwaysShippingAddress() {
+        if (is_null(self::$invoiceAddressIsAlwaysShippingAddress)) {
+            self::$invoiceAddressIsAlwaysShippingAddress = self::getConfig()->InvoiceAddressIsAlwaysShippingAddress;
+        }
+        return self::$invoiceAddressIsAlwaysShippingAddress;
     }
     
     /**
