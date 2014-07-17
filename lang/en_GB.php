@@ -423,6 +423,9 @@ $lang['en_GB']['SilvercartProductGroupHolder']['SHOW_PRODUCTS_WITH_COUNT_SINGULA
 $lang['en_GB']['SilvercartProductGroupHolder']['SINGULARNAME']                      = 'Product Group Holder';
 $lang['en_GB']['SilvercartProductGroupHolder']['SUBGROUPS_OF']                      = 'Subgroups of ';
 $lang['en_GB']['SilvercartProductGroupHolder']['URL_SEGMENT']                       = 'productgroups';
+$lang['en_GB']['SilvercartProductGroupHolder']['RedirectionSettings']               = 'Redirection';
+$lang['en_GB']['SilvercartProductGroupHolder']['RedirectToProductGroup']            = 'Redirect to a product group';
+$lang['en_GB']['SilvercartProductGroupHolder']['LinkTo']                            = 'Product group to redirect to';
 
 $lang['en_GB']['SilvercartProductGroupMirrorPage']['SINGULARNAME']  = 'Mirror-Productgroup';
 $lang['en_GB']['SilvercartProductGroupMirrorPage']['PLURALNAME']    = 'Mirror-Productgroups';

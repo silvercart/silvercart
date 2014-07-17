@@ -1531,8 +1531,11 @@ de:
   SilvercartProductGroupHolder:
     DEFAULT_TITLE: "Warengruppen"
     DEFAULT_URLSEGMENT: "warengruppen"
+    LinkTo: "Warengruppe, zu der eine Weiterleitung erfolgen soll"
     PAGE_TITLE: "Warengruppen"
     PLURALNAME: "Artikelgruppenübersichten"
+    RedirectionSettings: "Weiterleitung";
+    RedirectToProductGroup: "Direkt zu einer Warengruppe weiterleiten"
     SHOW_PRODUCTS_WITH_COUNT_PLURAL: "%s Artikel anzeigen"
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "%s Artikel anzeigen"
     SINGULARNAME: "Artikelgruppenübersicht"

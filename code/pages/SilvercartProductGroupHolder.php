@@ -25,12 +25,22 @@ class SilvercartProductGroupHolder extends Page {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'productGroupsPerPage'          => 'Int',
         'DefaultGroupHolderView'        => 'VarChar(255)',
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DefaultGroupView'              => 'VarChar(255)',
         'UseOnlyDefaultGroupView'       => 'Enum("no,yes,inherit","inherit")',
+        'RedirectToProductGroup'        => 'Boolean(0)',
+    );
+    
+    /**
+     * Has one relations.
+     *
+     * @var array
+     */
+    private static $has_one = array(
+        'LinkTo' => 'SiteTree',
     );
 
     /**
@@ -38,7 +48,7 @@ class SilvercartProductGroupHolder extends Page {
      *
      * @var array
      */
-    public static $allowed_children = array(
+    private static $allowed_children = array(
         'SilvercartProductGroupPage',
         'RedirectorPage'
     );
@@ -48,7 +58,7 @@ class SilvercartProductGroupHolder extends Page {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/product_group_holder";
+    private static $icon = "silvercart/images/page_icons/product_group_holder";
     
     /**
      * Singular name for this object
@@ -94,6 +104,9 @@ class SilvercartProductGroupHolder extends Page {
                 'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW'),
                 'UseOnlyDefaultGroupView'       => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPVIEW'),
                 'DisplaySettings'               => _t('SilvercartProductGroupPage.DisplaySettings'),
+                'RedirectionSettings'           => _t('SilvercartProductGroupHolder.RedirectionSettings'),
+                'RedirectToProductGroup'        => _t('SilvercartProductGroupHolder.RedirectToProductGroup'),
+                'LinkTo'                        => _t('SilvercartProductGroupHolder.LinkTo'),
                 'Yes'                           => _t('Silvercart.YES'),
                 'No'                            => _t('Silvercart.NO'),
             )
@@ -123,6 +136,9 @@ class SilvercartProductGroupHolder extends Page {
         $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupView'));
         $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
         $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
+        $redirectionFieldGroup              = new SilvercartFieldGroup('RedirectionFieldGroup', '', $fields);
+        $redirectToProductGroupField        = new CheckboxField('RedirectToProductGroup', $this->fieldLabel('RedirectToProductGroup'));
+        $linkToField                        = new TreeDropdownField('LinkToID', $this->fieldLabel('LinkTo'), 'SiteTree');
         
         $productGroupsPerPageField->setRightTitle(_t('SilvercartProductGroupPage.PRODUCTSPERPAGEHINT'));
         
@@ -132,6 +148,12 @@ class SilvercartProductGroupHolder extends Page {
         $fieldGroup->breakAndPush($defaultGroupHolderViewField);
         $fieldGroup->push($useOnlyDefaultGroupHolderViewField);
         
+        $redirectionFieldGroup->push($redirectToProductGroupField);
+        if ($this->exists()) {
+            $linkToField->setTreeBaseID($this->ID);
+            $redirectionFieldGroup->breakAndPush($linkToField);
+        }
+        
         $displaySettingsToggle = ToggleCompositeField::create(
                 'DisplaySettingsToggle',
                 $this->fieldLabel('DisplaySettings'),
@@ -139,10 +161,42 @@ class SilvercartProductGroupHolder extends Page {
                     $fieldGroup,
                 )
         )->setHeadingLevel(4)->setStartClosed(true);
+        
+        $redirectionSettingsToggle = ToggleCompositeField::create(
+                'RedirectionSettingsToggle',
+                $this->fieldLabel('RedirectionSettings'),
+                array(
+                    $redirectionFieldGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        
+        $fields->insertAfter($redirectionSettingsToggle, 'Content');
         $fields->insertAfter($displaySettingsToggle, 'Content');
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
+    }
+
+    /**
+     * Return the link that we should redirect to.
+     * Only return a value if there is a legal redirection destination.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.070.2014
+     */
+    public function redirectionLink() {
+        $redirectionLink = false;
+        if ($this->RedirectToProductGroup) {
+            $linkTo = $this->LinkToID ? SilvercartProductGroupPage::get()->byID($this->LinkToID) : null;
+            if ($linkTo instanceof SilvercartProductGroupPage &&
+                $linkTo->exists() &&
+                $linkTo->ID != $this->ID) {
+                $redirectionLink = $linkTo->Link();
+            }
+        }
+        return $redirectionLink;
     }
 
     /**
@@ -352,6 +406,12 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
         $SQL_start = (int) $_GET['start'];
         
         parent::init();
+        
+        $redirectionLink = $this->redirectionLink();
+        if ($redirectionLink !== false &&
+            Controller::curr() == $this) {
+            $this->redirect($redirectionLink, 301);
+        }
     }
 
     /**
