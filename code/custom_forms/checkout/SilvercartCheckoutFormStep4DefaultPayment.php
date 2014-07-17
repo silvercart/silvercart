@@ -79,11 +79,19 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlFormStep {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2011
+     * @since 16.07.2014
      */
     public function preferences() {
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['doJsValidationScrolling']   = false;
+        $this->preferences['submitButtonUseButtonTag']  = true;
+        $this->preferences['submitButtonExtraClasses']  = array(
+            'silvercart-button',
+            'btn',
+            'btn-large',
+            'btn-success',
+            'pull-right',
+        );
 
         parent::preferences();
     }
