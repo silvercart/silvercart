@@ -125,7 +125,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->preferences['fillInRequestValues']       = true;
         $this->preferences['createShoppingcartForms']   = false;
         $this->preferences['submitButtonUseButtonTag']  = true;
-        $this->preferences['submitButtonExtraClasses']  = array('silvercart-button', 'btn', 'btn-primary');
+        $this->preferences['submitButtonExtraClasses']  = array('silvercart-button', 'btn', 'btn-success', 'pull-right');
 
         $checkoutData = $this->controller->getCombinedStepData();
 
@@ -154,8 +154,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         $this->controller->fillFormFields($this->formFields);
         $this->formFields['ChosenShippingMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING', 'choosen shipping method');
         $this->formFields['ChosenPaymentMethod']['title'] = _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT', 'choosen payment method');
-        $this->formFields['HasAcceptedTermsAndConditions']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS', 'I accept the terms and conditions.');
-        $this->formFields['HasAcceptedRevocationInstruction']['title'] = _t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION', 'I accept the revocation instructions');
+        $this->formFields['HasAcceptedTermsAndConditions']['title'] = sprintf(_t('SilvercartCheckoutFormStep.I_ACCEPT_TERMS'), SilvercartTools::PageByIdentifierCodeLink('TermsOfServicePage'));
+        $this->formFields['HasAcceptedRevocationInstruction']['title'] = sprintf(_t('SilvercartCheckoutFormStep.I_ACCEPT_REVOCATION'), SilvercartTools::PageByIdentifierCodeLink('SilvercartRevocationInstructionPage'));
         $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER', 'I subscribe to the newsletter');
         $this->formFields['Note']['placeholder'] = _t('SilvercartPage.YOUR_REMARKS') . '...';
 

@@ -486,8 +486,8 @@ $lang['en_GB']['SilvercartCartPage']['URL_SEGMENT']                             
 $lang['en_GB']['SilvercartCheckoutFormStep']['CHOOSEN_PAYMENT'] = 'Chosen payment method';
 $lang['en_GB']['SilvercartCheckoutFormStep']['CHOOSEN_SHIPPING'] = 'Chosen shipping method';
 $lang['en_GB']['SilvercartCheckoutFormStep']['FORWARD'] = 'Next';
-$lang['en_GB']['SilvercartCheckoutFormStep']['I_ACCEPT_REVOCATION'] = 'I accept the revocation instructions';
-$lang['en_GB']['SilvercartCheckoutFormStep']['I_ACCEPT_TERMS'] = 'I accept the terms and conditions.';
+$lang['en_GB']['SilvercartCheckoutFormStep']['I_ACCEPT_REVOCATION'] = 'I accept the <a href="%s" target="blank">revocation instructions</a>.';
+$lang['en_GB']['SilvercartCheckoutFormStep']['I_ACCEPT_TERMS'] = 'I accept the <a href="%s" target="blank">terms and conditions</a>.';
 $lang['en_GB']['SilvercartCheckoutFormStep']['I_SUBSCRIBE_NEWSLETTER'] = 'I want to receive the newsletter';
 $lang['en_GB']['SilvercartCheckoutFormStep']['ORDER'] = 'Order';
 $lang['en_GB']['SilvercartCheckoutFormStep']['ORDER_NOW'] = 'Buy now';
@@ -639,6 +639,7 @@ $lang['en_GB']['SilvercartConfig']['CustomerConfiguration']                     
 $lang['en_GB']['SilvercartConfig']['ProductConfiguration']                      = 'Product Settings';
 $lang['en_GB']['SilvercartConfig']['CheckoutConfiguration']                     = 'Cart  & Checkout Settings';
 $lang['en_GB']['SilvercartConfig']['SecurityConfiguration']                     = 'Security Settings';
+$lang['en_GB']['SilvercartConfig']['InvoiceAddressIsAlwaysShippingAddress']     = 'Invoice address is always shipping address';
 $lang['en_GB']['SilvercartConfigAdmin']['MENUTITLE'] = 'Settings Shop';
 
 $lang['en_GB']['SilvercartContactFormPage']['DEFAULT_TITLE'] = 'Contact';
