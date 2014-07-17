@@ -402,7 +402,7 @@ $lang['en_GB']['SilvercartProductExport']['SINGULARNAME']                       
 $lang['en_GB']['SilvercartProductExporter']['PLURALNAME']                                   = 'Price portal exporters';
 $lang['en_GB']['SilvercartProductExporter']['SINGULARNAME']                                 = 'Price portal exporter';
 $lang['en_GB']['SilvercartProductExporter']['URL']                                          = 'URL';
-$lang['de_DE']['SilvercartProductExporterAdmin']['MENUTITLE']                               = 'Product exporter';
+$lang['en_GB']['SilvercartProductExporterAdmin']['MENUTITLE']                               = 'Product exporter';
 
 $lang['en_GB']['SilvercartProductExportAdmin']['MENUTITLE'] = 'Product Export';
 $lang['en_GB']['SilvercartProductExportAdmin']['PUSH_ENABLED_LABEL']                    = 'Enable push';
@@ -447,6 +447,7 @@ $lang['en_GB']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCT_ON_PAGE'] = '%s product on %s page';
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s products on %s page';
 $lang['en_GB']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s products on %s pages';
+$lang['en_GB']['SilvercartProductGroupPage']['DisplaySettings'] = 'Display Settings';
 
 $lang['en_GB']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
 $lang['en_GB']['SilvercartProductGroupPageSelector']['PRODUCTS_FOUND']          = '%d Products found';

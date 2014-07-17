@@ -382,6 +382,7 @@ class SilvercartProductGroupPage extends Page {
                 'DefaultGroupHolderView'        => _t('SilvercartProductGroupPage.DEFAULTGROUPHOLDERVIEW'),
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
                 'DoNotShowProducts'             => _t('SilvercartProductGroupPage.DONOTSHOWPRODUCTS'),
+                'DisplaySettings'               => _t('SilvercartProductGroupPage.DisplaySettings'),
                 'SilvercartProductExporters'    => _t('SilvercartProductExporter.SINGULARNAME'),
             )
         );
@@ -413,18 +414,28 @@ class SilvercartProductGroupPage extends Page {
         $productGroupsPerPageField          = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
         $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW_DEFAULT'));
         $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
-        $productsPerPageHintField           = new LiteralField('ProductsPerPageHint', _t('SilvercartProductGroupPage.PRODUCTSPERPAGEHINT'));
         $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
+        
+        $productsPerPageField->setRightTitle(_t('SilvercartProductGroupPage.PRODUCTSPERPAGEHINT'));
+        $productGroupsPerPageField->setRightTitle(_t('SilvercartProductGroupPage.PRODUCTSPERPAGEHINT'));
+        
         $fieldGroup->push(          $useContentField);
         $fieldGroup->breakAndPush(  $doNotShowProductsField);
         $fieldGroup->breakAndPush(  $productsPerPageField);
-        $fieldGroup->push(          $defaultGroupViewField);
+        $fieldGroup->breakAndPush(  $defaultGroupViewField);
         $fieldGroup->push(          $useOnlyDefaultGroupViewField);
         $fieldGroup->breakAndPush(  $productGroupsPerPageField);
-        $fieldGroup->push(          $defaultGroupHolderViewField);
+        $fieldGroup->breakAndPush(  $defaultGroupHolderViewField);
         $fieldGroup->push(          $useOnlyDefaultGroupHolderViewField);
-        $fieldGroup->breakAndPush(  $productsPerPageHintField);
-        $fields->addFieldToTab('Root.Main', $fieldGroup, 'IdentifierCode');
+        
+        $displaySettingsToggle = ToggleCompositeField::create(
+                'DisplaySettingsToggle',
+                $this->fieldLabel('DisplaySettings'),
+                array(
+                    $fieldGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        $fields->insertAfter($displaySettingsToggle, 'Content');
 
         $mirroredProductIdList  = '';
         $mirroredProductIDs     = $this->getMirroredProductIDs();

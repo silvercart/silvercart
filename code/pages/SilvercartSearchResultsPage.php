@@ -95,8 +95,11 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
 
-        $productsPerPageField = new TextField('productsPerPage', $this->fieldLabel('productsPerPage'));
-        $fields->addFieldToTab('Root.Main', $productsPerPageField, 'IdentifierCode');
+        $fields->removeByName('useContentFromParent');
+        $fields->removeByName('DoNotShowProducts');
+        $fields->removeByName('productGroupsPerPage');
+        $fields->removeByName('DefaultGroupHolderView');
+        $fields->removeByName('UseOnlyDefaultGroupHolderView');
 
         return $fields;
     }

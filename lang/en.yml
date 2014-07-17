@@ -379,8 +379,10 @@ en:
     TEXT: |
            <h1>Request via contact form</h1>
            <h2>Hello,</h2>
-           <p>The customer <strong>"$FirstName $Surname"</strong> with the email address <strong>"$Email"</strong> sent the following message:</p>
+           <p>A contact request was sent by a customer.<br />
+           The customer <strong>"$FirstName $Surname"</strong> with the email address <strong>"$Email"</strong> sent the following message:</p>
            <% if Phone %><p><strong>Telefon: {$Phone}</strong></p><% end_if %>
+           <h2>Message</h2>
            <p>$Message</p>
            
   SilvercartContactMessageAdmin:
@@ -1574,6 +1576,7 @@ en:
     DEFAULTGROUPHOLDERVIEW: "Default product group view"
     DEFAULTGROUPVIEW: "Default product list view"
     DEFAULTGROUPVIEW_DEFAULT: "Use view from parent pages"
+    DisplaySettings: "Display Settings"
     DONOTSHOWPRODUCTS: "do <strong>not</strong> show products of this group"
     GROUP_PICTURE: "Group picture"
     MANAGE_PRODUCTS_BUTTON: "Manage products"

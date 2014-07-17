@@ -1576,6 +1576,7 @@ de:
     DEFAULTGROUPHOLDERVIEW: "Standard-Warengruppen-Ansicht"
     DEFAULTGROUPVIEW: "Standard-Artikellisten-Ansicht"
     DEFAULTGROUPVIEW_DEFAULT: "Übernehmen von übergeordneter Gruppe/Standartkonfiguration"
+    DisplaySettings: "Anzeige-Einstellungen"
     DONOTSHOWPRODUCTS: "<strong>keine</strong> Artikel in der Übersicht anzeigen"
     GROUP_PICTURE: "Bild der Gruppe"
     MANAGE_PRODUCTS_BUTTON: "Artikel verwalten"

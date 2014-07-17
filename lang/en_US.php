@@ -447,6 +447,7 @@ $lang['en_US']['SilvercartProductGroupPage']['USEONLYDEFAULTGROUPHOLDERVIEW'] = 
 $lang['en_US']['SilvercartProductGroupPage']['PRODUCT_ON_PAGE'] = '%s product on %s page';
 $lang['en_US']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGE'] = '%s products on %s page';
 $lang['en_US']['SilvercartProductGroupPage']['PRODUCTS_ON_PAGES'] = '%s products on %s pages';
+$lang['en_US']['SilvercartProductGroupPage']['DisplaySettings'] = 'Display Settings';
 
 $lang['en_US']['SilvercartProductGroupPageSelector']['OK']                      = 'Ok';
 $lang['en_US']['SilvercartProductGroupPageSelector']['PRODUCTS_FOUND']          = '%d Products found';

@@ -63,7 +63,12 @@ class SilvercartFieldGroup extends CompositeField {
      */
     public function FieldHolder($properties = array()) {
         if (is_null($this->fieldHolder)) {
-            $fieldHolder        = '<div class="silvercart-field-group silvercart-fieldgroup field"><label class="left" for="">%s</label><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
+            $title = $this->Title();
+            if (empty($title)) {
+                $fieldHolder    = '<div class="silvercart-field-group silvercart-fieldgroup field">%s<div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
+            } else {
+                $fieldHolder    = '<div class="silvercart-field-group silvercart-fieldgroup field"><label class="left" for="">%s</label><div class="middleColumn"><div class="fieldgroup">%s</div></div>  </div>';
+            }
             $singleFieldHolder  = '<div class="fieldgroupField %s">%s</div>';
             $fieldMarkup        = array();
 

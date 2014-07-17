@@ -93,6 +93,7 @@ class SilvercartProductGroupHolder extends Page {
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
                 'DefaultGroupView'              => _t('SilvercartProductGroupPage.DEFAULTGROUPVIEW'),
                 'UseOnlyDefaultGroupView'       => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPVIEW'),
+                'DisplaySettings'               => _t('SilvercartProductGroupPage.DisplaySettings'),
                 'Yes'                           => _t('Silvercart.YES'),
                 'No'                            => _t('Silvercart.NO'),
             )
@@ -122,12 +123,23 @@ class SilvercartProductGroupHolder extends Page {
         $defaultGroupHolderViewField        = SilvercartGroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupView'));
         $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
         $fieldGroup                         = new SilvercartFieldGroup('FieldGroup', '', $fields);
+        
+        $productGroupsPerPageField->setRightTitle(_t('SilvercartProductGroupPage.PRODUCTSPERPAGEHINT'));
+        
         $fieldGroup->push($defaultGroupViewField);
         $fieldGroup->push($useOnlyDefaultGroupViewField);
         $fieldGroup->breakAndPush($productGroupsPerPageField);
-        $fieldGroup->push($defaultGroupHolderViewField);
+        $fieldGroup->breakAndPush($defaultGroupHolderViewField);
         $fieldGroup->push($useOnlyDefaultGroupHolderViewField);
-        $fields->addFieldToTab('Root.Main', $fieldGroup, 'IdentifierCode');
+        
+        $displaySettingsToggle = ToggleCompositeField::create(
+                'DisplaySettingsToggle',
+                $this->fieldLabel('DisplaySettings'),
+                array(
+                    $fieldGroup,
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        $fields->insertAfter($displaySettingsToggle, 'Content');
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
