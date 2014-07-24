@@ -1572,7 +1572,7 @@ class SilvercartProduct extends DataObject {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     * @since 24.07.2014
      */
     public function getPrice($priceType = '', $ignoreTaxExemption = false) {
         $cacheHash = md5($priceType);
@@ -1598,7 +1598,8 @@ class SilvercartProduct extends DataObject {
         if (!$ignoreTaxExemption &&
             !$this->ignoreTaxExemption &&
             $member instanceof Member &&
-            $member->doesNotHaveToPayTaxes()) {
+            $member->doesNotHaveToPayTaxes() &&
+            $priceType != "net") {
             $this->ignoreTaxExemption = true;
             $price->setAmount($price->getAmount() - $this->getTaxAmount());
             $this->ignoreTaxExemption = false;
