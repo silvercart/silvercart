@@ -180,6 +180,7 @@ class SilvercartCustomer extends DataExtension {
         $fields->removeByName('SilvercartInvoiceAddressID');
         $fields->removeByName('SilvercartShippingAddressID');
         $fields->removeByName('SilvercartCustomerConfigID');
+        $fields->removeByName('SilvercartShippingAddressInUseID');
     }
     
     /**
