@@ -310,6 +310,13 @@ class SilvercartProduct extends DataObject {
      * @var bool 
      */
     protected $ignoreTaxExemption = false;
+    
+    /**
+     * The first image out of the related SilvercartImages.
+     *
+     * @var Image
+     */
+    protected $listImage = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -2596,27 +2603,7 @@ class SilvercartProduct extends DataObject {
             $this->extend('overwriteSilvercartImages', $images);
             if ($images == false) {
                 $images = $this->SilvercartImages($filter);
-
                 $this->extend('updateGetSilvercartImages', $images);
-
-                if ($images->Count() > 0) {
-                    $existingImages = new DataObjectSet();
-                    foreach ($images as $image) {
-                        if (!file_exists($image->Image()->getFullPath())) {
-                            $noImageObj = SilvercartConfig::getNoImage();
-
-                            if ($noImageObj) {
-                                $noImageObj->setField('Title', 'No Image');
-
-                                $image = new SilvercartImage();
-                                $image->ImageID             = $noImageObj->ID;
-                                $image->SilvercartProductID = $this->ID;
-                            }
-                        }
-                        $existingImages->push($image);
-                    }
-                    $images = $existingImages;
-                }
             }
 
             if (!($images instanceof DataObjectSet) ||
@@ -2658,6 +2645,26 @@ class SilvercartProduct extends DataObject {
         }
 
         return $images;
+    }
+
+    /**
+     * Returns the first image out of the related SilvercartImages.
+     * 
+     * @param string $filter Filter for the related SilvercartImages
+     * 
+     * @return Image
+     */
+    public function getListImage($filter = '') {
+        if (is_null($this->listImage)) {
+            $this->listImage = false;
+            $images = $this->getSilvercartImages($filter);
+
+            if ($images) {
+                $this->listImage = $images->First()->Image();
+            }
+        }
+
+        return $this->listImage;
     }
 
     /**
