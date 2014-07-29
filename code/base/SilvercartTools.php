@@ -813,4 +813,21 @@ class SilvercartTools extends Object {
         // system locale... It works for plain and utf8 locales.
         setlocale(LC_ALL, $currentLocale . '.utf8', $currentLocale . '.UTF-8', $currentLocale);
     }
+    
+    /**
+     * Returns the redirect back url.
+     * 
+     * @return string
+     */
+    public static function get_redirect_back_url() {
+        $request = Controller::curr()->getRequest();
+        if ($request->requestVar('_REDIRECT_BACK_URL')) {
+            $url = $request->requestVar('_REDIRECT_BACK_URL');
+        } elseif ($request->getHeader('Referer')) {
+            $url = $request->getHeader('Referer');
+        } else {
+            $url = Director::baseURL();
+        }
+        return $url;
+    }
 }
