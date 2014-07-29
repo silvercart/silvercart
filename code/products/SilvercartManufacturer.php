@@ -70,6 +70,13 @@ class SilvercartManufacturer extends DataObject {
         'LogoForTable'  => 'HtmlText',
         'Description'   => 'Text'
     );
+    
+    /**
+     * Default sort and direction.
+     *
+     * @var string
+     */
+    public static $default_sort = 'Title ASC';
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -99,36 +106,30 @@ class SilvercartManufacturer extends DataObject {
     }
     
     /**
-     * Get any user defined searchable fields labels that
-     * exist. Allows overriding of default field names in the form
-     * interface actually presented to the user.
-     *
-     * The reason for keeping this separate from searchable_fields,
-     * which would be a logical place for this functionality, is to
-     * avoid bloating and complicating the configuration array. Currently
-     * much of this system is based on sensible defaults, and this property
-     * would generally only be set in the case of more complex relationships
-     * between data object being required in the search interface.
-     *
-     * Generates labels based on name of the field itself, if no static property
-     * {@link self::field_labels} exists.
+     * Returns the field labels.
      *
      * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
      *
-     * @return array|string Array of all element labels if no argument given, otherwise the label of the field
-     *
-     * @uses $field_labels
-     * @uses FormField::name_to_label()
+     * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.02.2011
+     * @since 14.12.2013
      */
     public function fieldLabels($includerelations = true) {
-        $fieldLabels = parent::fieldLabels($includerelations);
-        $fieldLabels['Title']               = _t('SilvercartPage.TITLE', 'title');
-        $fieldLabels['URL']                 = _t('SilvercartPage.URL', 'URL');
-        $fieldLabels['logo']                = _t('SilvercartPage.LOGO', 'logo');
-        $fieldLabels['SilvercartProducts']  = _t('SilvercartProduct.PLURALNAME', 'products');
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title'                           => _t('SilvercartPage.TITLE'),
+                    'Description'                     => _t('SilvercartManufacturer.Description'),
+                    'URL'                             => _t('SilvercartPage.URL'),
+                    'logo'                            => _t('SilvercartPage.LOGO'),
+                    'SilvercartProducts'              => _t('SilvercartProduct.PLURALNAME'),
+                    'SilvercartManufacturerLanguages' => _t('SilvercartManufacturerLanguage.PLURALNAME'),
+                )
+        );
+        
+        $this->extend('updateFieldLabels', $fieldLabels);
+        
         return $fieldLabels;
     }
 
@@ -160,6 +161,12 @@ class SilvercartManufacturer extends DataObject {
     public function getCMSFields($params = null) {
         $fields = parent::getCMSFields($params);
         $fields->removeByName('URLSegment');
+        
+        $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguage(true));
+        foreach ($languageFields as $languageField) {
+            $fields->insertBefore($languageField, 'logo');
+        }
+        
         return $fields;
     }
 
@@ -261,5 +268,15 @@ class SilvercartManufacturer extends DataObject {
             );
         }
         return $logoForTable;
+    }
+    
+    /**
+     * Returns the related products.
+     * 
+     * @return DataObjectSet
+     */
+    public function getProducts() {
+        $products = SilvercartProduct::get("SilvercartManufacturerID = " . $this->ID);
+        return $products;
     }
 }
