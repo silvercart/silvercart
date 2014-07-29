@@ -45,7 +45,7 @@ class SilvercartMultiDropdownField extends DropdownField {
     public function getAttributes() {
         $name = $this->getName();
         if (strpos($name, ']') == strlen($name) - 1) {
-            $newName = str_replace(']', '-orig]', $this->getName());
+            $newName = str_replace(']', '-orig]', $name);
         } else {
             $newName = $name . '-orig';
         }
