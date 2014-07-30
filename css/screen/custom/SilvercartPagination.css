@@ -61,3 +61,7 @@
     display:                        block;
     padding:                        3px 0px 0px 0px;
 }
+.centered-pagination {
+    text-align: center;
+    margin-top: 10px;
+}

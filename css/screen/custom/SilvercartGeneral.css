@@ -152,6 +152,9 @@ h1 {
 .padding_right {
     padding-right:                  12px;
 }
+.padding_left {
+    padding-left:                   12px;
+}
 .overflow-visible {
     overflow:                     visible;
 }
@@ -373,6 +376,11 @@ p.silvercart-message.vdistance {
 .silvercart-icon-with-text-button.left {
     float:                          left;
 }
+.silvercart-button.right,
+.silvercart-icon-button.right,
+.silvercart-icon-with-text-button.right {
+    float:                          right;
+}
 .silvercart-button.inline {
     float:                          none;
     display:                        inline-block;
@@ -387,6 +395,16 @@ a.silvercart-button,
 .silvercart-button a {
     display:                        block;
     padding:                        3px 10px 5px 10px;
+}
+a.silvercart-button.active {
+    $DefaultButton.CssActive
+}
+a.silvercart-button.right {
+    float: right;
+}
+a.silvercart-button.inline {
+    display: inline-block;
+    float: none;
 }
 a.silvercart-button,
 .silvercart-button a,
@@ -406,6 +424,18 @@ a.silvercart-button-small:hover,
 .silvercart-button-small a:hover {
     text-decoration:                none;
     $DefaultButton.CssHover
+}
+a.silvercart-button.highlighted,
+.silvercart-button.highlighted a,
+a.silvercart-button-small.highlighted,
+.silvercart-button-small.highlighted a {
+    $DefaultSubmitButton.Css
+}
+a.silvercart-button.highlighted:hover,
+.silvercart-button.highlighted a:hover,
+a.silvercart-button.highlighted:hover,
+.silvercart-button.highlighted a:hover {
+    $DefaultSubmitButton.CssHover
 }
 .silvercart-button-small {
     float:                          right;

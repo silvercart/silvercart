@@ -71,6 +71,8 @@
     h5 { font-size:116.67%; }                    /* 14px */
     h6 { font-size:116.67%; }                    /* 14px */
 
+    h2 a,
+    h2 a:visited,
     h3 a,
     h3 a:visited {
         color: $DefaultHeadingColor;
