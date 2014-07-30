@@ -1,6 +1,9 @@
 <div id="col1">
     <div id="col1_content" class="clearfix">
-        <div class="typography">
+        <% include SilvercartBreadCrumbs %>
+
+        <h1>$Title</h1>
+
             <% if Results %>
 				<ul id="SearchResults">
 					<% loop Results %>
@@ -40,16 +43,17 @@
 					</span>
 				</div>
             <% end_if %>
+        
+        <div class="silvercartWidgetHolder">
+            <div class="silvercartWidgetHolder_content">
+                $InsertWidgetArea(Content)
+            </div>
         </div>
     </div>
 </div>
 <div id="col3">
     <div id="col3_content" class="clearfix">
-        <% include SilvercartSideBarCart %>
+        $InsertWidgetArea(Sidebar)
     </div>
     <div id="ie_clearing"> &#160; </div>
 </div>
-
-
-
-

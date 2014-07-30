@@ -3,7 +3,7 @@
     <div class="widget_content">
         <div class="silvercart-widget">
             <div class="silvercart-widget_content">
-<% if SubElementsTitle %><h2>{$SubElementsTitle}</h2><% end_if %>
+<% if SubElementsTitle %><strong class="h2">{$SubElementsTitle}</strong><% end_if %>
                 <div class="vlist">
                     <ul>
                     <% loop SubElements %>

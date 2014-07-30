@@ -2,7 +2,7 @@
     <% loop Elements %>
         <div class="silvercart-product-box">
             <div class="silvercart-product-box_content">
-                <h3><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h3>
+                <h2><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h2>
                 <div class="subcolumns clearfix equalize product-group-page-info">
                     <div class="c33l product-group-page-image">
                         <div class="subcl">

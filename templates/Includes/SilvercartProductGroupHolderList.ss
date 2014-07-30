@@ -2,13 +2,12 @@
     <% loop Elements %>
 <div class="product-group-holder-entry clearfix $EvenOdd">
     <div class="product-group-holder-entry_content">
-        <h3><a href="$Link">$Title.HTML</a></h3>
+        <h2><a href="$Link">$Title.HTML</a></h2>
+    <% if groupPicture %>
         <div class="subcolumns clearfix">
             <div class="c33l product-group-holder-entry-image">
                 <div class="subcl">
-                    <% if groupPicture %>
                     <a href="$Link">$groupPicture.SetRatioSize(210,210)</a>
-                    <% end_if %>
                 </div>
             </div>
             <div class="c66r">
@@ -17,6 +16,9 @@
                 </div>
             </div>
         </div>
+    <% else %>
+        {$Content.Raw}
+    <% end_if %>
         
         <div class="silvercart-product-group-holder-list-productlist">
             <div class="silvercart-product-group-holder-list-productlist_content clearfix">
