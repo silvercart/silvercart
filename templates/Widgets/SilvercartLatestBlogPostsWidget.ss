@@ -1,4 +1,4 @@
-<h2>$WidgetTitle</h2>
+<strong class="h2">$WidgetTitle</strong>
 <% if BlogPosts %>
     <% loop BlogPosts %>
         <% if Top.isContentView %>

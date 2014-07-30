@@ -1,6 +1,6 @@
 <% if CurrentMember.currentRegisteredCustomer %>
     <% cached WidgetCacheKey %>
-    <h2><% _t('SilvercartLoginWidget.TITLE_LOGGED_IN') %></h2>
+    <strong class="h2"><% _t('SilvercartLoginWidget.TITLE_LOGGED_IN') %></strong>
 
     <div class="silvercart-widget-content_frame">
         <% with MyAccountPage %>
@@ -17,7 +17,7 @@
     </div>
     <% end_cached %>
 <% else %>
-    <h2><% _t('SilvercartLoginWidget.TITLE_NOT_LOGGED_IN') %></h2>
+    <strong class="h2"><% _t('SilvercartLoginWidget.TITLE_NOT_LOGGED_IN') %></strong>
 
     <div class="silvercart-widget-content_frame silvercart-widget-login">
         $InsertCustomHtmlForm

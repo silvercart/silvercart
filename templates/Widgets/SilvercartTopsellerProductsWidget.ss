@@ -1,4 +1,4 @@
 <% cached WidgetCacheKey %>
-    <h2><% _t('SilvercartTopsellerProductsWidget.TITLE') %></h2>
+    <strong class="h2"><% _t('SilvercartTopsellerProductsWidget.TITLE') %></strong>
     <% include SilvercartWidgetProductBoxList %>
 <% end_cached %>

@@ -184,6 +184,10 @@ ul.silvercart-widget-slider {
 .silvercart-product-box_content {
     padding:                        8px 4px 6px 4px;
 }
+.silvercart-product-box_content h2 {
+    background: none;
+    filter: none;
+}
 .silvercart-widget .silvercart-product-box h2,
 .silvercart-widget .silvercart-product-box h3 {
     font-size:                      12px;
