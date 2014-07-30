@@ -1,9 +1,9 @@
 <% if ShowWidget %>
     <% if SilvercartManufacturers %>
         <% if Title %>
-            <h2 <% if isFilteredByManufacturer %>class="is-filtered"<% end_if %>>
+            <strong class="h2 <% if isFilteredByManufacturer %>is-filtered<% end_if %>">
                 $Title
-            </h2>
+            </strong>
         <% end_if %>
 
         <div class="vlist">

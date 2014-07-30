@@ -1,6 +1,6 @@
 <% cached WidgetCacheKey %>
     <% if ShowWidget %>
-        <h2><% _t('SilvercartShoppingcartWidget.TITLE') %></h2>
+        <strong class="h2"><% _t('SilvercartShoppingcartWidget.TITLE') %></strong>
 
         <div class="silvercart-widget-content_frame">
             <% if CurrentMember.SilvercartShoppingCart.isFilled %>

@@ -2,7 +2,7 @@
     <% control getNavigation %>
         <% if HasMenu %>
             <% if Top.FrontTitle %>
-                <h2>$Top.FrontTitle</h2>
+                <strong class="h2">$Top.FrontTitle</strong>
             <% end_if %>
 
             <div class="vlist  silvercart-product-group-navigation-widget">
