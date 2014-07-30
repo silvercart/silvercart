@@ -3,9 +3,9 @@
         <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast $productAddCartFormObj.FormName">
             <div class="silvercart-product-group-page-box-list_content">
                 <div class="silvercart-product-title">
-                    <h3>
+                    <h2>
                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title.HTML) %>">$Title.HTML</a>
-                    </h3>
+                    </h2>
                 </div>
                 <div class="subcolumns clearfix">
                     <div class="c25l silvercart-product-group-page-box-image">
