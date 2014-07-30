@@ -113,7 +113,7 @@ class SilvercartConfigAdmin extends SilvercartLeftAndMain {
         
         $form = new Form($this, 'EditForm', $fields, $actions);
         $form->addExtraClass('root-form');
-        $form->addExtraClass('cms-edit-form cms-panel-padded center cms-tabset');
+        $form->addExtraClass('cms-edit-form center cms-tabset');
         // don't add data-pjax-fragment=CurrentForm, its added in the content template instead
 
         if ($form->Fields()->hasTabset()) {
