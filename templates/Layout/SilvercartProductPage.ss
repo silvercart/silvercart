@@ -101,9 +101,9 @@
                                 </div>
                                 <% if PluggedInProductMetaData %>
                                 <div class="silvercart-product-meta-data">
-                                    <% with PluggedInProductMetaData %>
-                                        $MetaData<br/>
-                                    <% end_with %>
+                                    <% loop PluggedInProductMetaData %>
+                                        {$MetaData}<br/>
+                                    <% end_loop %>
                                 </div>
                                 <% end_if %>
                                 <div class="silvercart-product-group-add-cart-form">

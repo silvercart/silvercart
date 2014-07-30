@@ -45,9 +45,9 @@
                                 </div>
                                 <% if PluggedInProductMetaData %>
                                 <div class="silvercart-product-meta-data">
-                                    <% with PluggedInProductMetaData %>
-                                        <span class="right">$MetaData</span><br/>
-                                    <% end_with %>
+                                    <% loop PluggedInProductMetaData %>
+                                        <span class="right">{$MetaData}</span><br/>
+                                    <% end_loop %>
                                 </div>
                                 <% end_if %>
                             </div>
