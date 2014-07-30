@@ -33,7 +33,9 @@
     box-shadow:                     none;
     padding:                        0px;
 }
+.widget.plain strong.h2,
 .widget.plain h2 {
+    display:                        block;
     border:                         0px solid transparent;
     background:                     transparent;
     background-image:               none;
@@ -45,9 +47,13 @@
 .silvercart-widget-content-area {
     margin:                         0px 0px 20px 0px;
 }
+.silvercart-widget strong.h2,
+#col1 .silvercart-widget strong.h2,
+#col4 .silvercart-widget strong.h2,
 .silvercart-widget h2,
 #col1 .silvercart-widget h2,/* Widgets in content area */
 #col4 .silvercart-widget h2 /* Widgets in content area */ {
+    display:                        block;
     font-size:                      11px;
     font-weight:                    normal;
     color:                          #333;
@@ -60,19 +66,33 @@
     margin:                         0px;
     padding:                        4px;
 }
+.silvercart-widget strong.h3,
 .silvercart-widget h3 {
     font-size:                      12px;
     margin:                         0px;
     padding:                        0px 0px 6px 0px;
 }
+#col1 .silvercart-widget-content-area strong.h2,
+#col4 .silvercart-widget-content-area strong.h2,
 #col1 .silvercart-widget-content-area h2,/* Widgets in content area */
 #col4 .silvercart-widget-content-area h2 /* Widgets in content area */ {
+    display:                        block;
     font-size:                      12px;
     font-weight:                    normal;
     border:                         none;
     border-bottom:                  1px solid #E2E2E2;
     margin:                         34px 0px 6px 0px;
     padding:                        3px 8px 7px 8px;
+}
+#col1 .silvercart-widget-content-area .silvercart-product-title h2,/* Widgets in content area */
+#col4 .silvercart-widget-content-area .silvercart-product-title h2 /* Widgets in content area */ {
+    display:                        block;
+    font-size:                      14px;
+    font-weight:                    normal;
+    border:                         none;
+    border-bottom:                  0px;
+    margin:                         0px 0px 8px;
+    padding:                        0px;
 }
 .silvercart-widget p {
     font-size:                      11px;
@@ -164,10 +184,12 @@ ul.silvercart-widget-slider {
 .silvercart-product-box_content {
     padding:                        8px 4px 6px 4px;
 }
+.silvercart-widget .silvercart-product-box h2,
 .silvercart-widget .silvercart-product-box h3 {
     font-size:                      12px;
     font-weight:                    bold;
 }
+.silvercart-widget .silvercart-product-box h2 a,
 .silvercart-widget .silvercart-product-box h3 a {
     color:                          #444;
     text-shadow:                    0px 1px 3px #eee;

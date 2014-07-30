@@ -14,10 +14,12 @@
     width:                          600px;
     margin-left:                    -300px;
 }
+.silvercart-productgroup-slider-presentation-panel h2,
 .silvercart-productgroup-slider-presentation-panel h3 {
     font-size:                      26px;
     text-align:                     center;
 }
+.silvercart-productgroup-slider-presentation-panel h2 a,
 .silvercart-productgroup-slider-presentation-panel h3 a {
     color:                          #000;
 }

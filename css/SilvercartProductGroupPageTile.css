@@ -1,3 +1,5 @@
+#col1 .silvercart-product-group-page-box-tile h2,
+#col4 .silvercart-product-group-page-box-tile h2,
 #col1 .silvercart-product-group-page-box-tile h3,
 #col4 .silvercart-product-group-page-box-tile h3 {
     margin:                         0px 0px 8px 0px;
@@ -106,6 +108,7 @@
     display:                        block;
 }
 
+.silvercart-product-group-page-box-tile h2 a,
 .silvercart-product-group-page-box-tile h3 a {
     font-size:                      14px;
     font-weight:                    bold;

@@ -22,34 +22,6 @@
   
 @media screen, projection
 {
-  
-
-
-  /* Columnar display | Spalten-Darstellung */
-  .columnar .type-text label,
-  .columnar .type-select label {
-    float:left;
-    width:25%; /* Can be fixed width too | Kann auch eine fixe Angabe sein */
-    padding-top: 4px;
-  }
-
-  /* Indent Checkbox fields to match label-width | Checkboxen um den gleichen Wert einrücken, wie die Breite der labels */
-  .columnar div.type-check input { margin-left:25%; }
-  .columnar div.error .message { margin-left:25%; }
-
-  .columnar fieldset div.type-button,
-  fieldset.columnar div.type-button { padding-left:25%; }
-
-  .columnar div.type-text input,
-  .columnar div.type-text textarea { float:left; width:72.8%; margin-right: -3px; }
-  .columnar div.type-select select { float:left; width:74.4%; margin-right: -3px; }
-  
-  /* width adjustments for IE 5.x & IE6 | Breitenanpassung für Internet Explorer 5.x und 6.0 */
-  * html .columnar div.type-text input,
-  * html .columnar div.type-text textarea { width:72.2%; }
-  * html .columnar div.type-select select { width:73.8%; }
-  
- /*------------------------------------------------------------------------------------------------------*/
 
  /**
   * Global fixes for YAML's form construction set
