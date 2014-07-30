@@ -484,6 +484,19 @@ class SilvercartCustomer extends DataExtension {
         return SilvercartTools::getSalutationText($this->owner->Salutation);
     }
     
+    /**
+     * Returns the localized salutation string.
+     *
+     * @return string
+     */
+    public function getAnonymousName() {
+        $anonymousName = $this->owner->FirstName;
+        if (!empty($this->owner->Surname)) {
+            $anonymousName .= ' ' . ucfirst(substr(trim($this->owner->Surname), 0, 1)) . '.';
+        }
+        return $anonymousName;
+    }
+    
     // ------------------------------------------------------------------------
     // Regular methods
     // ------------------------------------------------------------------------
