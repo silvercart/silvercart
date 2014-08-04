@@ -237,6 +237,15 @@ table td.right {
 .silvercart-default-table tr.odd td {
     
 }
+table.silvercart-default-table.plain,
+table.silvercart-default-table.plain th,
+table.silvercart-default-table.plain td,
+table.silvercart-default-table.plain tr:last-child th,
+table.silvercart-default-table.plain tbody tr:last-child th,
+table.silvercart-default-table.plain tr:last-child td,
+table.silvercart-default-table.plain tbody tr:last-child td {
+    border: none;
+}
 
 #silvercart-order-holder-table-id td {
     vertical-align:                 top;
@@ -462,7 +471,27 @@ a.silvercart-button.highlighted:hover,
 
 .silvercart-button.full,
 .silvercart-button-small.full {
+    float: none;
+    padding-left: 0;
+    padding-right: 0;
     width:                          100%;
+}
+.subcl .silvercart-button.full,
+.subcl .silvercart-button-small.full,
+.subcr .silvercart-button.full,
+.subcr .silvercart-button-small.full {
+    width:                          98%;
+}
+.silvercart-button.full + .silvercart-button.full,
+.silvercart-button-small.full + .silvercart-button.full,
+.silvercart-button-small.full + .silvercart-button-small.full,
+.silvercart-button-small.full + .silvercart-button-small.full {
+    margin-top: 5px;
+}
+.silvercart-button.large {
+    font-size: 150%;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 .silvercart-button-small a {
     display:                        block;

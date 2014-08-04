@@ -11,6 +11,13 @@
     line-height:                    280%;
 }
 
+.silvercart-pagination-desc {
+    float: left;
+    height: 21px;
+    line-height: 21px;
+    margin-right: 12px;
+}
+
 .silvercart-pagination-link,
 .silvercart-pagination-summary {
     float:                          left;
