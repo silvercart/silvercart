@@ -1081,4 +1081,52 @@ class SilvercartPage_Controller extends ContentController {
         return $link;
     }
     
+    /**
+     * Get the error message out of session and delete it (from session).
+     *
+     * @return string
+     */
+    public function getErrorMessage() {
+        $errorMessage = Session::get('Silvercart.errorMessage');
+        Session::clear('Silvercart.errorMessage');
+        Session::save();
+        return $errorMessage;
+    }
+
+    /**
+     * Set the error message into the session.
+     *
+     * @param string $errorMessage Error message
+     * 
+     * @return void
+     */
+    public function setErrorMessage($errorMessage) {
+        Session::set('Silvercart.errorMessage', $errorMessage);
+        Session::save();
+    }
+    
+    /**
+     * Get the success message out of session and delete it (from session).
+     *
+     * @return string
+     */
+    public function getSuccessMessage() {
+        $successMessage = Session::get('Silvercart.successMessage');
+        Session::clear('Silvercart.successMessage');
+        Session::save();
+        return $successMessage;
+    }
+
+    /**
+     * Set the success message into the session.
+     *
+     * @param string $successMessage Success message
+     * 
+     * @return void
+     */
+    public function setSuccessMessage($successMessage) {
+        Session::set('Silvercart.successMessage', $successMessage);
+        Session::save();
+    }
+    
 }
