@@ -109,7 +109,72 @@ class SilvercartContactForm extends CustomHtmlForm {
                     )
                 )
             );
-
+            
+            if ($this->EnableStreet()) {
+                $requirements = array();
+                if ($this->StreetIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'Street' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Street') . ' / ' . $address->fieldLabel('StreetNumber'),
+                            'checkRequirements' => $requirements,
+                        ),
+                        'StreetNumber' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('StreetNumber'),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
+            if ($this->EnableCity()) {
+                $requirements = array();
+                if ($this->CityIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'Postcode' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Postcode'),
+                            'checkRequirements' => $requirements,
+                        ),
+                        'City' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Postcode') . ' - ' . $address->fieldLabel('City'),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
+            if ($this->EnableCountry()) {
+                $requirements = array();
+                if ($this->CountryIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'SilvercartCountryID' => array(
+                            'type'              => 'DropdownField',
+                            'title'             => $address->fieldLabel('SilvercartCountry'),
+                            'value'             => SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
             if ($this->EnablePhoneNumber()) {
                 $requirements = array();
                 if ($this->PhoneNumberIsRequired()) {
@@ -174,6 +239,78 @@ class SilvercartContactForm extends CustomHtmlForm {
          */
         $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
         Director::redirect($contactFormResponsePage->RelativeLink());
+    }
+    
+    /**
+     * Returns whether to enable the Street field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function EnableStreet() {
+        return $this->Controller()->EnableStreet;
+    }
+
+    /**
+     * Returns whether to set the Street field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function StreetIsRequired() {
+        return $this->Controller()->StreetIsRequired;
+    }
+    
+    /**
+     * Returns whether to enable the City field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function EnableCity() {
+        return $this->Controller()->EnableCity;
+    }
+
+    /**
+     * Returns whether to set the City field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function CityIsRequired() {
+        return $this->Controller()->CityIsRequired;
+    }
+    
+    /**
+     * Returns whether to enable the Country field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function EnableCountry() {
+        return $this->Controller()->EnableCountry;
+    }
+
+    /**
+     * Returns whether to set the Country field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function CountryIsRequired() {
+        return $this->Controller()->CountryIsRequired;
     }
     
     /**

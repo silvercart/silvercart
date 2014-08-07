@@ -28,6 +28,33 @@
                 </div>
             </div>
         </div>
+        <% if EnableStreet %>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(Street,SilvercartStreetWithNumberField)
+                </div>
+            </div>
+        </div>
+        <% end_if %>
+        <% if EnableCity %>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(City, SilvercartCityWithPostcodeField)
+                </div>
+            </div>
+        </div>
+        <% end_if %>
+        <% if EnableCountry %>
+        <div class="subcolumns">
+            <div class="c50l">
+                <div class="subcl">
+                    $CustomHtmlFormFieldByName(SilvercartCountryID)
+                </div>
+            </div>
+        </div>
+        <% end_if %>
         <% if EnablePhoneNumber %>
         <div class="subcolumns">
             <div class="c50l">

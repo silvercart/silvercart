@@ -647,7 +647,16 @@ $lang['de_DE']['SilvercartContactFormPage']['REQUEST'] = 'Anfrage über das Kont
 $lang['de_DE']['SilvercartContactFormPage']['SINGULARNAME'] = 'Kontaktformularseite';
 $lang['de_DE']['SilvercartContactFormPage']['TITLE'] = 'Kontakt';
 $lang['de_DE']['SilvercartContactFormPage']['URL_SEGMENT'] = 'kontakt';
-$lang['de_DE']['SilvercartContactFormPage']['EnablePhoneNumber'] = 'Feld für Telefonnummer aktivieren';
+$lang['de_DE']['SilvercartContactFormPage']['FormFieldsTab']         = 'Eingabefelder';
+$lang['de_DE']['SilvercartContactFormPage']['EnableStreet']          = 'Feld für Straße/Hausnummer aktivieren';
+$lang['de_DE']['SilvercartContactFormPage']['StreetIsRequired']      = 'Straße/Hausnummer ist Pflichtfeld';
+$lang['de_DE']['SilvercartContactFormPage']['EnablePostcode']        = 'Feld für PLZ aktivieren';
+$lang['de_DE']['SilvercartContactFormPage']['PostcodeIsRequired']    = 'PLZ ist Pflichtfeld';
+$lang['de_DE']['SilvercartContactFormPage']['EnableCity']            = 'Feld für Ort aktivieren';
+$lang['de_DE']['SilvercartContactFormPage']['CityIsRequired']        = 'Ort ist Pflichtfeld';
+$lang['de_DE']['SilvercartContactFormPage']['EnableCountry']         = 'Feld für Land aktivieren';
+$lang['de_DE']['SilvercartContactFormPage']['CountryIsRequired']     = 'Land ist Pflichtfeld';
+$lang['de_DE']['SilvercartContactFormPage']['EnablePhoneNumber']     = 'Feld für Telefonnummer aktivieren';
 $lang['de_DE']['SilvercartContactFormPage']['PhoneNumberIsRequired'] = 'Telefonnummer ist Pflichtfeld';
 
 $lang['de_DE']['SilvercartContactFormResponsePage']['DEFAULT_TITLE'] = 'Kontaktbestätigung';

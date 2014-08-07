@@ -647,7 +647,16 @@ $lang['en_US']['SilvercartContactFormPage']['REQUEST'] = 'Request via contact fo
 $lang['en_US']['SilvercartContactFormPage']['SINGULARNAME'] = 'Contact form page';
 $lang['en_US']['SilvercartContactFormPage']['TITLE'] = 'Contact';
 $lang['en_US']['SilvercartContactFormPage']['URL_SEGMENT'] = 'contact';
-$lang['en_US']['SilvercartContactFormPage']['EnablePhoneNumber'] = 'Use field for phone number';
+$lang['en_US']['SilvercartContactFormPage']['FormFieldsTab']         = 'Form Fields';
+$lang['en_US']['SilvercartContactFormPage']['EnableStreet']          = 'Use field for street';
+$lang['en_US']['SilvercartContactFormPage']['StreetIsRequired']      = 'Street is required';
+$lang['en_US']['SilvercartContactFormPage']['EnablePostcode']        = 'Use field for postcode';
+$lang['en_US']['SilvercartContactFormPage']['PostcodeIsRequired']    = 'Postcode is required';
+$lang['en_US']['SilvercartContactFormPage']['EnableCity']            = 'Use field for city';
+$lang['en_US']['SilvercartContactFormPage']['CityIsRequired']        = 'City is required';
+$lang['en_US']['SilvercartContactFormPage']['EnableCountry']         = 'Use field for country';
+$lang['en_US']['SilvercartContactFormPage']['CountryIsRequired']     = 'Country is required';
+$lang['en_US']['SilvercartContactFormPage']['EnablePhoneNumber']     = 'Use field for phone number';
 $lang['en_US']['SilvercartContactFormPage']['PhoneNumberIsRequired'] = 'Phone number is required';
 
 $lang['en_US']['SilvercartContactFormResponsePage']['DEFAULT_TITLE'] = 'Contact confirmation';
