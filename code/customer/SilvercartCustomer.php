@@ -141,6 +141,13 @@ class SilvercartCustomer extends DataExtension {
      * @var SilvercartShoppingCart 
      */
     private static $shoppingCart = null;
+    
+    /**
+     * Cached list of already fetched members.
+     *
+     * @var array
+     */
+    private static $currentUserList = array();
 
     // ------------------------------------------------------------------------
     // Extension methods
@@ -670,6 +677,23 @@ class SilvercartCustomer extends DataExtension {
         }
         
         return $registeredCustomer;
+    }
+
+    /**
+     * Returns and caches the current user.
+     * 
+     * @return Member
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.08.2014
+     */
+    public static function currentUser() {
+        $id = Member::currentUserID();
+
+        if (!array_key_exists($id, self::$currentUserList)) {
+            self::$currentUserList[$id] = Member::get()->byID($id);
+        }
+        return self::$currentUserList[$id];
     }
     
     /**
