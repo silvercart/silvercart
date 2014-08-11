@@ -1469,6 +1469,8 @@ class SilvercartPaymentMethod extends DataObject {
         
         $this->getFieldsForChargesAndDiscounts($fields);
         
+        $this->extend('updateCMSFields', $fields);
+        
         return $fields;
     }
 
