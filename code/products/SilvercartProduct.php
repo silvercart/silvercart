@@ -2621,12 +2621,12 @@ class SilvercartProduct extends DataObject {
      *
      * @param string $filter An optional sql filter statement
      *
-     * @return HasManyList|false
+     * @return SSList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 25.04.2013
+     * @since 11.08.2014
      */
     public function getSilvercartImages($filter = '') {
         if (!array_key_exists($filter, $this->images)) {
@@ -2654,19 +2654,16 @@ class SilvercartProduct extends DataObject {
                     $images = $existingImages;
                 }
             }
-
             if (!($images instanceof ArrayList) ||
                 $images->count() == 0) {
+               
                 $noImageObj = SilvercartConfig::getNoImage();
-                
-                if ($noImageObj->ID > 0) {
+                if ($noImageObj->exists()) {
                     $image = new SilvercartImage();
                     $image->ImageID             = $noImageObj->ID;
                     $image->SilvercartProductID = $this->ID;
                     $images->add($image);
-                } else {
-                    return false;
-                }
+                } 
             }
             
             $this->images[$filter] = $images;
