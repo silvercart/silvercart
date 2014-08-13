@@ -2621,7 +2621,7 @@ class SilvercartProduct extends DataObject {
      *
      * @param string $filter An optional sql filter statement
      *
-     * @return SSList
+     * @return SS_List
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>,
@@ -2659,11 +2659,17 @@ class SilvercartProduct extends DataObject {
                
                 $noImageObj = SilvercartConfig::getNoImage();
                 if ($noImageObj->exists()) {
-                    $image = new SilvercartImage();
-                    $image->ImageID             = $noImageObj->ID;
-                    $image->SilvercartProductID = $this->ID;
-                    $images->add($image);
-                } 
+                    $image = SilvercartImage::get()->filter('ImageID', $noImageObj->ID)->first();
+                    if (!($image instanceof SilvercartImage) ||
+                        !$image->exists()) {
+                        
+                        $image = new SilvercartImage();
+                        $image->ImageID = $noImageObj->ID;
+                        $image->write();
+                    }
+                    $images = new ArrayList();
+                    $images->push($image);
+                }
             }
             
             $this->images[$filter] = $images;
@@ -2707,7 +2713,12 @@ class SilvercartProduct extends DataObject {
      * @return Image
      */
     public function getListImageFile() {
-        return $this->getListImage()->Image();
+        $file = false;
+        $listImage = $this->getListImage();
+        if (is_object($listImage)) {
+            $file = $this->getListImage()->Image();
+        }
+        return $file;
     }
     
     /**
@@ -2716,7 +2727,12 @@ class SilvercartProduct extends DataObject {
      * @return Image
      */
     public function getListImageThumbnail() {
-        return $this->getListImageFile()->SetRatioSize(30,30);
+        $thumb = false;
+        $file = $this->getListImageFile();
+        if (is_object($file)) {
+            $thumb = $file->SetRatioSize(30,30);
+        }
+        return $thumb;
     }
 
     /**
