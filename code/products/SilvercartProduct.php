@@ -226,6 +226,14 @@ class SilvercartProduct extends DataObject {
     protected $pluggedInProductListAdditionalData = null;
     
     /**
+     * All added product additional information to display between Images and 
+     * Content.
+     * 
+     * @var DataObjectSet 
+     */
+    protected $pluggedInAfterImageContent = null;
+    
+    /**
      * All added product information via module
      * 
      * @var DataObjectSet 
@@ -749,6 +757,7 @@ class SilvercartProduct extends DataObject {
                 'MSRPrice'                              => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'MSRPriceAmount'                        => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'MSRPriceCurrency'                      => _t('SilvercartProduct.MSRP_CURRENCY', 'MSR currency'),
+                'Price'                                 => _t('SilvercartProduct.PRICE', 'price'),
                 'PriceGross'                            => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceGrossAmount'                      => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceGrossCurrency'                    => _t('SilvercartProduct.PRICE_GROSS_CURRENCY', 'currency (gross)'),
@@ -2914,6 +2923,18 @@ class SilvercartProduct extends DataObject {
             $this->pluggedInProductListAdditionalData = SilvercartPlugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'DataObjectSet');
         }
         return $this->pluggedInProductListAdditionalData;
+    }
+    
+    /**
+     * Returns all additional information to display between Images and Content.
+     * 
+     * @return DataObjectSet 
+     */
+    public function getPluggedInAfterImageContent() {
+        if (is_null($this->pluggedInAfterImageContent)) {
+            $this->pluggedInAfterImageContent = SilvercartPlugin::call($this, 'getPluggedInAfterImageContent', array(), false, 'DataObjectSet');
+        }
+        return $this->pluggedInAfterImageContent;
     }
 }
 
