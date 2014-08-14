@@ -72,6 +72,7 @@ class SilvercartProduct extends DataObject {
         'PackagingQuantity'           => 'Int',
         'Weight'                      => 'Int', //unit is gramm
         'ExcludeFromPaymentDiscounts' => 'Boolean(0)',
+        'IsNotBuyable'                => 'Boolean(0)',
     );
 
     /**
@@ -811,6 +812,7 @@ class SilvercartProduct extends DataObject {
                 'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
                 'RefreshCache'                          => _t('SilvercartProduct.RefreshCache'),
                 'ExcludeFromPaymentDiscounts'           => _t('SilvercartProduct.ExcludeFromPaymentDiscounts'),
+                'IsNotBuyable'                          => _t('SilvercartProduct.IsNotBuyable'),
             )
         );
 
@@ -1100,6 +1102,7 @@ class SilvercartProduct extends DataObject {
                 'StockQuantityExpirationDate',
                 'PackagingQuantity',
                 'ExcludeFromPaymentDiscounts',
+                'IsNotBuyable',
             ),
             'includeRelations' => array(
                 'has_many'  => true,
@@ -1206,6 +1209,7 @@ class SilvercartProduct extends DataObject {
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
         $productNumberGroup->push($fields->dataFieldByName('EANCode'));
         $fields->insertAfter($productNumberGroup, 'isActive');
+        $fields->insertAfter(new CheckboxField('IsNotBuyable', $this->fieldLabel('IsNotBuyable')), 'isActive');
         if ($this->isInDB()) {
             $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
         }
@@ -1853,6 +1857,10 @@ class SilvercartProduct extends DataObject {
         $addToCartAllowed = true;
 
         $this->extend('updateAddToCart', $addToCartAllowed);
+        
+        if ($this->IsNotBuyable) {
+            return false;
+        }
 
         if ($quantity == 0 || $cartID == 0) {
             return false;
