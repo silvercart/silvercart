@@ -909,8 +909,11 @@ class SilvercartProduct extends DataObject {
      * @param string $containerClass Container class
      * 
      * @return DataList
+     * 
+     * @author Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 19.08.2014
      */
-    public static function get($callerClass = null, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
+    public static function get($callerClass = 'SilvercartProduct', $filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
         $products = parent::get($callerClass, $filter, $sort, $join, $limit, $containerClass);
         
         if (!SilvercartTools::isBackendEnvironment()) {
@@ -1689,12 +1692,15 @@ class SilvercartProduct extends DataObject {
      * @param boolean $masterProduct Should only master products be returned?
      *
      * @return PaginatedList PaginatedList of random products
+     * 
+     * @author Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 19.08.2014
      */
     public static function getRandomProducts($amount = 4, $masterProduct = true) {
         if ($masterProduct) {
-            return self::get("\"SilvercartMasterProductID\" = '0'", "RAND()", null, $amount);
+            return self::get('SilvercartProduct', "\"SilvercartMasterProductID\" = '0'", "RAND()", null, $amount);
         } else {
-            return self::get(null, "RAND()", null, $amount);
+            return self::get('SilvercartProduct', null, "RAND()", null, $amount);
         }
     }
 
