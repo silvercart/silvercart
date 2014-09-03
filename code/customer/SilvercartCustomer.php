@@ -1101,13 +1101,12 @@ class SilvercartCustomer_Validator extends DataExtension {
      * 
      * @return boolean 
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 03.09.2014
      */
     public function updatePHP($data, $form) {
         $valid = true;
-        
-        $groups = $data['Groups'];
+        $groups = $data['DirectGroups'];
         if (!empty($groups)) {
             $groupObjects = Group::get()->where(sprintf('"Group"."ID" IN (%s)', $groups));
             $pricetypes   = array();
