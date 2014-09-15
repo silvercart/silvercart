@@ -155,8 +155,9 @@ h1 {
 .padding_left {
     padding-left:                   12px;
 }
-.overflow-visible {
-    overflow:                     visible;
+.overflow-visible,
+fieldset.overflow-visible .type-text {
+    overflow:                     visible !important;
 }
 .position-relative {
     position:                     relative;
