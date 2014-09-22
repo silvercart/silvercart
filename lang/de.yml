@@ -797,6 +797,8 @@ de:
     TITLE: "Bestellungen drucken (HTML)"
   SilvercartGridFieldQuickAccessController:
     QUICKACCESSLABEL: "Schnellansicht"
+  SilvercartGridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: "Hinzufügen"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Preistyp"
@@ -1534,8 +1536,8 @@ de:
     LinkTo: "Warengruppe, zu der eine Weiterleitung erfolgen soll"
     PAGE_TITLE: "Warengruppen"
     PLURALNAME: "Artikelgruppenübersichten"
-    RedirectionSettings: "Weiterleitung";
     RedirectToProductGroup: "Direkt zu einer Warengruppe weiterleiten"
+    RedirectionSettings: "Weiterleitung"
     SHOW_PRODUCTS_WITH_COUNT_PLURAL: "%s Artikel anzeigen"
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "%s Artikel anzeigen"
     SINGULARNAME: "Artikelgruppenübersicht"
@@ -1579,8 +1581,8 @@ de:
     DEFAULTGROUPHOLDERVIEW: "Standard-Warengruppen-Ansicht"
     DEFAULTGROUPVIEW: "Standard-Artikellisten-Ansicht"
     DEFAULTGROUPVIEW_DEFAULT: "Übernehmen von übergeordneter Gruppe/Standartkonfiguration"
-    DisplaySettings: "Anzeige-Einstellungen"
     DONOTSHOWPRODUCTS: "<strong>keine</strong> Artikel in der Übersicht anzeigen"
+    DisplaySettings: "Anzeige-Einstellungen"
     GROUP_PICTURE: "Bild der Gruppe"
     MANAGE_PRODUCTS_BUTTON: "Artikel verwalten"
     MANUFACTURER_LINK: "hersteller"

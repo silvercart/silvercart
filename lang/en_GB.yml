@@ -797,6 +797,8 @@ en_GB:
     TITLE: "Print orders (HTML)"
   SilvercartGridFieldQuickAccessController:
     QUICKACCESSLABEL: "Quick access"
+  SilvercartGridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: "Add"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Pricetype"
@@ -1534,8 +1536,8 @@ en_GB:
     LinkTo: "Product group to redirect to"
     PAGE_TITLE: "Product groups"
     PLURALNAME: "Product Group Holders"
-    RedirectionSettings: "Redirection";
     RedirectToProductGroup: "Redirect to a product group"
+    RedirectionSettings: "Redirection"
     SHOW_PRODUCTS_WITH_COUNT_PLURAL: "Show %s products"
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "Show %s product"
     SINGULARNAME: "Product Group Holder"
@@ -1579,8 +1581,8 @@ en_GB:
     DEFAULTGROUPHOLDERVIEW: "Default product group view"
     DEFAULTGROUPVIEW: "Default product list view"
     DEFAULTGROUPVIEW_DEFAULT: "Use view from parent pages"
-    DisplaySettings: "Display Settings"
     DONOTSHOWPRODUCTS: "do <strong>not</strong> show products of this group"
+    DisplaySettings: "Display Settings"
     GROUP_PICTURE: "Group picture"
     MANAGE_PRODUCTS_BUTTON: "Manage products"
     MANUFACTURER_LINK: "manufacturer"

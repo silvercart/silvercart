@@ -203,6 +203,8 @@ $lang['de_DE']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  
 
 $lang['de_DE']['SilvercartGridFieldQuickAccessController']['QUICKACCESSLABEL']  = 'Schnellansicht';
 
+$lang['de_DE']['SilvercartGridFieldSubObjectHandler']['AddSubObjectColumnTitle']  = 'Hinzufügen';
+
 $lang['de_DE']['SilvercartImageAdmin']['MENUTITLE'] = 'Bilder';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Artikelbilder';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Bilder für Zahlungsarten';

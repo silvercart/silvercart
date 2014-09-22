@@ -203,6 +203,8 @@ $lang['en_GB']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  
 
 $lang['en_GB']['SilvercartGridFieldQuickAccessController']['QUICKACCESSLABEL']  = 'Quick access';
 
+$lang['en_GB']['SilvercartGridFieldSubObjectHandler']['AddSubObjectColumnTitle']  = 'Add';
+
 $lang['en_GB']['SilvercartImageAdmin']['MENUTITLE'] = 'Images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Product images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Payment method images';
@@ -668,7 +670,7 @@ $lang['en_GB']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactcon
 $lang['en_GB']['SilvercartContactMessage']['PLURALNAME'] = 'Contactmessages';
 $lang['en_GB']['SilvercartContactMessage']['SINGULARNAME'] = 'Contactmessage';
 $lang['en_GB']['SilvercartContactMessage']['MESSAGE'] = 'message';
-$lang['en_GB']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:</p>\n<% if Phone %><p><strong>Telefon: {\$Phone}</strong></p><% end_if %>\n<p>\$Message</p>\n";
+$lang['en_GB']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>A contact request was sent by a customer.<br />\nThe customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:</p>\n<% if Phone %><p><strong>Telefon: {\$Phone}</strong></p><% end_if %>\n<h2>Message</h2>\n<p>\$Message</p>";
 
 $lang['en_GB']['SilvercartContactMessageAdmin']['MENUTITLE'] = 'Contactmessages';
 
