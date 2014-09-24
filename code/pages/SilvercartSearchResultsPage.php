@@ -162,7 +162,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @var array
      */
-    protected static $registeredSearchContexts = array();
+    protected static $registeredSearchContexts = array('SilvercartProduct');
 
     /**
      * current search context used
@@ -594,6 +594,17 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         }
         
         return $SQL_start;
+    }
+    
+    /**
+     * Sets the results.
+     * 
+     * @param SS_List $searchResultProducts Result list.
+     * 
+     * @return void
+     */
+    public function setSearchResultProducts($searchResultProducts) {
+        $this->searchResultProducts = $searchResultProducts;
     }
 
     /**
