@@ -184,6 +184,34 @@ class SilvercartPage extends SiteTree {
     public function getSection() {
         return 'SilvercartAddress';
     }
+
+    /**
+     * getTreeTitle will return three <span> html DOM elements, an empty <span> with
+     * the class 'jstree-pageicon' in front, following by a <span> wrapping around its
+     * MenutTitle, then following by a <span> indicating its publication status. 
+     *
+     * @return string a html string ready to be directly used in a template
+     */
+    public function getTreeTitle() {
+        $flags = $this->getStatusFlags();
+        $treeTitle = sprintf(
+            "<span class=\"jstree-pageicon\"></span>%s",
+            Convert::raw2xml(str_replace(array("\n","\r"),"",$this->MenuTitle))
+        );
+        foreach ($flags as $class => $data) {
+            if (is_string($data)) {
+                $data = array('text' => $data);
+            }
+            $treeTitle .= sprintf(
+                "<span class=\"badge %s\"%s>%s</span>",
+                'status-' . Convert::raw2xml($class),
+                (isset($data['title'])) ? sprintf(' title="%s"', Convert::raw2xml($data['title'])) : '',
+                Convert::raw2xml($data['text'])
+            );
+        }
+
+        return $treeTitle;
+    }
     
     /**
      * Return the title, description, keywords and language metatags.
