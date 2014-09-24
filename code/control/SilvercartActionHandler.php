@@ -125,14 +125,15 @@ class SilvercartActionHandler extends DataExtension {
     /**
      * Action to execute a search query
      * 
-     * @param SS_HTTPRequest $request Request to check for product data
+     * @param SS_HTTPRequest $request    Request to check for product data
+     * @param bool           $doRedirect Redirect after setting search settings?
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.06.2014
      */
-    public function doSearch(SS_HTTPRequest $request) {
+    public function doSearch(SS_HTTPRequest $request, $doRedirect = true) {
         $postVars           = $request->postVars();
         if (!array_key_exists('locale', $postVars) ||
             empty($postVars['locale'])) {
@@ -150,6 +151,8 @@ class SilvercartActionHandler extends DataExtension {
         Session::set("searchQuery",     $quickSearchQuery);
         Session::set('searchContext',   $searchContext);
         Session::save();
-        $this->owner->redirect($searchResultsPage->RelativeLink());
+        if ($doRedirect) {
+            $this->owner->redirect($searchResultsPage->RelativeLink());
+        }
     }
 }
