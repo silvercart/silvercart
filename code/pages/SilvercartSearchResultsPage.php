@@ -459,7 +459,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return DataList
      * 
      * @author Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 12.06.2013
+     * @since 23.09.2014
      */
     public function buildSearchResultProducts() {
         $searchResultProducts       = $this->searchResultProducts;
@@ -523,6 +523,10 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 if (empty($filter)) {
                     $filter =  $listFilter;
                 } else {
+                    if (strpos(trim($listFilter), 'AND') !== 0 &&
+                        strpos(trim($listFilter), 'OR') !== 0) {
+                        $listFilter = 'AND ' . $listFilter;
+                    }
                     $filter = '(' . $filter . ') ' . $listFilter;
                 }
             }
