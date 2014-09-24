@@ -306,3 +306,106 @@ form.yform .type-button .silvercart-button a {
   * html .columnar.smallfields div.type-text input,
   * html .columnar.smallfields div.type-text textarea { width:42.2%; }
   * html .columnar.smallfields div.type-select select { width:43.8%; }
+  
+
+/* Multiple choice selection fields ------------------------------------------ */
+.multiple-choice .type-text {
+    height: 35px;
+}
+.multiple-choice .type-text label {
+    float: left;
+    width: 220px;
+    line-height: 35px;
+}
+.multiple-choice .type-text ul {
+    float: left;
+    margin-left: 230px;
+}
+
+/* Optionset/Checkboxset fields ---------------------------------------------- */
+ul.optionset.checkboxset {
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    width: 220px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 6px;
+}
+ul.optionset.checkboxset.hover,
+ul.optionset.checkboxset:hover {
+    width: 300px;
+    height: auto;
+    position: absolute;
+    left: 218px;
+    z-index: 60;
+    -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2), inset 0px 5px 30px rgba(255, 255, 255, 0.2);
+    -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2), inset 0px 5px 30px rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2), inset 0px 5px 30px rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 0px 16px #CCC;
+}
+.columnar .multiple-choice .type-text label {
+    width: 25%;
+}
+.columnar ul.optionset.checkboxset.hover,
+.columnar ul.optionset.checkboxset:hover {
+    left: 25%;
+}
+.checkbox-set-2-columns ul.optionset.checkboxset.hover,
+.checkbox-set-2-columns ul.optionset.checkboxset:hover {
+    width: 500px;
+}
+ul.optionset.checkboxset li {
+    display: none;
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    z-index: 50;
+    margin: 0;
+    margin: -1px -1px 0  -1px;
+    padding: 0 6px;
+}
+ul.optionset.checkboxset li.selected-options-preview {
+    display: block;
+}
+ul.optionset.checkboxset li.selected-options-preview.hidden {
+    display: none;
+}
+ul.optionset.checkboxset.hover li.selected-options-preview,
+ul.optionset.checkboxset:hover li.selected-options-preview {
+    display: none;
+}
+ul.optionset.checkboxset li.selected-options-preview .caret {
+    float: right;
+    margin: 12px 2px;
+}
+ul.optionset.checkboxset.hover li,
+ul.optionset.checkboxset:hover li {
+    display: inline-block;
+    width:  220px;
+    z-index: 51;
+}
+ul.optionset.checkboxset li.checked {
+    display: inline-block !important;
+}
+ul.optionset.checkboxset li label {
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    padding: 0;
+    display: inline-block;
+    width: auto;
+    float: none;
+}
+ul.optionset.checkboxset li input {
+    margin: 0;
+    line-height: 28px;
+    display: inline-block;
+    width: auto;
+    float: none;
+}
