@@ -409,3 +409,13 @@ ul.optionset.checkboxset li input {
     width: auto;
     float: none;
 }
+
+/* TreeDropdownField/TreeMultiSelectField ------------------------------------ */
+.columnar div.TreeDropdownField {
+    float: left;
+    margin-right: -3px;
+    width: 74.4%;
+}
+.columnar div.TreeDropdownField input.search.treedropdownfield-search {
+    width: 97%;
+}
