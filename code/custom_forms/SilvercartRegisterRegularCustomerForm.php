@@ -458,13 +458,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         $customer->logIn();
         $customer->changePassword($formData['Password']);
 
-        // Add customer to intermediate group
-        if (array_key_exists('IsBusinessAccount', $formData) &&
-            $formData['IsBusinessAccount'] == '1') {
-            $customerGroup = SilvercartCustomer::default_customer_group_b2b();
-        } else {
-            $customerGroup = SilvercartCustomer::default_customer_group();
-        }
+        $customerGroup = $this->getTargetCustomerGroup($formData);
         if ($customerGroup) {
             $customer->Groups()->add($customerGroup);
         }
@@ -523,5 +517,22 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         } else {
             $this->controller->redirect($this->controller->PageByIdentifierCode('SilvercartRegisterConfirmationPage')->Link());
         }
+    }
+    
+    /**
+     * Returns the target customer group.
+     * 
+     * @param array $formData Submitted form data.
+     * 
+     * @return Group
+     */
+    public function getTargetCustomerGroup($formData) {
+        if (array_key_exists('IsBusinessAccount', $formData) &&
+            $formData['IsBusinessAccount'] == '1') {
+            $customerGroup = SilvercartCustomer::default_customer_group_b2b();
+        } else {
+            $customerGroup = SilvercartCustomer::default_customer_group();
+        }
+        return $customerGroup;
     }
 }
