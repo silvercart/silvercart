@@ -180,6 +180,22 @@ class SilvercartRevocationForm extends CustomHtmlForm {
         }
         return parent::getFormFields($withUpdate);
     }
+    
+    /**
+     * Sets the preferences for this form
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2014
+     */
+    public function preferences() {
+        $this->preferences  = array(
+            'markRequiredFields' => true
+        );
+        parent::preferences();
+        return $this->preferences;
+    }
 
     /**
      * executed if there are no valdation errors on submit
