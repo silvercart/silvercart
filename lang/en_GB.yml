@@ -384,7 +384,6 @@ en_GB:
            <% if Phone %><p><strong>Telefon: {$Phone}</strong></p><% end_if %>
            <h2>Message</h2>
            <p>$Message</p>
-           
   SilvercartContactMessageAdmin:
     MENUTITLE: "Contactmessages"
   SilvercartCountry:
@@ -1449,6 +1448,7 @@ en_GB:
     ReleaseDate: "Release date"
     ReleaseDateInfo: "<strong>Optional</strong> - Set this to delay the start date and time of sale."
     SHORTDESCRIPTION: "List description"
+    SILVERCART_PRODUCT_CREATE: "Can create products."
     SINGULARNAME: "Product"
     STOCKQUANTITY: "stock quantity"
     STOCK_QUANTITY: "Is the stock quantity of this product overbookable?"

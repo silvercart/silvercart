@@ -368,6 +368,7 @@ $lang['de_DE']['SilvercartProduct']['LaunchDate']                               
 $lang['de_DE']['SilvercartProduct']['LaunchDateInfo']                               = '<strong>Optional</strong> - Nur setzen, wenn <i>Verkauf ab</i> gesetzt ist und die Anzeige bereits vor dem Verkaufsstart erfolgen soll.';
 $lang['de_DE']['SilvercartProduct']['SalesBanDate']                                 = 'Anzeige bis';
 $lang['de_DE']['SilvercartProduct']['SalesBanDateInfo']                             = '<strong>Optional</strong> - Nur setzen, wenn die Dauer des Verkaufs begrenzt ist.';
+$lang['de_DE']['SilvercartProduct']['SILVERCART_PRODUCT_CREATE']                    = 'Kann Artikel erstellen.';
 
 $lang['de_DE']['SilvercartProductAdmin']['MENUTITLE'] = 'Artikel';
 

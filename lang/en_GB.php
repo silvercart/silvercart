@@ -368,6 +368,7 @@ $lang['en_GB']['SilvercartProduct']['LaunchDate']                               
 $lang['en_GB']['SilvercartProduct']['LaunchDateInfo']                               = '<strong>Optional</strong> - Set this if <i>release date</i> is set but the item should be displayed before its <i>release date</i>.';
 $lang['en_GB']['SilvercartProduct']['SalesBanDate']                                 = 'Sales ban date';
 $lang['en_GB']['SilvercartProduct']['SalesBanDateInfo']                             = '<strong>Optional</strong> - Set this if there is a sales ban date.';
+$lang['en_GB']['SilvercartProduct']['SILVERCART_PRODUCT_CREATE']                    = 'Can create products.';
 
 $lang['en_GB']['SilvercartProductAdmin']['MENUTITLE'] = 'Products';
 

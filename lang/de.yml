@@ -1449,6 +1449,7 @@ de:
     ReleaseDate: "Verkauf ab"
     ReleaseDateInfo: "<strong>Optional</strong> - Nur setzen, wenn der Verkaufsstart verzögert werden soll."
     SHORTDESCRIPTION: "Listenbeschreibung"
+    SILVERCART_PRODUCT_CREATE: "Kann Artikel erstellen."
     SINGULARNAME: "Artikel"
     STOCKQUANTITY: "Lagerbestand"
     STOCK_QUANTITY: "Ist der Lagerbestand dieses Artikels überbuchbar?"
