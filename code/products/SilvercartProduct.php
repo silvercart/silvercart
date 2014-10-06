@@ -544,9 +544,11 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @since 25.09.2014
      */
     public function providePermissions() {
-        return array(
+        $permissions = array(
             'SILVERCART_PRODUCT_CREATE' => _t('SilvercartProduct.SILVERCART_PRODUCT_CREATE'),
         );
+        $this->extend('updatePermissions', $permissions);
+        return $permissions;
     }
     
     /**
@@ -788,6 +790,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'MetaTitle'                             => _t('SilvercartProduct.METATITLE', 'meta title'),
                 'MetaKeywords'                          => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
                 'ProductNumberShop'                     => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
+                'ProductNumberShort'                    => _t('SilvercartProduct.PRODUCTNUMBER_SHORT'),
                 'ProductNumberManufacturer'             => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
                 'EANCode'                               => _t('SilvercartProduct.EAN', 'EAN'),
                 'BasicData'                             => _t('SilvercartProduct.BasicData'),
