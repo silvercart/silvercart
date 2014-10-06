@@ -231,6 +231,13 @@ table td.right {
     text-align:                     right;
 }
 
+table tr.inactive td,
+table tr.inactive td label {
+    background-color: #f0f0f0;
+    color: #bbbbbb;
+    cursor: default;
+}
+
 .silvercart-default-table {
     
 }
