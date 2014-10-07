@@ -1426,6 +1426,8 @@ $lang['de_DE']['SilvercartPage']['VIEW_ORDERS_TEXT'] = 'Überprüfen Sie den Sta
 $lang['de_DE']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Willkommen';
 $lang['de_DE']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'willkommen';
 $lang['de_DE']['SilvercartPage']['YEAR'] = 'Jahr';
+$lang['de_DE']['SilvercartPage']['UseAsRootForMainNavigation']     = 'Unterseiten dieser Seite bilden Haupt-Navigation';
+$lang['de_DE']['SilvercartPage']['UseAsRootForMainNavigationDesc'] = 'Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es kann nur eine Seite geben, die diese Einstellung aktiv hat.';
 
 $lang['de_DE']['SilvercartPageListWidget']['TITLE']       = 'Seitenliste';
 $lang['de_DE']['SilvercartPageListWidget']['CMSTITLE']    = 'Seitenliste';

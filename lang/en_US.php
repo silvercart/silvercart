@@ -1426,6 +1426,8 @@ $lang['en_US']['SilvercartPage']['VIEW_ORDERS_TEXT'] = 'You can check the status
 $lang['en_US']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Welcome';
 $lang['en_US']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'Welcome';
 $lang['en_US']['SilvercartPage']['YEAR'] = 'Year';
+$lang['en_US']['SilvercartPage']['UseAsRootForMainNavigation']     = 'Use children of this page as main navigation menu';
+$lang['en_US']['SilvercartPage']['UseAsRootForMainNavigationDesc'] = 'The main navigation menu - which will be built with the product groups by default - will use the children of this page. There can be only one page with this setting.';
 
 $lang['en_US']['SilvercartPageListWidget']['TITLE']       = 'Page list';
 $lang['en_US']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart page list';

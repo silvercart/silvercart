@@ -28,7 +28,8 @@ class SilvercartPage extends SiteTree {
      * @var array
      */
     private static $db = array(
-        'IdentifierCode' => 'VarChar(50)'
+        'UseAsRootForMainNavigation' => 'Boolean(0)',
+        'IdentifierCode'             => 'VarChar(50)',
     );
     
     /**
@@ -110,8 +111,9 @@ class SilvercartPage extends SiteTree {
      *
      * @return FieldList all related CMS fields
      * 
-     * @author Jiri Ripa <jripa@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Jiri Ripa <jripa@pixeltricks.de>
+     * @since 06.10.2014
      */
     public function getCMSFields() {
         $this->getCMSFieldsIsCalled = true;
@@ -123,6 +125,7 @@ class SilvercartPage extends SiteTree {
         } else {
             $fields->addFieldToTab('Root.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
         }
+        $fields->addFieldToTab('Root.Main', new CheckboxField('UseAsRootForMainNavigation', $this->fieldLabel('UseAsRootForMainNavigation')));
         
         return $fields;
     }
@@ -134,14 +137,98 @@ class SilvercartPage extends SiteTree {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 06.10.2014
      */
     public function fieldLabels($includerelations = true) {
-        $fieldLabels = parent::fieldLabels($includerelations);
+        $fieldLabels = array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'UseAsRootForMainNavigation' => _t('SilvercartPage.UseAsRootForMainNavigation'),
+                )
+        );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Handles the UseAsRootForMainNavigation property on before write.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.10.2014
+     */
+    protected function onBeforeWrite() {
+        parent::onBeforeWrite();
+        
+        $request = Controller::curr()->getRequest();
+        /* @var $request SS_HTTPRequest */
+        if ($request->postVar('ID') == $this->ID &&
+            $request->postVar('UseAsRootForMainNavigation') == '1') {
+            $this->UseAsRootForMainNavigation = true;
+        }
+        
+        if ($this->isChanged('UseAsRootForMainNavigation')) {
+            $changed = $this->getChangedFields(false, 1);
+            $ch      = $changed['UseAsRootForMainNavigation'];
+            if ($this->UseAsRootForMainNavigation) {
+                DB::query('UPDATE SilvercartPage SET UseAsRootForMainNavigation = 0 WHERE ID != ' . $this->ID);
+            } elseif ($ch['before'] != $ch['after']) {
+                $this->UseAsRootForMainNavigation = true;
+            }
+        }
+    }
+    
+    /**
+     * Returns the main navigation root page (set in backend).
+     * 
+     * @return SilvercartPage
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.10.2014
+     */
+    public function MainNavigationRootPage() {
+        $mainNavigationRootPage = SilvercartPage::get()->filter('UseAsRootForMainNavigation', true)->first();
+        if (is_null($mainNavigationRootPage)) {
+            $mainNavigationRootPage = SilvercartTools::PageByIdentifierCode('SilvercartProductGroupHolder');
+            DB::query('UPDATE SilvercartPage SET UseAsRootForMainNavigation = 1 WHERE ID = ' . $mainNavigationRootPage->ID);
+            DB::query('UPDATE SilvercartPage_Live SET UseAsRootForMainNavigation = 1 WHERE ID = ' . $mainNavigationRootPage->ID);
+        }
+        return $mainNavigationRootPage;
+    }
+    
+    /**
+     * Returns the main navigation cache key.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.10.2014
+     */
+    public function MainNavigationCacheKey() {
+        $cacheKeyParts = array(
+            'SilvercartNavigation',
+            $this->ID,
+            i18n::get_locale(),
+            $this->MainNavigationRootPage()->stageChildren(false)->max('LastEdited'),
+        );
+        $this->extend('updateMainNavigationCacheKeyParts', $cacheKeyParts);
+        return implode('_', $cacheKeyParts);
+    }
+    
+    /**
+     * Dummy to provide enhanced product group functions.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.10.2014
+     */
+    public function hasProductsOrChildren() {
+        return true;
     }
     
     /**

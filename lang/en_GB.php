@@ -1426,6 +1426,8 @@ $lang['en_GB']['SilvercartPage']['VALUE_OF_GOODS'] = 'Value of goods';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['YEAR'] = 'Year';
+$lang['en_GB']['SilvercartPage']['UseAsRootForMainNavigation']     = 'Use children of this page as main navigation menu';
+$lang['en_GB']['SilvercartPage']['UseAsRootForMainNavigationDesc'] = 'The main navigation menu - which will be built with the product groups by default - will use the children of this page. There can be only one page with this setting.';
 
 $lang['en_GB']['SilvercartPageListWidget']['TITLE']       = 'Page list';
 $lang['en_GB']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart page list';

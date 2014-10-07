@@ -1288,6 +1288,8 @@ de:
     URL_SEGMENT_IMPRINT: "impressum"
     URL_SEGMENT_TERMS: "allgemeine-geschaeftsbedingungen-kaeuferinformationen"
     USER_NOT_EXISTING: "Diesen Benutzer gibt es nicht."
+    UseAsRootForMainNavigation: "Unterseiten dieser Seite bilden Haupt-Navigation"
+    UseAsRootForMainNavigationDesc: "Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es kann nur eine Seite geben, die diese Einstellung aktiv hat."
     VALUE_OF_GOODS: "Warenwert"
     VIEW_ORDERS_TEXT: "Überprüfen Sie den Status Ihrer Bestellung in der"
     WELCOME_PAGE_TITLE: "Willkommen"

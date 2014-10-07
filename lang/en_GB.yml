@@ -1287,6 +1287,8 @@ en_GB:
     URL_SEGMENT_IMPRINT: "imprint"
     URL_SEGMENT_TERMS: "terms-of-service"
     USER_NOT_EXISTING: "This user does not exist."
+    UseAsRootForMainNavigation: "Use children of this page as main navigation menu"
+    UseAsRootForMainNavigationDesc: "The main navigation menu - which will be built with the product groups by default - will use the children of this page. There can be only one page with this setting."
     VALUE_OF_GOODS: "Value of goods"
     VIEW_ORDERS_TEXT: "You can check the status of your order any time in your"
     WELCOME_PAGE_TITLE: "Welcome"
