@@ -34,15 +34,16 @@
             var locale  = $(this).attr('value').split('|')[0];
             var iso2    = $(this).attr('class');
             var link    = $(this).attr('value').split('|')[1];
-
+            var text     = $(this).html();
+            var lang     = locale.split('_')[0];
             if (firstLanguage) {
                 languageCssClass    = 'first';
                 firstLanguage       = false;
             } else {
                 languageCssClass    = 'selectable';
             }
-            var img = '<img src="/silvercart/images/icons/flags/' + iso2 + '.png" alt="" />';
-            markup += '<li class="' + locale + ' ' + languageCssClass + '"><a href="' + link + '">' + img + $(this).html() + '</a></li>';
+            var img = '<img src="/silvercart/images/icons/flags/' + iso2 + '.png" alt="' + locale + '" />';
+            markup += '<li class="' + locale + ' ' + languageCssClass + '"><a title="' + text + '" hreflang="' + locale + '" href="' + link + '">' + img + text + '</a></li>';
         });
         
         markup += '</ul>';
