@@ -153,8 +153,8 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      *
      * @return boolean
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.08.2011
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 04.10.2014
      */
     protected function processRecord($record, $columnMap, &$results, $preview = false) {
         $pluginResult = SilvercartPlugin::call($this, 'overwriteProcessRecord', array($record, $columnMap, $results, $preview), false, 'DataObject');
@@ -178,7 +178,7 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
                 $silvercartProduct = DataObject::get_one(
                     'SilvercartProduct',
                     sprintf(
-                        "\"SilvercartProduct\".\"%s\" = \"%s\"",
+                        "\"SilvercartProduct\".\"%s\" = '%s'",
                         $field,
                         $record[$field]
                     )
@@ -205,22 +205,25 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             );
             $insertID = $sqlQuery->execute()->value();
             $insertID = (int) $insertID + 1;
-            
+                    
             DB::query(
                 sprintf("
                     INSERT INTO
                         SilvercartProduct(
                             ID,
                             ClassName,
-                            Created
+                            Created,
+                            PriceGrossAmount
                         ) VALUES(
                             %d,
                             'SilvercartProduct',
+                            '%s',
                             '%s'
                         )
                     ",
                     $insertID,
-                    date('Y-m-d H:i:s')
+                    date('Y-m-d H:i:s'),
+                    $record['PriceGrossAmount']
                 )
             );
             DB::query(
@@ -245,9 +248,9 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
             );
             
             $silvercartProduct = DataObject::get_by_id(
-                'SilvercartProduct',
-                $insertID
-            );
+                    'SilvercartProduct',
+                    $insertID
+                    );
             $action = 'insert';
         }
         
