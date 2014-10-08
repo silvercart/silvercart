@@ -82,11 +82,12 @@ class SilvercartDataObject extends DataExtension {
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.10.2014
+     * @since 08.10.2014
      */
     public function IsRedirectedChild() {
         $isRedirectedChild = false;
-        if ($this->owner instanceof RedirectorPage) {
+        if ($this->owner instanceof RedirectorPage &&
+            Controller::curr()->hasMethod('data')) {
             if ($this->owner->LinkToID == Controller::curr()->data()->ID) {
                 $isRedirectedChild = true;
             } else {
