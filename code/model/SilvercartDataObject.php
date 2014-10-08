@@ -54,6 +54,56 @@ class SilvercartDataObject extends DataExtension {
     }
     
     /**
+     * Handles UseAsRootForMainNavigation property (can only be set for a single 
+     * page).
+     * 
+     * @param string  $fromStage        Stage to publish from
+     * @param string  $toStage          Stage to publish to
+     * @param boolean $createNewVersion Create new version or not?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.10.2014
+     */
+    public function onBeforeVersionedPublish($fromStage, $toStage, $createNewVersion) {
+        if ($toStage == 'Live') {
+            if ($this->owner instanceof SilvercartPage &&
+                $this->owner->UseAsRootForMainNavigation) {
+                DB::query('UPDATE SilvercartPage_Live SET UseAsRootForMainNavigation = 0 WHERE ID != ' . $this->owner->ID);
+            }
+        }
+    }
+    
+    /**
+     * Checks whether the current visited page is a child of the context
+     * RedirectionPage.
+     * 
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.10.2014
+     */
+    public function IsRedirectedChild() {
+        $isRedirectedChild = false;
+        if ($this->owner instanceof RedirectorPage &&
+            Controller::curr()->hasMethod('data')) {
+            if ($this->owner->LinkToID == Controller::curr()->data()->ID) {
+                $isRedirectedChild = true;
+            } else {
+                $parentStack = Controller::curr()->data()->parentStack();
+                foreach ($parentStack as $parent) {
+                    if ($this->owner->LinkToID == $parent->ID) {
+                        $isRedirectedChild = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $isRedirectedChild;
+    }
+    
+    /**
      * Returns a quick preview to use in a related models admin form
      * 
      * @return string

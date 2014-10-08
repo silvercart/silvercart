@@ -162,7 +162,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @var array
      */
-    protected static $registeredSearchContexts = array();
+    protected static $registeredSearchContexts = array('SilvercartProduct');
 
     /**
      * current search context used
@@ -459,7 +459,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * @return DataList
      * 
      * @author Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 12.06.2013
+     * @since 23.09.2014
      */
     public function buildSearchResultProducts() {
         $searchResultProducts       = $this->searchResultProducts;
@@ -523,6 +523,10 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
                 if (empty($filter)) {
                     $filter =  $listFilter;
                 } else {
+                    if (strpos(trim($listFilter), 'AND') !== 0 &&
+                        strpos(trim($listFilter), 'OR') !== 0) {
+                        $listFilter = 'AND ' . $listFilter;
+                    }
                     $filter = '(' . $filter . ') ' . $listFilter;
                 }
             }
@@ -590,6 +594,17 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         }
         
         return $SQL_start;
+    }
+    
+    /**
+     * Sets the results.
+     * 
+     * @param SS_List $searchResultProducts Result list.
+     * 
+     * @return void
+     */
+    public function setSearchResultProducts($searchResultProducts) {
+        $this->searchResultProducts = $searchResultProducts;
     }
 
     /**

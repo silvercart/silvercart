@@ -358,6 +358,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupHolder->ParentID           = $rootPage->ID;
             $productGroupHolder->IdentifierCode     = "SilvercartProductGroupHolder";
             $productGroupHolder->InheritFromParent  = false;
+            $productGroupHolder->UseAsRootForMainNavigation = true;
             $productGroupHolder->write();
             $productGroupHolder->publish("Stage", "Live");
 

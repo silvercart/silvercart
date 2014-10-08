@@ -384,7 +384,6 @@ en_GB:
            <% if Phone %><p><strong>Telefon: {$Phone}</strong></p><% end_if %>
            <h2>Message</h2>
            <p>$Message</p>
-           
   SilvercartContactMessageAdmin:
     MENUTITLE: "Contactmessages"
   SilvercartCountry:
@@ -797,6 +796,8 @@ en_GB:
     TITLE: "Print orders (HTML)"
   SilvercartGridFieldQuickAccessController:
     QUICKACCESSLABEL: "Quick access"
+  SilvercartGridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: "Add"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Pricetype"
@@ -1286,6 +1287,8 @@ en_GB:
     URL_SEGMENT_IMPRINT: "imprint"
     URL_SEGMENT_TERMS: "terms-of-service"
     USER_NOT_EXISTING: "This user does not exist."
+    UseAsRootForMainNavigation: "Use children of this page as main navigation menu"
+    UseAsRootForMainNavigationDesc: "The main navigation menu - which will be built with the product groups by default - will use the children of this page. There can be only one page with this setting."
     VALUE_OF_GOODS: "Value of goods"
     VIEW_ORDERS_TEXT: "You can check the status of your order any time in your"
     WELCOME_PAGE_TITLE: "Welcome"
@@ -1447,6 +1450,7 @@ en_GB:
     ReleaseDate: "Release date"
     ReleaseDateInfo: "<strong>Optional</strong> - Set this to delay the start date and time of sale."
     SHORTDESCRIPTION: "List description"
+    SILVERCART_PRODUCT_CREATE: "Can create products."
     SINGULARNAME: "Product"
     STOCKQUANTITY: "stock quantity"
     STOCK_QUANTITY: "Is the stock quantity of this product overbookable?"
@@ -1534,8 +1538,8 @@ en_GB:
     LinkTo: "Product group to redirect to"
     PAGE_TITLE: "Product groups"
     PLURALNAME: "Product Group Holders"
-    RedirectionSettings: "Redirection";
     RedirectToProductGroup: "Redirect to a product group"
+    RedirectionSettings: "Redirection"
     SHOW_PRODUCTS_WITH_COUNT_PLURAL: "Show %s products"
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "Show %s product"
     SINGULARNAME: "Product Group Holder"
@@ -1579,8 +1583,8 @@ en_GB:
     DEFAULTGROUPHOLDERVIEW: "Default product group view"
     DEFAULTGROUPVIEW: "Default product list view"
     DEFAULTGROUPVIEW_DEFAULT: "Use view from parent pages"
-    DisplaySettings: "Display Settings"
     DONOTSHOWPRODUCTS: "do <strong>not</strong> show products of this group"
+    DisplaySettings: "Display Settings"
     GROUP_PICTURE: "Group picture"
     MANAGE_PRODUCTS_BUTTON: "Manage products"
     MANUFACTURER_LINK: "manufacturer"

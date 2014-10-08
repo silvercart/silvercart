@@ -26,7 +26,7 @@ class SilvercartRegistrationPage extends Page {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'ActivationMailSubject' => 'Varchar(255)',
         'ActivationMailMessage' => 'HTMLText'
     );
@@ -36,15 +36,14 @@ class SilvercartRegistrationPage extends Page {
      *
      * @var array
      */
-    public static $defaults = array(
-    );
+    private static $defaults = array();
     
     /**
      * We set a custom icon for this page type here
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/metanavigation_page";
+    private static $icon = "silvercart/images/page_icons/metanavigation_page";
 
     /**
      * Constructor

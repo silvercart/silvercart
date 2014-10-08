@@ -8,6 +8,7 @@
 
         $InsertWidgetArea(Content)
         
+    <% if IsDefaultSearchContext %>
         <% if getProducts %>
             <div class="silvercart-product-group-page-control-top">
                 <% include SilvercartProductGroupPageControlsTop %>
@@ -23,7 +24,9 @@
                 <% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>
             </p>
         <% end_if %>
-        
+    <% else %>
+        {$RenderedSearchResults}
+    <% end_if %>
     </div>
 </div>
 <div id="col3">

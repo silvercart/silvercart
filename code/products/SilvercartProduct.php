@@ -20,7 +20,7 @@
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SilvercartProduct extends DataObject {
+class SilvercartProduct extends DataObject implements PermissionProvider {
 
     /**
      * Can contain an identifier for addToCart forms.
@@ -533,6 +533,64 @@ class SilvercartProduct extends DataObject {
     }
 
     /**
+     * Return a map of permission codes to add to the dropdown shown in the Security section of the CMS.
+     * array(
+     *   'VIEW_SITE' => 'View the site',
+     * );
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2014
+     */
+    public function providePermissions() {
+        $permissions = array(
+            'SILVERCART_PRODUCT_CREATE' => _t('SilvercartProduct.SILVERCART_PRODUCT_CREATE'),
+        );
+        $this->extend('updatePermissions', $permissions);
+        return $permissions;
+    }
+    
+    /**
+     * Checks whether the given member can create a product.
+     * 
+     * @param Member $member Member to check
+     *
+     * @return false 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2014
+     */
+    public function canCreate($member = null) {
+        $can = Permission::checkMember($member, 'SILVERCART_PRODUCT_CREATE');
+        $this->extend('updateCanCreate', $member, $can);
+        return $can;
+    }
+
+    /**
+     * Checks whether the given member can edit this product.
+     * 
+     * @param Member $member Member to check
+     *
+     * @return boolean
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2014
+     */
+    public function canEdit($member = null) {
+        $can = false;
+        if (is_null($member)) {
+            $member = Member::currentUser();
+        }
+        if ($member instanceof Member &&
+            (Permission::checkMember($member, 'ADMIN'))) {
+            $can = true;
+        }
+        $this->extend('updateCanEdit', $member, $can);
+        return $can;
+    }
+
+    /**
      * Is this product viewable in the frontend?
      *
      * @param Member $member the current member
@@ -732,6 +790,7 @@ class SilvercartProduct extends DataObject {
                 'MetaTitle'                             => _t('SilvercartProduct.METATITLE', 'meta title'),
                 'MetaKeywords'                          => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
                 'ProductNumberShop'                     => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
+                'ProductNumberShort'                    => _t('SilvercartProduct.PRODUCTNUMBER_SHORT'),
                 'ProductNumberManufacturer'             => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
                 'EANCode'                               => _t('SilvercartProduct.EAN', 'EAN'),
                 'BasicData'                             => _t('SilvercartProduct.BasicData'),
@@ -756,6 +815,8 @@ class SilvercartProduct extends DataObject {
                 'PurchaseTimeUnit'                      => _t('SilvercartProduct.PURCHASE_TIME_UNIT', 'Purchase time unit'),
                 'SilvercartFiles'                       => _t('SilvercartFile.PLURALNAME', 'Files'),
                 'SilvercartImages'                      => _t('SilvercartImage.PLURALNAME', 'Images'),
+                'SilvercartFile'                        => _t('SilvercartFile.SINGULARNAME', 'File'),
+                'SilvercartImage'                       => _t('SilvercartImage.SINGULARNAME', 'Image'),
                 'SilvercartShoppingCartPositions'       => _t('SilvercartShoppingCartPosition.PLURALNAME', 'Cart positions'),
                 'SilvercartShoppingCarts'               => _t('SilvercartShoppingCart.PLURALNAME', 'Carts'),
                 'SilvercartOrders'                      => _t('SilvercartOrder.PLURALNAME', 'Orders'),

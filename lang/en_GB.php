@@ -203,6 +203,8 @@ $lang['en_GB']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  
 
 $lang['en_GB']['SilvercartGridFieldQuickAccessController']['QUICKACCESSLABEL']  = 'Quick access';
 
+$lang['en_GB']['SilvercartGridFieldSubObjectHandler']['AddSubObjectColumnTitle']  = 'Add';
+
 $lang['en_GB']['SilvercartImageAdmin']['MENUTITLE'] = 'Images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Product images';
 $lang['en_GB']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Payment method images';
@@ -366,6 +368,7 @@ $lang['en_GB']['SilvercartProduct']['LaunchDate']                               
 $lang['en_GB']['SilvercartProduct']['LaunchDateInfo']                               = '<strong>Optional</strong> - Set this if <i>release date</i> is set but the item should be displayed before its <i>release date</i>.';
 $lang['en_GB']['SilvercartProduct']['SalesBanDate']                                 = 'Sales ban date';
 $lang['en_GB']['SilvercartProduct']['SalesBanDateInfo']                             = '<strong>Optional</strong> - Set this if there is a sales ban date.';
+$lang['en_GB']['SilvercartProduct']['SILVERCART_PRODUCT_CREATE']                    = 'Can create products.';
 
 $lang['en_GB']['SilvercartProductAdmin']['MENUTITLE'] = 'Products';
 
@@ -668,7 +671,7 @@ $lang['en_GB']['SilvercartContactFormResponsePage']['URL_SEGMENT'] = 'contactcon
 $lang['en_GB']['SilvercartContactMessage']['PLURALNAME'] = 'Contactmessages';
 $lang['en_GB']['SilvercartContactMessage']['SINGULARNAME'] = 'Contactmessage';
 $lang['en_GB']['SilvercartContactMessage']['MESSAGE'] = 'message';
-$lang['en_GB']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>The customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:</p>\n<% if Phone %><p><strong>Telefon: {\$Phone}</strong></p><% end_if %>\n<p>\$Message</p>\n";
+$lang['en_GB']['SilvercartContactMessage']['TEXT'] = "<h1>Request via contact form</h1>\n<h2>Hello,</h2>\n<p>A contact request was sent by a customer.<br />\nThe customer <strong>\"\$FirstName \$Surname\"</strong> with the email address <strong>\"\$Email\"</strong> sent the following message:</p>\n<% if Phone %><p><strong>Telefon: {\$Phone}</strong></p><% end_if %>\n<h2>Message</h2>\n<p>\$Message</p>";
 
 $lang['en_GB']['SilvercartContactMessageAdmin']['MENUTITLE'] = 'Contactmessages';
 
@@ -1423,6 +1426,8 @@ $lang['en_GB']['SilvercartPage']['VALUE_OF_GOODS'] = 'Value of goods';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'Welcome';
 $lang['en_GB']['SilvercartPage']['YEAR'] = 'Year';
+$lang['en_GB']['SilvercartPage']['UseAsRootForMainNavigation']     = 'Use children of this page as main navigation menu';
+$lang['en_GB']['SilvercartPage']['UseAsRootForMainNavigationDesc'] = 'The main navigation menu - which will be built with the product groups by default - will use the children of this page. There can be only one page with this setting.';
 
 $lang['en_GB']['SilvercartPageListWidget']['TITLE']       = 'Page list';
 $lang['en_GB']['SilvercartPageListWidget']['CMSTITLE']    = 'SilverCart page list';

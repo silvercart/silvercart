@@ -104,6 +104,7 @@ Requirements::add_i18n_javascript('silvercart/javascript/lang');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
+CheckboxSetField::add_extension('SilvercartCheckboxSetField');
 DataObject::add_extension('SilvercartDataObject');
 Group::add_extension('SilvercartGroupDecorator');
 Image::add_extension('SilvercartImageDecorator');

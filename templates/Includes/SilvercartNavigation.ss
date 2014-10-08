@@ -1,10 +1,10 @@
-<% cached 'SilvercartNavigation',List(SilvercartProductGroupPage).max(LastEdited),ID,i18nLocale %>
+<% cached $MainNavigationCacheKey %>
     <div class="hlist">
         <ul class="Menu">
-            <% with PageByIdentifierCode(SilvercartProductGroupHolder) %>
+            <% with $MainNavigationRootPage %>
                 <% loop Children %>
                     <% if hasProductsOrChildren %>
-                    <li <% if LinkOrSection == "section" %> class="active" <% else %> class="$LinkingMode"<% end_if %> >
+                    <li class="<% if LinkOrSection == 'section' %>active<% else %>{$LinkingMode}<% end_if %> <% if IsRedirectedChild %>active<% end_if %>"  >
                         <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>" class="$LinkingMode levela"><span>$MenuTitle.XML</span></a>
                     </li>
                     <% end_if %>

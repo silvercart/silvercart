@@ -176,4 +176,18 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
         $(this).addClass('loading');
         $(this).closest('form').submit();
     });
+    $('ul.optionset.checkboxset input').live('click', function() {
+        var li = $(this).closest('li'),
+            ul = li.closest('ul');
+        if ($(this).is(':checked')) {
+            li.addClass('checked');
+        } else {
+            li.removeClass('checked');
+        }
+        if ($('li.checked', ul).length === 0) {
+            $('li.selected-options-preview', ul).removeClass('hidden');
+        } else {
+            $('li.selected-options-preview', ul).addClass('hidden');
+        }
+    });
 })})(jQuery);

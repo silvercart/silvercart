@@ -155,8 +155,11 @@ h1 {
 .padding_left {
     padding-left:                   12px;
 }
-.overflow-visible {
-    overflow:                     visible;
+.overflow-visible,
+.overflow-visible-fieldset,
+fieldset.overflow-visible .type-text,
+div.overflow-visible .type-text {
+    overflow:                     visible !important;
 }
 .position-relative {
     position:                     relative;
@@ -226,6 +229,13 @@ table td.left {
 table th.right,
 table td.right {
     text-align:                     right;
+}
+
+table tr.inactive td,
+table tr.inactive td label {
+    background-color: #f0f0f0;
+    color: #bbbbbb;
+    cursor: default;
 }
 
 .silvercart-default-table {

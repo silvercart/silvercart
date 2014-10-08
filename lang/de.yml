@@ -797,6 +797,8 @@ de:
     TITLE: "Bestellungen drucken (HTML)"
   SilvercartGridFieldQuickAccessController:
     QUICKACCESSLABEL: "Schnellansicht"
+  SilvercartGridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: "Hinzufügen"
   SilvercartGroupDecorator:
     NO_PRICETYPE: "---"
     PRICETYPE: "Preistyp"
@@ -1286,6 +1288,8 @@ de:
     URL_SEGMENT_IMPRINT: "impressum"
     URL_SEGMENT_TERMS: "allgemeine-geschaeftsbedingungen-kaeuferinformationen"
     USER_NOT_EXISTING: "Diesen Benutzer gibt es nicht."
+    UseAsRootForMainNavigation: "Unterseiten dieser Seite bilden Haupt-Navigation"
+    UseAsRootForMainNavigationDesc: "Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es kann nur eine Seite geben, die diese Einstellung aktiv hat."
     VALUE_OF_GOODS: "Warenwert"
     VIEW_ORDERS_TEXT: "Überprüfen Sie den Status Ihrer Bestellung in der"
     WELCOME_PAGE_TITLE: "Willkommen"
@@ -1447,6 +1451,7 @@ de:
     ReleaseDate: "Verkauf ab"
     ReleaseDateInfo: "<strong>Optional</strong> - Nur setzen, wenn der Verkaufsstart verzögert werden soll."
     SHORTDESCRIPTION: "Listenbeschreibung"
+    SILVERCART_PRODUCT_CREATE: "Kann Artikel erstellen."
     SINGULARNAME: "Artikel"
     STOCKQUANTITY: "Lagerbestand"
     STOCK_QUANTITY: "Ist der Lagerbestand dieses Artikels überbuchbar?"
@@ -1534,8 +1539,8 @@ de:
     LinkTo: "Warengruppe, zu der eine Weiterleitung erfolgen soll"
     PAGE_TITLE: "Warengruppen"
     PLURALNAME: "Artikelgruppenübersichten"
-    RedirectionSettings: "Weiterleitung";
     RedirectToProductGroup: "Direkt zu einer Warengruppe weiterleiten"
+    RedirectionSettings: "Weiterleitung"
     SHOW_PRODUCTS_WITH_COUNT_PLURAL: "%s Artikel anzeigen"
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "%s Artikel anzeigen"
     SINGULARNAME: "Artikelgruppenübersicht"
@@ -1579,8 +1584,8 @@ de:
     DEFAULTGROUPHOLDERVIEW: "Standard-Warengruppen-Ansicht"
     DEFAULTGROUPVIEW: "Standard-Artikellisten-Ansicht"
     DEFAULTGROUPVIEW_DEFAULT: "Übernehmen von übergeordneter Gruppe/Standartkonfiguration"
-    DisplaySettings: "Anzeige-Einstellungen"
     DONOTSHOWPRODUCTS: "<strong>keine</strong> Artikel in der Übersicht anzeigen"
+    DisplaySettings: "Anzeige-Einstellungen"
     GROUP_PICTURE: "Bild der Gruppe"
     MANAGE_PRODUCTS_BUTTON: "Artikel verwalten"
     MANUFACTURER_LINK: "hersteller"

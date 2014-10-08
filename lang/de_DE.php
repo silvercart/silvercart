@@ -203,6 +203,8 @@ $lang['de_DE']['SilvercartGridFieldBatchAction_DeactivateDataObject']['TITLE']  
 
 $lang['de_DE']['SilvercartGridFieldQuickAccessController']['QUICKACCESSLABEL']  = 'Schnellansicht';
 
+$lang['de_DE']['SilvercartGridFieldSubObjectHandler']['AddSubObjectColumnTitle']  = 'Hinzufügen';
+
 $lang['de_DE']['SilvercartImageAdmin']['MENUTITLE'] = 'Bilder';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_PRODUCT_IMAGES'] = 'Artikelbilder';
 $lang['de_DE']['SilvercartImageAdmin']['SELECT_PAYMENTMETHOD_IMAGES'] = 'Bilder für Zahlungsarten';
@@ -366,6 +368,7 @@ $lang['de_DE']['SilvercartProduct']['LaunchDate']                               
 $lang['de_DE']['SilvercartProduct']['LaunchDateInfo']                               = '<strong>Optional</strong> - Nur setzen, wenn <i>Verkauf ab</i> gesetzt ist und die Anzeige bereits vor dem Verkaufsstart erfolgen soll.';
 $lang['de_DE']['SilvercartProduct']['SalesBanDate']                                 = 'Anzeige bis';
 $lang['de_DE']['SilvercartProduct']['SalesBanDateInfo']                             = '<strong>Optional</strong> - Nur setzen, wenn die Dauer des Verkaufs begrenzt ist.';
+$lang['de_DE']['SilvercartProduct']['SILVERCART_PRODUCT_CREATE']                    = 'Kann Artikel erstellen.';
 
 $lang['de_DE']['SilvercartProductAdmin']['MENUTITLE'] = 'Artikel';
 
@@ -1423,6 +1426,8 @@ $lang['de_DE']['SilvercartPage']['VIEW_ORDERS_TEXT'] = 'Überprüfen Sie den Sta
 $lang['de_DE']['SilvercartPage']['WELCOME_PAGE_TITLE'] = 'Willkommen';
 $lang['de_DE']['SilvercartPage']['WELCOME_PAGE_URL_SEGMENT'] = 'willkommen';
 $lang['de_DE']['SilvercartPage']['YEAR'] = 'Jahr';
+$lang['de_DE']['SilvercartPage']['UseAsRootForMainNavigation']     = 'Unterseiten dieser Seite bilden Haupt-Navigation';
+$lang['de_DE']['SilvercartPage']['UseAsRootForMainNavigationDesc'] = 'Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es kann nur eine Seite geben, die diese Einstellung aktiv hat.';
 
 $lang['de_DE']['SilvercartPageListWidget']['TITLE']       = 'Seitenliste';
 $lang['de_DE']['SilvercartPageListWidget']['CMSTITLE']    = 'Seitenliste';
