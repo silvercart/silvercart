@@ -139,11 +139,8 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
 }
 
 /**
-<<<<<<< mine
  * checkout step controller.
-=======
  * Checkout step page controller.
->>>>>>> theirs
  *
  * @package Silvercart
  * @subpackage Pages Checkout
@@ -154,6 +151,15 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
  * @license see license file in modules root directory
  */
 class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controller {
+    
+    /**
+     * Allowed actions.
+     *
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'editAddress',
+    );
 
     /**
      * Preferences
