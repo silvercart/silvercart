@@ -7,7 +7,7 @@
 
             <% if hasNotice %>
             <tr>
-                <td colspan="<% if CurrentPage.EditableShoppingCart %>8<% else %>7<% end_if %>">
+                <td colspan="<% if $CurrentPage.EditableShoppingCart %>8<% else %>7<% end_if %>">
                     <p class="silvercart-message highlighted info16">
                         $getShoppingCartPositionNotices
                     </p>
@@ -28,7 +28,7 @@
                     <td colspan="3">&nbsp;</td>
                     <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
                     <td class="right price" id="Sum"><strong><% with CurrentMember.getCart %>$TaxableAmountGrossWithoutFeesAndChargesAndModules.Nice<% end_with %></strong></td>
-                    <% if Top.EditableShoppingCart %>
+                    <% if $CurrentPage.EditableShoppingCart %>
                         <td>&nbsp;</td>
                     <% end_if %>
                 </tr>
@@ -39,7 +39,7 @@
                         <td class="right">$Tax.Title</td>
                         <td class="right">$getTypeSafeQuantity</td>
                         <td class="right price">$PriceTotalFormatted</td>
-                        <% if CurrentPage.EditableShoppingCart %>
+                        <% if $CurrentPage.EditableShoppingCart %>
                             <td>$removeFromCartForm</td>
                         <% end_if %>
                     </tr>
@@ -54,7 +54,7 @@
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.VALUE_OF_GOODS','Value of goods') %></strong></td>
                 <td class="right price" id="Sum"><strong>$TaxableAmountGrossWithoutFeesAndCharges.Nice</strong></td>
 
-                <% if CurrentPage.EditableShoppingCart %>
+                <% if $CurrentPage.EditableShoppingCart %>
                     <td>&nbsp;</td>
                 <% end_if %>
             </tr>
@@ -65,7 +65,7 @@
                 <tr>
                     <td colspan="4">$Name</td>
                     <td class="right">$SilvercartTax.Title</td>
-                    <td colspan="<% if CurrentPage.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right price">$PriceFormatted</td>
+                    <td colspan="<% if $CurrentPage.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right price">$PriceFormatted</td>
                 </tr>
             <% end_loop %>
             
@@ -74,7 +74,7 @@
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL','subtotal') %></strong></td>
                 <td class="right price" id="Sum"><strong>$TaxableAmountGrossWithoutFees.Nice</strong></td>
 
-                <% if CurrentPage.EditableShoppingCart %>
+                <% if $CurrentPage.EditableShoppingCart %>
                     <td>&nbsp;</td>
                 <% end_if %>
             </tr>
@@ -88,7 +88,7 @@
                         <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                         <td class="right price">$Amount.Nice</td>
 
-                        <% if CurrentPage.EditableShoppingCart %>
+                        <% if $CurrentPage.EditableShoppingCart %>
                             <td>&nbsp;</td>
                         <% end_if %>
                     </tr>
@@ -102,7 +102,7 @@
                 <td colspan="4" class="right"><strong>$CarrierAndShippingMethodTitle <% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %></strong></td>
                 <td class="right price">$HandlingCostShipment.Nice</td>
 
-                <% if CurrentPage.EditableShoppingCart %>
+                <% if $CurrentPage.EditableShoppingCart %>
                     <td>&nbsp;</td>
                 <% end_if %>
             </tr>
@@ -111,7 +111,7 @@
                 <td colspan="4" class="right"><strong>$payment.Name</strong></td>
                 <td class="right price">$HandlingCostPayment.Nice</td>
 
-                <% if CurrentPage.EditableShoppingCart %>
+                <% if $CurrentPage.EditableShoppingCart %>
                     <td>&nbsp;</td>
                 <% end_if %>
             </tr>
@@ -124,7 +124,7 @@
                     <td colspan="3" class="right"><strong><% _t('SilvercartPage.SUBTOTAL') %></strong></td>
                     <td class="right price" id="Sum"><strong>$TaxableAmountGrossWithFees.Nice</strong></td>
 
-                    <% if CurrentPage.EditableShoppingCart %>
+                    <% if $CurrentPage.EditableShoppingCart %>
                         <td>&nbsp;</td>
                     <% end_if %>
                 </tr>
@@ -135,7 +135,7 @@
                             <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                             <td class="right price">$Amount.Nice</td>
 
-                            <% if CurrentPage.EditableShoppingCart %>
+                            <% if $CurrentPage.EditableShoppingCart %>
                                 <td>&nbsp;</td>
                             <% end_if %>
                         </tr>
@@ -146,7 +146,7 @@
                 <tr>
                     <td colspan="4">$Name</td>
                     <td class="right">$SilvercartTax.Title</td>
-                    <td colspan="<% if CurrentPage.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right price">$PriceFormatted</td>
+                    <td colspan="<% if $CurrentPage.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right price">$PriceFormatted</td>
                 </tr>
             <% end_with %>
 
@@ -160,7 +160,7 @@
                             <td class="right">$getTypeSafeQuantity</td>
                             <td class="right price">$PriceTotalFormatted</td>
 
-                            <% if CurrentPage.EditableShoppingCart %>
+                            <% if $CurrentPage.EditableShoppingCart %>
                                 <td>$removeFromCartForm</td>
                             <% end_if %>
                         </tr>
@@ -173,7 +173,7 @@
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
                 <td class="right price"><strong>$AmountTotal.Nice</strong></td>
 
-                <% if CurrentPage.EditableShoppingCart %>
+                <% if $CurrentPage.EditableShoppingCart %>
                     <td>&nbsp;</td>
                 <% end_if %>
             </tr>
@@ -185,7 +185,7 @@
                         <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                         <td class="right price">$Amount.Nice</td>
 
-                        <% if CurrentPage.EditableShoppingCart %>
+                        <% if $CurrentPage.EditableShoppingCart %>
                             <td>&nbsp;</td>
                         <% end_if %>
                     </tr>
@@ -202,7 +202,7 @@
                             <td class="right">$getTypeSafeQuantity</td>
                             <td class="right price">$PriceTotalFormatted</td>
 
-                            <% if CurrentPage.EditableShoppingCart %>
+                            <% if $CurrentPage.EditableShoppingCart %>
                             <td>$removeFromCartForm</td>
                             <% end_if %>
                         </tr>
@@ -215,7 +215,7 @@
                 <td colspan="3" class="right"><strong><% _t('SilvercartPage.TOTAL','total') %></strong></td>
                 <td class="right price total"><strong>$AmountTotal.Nice<% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %></strong></td>
 
-                <% if CurrentPage.EditableShoppingCart %>
+                <% if $CurrentPage.EditableShoppingCart %>
                     <td>&nbsp;</td>
                 <% end_if %>
             </tr>
@@ -227,7 +227,7 @@
                         <td colspan="3" class="right"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                         <td class="right price">$Amount.Nice</td>
 
-                        <% if CurrentPage.EditableShoppingCart %>
+                        <% if $CurrentPage.EditableShoppingCart %>
                             <td>&nbsp;</td>
                         <% end_if %>
                     </tr>
@@ -248,7 +248,7 @@
             <% end_loop %>
         <% end_if %>
         
-        <% if CurrentPage.EditableShoppingCart %>
+        <% if $CurrentPage.EditableShoppingCart %>
             <% if addToEditableShoppingCartTable %>
                 <% with addToEditableShoppingCartTable %>
                     <tr>
