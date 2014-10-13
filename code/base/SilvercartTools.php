@@ -84,14 +84,14 @@ class SilvercartTools extends Object {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
+     * @since 13.10.2013
      */
     public static function initSession() {
         $silvercartSession = Session::get('Silvercart');
         if (is_null($silvercartSession)) {
             Session::set('Silvercart', array());
             Session::save();
-            $silvercartSession = Session::get('Silvercart');
+            $silvercartSession = array();
         }
         if (!array_key_exists('errors', $silvercartSession)) {
             Session::set('Silvercart.errors', array());
