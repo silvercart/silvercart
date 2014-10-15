@@ -869,6 +869,7 @@ class SilvercartProductGroupPage extends Page {
         $result = new DataObject();
         $result->ID = count($this->activeSilvercartProducts);
         $result->Count = count($this->activeSilvercartProducts);
+        $result->IDs = $this->activeSilvercartProducts;
         
         return $result;
     }
