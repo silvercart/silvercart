@@ -230,4 +230,146 @@ class SilvercartGroupViewDecorator extends DataExtension {
     public function getCartFormName() {
         return SilvercartGroupViewHandler::getCartFormNameFor(SilvercartGroupViewHandler::getActiveGroupView());
     }
+    
+    /**
+     * Checks whether the given group view is allowed to render for this group
+     *
+     * @param string $groupView GroupView code
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function isGroupViewAllowed($groupView) {
+        $groupViewAllowed = true;
+        if ($this->getUseOnlyDefaultGroupViewInherited() &&
+            $groupView != $this->getDefaultGroupViewInherited()) {
+            $groupViewAllowed = false;
+        }
+        return $groupViewAllowed;
+    }
+
+    /**
+     * Returns the inherited DefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getDefaultGroupViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this->owner;
+        }
+        $defaultGroupView = $context->DefaultGroupView;
+        if (empty($defaultGroupView) ||
+            SilvercartGroupViewHandler::getGroupView($defaultGroupView) === false) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
+            } else if ($context->Parent() instanceof SilvercartProductGroupHolder) {
+                $defaultGroupView = $this->getDefaultGroupViewInherited($context->Parent());
+            } else {
+                $defaultGroupView = SilvercartGroupViewHandler::getDefaultGroupView();
+            }
+        }
+        return $defaultGroupView;
+    }
+    
+    /**
+     * Returns the inherited UseOnlyDefaultGroupView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getUseOnlyDefaultGroupViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this->owner;
+        }
+        $useOnlyDefaultGroupView = $context->UseOnlyDefaultGroupView;
+        if ($useOnlyDefaultGroupView == 'inherit') {
+            if ($context->Parent() instanceof SilvercartProductGroupPage) {
+                $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
+            } else if ($context->Parent() instanceof SilvercartProductGroupHolder) {
+                $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
+            } else {
+                $useOnlyDefaultGroupView = false;
+            }
+        } elseif ($useOnlyDefaultGroupView == 'yes') {
+            $useOnlyDefaultGroupView = true;
+        } else {
+            $useOnlyDefaultGroupView = false;
+        }
+        return $useOnlyDefaultGroupView;
+    }
+    
+    /**
+     * Checks whether the given group view is allowed to render for this group
+     *
+     * @param string $groupHolderView GroupHolderView code
+     * 
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.06.2012
+     */
+    public function isGroupHolderViewAllowed($groupHolderView) {
+        $groupHolderViewAllowed = true;
+        if ($this->getUseOnlyDefaultGroupHolderViewInherited() &&
+            $groupHolderView != $this->getDefaultGroupHolderViewInherited()) {
+            $groupHolderViewAllowed = false;
+        }
+        return $groupHolderViewAllowed;
+    }
+
+    /**
+     * Returns the inherited DefaultGroupHolderView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getDefaultGroupHolderViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this->owner;
+        }
+        $defaultGroupHolderView = $context->DefaultGroupHolderView;
+        if (empty($defaultGroupHolderView) ||
+            SilvercartGroupViewHandler::getGroupHolderView($defaultGroupHolderView) === false) {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
+                $defaultGroupHolderView = $this->getDefaultGroupHolderViewInherited($context->Parent());
+            } else {
+                $defaultGroupHolderView = SilvercartGroupViewHandler::getDefaultGroupHolderView();
+            }
+        }
+        return $defaultGroupHolderView;
+    }
+    
+    /**
+     * Returns the inherited UseOnlyDefaultGroupHolderView
+     *
+     * @param SilvercartProductGroupPage $context Context
+     * 
+     * @return string
+     */
+    public function getUseOnlyDefaultGroupHolderViewInherited($context = null) {
+        if (is_null($context)) {
+            $context = $this->owner;
+        }
+        $useOnlyDefaultGroupHolderView = $context->UseOnlyDefaultGroupHolderView;
+        if ($useOnlyDefaultGroupHolderView == 'inherit') {
+            if ($context->Parent() instanceof SilvercartProductGroupPage ||
+                $context->Parent() instanceof SilvercartProductGroupHolder) {
+                $useOnlyDefaultGroupHolderView = $this->getUseOnlyDefaultGroupHolderViewInherited($context->Parent());
+            } else {
+                $useOnlyDefaultGroupHolderView = false;
+            }
+        } elseif ($useOnlyDefaultGroupHolderView == 'yes') {
+            $useOnlyDefaultGroupHolderView = true;
+        } else {
+            $useOnlyDefaultGroupHolderView = false;
+        }
+        return $useOnlyDefaultGroupHolderView;
+    }
 }
