@@ -260,6 +260,29 @@ class SilvercartDataObjectMultilingualDecorator extends DataObjectDecorator {
     }
     
     /**
+     * Checks whether the given language field is changed.
+     * 
+     * @param string $fieldName Field name to check change for
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2014
+     */
+    public function languageFieldValueIsChanged($fieldName) {
+        $isChanged = false;
+        if ($this->owner->isChanged($fieldName)) {
+            $changed  = $this->owner->getChangedFields(false, 1);
+            $original = $this->owner->getLanguageFieldValue($fieldName);
+            $new      = $changed[$fieldName]['after'];
+            if ($new != $original) {
+                $isChanged = true;
+            }
+        }
+        return $isChanged;
+    }
+    
+    /**
      * Checks whether the translation with the given locale exists
      *
      * @param string $locale Locale to check
