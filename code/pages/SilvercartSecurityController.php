@@ -22,6 +22,13 @@
 class SilvercartSecurityController extends DataExtension {
     
     /**
+     * IdentifierCode of the page to redirect after a new password was set.
+     *
+     * @var string
+     */
+    public static $newPasswordBackURLIdentifierCode = 'SilvercartMyAccountHolder';
+
+    /**
      * We register the common forms for SilvercartPages here.
      *
      * @return void
@@ -48,7 +55,10 @@ class SilvercartSecurityController extends DataExtension {
         } else {
             Session::set('MemberLoginForm.force_message', false);
             // used to redirect the logged in user to my-account page
-            Session::set('BackURL', SilvercartTools::PageByIdentifierCodeLink('SilvercartMyAccountHolder'));
+            $backURL = SilvercartTools::PageByIdentifierCodeLink(self::$newPasswordBackURLIdentifierCode);
+            $this->owner->extend('updateNewPasswordBackURL', $backURL);
+            Session::set('BackURL', $backURL);
+            Session::save();
         }
         
         $this->owner->registerCustomHtmlForm('SilvercartQuickSearchForm', new SilvercartQuickSearchForm($this->owner));
