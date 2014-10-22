@@ -502,8 +502,14 @@ class SilvercartPage_Controller extends ContentController {
         if (Controller::curr() instanceof Security &&
             array_key_exists('Action', $allParams) &&
             strtolower($allParams['Action']) == 'lostpassword' &&
-            Member::currentUserID() > 0) {
+            Member::currentUserID() > 0 &&
+            Member::currentUser() instanceof Member) {
             Member::currentUser()->logOut();
+        }
+        if (Member::currentUserID() > 0 &&
+            !Member::currentUser() instanceof Member) {
+            Session::set('loggedInAs', 0);
+            Session::save();
         }
 
         // check the SilverCart configuration
