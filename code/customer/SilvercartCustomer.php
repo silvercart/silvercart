@@ -1173,6 +1173,14 @@ class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail 
         $variables['PasswordResetLink'] = Director::absoluteURL($this->template_data->PasswordResetLink);
         $variables['SalutationText']    = SilvercartTools::getSalutationText($variables['Salutation']);
         
+        /* @var $member Member */
+        $member = singleton('Member');
+        foreach ($member->db() as $dbFieldName => $dbFieldType) {
+            if (!array_key_exists($dbFieldName, $variables)) {
+                $variables[$dbFieldName] = $this->template_data->{$dbFieldName};
+            }
+        }
+        
         SilvercartShopEmail::send(
                 'ForgotPasswordEmail',
                 $this->To(),
