@@ -3707,6 +3707,24 @@ class SilvercartProduct_CollectionController extends ModelAdmin_CollectionContro
     }
 
     /**
+     * Adds the print permission to results table.
+     *
+     * @param array $searchCriteria The search criteria
+     *
+     * @return TableListField
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.10.2014
+     */
+    public function getResultsTable($searchCriteria) {
+        $tableField  = parent::getResultsTable($searchCriteria);
+        $permissions = array_merge($tableField->getPermissions(),array('print'));
+        $tableField->setPermissions($permissions);
+        $this->extend('getResultsTable', $tableField, $searchCriteria);
+        return $tableField;
+    }
+
+    /**
      * Logs into the CMS via CURL and returns the cookie variables.
      *
      * @return string
