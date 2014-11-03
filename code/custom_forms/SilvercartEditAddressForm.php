@@ -148,4 +148,22 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
 
         return $title;
     }
+
+    /**
+     * Returns the context address.
+     * 
+     * @return SilvercartAddress
+     */
+    public function getAddress() {
+        $member = Member::currentUser();
+        $id     = $this->customParameters['addressID'];
+        if ($member && $id) {
+            $filter = array(
+                "MemberID" => $member->ID,
+                "ID"       => $id
+            );
+            $this->address = SilvercartAddress::get()->filter($filter)->first();
+        }
+        return $this->address;
+    }
 }
