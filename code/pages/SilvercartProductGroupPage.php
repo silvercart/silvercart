@@ -990,7 +990,7 @@ class SilvercartProductGroupPage extends Page {
         $metaDescription = $this->getField('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaDescription)) {
-                if (Controller::curr()->isProductDetailView()) {
+                if ((Controller::curr() instanceof SilvercartProductGroupPage_Controller) &&  Controller::curr()->isProductDetailView()) {
                     $product = Controller::curr()->getDetailViewProduct();
                     $metaDescription = $product->MetaDescription;
                 } else {
@@ -1026,7 +1026,7 @@ class SilvercartProductGroupPage extends Page {
         $metaTitle = $this->getField('MetaTitle');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaTitle)) {
-                if (Controller::curr()->isProductDetailView()) {
+                if ((Controller::curr() instanceof SilvercartProductGroupPage_Controller) &&  Controller::curr()->isProductDetailView()) {
                     $product = Controller::curr()->getDetailViewProduct();
                     $metaTitle = $product->MetaTitle;
                 } else {
