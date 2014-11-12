@@ -1064,9 +1064,26 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * Getter similar to DataObject::get(); returns a SS_List of products filtered by the requirements in self::getRequiredAttributes();
      * If an product is free of charge, it can have no price. This is for giveaways and gifts.
      *
+     * Expected format of $joins:
+     * <pre>
+     * array(
+     *      array(
+     *          'table' => 'JoinTableName_1',
+     *          'on'    => 'JoinTableOnClause_1',
+     *          'alias' => 'JoinTableAlias_1',
+     *      ),
+     *      array(
+     *          'table' => 'JoinTableName_2',
+     *          'on'    => 'JoinTableOnClause_2',
+     *          'alias' => 'JoinTableAlias_2',
+     *      ),
+     *      ...
+     * )
+     * </pre>
+     * 
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
-     * @param string  $join        string to be used as SQL JOIN clause;
+     * @param array   $joins       left join data as multi dimensional array
      * @param integer $limit       DataObject limit
      *
      * @return PaginatedList|ArrayList PaginatedList of products or empty ArrayList
@@ -1075,7 +1092,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.08.2013
      */
-    public static function getProducts($whereClause = "", $sort = null, $join = null, $limit = null) {
+    public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = SilvercartConfig::Pricetype();
         $filter             = "";
@@ -1101,8 +1118,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 
             }
         }
-        // Support for translatable fields
-        $join = $join . sprintf(" LEFT JOIN SilvercartProductLanguage ON (SilvercartProductLanguage.SilvercartProductID = SilvercartProduct.ID AND SilvercartProductLanguage.Locale = '%s') ", Translatable::get_current_locale());
 
         if ($whereClause != "") {
             $filter = $filter . $whereClause . ' AND ';
@@ -1114,81 +1129,90 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             $sort = self::defaultSort();
         }
         
-        $sortStmnt = '';
-        if (!empty($sort)) {
-            $sortStmnt = 'ORDER BY ' . $sort;
-        }
-
-        $productCount = null;
-        if (!is_null($limit)) {
-            // get count for paging
-            $query = sprintf(
-                    "SELECT
-                        COUNT(SilvercartProduct.ID) AS ProductCount
-                        FROM
-                        SilvercartProduct
-                        %s
-                        WHERE
-                            %s
-                        %s",
-                    $join,
-                    $filter,
-                    $sortStmnt
-            );
-            $records = DB::query($query);
-            foreach ($records as $record) {
-                $productCount = $record['ProductCount'];
+        $onclause = sprintf('"SPL"."SilvercartProductID" = "SilvercartProduct"."ID" AND "SPL"."Locale" = \'%s\'', Translatable::get_current_locale());
+        $databaseFilteredProducts = SilvercartProduct::get()
+                ->leftJoin('SilvercartProductLanguage', $onclause, 'SPL')
+                ->where($filter)
+                ->sort($sort);
+        if (!is_null($joins) &&
+            is_array($joins)) {
+            foreach ($joins as $joinData) {
+                $table    = $alias = $joinData['table'];
+                $onClause = $joinData['on'];
+                if (array_key_exists('alias', $joinData)) {
+                    $alias = $joinData['alias'];
+                }
+                $databaseFilteredProducts = $databaseFilteredProducts->leftJoin($table, $onClause, $alias);
             }
-
-            if (is_array($limit)) {
-                $length = $limit['limit'];
-                $start  = $limit['start'];
-            } elseif (stripos($limit, 'OFFSET')) {
-                list($length, $start) = preg_split("/ +OFFSET +/i", trim($limit));
-            } else {
-                $result = preg_split("/ *, */", trim($limit));
-                $start  = $result[0];
-                $length = isset($result[1]) ? $result[1] : null;
-            }
-            if (!$length) {
-                $length = $start;
-                $start = 0;
+            if (!is_null($limit)) {
+                $offset = 0;
+                if (strpos($filter, ',') !== false) {
+                    list($offset, $limit) = explode(',', $limit);
+                }
+                $databaseFilteredProducts = $databaseFilteredProducts->limit($limit, $offset);
             }
         }
-        $query = sprintf(
-                "SELECT
-                    SilvercartProduct.ID
-                    FROM
-                    SilvercartProduct
-                    %s
-                    WHERE
-                        %s
-                    %s
-                    %s",
-                $join,
-                $filter,
-                $sortStmnt,
-                is_null($limit) ? "" : "LIMIT " . $limit
-        );
-
-        $records = DB::query($query);
-        $recordsArray = array();
-        foreach ($records as $record) {
-            $recordsArray[] = $record['ID'];
-        }
-        if (count($recordsArray) > 0) {
-            $databaseFilteredProducts = SilvercartProduct::get()->filter('SilvercartProduct.ID', $recordsArray)->sort($sort);
-        } else {
-            $databaseFilteredProducts = new ArrayList();
-        }
-        if (!is_null($productCount) &&
-            Controller::curr()->hasMethod('getProductsPerPageSetting') &&
+        if (Controller::curr()->hasMethod('getProductsPerPageSetting') &&
             $databaseFilteredProducts) {
-            $databaseFilteredProducts = new PaginatedList($databaseFilteredProducts);
+            $databaseFilteredProducts = new PaginatedList($databaseFilteredProducts, $_GET);
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
         }
 
         return $databaseFilteredProducts;
+    }
+
+    /**
+     * Getter similar to DataObject::get(); returns a SS_List of products filtered by the requirements in self::getRequiredAttributes();
+     * If an product is free of charge, it can have no price. This is for giveaways and gifts.
+     *
+     * Expected format of $joins:
+     * <pre>
+     * array(
+     *      array(
+     *          'table' => 'JoinTableName_1',
+     *          'on'    => 'JoinTableOnClause_1',
+     *          'alias' => 'JoinTableAlias_1',
+     *      ),
+     *      array(
+     *          'table' => 'JoinTableName_2',
+     *          'on'    => 'JoinTableOnClause_2',
+     *          'alias' => 'JoinTableAlias_2',
+     *      ),
+     *      ...
+     * )
+     * </pre>
+     * 
+     * @param string  $whereClause to be inserted into the sql where clause
+     * @param string  $sort        string with sort clause
+     * @param array   $joins       left join data as multi dimensional array
+     * @param integer $limit       DataObject limit
+     * @param array   $request     Request data
+     * @param integer $pageLength  Count of items per page
+     *
+     * @return PaginatedList|ArrayList PaginatedList of products or empty ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.10.2014
+     */
+    public static function getPaginatedProducts($whereClause = "", $sort = null, $joins = null, $limit = null, $request = null, $pageLength = null) {
+        $paginatedProducts = null;
+        if (is_null($request)) {
+            $request = $_GET;
+        }
+        if (is_null($pageLength)) {
+            $pageLength = SilvercartConfig::ProductsPerPage();
+        }
+        $products = self::getProducts($whereClause, $sort, $joins, $limit);
+        if ($products instanceof SS_List &&
+            $products->exists()) {
+            if ($products instanceof PaginatedList) {
+                $paginatedProducts = $products;
+            } else {
+                $paginatedProducts = new PaginatedList($products, $request);
+            }
+            $paginatedProducts->setPageLength($pageLength);
+        }
+        return $paginatedProducts;
     }
 
     /**

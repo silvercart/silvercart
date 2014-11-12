@@ -1881,14 +1881,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $sort = SilvercartProduct::defaultSort();
                     $this->extend('updateGetProductsSort', $sort);
                 }
-
-                if ($disableLimit) {
-                    $limit = null;
-                } else {
-                    $limit = sprintf("%d,%d", $SQL_start, $productsPerPage);
-                }
                 
-                $groupProducts = SilvercartProduct::getProducts($filter, $sort, null, $limit);
+                $groupProducts = SilvercartProduct::getProducts($filter, $sort);
                 $this->extend('onAfterGetProducts', $groupProducts);
                 $this->groupProducts[$hashKey] = $groupProducts;
                 $this->totalNumberOfProducts   = $groupProducts->count();

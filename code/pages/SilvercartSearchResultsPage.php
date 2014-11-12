@@ -472,27 +472,27 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $useExtensionResults        = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
 
         if (empty($useExtensionResults)) {
-            $this->listFilters['original'] = sprintf("
-                \"SilvercartProductGroupID\" IS NOT NULL AND
-                \"SilvercartProductGroupID\" > 0 AND
-                \"SilvercartProductGroupPage_Live\".\"ID\" > 0 AND
-                \"isActive\" = 1 AND (
+            $this->listFilters['original'] = sprintf('
+               "SilvercartProduct"."SilvercartProductGroupID" IS NOT NULL AND
+               "SilvercartProduct"."SilvercartProductGroupID" > 0 AND
+               "SPGPL"."ID" > 0 AND
+               "SilvercartProduct"."isActive" = 1 AND (
                     (
-                        Title LIKE '%s%%' OR
-                        ShortDescription LIKE '%s%%' OR
-                        LongDescription LIKE '%s%%' OR
-                        Title LIKE '%%%s%%' OR
-                        ShortDescription LIKE '%%%s%%' OR
-                        LongDescription LIKE '%%%s%%'
+                        "SilvercartProductLanguage"."Title" LIKE \'%s%%\' OR
+                        "SilvercartProductLanguage"."ShortDescription" LIKE \'%s%%\' OR
+                        "SilvercartProductLanguage"."LongDescription" LIKE \'%s%%\' OR
+                        "SilvercartProductLanguage"."Title" LIKE \'%%%s%%\' OR
+                        "SilvercartProductLanguage"."ShortDescription" LIKE \'%%%s%%\' OR
+                        "SilvercartProductLanguage"."LongDescription" LIKE \'%%%s%%\'
                     ) OR
-                    \"MetaKeywords\" LIKE '%%%s%%' OR
-                    \"ProductNumberShop\" LIKE '%%%s%%' OR
-                    \"EANCode\" LIKE '%%%s%%' OR
+                   "SilvercartProductLanguage"."MetaKeywords" LIKE \'%%%s%%\' OR
+                   "SilvercartProduct"."ProductNumberShop" LIKE \'%%%s%%\' OR
+                   "SilvercartProduct"."EANCode" LIKE \'%%%s%%\' OR
                     STRCMP(
-                        SOUNDEX(\"Title\"), SOUNDEX('%s')
+                        SOUNDEX("SilvercartProductLanguage"."Title"), SOUNDEX(\'%s\')
                     ) = 0
                 )
-                ",
+                ',
                 $searchQuery,
                 $searchQuery,
                 $searchQuery,
@@ -540,7 +540,13 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
             $searchResultProductsRaw = SilvercartProduct::getProducts(
                 $filter,
                 $sort,
-                "LEFT JOIN \"SilvercartProductGroupPage_Live\" ON \"SilvercartProductGroupPage_Live\".\"ID\" = \"SilvercartProductGroupID\""
+                array(
+                    array(
+                        'table' => 'SilvercartProductGroupPage_Live',
+                        'on'    => '"SPGPL"."ID" = "SilvercartProduct"."SilvercartProductGroupID"',
+                        'alias' => 'SPGPL',
+                    )
+                )
             );
             $searchResultProducts = new PaginatedList($searchResultProductsRaw, $this->getRequest());
             $searchResultProducts->setPageStart($SQL_start);
