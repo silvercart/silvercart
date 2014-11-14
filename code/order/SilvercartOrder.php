@@ -761,12 +761,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @param array $registrationData checkout forms submit data; only needed for anonymous customers
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.11.2010
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 15.11.2014
      */
     public function createInvoiceAddress($registrationData = array()) {
-        $member              = Member::currentUser();
+        $member              = SilvercartCustomer::currentUser();
         $orderInvoiceAddress = new SilvercartOrderInvoiceAddress();
         
         if (empty($registrationData)) {
@@ -791,12 +793,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @param array $registrationData checkout forms submit data; only needed for anonymous customers
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.11.2010
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 15.11.2014
      */
     public function createShippingAddress($registrationData = array()) {
-        $member               = Member::currentUser();
+        $member               = SilvercartCustomer::currentUser();
         $orderShippingAddress = new SilvercartOrderShippingAddress();
        
         if (empty($registrationData)) {
@@ -823,10 +827,10 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function createFromShoppingCart() {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         if ($member instanceof Member) {
             $silvercartShoppingCart = $member->getCart();
             $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
@@ -903,14 +907,14 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function convertShoppingCartPositionsToOrderPositions() {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
             return true;
         }
         
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         if ($member instanceof Member) {
             $silvercartShoppingCart = $member->getCart();
             $silvercartShoppingCart->setPaymentMethodID($this->SilvercartPaymentMethodID);
@@ -1116,8 +1120,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartConvert',
                     array(
-                        Member::currentUser()->getCart(),
-                        Member::currentUser(),
+                        SilvercartCustomer::currentUser()->getCart(),
+                        SilvercartCustomer::currentUser(),
                         $this
                     )
                 );
@@ -1248,7 +1252,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      */
     public function setWeight() {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         if ($member instanceof Member &&
             $member->getCart()->getWeightTotal()) {
             $this->WeightTotal = $member->getCart()->getWeightTotal();
@@ -1261,7 +1265,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      */
     public function setAmountTotal() {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
 
         if ($member && $member->getCart()) {
             $this->AmountTotal = $member->getCart()->getAmountTotal();
@@ -1276,7 +1280,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return void
      */
     public function setCustomerEmail($email = null) {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         if ($member instanceof Member &&
             $member->Email) {
             $email = $member->Email;

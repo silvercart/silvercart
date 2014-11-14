@@ -753,13 +753,10 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      * configured we use the global setting from SilvercartConfig.
      *
      * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public function getProductsPerPageSetting() {
         $productsPerPage = 0;
-        $member          = Member::currentUser();
+        $member          = SilvercartCustomer::currentUser();
         
         if ($member &&
             $member->getSilvercartCustomerConfig() &&

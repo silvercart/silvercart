@@ -56,13 +56,13 @@ class SilvercartDecrementPositionQuantityForm extends CustomHtmlForm {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     protected function submitSuccess($data, $form, $formData) {
         if ($formData['positionID']) {
 
             //check if the position belongs to this user. Malicious people could manipulate it.
-            $member = Member::currentUser();
+            $member = SilvercartCustomer::currentUser();
             $position = DataObject::get_by_id('SilvercartShoppingCartPosition', $formData['positionID']);
             if ($position && ($member->getCart()->ID == $position->SilvercartShoppingCartID)) {
                 if ($position->Quantity <= 1) {

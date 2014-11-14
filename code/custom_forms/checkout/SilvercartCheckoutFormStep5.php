@@ -86,7 +86,7 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         parent::__construct($controller, $params, $preferences, $barebone);
@@ -95,8 +95,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
              * redirect a user if his cart is empty and no order exists
              */
             $checkoutData = $this->controller->getCombinedStepData();
-            if (!Member::currentUser() ||
-                (!Member::currentUser()->getCart()->isFilled() &&
+            if (!SilvercartCustomer::currentUser() ||
+                (!SilvercartCustomer::currentUser()->getCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
 
                 if (!$this->getController()->redirectedTo()) {
@@ -181,16 +181,17 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      *
      * @return ArrayData
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     public function AddressData() {
         $checkoutData = $this->controller->getCombinedStepData();
         
         if (array_key_exists('ShippingAddress', $checkoutData) &&
-            Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress'])) {
+            SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress'])) {
             
-            $shippingAddress    = Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress']);
+            $shippingAddress    = SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['ShippingAddress']);
         } else {
             /**
              * @deprecated Fallback for potential dependencies 
@@ -201,9 +202,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $shippingAddress->setIsAnonymousShippingAddress(true);
         }
         if (array_key_exists('InvoiceAddress', $checkoutData) &&
-            Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress'])) {
+            SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress'])) {
             
-            $invoiceAddress = Member::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress']);
+            $invoiceAddress = SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $checkoutData['InvoiceAddress']);
         } else {
             /**
              * @deprecated Fallback for potential dependencies 
@@ -225,8 +226,8 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
                      */
                     $invoiceAddress['isInvoiceAndShippingAddress'] = true;
                 } else {
-                    Member::currentUser()->SilvercartShippingAddressID  = $checkoutData['ShippingAddress'];
-                    Member::currentUser()->SilvercartInvoiceAddressID   = $checkoutData['InvoiceAddress'];
+                    SilvercartCustomer::currentUser()->SilvercartShippingAddressID  = $checkoutData['ShippingAddress'];
+                    SilvercartCustomer::currentUser()->SilvercartInvoiceAddressID   = $checkoutData['InvoiceAddress'];
                 }
             }
         }
@@ -340,12 +341,11 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sascha Köher <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     public function getSilvercartShoppingCartFull() {
-        $member = Member::currentUser();
-        
+        $member = SilvercartCustomer::currentUser();
         if ($member) {
             return $this->customise($member->getCart())->renderWith('SilvercartShoppingCartFull');
         }
@@ -357,11 +357,10 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * @return SilvercartShoppingCart
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function SilvercartShoppingCart() {
-        $member = Member::currentUser();
-        
+        $member = SilvercartCustomer::currentUser();
         if ($member) {
             return $member->getCart();
         }

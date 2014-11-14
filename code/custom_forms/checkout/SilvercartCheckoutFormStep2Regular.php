@@ -75,7 +75,7 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
         parent::__construct($controller, $params, $preferences, $barebone);
@@ -85,8 +85,8 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
              * redirect a user if his cart is empty and no order exists
              */
             $checkoutData = $this->controller->getCombinedStepData();
-            if (!Member::currentUser() ||
-                (!Member::currentUser()->getCart()->isFilled() &&
+            if (!SilvercartCustomer::currentUser() ||
+                (!SilvercartCustomer::currentUser()->getCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
 
                 $frontPage = SilvercartPage_Controller::PageByIdentifierCode();
@@ -213,7 +213,7 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.07.2011
+     * @since 15.11.2014
      */
     public function submitSuccess($data, $form, $formData) {
         // Set invoice address as shipping address if desired
@@ -221,8 +221,8 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
             $formData['ShippingAddress'] = $formData['InvoiceAddress'];
         }
         
-        if (Member::currentUser()->SilvercartAddresses()->Find('ID', $formData['InvoiceAddress']) &&
-            Member::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress'])) {
+        if (SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['InvoiceAddress']) &&
+            SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress'])) {
             $invoiceAddress = DataObject::get_by_id('SilvercartAddress', $formData['InvoiceAddress']);
             $formData = array_merge(
                     $formData,
@@ -237,10 +237,10 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
             $this->controller->addCompletedStep();
             $this->controller->NextStep();
         } else {
-            if (!Member::currentUser()->SilvercartAddresses()->Find('ID', $formData['InvoiceAddress'])) {
+            if (!SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['InvoiceAddress'])) {
                 $this->addErrorMessage('InvoiceAddress', _t('SilvercartCheckoutFormStep2.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
             }
-            if (!Member::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress'])) {
+            if (!SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress'])) {
                 $this->addErrorMessage('ShippingAddress', _t('SilvercartCheckoutFormStep2.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
             }
         }

@@ -444,7 +444,7 @@ class SilvercartPage_Controller extends ContentController {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
+     * @since 15.11.2014
      */
     public function init() {
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
@@ -503,11 +503,11 @@ class SilvercartPage_Controller extends ContentController {
             array_key_exists('Action', $allParams) &&
             strtolower($allParams['Action']) == 'lostpassword' &&
             Member::currentUserID() > 0 &&
-            Member::currentUser() instanceof Member) {
-            Member::currentUser()->logOut();
+            SilvercartCustomer::currentUser() instanceof Member) {
+            SilvercartCustomer::currentUser()->logOut();
         }
         if (Member::currentUserID() > 0 &&
-            !Member::currentUser() instanceof Member) {
+            !SilvercartCustomer::currentUser() instanceof Member) {
             Session::set('loggedInAs', 0);
             Session::save();
         }
@@ -893,11 +893,11 @@ class SilvercartPage_Controller extends ContentController {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     * @since 15.11.2014
      */
     public function showPricesGross() {
         $pricetype  = SilvercartConfig::Pricetype();
-        $member     = Member::currentUser();
+        $member     = SilvercartCustomer::currentUser();
         
         if ($member instanceof Member &&
             $member->doesNotHaveToPayTaxes()) {
@@ -918,11 +918,11 @@ class SilvercartPage_Controller extends ContentController {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     * @since 15.11.2014
      */
     public function showPricesNet() {
         $pricetype  = SilvercartConfig::Pricetype();
-        $member     = Member::currentUser();
+        $member     = SilvercartCustomer::currentUser();
         
         if ($member instanceof Member &&
             $member->doesNotHaveToPayTaxes()) {
@@ -1070,7 +1070,7 @@ class SilvercartPage_Controller extends ContentController {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function SilvercartShoppingCart() {
         $controller = Controller::curr();
@@ -1079,7 +1079,7 @@ class SilvercartPage_Controller extends ContentController {
             !SilvercartTools::isIsolatedEnvironment() &&
             !SilvercartTools::isBackendEnvironment()) {
 
-            $member = Member::currentUser();
+            $member = SilvercartCustomer::currentUser();
 
             if (!$member) {
                 return false;
@@ -1149,7 +1149,7 @@ class SilvercartPage_Controller extends ContentController {
      * @since 14.05.2012
      */
     public function PaymentMethods() {
-        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), new SilvercartShoppingCart(), true);
+        $PaymentMethods = SilvercartPaymentMethod::getAllowedPaymentMethodsFor($this->ShippingCountry(), singleton('SilvercartShoppingCart'), true);
         return $PaymentMethods;
     }
     
@@ -1159,10 +1159,10 @@ class SilvercartPage_Controller extends ContentController {
      * @return SilvercartCountry
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 15.11.2014
      */
     public function ShippingCountry() {
-        $customer           = Member::currentUser();
+        $customer           = SilvercartCustomer::currentUser();
         $shippingCountry    = null;
         if ($customer) {
             $shippingCountry = $customer->SilvercartShippingAddress()->SilvercartCountry();

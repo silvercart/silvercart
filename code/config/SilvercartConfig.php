@@ -1286,11 +1286,11 @@ class SilvercartConfig extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.09.2013
+     * @since 15.11.2014
      */
     public static function Pricetype() {
         if (is_null(self::$priceType)) {
-            $member         = Member::currentUser();
+            $member         = SilvercartCustomer::currentUser();
             $configObject   = self::getConfig();
 
             $silvercartPluginResult = SilvercartPlugin::call(

@@ -575,12 +575,12 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2014
+     * @since 15.11.2014
      */
     public function canEdit($member = null) {
         $can = false;
         if (is_null($member)) {
-            $member = Member::currentUser();
+            $member = SilvercartCustomer::currentUser();
         }
         if ($member instanceof Member &&
             (Permission::checkMember($member, 'ADMIN'))) {
@@ -1673,7 +1673,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.07.2014
+     * @since 15.11.2014
      */
     public function getPrice($priceType = '', $ignoreTaxExemption = false) {
         $cacheHash = md5($priceType);
@@ -1695,7 +1695,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             $price = clone $this->PriceGross;
         }
         
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         if (!$ignoreTaxExemption &&
             !$this->ignoreTaxExemption &&
             $member instanceof Member &&
@@ -2104,12 +2104,12 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return SilvercartShoppingCartPosition
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 15.11.2014
      */
     public function getPositionInCart($cartID = null) {
         if (is_null($cartID) &&
-            Member::currentUser() instanceof Member) {
-            $cartID = Member::currentUser()->getCart()->ID;
+            SilvercartCustomer::currentUser() instanceof Member) {
+            $cartID = SilvercartCustomer::currentUser()->getCart()->ID;
         }
         if (!array_key_exists($cartID, $this->positionInCart)) {
             $this->positionInCart[$cartID] = SilvercartShoppingCartPosition::get()->filter(array(
@@ -2156,12 +2156,12 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.03.2013
+     * @since 15.11.2014
      */
     public function getQuantityInCartString($cartID = null) {
         if (is_null($cartID) &&
-            Member::currentUser() instanceof Member) {
-            $cartID = Member::currentUser()->getCart()->ID;
+            SilvercartCustomer::currentUser() instanceof Member) {
+            $cartID = SilvercartCustomer::currentUser()->getCart()->ID;
         }
         if (!array_key_exists($cartID, $this->quantityInCartString)) {
             $quantityInCartString = '';
@@ -2321,7 +2321,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      */
     public function getTaxAmount() {
         $showPricesGross = false;
-        $member          = Member::currentUser();
+        $member          = SilvercartCustomer::currentUser();
 
         if ($member) {
             if ($member->showPricesGross(true)) {
@@ -2945,13 +2945,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function isBuyableDueToStockManagementSettings() {
         //is the product already in the cart?
         $cartPositionQuantity = 0;
-        if (Member::currentUser() && Member::currentUser()->getCart()) {
-            $cartPositionQuantity = Member::currentUser()->getCart()->getQuantity($this->ID);
+        if (SilvercartCustomer::currentUser() && SilvercartCustomer::currentUser()->getCart()) {
+            $cartPositionQuantity = SilvercartCustomer::currentUser()->getCart()->getQuantity($this->ID);
         }
         if (SilvercartConfig::EnableStockManagement()) {
             if (!$this->isStockQuantityOverbookable() &&

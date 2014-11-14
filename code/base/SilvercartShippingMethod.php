@@ -324,17 +324,17 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function getShippingFee($weight = null) {
         $fee = false;
 
         if (is_null($weight)) {
-            if (!Member::currentUser() ||
-                !Member::currentUser()->getCart()) {
+            if (!SilvercartCustomer::currentUser() ||
+                !SilvercartCustomer::currentUser()->getCart()) {
                 return $fee;
             }
-            $weight = Member::currentUser()->getCart()->getWeightTotal();
+            $weight = SilvercartCustomer::currentUser()->getCart()->getWeightTotal();
         }
 
         $shippingCountry = $this->getShippingCountry();

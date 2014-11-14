@@ -36,12 +36,12 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2014
+     * @since 15.11.2014
      */
     public function getFormFields($withUpdate = true) {
         if (empty($this->formFields)) {
             if (Member::currentUserID() > 0) {
-                $member = Member::currentUser();
+                $member = SilvercartCustomer::currentUser();
             } else {
                 $member = singleton('Member');
             }

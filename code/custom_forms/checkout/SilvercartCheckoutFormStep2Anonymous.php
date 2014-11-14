@@ -39,7 +39,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
 
@@ -50,8 +50,8 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
              * redirect a user if his cart is empty and no order exists
              */
             $checkoutData = $this->controller->getCombinedStepData();
-            if (!Member::currentUser() ||
-                (!Member::currentUser()->getCart()->isFilled() &&
+            if (!SilvercartCustomer::currentUser() ||
+                (!SilvercartCustomer::currentUser()->getCart()->isFilled() &&
                  !array_key_exists('orderId', $checkoutData))) {
 
                 if (!$this->getController()->redirectedTo()) {

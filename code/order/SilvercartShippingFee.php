@@ -372,7 +372,7 @@ class SilvercartShippingFee extends DataObject {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function getTaxAmount($price = null) {
         if (is_null($price)) {
@@ -381,10 +381,10 @@ class SilvercartShippingFee extends DataObject {
         $taxRate   = $this->getTaxRate();
         $taxAmount = $price - ($price / (100 + $taxRate) * 100);
 
-        if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCartID > 0) {
+        if (SilvercartCustomer::currentUser() &&
+            SilvercartCustomer::currentUser()->SilvercartShoppingCartID > 0) {
 
-            $silvercartShoppingCart = Member::currentUser()->getCart();
+            $silvercartShoppingCart = SilvercartCustomer::currentUser()->getCart();
             $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
             $amountToGetFeeFor      = $shoppingCartValue->getAmount();
             $countryToGetFeeFor     = $this->SilvercartShippingMethod()->getShippingCountry();
@@ -449,7 +449,7 @@ class SilvercartShippingFee extends DataObject {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function getPriceAmount($plain = false, $amountToGetFeeFor = null, $countryToGetFeeFor = null) {
         $price = (float) $this->Price->getAmount();
@@ -459,9 +459,9 @@ class SilvercartShippingFee extends DataObject {
                 $price = $price - $this->getTaxAmount($price);
             }
 
-            if (Member::currentUser() &&
-                Member::currentUser()->SilvercartShoppingCartID > 0) {
-                $silvercartShoppingCart = Member::currentUser()->getCart();
+            if (SilvercartCustomer::currentUser() &&
+                SilvercartCustomer::currentUser()->SilvercartShoppingCartID > 0) {
+                $silvercartShoppingCart = SilvercartCustomer::currentUser()->getCart();
                 $shoppingCartValue      = $silvercartShoppingCart->getTaxableAmountWithoutFees();
                 if (is_null($amountToGetFeeFor)) {
                     $amountToGetFeeFor  = $shoppingCartValue->getAmount();

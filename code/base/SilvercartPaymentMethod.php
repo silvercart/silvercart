@@ -747,7 +747,7 @@ class SilvercartPaymentMethod extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 15.11.2014
      */
     public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false) {
         $allowedPaymentMethods  = array();
@@ -757,7 +757,7 @@ class SilvercartPaymentMethod extends DataObject {
         }
         
         $paymentMethods = $shippingCountry->SilvercartPaymentMethods('isActive = 1');
-        $member         = Member::currentUser();
+        $member         = SilvercartCustomer::currentUser();
         if (!$member &&
             $forceAnonymousCustomerIfNotExist) {
             $member         = new Member();

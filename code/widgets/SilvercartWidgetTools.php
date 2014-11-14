@@ -599,7 +599,7 @@ class SilvercartWidgetTools extends Object {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
+     * @since 15.11.2014
      */
     public static function ProductWidgetCacheKey($widget) {
         $key                    = '';
@@ -638,7 +638,7 @@ class SilvercartWidgetTools extends Object {
             $groupIDs               = '';
 
             if (Member::currentUserID() > 0) {
-                $groupIDs = implode('-', Member::currentUser()->getGroupIDs());
+                $groupIDs = implode('-', SilvercartCustomer::currentUser()->getGroupIDs());
             }
             $keyParts = array(
                 i18n::get_locale(),
