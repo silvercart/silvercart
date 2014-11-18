@@ -28,9 +28,6 @@ class SilvercartProductCsvBulkLoader extends CsvBulkLoader {
      * @var array
      */
     public static $match_existing_fields = array(
-        'ID',
-        'EANCode',
-        'ProductNumberManufacturer',
         'ProductNumberShop',
     );
     
