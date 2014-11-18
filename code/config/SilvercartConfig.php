@@ -35,17 +35,13 @@ class SilvercartConfig extends DataObject {
      *  'value' => 'Title': <option value="value">Title</option>
      *
      * @var array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public static $productsPerPageOptions = array(
-        '4'         => '4',
-        '8'         => '8',
-        '20'        => '20',
-        '50'        => '50',
-        '100'       => '100'
-        //'0'         => 'All' // Activate this only for shops with small product counts
+        '18' => '18',
+        '30' => '30',
+        '60' => '60',
+        '90' => '90',
+        //'0'  => 'All' // Activate this only for shops with small product counts
     );
     
     /**
@@ -1290,11 +1286,11 @@ class SilvercartConfig extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.09.2013
+     * @since 15.11.2014
      */
     public static function Pricetype() {
         if (is_null(self::$priceType)) {
-            $member         = Member::currentUser();
+            $member         = SilvercartCustomer::currentUser();
             $configObject   = self::getConfig();
 
             $silvercartPluginResult = SilvercartPlugin::call(

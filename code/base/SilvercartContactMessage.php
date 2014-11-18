@@ -146,11 +146,11 @@ class SilvercartContactMessage extends DataObject {
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * @since 15.11.2014
      */
     public function canEdit($member = null) {
         if ($member === null) {
-            $member = Member::currentUser();
+            $member = SilvercartCustomer::currentUser();
         }
         if ($member && $member->inGroup('administrators')) {
             return true;

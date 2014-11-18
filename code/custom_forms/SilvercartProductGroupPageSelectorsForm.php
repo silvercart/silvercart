@@ -151,12 +151,13 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     public function submitSuccess($data, $form, $formData) {
         $backLink = $this->controller->Link();
-        $member   = Member::currentUser();
+        $member   = SilvercartCustomer::currentUser();
         
         $product                        = singleton('SilvercartProduct');
         $sortableFrontendFields         = $product->sortableFrontendFields();

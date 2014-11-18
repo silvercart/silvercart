@@ -45,10 +45,10 @@ class SilvercartCheckoutFormStep4DefaultPayment extends CustomHtmlFormStep {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2011
+     * @since 15.11.2014
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         $checkoutData = $controller->getCombinedStepData();
         if ($member &&
             is_array($params) &&

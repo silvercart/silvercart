@@ -143,7 +143,7 @@ class SilvercartShoppingCart extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.12.2012
+     * @since 15.11.2014
      */
     public function __construct($record = null, $isSingleton = false) {
         parent::__construct($record, $isSingleton);
@@ -175,7 +175,7 @@ class SilvercartShoppingCart extends DataObject {
                         'performShoppingCartConditionsCheck',
                         array(
                             $this,
-                            Member::currentUser()
+                            SilvercartCustomer::currentUser()
                         )
                     );
 
@@ -447,12 +447,13 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @return bool
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.12.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     public static function addProduct($formData) {
         $error  = true;
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         
         if (!$member) {
             $member = SilvercartCustomer::createAnonymousCustomer();
@@ -491,11 +492,11 @@ class SilvercartShoppingCart extends DataObject {
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.03.2013
+     * @since 15.11.2014
      */
     public static function removeProduct($data) {
         $error  = true;
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         
         if (!$member) {
             $member = SilvercartCustomer::createAnonymousCustomer();
@@ -849,9 +850,6 @@ class SilvercartShoppingCart extends DataObject {
      * @param bool  $includeModules              Indicate whether to include modules or not
      *
      * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.07.2012
      */
     public function getTaxableShoppingcartPositions($excludeModules = array(), $excludeShoppingCartPosition = false, $includeModules = true) {
         $cartPositions = new ArrayList();
@@ -883,7 +881,7 @@ class SilvercartShoppingCart extends DataObject {
                 'ShoppingCartPositions',
                 array(
                     $this,
-                    Member::currentUser(),
+                    SilvercartCustomer::currentUser(),
                     true,
                     $excludeShoppingCartPosition,
                     false
@@ -1095,7 +1093,7 @@ class SilvercartShoppingCart extends DataObject {
             'ShoppingCartPositions',
             array(
                 $this,
-                Member::currentUser(),
+                SilvercartCustomer::currentUser(),
                 false,
                 $excludeShoppingCartPosition
             ),
@@ -1732,8 +1730,8 @@ class SilvercartShoppingCart extends DataObject {
         $registeredModules  = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
             array(
-                Member::currentUser()->getCart(),
-                Member::currentUser(),
+                SilvercartCustomer::currentUser()->getCart(),
+                SilvercartCustomer::currentUser(),
                 true
             ),
             $excludeModules,
@@ -1801,13 +1799,13 @@ class SilvercartShoppingCart extends DataObject {
      * @return int
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public static function get_most_valuable_tax_rate($taxes = null) {
         $rate = false;
-        if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCartID > 0) {
-            $silvercartShoppingCart = Member::currentUser()->getCart();
+        if (SilvercartCustomer::currentUser() &&
+            SilvercartCustomer::currentUser()->SilvercartShoppingCartID > 0) {
+            $silvercartShoppingCart = SilvercartCustomer::currentUser()->getCart();
             $taxRate = $silvercartShoppingCart->getMostValuableTaxRate($taxes);
             if ($taxRate) {
                 $rate = $taxRate->Rate;
@@ -1967,7 +1965,7 @@ class SilvercartShoppingCart extends DataObject {
      */
     public function registeredModules() {
         if (is_null($this->registeredModulesSet)) {
-            $customer = Member::currentUser();
+            $customer = SilvercartCustomer::currentUser();
             $modules = array();
             $registeredModules = self::$registeredModules;
             $hookMethods = array(

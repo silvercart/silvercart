@@ -130,7 +130,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.01.2014
+     * @since 15.11.2014
      */
     protected function fillInFieldValues() {
         $this->formFields['Salutation']['title'] = _t('SilvercartAddress.SALUTATION', 'salutation');
@@ -148,7 +148,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         $this->formFields['SubscribedToNewsletter']['title'] = _t('SilvercartCheckoutFormStep.I_SUBSCRIBE_NEWSLETTER');
         $this->preferences['submitButtonTitle'] = _t('SilvercartPage.SAVE');
 
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         
         if ($member) {
             $this->formFields['Salutation']['selectedValue'] = $member->Salutation;
@@ -236,11 +236,13 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
      *
      * @return void
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.10.2010
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     protected function submitSuccess($data, $form, $registrationData) {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
 
         // -------------------------------------------------------------------
         // process data

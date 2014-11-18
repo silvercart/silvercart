@@ -213,13 +213,13 @@ class SilvercartTax extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
+     * @since 15.11.2014
      */
     public function getTaxRate($ignoreTaxExemption = false) {
         $overwritten = $this->extend('getTaxRate');
         if (empty ($overwritten)) {
             
-            $member = Member::currentUser();
+            $member = SilvercartCustomer::currentUser();
             if (!$ignoreTaxExemption &&
                 $member instanceof Member &&
                 $member->doesNotHaveToPayTaxes()) {

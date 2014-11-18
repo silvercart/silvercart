@@ -82,11 +82,11 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function WidgetCacheKey() {
         $key    = i18n::get_locale().'_'.$this->LastEdited.'_';
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         
         if ($member) {
             $cart = $member->getCart();
@@ -116,11 +116,11 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function ShowWidget() {
         $showWidget = true;
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         if ($this->ShowOnlyWhenFilled &&
             (!$member ||
              $member->SilvercartShoppingCartID == 0 ||

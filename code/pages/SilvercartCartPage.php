@@ -75,18 +75,18 @@ class SilvercartCartPage_Controller extends Page_Controller {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function init() {
-        if (Member::currentUser() &&
-            Member::currentUser()->SilvercartShoppingCartID > 0) {
+        if (SilvercartCustomer::currentUser() &&
+            SilvercartCustomer::currentUser()->SilvercartShoppingCartID > 0) {
 
-            Member::currentUser()->getCart();
+            SilvercartCustomer::currentUser()->getCart();
         }
         parent::init();
-        if (Member::currentUser() &&
-            Member::currentUser()->getCart()->exists() &&
-            Member::currentUser()->getCart()->SilvercartShoppingCartPositions()->count() > 0 &&
+        if (SilvercartCustomer::currentUser() &&
+            SilvercartCustomer::currentUser()->getCart()->exists() &&
+            SilvercartCustomer::currentUser()->getCart()->SilvercartShoppingCartPositions()->count() > 0 &&
             SilvercartConfig::RedirectToCheckoutWhenInCart()) {
             
             $this->redirect(SilvercartTools::PageByIdentifierCode('SilvercartCheckoutStep')->Link());

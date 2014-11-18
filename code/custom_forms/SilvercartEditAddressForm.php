@@ -54,10 +54,10 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.04.2014
+     * @since 15.11.2014
      */
     protected function fillInFieldValues() {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         $id     = $this->customParameters['addressID'];
         
         if ($member && $id) {
@@ -104,10 +104,10 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.04.2014
+     * @since 15.11.2014
      */
     protected function submitSuccess($data, $form, $formData) {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         $id = $formData['addressID'];
         if ($member && $id) {
             $filter = array(
@@ -155,7 +155,7 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
      * @return SilvercartAddress
      */
     public function getAddress() {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         $id     = $this->customParameters['addressID'];
         if ($member && $id) {
             $filter = array(

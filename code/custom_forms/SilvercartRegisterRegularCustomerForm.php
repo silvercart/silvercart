@@ -384,7 +384,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     protected function submitSuccess($data, $form, $formData) {
         $anonymousCustomer = false;
@@ -392,9 +392,9 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         /*
          * Logout anonymous users and save their shoppingcart temporarily.
          */
-        if (Member::currentUser()) {
-            $anonymousCustomer = Member::currentUser();
-            Member::currentUser()->logOut();
+        if (SilvercartCustomer::currentUser()) {
+            $anonymousCustomer = SilvercartCustomer::currentUser();
+            SilvercartCustomer::currentUser()->logOut();
         }
 
         // Aggregate Data and set defaults

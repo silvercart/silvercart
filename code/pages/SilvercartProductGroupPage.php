@@ -1881,14 +1881,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                     $sort = SilvercartProduct::defaultSort();
                     $this->extend('updateGetProductsSort', $sort);
                 }
-
-                if ($disableLimit) {
-                    $limit = null;
-                } else {
-                    $limit = sprintf("%d,%d", $SQL_start, $productsPerPage);
-                }
                 
-                $groupProducts = SilvercartProduct::getProducts($filter, $sort, null, $limit);
+                $groupProducts = SilvercartProduct::getProducts($filter, $sort);
                 $this->extend('onAfterGetProducts', $groupProducts);
                 $this->groupProducts[$hashKey] = $groupProducts;
                 $this->totalNumberOfProducts   = $groupProducts->count();
@@ -1909,7 +1903,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.08.2013
+     * @since 15.11.2014
      */
     public function CacheKeyParts() {
         if (is_null($this->cacheKeyParts)) {
@@ -1930,7 +1924,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
                 $productMapLastEdited   = array_pop($productMap);
 
                 if (Member::currentUserID() > 0) {
-                    $groupIDs = implode('-', Member::currentUser()->getGroupIDs());
+                    $groupIDs = implode('-', SilvercartCustomer::currentUser()->getGroupIDs());
                 }
             }
             $cacheKeyParts = array(
@@ -2082,13 +2076,10 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * configured we use the global setting from SilvercartConfig.
      *
      * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public function getProductsPerPageSetting() {
         $productsPerPage = 0;
-        $member          = Member::currentUser();
+        $member          = SilvercartCustomer::currentUser();
         
         if ($member &&
             $member->getSilvercartCustomerConfig() &&

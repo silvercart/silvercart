@@ -208,14 +208,16 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * @return SilvercartProduct
      */
     public function getExactlyMatchingProduct() {
+        $product = false;
         if ($this->getDeeplink()) {
-            $whereClause = sprintf("\"%s\" = '%s'", $this->getDeeplinkAttributeName(), $this->getDeeplinkValue());
+            $whereClause = sprintf('"%s" = \'%s\'', $this->getDeeplinkAttributeName(), $this->getDeeplinkValue());
             $products = SilvercartProduct::getProducts($whereClause);
-            if ($products) {
-                return $products->First();
+            if ($products instanceof SS_List &&
+                $products->exists()) {
+                $product = $products->first();
             }
         }
-        return false;
+        return $product;
     }
     
     /**
@@ -225,18 +227,12 @@ class SilvercartDeeplinkPage_Controller extends Page_Controller {
      * @return DataList|false a set of products 
      */
     public function getPartiallyMatchingProducts() {
+        $products = false;
         if ($this->getDeeplink()) {
-            $SQL_start = 0;
-            
-            if (isset ($_GET['start'])) {
-                $SQL_start = (int)$_GET['start'];
-            }
-            $productsPerPage = SilvercartConfig::ProductsPerPage();
-            $likeClause = sprintf("\"%s\" LIKE '%%%s%%'", $this->getDeeplinkAttributeName(), $this->getDeeplinkValue());
-            $products = SilvercartProduct::getProducts($likeClause, null, null, "$SQL_start,$productsPerPage");
-            return $products;
+            $likeClause = sprintf('"%s" LIKE \'%%%s%%\'', $this->getDeeplinkAttributeName(), $this->getDeeplinkValue());
+            $products = SilvercartProduct::getPaginatedProducts($likeClause);
         }
-        return false;
+        return $products;
     }
     
     /**

@@ -74,11 +74,12 @@ class SilvercartRegisterWelcomePage_Controller extends Page_Controller {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.04.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     public function AdditionalInformation() {
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
         $text   = '';
 
         if ($member) {

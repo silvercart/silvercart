@@ -190,7 +190,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function init() {
         $this->preferences['templateDir'] = PIXELTRICKS_CHECKOUT_BASE_PATH_REL . 'templates/Layout/';
@@ -200,7 +200,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         parent::init();
         
         // Inject payment and shippingmethods to shoppingcart, if available
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
 
         if ($member) {
             $stepData       = $this->getCombinedStepData();
@@ -235,7 +235,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $requestParams = $this->getRequest()->allParams();
             if ($requestParams['Action'] == 'editAddress') {
                 $addressID          = (int) $requestParams['ID'];
-                $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+                $membersAddresses   = SilvercartCustomer::currentUser()->SilvercartAddresses();
                 $membersAddress     = $membersAddresses->find('ID', $addressID);
                 if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                     Session::set("redirect", $this->Link());
@@ -254,7 +254,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function getCacheKey() {
         if (is_null($this->cacheKey)) {
-            $member     = Member::currentUser();
+            $member     = SilvercartCustomer::currentUser();
             $stepData   = $this->getStepData($this->getCurrentStep());
             $cacheKey   = '';
 
@@ -315,12 +315,12 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 15.11.2014
      */
     public function deleteSessionData($includeShoppingCart = true) {
         parent::deleteSessionData();
 
-        $member = Member::currentUser();
+        $member = SilvercartCustomer::currentUser();
 
         if ($includeShoppingCart && $member) {
             if ($member->SilvercartShoppingCartID != 0) {
@@ -468,7 +468,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @return type 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2013
+     * @since 15.11.2014
      */
     public function editAddress(SS_HTTPRequest $request) {
         $rendered = '';
@@ -486,7 +486,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                 }
             } else {
                 $addressID          = (int) $params['ID'];
-                $membersAddresses   = Member::currentUser()->SilvercartAddresses();
+                $membersAddresses   = SilvercartCustomer::currentUser()->SilvercartAddresses();
                 $membersAddress     = $membersAddresses->find('ID', $addressID);
                 if ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
                     // Address contains to logged in user - render edit form
@@ -561,7 +561,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function getAddressStepNumber() {
         $stepNumber = 2;
-        if (Member::currentUser()->isRegisteredCustomer()) {
+        if (SilvercartCustomer::currentUser()->isRegisteredCustomer()) {
             $stepNumber = 1;
         }
         return $stepNumber;
@@ -574,7 +574,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function getShipmentStepNumber() {
         $stepNumber = 3;
-        if (Member::currentUser()->isRegisteredCustomer()) {
+        if (SilvercartCustomer::currentUser()->isRegisteredCustomer()) {
             $stepNumber = 2;
         }
         return $stepNumber;
@@ -587,7 +587,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function getPaymentStepNumber() {
         $stepNumber = 4;
-        if (Member::currentUser()->isRegisteredCustomer()) {
+        if (SilvercartCustomer::currentUser()->isRegisteredCustomer()) {
             $stepNumber = 3;
         }
         return $stepNumber;
@@ -600,7 +600,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      */
     public function getLastStepNumber() {
         $stepNumber = 5;
-        if (Member::currentUser()->isRegisteredCustomer()) {
+        if (SilvercartCustomer::currentUser()->isRegisteredCustomer()) {
             $stepNumber = 4;
         }
         return $stepNumber;

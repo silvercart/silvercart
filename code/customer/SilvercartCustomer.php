@@ -19,7 +19,7 @@
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
-class SilvercartCustomer extends DataExtension {
+class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider {
     
     /**
      * Comma separated string of related group names
@@ -526,6 +526,22 @@ class SilvercartCustomer extends DataExtension {
         }
         return $isRegisteredCustomer;
     }
+    
+    /**
+     * Returns whether the current customer is a anonymous one.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.11.2014
+     */
+    public function isAnonymousCustomer() {
+        $isAnonymousCustomer = false;
+        if ($this->owner->Groups()->find('Code', 'anonymous')) {
+            $isAnonymousCustomer = true;
+        }
+        return $isAnonymousCustomer;
+    }
 
 
     /**
@@ -535,10 +551,10 @@ class SilvercartCustomer extends DataExtension {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 15.11.2014
      */
     public static function createAnonymousCustomer() {
-        $member = Member::currentUser();
+        $member = self::currentUser();
         
         if (!$member) {
             $member = new Member();
@@ -565,20 +581,17 @@ class SilvercartCustomer extends DataExtension {
      *
      * @return mixed Member|boolean false
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
      */
     public static function currentAnonymousCustomer() {
-        $isAnonymousCustomer = false;
-        $member              = Member::currentUser();
+        $member = self::currentUser();
         
-        if ($member) {
-            if ($member->Groups()->find('Code', 'anonymous')) {
-                $isAnonymousCustomer = true;
-            }
-        }
-        
-        if ($isAnonymousCustomer) {
+        if ($member instanceof Member &&
+            $member->exists() &&
+            $member->isAnonymousCustomer()) {
+            
             return $member;
         }
         
@@ -658,20 +671,20 @@ class SilvercartCustomer extends DataExtension {
     }
 
     /**
-     * Function similar to Member::currentUser(); Determins if we deal with a
+     * Function similar to SilvercartCustomer::currentUser(); Determins if we deal with a
      * registered customer who has opted in. Returns the member object or
      * false.
      *
      * @return mixed Member|boolean(false)
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
+     * @since 15.11.2014
      */
     public static function currentRegisteredCustomer() {
-        $member             = Member::currentUser();
+        $member             = self::currentUser();
         $registeredCustomer = false;
         
-        if ($member &&
+        if ($member instanceof Member &&
             $member->isValidCustomer()) {
             $registeredCustomer = $member;
         }
@@ -762,17 +775,17 @@ class SilvercartCustomer extends DataExtension {
     
     /**
      * Returns all customer groups of the current customer as a DataList.
-     * If Member::currentUser() does not exist, the group for anonymous customers
+     * If SilvercartCustomer::currentUser() does not exist, the group for anonymous customers
      * will be returned. If no group for anonymous customers exists, null will 
      * be returned.
      * 
      * @return DataList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.10.2011
+     * @since 15.11.2014
      */
     public static function getCustomerGroups() {
-        $customer = Member::currentUser();
+        $customer = SilvercartCustomer::currentUser();
         if ($customer) {
             $customerGroups = $customer->Groups();
         } else {
@@ -1010,8 +1023,8 @@ class SilvercartCustomer extends DataExtension {
         }
         
         // check whether to add a member to an administrative group
-        if (Member::currentUser() &&
-            Member::currentUser()->inGroup('administrators') &&
+        if (SilvercartCustomer::currentUser() &&
+            SilvercartCustomer::currentUser()->inGroup('administrators') &&
             array_key_exists('Groups', $_POST)) {
             $groups = explode(',', $_POST['Groups']);
             if (count($groups) > 0) {
@@ -1064,6 +1077,21 @@ class SilvercartCustomer extends DataExtension {
      */
     public function isAdmin() {
         return Permission::check('ADMIN', 'any', $this->owner);
+    }
+    
+    /**
+     * Returns the globals to use in template.
+     * Overwrites the default globals for Member.
+     * 
+     * @return array
+     */
+    public static function get_template_global_variables() {
+        return array(
+            'CurrentMember'   => 'currentUser',
+            'CurrentCustomer' => 'currentUser',
+            'currentCustomer',
+            'currentUser',
+        );
     }
 }
 
