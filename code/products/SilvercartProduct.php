@@ -2073,6 +2073,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             }
             SilvercartPlugin::call($this, 'onAfterAddToCart', array($shoppingCartPosition));
         }
+        $this->extend('onAfterAddToCart', $shoppingCartPosition);
 
         return $shoppingCartPosition;
     }
