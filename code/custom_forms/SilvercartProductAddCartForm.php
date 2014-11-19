@@ -94,7 +94,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         $this->preferences['doJsValidationScrolling'] = false;
 
         $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
-        $this->setCustomParameter('backLink', Controller::curr()->Link());
+        $this->setCustomParameter('backLink', Controller::curr()->getRequest()->getURL());
 
         // Get maxlength for quantity field
         $quantityFieldMaxLength = strlen((string) SilvercartConfig::addToCartMaxQuantity());
