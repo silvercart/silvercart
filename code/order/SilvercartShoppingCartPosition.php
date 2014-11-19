@@ -239,8 +239,9 @@ class SilvercartShoppingCartPosition extends DataObject {
      * 
      * @return Money the price sum
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.11.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 19.11.2014
      */
     public function getPrice($forSingleProduct = false, $priceType = false) {
         $priceKey = (string) $forSingleProduct . '-' . (string) $priceType;
@@ -266,6 +267,7 @@ class SilvercartShoppingCartPosition extends DataObject {
             $priceObj = new Money();
             $priceObj->setAmount($price);
             $priceObj->setCurrency(SilvercartConfig::DefaultCurrency());
+            $this->extend('updatePrice', $priceObj);
             $this->prices[$priceKey] = $priceObj;
         }
 
