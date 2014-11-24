@@ -1951,6 +1951,9 @@ $lang['en_US']['SilvercartProductGroupNavigationWidget']['LEVELS_TO_SHOW']  = 'N
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS'] = 'Show all levels';
 $lang['en_US']['SilvercartProductGroupNavigationWidget']['EXPAND_ACTIVE_SECTION_ONLY']  = 'Expand only active branch';
 
+$lang['en_US']['SilvercartProductGroupNavigationWidgetLanguage']['PLURALNAME']  = 'Translations';
+$lang['en_US']['SilvercartProductGroupNavigationWidgetLanguage']['SINGULARNAME']= 'Translation';
+
 $lang['en_US']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.';
 $lang['en_US']['SilvercartSiteConfig']['PUBLISHBUTTON']             = 'Publish all pages of this translation';
 $lang['en_US']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Welcome to SilverCart';

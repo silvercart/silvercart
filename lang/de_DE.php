@@ -1951,6 +1951,9 @@ $lang['de_DE']['SilvercartProductGroupNavigationWidget']['LEVELS_TO_SHOW']      
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['SHOW_ALL_LEVELS']             = 'Alle Ebenen anzeigen';
 $lang['de_DE']['SilvercartProductGroupNavigationWidget']['EXPAND_ACTIVE_SECTION_ONLY']  = 'Nur aktiven Zweig aufklappen';
 
+$lang['de_DE']['SilvercartProductGroupNavigationWidgetLanguage']['PLURALNAME']  = 'Übersetzungen';
+$lang['de_DE']['SilvercartProductGroupNavigationWidgetLanguage']['SINGULARNAME']= 'Übersetzung';
+
 $lang['de_DE']['SilvercartSiteConfig']['CREATE_TRANSLATION_DESC']   = 'Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist.';
 $lang['de_DE']['SilvercartSiteConfig']['PUBLISHBUTTON']             = 'Alle Seiten der aktuellen Sprache veröffentlichen';
 $lang['de_DE']['SilvercartSiteConfig']['WELCOME_TO_SILVERCART']     = 'Willkommen bei SilverCart';

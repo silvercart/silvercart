@@ -1578,6 +1578,9 @@ de:
     LEVELS_TO_SHOW: "Ebenen bis zu welcher Tiefe anzeigen"
     SHOW_ALL_LEVELS: "Alle Ebenen anzeigen"
     TITLE: "Warengruppennavigation"
+  SilvercartProductGroupNavigationWidgetLanguage:
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilvercartProductGroupPage:
     ATTRIBUTES: "Attribut"
     BREADCRUMBS: "Warengruppen-Breadcrumbs"

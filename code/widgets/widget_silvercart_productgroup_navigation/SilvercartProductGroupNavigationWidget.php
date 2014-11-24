@@ -74,7 +74,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                    'FrontTitle'                => _t('SilvercartWidget.FRONTTITLE'),
+                    'FrontTitle'                => _t('WidgetSetWidget.FRONTTITLE'),
                     'FieldLabel'                   => _t('SilvercartProductGroupItemsWidget.STOREADMIN_FIELDLABEL'),
                     'levelsToShow'                 => _t('SilvercartProductGroupNavigationWidget.LEVELS_TO_SHOW'),
                     'ShowAllLevels'                => _t('SilvercartProductGroupNavigationWidget.SHOW_ALL_LEVELS'),
@@ -83,6 +83,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
                     'Description'               => _t('SilvercartProductGroupNavigationWidget.DESCRIPTION'),
                     'expandActiveSectionOnly'      => _t('SilvercartProductGroupNavigationWidget.EXPAND_ACTIVE_SECTION_ONLY'),
                     'SilvercartProductGroupPageID' => _t('SilvercartProductGroupPage.SINGULARNAME'),
+                    'SilvercartProductGroupNavigationWidgetLanguages' => _t('SilvercartProductGroupNavigationWidgetLanguage.PLURALNAME'),
                 )
         );
 
@@ -263,9 +264,9 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
      *
      * @return string
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 24.11.2014
      */
     public function renderProductGroupNavigation($rootPage, $currentPage, $level = 0) {
         $renderStr      = '';
@@ -304,7 +305,7 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
                     $isActiveSection = false;
                 }
 
-                $data = array(
+                $data = new ArrayData(array(
                     'MenuTitle'         => $rootPage->getMenuTitle(),
                     'Title'             => $rootPage->getTitle(),
                     'Link'              => $rootPage->Link(),
@@ -313,10 +314,8 @@ class SilvercartProductGroupNavigationWidget_Controller extends SilvercartWidget
                     'IsActivePage'      => $isActivePage,
                     'IsActiveSection'   => $isActiveSection,
                     'Level'             => $level,
-                );
-
-                $parser     = new SSViewer('SilvercartProductGroupNavigationWidgetEntry');
-                $renderStr .= $parser->process(new DataObject($data));
+                ));
+                $renderStr .= $data->renderWith('SilvercartProductGroupNavigationWidgetEntry');
                 
             }
             

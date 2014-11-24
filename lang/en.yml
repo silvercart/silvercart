@@ -1577,6 +1577,9 @@ en:
     LEVELS_TO_SHOW: "Number of levels to show"
     SHOW_ALL_LEVELS: "Show all levels"
     TITLE: "Productgroup navigation"
+  SilvercartProductGroupNavigationWidgetLanguage:
+    PLURALNAME: "Translations"
+    SINGULARNAME: "Translation"
   SilvercartProductGroupPage:
     ATTRIBUTES: "Attributes"
     BREADCRUMBS: "Product Group Breadcrumbs"

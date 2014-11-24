@@ -79,7 +79,7 @@ class SilvercartProductGroupNavigationWidgetLanguage extends DataObject {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'FrontTitle'                             => _t('SilvercartWidget.FRONTTITLE'),
+                'FrontTitle'                             => _t('WidgetSetWidget.FRONTTITLE'),
                 'SilvercartProductGroupNavigationWidget' => _t('SilvercartProductGroupNavigationWidget.SINGULARNAME'),
             )
         );
