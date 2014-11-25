@@ -239,13 +239,14 @@ class SilvercartDataObject extends DataExtension {
      * @param DataObject $dataObject                     DataObject to get CMS fields for
      * @param string     $neighbourFieldOfLanguageFields Name of the field to insert language fields after or before
      * @param bool       $insertLangugeFieldsAfter       Determines whether to add language fields before or after the given neighbour field
+     * @param bool       $tabbed                         Determines whether get tabbed fields or not
      * 
      * @return FieldList
      */
-    public static function getCMSFields(DataObject $dataObject, $neighbourFieldOfLanguageFields = null, $insertLangugeFieldsAfter = true) {
+    public static function getCMSFields(DataObject $dataObject, $neighbourFieldOfLanguageFields = null, $insertLangugeFieldsAfter = true, $tabbed = true) {
         $params = array(
             'includeRelations'  => $dataObject->isInDB(),
-            'tabbed'            => true,
+            'tabbed'            => $tabbed,
             'ajaxSafe'          => true,
         );
         $restrictFields = array();
