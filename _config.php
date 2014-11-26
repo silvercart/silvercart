@@ -113,6 +113,7 @@ Member::add_extension('SilvercartCustomer');
 Member_Validator::add_extension('SilvercartCustomer_Validator');
 ModelAdmin::add_extension('SilvercartModelAdminDecorator');
 Money::add_extension('SilvercartMoneyExtension');
+PaginatedList::add_extension('SilvercartPaginatedList');
 Security::add_extension('SilvercartSecurityController');
 Security::add_extension('CustomHtmlFormPage_Controller');
 SilvercartDeeplinkPage_Controller::add_extension('SilvercartGroupViewDecorator');
