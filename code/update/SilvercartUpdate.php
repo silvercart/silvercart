@@ -450,7 +450,7 @@ class SilvercartUpdate extends DataObject {
  * @since 14.05.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  */
-class SilvercartUpdateTask extends ScheduledTask {
+class SilvercartUpdateTask extends SilvercartTask {
     
     /**
      * processor to execute the basic task logic

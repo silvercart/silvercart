@@ -29,7 +29,7 @@
  * @since 08.07.2011
  * @license see license file in modules root directory
  */
-class SilvercartProductExport extends ScheduledTask {
+class SilvercartProductExport extends SilvercartTask {
     
     /**
      * This method gets called from sake.

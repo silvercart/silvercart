@@ -18,7 +18,7 @@
  * @since 13.07.2012
  * @license see license file in modules root directory
  */
-class SilvercartTask extends ScheduledTask {
+class SilvercartTask extends CliController {
     
     /**
      * Default CLI arguments
