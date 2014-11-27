@@ -789,6 +789,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'Weight'                                => _t('SilvercartProduct.WEIGHT', 'weight'),
                 'MetaTitle'                             => _t('SilvercartProduct.METATITLE', 'meta title'),
                 'MetaKeywords'                          => _t('SilvercartProduct.METAKEYWORDS', 'meta keywords'),
+                'PackagingContent'                      => _t('SilvercartProductPage.PACKAGING_CONTENT'),
                 'ProductNumberShop'                     => _t('SilvercartProduct.PRODUCTNUMBER', 'product number'),
                 'ProductNumberShort'                    => _t('SilvercartProduct.PRODUCTNUMBER_SHORT'),
                 'ProductNumberManufacturer'             => _t('SilvercartProduct.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
