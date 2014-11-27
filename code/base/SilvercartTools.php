@@ -418,7 +418,8 @@ class SilvercartTools extends Object {
                 (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
                 (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
                 (SapphireTest::is_running_test()) ||
-                ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php')) {
+                ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php' ||
+                 $_SERVER['SCRIPT_NAME'] === '/' . FRAMEWORK_DIR.'/cli-script.php')) {
                 self::$isIsolatedEnvironment = true;
             }
         }
