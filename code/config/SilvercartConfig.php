@@ -45,11 +45,19 @@ class SilvercartConfig extends DataObject {
     );
     
     /**
+     * Contains the possible values for products per page selectors for
+     * storefront users.
+     *
+     * @var ArrayList
+     */
+    public static $productsPerPageOptionsForTemplate = null;
+
+    /**
      * The default setting for the CustomerConfig option 'productsPerPage'.
      *
      * @var int
      */
-    public static $productsPerPageDefault = 20;
+    public static $productsPerPageDefault = 18;
     
     /**
      * Used as SQL limit number for unlimited products per page.
@@ -152,7 +160,7 @@ class SilvercartConfig extends DataObject {
         'DefaultPriceType'              => 'gross',
         'GeoNamesActive'                => false,
         'GeoNamesAPI'                   => 'http://api.geonames.org/',
-        'productsPerPage'               => 20,
+        'productsPerPage'               => 18,
         'productGroupsPerPage'          => 6,
         'displayedPaginationPages'      => 4,
         'addToCartMaxQuantity'          => 999,
@@ -1485,6 +1493,39 @@ class SilvercartConfig extends DataObject {
         }
         
         return self::$productsPerPageOptions;
+    }
+    
+    /**
+     * Returns an ArrayList with values for products per page, e.g.
+     * <pre>
+     * <select>
+     * <% loop $SilvercartConfig.ProductsPerPageOptionsForTemplate %>
+     *      <option value="{$Option}">{$Value}&lt;/option>
+     * <% end_loop %>
+     * &lt;/select>
+     * </pre>
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.11.2014
+     */
+    public static function getProductsPerPageOptionsForTemplate() {
+        if (is_null(self::$productsPerPageOptionsForTemplate)) {
+            self::$productsPerPageOptionsForTemplate = new ArrayList();
+            $options = self::getProductsPerPageOptions();
+            foreach ($options as $option => $value) {
+                self::$productsPerPageOptionsForTemplate->push(
+                        new ArrayData(
+                                array(
+                                    'Option' => $option,
+                                    'Value'  => $value,
+                                )
+                        )
+                );
+            }
+        }
+        return self::$productsPerPageOptionsForTemplate;
     }
     
     /**
