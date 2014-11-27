@@ -1277,7 +1277,9 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @var array
      */
     public static $allowed_actions = array(
-        'detail'
+        'detail',
+        'chsffopt',
+        'chpppopt',
     );
     
     /**
@@ -1286,6 +1288,20 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @var SilvercartProduct
      */
     protected $product = null;
+    
+    /**
+     * Sortable frontend fields as ArrayList.
+     *
+     * @var ArrayList
+     */
+    protected $sortableFrontendFields = null;
+    
+    /**
+     * Current sortable frontend field label.
+     *
+     * @var string
+     */
+    protected $currentSortableFrontendFieldLabel = null;
 
     /**
      * Indicates wether a filter plugin can be registered for the current view.
@@ -2081,23 +2097,92 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         $productsPerPage = 0;
         $member          = SilvercartCustomer::currentUser();
         
-        if ($member &&
-            $member->getSilvercartCustomerConfig() &&
-            $member->getSilvercartCustomerConfig()->productsPerPage !== null &&
-            array_key_exists($member->getSilvercartCustomerConfig()->productsPerPage, SilvercartConfig::$productsPerPageOptions)) {
+        $productsPerPage = self::getProductsPerPage();
+        if (is_null($productsPerPage)) {
+            if ($member &&
+                $member->getSilvercartCustomerConfig() &&
+                $member->getSilvercartCustomerConfig()->productsPerPage !== null &&
+                array_key_exists($member->getSilvercartCustomerConfig()->productsPerPage, SilvercartConfig::$productsPerPageOptions)) {
 
-            $productsPerPage = $member->getSilvercartCustomerConfig()->productsPerPage;
-        } else if ($this->productsPerPage) {
-            $productsPerPage = $this->productsPerPage;
-        } else {
-            $productsPerPage = SilvercartConfig::ProductsPerPage();
+                $productsPerPage = $member->getSilvercartCustomerConfig()->productsPerPage;
+            } else if ($this->productsPerPage) {
+                $productsPerPage = $this->productsPerPage;
+            } else {
+                $productsPerPage = SilvercartConfig::ProductsPerPage();
+            }
         }
-
         if ($productsPerPage == 0) {
             $productsPerPage = SilvercartConfig::getProductsPerPageUnlimitedNumber();
         }
         
         return $productsPerPage;
+    }
+
+    /**
+     * Sets the products per page count.
+     *
+     * @param int $count Count of products to show in a list.
+     * 
+     * @return void
+     */
+    public static function setProductsPerPage($count) {
+        if (array_key_exists($count, SilvercartConfig::$productsPerPageOptions)) {
+            Session::set('SilvercartProductGroup.productsPerPage', $count);
+            Session::save();
+        }
+    }
+
+    /**
+     * Returns the products per page count.
+     * 
+     * @return int
+     */
+    public static function getProductsPerPage() {
+        return Session::get('SilvercartProductGroup.productsPerPage');
+    }
+
+    /**
+     * Returns the sortable frontend fields as ArrayList.
+     * 
+     * @return ArrayList
+     */
+    public function getSortableFrontendFields() {
+        if (is_null($this->sortableFrontendFields)) {
+            $this->sortableFrontendFields = new ArrayList();
+            $product                      = singleton('SilvercartProduct');
+            $sortableFrontendFields       = array_values($product->sortableFrontendFields());
+            asort($sortableFrontendFields);
+            
+            foreach ($sortableFrontendFields as $option => $value) {
+                $this->sortableFrontendFields->push(
+                        new ArrayData(
+                                array(
+                                    'Option' => $option,
+                                    'Value'  => $value,
+                                )
+                        )
+                );
+            }
+            
+            $sortableFrontendFieldValues = array_flip(array_keys($product->sortableFrontendFields()));
+            if (!array_key_exists($product->getDefaultSort(), $sortableFrontendFieldValues)) {
+                $sortableFrontendFieldValues[$product->getDefaultSort()] = 0;
+            }
+            $this->currentSortableFrontendFieldLabel = $sortableFrontendFields[$sortableFrontendFieldValues[$product->getDefaultSort()]];
+        }
+        return $this->sortableFrontendFields;
+    }
+
+    /**
+     * Returns the current sortable frontend field label.
+     * 
+     * @return string
+     */
+    public function getCurrentSortableFrontendFieldLabel() {
+        if (is_null($this->currentSortableFrontendFieldLabel)) {
+            $this->getSortableFrontendFields();
+        }
+        return $this->currentSortableFrontendFieldLabel;
     }
 
     /**
@@ -2426,6 +2511,60 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         
         $this->setProduct($product);
         return $this->render();
+    }
+    
+    /**
+     * chsffopt stands for "CHange Sortable Frontend Field Option".
+     * Changes the sort order type for product lists.
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.11.2014
+     */
+    public function chsffopt(SS_HTTPRequest $request) {
+        $newOption                   = $request->param('ID');
+        $product                     = singleton('SilvercartProduct');
+        $sortableFrontendFields      = $product->sortableFrontendFields();
+        $sortableFrontendFieldValues = array_keys($sortableFrontendFields);
+        if (array_key_exists($newOption, $sortableFrontendFieldValues)) {
+            $sortOrder = $sortableFrontendFieldValues[$newOption];
+            SilvercartProduct::setDefaultSort($sortOrder);
+        }
+        $this->redirect($this->Link());
+    }
+    
+    /**
+     * chpppopt stands for "CHange Products Per Page Option".
+     * Changes the quantity of products to display in a product lists.
+     * 
+     * @param SS_HTTPRequest $request Request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.11.2014
+     */
+    public function chpppopt(SS_HTTPRequest $request) {
+        $member                      = SilvercartCustomer::currentUser();
+        $newOption                   = $request->param('ID');
+        $product                     = singleton('SilvercartProduct');
+        $sortableFrontendFields      = $product->sortableFrontendFields();
+        $sortableFrontendFieldValues = array_keys($sortableFrontendFields);
+        if (array_key_exists($newOption, $sortableFrontendFieldValues)) {
+            $sortOrder = $sortableFrontendFieldValues[$newOption];
+            SilvercartProduct::setDefaultSort($sortOrder);
+        }
+        
+        if ($member instanceof Member &&
+            $member->exists()) {
+            $member->getSilvercartCustomerConfig()->productsPerPage = $newOption;
+            $member->getSilvercartCustomerConfig()->write();
+        }
+        self::setProductsPerPage($newOption);
+        $this->redirect($this->Link());
     }
     
     /**
