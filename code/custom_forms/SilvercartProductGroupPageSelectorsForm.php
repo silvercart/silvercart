@@ -75,12 +75,14 @@ class SilvercartProductGroupPageSelectorsForm extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.11.2014
      */
     public function preferences() {
         $this->preferences['submitButtonTitle']         = _t('SilvercartProductGroupPageSelector.OK');
         $this->preferences['doJsValidationScrolling']   = false;
+        parent::preferences();
     }
     
     /**

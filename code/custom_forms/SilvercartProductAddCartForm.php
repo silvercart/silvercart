@@ -80,8 +80,9 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.11.2014
      */
     public function preferences() {
         $numberOfDecimalPlaces = false;
@@ -122,6 +123,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         } else {
             $this->formFields['productQuantity']['maxLength'] = $quantityFieldMaxLength;
         }
+        parent::preferences();
     }
     
     /**
