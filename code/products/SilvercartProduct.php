@@ -978,7 +978,8 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     public static function get($callerClass = 'SilvercartProduct', $filter = "", $sort = "", $join = "", $limit = null, $containerClass = 'DataList') {
         $products = parent::get($callerClass, $filter, $sort, $join, $limit, $containerClass);
         
-        if (!SilvercartTools::isBackendEnvironment()) {
+        if (!SilvercartTools::isBackendEnvironment() &&
+            !SilvercartTools::isIsolatedEnvironment()) {
             $requiredAttributesFilter = self::buildRequiredAttributesFilter();
             if (!is_null($requiredAttributesFilter)) {
                 $products = $products->where($requiredAttributesFilter);
