@@ -101,5 +101,18 @@ class SilvercartCartPage_Controller extends Page_Controller {
     public function getEditableShoppingCart() {
         return true;
     }
+    
+    /**
+     * Returns an instance of SilvercartCheckoutFormStep2 to represent a valid 
+     * checkout context.
+     * 
+     * @return SilvercartCheckoutFormStep2
+     */
+    public function getCheckoutContext() {
+        $checkoutStepPage = SilvercartTools::PageByIdentifierCode('SilvercartCheckoutStep');
+        $checkoutStepPageController = ModelAsController::controller_for($checkoutStepPage);
+        $checkoutStepPageController->handleRequest($this->getRequest());
+        return new SilvercartCheckoutFormStep2($checkoutStepPageController);
+    }
 
 }
