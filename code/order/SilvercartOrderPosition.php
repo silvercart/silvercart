@@ -292,64 +292,28 @@ class SilvercartOrderPosition extends DataObject {
     /**
      * Customize scaffolding fields for the backend
      *
-     * @return FieldList the form fields for the backend
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.11.2012
+     * @return FieldList
      */
     public function getCMSFields() {
-        if ($this->isInDB()) {
-            return $this->getCMSFields_forPopup();
+        $fields = SilvercartDataObject::getCMSFields($this);
+        if ($this->exists()) {
+            $fields->makeFieldReadonly('Price');
+            $fields->makeFieldReadonly('PriceTotal');
+            $fields->makeFieldReadonly('Tax');
+            $fields->makeFieldReadonly('TaxTotal');
+            $fields->makeFieldReadonly('TaxRate');
+            $fields->makeFieldReadonly('Quantity');
+            $fields->makeFieldReadonly('ProductDescription');
+            $fields->makeFieldReadonly('Title');
+            $fields->makeFieldReadonly('ProductNumber');
+            $fields->makeFieldReadonly('isChargeOrDiscount');
+            $fields->makeFieldReadonly('chargeOrDiscountModificationImpact');
+            $fields->makeFieldReadonly('SilvercartOrderID');
+            $fields->makeFieldReadonly('SilvercartProductID');
+            $fields->removeByName('isIncludedInTotal');
+            $fields->removeByName('numberOfDecimalPlaces');
+            $fields->removeByName('IsNonTaxable');
         }
-
-        $fields = parent::getCMSFields(
-            array(
-                'fieldClasses' => array(
-                    'Price'         => 'SilvercartMoneyField',
-                    'PriceTotal'    => 'SilvercartMoneyField',
-                ),
-            )
-        );
-        
-        $priceGroup = new SilvercartFieldGroup('PriceGroup', '', $fields);
-        $priceGroup->push(          $fields->dataFieldByName('Price'));
-        $priceGroup->push(          $fields->dataFieldByName('Quantity'));
-        $priceGroup->pushAndBreak(  $fields->dataFieldByName('PriceTotal'));
-        $priceGroup->push(          $fields->dataFieldByName('Tax'));
-        $priceGroup->push(          $fields->dataFieldByName('TaxRate'));
-        $priceGroup->pushAndBreak(  $fields->dataFieldByName('TaxTotal'));
-        
-        $productGroup = new SilvercartFieldGroup('ProductGroup', '', $fields);
-        $productGroup->push(        $fields->dataFieldByName('ProductNumber'));
-        $productGroup->pushAndBreak($fields->dataFieldByName('Title'));
-        $productGroup->pushAndBreak($fields->dataFieldByName('SilvercartProductID'));
-        
-        $chargeGroup = new SilvercartFieldGroup('ChargeGroup', '', $fields);
-        $chargeGroup->push(        $fields->dataFieldByName('isChargeOrDiscount'));
-        $chargeGroup->pushAndBreak($fields->dataFieldByName('chargeOrDiscountModificationImpact'));
-        
-        $fields->insertBefore(  $priceGroup,    'ProductDescription');
-        $fields->insertBefore(  $productGroup,  'ProductDescription');
-        $fields->insertAfter(   $chargeGroup,   'ProductDescription');
-        
-        $fields->removeByName('SilvercartOrderID');
-
-        if ($this->SilvercartOrder()->ID > 0) {
-            $link = sprintf(
-                "javascript:jQuery('#ModelAdminPanel').fn('loadForm', '%sadmin/silvercart-orders/SilvercartOrder/%d/edit',function() {openTab('Root_SilvercartOrderPositions');});",
-                SilvercartTools::getBaseURLSegment(),
-                $this->SilvercartOrder()->ID
-            );
-            $backToOrderLinkField = new LiteralField(
-                'BackToOrderLinkField',
-                '<p><a href="'.$link.'" class="action">Zur Bestellung</a></p>'
-            );
-
-            $fields->insertBefore($backToOrderLinkField, 'Root');
-        }
-
-        $this->extend('updateCMSFields', $fields);
-
         return $fields;
     }
     
