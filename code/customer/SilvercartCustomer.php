@@ -136,11 +136,11 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
     );
     
     /**
-     * Holds the current shopping cart.
+     * Holds the current shopping carts for every requested Member.
      *
-     * @var SilvercartShoppingCart 
+     * @var array
      */
-    private static $shoppingCart = null;
+    private static $shoppingCartList = array();
     
     /**
      * Cached list of already fetched members.
@@ -756,10 +756,12 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.06.2014
+     * @since 01.12.2014
      */
     public function getCart() {
-        if (is_null(self::$shoppingCart)) {
+        $id = $this->owner->ID;
+
+        if (!array_key_exists($id, self::$shoppingCartList)) {
             if ($this->owner->SilvercartShoppingCartID == 0 ||
                 !SilvercartShoppingCart::get()->byID($this->owner->SilvercartShoppingCartID)) {
                 $cart = new SilvercartShoppingCart();
@@ -768,9 +770,9 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
                 $this->owner->write();
             }
 
-            self::$shoppingCart = $this->owner->SilvercartShoppingCart();
+            self::$shoppingCartList[$id] = $this->owner->SilvercartShoppingCart();
         }
-        return self::$shoppingCart;
+        return self::$shoppingCartList[$id];
     }
     
     /**
