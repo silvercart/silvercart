@@ -104,7 +104,7 @@
                         </tr>
                         <tr>
                             <td><% _t('SilvercartAddress.PHONE') %></td>
-                            <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
+                            <td><% if Phone %>{$PhoneAreaCode} {$Phone}<% else %>---<% end_if %></td>
                         </tr>
                         <tr>
                             <td><% _t('SilvercartAddress.FAX') %></td>
@@ -167,7 +167,7 @@
                         </tr>
                         <tr>
                             <td><% _t('SilvercartAddress.PHONE') %></td>
-                            <td><% if Phone %>{$PhoneAreaCode}/{$Phone}<% else %>---<% end_if %></td>
+                            <td><% if Phone %>{$PhoneAreaCode} {$Phone}<% else %>---<% end_if %></td>
                         </tr>
                         <tr>
                             <td><% _t('SilvercartAddress.FAX') %></td>

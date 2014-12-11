@@ -61,7 +61,7 @@
                                             $Postcode $City<br/>
                                             $SilvercartCountry.Title<br/>
                                             <% if Phone %>
-                                                $address.fieldLabel(PhoneShort): $PhoneAreaCode/$Phone
+                                                $address.fieldLabel(PhoneShort): $PhoneAreaCode $Phone
                                             <% end_if %>
                                         </div>
                                     </div>

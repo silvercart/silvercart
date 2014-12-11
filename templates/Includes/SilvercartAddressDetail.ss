@@ -40,7 +40,7 @@
                                 {$Postcode} {$City}<br/>
                                 {$SilvercartCountry.Title}<br/>
                                 <% if Phone %>
-                                    {$fieldLabel(PhoneShort)}: {$PhoneAreaCode}/{$Phone}<br/>
+                                    {$fieldLabel(PhoneShort)}: {$PhoneAreaCode} {$Phone}<br/>
                                 <% end_if %>
                                 <% if Fax %>
                                     {$fieldLabel(Fax)}: {$Fax}<br/>
