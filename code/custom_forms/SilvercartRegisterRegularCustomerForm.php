@@ -464,31 +464,22 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         }
 
         // Create ShippingAddress for customer and populate it with registration data
-        $shippingAddress = new SilvercartShippingAddress();
-        $shippingAddress->castedUpdate($formData);
+        $address = new SilvercartAddress();
+        $address->castedUpdate($formData);
 
         $country = DataObject::get_by_id(
             'SilvercartCountry',
             (int) $formData['Country']
         );
         if ($country) {
-            $shippingAddress->SilvercartCountryID = $country->ID;
+            $address->SilvercartCountryID = $country->ID;
         }
-        $shippingAddress->write();
-
-        // Create InvoiceAddress for customer and populate it with registration data
-        $invoiceAddress = new SilvercartInvoiceAddress();
-        $invoiceAddress->castedUpdate($formData);
-        if ($country) {
-            $invoiceAddress->SilvercartCountryID = $country->ID;
-        }
-        $invoiceAddress->write();
+        $address->write();
 
         //connect the ShippingAddress and the InvoiceAddress to the customer
-        $customer->SilvercartShippingAddressID = $shippingAddress->ID;
-        $customer->SilvercartInvoiceAddressID  = $invoiceAddress->ID;
-        $customer->SilvercartAddresses()->add($shippingAddress);
-        $customer->SilvercartAddresses()->add($invoiceAddress);
+        $customer->SilvercartShippingAddressID = $address->ID;
+        $customer->SilvercartInvoiceAddressID  = $address->ID;
+        $customer->SilvercartAddresses()->add($address);
         $customer->write();
 
         // Remove from the anonymous newsletter recipients list
