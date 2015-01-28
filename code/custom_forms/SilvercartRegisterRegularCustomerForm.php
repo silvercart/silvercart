@@ -384,7 +384,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 28.01.2015
      */
     protected function submitSuccess($data, $form, $formData) {
         $anonymousCustomer = false;
@@ -475,6 +475,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             $address->SilvercartCountryID = $country->ID;
         }
         $address->write();
+        $this->extend('updateRegisteredAddress', $address, $data, $form, $formData);
 
         //connect the ShippingAddress and the InvoiceAddress to the customer
         $customer->SilvercartShippingAddressID = $address->ID;
@@ -499,6 +500,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
             
             SilvercartNewsletter::subscribeRegisteredCustomer($customer);
         }
+        $this->extend('updateRegisteredCustomer', $customer, $data, $form, $formData);
 
         // Redirect to welcome page
         if (array_key_exists('backlink', $formData) &&
