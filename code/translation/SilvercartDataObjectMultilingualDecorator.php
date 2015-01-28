@@ -369,10 +369,15 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
+     * @since 28.01.2015
      */
     public function onAfterDuplicate($original, &$doWrite) {
         $languageClassName = $this->getLanguageClassName();
+        $emptyLanguage     = $this->owner->getLanguageRelation()->first();
+        if ($emptyLanguage instanceof DataObject &&
+            $emptyLanguage->exists()) {
+            $emptyLanguage->delete();
+        }
         foreach ($original->getLanguageRelation() as $language) {
             $clonedLanguage = new $languageClassName();
             $clonedLanguage->castedUpdate($language->toMap());
