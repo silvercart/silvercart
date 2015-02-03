@@ -1092,7 +1092,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.08.2013
+     * @since 03.02.2015
      */
     public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null) {
         $requiredAttributes = self::getRequiredAttributes();
@@ -1146,13 +1146,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 }
                 $databaseFilteredProducts = $databaseFilteredProducts->leftJoin($table, $onClause, $alias);
             }
-            if (!is_null($limit)) {
-                $offset = 0;
-                if (strpos($filter, ',') !== false) {
-                    list($offset, $limit) = explode(',', $limit);
-                }
-                $databaseFilteredProducts = $databaseFilteredProducts->limit($limit, $offset);
+        }
+        if (!is_null($limit)) {
+            $offset = 0;
+            if (strpos($filter, ',') !== false) {
+                list($offset, $limit) = explode(',', $limit);
             }
+            $databaseFilteredProducts = $databaseFilteredProducts->limit($limit, $offset);
         }
         if (Controller::curr()->hasMethod('getProductsPerPageSetting') &&
             $databaseFilteredProducts) {
