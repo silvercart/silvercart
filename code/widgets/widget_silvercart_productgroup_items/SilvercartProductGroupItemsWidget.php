@@ -593,7 +593,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
         
         switch ($this->fetchMethod) {
             case 'sortOrderAsc':
-                $elements = $productgroupPageSiteTree->getProducts($fetchLimit);
+                $elements = $productgroupPageSiteTree->getProducts()->limit($fetchLimit);
                 break;
             case 'random':
             default:
