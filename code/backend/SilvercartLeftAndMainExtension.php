@@ -38,6 +38,27 @@ class SilvercartLeftAndMainExtension extends DataExtension {
      * @var array
      */
     public static $model_admins_to_ignore = array();
+    
+    /**
+     * List of additional CSS files to load in backend.
+     *
+     * @var array
+     */
+    public static $additional_css_files = array();
+    
+    /**
+     * Adds an additional CSS file to load in backend.
+     * 
+     * @param string $file_name File name
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.02.2015
+     */
+    public static function add_additional_css_file($file_name) {
+        self::$additional_css_files[] = $file_name;
+    }
 
     /**
      * Injects some custom javascript to provide instant loading of DataObject
@@ -55,6 +76,9 @@ class SilvercartLeftAndMainExtension extends DataExtension {
         $baseUrl = SilvercartTools::getBaseURLSegment();
         Requirements::javascript($baseUrl . 'silvercart/script/SilvercartLeftAndMain.js');
         Requirements::css('silvercart/css/backend/SilvercartMain.css');
+        foreach (self::$additional_css_files as $css_file) {
+            Requirements::css($css_file);
+        }
     }
     
     /**
