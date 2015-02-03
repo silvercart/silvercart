@@ -96,8 +96,9 @@ class SilvercartTopsellerProductsWidget_Controller extends SilvercartWidget_Cont
      * 
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 03.02.2015
      */
     public function Elements() {
         
@@ -105,36 +106,28 @@ class SilvercartTopsellerProductsWidget_Controller extends SilvercartWidget_Cont
             $this->numberOfProductsToShow = SilvercartTopsellerProductsWidget::$defaults['numberOfProductsToShow'];
         }
         
-        $cachekey = 'TopsellerProducts'.$this->numberOfProductsToShow;
-        $cache    = SS_Cache::factory($cachekey);
-        $result   = $cache->load($cachekey);
+        $cachekey     = 'TopsellerProducts' . $this->numberOfProductsToShow;
+        $cache        = SS_Cache::factory($cachekey);
+        $cachedResult = $cache->load($cachekey);
 
-        if ($result) {
+        if ($cachedResult) {
             $result = unserialize($result);
         } else {
             $products   = array();
             $sqlQuery   = new SQLQuery();
 
-            $sqlQuery->select = array(
-                'SOP.SilvercartProductID',
-                'SUM(SOP.Quantity) AS Quantity'
-            );
-            $sqlQuery->from = array(
-                'SilvercartOrderPosition SOP',
-                'LEFT JOIN SilvercartProduct SP on SP.ID = SOP.SilvercartProductID'
-            );
-            $sqlQuery->where = array(
-                'SP.isActive = 1'
-            );
-            $sqlQuery->groupby = array(
-                'SOP.SilvercartProductID'
-            );
-            $sqlQuery->orderby  = 'Quantity DESC';
-            $sqlQuery->limit    = $this->numberOfProductsToShow;
+            $sqlQuery->selectField('SOP.SilvercartProductID');
+            $sqlQuery->selectField('SUM(SOP.Quantity) AS OrderedQuantity');
+            $sqlQuery->addFrom('SilvercartOrderPosition SOP');
+            $sqlQuery->addLeftJoin('SilvercartProduct', 'SP.ID = SOP.SilvercartProductID', 'SP');
+            $sqlQuery->addWhere('SP.isActive = 1');
+            $sqlQuery->addGroupBy('SOP.SilvercartProductID');
+            $sqlQuery->addOrderBy('OrderedQuantity', 'DESC');
+            $sqlQuery->setLimit($this->numberOfProductsToShow);
 
-            $result = $sqlQuery->execute();
+            $sqlResult = $sqlQuery->execute();
 
-            foreach ($result as $row) {
+            foreach ($sqlResult as $row) {
                 $product = DataObject::get_by_id(
                     'SilvercartProduct',
                     $row['SilvercartProductID']
