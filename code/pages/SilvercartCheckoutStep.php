@@ -27,12 +27,12 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
      * @var array
      */
     public static $db = array(
-        'ContentStep1'  => 'HtmlText',
-        'ContentStep2'  => 'HtmlText',
-        'ContentStep3'  => 'HtmlText',
-        'ContentStep4'  => 'HtmlText',
-        'ContentStep5'  => 'HtmlText',
-        'ContentStep6'  => 'HtmlText',
+        'ContentStep1'  => 'HTMLText',
+        'ContentStep2'  => 'HTMLText',
+        'ContentStep3'  => 'HTMLText',
+        'ContentStep4'  => 'HTMLText',
+        'ContentStep5'  => 'HTMLText',
+        'ContentStep6'  => 'HTMLText',
     );
 
     /**
