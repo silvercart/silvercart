@@ -228,8 +228,8 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
     public function getShippingMethods() {
         if (is_null($this->shippingMethods)) {
             $shippingMethods = SilvercartShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-            if (!($shippingMethods instanceof DataList) ||
-                $shippingMethods->Count() == 0) {
+            if (!($shippingMethods instanceof ArrayList) ||
+                $shippingMethods->count() == 0) {
                 $shippingMethods = SilvercartShippingMethod::get();
                 if (!($shippingMethods instanceof DataList)) {
                     $shippingMethods = new DataList();

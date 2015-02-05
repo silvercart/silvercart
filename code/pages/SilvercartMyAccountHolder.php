@@ -126,6 +126,7 @@ class SilvercartMyAccountHolder_Controller extends Page_Controller {
             'SubElementsTitle'  => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
             'SubElements'       => $this->PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
         );
+        $this->extend('updateSubNavigation', $elements);
         $output = $this->customise($elements)->renderWith(
             array(
                 'SilvercartSubNavigation',

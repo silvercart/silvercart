@@ -16,7 +16,7 @@
                     <% end_if %>
 
                     <div>
-                    <% loop Products.SilvercartPaginationSummary %>
+                    <% loop Products.PaginationSummary($CurrentPage.SilvercartConfig.DisplayedPaginationPages) %>
                         <% if CurrentBool %> 
                             <div class="silvercart-pagination-marker">
                                 <div class="silvercart-pagination-marker_content">
