@@ -1493,6 +1493,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setCancelLink($link) {
         $this->cancelLink = $link;
+        $this->extend('updateCancelLink', $this->cancelLink);
     }
 
     /**
@@ -1504,6 +1505,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function setReturnLink($link) {
         $this->returnLink = $link;
+        $this->extend('updateReturnLink', $this->returnLink);
     }
 
     /**
