@@ -2484,7 +2484,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @deprecated Use property AmountTotal instead
      */
     public function getAmountTotalNice() {
-        return str_replace('.', ',', number_format($this->AmountTotalAmount, 2)) . ' ' . $this->AmountTotalCurrency;
+        return $this->AmountTotal->Nice();
     }
 
     /**
