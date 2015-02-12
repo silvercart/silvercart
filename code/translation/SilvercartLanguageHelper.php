@@ -187,14 +187,12 @@ class SilvercartLanguageHelper {
             }
             $languageName = i18n::get_language_name(substr($locale, 0, strpos($locale, '_')), $native);
             if (empty($languageName)) {
-                if (array_key_exists($locale, i18n::$common_locales)) {
-                    if ($native) {
-                        $languageName = i18n::$common_locales[$locale][1];
-                    } else {
-                        $languageName = i18n::$common_locales[$locale][0];
-                    }
-                } elseif (array_key_exists($locale, i18n::$all_locales)) {
-                    $languageName = i18n::$all_locales[$locale];
+                $common_locales = i18n::get_common_locales($native);
+                $all_locales    = (array) Config::inst()->get('i18n', 'all_locales');
+                if (array_key_exists($locale, $common_locales)) {
+                    $languageName = $common_locales[$locale];
+                } elseif (array_key_exists($locale, $all_locales)) {
+                    $languageName = $all_locales[$locale];
                 }
             }
         }
@@ -219,14 +217,12 @@ class SilvercartLanguageHelper {
             }
             $languageName = i18n::get_language_name(substr($locale, 0, strpos($locale, '_')), $native);
             if (empty($languageName)) {
-                if (array_key_exists($locale, i18n::$common_locales)) {
-                    if ($native) {
-                        $languageName = i18n::$common_locales[$locale][1];
-                    } else {
-                        $languageName = i18n::$common_locales[$locale][0];
-                    }
-                } elseif (array_key_exists($locale, i18n::$all_locales)) {
-                    $languageName = i18n::$all_locales[$locale];
+                $common_locales = i18n::get_common_locales($native);
+                $all_locales    = (array) Config::inst()->get('i18n', 'all_locales');
+                if (array_key_exists($locale, $common_locales)) {
+                    $languageName = $common_locales[$locale];
+                } elseif (array_key_exists($locale, $all_locales)) {
+                    $languageName = $all_locales[$locale];
                 }
             }
         }
