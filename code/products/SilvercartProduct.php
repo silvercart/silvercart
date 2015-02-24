@@ -2221,26 +2221,29 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
+     *         Ramon Kupper <rkupper@pixeltricks.de>
      * @since 31.10.2013
      */
     public function Link() {
         $link = '';
-
+        $linkIdentifier = $this->ID;
+        $this->extend('updatelinkIdentifier', $linkIdentifier);
+        
         if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
             !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
             $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
-            $link = Controller::curr()->OriginalLink() . 'detail/' . $this->ID . '/' . $this->title2urlSegment();
+            $link = Controller::curr()->OriginalLink() . 'detail/' . $linkIdentifier . '/' . $this->title2urlSegment();
         } elseif (Controller::curr() instanceof SilvercartProductGroupPage_Controller && 
                   Translatable::get_current_locale() != SilvercartConfig::DefaultLanguage()) {
             Translatable::disable_locale_filter();
             if ($this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->getTranslation(SilvercartConfig::DefaultLanguage())->ID)) {
-                $link = Controller::curr()->Link('detail') . '/' . $this->ID . '/' . $this->title2urlSegment();
+                $link = Controller::curr()->Link('detail') . '/' . $linkIdentifier . '/' . $this->title2urlSegment();
             }
             Translatable::enable_locale_filter();
         }
         if (empty($link) &&
             $this->SilvercartProductGroup()) {
-            $link = $this->SilvercartProductGroup()->OriginalLink() . 'detail/' . $this->ID . '/' . $this->title2urlSegment();
+            $link = $this->SilvercartProductGroup()->OriginalLink() . 'detail/' . $linkIdentifier . '/' . $this->title2urlSegment();
         }
         
         return $link;
