@@ -1936,6 +1936,22 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     }
     
     /**
+     * Returns the tax total amount
+     * 
+     * @param bool $excludeCharges Exclude charges?
+     * 
+     * @return float
+     */
+    public function getTaxTotalAmount($excludeCharges = false) {
+        $amount   = 0;
+        $taxRates = $this->getTaxTotal($excludeCharges);
+        foreach ($taxRates as $taxRate) {
+            $amount += $taxRate->Amount->getAmount();
+        }
+        return round($amount, 2);
+    }
+    
+    /**
      * Returns the sum of tax amounts grouped by tax rates for the products
      * of the order.
      *
