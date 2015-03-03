@@ -82,7 +82,7 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.11.2014
+     * @since 03.03.2015
      */
     public function preferences() {
         $numberOfDecimalPlaces = false;
@@ -95,7 +95,11 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
         $this->preferences['doJsValidationScrolling'] = false;
 
         $this->formFields['productQuantity']['title'] = _t('SilvercartProduct.QUANTITY');
-        $this->setCustomParameter('backLink', Controller::curr()->getRequest()->getURL());
+        $backLink = Controller::curr()->getRequest()->getURL();
+        if (Director::is_relative_url($backLink)) {
+            $backLink = Director::absoluteURL($backLink, true);
+        }
+        $this->setCustomParameter('backLink', $backLink);
 
         // Get maxlength for quantity field
         $quantityFieldMaxLength = strlen((string) SilvercartConfig::addToCartMaxQuantity());
