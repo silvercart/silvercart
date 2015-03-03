@@ -209,15 +209,16 @@ class SilvercartProductGroupPage extends Page {
     /**
      * builds the ProductPages link according to its custom URL rewriting rule
      *
-     * @param string $action is ignored
+     * @param string $action Action to call. Will be ignored for product detail views.
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2012
+     * @since 03.03.2015
      */
     public function Link($action = null) {
         $linkKey = (string) $action;
+        $linkKey .= '-' . $this->Locale;
 
         if (!array_key_exists($linkKey, $this->links)) {
             $returnProductLink = false;
@@ -226,28 +227,26 @@ class SilvercartProductGroupPage extends Page {
                 Controller::curr()->isProductDetailView() &&
                 Controller::curr()->data()->ID == $this->ID &&
                 Controller::curr()->data() === $this) {
-                $returnProductLink  = true;
-                $URLSegment         = Controller::curr()->urlParams['ID'];
-                $product            = Controller::curr()->getDetailViewProduct();
+                $returnProductLink     = true;
+                $product               = Controller::curr()->getDetailViewProduct();
+                $this->links[$linkKey] = $product->Link();
             } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
                       Controller::curr()->isProductDetailView()) {
-                $translations   = $this->getTranslations();
+                $translations = $this->getTranslations();
                 if ($translations) {
-                    $translation    = $translations->find('ID', Controller::curr()->data()->ID);
+                    $translation = $translations->find('ID', Controller::curr()->data()->ID);
                     if ($translation) {
-                        $product            = Controller::curr()->getDetailViewProduct();
-                        if ($product) {
-                            $returnProductLink  = true;
-                            $productLanguage    = $product->getLanguageFor(Translatable::get_current_locale());
-                            $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
+                        $product = Controller::curr()->getDetailViewProduct();
+                        if ($product instanceof SilvercartProduct) {
+                            $returnProductLink     = true;
+                            $productLanguage       = $product->getLanguageFor($this->Locale);
+                            $this->links[$linkKey] = $product->buildLink($this, SilvercartTools::string2urlSegment($productLanguage->Title));
                         }
                     }
                 }
             }
 
-            if ($returnProductLink) {
-                $this->links[$linkKey] = parent::Link($action) . Controller::curr()->urlParams['Action'] . '/' . $product->ID . '/' . $URLSegment;
-            } else {
+            if (!$returnProductLink) {
                 $this->links[$linkKey] = parent::Link($action);
             }
         }

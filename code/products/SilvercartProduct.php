@@ -2202,6 +2202,26 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
     
     /**
+     * Builds the product link with the given parameters.
+     * 
+     * @param ViewableData $controller Base object to build the link.
+     * @param string       $urlSegment URL segment.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.03.2015
+     */
+    public function buildLink($controller, $urlSegment) {
+        $link = '';
+        $linkIdentifier = $this->ID;
+        $this->extend('updatelinkIdentifier', $linkIdentifier);
+        
+        $link = $controller->OriginalLink() . 'detail/' . $linkIdentifier . '/' . $urlSegment;
+        return $link;
+    }
+    
+    /**
      * Alias for Link()
      *
      * @return string
@@ -2226,24 +2246,22 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      */
     public function Link() {
         $link = '';
-        $linkIdentifier = $this->ID;
-        $this->extend('updatelinkIdentifier', $linkIdentifier);
         
         if (Controller::curr() instanceof SilvercartProductGroupPage_Controller &&
             !Controller::curr() instanceof SilvercartSearchResultsPage_Controller &&
             $this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
-            $link = Controller::curr()->OriginalLink() . 'detail/' . $linkIdentifier . '/' . $this->title2urlSegment();
+            $link = $this->buildLink(Controller::curr(), $this->title2urlSegment());
         } elseif (Controller::curr() instanceof SilvercartProductGroupPage_Controller && 
                   Translatable::get_current_locale() != SilvercartConfig::DefaultLanguage()) {
             Translatable::disable_locale_filter();
             if ($this->SilvercartProductGroupMirrorPages()->find('ID', Controller::curr()->getTranslation(SilvercartConfig::DefaultLanguage())->ID)) {
-                $link = Controller::curr()->OriginalLink() . 'detail/' . $linkIdentifier . '/' . $this->title2urlSegment();
+                $link = $this->buildLink(Controller::curr(), $this->title2urlSegment());
             }
             Translatable::enable_locale_filter();
         }
         if (empty($link) &&
             $this->SilvercartProductGroup()) {
-            $link = $this->SilvercartProductGroup()->OriginalLink() . 'detail/' . $linkIdentifier . '/' . $this->title2urlSegment();
+            $link = $this->buildLink($this->SilvercartProductGroup(), $this->title2urlSegment());
         }
         
         return $link;
