@@ -42,6 +42,7 @@ class SilvercartAvailabilityStatus extends DataObject {
         'AdditionalText' => 'Text',
         'SetForPositiveStockNice' => 'Text',
         'SetForNegativeStockNice' => 'Text',
+        'BadgeColorIndicator'     => 'HTMLText',
     );
     
     /**
@@ -150,6 +151,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      */
     public function summaryFields() {
         $summaryFields = array(
+            'BadgeColorIndicator' => $this->fieldLabel('badgeColor'),
             'Title' => $this->fieldLabel('Title'),
             'Code'  => $this->fieldLabel('Code'),
             'SetForNegativeStockNice' => $this->fieldLabel('SetForNegativeStockShort'),
@@ -284,6 +286,26 @@ class SilvercartAvailabilityStatus extends DataObject {
                 }
             }
         }
+    }
+    
+    /**
+     * Helper for summary fields.
+     * Returns the badge color indicator.
+     * 
+     * @return string
+     */
+    public function getBadgeColorIndicator() {
+        $badgeColorSource = array(
+            'default'   => '<span style="padding: 4px 8px; color: #fff; background-color:#999999">' . $this->Title . '</span>',
+            'success'   => '<span style="padding: 4px 8px; color: #fff; background-color:#468847">' . $this->Title . '</span>',
+            'warning'   => '<span style="padding: 4px 8px; color: #fff; background-color:#f89406">' . $this->Title . '</span>',
+            'important' => '<span style="padding: 4px 8px; color: #fff; background-color:#b94a48">' . $this->Title . '</span>',
+            'info'      => '<span style="padding: 4px 8px; color: #fff; background-color:#3a87ad">' . $this->Title . '</span>',
+            'inverse'   => '<span style="padding: 4px 8px; color: #fff; background-color:#333333">' . $this->Title . '</span>',
+        );
+        $htmlText = HTMLText::create();
+        $htmlText->setValue($badgeColorSource[$this->badgeColor]);
+        return $htmlText;
     }
     
 }
