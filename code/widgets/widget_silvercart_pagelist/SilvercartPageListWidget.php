@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright 2012 pixeltricks GmbH
+ * Copyright 2015 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
@@ -29,7 +29,7 @@
  * @author Sascha Koehler <skoehler@pixeltricks.de>
  * @since 06.12.2012
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2012 pixeltricks GmbH
+ * @copyright 2015 pixeltricks GmbH
  */
 class SilvercartPageListWidget extends SilvercartWidget {
 
@@ -203,24 +203,40 @@ class SilvercartPageListWidget extends SilvercartWidget {
  *
  * @package Silvercart
  * @subpackage Widgets
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @since 06.12.2012
+ * @author Sebastian Diel <sdiel@pixeltricks.de>,
+ *         Sascha Koehler <skoehler@pixeltricks.de>
+ * @since 02.06.2015
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
- * @copyright 2012 pixeltricks GmbH
+ * @copyright 2015 pixeltricks GmbH
  */
 class SilvercartPageListWidget_Controller extends SilvercartWidget_Controller {
 
     /**
      * Returns the attributed pages as DataObjectSet
+     * 
+     * @param int $start Limit start
+     * @param int $end   Limit end
      *
      * @return DataObjectSet
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.12.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 02.06.2015
      */
-    public function getPages() {
-        $pages = $this->Pages(null, 'widgetPriority ASC');
-
+    public function getPages($start = null, $end = null) {
+        $limit = '';
+        if (is_numeric($start) &&
+            is_null($end)) {
+            $limit = $start . ',999';
+        } elseif (is_numeric($start) &&
+                  is_numeric($end)) {
+            $limit = $start . ',' . $end;
+        } elseif (is_null($start) &&
+                  is_numeric($end)) {
+            $limit = '0,' . $end;
+        }
+        $pages = $this->Pages(null, 'widgetPriority ASC', '', $limit);
+        
         return $pages;
     }
 
