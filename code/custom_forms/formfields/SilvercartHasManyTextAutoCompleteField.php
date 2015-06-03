@@ -98,7 +98,7 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2011
+     * @since 03.06.2015
      */
     public function saveInto(DataObject $record) {
         $fieldName = $this->name;
@@ -116,7 +116,15 @@ class SilvercartHasManyTextAutoCompleteField extends SilvercartTextAutoCompleteF
             );
         }
 
-        $saveDest->setByIDList($this->getRelatedIDs());
+        $idList = $this->getRelatedIDs();
+        foreach ($idList as $id) {
+            // Workaround for deletion:
+            // ComponentList::removeMany() or ComponentList::removeAll() won't
+            // reset ComponentList::$Items. This will cause that the method
+            // ComponentList::setByIDList() won't write anything to database.
+            $saveDest->remove($id);
+        }
+        $saveDest->setByIDList($idList);
     }
     
     /**

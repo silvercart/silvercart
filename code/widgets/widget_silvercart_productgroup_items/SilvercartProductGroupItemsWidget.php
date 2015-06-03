@@ -212,6 +212,31 @@ class SilvercartProductGroupItemsWidget extends SilvercartWidget implements Silv
     }
     
     /**
+     * Adds the database relation sort as default and returns the 
+     * SilvercartProducts relation.
+     * 
+     * @param string $filter MySQL filter
+     * @param string $sort   MySQL sort
+     * @param string $join   MySQL join
+     * @param string $limit  MySQL limit
+     * 
+     * @return ComponentSet
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.06.2015
+     */
+    public function SilvercartProducts($filter = "", $sort = "", $join = "", $limit = "") {
+        if (empty($sort)) {
+            $result  = DB::query('SELECT "SilvercartProductID" FROM "SilvercartProductGroupItemsWidget_SilvercartProducts" WHERE "SilvercartProductGroupItemsWidgetID" = ' . $this->ID . ' ORDER BY "ID" ASC');
+            $idOrder = array_keys($result->map());
+            if (count($idOrder) > 0) {
+                $sort = 'FIELD("SilvercartProduct"."ID",' . implode(',', $idOrder) . ')';
+            }
+        }
+        return $this->getManyManyComponents('SilvercartProducts', $filter, $sort, $join, $limit);
+    }
+    
+    /**
      * Returns the title of this widget.
      * 
      * @return string
@@ -563,7 +588,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      */
     public function getElementsByProducts() {
         $products = $this->SilvercartProducts();
-
+        
         foreach ($products as $product) {
             $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
         }
