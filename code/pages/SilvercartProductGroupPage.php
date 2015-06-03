@@ -1608,6 +1608,8 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             }
         }
         
+        $this->extend('updateBreadcrumbParts', $parts);
+        
         return $parts;
     }
     
@@ -1679,27 +1681,50 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
+     * @since 22.04.2015
      */
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
         if ($this->isProductDetailView()) {
-            $parts      = $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
-            $partsArray = array();
-            foreach ($parts as $part) {
-                if (empty($part->Link)) {
+            return $this->BreadcrumbsForProduct($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
+        }
+        $breadcrumbs = null;
+        $this->extend('overwriteBreadcrumbs', $breadcrumbs);
+        if (is_null($breadcrumbs)) {
+            $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+        }
+        return $breadcrumbs;
+    }
+
+    /**
+     * Returns the breadcrumbs for a product detail.
+     *
+     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked         true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType   name of pagetype to stop at
+     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
+     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.04.2015
+     */
+    public function BreadcrumbsForProduct($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
+        $parts      = $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
+        $partsArray = array();
+        foreach ($parts as $part) {
+            if (empty($part->Link)) {
+                $partsArray[] = Convert::raw2xml($part->Title);
+            } else {
+                if ($unlinked) {
                     $partsArray[] = Convert::raw2xml($part->Title);
                 } else {
-                    if ($unlinked) {
-                        $partsArray[] = Convert::raw2xml($part->Title);
-                    } else {
-                        $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
-                    }
+                    $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
                 }
             }
-            
-            return implode(Page::$breadcrumbs_delimiter, $partsArray);
         }
-        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+
+        return implode(Page::$breadcrumbs_delimiter, $partsArray);
     }
     
     /**

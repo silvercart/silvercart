@@ -236,6 +236,7 @@ $lang['de_DE']['SilvercartImageSliderImage']['SINGULARNAME'] = 'Sliderbild';
 $lang['de_DE']['SilvercartImageSliderImage']['PLURALNAME'] = 'Sliderbilder';
 $lang['de_DE']['SilvercartImageSliderImage']['ProductNumberToReference'] = 'Artikelnummer des Artikels, zu dem verlinkt werden soll';
 $lang['de_DE']['SilvercartImageSliderImage']['ProductNumberToReferenceInfo'] = 'Wird anstelle der Seite verwendet.';
+$lang['de_DE']['SilvercartImageSliderImage']['AltText'] = 'Text für das ALT-Tag';
 
 $lang['de_DE']['SilvercartImageSliderImageLanguage']['PLURALNAME']              = _t('Silvercart.TRANSLATIONS');
 $lang['de_DE']['SilvercartImageSliderImageLanguage']['SINGULARNAME']            = _t('Silvercart.TRANSLATION');

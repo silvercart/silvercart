@@ -242,6 +242,22 @@ class SilvercartContactForm extends CustomHtmlForm {
     }
     
     /**
+     * Returns the contact form page.
+     * 
+     * @return SilvercartContactFormPage
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.04.2015
+     */
+    protected function ContactPage() {
+        $contactPage = $this->Controller();
+        if ($contactPage->IdentifierCode != 'SilvercartContactFormPage') {
+            $contactPage = SilvercartTools::PageByIdentifierCode('SilvercartContactFormPage');
+        }
+        return $contactPage;
+    }
+    
+    /**
      * Returns whether to enable the Street field.
      * 
      * @return bool
@@ -250,7 +266,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 07.08.2014
      */
     public function EnableStreet() {
-        return $this->Controller()->EnableStreet;
+        return $this->ContactPage()->EnableStreet;
     }
 
     /**
@@ -262,7 +278,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 07.08.2014
      */
     public function StreetIsRequired() {
-        return $this->Controller()->StreetIsRequired;
+        return $this->ContactPage()->StreetIsRequired;
     }
     
     /**
@@ -274,7 +290,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 07.08.2014
      */
     public function EnableCity() {
-        return $this->Controller()->EnableCity;
+        return $this->ContactPage()->EnableCity;
     }
 
     /**
@@ -286,7 +302,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 07.08.2014
      */
     public function CityIsRequired() {
-        return $this->Controller()->CityIsRequired;
+        return $this->ContactPage()->CityIsRequired;
     }
     
     /**
@@ -298,7 +314,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 07.08.2014
      */
     public function EnableCountry() {
-        return $this->Controller()->EnableCountry;
+        return $this->ContactPage()->EnableCountry;
     }
 
     /**
@@ -310,7 +326,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 07.08.2014
      */
     public function CountryIsRequired() {
-        return $this->Controller()->CountryIsRequired;
+        return $this->ContactPage()->CountryIsRequired;
     }
     
     /**
@@ -322,7 +338,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 04.06.2014
      */
     public function EnablePhoneNumber() {
-        return $this->Controller()->EnablePhoneNumber;
+        return $this->ContactPage()->EnablePhoneNumber;
     }
 
     /**
@@ -334,6 +350,6 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 04.06.2014
      */
     public function PhoneNumberIsRequired() {
-        return $this->Controller()->PhoneNumberIsRequired;
+        return $this->ContactPage()->PhoneNumberIsRequired;
     }
 }
