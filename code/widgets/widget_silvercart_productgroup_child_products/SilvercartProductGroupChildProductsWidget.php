@@ -238,7 +238,7 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         if (is_array($pageIDsToWorkOn) &&
             count($pageIDsToWorkOn) > 0) {
             $mirrored = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
-            $products = SilvercartProduct::get('"SilvercartProduct"."SilvercartProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SilvercartProduct"."ID" IN (' . $mirrored . ')');
+            $products = SilvercartProduct::get('("SilvercartProduct"."SilvercartProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SilvercartProduct"."ID" IN (' . $mirrored . '))');
         }
 
         foreach ($products as $product) {
