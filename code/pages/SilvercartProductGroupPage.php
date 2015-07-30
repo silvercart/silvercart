@@ -127,9 +127,9 @@ class SilvercartProductGroupPage extends Page {
      * Contains the number of all active SilvercartProducts for this page for
      * caching purposes.
      *
-     * @var int
+     * @var array
      */
-    protected $activeSilvercartProducts = null;
+    protected static $activeSilvercartProducts = array();
     
     /**
      * Indicator to check whether getCMSFields is called
@@ -809,15 +809,15 @@ class SilvercartProductGroupPage extends Page {
      *
      * @return DataObjectSet
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.12.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.07.2015
      */
     public function ActiveSilvercartProducts() {
-        if (is_null($this->activeSilvercartProducts)) {
+        if (!array_key_exists($this->ID, self::$activeSilvercartProducts)) {
             $requiredAttributes = SilvercartProduct::getRequiredAttributes();
             $activeProducts     = array();
             $productGroupIDs    = self::getFlatChildPageIDsForPage($this->ID);
-            $priceTypeFilter    = '';
             $translations       = $this->getTranslations();
             
             if ($translations &&
@@ -829,7 +829,6 @@ class SilvercartProductGroupPage extends Page {
                     );
                 }
             }
-            
             
             $filter = array(
                 '',
@@ -859,6 +858,22 @@ class SilvercartProductGroupPage extends Page {
             if (count($filter) == 1) {
                 $filter = array();
             }
+            $filterString = sprintf(
+                    "isActive = 1
+                     AND (SilvercartProductGroupID IN (%s)
+                         OR ID IN (
+                            SELECT
+                                SilvercartProductID
+                            FROM
+                                SilvercartProduct_SilvercartProductGroupMirrorPages
+                            WHERE
+                                SilvercartProductGroupPageID IN (%s)))
+                     %s",
+                    implode(',', $productGroupIDs),
+                    implode(',', $productGroupIDs),
+                    implode(' AND ', $filter)
+            );
+            $this->extend('updateActiveSilvercartProductsFilter', $filterString);
             
             $records = DB::query(
                 sprintf(
@@ -867,19 +882,8 @@ class SilvercartProductGroupPage extends Page {
                      FROM
                         SilvercartProduct
                      WHERE
-                        isActive = 1
-                        AND (SilvercartProductGroupID IN (%s)
-                             OR ID IN (
-                                SELECT
-                                    SilvercartProductID
-                                FROM
-                                    SilvercartProduct_SilvercartProductGroupMirrorPages
-                                WHERE
-                                    SilvercartProductGroupPageID IN (%s)))
                         %s",
-                    implode(',', $productGroupIDs),
-                    implode(',', $productGroupIDs),
-                    implode(' AND ', $filter)
+                    $filterString
                 )
             );
             
@@ -887,12 +891,12 @@ class SilvercartProductGroupPage extends Page {
                 $activeProducts[] = $record['ID'];
             }
             
-            $this->activeSilvercartProducts = $activeProducts;
+            self::$activeSilvercartProducts[$this->ID] = $activeProducts;
         }
         
         $result = new DataObject();
-        $result->ID = count($this->activeSilvercartProducts);
-        $result->Count = count($this->activeSilvercartProducts);
+        $result->ID = count(self::$activeSilvercartProducts[$this->ID]);
+        $result->Count = count(self::$activeSilvercartProducts[$this->ID]);
         
         return $result;
     }
