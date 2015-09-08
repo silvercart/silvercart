@@ -661,17 +661,25 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
 
     /**
      * Returns the products that match the search result in any kind
-     *
+     * 
+     * @param bool $force      Set to true to force a database call
+     * @param bool $doNotCache Set to true to disable per request cache
+     * 
      * @return DataObjectSet|false the resulting products of the search query
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.09.2015
      */
-    public function getProducts() {
-        if (is_null($this->searchResultProducts)) {
+    public function getProducts($force = false, $doNotCache = false) {
+        if (is_null($this->searchResultProducts) || $force) {
             $this->buildSearchResultProducts();
         }
-        return $this->searchResultProducts;
+        $searchResultProducts = $this->searchResultProducts;
+        if ($doNotCache) {
+            $this->searchResultProducts = null;
+        }
+        return $searchResultProducts;
     }
     
     /**
