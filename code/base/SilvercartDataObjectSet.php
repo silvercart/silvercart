@@ -184,8 +184,8 @@ class SilvercartDataObjectSet extends DataObjectDecorator {
         }
 
         // find out the offset
-        $current = $this->CurrentPage();
-        $totalPages = $this->TotalPages();
+        $current = $this->owner->CurrentPage();
+        $totalPages = $this->owner->TotalPages();
 
         // if the first or last page is shown, use all content on one side (either left or right of current page)
         // otherwise half the number for usage "around" the current page
@@ -200,7 +200,7 @@ class SilvercartDataObjectSet extends DataObjectDecorator {
         }
 
         for ($i=0; $i < $totalPages; $i++) {
-            $link = HTTP::setGetVar($this->paginationGetVar, $i*$this->pageLength, Director::makeRelative(Controller::curr()->Link()));
+            $link = HTTP::setGetVar($this->owner->paginationGetVar, $i*$this->owner->pageLength, Director::makeRelative(Controller::curr()->Link()));
             $num = $i+1;
             $currentBool = ($current == $i+1) ? true:false;
             if (
