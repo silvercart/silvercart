@@ -243,6 +243,97 @@ class SilvercartCachePrimer extends SilvercartTask {
     }
 
     /**
+     * Merges the sitemaps that are being referenced from sitemap.xml.
+     * Background: in SS3, the sitemap.xml consists of links to other sitemaps
+     * 
+     * @return SimpleXMLElement
+     * 
+     * @author Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 26.09.2015
+     */
+    protected function mergeSitemaps($urlToSitemapXml, $tmpFilePathForLocale) {
+        $xmlstring = @file_get_contents($urlToSitemapXml);
+        if ($xmlstring === false) {
+            $this->printError('The target URL ' . $urlToSitemapXml . ' is invalid.');
+            $this->printError('Please add a valid URL to prime cache for.');
+            $this->printUsage();
+            exit();
+        }
+        
+        try {
+                libxml_use_internal_errors(true);
+                $xml = new SimpleXMLElement($xmlstring);
+                libxml_clear_errors();
+            } catch (Exception $exc) {
+                $this->printError($exc->getMessage());
+                $this->printError('The target URL ' . $baseUrlToSitemapXml . ' is invalid.');
+                $this->printError('Please add a valid URL to prime cache for.');
+                $this->printUsage();
+                exit();
+            }
+                $sitemapUrls = array();
+                foreach($xml->sitemap as $sitemap) {
+                    $partialSitemapUrl = (string) $sitemap->loc;
+                    $partialSitemapXml = $this->getPartialSitemap($partialSitemapUrl);
+                    
+                    foreach ($partialSitemapXml as $node) {
+                        array_push($sitemapUrls, (string)$node->loc);
+                    }
+                };
+                
+                /* @var $XMLWriter XMLWriter */
+                $XMLWriter = new XMLWriter();
+                $XMLWriter->openMemory();
+                $XMLWriter->startDocument();
+                $XMLWriter->setIndent('true');
+                $XMLWriter->startElement('urlset');
+                    foreach($sitemapUrls as $sitemapUrl) {
+                        $XMLWriter->startElement('url');
+                            $XMLWriter->startElement('loc');
+                                $XMLWriter->text($sitemapUrl);
+                            $XMLWriter->endElement();
+                        $XMLWriter->endElement();
+                    }
+                $XMLWriter->endElement();
+                $xmlData = $XMLWriter->outputMemory();
+                
+                file_put_contents($tmpFilePathForLocale, $xmlData);
+
+                return $xmlstring;
+    }
+    
+    /**
+     * Returns a partial sitemap
+     * Background: in SS3, the sitemap.xml consists of links to other sitemaps
+     * 
+     * @return SimpleXMLElement
+     * 
+     * @author Ramon Kupper <rkupper@pixeltricks.de>
+     * @since 26.09.2015
+     */
+    protected function getPartialSitemap($partialSitemapUrl) {
+        $xmlstring = @file_get_contents($partialSitemapUrl);
+        if ($xmlstring === false) {
+            $this->printError('The target URL ' . $partialSitemapUrl . ' is invalid.');
+            $this->printError('Please add a valid URL to prime cache for.');
+            $this->printUsage();
+            exit();
+        }
+        try {
+               libxml_use_internal_errors(true);
+               $xml = new SimpleXMLElement($xmlstring);
+               libxml_clear_errors();
+            } catch (Exception $exc) {
+               $this->printError($exc->getMessage());
+               $this->printError('The target URL ' . $baseUrlToSitemapXml . ' is invalid.');
+               $this->printError('Please add a valid URL to prime cache for.');
+               $this->printUsage();
+               exit();
+            }
+        return $xml;
+    }
+    
+    /**
      * builds the tmp files for sitemap 
      *
      * @return void
@@ -265,7 +356,6 @@ class SilvercartCachePrimer extends SilvercartTask {
             $this->printInfo('Priming cache for ' . $urlToPrimeCacheFor);
             $locale = $this->getCurrentLocale();
             $tmpFilePathForLocale = $tmpFilePathBase . "-" . $locale;
-
             if (file_exists($tmpFilePathForLocale)) {
                 $this->printInfo('Taking locally stored sitemap.xml for locale ' . $locale . ', no need to request server');
                 $xmlstring = file_get_contents($tmpFilePathForLocale);
@@ -277,29 +367,29 @@ class SilvercartCachePrimer extends SilvercartTask {
 
                 SilvercartDebugHelper::startTimer();
 
-                $xmlstring = @file_get_contents($urlToSitemapXml);
-                file_put_contents($tmpFilePathForLocale, $xmlstring);
-
-                if ($xmlstring === false) {
-                    $this->printError('The target URL ' . $urlToSitemapXml . ' is invalid.');
-                    $this->printError('Please add a valid URL to prime cache for.');
-                    $this->printUsage();
-                    exit();
-                }
+                $xmlstring = $this->mergeSitemaps($urlToSitemapXml, $tmpFilePathForLocale);
+                
                 $this->printInfo('Got sitemap.xml for locale ' . $locale . ' after ' . number_format(SilvercartDebugHelper::getTimeDifference(false), 2) . ' seconds.');
             }
-        
-            try {
-                libxml_use_internal_errors(true);
-                $xml = new SimpleXMLElement($xmlstring);
-                libxml_clear_errors();
-            } catch (Exception $exc) {
-                $this->printError($exc->getMessage());
-                $this->printError('The target URL ' . $baseUrlToSitemapXml . ' is invalid.');
+            
+            if ($xmlstring === false) {
+                $this->printError('The target URL ' . $urlToSitemapXml . ' is invalid.');
                 $this->printError('Please add a valid URL to prime cache for.');
                 $this->printUsage();
                 exit();
             }
+
+             try {
+                    libxml_use_internal_errors(true);
+                    $xml = new SimpleXMLElement($xmlstring);
+                    libxml_clear_errors();
+                } catch (Exception $exc) {
+                    $this->printError($exc->getMessage());
+                    $this->printError('The target URL ' . $baseUrlToSitemapXml . ' is invalid.');
+                    $this->printError('Please add a valid URL to prime cache for.');
+                    $this->printUsage();
+                    exit();
+                }
             $this->sitemapXml = $xml;
         }
     }
