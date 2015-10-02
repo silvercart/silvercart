@@ -375,9 +375,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      * No validation errors occured, so we register the customer and send
      * mails with further instructions for the double opt-in procedure.
      *
-     * @param SS_HTTPRequest $data     SS session data
-     * @param Form           $form     the form object
-     * @param array          $formData CustomHTMLForms session data
+     * @param SS_HTTPRequest $data       SS session data
+     * @param Form           $form       the form object
+     * @param array          $formData   CustomHTMLForms session data
+     * @param bool           $doRedirect Set to true to redirect after submitSuccess
      *
      * @return void
      * 
@@ -386,7 +387,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.01.2015
      */
-    protected function submitSuccess($data, $form, $formData) {
+    protected function submitSuccess($data, $form, $formData, $doRedirect = true) {
         $anonymousCustomer = false;
 
         /*
@@ -502,13 +503,15 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         }
         $this->extend('updateRegisteredCustomer', $customer, $data, $form, $formData);
 
-        // Redirect to welcome page
-        if (array_key_exists('backlink', $formData) &&
-            !empty($formData['backlink'])) {
-            
-             $this->controller->redirect($formData['backlink']);
-        } else {
-            $this->controller->redirect($this->controller->PageByIdentifierCode('SilvercartRegisterConfirmationPage')->Link());
+        if ($doRedirect) {
+            // Redirect to welcome page
+            if (array_key_exists('backlink', $formData) &&
+                !empty($formData['backlink'])) {
+
+                 $this->controller->redirect($formData['backlink']);
+            } else {
+                $this->controller->redirect($this->controller->PageByIdentifierCode('SilvercartRegisterConfirmationPage')->Link());
+            }
         }
     }
     
