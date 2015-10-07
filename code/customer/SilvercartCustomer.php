@@ -48,7 +48,7 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
      * @return array
      */
     public static $db = array(
-        'Salutation'                        => "Enum('Herr,Frau', 'Herr')",
+        'Salutation'                        => "Enum(',Herr,Frau', '')",
         'NewsletterOptInStatus'             => 'Boolean(0)',
         'NewsletterConfirmationHash'        => 'VarChar(50)',
         'SubscribedToNewsletter'            => 'Boolean(0)',
