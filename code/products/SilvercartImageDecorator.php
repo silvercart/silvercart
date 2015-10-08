@@ -40,6 +40,9 @@ class SilvercartImageDecorator extends DataExtension {
      * @since 04.05.2011
      */
     public function updateSummaryFields(&$fields) {
+        if (array_key_exists('ImagePreview', $fields)) {
+            return;
+        }
         $fields = array_merge(
             $fields,
             array(
