@@ -250,7 +250,7 @@ class SilvercartProductGroupPage extends Page {
                         $product            = Controller::curr()->getDetailViewProduct();
                         if ($product) {
                             $returnProductLink  = true;
-                            $productLanguage    = $product->getLanguageFor(Translatable::get_current_locale());
+                            $productLanguage    = $product->getLanguageFor($this->Locale);
                             $URLSegment         = SilvercartTools::string2urlSegment($productLanguage->Title);
                         }
                     }
