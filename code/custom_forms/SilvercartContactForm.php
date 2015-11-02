@@ -42,6 +42,38 @@ class SilvercartContactForm extends CustomHtmlForm {
     protected $excludeFromCache = true;
 
     /**
+     * Spam check parameter for equal firstname and surname.
+     * Contact messages with an equal firstname and surname will be ignored.
+     *
+     * @var bool
+     */
+    private static $spam_check_firstname_surname_enabled = true;
+
+    /**
+     * Enables the spam check parameter for equal firstname and surname.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.11.2015
+     */
+    public static function enable_spam_check_firstname_surname() {
+        self::$spam_check_firstname_surname_enabled = true;
+    }
+    
+    /**
+     * Disables the spam check parameter for equal firstname and surname.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.11.2015
+     */
+    public static function disable_spam_check_firstname_surname() {
+        self::$spam_check_firstname_surname_enabled = false;
+    }
+
+    /**
      * Returns the form fields
      * 
      * @param bool $withUpdate Execute update method of decorators?
@@ -222,11 +254,23 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @param Form           $form     not used
      * @param array          $formData contains the modules form data
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 02.11.2015
      */
     protected function submitSuccess($data, $form, $formData) {
+        if (self::$spam_check_firstname_surname_enabled) {
+            $firstName = trim($formData['FirstName']);
+            $surname   = trim($formData['Surname']);
+            if ($firstName == $surname) {
+                // Very high spam risk. Do not accept and do not notify with message.
+                $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
+                Director::redirect($contactFormResponsePage->RelativeLink());
+                return;
+            }
+        }
 
         $formData['Message'] = str_replace('\r\n', "\n", $formData['Message']);
 
