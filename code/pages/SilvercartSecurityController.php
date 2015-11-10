@@ -66,4 +66,17 @@ class SilvercartSecurityController extends DataExtension {
         
         SilvercartPlugin::call($this->owner, 'init', array($this->owner));
     }
+    
+    /**
+     * Returns whether to enable or disable SecurityToken.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.11.2015
+     */
+    public function securityTokenEnabled() {
+        return true;
+    }
+    
 }
