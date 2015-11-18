@@ -74,6 +74,13 @@ class SilvercartConfig extends DataObject {
     public static $registeredMenus = array();
 
     /**
+     * Contains all hidden registered menus for the storeadmin.
+     * 
+     * @var array
+     */
+    public static $hiddenRegisteredMenus = array();
+
+    /**
      * Contains URL identifiers for Non-CMS menu items.
      * 
      * @var array
@@ -1347,12 +1354,18 @@ class SilvercartConfig extends DataObject {
     }
 
     /**
+     * Returns all hidden registered menus for the storeadmin.
+     * 
+     * @return array
+     */
+    public static function getHiddenRegisteredMenus() {
+        return self::$hiddenRegisteredMenus;
+    }
+
+    /**
      * Returns all registered menus for the storeadmin.
      * 
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.01.2012
      */
     public static function getRegisteredMenus() {
         return self::$registeredMenus;
@@ -1362,9 +1375,6 @@ class SilvercartConfig extends DataObject {
      * Returns the Non-CMS menu identifiers.
      * 
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.02.2012
      */
     public static function getMenuNonCmsIdentifiers() {
         return self::$menuNonCmsIdentifiers;
@@ -1374,9 +1384,6 @@ class SilvercartConfig extends DataObject {
      * Returns the default no-image visualisation.
      * 
      * @return mixed Image|bool false
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2011
      */
     public static function getNoImage() {
         $configObject = self::getConfig();
@@ -1388,9 +1395,6 @@ class SilvercartConfig extends DataObject {
      * Returns the standard product condition.
      * 
      * @return mixed SilvercartProductCondition|bool false
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.08.2011
      */
     public static function getStandardProductCondition() {
         $configObject = self::getConfig();
@@ -1749,6 +1753,23 @@ class SilvercartConfig extends DataObject {
                 'code' => $code,
                 'name' => $menuTitle
             );
+        }
+    }
+
+    /**
+     * Registers a menu.
+     * 
+     * @param string $code      The identifier code for this menu
+     * @param string $menuTitle The menu title
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.01.2012
+     */
+    public static function registerHiddenMenu($code) {
+        if (!in_array($code, self::$hiddenRegisteredMenus)) {
+            self::$hiddenRegisteredMenus[] = $code;
         }
     }
 

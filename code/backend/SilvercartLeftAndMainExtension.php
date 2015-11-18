@@ -105,8 +105,12 @@ class SilvercartLeftAndMainExtension extends DataExtension {
     public function SilvercartMenus() {
         $silvercartMenus = new ArrayList();
         $menuItems       = CMSMenu::get_viewable_menu_items();
+        $hiddenMenus     = SilvercartConfig::getHiddenRegisteredMenus();
         
         foreach (SilvercartConfig::getRegisteredMenus() as $menu) {
+            if (in_array($menu['code'], $hiddenMenus)) {
+                continue;
+            }
             $modelAdmins          = new ArrayList();
 
             foreach ($menuItems as $code => $menuItem) {
