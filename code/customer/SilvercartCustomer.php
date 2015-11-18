@@ -397,6 +397,7 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
                 'InvoiceAddressSummary'     => $this->owner->fieldLabel('SilvercartInvoiceAddress'),
                 'GroupNames'                => $this->owner->fieldLabel('GroupNames'),
             );
+            $this->owner->extend('overwriteSilvercartSummaryFields', $fields);
         } else {
             $fields = array_merge(
                     array(
