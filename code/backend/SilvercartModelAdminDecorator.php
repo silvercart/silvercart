@@ -60,7 +60,7 @@ class SilvercartModelAdminDecorator extends DataExtension {
     public function getPreventAutoLoadForManagedModels() {
         $classNames     = '';
         $ownerClass     = $this->owner->class;
-        $managedModels  = eval('return ' . $ownerClass . '::$managed_models;');
+        $managedModels  = $this->owner->getManagedModels();
         
         foreach ($managedModels as $managedModel => $modelDefinitions) {
             if (is_array($modelDefinitions) &&
@@ -89,7 +89,7 @@ class SilvercartModelAdminDecorator extends DataExtension {
     public function getEnabledFirstEntryAutoLoadForManagedModels() {
         $classNames     = '';
         $ownerClass     = $this->owner->class;
-        $managedModels  = eval('return ' . $ownerClass . '::$managed_models;');
+        $managedModels  = $this->owner->getManagedModels();
         
         foreach ($managedModels as $managedModel => $modelDefinitions) {
             if (is_array($modelDefinitions) &&
