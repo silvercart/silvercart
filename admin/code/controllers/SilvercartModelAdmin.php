@@ -126,6 +126,9 @@ class SilvercartModelAdmin extends ModelAdmin {
         if (singleton($this->modelClass)->hasMethod('getQuickAccessFields')) {
             $this->getGridFieldConfig($form)->addComponent(new SilvercartGridFieldQuickAccessController());
         }
+        
+        $this->extend('updateSilvercartEditForm', $form);
+        
         return $form;
     }
     
