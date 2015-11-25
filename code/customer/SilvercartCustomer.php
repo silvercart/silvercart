@@ -1190,19 +1190,18 @@ class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail 
     }
     
     /**
-     * Uses DataObject baed, editable templates to send the email
+     * Uses DataObject based, editable templates to send the email
      * 
      * @param integer $messageID ???
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2013
+     * @since 25.11.2015
      */
     public function send($messageID = null) {
         $variables                      = $this->template_data->toMap();
         $variables['PasswordResetLink'] = Director::absoluteURL($this->template_data->PasswordResetLink);
-        $variables['SalutationText']    = SilvercartTools::getSalutationText($variables['Salutation']);
         
         /* @var $member Member */
         $member = singleton('Member');
@@ -1211,7 +1210,8 @@ class SilvercartCustomer_ForgotPasswordEmail extends Member_ForgotPasswordEmail 
                 $variables[$dbFieldName] = $this->template_data->{$dbFieldName};
             }
         }
-        
+        $variables['SalutationText']    = SilvercartTools::getSalutationText($variables['Salutation']);
+
         SilvercartShopEmail::send(
                 'ForgotPasswordEmail',
                 $this->To(),
