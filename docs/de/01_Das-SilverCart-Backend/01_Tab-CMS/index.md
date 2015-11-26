@@ -21,9 +21,12 @@ Die Anpassung bestehender Seitentypen und die Entwicklung neuer Seitentypen kann
 
 Für die Anpassung und die Entwicklung von Seitentypen sind Erfahrungen mit der Programmiersprache PHP und dem PHP-Framework SilverStripe bzw. Kenntnisse in HTML und CSS notwendig. Ein empfehlenswerter Einstiegspunkt für die Entwicklung ist die Startseite der SilverStripe Dokumentation http://docs.silverstripe.org/en/3.1/
 
-Seitentyp			Zweck
-Seite
 
+| Seitentyp        | Zweck           |
+| ------------- |-------------|
+| Seite      | Einfache Basis-Seite mit einem HTML-Inhaltsfeld und Meta-Informationen. Alle andere Seitentypen werden von hiervon abgeleitet und erweitert. |
+| col 2 is      | centered      |
+| zebra stripes | are neat      |
 
 ## Anatomie einer Seite
 
@@ -68,14 +71,7 @@ Diese Einstellung ist hilfreich, wenn Sie Ihre Warengruppen-Hierarchie überarbe
 Der im CMS integrierte Editor TinyMCE (Tiny Moxiecode Content Editor) ist ein auf JavaScript basierter WYSIWYG-Editor. TinyMCE wurde erstmals 2004 veröffentlicht und seit dem stetig weiter entwickelt und verbessert. 
 
 Mit Hilfe von TinyMCE können Sie ohne HTML-Kenntnisse Seiten und Beiträge im CMS verfassen. Hierbei wird Ihre Eingabe in der Textbox von JavaScript in Echtzeit in HTML-Code umgesetzt und als Vorschau ausgegeben. Die Bedienung ist einfach und orientiert sich stark an Microsoft Word.
-
-
-http://www.cedis.fu-berlin.de/cms/faq/tinymce.html
-http://www.contao-handbuch.de/der-rich-text-editor-tinymce.html
-http://www.hasecke.com/plone-benutzerhandbuch/4.0/gui/tinymce.html
-http://community.shopware.com/Editor-TinyMCE-Editor_detail_788.html
-http://openbook.rheinwerk-verlag.de/joomla15/joomla_03_frontend_003.htm
-http://doku.factlink.net/1128022.0/
+![Der Editor TinyMCE](_images/backend_tiny_mce.png)
 
 ## Seiten
 
@@ -83,8 +79,10 @@ Unter dem Menüpunkt Seiten verwalten Sie den Seitenbaum Ihres Webshops. Die Dar
 
 ![backend_uebersicht.png](_images/backend_uebersicht.png)
 
+Sie können einen Knoten mit einem Klick auf das Dreieck links neben dem Knoten öffnen oder schliessen:
+![Knoten im Backend öffnen](_images/backend_knoten_oeffnen.png)
 
-Mit der Schaltfläche „Seite erstellen“ können Sie eine neue Seite anlegen. Es gibt je nach installierten Modulen ganz unterschiedliche Seitentypen. In SilverCart werden z.B. die Warengruppen über Seitentypen abgebildet.
+Mit der Schaltfläche „Hinzufügen“ können Sie eine neue Seite anlegen. Es gibt je nach installierten Modulen ganz unterschiedliche Seitentypen. In SilverCart werden z.B. die Warengruppen über Seitentypen abgebildet.
 
 Seitentypen sind ein grundlegendes Konzept und einer der Vorteile des CMS SilverStripe.
 
@@ -94,11 +92,11 @@ Warengruppen können Sie in beliebiger Tiefe verschachteln. SilverCart erstellt 
 
 An dieser Stelle können Sie keine Produkte pflegen. Die Pflegemaske für Produkte finden Sie unter SilverCart Administration -> Artikel
 
-Warenkorb / zur Kasse
+### Warenkorb / zur Kasse
 
 Über diesen Menüpunkt können Sie die Metadaten (Meta-Title, Meta-Description und Meta-Keywords) der Warenkorbseite und der Checkoutseite pflegen. Ausserdem kann das URL-Segment der Seiten gepflegt werden.
 
-Mein Konto
+### Mein Konto
 
 Dies ist der persönliche Bereich Ihrer Shopkunden. Hier kann der Shopkunde seine persönlichen Daten, seine bisherigen Bestellungen und seine Liefer- und Rechnungsadressen zu verwalten.
 
@@ -106,14 +104,14 @@ Auch hier können Sie die Metadaten und die URL-Segmente pflegen.
 
 Grundsätzlich besteht die Möglichkeit, hier auch Inhalte zu pflegen, die im Frontend angezeigt werden können. Da dies wegen der dynamischen Erzeugung jedoch fortgeschrittene Kenntnisse erfordert, nutzen wir diese Möglichkeit nur in Einzelprojekten.
 
-Metanavigationsübersicht
+### Metanavigationsübersicht
 
 In der Metanavigationsübersicht können Sie die Hilfsseiten pflegen Hilfsseiten sind Seiten mit Inhalt, die zwar für den (rechtssicheren) Betrieb des Webshops unerlässlich sind, aber nicht in einer klassischen Navigationsstruktur dargestellt werden sollen. Die Inhalte dieser Seiten können Sie mit Ausnahme von Kontakt und Versandgebühren selbst pflegen. Auch die Metadaten und die URL-Segmente können Sie bei diesen Seiten verändern.
 
 
 In einer SilverStripe-Grundinstallation wird jede Seite über das URL-Segment eindeutig identifiziert. Da viele Seiten intern miteinander verlinkt sind, würde eine Veränderung des URL-Segments zu Fehlern führen. Deshalb sind die Seiten intern über das Feld IdentifierCode verbunden, unabhängig vom URL-Segment. Ändern Sie den Wert für den IdentifierCode nicht!
 
-Footernavigationsübersicht
+### Footernavigationsübersicht
 
 Die Footernavigationsübersicht gruppiert die Seiten, die im Footer verlinkt werden sollen. Es gibt zwar die Möglichkeit, diese hartkodiert im Template zu verlinken, doch würden Sie sich damit einiger Flexibilität berauben. Denn Änderungen in der Reihenfolge oder der Linktexte sind damit nicht mehr bequem möglich.
 
@@ -121,11 +119,11 @@ Hartkodiert bedeutet, dass die Links direkt als HTML in der Template-Datei stehe
 Hier gibt es keine goldene Regel. Je nach Projekt, Anforderungen und Fertigkeit kann hier ganz individuell vorgegangen werden.
 
 
-Registrierungsseite
+### Registrierungsseite
 
 Über diesen Menüpunkt können Sie die den Content, Metadaten (Meta-Title, Meta-Description und Meta-Keywords) der Willkommen-Seite und die Registrierungsbestätigungsseite pflegen. Ausserdem kann das URL-Segment der Seiten gepflegt werden. Die darunter liegende Willkommen-Seite wird angezeigt nachdem sich ein Besucher erfolgreich im Shop registriert hat.
 
-Newsletter Status / Newsletteranmeldung abschließen
+### Newsletter Status / Newsletteranmeldung abschließen
 
 Diese Seiten sind Bestandteil der SilverStripe Grundinstallation. Sie können Inhalt, Metadaten und URL-Segment verändern.
 
@@ -138,7 +136,7 @@ Die "Newsletter Status" Seite lässt den Kunden wissen, ob er für den Newslette
 * Erfolgsmeldung
 * Meldung, dass der Nutzer schon für den Newsletter registriert ist
 
-Seite nicht gefunden / Server error
+### Seite nicht gefunden / Server error
 
 Sollte eine Seite nicht gefunden werden, weil sich beispielsweise das URL-Segment geändert hat oder die Seite nicht mehr existiert, dann erzeugt SilverStripe den Fehlercode 404 und zeigt den Inhalt an, den Sie unter Seite nicht gefunden selbst pflegen können. Im Falle eines Serverfehlers wird der Fehlercode 500 zurückgeliefert. Auch hier können Sie den Inhalt selbst gestalten.
 
@@ -151,13 +149,9 @@ Ein Widget ist ein kleines Programm zur Anzeige von Informationen, z.b. einem be
 
 Das Silbenkurzwort Widget ist zusammengesetzt aus Wi(ndow) und (Ga)dget. 
 
-Eine Stärke von Widgets liegt in der Wiederverwendbarkeit. Sie können beliebige Zusammenstellungen von SilverCart-Widgets als Widget-Sets abspeichern und auf bestimmten Seiten Ihres Webshops anzeigen. Dadurch haben Sie eine einfache, aber mächtige Möglichkeit um Ihren SilverCart Webshop optisch anzupassen.
-
-
+Die Stärke von Widgets liegt in der Wiederverwendbarkeit. Sie können beliebige Zusammenstellungen von SilverCart-Widgets als Widget-Sets abspeichern und auf bestimmten Seiten Ihres Webshops anzeigen. Dadurch haben Sie eine einfache, aber mächtige Möglichkeit um Ihren SilverCart Webshop optisch anzupassen.
 
 ![backend_einstellungen_widgetsets.png](_images/backend_einstellungen_widgetsets.png)
-
-
 
 ### Widgets
 
@@ -209,31 +203,37 @@ Wenn Sie keinen Slider verwenden, können Sie das Feld Anzahl der Artikel, die a
 
 Für den Fall, dass Sie einen Slider einsetzen wollen, müssen Sie beide Felder pflegen. Die Anzahl der Artikel, die geladen werden sollen, muss dabei größer sein, als die Anzahl der angezeigten Artikel: es ist ja der Sinn des Sliders, durch eine Menge von Produkten blättern zu können.
 
-Einstellungen für die Slideshow
+#### Slideshow Einstellungen
 
+##### Slider verwenden
 Aktivieren Sie den Slider über die Checkbox Slider verwenden. 
 ![backend_einstellungen_widgets_schnaeppchen_2.png](_images/backend_einstellungen_widgets_schnaeppchen_2.png)
 
-Automatische Slideshow aktivieren
+##### Automatische Slideshow aktivieren
 Wenn Sie Automatische Slideshow aktivieren auswählen, dann beginnt der Slider automatisch durch die Einträge zu blättern. Die Dauer der Anzeige pro Bild für die automatische Slideshow gibt dabei an, wie lange die Artikel dargestellt werden bis weiter geblättert wird. Die Dauer wird in Millisekunden angegeben (1 Sekunde entspricht 1000 Millisekunden). 
 Experimentieren Sie mit der Anzeigedauer. Der Slider sollte dem Besucher genügend Zeit lassen um die dargestellten Einträge zu erkennen. Auf der anderen Seite soll die Pause nicht zu lange sein, damit die automatische Slideshow auch die gewünschte Aufmerksamkeitswirkung erzeugen kann.
 
-Vor-/Zurück Schaltflächen anzeigen
+##### Dauer der Anzeige pro Bild für die automatische Slideshow (in Millisekunden)
 
-Start/Stop Schaltfläche anzeigen
+##### Vor-/Zurück Schaltflächen anzeigen
 
-Automatische Slideshow deaktivieren, wenn Benutzer selbst navigiert
+##### Seitennavigation anzeigen
 
-Stoppt die automatische Slideshow nach dem letzten Panel
+##### Start/Stop Schaltfläche anzeigen
 
-Übergangseffekt
-	Überblenden, horizonzal schieben, vertikal schieben
+##### Verzögerung für automatische Slideshow aktivieren
 
-Verzögerung für automatische Slideshow aktivieren
+##### Automatische Slideshow deaktivieren, wenn Benutzer selbst navigiert
 
-Übersetzungen
-Von Übersetzungen in SilverCart haben Sie mittlerweile schon mehrmals gelesen, deshalb will ich an dieser Stelle nicht schon wieder damit anfangen.
+##### Stoppt die automatische Slideshow nach dem letzten Panel
 
+##### Übergangseffekt
+* Überblenden 
+* horizonzal schieben
+* vertikal schieben
+
+#### Übersetzungen
+Rechts oben am Seitenrand haben Sie vielleicht schon den Tab Übersetzungen entdeckt. Von Übersetzungen in SilverCart haben Sie mittlerweile schon mehrmals gelesen, deshalb will ich an dieser Stelle nicht schon wieder damit anfangen - die Mehrsprachigkeit können Sie in den unterschiedlichen Bereichen immer nach diesem Schema pflegen.
 
 ### Widget Set erstellen
 
