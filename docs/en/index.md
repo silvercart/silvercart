@@ -6,8 +6,8 @@ It is split into two main sections, one for programmers that want to develop wit
 
 Developers find technical information in our
 
-* [**Techbase**](Techbase/#techbase)
+* [**Techbase**](techbase)
 
 Shop owners find instructions and help in our
 
-* [**Userbase**](Userbase/#userbase) 
+* [**Userbase**](userbase) 
