@@ -268,7 +268,10 @@ class SilvercartOrderPosition extends DataObject {
      * @return string
      */
     public function getFullTitle() {
-        return $this->Title . '<br/>' . $this->addToTitle();
+        $fullTitle = $this->Title . '<br/>' . $this->addToTitle();
+        $htmlText  = new HTMLText();
+        $htmlText->setValue($fullTitle);
+        return $htmlText;
     }
 
     /**
