@@ -484,6 +484,19 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
     
     /**
+     * Returns the MSR price.
+     * 
+     * @return Money
+     */
+    public function getMSRPrice() {
+        $msrPrice = $this->getField('MSRPrice');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateMSRPrice', $msrPrice);
+        }
+        return $msrPrice;
+    }
+    
+    /**
      * Returns the MSR price in a nice format
      * 
      * @return string
@@ -1557,6 +1570,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return FieldList
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = SilvercartDataObject::getCMSFields($this, 'isActive');
         
         $fields->removeByName('SilvercartProductGroupItemsWidgets');
