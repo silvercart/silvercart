@@ -32,6 +32,28 @@ class SilvercartMoney extends Money implements CompositeDBField {
         "Currency" => "Varchar(3)",
         "Amount" => 'Decimal(19,4)'
     );
+    
+    /**
+     * Returns the amount.
+     * 
+     * @return float
+     */
+    public function getAmount() {
+        $amount = parent::getAmount();
+        $this->extend('updateAmount', $amount);
+        return $amount;
+    }
+    
+    /**
+     * Returns the currency.
+     * 
+     * @return string
+     */
+    public function getCurrency() {
+        $currency = parent::getCurrency();
+        $this->extend('updateCurrency', $currency);
+        return $currency;
+    }
 
     /**
      * Returns the amount formatted.
