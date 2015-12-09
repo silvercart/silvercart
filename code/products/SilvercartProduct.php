@@ -2187,14 +2187,15 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return SilvercartProductGroupPage
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @since 09.12.2015
      */
     public function SilvercartProductGroup() {
         $silvercartProductGroup = null;
         $currentLocale          = Translatable::get_current_locale();
         if ($this->getComponent('SilvercartProductGroup')) {
             $silvercartProductGroup = $this->getComponent('SilvercartProductGroup');
-            if ($silvercartProductGroup->Locale != $currentLocale) {
+            if ($silvercartProductGroup->Locale != $currentLocale &&
+                $silvercartProductGroup->hasTranslation($currentLocale)) {
                 $silvercartProductGroup = $silvercartProductGroup->getTranslation($currentLocale);
             }
         }
