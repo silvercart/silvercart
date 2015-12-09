@@ -19,6 +19,13 @@
  * @license see license file in modules root directory 
  */
 class SilvercartMoneyField extends MoneyField {
+    
+    /**
+     * Determines whether the currency is a readonly property.
+     *
+     * @var bool
+     */
+    protected $currencyIsReadonly = true;
 
     /**
      * Returns the field markup
@@ -31,10 +38,15 @@ class SilvercartMoneyField extends MoneyField {
      * @since 21.05.2012
      */
     public function Field($properties = array()) {
-        Requirements::css('silvercart/css/backend/SilvercartMain.css');
-        $this->fieldAmount->setTitle($this->Title());
-        $this->fieldAmount->addExtraClass('silvercartmoney');
-        return $this->fieldAmount->Field() . " " . $this->fieldCurrency->Value() . $this->fieldCurrency->FieldHolder();
+        if ($this->getCurrencyIsReadonly()) {
+            Requirements::css('silvercart/css/backend/SilvercartMain.css');
+            $this->fieldAmount->setTitle($this->Title());
+            $this->fieldAmount->addExtraClass('silvercartmoney');
+            $field = $this->fieldAmount->Field() . " " . $this->fieldCurrency->Value() . $this->fieldCurrency->FieldHolder();
+        } else {
+            $field = parent::Field($properties);
+        }
+        return $field;
     }
 
     /**
@@ -48,10 +60,14 @@ class SilvercartMoneyField extends MoneyField {
      * @since 21.05.2012
      */
     public function FieldCurrency($name) {
-        $field = new HiddenField(
-                "{$name}[Currency]",
-                _t('MoneyField.FIELDLABELCURRENCY', 'Currency')
-        );
+        if ($this->getCurrencyIsReadonly()) {
+            $field = new HiddenField(
+                    "{$name}[Currency]",
+                    _t('MoneyField.FIELDLABELCURRENCY', 'Currency')
+            );
+        } else {
+            $field = parent::FieldCurrency($name);
+        }
         return $field;
     }
 
@@ -64,7 +80,7 @@ class SilvercartMoneyField extends MoneyField {
      */
     public function setValue($val) {
         $defaultCurrency = SilvercartConfig::DefaultCurrency();
-        
+
         if (is_array($val)) {
             if (empty($val['Currency'])) {
                 $val['Currency'] = $defaultCurrency;
@@ -73,7 +89,8 @@ class SilvercartMoneyField extends MoneyField {
                 $val['Amount'] = $this->prepareAmount($val['Amount']);
             }
         } elseif ($val instanceof Money) {
-            if ($val->getCurrency() != $defaultCurrency) {
+            if ($val->getCurrency() != $defaultCurrency &&
+                $this->getCurrencyIsReadonly()) {
                 $val->setCurrency($defaultCurrency);
             }
             if ($val->getAmount() != '') {
@@ -123,6 +140,27 @@ class SilvercartMoneyField extends MoneyField {
             }
         }
         return $amount;
+    }
+    
+    /**
+     * Returns whether the currency is a readonly property.
+     * 
+     * @return bool
+     */
+    public function getCurrencyIsReadonly() {
+        return $this->currencyIsReadonly;
+    }
+
+    /**
+     * Sets whether the currency is a readonly property.
+     * 
+     * @param bool $currencyIsReadonly Currency is readonly?
+     * 
+     * @return void
+     */
+    public function setCurrencyIsReadonly($currencyIsReadonly) {
+        $this->currencyIsReadonly = $currencyIsReadonly;
+        $this->fieldCurrency      = $this->FieldCurrency($this->name);
     }
     
 }
