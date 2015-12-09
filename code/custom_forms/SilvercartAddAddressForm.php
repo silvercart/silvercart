@@ -37,10 +37,10 @@ class SilvercartAddAddressForm extends SilvercartAddressForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 14.04.2015
      */
     protected function submitSuccess($data, $form, $formData) {
-        $member = SilvercartCustomer::currentUser();
+        $member = $this->getCustomer();
         if ($member) {            
             $country = DataObject::get_by_id('SilvercartCountry', $formData['Country']);
             if ($country) {

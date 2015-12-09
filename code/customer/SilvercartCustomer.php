@@ -515,12 +515,12 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
      * @return boolean
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2013
+     * @since 14.04.2015
      */
     public function isRegisteredCustomer() {
         $isRegisteredCustomer = false;
-        if ($this->owner->Groups()->find('Code', 'b2c') ||
-            $this->owner->Groups()->find('Code', 'b2b') ||
+        if ($this->owner->Groups()->find('Code', self::default_customer_group_code()) ||
+            $this->owner->Groups()->find('Code', self::default_customer_group_code_b2b()) ||
             $this->owner->Groups()->find('Code', 'administrators')) {
 
             $isRegisteredCustomer = true;
@@ -645,6 +645,22 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
      */
     public static function default_customer_group_b2b() {
         return Group::get()->filter('Code', self::default_customer_group_code_b2b())->first();
+    }
+    
+    /**
+     * Returns whether this customer is a B2B customer.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.04.2015
+     */
+    public function isB2BCustomer() {
+        $isB2BCustomer = false;
+        if ($this->owner->Groups()->find('Code', self::default_customer_group_code_b2b())) {
+            $isB2BCustomer = true;
+        }
+        return $isB2BCustomer;
     }
 
         /**

@@ -304,11 +304,19 @@ class SilvercartAddressForm extends CustomHtmlForm {
      *
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.03.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.04.2015
      */
     public function EnableBusinessCustomers() {
-        return SilvercartConfig::enableBusinessCustomers();
+        $enableBusinessCustomers = false;
+        $customer                = $this->getCustomer();
+        if (SilvercartConfig::enableBusinessCustomers() ||
+            ($customer instanceof Member &&
+             $customer->isB2BCustomer())) {
+            $enableBusinessCustomers = true;
+        }
+        return $enableBusinessCustomers;
     }
 
     /**
@@ -321,6 +329,15 @@ class SilvercartAddressForm extends CustomHtmlForm {
      */
     public function EnablePackstation() {
         return SilvercartConfig::enablePackstation();
+    }
+    
+    /**
+     * Returns the current customer.
+     * 
+     * @return Member
+     */
+    public function getCustomer() {
+        return SilvercartCustomer::currentUser();
     }
     
 }
