@@ -209,6 +209,13 @@ class SilvercartPaymentMethod extends DataObject {
     protected $uploadsFolder = '';
     
     /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -1214,6 +1221,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 28.10.10
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = SilvercartDataObject::getCMSFields($this);
         return $fields;
     }
@@ -1226,6 +1234,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return void
      */
     public function getFieldsForChargesAndDiscounts($fields) {
+        $this->getCMSFieldsIsCalled = true;
         $impactFieldValues = array(
             'productValue'  => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_PRODUCTVALUE'),
             'totalValue'    => _t('SilvercartPaymentMethod.PAYMENT_MODIFY_TOTALVALUE')
@@ -1262,6 +1271,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return FieldList
      */
     public function getCMSFieldsForModules() {
+        $this->getCMSFieldsIsCalled = true;
         $tabset = new TabSet('Root');
         $fields = new FieldList($tabset);
         
@@ -1481,6 +1491,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @deprecated since version 2.0 we are using SilvercartDataObject::getCMSFields()
      */
     public function getCMSFieldsOriginal() {
+        $this->getCMSFieldsIsCalled = true;
         return parent::getCMSFields();
     }
 
@@ -1506,6 +1517,19 @@ class SilvercartPaymentMethod extends DataObject {
     public function setReturnLink($link) {
         $this->returnLink = $link;
         $this->extend('updateReturnLink', $this->returnLink);
+    }
+    
+    /**
+     * Returns the sumModificationValue.
+     * 
+     * @return float
+     */
+    public function getsumModificationValue() {
+        $sumModificationValue = $this->getField('sumModificationValue');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateSumModificationValue', $sumModificationValue);
+        }
+        return $sumModificationValue;
     }
 
     /**
