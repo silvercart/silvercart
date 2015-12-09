@@ -714,6 +714,7 @@ class SilvercartConfig extends DataObject {
     public static function DefaultCurrency() {
         if (is_null(self::$defaultCurrency)) {
             self::$defaultCurrency = self::getConfig()->DefaultCurrency;
+            self::getConfig()->extend('updateDefaultCurrency', self::$defaultCurrency);
         }
         return self::$defaultCurrency;
     }
