@@ -83,6 +83,13 @@ class SilvercartShippingFee extends DataObject {
     public static $default_sort = "priority DESC";
     
     /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
+    
+    /**
      * Returns the translated singular name of the object.
      * 
      * @return string
@@ -209,6 +216,7 @@ class SilvercartShippingFee extends DataObject {
      * @since 13.02.2013
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields();
         
         $postPricingField = $fields->dataFieldByName('PostPricing');
@@ -436,6 +444,19 @@ class SilvercartShippingFee extends DataObject {
         $priceObj->setCurrency($this->getPriceCurrency());
 
         return $priceObj;
+    }
+    
+    /**
+     * Returns the price.
+     * 
+     * @return Money
+     */
+    public function getPrice() {
+        $price = $this->getField('Price');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updatePrice', $price);
+        }
+        return $price;
     }
 
     /**
