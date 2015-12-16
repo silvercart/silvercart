@@ -193,7 +193,7 @@ class SilvercartProductGroupNavigationWidget extends SilvercartWidget {
      * @since 22.04.2013
      */
     public function ExtraCssClasses() {
-        return 'silvercart-product-group-navigation-widget';
+        return $this->dbObject('ExtraCssClasses')->getValue() . ' silvercart-product-group-navigation-widget';
     }
 }
 
