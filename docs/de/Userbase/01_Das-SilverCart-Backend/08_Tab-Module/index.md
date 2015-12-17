@@ -139,15 +139,6 @@ Name der Variablen, die den Artikel identifiziert
 Artikel-Bezugsfeld
 Feld anhand dessen das Produkt bestimmt werden soll. (Zum Beispiel ID oder Artikelnummer)
 
-
-# Deeplinks
-
-Mit Deeplinks können Sie die Detailansicht eines Artikels mit Hilfe eines Attributwertes direkt ansteuern. Dies ist insbesondere für Preisportale sehr wichtig.
-
-Im obigen Beispiel ist ein Deeplink für das Artikelattribut "Artikelnummer" erstellt worden. Wenn jetzt die URL http://ihreseite.de/home/deeplink/ProductNumberShop/12345 aufgerufen wird, dann wird die Detailseite des Artikels mit der Artikelnummer 12345 angezeigt. Sollten mehrere Artikel mit einer ähnlichen (zB 123456) oder der gleichen Nummer existieren, wird eine Ergebnisseite gezeigt, die der Suchergebnisseite ähnlich ist. Ein Deeplink muss durch die Checkbox noch aktiviert werden, sonst wäre die URL nicht erreichbar.
-
-Die URL des Deeplinks wird automatisch erstellt und kann nicht verändert werden. Sie wird bei der Erstellung eines Deeplinks erst angezeigt, wenn sie zum ersten mal auf "speichern" gedrückt haben.
-
 # Google Taxonomie
 
 SilverCart bietet mit "Google Taxonomie" eine Funktion, um Ihre Produkte in der Google Produktsuche zu kategorisieren. Hier können Sie die Kategorien Ihrer Waren festlegen und diese mit den Warengruppen Ihres Shops verknüpfen.
