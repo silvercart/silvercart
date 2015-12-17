@@ -656,32 +656,6 @@ ru:
   SilvercartImageSliderWidgetLanguage:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartInboundShoppingCartTransfer:
-    COMBINED_STRING: "последовательность символов с разделителем"
-    COMBINED_STRING_ENTITY_SEPARATOR: "разделители сущностей в последовательности символов"
-    COMBINED_STRING_KEY: "имя переменной сохранено в символьной последовательности"
-    COMBINED_STRING_QUANTITY_SEPARATOR: "разделители количества в поледовательности символов"
-    KEY_VALUE: "ключевая пара"
-    KEY_VALUE_PRODUCT_IDENTIFIER: "имя переменной артикула"
-    KEY_VALUE_QUANTITY_IDENTIFIER: "имя переменной количества"
-    PLURALNAME: "внешний наполнитель корзины"
-    PRODUCT_MATCHING_FIELD: "относительное поле"
-    REFERER_IDENTIFIER: "сокращённое имя внешнего параметра"
-    SHARED_SECRET: "Shared secret"
-    SHARED_SECRET_ACTIVATION: "активировать shared secret"
-    SHARED_SECRET_IDENTIFIER: "имя переменной shared secret"
-    SINGULARNAME: "внешний наполнитель корзины"
-    TITLE: "наименование"
-    TRANSFER_METHOD: "метод передачи"
-    USE_SHARED_SECRET: "использовать shared secret"
-  SilvercartInboundShoppingCartTransferAdmin:
-    MENUTITLE: "внешний наполнитель корзины"
-  SilvercartInboundShoppingCartTransferPage:
-    ERROR_COMBINED_STRING_KEY_NOT_FOUND: "параметр не был отправлен"
-    ERROR_KEY_VALUE_PRODUCT_IDENTIFIER_NOT_FOUND: "параметр не был отправлен, отсутствует идентификатор артикула"
-    ERROR_KEY_VALUE_QUANTITY_IDENTIFIER_NOT_FOUND: "параметр не был отправлен, отсутсувует идентификатор количества"
-    ERROR_REFERER_NOT_FOUND: "внешний вызов невозможный"
-    ERROR_SHARED_SECRET_INVALID: "нет прав"
   SilvercartInvoiceAddress:
     PLURALNAME: "адреса счетов"
     SINGULARNAME: "адрес счета"

@@ -27,5 +27,4 @@ It is designed for large shops and high performance. It works equally well for s
    * [Widgets](The-SilverCart-Handbook/10-Widgets#widgets)
    * [General Configuration](The-SilverCart-Handbook/11-General-Configuration#general-configuration)
    * [Contact Messages](The-SilverCart-Handbook/12-Contact-Messages#contact-messages)
-   * [Inbound shopping cart transfer](The-SilverCart-Handbook/14-Inbound-shopping-cart-transfer#inbound-shopping-cart-transfer)
 

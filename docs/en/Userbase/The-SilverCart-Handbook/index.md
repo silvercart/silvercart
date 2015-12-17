@@ -51,8 +51,3 @@
    * [Stock Management](11-General-Configuration#stock-management)
    * [Enable SSL](11-General-Configuration#enable-ssl)
  * [Contact Messages](12-Contact-Messages#contact-messages)
- * [Inbound shopping cart transfer](14-Inbound-shopping-cart-transfer#inbound-shopping-cart-transfer)
-   * [What is an inbound shopping cart transfer good for?](14-Inbound-shopping-cart-transfer#what-is-an-inbound-shopping-cart-transfer-good-for)
-   * [How does Silvercart support inbound shopping cart transfers?](14-Inbound-shopping-cart-transfer#how-does-silvercart-support-inbound-shopping-cart-transfers)
-   * [How can I configure an inbound shopping cart transfer?](14-Inbound-shopping-cart-transfer#how-can-i-configure-an-inbound-shopping-cart-transfer)
-   * [What about security?](14-Inbound-shopping-cart-transfer#what-about-security)
