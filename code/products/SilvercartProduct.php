@@ -179,14 +179,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     protected static $extendedSortableFrontendFields = array();
 
     /**
-     * Wee have to save the deeplink value this way because the framework will
-     * not show a DataObjects ID.
-     *
-     * @var mixed
-     */
-    protected $deeplinkValue = null;
-
-    /**
      * Contains hashes for caching.
      *
      * @var array
@@ -867,14 +859,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'StockQuantityOverbookableShort'        => _t('SilvercartProduct.STOCK_QUANTITY_SHORT', 'Is overbookable?'),
                 'StockQuantityExpirationDate'           => _t('SilvercartProduct.STOCK_QUANTITY_EXPIRATION_DATE'),
                 'PackagingQuantity'                     => _t('SilvercartProduct.PACKAGING_QUANTITY', 'purchase quantity'),
-                'ID'                                    => 'ID', //needed for the deeplink feature
+                'ID'                                    => 'ID',
                 'SilvercartProductLanguages'            => _t('SilvercartConfig.TRANSLATIONS'),
                 'SilvercartProductGroupItemsWidgets'    => _t('SilvercartProductGroupItemsWidget.CMS_PRODUCTGROUPTABNAME'),
                 'WidgetArea'                            => _t('SilvercartProduct.WIDGETAREA'),
                 'Prices'                                => _t('SilvercartPrice.PLURALNAME'),
                 'SEO'                                   => _t('Silvercart.SEO'),
                 'SilvercartProductCondition'            => _t('SilvercartProductCondition.SINGULARNAME'),
-                'Deeplinks'                             => _t('Silvercart.DEEPLINKS'),
                 'TitleAsc'                              => _t('SilvercartProduct.TITLE_ASC'),
                 'TitleDesc'                             => _t('SilvercartProduct.TITLE_DESC'),
                 'PriceAmountAsc'                        => _t('SilvercartProduct.PRICE_AMOUNT_ASC'),
@@ -1562,36 +1553,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         
         $fields->addFieldToTab('Root.SilvercartFiles', $fileUploadField, 'SilvercartFiles');
     }
-
-    /**
-     * Adds or modifies the fields for the Deeplinks tab
-     *
-     * @param FieldList $fields FieldList to add fields to
-     * 
-     * @return void
-     */
-    public function getFieldsForDeeplinks($fields) {
-        if ($this->canView()) {
-            $deeplinks = SilvercartDeeplink::get()->filter('isActive', 1);
-            if ($deeplinks->exists()) {
-                $fields->findOrMakeTab('Root.Deeplinks', $this->fieldLabel('Deeplinks'));
-                $fields->addFieldToTab('Root.Deeplinks', new LiteralField('deeplinkText', _t('SilvercartProduct.DEEPLINK_TEXT')));
-                $idx = 1;
-                foreach ($deeplinks as $deeplink) {
-                    if (isset($deeplink->productAttribute)) {
-                        $attribute = $deeplink->productAttribute;
-                        if (isset($this->{$attribute})) {
-                            $this->deeplinkValue = (string)$this->{$attribute};
-                            $productDeeplink = $deeplink->getDeeplinkUrl() . $this->deeplinkValue;
-                            $fieldName = sprintf(_t('SilvercartProduct.DEEPLINK_FOR'), $attribute);
-                            $fields->addFieldToTab('Root.Deeplinks', new ReadonlyField($attribute.$idx, $fieldName, $productDeeplink));
-                            $idx++;
-                        }
-                    }
-                }
-            }
-        }
-    }
     
     /**
      * CMS fields of a product
@@ -1611,7 +1572,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $this->getFieldsForSeo($fields);
         if ($this->exists()) {
             $this->getFieldsForWidgets($fields);
-            $this->getFieldsForDeeplinks($fields);
             $this->getFieldsForImages($fields);
             $this->getFieldsForFiles($fields);
         }

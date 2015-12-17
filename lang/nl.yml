@@ -9,7 +9,6 @@ nl:
     DATE: "Datum"
     DAY: "dag"
     DAYS: "dagen"
-    DEEPLINKS: "Dieptelinks"
     LINKS: "Links"
     MIN: "minuut"
     MINS: "minuten"
@@ -549,13 +548,6 @@ nl:
     SINGULARNAME: "Privacybeleid pagina"
     TITLE: "Verklaring inzake gegevensbeveiliging"
     URL_SEGMENT: "verklaring-gegevensbeveiliging"
-  SilvercartDeeplinkAttribute:
-    PLURALNAME: "Eigenschappen"
-    SINGULARNAME: "Eigenschap"
-  SilvercartDeeplinkPage:
-    DEFAULT_TITLE: "deeplink page"
-    PLURALNAME: "doellink pagina's"
-    SINGULARNAME: "doellink pagina"
   SilvercartEditAddressForm:
     EMPTYSTRING_PLEASECHOOSE: "--kies aub--"
   SilvercartEmailTemplates:
@@ -993,8 +985,6 @@ nl:
     AMOUNT_UNIT: "aankoop-eenheid"
     CHOOSE_MASTER: "-- kies Origineel --"
     COLUMN_TITLE: "Naam"
-    DEEPLINK_FOR: "Dieptelink voor het attribuut \"%s\""
-    DEEPLINK_TEXT: "Als er een dieptelink is gedefinieerd, worden alle gerelateerde producten zichtbaar"
     DESCRIPTION: "Product omschrijving"
     EAN: "EAN"
     FREE_OF_CHARGE: "Gratis"

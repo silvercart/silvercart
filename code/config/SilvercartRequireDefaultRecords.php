@@ -335,20 +335,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $rootPage->Content          = _t('SilvercartFrontPage.DEFAULT_CONTENT', '<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>');
             $rootPage->write();
             $rootPage->publish("Stage", "Live");
-            
-            //create a deeplink page as child of the silvercart root
-            $deeplinkPage                       = new SilvercartDeeplinkPage();
-            $deeplinkPage->IdentifierCode       = "SilvercartDeeplinkPage";
-            $deeplinkPage->Title                = _t('SilvercartDeeplinkPage.DEFAULT_TITLE');
-            $deeplinkPage->URLSegment           = 'deeplink';
-            $deeplinkPage->Status               = 'Published';
-            $deeplinkPage->ParentID             = $rootPage->ID;
-            $deeplinkPage->ShowInMenus          = false;
-            $deeplinkPage->ShowInSearch         = false;
-            $deeplinkPage->CanViewType          = "Anyone";
-            $deeplinkPage->InheritFromParent    = false;
-            $deeplinkPage->write();
-            $deeplinkPage->publish("Stage", "Live");
 
             //create a silvercart product group holder as a child af the silvercart root
             $productGroupHolder                     = new SilvercartProductGroupHolder();

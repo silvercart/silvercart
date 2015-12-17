@@ -23,7 +23,6 @@ de:
     DATEFORMAT: "d.m.Y"
     DAY: "Tag"
     DAYS: "Tage"
-    DEEPLINKS: "Deeplinks"
     EXECUTE: "Ausführen"
     LANGUAGE: "Sprache"
     LINKS: "Links"
@@ -727,20 +726,6 @@ de:
     THIS_MONTH: "Dieser Monat"
     THIS_YEAR: "Dieses Jahr"
     TODAY: "Heute"
-  SilvercartDeeplink:
-    PLURALNAME: "Deeplinks"
-    Prefix: "Präfix"
-    SINGULARNAME: "Deeplink"
-    Suffix: "Suffix"
-  SilvercartDeeplinkAdmin:
-    MENUTITLE: "Deeplinks"
-  SilvercartDeeplinkAttribute:
-    PLURALNAME: "Attribute"
-    SINGULARNAME: "Attribut"
-  SilvercartDeeplinkPage:
-    DEFAULT_TITLE: "Deeplink Seite"
-    PLURALNAME: "Deeplink Seiten"
-    SINGULARNAME: "Deeplink Seite"
   SilvercartDownloadPage:
     PLURALNAME: "Downloadseiten"
     SINGULARNAME: "Downloadseite"
@@ -1408,8 +1393,6 @@ de:
     CHANGE_QUANTITY_CART: "Menge ändern"
     CHOOSE_MASTER: "-- Master wählen --"
     COLUMN_TITLE: "Name"
-    DEEPLINK_FOR: "Deeplink für das Attribut \"%s\""
-    DEEPLINK_TEXT: "Wenn Deeplinks definiert sind, werden alle Deeplinks zu diesem Artikel angezeigt."
     DESCRIPTION: "Artikelbeschreibung"
     EAN: "EAN"
     ExcludeFromPaymentDiscounts: "Dieser Artikel ist von Zahlungsart bedingten Abschlägen (Rabatten) ausgeschlossen."
