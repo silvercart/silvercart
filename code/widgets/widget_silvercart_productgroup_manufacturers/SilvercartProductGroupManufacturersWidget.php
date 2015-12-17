@@ -144,7 +144,7 @@ class SilvercartProductGroupManufacturersWidget extends SilvercartWidget {
      * @since 22.04.2013
      */
     public function ExtraCssClasses() {
-        return 'silvercart-product-group-manufacturers-widget';
+        return $this->dbObject('ExtraCssClasses')->getValue() . ' silvercart-product-group-manufacturers-widget';
     }
 
     /**
