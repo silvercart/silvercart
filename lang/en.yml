@@ -145,6 +145,7 @@ en:
     SINGULARNAME: "Anonymous newsletter receipient"
   SilvercartAvailabilityStatus:
     ADDITIONALTEXT: "Additional text"
+    ISDEFAULT: "Is Default"
     PLURALNAME: "Availabilities"
     SINGULARNAME: "Availability"
     STATUS_AVAILABLE: "available"
@@ -354,13 +355,22 @@ en:
   SilvercartConfigAdmin:
     MENUTITLE: "Settings Shop"
   SilvercartContactFormPage:
+    CityIsRequired: "City is required"
+    CountryIsRequired: "Country is required"
     DEFAULT_TITLE: "Contact"
     DEFAULT_URLSEGMENT: "contact"
+    EnableCity: "Use field for city"
+    EnableCountry: "Use field for country"
     EnablePhoneNumber: "Use field for phone number"
+    EnablePostcode: "Use field for post code"
+    EnableStreet: "Use field for street"
+    FormFieldsTab: "Form fields"
     PLURALNAME: "Contact form pages"
     PhoneNumberIsRequired: "Phone number is required"
+    PostcodeIsRequired: "Post code is required"
     REQUEST: "Request via contact form"
     SINGULARNAME: "Contact form page"
+    StreetIsRequired: "Street is required"
     TITLE: "Contact"
     URL_SEGMENT: "contact"
   SilvercartContactFormResponsePage:

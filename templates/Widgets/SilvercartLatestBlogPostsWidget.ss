@@ -5,20 +5,11 @@
             
         <% else %>
             <div class="silvercart-widget-content_frame silvercart-latest-blog-post-widget">
-                <h3>$Created.format(d.m.Y)</h3>
-                <p>$Title</p>
-                
-                <div class="subcolumns">
-                    <div class="silvercart-button-row clearfix">
-                        <div class="silvercart-button-small left">
-                            <div class="silvercart-button-small_content">
-                                <a href="$Link">
-                                    <% _t('SilvercartLatestBlogPostsWidget.SHOW_ENTRY') %>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <p><strong>{$FormattedCreationDateWithTime} - {$Author}</strong></p>
+                <p style="">$Title</p>
+                <p style="color: #888888">&quot;$Content.LimitWordCount(12)&quot;</p>
+                <a href="$Link" class="float_right"><% _t('SilvercartLatestBlogPostsWidget.SHOW_ENTRY') %> &rarr;</a>
+                <br/>
             </div>
         <% end_if %>
     <% end_loop %>

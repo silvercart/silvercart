@@ -118,7 +118,11 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <% if PluggedInAfterImageContent %>
+                        <% control PluggedInAfterImageContent %>
+                            {$Content}
+                        <% end_control %>
+                    <% end_if %>
                     <div class="silvercart-product-page-product-info">
                         <ul class="tabs">
                             <li rel="product_description">

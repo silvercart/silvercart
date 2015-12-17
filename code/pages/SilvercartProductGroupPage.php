@@ -114,9 +114,9 @@ class SilvercartProductGroupPage extends Page {
      * Contains the number of all active SilvercartProducts for this page for
      * caching purposes.
      *
-     * @var int
+     * @var array
      */
-    protected $activeSilvercartProducts = null;
+    protected static $activeSilvercartProducts = array();
     
     /**
      * Indicator to check whether getCMSFields is called
@@ -784,15 +784,15 @@ class SilvercartProductGroupPage extends Page {
      *
      * @return DataObject
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.02.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 27.07.2015
      */
     public function ActiveSilvercartProducts() {
-        if (is_null($this->activeSilvercartProducts)) {
+        if (!array_key_exists($this->ID, self::$activeSilvercartProducts)) {
             $requiredAttributes = SilvercartProduct::getRequiredAttributes();
             $activeProducts     = array();
             $productGroupIDs    = self::getFlatChildPageIDsForPage($this->ID);
-            $priceTypeFilter    = '';
             $translations       = $this->getTranslations();
             
             if ($translations &&
@@ -804,7 +804,6 @@ class SilvercartProductGroupPage extends Page {
                     );
                 }
             }
-            
             
             $filter = array(
                 '',
@@ -834,6 +833,22 @@ class SilvercartProductGroupPage extends Page {
             if (count($filter) == 1) {
                 $filter = array();
             }
+            $filterString = sprintf(
+                    "isActive = 1
+                     AND (SilvercartProductGroupID IN (%s)
+                         OR ID IN (
+                            SELECT
+                                SilvercartProductID
+                            FROM
+                                SilvercartProduct_SilvercartProductGroupMirrorPages
+                            WHERE
+                                SilvercartProductGroupPageID IN (%s)))
+                     %s",
+                    implode(',', $productGroupIDs),
+                    implode(',', $productGroupIDs),
+                    implode(' AND ', $filter)
+            );
+            $this->extend('updateActiveSilvercartProductsFilter', $filterString);
             
             $records = DB::query(
                 sprintf(
@@ -842,19 +857,8 @@ class SilvercartProductGroupPage extends Page {
                      FROM
                         SilvercartProduct
                      WHERE
-                        isActive = 1
-                        AND (SilvercartProductGroupID IN (%s)
-                             OR ID IN (
-                                SELECT
-                                    SilvercartProductID
-                                FROM
-                                    SilvercartProduct_SilvercartProductGroupMirrorPages
-                                WHERE
-                                    SilvercartProductGroupPageID IN (%s)))
                         %s",
-                    implode(',', $productGroupIDs),
-                    implode(',', $productGroupIDs),
-                    implode(' AND ', $filter)
+                    $filterString
                 )
             );
             
@@ -862,13 +866,13 @@ class SilvercartProductGroupPage extends Page {
                 $activeProducts[] = $record['ID'];
             }
             
-            $this->activeSilvercartProducts = $activeProducts;
+            self::$activeSilvercartProducts[$this->ID] = $activeProducts;
         }
         
         $result = new DataObject();
-        $result->ID = count($this->activeSilvercartProducts);
-        $result->Count = count($this->activeSilvercartProducts);
-        $result->IDs = $this->activeSilvercartProducts;
+        $result->ID = count(self::$activeSilvercartProducts[$this->ID]);
+        $result->Count = count(self::$activeSilvercartProducts[$this->ID]);
+        $result->IDs = self::$activeSilvercartProducts[$this->ID];
         
         return $result;
     }
@@ -1619,16 +1623,21 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         
         if ($this->isProductDetailView()) {
             if ($showProductTitle) {
+                $title = new Text();
+                $title->setValue($this->getDetailViewProduct()->Title);
                 $parts->push(
                         new ArrayData(
                                 array(
-                                    'Title' => $this->getDetailViewProduct()->Title,
+                                    'MenuTitle' => $title,
+                                    'Title' => $title,
                                     'Link'  => '',
                                 )
                         )
                 );
             }
         }
+        
+        $this->extend('updateBreadcrumbParts', $parts);
         
         return $parts;
     }
@@ -1701,27 +1710,40 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.02.2011
+     * @since 22.04.2015
      */
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
         if ($this->isProductDetailView()) {
-            $parts      = $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
-            $partsArray = array();
-            foreach ($parts as $part) {
-                if (empty($part->Link)) {
-                    $partsArray[] = Convert::raw2xml($part->Title);
-                } else {
-                    if ($unlinked) {
-                        $partsArray[] = Convert::raw2xml($part->Title);
-                    } else {
-                        $partsArray[] = "<a href=\"" . $part->Link . "\">" . Convert::raw2xml($part->Title) . "</a>";
-                    }
-                }
-            }
-            
-            return implode(" &raquo; ", $partsArray);
+            return $this->BreadcrumbsForProduct($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
         }
-        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+        $breadcrumbs = null;
+        $this->extend('overwriteBreadcrumbs', $breadcrumbs);
+        if (is_null($breadcrumbs)) {
+            $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+        }
+        return $breadcrumbs;
+    }
+
+    /**
+     * Returns the breadcrumbs for a product detail.
+     *
+     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked         true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType   name of pagetype to stop at
+     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
+     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.12.2015
+     */
+    public function BreadcrumbsForProduct($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
+        $parts    = $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
+		$template = new SSViewer('BreadcrumbsTemplate');
+		return $template->process($this->customise((array(
+			'Pages' => ($parts)
+		))));
     }
     
     /**

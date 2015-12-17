@@ -6,11 +6,7 @@
                     <% if Products.NotFirstPage %>
                     <div class="silvercart-pagination-link">
                         <div class="silvercart-pagination-link_content">
-                            <a href="$Products.PrevLink" title="<% _t('SilvercartPage.PREV', 'Prev') %>">
-                                <span>
-                                    &lt;
-                                </span>
-                            </a>
+                            <a href="{$Products.CtrlPrevLink}" title="<% _t('SilvercartPage.PREV', 'Prev') %>"><span>&lt;</span></a>
                         </div>
                     </div>
                     <% end_if %>
@@ -48,11 +44,7 @@
                     <% if Products.NotLastPage %>
                         <div class="silvercart-pagination-link">
                             <div class="silvercart-pagination-link_content">
-                                <a href="$Products.NextLink" title="<% _t('SilvercartPage.NEXT', 'Next') %>">
-                                    <span>
-                                        &gt;
-                                    </span>
-                                </a>
+                                <a href="{$Products.CtrlNextLink}" title="<% _t('SilvercartPage.NEXT', 'Next') %>"><span>&gt;</span></a>
                             </div>
                         </div>
                     <% end_if %>

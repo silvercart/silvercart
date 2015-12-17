@@ -14,17 +14,10 @@
  *
  * @package Silvercart
  * @subpackage Forms
-<<<<<<< mine
- * @copyright 2013 pixeltricks GmbH
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @license see license file in modules root directory
- * @since 23.10.2010
-=======
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 10.09.2013
- * @copyright 2013 pixeltricks GmbH
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
->>>>>>> theirs
+ * @since 14.12.2015
+ * @copyright 2015 pixeltricks GmbH
+ * @license see license file in modules root directory
  */
 class SilvercartDownloadSearchForm extends CustomHtmlForm {
     
@@ -118,11 +111,15 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
             }
         }
         
-        $filter = sprintf(
-                '(%s) AND "SilvercartFile"."SilvercartDownloadPageID" IN (%s)',
-                $searchFilter,
-                implode(',', $childrenIDs)
-        );
+        if ($childrenIDs->count() > 0) {
+            $filter = sprintf(
+                    '(%s) AND "SilvercartFile"."SilvercartDownloadPageID" IN (%s)',
+                    $searchFilter,
+                    implode(',', $childrenIDs)
+            );
+        } else {
+            $filter = $searchFilter;
+        }
         
         $downloads = SilvercartFile::get()->where($filter);
         
@@ -145,8 +142,10 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
     public static function get_current_results() {
         $currentResultMap = Session::get('SilvercartDownloadSearchForm.current_results');
         $downloads        = false;
-        if (!is_null($currentResultMap)) {
-            $downloads = SilvercartFile::get()->filter('ID', $currentResultMap);
+        /* @var $currentResultMap SS_Map */
+        if (!is_null($currentResultMap) &&
+            $currentResultMap->count() > 0) {
+            $downloads = SilvercartFile::get()->where('"SilvercartFile"."ID" IN (' . implode(',', $currentResultMap->toArray()) . ')');
         }
         return $downloads;
     }

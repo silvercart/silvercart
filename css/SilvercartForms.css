@@ -307,6 +307,13 @@ form.yform .type-button .silvercart-button a {
   * html .columnar.smallfields div.type-text textarea { width:42.2%; }
   * html .columnar.smallfields div.type-select select { width:43.8%; }
   
+  
+  .yform div.type-text.two-fields input { width:77.0%; margin-right: 0px; display: inline-block; }
+  .yform div.type-text.two-fields span.spacer { width:2.8%; text-align: center; display: inline-block; }
+  .yform div.type-text.two-fields input + span + input { width:10.0%; margin-right: -3px; }
+  
+  .yform div.type-text.two-fields.ltr input { width:10.0%; }
+  .yform div.type-text.two-fields.ltr input + span + input { width:77.0%; }
 
 /* Multiple choice selection fields ------------------------------------------ */
 .multiple-choice .type-text {

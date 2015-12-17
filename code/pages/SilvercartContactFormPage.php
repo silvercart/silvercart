@@ -26,6 +26,12 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
      * @var array
      */
     public static $db = array(
+        'EnableStreet'          => 'Boolean(0)',
+        'StreetIsRequired'      => 'Boolean(0)',
+        'EnableCity'            => 'Boolean(0)',
+        'CityIsRequired'        => 'Boolean(0)',
+        'EnableCountry'         => 'Boolean(0)',
+        'CountryIsRequired'     => 'Boolean(0)',
         'EnablePhoneNumber'     => 'Boolean(0)',
         'PhoneNumberIsRequired' => 'Boolean(0)',
     );
@@ -87,8 +93,15 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
                 array(
+                    'EnableStreet'          => _t('SilvercartContactFormPage.EnableStreet'),
+                    'StreetIsRequired'      => _t('SilvercartContactFormPage.StreetIsRequired'),
+                    'EnableCity'            => _t('SilvercartContactFormPage.EnableCity'),
+                    'CityIsRequired'        => _t('SilvercartContactFormPage.CityIsRequired'),
+                    'EnableCountry'         => _t('SilvercartContactFormPage.EnableCountry'),
+                    'CountryIsRequired'     => _t('SilvercartContactFormPage.CountryIsRequired'),
                     'EnablePhoneNumber'     => _t('SilvercartContactFormPage.EnablePhoneNumber'),
                     'PhoneNumberIsRequired' => _t('SilvercartContactFormPage.PhoneNumberIsRequired'),
+                    'FormFieldsTab'         => _t('SilvercartContactFormPage.FormFieldsTab'),
                 )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -103,8 +116,15 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
     public function getCMSFields() {
         $fields = parent::getCMSFields();
         
-        $fields->addFieldToTab('Root.Main', new CheckboxField('EnablePhoneNumber', $this->fieldLabel('EnablePhoneNumber')),         'Content');
-        $fields->addFieldToTab('Root.Main', new CheckboxField('PhoneNumberIsRequired', $this->fieldLabel('PhoneNumberIsRequired')), 'Content');
+        $fields->findOrMakeTab('Root.FormFields', $this->fieldLabel('FormFieldsTab'));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('EnableStreet', $this->fieldLabel('EnableStreet')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('StreetIsRequired', $this->fieldLabel('StreetIsRequired')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('EnableCity', $this->fieldLabel('EnableCity')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('CityIsRequired', $this->fieldLabel('CityIsRequired')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('EnableCountry', $this->fieldLabel('EnableCountry')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('CountryIsRequired', $this->fieldLabel('CountryIsRequired')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('EnablePhoneNumber', $this->fieldLabel('EnablePhoneNumber')));
+        $fields->addFieldToTab('Root.FormFields', new CheckboxField('PhoneNumberIsRequired', $this->fieldLabel('PhoneNumberIsRequired')));
         
         return $fields;
     }

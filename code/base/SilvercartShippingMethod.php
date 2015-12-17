@@ -28,6 +28,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static $db = array(
         'isActive'                      => 'Boolean',
+        'isPickup'                      => 'Boolean(0)',
         'priority'                      => 'Int',
         'DoNotShowOnShippingFeesPage'   => 'Boolean',
         'DeliveryTimeMin'               => 'Int',
@@ -165,28 +166,29 @@ class SilvercartShippingMethod extends DataObject {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
-                        'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
-                        'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
-                        'DescriptionForShippingFeesPage'    => _t('SilvercartShippingMethod.DescriptionForShippingFeesPage'),
-                        'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-                        'priority'                          => _t('Silvercart.PRIORITY'),
-                        'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
-                        'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
-                        'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
-                        'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
-                        'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
-                        'SilvercartCustomerGroups'          => _t('SilvercartCustomerGroup.PLURALNAME'),
-                        'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
-                        'DoNotShowOnShippingFeesPage'       => _t('SilvercartShippingMethod.DoNotShowOnShippingFeesPage'),
-                        'ExpectedDelivery'                  => _t('SilvercartShippingMethod.ExpectedDelivery'),
-                        'DeliveryTime'                      => _t('SilvercartShippingMethod.DeliveryTime'),
-                        'DeliveryTimeMin'                   => _t('SilvercartShippingMethod.DeliveryTimeMin'),
-                        'DeliveryTimeMinDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
-                        'DeliveryTimeMax'                   => _t('SilvercartShippingMethod.DeliveryTimeMax'),
-                        'DeliveryTimeMaxDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMaxDesc'),
-                        'DeliveryTimeText'                  => _t('SilvercartShippingMethod.DeliveryTimeText'),
-                        'DeliveryTimeTextDesc'              => _t('SilvercartShippingMethod.DeliveryTimeTextDesc'),
-                    )
+                    'Title'                             => _t('SilvercartProduct.COLUMN_TITLE'),
+                    'Description'                       => _t('SilvercartShippingMethod.DESCRIPTION'),
+                    'DescriptionForShippingFeesPage'    => _t('SilvercartShippingMethod.DescriptionForShippingFeesPage'),
+                    'activatedStatus'                   => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
+                    'priority'                          => _t('Silvercart.PRIORITY'),
+                    'AttributedZones'                   => _t('SilvercartShippingMethod.FOR_ZONES', 'for zones'),
+                    'isActive'                          => _t('SilvercartPage.ISACTIVE', 'active'),
+                    'isPickup'                          => _t('SilvercartShippingMethod.isPickup', 'Is pickup (no active shipping, customer needs to pickup himself)'),
+                    'SilvercartCarrier'                 => _t('SilvercartCarrier.SINGULARNAME', 'carrier'),
+                    'SilvercartShippingFees'            => _t('SilvercartShippingFee.PLURALNAME', 'shipping fees'),
+                    'SilvercartZones'                   => _t('SilvercartZone.PLURALNAME', 'zones'),
+                    'SilvercartCustomerGroups'          => _t('Group.PLURALNAME'),
+                    'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
+                    'DoNotShowOnShippingFeesPage'       => _t('SilvercartShippingMethod.DoNotShowOnShippingFeesPage'),
+                    'ExpectedDelivery'                  => _t('SilvercartShippingMethod.ExpectedDelivery'),
+                    'DeliveryTime'                      => _t('SilvercartShippingMethod.DeliveryTime'),
+                    'DeliveryTimeMin'                   => _t('SilvercartShippingMethod.DeliveryTimeMin'),
+                    'DeliveryTimeMinDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
+                    'DeliveryTimeMax'                   => _t('SilvercartShippingMethod.DeliveryTimeMax'),
+                    'DeliveryTimeMaxDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMaxDesc'),
+                    'DeliveryTimeText'                  => _t('SilvercartShippingMethod.DeliveryTimeText'),
+                    'DeliveryTimeTextDesc'              => _t('SilvercartShippingMethod.DeliveryTimeTextDesc'),
+                )
         );
     }
     
@@ -340,7 +342,8 @@ class SilvercartShippingMethod extends DataObject {
         $shippingCountry = $this->getShippingCountry();
         if (is_null($shippingCountry)) {
             $shippingAddress = $this->getShippingAddress();
-            if (is_null($shippingAddress)) {
+            if (is_null($shippingAddress) &&
+                method_exists(Controller::curr(), 'getShippingAddress')) {
                 $shippingAddress = Controller::curr()->getShippingAddress();
                 $this->setShippingAddress($shippingAddress);
                 SilvercartTools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . Controller::curr()->class, 'SilvercartShippingMethod');
@@ -436,12 +439,14 @@ class SilvercartShippingMethod extends DataObject {
     /**
      * Returns the delivery time as string.
      * 
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
      * @return string
      */
-    public function getDeliveryTime() {
-        $deliveryTime = self::get_delivery_time($this->getShippingFee());
+    public function getDeliveryTime($forceDisplayInDays = false) {
+        $deliveryTime = self::get_delivery_time($this->getShippingFee(), $forceDisplayInDays);
         if (empty($deliveryTime)) {
-            $deliveryTime = self::get_delivery_time($this);
+            $deliveryTime = self::get_delivery_time($this, $forceDisplayInDays);
         }
         return $deliveryTime;
     }
@@ -456,7 +461,7 @@ class SilvercartShippingMethod extends DataObject {
      */
     public static function get_delivery_time($context, $forceDisplayInDays = false) {
         $deliveryTime = '';
-        if ($context != false) {
+        if (is_object($context)) {
             if (!empty($context->DeliveryTimeText)) {
                 $deliveryTime = $context->DeliveryTimeText;
             } elseif ($context->DeliveryTimeMin > 0) {
@@ -467,7 +472,7 @@ class SilvercartShippingMethod extends DataObject {
                         $deliveryTime .= ' - ';
                         $deliveryTime .= $context->DeliveryTimeMax;
                     }
-                    if ($deliveryTime == 1) {
+                    if ($deliveryTime === '1') {
                         $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
                     } else {
                         $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
@@ -725,18 +730,25 @@ class SilvercartShippingMethod extends DataObject {
      * @param SilvercartProduct $product       Product to get fee for
      * @param SilvercartCountry $country       Country to get fee for
      * @param Group             $customerGroup Customer group to get fee for
+     * @param bool              $excludePickup Set to true to exclude pickups
      * 
      * @return ArrayList
      */
-    public static function getAllowedShippingFeesFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
+    public static function getAllowedShippingFeesFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup, $excludePickup = false) {
         $extendableShippingMethod   = singleton('SilvercartShippingMethod');
         
+        $addToFilter = '';
+        if ($excludePickup) {
+            $addToFilter = ' AND SilvercartShippingMethod.isPickup = 0';
+        }
+        
         $filter = sprintf(
-            '"SilvercartShippingMethod"."isActive" = 1 AND ("SilvercartShippingMethod_SilvercartCustomerGroups"."GroupID" IN (%s) OR "SilvercartShippingMethod"."ID" NOT IN (%s))',
+            '"SilvercartShippingMethod"."isActive" = 1 AND ("SilvercartShippingMethod_SilvercartCustomerGroups"."GroupID" IN (%s) OR "SilvercartShippingMethod"."ID" NOT IN (%s))%s',
             $customerGroup->ID,
-            'SELECT "SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" FROM "SilvercartShippingMethod_SilvercartCustomerGroups"'
+            'SELECT "SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" FROM "SilvercartShippingMethod_SilvercartCustomerGroups"',
+            $addToFilter
         );
-            
+         
         $joinTable      = 'SilvercartShippingMethod_SilvercartCustomerGroups';
         $joinOnClause   = '"SilvercartShippingMethod_SilvercartCustomerGroups"."SilvercartShippingMethodID" = "SilvercartShippingMethod"."ID"';
 
@@ -768,11 +780,12 @@ class SilvercartShippingMethod extends DataObject {
      * @param SilvercartProduct $product       Product to get fee for
      * @param SilvercartCountry $country       Country to get fee for
      * @param Group             $customerGroup Customer group to get fee for
+     * @param bool              $excludePickup Set to true to exclude pickups
      * 
      * @return SilvercartShippingFee
      */
-    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup) {
-        $shippingFees = self::getAllowedShippingFeesFor($product, $country, $customerGroup);
+    public static function getAllowedShippingFeeFor(SilvercartProduct $product, SilvercartCountry $country, Group $customerGroup, $excludePickup = false) {
+        $shippingFees = self::getAllowedShippingFeesFor($product, $country, $customerGroup, $excludePickup);
         return $shippingFees->First();
     }
 

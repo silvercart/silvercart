@@ -38,6 +38,7 @@ class SilvercartImageSliderImage extends DataObject {
     public static $casting = array(
         'Title'             => 'VarChar',
         'Content'           => 'HTMLText',
+        'AltText'           => 'Varchar',
         'TableIndicator'    => 'Text',
         'Thumbnail'         => 'HTMLText',
     );
@@ -132,6 +133,19 @@ class SilvercartImageSliderImage extends DataObject {
      */
     public function getContent() {
         return $this->getLanguageFieldValue('Content');
+    }
+    
+    /**
+     * getter for the AltText, looks for set translation
+     * 
+     * @return string
+     */
+    public function getAltText() {
+        $altText = $this->getLanguageFieldValue('AltText');
+        if (empty($altText)) {
+            $altText = $this->Title;
+        }
+        return $altText;
     }
     
     /**

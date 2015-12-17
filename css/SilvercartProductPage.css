@@ -107,6 +107,9 @@ p.silvercart-add-cart-form-hint {
     margin:                         4px 0 0 0;
     padding:                        0;
 }
+form.yform .type-cart.is-not-buyable {
+    display:                        none;
+}
 
 .silvercart-product-page .silvercart-product-page-product-info {
     margin:                         20px 0px 0px 0px;

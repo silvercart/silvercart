@@ -164,6 +164,7 @@ class SilvercartShippingFee extends DataObject {
                     'freeOfShippingCostsFrom'       => _t('SilvercartShippingFee.FREEOFSHIPPINGCOSTSFROM'),
                     'SilvercartShippingMethod'      => _t('SilvercartShippingMethod.SINGULARNAME'),
                     'priority'                      => _t('Silvercart.PRIORITY'),
+                    'DeliveryTime'                  => _t('SilvercartShippingMethod.DeliveryTime'),
                     'DeliveryTimeMin'               => _t('SilvercartShippingMethod.DeliveryTimeMin'),
                     'DeliveryTimeMinDesc'           => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
                     'DeliveryTimeMax'               => _t('SilvercartShippingMethod.DeliveryTimeMax'),
@@ -605,6 +606,17 @@ class SilvercartShippingFee extends DataObject {
             $maximumWeightUnitAbreviation = 'kg';
         }
         return $maximumWeightUnitAbreviation;
+    }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public function getDeliveryTime($forceDisplayInDays = false) {
+        return SilvercartShippingMethod::get_delivery_time($this, $forceDisplayInDays);
     }
 }
 

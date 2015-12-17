@@ -62,6 +62,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         'LaunchDate'                  => 'Datetime',
         'SalesBanDate'                => 'Datetime',
         'ExcludeFromPaymentDiscounts' => 'Boolean(0)',
+        'IsNotBuyable'                => 'Boolean(0)',
     );
 
     /**
@@ -215,6 +216,14 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     protected $pluggedInProductListAdditionalData = null;
     
     /**
+     * All added product additional information to display between Images and 
+     * Content.
+     * 
+     * @var DataObjectSet 
+     */
+    protected $pluggedInAfterImageContent = null;
+    
+    /**
      * All added product information via module
      * 
      * @var ArrayList 
@@ -258,6 +267,14 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     protected $cachedSilvercartTax = null;
     
     /**
+     * Cached SilvercartAvailabilityStatus object. The related status object 
+     * will be stored in this property after its first call.
+     *
+     * @var SilvercartAvailabilityStatus
+     */
+    protected $cachedSilvercartAvailabilityStatus = null;
+    
+    /**
      * The position of the product in cart.
      *
      * @var array
@@ -291,6 +308,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @var bool 
      */
     protected $ignoreTaxExemption = false;
+    
+    /**
+     * The first image out of the related SilvercartImages.
+     *
+     * @var Image
+     */
+    protected $listImage = null;
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -478,7 +502,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             if (is_null($customerGroup)) {
                 $customerGroup = SilvercartCustomer::default_customer_group();
             }
-            $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup);
+            $shippingFee = SilvercartShippingMethod::getAllowedShippingFeeFor($this, $country, $customerGroup, true);
         }
         return $shippingFee;
     }
@@ -792,6 +816,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'MSRPrice'                              => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'MSRPriceAmount'                        => _t('SilvercartProduct.MSRP', 'MSR price'),
                 'MSRPriceCurrency'                      => _t('SilvercartProduct.MSRP_CURRENCY', 'MSR currency'),
+                'Price'                                 => _t('SilvercartProduct.PRICE', 'price'),
                 'PriceGross'                            => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceGrossAmount'                      => _t('SilvercartProduct.PRICE_GROSS', 'price (gross)'),
                 'PriceGrossCurrency'                    => _t('SilvercartProduct.PRICE_GROSS_CURRENCY', 'currency (gross)'),
@@ -860,6 +885,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'ExcludeFromPaymentDiscounts'           => _t('SilvercartProduct.ExcludeFromPaymentDiscounts'),
                 'AddSilvercartImage'                    => _t('SilvercartProduct.AddSilvercartImage'),
                 'AddSilvercartFile'                     => _t('SilvercartProduct.AddSilvercartFile'),
+                'IsNotBuyable'                          => _t('SilvercartProduct.IsNotBuyable'),
                 
                 'SilvercartProductLanguages.Title'            => _t('SilvercartProduct.COLUMN_TITLE'),
                 'SilvercartProductLanguages.ShortDescription' => _t('SilvercartProduct.SHORTDESCRIPTION'),
@@ -1275,6 +1301,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'StockQuantityExpirationDate',
                 'PackagingQuantity',
                 'ExcludeFromPaymentDiscounts',
+                'IsNotBuyable',
             ),
             'includeRelations' => array(
                 'has_many'  => true,
@@ -1378,10 +1405,12 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 $this->fieldLabel('BasicData'),
                 array(
                     $fields->dataFieldByName('isActive'),
+                    $fields->dataFieldByName('IsNotBuyable'),
                     $productNumberGroup,
                 )
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->removeByName('isActive');
+        $fields->removeByName('IsNotBuyable');
         $fields->insertBefore($baseDataToggle, 'Title');
         if ($this->exists()) {
             $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
@@ -2019,6 +2048,10 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $addToCartAllowed = true;
 
         $this->extend('updateAddToCart', $addToCartAllowed);
+        
+        if ($this->IsNotBuyable) {
+            return false;
+        }
 
         if ($quantity == 0 || $cartID == 0) {
             return false;
@@ -2423,6 +2456,31 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             $html = '';
         }
         return $html;
+    }
+
+    /**
+     * Returns the related SilvercartAvailabilityStatus object.
+     * Provides an extension hook to update the status object by decorator.
+     * 
+     * @return SilvercartAvailabilityStatus
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2014
+     */
+    public function SilvercartAvailabilityStatus() {
+        if (is_null($this->cachedSilvercartAvailabilityStatus)) {
+            $this->cachedSilvercartAvailabilityStatus = $this->getComponent('SilvercartAvailabilityStatus');
+            $this->extend('updateSilvercartAvailabilityStatus', $this->cachedSilvercartAvailabilityStatus);
+            if (!$this->cachedSilvercartAvailabilityStatus instanceof SilvercartAvailabilityStatus ||
+                !$this->cachedSilvercartAvailabilityStatus->exists()) {
+                $default = SilvercartAvailabilityStatus::getDefault();
+                if ($default instanceof SilvercartAvailabilityStatus &&
+                    $default->exists()) {
+                    $this->cachedSilvercartAvailabilityStatus = $default;
+                }
+            }
+        }
+        return $this->cachedSilvercartAvailabilityStatus;
     }
 
     /**
@@ -2842,40 +2900,37 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
     
     /**
-     * Returns the list image as a SilvercartImage.
-     * 
-     * @return SilvercartImage
-     */
-    public function getListImage() {
-        return $this->getSilvercartImages()->first();
-    }
-    
-    /**
-     * Returns the list image as an Image.
-     * 
-     * @return Image
-     */
-    public function getListImageFile() {
-        $file = false;
-        $listImage = $this->getListImage();
-        if (is_object($listImage)) {
-            $file = $this->getListImage()->Image();
-        }
-        return $file;
-    }
-    
-    /**
      * Returns the list image as a thumbnail Image.
      * 
      * @return Image
      */
     public function getListImageThumbnail() {
         $thumb = false;
-        $file = $this->getListImageFile();
+        $file = $this->getListImage();
         if (is_object($file)) {
             $thumb = $file->SetRatioSize(30,30);
         }
         return $thumb;
+    }
+
+    /**
+     * Returns the first image out of the related SilvercartImages.
+     * 
+     * @param string $filter Filter for the related SilvercartImages
+     * 
+     * @return Image
+     */
+    public function getListImage($filter = '') {
+        if (is_null($this->listImage)) {
+            $this->listImage = false;
+            $images = $this->getSilvercartImages($filter);
+
+            if ($images) {
+                $this->listImage = $images->First()->Image();
+            }
+        }
+
+        return $this->listImage;
     }
 
     /**
@@ -3126,5 +3181,17 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             $this->pluggedInProductListAdditionalData = SilvercartPlugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'ArrayList');
         }
         return $this->pluggedInProductListAdditionalData;
+    }
+    
+    /**
+     * Returns all additional information to display between Images and Content.
+     * 
+     * @return DataObjectSet 
+     */
+    public function getPluggedInAfterImageContent() {
+        if (is_null($this->pluggedInAfterImageContent)) {
+            $this->pluggedInAfterImageContent = SilvercartPlugin::call($this, 'getPluggedInAfterImageContent', array(), false, 'DataObjectSet');
+        }
+        return $this->pluggedInAfterImageContent;
     }
 }

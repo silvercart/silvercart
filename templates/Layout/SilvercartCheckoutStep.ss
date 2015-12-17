@@ -29,7 +29,7 @@
                 <div class="silvercart-widget">
                     <div class="silvercart-widget_content">
                 
-                        <h2><% _t('SilvercartPage.STEPS','steps') %></h2>
+                        <strong class="h2"><% _t('SilvercartPage.STEPS','steps') %></strong>
                         <div class="silvercart-widget-content_frame">
                             <ul class="vlist">
                                 <% loop CurrentPage.StepList %>

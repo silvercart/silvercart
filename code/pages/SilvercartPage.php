@@ -814,6 +814,7 @@ class SilvercartPage_Controller extends ContentController {
                 $parts->unshift(
                     new ArrayData(
                         array(
+                            'MenuTitle' => $page->MenuTitle,
                             'Title'     => $page->Title,
                             'Link'      => $link,
                             'Parent'    => $page->Parent,

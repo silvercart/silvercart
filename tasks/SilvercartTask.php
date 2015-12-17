@@ -211,6 +211,67 @@ class SilvercartTask extends CliController {
     }
     
     /**
+     * Prints the progress percentage info
+     * 
+     * @param int $currentIndex Current index
+     * @param int $total        Total iterations to run
+     * @param int $level        Current depth level
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.11.2013
+     */
+    public function printProgressPercentageInfo($currentIndex, $total, $level = 1) {
+        $percentage                      = $currentIndex / ($total / 100);
+        $formatted_percentage            = number_format($percentage, 2, ',', '.');
+        $padded_percentage               = str_pad($formatted_percentage, 6, ' ', STR_PAD_LEFT);
+        $formatted_index                 = number_format($currentIndex, 0, ',', '.');
+        $padded_index                    = str_pad($formatted_index, strlen($total), ' ', STR_PAD_LEFT);
+        $formatted_total                 = number_format($total, 0, ',', '.');
+
+        $tabs = "";
+        for ($x = 0; $x < $level; $x++) {
+            $tabs .= "\t";
+        }
+        
+        $this->printProgressInfo($tabs . 'progress: ' . $padded_percentage . "%" . "\t" . $padded_index . '/' . $formatted_total);
+    }
+    
+    /**
+     * Prints the progress percentage info
+     * 
+     * @param int   $currentIndex Current index
+     * @param int   $total        Total iterations to run
+     * @param float $seconds      Current run time in seconds.
+     * @param int   $level        Current depth level
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.11.2013
+     */
+    public function printProgressPercentageInfoWithTime($currentIndex, $total, $seconds, $level = 1) {
+        $percentage                      = $currentIndex / ($total / 100);
+        $formatted_percentage            = number_format($percentage, 2, ',', '.');
+        $padded_percentage               = str_pad($formatted_percentage, 6, ' ', STR_PAD_LEFT);
+        $formatted_index                 = number_format($currentIndex, 0, ',', '.');
+        $padded_index                    = str_pad($formatted_index, strlen($total), ' ', STR_PAD_LEFT);
+        $formatted_total                 = number_format($total, 0, ',', '.');
+
+        $tabs = "";
+        for ($x = 0; $x < $level; $x++) {
+            $tabs .= "\t";
+        }
+        
+        $minutes = str_pad(floor($seconds / 60),  2, '0', STR_PAD_LEFT);
+        $seconds = str_pad(floor($seconds) % 60,  2, '0', STR_PAD_LEFT);
+        $time    = $minutes . ':' . $seconds;
+        
+        $this->printProgressInfo($tabs . 'time: ' . $time . "\t" . 'progress: ' . $padded_percentage . "%" . "\t" . $padded_index . '/' . $formatted_total);
+    }
+    
+    /**
      * Prints the current memory usage.
      * 
      * @return void
@@ -475,6 +536,26 @@ class SilvercartTask extends CliController {
         if ($deleteAfterExtraction) {
             $this->printInfo('deleting ZIP file...');
             unlink($sourceFile);
+        }
+    }
+
+    /**
+     * Deletes all files with the given extension out of the given directory.
+     * 
+     * @param string $basepath  Bse path
+     * @param string $extension File extension
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.10.2013
+     */
+    protected function deleteFiles($basepath, $extension) {
+        $importFiles  = $this->getFilesInDirectory($basepath, $extension);
+        
+        foreach ($importFiles as $importFile) {
+            $this->printInfo('deleting file ' . $importFile);
+            unlink($importFile);
         }
     }
     

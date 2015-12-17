@@ -146,20 +146,20 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.03.2014
+     * @since 15.07.2015
      */
     public function getElementsByProductGroup() {
-        $cache                = false;
-        $productGroupPage     = Controller::curr();
-        $elements             = new PaginatedList(new ArrayList());
+        $cache            = false;
+        $productGroupPage = Controller::curr();
+        $elements         = new PaginatedList(new ArrayList());
 
         if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
             $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
             $elements->pageStart  = $productGroupPage->getSqlOffset();
         }
-        $pageEnd              = $elements->pageStart + $elements->pageLength;
-        $elementIdx           = 0;
-        $products             = new ArrayList();
+        $pageEnd    = $elements->pageStart + $elements->pageLength;
+        $elementIdx = 0;
+        $products   = new ArrayList();
 
         if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
              $productGroupPage->getProducts()->count() > 0) {
@@ -168,29 +168,16 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         }
 
         $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
-
-        foreach ($pageIDsToWorkOn as $pageID) {
-            $page           = DataObject::get_by_id('SiteTree', $pageID);
-            $productsOfPage = $page->getProducts(1000, false, true);
-            $productsOfPage = new ArrayList($productsOfPage->toArray());
-            $productIDs     = array_keys($productsOfPage->map());
-
-            foreach ($productsOfPage as $product) {
-                if (in_array($product->ID, $productIDs)) {
-                    continue;
-                }
-                $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
-                $products->push($product);
-            }
+        if (is_array($pageIDsToWorkOn) &&
+            count($pageIDsToWorkOn) > 0) {
+            $mirrored = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
+            $products = SilvercartProduct::getProducts('("SilvercartProduct"."SilvercartProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SilvercartProduct"."ID" IN (' . $mirrored . '))');
         }
-
-        $sortElems    = explode(" ", SilvercartProduct::defaultSort());
-        $sortElems[0] = str_replace('SilvercartProduct.', '', $sortElems[0]);
-        $products->sort($sortElems[0], $sortElems[1]);
 
         foreach ($products as $product) {
             if ($elementIdx >= $elements->pageStart &&
                 $elementIdx < $pageEnd) {
+                $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                 $elements->push($product);
             }
             $elementIdx++;

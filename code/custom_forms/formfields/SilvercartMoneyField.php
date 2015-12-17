@@ -121,7 +121,7 @@ class SilvercartMoneyField extends MoneyField {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @since 07.12.2013
      */
     public function prepareAmount($amount) {
         if (strpos($amount, ',') !== false) {
@@ -138,6 +138,8 @@ class SilvercartMoneyField extends MoneyField {
                 // amount has the format 1234,56
                 $amount = str_replace(',', '.', $amount);
             }
+        } elseif (!is_numeric($amount)) {
+            $amount = 0;
         }
         return $amount;
     }

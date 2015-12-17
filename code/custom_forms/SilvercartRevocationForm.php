@@ -96,9 +96,6 @@ class SilvercartRevocationForm extends CustomHtmlForm {
                     'type'      => 'TextareaField',
                     'title'     => _t('SilvercartRevocationForm.RevocationOrderData'),
                     'value'     => $orderPositions,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'Email' => array(
                     'type'      => 'TextField',
@@ -112,9 +109,6 @@ class SilvercartRevocationForm extends CustomHtmlForm {
                     'type'      => 'TextField',
                     'title'     => _t('SilvercartRevocationForm.OrderDate'),
                     'value'     => $orderDate,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'OrderNumber' => array(
                     'type'      => 'TextField',
@@ -131,9 +125,6 @@ class SilvercartRevocationForm extends CustomHtmlForm {
                         "Herr"  => _t('SilvercartAddress.MISTER')
                     ),
                     'selectedValue'     => $address->Salutation,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'FirstName' => array(
                     'type'      => 'TextField',
@@ -160,42 +151,27 @@ class SilvercartRevocationForm extends CustomHtmlForm {
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('Street'),
                     'value'     => $address->Street,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'StreetNumber' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('StreetNumber'),
                     'value'     => $address->StreetNumber,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'Postcode' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('Postcode'),
                     'value'     => $address->Postcode,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'City' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('City'),
                     'value'     => $address->City,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    )
                 ),
                 'Country' => array(
                     'type'              => 'DropdownField',
                     'title'             => $address->fieldLabel('SilvercartCountry'),
                     'value'             => SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')),
                     'selectedValue'     => $address->SilvercartCountryID,
-                    'checkRequirements' => array(
-                        'isFilledIn' => true
-                    ),
                 )
             );
             if (!empty($existingOrder)) {
@@ -203,6 +179,22 @@ class SilvercartRevocationForm extends CustomHtmlForm {
             }
         }
         return parent::getFormFields($withUpdate);
+    }
+    
+    /**
+     * Sets the preferences for this form
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.09.2014
+     */
+    public function preferences() {
+        $this->preferences  = array(
+            'markRequiredFields' => true
+        );
+        parent::preferences();
+        return $this->preferences;
     }
 
     /**

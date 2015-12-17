@@ -29,6 +29,7 @@ class SilvercartSearchQuery extends DataObject {
         'SearchQuery'   => 'VarChar(255)',
         'Locale'        => 'DbLocale',
         'Count'         => 'Int',
+        'Hits'          => 'Int',
     );
     
     /**
@@ -53,6 +54,7 @@ class SilvercartSearchQuery extends DataObject {
             $searchQuery->Locale        = Translatable::get_current_locale();
             $searchQuery->SearchQuery   = $query;
             $searchQuery->Count         = 0;
+            $searchQuery->Hits          = 0;
         }
         return $searchQuery;
     }

@@ -104,7 +104,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             if ($this->UseMinimumAgeToOrder()) {
                 
                 $days = array(
-                    '' => _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')
+                    '' => '',
                 );
                 for ($day = 1; $day <= 31; $day++) {
                     $days[$day] = $day;
@@ -115,7 +115,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
                         array(
                             'BirthdayDay' => array(
                                 'type'              => 'DropdownField',
-                                'title'             => _t('SilvercartPage.DAY'),
+                                'title'             => _t('SilvercartPage.BIRTHDAY'),
                                 'value'             => $days,
                                 'checkRequirements' => array(
                                     'isFilledIn' => true
@@ -124,7 +124,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
                             'BirthdayMonth' => array(
                                 'type'              => 'DropdownField',
                                 'title'             => _t('SilvercartPage.MONTH'),
-                                'value'             => SilvercartTools::getMonthMap(),
+                                'value'             => SilvercartTools::getMonthMap(''),
                                 'checkRequirements' => array(
                                     'isFilledIn' => true
                                 )

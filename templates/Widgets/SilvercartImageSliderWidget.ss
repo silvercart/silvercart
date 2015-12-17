@@ -17,9 +17,7 @@
                     <% if LinkedSite %>
                         <a href="$LinkedSite.Link">
                     <% end_if %>
-                    <% with Image %>
-                        <img src="$URL" width="$Width" height="$Height" alt="$Title" />
-                    <% end_with %>
+                        <img src="{$Image.URL}" width="{$Image.Width}" height="{$Image.Height}" alt="{$AltText}" />
                     <% if LinkedSite %>
                         </a>
                     <% end_if %>

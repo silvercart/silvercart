@@ -30,6 +30,7 @@ class SilvercartAvailabilityStatus extends DataObject {
         'badgeColor'          => "Enum('default,success,warning,important,info,inverse','default')",
         'SetForPositiveStock' => 'Boolean(0)',
         'SetForNegativeStock' => 'Boolean(0)',
+        'IsDefault'           => 'Boolean',
     );
     
     /**
@@ -43,6 +44,7 @@ class SilvercartAvailabilityStatus extends DataObject {
         'SetForPositiveStockNice' => 'Text',
         'SetForNegativeStockNice' => 'Text',
         'BadgeColorIndicator'     => 'HTMLText',
+        'IsDefaultString'         => 'Text',
     );
     
     /**
@@ -87,7 +89,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 11.06.2014
+     * @since 03.07.2014
      */
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
@@ -103,7 +105,8 @@ class SilvercartAvailabilityStatus extends DataObject {
                 'SetForNegativeStock'                   => _t('SilvercartAvailabilityStatus.SetForNegativeStock'),
                 'SetForNegativeStockDesc'               => _t('SilvercartAvailabilityStatus.SetForNegativeStockDesc'),
                 'SetForNegativeStockShort'              => _t('SilvercartAvailabilityStatus.SetForNegativeStockShort'),
-                'SilvercartAvailabilityStatusLanguages' => _t('SilvercartAvailabilityStatusLanguage.SINGULARNAME')
+                'SilvercartAvailabilityStatusLanguages' => _t('SilvercartAvailabilityStatusLanguage.SINGULARNAME'),
+                'IsDefault'                             => _t('SilvercartAvailabilityStatus.ISDEFAULT'),
             )
         );
 
@@ -147,7 +150,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2014
+     * @since 03.07.2014
      */
     public function summaryFields() {
         $summaryFields = array(
@@ -156,6 +159,7 @@ class SilvercartAvailabilityStatus extends DataObject {
             'Code'  => $this->fieldLabel('Code'),
             'SetForNegativeStockNice' => $this->fieldLabel('SetForNegativeStockShort'),
             'SetForPositiveStockNice' => $this->fieldLabel('SetForPositiveStockShort'),
+            'IsDefaultString'   => $this->fieldLabel('IsDefault'),
         );
 
         $this->extend('updateSummaryFields', $summaryFields);
@@ -226,6 +230,19 @@ class SilvercartAvailabilityStatus extends DataObject {
     public function getSetForNegativeStockNice() {
         return $this->SetForNegativeStock ? _t('Silvercart.YES') : '';
     }
+
+    /**
+     * Casting to get the IsDefault state as a readable string
+     *
+     * @return string
+     */
+    public function getIsDefaultString() {
+        $IsDefaultString = _t('Boolean.NO');
+        if ($this->IsDefault) {
+            $IsDefaultString = _t('Boolean.YES');
+        }
+        return $IsDefaultString;
+    }
     
     /**
      * Returns the availability status to use when a product gets a negative
@@ -254,7 +271,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2014
+     * @since 03.07.2014
      */
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
@@ -286,6 +303,25 @@ class SilvercartAvailabilityStatus extends DataObject {
                 }
             }
         }
+        
+        $defaultStatus = self::getDefault();
+        if (!$defaultStatus) {
+            $defaultStatus = $this;
+            $this->IsDefault = true;
+        } elseif ($this->IsDefault &&
+                  $defaultStatus->ID != $this->ID) {
+            $defaultStatus->IsDefault = false;
+            $defaultStatus->write();
+        }
+    }
+    
+    /**
+     * Returns the default tax rate
+     * 
+     * @return SilvercartTax
+     */
+    public static function getDefault() {
+        return DataObject::get_one('SilvercartAvailabilityStatus', '"IsDefault" = 1');
     }
     
     /**

@@ -29,9 +29,22 @@ class SilvercartContactMessage extends DataObject {
         'Salutation'    => 'VarChar(16)',
         'FirstName'     => 'VarChar(255)',
         'Surname'       => 'VarChar(128)',
+        'Street'        => 'VarChar(255)',
+        'StreetNumber'  => 'VarChar(15)',
+        'Postcode'      => 'VarChar',
+        'City'          => 'VarChar(100)',
         'Email'         => 'VarChar(255)',
         'Phone'         => 'VarChar(255)',
         'Message'       => 'Text',
+    );
+    
+    /**
+     * Has-one relationships.
+     *
+     * @var array
+     */
+    public static $has_one = array(
+        'SilvercartCountry' => 'SilvercartCountry'
     );
 
     /**
@@ -84,19 +97,24 @@ class SilvercartContactMessage extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * @since 07.08.2014
      */
     public function fieldLabels($includerelations = true) {
         $fields = array_merge(
             parent::fieldLabels($includerelations),
             array(
-                'CreatedNice'   => _t('Silvercart.DATE'),
-                'Salutation'    => _t('SilvercartAddress.SALUTATION'),
-                'FirstName'     => _t('Member.FIRSTNAME'),
-                'Surname'       => _t('Member.SURNAME'),
-                'Email'         => _t('Member.EMAIL'),
-                'Phone'         => _t('SilvercartAddress.PHONE'),
-                'Message'       => _t('SilvercartContactMessage.MESSAGE')
+                'CreatedNice'       => _t('Silvercart.DATE'),
+                'Salutation'        => _t('SilvercartAddress.SALUTATION'),
+                'FirstName'         => _t('Member.FIRSTNAME'),
+                'Surname'           => _t('Member.SURNAME'),
+                'Email'             => _t('Member.EMAIL'),
+                'Street'            => _t('SilvercartAddress.STREET'),
+                'StreetNumber'      => _t('SilvercartAddress.STREETNUMBER'),
+                'Postcode'          => _t('SilvercartAddress.POSTCODE'),
+                'City'              => _t('SilvercartAddress.CITY'),
+                'SilvercartCountry' => _t('SilvercartCountry.SINGULARNAME'),
+                'Phone'             => _t('SilvercartAddress.PHONE'),
+                'Message'           => _t('SilvercartContactMessage.MESSAGE')
             )
         );
         
@@ -164,7 +182,7 @@ class SilvercartContactMessage extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2011
+     * @since 07.08.2014
      */
     public function send() {
         $silvercartPluginCall = SilvercartPlugin::call($this, 'send');
@@ -174,11 +192,16 @@ class SilvercartContactMessage extends DataObject {
                 'ContactMessage',
                 SilvercartConfig::DefaultContactMessageRecipient(),
                 array(
-                    'FirstName' => $this->FirstName,
-                    'Surname'   => $this->Surname,
-                    'Email'     => $this->Email,
-                    'Phone'     => $this->Phone,
-                    'Message'   => str_replace('\r\n', '<br/>', nl2br($this->Message)),
+                    'FirstName'         => $this->FirstName,
+                    'Surname'           => $this->Surname,
+                    'Street'            => $this->Street,
+                    'StreetNumber'      => $this->StreetNumber,
+                    'Postcode'          => $this->Postcode,
+                    'City'              => $this->City,
+                    'SilvercartCountry' => $this->SilvercartCountry(),
+                    'Email'             => $this->Email,
+                    'Phone'             => $this->Phone,
+                    'Message'           => str_replace('\r\n', '<br/>', nl2br($this->Message)),
                 )
             );
         }

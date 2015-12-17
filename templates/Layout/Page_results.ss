@@ -23,7 +23,7 @@
             <% else %>
 				<p><% _t('SilvercartPage.NO_RESULTS','Sorry, but Your query did not return any results.') %></p>
             <% end_if %>
-
+            
             <% if Results.MoreThanOnePage %>
 				<div id="PageNumbers">
 					<% if Results.NotLastPage %>
@@ -49,6 +49,8 @@
                 $InsertWidgetArea(Content)
             </div>
         </div>
+        
+        $PageComments
     </div>
 </div>
 <div id="col3">

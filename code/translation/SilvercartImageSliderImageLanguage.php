@@ -29,6 +29,7 @@ class SilvercartImageSliderImageLanguage extends DataObject {
     public static $db = array(
         'Title'     => 'VarChar',
         'Content'   => 'HTMLText',
+        'AltText'   => 'Varchar(256)',
     );
     
     /**
@@ -85,6 +86,7 @@ class SilvercartImageSliderImageLanguage extends DataObject {
                     'SilvercartImageSliderImage' => _t('SilvercartImageSliderImage.SINGULARNAME'),
                     'Title'                      => _t('SilvercartImage.TITLE'),
                     'Content'                    => _t('SilvercartImage.CONTENT'),
+                    'AltText'                    => _t('SilvercartImageSliderImage.AltText'),
                 )
         );
 

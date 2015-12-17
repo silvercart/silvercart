@@ -229,6 +229,92 @@ class SilvercartDataObject extends DataExtension {
     }
     
     /**
+     * Checks whether the given field is changed.
+     * 
+     * @param string $fieldName Field name to check change for
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2014
+     */
+    public function fieldValueIsChanged($fieldName) {
+        $isChanged = false;
+        if ($this->owner->isChanged($fieldName)) {
+            $changed  = $this->owner->getChangedFields(false, 1);
+            $original = $changed[$fieldName]['before'];
+            $new      = $changed[$fieldName]['after'];
+            if ($new != $original) {
+                $isChanged = true;
+            }
+        }
+        return $isChanged;
+    }
+    
+    /**
+     * Checks whether the money field with the given fieldname is changed.
+     * 
+     * @param string $fieldName Field name to check change for
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2014
+     */
+    public function moneyFieldIsChanged($fieldName) {
+        $isChanged  = false;
+        $amountName = $fieldName . 'Amount';
+        if ($this->owner->isChanged($fieldName)) {
+            $changed  = $this->owner->getChangedFields(false, 1);
+            $original = $changed[$fieldName]['before'];
+            $new      = $changed[$fieldName]['after'];
+            $originalAmount = $this->owner->{$amountName};
+            $newAmount      = 0;
+            if (!is_null($original)) {
+                $originalAmount = $original->getAmount();
+            }
+            if (!is_null($new)) {
+                $newAmount = $new->getAmount();
+            }
+            if ($newAmount != $originalAmount) {
+                $isChanged = true;
+            }
+        } elseif ($this->owner->isChanged($amountName)) {
+            $changed  = $this->owner->getChangedFields(false, 1);
+            $originalAmount = $changed[$amountName]['before'];
+            $newAmount      = $changed[$amountName]['after'];
+            if ($newAmount != $originalAmount) {
+                $isChanged = true;
+            }
+        }
+        return $isChanged;
+    }
+    
+    /**
+     * Checks whether the given has one relation is changed.
+     * 
+     * @param string $relationName Relation name to check change for
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.10.2014
+     */
+    public function hasOneRelationIsChanged($relationName) {
+        $isChanged  = false;
+        $relationID = $relationName . 'ID';
+        if ($this->owner->isChanged($relationID)) {
+            $changed  = $this->owner->getChangedFields(false, 1);
+            $original = (int)$changed[$relationID]['before'];
+            $new      = (int)$changed[$relationID]['after'];
+            if ($new != $original) {
+                $isChanged = true;
+            }
+        }
+        return $isChanged;
+    }
+    
+    /**
      * Clone of DataObject::getCMSFields() with some additional SilverCart
      * related features.
      * <ul>

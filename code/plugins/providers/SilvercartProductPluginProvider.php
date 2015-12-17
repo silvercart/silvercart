@@ -95,6 +95,20 @@ class SilvercartProductPluginProvider extends SilvercartPlugin {
         $result = $this->extend('pluginGetPluggedInProductListAdditionalData', $callingObject);
         return $this->returnExtensionResultAsArrayList($result);
     }
+    
+    /**
+     * Returns a DataObjectSet with all additional information to display 
+     * between Images and Content.
+     * 
+     * @param array &$arguments    The arguments to pass
+     * @param mixed $callingObject The calling object
+     * 
+     * @return DataObjectSet
+     */
+    public function getPluggedInAfterImageContent(&$arguments, $callingObject) {
+        $result = $this->extend('pluginGetPluggedInAfterImageContent', $callingObject);
+        return $this->returnExtensionResultAsDataObjectSet($result);
+    }
 }
 
 /**

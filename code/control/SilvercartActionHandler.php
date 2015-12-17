@@ -131,7 +131,7 @@ class SilvercartActionHandler extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.06.2014
+     * @since 30.06.2014
      */
     public function doSearch(SS_HTTPRequest $request, $doRedirect = true) {
         $postVars           = $request->postVars();
@@ -144,7 +144,7 @@ class SilvercartActionHandler extends DataExtension {
         $quickSearchQuery   = trim($postVars['quickSearchQuery']);
         $searchContext      = 'SilvercartProduct';
         $searchResultsPage  = SilvercartTools::PageByIdentifierCode("SilvercartSearchResultsPage");
-        $searchQuery        = SilvercartSearchQuery::get_by_query(Convert::raw2sql($quickSearchQuery));
+        $searchQuery        = SilvercartSearchQuery::get_by_query(trim(Convert::raw2sql($quickSearchQuery)));
         $searchQuery->Count++;
         $searchQuery->write();
         SilvercartProduct::setDefaultSort('relevance');

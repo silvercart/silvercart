@@ -186,6 +186,13 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
     protected $searchContextObjects = null;
 
     /**
+     * Determines whether to use product runtime cache or not.
+     *
+     * @var bool
+     */
+    protected $productRuntimeCacheEnabled = true;
+
+    /**
      * returns a array with all registered search contexts
      *
      * @return array
@@ -555,6 +562,13 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         
         $this->searchResultProducts  = $searchResultProducts;
         $this->totalNumberOfProducts = $searchResultProducts->count();
+        
+        $searchQueryObject = SilvercartSearchQuery::get_by_query(Convert::raw2sql($searchQuery));
+        if ($searchQueryObject->Hits != $this->totalNumberOfProducts) {
+            $searchQueryObject->Hits = $this->totalNumberOfProducts;
+            $searchQueryObject->write();
+        }
+        
         return $this->searchResultProducts;
     }
 
@@ -623,14 +637,55 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
      *
      * @return DataList|false the resulting products of the search query
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 08.09.2015
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
-        if (is_null($this->searchResultProducts)) {
+        if (is_null($this->searchResultProducts) || $force) {
             $this->buildSearchResultProducts();
         }
-        return $this->searchResultProducts;
+        $searchResultProducts = $this->searchResultProducts;
+        if (!$this->productRuntimeCacheEnabled()) {
+            $this->searchResultProducts = null;
+        }
+        return $searchResultProducts;
+    }
+    
+    /**
+     * Disables the product runtime cache.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2015
+     */
+    public function disableProductRuntimeCache() {
+        $this->productRuntimeCacheEnabled = false;
+    }
+    
+    /**
+     * Enables the product runtime cache.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2015
+     */
+    public function enableProductRuntimeCache() {
+        $this->productRuntimeCacheEnabled = true;
+    }
+    
+    /**
+     * Returns whether the product runtime cache is enabled.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.12.2015
+     */
+    public function productRuntimeCacheEnabled() {
+        return $this->productRuntimeCacheEnabled;
     }
     
     /**

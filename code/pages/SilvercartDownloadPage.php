@@ -67,6 +67,7 @@ class SilvercartDownloadPage extends Page {
                 $this->SilvercartFiles(),
                 SilvercartGridFieldConfig_RelationEditor::create()
         );
+        $silvercartFileField->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $fields->findOrMakeTab('Root.SilvercartFiles', $this->fieldLabel('SilvercartFiles'));
         $fields->addFieldToTab('Root.SilvercartFiles', $silvercartFileField);
         

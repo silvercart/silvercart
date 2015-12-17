@@ -491,7 +491,7 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
     public function getSalutationText() {
         return SilvercartTools::getSalutationText($this->owner->Salutation);
     }
-    
+
     /**
      * Returns the localized salutation string.
      *

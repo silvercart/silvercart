@@ -68,15 +68,41 @@ class SilvercartDownloadPageHolder extends Page {
      * @since 27.06.2011
      */
     public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
-        if (Controller::curr()->getAction() == 'results') {
-            $parts = explode(self::$breadcrumbs_delimiter, $breadcrumbs);
-            $downloadHolder = array_pop($parts);
-            $parts[] = ("<a href=\"" . $this->Link() . "\">" . $downloadHolder . "</a>");
-            $parts[] = _t('SilvercartDownloadPageHolder.SearchResults');
-            $breadcrumbs = implode(self::$breadcrumbs_delimiter, $parts);
+        $page = $this;
+        $pages = array();
+
+        while(
+            $page  
+            && (!$maxDepth || count($pages) < $maxDepth) 
+            && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
+        ) {
+            if($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) { 
+                $pages[] = $page;
+            }
+
+            $page = $page->Parent;
         }
-        return $breadcrumbs;
+
+        if (Controller::curr()->getAction() == 'results') {
+            $title = new Text();
+            $title->setValue(_t('SilvercartDownloadPageHolder.SearchResults'));
+            array_unshift(
+                    $pages,
+                    new ArrayData(
+                            array(
+                                'MenuTitle' => $title,
+                                'Title' => $title,
+                                'Link'  => '',
+                            )
+                    )
+            );
+        }
+
+        $template = new SSViewer('BreadcrumbsTemplate');
+
+        return $template->process($this->customise(new ArrayData(array(
+            'Pages' => new ArrayList(array_reverse($pages))
+        ))));
     }
     
 }

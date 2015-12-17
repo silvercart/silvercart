@@ -29,6 +29,38 @@ class SilvercartContactForm extends CustomHtmlForm {
     protected $excludeFromCache = true;
 
     /**
+     * Spam check parameter for equal firstname and surname.
+     * Contact messages with an equal firstname and surname will be ignored.
+     *
+     * @var bool
+     */
+    private static $spam_check_firstname_surname_enabled = true;
+
+    /**
+     * Enables the spam check parameter for equal firstname and surname.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.11.2015
+     */
+    public static function enable_spam_check_firstname_surname() {
+        self::$spam_check_firstname_surname_enabled = true;
+    }
+    
+    /**
+     * Disables the spam check parameter for equal firstname and surname.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.11.2015
+     */
+    public static function disable_spam_check_firstname_surname() {
+        self::$spam_check_firstname_surname_enabled = false;
+    }
+
+    /**
      * Returns the form fields
      * 
      * @param bool $withUpdate Execute update method of decorators?
@@ -96,7 +128,72 @@ class SilvercartContactForm extends CustomHtmlForm {
                     )
                 )
             );
-
+            
+            if ($this->EnableStreet()) {
+                $requirements = array();
+                if ($this->StreetIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'Street' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Street') . ' / ' . $address->fieldLabel('StreetNumber'),
+                            'checkRequirements' => $requirements,
+                        ),
+                        'StreetNumber' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('StreetNumber'),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
+            if ($this->EnableCity()) {
+                $requirements = array();
+                if ($this->CityIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'Postcode' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Postcode'),
+                            'checkRequirements' => $requirements,
+                        ),
+                        'City' => array(
+                            'type'              => 'TextField',
+                            'title'             => $address->fieldLabel('Postcode') . ' - ' . $address->fieldLabel('City'),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
+            if ($this->EnableCountry()) {
+                $requirements = array();
+                if ($this->CountryIsRequired()) {
+                    $requirements = array(
+                        'isFilledIn'        => true
+                    );
+                }
+                $this->formFields = array_merge(
+                    $this->formFields,
+                    array(
+                        'SilvercartCountryID' => array(
+                            'type'              => 'DropdownField',
+                            'title'             => $address->fieldLabel('SilvercartCountry'),
+                            'value'             => SilvercartCountry::getPrioritiveDropdownMap(true, _t('SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE')),
+                            'checkRequirements' => $requirements,
+                        ),
+                    )
+                );
+            }
             if ($this->EnablePhoneNumber()) {
                 $requirements = array();
                 if ($this->PhoneNumberIsRequired()) {
@@ -144,11 +241,23 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @param Form           $form     not used
      * @param array          $formData contains the modules form data
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 21.10.2010
      * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 02.11.2015
      */
     protected function submitSuccess($data, $form, $formData) {
+        if (self::$spam_check_firstname_surname_enabled) {
+            $firstName = trim($formData['FirstName']);
+            $surname   = trim($formData['Surname']);
+            if ($firstName == $surname) {
+                // Very high spam risk. Do not accept and do not notify with message.
+                $contactFormResponsePage = SilvercartTools::PageByIdentifierCode("SilvercartContactFormResponsePage");
+                $this->Controller()->redirect($contactFormResponsePage->RelativeLink());
+                return;
+            }
+        }
 
         $formData['Message'] = str_replace('\r\n', "\n", $formData['Message']);
 
@@ -159,8 +268,96 @@ class SilvercartContactForm extends CustomHtmlForm {
         /*
          * redirect a user to the page type for the response or to the root
          */
-        $contactFormResponsePage = SilvercartPage_Controller::PageByIdentifierCode("SilvercartContactFormResponsePage");
-        $this->controller->redirect($contactFormResponsePage->RelativeLink());
+        $contactFormResponsePage = SilvercartTools::PageByIdentifierCode("SilvercartContactFormResponsePage");
+        $this->Controller()->redirect($contactFormResponsePage->RelativeLink());
+    }
+    
+    /**
+     * Returns the contact form page.
+     * 
+     * @return SilvercartContactFormPage
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.04.2015
+     */
+    protected function ContactPage() {
+        $contactPage = $this->Controller();
+        if ($contactPage->IdentifierCode != 'SilvercartContactFormPage') {
+            $contactPage = SilvercartTools::PageByIdentifierCode('SilvercartContactFormPage');
+        }
+        return $contactPage;
+    }
+    
+    /**
+     * Returns whether to enable the Street field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function EnableStreet() {
+        return $this->ContactPage()->EnableStreet;
+    }
+
+    /**
+     * Returns whether to set the Street field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function StreetIsRequired() {
+        return $this->ContactPage()->StreetIsRequired;
+    }
+    
+    /**
+     * Returns whether to enable the City field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function EnableCity() {
+        return $this->ContactPage()->EnableCity;
+    }
+
+    /**
+     * Returns whether to set the City field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function CityIsRequired() {
+        return $this->ContactPage()->CityIsRequired;
+    }
+    
+    /**
+     * Returns whether to enable the Country field.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function EnableCountry() {
+        return $this->ContactPage()->EnableCountry;
+    }
+
+    /**
+     * Returns whether to set the Country field as a required one.
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2014
+     */
+    public function CountryIsRequired() {
+        return $this->ContactPage()->CountryIsRequired;
     }
     
     /**
@@ -172,7 +369,7 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 04.06.2014
      */
     public function EnablePhoneNumber() {
-        return $this->Controller()->EnablePhoneNumber;
+        return $this->ContactPage()->EnablePhoneNumber;
     }
 
     /**
@@ -184,6 +381,6 @@ class SilvercartContactForm extends CustomHtmlForm {
      * @since 04.06.2014
      */
     public function PhoneNumberIsRequired() {
-        return $this->Controller()->PhoneNumberIsRequired;
+        return $this->ContactPage()->PhoneNumberIsRequired;
     }
 }
