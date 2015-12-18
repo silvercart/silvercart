@@ -18,7 +18,7 @@
  * @since 01.07.2011
  * @license see license file in modules root directory
  */
-class SilvercartGroupDecorator extends DataExtension {
+class SilvercartGroupExtension extends DataExtension {
    
     /**
      * extra attributes
@@ -95,7 +95,7 @@ class SilvercartGroupDecorator extends DataExtension {
         $labels = array_merge(
                 $labels,
                 array(
-                    'Pricetype'                 => _t('SilvercartGroupDecorator.PRICETYPE'),
+                    'Pricetype'                 => _t('SilvercartGroupExtension.PRICETYPE'),
                     'SilvercartPaymentMethods'  => _t('SilvercartPaymentMethod.PLURALNAME'),
                     'SilvercartShippingMethods' => _t('SilvercartShippingMethod.PLURALNAME'),
                 )

@@ -786,7 +786,7 @@ de:
     QUICKACCESSLABEL: "Schnellansicht"
   SilvercartGridFieldSubObjectHandler:
     AddSubObjectColumnTitle: "Hinzufügen"
-  SilvercartGroupDecorator:
+  SilvercartGroupExtension:
     NO_PRICETYPE: "---"
     PRICETYPE: "Preistyp"
   SilvercartGroupView:

@@ -786,7 +786,7 @@ en_GB:
     QUICKACCESSLABEL: "Quick access"
   SilvercartGridFieldSubObjectHandler:
     AddSubObjectColumnTitle: "Add"
-  SilvercartGroupDecorator:
+  SilvercartGroupExtension:
     NO_PRICETYPE: "---"
     PRICETYPE: "Pricetype"
   SilvercartGroupView:

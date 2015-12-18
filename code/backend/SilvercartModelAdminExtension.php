@@ -18,7 +18,7 @@
  * @since 24.02.2011
  * @license see license file in modules root directory
  */
-class SilvercartModelAdminDecorator extends DataExtension {
+class SilvercartModelAdminExtension extends DataExtension {
     
     /**
      * Injects some custom javascript to provide instant loading of DataObject

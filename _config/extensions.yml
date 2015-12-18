@@ -1,0 +1,255 @@
+---
+Name: silvercart-extensions
+---
+CheckboxSetField:
+  extensions:
+    ['SilvercartCheckboxSetField']
+DataObject:
+  extensions:
+    ['SilvercartDataObject']
+Group:
+  extensions:
+    ['SilvercartGroupExtension']
+Image:
+  extensions:
+    ['SilvercartImageExtension']
+LeftAndMain:
+  extensions:
+    ['SilvercartLeftAndMainExtension']
+Member:
+  extensions:
+    ['SilvercartCustomer']
+Member_Validator:
+  extensions:
+    ['SilvercartCustomer_Validator']
+ModelAdmin:
+  extensions:
+    ['SilvercartModelAdminExtension']
+Money:
+  extensions:
+    ['SilvercartMoneyExtension']
+PaginatedList:
+  extensions:
+    ['SilvercartPaginatedList']
+Security:
+  extensions:
+    ['SilvercartSecurityController','CustomHtmlFormPage_Controller']
+SilvercartPage:
+  extensions:
+    ['SilvercartPageListWidgetPage']
+SilvercartProduct:
+  extensions:
+    ['SilvercartDataObject','SilvercartDataObjectMultilingualDecorator','SilvercartPluginObjectExtension']
+SilvercartProductGroupHolder_Controller:
+  extensions:
+    ['SilvercartGroupViewDecorator']
+SilvercartProductGroupPage_Controller:
+  extensions:
+    ['SilvercartGroupViewDecorator','SilvercartPluginObjectExtension']
+SilvercartProductLanguage:
+  extensions:
+    ['SilvercartDataObject','SilvercartLanguageDecorator']
+SilvercartSearchResultsPage_Controller:
+  extensions:
+    ['SilvercartGroupViewDecorator']
+SiteTree:
+  extensions:
+    ['Translatable']
+SiteConfig:
+  extensions:
+    ['Translatable','SilvercartSiteConfig']
+WidgetSet:
+  extensions:
+    ['SilvercartWidgetSet']
+SilvercartAvailabilityStatusLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartCarrierLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartCountryLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartFileLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartImageLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartManufacturerLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartOrderStatusLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartPaymentMethodLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartProductConditionLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartQuantityUnitLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartShippingMethodLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartShopEmailLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartTaxLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartZoneLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartBargainProductsWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartImageSliderImageLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartImageSliderWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartLatestBlogPostsWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartPageListWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartProductGroupChildProductsWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartProductGroupItemsWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartProductGroupManufacturersWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartProductGroupNavigationWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartSlidorionProductGroupWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartSubNavigationWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartTextWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartTextWithLinkWidgetLanguage:
+  extensions:
+    ['SilvercartLanguageDecorator']
+SilvercartAvailabilityStatus:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartCarrier:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartCountry:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartFile:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartImage:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartManufacturer:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartOrderStatus:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartProductCondition:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartQuantityUnit:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartShippingMethod:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartShopEmail:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartTax:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartZone:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartBargainProductsWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartImageSliderImage:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartImageSliderWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartLatestBlogPostsWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartPageListWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartProductGroupChildProductsWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartProductGroupItemsWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartProductGroupManufacturersWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartProductGroupNavigationWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartSlidorionProductGroupWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartSubNavigationWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartTextWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartTextWithLinkWidget:
+  extensions:
+    ['SilvercartDataObjectMultilingualDecorator']
+SilvercartConfig:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartContactMessage:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartIncrementPositionQuantityForm:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartOrder:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartProductAddCartFormDetail:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartProductAddCartFormList:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartProductAddCartFormTile:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartProductCsvBulkLoader:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartRemovePositionForm:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartShoppingCart:
+  extensions:
+    ['SilvercartPluginObjectExtension']
+SilvercartShoppingCartPosition:
+  extensions:
+    ['SilvercartPluginObjectExtension']

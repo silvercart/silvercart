@@ -104,88 +104,6 @@ Requirements::add_i18n_javascript('silvercart/javascript/lang');
 // ----------------------------------------------------------------------------
 // Register extensions
 // ----------------------------------------------------------------------------
-CheckboxSetField::add_extension('SilvercartCheckboxSetField');
-DataObject::add_extension('SilvercartDataObject');
-Group::add_extension('SilvercartGroupDecorator');
-Image::add_extension('SilvercartImageDecorator');
-LeftAndMain::add_extension('SilvercartLeftAndMainExtension');
-Member::add_extension('SilvercartCustomer');
-Member_Validator::add_extension('SilvercartCustomer_Validator');
-ModelAdmin::add_extension('SilvercartModelAdminDecorator');
-Money::add_extension('SilvercartMoneyExtension');
-PaginatedList::add_extension('SilvercartPaginatedList');
-Security::add_extension('SilvercartSecurityController');
-Security::add_extension('CustomHtmlFormPage_Controller');
-SilvercartPage::add_extension('SilvercartPageListWidgetPage');
-SilvercartProduct::add_extension('SilvercartDataObject');
-SilvercartProductGroupHolder_Controller::add_extension('SilvercartGroupViewDecorator');
-SilvercartProductGroupPage_Controller::add_extension('SilvercartGroupViewDecorator');
-SilvercartProductLanguage::add_extension('SilvercartDataObject');
-SilvercartSearchResultsPage_Controller::add_extension('SilvercartGroupViewDecorator');
-SiteTree::add_extension('Translatable');
-SiteConfig::add_extension('Translatable');
-SiteConfig::add_extension('SilvercartSiteConfig');
-WidgetSet::add_extension('SilvercartWidgetSet');
-// DataObject Translations
-SilvercartAvailabilityStatusLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartCarrierLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartCountryLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartFileLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartImageLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartManufacturerLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartOrderStatusLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartPaymentMethodLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartProductConditionLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartProductLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartQuantityUnitLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartShippingMethodLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartShopEmailLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartTaxLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartZoneLanguage::add_extension('SilvercartLanguageDecorator');
-
-// Widget Translations
-SilvercartBargainProductsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartImageSliderImageLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartImageSliderWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartLatestBlogPostsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartPageListWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartProductGroupChildProductsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartProductGroupItemsWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartProductGroupManufacturersWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartProductGroupNavigationWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartSlidorionProductGroupWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartSubNavigationWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartTextWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-SilvercartTextWithLinkWidgetLanguage::add_extension('SilvercartLanguageDecorator');
-// Translatable DataObjects
-SilvercartAvailabilityStatus::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartCarrier::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartCountry::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartFile::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartImage::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartManufacturer::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartOrderStatus::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartProduct::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartProductCondition::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartQuantityUnit::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartShippingMethod::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartShopEmail::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartTax::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartZone::add_extension('SilvercartDataObjectMultilingualDecorator');
-// Translatable Widgets
-SilvercartBargainProductsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartImageSliderImage::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartImageSliderWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartLatestBlogPostsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartPageListWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartProductGroupChildProductsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartProductGroupItemsWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartProductGroupManufacturersWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartProductGroupNavigationWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartSlidorionProductGroupWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartSubNavigationWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartTextWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
-SilvercartTextWithLinkWidget::add_extension('SilvercartDataObjectMultilingualDecorator');
 SilvercartSortableDataObject::add_sortable_classes(array(
     "SilvercartCarrier",
     "SilvercartProduct",
@@ -194,22 +112,8 @@ SilvercartSortableDataObject::add_sortable_classes(array(
 ));
 
 // ----------------------------------------------------------------------------
-// Register SilvercartPlugins
+// Register SilvercartPluginProvider
 // ----------------------------------------------------------------------------
-SilvercartConfig::add_extension('SilvercartPluginObjectExtension');
-SilvercartContactMessage::add_extension('SilvercartPluginObjectExtension');
-SilvercartIncrementPositionQuantityForm::add_extension('SilvercartPluginObjectExtension');
-SilvercartOrder::add_extension('SilvercartPluginObjectExtension');
-SilvercartProduct::add_extension('SilvercartPluginObjectExtension');
-SilvercartProductAddCartFormDetail::add_extension('SilvercartPluginObjectExtension');
-SilvercartProductAddCartFormList::add_extension('SilvercartPluginObjectExtension');
-SilvercartProductAddCartFormTile::add_extension('SilvercartPluginObjectExtension');
-SilvercartProductCsvBulkLoader::add_extension('SilvercartPluginObjectExtension');
-SilvercartProductGroupPage_Controller::add_extension('SilvercartPluginObjectExtension');
-SilvercartRemovePositionForm::add_extension('SilvercartPluginObjectExtension');
-SilvercartShoppingCart::add_extension('SilvercartPluginObjectExtension');
-SilvercartShoppingCartPosition::add_extension('SilvercartPluginObjectExtension');
-
 SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');
 SilvercartPlugin::registerPluginProvider('SilvercartIncrementPositionQuantityForm', 'SilvercartIncrementPositionQuantityFormPluginProvider');

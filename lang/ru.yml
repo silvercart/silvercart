@@ -605,7 +605,7 @@ ru:
     DEFAULT_CONTENT: "<h2>Добро пожаловать в<strong>SilverCart</strong> Webshop!</h2>"
     PLURALNAME: "пользовательские страницы"
     SINGULARNAME: "пользовательская страница"
-  SilvercartGroupDecorator:
+  SilvercartGroupExtension:
     NO_PRICETYPE: ""
     PRICETYPE: "тип прайлиста"
   SilvercartGroupView:

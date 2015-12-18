@@ -1,21 +1,8 @@
 <?php
 /**
- * Copyright 2011 pixeltricks GmbH
+ * Copyright 2015 pixeltricks GmbH
  *
  * This file is part of SilverCart.
- *
- * SilverCart is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * SilverCart is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with SilverCart.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Silvercart
  * @subpackage Products
@@ -26,29 +13,21 @@
  * 
  * @package Silvercart
  * @subpackage Products
- * @author Sascha Koehler <skoehler@pixeltricks.de>
- * @copyright 2011 pixeltricks GmbH
- * @since 04.05.2011
- * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @copyright 2015 pixeltricks GmbH
+ * @since 18.12.2015
+ * @license see license file in modules root directory
  */
-class SilvercartImageExtension extends DataObjectDecorator {
+class SilvercartImageExtension extends DataExtension {
     
     /**
-     * Extends the database fields and relations of the decorated class.
+     * attribute casting
      *
-     * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.05.2011
+     * @var array
      */
-    public function extraStatics() {
-        return array(
-            'casting' => array(
-                'ImageThumbnail' => 'VarChar(255)'
-            )
-        );
-    }
+    private static $casting = array(
+        'ImageThumbnail' => 'VarChar(255)'
+    );
     
     /**
      * Add additional summary fields.
@@ -57,11 +36,14 @@ class SilvercartImageExtension extends DataObjectDecorator {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
-     * @since 04.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.12.2015
      */
     public function updateSummaryFields(&$fields) {
+        if (array_key_exists('ImagePreview', $fields)) {
+            return;
+        }
         $fields = array_merge(
             $fields,
             array(
@@ -76,7 +58,6 @@ class SilvercartImageExtension extends DataObjectDecorator {
      * @return string
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @copyright 2011 pixeltricks GmbH
      * @since 04.05.2011
      */
     public function ImageThumbnail() {
