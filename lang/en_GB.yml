@@ -36,6 +36,7 @@ en_GB:
     MORE: "More"
     NO: "No"
     NOT_ALLOWED_TO_PRINT: "You are not allowed to print this object!"
+    Oclock: "o'clock"
     PAGE: "Page"
     PRINT: "Print"
     PRIORITY: "Priority (the higher the more important)"
@@ -45,6 +46,7 @@ en_GB:
     SOCIALMEDIA: "Social Media"
     SORTORDER: "Sort order"
     TIMES: "Time"
+    TODAY: "today"
     TOTAL: "Total"
     TRANSLATION: "Translation"
     TRANSLATIONS: "Translations"
@@ -57,6 +59,7 @@ en_GB:
     WEEKS: "weeks"
     X_OF_Y: "%s of %s"
     YES: "Yes"
+    YESTERDAY: "yesterday"
   SilvercartAddress:
     ADDITION: "Addition"
     ADDRESSTYPE: "Type of address"
@@ -144,8 +147,8 @@ en_GB:
     SINGULARNAME: "Anonymous newsletter receipient"
   SilvercartAvailabilityStatus:
     ADDITIONALTEXT: "Additional text"
-    ISDEFAULT: "Is Default"
-    PLURALNAME: "Availabilities"
+    ISDEFAULT: "Is default"
+    PLURALNAME: "Availability"
     SINGULARNAME: "Availability"
     STATUS_AVAILABLE: "available"
     STATUS_AVAILABLE_IN: "available in %s %s"
@@ -361,12 +364,12 @@ en_GB:
     EnableCity: "Use field for city"
     EnableCountry: "Use field for country"
     EnablePhoneNumber: "Use field for phone number"
-    EnablePostcode: "Use field for post code"
+    EnablePostcode: "Use field for postcode"
     EnableStreet: "Use field for street"
-    FormFieldsTab: "Form fields"
+    FormFieldsTab: "Form Fields"
     PLURALNAME: "Contact form pages"
     PhoneNumberIsRequired: "Phone number is required"
-    PostcodeIsRequired: "Post code is required"
+    PostcodeIsRequired: "Postcode is required"
     REQUEST: "Request via contact form"
     SINGULARNAME: "Contact form page"
     StreetIsRequired: "Street is required"
@@ -393,6 +396,7 @@ en_GB:
            <% if Phone %><p><strong>Telefon: {$Phone}</strong></p><% end_if %>
            <h2>Message</h2>
            <p>$Message</p>
+           
   SilvercartContactMessageAdmin:
     MENUTITLE: "Contactmessages"
   SilvercartCountry:
@@ -815,6 +819,7 @@ en_GB:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
   SilvercartImageSliderImage:
+    AltText: "Text for ALT-Tag"
     LINKPAGE: "Page that shall be linked to"
     PLURALNAME: "slider images"
     ProductNumberToReference: "Productnumber of the product to link to"
@@ -1195,6 +1200,7 @@ en_GB:
     NOVEMBER: "November"
     NO_ORDERS: "You do not have any orders yet"
     NO_RESULTS: "Sorry, but your query did not return any results."
+    Oclock: "o'clock"
     OCTOBER: "October"
     ORDERED_PRODUCTS: "Ordered products"
     ORDERS_EMAIL_INFORMATION_TEXT: "Please check your email inbox for the order confirmation."
@@ -1239,6 +1245,7 @@ en_GB:
     TITLE: "Title"
     TITLE_IMPRINT: "Imprint"
     TITLE_TERMS: "terms of service"
+    TODAY: "today"
     TOTAL: "Total"
     URL_SEGMENT_IMPRINT: "imprint"
     URL_SEGMENT_TERMS: "terms-of-service"
@@ -1250,6 +1257,7 @@ en_GB:
     WELCOME_PAGE_TITLE: "Welcome"
     WELCOME_PAGE_URL_SEGMENT: "Welcome"
     YEAR: "Year"
+    YESTERDAY: "yesterday"
     YOUR_REMARKS: "Your remarks"
   SilvercartPageListWidget:
     CMSTITLE: "SilverCart page list"
@@ -1363,6 +1371,7 @@ en_GB:
     IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: "Absolute path to the directory on the webserver where the images are located (e.g. /var/www/silvercart/images/)"
     IMPORTIMAGESFORM_REPORT: "<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>"
     IS_ACTIVE: "is active"
+    IsNotBuyable: "Is not buyable"
     LIST_PRICE: "list price"
     LaunchDate: "Launch date"
     LaunchDateInfo: "<strong>Optional</strong> - Set this if <i>release date</i> is set but the item should be displayed before its <i>release date</i>."
@@ -1759,6 +1768,7 @@ en_GB:
     PACKAGE: "Package"
     PLURALNAME: "Shipping methods"
     SINGULARNAME: "Shipping method"
+    isPickup: "Is pickup (no active shipping, customer needs to pickup himself)"
   SilvercartShippingMethodAdmin:
     MENUTITLE: "Shipping Methods"
   SilvercartShippingMethodLanguage:

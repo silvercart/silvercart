@@ -104,7 +104,7 @@ nl:
     PLURALNAME: "Vervoerders"
     SINGULARNAME: "Vervoerder"
   SilvercartCarrierAdmin:
-    MENUTITLE: "Vervoerders"
+    MENUTITLE: "Vervoerder"
   SilvercartCartPage:
     CART_EMPTY: "Uw winkelwagen is nog leeg."
     DEFAULT_TITLE: "Winkelwagen"
@@ -221,7 +221,6 @@ nl:
     STOCK: "Voorraad"
     TABBED: "met tabbladen"
     USEMINIMUMORDERVALUE: "Activeer minimale orderwaarde"
-    USE_APACHE_SOLR_SEARCH: "Gebruik Apache Solr zoeken"
   SilvercartConfigAdmin:
     MENUTITLE: "Silvercart algemene configuraties"
   SilvercartContactFormPage:
@@ -592,7 +591,7 @@ nl:
     PLURALNAME: "Factuur adressen"
     SINGULARNAME: "Factuur adres"
   SilvercartLatestBlogPostsWidget:
-    CMSTITLE: "Toon laatste blog-berichten"
+    CMSTITLE: "Laatste blog-berichten"
     DESCRIPTION: "Toont de meest recente blog-berichten."
     IS_CONTENT_VIEW: "Gebruik het normale overzicht in plaats van de widgetview"
     SHOW_ENTRY: "Lees bericht"
@@ -1248,6 +1247,9 @@ nl:
     STATUS_SKIPPED: "Overgeslagen"
   SilvercartUpdateAdmin:
     SILVERCART_UPDATE: "SC Updates"
+  SilvercartWidget:
+    SORT_ORDER_LABEL: "Sorteervolgorde"
+  SilvercartWidgetSet:
   SilvercartZone:
     ATTRIBUTED_COUNTRIES: "Toegewezen landen"
     ATTRIBUTED_SHIPPINGMETHODS: "Toegewezen verzendmethodes"
