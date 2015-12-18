@@ -34,6 +34,5 @@ Zur besseren Übersicht ist das Back-End aufgeteilt in die Hauptbereiche
 * Abwicklung
 * Kunden
 * Einstellungen
-* Module
 
 Die Menüpunkte können in Ihrem Back-End abweichen, wenn Sie zusätzliche Module installiert haben oder bei Ihrem Benutzerkonto der Zugang zu bestimmten Modulen gesperrt ist.

@@ -3,11 +3,10 @@
 Unter dem Tab Artikel haben Sie die Möglichkeit Ihr Webshop-Sortiment zu pflegen. 
 
 Neben den Artikeln können Sie auch 
-* Hersteller
-* Artikelzustände
-* Verfügbarkeiten
-* Steuersätze und
-* Preisportal Exporte verwalten.
+* Hersteller,
+* Artikelzustände,
+* Verfügbarkeiten und
+* Steuersätze verwalten.
 
 ## Artikel
 
@@ -284,6 +283,7 @@ Anwendungsbeispiel: Spiegel-Warengruppen für Preisportal-Exporte
 
 Ein Anwendungsfall für Spiegel-Warengruppen ist die Aufteilung des Sortiments für verschiedene Preisportale. Für den Fall, dass Sie nur bestimmte Teile Ihres Sortiments auf einem Preisportal anbieten möchten, können Sie alle gewünschten Produkte einer eigens hierfür angelegte Spiegel-Warengruppe zuordnen. In der Konfiguration des Exports können Sie dann angeben, dass nur Artikel dieser Spiegel-Warengruppe verwendet werden sollen.
 
+Ein Modul für Preisportal-Exporte ist separat erhältlich.
 
 #### Übersetzungen
 

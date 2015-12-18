@@ -82,7 +82,6 @@ class SilvercartProductGroupPage extends Page {
      */
     public static $belongs_many_many = array(
         'SilvercartMirrorProducts'      => 'SilvercartProduct',
-        'SilvercartProductExporters'    => 'SilvercartProductExporter',
     );
 
     /**
@@ -381,7 +380,6 @@ class SilvercartProductGroupPage extends Page {
                 'UseOnlyDefaultGroupHolderView' => _t('SilvercartProductGroupPage.USEONLYDEFAULTGROUPHOLDERVIEW'),
                 'DoNotShowProducts'             => _t('SilvercartProductGroupPage.DONOTSHOWPRODUCTS'),
                 'DisplaySettings'               => _t('SilvercartProductGroupPage.DisplaySettings'),
-                'SilvercartProductExporters'    => _t('SilvercartProductExporter.SINGULARNAME'),
             )
         );
 
