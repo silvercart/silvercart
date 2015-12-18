@@ -691,14 +691,6 @@ ru:
   SilvercartMetaNavigationPage:
     PLURALNAME: "страницы метаинформации"
     SINGULARNAME: "страница метаинформации"
-  SilvercartMultiSelectAndOrderField:
-    ADD_CALLBACK_FIELD: "поле обратного вызова"
-    ATTRIBUTED_FIELDS: "ассоциированные поля"
-    CSV_SEPARATOR_LABEL: "CSV разделитель"
-    FIELD_NAME: "название поля"
-    MOVE_DOWN: "сдвинуть вниз"
-    MOVE_UP: "сдвинуть наверх"
-    NOT_ATTRIBUTED_FIELDS: "не ассоциированные поля"
   SilvercartMyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: "У Вас уже есть учётная запись?"
     DEFAULT_TITLE: "моя учётная запись"

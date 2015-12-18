@@ -615,14 +615,6 @@ nl:
     PLURALNAME: "Meta navigatie"
     SINGULARNAME: "Meta navigatie"
     URL_SEGMENT: "metanavigatie"
-  SilvercartMultiSelectAndOrderField:
-    ADD_CALLBACK_FIELD: "Voeg terugbelveld toe"
-    ATTRIBUTED_FIELDS: "Toegekende velden"
-    CSV_SEPARATOR_LABEL: "CSV scheidingsteken"
-    FIELD_NAME: "Veldnaam"
-    MOVE_DOWN: "Naar beneden"
-    MOVE_UP: "Naar boven"
-    NOT_ATTRIBUTED_FIELDS: "Geen toegekende velden"
   SilvercartMyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: "Heeft u al een account?"
     DEFAULT_TITLE: "Mijn account"

@@ -898,14 +898,6 @@ de:
   SilvercartMetaNavigationPage:
     PLURALNAME: "Meta-Informations-Seiten"
     SINGULARNAME: "Meta-Informations-Seite"
-  SilvercartMultiSelectAndOrderField:
-    ADD_CALLBACK_FIELD: "Callback-Feld hinzufügen"
-    ATTRIBUTED_FIELDS: "Zugewiesene Felder"
-    CSV_SEPARATOR_LABEL: "CSV Trennzeichen"
-    FIELD_NAME: "Feldname"
-    MOVE_DOWN: "Nach unten schieben"
-    MOVE_UP: "Nach oben schieben"
-    NOT_ATTRIBUTED_FIELDS: "Nicht zugewiesene Felder"
   SilvercartMyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: "Sie haben schon ein Konto?"
     DEFAULT_TITLE: "Mein Konto"
