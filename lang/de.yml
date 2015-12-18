@@ -761,17 +761,6 @@ de:
     DEFAULT_CONTENT: "<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>"
     PLURALNAME: "Frontseiten"
     SINGULARNAME: "Frontseite"
-  SilvercartGoogleMerchantTaxonomy:
-    LEVEL1: "Stufe 1"
-    LEVEL2: "Stufe 2"
-    LEVEL3: "Stufe 3"
-    LEVEL4: "Stufe 4"
-    LEVEL5: "Stufe 5"
-    LEVEL6: "Stufe 6"
-    PLURALNAME: "Google Taxonomie"
-    SINGULARNAME: "Google Taxonomie"
-  SilvercartGoogleMerchantTaxonomyAdmin:
-    MENUTITLE: "Google Taxonomie"
   SilvercartGridFieldBatchAction_ActivateDataObject:
     TITLE: "Aktivieren"
   SilvercartGridFieldBatchAction_ChangeAvailabilityStatus:

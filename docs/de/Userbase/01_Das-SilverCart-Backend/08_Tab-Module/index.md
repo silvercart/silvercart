@@ -138,7 +138,3 @@ Name der Variablen, die den Artikel identifiziert
 
 Artikel-Bezugsfeld
 Feld anhand dessen das Produkt bestimmt werden soll. (Zum Beispiel ID oder Artikelnummer)
-
-# Google Taxonomie
-
-SilverCart bietet mit "Google Taxonomie" eine Funktion, um Ihre Produkte in der Google Produktsuche zu kategorisieren. Hier können Sie die Kategorien Ihrer Waren festlegen und diese mit den Warengruppen Ihres Shops verknüpfen.

@@ -1768,27 +1768,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
 
     /**
-     * Return the google taxonomy breadcrumb for the product group of this
-     * product.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.08.2011
-     */
-    public function getGoogleTaxonomyCategory() {
-        $category = '';
-
-        if ($this->SilvercartProductGroup() &&
-            $this->SilvercartProductGroup()->SilvercartGoogleMerchantTaxonomy()) {
-
-            $category = $this->SilvercartProductGroup()->SilvercartGoogleMerchantTaxonomy()->BreadCrumb();
-        }
-
-        return $category;
-    }
-
-    /**
      * get some random products to fill a controller every now and then
      *
      * @param integer $amount        How many products should be returned?

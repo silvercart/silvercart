@@ -605,17 +605,6 @@ ru:
     DEFAULT_CONTENT: "<h2>Добро пожаловать в<strong>SilverCart</strong> Webshop!</h2>"
     PLURALNAME: "пользовательские страницы"
     SINGULARNAME: "пользовательская страница"
-  SilvercartGoogleMerchantTaxonomy:
-    LEVEL1: "Ступень 1"
-    LEVEL2: "Ступень 2"
-    LEVEL3: "Ступень 3"
-    LEVEL4: "Ступень 4"
-    LEVEL5: "Ступень 5"
-    LEVEL6: "Ступень 6"
-    PLURALNAME: "Google Taxonomie"
-    SINGULARNAME: "Google Taxonomie"
-  SilvercartGoogleMerchantTaxonomyAdmin:
-    MENUTITLE: "Google Taxonomie"
   SilvercartGroupDecorator:
     NO_PRICETYPE: ""
     PRICETYPE: "тип прайлиста"

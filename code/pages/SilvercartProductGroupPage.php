@@ -64,7 +64,6 @@ class SilvercartProductGroupPage extends Page {
      */
     public static $has_one = array(
         'GroupPicture'                      => 'Image',
-        'SilvercartGoogleMerchantTaxonomy'  => 'SilvercartGoogleMerchantTaxonomy'
     );
 
     /**
@@ -489,29 +488,6 @@ class SilvercartProductGroupPage extends Page {
             $fields->addFieldToTab($tabPARAM3, new UploadField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE')));
         }
         
-        // Google taxonomy breadcrumb field
-        $cachekey       = SilvercartGoogleMerchantTaxonomy::$cacheKey;
-        $cache          = SS_Cache::factory($cachekey);
-        $breadcrumbList = $cache->load($cachekey);
-
-        if ($breadcrumbList) {
-            $breadcrumbList = unserialize($breadcrumbList);
-        } else {
-            $breadcrumbList         = array();
-            $googleMerchantTaxonomy = SilvercartGoogleMerchantTaxonomy::get();
-            
-            if ($googleMerchantTaxonomy->exists()) {
-                $breadcrumbList = SilvercartGoogleMerchantTaxonomy::get()->map('ID', 'BreadCrumb')->toArray();
-            }
-            
-            $cache->save(serialize($breadcrumbList));
-        }
-        $fields->addFieldToTab('Root.Metadata', new DropdownField(
-            'SilvercartGoogleMerchantTaxonomyID',
-            _t('SilvercartGoogleMerchantTaxonomy.SINGULARNAME'),
-            $breadcrumbList
-        ));
-
         $widgetSetContent = $fields->fieldByName('Root.Widgets.WidgetSetContent');
         if ($widgetSetContent) {
             $widgetSetAdminLink     = Director::baseURL().'admin/silvercart-widget-sets';

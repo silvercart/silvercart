@@ -564,15 +564,6 @@ nl:
     DEFAULT_CONTENT: "<h2>Welkom bij <strong>SilverCart</strong> Webshop!</h2><br/><img src=\"/silvercart/images/silvercart_passion_teaser.jpg\" alt=\"\" title=\"SilverCart - created with passion for eCommerce\"/>"
     PLURALNAME: "Voorpagina's"
     SINGULARNAME: "voorpagina"
-  SilvercartGoogleMerchantTaxonomy:
-    LEVEL1: "Niveau 1"
-    LEVEL2: "Niveau 2"
-    LEVEL3: "Niveau 3"
-    LEVEL4: "Niveau 4"
-    LEVEL5: "Niveau 5"
-    LEVEL6: "Niveau 6"
-    PLURALNAME: "Google systematiek"
-    SINGULARNAME: "Google systematiek"
   SilvercartGroupView:
     LIST: "Lijst"
     TILE: "Tegel"

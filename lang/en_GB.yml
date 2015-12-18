@@ -760,17 +760,6 @@ en_GB:
     DEFAULT_CONTENT: "<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2><br/><img src=\"/silvercart/images/silvercart_passion_teaser.jpg\" alt=\"\" title=\"SilverCart - created with passion for eCommerce\"/>"
     PLURALNAME: "Front pages"
     SINGULARNAME: "Front page"
-  SilvercartGoogleMerchantTaxonomy:
-    LEVEL1: "Level 1"
-    LEVEL2: "Level 2"
-    LEVEL3: "Level 3"
-    LEVEL4: "Level 4"
-    LEVEL5: "Level 5"
-    LEVEL6: "Level 6"
-    PLURALNAME: "Google taxonomy"
-    SINGULARNAME: "Google taxonomy"
-  SilvercartGoogleMerchantTaxonomyAdmin:
-    MENUTITLE: "Google Taxonomy"
   SilvercartGridFieldBatchAction_ActivateDataObject:
     TITLE: "Activate"
   SilvercartGridFieldBatchAction_ChangeAvailabilityStatus:
