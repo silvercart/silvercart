@@ -36,34 +36,38 @@ Diese Felder können verschiedene Arten von Informationen speichern. So kann ein
 Aus technischer Sicht sind alle anderen Seitentypen sozusagen Nachfahren des Seitentyps Page und teilen sich bestimmte Eigenschaften, wie z.B. die Einbindung in den Seitenbaum und damit die Möglichkeit eine Hierarchie erstellen zu können.
 
 ![backend_seitentyp_page.png](_images/backend_seitentyp_page.png)
-Seitenname (Textfeld)
+### Seitenname (Textfeld)
 In diesem Feld können Sie den Namen der Seite pflegen. Der Name der Seite wird im Browser in der Titelleiste angezeigt. Finden Sie einen aussagekräftigen Namen, der hilfreich für Besucher und Suchmaschinen ist. Da es sich um ein Textfeld hab
 
-URL-Segment (Textfeld)
+### URL-Segment (Textfeld)
 Das URL-Segment ist ein Teil der Adresse, unter der diese Seite erreichbar ist. Achten Sie hier auf Aspekte der Suchmaschinenoptimierung, denn die URL und darin enthaltene Keywords werden von Suchmaschinen ausgewertet.
  
 Das URL-Segment ist hierarchisch aufgebaut, deshalb sind der Seitenadresse die URL-Segmente der übergeordneten Seiten vorangestellt. Ändert sich das URL-Segment einer Seite, dann ändert sich auch der Pfad zu untergeordneten Seiten.
 
-Navigationsbezeichnung (Textfeld)
+### Navigationsbezeichnung (Textfeld)
 Die Navigationsbezeichnung wird in Menüs im Front-End und auch im Seitenbaum des Back-Ends angezeigt. In der Regel werden Sie hier den Seitennamen verwenden. Passen Sie die Navigationsbezeichnung an, wenn der Seitenname zu lang oder als Menüeintrag ungeeignet ist.
 
-Inhalt (HTML-Feld)
+### Inhalt (HTML-Feld)
 Das Inhaltsfeld - oft auch Content genannt - ist der eigentliche Inhalt der Seite. Deshalb stellt Ihnen das CMS hier einen mächtigen WYSIWYG-Editor (What You See Is What You Get) zur Verfügung, mit dem Sie Ihren Text umfangreich formatieren können und sogar Grafiken, Tabellen, Videos einbinden können.
 
-Meta-Daten
+### Meta-Daten
 Die Meta Beschreibung und die Benutzerdefinierten Meta-Tags sind hilfreich für eine gute Platzierung in den Suchmaschinenergebnissen. Es lohnt sich, die Meta-Description mit sinnvollen Inhalten zu füllen.
 
-IdentifierCode
+### IdentifierCode
 Manchmal ist es für das Shopsystem wichtig, eine bestimmte Seite eindeutig bestimmen zu können, selbst wenn diese von Ihnen verändert wurde. 
 
 Ein Beispiel hierfür ist die Bestellbestätigungsseite, die angezeigt wird, wenn ein Kunde seine Bestellung erfolgreich abgeschlossen hat. Diese Seite können Sie frei° mit Inhalten füllen. Da Sie dabei auch den Seitennamen und die Navigationsbezeichnung ändern können, sind diese nicht eindeutig. Deshalb gibt es mit dem IdentifierCode die Möglichkeit, einer Seite eindeutig zu referenzieren. 
 
 In den meisten Fällen kann dieses Feld leer bleiben, wenn weder der Shop noch einzelne Module gezielt auf eine Seite zugreifen müssen. Es ist wichtig, dass Sie keine Änderungen an bestehenden Einträgen vornehmen, denn dadurch können bestimmte Funktionen ausgehebelt werden.
 
-Unterseiten dieser Seite bilden Haupt-Navigation
-Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es darf nur eine Seite geben, die diese Einstellung aktiv hat.
+### Unterseiten dieser Seite bilden Haupt-Navigation
+Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es darf in jeder Sprache nur eine Seite geben, die diese Einstellung aktiv hat. 
+Hinweis: Bei einer neu erstellten Überetzung ist diese Option nicht gesetzt.
 
-Diese Einstellung ist hilfreich, wenn Sie Ihre Warengruppen-Hierarchie überarbeiten und ohne Zeitverlust zwischen einer parallel erstellen Hierarchie umschalten möchten.
+>Hintergrund: Wenn Sie SilverCart nachträglich als Modul in Ihre SilverStripe-Website installieren, dann wird das zu >einen Konflikt zwischen der SilverCart-Navigation und der bereits existierenden Navigation führen.
+>Diesen Konflikt können Sie durch die Aktivierung dieser Option vermeiden. In diesem Fall wird die bereits bestehende >Haupt-Navigation beibehalten und die SilverCart-Navigation nicht aktiviert. Statt der Hauptnavigation können Sie z.B. >das Navigations-Widget verwenden.
+
+Diese Einstellung können Sie auch verwenden, wenn Sie Ihre Warengruppen-Hierarchie überarbeiten und die Hauptnavigation ohne Zeitverlust auf parallel erstellte Hierarchie umstellen möchten.
 
 
 ## Der Editor TinyMCE
@@ -89,6 +93,8 @@ Seitentypen sind ein grundlegendes Konzept und einer der Vorteile des CMS Silver
 Mit einem Klick auf das +-Zeichen des Knotens machen Sie Unterseiten im Seitenbaum sichtbar. Durch einen Klick auf die Überschrift der gewünschten Seite könne Sie diese bearbeiten.
 
 Warengruppen können Sie in beliebiger Tiefe verschachteln. SilverCart erstellt die Navigation und Übersicht der Warengruppen vollautomatisch.
+
+Achtung: Warengruppen, denen keine Produkte zugeordnet sind und die auch keine weiteren Warengruppen erhalten, werden im Front-End nicht angezeigt.
 
 An dieser Stelle können Sie keine Produkte pflegen. Die Pflegemaske für Produkte finden Sie unter SilverCart Administration -> Artikel
 
