@@ -484,8 +484,7 @@ class SilvercartProductGroupPage extends Page {
             );
             $fields->addFieldToTab($tabPARAM, $manageProductsButton);
 
-            $tabPARAM3 = "Root." . _t('SilvercartProductGroupPage.GROUP_PICTURE', 'group picture');
-            $fields->addFieldToTab($tabPARAM3, new UploadField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE')));
+            $fields->addFieldToTab('Root.Main', new UploadField('GroupPicture', _t('SilvercartProductGroupPage.GROUP_PICTURE')), 'Content');
         }
         
         $widgetSetContent = $fields->fieldByName('Root.Widgets.WidgetSetContent');
