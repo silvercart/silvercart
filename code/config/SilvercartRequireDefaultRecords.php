@@ -105,19 +105,19 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.10.2012
+     * @since 21.12.2015
      */
     public function createDefaultConfig() {
-        // create a SilvercartConfig if not exist
-        if (!SilvercartConfig::get()->first()) {
-            $silvercartConfig = new SilvercartConfig();
-            $silvercartConfig->DefaultCurrency = 'EUR';
+        $config = SilvercartConfig::getConfig();
+        if ($config instanceof SiteConfig &&
+            is_null($config->DefaultCurrency)) {
+            $config->DefaultCurrency = 'EUR';
             $email = Email::getAdminEmail();
             if ($email != '') {
-                $silvercartConfig->EmailSender          = $email;
-                $silvercartConfig->DefaultMailRecipient = $email;
+                $config->EmailSender          = $email;
+                $config->DefaultMailRecipient = $email;
             }
-            $silvercartConfig->write();
+            $config->write();
         }
     }
     
@@ -857,7 +857,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
      * @since 08.04.2013
      */
     public function increaseSilvercartVersion() {
-        $defaults       = Config::inst()->get('SilvercartConfig', 'defaults');
+        $defaults       = Config::inst()->get('SilvercartSiteConfig', 'defaults');
         $minorVersion   = $defaults['SilvercartMinorVersion'];
         $config         = SilvercartConfig::getConfig();
         if ($config->SilvercartMinorVersion != $minorVersion) {

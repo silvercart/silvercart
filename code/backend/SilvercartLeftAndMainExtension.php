@@ -30,6 +30,8 @@ class SilvercartLeftAndMainExtension extends DataExtension {
         'isUpdateAvailable',
         'createsitetreetranslation',
         'publishsitetree',
+        'add_example_data',
+        'add_example_config',
     );
     
     /**
@@ -323,6 +325,46 @@ class SilvercartLeftAndMainExtension extends DataExtension {
         $url = $this->owner->Link('show');
         
         return $this->owner->redirect($url);
+    }
+    
+    /**
+     * Adds example data to SilverCart when triggered in ModelAdmin.
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.02.2013
+     */
+    public function add_example_data() {
+        SilvercartConfig::enableTestData();
+        $result = SilvercartRequireDefaultRecords::createTestData();
+        if ($result) {
+            $responseText   = _t('SilvercartConfig.ADDED_EXAMPLE_DATA');
+        } else {
+            $responseText   = _t('SilvercartConfig.EXAMPLE_DATA_ALREADY_ADDED');
+        }
+        $this->owner->getResponse()->addHeader('X-Status', rawurlencode($responseText));
+        return $this->owner->getResponseNegotiator()->respond($this->owner->getRequest());
+    }
+    
+    /**
+     * Adds example configuration to SilverCart when triggered in ModelAdmin.
+     *
+     * @return SS_HTTPResponse 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function add_example_config() {
+        SilvercartConfig::enableTestData();
+        $result = SilvercartRequireDefaultRecords::createTestConfiguration();
+        if ($result) {
+            $responseText   = _t('SilvercartConfig.ADDED_EXAMPLE_CONFIGURATION');
+        } else {
+            $responseText   = _t('SilvercartConfig.EXAMPLE_CONFIGURATION_ALREADY_ADDED');
+        }
+        $this->owner->getResponse()->addHeader('X-Status', rawurlencode($responseText));
+        return $this->owner->getResponseNegotiator()->respond($this->owner->getRequest());
     }
     
 }

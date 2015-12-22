@@ -88,13 +88,14 @@ class SilvercartLanguageHelper {
      *
      * @param DataObject $dataObj          DataObject to get dropdown for
      * @param string     $translatingClass Context class of the LanguageDropdownField
+     * @param string     $fieldName        Name of the LanguageDropdownField
      * 
      * @return LanguageDropdownField 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.05.2012
+     * @since 21.12.2015
      */
-    public static function prepareLanguageDropdownField($dataObj, $translatingClass = null) {
+    public static function prepareLanguageDropdownField($dataObj, $translatingClass = null, $fieldName = 'Locale') {
         $instance                   = null;
         $alreadyTranslatedLocales   = array();
         if (is_null($translatingClass)) {
@@ -106,7 +107,7 @@ class SilvercartLanguageHelper {
             unset($alreadyTranslatedLocales[$instance->Locale]);
         }
         $localeDropdown = new LanguageDropdownField(
-            'Locale', 
+            $fieldName, 
             _t('SilvercartConfig.TRANSLATION'), 
             $alreadyTranslatedLocales,
             $translatingClass,

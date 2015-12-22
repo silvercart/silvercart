@@ -25,7 +25,7 @@
  * @since 23.02.2011
  * @license see license file in modules root directory
  */
-class SilvercartConfig extends DataObject {
+class SilvercartConfig extends Object {
     
     /**
      * Contains the possible values for products per page selectors for
@@ -86,94 +86,6 @@ class SilvercartConfig extends DataObject {
      * @var array
      */
     public static $menuNonCmsIdentifiers = array('silvercart');
-    
-    /**
-     * Attributes.
-     *
-     * @var array
-     */
-    public static $db = array(
-        'ShopName'         => 'Varchar(256)',
-        'ShopStreet'       => 'Varchar(256)',
-        'ShopStreetNumber' => 'Varchar(6)',
-        'ShopPostcode'     => 'Varchar(32)',
-        'ShopCity'         => 'Varchar(256)',
-        'SilvercartVersion'                     => 'VarChar(16)',
-        'SilvercartMinorVersion'                => 'VarChar(16)',
-        'SilvercartUpdateVersion'               => 'VarChar(16)',
-        'DefaultCurrency'                       => 'VarChar(16)',
-        'DefaultPriceType'                      => 'Enum("gross,net","gross")',
-        'EmailSender'                           => 'VarChar(255)',
-        'GlobalEmailRecipient'                  => 'VarChar(255)',
-        'DefaultMailRecipient'                  => 'VarChar(255)',
-        'DefaultMailOrderNotificationRecipient' => 'VarChar(255)',
-        'DefaultContactMessageRecipient'        => 'VarChar(255)',
-        'enableSSL'                             => 'Boolean(0)',
-        'productsPerPage'                       => 'Int',
-        'productGroupsPerPage'                  => 'Int',
-        'displayedPaginationPages'              => 'Int',
-        'minimumOrderValue'                     => 'SilvercartMoney',
-        'useMinimumOrderValue'                  => 'Boolean(0)',
-        'freeOfShippingCostsFrom'               => 'SilvercartMoney',
-        'useFreeOfShippingCostsFrom'            => 'Boolean(0)',
-        'enableBusinessCustomers'               => 'Boolean(0)',
-        'enablePackstation'                     => 'Boolean(0)',
-        'enableStockManagement'                 => 'Boolean(0)',
-        'isStockManagementOverbookable'         => 'Boolean(0)',
-        'SkipPaymentStepIfUnique'               => 'Boolean(0)',
-        'SkipShippingStepIfUnique'              => 'Boolean(0)',
-        'InvoiceAddressIsAlwaysShippingAddress' => 'Boolean(0)',
-        'redirectToCartAfterAddToCart'          => 'Boolean(0)',
-        'redirectToCheckoutWhenInCart'          => 'Boolean(0)',
-        'DisplayWeightsInKilogram'              => 'Boolean(1)',
-        'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
-        'UseMinimumAgeToOrder'                  => 'Boolean(0)',
-        'MinimumAgeToOrder'                     => 'Varchar(3)',
-        'addToCartMaxQuantity'                  => 'Int(999)',
-        'Locale'                                => 'DBLocale',
-        'useDefaultLanguageAsFallback'          => 'Boolean(1)',
-        'ShowTaxAndDutyHint'                    => 'Boolean(0)',
-        'productDescriptionFieldForCart'        => 'Enum("ShortDescription,LongDescription","ShortDescription")',
-        'useProductDescriptionFieldForCart'     => 'Boolean(1)',
-        'useStrictSearchRelevance'              => 'Boolean(0)',
-        'userAgentBlacklist'                    => 'Text',
-        // Put DB definitions for interfaces here
-        // Definitions for GeoNames
-        'GeoNamesActive'                => 'Boolean',
-        'GeoNamesUserName'              => 'VarChar(128)',
-        'GeoNamesAPI'                   => 'VarChar(255)',
-    );
-    
-    /**
-     * Has-one relationships.
-     *
-     * @var array
-     */
-    public static $has_one = array(
-        'SilvercartNoImage'         => 'Image',
-        'StandardProductCondition'  => 'SilvercartProductCondition',
-        'ShopCountry'               => 'SilvercartCountry',
-    );
-    
-    /**
-     * Defaults for empty fields.
-     *
-     * @var array
-     */
-    public static $defaults = array(
-        'SilvercartVersion'             => '3.1',
-        'SilvercartMinorVersion'        => '0',
-        'SilvercartUpdateVersion'       => '0',
-        'DefaultPriceType'              => 'gross',
-        'GeoNamesActive'                => false,
-        'GeoNamesAPI'                   => 'http://api.geonames.org/',
-        'productsPerPage'               => 18,
-        'productGroupsPerPage'          => 6,
-        'displayedPaginationPages'      => 4,
-        'addToCartMaxQuantity'          => 999,
-        'Locale'                        => 'de_DE',
-        'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
-    );
 
     /**
      * Define all required configuration fields in this array. The given fields
@@ -236,432 +148,6 @@ class SilvercartConfig extends DataObject {
     public static $invoiceAddressIsAlwaysShippingAddress    = null;
     public static $displayWeightsInKilogram                 = null;
     public static $showTaxAndDutyHint                       = false;
-    
-    /**
-     * Indicator to check whether getCMSFields is called
-     *
-     * @var boolean
-     */
-    protected $getCMSFieldsIsCalled = false;
-
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function singular_name() {
-        return SilvercartTools::singular_name_for($this);
-    }
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function plural_name() {
-        return SilvercartTools::plural_name_for($this); 
-    }
-    
-    /**
-     * There is only one config object which is created on installation.
-     * This method disables creation of config objects in the modeladmin.
-     * 
-     * @param Member $member Member to check permission for
-     *
-     * @return false 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 09.02.2013
-     */
-    public function canCreate($member = null) {
-        return false;
-    }
-
-    /**
-     * Indicates that the config is translatable
-     *
-     * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.03.2012
-     */
-    public function canTranslate() {
-        return true;
-    }
-
-    /**
-     * Builds and returns the CMS fields.
-     *
-     * @return FieldList the CMS tabs and fields
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2013
-     * @deprecated GeoNames should be outsourced into a module
-     */
-    public function getCMSFields() {
-        $this->getCMSFieldsIsCalled = true;
-        $fields = new FieldList(
-                $rootTab = new TabSet("Root",
-                    $tabMain = new Tab('Main')
-                )
-        );
-
-        $tabMain->setTitle(_t('SiteTree.TABMAIN', "Main"));
-
-        // Build general toggle group
-        $generalConfigurationField = ToggleCompositeField::create(
-                'GeneralConfiguration',
-                $this->fieldLabel('GeneralConfiguration'),
-                array(
-                    SilvercartLanguageHelper::prepareLanguageDropdownField($this, 'SiteTree'),
-                    new CheckboxField('useDefaultLanguageAsFallback',       $this->fieldLabel('useDefaultLanguageAsFallback')),
-                    new TextField('DefaultCurrency',                        $this->fieldLabel('DefaultCurrency')),
-                    new DropdownField('DefaultPriceType',                   $this->fieldLabel('DefaultPriceType')),
-                )
-        )->setHeadingLevel(4)->setStartClosed(false);
-
-        // Build email toggle group
-        $emailConfigurationField = ToggleCompositeField::create(
-                'EmailConfiguration',
-                $this->fieldLabel('EmailConfiguration'),
-                array(
-                    new TextField('EmailSender',                            $this->fieldLabel('EmailSender')),
-                    new TextField('GlobalEmailRecipient',                   $this->fieldLabel('GlobalEmailRecipient')),
-                    new TextField('DefaultMailRecipient',                   $this->fieldLabel('DefaultMailRecipient')),
-                    new TextField('DefaultMailOrderNotificationRecipient',  $this->fieldLabel('DefaultMailOrderNotificationRecipient')),
-                    new TextField('DefaultContactMessageRecipient',         $this->fieldLabel('DefaultContactMessageRecipient'))
-                )
-        )->setHeadingLevel(4);
-
-        // Build customer toggle group
-        $customerConfigurationField = ToggleCompositeField::create(
-                'CustomerConfiguration',
-                $this->fieldLabel('CustomerConfiguration'),
-                array(
-                    new CheckboxField('enableBusinessCustomers',            $this->fieldLabel('enableBusinessCustomers')),
-                    new CheckboxField('enablePackstation',                  $this->fieldLabel('enablePackstation')),
-                    new CheckboxField('demandBirthdayDateOnRegistration',   $this->fieldLabel('demandBirthdayDateOnRegistration')),
-                )
-        )->setHeadingLevel(4);
-
-        // Build product toggle group
-        $productConfigurationField = ToggleCompositeField::create(
-                'ProductConfiguration',
-                $this->fieldLabel('ProductConfiguration'),
-                array(
-                    new CheckboxField('enableStockManagement',              $this->fieldLabel('enableStockManagement')),
-                    new CheckboxField('isStockManagementOverbookable',      $this->fieldLabel('isStockManagementOverbookable')),
-                    new TextField('productsPerPage',                        $this->fieldLabel('productsPerPage')),
-                    new TextField('productGroupsPerPage',                   $this->fieldLabel('productGroupsPerPage')),
-                    new TextField('displayedPaginationPages',               $this->fieldLabel('displayedPaginationPages')),
-                    new UploadField('SilvercartNoImage',                    $this->fieldLabel('SilvercartNoImage')),
-                    new CheckboxField('useStrictSearchRelevance',           $this->fieldLabel('useStrictSearchRelevance')),
-                    new DropdownField('StandardProductConditionID',         $this->fieldLabel('StandardProductConditionID')),
-                )
-        )->setHeadingLevel(4);
-
-        // Build checkout toggle group
-        $checkoutConfigurationField = ToggleCompositeField::create(
-                'CheckoutConfiguration',
-                $this->fieldLabel('CheckoutConfiguration'),
-                array(
-                    new CheckboxField('enableSSL',                          $this->fieldLabel('enableSSL')),
-                    new CheckboxField('redirectToCartAfterAddToCart',       $this->fieldLabel('redirectToCartAfterAddToCart')),
-                    new CheckboxField('redirectToCheckoutWhenInCart',       $this->fieldLabel('redirectToCheckoutWhenInCart')),
-                    new CheckboxField('useProductDescriptionFieldForCart',  $this->fieldLabel('useProductDescriptionFieldForCart')),
-                    new DropdownField('productDescriptionFieldForCart',     $this->fieldLabel('productDescriptionFieldForCart')),
-                    new TextField('addToCartMaxQuantity',                   $this->fieldLabel('addToCartMaxQuantity')),
-
-                    new CheckboxField('useMinimumOrderValue',               $this->fieldLabel('useMinimumOrderValue')),
-                    new SilvercartMoneyField('minimumOrderValue',           $this->fieldLabel('minimumOrderValue')),
-                    new CheckboxField('disregardMinimumOrderValue',         $this->fieldLabel('disregardMinimumOrderValue')),
-
-                    new CheckboxField('useFreeOfShippingCostsFrom',         $this->fieldLabel('useFreeOfShippingCostsFrom')),
-                    new SilvercartMoneyField('freeOfShippingCostsFrom',     $this->fieldLabel('freeOfShippingCostsFrom')),
-                    
-                    new CheckboxField('SkipShippingStepIfUnique',           $this->fieldLabel('SkipShippingStepIfUnique')),
-                    new CheckboxField('SkipPaymentStepIfUnique',            $this->fieldLabel('SkipPaymentStepIfUnique')),
-                    new CheckboxField('DisplayWeightsInKilogram',           $this->fieldLabel('DisplayWeightsInKilogram')),
-                    new CheckboxField('ShowTaxAndDutyHint',                 $this->fieldLabel('ShowTaxAndDutyHint')),
-                    
-                    new CheckboxField('InvoiceAddressIsAlwaysShippingAddress', $this->fieldLabel('InvoiceAddressIsAlwaysShippingAddress')),
-                )
-        )->setHeadingLevel(4);
-
-        // Build shop data toggle group
-        $shopDataConfigurationField = ToggleCompositeField::create(
-                'ShopDataConfiguration',
-                $this->fieldLabel('ShopDataConfiguration'),
-                array(
-                    new TextField('ShopName',          $this->fieldLabel('ShopName')),
-                    new TextField('ShopStreet',        $this->fieldLabel('ShopStreet')),
-                    new TextField('ShopStreetNumber',  $this->fieldLabel('ShopStreetNumber')),
-                    new TextField('ShopPostcode',      $this->fieldLabel('ShopPostcode')),
-                    new TextField('ShopCity',          $this->fieldLabel('ShopCity')),
-                    new DropdownField('ShopCountryID', $this->fieldLabel('ShopCountry'), SilvercartCountry::getPrioritiveDropdownMap()),
-                )
-        )->setHeadingLevel(4);
-
-        // Build security toggle group
-        $securityConfigurationField = ToggleCompositeField::create(
-                'SecurityConfiguration',
-                $this->fieldLabel('SecurityConfiguration'),
-                array(
-                    new TextareaField('userAgentBlacklist',                 $this->fieldLabel('userAgentBlacklist')),
-                )
-        )->setHeadingLevel(4);
-
-        // Add groups to Root.Main
-        $fields->addFieldToTab('Root.Main', $generalConfigurationField);
-        $fields->addFieldToTab('Root.Main', $emailConfigurationField);
-        $fields->addFieldToTab('Root.Main', $customerConfigurationField);
-        $fields->addFieldToTab('Root.Main', $productConfigurationField);
-        $fields->addFieldToTab('Root.Main', $checkoutConfigurationField);
-        $fields->addFieldToTab('Root.Main', $shopDataConfigurationField);
-        $fields->addFieldToTab('Root.Main', $securityConfigurationField);
-
-        // Modify field data
-        $fields->dataFieldByName('Locale')                                  ->setTitle($this->fieldLabel('Locale'));
-
-        $fields->dataFieldByName('EmailSender')                             ->setRightTitle($this->fieldLabel('EmailSenderRightTitle'));
-        $fields->dataFieldByName('GlobalEmailRecipient')                    ->setRightTitle($this->fieldLabel('GlobalEmailRecipientRightTitle'));
-        $fields->dataFieldByName('DefaultMailRecipient')                    ->setRightTitle($this->fieldLabel('DefaultMailRecipientRightTitle'));
-        $fields->dataFieldByName('DefaultMailOrderNotificationRecipient')   ->setRightTitle($this->fieldLabel('DefaultMailOrderNotificationRecipientRightTitle'));
-        $fields->dataFieldByName('DefaultContactMessageRecipient')          ->setRightTitle($this->fieldLabel('DefaultContactMessageRecipientRightTitle'));
-        $fields->dataFieldByName('userAgentBlacklist')                      ->setRightTitle($this->fieldLabel('userAgentBlacklistRightTitle'));
-
-        // Add i18n to DefaultPriceType source
-        $i18nForDefaultPriceTypeField = array();
-        foreach ($this->dbObject('DefaultPriceType')->enumValues() as $value => $label) {
-            $i18nForDefaultPriceTypeField[$value] = _t('SilvercartCustomer.' . strtoupper($label), $label);
-        }
-        $fields->dataFieldByName('DefaultPriceType')->setSource($i18nForDefaultPriceTypeField);
-
-        // Add i18n to productDescriptionFieldForCart source
-        $i18nForProductDescriptionField = array();
-        foreach ($this->dbObject('productDescriptionFieldForCart')->enumValues() as $productDescriptionField) {
-            $i18nForProductDescriptionField[$productDescriptionField] = singleton('SilvercartProduct')->fieldLabel($productDescriptionField);
-        }
-        $fields->dataFieldByName('productDescriptionFieldForCart')->setSource($i18nForProductDescriptionField);
-
-        $fields->dataFieldByName('StandardProductConditionID')->setEmptyString($this->fieldLabel('StandardProductConditionEmptyString'));
-
-        // Add GeoNames Tab
-        $fields->fieldByName('Root')->push(new Tab('GeoNames',                      _t('SilvercartConfig.INTERFACES_GEONAMES')));
-        $fields->addFieldToTab('Root.GeoNames', new LiteralField('GeoNamesDescription', _t('SilvercartConfig.GEONAMES_DESCRIPTION')));
-        $fields->addFieldToTab('Root.GeoNames', new CheckboxField('GeoNamesActive',     $this->fieldLabel('GeoNamesActive')));
-        $fields->addFieldToTab('Root.GeoNames', new TextField('GeoNamesUserName',       $this->fieldLabel('GeoNamesUserName')));
-        $fields->addFieldToTab('Root.GeoNames', new TextField('GeoNamesAPI',            $this->fieldLabel('GeoNamesAPI')));
-
-        $this->extend('updateCMSFields', $fields);
-
-        return $fields;
-    }
-
-    /**
-     * Get the actions that are sent to the CMS. In
-     * your extensions: updateEditFormActions($actions)
-     *
-     * @return Fieldset
-     */
-    public function getCMSActions() {
-        if (Permission::check('ADMIN') || Permission::check('EDIT_SITECONFIG')) {
-            $actions = new FieldList(
-                FormAction::create(
-                        'save_scconfig',
-                        _t('CMSMain.SAVE','Save')
-                    )->addExtraClass('ss-ui-action-constructive')->setAttribute('data-icon', 'accept')
-            );
-            
-            
-            $exampleDataActions = CompositeField::create()->setTag('fieldset')->addExtraClass('ss-ui-buttonset');
-            $exampleDataActions->push(
-                FormAction::create(
-                        'add_example_data',
-                        $this->fieldLabel('addExampleData')
-                    )->setAttribute('data-icon', 'addpage')
-            );
-            $exampleDataActions->push(
-                FormAction::create(
-                        'add_example_config',
-                        $this->fieldLabel('addExampleConfig')
-                    )->setAttribute('data-icon', 'addpage')
-            );
-            
-            $actions->push($exampleDataActions);
-        } else {
-            $actions = new FieldList();
-        }
-
-        $this->extend('updateCMSActions', $actions);
-
-        return $actions;
-    }
-
-    /**
-     * Sets the translations of SilvercartConfigs field labels.
-     *
-     * @param bool $includerelations Include relations or not
-     *
-     * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
-     */
-    public function fieldLabels($includerelations = true) {
-        return array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'ShopData'                              => _t('SilvercartConfig.ShopData'),
-                    'ShopName'                              => _t('SilvercartConfig.ShopName'),
-                    'ShopStreet'                            => _t('SilvercartConfig.ShopStreet'),
-                    'ShopStreetNumber'                      => _t('SilvercartConfig.ShopStreetNumber'),
-                    'ShopPostcode'                          => _t('SilvercartConfig.ShopPostcode'),
-                    'ShopCity'                              => _t('SilvercartConfig.ShopCity'),
-                    'ShopCountry'                           => _t('SilvercartConfig.ShopCountry'),
-                    'addToCartMaxQuantity'                  => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
-                    'DefaultCurrency'                       => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
-                    'DefaultPriceType'                      => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
-                    'EmailSender'                           => _t('SilvercartConfig.EMAILSENDER', 'Email sender'),
-                    'GlobalEmailRecipient'                  => _t('SilvercartConfig.GLOBALEMAILRECIPIENT', 'Global email recipient'),
-                    'enableBusinessCustomers'               => _t('SilvercartConfig.ENABLEBUSINESSCUSTOMERS', 'Enable business customers'),
-                    'enablePackstation'                     => _t('SilvercartConfig.ENABLEPACKSTATION', 'Enable address input fields for PACKSTATION'),
-                    'enableSSL'                             => _t('SilvercartConfig.ENABLESSL', 'Enable SSL'),
-                    'enableStockManagement'                 => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
-                    'minimumOrderValue'                     => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
-                    'useMinimumOrderValue'                  => _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value'),
-                    'disregardMinimumOrderValue'            => _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE'),
-                    'useFreeOfShippingCostsFrom'            => _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM'),
-                    'freeOfShippingCostsFrom'               => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
-                    'productsPerPage'                       => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
-                    'productGroupsPerPage'                  => _t('SilvercartConfig.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
-                    'isStockManagementOverbookable'         => _t('SilvercartConfig.QUANTITY_OVERBOOKABLE', 'Is the stock quantity of a product generally overbookable?'),
-                    'demandBirthdayDateOnRegistration'      => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
-                    'UseMinimumAgeToOrder'                  => _t('SilvercartConfig.UseMinimumAgeToOrder', 'Use minimum age to order?'),
-                    'MinimumAgeToOrder'                     => _t('SilvercartConfig.MinimumAgeToOrder', 'Minimum age to order'),
-                    'GeoNamesActive'                        => _t('SilvercartConfig.GEONAMES_ACTIVE'),
-                    'GeoNamesUserName'                      => _t('SilvercartConfig.GEONAMES_USERNAME'),
-                    'GeoNamesAPI'                           => _t('SilvercartConfig.GEONAMES_API'),
-                    'Locale'                                => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
-                    'useDefaultLanguageAsFallback'          => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
-                    'productDescriptionFieldForCart'        => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
-                    'useProductDescriptionFieldForCart'     => _t('SilvercartConfig.USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
-                    'useStrictSearchRelevance'              => _t('SilvercartConfig.USE_STRICT_SEARCH_RELEVANCE'),
-                    'DefaultMailRecipient'                  => _t('SilvercartConfig.DEFAULT_MAIL_RECIPIENT'),
-                    'DefaultMailOrderNotificationRecipient' => _t('SilvercartConfig.DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT'),
-                    'DefaultContactMessageRecipient'        => _t('SilvercartConfig.DEFAULT_CONTACT_MESSAGE_RECIPIENT'),
-                    'userAgentBlacklist'                    => _t('SilvercartConfig.USER_AGENT_BLACKLIST'),
-                    'redirectToCartAfterAddToCart'          => _t('SilvercartConfig.REDIRECTTOCARTAFTERADDTOCART'),
-                    'redirectToCheckoutWhenInCart'          => _t('SilvercartConfig.redirectToCheckoutWhenInCart'),
-                    'addExampleData'                        => _t('SilvercartConfig.ADD_EXAMPLE_DATA'),
-                    'addExampleConfig'                      => _t('SilvercartConfig.ADD_EXAMPLE_CONFIGURATION'),
-                    'displayedPaginationPages'              => _t('SilvercartConfig.DISPLAYEDPAGINATION'),
-                    'SilvercartNoImage'                     => _t('SilvercartConfig.DEFAULT_IMAGE'),
-                    'StandardProductConditionID'            => _t('SilvercartProductCondition.USE_AS_STANDARD_CONDITION'),
-                    'StandardProductConditionEmptyString'   => _t('SilvercartProductCondition.PLEASECHOOSE'),
-                    'GeneralConfiguration'                  => _t('SilvercartConfig.GeneralConfiguration', 'General Configuration'),
-                    'EmailConfiguration'                    => _t('SilvercartConfig.EmailConfiguration', 'Email Configuration'),
-                    'CustomerConfiguration'                 => _t('SilvercartConfig.CustomerConfiguration', 'Customer Configuration'),
-                    'ProductConfiguration'                  => _t('SilvercartConfig.ProductConfiguration', 'Product Configuration'),
-                    'CheckoutConfiguration'                 => _t('SilvercartConfig.CheckoutConfiguration', 'Checkout Configuration'),
-                    'ShopDataConfiguration'                 => _t('SilvercartConfig.ShopData', 'Shop Data Configuration'),
-                    'SecurityConfiguration'                 => _t('SilvercartConfig.SecurityConfiguration', 'Security Configuration'),
-                    'SkipPaymentStepIfUnique'               => _t('SilvercartConfig.SKIP_PAYMENT_STEP_IF_UNIQUE'),
-                    'SkipShippingStepIfUnique'              => _t('SilvercartConfig.SKIP_SHIPPING_STEP_IF_UNIQUE'),
-                    'InvoiceAddressIsAlwaysShippingAddress' => _t('SilvercartConfig.InvoiceAddressIsAlwaysShippingAddress'),
-                    'DisplayWeightsInKilogram'              => _t('SilvercartConfig.DISPLAY_WEIGHTS_IN_KILOGRAM'),
-                    'ShowTaxAndDutyHint'                    => _t('SilvercartConfig.ShowTaxAndDutyHint'),
-                    
-                    'EmailSenderRightTitle'                             => _t('SilvercartConfig.EMAILSENDER_INFO'),
-                    'GlobalEmailRecipientRightTitle'                    => _t('SilvercartConfig.GLOBALEMAILRECIPIENT_INFO'),
-                    'DefaultMailRecipientRightTitle'                    => _t('SilvercartConfig.DEFAULT_MAIL_RECIPIENT_INFO'),
-                    'DefaultMailOrderNotificationRecipientRightTitle'   => _t('SilvercartConfig.DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO'),
-                    'DefaultContactMessageRecipientRightTitle'          => _t('SilvercartConfig.DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO'),
-                    'userAgentBlacklistRightTitle'                      => _t('SilvercartConfig.USER_AGENT_BLACKLIST_INFO'),
-                )
-        );
-    }
-
-    /**
-     * Sets the translations of SilvercartConfigs summary fields.
-     *
-     * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
-     */
-    public function summaryFields() {
-        $summaryFields = parent::summaryFields();
-        $summaryFields['DefaultCurrency'] = $this->fieldLabel('DefaultCurrency');
-        $summaryFields['EmailSender'] = $this->fieldLabel('EmailSender');
-        $summaryFields['GlobalEmailRecipient'] = $this->fieldLabel('GlobalEmailRecipient');
-        return $summaryFields;
-    }
-
-    /**
-     * disable all search fields.
-     *
-     * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.04.2011
-     */
-    public function searchableFields() {
-        return array();
-    }
-
-    /**
-     * Remove permission to delete for all members.
-     *
-     * @param Member $member Member
-     *
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.04.2011
-     */
-    public function canDelete($member = null) {
-        return false;
-    }
-
-    /**
-     * Checks whether there is an existing SilvercartConfig or not before writing.
-     *
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
-     */
-    public function onBeforeWrite() {
-        parent::onBeforeWrite();
-        if (SilvercartConfig::get()->first()) {
-            if (SilvercartConfig::get()->first()->ID !== $this->ID) {
-                // is there is an existent SilvercartConfig, do not write another.
-                $this->record = array();
-            }
-        }
-    }
-    
-    /**
-     * Returns whether to enable SSL.
-     * 
-     * @return bool
-     */
-    public function getEnableSSL() {
-        $enableSSL = $this->getField('EnableSSL');
-        if (!$this->getCMSFieldsIsCalled) {
-            $this->extend('updateEnableSSL', $enableSSL);
-        }
-        return $enableSSL;
-    }
 
     /**
      * This method checks the required configuration. If there is any missing
@@ -670,7 +156,7 @@ class SilvercartConfig extends DataObject {
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.02.2011
+     * @since 21.12.2015
      */
     public static function Check() {
         if (is_null(self::$required_configuration_fields)) {
@@ -686,7 +172,7 @@ class SilvercartConfig extends DataObject {
                     continue;
                 }
                 
-                if (method_exists('SilvercartConfig', 'check' . $requiredField)) {
+                if ($config->hasMethod('check' . $requiredField)) {
                     $method = 'check' . $requiredField;
                     $result = $config->$method();
                     
@@ -972,7 +458,8 @@ class SilvercartConfig extends DataObject {
      */
     public static function SilvercartVersion() {
         if (is_null(self::$silvercartVersion)) {
-            self::$silvercartVersion = self::$defaults['SilvercartVersion'];
+            $defaults = Config::inst()->get('SilvercartSiteConfig', 'defaults');
+            self::$silvercartVersion = $defaults['SilvercartVersion'];
         }
         return self::$silvercartVersion;
     }
@@ -987,7 +474,8 @@ class SilvercartConfig extends DataObject {
      */
     public static function SilvercartMinorVersion() {
         if (is_null(self::$silvercartMinorVersion)) {
-            self::$silvercartMinorVersion = self::$defaults['SilvercartMinorVersion'];
+            $defaults = Config::inst()->get('SilvercartSiteConfig', 'defaults');
+            self::$silvercartMinorVersion = $defaults['SilvercartMinorVersion'];
         }
         return self::$silvercartMinorVersion;
     }
@@ -1342,7 +830,7 @@ class SilvercartConfig extends DataObject {
      */
     public static function getConfig() {
         if (is_null(self::$config)) {
-            self::$config = SilvercartConfig::get()->first();
+            self::$config = SiteConfig::current_site_config();
             if (!self::$config) {
                 if (SilvercartTools::isIsolatedEnvironment()) {
                     return false;
@@ -1572,32 +1060,6 @@ class SilvercartConfig extends DataObject {
         }
         print $output;
         exit();
-    }
-    
-    // Put SilvercartConfiguration::Check() Methods here
-    
-    /**
-     * Checks, whether an activated country exists or not.
-     *
-     * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.04.2011
-     */
-    public function checkActiveCountries() {
-        $hasActiveCountries = false;
-        /*
-         * We have to bypass DataObject::get_one() because it would ignore active
-         * countries without a translation of the current locale
-         */
-        $items = SilvercartCountry::get()->filter(array("Active" => 1));
-        if ($items) {
-            $hasActiveCountries = true;
-        }
-        return array(
-            'status'    => $hasActiveCountries,
-            'message'   => sprintf(_t('SilvercartConfig.ERROR_MESSAGE_NO_ACTIVATED_COUNTRY', 'No activated country found. Please <a href="%s/admin/silvercart-config/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.'), Director::baseURL())
-        );
     }
 
     // Put foreign configurations here
@@ -1968,7 +1430,7 @@ class SilvercartConfig extends DataObject {
         if (self::getConfig() === false) {
             return i18n::default_locale();
         }
-        return self::getConfig()->Locale;
+        return self::getConfig()->DefaultLocale;
     }
     
     /**
