@@ -78,11 +78,6 @@ class SilvercartSiteConfig extends DataExtension {
         'FacebookLink'                  => 'Text',
         'TwitterLink'                   => 'Text',
         'XingLink'                      => 'Text',
-        // Put DB definitions for interfaces here
-        // Definitions for GeoNames
-        'GeoNamesActive'                => 'Boolean',
-        'GeoNamesUserName'              => 'VarChar(128)',
-        'GeoNamesAPI'                   => 'VarChar(255)',
     );
     
     /**
@@ -106,8 +101,6 @@ class SilvercartSiteConfig extends DataExtension {
         'SilvercartMinorVersion'        => '0',
         'SilvercartUpdateVersion'       => '0',
         'DefaultPriceType'              => 'gross',
-        'GeoNamesActive'                => false,
-        'GeoNamesAPI'                   => 'http://api.geonames.org/',
         'productsPerPage'               => 18,
         'productGroupsPerPage'          => 6,
         'displayedPaginationPages'      => 4,
@@ -212,9 +205,6 @@ class SilvercartSiteConfig extends DataExtension {
                     'demandBirthdayDateOnRegistration'      => _t('SilvercartConfig.DEMAND_BIRTHDAY_DATE_ON_REGISTRATION', 'Demand birthday date on registration?'),
                     'UseMinimumAgeToOrder'                  => _t('SilvercartConfig.UseMinimumAgeToOrder', 'Use minimum age to order?'),
                     'MinimumAgeToOrder'                     => _t('SilvercartConfig.MinimumAgeToOrder', 'Minimum age to order'),
-                    'GeoNamesActive'                        => _t('SilvercartConfig.GEONAMES_ACTIVE'),
-                    'GeoNamesUserName'                      => _t('SilvercartConfig.GEONAMES_USERNAME'),
-                    'GeoNamesAPI'                           => _t('SilvercartConfig.GEONAMES_API'),
                     'DefaultLocale'                         => _t('SilvercartConfig.DEFAULT_LANGUAGE'),
                     'useDefaultLanguageAsFallback'          => _t('SilvercartConfig.USE_DEFAULT_LANGUAGE'),
                     'productDescriptionFieldForCart'        => _t('SilvercartConfig.PRODUCT_DESCRIPTION_FIELD_FOR_CART'),
@@ -341,7 +331,6 @@ class SilvercartSiteConfig extends DataExtension {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.02.2013
-     * @deprecated GeoNames should be outsourced into a module
      */
     public function getCMSFieldsForSilvercart(FieldList $fields) {
         $tab = $fields->findOrMakeTab('Root.Silvercart', 'SilverCart Shop');
@@ -504,13 +493,6 @@ class SilvercartSiteConfig extends DataExtension {
         $fields->dataFieldByName('productDescriptionFieldForCart')->setSource($i18nForProductDescriptionField);
 
         $fields->dataFieldByName('StandardProductConditionID')->setEmptyString($this->owner->fieldLabel('StandardProductConditionEmptyString'));
-
-        // Add GeoNames Tab
-        $fields->fieldByName('Root')->push(new Tab('GeoNames',                      _t('SilvercartConfig.INTERFACES_GEONAMES')));
-        $fields->addFieldToTab('Root.GeoNames', new LiteralField('GeoNamesDescription', _t('SilvercartConfig.GEONAMES_DESCRIPTION')));
-        $fields->addFieldToTab('Root.GeoNames', new CheckboxField('GeoNamesActive',     $this->owner->fieldLabel('GeoNamesActive')));
-        $fields->addFieldToTab('Root.GeoNames', new TextField('GeoNamesUserName',       $this->owner->fieldLabel('GeoNamesUserName')));
-        $fields->addFieldToTab('Root.GeoNames', new TextField('GeoNamesAPI',            $this->owner->fieldLabel('GeoNamesAPI')));
 
         return $fields;
     }

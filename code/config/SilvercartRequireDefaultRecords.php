@@ -880,8 +880,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
         $this->createDefaultGroups();
         // create config
         $this->createDefaultConfig();
-        // create countries
-        $this->requireOrUpdateCountries();
         // create order status
         $this->createDefaultOrderStatus();
         // create availability status
@@ -1043,33 +1041,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
         // create shop emails
         //$this->translateShopEmails();
         i18n::set_locale($originalLocale);
-    }
-
-    /**
-     * Requires all default countries or syncs them if GeoNames is activated.
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.05.2012
-     */
-    public function requireOrUpdateCountries() {
-        $config = SilvercartConfig::getConfig();
-        if ($config->GeoNamesActive == 1) {
-            $geoNames = new SilvercartGeoNames($config->GeoNamesUserName, $config->GeoNamesAPI);
-            $geoNames->countryInfo();
-        } 
-        if (!SilvercartCountry::get()->exists()) {
-            require_once(Director::baseFolder() . '/silvercart/code/config/SilvercartRequireDefaultCountries.php');
-        }
-        //activate at least one country dependant on the current locale
-        if (!SilvercartCountry::get()->filter('Active', 1)->exists()) {
-            $country = SilvercartCountry::get()->filter('ISO2', substr(i18n::get_locale(), 3))->first();
-            if ($country) {
-                $country->Active = true;
-                $country->write();
-            }
-        }
     }
 
     /**

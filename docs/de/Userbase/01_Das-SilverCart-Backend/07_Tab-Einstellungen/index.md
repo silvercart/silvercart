@@ -233,14 +233,6 @@ Mit einem Klick auf den zweiten Knopf werden Zahlungsart, Frachtführer, Versand
 
 Ihr Shop ist voll funktionstüchtig.
 
-### GeoNames
-
-Über die GeoNames-Schnittstelle können Sie automatisiert Ländernamen und die dazugehörigen ISO-Codes beziehen. 
-
-Um diese Schnittstelle nutzen zu können, müssen Sie sich bei GeoNames registrieren. Diese Schnittstelle ist hilfreich um die Länderliste automatisiert auf dem aktuellsten Stand zu halten wenn Sie Ihre Produkte weltweit versenden möchten.
-
-Für den Warenverkehr innerhalb Europas ist das nicht notwendig.
-
 
 ## Shop E-Mails
 
