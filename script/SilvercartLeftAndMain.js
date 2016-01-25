@@ -21,7 +21,21 @@
          * Loads /admin/publishsitetree, which will publish all pages of the 
          * current locale.
          */
-        $('.LeftAndMain :input[name=action_publishsitetree],.LeftAndMain :input[name=action_add_example_data],.LeftAndMain :input[name=add_example_config]').entwine({
+        $('.LeftAndMain :input[name=action_publishsitetree]').entwine({
+            onclick: function(e) {
+                this.parents('form').trigger('submit', [this]);
+                e.preventDefault();
+                return false;
+            }
+        });
+        $('.LeftAndMain :input[name=action_add_example_data]').entwine({
+            onclick: function(e) {
+                this.parents('form').trigger('submit', [this]);
+                e.preventDefault();
+                return false;
+            }
+        });
+        $('.LeftAndMain :input[name=action_add_example_config]').entwine({
             onclick: function(e) {
                 this.parents('form').trigger('submit', [this]);
                 e.preventDefault();
