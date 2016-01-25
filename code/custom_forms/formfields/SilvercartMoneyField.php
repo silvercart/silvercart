@@ -39,7 +39,7 @@ class SilvercartMoneyField extends MoneyField {
      */
     public function Field($properties = array()) {
         if ($this->getCurrencyIsReadonly()) {
-            Requirements::css('silvercart/css/backend/SilvercartMain.css');
+            Requirements::css('silvercart/admin/css/SilvercartMain.css');
             $this->fieldAmount->setTitle($this->Title());
             $this->fieldAmount->addExtraClass('silvercartmoney');
             $field = $this->fieldAmount->Field() . " " . $this->fieldCurrency->Value() . $this->fieldCurrency->FieldHolder();
