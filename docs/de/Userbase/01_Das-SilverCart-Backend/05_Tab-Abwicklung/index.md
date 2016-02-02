@@ -39,6 +39,7 @@ Die Verfügbarkeit der Zahlart kann an verschiedenen Bedingungen geknüpft werde
 1-2  Stichwörter bearbeiten
 
 ## Versandarten
+Eine Zahlart kann an eine oder mehrere Versandarten gebunden werden. Das bedeutet, dass die Zahlart nur in Kombination mit dieser Versandart verwendet werden kann. Dies ist wichtig, wenn beispielsweise die Zahlart "Nachnahme" gewählt wurde, die ja nur im Zusammenhang mit einer bestimmten Versandoption gewäh​lt werden kann.
 
 Wenn Sie die Beispielkonfiguration angelegt haben, dann existiert bereits die Versandart `Paket`. Andernfalls können Sie eine Versandart erstellen, indem Sie auf die Schaltfläche `Erstelle Versandart` klicken. Ein Versandart hat immer einen Namen, und muss einem Frachtführer zugeordnet sein. Unter dem Reiter `Versandgebühren` (Erst sichtbar nach dem Hinzufügen) werden alle Versandgebühren gezeigt, die zu dieser Versandart gehören. Der Reiter `Zonen` zeigt alle Zonen, die gepflegt wurden. Die Zonen werden per Checkbox dieser Versandart zugeordnet. Eine Versandart kann mehreren Zonen zugeordnet werden.
 
