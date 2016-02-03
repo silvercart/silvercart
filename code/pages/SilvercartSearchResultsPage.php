@@ -869,7 +869,7 @@ class SilvercartSearchResultsPage_Controller extends SilvercartProductGroupPage_
         $redirectBack   = true;
         $searchQueryID  = $request->param('ID');
         if (is_numeric($searchQueryID)) {
-            $searchQuery = DataObject::get_by_id('SilvercartSearchQuery', $searchQueryID);
+            $searchQuery = SilvercartSearchQuery::get()->byID($searchQueryID);
             if ($searchQuery) {
                 $redirectBack = false;
                 Session::set('searchQuery', $searchQuery->SearchQuery);
