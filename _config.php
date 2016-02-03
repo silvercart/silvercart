@@ -102,16 +102,6 @@ RequirementsEngine::registerJsFile("silvercart/script/SilvercartWidget.js");
 Requirements::add_i18n_javascript('silvercart/javascript/lang');
 
 // ----------------------------------------------------------------------------
-// Register extensions
-// ----------------------------------------------------------------------------
-SilvercartSortableDataObject::add_sortable_classes(array(
-    "SilvercartCarrier",
-    "SilvercartProduct",
-    "SilvercartImage",
-    "SilvercartImageSliderImage",
-));
-
-// ----------------------------------------------------------------------------
 // Register SilvercartPluginProvider
 // ----------------------------------------------------------------------------
 SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
