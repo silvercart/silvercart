@@ -1427,22 +1427,6 @@ ru:
     DESCRIPTION: "Этот видвет"
     STOREADMIN_FIELDLABEL: "Количество артикулов, которые должны быть показаны:"
     TITLE: "популярный товар"
-  SilvercartUpdate:
-    DESCRIPTION: "описание"
-    SILVERCARTUPDATEVERSION: "обновление"
-    SILVERCARTVERSION: "версия"
-    STATUS: "статус"
-    STATUSMESSAGE: "соосбщение о статусе"
-    STATUSMESSAGE_DONE: "Обновление установлено."
-    STATUSMESSAGE_ERROR: "обнаружена ошибка"
-    STATUSMESSAGE_REMAINING: "Это обновление ожидает установки."
-    STATUSMESSAGE_SKIPPED: "Это обновление уже установлено."
-    STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE: "Были обнаружены изменения, внесённые вручную. Для сохранения целостности данных обновление не будет установлено."
-    STATUS_DONE: "запущен"
-    STATUS_REMAINING: "ожидающий"
-    STATUS_SKIPPED: "пропустить"
-  SilvercartUpdateAdmin:
-    SILVERCART_UPDATE: "обновления"
   SilvercartWidget:
     SORT_ORDER_LABEL: "Сортировка"
   SilvercartWidgetSet:

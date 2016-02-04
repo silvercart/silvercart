@@ -23,7 +23,6 @@
    * [Creating an Administrator](06-Customer-Management#creating-an-administrator)
    * [Anonymous Customers](06-Customer-Management#anonymous-customers)
    * [Customer Categories](06-Customer-Management#customer-categories)
- * [SilverCart's System Updates](07-SilverCart's-System-Updates#silvercart-s-system-updates)
  * [Shipping Fee Management](Shipping-Fee-Management/#shipping-fee-management)
    * [The State On a fresh SilverCart Installation](Shipping-Fee-Management/#the-state-on-a-fresh-silvercart-installation)
    * [Adding Your Own Shipping Fees](Shipping-Fee-Management/#adding-your-own-shipping-fees)

@@ -21,7 +21,6 @@ It is designed for large shops and high performance. It works equally well for s
    * [Tax Handling](The-SilverCart-Handbook/04-Tax-Handling#tax-handling)
    * [Order Management](The-SilverCart-Handbook/05-Order-Management#order-management)
    * [Customer Management](The-SilverCart-Handbook/06-Customer-Management#customer-management)
-   * [SilverCart's System Updates](The-SilverCart-Handbook/07-SilverCart's-System-Updates#silvercart-s-system-updates)
    * [Stock Management](The-SilverCart-Handbook/08-Stock-Management#stock-management)
    * [Customers private Area "MyAccount"](The-SilverCart-Handbook/09-Customers-private-Area-MyAccount#customers-private-area-myaccount)
    * [Widgets](The-SilverCart-Handbook/10-Widgets#widgets)

@@ -1184,22 +1184,6 @@ nl:
     DESCRIPTION: "Deze widget toont een instelbare aantal van de beste verkopende producten."
     STOREADMIN_FIELDLABEL: "Aantalte tonen producten:"
     TITLE: "Best verkocht"
-  SilvercartUpdate:
-    DESCRIPTION: "Omschrijving"
-    SILVERCARTUPDATEVERSION: "Update"
-    SILVERCARTVERSION: "Versie"
-    STATUS: "Status"
-    STATUSMESSAGE: "Statusbericht"
-    STATUSMESSAGE_DONE: "Deze update is met succes afgerond."
-    STATUSMESSAGE_ERROR: "Er is een onbekende fout opgetreden."
-    STATUSMESSAGE_REMAINING: "Deze update is overgebleven."
-    STATUSMESSAGE_SKIPPED: "Deze update is al geïntegreerd."
-    STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE: "Manual veranderingen gedetecteerd. Deze update werd overgeslagen om schade op de bestaande gegevens te voorkomen."
-    STATUS_DONE: "Voltooid"
-    STATUS_REMAINING: "Resterende"
-    STATUS_SKIPPED: "Overgeslagen"
-  SilvercartUpdateAdmin:
-    SILVERCART_UPDATE: "SC Updates"
   SilvercartWidget:
     SORT_ORDER_LABEL: "Sorteervolgorde"
   SilvercartWidgetSet:

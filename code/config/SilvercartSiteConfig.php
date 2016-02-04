@@ -34,7 +34,6 @@ class SilvercartSiteConfig extends DataExtension {
         'ShopCity'         => 'Varchar(256)',
         'SilvercartVersion'                     => 'VarChar(16)',
         'SilvercartMinorVersion'                => 'VarChar(16)',
-        'SilvercartUpdateVersion'               => 'VarChar(16)',
         'DefaultCurrency'                       => 'VarChar(16)',
         'DefaultPriceType'                      => 'Enum("gross,net","gross")',
         'EmailSender'                           => 'VarChar(255)',
@@ -99,7 +98,6 @@ class SilvercartSiteConfig extends DataExtension {
     private static $defaults = array(
         'SilvercartVersion'             => '3.1',
         'SilvercartMinorVersion'        => '0',
-        'SilvercartUpdateVersion'       => '0',
         'DefaultPriceType'              => 'gross',
         'productsPerPage'               => 18,
         'productGroupsPerPage'          => 6,

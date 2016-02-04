@@ -1885,23 +1885,6 @@ de:
     DESCRIPTION: "Dieses Widget zeigt eine konfigurierbare Anzahl der meistverkauften Artikel an."
     STOREADMIN_FIELDLABEL: "Anzahl der Artikel, die angezeigt werden sollen:"
     TITLE: "Topseller"
-  SilvercartUpdate:
-    DESCRIPTION: "Beschreibung"
-    SILVERCARTUPDATEVERSION: "Update"
-    SILVERCARTVERSION: "Version"
-    STATUS: "Status"
-    STATUSMESSAGE: "Statusmeldung"
-    STATUSMESSAGE_DONE: "Dieses Update wurde erfolgreich durchgeführt."
-    STATUSMESSAGE_ERROR: "Es ist ein unbekannter Fehler aufgetreten."
-    STATUSMESSAGE_REMAINING: "Dieses Update ist noch ausstehend."
-    STATUSMESSAGE_SKIPPED: "Dieses Update ist bereits integriert."
-    STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE: "Manuelle Änderungen wurden gefunden. Dieses Update wurde übersprungen, um Schäden an der Datenhaltung zu vermeiden."
-    STATUS_DONE: "Durchgeführt"
-    STATUS_REMAINING: "Ausstehend"
-    STATUS_SKIPPED: "Übersprungen"
-  SilvercartUpdateAdmin:
-    MENUTITLE: "Updates"
-    SILVERCART_UPDATE: "Updates"
   SilvercartWidget:
     SORT_ORDER_LABEL: "Sortierung"
   SilvercartWidgetSet:

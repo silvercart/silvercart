@@ -254,12 +254,6 @@ Wenn Sie zusätzliche Variablen einführen wollen, müssen Änderungen am Progra
 Sie können alle E-Mails in beliebiger Sprache anlegen. Nutzen Sie die Übersetzungsfunktion um den Betreff und die Nachricht in eine andere Sprache zu übersetzen. Der Bezeichner bleibt dabei für alle Übersetzungen einer E-Mail gleich.
 
 
-## Updates
-
-Es kann vorkommen, dass bei einem SilverCart-Update neben den Programmdateien auch Änderungen an der Datenbank vorgenommen werden müssen.
-
-Wird eine solche Änderung durch ein Update notwendig, dann wird das in diesem Menüpunkt angezeigt. Dabei wird die Menge an Updates in einer Klammer `Updates (1)` angezeigt. In diesem Fall sollten Sie den Menüpunkt aufrufen und die notwendigen Updates durchführen.
-
 ## Nummernkreise
 
 Viele Shopbetreiber haben durch ihr Warenwirtschaftssystem oder sonstige Schnittstellen schon genaue Formatvorgaben für bestimmte Identifikationsnummern. Mit Nummernkreisen kann man diese sehr detailliert festlegen. Das Beispiel zeigt den Nummernkreis "Kundennummern". Diese beginnen bei 100000 und enden bei 999999. Es gibt zusätzlich noch die Möglichkeit Einem Nummernkreis eine Buchstaben- oder Zahlenkombination vorauszustellen (Präfix) oder hinten anzuhängen (Suffix).

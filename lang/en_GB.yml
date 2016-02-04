@@ -1885,23 +1885,6 @@ en_GB:
     DESCRIPTION: "This widget shows a configurable number of top selling products."
     STOREADMIN_FIELDLABEL: "Number of products to show:"
     TITLE: "Top sellers"
-  SilvercartUpdate:
-    DESCRIPTION: "Description"
-    SILVERCARTUPDATEVERSION: "Update"
-    SILVERCARTVERSION: "Version"
-    STATUS: "Status"
-    STATUSMESSAGE: "Status message"
-    STATUSMESSAGE_DONE: "This update has successfully completed."
-    STATUSMESSAGE_ERROR: "An unknown error occured."
-    STATUSMESSAGE_REMAINING: "This update is available."
-    STATUSMESSAGE_SKIPPED: "This update is already integrated."
-    STATUSMESSAGE_SKIPPED_TO_PREVENT_DAMAGE: "Manual changes detected. This update was skipped to prevent damage to existing data."
-    STATUS_DONE: "Completed"
-    STATUS_REMAINING: "Remaining"
-    STATUS_SKIPPED: "Skipped"
-  SilvercartUpdateAdmin:
-    MENUTITLE: "Updates"
-    SILVERCART_UPDATE: "Updates"
   SilvercartWidget:
     SORT_ORDER_LABEL: "Sort order"
   SilvercartWidgetSet:
