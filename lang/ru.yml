@@ -610,12 +610,6 @@ ru:
     AMOUNT: "сумма"
     PLURALNAME: "цена обработки"
     SINGULARNAME: "цена обработки"
-  SilvercartHasManyOrderField:
-    ATTRIBUTED_FIELDS: "выбранные виджеты"
-    AVAILABLE_RELATION_OBJECTS: "доступные виджетя"
-    EDIT: "обработать"
-    MOVE_DOWN: "сдвинуть вниз"
-    MOVE_UP: "сдвинуть вверх"
   SilvercartImage:
     DESCRIPTION: "описание"
     PLURALNAME: "фотографии "

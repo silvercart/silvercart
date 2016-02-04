@@ -565,12 +565,6 @@ nl:
     AMOUNT: "bedrag"
     PLURALNAME: "Afhandelingskosten"
     SINGULARNAME: "Afhandelingskosten"
-  SilvercartHasManyOrderField:
-    ATTRIBUTED_FIELDS: "Gekoppelde widgets"
-    AVAILABLE_RELATION_OBJECTS: "Beschikbare widgets"
-    EDIT: "Bewerken"
-    MOVE_DOWN: "Naar beneden"
-    MOVE_UP: "Naar boven"
   SilvercartImage:
     DESCRIPTION: "Omschrijving"
     PLURALNAME: "Afbeeldingen"

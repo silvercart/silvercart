@@ -791,12 +791,6 @@ de:
     AMOUNT: "Betrag"
     PLURALNAME: "Bearbeitungskosten"
     SINGULARNAME: "Bearbeitungskosten"
-  SilvercartHasManyOrderField:
-    ATTRIBUTED_FIELDS: "Zugewiesene Widgets"
-    AVAILABLE_RELATION_OBJECTS: "Verfügbare Widgets"
-    EDIT: "Bearbeiten"
-    MOVE_DOWN: "Nach unten schieben"
-    MOVE_UP: "Nach oben schieben"
   SilvercartImage:
     CONTENT: "Text Inhalt"
     DESCRIPTION: "Beschreibung (z.B. für Slidorion Textfeld)"

@@ -791,12 +791,6 @@ en_GB:
     AMOUNT: "amount"
     PLURALNAME: "Handling Costs"
     SINGULARNAME: "Handling Cost"
-  SilvercartHasManyOrderField:
-    ATTRIBUTED_FIELDS: "Attributed widgets"
-    AVAILABLE_RELATION_OBJECTS: "Available widgets"
-    EDIT: "Edit"
-    MOVE_DOWN: "Move down"
-    MOVE_UP: "Move up"
   SilvercartImage:
     CONTENT: "Text content"
     DESCRIPTION: "Description (e.g. for Slidorion textfield)"
