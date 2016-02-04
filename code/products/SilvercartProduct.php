@@ -2534,42 +2534,18 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
 
     /**
-     * We check if the SortOrder field has changed. If the change originated
-     * from a sort action of the dataobjectmanager and is not related to the
-     * main productgroup of the product we reset it to the old value.
+     * - Adds some extended i18n handling for mirrored product groups.
+     * - Changes the availability status if necessary.
+     * - Deletes shopping cart positions when changing to inactive.
+     * - Marks the product for cache refreshing if necessary.
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.06.2014
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 04.02.2016
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
-        
-        // We want to prevent that sorting with the dataobjectmanager module
-        // for mirrored products saves the false SortOrder value.
-        $request                      = Controller::curr()->request;
-        $silvercartProductGroupPageID = $request->getVar('controllerID');
-
-        if ($silvercartProductGroupPageID) {
-            if ($this->SilvercartProductGroup()->ID != $silvercartProductGroupPageID) {
-                $sortOrder = $this->record['SortOrder'];
-
-                // Reset SortOrder to old value
-                $this->record['SortOrder'] = $this->original['SortOrder'];
-
-                // Set the sort order for the relation
-                $productGroupMirrorSortOrder = SilvercartProductGroupMirrorSortOrder::get()->filter(array(
-                    'SilvercartProductGroupPageID' => $silvercartProductGroupPageID,
-                    'SilvercartProductID' => $this->ID,
-                ))->first();
-                if ($productGroupMirrorSortOrder) {
-                    $productGroupMirrorSortOrder->setField('SortOrder', $sortOrder);
-                    $productGroupMirrorSortOrder->write();
-                }
-            }
-        }
         
         if ($this->SilvercartProductGroup()) {
             $translations = $this->SilvercartProductGroup()->getTranslations();
@@ -2616,50 +2592,15 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
 
     /**
-     * We have to adjust the SilvercartProductGroupMirrorSortOrder table.
+     * Adds a widget area if not done yet.
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.02.2016
      */
     public function onAfterWrite() {
         parent::onAfterWrite();
-
-        // Update relations if necessary
-        $mirrorPageIDs                          = array();
-        $silvercartProductGroupSortOrderPageIDs = array();
-
-        foreach ($this->SilvercartProductGroupMirrorPages() as $silvercartProductGroupMirrorPage) {
-            $mirrorPageIDs[] = $silvercartProductGroupMirrorPage->ID;
-        }
-
-        $silvercartProductGroupSortOrderPages = SilvercartProductGroupMirrorSortOrder::get()->filter('SilvercartProductID', $this->ID);
-
-        // delete old records
-        if ($silvercartProductGroupSortOrderPages->exists()) {
-            foreach ($silvercartProductGroupSortOrderPages as $silvercartProductGroupSortOrderPage) {
-                if (!in_array($silvercartProductGroupSortOrderPage->SilvercartProductGroupPageID, $mirrorPageIDs)) {
-                    $silvercartProductGroupSortOrderPage->delete();
-                } else {
-                    $silvercartProductGroupSortOrderPageIDs[] = $silvercartProductGroupSortOrderPage->SilvercartProductGroupPageID;
-                }
-            }
-        }
-
-        // insert new records
-        foreach ($mirrorPageIDs as $mirrorPageID) {
-            if (!in_array($mirrorPageID, $silvercartProductGroupSortOrderPageIDs)) {
-                $newProductGroupMirrorSortOrder = new SilvercartProductGroupMirrorSortOrder();
-                $newProductGroupMirrorSortOrder->setField('SilvercartProductID', $this->ID);
-                $newProductGroupMirrorSortOrder->setField('SilvercartProductGroupPageID', $mirrorPageID);
-                if (array_key_exists('SortOrder', $this->original) ||
-                    array_key_exists('SortOrder', $this->record)) {
-                    $newProductGroupMirrorSortOrder->setField('SortOrder', $this->original['SortOrder'] ? $this->original['SortOrder'] : $this->record['SortOrder']);
-                }
-                $newProductGroupMirrorSortOrder->write();
-            }
-        }
         
         $this->addWidgetAreaIfNotExists();
     }

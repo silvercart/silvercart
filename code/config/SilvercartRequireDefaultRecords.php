@@ -1190,7 +1190,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_100',
                     'SilvercartProductGroupID'  => $productGroupPayment->ID,
                     'productImage'              => 'logopaypal.jpg',
-                    'sortOrder'                 => 1
                 ),
                 array(
                     'en_US'                     => array(
@@ -1231,7 +1230,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_101',
                     'SilvercartProductGroupID'  => $productGroupPayment->ID,
                     'productImage'              => 'logoipayment.gif',
-                    'sortOrder'                 => 2
                 ),
                 array(
                     'en_US'                     => array(
@@ -1272,7 +1270,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_102',
                     'SilvercartProductGroupID'  => $productGroupPayment->ID,
                     'productImage'              => 'logosaferpay.jpg',
-                    'sortOrder'                 => 3
                 ),
                 array(
                     'en_US'                     => array(
@@ -1313,7 +1310,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_103',
                     'SilvercartProductGroupID'  => $productGroupPayment->ID,
                     'productImage'              => 'logoprepayment.png',
-                    'sortOrder'                 => 4
                 ),
                 array(
                     'en_US'                     => array(
@@ -1354,7 +1350,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_104',
                     'SilvercartProductGroupID'  => $productGroupMarketing->ID,
                     'productImage'              => 'logocrossselling.png',
-                    'sortOrder'                 => 1
                 ),
                 array(
                     'en_US'                     => array(
@@ -1401,7 +1396,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_105',
                     'SilvercartProductGroupID'  => $productGroupMarketing->ID,
                     'productImage'              => 'logoekomi.jpg',
-                    'sortOrder'                 => 2
                 ),
                 array(
                     'en_US'                     => array(
@@ -1442,7 +1436,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_106',
                     'SilvercartProductGroupID'  => $productGroupMarketing->ID,
                     'productImage'              => 'logoprotectedshops.jpg',
-                    'sortOrder'                 => 3
                 ),
                 array(
                     'en_US'                     => array(
@@ -1483,7 +1476,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_107',
                     'SilvercartProductGroupID'  => $productGroupOthers->ID,
                     'productImage'              => 'logodhl.jpg',
-                    'sortOrder'                 => 1
                 ),
                 array(
                     'en_US'                     => array(
@@ -1524,7 +1516,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_109',
                     'SilvercartProductGroupID'  => $productGroupOthers->ID,
                     'productImage'              => 'logopdfinvoice.jpg',
-                    'sortOrder'                 => 3
                 ),
                 array(
                     'en_US'                     => array(
@@ -1565,7 +1556,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     'ProductNumberManufacturer' => 'SC_Mod_110',
                     'SilvercartProductGroupID'  => $productGroupOthers->ID,
                     'productImage'              => 'logovouchers.png',
-                    'sortOrder'                 => 4
                 )
             );
             
@@ -1605,7 +1595,6 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 $productItem->MSRPriceCurrency          = $product['MSRPriceCurrency'];
                 $productItem->PurchasePriceAmount       = $product['PurchasePriceAmount'];
                 $productItem->PurchasePriceCurrency     = $product['PurchasePriceCurrency'];
-                $productItem->SortOrder                 = $product['sortOrder'];
                 $productItem->write();
 
                 if ($fallbackLocale !== false) {
