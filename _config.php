@@ -194,13 +194,7 @@ SilvercartRestfulServer::addApiAccessBlackListFields(
     )
 );
 
-// ----------------------------------------------------------------------------
-// Register i18n plugins
-// ----------------------------------------------------------------------------
 /*
-i18n::register_plugin('silvercart_i18n_de_DE_plugin', array('SilvercartI18nPlugin', 'de_DE'), 99);
-
-
 if (is_null(TableListField_ItemRequest::$allowed_actions)) {
     TableListField_ItemRequest::$allowed_actions = array('printDataObject');
 }
