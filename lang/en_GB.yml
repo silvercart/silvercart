@@ -872,12 +872,6 @@ en_GB:
   SilvercartManufacturerLanguage:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
-  SilvercartManyManyOrderField:
-    ATTRIBUTED_FIELDS: "Attributed"
-    AVAILABLE_RELATION_OBJECTS: "Available"
-    EDIT: "Edit"
-    MOVE_DOWN: "Move down"
-    MOVE_UP: "Move up"
   SilvercartMenu:
     SECTION_externalConnections: "External connections"
     SECTION_maintenance: "Maintenance"

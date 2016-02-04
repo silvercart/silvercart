@@ -872,12 +872,6 @@ de:
   SilvercartManufacturerLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartManyManyOrderField:
-    ATTRIBUTED_FIELDS: "Zugewiesen"
-    AVAILABLE_RELATION_OBJECTS: "Verfügbar"
-    EDIT: "Bearbeiten"
-    MOVE_DOWN: "Nach unten schieben"
-    MOVE_UP: "Nach oben schieben"
   SilvercartMenu:
     SECTION_externalConnections: "Externe Anbindung"
     SECTION_maintenance: "Wartung"

@@ -665,12 +665,6 @@ ru:
     SINGULARNAME: "производитель"
   SilvercartManufacturerAdmin:
     MENUTITLE: "производитель"
-  SilvercartManyManyOrderField:
-    ATTRIBUTED_FIELDS: "выделено"
-    AVAILABLE_RELATION_OBJECTS: "имеется в наличие"
-    EDIT: "обработать"
-    MOVE_DOWN: "сдвинуть вниз"
-    MOVE_UP: "сдвинуть вверх"
   SilvercartMenu:
     SECTION_externalConnections: "внешняя ссылка"
     SECTION_maintenance: "техническое обслуживание"
