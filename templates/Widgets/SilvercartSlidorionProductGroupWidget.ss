@@ -1,3 +1,5 @@
+<% require javascript(silvercart/script/slidorion/js/jquery.slidorion.js) %>
+<% require css(silvercart/css/slidorion.css) %>
 <% cached WidgetCacheKey %>
     <% if ImagesToDisplay %>
         <div class="silvercart-widget-slidorion-productgroup">

@@ -1,3 +1,6 @@
+var silvercartVisibilityChangeCallBackListFocus = new Array();
+var silvercartVisibilityChangeCallBackListBlur  = new Array();
+
 function cutCountryList() {
     $('.country-list').each(function() {
         if ($(this).children().length > 9) {
@@ -64,11 +67,63 @@ $(document).ready(function(){
             width: $(addToCartFormSelector).outerWidth()
         }).slideToggle();
     });
+    
+    var hidden,
+        change,
+        vis = {
+            hidden:         "visibilitychange",
+            mozHidden:      "mozvisibilitychange",
+            webkitHidden:   "webkitvisibilitychange",
+            msHidden:       "msvisibilitychange",
+            oHidden:        "ovisibilitychange" // not currently supported
+        };             
+    for (hidden in vis) {
+        if (vis.hasOwnProperty(hidden) && hidden in document) {
+            change = vis[hidden];
+            break;
+        }
+    }
+    if (change) {
+        document.addEventListener(change, onchange);
+    } else if (/*@cc_on!@*/false) { // IE 9 and lower
+        document.onfocusin = document.onfocusout = onchange
+    } else {
+        window.onfocus = window.onblur = onchange;
+    }
+
+    function onchange (evt) {
+        var body    = $('body');
+        evt         = evt || window.event;
+        
+        if (evt.type == 'focus' || evt.type == 'focusin') {
+            body.removeClass('hidden');
+            body.addClass('visible');
+        } else if (evt.type == 'blur' || evt.type == 'focusout') {
+            body.removeClass('visible');
+            body.addClass('hidden');
+        } else {
+            body.removeClass(this[hidden] ? 'visible' : 'hidden');
+            body.addClass(this[hidden] ? 'hidden' : 'visible');
+        }
+        if (body.hasClass('visible')) {
+            $.each(silvercartVisibilityChangeCallBackListFocus, function() {
+                if (typeof this == 'function') {
+                    this();
+                }
+            });
+        } else {
+            $.each(silvercartVisibilityChangeCallBackListBlur, function() {
+                if (typeof this == 'function') {
+                    this();
+                }
+            });
+        }
+    }
 });
 
-(function($){
-        $.fn.extend({
-                slidorion: function(options) {
-                }
-        });
-})(jQuery);
+//(function($){
+//        $.fn.extend({
+//                slidorion: function(options) {
+//                }
+//        });
+//})(jQuery);
