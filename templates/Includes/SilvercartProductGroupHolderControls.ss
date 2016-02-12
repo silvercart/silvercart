@@ -1,51 +1,25 @@
-<div class="silvercart-product-group-page-controls">
-    <div class="silvercart-product-group-page-controls_content">
-        <div class="subcolumns">
-            <div class="c75l">
-                <div class="subcl">
-                    <% if ViewableChildren.MoreThanOnePage %>
-                        <% include SilvercartProductGroupPagination %>
-                    <% else %>
-                        &nbsp;
-                    <% end_if %>
-                </div>
-            </div>
+<% if ViewableChildren.MoreThanOnePage %>
+    <% include SilvercartProductGroupPagination %>
+<% end_if %>
 
-            <div class="c25r">
-                <div class="subcr">
-                    <% if Children %>
-                        <div class="silvercart-product-group-holder-toolbar clearfix">
-                            <% if hasMoreGroupHolderViewsThan(1) %>
-                                <ul>
-                                    <% loop GroupHolderViews %>
-                                        <% if isActiveHolder %>
-                                            <li class="active">
-                                                <div class="silvercart-group-view-marker">
-                                                    <div class="silvercart-group-view-marker_content">
-                                                        <strong>
-                                                            <img src="$Image" width="20" height="20" alt="$Label" />
-                                                        </strong>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        <% else %>
-                                            <li>
-                                                <div class="silvercart-group-view-link">
-                                                    <div class="silvercart-group-view-link_content">
-                                                        <a href="{$CurrentPage.Link}switchGroupHolderView/$Code" title="$Label">
-                                                            <img src="$Image" width="20" height="20" alt="$Label" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        <% end_if %>
-                                    <% end_loop %>
-                                </ul>
-                            <% end_if %>
-                        </div>
-                    <% end_if %>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<% if Children %>
+    <% if hasMoreGroupHolderViewsThan(1) %> 
+        <div class="productFilter clearfix">
+            <div class="displaytBy inline pull-right">
+                <div class="btn-group">    
+                    <% loop GroupHolderViews %>
+                        <% if isActiveHolder %>
+                            <a class="btn btn-primary active"  title="$Label">
+                                <img src="$Image" width="20" height="20" alt="$Label" />
+                            </a>           
+                        <% else %>
+                            <a class="btn" href="{$CurrentPage.Link}switchGroupHolderView/{$Code}" title="$Label">
+                                <img src="$Image" width="20" height="20" alt="$Label" />
+                            </a>  
+                        <% end_if %>
+                    <% end_loop %>
+                </div> 
+            </div> 
+        </div>   
+        <% end_if %>
+<% end_if %>

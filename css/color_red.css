@@ -1,0 +1,84 @@
+/*============= Global ancher link color style ==========*/
+a {
+  color:#e81863;
+}
+a:hover, a:active {
+  color:#e81863;
+  text-decoration:underline;
+}
+a.highlight:link, a.highlight:visited {
+  color:#666;
+}
+a.highlight:hover, a.highlight:active {
+  color:#e81863;
+  text-decoration:none;
+}
+a.active:link, a.active:visited {
+  color:#e81863;
+  cursor:default;
+}
+
+/*=================== dropdown =============*/
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-submenu:hover > a {
+  background:#e81863;
+  background-color:#e81863;
+  filter:#e81863;
+}
+.dropdown-menu .active > a,
+.dropdown-menu .active > a:hover {
+  background:#e81863;
+  background-color:#e81863;
+  filter: #e81863;
+}
+
+/*==================== navbar =================*/
+.navbar .nav > li:hover {
+  background:#e81863;
+}
+/* active link */
+.navbar .nav .active a,
+.navbar .nav .active a:hover,
+.navbar .nav .active a:focus
+.navbar .nav > .active > a,
+.navbar .nav > .active > a:hover,
+.navbar .nav > .active > a:focus,
+.navbar .nav > .active > a i,
+.navbar .nav > .active > a:focus i,
+.navbar .nav > .active > a:hover i,
+.navbar .nav > .active > a span,
+.navbar .nav > .active > a:focus span,
+.navbar .nav > .active > a:hover span {
+  background: #e81863;
+  background-color: #e81863;
+  filter:#e81863;
+}
+/* nested ul */
+.navbar .nav div {
+  background: #e81863;
+}
+
+/*========== btn-primary (orange-btn) ==========*/
+.btn-primary {
+  border:1px solid #e81863;
+  background: #e81863;
+background: -moz-linear-gradient(top, #e8407f 0%, #e81863 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8407f), color-stop(100%,#e81863));
+background: -webkit-linear-gradient(top, #e8407f 0%,#e81863 100%);
+background: -o-linear-gradient(top, #e8407f 0%,#e81863 100%);
+background: -ms-linear-gradient(top, #e8407f 0%,#e81863 100%);
+background: linear-gradient(to bottom, #e8407f 0%,#e81863 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8407f', endColorstr='#e81863',GradientType=0 );
+}
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary.disabled,
+.btn-primary[disabled] {
+  background: #e81863;
+}
+.btn-primary:active,
+.btn-primary.active {
+  background-color: #e8407f;
+}

@@ -1,11 +1,9 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-		<div id="Breadcrumbs">
-			<p>$Breadcrumbs</p>
-		</div>
-
-        <h1>$Title</h1>
-
+<div class="row">
+    <div class="span9">
+	 <% include SilvercartBreadCrumbs %> 
+         <div class="section-header clearfix">
+                    <h1>$Title</h1> 
+         </div>
 		$Content
 		$SearchResults
 		$Form
@@ -13,14 +11,13 @@
 		<% if CustomersOrder %>
 			<% include SilvercartOrderDetails %>
 		<% else %>
+                <div class="alert alert-error">
 			<p><% _t('SilvercartPage.SESSION_EXPIRED','Your session has expired.') %></p>
+                </div>
 		<% end_if %>
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    </div><!--end span9-->
+    <aside class="span3">
         <% include SilvercartSecondLevelNavigation %>
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

@@ -1,11 +1,13 @@
 <% if CurrentMember.currentRegisteredCustomer %>
     <% cached WidgetCacheKey %>
-    <strong class="h2"><% _t('SilvercartLoginWidget.TITLE_LOGGED_IN') %></strong>
+    <div class="section-header clearfix">
+        <h3><% _t('SilvercartLoginWidget.TITLE_LOGGED_IN') %></h3>
+    </div>
 
-    <div class="silvercart-widget-content_frame">
+    <div class="categories silvercart-widget-content_frame">
         <% with MyAccountPage %>
             <% if Children %>
-                <ul class="vlist">
+                <ul class="unstyled">
                     <% loop Children %>
                         <li>
                             <a href="$Link">$MenuTitle</a>
@@ -17,21 +19,15 @@
     </div>
     <% end_cached %>
 <% else %>
-    <strong class="h2"><% _t('SilvercartLoginWidget.TITLE_NOT_LOGGED_IN') %></strong>
+    <div class="section-header clearfix">
+        <h3><% _t('SilvercartLoginWidget.TITLE_NOT_LOGGED_IN') %></h3>
+    </div>
 
     <div class="silvercart-widget-content_frame silvercart-widget-login">
         $InsertCustomHtmlForm
 
-        <h3><% _t('SilvercartMyAccountHolder.WANTTOREGISTER') %></h3>
-        <p>
-            <% _t('SilvercartMyAccountHolder.REGISTER_ADVANTAGES_TEXT') %>
-        </p>
-        <div class="silvercart-button-row right">
-            <div class="silvercart-button inline">
-                <div class="silvercart-button_content">
-                    <a href="$PageByIdentifierCodeLink(SilvercartRegistrationPage)"><% _t('SilvercartMyAccountHolder.GOTO_REGISTRATION') %></a>
-                </div>
-            </div>
-        </div>
+        <h4><% _t('SilvercartMyAccountHolder.WANTTOREGISTER') %></h4>
+        <p><% _t('SilvercartMyAccountHolder.REGISTER_ADVANTAGES_TEXT') %></p>
+        <a class="btn btn-small pull-right" href="$PageByIdentifierCodeLink(SilvercartRegistrationPage)"><% _t('SilvercartMyAccountHolder.GOTO_REGISTRATION') %> &raquo;</a>
     </div>
 <% end_if %>

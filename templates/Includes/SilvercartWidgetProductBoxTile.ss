@@ -1,53 +1,28 @@
 <% if Elements %>
+<ul class="sc-products-vertical-tiny WidgetProductBoxTile">
     <% loop Elements %>
-        <div class="silvercart-product-box">
-            <div class="silvercart-product-box_content">
-                <h2><a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$Title</a></h2>
-                <div class="subcolumns clearfix equalize product-group-page-info">
-                    <div class="c33l product-group-page-image">
-                        <div class="subcl">
-                            <% if getSilvercartImages %>
-                                <% with getSilvercartImages.First %>
-                                    <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$image.SetRatioSize(60,60)</a>
-                                <% end_with %>
-                            <% end_if %>
-                        </div>
-                    </div>
-                    <div class="c66r">
-                        <div class="subcr">
-                            <p>$getHtmlEncodedShortDescription</p>
-
-                            <div class="silvercart-product-price-details">
-                                <p class="silvercart-price">
-                                    <strong>$PriceNice</strong>
-                                </p>
-                                <p class="silvercart-price-notes">
-                                    <small>
-                                        <% if showPricesGross %>
-                                            <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                                        <% else %>
-                                            <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
-                                        <% end_if %>
-                                        <% with CurrentPage.PageByIdentifierCode(SilvercartShippingFeesPage) %>
-                                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
-                                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
-                                            </a>
-                                        <% end_with %>
-                                    </small>
-                                </p>
-                                <p class="silvercart-product-meta-info">
-                                    <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
-                                </p>
-                                <div class="silvercart-button-small left">
-                                    <div class="silvercart-button-small_content">
-                                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <li class="span4 clearfix">
+        <div class="thumbImage">
+            <% if getSilvercartImages %>
+            <a href="{$Link}" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$getSilvercartImages.first.Image.SetSize(92,92)</a>
+            <% end_if %>
         </div>
+        <div class="sc-product-shortinfo">
+            <div class="sc-product-title" id="{$ID}">
+                <a class="highlight" href="{$Link}" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">{$Title.HTML}</a>
+            </div>
+            <div class="thumbPrice">
+                <span>$PriceNice</span>
+            </div>
+            <% if PluggedInProductMetaData %>
+            <div class="silvercart-product-meta-data">
+                <% loop PluggedInProductMetaData %>
+                <span>$MetaData</span>
+                <% end_loop %>
+            </div>
+            <% end_if %>
+        </div>
+    </li>
     <% end_loop %>
+</ul>
 <% end_if %>

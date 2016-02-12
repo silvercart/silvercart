@@ -39,7 +39,7 @@ class SilvercartProductGroupPage extends Page {
      * 
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/product_group";
+    public static $icon = "silvercart/img/page_icons/product_group";
 
     /**
      * Attributes.

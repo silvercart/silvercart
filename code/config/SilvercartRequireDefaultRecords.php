@@ -1628,7 +1628,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                 // Add product image
                 if (array_key_exists('productImage', $product)) {
                     copy(
-                        Director::baseFolder().'/silvercart/images/exampledata/'.$product['productImage'],
+                        Director::baseFolder().'/silvercart/img/exampledata/'.$product['productImage'],
                         $exampleDataDir.$product['productImage']
                     );
 
@@ -1734,7 +1734,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $widgetSetFrontPageContentArea->Widgets()->add($widgetFrontPageContent3);
             
             copy(
-                Director::baseFolder().'/silvercart/images/exampledata/silvercart_teaser.jpg',
+                Director::baseFolder().'/silvercart/img/exampledata/silvercart_teaser.jpg',
                 $exampleDataDir.'/silvercart_teaser.jpg'
             );
             $teaserImage = new Image();

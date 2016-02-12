@@ -34,7 +34,7 @@ class SilvercartMetaNavigationPage extends SilvercartMetaNavigationHolder {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/metanavigation_page";
+    public static $icon = "silvercart/img/page_icons/metanavigation_page";
     
     /**
      * Returns the translated singular name of the object. If no translation exists

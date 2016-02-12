@@ -1,9 +1,5 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <% include SilvercartBreadCrumbs %>
-
-        <h1>$Title</h1>
-
+<div class="row">
+    <div class="span9">
             <% if Results %>
 				<ul id="SearchResults">
 					<% loop Results %>
@@ -21,9 +17,11 @@
 					<% end_loop %>
 				</ul>
             <% else %>
+            <div class="alert alert-error">
 				<p><% _t('SilvercartPage.NO_RESULTS','Sorry, but Your query did not return any results.') %></p>
+            </div>
             <% end_if %>
-            
+
             <% if Results.MoreThanOnePage %>
 				<div id="PageNumbers">
 					<% if Results.NotLastPage %>
@@ -43,19 +41,9 @@
 					</span>
 				</div>
             <% end_if %>
-        
-        <div class="silvercartWidgetHolder">
-            <div class="silvercartWidgetHolder_content">
-                $InsertWidgetArea(Content)
-            </div>
-        </div>
-        
-        $PageComments
+
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
-        $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    <aside class="span3">
+        <% include SilvercartSideBarCart %> 
+    </aside><!--end aside-->
 </div>

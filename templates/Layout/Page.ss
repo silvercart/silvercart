@@ -1,28 +1,21 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <% include SilvercartBreadCrumbs %>
-
-        <h1>$Title</h1>
-
+<div class="row">
+    <div class="span9">
+        <% include SilvercartBreadCrumbs %>  
+        <div class="section-header clearfix">
+            <h1>$Title</h1>
+        </div>
         $Content
         <% if Form %>
-            <div class="yform silvercart-system-form">
-                $Form
-            </div>
-        <% end_if %>
-        
-        <div class="silvercartWidgetHolder">
-            <div class="silvercartWidgetHolder_content">
-                $InsertWidgetArea(Content)
-            </div>
+        <div class="form">
+            $Form
         </div>
-        
-        $PageComments
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
-        $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+        <% end_if %>
+        <div class="silvercartWidgetHolder">
+                $InsertWidgetArea(Content)
+        </div>
+        $PageComments  
+    </div><!--end span9-->
+    <aside class="span3">
+        $InsertWidgetArea(Sidebar)  
+    </aside><!--end aside-->
 </div>

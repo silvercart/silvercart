@@ -32,14 +32,14 @@ class SilvercartWidget extends WidgetSetWidget {
      *
      * @var bool
      */
-    public static $use_product_pages_for_slider = true;
+    public static $use_product_pages_for_slider = false;
     
     /**
      * Set this to false to disable anything slider.
      *
      * @var bool
      */
-    public static $use_anything_slider = true;
+    public static $use_anything_slider = false;
     
     /**
      * Returns the title of this widget.

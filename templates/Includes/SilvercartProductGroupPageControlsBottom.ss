@@ -1,13 +1,7 @@
 <% if HasMoreProductsThan(0) %>
-    <div class="silvercart-product-group-page-controls">
-        <div class="silvercart-product-group-page-controls_content">
+    <% include SilvercartProductPagination %>
+        <div class="productFilter clearfix silvercart-product-group-page-selectors">
             <% include SilvercartProductGroupPageControls %>
-
-            <div class="silvercart-product-group-page-selectors">
-                <div class="silvercart-product-group-page-selectors_content">
-                    $InsertCustomHtmlForm(SilvercartProductGroupPageSelectorsBottom)
-                </div>
-            </div>
+            <%--   $InsertCustomHtmlForm(SilvercartProductGroupPageSelectorsBottom) --%>
         </div>
-    </div>
 <% end_if %>

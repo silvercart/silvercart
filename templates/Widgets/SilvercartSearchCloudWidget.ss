@@ -1,8 +1,12 @@
 <% if TagsForCloud %>
-<strong class="h2"><% _t('SilvercartSearchCloudWidget.TITLE') %></strong>
-<div class="silvercart-widget-content_frame silvercart-widget-search silvercart-widget-search-cloud">
+<div class="section-header clearfix">
+<h3><% _t('SilvercartSearchCloudWidget.TITLE') %></h3>
+</div>
+<div class="silvercart-widget-content_frame silvercart-widget-search silvercart-widget-search-cloud ">
+    <ul class="nav nav-pills">
     <% loop TagsForCloud %>
-    <a class="silvercart-search-cloud-widget-{$FontSize}" href="{$Link}">$SearchQuery</a>
+    <li><a  class="silvercart-search-cloud-widget-{$FontSize}" href="{$Link}"><i>$SearchQuery</i></a></li>
     <% end_loop %>
+    </ul>
 </div>
 <% end_if %>

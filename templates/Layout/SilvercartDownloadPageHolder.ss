@@ -1,15 +1,12 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
-
-            <h1>$Title</h1>
+        <div class="section-header clearfix">
+          <h1>$Title</h1>   
+        </div>
             $Content
-            
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    </div><!--end span9-->
+    <aside class="span3">
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

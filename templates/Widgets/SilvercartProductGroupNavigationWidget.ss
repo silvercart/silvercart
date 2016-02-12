@@ -1,12 +1,9 @@
 <% cached NavigationCacheKey %>
-<% if FrontTitle %><h2>{$FrontTitle}</h2><% end_if %>
+<% if FrontTitle %><h3>{$FrontTitle}</h3><% end_if %>
     <% with Navigation %>
-        <% with RootPage %>
-            <strong class="h2">{$MenuTitle.XML}</strong>
-        <% end_with %>
         <% if HasMenu %>
-            <div class="vlist silvercart-product-group-navigation-widget">
-                <ul>{$Menu}</ul>
+            <div class="categories silvercart-product-group-navigation-widget">
+                <ul class="unstyled">{$Menu}</ul>
             </div>
         <% end_if %>
     <% end_with %>

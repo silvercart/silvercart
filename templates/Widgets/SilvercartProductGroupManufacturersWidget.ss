@@ -1,13 +1,13 @@
 <% if ShowWidget %>
     <% if SilvercartManufacturers %>
         <% if Title %>
-            <strong class="h2 <% if isFilteredByManufacturer %>is-filtered<% end_if %>">
+            <h2 <% if isFilteredByManufacturer %>class="is-filtered"<% end_if %>>
                 $Title
-            </strong>
+            </h2>
         <% end_if %>
 
-        <div class="vlist">
-            <ul>
+        <div>
+            <ul class="unstyled">
                 <% loop SilvercartManufacturers %>
                     <% if Title %>
                         <li>
@@ -25,13 +25,9 @@
         </div>
 
         <% if isFilteredByManufacturer %>
-            <div class="silvercart-button">
-                <div class="silvercart-button_content">
-                    <a href="$PageLink">
+                    <a class="btn btn-small" href="$PageLink" title="<% _t('SilvercartProductGroupManufacturersWidget.RESETFILTER') %>">
                         <% _t('SilvercartProductGroupManufacturersWidget.RESETFILTER') %>
                     </a>
-                </div>
-            </div>
         <% end_if %>
     <% end_if %>
 <% end_if %>

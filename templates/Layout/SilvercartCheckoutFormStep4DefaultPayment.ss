@@ -1,16 +1,16 @@
-<form class="yform" $FormAttributes >
+<form class="form-horizontal" $FormAttributes >
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
     
     <% with PaymentMethod %>
-    <div class="silvercart-checkout-payment-additionalInfo">
-        <strong>$Name</strong>
+    <div class="silvercart-checkout-payment-additionalInfo clearfix">
+        <h2>$Name</h2>
         <% if showPaymentLogos %>
-            <div class="silvercart-checkout-payment-additionalInfo-logos">
+            <div class="silvercart-checkout-payment-additionalInfo-logos margin">
             <% if PaymentLogos %>
                 <span class="silvercart-checkout-payment-additionalInfo-logo">
                     <% loop PaymentLogos %>
-                        $Image
+                        $Image.SetRatioSizeIfBigger(250,70)
                     <% end_loop %>
                 </span>
             <% end_if %>
@@ -22,12 +22,10 @@
             </div>
         <% end_if %>
     </div>
+    
     <% end_with %>
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-            $Field
-            <% end_loop %>
-        </div>
-    </div>
+    <% loop Actions %>
+        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+    <% end_loop %>
+    <hr>
 </form>

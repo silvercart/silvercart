@@ -1,10 +1,9 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
-        
-        <% if isFirstPage %>
-            $PageContent
-        <% end_if %>
+        <div class="section-header clearfix">
+              <h1>$Title</h1>  
+        </div>
         
         $InsertWidgetArea(Content)
         
@@ -16,23 +15,27 @@
             $RenderProductGroupHolderGroupView
         </div>
         <% end_if %>
-        
+ 
         <% cached CacheKey %>
-        <div class="silvercart-product-group-page-control-top">
+        <div class="silvercart-product-group-page-control-top" id="scpgpct">
             <% include SilvercartProductGroupPageControlsTop %>
         </div>
-        <div class="silvercart-product-group-page">
+        <div class="silvercart-product-group-page sc-products clearfix">
             $RenderProductGroupPageGroupView
         </div>
-        <div class="silvercart-product-group-page-control-top">
+        <div class="silvercart-product-group-page-control-bottom">
             <% include SilvercartProductGroupPageControlsBottom %>
         </div>
         <% end_cached %>
+    
+        <% if isFirstPage %>
+            $PageContent
+        <% end_if %>
+
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    <!-- end span9 -->
+    <aside class="span3">
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+   </aside>
+        <!-- end aside -->
 </div>

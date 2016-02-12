@@ -28,76 +28,10 @@ SiteTree::set_create_default_pages(false);
 // ----------------------------------------------------------------------------
 CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
 CustomHtmlForm::useSpamCheckFor('SilvercartRevocationForm');
+CustomHtmlForm::$custom_error_box_css_class = 'help-inline';
+CustomHtmlForm::$custom_error_box_selection_method = 'append';
+CustomHtmlForm::$custom_error_box_sub_selector = ' .controls';
 
-if (!class_exists('RequirementsEngine')) {
-    trigger_error('Missing dependency: module RequirementsEngine is missing!', E_USER_ERROR);
-}
-// ----------------------------------------------------------------------------
-// Register CSS requirements
-// ----------------------------------------------------------------------------
-if (SilvercartConfig::DefaultLayoutEnabled()) {
-    RequirementsEngine::registerBlockedFile('cms/css/layout.css');
-    RequirementsEngine::registerBlockedFile('cms/css/typography.css');
-    RequirementsEngine::registerBlockedFile('cms/css/form.css');
-    // Require the default layout and its patches only if it is enabled
-    RequirementsEngine::registerCssFile('silvercart/yaml/core/base.css');
-    RequirementsEngine::registerThemedCssFile('basemod',            'silvercart');
-    RequirementsEngine::registerThemedCssFile('nav_hlist',          'silvercart');
-    RequirementsEngine::registerThemedCssFile('nav_vlist',          'silvercart');
-    RequirementsEngine::registerThemedCssFile('content',            'silvercart');
-    RequirementsEngine::registerThemedCssFile('forms',              'silvercart');
-    // Require head tags for IE patches
-    RequirementsEngine::registerHeadTag('<!--[if lte IE 9]>',                                                                              'silvercart_iepatch_begin');
-    RequirementsEngine::registerHeadTag('<link rel="stylesheet" type="text/css" href="/silvercart/css/patches/patch_layout.css" />',       'silvercart_iepatch');
-    RequirementsEngine::registerHeadTag('<![endif]-->',                                                                                    'silvercart_iepatch_end');
-    RequirementsEngine::registerHeadTag('<!--[if lte IE 7]>',                                                                              'silvercart_ie7patch_begin');
-    RequirementsEngine::registerHeadTag('<link rel="stylesheet" type="text/css" href="/silvercart/css/patches/patch_layout_ie7.css" />',   'silvercart_ie7patch');
-    RequirementsEngine::registerHeadTag('<link rel="stylesheet" type="text/css" href="/silvercart/css/patches/patch_forms.css" />',        'silvercart_ie7patch2');
-    RequirementsEngine::registerHeadTag('<![endif]-->',                                                                                    'silvercart_ie7patch_end');
-}
-RequirementsEngine::registerThemedCssFile('SilvercartAddressHolder',                'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartBreadcrumbs',                  'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartCheckout',                     'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartFooter',                       'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartForms',                        'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartGeneral',                      'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartHeaderbar',                    'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartLanguageDropdownField',        'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartPagination',                   'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartPrint',                        'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupNavigation',       'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupPageControls',     'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupHolderList',       'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupHolderTile',       'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupPageList',         'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupPageTile',         'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupViewNavigation',   'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductPage',                  'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartShoppingCart',                 'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartSiteMap',                      'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartWidget',                       'silvercart');
-RequirementsEngine::registerThemedCssFile('jquery.fancybox-1.3.4',                  'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartProductGroupSliderWidget',     'silvercart');
-RequirementsEngine::registerThemedCssFile('slidorion',                              'silvercart');
-RequirementsEngine::registerThemedCssFile('SilvercartAnythingSlider',               'silvercart');
-
-// ----------------------------------------------------------------------------
-// Register JS requirements
-// ----------------------------------------------------------------------------
-RequirementsEngine::registerJsFile("silvercart/script/document.ready_scripts.js");
-RequirementsEngine::registerJsFile("silvercart/script/jquery.pixeltricks.tools.js");
-RequirementsEngine::registerJsFile("silvercart/script/fancybox/jquery.fancybox-1.3.4.pack.js");
-RequirementsEngine::registerJsFile("silvercart/script/anythingslider/js/jquery.anythingslider.min.js");
-RequirementsEngine::registerJsFile("silvercart/script/anythingslider/js/jquery.anythingslider.fx.min.js");
-RequirementsEngine::registerJsFile("silvercart/script/anythingslider/js/jquery.easing.1.2.js");
-RequirementsEngine::registerJsFile("silvercart/script/jquery.roundabout.min.js");
-RequirementsEngine::registerJsFile("silvercart/script/jquery.roundabout-shapes.min.js");
-RequirementsEngine::registerJsFile("silvercart/script/jquery.easing.1.3.js");
-RequirementsEngine::registerJsFile("silvercart/script/SilvercartProductGroupSliderWidget.js");
-RequirementsEngine::registerJsFile("silvercart/script/reflection.js");
-RequirementsEngine::registerJsFile("silvercart/script/slidorion/js/jquery.slidorion.js");
-RequirementsEngine::registerJsFile("silvercart/script/pDialog.js");
-RequirementsEngine::registerJsFile("silvercart/script/SilvercartWidget.js");
 // Require i18n javascript
 Requirements::add_i18n_javascript('silvercart/javascript/lang');
 
@@ -194,11 +128,6 @@ SilvercartRestfulServer::addApiAccessBlackListFields(
     )
 );
 
-/*
-if (is_null(TableListField_ItemRequest::$allowed_actions)) {
-    TableListField_ItemRequest::$allowed_actions = array('printDataObject');
-}
-*/
 // ----------------------------------------------------------------------------
 // Enable DataObject validation
 // ----------------------------------------------------------------------------

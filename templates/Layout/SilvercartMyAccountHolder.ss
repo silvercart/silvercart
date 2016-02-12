@@ -1,40 +1,55 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
 
         <% if CurrentRegisteredCustomer %>
+        <div class="section-header clearfix">
             <h1>$Title</h1>
-        
-            $Content
-            
+        </div>       
+        $Content
+        <% if Children %>
+        <div id="cart-acc" class="cart-accordain">
             <% loop Children %>
-                <% if hasSummary %>
-            <div class="silvercart-section">
-                <div class="silvercart-section_content clearfix">
-                    <h3>{$SummaryTitle}:</h3>
-                    {$Summary}
-                    <div class="silvercart-button right">
-                        <div class="silvercart-button_content">
-                            <a href="{$Link}"><% _t('Silvercart.MORE') %></a>
+            <% if hasSummary %>
+            <div class="accordion-group">        
+                <div class="accordion-heading">
+                    <a href="#{$ID}" data-parent="#cart-acc" data-toggle="collapse" class="accordion-toggle" Title="{$SummaryTitle}">
+                        <i class="icon-caret-right"></i> {$SummaryTitle}
+                    </a>
+                </div>
+
+                <div class="accordion-body collapse in" id="{$ID}">
+                    <div class="accordion-inner clearfix">                                                 
+                        {$Summary}
+                        <div class="control-group">
+                            <div class="controls">
+                                <span class="pull-right">
+                                    <a class="btn btn-primary" href="{$Link}" Title="<% _t('Silvercart.MORE') %>"><% _t('Silvercart.MORE') %></a>
+                                </span>	
+                            </div>
                         </div>
-                    </div>
+                    </div>            
                 </div>
             </div>
-                <% end_if %>
+            <% end_if %>
             <% end_loop %>
-            
+        </div>
+
+        <% end_if %>
         <% else %>
-            <% include SilvercartMyAccountLoginOrRegister %>
+        <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+
+    <aside class="span3">
         <% if CurrentRegisteredCustomer %>
-            $SubNavigation
+        $SubNavigation
         <% end_if %>
-        
+
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside>
 </div>
+
+
+
+

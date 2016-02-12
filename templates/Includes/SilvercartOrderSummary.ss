@@ -1,7 +1,6 @@
-
 <% if CurrentPage.CurrentMembersOrders %>
-    <table id="silvercart-order-holder-table-id" class="full">
-        <thead>
+    <table id="silvercart-order-holder-table-id" class="table full table-horizontal silvercart-order-holder-table">
+        <thead class="mobile-hide-sm">
             <tr>
                 <th><% _t('SilvercartPage.ORDER_DATE','order date') %></th>
                 <th><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></th>
@@ -13,35 +12,23 @@
         <tbody>
             <% loop CurrentPage.CurrentMembersOrders(3) %>
                 <tr>
-                    <td>
-                        <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$Created.Nice</a>
-                    </td>
-                    <td>
-                        <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">$OrderNumber</a>
-                    </td>
-                    <td>
-                        <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
+                    <td class="creationdate"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">{$Created.Nice}</a></td>
+                    <td class="ordernumber"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID"><span class="mobile-show-sm inline">#</span>{$OrderNumber}</a></td>
+                    <td class="positions">
+                        <a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
                         <% loop SilvercartOrderPositions %>
                             $Title.RAW <% if Last %><% else %> | <% end_if %>
                         <% end_loop %>
                         </a>
                     </td>
-                    <td>
-                        <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
-                            $SilvercartOrderStatus.Title
-                        </a>
-                    </td>
-                    <td>
-                        <div class="silvercart-button">
-                            <div class="silvercart-button_content">
-                                <a href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
-                            </div>
-                        </div>
-                    </td>
+                    <td class="orderstatus"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">{$SilvercartOrderStatus.Title}</a></td>
+                    <td class="detailbutton"><a class="btn btn-small btn-primary" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID" title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>"  data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>"><i class="icon-eye-open"></i></a></td>
                 </tr>
             <% end_loop %>
         </tbody>
     </table>
 <% else %>
+<div class="alert alert-error">
     <p><% _t('SilvercartPage.NO_ORDERS','You do not have any orders yet') %></p>
+</div>
 <% end_if %>

@@ -1,15 +1,11 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <h1><% _t('SilvercartConfig.ERROR_TITLE','An error occured!') %></h1>
-        <p><strong>$ErrorMessage</strong></p>
+<div class="row">
+        <div class="span9">
+        <div class="alert alert-block">
+            <h1 class="alert-heading"><% _t('SilvercartConfig.ERROR_TITLE','An error occured!') %></h1>
+            <p><strong>$ErrorMessage</strong></p>
+        </div>
     </div>
-</div>
-
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    <aside class="span3">
         $InsertWidgetArea(Sidebar)
-    </div>
-
-     <!-- IE Column Clearing -->
-    <div id="ie_clearing"> &#160; </div>
+    </aside>
 </div>

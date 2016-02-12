@@ -1,22 +1,18 @@
-<div class="columnar">
-<form class="yform" $FormAttributes >
-    $CustomHtmlFormMetadata
-    $CustomHtmlFormErrorMessages
-<% if hasProductsPerPageOptions %>
-    $CustomHtmlFormFieldByName(productsPerPage,CustomHtmlFormFieldSelect)
-<% end_if %>
-    $CustomHtmlFormFieldByName(SortOrder,CustomHtmlFormFieldSelect)
-
-    <div class="silvercart-products-found">
-        <% sprintf(_t('SilvercartProductGroupPageSelector.PRODUCTS_FOUND'),$getTotalNumberOfProducts) %>
+<form class="form pull-left no-margin" {$FormAttributes} >
+    {$CustomHtmlFormMetadata}
+    {$CustomHtmlFormErrorMessages}
+    <div class="sortBy inline pull-left">
+        $CustomHtmlFormFieldByName(SortOrder,SilvercartProductGroupPageSelectorsFields)
     </div>
-
-    $CustomHtmlFormSpecialFields
-
-    <div class="type-button clearfix">
-        <% loop Actions %>
-            $Field
-        <% end_loop %>
+    <% if hasProductsPerPageOptions %>
+    <div class="showItem inline pull-left">
+        $CustomHtmlFormFieldByName(productsPerPage,SilvercartProductGroupPageSelectorsFields)
+    </div>
+    <% end_if %>
+    {$CustomHtmlFormSpecialFields}
+    <div class="compareItem inline pull-left">
+    <% loop Actions %>
+        <button class="btn btn-mini btn-primary active type-button"><i class="icon-filter"></i> {$Title}</button>
+    <% end_loop %>
     </div>
 </form>
-</div>

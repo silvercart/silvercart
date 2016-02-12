@@ -1,9 +1,11 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
 
         <% if CurrentRegisteredCustomer %>
+        <div class="section-header clearfix">
             <h1>$Title</h1>
+        </div>
             $Content
             $Form
             $InsertCustomHtmlForm(SilvercartEditProfileForm)
@@ -12,13 +14,10 @@
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+<aside class="span3">
         <% if CurrentRegisteredCustomer %>
             $SubNavigation
         <% end_if %>
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+</aside>
 </div>

@@ -35,7 +35,7 @@ class SilvercartModelAdmin extends ModelAdmin {
      *
      * @var string
      */
-    private static $menu_icon = 'silvercart/css/images/glyphicons_halflings.png';
+    private static $menu_icon = 'silvercart/img/glyphicons-halflings.png';
     
     /**
      * Name of DB field to make records sortable by.

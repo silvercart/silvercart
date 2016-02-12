@@ -1,19 +1,15 @@
-
 <% with CurrentMember %>
-    <div class="subcolumns silvercart-address-equalize">
-        <div class="c50l">
-            <div class="subcl">
-                <% with SilvercartInvoiceAddress %>
-                    <% include SilvercartAddressDetailReadOnly %>
-                <% end_with %>
-            </div>
+    <div class="row silvercart-address-equalize">
+        <div class="span4">
+        <% with SilvercartInvoiceAddress %>
+            <% include SilvercartAddressDetailReadOnly %>
+        <% end_with %>
+            <hr class="mobile-show-sm"/>
         </div>
-        <div class="c50r">
-            <div class="subcr">
-                <% with SilvercartShippingAddress %>
-                    <% include SilvercartAddressDetailReadOnly %>
-                <% end_with %>
-            </div>
+        <div class="span4">
+        <% with SilvercartShippingAddress %>
+            <% include SilvercartAddressDetailReadOnly %>
+        <% end_with %>
         </div>
     </div>
 <% end_with %>

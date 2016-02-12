@@ -1,41 +1,65 @@
-<tr<% if Last %> class="separator"<% end_if %>>
-    <td><a href="$silvercartProduct.Link">$getProductNumberShop</a></td>
-    <td>
-        <div class="silvercart-product-group-page-box-image">
-            <% if SilvercartProduct.getSilvercartImages %>
-                <% loop SilvercartProduct.getSilvercartImages %>
-                    <% if First %>
-            <a href="$silvercartProduct.Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(60,60)</a>
-                    <% end_if %>
-                <% end_loop %>
-            <% end_if %>
-        </div>
-    </td>
-    <td><a href="$silvercartProduct.Link"><strong>$getTitle</strong></a><% if getCartDescription %><br/><small>$getCartDescription</small><% end_if %><br/>$addToTitle</td>
-    <td class="right">$getPrice(true).Nice</td>
-    <td class="right">{$SilvercartProduct.TaxRate}%</td>
-    <td class="right borderlr">
-        <% if CurrentPage.EditableShoppingCart %>
-        <div class="subcolumns">
-            {$DecrementPositionQuantityForm}
-            <form action="/customhtmlformaction/addToCart" method="post">
-                <input type="hidden" name="productID" value="{$SilvercartProductID}">
-                <div class="addToCartField">
-                    <input type="text" class="text" name="productQuantity" value="{$TypeSafeQuantity}" maxlength="3" size="3" id="productQuantity-{$ID}"> <label for="productQuantity-{$ID}">{$SilvercartProduct.SilvercartQuantityUnit.Abbreviation}</label>
-                </div>
-            </form>
-            <% if isQuantityIncrementableBy %>
-                {$IncrementPositionQuantityForm}
-            <% end_if %>
-        <% else %>
-            <span class="silvercart-quantity-label">
-                $getTypeSafeQuantity
-            </span>
+<tr>
+    <td class="img">
+        <% if SilvercartProduct.getSilvercartImages %>
+            <% loop SilvercartProduct.getSilvercartImages %>
+                <% if First %>
+                    <a href="$silvercartProduct.Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetSize(92,92)</a>
+                <% end_if %>
+            <% end_loop %>
         <% end_if %>
     </td>
-    <td class="right price">$Price.Nice</td>
+    <td class="desc span4">
+        <h5><a class="highlight" href="$silvercartProduct.Link">$getTitle</a></h5>
+        <ul class="unstyled">
+            <li><a class="highlight" href="$silvercartProduct.Link"><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $getProductNumberShop</a></li>
+            <% if getCartDescription %><li><small>$getCartDescription</small></li><% end_if %>
+            <%-- @TODO SilvercartFreightgroupShoppingCartPositionPlugin.php $addToTitle begins with <p> end </div> --%>
+            <li><small><%-- $addToTitle --%></small></li>
+        </ul>
+    </td>
+    <td class="sub-price right">
+        $getPrice(true).Nice<span class="mobile-show-sm inline">
+                <br/><% _t('SilvercartProduct.PRICE_SINGLE') %></span>
+        <p class="mobile-hide-sm">
+            <small>{$SilvercartProduct.TaxRate}% <% _t('SilvercartProduct.VAT') %></small>
+        </p>
+    </td>
+<% if $CurrentPage.EditableShoppingCart %>
+    <td class="right borderlr quantity">  
+        <%-- @todo mit Link zusammenfassen ohne 3 Formulare damit Template umgesetzt werden kann --%>
+        <div class="btn-group">
+            <div class="pull-left input-prepend input-append form-prepend">{$DecrementPositionQuantityForm}</div>
+            <div class="pull-left">
+                <form action="/customhtmlformaction/addToCart" method="post">
+                    <input type="hidden" name="productID" value="{$SilvercartProductID}">
+                    <div class="input-prepend input-append">
+                        <input type="text" class="text input-mini" name="productQuantity" value="{$TypeSafeQuantity}" id="productQuantity-{$ID}">
+                    </div>
+                </form>
+            </div>
+            <% if isQuantityIncrementableBy %>
+            <div class="pull-left input-append">{$IncrementPositionQuantityForm}</div>
 
-    <% if CurrentPage.EditableShoppingCart %>
-        <td>$RemovePositionForm</td>
-    <% end_if %>
+
+            <% end_if %> 
+        </div>
+    </td>
+<% else %>
+    <td class="right borderlr quantity">
+        <span class="silvercart-quantity-label">{$getTypeSafeQuantity}<span class="mobile-show-sm inline">x</span></span>
+    </td>
+<% end_if %>
+    <td class="total-price right">
+        $Price.Nice
+        <br/>
+        <p class="mobile-hide-sm">
+            <small> {$SilvercartProduct.TaxRate}% <% _t('SilvercartProduct.VAT') %></small>
+        </p>
+    </td>
+<% if $CurrentPage.EditableShoppingCart %>
+    <td class="remove">$RemovePositionForm</td>
+<% end_if %>
 </tr>
+
+
+

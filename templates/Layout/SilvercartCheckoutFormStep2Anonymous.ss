@@ -1,244 +1,96 @@
-<form class="yform" $FormAttributes >
+<form class="form-horizontal grouped" $FormAttributes >
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
-    <fieldset>
-        <legend><% _t('SilvercartPage.EMAIL_ADDRESS','email address') %></legend>
-        <div class="subcolumns">
-            $CustomHtmlFormFieldByName(Email)
-        </div>
-    </fieldset>
+    <h4><% _t('SilvercartPage.EMAIL_ADDRESS') %></h4>
+    <div class="margin-side">
+        $CustomHtmlFormFieldByName(Email)
+    </div>
 <% if UseMinimumAgeToOrder %>
-    <fieldset>
-        <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
-                 </div>
+    <h4><% _t('SilvercartPage.BIRTHDAY') %></h4>
+    <div class="margin-side">
+        <div class="row">
+            <div class="span3">
+                $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
             </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
-                </div>
+            <div class="span3">
+                $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
             </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(BirthdayYear)
-                </div>
+            <div class="span3">
+                $CustomHtmlFormFieldByName(BirthdayYear)
             </div>
         </div>
-    </fieldset>
+    </div>
 <% end_if %>
-    <fieldset>
-<% if $InvoiceAddressIsAlwaysShippingAddress %>
-        <legend><% _t('SilvercartAddressHolder.INVOICEANDSHIPPINGADDRESS') %></legend>
-<% else %>
-        <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
-<% end_if %>
+    <h4><% _t('SilvercartPage.BILLING_ADDRESS') %></h4>
+    <div class="margin-side">
+    <% if EnableBusinessCustomers %>
+        $CustomHtmlFormFieldByName(Invoice_IsBusinessAccount,CustomHtmlFormFieldCheck)
+        $CustomHtmlFormFieldByName(Invoice_TaxIdNumber)
+        $CustomHtmlFormFieldByName(Invoice_Company)
+        <hr>
+    <% end_if %>
+        $CustomHtmlFormFieldByName(Invoice_Salutation,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(Invoice_FirstName)
+        $CustomHtmlFormFieldByName(Invoice_Surname)
+        
+        $CustomHtmlFormFieldByName(Invoice_Street)
+        $CustomHtmlFormFieldByName(Invoice_StreetNumber)
+        $CustomHtmlFormFieldByName(Invoice_Addition)
+        
+        $CustomHtmlFormFieldByName(Invoice_Postcode)
+        $CustomHtmlFormFieldByName(Invoice_City)
+        $CustomHtmlFormFieldByName(Invoice_Country,CustomHtmlFormFieldSelect)
+        
+        $CustomHtmlFormFieldByName(Invoice_PhoneAreaCode)
+        $CustomHtmlFormFieldByName(Invoice_Phone)
+    </div>
+
+    <h4><% _t('SilvercartPage.SHIPPING_ADDRESS') %></h4>
+    <div class="margin-side clearfix">
+        <div class="clearfix">
+            $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldCheck)
+        </div>
+
+        <div id="ShippingAddressFields" class="clearfix">
 
         <% if EnableBusinessCustomers %>
-        $CustomHtmlFormFieldByName(Invoice_IsBusinessAccount,CustomHtmlFormFieldCheck)
-
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_TaxIdNumber)
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Invoice_Company)
-                </div>
-            </div>
-        </div>
+            $CustomHtmlFormFieldByName(Shipping_IsBusinessAccount,CustomHtmlFormFieldCheck)
+            $CustomHtmlFormFieldByName(Shipping_TaxIdNumber)
+            $CustomHtmlFormFieldByName(Shipping_Company)
         <% end_if %>
 
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_Salutation,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_FirstName)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Invoice_Surname)
-                </div>
-            </div>
+        <% if EnablePackstation %>
+        <div class="clearfix">
+            $CustomHtmlFormFieldByName(Shipping_IsPackstation,CustomHtmlFormFieldCheckGroup)
         </div>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_Street)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_StreetNumber)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Invoice_Addition)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_Postcode)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_City)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Invoice_Country,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_PhoneAreaCode)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Invoice_Phone)
-                </div>
-            </div>
-        </div>
-    </fieldset>
-
-<% if $InvoiceAddressIsAlwaysShippingAddress %>
-        $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldHidden)
-<% else %>
-    <fieldset>
-        <legend><% _t('SilvercartPage.SHIPPING_ADDRESS','shipping address') %></legend>
-
-        $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldCheck)
-
-        <div id="ShippingAddressFields">
-
-            <% if EnableBusinessCustomers %>
-            $CustomHtmlFormFieldByName(Shipping_IsBusinessAccount,CustomHtmlFormFieldCheck)
-
-            <div class="subcolumns">
-                <div class="c50l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_TaxIdNumber)
-                    </div>
-                </div>
-                <div class="c50r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(Shipping_Company)
-                    </div>
-                </div>
-            </div>
-            <% end_if %>
-
-            <% if EnablePackstation %>
-                $CustomHtmlFormFieldByName(Shipping_IsPackstation,CustomHtmlFormFieldCheckGroup)
-            <% end_if %>
-            <div class="subcolumns">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_Salutation,CustomHtmlFormFieldSelect)
-                    </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_FirstName)
-                    </div>
-                </div>
-                <div class="c33r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(Shipping_Surname)
-                    </div>
-                </div>
-            </div>
-            <div class="subcolumns absolute-address-data">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_Street)
-                    </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_StreetNumber)
-                    </div>
-                </div>
-                <div class="c33r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(Shipping_Addition)
-                    </div>
-                </div>
+        <% end_if %>
+        
+            $CustomHtmlFormFieldByName(Shipping_Salutation,CustomHtmlFormFieldSelect)
+            $CustomHtmlFormFieldByName(Shipping_FirstName)
+            $CustomHtmlFormFieldByName(Shipping_Surname)
+            <div class="absolute-address-data">
+                $CustomHtmlFormFieldByName(Shipping_Street)
+                $CustomHtmlFormFieldByName(Shipping_StreetNumber)
+                $CustomHtmlFormFieldByName(Shipping_Addition)
             </div>
         <% if EnablePackstation %>
-            <div class="subcolumns packstation-address-data">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_PostNumber)
-                    </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_Packstation)
-                    </div>
-                </div>
-                <div class="c33r">
-                    <div class="subcr">
-                        &nbsp;
-                    </div>
-                </div>
+            <div class="packstation-address-data">
+                $CustomHtmlFormFieldByName(Shipping_PostNumber)
+                $CustomHtmlFormFieldByName(Shipping_Packstation)
             </div>
         <% end_if %>
-            <div class="subcolumns">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_Postcode)
-                    </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_City)
-                    </div>
-                </div>
-                <div class="c33r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(Shipping_Country,CustomHtmlFormFieldSelect)
-                    </div>
-                </div>
-            </div>
-            <div class="subcolumns">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_PhoneAreaCode)
-                    </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(Shipping_Phone)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </fieldset>
-<% end_if %>
+        $CustomHtmlFormFieldByName(Shipping_Postcode)
+        $CustomHtmlFormFieldByName(Shipping_City)
+        $CustomHtmlFormFieldByName(Shipping_Country,CustomHtmlFormFieldSelect)
 
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-            $Field
-            <% end_loop %>
+        $CustomHtmlFormFieldByName(Shipping_PhoneAreaCode)
+        $CustomHtmlFormFieldByName(Shipping_Phone)
         </div>
+    </div>
+    <hr>
+    <div class="margin-side clearfix">
+    <% loop Actions %>
+        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+    <% end_loop %>
     </div>
 </form>

@@ -1,4 +1,4 @@
-<form class="yform full" $FormAttributes>
+<form class="form full" $FormAttributes>
     $CustomHtmlFormMetadata
     
     <% if HasCustomHtmlFormErrorMessages %>
@@ -9,16 +9,14 @@
         </div>
     <% end_if %>
 
-    $CustomHtmlFormFieldByName(emailaddress)
-    $CustomHtmlFormFieldByName(password)
-    
-    <a href="{$CurrentPage.LostPasswordLink}"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
-
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-                $Field
-            <% end_loop %>
-        </div>
+    <div class="widget-login-fields">
+        $CustomHtmlFormFieldByName(emailaddress, CustomHtmlFormFieldEmailPrepend)
+        $CustomHtmlFormFieldByName(password, CustomHtmlFormFieldPasswordPrepend)
     </div>
+    <div class="clearfix">
+    <% loop Actions %>
+        <button class="btn btn-primary pull-right" id="{$ID}" title="{$Title}" value="{$Title}" name="{$Name}" type="submit">{$Title}</button>
+    <% end_loop %>
+    </div>
+    <a class="btn btn-link" href="{$BaseHref}Security/lostpassword"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
 </form>

@@ -1,12 +1,18 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
 
         <% if ErrorMessage %>
-            <p class="silvercart-message highlighted error32">$ErrorMessage</p>
+        <div class="alert alert-error">
+            <button class="close" data-dismiss="alert" type="button">×</button>
+            <p>$ErrorMessage</p>
+        </div>
         <% end_if %>
         <% if SuccessMessage %>
-            <p class="silvercart-message highlighted info32">$SuccessMessage</p>
+        <div class="alert alert-success">
+            <button class="close" data-dismiss="alert" type="button">×</button>
+            <p>$SuccessMessage</p>
+        </div>
         <% end_if %>
         
         <% if CurrentRegisteredCustomer %>
@@ -20,13 +26,10 @@
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+ <aside class="span3">
         <% if CurrentRegisteredCustomer %>
             $SubNavigation
         <% end_if %>
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

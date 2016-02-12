@@ -15,40 +15,38 @@
             <br/><em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em>
         <% else_if isCompanyAddress %>
             <br /><em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em>
-        <% else %>
-            <br />
         <% end_if %>
 
         <% if hasAddressData %>
             <br />
             <% if isCompanyAddress %>
                 <div class="silvercart-address-company-section">
-                    <% if TaxIdNumber %>{$fieldLabel(TaxIdNumber)}: {$TaxIdNumber}<br /><% end_if %>
-                    <% if Company %>{$fieldLabel(Company)}: {$Company}<br /><% end_if %>
+                    <% if TaxIdNumber %>$fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
+                    <% if Company %>$fieldLabel(Company): $Company<br /><% end_if %>
                 </div>
             <% end_if %>
-            {$SalutationText} {$FirstName} {$Surname}<br/>
+        
+            $SalutationText $FirstName $Surname<br/>
             <% if Addition %>
-                {$Addition}<br/>
+                $Addition<br/>
             <% end_if %>
             <% if IsPackstation %>
-                {$PostNumber}<br/>
-                {$Packstation}<br/>
+                $PostNumber<br/>
+                $Packstation<br/>
             <% else %>
-                {$Street} {$StreetNumber}<br/>
+                $Street $StreetNumber<br/>
             <% end_if %>
-                {$Postcode} {$City}<br/>
-                {$SilvercartCountry.Title}<br/>
+            $Postcode $City<br/>
+            $SilvercartCountry.Title<br/>
             <% if Phone %>
-                {$fieldLabel(PhoneShort)}: {$PhoneAreaCode} {$Phone}<br/>
-            <% end_if %>
-            <% if Fax %>
-                {$fieldLabel(Fax)}: {$Fax}<br/>
+                $fieldLabel(PhoneShort): $PhoneAreaCode $Phone
             <% end_if %>
         <% else %>
-            <p class="silvercart-message">
+        <div class="alert alert-error">
+            <p>
                 <% _t('SilvercartAddressHolder.NOT_DEFINED','Not defined yet') %>
             </p>
+        </div>
         <% end_if %>
     </div>
 </div>

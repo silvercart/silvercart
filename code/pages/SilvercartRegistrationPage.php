@@ -43,7 +43,7 @@ class SilvercartRegistrationPage extends Page {
      *
      * @var string
      */
-    private static $icon = "silvercart/images/page_icons/metanavigation_page";
+    private static $icon = "silvercart/img/page_icons/metanavigation_page";
 
     /**
      * Constructor

@@ -70,6 +70,7 @@ class SilvercartSiteConfig extends DataExtension {
         'useProductDescriptionFieldForCart'     => 'Boolean(1)',
         'useStrictSearchRelevance'              => 'Boolean(0)',
         'userAgentBlacklist'                    => 'Text',
+        'ColorScheme'                           => 'Varchar(256)',
         'GoogleAnalyticsTrackingCode'   => 'Text',
         'GoogleConversionTrackingCode'  => 'Text',
         'GoogleWebmasterCode'           => 'Text',
@@ -85,6 +86,7 @@ class SilvercartSiteConfig extends DataExtension {
      * @var array
      */
     private static $has_one = array(
+        'SilvercartLogo'            => 'Image',
         'SilvercartNoImage'         => 'Image',
         'StandardProductCondition'  => 'SilvercartProductCondition',
         'ShopCountry'               => 'SilvercartCountry',
@@ -105,6 +107,7 @@ class SilvercartSiteConfig extends DataExtension {
         'addToCartMaxQuantity'          => 999,
         'DefaultLocale'                 => 'de_DE',
         'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
+        'ColorScheme'                   => 'blue',
     );
     
     /**
@@ -260,6 +263,12 @@ class SilvercartSiteConfig extends DataExtension {
                     'publishsitetree'               => _t('Translatable.PUBLISHBUTTON'),
                     'ExistingTransHeader'           => _t('Translatable.EXISTING'),
                     'CurrentLocale'                 => _t('Translatable.CURRENTLOCALE'),
+
+                    'SilvercartLogo'           => _t('SilvercartConfig.SilvercartLogo'),
+                    'SilvercartLogoDesc'       => _t('SilvercartConfig.SilvercartLogoDesc'),
+                    'ColorScheme'              => _t('SilvercartConfig.ColorScheme'),
+                    'ColorSchemeTab'           => _t('SilvercartConfig.ColorSchemeTab'),
+                    'ColorSchemeConfiguration' => _t('SilvercartConfig.ColorSchemeConfiguration'),
                 )
         );
     }
@@ -492,7 +501,100 @@ class SilvercartSiteConfig extends DataExtension {
 
         $fields->dataFieldByName('StandardProductConditionID')->setEmptyString($this->owner->fieldLabel('StandardProductConditionEmptyString'));
 
+        $this->getCMSFieldsForColorScheme($fields);
+        
         return $fields;
+    }
+    
+    /**
+     * Adds the CMS fields for the ColorScheme setting.
+     * 
+     * @param FieldList $fields Fields to update
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2014
+     */
+    public function getCMSFieldsForColorScheme(FieldList $fields) {
+        $colorSchemePath = Director::baseFolder() . '/silvercart/css';
+        if (is_dir($colorSchemePath)) {
+
+            if ($handle = opendir($colorSchemePath)) {
+                $colorSchemes = new ArrayList();
+                while (false !== ($entry = readdir($handle))) {
+                    if (substr($entry, -4) != '.css') {
+                        continue;
+                    }
+                    if (substr($entry, 0, 6) != 'color_') {
+                        continue;
+                    }
+
+                    $colorSchemeName = substr($entry, 6, -4);
+                    $colorSchemeFile = $colorSchemePath . '/' . $entry;
+
+                    $lines            = file($colorSchemeFile);
+                    $backgroundColors = array();
+                    $fontColors       = array();
+                    foreach ($lines as $line) {
+                        if (strpos(strtolower($line), 'background-color') !== false &&
+                            preg_match('/#[a-z|A-Z|0-9]{3,6}/', $line, $matches)) {
+                            $backgroundColors[$matches[0]] = new ArrayData(array('Color' => $matches[0]));
+                        } elseif (strpos(strtolower(trim($line)), 'color') === 0 &&
+                            preg_match('/#[a-z|A-Z|0-9]{3,6}/', $line, $matches)) {
+                            $fontColors[$matches[0]] = new ArrayData(array('Color' => $matches[0]));
+                        }
+                    }
+
+                    $colorSchemes->push(new ArrayData(
+                            array(
+                                'Name'             => $colorSchemeName,
+                                'Title'            => _t('SilvercartConfig.ColorScheme_' . $colorSchemeName, ucfirst($colorSchemeName)),
+                                'BackgroundColors' => new ArrayList($backgroundColors),
+                                'FontColors'       => new ArrayList($fontColors),
+                                'IsActive'         => $this->owner->ColorScheme == $colorSchemeName,
+                            )
+                    ));
+                }
+                closedir($handle);
+            }
+            
+            $colorSchemes->sort('Title');
+
+            $fields->removeByName('ColorScheme');
+            
+            $logoField = new UploadField('SilvercartLogo',   $this->owner->fieldLabel('SilvercartLogo'));
+            $logoField->setDescription($this->owner->fieldLabel('SilvercartLogoDesc'));
+            // Build color scheme toggle group
+            $colorSchemeConfigurationField = ToggleCompositeField::create(
+                    'ColorSchemeConfiguration',
+                    $this->owner->fieldLabel('ColorSchemeConfiguration'),
+                    array(
+                        $logoField,
+                        new LiteralField('ColorScheme', $this->owner->customise(array('ColorSchemes' => $colorSchemes))->renderWith('ColorSchemeField'))
+                    )
+            )->setHeadingLevel(4)->setStartClosed(true);
+            $fields->addFieldToTab('Root.Silvercart', $colorSchemeConfigurationField);
+        } else {
+            $fields->removeByName('ColorScheme');
+        }
+    }
+    
+    /**
+     * Sets the ColorScheme.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.02.2016
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        $request     = Controller::curr()->getRequest();
+        $colorScheme = $request->postVar('ColorScheme');
+        if (is_string($colorScheme)) {
+            $this->owner->ColorScheme = $colorScheme;
+        }
     }
 
     /**

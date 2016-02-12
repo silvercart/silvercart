@@ -1,53 +1,25 @@
-<% if ViewableChildren %>
+<% if ViewableChildren && ViewableChildren.MoreThanOnePage %>
+<div class="pagination pagination-right">
+    <ul>
     <% if ViewableChildren.MoreThanOnePage %>
-        <div class="silvercart-pagination">
-            <div class="silvercart-pagination_content clearfix">
-                <% if ViewableChildren.PrevLink %>
-                    <div class="silvercart-pagination-link">
-                        <div class="silvercart-pagination-link_content">
-                            <a href="$ViewableChildren.PrevLink" title="<% _t('SilvercartPage.PREV', 'Prev') %>">
-                                <span>
-                                    &lt;
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                <% end_if %>
-                <% loop ViewableChildren.Pages %>
-                    <% if CurrentBool %>
-                        <div class="silvercart-pagination-marker">
-                            <div class="silvercart-pagination-marker_content">
-                                <strong>
-                                    <span>
-                                        $PageNum
-                                    </span>
-                                </strong>
-                            </div>
-                        </div>
-                    <% else %>
-                        <div class="silvercart-pagination-link">
-                            <div class="silvercart-pagination-link_content">
-                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO_PAGE', 'go to page %s'),$PageNum) %>">
-                                    <span>
-                                        $PageNum
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    <% end_if %>
-                <% end_loop %>
-                <% if ViewableChildren.NextLink %>
-                    <div class="silvercart-pagination-link">
-                        <div class="silvercart-pagination-link_content">
-                            <a href="$ViewableChildren.NextLink" title="<% _t('SilvercartPage.NEXT', 'Next') %>">
-                                <span>
-                                    &gt;
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                <% end_if %>
-            </div>
-        </div>
+        <% if ViewableChildren.NotFirstPage %>
+        <li><a href="{$ViewableChildren.PrevLink}" rel="prev" title="<% _t('SilvercartPage.PREV', 'Prev') %>"><i class="icon icon-chevron-left"></i></a></li>      
+        <% end_if %>
+        <% loop ViewableChildren.PaginationSummary(4) %>
+            <% if CurrentBool %> 
+        <li class="active"><a class="highlight" href="javascript:;">$PageNum</a></li>
+            <% else_if Link %>
+        <li><a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO_PAGE', 'go to page %s'),$PageNum) %>">$PageNum</a></li>
+            <% else %>
+        <li><span>&hellip;</span></li>
+            <% end_if %>
+        <% end_loop %>
+
+        <% if ViewableChildren.NotLastPage %>
+        <li><a href="{$ViewableChildren.NextLink}" rel="next" title="<% _t('SilvercartPage.NEXT', 'Next') %>"><i class="icon icon-chevron-right"></i></a></li>
+        <% end_if %>
     <% end_if %>
+    </ul>
+</div>
 <% end_if %>
+

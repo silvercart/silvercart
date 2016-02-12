@@ -1,7 +1,7 @@
 
 <div class="silvercart-checkout-payment">
     <% if items %>
-    <ul>
+    <ul class="unstyled">
         <% loop items %>
             <li>
                 <span class="silvercart-checkout-payment-radiofield">
@@ -28,6 +28,8 @@
         <% end_loop %>
     </ul>
     <% else %>
+    <div class="alert alert-error">
     <p><% _t('SilvercartPaymentMethod.NO_PAYMENT_METHOD_AVAILABLE') %></p>
+    </div>
     <% end_if %>
 </div>

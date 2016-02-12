@@ -1,112 +1,86 @@
-<% if SilvercartAddresses %>
+ <% if SilvercartAddresses %>
+<div class="row">    
+    <hr>
+    <div class="section-header clearfix">
     <h2>$CurrentPage.Title</h2>
+    </div>
     <% loop SilvercartAddresses %>
-        <% if Odd %>
-    <div class="subcolumns">
-        <div class="c50l">
-            <div class="subcl">
-        <% else %>
-        <div class="c50r">
-            <div class="subcr">
-        <% end_if %>
-                <div class="silvercart-address">
-                    <div class="subcolumns silvercart-address-top">
-                        <div class="c66l">
-                            <div class="silvercart-address-field_content">
-                                <% if IsPackstation %>
-                                    <em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em><br />
-                                    <br/>
-                                <% else_if isCompanyAddress %>
-                                    <div class="silvercart-address-company-section">
-                                        <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
-                                        <% if TaxIdNumber %>{$fieldLabel(TaxIdNumber)}: {$TaxIdNumber}<br /><% end_if %>
-                                        <% if Company %>{$fieldLabel(Company)}: {$Company}<br /><% end_if %>
-                                        <br/>
-                                    </div>
-                                <% else %>
-                                    <br />
-                                    <br/>
-                                <% end_if %>
-                                {$SalutationText} {$FirstName} {$Surname}<br/>
-                                <% if Addition %>
-                                    {$Addition}<br/>
-                                <% end_if %>
-                                <% if IsPackstation %>
-                                    {$PostNumber}<br/>
-                                    {$Packstation}<br/>
-                                <% else %>
-                                    {$Street} {$StreetNumber}<br/>
-                                <% end_if %>
-                                {$Postcode} {$City}<br/>
-                                {$SilvercartCountry.Title}<br/>
-                                <% if Phone %>
-                                    {$fieldLabel(PhoneShort)}: {$PhoneAreaCode} {$Phone}<br/>
-                                <% end_if %>
-                                <% if Fax %>
-                                    {$fieldLabel(Fax)}: {$Fax}<br/>
-                                <% end_if %>
-                            </div>
-                        </div>
-                        <div class="c33r align_right">
-                            <a class="silvercart-icon-button edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.PageByIdentifierCodeLink(SilvercartAddressPage)}edit/{$ID}" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
-                                <span class="silvercart-icon-button_content">
-                                    &nbsp;
-                                </span>
-                            </a><% if isLastAddress %><% else %><a class="silvercart-icon-button delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/{$ID}" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>">
-                                <span class="silvercart-icon-button_content">
-                                    &nbsp;
-                                </span>
-                            </a>
-                            <% end_if %>
-                        </div>
+    <div class="span4 silvercart-address">
+        <div class="row silvercart-address-top">
+            <div class="span4">
+                <div class="silvercart-address-field_content">
+                    <div class="btn-group pull-right">
+                        <a class="btn btn-small edit32" data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartAddressHolder.EDIT','edit') %>" data-original-title="" title="" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.PageByIdentifierCodeLink(SilvercartAddressPage)}edit/{$ID}" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
+                            <span class="icon-pencil">
+                                &nbsp;
+                            </span>
+                        </a><% if isLastAddress %><% else %><a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>" data-original-title="" title="" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID">
+                            <span class="icon-trash">
+                                &nbsp;
+                            </span>
+                        </a>
+                        <% end_if %>
+                    </div>       
+                    <% if IsPackstation %>
+                    <em><% _t('SilvercartAddress.PACKSTATION_LABEL') %></em><br />
+                    <br/>
+                    <% else_if isCompanyAddress %>
+                    <div class="silvercart-address-company-section">
+                        <em><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></em><br />
+                        <% if TaxIdNumber %>$fieldLabel(TaxIdNumber): $TaxIdNumber<br /><% end_if %>
+                        <% if Company %>$fieldLabel(Company): $Company<br /><% end_if %>
+                        <br/>
                     </div>
-                    <div class="subcolumns silvercart-address-bottom">
-                        <div class="c50l">
-                            <div class="silvercart-button-row left clearfix">
-                                <% if isInvoiceAddress %>
-                                    <p class="silvercart-message">
-                                        <strong>
-                                            <% _t('SilvercartAddressHolder.DEFAULT_INVOICE','This is your invoice address') %>
-                                        </strong>
-                                    </p>
-                                <% else %>
-                                    <div class="silvercart-button left">
-                                        <div class="silvercart-button_content">
-                                            <a href="{$CurrentPage.Link}setInvoiceAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
-                                        </div>
-                                    </div>
-                                <% end_if %>
-                            </div>
-                        </div>
-                        <div class="c50r">
-                            <div class="silvercart-button-row right clearfix">
-                                <% if isShippingAddress %>
-                                    <p class="silvercart-message">
-                                        <strong>
-                                            <% _t('SilvercartAddressHolder.DEFAULT_SHIPPING','This is your shipping address') %>
-                                        </strong>
-                                    </p>
-                                <% else %>
-                                    <div class="silvercart-button right">
-                                        <div class="silvercart-button_content">
-                                            <a href="{$CurrentPage.Link}setShippingAddress/$ID"><% _t('SilvercartAddressHolder.SET_AS','Set as') %><br /><% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
-                                        </div>
-                                    </div>
-                                <% end_if %>
-                            </div>
-                        </div>
-                    </div>
+                    <% else %>
+                    <br />
+                    <br/>
+                    <% end_if %>
+                    $SalutationText $FirstName $Surname<br/>
+                    <% if Addition %>
+                    $Addition<br/>
+                    <% end_if %>
+                    <% if IsPackstation %>
+                    $PostNumber<br/>
+                    $Packstation<br/>
+                    <% else %>
+                    $Street $StreetNumber<br/>
+                    <% end_if %>
+                    $Postcode $City<br/>
+                    $SilvercartCountry.Title<br/>
+                    <% if Phone %>
+                    $fieldLabel(PhoneShort): $PhoneAreaCode $Phone
+                    <% end_if %>  
                 </div>
-        <% if Odd %>
             </div>
         </div>
-            <% if Last %>
-    </div>
+        <hr> 
+        <div class="silvercart-address-bottom well">
+              <% if isInvoiceAddress %>
+             <span class="silvercart-message">
+                <strong>
+                    <% _t('SilvercartAddressHolder.DEFAULT_INVOICE','This is your invoice address') %>
+                </strong>
+            </span>
+              <% end_if %>
+             <% if isShippingAddress %>
+            <span class="silvercart-message">
+                <strong>
+                    <% _t('SilvercartAddressHolder.DEFAULT_SHIPPING','This is your shipping address') %>
+                </strong>
+            </span>
+              <% end_if %>
+            
+            <% if isInvoiceAddress %>
+            <% else %>
+                <a href="{$CurrentPage.Link}setInvoiceAddress/$ID" class="btn btn-small"><% _t('SilvercartAddressHolder.SET_AS','Set as') %> <% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
             <% end_if %>
-        <% else %>
-            </div>
+
+            <% if isShippingAddress %>
+            <% else %>
+                <a href="{$CurrentPage.Link}setShippingAddress/$ID" class="btn btn-small"><% _t('SilvercartAddressHolder.SET_AS','Set as') %> <% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
+            <% end_if %>
         </div>
     </div>
-        <% end_if %>
     <% end_loop %>
+</div>   
 <% end_if %>

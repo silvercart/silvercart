@@ -1,8 +1,9 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <% include SilvercartBreadCrumbs %>
-            <h1><% _t('SilvercartNewsletterResponsePage.TITLE') %></h1>
-
+<div class="row">
+    <div class="span9">
+        <% include SilvercartBreadCrumbs %>  
+        <div class="section-header clearfix">
+           <h1><% _t('SilvercartNewsletterResponsePage.TITLE') %></h1>   
+        </div>
             <% if StatusMessages %>
                 <% loop statusMessages %>
                     <p>$message</p>
@@ -10,12 +11,9 @@
             <% end_if %>
 
             $PageComments
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    </div><!--end span9-->
+    <aside class="span3">
         $SubNavigation
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

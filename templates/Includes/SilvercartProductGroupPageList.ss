@@ -1,93 +1,86 @@
 <% if Elements %>
-    <% loop Elements %>
-        <div class="silvercart-product-group-page-box-list clearfix $EvenOdd $FirstLast $productAddCartFormObj.FormName">
-            <div class="silvercart-product-group-page-box-list_content">
-                <div class="silvercart-product-title">
-                    <h2>
-                        <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title.HTML) %>">$Title.HTML</a>
-                    </h2>
+        <% loop Elements %>
+        <div class="silvercart-product-group-page-list-item {$EvenOdd} pull-left">
+            <div class="row-fluid $EvenOdd $FirstLast $productAddCartFormObj.FormName li" id="product{$ID}">
+                <div class="thumbnail span4 pull-left">
+                    <% if getSilvercartImages %>
+                    <a href="{$Link}" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>">$getSilvercartImages.first.Image.SetSize(214,214)</a>
+                    <% end_if %>
                 </div>
-                <div class="subcolumns clearfix">
-                    <div class="c25l silvercart-product-group-page-box-image">
-                        <div class="subcl">
-                            <% if getSilvercartImages %>
-                                <% with getSilvercartImages.First %>
-                                    <a href="$ProductLink" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetRatioSize(90,90)</a>
+
+                <div class="sc-product-shortinfo span8 pull-left padding_left">
+                    <div class="sc-product-title">
+                        <h2>
+                            <a href="$Link" class="highlight" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title.HTML) %>">$Title.HTML</a> {$Availability}
+                        </h2>
+                        <% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop
+                    </div>  
+                    
+                   
+                    <div class="sc-product-price">
+                        <div class="price">
+                            <% if PriceIsLowerThanMsr %>
+                                <span class="strike-through">$MSRPrice.Nice</span> 
+                            <% end_if %>
+                            $PriceNice
+                        </div>
+                    </div>
+                    <div class="sc-product-price-info">
+                        <small>
+                            <% if CurrentPage.showPricesGross %>
+                                <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %>
+                            <% else_if CurrentPage.showPricesNet %>
+                                <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %>
+                            <% end_if %>
+
+                            <% with $CurrentPage.PageByIdentifierCode(SilvercartShippingFeesPage) %>
+                                <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
+                                    <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %>
+                                </a>
+                            <% end_with %>
+                            <% if PackagingQuantity %>
+                            | <strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Title
+                            <% end_if %>
+                        </small>
+                    </div>
+                    <% if PluggedInProductMetaData %>
+                        <div>
+                            <hr>
+                            <% loop PluggedInProductMetaData %>
+                                $MetaData  
+                            <% end_loop %>
+                        </div>
+                    <% end_if %>
+                    
+                    <% if getHtmlEncodedShortDescription %>
+                    <div class="sc-product-description">
+                        <p>$getHtmlEncodedShortDescription</p>
+                    </div>
+                    <% end_if %>
+                        <div class="row-fluid">
+                            <div class="span6">
+                                <% if isBuyableDueToStockManagementSettings %>
+                                    $productAddCartForm
+                                <% else %>
+                                    <span class="btn btn-small btn-danger disabled pull-right"><% _t('SilvercartProductPage.OUT_OF_STOCK') %></span>
+                                <% end_if %>   
+                            </div>
+                            <div class="span6">
+                                <a class="btn btn-small pull-right" data-title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>" data-placement="top" data-toggle="tooltip" href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><i class="icon-info-sign"></i> <% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
+                            </div>
+
+                        </div>
+
+                        <% if PluggedInProductListAdditionalData %>
+                            <div class="pull-left">
+                                <% with PluggedInProductListAdditionalData %>
+                                $AdditionalData
                                 <% end_with %>
-                            <% end_if %>
-                        </div>
-                    </div>
-                    <div class="c45l">
-                        <div class="subcl">
-                            <div class="silvercart-product-text-info">
-                                <p>$getHtmlEncodedShortDescription</p>
-                                <% if PackagingQuantity %>
-                                <p><strong><% _t('SilvercartProductPage.PACKAGING_CONTENT') %>:</strong> $PackagingQuantity $SilvercartQuantityUnit.Title</p>
-                                <% end_if %>
                             </div>
-                            <div class="silvercart-product-meta-info">
-                                <p>
-                                    <small><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $ProductNumberShop</small>
-                                </p>
-                            </div>
-                            <div class="silvercart-button left">
-                                <div class="silvercart-button_content">
-                                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Title) %>"><% _t('SilvercartPage.SHOW_DETAILS','show details') %></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="c30r">
-                        <div class="subcr">
-                            <div class="silvercart-product-page-box-price">
-                                <p>
-                                    <strong class="silvercart-price">$PriceNice</strong>
-                                </p>
-                                <p class="silvercart-price-notes">
-                                    <small>
-                                        <% if CurrentPage.showPricesGross %>
-                                            <% sprintf(_t('SilvercartPage.INCLUDING_TAX', 'incl. %s%% VAT'),$TaxRate) %><br />
-                                        <% else_if CurrentPage.showPricesNet %>
-                                            <% _t('SilvercartPage.EXCLUDING_TAX', 'plus VAT') %><br />
-                                        <% end_if %>
-                                        <% with CurrentPage.PageByIdentifierCode(SilvercartShippingFeesPage) %>
-                                            <a href="$Link" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">
-                                                <% _t('SilvercartPage.PLUS_SHIPPING','plus shipping') %><br/>
-                                            </a>
-                                        <% end_with %>
-                                    </small>
-                                </p>
-                            </div>
-                            <div class="silvercart-product-availability">
-                                $Availability
-                            </div>
-                            <% if PluggedInProductMetaData %>
-                            <div class="silvercart-product-meta-data">
-                                <% loop PluggedInProductMetaData %>
-                                    <span class="right">{$MetaData}</span><br/>
-                                <% end_loop %>
-                            </div>
-                            <% end_if %>
-                            <div class="silvercart-product-group-add-cart-form">
-                                <div class="silvercart-product-group-add-cart-form_content">
-                                    <% if isBuyableDueToStockManagementSettings %>
-                                        $productAddCartForm
-                                    <% else %>
-                                        <% _t('SilvercartProductPage.OUT_OF_STOCK') %>
-                                    <% end_if %>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <% if PluggedInProductListAdditionalData %>
-                <div class="silvercart-product-list-additional-data">
-                    <% loop PluggedInProductListAdditionalData %>
-                        $AdditionalData
-                    <% end_loop %>
-                </div>
-                <% end_if %>
+                        <% end_if %>
+
+                </div>  
             </div>
         </div>
-    <% end_loop %>
+        <% end_loop %>
 <% end_if %>

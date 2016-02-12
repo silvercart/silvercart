@@ -1,91 +1,50 @@
-<form class="yform full" $FormAttributes >
+<form class="form-horizontal grouped" $FormAttributes >
     $CustomHtmlFormMetadata
 
-    <fieldset>
-        <legend><% _t('SilvercartPage.ADDRESS_DATA','address data') %></legend>
-
-        <div class="type-text">
-            <label><% _t('SilvercartMyAccountHolder.YOUR_CUSTOMERNUMBER') %>:</label>
-            <strong>$CurrentMember.CustomerNumber</strong>
-        </div>
-
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(FirstName)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Surname)
-                </div>
+    <h4><% _t('SilvercartPage.ADDRESS_DATA') %></h4>
+    <div class="margin-side">
+        <div class="control-group">
+            <label class="control-label" for=""><% _t('SilvercartMyAccountHolder.YOUR_CUSTOMERNUMBER') %></label>
+            <div class="controls">
+                <strong class="value">$CurrentMember.CustomerNumber</strong>
             </div>
         </div>
+        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(FirstName)
+        $CustomHtmlFormFieldByName(Surname)
         $CustomHtmlFormFieldByName(Email)
-    </fieldset>
+    </div>
 
-    <% if demandBirthdayDate %>
-        <fieldset>
-            <legend><% _t('SilvercartPage.BIRTHDAY','birthday') %>:</legend>
+<% if demandBirthdayDate %>
+    <h4><% _t('SilvercartPage.BIRTHDAY') %></h4>
+    <div class="margin-side">
+        $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(BirthdayYear)
+    </div>
+<% end_if %>
 
-            <div class="subcolumns">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
-                     </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
-                    </div>
-                </div>
-                <div class="c33r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(BirthdayYear)
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-    <% end_if %>
-
-	<fieldset>
-        <legend><% _t('SilvercartPage.PASSWORD') %></legend>
-        <div>
+    <h4><% _t('SilvercartPage.PASSWORD') %></h4>
+    <div class="margin-side">
+        <div class="alert alert-info">
             <p><% _t('SilvercartPage.PASSWORD_CASE_EMPTY','If You leave this field empty, Your password will not be changed.') %></p>
         </div>
 
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Password)
-                 </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(PasswordCheck)
-                </div>
-            </div>
-        </div>
-	</fieldset>
+        $CustomHtmlFormFieldByName(Password)
+        $CustomHtmlFormFieldByName(PasswordCheck)
+    </div>
 
-	<fieldset>
-        <legend><% _t('SilvercartPage.NEWSLETTER','newsletter') %></legend>
-
+    <h4><% _t('SilvercartPage.NEWSLETTER') %></h4>
+    <div class="margin-side">
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
-    </fieldset>
+    </div>
 
     $CustomHtmlFormSpecialFields
 
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-				$Field
-            <% end_loop %>
-        </div>
+    <hr>
+    <div class="control-group margin-side">
+    <% loop Actions %>
+        <button class="btn btn-primary pull-right" id="{$ID}" title="{$Title}" value="{$Title}" name="{$Name}" type="submit">{$Title}</button>
+    <% end_loop %>
     </div>
 </form>

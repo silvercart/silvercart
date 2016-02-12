@@ -148,6 +148,8 @@ class SilvercartConfig extends Object {
     public static $invoiceAddressIsAlwaysShippingAddress    = null;
     public static $displayWeightsInKilogram                 = null;
     public static $showTaxAndDutyHint                       = false;
+    public static $colorScheme                              = null;
+    public static $silvercartLogo                           = null;
 
     /**
      * This method checks the required configuration. If there is any missing
@@ -821,6 +823,36 @@ class SilvercartConfig extends Object {
             }
         }
         return self::$priceType;
+    }
+    
+    /**
+     * Returns the current ColorScheme.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.02.2016
+     */
+    public static function ColorScheme() {
+        if (is_null(self::$colorScheme)) {
+            self::$colorScheme = self::getConfig()->ColorScheme;
+        }
+        return self::$colorScheme;
+    }
+    
+    /**
+     * Returns the current SilverCart logo.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.02.2016
+     */
+    public static function SilvercartLogo() {
+        if (is_null(self::$silvercartLogo)) {
+            self::$silvercartLogo = self::getConfig()->SilvercartLogo();
+        }
+        return self::$silvercartLogo;
     }
 
     /**

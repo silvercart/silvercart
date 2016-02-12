@@ -1,18 +1,15 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <div class="text-content">
-            <h1>$Title</h1>
+<div class="row">
+    <div class="span9">
+        <div class="section-header clearfix">
+          <h1>$Title</h1>  
+        </div> 
             $Content
             <% with doConfirmation %>
                 <p>$message</p>
             <% end_with %>
             $Form
-        </div>
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    </div><!--end span9-->
+    <aside class="span3">
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

@@ -1,8 +1,8 @@
 <% if ShowWidget %>
     <% if FrontTitle %>
-    <div class="silvercart-widget-productgroupitems-headline">
-        <strong class="h2">$FrontTitle</strong>
-        </div>
+    <div class="section-header clearfix">
+         <h3>$FrontTitle</h3>
+    </div>
     <% end_if %>
 
     <% if FrontContent %>

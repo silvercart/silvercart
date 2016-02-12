@@ -1,46 +1,32 @@
-<form class="yform" $FormAttributes >
+<form class="form-horizontal grouped" $FormAttributes >
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
-    <fieldset>
-<% if $InvoiceAddressIsAlwaysShippingAddress %>
-        <legend><% _t('SilvercartAddressHolder.INVOICEANDSHIPPINGADDRESS') %></legend>
-<% else %>
-        <legend><% _t('SilvercartPage.BILLING_ADDRESS','billing address') %></legend>
-<% end_if %>
+    <h4><% _t('SilvercartPage.BILLING_ADDRESS') %> 
+        <!--<% loop Actions %><button class="btn btn-small btn-primary btn-checkout-proceed-top pull-right" type="submit" id="{$ID}-Top" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button><% end_loop %>-->
+    </h4>
+    <div class="margin-side">
         $CustomHtmlFormFieldByName(InvoiceAddress,SilvercartCustomHtmlFormFieldAddress)
-        <div class="silvercart-button m25l">
-            <div class="silvercart-button_content">
-                <a href="{$CurrentPage.Link}addNewAddress" class="silvercart-trigger-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
-            </div>
-        </div>
-    </fieldset>
-
-<% if $InvoiceAddressIsAlwaysShippingAddress %>
-        $CustomHtmlFormFieldByName(ShippingAddress,CustomHtmlFormFieldHidden)
-        $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldHidden)
-<% else %>
-    <fieldset>
-        <legend><% _t('SilvercartPage.SHIPPING_ADDRESS','shipping address') %></legend>
-
+        <a href="{$CurrentPage.Link}addNewAddress" class="btn btn-small silvercart-trigger-add-address-link js-link"><i class="icon-plus"></i> <% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+        <br/>
+        <br/>
+    </div>
+    <h4><% _t('SilvercartPage.SHIPPING_ADDRESS') %></h4>
+    <div class="margin-side">
         $CustomHtmlFormFieldByName(InvoiceAddressAsShippingAddress, CustomHtmlFormFieldCheck)
-
         <div id="ShippingAddressFields">
             $CustomHtmlFormFieldByName(ShippingAddress,SilvercartCustomHtmlFormFieldAddress)
             <div class="silvercart-button m25l">
                 <div class="silvercart-button_content">
-                    <a href="{$CurrentPage.Link}addNewAddress" class="silvercart-trigger-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+                    <a href="{$CurrentPage.Link}addNewAddress" class="btn btn-small silvercart-trigger-add-address-link js-link"><i class="icon-plus"></i> <% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
                 </div>
             </div>
         </div>
-    </fieldset>
-<% end_if %>
-
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-            $Field
-            <% end_loop %>
-        </div>
+    </div>
+    <hr>
+    <div class="margin-side clearfix">
+    <% loop Actions %>
+        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+    <% end_loop %>
     </div>
 </form>
 <% require javascript(silvercart/script/SilvercartAddressHolder.js) %>

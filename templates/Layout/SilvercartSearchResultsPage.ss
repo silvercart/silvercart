@@ -1,6 +1,5 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        
+<div class="row">
+    <div class="span9">   
         <h1><% _t('SilvercartSearchResultsPage.TITLE','Search Results') %></h1>
         <% if EncodedSearchQuery %>
             <p><% sprintf(_t('SilvercartSearchResultsPage.RESULTTEXT'),$EncodedSearchQuery) %> ($TotalSearchResults <% _t('SilvercartPage.SEARCH_RESULTS', 'results') %>):</p>
@@ -8,7 +7,6 @@
 
         $InsertWidgetArea(Content)
         
-    <% if IsDefaultSearchContext %>
         <% if getProducts %>
             <div class="silvercart-product-group-page-control-top">
                 <% include SilvercartProductGroupPageControlsTop %>
@@ -24,14 +22,8 @@
                 <% _t('SilvercartPage.DIDNOT_RETURN_RESULTS', 'did not return any results in our shop.') %>
             </p>
         <% end_if %>
-    <% else %>
-        {$RenderedSearchResults}
-    <% end_if %>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
-        $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    <aside class="span3">
+        $InsertWidgetArea(Sidebar)  
+    </aside><!--end aside-->
 </div>

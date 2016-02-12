@@ -32,7 +32,7 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/my_account_holder";
+    public static $icon = "silvercart/img/page_icons/my_account_holder";
 
     /**
      * configure the class name of the DataObjects to be shown on this page

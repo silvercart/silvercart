@@ -3,6 +3,6 @@
     {$CustomHtmlFormSpecialFields}
     $CustomHtmlFormFieldByName(SearchQuery)
     <% loop Actions %>
-        $Field
+        {$Field}
     <% end_loop %>
 </form>

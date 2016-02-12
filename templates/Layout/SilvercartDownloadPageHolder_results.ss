@@ -1,7 +1,9 @@
-<div id="col1">
-    <div id="col1_content" class="silvercart-download-page-holder clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
-        <h1>{$Title}</h1>
+        <div class="section-header clearfix">
+         <h1>{$Title}</h1>   
+        </div>
         {$Content}
         $InsertCustomHtmlForm(SilvercartDownloadSearchForm)
         Ihre Suche nach <strong>&quot;{$SearchQuery}&quot;</strong> ergab <strong>{$SearchResults.Count} Treffer</strong>.<br/>
@@ -9,7 +11,7 @@
         <br/>
 <% if SearchResults %>
         <div class="silvercart-download-category-files visible">
-            <table class="full silvercart-default-table">
+            <table class="table full silvercart-default-table">
                 <colgroup>
                     <col width="20%"></col>
                     <col width="65%"></col>
@@ -38,11 +40,8 @@
             </table>
         </div>
 <% end_if %>
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+    </div><!--end span9-->
+    <aside class="span3">
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

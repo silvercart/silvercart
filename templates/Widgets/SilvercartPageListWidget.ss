@@ -1,6 +1,6 @@
 <% cached WidgetCacheKey %>
     <% if FrontTitle %>
-        <strong class="h2">$FrontTitle</strong>
+        <h2>$FrontTitle</h2>
     <% end_if %>
     <% if FrontContent %>
         $FrontContent

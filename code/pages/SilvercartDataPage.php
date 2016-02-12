@@ -35,7 +35,7 @@ class SilvercartDataPage extends SilvercartMyAccountHolder {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/my_account_holder";
+    public static $icon = "silvercart/img/page_icons/my_account_holder";
     
     /**
      * Returns the translated singular name of the object. If no translation exists

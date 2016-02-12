@@ -1,6 +1,3 @@
-<% if Headline %>
-    <strong class="h2">{$Headline}</strong>
-<% end_if %>
-<div class="silvercart-widget-content_frame {$ExtraCssClasses}">
+<div class="text-widget">     
     $FreeText.RAW
 </div>

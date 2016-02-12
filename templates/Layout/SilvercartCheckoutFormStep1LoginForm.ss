@@ -1,23 +1,22 @@
-<form class="yform" $FormAttributes >
-    $CustomHtmlFormMetadata
+<div class="form-horizontal grouped center">
+    <h4><% _t('SilvercartMyAccountHolder.ALREADY_HAVE_AN_ACCOUNT') %></h4>
+    <form class="form" $FormAttributes >
+        $CustomHtmlFormMetadata
 
-    <fieldset>
-        <legend><% _t('SilvercartCheckoutFormStep1.LOGIN') %></legend>
-
-        $CustomHtmlFormErrorMessages
+        <div class="left padding">
+            $CustomHtmlFormErrorMessages
+        </div>
 
         $CustomHtmlFormFieldByName(Email)
         $CustomHtmlFormFieldByName(Password)
-    </fieldset>
 
-    $CustomHtmlFormSpecialFields
 
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-                $Field
-            <% end_loop %>
-            <a class="forgot-password-plain" href="{$CurrentPage.LostPasswordLink}"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
-        </div>
-    </div>
-</form>
+        $CustomHtmlFormSpecialFields
+
+        <% loop Actions %>
+            <button class="btn btn-small btn-primary" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+        <% end_loop %>
+        <br/><br/>
+        <a href="{$BaseHref}Security/lostpassword" class="btn btn-small btn-link forgot-password-plain"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
+    </form>
+</div>

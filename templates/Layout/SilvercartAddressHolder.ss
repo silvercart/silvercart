@@ -1,6 +1,5 @@
-
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
 
         <% if ErrorMessage %>
@@ -11,7 +10,9 @@
         <% end_if %>
         
         <% if CurrentRegisteredCustomer %>
-            <h2><% _t('SilvercartAddressHolder.CURRENT_DEFAULT_ADDRESSES','Your default invoice and shipping addresses') %></h2>
+        <div class="section-header clearfix">
+            <h1><% _t('SilvercartAddressHolder.CURRENT_DEFAULT_ADDRESSES','Your default invoice and shipping addresses') %></h1>
+        </div>
             $Content
             <% with CurrentRegisteredCustomer %>
                 <% if hasOnlyOneStandardAddress %>
@@ -19,20 +20,16 @@
                         <% include SilvercartAddressDetailReadOnly %>
                     <% end_with %>
                 <% else %>
-                    <div class="subcolumns silvercart-address-equalize">
-                        <div class="c50l">
-                            <div class="subcl">
+                    <div class="row silvercart-address-equalize">
+                        <div class="span4">
                                 <% with SilvercartInvoiceAddress %>
                                     <% include SilvercartAddressDetailReadOnly %>
                                 <% end_with %>
-                            </div>
                         </div>
-                        <div class="c50r">
-                            <div class="subcr">
+                        <div class="span4">
                                 <% with SilvercartShippingAddress %>
                                     <% include SilvercartAddressDetailReadOnly %>
                                 <% end_with %>
-                            </div>
                         </div>
                     </div>
                 <% end_if %>
@@ -44,24 +41,18 @@
             <div class="hidden-form" id="silvercart-add-address-form">
                 $insertCustomHtmlForm(SilvercartAddAddressForm)
             </div>
-            <div class="silvercart-button">
-                <div class="silvercart-button_content">
-                    <a href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
-                </div>
-            </div>
+           <a class="btn btn-small" href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+
             <% require javascript(silvercart/script/SilvercartAddressHolder.js) %>
             
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+<aside class="span3">
         <% if CurrentRegisteredCustomer %>
             $SubNavigation
         <% end_if %>
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

@@ -2,7 +2,9 @@
     <% if ImagesToDisplay %>
         <div class="silvercart-widget-slidorion-productgroup">
             <% if FrontTitle %>
-                <strong class="h2">{$FrontTitle}</strong>
+            <div class="section-header clearfix">
+                  <h3>$FrontTitle</h3> 
+            </div>
             <% end_if %>
             <% if FrontContent %>
                 $FrontContent

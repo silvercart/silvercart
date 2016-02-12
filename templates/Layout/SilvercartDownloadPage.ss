@@ -1,13 +1,15 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
-
+        <div class="section-header clearfix">
             <h1>$Title</h1>
+        </div>
+            
             $Content
             
             <% if SilvercartFiles %>
                 <div id="downloads">
-                    <table class="full silvercart-default-table">
+                    <table class="table full silvercart-default-table">
                         <colgroup>
                             <col width="20%"></col>
                             <col width="65%"></col>
@@ -36,11 +38,8 @@
                     </table>
                 </div>
             <% end_if %>
-    </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+     </div><!--end span9-->
+    <aside class="span3">
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

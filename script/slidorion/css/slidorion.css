@@ -64,7 +64,7 @@
 .silvercart-slidorion-slide .silvercart-slidorion-slide-next div.arrow div {
     height: 24px;
     width: 48px;
-    background-image: url("{$CurrentController.baseHref}silvercart/images/icons/48x48_arrow_up_down.png");
+    background-image: url("{$CurrentController.baseHref}silvercart/img/icons/48x48_arrow_up_down.png");
     background-repeat: no-repeat;
     background-position: center;
 }

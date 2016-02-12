@@ -1,8 +1,8 @@
-<% if CurrentMember.getCart.isFilled %>
+<% if CurrentMember.SilvercartShoppingCart.isFilled %>
 <div class="widget">
     <div class="widget_content side-bar-cart">
         <h3><% _t('SilvercartPage.CART') %></h3>
-        <table class="full">
+        <table class="table full">
             <thead>
                 <tr>
                     <th><% _t('SilvercartProduct.TITLE') %></th>
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <% with CurrentMember %>
-            <% with getCart %>
+            <% with SilvercartShoppingCart %>
             <tfoot>
                 <tr>
                     <td class="side-bar-cart-price" colspan="2"><strong><% _t('SilvercartPage.SUM','sum') %></strong></td>
@@ -30,7 +30,7 @@
             <% end_with %>
             <% end_with %>
         </table>
-        <div class="subcolumns">
+        <div class="row">
             <a href="$PageByIdentifierCode(SilvercartCartPage).Link" style="float:left;"><strong class="ShoppingCart"><% _t('SilvercartPage.GOTO_CART', 'go to cart') %></strong></a>
             <a href="$PageByIdentifierCode(SilvercartCheckoutStep).Link" style="float:right;"><strong class="ShoppingCart"><% _t('SilvercartPage.CHECKOUT', 'checkout') %></strong></a>
         </div>

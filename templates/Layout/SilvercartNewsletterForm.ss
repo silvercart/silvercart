@@ -1,37 +1,16 @@
-<form class="yform full" $FormAttributes >
+<form class="form-horizontal grouped" $FormAttributes >
+    $CustomHtmlFormMetadata
 
-      $CustomHtmlFormMetadata
-
-      <fieldset>
-        <legend><% _t('SilvercartPage.NEWSLETTER_FORM','Newsletter form') %></legend>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(FirstName)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Surname)
-                </div>
-            </div>
-        </div>
+    <h4><% _t('SilvercartPage.NEWSLETTER_FORM') %></h4>
+    <div class="margin-side clearfix">
+        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(FirstName)
+        $CustomHtmlFormFieldByName(Surname)
         $CustomHtmlFormFieldByName(Email)
-        $CustomHtmlFormFieldByName(NewsletterAction,CustomHtmlFormFieldCheckGroup)
-    </fieldset>
-
-    $CustomHtmlFormSpecialFields
-
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-                $Field
-            <% end_loop %>
-        </div>
+        $CustomHtmlFormFieldByName(NewsletterAction)
+        $CustomHtmlFormSpecialFields
+    <% loop Actions %>
+        <button class="btn btn-primary pull-right" type="submit" id="{$ID}" title="$Title" value="$Title">$Title</button> 
+    <% end_loop %> 
     </div>
 </form>

@@ -1,20 +1,14 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <div class="silvercartWidgetHolder">
-            <div class="silvercartWidgetHolder_content">
-                $InsertWidgetArea(Content)
-            </div>
-        </div>
-        {$Content}
+<div class="row">
+    <div class="span9">
+        $InsertWidgetArea(Content)
+        $Content
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
-        <div class="silvercartWidgetHolder">
-            <div class="silvercartWidgetHolder_content">
-                $InsertWidgetArea(Sidebar)
-            </div>
-        </div>
-        <div id="ie_clearing"> &#160; </div>
-    </div>
-</div>
+    <aside class="span3">
+            $InsertWidgetArea(Sidebar)            
+    </aside>
+</div><!--end row-->
+
+
+
+
+

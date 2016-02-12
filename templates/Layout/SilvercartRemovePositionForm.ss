@@ -4,8 +4,6 @@
     $CustomHtmlFormSpecialFields
 
 	<% loop Actions %>
-		<div class="type-button">
-			$Field
-		</div>
+            <button class="btn btn-mini btn-danger" id="{$ID}" name="{$Name}" title="{$Title}" data-placement="top" data-toggle="tooltip" ><i class="icon-trash"></i></button>
 	<% end_loop %>
 </form>

@@ -1,5 +1,7 @@
 <% if Headline %>
-    <h2>{$Headline}</h2>
+<div class="section-header clearfix">
+        <h3>{$Headline}</h3>
+</div>
 <% end_if %>
 
 <div class="silvercart-widget-content_frame {$ExtraCssClasses}">

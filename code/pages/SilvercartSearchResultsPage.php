@@ -27,7 +27,7 @@ class SilvercartSearchResultsPage extends SilvercartProductGroupPage {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/metanavigation_page_search";
+    public static $icon = "silvercart/img/page_icons/metanavigation_page_search";
 
     /**
      * Attributes.

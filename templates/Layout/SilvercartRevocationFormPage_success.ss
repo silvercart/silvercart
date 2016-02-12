@@ -1,14 +1,13 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
-        <h1><% _t('SilvercartRevocationFormPage.Success') %></h1>
-        <strong><% _t('SilvercartRevocationFormPage.SuccessText') %></strong>
+        <div class="section-header clearfix">
+            <h1><% _t('SilvercartRevocationFormPage.Success') %></h1>
+        </div>
+        <div class="alert alert-success"><% _t('SilvercartRevocationFormPage.SuccessText') %></div>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
-        $SubNavigation
+    <aside class="span3">
+        {$SubNavigation}
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside>
 </div>

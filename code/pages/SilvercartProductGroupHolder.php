@@ -58,7 +58,7 @@ class SilvercartProductGroupHolder extends Page {
      *
      * @var string
      */
-    private static $icon = "silvercart/images/page_icons/product_group_holder";
+    private static $icon = "silvercart/img/page_icons/product_group_holder";
     
     /**
      * Singular name for this object

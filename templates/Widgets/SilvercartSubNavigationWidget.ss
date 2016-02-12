@@ -2,10 +2,11 @@
     <% with getNavigation %>
         <% if HasMenu %>
             <% if Top.FrontTitle %>
-                <strong class="h2">{$Top.FrontTitle}</strong>
+                <h3>$Top.FrontTitle</h3>
             <% end_if %>
-            <div class="vlist  silvercart-product-group-navigation-widget">
-                <ul>
+
+            <div class="categories silvercart-product-group-navigation-widget">
+                <ul class="unstyled">
                     $Menu
                 </ul>
             </div>

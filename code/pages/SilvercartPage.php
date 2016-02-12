@@ -436,6 +436,59 @@ class SilvercartPage_Controller extends ContentController {
         $this->registerWidgetSet('WidgetSetContent', $this->WidgetSetContent());
         $this->registerWidgetSet('WidgetSetSidebar', $this->WidgetSetSidebar());
     }
+    
+    /**
+     * On before init.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.10.2014
+     */
+    public function loadJSRequirements() {
+        if (SilvercartTools::isIsolatedEnvironment()) {
+            return;
+        }
+
+        Requirements::set_write_js_to_body(true);
+        Requirements::javascript('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+        Requirements::javascript('https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js');
+        
+        $jsFiles = array(
+            'customhtmlform/script/jquery.pixeltricks.forms.checkFormData.js',
+            'customhtmlform/script/jquery.pixeltricks.forms.events.js',
+            'customhtmlform/script/jquery.pixeltricks.forms.validator.js',
+            'silvercart/javascript/jquery.pixeltricks.tools.js',
+            'silvercart/javascript/jquery.cookie.js',
+            'silvercart/javascript/bootstrap.min.js',
+            'silvercart/javascript/jquery.flexslider-min.js',
+            'silvercart/javascript/jquery.cycle2.min.js',
+            'silvercart/javascript/jquery.cycle2.carousel.min.js',
+            'silvercart/javascript/jquery.cycle2.swipe.min.js',
+            'silvercart/javascript/jquery.tweet.js',
+            'silvercart/javascript/fancybox/jquery.fancybox.js',
+            'silvercart/javascript/custom.js',
+            'silvercart/javascript/silvercart.js',
+        );
+        $this->extend('updatedJSRequirements', $jsFiles);
+        
+        Requirements::combine_files(
+            'm.js.js',
+            $jsFiles
+        );
+    }
+    
+    /**
+     * Requires the color scheme CSS.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.06.2014
+     */
+    public function RequireColorSchemeCSS() {
+        Requirements::themedCSS('color_' . SilvercartConfig::getConfig()->ColorScheme, 'silvercart');
+    }
 
     /**
      * standard page controller
@@ -470,20 +523,7 @@ class SilvercartPage_Controller extends ContentController {
             $this->loadWidgetControllers();
         }
         
-        if (SilvercartConfig::DefaultLayoutEnabled() &&
-            (
-                !SilvercartConfig::DefaultLayoutLoaded() ||
-                 SilvercartConfig::$forceLoadingOfDefaultLayout)
-        ) {
-            RequirementsEngine::handleRegisteredFiles();
-            Requirements::customScript('
-                jQuery(window).focus(function() {jQuery.fx.off = false;});
-                jQuery(window).blur(function(){jQuery.fx.off = true;});
-            ');
-            // set default layout loaded in SilvercartConfig to prevent multiple
-            // loading of requirements
-            SilvercartConfig::setDefaultLayoutLoaded(true);
-        }
+        $this->loadJSRequirements();
         
         // We have to check if we are in a customised controller (that's the
         // case for all Security pages). If so, we use the registered forms of

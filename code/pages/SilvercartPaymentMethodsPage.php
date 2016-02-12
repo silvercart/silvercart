@@ -32,7 +32,7 @@ class SilvercartPaymentMethodsPage extends SilvercartMetaNavigationHolder {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/metanavigation_page";
+    public static $icon = "silvercart/img/page_icons/metanavigation_page";
     
     /**
      * i18n singular name of this object

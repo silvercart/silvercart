@@ -1,40 +1,37 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
+<div class="row">
+    <div class="span9">
         <% include SilvercartBreadCrumbs %>
-
+        <div class="section-header clearfix">
         <h1>$Title</h1>
-
+        </div>
         $Content
         $Form
         $PageComments
-
 <% if PaymentMethods %>
     <% loop PaymentMethods %>
         <% if isActive %>
-            <div class="clearfix">
+        <div class="clearfix">
             <h2>$Name</h2>
             <% if showPaymentLogos %>
                 <% if PaymentLogos %>
-                    <span class="float_right">
+                    <div class="pull-right">
                         <% loop PaymentLogos %>
-                            $Image
+                            $Image.SetRatioSizeIfBigger(250,70)
                         <% end_loop %>
-                    </span>
+                    </div>
                 <% end_if %>
             <% end_if %>
             <% if LongPaymentDescription %>
-                <p>$LongPaymentDescription</p>
+                <p class="pull-left">$LongPaymentDescription</p>
             <% end_if %>
-            </div>
+        </div>
         <% end_if %>
+        <hr>
     <% end_loop %>
 <% end_if %>
     </div>
-</div>
-<div id="col3">
-    <div id="col3_content" class="clearfix">
+ <aside class="span3">
         $SubNavigation
         $InsertWidgetArea(Sidebar)
-    </div>
-    <div id="ie_clearing"> &#160; </div>
+    </aside><!--end aside-->
 </div>

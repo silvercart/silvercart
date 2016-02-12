@@ -1,64 +1,34 @@
-<div id="col1">
-    <div id="col1_content" class="clearfix">
-        <h1>$Title</h1>
+<% with CurrentFormInstance %>
+    <% if ShowCustomHtmlFormStepNavigation %>
+        <table class="table checkout-steps">
+            <tr>
+            <% loop Top.StepList %>
+                <% with step %>
+                    <% if StepIsVisible %>
+                <td<% if IsCurrentStep %> class="current-step"<% end_if %>>
+                    <div class="well">
+                        <% if IsCurrentStep %>
+                        <span class="highlight active step-{$StepNr}"><strong><i class="icon-{$class}"></i> {$StepNr}. <span class="step-title">{$StepTitle.HTML}</span></strong></span>
+                        <% else_if isStepCompleted %>
+                        <a class="highlight" href="{$Top.Link}GotoStep/{$StepNr}"><i class="icon-ok"></i> <i class="icon-{$class}"></i> {$StepNr}. <span class="step-title">{$StepTitle.HTML}</span></a>
+                        <% else_if isPreviousStepCompleted %>
+                        <a class="highlight" href="{$Top.Link}GotoStep/{$StepNr}"><i class="icon-ok"></i> <i class="icon-{$class}"></i> {$StepNr}. <span class="step-title">{$StepTitle.HTML}</span></a>
+                        <% else %>
+                        <span><i class="icon-{$class}"></i> {$StepNr}. <span class="step-title">{$StepTitle.HTML}</span></span>
+                        <% end_if %>
+                    </div>
+                </td>
+                    <% end_if %>
+                <% end_with %>
+            <% end_loop %>
+            </tr>
+        </table>
+    <% end_if %>
+<% end_with %>
+<div class="row">
+    <div class="span12 clearfix">
         $Content
         $Process
         $InsertCustomHtmlForm(SilvercartEditAddressForm)
-        
-        <% with CurrentFormInstance %>
-            <% if ShowCustomHtmlFormStepNavigation %>
-                <% if CurrentPage.CustomHtmlFormStepLinkCancel %>
-                    <div class="silvercart-button left">
-                        <div class="silvercart-button_content">
-                            <a href="$CurrentPage.CustomHtmlFormStepLinkCancel"><% _t('SilvercartPage.CANCEL') %></a>
-                        </div>
-                    </div>
-                <% end_if %>
-            <% end_if %>
-        <% end_with %>
-
-        $PageComments
     </div>
-</div>
-
-<div id="col3">
-    <div id="col3_content" class="clearfix">
-
-        <% with CurrentFormInstance %>
-            <% if ShowCustomHtmlFormStepNavigation %>
-                <div class="silvercart-widget">
-                    <div class="silvercart-widget_content">
-                
-                        <h2><% _t('SilvercartPage.STEPS','steps') %></h2>
-                        <div class="silvercart-widget-content_frame">
-                            <ul class="vlist">
-                                <% loop CurrentPage.StepList %>
-                                    <% with step %>
-                                        <% if StepIsVisible %>
-                                        <li<% if IsCurrentStep %> class="active"<% end_if %>>
-                                            <% if IsCurrentStep %>
-                                            <strong><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</strong>
-                                            <% else_if isStepCompleted %>
-                                            <a href="{$CurrentPage.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
-                                            <% else_if isPreviousStepCompleted %>
-                                            <a href="{$CurrentPage.Link}GotoStep/{$StepNr}"><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</a>
-                                            <% else %>
-                                            <span><% if StepImage %>$StepImage<% end_if %>$StepTitle.HTML</span>
-                                            <% end_if %>
-                                        </li>
-                                        <% end_if %>
-                                    <% end_with %>
-                                <% end_loop %>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                    <% end_if %>
-                <% end_with %>
-
-    </div>
-
-     <!-- IE Column Clearing -->
-    <div id="ie_clearing"> &#160; </div>
 </div>

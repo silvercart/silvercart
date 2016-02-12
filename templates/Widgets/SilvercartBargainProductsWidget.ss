@@ -1,7 +1,7 @@
 <% cached WidgetCacheKey %>
     <div class="silvercart-widget-headline">
         <% if FrontTitle %>
-            <strong class="h2">$FrontTitle</strong>
+            <h2>$FrontTitle</h2>
         <% end_if %>
         <% if FrontContent %>
             $FrontContent

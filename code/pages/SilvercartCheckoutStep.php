@@ -40,7 +40,7 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/checkout_page";
+    public static $icon = "silvercart/img/page_icons/checkout_page";
     
     /**
      * Field labels

@@ -6,7 +6,7 @@
             <a href="$Link" title="$MenuTitle.XML" class="<% if IsActivePage %>active<% end_if %>">$MenuTitle.XML</a>
             <% if ShowChildPages %>
                 <% if ChildPages %>
-                    <ul>
+                    <ul class="submenu">
                         $ChildPages
                     </ul>
                 <% end_if %>
@@ -18,7 +18,7 @@
         <a href="$Link" title="$MenuTitle.XML" class="<% if IsActivePage %>active<% end_if %>">$MenuTitle.XML</a>
         <% if ShowChildPages %>
             <% if ChildPages %>
-                <ul>
+                <ul class="submenu">
                     $ChildPages
                 </ul>
             <% end_if %>

@@ -2671,7 +2671,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @since 12.04.2011
      */
     public function NoImage() {
-        $image = 'silvercart/images/noimage.png';
+        $image = 'silvercart/img/noimage.png';
 
         $this->extend('updateNoImage', $image);
 
@@ -2687,7 +2687,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @since 12.04.2011
      */
     public function NoImageSmall() {
-        $image = 'silvercart/images/noimage.png';
+        $image = 'silvercart/img/noimage.png';
 
         $this->extend('updateNoImageSmall', $image);
 

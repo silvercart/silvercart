@@ -74,7 +74,7 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
     if ($('input[name="quickSearchQuery"]').length > 0) {
         var scSearchInProgress = false,
             uri  = document.baseURI ? document.baseURI : '/';
-        $('body').append('<img src="' + uri + 'silvercart/images/loader-circle.gif" alt="" style="display:none;" />');
+        $('body').append('<img src="' + uri + 'silvercart/img/loader-circle.gif" alt="" style="display:none;" />');
         $('input[name="quickSearchQuery"]').closest('form').submit(function(event) {
             event.preventDefault();
             if (scSearchInProgress) {
@@ -84,7 +84,7 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
             scSearchInProgress = true;
             $('input[name="quickSearchQuery"]').attr('readonly', 'readonly');
             $('input[name="quickSearchQuery"]').css('background-color',     '#ffffff');
-            $('input[name="quickSearchQuery"]').css('background-image',     'url("' + uri + 'silvercart/images/loader-circle.gif")');
+            $('input[name="quickSearchQuery"]').css('background-image',     'url("' + uri + 'silvercart/img/loader-circle.gif")');
             $('input[name="quickSearchQuery"]').css('background-repeat',    'no-repeat');
             $('input[name="quickSearchQuery"]').css('background-position',  '4px center');
             $('input[name="quickSearchQuery"]').css('padding-left',         '25px');
@@ -169,7 +169,7 @@ var silvercartVisibilityChangeCallBackListBlur  = new Array();
         var uri  = document.baseURI ? document.baseURI : '/';
         $(this).attr('readonly', 'readonly');
         $(this).css('background-color',     '#ffffff');
-        $(this).css('background-image',     'url("' + uri + 'silvercart/images/loader-circle.gif")');
+        $(this).css('background-image',     'url("' + uri + 'silvercart/img/loader-circle.gif")');
         $(this).css('background-repeat',    'no-repeat');
         $(this).css('background-position',  '4px center');
         $(this).css('padding-left',         '25px');

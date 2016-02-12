@@ -1,30 +1,17 @@
-<form class="yform full" $FormAttributes>
+<form class="page form form-horizontal" $FormAttributes>
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
 
-    <div class="subcolumns">
-        <div class="c50l">
-            <div class="subcl">
-                $CustomHtmlFormFieldByName(emailaddress)
-            </div>
-        </div>
 
-        <div class="c50r">
-            <div class="subcr">
-                $CustomHtmlFormFieldByName(password)
-            </div>
-        </div>
-    </div>
+    $CustomHtmlFormFieldByName(emailaddress)
+    $CustomHtmlFormFieldByName(password)
+
 
     $CustomHtmlFormSpecialFields
-
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-                $Field
-            <% end_loop %>
-            <a class="forgot-password-plain" href="{$CurrentPage.LostPasswordLink}"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
-        </div>
-    </div>
-
+    
+    <% loop Actions %>
+    <button title="{$Title}" value="{$Title}" name="{$Name}" id="{$Id}" class="btn btn-small btn-primary" type="submit">{$Title}</button>
+    <% end_loop %>
+    <br/><br/>
+    <a href="{$BaseHref}Security/lostpassword" class="btn btn-small btn-link forgot-password-plain"><% _t('Member.BUTTONLOSTPASSWORD') %></a>
 </form>

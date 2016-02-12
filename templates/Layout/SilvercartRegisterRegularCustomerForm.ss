@@ -1,176 +1,47 @@
-<form class="yform full" $FormAttributes >
-
-    $CustomHtmlFormMetadata
-    <fieldset>
-        <legend><% _t('SilvercartPage.ADDRESS_DATA') %></legend>
-
-        
-        
-        <% if EnableBusinessCustomers %>
-            $CustomHtmlFormFieldByName(IsBusinessAccount,CustomHtmlFormFieldCheck)
-
-            <div class="subcolumns">
-                <div class="c50l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(TaxIdNumber)
-                    </div>
-                </div>
-                <div class="c50r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(Company)
-                    </div>
-                </div>
-            </div>
-        <% end_if %>
-        
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(FirstName)
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Surname)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Addition)
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr"></div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Street)
-                 </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(StreetNumber)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Postcode)
-                 </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(City)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Country,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(PhoneAreaCode)
-                 </div>
-            </div>
-            <div class="c33l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Phone)
-                </div>
-            </div>
-            <div class="c33r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Fax)
-                </div>
-            </div>
-        </div>
-    </fieldset>
+<div class="register">
+    <form class="form-horizontal" $FormAttributes >
+        {$CustomHtmlFormMetadata}
+        $CustomHtmlFormFieldByName(backlink,CustomHtmlFormFieldHidden)
+        <h4><% _t('SilvercartPage.ADDRESS_DATA') %></h4>
+    <% if EnableBusinessCustomers %>
+        $CustomHtmlFormFieldByName(IsBusinessAccount,CustomHtmlFormFieldCheck)
+        $CustomHtmlFormFieldByName(TaxIdNumber)
+        $CustomHtmlFormFieldByName(Company)
+    <% end_if %>
+    
+        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(FirstName)
+        $CustomHtmlFormFieldByName(Surname)
+        $CustomHtmlFormFieldByName(Addition)
+        $CustomHtmlFormFieldByName(Street)
+        $CustomHtmlFormFieldByName(StreetNumber)
+        $CustomHtmlFormFieldByName(Postcode)
+        $CustomHtmlFormFieldByName(City)
+        $CustomHtmlFormFieldByName(Country,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(PhoneAreaCode)
+        $CustomHtmlFormFieldByName(Phone)
+        $CustomHtmlFormFieldByName(Fax)
 
     <% if demandBirthdayDate %>
-        <fieldset>
-            <legend><% _t('SilvercartPage.BIRTHDAY') %>:</legend>
-
-            <div class="subcolumns">
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
-                     </div>
-                </div>
-                <div class="c33l">
-                    <div class="subcl">
-                        $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
-                    </div>
-                </div>
-                <div class="c33r">
-                    <div class="subcr">
-                        $CustomHtmlFormFieldByName(BirthdayYear)
-                    </div>
-                </div>
-            </div>
-
-        </fieldset>
+        <h4><% _t('SilvercartPage.BIRTHDAY') %>:</h4>
+        $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(BirthdayMonth,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(BirthdayYear)
     <% end_if %>
 
-    <fieldset>
-        <legend><% _t('SilvercartPage.ACCESS_CREDENTIALS') %></legend>
-
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Email)
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(EmailCheck)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Password)
-                 </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(PasswordCheck)
-                </div>
-            </div>
-        </div>
-
-    </fieldset>
-
-    <fieldset>
-        <legend><% _t('SilvercartRegistrationPage.OTHERITEMS') %></legend>
-
+        <h4><% _t('SilvercartPage.ACCESS_CREDENTIALS') %></h4>
+        $CustomHtmlFormFieldByName(Email)
+        $CustomHtmlFormFieldByName(EmailCheck)
+        $CustomHtmlFormFieldByName(Password)
+        $CustomHtmlFormFieldByName(PasswordCheck)
+        <h4><% _t('SilvercartRegistrationPage.OTHERITEMS') %></h4>
         $CustomHtmlFormFieldByName(SubscribedToNewsletter,SilvercartHasAcceptedNewsletterFieldCheck)
-
-    </fieldset>
-
-    $CustomHtmlFormSpecialFields
-
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-                $Field
-            <% end_loop %>
+        {$CustomHtmlFormSpecialFields}
+        <hr>
+        <div class="margin-side clearfix">
+        <% loop Actions %>
+            <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+        <% end_loop %>
         </div>
-    </div>
-
-    $CustomHtmlFormFieldByName(backlink,CustomHtmlFormFieldHidden)
-</form>
+    </form>
+</div>

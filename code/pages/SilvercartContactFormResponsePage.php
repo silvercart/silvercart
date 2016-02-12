@@ -35,7 +35,7 @@ class SilvercartContactFormResponsePage extends Page {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.10.2011
      */
-    public static $icon = "silvercart/images/page_icons/metanavigation_page";
+    public static $icon = "silvercart/img/page_icons/metanavigation_page";
     
     /**
      * Returns the translated singular name of the object. If no translation exists

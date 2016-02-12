@@ -27,7 +27,7 @@ class SilvercartRegisterWelcomePage extends Page {
      *
      * @var string
      */
-    public static $icon = "silvercart/images/page_icons/registration_welcome";
+    public static $icon = "silvercart/img/page_icons/registration_welcome";
 
     /**
      * Returns the translated singular name of the object. If no translation exists

@@ -25,7 +25,7 @@ class SilvercartCartPage extends Page {
      *
      * @var array
      */
-    public static $icon = "silvercart/images/page_icons/cart";
+    public static $icon = "silvercart/img/page_icons/cart";
     
     /**
      * Returns the translated singular name of the object. If no translation exists

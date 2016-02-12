@@ -1,18 +1,17 @@
 {$Controller.ContentStep3}
-<form class="yform" $FormAttributes >
+<form class="form-horizontal grouped" $FormAttributes >
     $CustomHtmlFormMetadata
     $CustomHtmlFormErrorMessages
-    <fieldset>
-        <legend><% _t('SilvercartShippingMethod.SINGULARNAME') %></legend>
-        <div class="subcolumns">
-            $CustomHtmlFormFieldByName(ShippingMethod)
-        </div>
-    </fieldset>
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-            $Field
-            <% end_loop %>
-        </div>
+    <h4>
+        <% _t('SilvercartShippingMethod.SINGULARNAME') %>
+    </h4>
+    <div class="margin-side">
+        $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldOptionSet)
+    </div>
+    <hr>
+    <div class="margin-side clearfix">
+    <% loop Actions %>
+        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+    <% end_loop %>
     </div>
 </form>

@@ -1,49 +1,44 @@
 <% if Elements %>
+<div class="row ProductGroupHolderTile">
+    <ul class="sc-products clearfix">
     <% loop Elements %>
-        <% if MultipleOf(2) %>
-            <div class="c50r product-group-holder-entry tile $EvenOdd">
-        <% else %>
-        <div class="subcolumns equalize clearfix">
-            <div class="c50l product-group-holder-entry tile $EvenOdd">
-        <% end_if %>
-                <div class="product-group-holder-entry_content">
-                    <div class="subcolumns equalize">
-                        <div class="c50l">
-                            <div class="subcl">
-                                <h2><a href="$Link" title="$Title">$MenuTitle.HTML</a></h2>
-                            </div>
-                        </div>
-                        <div class="c50r product-group-holder-entry-link">
+        <li class="span4 clearfix $productAddCartFormObj.FormName">
+            <div class="sc-product-title">
+                <h2 id="{$ID}">
+                    <a href="$Link" class="highlight" title="$Title">$MenuTitle.HTML</a>
+                </h2>
+            </div>
+            <div class="thumbnail">
+                <% if groupPicture %>
+                    <a href="$Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">
+                        $groupPicture.SetSize(290,290)
+                    </a>
+                <% end_if %>
+            </div>
+
+            <div class="sc-product-shortinfo">                       
+
+                <div class="product-info">
+                    <p>$Content.LimitWordCount(12)</p>
+                </div>
+
+                <div class="thumbButtons">
                     <% if hasProductCount(0) %>
                     <% else %>
-                        <% if hasProductCount(1) %>
-                            <a href="$Link" title="<% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR','details'),$ActiveSilvercartProducts.Count) %>"><% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR','details'),$ActiveSilvercartProducts.Count) %> &gt;&gt;</a>
+                        <% if hasProductCount(1) %> 
+                            <a href="$Link" class="btn btn-primary btn-small" title="<% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR','details'),$ActiveSilvercartProducts.Count) %>" data-title="<% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR','details'),$ActiveSilvercartProducts.Count) %> {$Children.Count}" data-placement="top" data-toggle="tooltip">
+                                <% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR','details'),$ActiveSilvercartProducts.Count) %> <i class="icon-caret-right"></i>
+                            </a>
                         <% else %>
-                            <a href="$Link" title="<% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL','details'),$ActiveSilvercartProducts.Count) %>"><% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL','details'),$ActiveSilvercartProducts.Count) %> &gt;&gt;</a>
+                            <a href="$Link" class="btn btn-primary btn-small" title="<% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL','details'),$ActiveSilvercartProducts.Count) %>" data-title="<% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR','details'),$ActiveSilvercartProducts.Count) %> {$Children.Title}" data-placement="top" data-toggle="tooltip">
+                                <% sprintf(_t('SilvercartProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL','details'),$ActiveSilvercartProducts.Count) %> <i class="icon-caret-right"></i>
+                            </a>
                         <% end_if %>
                     <% end_if %>
-                        </div>
-                    </div>
-                    <div class="subcolumns equalize">
-                        <div class="c66l">
-                            <div class="subcl">
-                                <p>$Content.LimitWordCount(12)</p>
-                            </div>
-                        </div>
-                        <div class="c33r product-group-holder-entry-image">
-                            <div class="subcr">
-                                <% if groupPicture %>
-                                    <a href="$Link">$groupPicture.SetRatioSize(90,90)</a>
-                                <% end_if %>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-        <% if MultipleOf(2) %>
-        </div>
-        <% else_if Last %>
-        </div>
-        <% end_if %>
+        </li>
     <% end_loop %>
+    </ul>
+</div>
 <% end_if %>

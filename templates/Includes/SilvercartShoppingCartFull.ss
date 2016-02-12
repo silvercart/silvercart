@@ -1,36 +1,25 @@
 <% if SilvercartErrors %>
-    <div class="silvercart-error-list">
-        <div class="silvercart-error-list_content">
-            $SilvercartErrors
-        </div>
-    </div>
+<div class="alert alert-error">
+    <a class="close" data-dismiss="alert">×</a>  
+    $SilvercartErrors
+</div>
 <% end_if %>
 
-<% if CurrentMember.getCart.isFilled %>
-    <% with CurrentMember %>
-        <% with getCart %>
-            <% if CurrentPage.showPricesGross %>
-                <% include SilvercartShoppingCartFullGross %>
-            <% else %>
-                <% include SilvercartShoppingCartFullNet %>
-            <% end_if %>
+<% if CurrentMember.SilvercartShoppingCart.isFilled %>
 
-            <% if CurrentPage.EditableShoppingCart %>
-                <div class="shoppingCartActions">
-                    <% if registeredModules %>
-                        <% loop registeredModules %>
-                            <% if ShoppingCartActions %>
-                                <% loop ShoppingCartActions %>
-                                    $moduleOutput
-                                <% end_loop %>
-                            <% end_if %>
-                        <% end_loop %>
-                    <% end_if %>
-                </div>
-            <% end_if %>
-          
-        <% end_with %>
-    <% end_with %>
+<% with CurrentMember %>
+<% with SilvercartShoppingCart %>
+
+<% if $CurrentPage.showPricesGross %>
+<% include SilvercartShoppingCartFullGross %>
 <% else %>
+<% include SilvercartShoppingCartFullNet %>
+<% end_if %>
+
+<% end_with %>
+<% end_with %>
+<% else %>
+<div class="alert alert-error">
     <p><br /><% _t('SilvercartCartPage.CART_EMPTY', 'Your cart is empty') %></p>
+</div>
 <% end_if %>

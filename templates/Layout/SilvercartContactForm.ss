@@ -1,79 +1,19 @@
-<form class="yform full" $FormAttributes >
-    
-      $CustomHtmlFormMetadata
+<form class="form-horizontal grouped" $FormAttributes >
+    $CustomHtmlFormMetadata
 
-      <fieldset>
-        <legend><% _t('SilvercartPage.CONTACT_FORM','contact form') %></legend>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Email)
-                </div>
-            </div>
-        </div>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(FirstName)
-                </div>
-            </div>
-            <div class="c50r">
-                <div class="subcr">
-                    $CustomHtmlFormFieldByName(Surname)
-                </div>
-            </div>
-        </div>
-        <% if EnableStreet %>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Street,SilvercartStreetWithNumberField)
-                </div>
-            </div>
-        </div>
-        <% end_if %>
-        <% if EnableCity %>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(City, SilvercartCityWithPostcodeField)
-                </div>
-            </div>
-        </div>
-        <% end_if %>
-        <% if EnableCountry %>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(SilvercartCountryID)
-                </div>
-            </div>
-        </div>
-        <% end_if %>
-        <% if EnablePhoneNumber %>
-        <div class="subcolumns">
-            <div class="c50l">
-                <div class="subcl">
-                    $CustomHtmlFormFieldByName(Phone)
-                </div>
-            </div>
-        </div>
-        <% end_if %>
+    <h4><% _t('SilvercartPage.CONTACT_FORM') %></h4>
+    <div class="margin-side clearfix">
+        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+        $CustomHtmlFormFieldByName(FirstName)
+        $CustomHtmlFormFieldByName(Surname)
+        $CustomHtmlFormFieldByName(Email)
+    <% if EnablePhoneNumber %>
+        $CustomHtmlFormFieldByName(Phone)
+    <% end_if %>
         $CustomHtmlFormFieldByName(Message)
-    </fieldset>
-
-    $CustomHtmlFormSpecialFields
-
-    <div class="actionRow">
-        <div class="type-button">
-            <% loop Actions %>
-            $Field
-            <% end_loop %>
-        </div>
+        $CustomHtmlFormSpecialFields
+    <% loop Actions %>
+        <button class="btn btn-primary pull-right" type="submit" id="{$ID}" title="$Title" value="$Title">$Title</button> 
+    <% end_loop %> 
     </div>
 </form>
