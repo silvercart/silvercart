@@ -1,4 +1,4 @@
-<% require javascript(silvercart/script/slidorion/js/jquery.slidorion.js) %>
+<% require javascript(silvercart/javascript/slidorion/js/jquery.slidorion.min.js) %>
 <% require css(silvercart/css/slidorion.css) %>
 <% cached WidgetCacheKey %>
     <% if ImagesToDisplay %>

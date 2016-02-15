@@ -470,6 +470,16 @@ class SilvercartPage_Controller extends ContentController {
             'silvercart/javascript/custom.js',
             'silvercart/javascript/silvercart.js',
         );
+        if (SilvercartWidget::$use_anything_slider) {
+            $jsFiles = array_merge(
+                    $jsFiles,
+                    array(
+                        'silvercart/javascript/anythingslider/js/jquery.anythingslider.min.js',
+                        'silvercart/javascript/anythingslider/js/jquery.anythingslider.fx.min.js',
+                        'silvercart/javascript/anythingslider/js/jquery.easing.1.2.js',
+                    )
+            );
+        }
         $this->extend('updatedJSRequirements', $jsFiles);
         
         Requirements::combine_files(

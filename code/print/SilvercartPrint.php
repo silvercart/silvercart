@@ -101,7 +101,7 @@ class SilvercartPrint {
         Requirements::clear();
         Requirements::themedCSS('SilvercartPrintDefault', 'silvercart');
         if ($withJavascript) {
-            Requirements::javascript('silvercart/script/SilvercartPrintDefault.js');
+            Requirements::javascript('silvercart/javascript/SilvercartPrintDefault.js');
         }
     }
     

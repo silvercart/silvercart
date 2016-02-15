@@ -69,9 +69,9 @@ class SilvercartOrderAdmin extends SilvercartModelAdmin {
         Requirements::javascript($baseUrl.FRAMEWORK_DIR.'/thirdparty/jquery-ui/jquery.datepicker.js');
         Requirements::css($baseUrl.FRAMEWORK_DIR.'/thirdparty/jquery-ui-themes/smoothness/jquery-ui-1.8rc3.custom.css');
 
-        Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/date.js');
-        Requirements::javascript($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/js/daterangepicker.jQuery.js');
-        Requirements::css($baseUrl.'silvercart/script/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css');
+        Requirements::javascript($baseUrl.'silvercart/admin/javascript/jquery-ui/date-range-picker/js/date.js');
+        Requirements::javascript($baseUrl.'silvercart/admin/javascript/jquery-ui/date-range-picker/js/daterangepicker.jQuery.js');
+        Requirements::css($baseUrl.'silvercart/admin/javascript/jquery-ui/date-range-picker/css/ui.daterangepicker.css');
         
         Requirements::customScript(
                 sprintf(

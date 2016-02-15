@@ -29,4 +29,4 @@
     <% end_loop %>
     </div>
 </form>
-<% require javascript(silvercart/script/SilvercartAddressHolder.js) %>
+<% require javascript(silvercart/javascript/SilvercartAddressHolder.js) %>

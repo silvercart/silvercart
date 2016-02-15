@@ -76,7 +76,7 @@ class SilvercartLeftAndMainExtension extends DataExtension {
             return true;
         }
         $baseUrl = SilvercartTools::getBaseURLSegment();
-        Requirements::javascript($baseUrl . 'silvercart/script/SilvercartLeftAndMain.js');
+        Requirements::javascript($baseUrl . 'silvercart/admin/javascript/SilvercartLeftAndMain.js');
         Requirements::css('silvercart/admin/css/SilvercartMain.css');
         foreach (self::$additional_css_files as $css_file) {
             Requirements::css($css_file);

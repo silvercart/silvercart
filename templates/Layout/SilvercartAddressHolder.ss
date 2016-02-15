@@ -43,7 +43,7 @@
             </div>
            <a class="btn btn-small" href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
 
-            <% require javascript(silvercart/script/SilvercartAddressHolder.js) %>
+            <% require javascript(silvercart/javascript/SilvercartAddressHolder.js) %>
             
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>
