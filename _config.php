@@ -131,7 +131,7 @@ SilvercartRestfulServer::addApiAccessBlackListFields(
 // ----------------------------------------------------------------------------
 // Enable DataObject validation
 // ----------------------------------------------------------------------------
-Member::set_validation_enabled(true);
+Config::inst()->update('Member', 'validation_enabled', true);
 
 // ----------------------------------------------------------------------------
 // Define path constants
