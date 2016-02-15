@@ -1179,7 +1179,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         }
         if (!is_null($limit)) {
             $offset = 0;
-            if (strpos($filter, ',') !== false) {
+            if (strpos($limit, ',') !== false) {
                 list($offset, $limit) = explode(',', $limit);
             }
             $databaseFilteredProducts = $databaseFilteredProducts->limit($limit, $offset);
