@@ -39,15 +39,15 @@ class SilvercartWidgetTools extends Object {
     /**
      * Returns the input fields for this widget.
      * 
-     * @param SilvercartWidget_Controller $widget       Widget to initialize
-     * @param array                       $fetchMethods Optional list of product fetch methods
+     * @param Widget $widget       Widget to initialize
+     * @param array  $fetchMethods Optional list of product fetch methods
      * 
      * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.03.2014
      */
-    public static function getCMSFieldsForProductSliderWidget(SilvercartWidget_Controller $widget, $fetchMethods = array()) {
+    public static function getCMSFieldsForProductSliderWidget(Widget $widget, $fetchMethods = array()) {
         if (empty($fetchMethods)) {
             $fetchMethods               = array(
                     'random'        => $widget->fieldLabel('fetchMethodRandom'),
@@ -168,15 +168,15 @@ class SilvercartWidgetTools extends Object {
     /**
      * Returns the slider tab input fields for this widget.
      * 
-     * @param SilvercartWidget_Controller $widget      Widget to initialize
-     * @param TabSet                      &$rootTabSet The root tab set
+     * @param Widget $widget      Widget to initialize
+     * @param TabSet &$rootTabSet The root tab set
      * 
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function getCMSFieldsRoundaboutTabForProductSliderWidget(SilvercartWidget_Controller $widget, &$rootTabSet) {
+    public static function getCMSFieldsRoundaboutTabForProductSliderWidget(Widget $widget, &$rootTabSet) {
         $tab        = new Tab('roundabout',                 $widget->fieldLabel('RoundaboutTab'));
         $useSlider  = new CheckboxField('useRoundabout',    $widget->fieldLabel('useRoundabout'));
         
@@ -529,14 +529,14 @@ class SilvercartWidgetTools extends Object {
     /**
      * Field labels for display in tables.
      * 
-     * @param SilvercartWidget_Controller $widget Widget to initialize
+     * @param Widget $widget Widget to initialize
      *
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function fieldLabelsForProductSliderWidget(SilvercartWidget_Controller $widget) {
+    public static function fieldLabelsForProductSliderWidget(Widget $widget) {
         return array(
             'FrontTitle'                    => _t('SilvercartProductSliderWidget.FRONTTITLE'),
             'FrontContent'                  => _t('SilvercartProductSliderWidget.FRONTCONTENT'),
