@@ -523,7 +523,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return string
      */
     public function getShippingAddressSummaryHtml() {
-        return str_replace(PHP_EOL, '<br/>', $this->ShippingAddressSummary);
+        $html = new HTMLText();
+        $html->setValue(str_replace(PHP_EOL, '<br/>', $this->ShippingAddressSummary));
+        return $html;
     }
 
     /**
@@ -584,7 +586,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return string
      */
     public function getInvoiceAddressSummaryHtml() {
-        return str_replace(PHP_EOL, '<br/>', $this->InvoiceAddressSummary);
+        $html = new HTMLText();
+        $html->setValue(str_replace(PHP_EOL, '<br/>', $this->InvoiceAddressSummary));
+        return $html;
     }
     
     /**
