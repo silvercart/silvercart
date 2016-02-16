@@ -196,9 +196,9 @@ class SilvercartTax extends DataObject {
      * @return string
      */
     public function getIsDefaultString() {
-        $IsDefaultString = _t('Boolean.NO');
+        $IsDefaultString = _t('Silvercart.NO');
         if ($this->IsDefault) {
-            $IsDefaultString = _t('Boolean.YES');
+            $IsDefaultString = _t('Silvercart.YES');
         }
         return $IsDefaultString;
     }
