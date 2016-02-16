@@ -169,6 +169,7 @@ class SilvercartImage extends DataObject {
             $fields->removeByName('Content');
             $fields->removeByName('Description');
         }
+        $fields->removeByName('SilvercartSlidorionProductGroupWidgets');
         
         $fields->addFieldToTab('Root.Main', new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference')));
         
