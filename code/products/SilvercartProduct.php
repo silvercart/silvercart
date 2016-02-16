@@ -2805,7 +2805,8 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             $this->listImage = false;
             $images = $this->getSilvercartImages($filter);
 
-            if ($images) {
+            
+            if ($images->count() > 0) {
                 $this->listImage = $images->First()->Image();
             }
         }
