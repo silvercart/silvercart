@@ -149,14 +149,14 @@
             <td class="align-right price-col"><strong>$AmountTotal.Nice<% with SilvercartShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %></strong></td>
         </tr>
         <% if TaxTotal %>
-            <% with TaxTotal %>
+            <% loop TaxTotal %>
                 <tr>
                     <td class="mobile-hide-sm">&nbsp;</td>
                     <td class="mobile-hide-sm">&nbsp;</td>
                     <td class="align-right desc-col" colspan="3"><% _t('SilvercartPage.INCLUDED_VAT','included VAT') %> ({$Rate}%)</td>
                     <td class="align-right price-col">{$Amount.Nice}</td>
                 </tr>
-            <% end_with %>
+            <% end_loop %>
         <% end_if %>
 
         <% if HasIncludedInTotalPositions %>

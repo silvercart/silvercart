@@ -31,6 +31,14 @@
     td.quantity {
         font-weight: bold;
     }
+    .table th.align-right,
+    .table td.align-right,
+    .align-right {
+        text-align: right !important;
+    }
+    .mobile-show-sm {
+        display: none;
+    }
 }
     
 @media print
@@ -67,5 +75,13 @@
     
     td.quantity {
         font-weight: bold;
+    }
+    .table th.align-right,
+    .table td.align-right,
+    .align-right {
+        text-align: right !important;
+    }
+    .mobile-show-sm {
+        display: none;
     }
 }
