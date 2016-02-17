@@ -541,7 +541,8 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
 /*******************************************************************************
  *  Product List
  ******************************************************************************/
-.sc-products .sc-product-shortinfo .sc-product-price span .strike-through {
+.sc-products .sc-product-shortinfo .sc-product-price span .strike-through,
+.sc-product-price .strike-through {
     color: rgb(153, 153, 153);
     text-decoration: line-through;
 }

@@ -11,9 +11,8 @@
             <div class="silvercart-product-group-page-control-top">
                 <% include SilvercartProductGroupPageControlsTop %>
             </div>
-            $RenderProductGroupPageGroupView
-            <div class="silvercart-product-group-page-control-top">
-                <% include SilvercartProductGroupPageControlsBottom %>
+            <div class="silvercart-product-group-page sc-products clearfix">
+                $RenderProductGroupPageGroupView
             </div>
         <% else %>
             <p>
