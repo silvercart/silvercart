@@ -2,13 +2,23 @@
     <form class="form-inline" $FormAttributes >
         {$CustomHtmlFormMetadata}
         $CustomHtmlFormFieldByName(backlink,CustomHtmlFormFieldHidden)
-        <h4><% _t('SilvercartPage.ADDRESS_DATA') %></h4>
+        
+        <h4><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></h4>
         <% if EnableBusinessCustomers %>
-        $CustomHtmlFormFieldByName(IsBusinessAccount,CustomHtmlFormFieldCheck)
-        $CustomHtmlFormFieldByName(TaxIdNumber)
-        $CustomHtmlFormFieldByName(Company)
+            <div class="row-fluid">
+                <div class="span4">
+                    $CustomHtmlFormFieldByName(IsBusinessAccount,CustomHtmlFormFieldCheck)
+                </div>
+                <div class="span4">
+                    $CustomHtmlFormFieldByName(TaxIdNumber)
+                </div>
+                <div class="span4 last">
+                    $CustomHtmlFormFieldByName(Company)
+                </div>
+            </div>
         <% end_if %>
-
+         
+        <h4><% _t('SilvercartPage.ADDRESS_DATA') %></h4>
         <div class="row-fluid">
             <div class="span4">
                 $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
@@ -58,7 +68,7 @@
 
 
         <% if demandBirthdayDate %>
-        <h4><% _t('SilvercartPage.BIRTHDAY') %>:</h4>
+        <h4><% _t('SilvercartPage.BIRTHDAY') %></h4>
         <div class="row-fluid">
             <div class="span4">
                 $CustomHtmlFormFieldByName(BirthdayDay,CustomHtmlFormFieldSelect)
