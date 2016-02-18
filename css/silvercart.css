@@ -358,10 +358,9 @@ input[type="text"].input-large {
 .form.grouped {
 	margin-top:24px;
 	padding:0 0 12px;
-	border:1px solid #e0e0e0;
 	border-top:none;
 }
-.register .form-horizontal h4,
+.register h4,
 .form-horizontal.grouped h4,
 .form.grouped h4 {
     padding: 6px 0 6px 6px;
@@ -369,10 +368,8 @@ input[type="text"].input-large {
     color: #404040;
     background-color:#f0f0f0;
     border: 0;
-    border-top: 1px solid #e0e0e0;
-    border-bottom: 1px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     font-size:14px;
-/*    text-transform: capitalize;*/
     line-height:22px;
 }
 .form-horizontal.grouped h4,
@@ -386,6 +383,17 @@ input[type="text"].input-large {
     border:0;
     height:1px;
     margin:30px 0 18px;
+}
+
+.register .row-fluid {
+    margin-top:15px;
+}
+
+.register h4 {
+    margin-top:25px;
+}
+.register .required-field {
+    font-size: 10px;
 }
 
 .ipayment-valid-to select {
