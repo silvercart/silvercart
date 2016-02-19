@@ -1,5 +1,9 @@
 <div class="row">
-    <div class="span9">  
+<% if IsInCheckout %>
+    <div class="span12 clearfix">
+<% else %>
+    <div class="span9">
+<% end_if %>
         <% if IsInCheckout %>
             <% with CheckoutFormInstance %>
                 <% if ShowCustomHtmlFormStepNavigation %>
@@ -40,7 +44,9 @@
 			$InsertCustomHtmlForm(SilvercartRegisterRegularCustomerForm)
         <% end_if %>
     </div>
+<% if not IsInCheckout %>
     <aside class="span3">
         $InsertWidgetArea(Sidebar)
     </aside>
+<% end_if %>
 </div>
