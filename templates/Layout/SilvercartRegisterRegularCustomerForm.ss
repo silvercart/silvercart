@@ -82,14 +82,6 @@
         </div>    
         <% end_if %>
 
-
-
-
-
-
-
-
-
         <h4><% _t('SilvercartPage.ACCESS_CREDENTIALS') %></h4>
         <div class="row-fluid">
             <div class="span4">

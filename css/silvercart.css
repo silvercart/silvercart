@@ -363,18 +363,18 @@ input[type="text"].input-large {
 .register h4,
 .form-horizontal.grouped h4,
 .form.grouped h4 {
-    padding: 6px 0 6px 6px;
+/*    padding: 6px 0 6px 6px;
     margin-bottom: 14px;
     color: #404040;
     background-color:#f0f0f0;
     border: 0;
     border: 1px solid #e0e0e0;
     font-size:14px;
-    line-height:22px;
+    line-height:22px;*/
 }
 .form-horizontal.grouped h4,
 .form.grouped h4 {
-    padding-left: 24px;
+   
 }
 .register .form-horizontal hr,
 .form-horizontal.grouped hr,
@@ -389,9 +389,9 @@ input[type="text"].input-large {
     margin-top:15px;
 }
 
-.register h4 {
-    margin-top:25px;
-}
+/*.register h4 {
+    
+}*/
 .register .required-field {
     font-size: 10px;
 }
@@ -406,6 +406,27 @@ input[type="text"].input-large {
 
 .hidden-form {
     display: none;
+}
+
+.form-vertical h4, 
+.form-horizontal h4 {
+    margin-top:25px;
+    padding: 6px 0;
+    margin-bottom: 14px;
+    color: #404040;
+    background-color:#f0f0f0;
+    border: 0;
+    border: 1px solid #e0e0e0;
+    font-size:14px;
+    text-transform: capitalize;
+    line-height:22px;
+    padding-left: 24px;
+}
+form hr {
+    padding:0;
+    border:0;
+    height:1px;
+    margin:30px 0 18px;
 }
 
 /*******************************************************************************
@@ -467,11 +488,12 @@ input[type="text"].input-large {
 }
 .silvercart-shopping-cart-toolbar-bottom {
     position: relative;
-    top: 10px;
+    margin: 10px 0px 10px 0px;
 }
 .silvercart-shopping-cart-full .img {
-    min-width: 50px;
+    width: 50px;
     padding-right: 16px;
+    text-align: left;
 }
 .SilvercartCheckoutStep .table-receipt {
     margin: 10px 0 0 0;
