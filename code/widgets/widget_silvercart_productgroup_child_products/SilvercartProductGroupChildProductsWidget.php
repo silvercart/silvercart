@@ -170,7 +170,13 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
         $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
         if (is_array($pageIDsToWorkOn) &&
             count($pageIDsToWorkOn) > 0) {
-            $mirrored = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
+            if (SilvercartConfig::DefaultLanguage() != i18n::get_locale()) {
+                $translationGroupQuery = 'SELECT "STTG"."TranslationGroupID" FROM "SiteTree_translationgroups" AS "STTG" WHERE "STTG"."OriginalID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
+                $translationIDsQuery   = 'SELECT "STTG2"."OriginalID" FROM "SiteTree_translationgroups" AS "STTG2" WHERE "STTG2"."TranslationGroupID" IN (' . $translationGroupQuery . ')';
+                $mirrored              = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SPGMP"."SilvercartProductGroupPageID" IN (' . $translationIDsQuery . ')';
+            } else {
+                $mirrored = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
+            }
             $products = SilvercartProduct::getProducts('("SilvercartProduct"."SilvercartProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SilvercartProduct"."ID" IN (' . $mirrored . '))');
         }
 
