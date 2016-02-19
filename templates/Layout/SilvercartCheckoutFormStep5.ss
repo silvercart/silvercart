@@ -11,7 +11,7 @@
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_with %>
         <% end_with %>
-            <a class="btn btn-small checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.AddressStepNumber}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
     <% else %>              
         <% with AddressData %>
@@ -19,13 +19,13 @@
             <% with SilvercartInvoiceAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_with %>
-            <a class="btn btn-small checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.AddressStepNumber}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <a class="btn btn-small checkout-change-button" href="{$Up.Controller.AddressStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
         <div class="checkout-change-area silvercart-highlighted-box well margin-bottom">
             <% with SilvercartShippingAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_with %>
-            <a class="btn btn-small checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.AddressStepNumber}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <a class="btn btn-small checkout-change-button" href="{$Up.Controller.AddressStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
         <% end_with %>
     <% end_if %>
@@ -39,7 +39,7 @@
                 <% if ShippingMethod.DeliveryTime %><br/><small class="delivery-time-hint">$ShippingMethod.fieldLabel(ExpectedDelivery):<br/>{$ShippingMethod.DeliveryTime}</small><% end_if %>
             <% end_with %>
             </p>
-            <a class="btn checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.ShipmentStepNumber}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <a class="btn checkout-change-button" href="{$Controller.ShipmentStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
         <div class="silvercart-highlighted-box well checkout-change-area margin-bottom">
             <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT') %>:</strong>
@@ -49,7 +49,7 @@
                 <% if hasHandlingCostPayment %> ({$HandlingCostPayment.Nice})<% end_if %>
             <% end_with %>
             </p>
-            <a class="btn checkout-change-button" href="{$Controller.Link}GotoStep/{$Controller.PaymentStepNumber}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <a class="btn checkout-change-button" href="{$Controller.PaymentStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
         <div class="silvercart-highlighted-box well small-well small-well-side margin-bottom" id="silvercart-checkout-note">
             <label><% _t('SilvercartPage.REMARKS') %></label>
