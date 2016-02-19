@@ -3,8 +3,8 @@
         {$CustomHtmlFormMetadata}
         $CustomHtmlFormFieldByName(backlink,CustomHtmlFormFieldHidden)
         
-        <h4><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></h4>
         <% if EnableBusinessCustomers %>
+        <h4><% _t('SilvercartCustomer.BUSINESSCUSTOMER') %></h4>
             <div class="row-fluid">
                 <div class="span4">
                     $CustomHtmlFormFieldByName(IsBusinessAccount,CustomHtmlFormFieldCheck)
