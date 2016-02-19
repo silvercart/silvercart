@@ -13,10 +13,13 @@
         $CustomHtmlFormFieldByName(FirstName)
         $CustomHtmlFormFieldByName(Surname)
         $CustomHtmlFormFieldByName(Addition)
-        $CustomHtmlFormFieldByName(Street,SilvercartStreetWithNumberField)
-        $CustomHtmlFormFieldByName(City,SilvercartCityWithPostcodeField)
+        $CustomHtmlFormFieldByName(Street)
+        $CustomHtmlFormFieldByName(StreetNumber)
+        $CustomHtmlFormFieldByName(Postcode)
+        $CustomHtmlFormFieldByName(City)
         $CustomHtmlFormFieldByName(Country,CustomHtmlFormFieldSelect)
-        $CustomHtmlFormFieldByName(Phone,SilvercartPhoneWithAreacodeField)
+        $CustomHtmlFormFieldByName(PhoneAreaCode)
+        $CustomHtmlFormFieldByName(Phone)
         $CustomHtmlFormFieldByName(Fax)
 
     <% if demandBirthdayDate %>
