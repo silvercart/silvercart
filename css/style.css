@@ -1026,28 +1026,9 @@ footer {margin:82px 0 0 0;}
 .register .form-horizontal {
 	margin-top:24px;
 	padding:0 0 12px;
-	border:1px solid #e0e0e0;
 	border-top:none;
 }
-	.register .form-horizontal h4 {
-	    padding: 6px 0;
-	    margin-bottom: 14px;
-	    color: #404040;
-	    background-color:#f0f0f0;
-	    border: 0;
-	    border-top: 1px solid #e0e0e0;
-	    border-bottom: 1px solid #e0e0e0;
-	    font-size:14px;
-	    text-transform: capitalize;
-	    line-height:22px;
-	}
-	.register .form-horizontal hr {
-		padding:0;
-		border:0;
-		height:1px;
-		margin:30px 0 18px;
-	}
-
+	
 /*# 7- Media qauery styling for this file
 =================================================================================*/
 @media (max-width: 979px) {

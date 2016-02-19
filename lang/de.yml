@@ -398,7 +398,7 @@ de:
            <h1>Anfrage über Kontaktformular</h1>
            <h2>Hallo,</h2>
            <p>Über die Webseite wurde eine Anfrage an euch gestellt.<br />
-           Der Kunde <strong>"$FirstName $Surname"</strong> hat die Email Adresse <strong>"$Email"</strong> für Rückantworten angegeben.</p>
+           Der Kunde <strong>"$FirstName $Surname"</strong> hat die E-Mail-Adresse <strong>"$Email"</strong> für Rückantworten angegeben.</p>
            <% if Phone %><p><strong>Telefon: {$Phone}</strong></p><% end_if %>
            <h2>Die Nachricht</h2>
            <p>$Message</p>
@@ -750,7 +750,7 @@ de:
     BATCH_OPTIONS_LABEL: "Aktion auf Auswahl anwenden"
     QUICK_ACCESS: "Schnellansicht"
   SilvercartEmailAddress:
-    SINGULARNAME: "Emailadresse"
+    SINGULARNAME: "E-Mail-Adresse"
   SilvercartEmailTemplates:
     PLURALNAME: "E-Mail Vorlagen"
     SINGULARNAME: "E-Mail Vorlage"
@@ -908,7 +908,7 @@ de:
     YOUR_MOST_CURRENT_ORDERS: "Ihre aktuellsten Bestellungen"
     YOUR_PERSONAL_DATA: "Ihre persönlichen Daten"
   SilvercartNewsletter:
-    OPTIN_NOT_FINISHED_MESSAGE: "Sie erhalten den Newsletter erst, wenn Sie den Bestätigungslink in der Ihnen zugeschickten Email aufrufen."
+    OPTIN_NOT_FINISHED_MESSAGE: "Sie erhalten den Newsletter erst, wenn Sie den Bestätigungslink in der Ihnen zugeschickten E-Mail aufrufen."
     PLURALNAME: "Newsletter"
     SINGULARNAME: "Newsletter"
     SUBSCRIBED: "Sie haben den Newsletter abonniert"
@@ -953,12 +953,12 @@ de:
     TITLE: "Newsletter Status"
     URL_SEGMENT: "newsletter_status"
   SilvercartNewsletterStatus:
-    ALREADY_SUBSCRIBED: "Die Emailadresse \"%s\" ist schon für den Newsletterempfang registriert."
-    NO_EMAIL_FOUND: "Die Emailadresse \"%s\" konnte nicht gefunden werden."
-    REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: "Es ist schon ein Kunde mit der Emailadresse \"%s\" registriert. Bitte loggen Sie sich zuerst ein und nehmen Sie dann die Einstellungen für den Newsletterempfang vor: <a href=\"%s\">Zum Login</a>."
-    SUBSCRIBED_SUCCESSFULLY: "Die Emailadresse \"%s\" wurde zu der Liste der Newsletterempfänger hinzugefügt."
-    SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: "Es wurde eine Email mit Instruktionen zur Bestätigung an die Adresse \"%s\" geschickt."
-    UNSUBSCRIBED_SUCCESSFULLY: "Die Emailadresse \"%s\" wurde von der Liste der Newsletterempfänger entfernt."
+    ALREADY_SUBSCRIBED: "Die E-Mail-Adresse \"%s\" ist schon für den Newsletterempfang registriert."
+    NO_EMAIL_FOUND: "Die E-Mail-Adresse \"%s\" konnte nicht gefunden werden."
+    REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: "Es ist schon ein Kunde mit der E-Mail-Adresse \"%s\" registriert. Bitte loggen Sie sich zuerst ein und nehmen Sie dann die Einstellungen für den Newsletterempfang vor: <a href=\"%s\">Zum Login</a>."
+    SUBSCRIBED_SUCCESSFULLY: "Die E-Mailadresse \"%s\" wurde zu der Liste der Newsletterempfänger hinzugefügt."
+    SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: "Es wurde eine E-Mail mit Instruktionen zur Bestätigung an die Adresse \"%s\" geschickt."
+    UNSUBSCRIBED_SUCCESSFULLY: "Die E-Mailadresse \"%s\" wurde von der Liste der Newsletterempfänger entfernt."
   SilvercartNumberRange:
     ACTUAL: "Aktuell"
     ACTUALCOUNT: "Aktuell"
@@ -987,7 +987,7 @@ de:
     BATCH_PRINTORDERS: "Bestellungen drucken (HTML)"
     CUSTOMER: "Kunde"
     CUSTOMERDATA: "Kundendaten"
-    CUSTOMERSEMAIL: "Emailadresse des Kunden"
+    CUSTOMERSEMAIL: "E-Mail-Adresse des Kunden"
     HANDLINGCOSTPAYMENT: "Gebühren der Bezahlart"
     HANDLINGCOSTSHIPMENT: "Gebühren der Versandart"
     HASACCEPTEDREVOCATIONINSTRUCTION: "Hat die Widerrufsbelehrung akzeptiert"
@@ -1091,8 +1091,8 @@ de:
     PLURALNAME: "Lieferadressen der Bestellung"
     SINGULARNAME: "Lieferadresse der Bestellung"
   SilvercartOrderStatus:
-    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: "Die folgenden markierten Emails werden verschickt, wenn dieser Bestellstatus für eine Bestellung gesetzt wird:"
-    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: "Zugeordnete Emails"
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: "Die folgenden markierten E-Mails werden verschickt, wenn dieser Bestellstatus für eine Bestellung gesetzt wird:"
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: "Zugeordnete E-Mails"
     BADGECOLOR: "Farbstatus"
     CODE: "Code"
     INWORK: "In Bearbeitung"
@@ -1749,7 +1749,7 @@ de:
     VARIABLES: "Variablen"
     YOUR_TEAM: "Ihr SilverCart Webshop Team"
   SilvercartShopEmailAdmin:
-    MENUTITLE: "Shop Emails"
+    MENUTITLE: "Shop E-Mails"
   SilvercartShopEmailLanguage:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"

@@ -9,11 +9,10 @@
                         <span>{$SiteConfig.Title} - {$SiteConfig.Tagline}</span>
                     </a>
                 </div>
-
                 <div class="smtb span6">
-
                 </div>
             </div>
         </div>
     </div>
+    <div style="height:41px"></div>
 </header>
