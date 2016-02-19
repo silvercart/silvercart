@@ -111,7 +111,7 @@ class SilvercartCartPage_Controller extends Page_Controller {
     public function getCheckoutContext() {
         $checkoutStepPage = SilvercartTools::PageByIdentifierCode('SilvercartCheckoutStep');
         $checkoutStepPageController = ModelAsController::controller_for($checkoutStepPage);
-        $checkoutStepPageController->handleRequest($this->getRequest());
+        $checkoutStepPageController->handleRequest($this->getRequest(), DataModel::inst());
         return new SilvercartCheckoutFormStep2($checkoutStepPageController);
     }
 
