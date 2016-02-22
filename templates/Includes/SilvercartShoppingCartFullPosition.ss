@@ -50,8 +50,7 @@
     </td>
 <% end_if %>
     <td class="total-price text-right">
-        $Price.Nice
-        <br/>
+        $Price.Nice<br/>
         <p class="mobile-hide-sm">
             <small> {$SilvercartProduct.TaxRate}% <% _t('SilvercartProduct.VAT') %></small>
         </p>

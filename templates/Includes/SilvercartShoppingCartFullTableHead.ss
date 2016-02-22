@@ -1,10 +1,10 @@
 <thead>
     <tr class="mobile-hide-sm">
         <th>&nbsp;</th>
-        <th><% _t('SilvercartProduct.TITLE', 'Product') %></th>
-        <th><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></th>
-        <th><% _t('SilvercartProductPage.QUANTITY') %></th>
-        <th><% _t('SilvercartProduct.PRICE') %></th>
+        <th class="text-left"><strong><% _t('SilvercartProduct.TITLE', 'Product') %></strong></th>
+        <th class="text-right"><strong><% _t('SilvercartProduct.PRICE_SINGLE', 'price single') %></strong></th>
+        <th class="text-right"><strong><% _t('SilvercartProductPage.QUANTITY') %></strong></th>
+        <th class="text-right"><strong><% _t('SilvercartProduct.PRICE') %></strong></th>
     <% if $CurrentPage.EditableShoppingCart %>
         <th>&nbsp;</th>
     <% end_if %>
