@@ -12,14 +12,14 @@
         <table id="silvercart-order-holder-table-id" class="table full silvercart-order-holder-table">
             <thead>
                 <tr class="mobile-hide-sm">
-                    <th class="left"><% _t('SilvercartPage.ORDER_DATE','order date') %> /<br /><% _t('SilvercartOrder.ORDERNUMBER') %></th>
-                    <th class="left"><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
-                    <th class="left"><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
-                    <th class="left"><% _t('SilvercartOrder.AMOUNTTOTAL') %></th>
+                    <th class="text-left"><% _t('SilvercartPage.ORDER_DATE','order date') %> /<br /><% _t('SilvercartOrder.ORDERNUMBER') %></th>
+                    <th class="text-left"><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
+                    <th class="text-left"><% _t('SilvercartOrderStatus.SINGULARNAME') %></th>
+                    <th class="text-left"><% _t('SilvercartOrder.AMOUNTTOTAL') %></th>
                     <th>&nbsp;</th>
                 </tr>
                 <tr class="mobile-show-sm">
-                    <th class="left" colspan="5"><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
+                    <th class="text-left" colspan="5"><% _t('SilvercartPage.ORDERED_PRODUCTS','ordered products') %></th>
                 </tr>
             </thead>
             <tbody>

@@ -12,19 +12,19 @@
         </colgroup>
         <thead>
             <tr>
-                <th class="left"><% _t('SilvercartProduct.TITLE') %></th>
-                <th class="right"><% _t('SilvercartProduct.QUANTITY_SHORT') %></th>
-                <th class="right"><% _t('SilvercartProduct.PRICE') %></th>
+                <th class="text-left"><% _t('SilvercartProduct.TITLE') %></th>
+                <th class="text-right"><% _t('SilvercartProduct.QUANTITY_SHORT') %></th>
+                <th class="text-right"><% _t('SilvercartProduct.PRICE') %></th>
             </tr>
         </thead>
         <% with CurrentMember %>
             <% with SilvercartShoppingCart %>
                 <tfoot>
                     <tr>
-                        <td colspan="2" class="align-right">
+                        <td colspan="2" class="text-right">
                            <% _t('SilvercartPage.SUM','sum') %>
                         </td>
-                        <td class="align-right">$AmountTotal.Nice</td>
+                        <td class="text-right">$AmountTotal.Nice</td>
                     </tr>
                 </tfoot>
                 <tbody>

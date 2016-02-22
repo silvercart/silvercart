@@ -2,7 +2,7 @@
     <h4><% _t('SilvercartMyAccountHolder.ALREADY_HAVE_AN_ACCOUNT') %></h4>
     <form class="form" $FormAttributes >
         $CustomHtmlFormMetadata
-        <div class="left padding">
+        <div class="text-left padding">
             $CustomHtmlFormErrorMessages
         </div>
         

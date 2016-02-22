@@ -171,8 +171,8 @@
     <% loop ChargesAndDiscountsForTotal %>
                 <tr>
                     <td colspan="4">$Name</td>
-                    <td class="right">$SilvercartTax.Title</td>
-                    <td colspan="<% if $CurrentPage.EditableShoppingCart %>3<% else %>2<% end_if %>" class="right">$PriceFormatted</td>
+                    <td class="text-right">$SilvercartTax.Title</td>
+                    <td colspan="<% if $CurrentPage.EditableShoppingCart %>3<% else %>2<% end_if %>" class="text-right">$PriceFormatted</td>
                 </tr>
     <% end_loop %>
                 <tr>

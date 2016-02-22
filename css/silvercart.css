@@ -131,41 +131,33 @@ hr.margin {
 .position-static {
     position: static;
 }
-.table th.align-left,
-.table td.align-left,
-.align-left {
+
+.text-left {
     text-align: left !important;
 }
-.table th.align-right,
-.table td.align-right,
-.align-right {
+
+.text-right {
     text-align: right !important;
 }
-.table th.align-center,
-.table td.align-center,
-.align-center {
+
+.text-center {
     text-align: center !important;
 }
-.table th.align-justify,
-.table td.align-justify,
-.align-justify {
+.text-justify {
     text-align: justify !important;
 }
-.table th.align-top,
-.table td.align-top,
-.align-top {
+.text-top {
     vertical-align: top;
 }
-.table th.align-middle,
-.table td.align-middle,
-.align-middle {
+
+.text-middle {
     vertical-align: middle;
 }
-.table th.align-bottom,
-.table td.align-bottom,
-.align-bottom {
+
+.text-bottom {
     vertical-align: bottom;
 }
+
 .table tr.inactive td,
 .table tr.inactive td label {
     color: #dddddd !important;

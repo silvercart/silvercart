@@ -7,7 +7,7 @@
             h1 { font-size: 14px; }
             h2 { font-size: 12px; }
 
-            .right { text-align: right; }
+            .text-right { text-align: right !important; }
         </style>
     </head>
     <body>        

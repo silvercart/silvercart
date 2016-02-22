@@ -31,9 +31,8 @@
     td.quantity {
         font-weight: bold;
     }
-    .table th.align-right,
-    .table td.align-right,
-    .align-right {
+    
+    .text-right {
         text-align: right !important;
     }
     .mobile-show-sm {
@@ -76,9 +75,8 @@
     td.quantity {
         font-weight: bold;
     }
-    .table th.align-right,
-    .table td.align-right,
-    .align-right {
+  
+    .text-right {
         text-align: right !important;
     }
     .mobile-show-sm {

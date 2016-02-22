@@ -28,16 +28,16 @@
                 </caption>
                 <thead>
                     <tr>
-                        <th class="align-left col-20"><% _t('SilvercartProduct.WEIGHT') %> ({$SilvercartShippingFees.First.MaximumWeightUnitAbreviation})</th>
-                        <th class="align-left col-65"><% _t('SilvercartZone.SINGULARNAME') %></th>
-                        <th class="align-right"><% _t('SilvercartProduct.PRICE') %></th>
+                        <th class="text-left col-20"><% _t('SilvercartProduct.WEIGHT') %> ({$SilvercartShippingFees.First.MaximumWeightUnitAbreviation})</th>
+                        <th class="text-left col-65"><% _t('SilvercartZone.SINGULARNAME') %></th>
+                        <th class="text-right"><% _t('SilvercartProduct.PRICE') %></th>
                     </tr>
                 </thead>
                 <tbody>
                 <% loop SilvercartShippingFees %>
                     <tr class="$EvenOdd">
-                        <td class="align-right align-top"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeightNice<% end_if %></td>
-                        <td class="align-left">
+                        <td class="text-right text-top"><% if UnlimitedWeight %><% _t('SilvercartShippingFee.UNLIMITED_WEIGHT') %><% else %>$MaximumWeightNice<% end_if %></td>
+                        <td class="text-left">
                             <div class="country-list">
                             <% with SilvercartZone %>
                                 <b>$Title:</b><br/>
@@ -53,12 +53,12 @@
                             <% end_with %>
                             </div>
                         </td>
-                        <td class="align-right align-top">$PriceFormatted <% if PostPricing %>*<% end_if %></td>
+                        <td class="text-right text-top">$PriceFormatted <% if PostPricing %>*<% end_if %></td>
                     </tr>
                 <% end_loop %>
                 <% if hasFeeWithPostPricing %>
                     <tr class="info">
-                        <td class="align-left" colspan="3">* <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></td>
+                        <td class="text-left" colspan="3">* <% _t('SilvercartShippingFee.POST_PRICING_INFO') %></td>
                     </tr>
                 <% end_if %>
                 </tbody>

@@ -2,44 +2,44 @@
     <table class="table table-condensed">
         <tbody>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartPage.ORDER_DATE','Order date') %></td>
-                <td class="align-left full">$Created.Nice</td>
+                <td class="text-left nowrap"><% _t('SilvercartPage.ORDER_DATE','Order date') %></td>
+                <td class="text-left full">$Created.Nice</td>
             </tr>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartOrder.PAYMENTMETHODTITLE','Payment method') %></td>
-                <td class="align-left full">$SilvercartPaymentMethod.Name</td>
+                <td class="text-left nowrap"><% _t('SilvercartOrder.PAYMENTMETHODTITLE','Payment method') %></td>
+                <td class="text-left full">$SilvercartPaymentMethod.Name</td>
             </tr>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartOrder.STATUS','Order status') %></td>
-                <td class="align-left full">$SilvercartOrderStatus.Title</td>
+                <td class="text-left nowrap"><% _t('SilvercartOrder.STATUS','Order status') %></td>
+                <td class="text-left full">$SilvercartOrderStatus.Title</td>
             </tr>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartOrder.SHIPPINGRATE','Shipping rate') %></td>
-                <td class="align-left full">$HandlingCostShipment.Nice</td>
+                <td class="text-left nowrap"><% _t('SilvercartOrder.SHIPPINGRATE','Shipping rate') %></td>
+                <td class="text-left full">$HandlingCostShipment.Nice</td>
             </tr>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartOrder.ORDER_VALUE','Orderamount') %></td>
-                <td class="align-left full">$AmountTotal.Nice</td>
+                <td class="text-left nowrap"><% _t('SilvercartOrder.ORDER_VALUE','Orderamount') %></td>
+                <td class="text-left full">$AmountTotal.Nice</td>
             </tr>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></td>
-                <td class="align-left full">$OrderNumber</td>
+                <td class="text-left nowrap"><% _t('SilvercartOrder.ORDERNUMBER','Ordernumber') %></td>
+                <td class="text-left full">$OrderNumber</td>
             </tr>
             <% if Note %>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartOrder.YOUR_REMARK','Your remark') %></td>
-                <td class="align-left full">$getFormattedNote</td>
+                <td class="text-left nowrap"><% _t('SilvercartOrder.YOUR_REMARK','Your remark') %></td>
+                <td class="text-left full">$getFormattedNote</td>
             </tr>
             <% end_if %>
             <% if TrackingCode %>
             <tr>
-                <td class="align-left nowrap"><strong><% _t('SilvercartOrder.Tracking') %></strong></td>
-                <td class="align-left full"><a href="{$TrackingLink}" target="blank" title="<% _t('SilvercartOrder.TrackingLinkLabel') %>"><% _t('SilvercartOrder.TrackingLinkLabel') %></a></td>
+                <td class="text-left nowrap"><strong><% _t('SilvercartOrder.Tracking') %></strong></td>
+                <td class="text-left full"><a href="{$TrackingLink}" target="blank" title="<% _t('SilvercartOrder.TrackingLinkLabel') %>"><% _t('SilvercartOrder.TrackingLinkLabel') %></a></td>
             </tr>
             <% end_if %>
             <tr>
-                <td class="align-left nowrap"><% _t('SilvercartRevocationFormPage.TITLE','Revocation') %></td>
-                <td class="align-left full"><a class="silvercart-button btn" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartRevocationFormPage)?o={$ID}"><% _t('SilvercartRevocationForm.GoTo','Go to revocation form') %> <i class="icon icon-caret-right"></i></a></td>
+                <td class="text-left nowrap"><% _t('SilvercartRevocationFormPage.TITLE','Revocation') %></td>
+                <td class="text-left full"><a class="silvercart-button btn" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartRevocationFormPage)?o={$ID}"><% _t('SilvercartRevocationForm.GoTo','Go to revocation form') %> <i class="icon icon-caret-right"></i></a></td>
             </tr>
 
             $OrderDetailInformation

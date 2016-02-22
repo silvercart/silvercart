@@ -17,7 +17,7 @@
             <li><small><%-- $addToTitle --%></small></li>
         </ul>
     </td>
-    <td class="sub-price right">
+    <td class="sub-price text-right">
         $getPrice(true).Nice<span class="mobile-show-sm inline">
                 <br/><% _t('SilvercartProduct.PRICE_SINGLE') %></span>
         <p class="mobile-hide-sm">
@@ -25,7 +25,7 @@
         </p>
     </td>
 <% if $CurrentPage.EditableShoppingCart %>
-    <td class="right borderlr quantity">  
+    <td class="text-right borderlr quantity">  
         <%-- @todo mit Link zusammenfassen ohne 3 Formulare damit Template umgesetzt werden kann --%>
         <div class="btn-group">
             <div class="pull-left input-prepend input-append form-prepend">{$DecrementPositionQuantityForm}</div>
@@ -45,11 +45,11 @@
         </div>
     </td>
 <% else %>
-    <td class="right borderlr quantity">
+    <td class="text-right borderlr quantity">
         <span class="silvercart-quantity-label">{$getTypeSafeQuantity}<span class="mobile-show-sm inline">x</span></span>
     </td>
 <% end_if %>
-    <td class="total-price right">
+    <td class="total-price text-right">
         $Price.Nice
         <br/>
         <p class="mobile-hide-sm">

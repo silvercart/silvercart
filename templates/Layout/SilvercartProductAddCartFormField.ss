@@ -2,7 +2,7 @@
     <%-- <label for="{$FormName}_{$FieldName}">{$Label}</label>  --%>
 
 <% with FieldTag %>
-    <input id="{$ID}" class="input-nano align-right" type="text" value="{$Value}" name="{$Name}">
+    <input id="{$ID}" class="input-nano text-right" type="text" value="{$Value}" name="{$Name}">
 <% end_with %>   
 $CustomHtmlFormSpecialFields
 

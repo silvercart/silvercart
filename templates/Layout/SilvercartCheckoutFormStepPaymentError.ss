@@ -32,7 +32,7 @@
         <div class="subcolumns">
             <div class="c50l">
                 <div class="subcl">
-                    <a href="{$controller.Link}GotoStep/3" class="silvercart-button left">
+                    <a href="{$controller.Link}GotoStep/3" class="silvercart-button text-left">
                         <span class="silvercart-button_content">
                             <span class="button_type1_panel_content"><% _t('SilvercartPage.CHANGE_PAYMENTMETHOD_LINK','choose another payment method') %></span>
                         </span>
@@ -41,7 +41,7 @@
             </div>
             <div class="c50r">
                 <div class="subcr">
-                    <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link" class="silvercart-button right">
+                    <a href="$PageByIdentifierCode(SilvercartContactFormPage).Link" class="silvercart-button text-right">
                         <span class="silvercart-button_content">
                             <span class="button_type1_panel_content"><% _t('SilvercartPage.GOTO_CONTACT_LINK','go to contact page') %></span>
                         </span>
