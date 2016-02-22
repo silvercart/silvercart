@@ -157,7 +157,6 @@ hr.margin {
 .text-bottom {
     vertical-align: bottom;
 }
-
 .table tr.inactive td,
 .table tr.inactive td label {
     color: #dddddd !important;
@@ -490,10 +489,6 @@ form hr {
 }
 .SilvercartCheckoutStep .table-receipt {
     margin: 10px 0 0 0;
-}
-.table-receipt td.alignRight,
-.table-receipt td.alignRight h2 {
-    text-align: right !important;
 }
 
 /*******************************************************************************
