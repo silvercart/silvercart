@@ -1,7 +1,7 @@
 <tr>
-    <td class="align-left">
-        <a href="$SilvercartProduct.Link"><strong>$getTitleForWidget</strong></a><br/>$addToTitleForWidget
+    <td class="left">
+        <a href="$SilvercartProduct.Link">$getTitleForWidget</a><br/>$addToTitleForWidget
     </td>
-    <td class="align-right">$getTypeSafeQuantity</td>
-    <td class="align-right">$Price.Nice</td>
+    <td class="right">$getTypeSafeQuantity</td>
+    <td class="right">$Price.Nice</td>
 </tr>
