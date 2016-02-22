@@ -1,5 +1,5 @@
 <% with CurrentMember %>
-    <div class="row silvercart-address-equalize">
+    <div class="row-fluid silvercart-address-equalize">
         <div class="span4">
         <% with SilvercartInvoiceAddress %>
             <% include SilvercartAddressDetailReadOnly %>

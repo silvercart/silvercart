@@ -118,7 +118,7 @@
                 {$CustomHtmlFormSpecialFields}
             </div>
         </div>   
-        <div class="margin-side clearfix">
+        <div class="clearfix">
             <% loop Actions %>
             <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
             <% end_loop %>

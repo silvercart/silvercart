@@ -2,7 +2,7 @@
     $CustomHtmlFormMetadata
 
     <h4><% _t('SilvercartPage.CONTACT_FORM') %></h4>
-    <div class="margin-side clearfix">
+    <div class="clearfix">
         $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
         $CustomHtmlFormFieldByName(FirstName)
         $CustomHtmlFormFieldByName(Surname)

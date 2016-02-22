@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row-fluid">
     <div class="span9">
         <% include SilvercartBreadCrumbs %>
 
@@ -20,7 +20,7 @@
                         <% include SilvercartAddressDetailReadOnly %>
                     <% end_with %>
                 <% else %>
-                    <div class="row silvercart-address-equalize">
+                    <div class="row-fluid silvercart-address-equalize">
                         <div class="span4">
                                 <% with SilvercartInvoiceAddress %>
                                     <% include SilvercartAddressDetailReadOnly %>
@@ -49,7 +49,7 @@
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>
     </div>
-<aside class="span3">
+    <aside class="span3">
         <% if CurrentRegisteredCustomer %>
             $SubNavigation
         <% end_if %>

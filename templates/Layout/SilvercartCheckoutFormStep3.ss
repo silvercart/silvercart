@@ -5,11 +5,9 @@
     <h4>
         <% _t('SilvercartShippingMethod.SINGULARNAME') %>
     </h4>
-    <div class="margin-side">
-        $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldOptionSet)
-    </div>
+    $CustomHtmlFormFieldByName(ShippingMethod,CustomHtmlFormFieldOptionSet)
     <hr>
-    <div class="margin-side clearfix">
+    <div class="clearfix">
     <% loop Actions %>
         <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
     <% end_loop %>

@@ -5,9 +5,7 @@
     $CustomHtmlFormMetadata
     <% if Customer %>
         <h4><% _t('SilvercartRevocationForm.Order') %></h4>
-        <div class="margin-side">
             $CustomHtmlFormFieldByName(ExistingOrder, CustomHtmlFormFieldSelect)
-        </div>
         <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="ExistingOrder"]').live('change', function() {
@@ -19,33 +17,29 @@
         </script>
     <% end_if %>
     <h4><% _t('SilvercartRevocationForm.Data') %></h4>
-    <div class="margin-side">
-        <p><% _t('Silvercart.To') %>:<br/>
-            <% with CurrentPage.SilvercartConfig %>
-                <i>
-                    <strong>{$ShopName}</strong><br/>
-                    {$ShopStreet} {$ShopStreetNumber}<br/>
-                    {$ShopPostcode} {$ShopCity}<br/>
-                    {$ShopCountry.Title}<br/>
-                </i>
-            <% end_with %>
-        </p>
-        <p>
-            <% _t('SilvercartRevocationForm.RevocationDate') %>: <strong>{$CurrentDate}</strong>
-        </p>
-        $CustomHtmlFormFieldByName(RevocationOrderData)
-        $CustomHtmlFormFieldByName(OrderDate)
-        $CustomHtmlFormFieldByName(OrderNumber)
-        $CustomHtmlFormFieldByName(Email)
-    </div>
+    <p><% _t('Silvercart.To') %>:<br/>
+        <% with CurrentPage.SilvercartConfig %>
+            <i>
+                <strong>{$ShopName}</strong><br/>
+                {$ShopStreet} {$ShopStreetNumber}<br/>
+                {$ShopPostcode} {$ShopCity}<br/>
+                {$ShopCountry.Title}<br/>
+            </i>
+        <% end_with %>
+    </p>
+    <p>
+        <% _t('SilvercartRevocationForm.RevocationDate') %>: <strong>{$CurrentDate}</strong>
+    </p>
+    $CustomHtmlFormFieldByName(RevocationOrderData)
+    $CustomHtmlFormFieldByName(OrderDate)
+    $CustomHtmlFormFieldByName(OrderNumber)
+    $CustomHtmlFormFieldByName(Email)
     <h4><% _t('SilvercartRevocationForm.NameOfConsumer') %></h4>
-    <div class="margin-side">
-        $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
-        $CustomHtmlFormFieldByName(FirstName)
-        $CustomHtmlFormFieldByName(Surname)
-    </div>
+    $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
+    $CustomHtmlFormFieldByName(FirstName)
+    $CustomHtmlFormFieldByName(Surname)
     <h4><% _t('SilvercartRevocationForm.AddressOfConsumer') %></h4>
-    <div class="margin-side clearfix">
+    <div class="clearfix">
         $CustomHtmlFormFieldByName(Street)
         $CustomHtmlFormFieldByName(StreetNumber)
         $CustomHtmlFormFieldByName(Addition)
