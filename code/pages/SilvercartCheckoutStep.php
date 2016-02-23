@@ -642,4 +642,30 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         return $this->Link('GotoStep/' . $this->getLastStepNumber());
     }
     
+    /**
+     * Returns whether to skip payment step or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.02.2016
+     */
+    public function SkipPaymentStep() {
+        $paymentStep = new SilvercartCheckoutFormStep4($this);
+        return $paymentStep->SkipPaymentStep();
+    }
+    
+    /**
+     * Returns whether to skip shipping step or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.02.2016
+     */
+    public function SkipShippingStep() {
+        $shippingStep = new SilvercartCheckoutFormStep3($this);
+        return $shippingStep->SkipShippingStep();
+    }
+    
 }

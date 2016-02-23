@@ -39,7 +39,9 @@
                 <% if ShippingMethod.DeliveryTime %><br/><small class="delivery-time-hint">$ShippingMethod.fieldLabel(ExpectedDelivery):<br/>{$ShippingMethod.DeliveryTime}</small><% end_if %>
             <% end_with %>
             </p>
+            <% if not $Controller.SkipShippingStep %>
             <a class="btn checkout-change-button" href="{$Controller.ShipmentStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <% end_if %>
         </div>
         <div class="silvercart-highlighted-box well checkout-change-area margin-bottom">
             <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT') %>:</strong>
@@ -49,7 +51,9 @@
                 <% if hasHandlingCostPayment %> ({$HandlingCostPayment.Nice})<% end_if %>
             <% end_with %>
             </p>
+            <% if not $Controller.SkipPaymentStep %>
             <a class="btn checkout-change-button" href="{$Controller.PaymentStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
+            <% end_if %>
         </div>
         <div class="silvercart-highlighted-box well small-well small-well-side margin-bottom" id="silvercart-checkout-note">
             <label><% _t('SilvercartPage.REMARKS') %></label>
