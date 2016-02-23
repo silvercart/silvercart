@@ -164,10 +164,11 @@ class SilvercartImageSliderImage extends DataObject {
             'Title',
             false
         );
+        $productNumberToReferenceField = new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference'));
+        $productNumberToReferenceField->setDescription($this->fieldLabel('ProductNumberToReferenceInfo'));
         $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
-        $fields->addFieldToTab('Root.Main', new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference')), 'SiteTreeID');
+        $fields->addFieldToTab('Root.Main', $productNumberToReferenceField, 'SiteTreeID');
         $fields->removeByName('SilvercartImageSliderWidgets');
-        $fields->dataFieldByName('ProductNumberToReference')->setDescription($this->fieldLabel('ProductNumberToReferenceInfo'));
         
         return $fields;
     }

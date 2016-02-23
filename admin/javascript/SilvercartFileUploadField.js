@@ -2,7 +2,8 @@ var checkForUploadedSilvercartFiles = function() {
     var $ = jQuery;
     var reloadFileGridField = function(classname) {
         var fileUploadField = $('ul.ss-uploadfield-files.files li').closest('.field.' + classname),
-            fileGridField = $('.ss-gridfield[data-name="' + fileUploadField.attr('id').replace(/Upload/gi, '') + '"]');
+            gridFieldName = fileUploadField.attr('id').replace($('ul.ss-uploadfield-files.files li').closest('form').attr('id') + '_', '').replace(/Upload/gi, '').replace(/_Holder/gi, ''),
+            fileGridField = $('.ss-gridfield[data-name="' + gridFieldName + '"]');
         if (fileGridField.length > 0) {
 
             $.entwine('ss', function($) {

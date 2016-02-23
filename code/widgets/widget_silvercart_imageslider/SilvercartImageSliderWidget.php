@@ -93,7 +93,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
      * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.03.2014
+     * @since 23.02.2016
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
@@ -109,7 +109,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $slideImagesTable->getConfig()->addComponent(new GridFieldDeleteAction());
         
-        $slideImagesUploadField = new SilvercartImageUploadField('UploadSlideImages', $this->fieldLabel('AddImage'));
+        $slideImagesUploadField = new SilvercartImageUploadField('UploadslideImages', $this->fieldLabel('AddImage'));
         $slideImagesUploadField->setFolderName('Uploads/slider-images');
         $slideImagesUploadField->setRelationClassName('SilvercartImageSliderImage');
         
