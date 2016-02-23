@@ -717,7 +717,7 @@ class SilvercartAddress extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 23.02.2016
      */
     public function isShippingAddress() {
         $isShippingAddress = false;
@@ -727,6 +727,8 @@ class SilvercartAddress extends DataObject {
         } else if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
             $checkoutData = Controller::curr()->getCombinedStepData();
             if (array_key_exists('ShippingAddress', $checkoutData) && 
+                is_numeric($this->ID) &&
+                $this->ID > 0 &&
                 $this->ID === $checkoutData['ShippingAddress']) {
                 $isShippingAddress = true; 
             }
@@ -746,12 +748,10 @@ class SilvercartAddress extends DataObject {
     public function isInvoiceAndShippingAddress() {
         $isInvoiceAndShippingAddress = false;
         
-        if ($this->ID > 0) {
-            if ($this->isInvoiceAddress() &&
-                $this->isShippingAddress()) {
+        if ($this->isInvoiceAddress() &&
+            $this->isShippingAddress()) {
 
-                $isInvoiceAndShippingAddress = true;
-            }
+            $isInvoiceAndShippingAddress = true;
         }
         
         return $isInvoiceAndShippingAddress;

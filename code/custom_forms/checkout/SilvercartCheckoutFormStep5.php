@@ -213,6 +213,9 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             $invoiceAddress = $this->getAssociativeAddressData($invoiceAddress, 'Invoice');
             $invoiceAddress = new SilvercartAddress($invoiceAddress);
             $invoiceAddress->setIsAnonymousInvoiceAddress(true);
+            if ($this->isAnonymousInvoiceAddressEqualShippingAddress($checkoutData)) {
+                $invoiceAddress->setIsAnonymousShippingAddress(true);
+            }
         }
         
         if (array_key_exists('InvoiceAddress',$checkoutData) &&
@@ -289,9 +292,13 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
     public function hasOnlyOneStandardAddress() {
         $hasOnlyOneStandardAddress = false;
         $checkoutData              = $this->controller->getCombinedStepData();
-        
-        if (array_key_exists('InvoiceAddress',$checkoutData) &&
-            array_key_exists('ShippingAddress',$checkoutData)) {
+        $member                    = SilvercartCustomer::currentUser();
+                
+        if ($member instanceof Member &&
+            $member->isAnonymousCustomer()) {
+            $hasOnlyOneStandardAddress = $this->isAnonymousInvoiceAddressEqualShippingAddress($checkoutData);
+        } elseif (array_key_exists('InvoiceAddress',$checkoutData) &&
+                  array_key_exists('ShippingAddress',$checkoutData)) {
             
             if ($checkoutData['InvoiceAddress'] === $checkoutData['ShippingAddress']) {
                 $hasOnlyOneStandardAddress = true;
@@ -299,6 +306,35 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         }
         
         return $hasOnlyOneStandardAddress;
+    }
+    
+    /**
+     * Returns whether the anonymous invoice and shipping address is equal.
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.02.2016
+     */
+    public function isAnonymousInvoiceAddressEqualShippingAddress($checkoutData) {
+        $isEqual = false;
+        foreach ($checkoutData as $key => $value) {
+            if (strpos($key, 'Invoice_') === 0) {
+                $shippingKey = str_replace('Invoice_', 'Shipping_', $key);
+                if (!array_key_exists($shippingKey, $checkoutData)) {
+                    continue;
+                }
+                if ($value != $checkoutData[$shippingKey]) {
+                    $isEqual = false;
+                    break;
+                } else {
+                    $isEqual = true;
+                }
+            }
+        }
+        return $isEqual;
     }
 
     /**
