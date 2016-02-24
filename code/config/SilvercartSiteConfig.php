@@ -340,8 +340,8 @@ class SilvercartSiteConfig extends DataExtension {
      * @since 22.02.2013
      */
     public function getCMSFieldsForSilvercart(FieldList $fields) {
-        $tab = $fields->findOrMakeTab('Root.Silvercart', 'SilverCart Shop');
-        $tab->setTitle('SilverCart Shop');
+        //$tab = $fields->findOrMakeTab('Root.Silvercart', 'SilverCart Shop');
+        //$tab->setTitle('SilverCart Shop');
 
         // Build general toggle group
         $generalConfigurationField = ToggleCompositeField::create(
@@ -466,14 +466,14 @@ class SilvercartSiteConfig extends DataExtension {
         $addExampleConfigButton->setAttribute('data-icon', 'addpage');
 
         // Add groups to Root.Main
-        $fields->addFieldToTab('Root.Silvercart', $generalConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $emailConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $customerConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $productConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $checkoutConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $shopDataConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $securityConfigurationField);
-        $fields->addFieldToTab('Root.Silvercart', $exampleDataField);
+        $fields->addFieldToTab('Root.Main', $generalConfigurationField);
+        $fields->addFieldToTab('Root.Main', $emailConfigurationField);
+        $fields->addFieldToTab('Root.Main', $customerConfigurationField);
+        $fields->addFieldToTab('Root.Main', $productConfigurationField);
+        $fields->addFieldToTab('Root.Main', $checkoutConfigurationField);
+        $fields->addFieldToTab('Root.Main', $shopDataConfigurationField);
+        $fields->addFieldToTab('Root.Main', $securityConfigurationField);
+        $fields->addFieldToTab('Root.Main', $exampleDataField);
 
         // Modify field data
         $fields->dataFieldByName('DefaultLocale')                           ->setTitle($this->owner->fieldLabel('DefaultLocale'));
@@ -570,11 +570,19 @@ class SilvercartSiteConfig extends DataExtension {
                     'ColorSchemeConfiguration',
                     $this->owner->fieldLabel('ColorSchemeConfiguration'),
                     array(
+                        $fields->dataFieldByName('Title'),
+                        $fields->dataFieldByName('Tagline'),
+                        $fields->dataFieldByName('Theme'),
                         $logoField,
                         new LiteralField('ColorScheme', $this->owner->customise(array('ColorSchemes' => $colorSchemes))->renderWith('ColorSchemeField'))
                     )
             )->setHeadingLevel(4)->setStartClosed(true);
-            $fields->addFieldToTab('Root.Silvercart', $colorSchemeConfigurationField);
+            
+            $fields->removeByName('Title');
+            $fields->removeByName('Tagline');
+            $fields->removeByName('Theme');
+            
+            $fields->addFieldToTab('Root.Main', $colorSchemeConfigurationField);
         } else {
             $fields->removeByName('ColorScheme');
         }
