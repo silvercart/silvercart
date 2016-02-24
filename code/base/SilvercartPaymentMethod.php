@@ -308,10 +308,6 @@ class SilvercartPaymentMethod extends DataObject {
                 'title'  => _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION'),
                 'filter' => 'LessThanFilter'
             ),
-            'SilvercartZone.ID' => array(
-                'title'  => _t("SilvercartCountry.ATTRIBUTED_ZONES"),
-                'filter' => 'ExactMatchFilter'
-            ),
             'SilvercartCountries.ID' => array(
                 'title'  => _t("SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES"),
                 'filter' => 'ExactMatchFilter'
@@ -372,15 +368,15 @@ class SilvercartPaymentMethod extends DataObject {
     /**
      * i18n for summary fields
      *
+     * @return array
+     * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 28.02.2011
-     * @return array
      */
     public function summaryFields() {
         return array(
             'Name'                   => _t('SilvercartPaymentMethod.NAME'),
             'activatedStatus'        => _t('SilvercartShopAdmin.PAYMENT_ISACTIVE'),
-            'AttributedZones'        => _t('SilvercartCountry.ATTRIBUTED_ZONES'),
             'AttributedCountries'    => _t('SilvercartPaymentMethod.ATTRIBUTED_COUNTRIES'),
             'minAmountForActivation' => _t('SilvercartPaymentMethod.FROM_PURCHASE_VALUE'),
             'maxAmountForActivation' => _t('SilvercartPaymentMethod.TILL_PURCHASE_VALUE'),
@@ -1562,6 +1558,7 @@ class SilvercartPaymentMethod extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
+     * @deprecated
      */
     public function AttributedZones() {
         return SilvercartTools::AttributedDataObject($this->SilvercartZone());
