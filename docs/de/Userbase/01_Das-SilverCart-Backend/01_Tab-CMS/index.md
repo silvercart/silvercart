@@ -163,23 +163,28 @@ Die Stärke von Widgets liegt in der Wiederverwendbarkeit. Sie können beliebige
 
 Mit den folgenden Widgets können Sie Ihren Webshop individualisieren:
 
+* Artikelmerkmal-Filter (nur mit Modul)
+* Preis-Filter
 * Schnäppchen
 * Bilder
 * Neueste Blogeinträge anzeigen
 * Anmeldung
 * Seitenliste
 * Artikel aus Unterwarengruppen
-* Produkte
+* Artikel
 * Herstellerliste
 * Warengruppennavigation
-* Slider für Warengruppen
-* Suchen Sie etwas?
+* Suchformular
 * Die häufigsten Suchbegriffe
 * Warenkorb
 * Slidorion Akkordeon
-* SilverCart Subnavigation
+* Subnavigation
 * Freitext
+* Freitext mit Link
 * Topseller
+
+Die Widgets können Sie beliebig kombinieren. Manche Widgets können Sie auch mehrfach verwenden 
+und mit unterschiedlichen Daten befüllen.
 
 #### Schnäppchen
 
