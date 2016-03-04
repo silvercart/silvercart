@@ -50,7 +50,7 @@ class SilvercartPageListWidget extends SilvercartWidget {
      * @since 06.12.2012
      */
     public static $many_many = array(
-        'Pages' => 'SiteTree'
+        'Pages' => 'SilvercartPage'
     );
 
     /**
@@ -149,7 +149,7 @@ class SilvercartPageListWidget extends SilvercartWidget {
         $pagesField     = new TreeMultiselectField(
             'Pages',
             $this->fieldLabel('Pages'),
-            'SiteTree',
+            'SilvercartPage',
             'ID',
             'Title'
         );
