@@ -1279,11 +1279,11 @@ class SilvercartPaymentMethod extends DataObject {
         $translationsTab->setTitle(_t('SilvercartConfig.TRANSLATIONS'));
         $tabset->push($tabBasic);
         $tabset->push($translationsTab);
-        $tabBasicFieldSet = new FieldList();
-        $tabBasic->setChildren($tabBasicFieldSet);
+        $tabBasicFieldList = new FieldList();
+        $tabBasic->setChildren($tabBasicFieldList);
         //multilingual fields
-        $tabBasicFieldSet->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
-        $tabBasicFieldSet->push(new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode'),
+        $tabBasicFieldList->push(new CheckboxField('isActive', _t('SilvercartShopAdmin.PAYMENT_ISACTIVE', 'activated')));
+        $tabBasicFieldList->push(new DropdownField('mode', _t('SilvercartPaymentMethod.MODE', 'mode'),
                     array(
                         'Live' => $this->fieldLabel('modeLive'),
                         'Dev'  => $this->fieldLabel('modeDev'),
@@ -1293,17 +1293,17 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->isExtendingSilvercartPaymentMethod()) {
            $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
             foreach ($languageFields as $languageField) {
-                $tabBasicFieldSet->push($languageField);
+                $tabBasicFieldList->push($languageField);
             } 
         }
-        $tabBasicFieldSet->push(new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')));
-        $tabBasicFieldSet->push(new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')));
-        $tabBasicFieldSet->push(new DropdownField(
+        $tabBasicFieldList->push(new TextField('minAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MINAMOUNTFORACTIVATION')));
+        $tabBasicFieldList->push(new TextField('maxAmountForActivation', _t('SilvercartShopAdmin.PAYMENT_MAXAMOUNTFORACTIVATION')));
+        $tabBasicFieldList->push(new DropdownField(
                     'orderStatus',
                     _t('SilvercartPaymentMethod.STANDARD_ORDER_STATUS', 'standard order status for this payment method'),
                     SilvercartOrderStatus::getStatusList()->map('Code', 'Title')->toArray()
                 ));
-        $tabBasicFieldSet->dataFieldByName('orderStatus')->setEmptyString( _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE"));
+        $tabBasicFieldList->dataFieldByName('orderStatus')->setEmptyString( _t("SilvercartEditAddressForm.EMPTYSTRING_PLEASECHOOSE"));
         
         // --------------------------------------------------------------------
         // Handling cost table

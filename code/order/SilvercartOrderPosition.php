@@ -323,7 +323,7 @@ class SilvercartOrderPosition extends DataObject {
     /**
      * Return fields for popup.
      *
-     * @return FieldSet
+     * @return FieldList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 21.03.2012

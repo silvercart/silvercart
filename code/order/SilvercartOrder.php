@@ -658,7 +658,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * customize backend fields
      *
-     * @return FieldSet the form fields for the backend
+     * @return FieldList the form fields for the backend
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@πixeltricks.de>
      * @since 28.01.2013
@@ -723,7 +723,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     /**
      * Returns the quick access fields to display in GridField
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getQuickAccessFields() {
         $quickAccessFields = new FieldList();

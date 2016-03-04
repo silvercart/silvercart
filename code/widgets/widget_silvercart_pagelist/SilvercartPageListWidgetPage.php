@@ -76,7 +76,7 @@ class SilvercartPageListWidgetPage extends DataExtension {
     /**
      * Add fields to CMS fields.
      *
-     * @param FieldSet $fields The FieldSet
+     * @param FieldList $fields The FieldList
      *
      * @return void
      *

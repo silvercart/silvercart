@@ -121,7 +121,7 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
     /**
      * CMS fields
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();

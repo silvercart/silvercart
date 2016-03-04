@@ -44,7 +44,7 @@ class SilvercartSearchWidget extends SilvercartWidget {
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldSet the fields for the backend
+     * @return FieldList the fields for the backend
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this);

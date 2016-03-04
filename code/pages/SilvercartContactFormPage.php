@@ -111,7 +111,7 @@ class SilvercartContactFormPage extends SilvercartMetaNavigationHolder {
     /**
      * Returns the CMS fields.
      * 
-     * @return FieldSet
+     * @return FieldList
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();

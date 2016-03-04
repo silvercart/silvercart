@@ -23,7 +23,7 @@ class SilvercartFieldGroup extends CompositeField {
     /**
      * Fields to manipulate
      *
-     * @var FieldSet
+     * @var FieldList
      */
     protected $fields = null;
     
