@@ -2013,13 +2013,13 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
         margin-left: 2%;
     }
     .silvercart-product-group-page-list-item:nth-child(3n+0),
-    .silvercart-product-group-page-tile-item:nth-child(3n+0),
+    .silvercart-product-group-page-tile-item:nth-child(2n+0),
     .silvercart-product-group-page-threetile-item:nth-child(3n+0) {
         float: right !important;
         margin-left: 0px;
     }
     .silvercart-product-group-page-list-item:nth-child(3n+0) + .silvercart-product-group-page-list-item,
-    .silvercart-product-group-page-tile-item:nth-child(3n+0) + .silvercart-product-group-page-tile-item,
+    .silvercart-product-group-page-tile-item:nth-child(2n+0) + .silvercart-product-group-page-tile-item,
     .silvercart-product-group-page-threetile-item:nth-child(3n+0) + .silvercart-product-group-page-threetile-item {
         margin-left: 0px;
     }
