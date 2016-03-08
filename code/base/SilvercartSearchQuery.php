@@ -25,7 +25,7 @@ class SilvercartSearchQuery extends DataObject {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'SearchQuery'   => 'VarChar(255)',
         'Locale'        => 'DbLocale',
         'Count'         => 'Int',
@@ -40,16 +40,13 @@ class SilvercartSearchQuery extends DataObject {
      * @return SilvercartSearchQuery 
      */
     public static function get_by_query($query) {
-        $searchQuery = self::get_one(
-                'SilvercartSearchQuery',
-                sprintf(
-                        "\"SilvercartSearchQuery\".\"SearchQuery\" = '%s' AND \"SilvercartSearchQuery\".\"Locale\" = '%s'",
-                        Convert::raw2sql($query),
-                        Translatable::get_current_locale()
-                        
-                )
-        );
-        if (!$searchQuery) {
+        $searchQuery = self::get()
+                ->filter(array(
+                    'SearchQuery' => $query,
+                    'Locale'      => Translatable::get_current_locale(),
+                ))
+                ->first();
+        if (!($searchQuery instanceof SilvercartSearchQuery)) {
             $searchQuery = new SilvercartSearchQuery();
             $searchQuery->Locale        = Translatable::get_current_locale();
             $searchQuery->SearchQuery   = $query;
@@ -67,17 +64,11 @@ class SilvercartSearchQuery extends DataObject {
      * @return ArrayList 
      */
     public static function get_most_searched($limit) {
-        $searchQueries = self::get(
-                'SilvercartSearchQuery',
-                sprintf(
-                        "\"SilvercartSearchQuery\".\"Locale\" = '%s'",
-                        Translatable::get_current_locale()
-                        
-                ),
-                "\"SilvercartSearchQuery\".\"Count\" DESC",
-                "",
-                "0," . $limit
-        );
+        $searchQueries = self::get()
+                ->filter('Locale', Translatable::get_current_locale())
+                ->exclude('SearchQuery', '')
+                ->sort('Count', 'DESC')
+                ->limit($limit);
         return $searchQueries;
     }
     

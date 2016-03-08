@@ -91,23 +91,17 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
             return false;
         }
         
+        $searchTags = $searchTags->sort('SearchQuery');
+        $searchTagsArrayList = new ArrayList();
+        
         /*
          * The following block is a replacement for the call DataObjectSet::groupBy()
          * which does not exist any more
          */
         $searchTagCounts = array();
         foreach ($searchTags as $item) {
-                $key = ($item->hasMethod('Count')) ? $item->count() : $item->Count;
-
-                if (!isset($searchTagCounts[$key])) {
-                        $searchTagCounts[$key] = new ArrayList();
-                }
-                $searchTagCounts[$key]->push($item);
-        }
-        
-        
-        foreach ($searchTagCounts as $index => $searchTagCount) {
-            $searchTagCounts[$index] = $index;
+                $key = ($item->hasMethod('count')) ? $item->count() : $item->Count;
+                $searchTagCounts[$key] = $key;
         }
         $fontSizeRanges     = $this->getFontSizeRanges($searchTagCounts);
         foreach ($searchTags as $searchTag) {
@@ -115,13 +109,12 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
                 if ($searchTag->Count >= $fontSizeRange['Min'] &&
                     $searchTag->Count <= $fontSizeRange['Max']) {
                     $searchTag->FontSize = $fontSize;
+                    $searchTagsArrayList->push($searchTag);
                 }
             }
         }
         
-        $searchTags->sort('SearchQuery');
-        
-        return $searchTags;
+        return $searchTagsArrayList;
     }
     
     
@@ -135,6 +128,7 @@ class SilvercartSearchCloudWidget extends SilvercartWidget {
      * @return array
      */
     protected function getFontSizeRanges($existingTagCounts) {
+        krsort($existingTagCounts);
         $fontSizeRanges = array();
         if (count($existingTagCounts) > $this->FontSizeCount) {
             $maximum = array_shift($existingTagCounts);
