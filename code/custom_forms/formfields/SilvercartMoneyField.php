@@ -141,7 +141,7 @@ class SilvercartMoneyField extends MoneyField {
         } elseif (!is_numeric($amount)) {
             $amount = 0;
         }
-        return $amount;
+        return (float) $amount;
     }
     
     /**
