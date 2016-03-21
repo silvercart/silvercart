@@ -285,7 +285,6 @@ de:
     DISPLAYEDPAGINATION: "Anzahl gleichzeitig angezeigter Seitenzahlen"
     DISPLAY_TYPE_OF_PRODUCT_ADMIN: "Anzeigeart der Artikelverwaltung"
     DISPLAY_WEIGHTS_IN_KILOGRAM: "Gewichte in Kilogramm (kg) anzeigen"
-    DISREGARD_MINIMUM_ORDER_VALUE: "Mindestbestellwert ignorieren"
     EMAILSENDER: "E-Mail Absender"
     EMAILSENDER_INFO: "Der E-Mail Absender wird als Absenderadresse aller E-Mails verwendet, die von SilverCart gesendet werden."
     ENABLEBUSINESSCUSTOMERS: "Geschäftskunden erlauben"

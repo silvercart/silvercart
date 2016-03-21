@@ -285,7 +285,6 @@ en:
     DISPLAYEDPAGINATION: "number of simultaneously shown page numbers"
     DISPLAY_TYPE_OF_PRODUCT_ADMIN: "Display type of product administration"
     DISPLAY_WEIGHTS_IN_KILOGRAM: "Display weights in kilogram (kg)"
-    DISREGARD_MINIMUM_ORDER_VALUE: "Disregard minimum order value"
     EMAILSENDER: "Email sender"
     EMAILSENDER_INFO: "The email sender will be the sender address of all emails sent by SilverCart."
     ENABLEBUSINESSCUSTOMERS: "Enable business customers"

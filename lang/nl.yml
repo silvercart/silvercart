@@ -176,7 +176,6 @@ nl:
     DEFAULT_IMAGE: "Standaard product afbeelding"
     DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: "Vereisen verjaardag datum bij registratie?"
     DISPLAY_TYPE_OF_PRODUCT_ADMIN: "Weergavetype van product administratie"
-    DISREGARD_MINIMUM_ORDER_VALUE: "Negeer minimale orderwaarde"
     EMAILSENDER: "E-mail afzender"
     EMAILSENDER_INFO: "Het verzend emailadres is het emailadres van alle email berichten verstuurd door SilverCart."
     ENABLESSL: "Schakel SSL in"

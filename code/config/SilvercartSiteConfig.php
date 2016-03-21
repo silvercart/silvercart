@@ -197,7 +197,6 @@ class SilvercartSiteConfig extends DataExtension {
                     'enableStockManagement'                 => _t('SilvercartConfig.ENABLESTOCKMANAGEMENT', 'enable stock management'),
                     'minimumOrderValue'                     => _t('SilvercartConfig.MINIMUMORDERVALUE', 'Minimum order value'),
                     'useMinimumOrderValue'                  => _t('SilvercartConfig.USEMINIMUMORDERVALUE', 'Use minimum order value'),
-                    'disregardMinimumOrderValue'            => _t('SilvercartConfig.DISREGARD_MINIMUM_ORDER_VALUE'),
                     'useFreeOfShippingCostsFrom'            => _t('SilvercartConfig.USEFREEOFSHIPPINGCOSTSFROM'),
                     'freeOfShippingCostsFrom'               => _t('SilvercartConfig.FREEOFSHIPPINGCOSTSFROM'),
                     'productsPerPage'                       => _t('SilvercartConfig.PRODUCTSPERPAGE', 'Products per page'),
@@ -409,7 +408,6 @@ class SilvercartSiteConfig extends DataExtension {
 
                     new CheckboxField('useMinimumOrderValue',               $this->owner->fieldLabel('useMinimumOrderValue')),
                     new SilvercartMoneyField('minimumOrderValue',           $this->owner->fieldLabel('minimumOrderValue')),
-                    new CheckboxField('disregardMinimumOrderValue',         $this->owner->fieldLabel('disregardMinimumOrderValue')),
 
                     new CheckboxField('useFreeOfShippingCostsFrom',         $this->owner->fieldLabel('useFreeOfShippingCostsFrom')),
                     new SilvercartMoneyField('freeOfShippingCostsFrom',     $this->owner->fieldLabel('freeOfShippingCostsFrom')),

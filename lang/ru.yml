@@ -206,7 +206,6 @@ ru:
     DEFAULT_LANGUAGE: "стандартный язык"
     DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: "запросить при регистрации дату рождения?"
     DISPLAY_TYPE_OF_PRODUCT_ADMIN: "шаблон управления товарами"
-    DISREGARD_MINIMUM_ORDER_VALUE: "игнорировать минимальную сумму заказа"
     EMAILSENDER: "адрес эл.почты отправителя"
     EMAILSENDER_INFO: "Адрес отправителя будет использован для эл.почты, которая отправляется с SilverCart."
     ENABLEBUSINESSCUSTOMERS: "разрешить оптовых клиентов"
