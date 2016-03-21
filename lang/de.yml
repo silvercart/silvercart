@@ -1606,6 +1606,9 @@ de:
     SUCCESS_MESSAGE_TEXT: "Erfolgsmeldung"
     TITLE: "Registrierungsbestätigungsseite"
     URL_SEGMENT: "register-confirmation"
+  SilvercartRegisterWelcomePage:
+    PLURALNAME: "Registrierungs-Willkommens-Seiten"
+    SINGULARNAME: "Registrierungs-Willkommens-Seite"
   SilvercartRegistrationPage:
     ACTIVATION_MAIL_SUBJECT: "Betreff der Aktivierungsmail"
     ACTIVATION_MAIL_TAB: "Aktivierungsmail"
