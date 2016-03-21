@@ -235,6 +235,10 @@ Ist nur einer der beiden Preise gepflegt, wird der zugehörige Netto- oder Brutt
 
 Wird keiner der beiden Preise hinterlegt, wird der Artikel aus Sicherheitsgründen in der Webshop-Storefront nicht angezeigt. Handelt es sich tatsächlich um einen kostenlosen Artikel, können Sie das durch anwählen der Option „kostenfreier Artikel“ umgehen.
 
+* Cent-Beträge: Punkt oder Komma?*
+Intern verwendet SilverCart ein Dezimalkomma. Da dies je nach Region aber ganz unterschiedlich gehandhabt wird, wandelt SilverCart einen Dezimalpunkt automatisch um. Es spielt also keine Rolle,
+ob Sie die Cent-Beträge mit einem Punkt oder einem Komma abgrenzen. 
+
 Preise
 
 Preis (Brutto)
@@ -258,8 +262,8 @@ Mehr Informationen finden Sie in der Google Webmaster-Tools-Hilfe (Englisch): ht
 Denken Sie auch immer an ausführliche und hochwertige Produktbeschreibungen und aussagekräftige Bilder. Eine hervorragende Produktbeschreibung bringt gleich doppelten Nutzen: zum einen hilft er bei der besseren Listung Ihres SilverCart Webshops bei Google und anderen Suchmaschinen, zum anderen nutzt die Artikelbeschreibung auch Ihren Besuchern. Und damit steigt die Chance, dass aus einem Besucher auch ein Kunde wird.
 
 #### Warengruppen
-`
-Unter `einer Warengruppe versteht man im Handel die Zusammenfassung einzelner Artikel anhand eines gemeinsamen Merkmals zu einer Gruppe. Als verbindende Merkmale kommen in Frage:
+
+Unter einer Warengruppe versteht man im Handel die Zusammenfassung einzelner Artikel anhand eines gemeinsamen Merkmals zu einer Gruppe. Als verbindende Merkmale kommen in Frage:
 * Herkunft (z. B. Weine aus Spanien)
 * Verwendungszweck (z. B. Getränke)
 * Eigenschaften des Herstellungsmaterials (z. B. Holz)
