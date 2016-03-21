@@ -238,7 +238,11 @@ class SilvercartProductGroupPage extends Page {
                         if ($product instanceof SilvercartProduct) {
                             $returnProductLink     = true;
                             $productLanguage       = $product->getLanguageFor($this->Locale);
-                            $this->links[$linkKey] = $product->buildLink($this, SilvercartTools::string2urlSegment($productLanguage->Title));
+                            if ($productLanguage instanceof SilvercartProductLanguage) {
+                                $this->links[$linkKey] = $product->buildLink($this, SilvercartTools::string2urlSegment($productLanguage->Title));
+                            } else {
+                                $this->links[$linkKey] = '';
+                            }
                         }
                     }
                 }
