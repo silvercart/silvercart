@@ -74,20 +74,22 @@ class SilvercartActionHandler extends DataExtension {
                 $backLink = SilvercartTools::PageByIdentifierCodeLink('SilvercartCartPage');
             }
         }
-        $this->redirectBack($backLink);
+        
+        $this->redirectBack($backLink, '#product' . $productID);
     }
     
     /**
      * Executes a redirect to the given back link or the referer page.
      * 
      * @param string $backLink Back link to redirect to
+     * @param string $anchor   Optional anchor to scroll to after redirect
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.03.2013
      */
-    protected function redirectBack($backLink = null) {
+    protected function redirectBack($backLink = null, $anchor = '') {
         $postVars = $this->owner->getRequest()->postVars();
         if (is_null($backLink) &&
             array_key_exists('backLink', $postVars)) {
@@ -113,6 +115,9 @@ class SilvercartActionHandler extends DataExtension {
                 }
             }
             $backLink = $postVars['backLink'];
+            if (!empty($anchor)) {
+                $backLink .= $anchor;
+            }
         }
 
         if (is_null($backLink)) {
