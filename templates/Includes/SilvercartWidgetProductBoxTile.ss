@@ -1,5 +1,21 @@
 <% if Elements %>
-<ul class="sc-products-vertical-tiny WidgetProductBoxTile">
+    <% if Top.useSlider %>
+<ul class="sc-products-vertical-tiny vertical clearfix cycle-slideshow"
+            data-cycle-fx="carousel"
+            data-cycle-speed="200"
+            data-cycle-pause-on-hover="true"
+            data-cycle-slides="> li"
+            data-cycle-next="#widget-{$ID} .vPrev"
+            data-cycle-prev="#widget-{$ID} .vNext"
+            data-cycle-carousel-visible="{$numberOfProductsToShowForGroupView}"
+            data-cycle-carousel-vertical="true"
+        <% if not Autoplay %>
+            data-cycle-timeout="0"
+        <% end_if %>
+            >
+    <% else %>
+<ul class="sc-products-vertical-tiny vertical clearfix no-slider">
+    <% end_if %>
     <% loop Elements %>
     <li class="span4 clearfix">
         <div class="thumbImage">

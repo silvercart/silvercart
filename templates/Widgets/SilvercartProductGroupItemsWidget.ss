@@ -8,11 +8,11 @@
                     <div class="btn-toolbar">
                         <div class="btn-group">
                         <% if transitionEffect = horizontalSlide %>
-                            <button class="btn btn-mini vNext"><i class="icon-caret-left"></i></button>
-                            <button class="btn btn-mini vPrev"><i class="icon-caret-right"></i></button>
+                            <button class="btn btn-mini vNext" id="widget-{$ID}"><i class="icon-caret-left"></i></button>
+                            <button class="btn btn-mini vPrev" id="widget-{$ID}"><i class="icon-caret-right"></i></button>
                         <% else %>
-                            <button class="btn btn-mini vNext"><i class="icon-caret-down"></i></button>
-                            <button class="btn btn-mini vPrev"><i class="icon-caret-up"></i></button>
+                            <button class="btn btn-mini vNext" id="widget-{$ID}"><i class="icon-caret-down"></i></button>
+                            <button class="btn btn-mini vPrev" id="widget-{$ID}"><i class="icon-caret-up"></i></button>
                         <% end_if %>
                         </div>
                     </div>

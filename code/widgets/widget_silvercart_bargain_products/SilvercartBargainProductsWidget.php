@@ -484,4 +484,27 @@ class SilvercartBargainProductsWidget_Controller extends SilvercartWidget_Contro
         $key = SilvercartWidgetTools::ProductWidgetCacheKey($this);
         return $key;
     }
+    
+    /**
+     * Returns the number of products to show
+     * 
+     * @return int
+     */
+    public function numberOfProductsToShowForGroupView() {
+        switch ($this->GroupView) {
+            case 'tile':
+                $divisor = 2;
+                break;
+            case 'threetile':
+                $divisor = 3;
+                break;
+            case 'fourtile':
+                $divisor = 4;
+                break;
+            default:
+                $divisor = 1;
+                break;
+        }
+        return ceil($this->numberOfProductsToShow / $divisor);
+    }
 }

@@ -170,6 +170,9 @@ hr.margin {
 .section-header h3 a {
     color: #404040;
 }
+.cycle-sentinel {
+    display: none !important;
+}
 
 /***************************************************************************
  *  Header
@@ -596,7 +599,8 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
 }
 .sc-products li,
 .sc-products .li {
-    margin-top:36px;
+    margin-top:0px;
+    margin-bottom:36px;
 }
 .sc-products-vertical {
     margin-bottom: -15px;
