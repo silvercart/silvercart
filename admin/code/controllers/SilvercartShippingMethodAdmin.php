@@ -69,9 +69,9 @@ class SilvercartShippingMethodAdmin extends SilvercartModelAdmin {
      *
      * @var array
      */
-    public static $model_importers = array(
-        'SilvercartShippingMethod'  => 'SilvercartShippingMethodCsvBulkLoader',
-    );
+    //public static $model_importers = array(
+    //    'SilvercartShippingMethod'  => 'SilvercartShippingMethodCsvBulkLoader',
+    //);
 }
 
 

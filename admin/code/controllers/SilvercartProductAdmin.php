@@ -64,9 +64,9 @@ class SilvercartProductAdmin extends SilvercartModelAdmin {
      *
      * @var array
      */
-    public static $model_importers = array(
-        /*'SilvercartProduct' => 'SilvercartProductCsvBulkLoader'*/
-    );
+    //public static $model_importers = array(
+    //    'SilvercartProduct' => 'SilvercartProductCsvBulkLoader',
+    //);
     
     /**
      * Provides hook for decorators, so that they can overwrite css
