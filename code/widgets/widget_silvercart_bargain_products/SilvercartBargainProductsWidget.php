@@ -119,7 +119,11 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
         $fetchMethodsField = $fields->dataFieldByName('fetchMethod');
         $fetchMethodsField->setSource($fetchMethods);
         $fields->replaceField('GroupView', SilvercartGroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView')));
-        SilvercartWidgetTools::getCMSFieldsSliderTabForProductSliderWidget($this, $fields);
+        
+        // Temporary disabled slider functions.
+        //SilvercartWidgetTools::getCMSFieldsSliderTabForProductSliderWidget($this, $fields);
+        $fields->removeByName('numberOfProductsToShow');
+        
         return $fields;
     }
     
@@ -228,6 +232,21 @@ class SilvercartBargainProductsWidget extends SilvercartWidget implements Silver
     public function populateFromPostData($data) {
         SilvercartWidgetTools::populateFromPostDataForProductSliderWidget($this, $data);
         parent::populateFromPostData($data);
+    }
+    
+    /**
+     * Sets numberOfProductsToFetch to numberOfProductsToShow if it's set to 0.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.03.2016
+     */
+    public function onBeforeWrite() {
+        parent::onBeforeWrite();
+        if ($this->numberOfProductsToShow == 0) {
+            $this->numberOfProductsToShow = $this->numberOfProductsToFetch;
+        }
     }
 }
 
