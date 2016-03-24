@@ -950,6 +950,9 @@ class SilvercartRequireDefaultRecords extends DataObject {
      */
     public function requireDefaultRecords() {
         parent::requireDefaultRecords();
+        if (!SilvercartCountry::get()->exists()) {
+            require_once(Director::baseFolder() . '/silvercart/admin/code/default_records/SilvercartRequireDefaultCountries.php');
+        }
         // create groups
         $this->createDefaultGroups();
         // create config
