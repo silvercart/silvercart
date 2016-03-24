@@ -183,7 +183,7 @@ class SilvercartConfig extends Object {
                         self::triggerError($errorMessage);
                     }
                 } elseif (empty($config->$requiredField)) {
-                    $errorMessage = sprintf(_t('SilvercartConfig.ERROR_MESSAGE', 'Required configuration for "%s" is missing. Please <a href="%s/admin/silvercart-config/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.'), _t('SilvercartConfig.' . strtoupper($requiredField), $requiredField), Director::baseURL());
+                    $errorMessage = sprintf(_t('SilvercartConfig.ERROR_MESSAGE', 'Required configuration for "%s" is missing. Please <a href="%s/admin/settings/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.'), _t('SilvercartConfig.' . strtoupper($requiredField), $requiredField), Director::baseURL());
                     self::triggerError($errorMessage);
                 }
             }
@@ -867,7 +867,7 @@ class SilvercartConfig extends Object {
                 if (SilvercartTools::isIsolatedEnvironment()) {
                     return false;
                 }
-                $errorMessage = _t('SilvercartConfig.ERROR_NO_CONFIG', 'SilvercartConfig is missing! Please <a href="/admin/silvercart-config/">log in</a> and choose "SilverCart Configuration -> general configuration" to add the general configuration. ');
+                $errorMessage = _t('SilvercartConfig.ERROR_NO_CONFIG', 'SilvercartConfig is missing! Please <a href="/admin/settings/">log in</a> and choose "SilverCart Configuration -> general configuration" to add the general configuration. ');
                 self::triggerError($errorMessage);
             }
         }

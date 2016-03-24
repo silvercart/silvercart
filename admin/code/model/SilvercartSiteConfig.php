@@ -692,12 +692,12 @@ class SilvercartSiteConfig extends DataExtension {
          * countries without a translation of the current locale
          */
         $items = SilvercartCountry::get()->filter(array("Active" => 1));
-        if ($items) {
+        if ($items->count() > 0) {
             $hasActiveCountries = true;
         }
         return array(
             'status'    => $hasActiveCountries,
-            'message'   => sprintf(_t('SilvercartConfig.ERROR_MESSAGE_NO_ACTIVATED_COUNTRY', 'No activated country found. Please <a href="%s/admin/silvercart-config/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.'), Director::baseURL())
+            'message'   => sprintf(_t('SilvercartConfig.ERROR_MESSAGE_NO_ACTIVATED_COUNTRY', 'No activated country found. Please <a href="%s/admin/settings/">log in</a> and choose "SilverCart Configuration -> countries" to activate a country.'), Director::baseURL())
         );
     }
     
