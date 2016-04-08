@@ -570,6 +570,11 @@ class SilvercartCountry extends DataObject {
                     $dropdownMap[$id] = $title;
                 }
             }
+            if (empty($dropdownMap) &&
+                SilvercartTools::isBackendEnvironment()) {
+                $allCountries = SilvercartCountry::get();
+                $dropdownMap = $allCountries->map()->toArray();
+            }
             self::$prioritiveDropdownMap[$key] = $dropdownMap;
         }
         return self::$prioritiveDropdownMap[$key];
