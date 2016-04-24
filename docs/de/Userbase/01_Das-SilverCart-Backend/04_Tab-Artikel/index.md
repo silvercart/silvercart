@@ -23,37 +23,48 @@ In der Artikelübersicht werden alle Artikel Ihres SilverCart Webhops in einer T
 
 Über die Filter im Inhaltsbereich können Sie die angezeigten Artikel einschränken. Mit SilverCart sind Online-Shops mit mehr als 400.000 Artikeln möglich - ein mächtiger Filter erleichtert Ihnen dabei die tägliche Arbeit wesentlich.
 
-Artikelnummer
+** Artikelnummer **
+
 Geben Sie hier die Artikelnummer oder einen Teil der Artikelnummer ein. Dabei werden alle Artikel angezeigt, bei denen die angegebenen Ziffern- bzw. Buchstabenfolge innerhalb der Bestellnummer vorkommt. Hier zahlt es sich aus, wenn Sie Ihr Sortiment durch sprechenden Artikelnummern strukturiert haben. Eine sprechende Artikelnummer kann anhand des Aufbaus schon Informationen über Warengruppe, Lieferant, Modelljahr, Material oder Farbe liefern.
 
-Name
+** Name **
+
 In dieses Feld tragen Sie den Namen (Artikelbezeichnung) ein. Es werden alle Artikel aufgeführt, deren Namen ganz oder teilweise mit dem Begriff übereinstimmen, den Sie hier eingetragen haben.
 
-Listenbeschreibung
+** Listenbeschreibung **
+
 Wenn Sie die Artikel anhand der Listenbeschreibung (Kurzbeschreibung) filtern möchten, dann tragen Sie hier den gewünschten Suchbegriff ein.
 
-Artikelbeschreibung
+** Artikelbeschreibung **
+
 Bei der Suche nach Artikeln anhand der Artikelbeschreibung berücksichtigen Sie bitte, dass die Artikelbeschreibung oftmals in HTML erfolgt. Dadurch lässt sich die Artikelbeschreibung ansprechender darstellen, z.B. Durch Fettdruck oder Kursivschrift. Diese Auszeichnungen können dazu führen, dass  längere Phrasen oder Teilsätze nicht gefunden werden, da Sie in der Datenbank mit diesem zusätzlichen Markup versehen sind.
 
-Hersteller
+** Hersteller **
+
 Über dieses Feld können Sie Ihr Sortiment nach den Artikeln eines bestimmten Herstellers Filtern.
 
-Artikelnummer (Hersteller)
+** Artikelnummer (Hersteller) **
+
 Wenn Sie die Herstellerartikelnummer verwenden, dann können Sie diesen Filter nutzen um Artikel anhand der Artikelnummer des Herstellers zu finden.
 
-ist aktiv
+** ist aktiv **
+
 Über diese Checkbox können Sie steuern, ob nur aktive oder inaktiv Artikel angezeigt werden sollen.
 
-Warengruppe
+** Warengruppe **
+
 Für die Einschränkung Suche auf eine bestimmte Warengruppe wählen Sie aus der Dropdown-Liste einfach die gewünschte Warengruppe aus.
 
-Spiegel-Warengruppen
+** Spiegel-Warengruppen **
+
 Mit der Auswahl einer Spiegel-Warengruppe finden Sie die Produkte, die der ausgewählten Spiegel-Warengruppe zugeordnet sind.
 
-Verfügbarkeit
+** Verfügbarkeit **
+
 Für die Einschränkung nach verfügbaren oder nicht verfügbaren Produkten wählen Sie hier die gewünschte Einstellung aus.
 
-Spalten in Suchergebnissen
+** Spalten in Suchergebnissen **
+
 Sie können die in der Übersicht angezeigten Produktinformationen ganz einfach selbst bestimmen. 
 
 Die folgenden Felder stehen Ihnen zur Auswahl zur Verfügung:
@@ -95,14 +106,16 @@ Die folgenden Felder stehen Ihnen zur Auswahl zur Verfügung:
 
 Sie haben auch die Möglichkeit, über `Alle Spalten` oder `Keine Spalten` mit einem Klick alles aus- bzw. abzuwählen.
 
-Importieren
+** Importieren **
+
 Die SilverCart Shopsoftware bietet Ihnen die Möglichkeit, Ihre Produktdaten über eine CSV-Datei zu importieren. Welche Werte die Importfunktion erwartet, sehen Sie wenn Sie Spezifikation für SilvercartProduct zeigen wählen.
 
 Mit der Checkbox `Clear Database before import` bestimmen Sie, ob alle Produkte vor dem Import gelöscht werden sollen. Wählen Sie diese Option nur, wenn Sie sich absolut sicher sind.
 
 Zur Sicherheit sollten Sie vorher eine Datensicherung durchführen oder den Import auf einem Stagingsystem probeweise durchführen.
 
-Bilder nachträglich importieren
+** Bilder nachträglich importieren **
+
 Über diese Funktion können Sie Produktbilder nachträglich importieren. Die Zuordnung zu den Produkten erfolgt dabei automatisch. Dafür muss der Dateiname einer bestimmten Konvention entsprechen. 
 
 Um den Import durchzuführen, müssen Sie die Bilder in einem Verzeichnis auf dem Server liegen auf dem auch Ihr SilverCart Webshop läuft. Den Pfad tragen Sie bitte in dem Format 
@@ -111,50 +124,53 @@ ein.
 
 Starten Sie den Import mit dem Button Bilder importieren.
 
-
-
-
 ### Artikeldetail
 
 Sie gelangen in die Artikeldetailansicht, wenn Sie einen einzelnen Artikel in der Artikelübersicht auswählen (anklicken).
-
 
 #### Hauptteil
 
 ![backend_artikel_hauptteil.png](_images/backend_artikel_hauptteil.png)
 
-Ist aktiv
+** Ist aktiv **
+
 Über diese Checkbox steuern Sie, ob ein Artikel grundsätzlich im Front-End angezeigt werden soll oder nicht.
 
 Bestimmte Regeln und Einstellungen (z.B. Lagerbestand) können jedoch dafür sorgen, dass auch aktive Artikel zumindest zeitweise nicht angezeigt werden.
 
-Artikelnummer
+** Artikelnummer **
+
 Hier können Sie die Artikelnummer des Artikels in Ihrem Sortiment eintragen. Sie können Buchstaben, Zahlen und bestimmte Sonderzeichen wie `-`oder `_` verwenden.
 
-Artikelnummer (Hersteller)
+** Artikelnummer (Hersteller) **
+
 Wenn Ihnen die Artikelnummer des Herstellers bekannt ist und Sie diese im Shop pflegen möchten, dann können Sie dieses Feld dafür nutzen. In manchen Fällen helfen Sie damit Ihren Kunden einen Artikel eindeutig zu identifizieren.
 
-EAN
+** EAN **
+
 Die EAN (European Article Number) ist eine europaweit eindeutige Artikelnummer und wird in der Regel als Barcode auf dem Artikel abgebildet. Wenn Ihnen die EAN Ihrer Artikel bekannt sind, dann empfiehlt sich auch die konsequente Pflege der EAN. Dadurch lassen sich Artikel beispielsweise bequem mit einem Handscanner erfassen.
 
-Name
+** Name **
+
 In diesem Feld pflegen Sie den Namen oder die Bezeichnung des Artikels. Bitte verwenden Sie hier kein HTML-Markup.
 
-Listenbeschreibung
+** Listenbeschreibung **
 Die Listenbeschreibung wird oft auch als Kurzbeschreibung bezeichnet. Sie wird häufig bei der Darstellung von Produkten in einer Listenform (Übersicht der Produkte einer Warengruppe) und zusätzlich für die Meta-Information im Rahmen der Suchmaschinenoptimierung verwendet. Auch hier verwenden Sie bitte kein HTML-Markup.
 
-Artikelbeschreibung
+** Artikelbeschreibung **
+
 Die Artikelbeschreibung können Sie mit dem WYSIWYG-Editor beliebig aufwendig mit Kursiv- und Fettdruck, Listen und Überschriften gestalten.
 
-Verfügbarkeit
+#### Verfügbarkeit
 
 In der Sektion `Verfügbarkeit` können Sie verschiedene Aspekte der Bestandsverwaltung eines Artikels pflegen.
 
-Verfügbarkeit
+** Verfügbarkeit **
+
 Über die möglichen Werte der Dropdown-Liste `verfügbar` und `nicht verfügbar` können Sie die grundsätzliche Verfügbarkeit einstellen. 
 
+** Min. Bezugsdauer, Max. Bezugsdauer und Einheit (WBZ) **
 
-Min. Bezugsdauer, Max. Bezugsdauer und Einheit (WBZ)
 Wenn Sie einen Artikel bei Ihren Lieferanten nachbestellen, dann müssen Sie mit einer bestimmten Lieferzeit rechnen. Diese kann höchst unterschiedlich sein, wird sich meistens jedoch im Bereich von wenigen Tagen befinden. Manche Branchen rechnen hier jedoch in Stunden, andere in Wochen, Monaten oder sogar Jahren. 
 
 Über die 3 Felder `Min. Bezugsdauer`, `Max. Bezugsdauer` und `Einheit (WBZ)` können Sie die übliche Lieferzeit für diesen Artikel hinterlegen.
@@ -165,13 +181,13 @@ Möchten Sie Ihren Kunden anzeigen, dass die Lieferzeit eines Artikels ca. 3-5 T
 `Max. Bezugsdauer = 5`
 `Einheit (WBZ) = Tage`
 
+** Lagerbestand **
 
-
-Lagerbestand
 Diese Feld zeigt den aktuellen Lagerbestand - also die verfügbare Menge - des Artikels an. Sie können diesen Wert verändern, wenn Sie eine neue Lieferung erhalten.
 
 
-Ist überbuchbar?
+** Ist überbuchbar? **
+
 Wenn der Bestand aufgebraucht ist, kann der Artikel in Ihrem SilverCart Webshop nicht mehr bestellt werden.
 
 Unter bestimmten Umständen möchten Sie einen Artikel aber vielleicht auch dann verkaufen, wenn kein Lagerbestand mehr vorhanden ist. Vielleicht befindet sich die Ware im Zulauf oder kann sehr kurzfristig beschafft werden.
@@ -179,11 +195,12 @@ Unter bestimmten Umständen möchten Sie einen Artikel aber vielleicht auch dann
 Mit der Checkbox `Ist überbuchbar?` können Sie Artikel auch dann zum Verkauf freigeben, wenn eigentlich keine mehr vorhanden sind.
 
 
-Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist
+** Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist **
+
 Hiermit können Sie steuern, dass ein überbuchbarer Artikel nur bis zu einem bestimmten Datum überbuchbar ist. Dies betrifft beispielsweise einen Artikel, der Ihnen zwar innerhalb eines Tages geliefert werden kann, jedoch bei Ihrem Lieferant nur noch bis zu einem bestimmten Datum produziert wird.
 
 
-Die Bestandsverwaltung in SilverCart
+### Die Bestandsverwaltung in SilverCart
 
 Die Bestandsverwaltung von SilverCart ist sehr umfangreich und kann auch fortgeschrittene Anforderungen abdecken.
 
@@ -204,24 +221,26 @@ Mit der Einstellung „Ist der Lagerbestand generell überbuchbar“ können Sie
 Ob ein Artikel aufgerufen und verkauft werden kann, wird einzig über die Felder „ist aktiv“ und - je nach eingestellter Lagerbestandsverwaltung - über den tatsächlichen Lagerbestand gesteuert.
 
 
-Sonstiges
+### Sonstiges
 
-Hersteller
+** Hersteller **
+
 Über dieses Dropdown-Feld können Sie dem Artikel einen Hersteller zuweisen. Der Hersteller muss zuvor unter `Artikel -> Hersteller` angelegt werden.
 
-Verkaufsmenge und Verkaufsmengeneinheit
+** Verkaufsmenge und Verkaufsmengeneinheit **
+
 Die übliche Verkaufsmenge ist `1` bei einer Verkaufsmengeneinheit von `Stück`.
 
 Sie können unter `Artikel -> Verkaufsmengeneinheiten` weitere Verkaufsmengeneinheiten wie Flasche, Kiste, Kartusche, Eimer, Fass, Rolle angeben. Damit können Sie im SilverCart Webshop auch aussergewöhnlichen Produktsortimente kundenfreundlich abbilden.
 
 
-Gewicht
+** Gewicht **
+
 Angabe des Gewichts inkl. Umverpackung in Gramm (ganzzahlig). Das Gewicht kann bei der Berechnung der Versandkosten eine wichtige Rolle spielen.
 
-Artikelzustand
+** Artikelzustand **
+
 Sie können unter `Artikel -> Artikelzustände` beliebige Artikelzustände wie `neu`, `gebraucht` oder `defekt` definieren. Der Artikelzustand sollte beim Verkauf auf eBay oder Amazon angegeben werden.
-
-
 
 #### Preise
 
@@ -277,7 +296,7 @@ Grundsätzlich gehört ein Artikel zu genau einer Warengruppe. Diese Warengruppe
 `
 Quelle: wikipedia (http://de.wikipedia.org/wiki/Warengruppe)
 
-Zuordnung zu Spiegel-Warengruppen
+** Zuordnung zu Spiegel-Warengruppen **
 
 Nicht immer lässt sich ein Produktsortiment so geradlinig durch eine Zuordnung von einem Produkt zu genau einer Warengruppe abbilden. Es gibt gute Gründe, dass ein Produkt in mehreren Warengruppen oder auch Kategorien vertreten sein kann.
 
@@ -365,14 +384,16 @@ Zur Standardinstallation gehören zwei Verfügbarkeitsstatus: `Verfügbar` und n
 
 ### Hauptteil
 
-Verfügbarkeit
+** Verfügbarkeit **
+
 Hier tragen Sie den Text ein, den der Verfügbarkeitsstatus haben soll.
 
-Zusatztext
+** Zusatztext **
+
 Bei Bedarf können Sie hier eine weitere Beschreibung des Verfügbarkeitsstatus eintragen.
 
+** Code **
 
-Code
 Der Code ist nur für Programmierer von Interesse und sollte nicht verändert werden. Wenn Sie einen neuen Verfügbarkeitsstatus anlegen, können Sie auf den Code verzichten.
 
 ### Übersetzungen
@@ -406,7 +427,6 @@ Sind auch andere Werte möglich (z.B. 1,5 Meter Stoff), dann geben Sie die Anzah
 
 Unter `Abkürzung` tragen Sie die geläufige Abkürzung ein. Im Beispiel der Flasche wäre das `Fl.`.
 
-
 ### Übersetzungen
 
 Im Tab `Übersetzungen` können Sie die Verkaufsmengeneinheiten in andere Sprachen übersetzen.
@@ -415,32 +435,29 @@ Mit `Übersetzung hinzufügen` legen Sie eine neue Übersetzung an. Dabei könne
 
 Bestehende Übersetzungen können Sie über den Notizblock bearbeiten oder löschen.
 
-
 ## Steuersätze
 
 In der Standardinstallation gib es zwei Steuersätze: 7% und 19%.
 
 Weitere Steuersätze können Sie bei Bedarf selbst anlegen.
 
-
-
 ### Hauptteil
 
-Steuersatz in %
+** Steuersatz in % **
+
 Wird zur Berechnung benutzt und muss eine Zahl sein. Soll ein Steuersatz mit Nachkommastellen angelegt werden, dann muss hierfür ein Dezimalpunkt verwendet werden, also `14.5`
 
-Bezeichner
+** Bezeichner **
+
 Wird zur Darstellung des Steuersatzes im Front-End benutzt
 
-Ist Standard
+** Ist Standard **
+
 Mit dieser Checkbox wird der Steuersatz als Standard für neu angelegte Artikel bestimmt. 
-
-
 
 ### Artikel
 
 Unter dem Reiter `Artikel` werden alle Artikel gezeigt, die diesen Steuersatz haben. Der Reiter wird erst sichtbar, nachdem der Steuersatz angelegt und erfolgreich gespeichert wurde. 
-
 
 ### Übersetzungen
 

@@ -1,9 +1,5 @@
 # Tab Einstellungen
 
-
-
-
-
 ## Einstellungen
 
 ### Hauptteil

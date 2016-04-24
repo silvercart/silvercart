@@ -142,6 +142,7 @@ de:
     SINGULARNAME: "Adressseite"
     TITLE: "Adressdetails"
     URL_SEGMENT: "adressdetails"
+    DESCRIPTION: "Zeigt die Details einer Adresse"
   SilvercartAnonymousNewsletterRecipient:
     PLURALNAME: "Anonyme Newsletterempfänger"
     SINGULARNAME: "Anonymer Newsletterempfänger"
@@ -769,6 +770,7 @@ de:
     DEFAULT_CONTENT: "<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>"
     PLURALNAME: "Frontseiten"
     SINGULARNAME: "Frontseite"
+    DESCRIPTION: "Frontpage (Startseite) des Webshops"
   SilvercartGridFieldBatchAction_ActivateDataObject:
     TITLE: "Aktivieren"
   SilvercartGridFieldBatchAction_ChangeAvailabilityStatus:

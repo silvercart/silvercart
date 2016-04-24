@@ -6,34 +6,41 @@ Die hier angezeigten Zahlarten entsprechen den installierten Zahlungsmodulen. In
 
 Alle Zahlungsmodule haben gemeinsame Konfigurationsoptionen, die im Folgenden aufgeführt sind.
 
-Grundeinstellungen
+### Grundeinstellungen
 
-aktiviert
+** aktiviert **
+
 Mit dieser Option lässt sich jede Zahlart komfortabel ein- und ausschalten.
 
-Mindestbetrag für Modul
+** Mindestbetrag für Modul **
+
 Der Bestellwert muss zur Zulassung dieser Zahlart erreicht werden.
 
-Höchstbetrag für Modul
+** Höchstbetrag für Modul **
+
 Der Bestellwert darf diesen Betrag nicht überschreiten, sonst ist die Zahlart nicht mehr verfügbar.
 
-Name
+** Name **
+
 Ein frei konfigurierbarer Name, der dem Kunden im Checkout als Name der Zahlart angezeigt wird.
 
-Beschreibung
+** Beschreibung **
+
 Die Beschreibung der Zahlart wird dem Kunden im Checkout angezeigt. Sie dient der Erläuterung der Zahlart.
 
-Modus
+** Modus **
+
 Die Zahlart kann im Entwicklungsmodus getestet werden (dev) oder für den Livebetrieb freigeschaltet werden (live).
 
-Standard Bestellstatus für diese Zahlart
+** Standard Bestellstatus für diese Zahlart **
+
 Bestellungen bekommen diesen Status, wenn sie mit dieser Zahlart abgeschlossen werden.
 
-Logos
+** Logos **
 
 Zahlarten können Logos haben, die im Checkout angezeigt werden. Dazu müssen Sie die Checkbox Logos anzeigen` setzen.
 
-Zugriffsverwaltung
+** Zugriffsverwaltung **
 
 Die Verfügbarkeit der Zahlart kann an verschiedenen Bedingungen geknüpft werden. So kann eine Mindestanzahl von Bestellungen definiert werden, die ein Kunde abgeschlossen haben muss, bevor er die Zahlart nutzen kann. Dazu muss die Checkbox `die folgende Regel anwenden` gesetzt sein. Außerdem kann unter dem Reiter `Gruppen` die Zahlart für bestimmte Gruppen aktiviert oder ausdrücklich deaktiviert werden. Unter dem Reiter `Kunden` können Sie eine Zahlart sogar für einzelne Kunden aktivieren und deaktivieren.
 1-2  Stichwörter bearbeiten
@@ -56,7 +63,6 @@ Bitte beachten Sie, dass neu hinzugefügte Länder nicht automatisch den verfüg
 Die Detailansicht eines Landes zeigt einen Reiter `Zahlart`. Hier werden alle existierenden Zahlkarten aufgeführt. Falls Sie eine Zahlart für ein Land aktivieren möchten, setzen Sie bitte das Häkchen in der ersten Spalte. Im Bild sind global die Zahlarten `Rechnung` und `Vorkasse` aktiviert (Spalte `aktiviert`), für das aktuell bearbeitete Land allerdings nur die Zahlart `Vorkasse`.
 
 Um ein Land einer Zone zuzuordnen, nutzen Sie den Menüpunkt „Zonen“.
-
 
 ## Frachtführer
 

@@ -24,9 +24,41 @@ Für die Anpassung und die Entwicklung von Seitentypen sind Erfahrungen mit der 
 
 | Seitentyp        | Zweck           |
 | ------------- |-------------|
-| Seite      | Einfache Basis-Seite mit einem HTML-Inhaltsfeld und Meta-Informationen. Alle andere Seitentypen werden von hiervon abgeleitet und erweitert. |
-| col 2 is      | centered      |
-| zebra stripes | are neat      |
+| Accountübersicht |       |
+| Adressseite | Zeigt eine einzelne Adresse eines Kunden im Detail an. |
+| Adressübersichtseite | Zeigt alle Adressen des Kunden in einer Übersicht an. |
+| Artikelgruppenübersicht | Zeigt alle Artikelgruppen an, die sich unterhalb der aktuellen Ebene befinden. |
+| Bestellbestätigungsseite | Diese Seite wird angezeigt, nachdem der Kunde eine Bestellung erfolgreich abgeschlossen hat. |
+| Bestelldetailsseite | Zeigt die Details einer einzelnen Bestellung an. |
+| Bestellübersicht | Zeigt eine Übersicht aller Bestellungen an. |
+| Checkout Schritt | Der Checkout-Prozess erstreckt sich über mehrere Schritte. Dieser Seitentyp wird dabei verwendet. |
+| Custom Html Form Step Page |  Spezielle Seite für mehrschrittige Formulare. |
+| Datenseite |      |
+| Downloadseite |      |
+| Downloadseitenübersicht |      |
+| Fehlerseite | Spezieller Inhalt für andere Fehlerfälle (z.B. "Seite nicht gefunden")      |
+| Frontseite | Frontpage (Startseite) des Webshops |
+| Kontaktformularantwortseite | Diese Seite wird angezeigt, nachdem das Kontaktformular abgesendet wurde. |
+| Kontaktformularseite | Seite mit Kontaktformular |
+| Meta-Informations-Seite |      |
+| Metanavigationsübersicht |      |
+| Newsletter Opt-In Seiten |      |
+| Newsletter-Antwort-Seite |      |
+| Newsletter-Seite |      |
+| Registrierungs-Willkommens-Seite |      |
+| Registrierungsbestätigungsseite | Wird angezeigt, nachdem der Kunde die Registrierung erfolgreich abgeschlossen hat. |
+| Registrierungsseite | Diese Seite zeigt das Registrierungsformular an. |
+| Seite | Einfache Basis-Seite mit einem HTML-Inhaltsfeld und Meta-Informationen. Alle andere Seitentypen werden von hiervon abgeleitet und erweitert. |
+| SiteMap | Erzeugt eine Sitemap |
+| Suchergebnisseite | Zeigt alle Ergebnisse an, die über die Suchfunktion gefunden wurden. |
+| Versandgebührenseite | Ermittelt alle Versandgebühren und zeigt diese an |
+| Virtuelle Seite | Zeigt den Inhalt einer anderen Seite |
+| Warengruppe |      |
+| Warenkorbseiten |      |
+| Weiterleitungsseite |  Leitet zu einer anderen internen Seite weiter    |
+| Widerruf-Seite |      |
+| Zahlungsartseite |      |
+| Zahlungsbenachrichtigung |      |
 
 ## Anatomie einer Seite
 
@@ -64,8 +96,8 @@ In den meisten Fällen kann dieses Feld leer bleiben, wenn weder der Shop noch e
 Die Haupt-Navigation, welche bei Grund-Installation die Warengruppen beinhaltet, wird aus den Unterseiten dieser Seite gebildet. Es darf in jeder Sprache nur eine Seite geben, die diese Einstellung aktiv hat. 
 Hinweis: Bei einer neu erstellten Überetzung ist diese Option nicht gesetzt.
 
->Hintergrund: Wenn Sie SilverCart nachträglich als Modul in Ihre SilverStripe-Website installieren, dann wird das zu >einen Konflikt zwischen der SilverCart-Navigation und der bereits existierenden Navigation führen.
->Diesen Konflikt können Sie durch die Aktivierung dieser Option vermeiden. In diesem Fall wird die bereits bestehende >Haupt-Navigation beibehalten und die SilverCart-Navigation nicht aktiviert. Statt der Hauptnavigation können Sie z.B. >das Navigations-Widget verwenden.
+>Hintergrund: Wenn Sie SilverCart nachträglich als Modul in Ihre SilverStripe-Website installieren, dann wird das zu einen Konflikt zwischen der SilverCart-Navigation und der bereits existierenden Navigation führen.
+Diesen Konflikt können Sie durch die Aktivierung dieser Option vermeiden. In diesem Fall wird die bereits bestehende Haupt-Navigation beibehalten und die SilverCart-Navigation nicht aktiviert. Statt der Hauptnavigation können Sie z.B. das Navigations-Widget verwenden.
 
 Diese Einstellung können Sie auch verwenden, wenn Sie Ihre Warengruppen-Hierarchie überarbeiten und die Hauptnavigation ohne Zeitverlust auf parallel erstellte Hierarchie umstellen möchten.
 
@@ -112,7 +144,7 @@ Grundsätzlich besteht die Möglichkeit, hier auch Inhalte zu pflegen, die im Fr
 
 ### Metanavigationsübersicht
 
-In der Metanavigationsübersicht können Sie die Hilfsseiten pflegen Hilfsseiten sind Seiten mit Inhalt, die zwar für den (rechtssicheren) Betrieb des Webshops unerlässlich sind, aber nicht in einer klassischen Navigationsstruktur dargestellt werden sollen. Die Inhalte dieser Seiten können Sie mit Ausnahme von Kontakt und Versandgebühren selbst pflegen. Auch die Metadaten und die URL-Segmente können Sie bei diesen Seiten verändern.
+In der Metanavigationsübersicht können Sie die Hilfsseiten pflegen. Hilfsseiten sind Seiten mit Inhalt, die zwar für den (rechtssicheren) Betrieb des Webshops unerlässlich sind, aber nicht in einer klassischen Navigationsstruktur dargestellt werden sollen. Die Inhalte dieser Seiten können Sie mit Ausnahme von Kontakt und Versandgebühren selbst pflegen. Auch die Metadaten und die URL-Segmente können Sie bei diesen Seiten verändern.
 
 
 In einer SilverStripe-Grundinstallation wird jede Seite über das URL-Segment eindeutig identifiziert. Da viele Seiten intern miteinander verlinkt sind, würde eine Veränderung des URL-Segments zu Fehlern führen. Deshalb sind die Seiten intern über das Feld IdentifierCode verbunden, unabhängig vom URL-Segment. Ändern Sie den Wert für den IdentifierCode nicht!
@@ -248,7 +280,7 @@ Rechts oben am Seitenrand haben Sie vielleicht schon den Tab Übersetzungen entd
 
 ### Widget Set erstellen
 
-Erstellen Sie ein Widget Set über die Schaltfläche "Erstelle 'Widget Set'" und geben Sie diesem einen Namen. (Zum Beispiel "Startseite"). Drücken Sie anschließend auf die Schaltfläche "Hinzufügen" um das neue Widget Set zu erstellen. Im Folgenden erscheinen zwei Boxen, worüber Sie die Widgets zuordnen und bearbeiten können.
+Erstellen Sie ein Widget Set über die Schaltfläche `Erstelle Widget Set` und geben Sie diesem einen Namen. (Zum Beispiel "Startseite"). Drücken Sie anschließend auf die Schaltfläche "Hinzufügen" um das neue Widget Set zu erstellen. Im Folgenden erscheinen zwei Boxen, worüber Sie die Widgets zuordnen und bearbeiten können.
 
 Im Feld "Bezeichnung" können Sie dem Set einen Namen geben. Dieser erleichtert es Ihnen, das Set wieder zu finden, wenn sehr viele Widget Sets angelegt sind. Durch Klick auf den Pfeil wird das entsprechende Widget dem Set hinzugefügt und erscheint auf der rechten Seite. Beispielhaft wurde das schon für das Widget "Anmeldung" und "Warengruppen"" gemacht.
 

@@ -40,20 +40,22 @@ Geben Sie hier die Bestellnummer oder den bekannten Teil der Bestellnummer ein. 
 Bestelldatum
 Zum auffinden von Bestellungen anhand des Bestelldatums, klicken Sie auf das Eingabefeld. Es öffnet sich ein Eingabefenster mit den folgenden Auswahlmöglichkeiten:
 
-Heute - zeigt alle Bestellungen des heutigen Tage an
-Letzte 7 Tage - zeigt alle Bestellungen der letzten 7 Tage an
-Dieser Monat - zeigt alle Bestellungen dieses Monats an
-Dieses Jahr - zeigt alle Bestellungen dieses Jahres an
-Vorheriger Monat - zeigt alle Bestellungen des Vormonats an
-Datum - zeigt alles Bestellungen des ausgewählten Datums an
-Alles vor - zeigt alle Bestellungen vor dem ausgewählten Datum an
-Alles nach - zeigt alle Bestellungen nach dem ausgewählten Datum an
-Zeitraum - zeigt alle Bestellungen an, die innerhalb des ausgewählten Zeitraums eingegangen sind.
+* Heute - zeigt alle Bestellungen des heutigen Tage an
+* Letzte 7 Tage - zeigt alle Bestellungen der letzten 7 Tage an
+* Dieser Monat - zeigt alle Bestellungen dieses Monats an
+* Dieses Jahr - zeigt alle Bestellungen dieses Jahres an
+* Vorheriger Monat - zeigt alle Bestellungen des Vormonats an
+* Datum - zeigt alles Bestellungen des ausgewählten Datums an
+* Alles vor - zeigt alle Bestellungen vor dem ausgewählten Datum an
+* Alles nach - zeigt alle Bestellungen nach dem ausgewählten Datum an
+* Zeitraum - zeigt alle Bestellungen an, die innerhalb des ausgewählten Zeitraums eingegangen sind.
 
-Gesehen
+** Gesehen **
+
 Sobald Sie eine Bestellung im Back-End öffnen, wird diese als „gesehen“ markiert. Über diesen Filter können Sie nach gesehenen oder ungesehenen Bestellungen suchen.
 
-Bestellstatus
+** Bestellstatus **
+
 Nutzen Sie diesen Filter, wenn Sie Bestellungen anhand des Bestellstatus suchen möchten. Sie können auswählen zwischen:
 
 * Auf Zahlungseingang wird gewartet
@@ -67,10 +69,12 @@ Wenn Sie zusätzliche Bestellstatus definiert haben, dann erscheinen diese ebenf
 
 Querverweis: Mehr über die Bestellstatus erfahren Sie im Kapitel Bestellstatus
 
-Zahlart
+** Zahlart **
+
 Hier können Sie die Bestellungen anhand der Zahlart filtern. SilverCart bietet in der Grundinstallation Vorkasse (Prepayment) und Rechnung (Invoice) als mögliche Zahlarten an. Weitere Zahlarten sind über Erweiterungsmodule möglich. 
 
-Versandart
+** Versandart **
+
 Wie bei der Zahlart, sind auch die Auswahlmöglichkeiten der Versandart abhängig von den definierten Versandarten. 
 Querverweis: Mehr über Versandarten erfahren Sie im Kapitel Versandart.
 
@@ -91,7 +95,7 @@ Die möglichen Kriterien sind:
 * Ort
 * Land
 
-Suche nach Positionsdaten
+** Suche nach Positionsdaten **
 
 Über die Positionsdaten finden Sie Bestellungen, die eine bestimmte  Artikelnummer mit der gewünschten Positionsmenge enthalten. Wenn Anzahl des Artikels in der Bestellung keine Rolle spielt, dann lassen Sie dieses Feld einfach leer.
 
@@ -99,10 +103,12 @@ Sollen nur Bestellungen angezeigt werden, die ausschliesslich diesen Artikel ent
 
 #### Sonstiges
 
-Limit
+** Limit **
+
 Hier können Sie ein Anzeigelimit eintragen. Falls mehrere Bestellungen gefunden werden, werden nur so viele angezeigt wie hier angegeben wurden. Ist das Feld leer, werden alle Bestellungen angezeigt. Die Blätterfunktion (Paginierung) ist davon unabhängig.
 
-Spalten in Suchergebnissen
+** Spalten in Suchergebnissen **
+
 Sie können die angezeigten Spalten in den Suchergebnissen selbst bestimmen. Wählen Sie hierfür einfach die gewünschten Spalten an oder ab.
 
 Die möglichen Spalten sind:
