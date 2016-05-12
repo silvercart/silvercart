@@ -10,5 +10,7 @@ Sie können dem Widget zusätzliche CSS-Klassen zuordnen, um damit die Darstellu
 
 ##### Dieses Widget nur anzeigen, wenn der Warenkorb gefüllt ist
 Bei einem leeren Warenkorb erscheint der Text *Der Warenkorb ist leer.*
+
 ![widget-shoppingcart-empty-frontend.png](_images/widget-shoppingcart-empty-frontend.png)
-Mit dieser Option können sie steuern, dass das Widget nur angezeigt wird, wenn Produkte im Warenkorb vorhanden sind.
+
+Mit dieser Option können sie steuern, dass das Widget nur dann angezeigt wird, wenn tatsächlich auch Produkte im Warenkorb vorhanden sind.

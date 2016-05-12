@@ -6,10 +6,10 @@ Im folgenden Kapitel erlernen Sie die Grundlagen im Umgang mit dem CMS und erfah
 
 ## Seitentypen
 
-Seitentypen bilden das Rückgrat des CMS und der SilverCart-Shopsoftware. Sie sind in integraler Bestandteil der Philosophie des Systems. Bei der täglichen Arbeit mit dem CMS und der Showsoftware ist es deshalb hilfreich, das Konzept der Seitentypen zu kennen.
+Seitentypen bilden das Rückgrat des CMS und der SilverCart-Shopsoftware. Sie sind in integraler Bestandteil der Philosophie des Systems. Bei der täglichen Arbeit mit dem CMS und der Shopsoftware ist es deshalb hilfreich, das Konzept der Seitentypen zu kennen.
 
 Eine moderne Website (ein Online-Shop ist eine spezielle Website) besteht aus vielen einzelnen Seiten. Dabei müssen diese Seiten unterschiedliche Aufgaben erfüllen: es gibt Kontaktformulare, Übersichtsseiten, Artikeldetailseiten, Warenkorbseiten und beispielsweise die verschiedenen Funktionen im Kundenkonto.
-Diese besonderen Seiten werden durch Seitentypen abgebildet. 
+Diese besonderen Seiten werden in SilverCart durch Seitentypen abgebildet. 
 
 Ein Seitentyp ist sozusagen ein eigens entwickelter Container, der sich aus Inhalt, Gestaltung und Verhalten definiert. 
 

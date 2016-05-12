@@ -1,6 +1,6 @@
 ### Die häufigsten Suchbegriffe
 Jede Benutzung der Suchfunktion in SilverCart wird protokolliert. Mit diesem Widget können Sie eine frei wählbare Anzahl bisher von
-Shopbesuchern verwedendeten Suchbegriffen anzeigen. Ein Klick auf den Suchbegriff zeigt das Ergebnis der Suche.
+Shopbesuchern verwendeten Suchbegriffen anzeigen. Ein Klick auf den Suchbegriff zeigt das Ergebnis der Suche.
 ![widget-searchcloud-backend.png](_images/widget-searchcloud-backend.png)
 
 *Tipp*
