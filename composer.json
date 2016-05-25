@@ -1,0 +1,33 @@
+
+{
+	"name": "silvercart/silvercart",
+	"type": "silverstripe-module",
+	"description": "The SilverCart ecommerce module for SilverStripe",
+	"homepage": "http://www.silvercart.org",
+	"license": "LGPL-3.0",
+	"keywords": ["silverstripe", "silvercart", "ecommerce", "shop","webshop","online shop"],
+	"authors": [
+		{
+			"name": "SilverCart",
+			"homepage": "http://www.silvercart.org"
+		},
+		{
+			"name": "pixeltricks",
+			"homepage": "http://www.pixeltricks.de"
+		}
+	],
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"php": ">=5.3.3",
+		"composer/installers": "*",
+		"silverstripe/cms": "~3.3",
+		"silverstripe/framework": "~3.3",
+		"silverstripe/siteconfig": "~3.3",
+		"silvercart/customhtmlform": "~3.3",
+		"silverstripe/restfulserver": "dev-master",
+		"silverstripe/widgets": "1.1",
+		"silvercart/widgetsets": "~3.3",
+		"silvercart/payment_prepayment": "~3.3"
+	}
+}
