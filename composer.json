@@ -21,10 +21,10 @@
 		"silverstripe/cms": "~3.3",
 		"silverstripe/framework": "~3.3",
 		"silverstripe/siteconfig": "~3.3",
-		"silvercart/customhtmlform": "~3.*",
+		"silvercart/customhtmlform": "~3.3",
 		"silverstripe/restfulserver": "3.*",
 		"silverstripe/widgets": "3.*",
-		"silvercart/widgetsets": "3.*",
+		"silvercart/widgetsets": "3.3",
 		"silvercart/payment_prepayment": "3.3"
 	}
 }
