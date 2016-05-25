@@ -25,7 +25,7 @@
 		"silverstripe/framework": "~3.3",
 		"silverstripe/siteconfig": "~3.3",
 		"silvercart/customhtmlform": "~3.3",
-		"silverstripe/restfulserver": "dev-master",
+		"silverstripe/restfulserver": "1.0.5",
 		"silverstripe/widgets": "1.1",
 		"silvercart/widgetsets": "~3.3",
 		"silvercart/payment_prepayment": "~3.3"
