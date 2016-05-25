@@ -23,7 +23,7 @@
 		"silverstripe/siteconfig": "~3.3",
 		"silvercart/customhtmlform": "dev-master",
 		"silverstripe/restfulserver": "dev-master",
-		"silverstripe/widgets": "3.*",
+		"silverstripe/widgets": "1.1",
 		"silvercart/widgetsets": "dev-master",
 		"silvercart/payment_prepayment": "dev-master"
 	}
