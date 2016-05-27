@@ -24,6 +24,7 @@
 		"silverstripe/cms": "~3.3",
 		"silverstripe/framework": "~3.3",
 		"silverstripe/siteconfig": "~3.3",
+		"silverstripe/translatable": "2.2.0",
 		"silvercart/customhtmlform": "~3.3",
 		"silverstripe/restfulserver": "1.0.5",
 		"silverstripe/widgets": "1.2.2",
