@@ -54,9 +54,9 @@ class SilvercartDownloadPage extends Page {
     }
     
     /**
-     * adds a Files Tab to the page with a ComplexTableField
+     * adds a Files Tab to the page with a GridField
      * 
-     * @return Fieldset
+     * @return FieldList
      */
     public function getCMSFields() {
         $fields = parent::getCMSFields();
