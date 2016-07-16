@@ -138,6 +138,7 @@ en:
   SilvercartAddressPage:
     DEFAULT_TITLE: "Address details"
     DEFAULT_URLSEGMENT: "address-details"
+    DESCRIPTION: "Shows address details"
     PLURALNAME: "Address Pages"
     SINGULARNAME: "Address Page"
     TITLE: "Address details"
@@ -767,6 +768,7 @@ en:
   SilvercartFrontPage:
     CONTENT: "<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>"
     DEFAULT_CONTENT: "<h2>Welcome to <strong>SilverCart</strong> Webshop!</h2>"
+    DESCRIPTION: "Frontpage (Starting page) of the webshop"
     PLURALNAME: "Front pages"
     SINGULARNAME: "Front page"
   SilvercartGridFieldBatchAction_ActivateDataObject:

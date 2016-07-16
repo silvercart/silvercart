@@ -138,11 +138,11 @@ de:
   SilvercartAddressPage:
     DEFAULT_TITLE: "Adressdetails"
     DEFAULT_URLSEGMENT: "adressdetails"
+    DESCRIPTION: "Zeigt die Details einer Adresse"
     PLURALNAME: "Adressseiten"
     SINGULARNAME: "Adressseite"
     TITLE: "Adressdetails"
     URL_SEGMENT: "adressdetails"
-    DESCRIPTION: "Zeigt die Details einer Adresse"
   SilvercartAnonymousNewsletterRecipient:
     PLURALNAME: "Anonyme Newsletterempfänger"
     SINGULARNAME: "Anonymer Newsletterempfänger"
@@ -768,9 +768,9 @@ de:
   SilvercartFrontPage:
     CONTENT: "<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>"
     DEFAULT_CONTENT: "<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>"
+    DESCRIPTION: "Frontpage (Startseite) des Webshops"
     PLURALNAME: "Frontseiten"
     SINGULARNAME: "Frontseite"
-    DESCRIPTION: "Frontpage (Startseite) des Webshops"
   SilvercartGridFieldBatchAction_ActivateDataObject:
     TITLE: "Aktivieren"
   SilvercartGridFieldBatchAction_ChangeAvailabilityStatus:
