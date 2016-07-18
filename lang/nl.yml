@@ -814,7 +814,7 @@ nl:
     MENUTITLE: "Images"
     SELECT_IMAGE_TYPE: "Choose image type"
     SELECT_OTHER_IMAGES: "Other images"
-    SELECT_PAYMENTMETHOD_IMAGES: "Payment method images"
+    SELECT_PAYMENTMETHOD_IMAGES: "Betaalmethoden images"
     SELECT_PRODUCT_IMAGES: "Product images"
   SilvercartImageLanguage:
     PLURALNAME: "Translations"
@@ -1320,15 +1320,15 @@ nl:
     TILL_PURCHASE_VALUE: "tot aanschafwaarde"
     TITLE: "Betaalwijze"
   SilvercartPaymentMethodAdmin:
-    MENUTITLE: "Payment Methods"
+    MENUTITLE: "Betaalmethoden"
   SilvercartPaymentMethodLanguage:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
   SilvercartPaymentMethodsPage:
-    DEFAULT_TITLE: "Payment methods"
+    DEFAULT_TITLE: "Betaalmethoden"
     DEFAULT_URLSEGMENT: "payment-methods"
-    PLURALNAME: "Payment method pages"
-    SINGULARNAME: "Payment method page"
+    PLURALNAME: "Betaalmethoden paginas"
+    SINGULARNAME: "Betaalmethoden pagina"
   SilvercartPaymentNotification:
     DEFAULT_TITLE: "Betaalmogelijkheden melding"
     DEFAULT_URLSEGMENT: "betaalmogelijkheden-melding"
@@ -1728,10 +1728,10 @@ nl:
     SINGULARNAME: "Verzendmethode"
     isPickup: "Is pickup (no active shipping, customer needs to pickup himself)"
   SilvercartShippingMethodAdmin:
-    MENUTITLE: "Shipping Methods"
+    MENUTITLE: "Verzendopties"
   SilvercartShippingMethodLanguage:
-    PLURALNAME: "Translations"
-    SINGULARNAME: "Translation"
+    PLURALNAME: "Vertaalwerk"
+    SINGULARNAME: "Vertaling"
   SilvercartShopAdmin:
     PAYMENT_DESCRIPTION: "Omschrijving"
     PAYMENT_ISACTIVE: "Geactiveerd"
