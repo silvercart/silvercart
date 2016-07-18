@@ -683,7 +683,7 @@ nl:
   SilvercartCustomer:
     ADDRESS_DATA: "Basic address data"
     ANONYMOUSCUSTOMER: "Anonieme klant"
-    ASIC_DATA: "Basics"
+    BASIC_DATA: "Basics"
     BIRTHDAY: "Geboortedag"
     BUSINESSCUSTOMER: "Zakelijke klant"
     CUSTOMERNUMBER: "Klantnummer"
