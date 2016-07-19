@@ -1847,8 +1847,8 @@ class SilvercartShoppingCart extends DataObject {
             
             if ($silvercartTax) {
                 if ($originalMostValuableTaxRate != $mostValuableTaxRate) {
-                    $silvercartTax->Rate    = $mostValuableTaxRate;
-                    $silvercartTax->setTitle($mostValuableTaxRate . '%');
+                    $silvercartTax->Rate = $mostValuableTaxRate;
+                    $silvercartTax->setI18nTitle($mostValuableTaxRate . '%');
                 }
                 return $silvercartTax;
             }

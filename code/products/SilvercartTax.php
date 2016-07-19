@@ -188,6 +188,18 @@ class SilvercartTax extends DataObject {
      */
     public function setTitle($title) {
         $this->i18nTitle = $title;
+        parent::setField('Title', $title);
+    }
+    
+    /**
+     * Sets the i18n title only. Won't be saved.
+     * 
+     * @param string $title Title to set
+     * 
+     * @return void
+     */
+    public function setI18nTitle($title) {
+        $this->i18nTitle = $title;
     }
 
     /**
