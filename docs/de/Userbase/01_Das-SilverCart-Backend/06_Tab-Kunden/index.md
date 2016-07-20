@@ -14,20 +14,16 @@ Für jede Kundenklasse kann festgelegt werden, ob die Produktpreise brutto (inkl
 Im Reiter "Preise" können Sie unter "Preistypen" die entsprechenden Einstellungen vornehmen.
 Außerdem können Bezahl- und Versandarten auf Kundenklassen beschränkt werden.
 
-** Endkunde **
-
+### Endkunde
 Ein Kunde, der sich über das Registrierungsformular von SilverCart anmeldet, ist ein Endkunde. 
 
-** Anonyme Kunden **
-
+### Anonyme Kunden
 Anonyme Kunden sind alle Kunden, die einen Warenkorb befüllen/anlegen. Durch diesen Mechanismus ist es möglich den Bestellprozess ohne anlegen eines Kundenkontos abzuschließen. Besitzt ein anonymer Kunde einen Warenkorb und registriert sich während des Bestellprozesses wird der Warenkorb auf den neu angelegten Kunden übernommen und der Prozess kann somit ohne weitere Verzögerung abgeschlossen werden.
 
-** Geschäftskunden **
-
+### Geschäftskunden
 Um zu einem Geschäftskunden zu werden, muss ein registrierter Kunde von einem Administrator in dem Bereich "Sicherheit" in eine Geschäftskundengruppe verschoben werden. SilverCart übernimmt den Rest für Sie und stellt, je nach Konfiguration, alle Preise auf Nettopreise um. Außerdem wird nun ausdrücklich der Hinweis `exkl. MwSt.` an allen Artikelpreisen angezeigt.
 
 ### Kunden suchen
-
 Zur Verwaltung der Kunden in Ihrem SilverCart-Webshop stehen Ihnen umfangreiche Filter zur Verfügung.![backend_kunden_uebersicht.png](_images/backend_kunden_uebersicht.png)
 Allgemeine Daten
 
