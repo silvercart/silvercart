@@ -42,6 +42,17 @@
                 return false;
             }
         });
+        $('.LeftAndMain :input[name=action_do_newsletter_recipients_export]').entwine({
+            onclick: function(e) {
+                var suffix = '/',
+                    postTargetURL = document.location.pathname + '/do_newsletter_recipients_export',
+                    exportContext = $('select[name="ExportContext"]').val();
+                if (document.location.pathname.substr(-suffix.length) === suffix) {
+                    postTargetURL = document.location.pathname + 'do_newsletter_recipients_export';
+                }
+                window.open(postTargetURL + '?ExportContext=' + exportContext);
+            }
+        });
         
         $('.opened .collapse li').live('click', function() {
             $('.opened.current').removeClass('current');

@@ -953,6 +953,16 @@ en:
     SINGULARNAME: "Newsletter page"
     TITLE: "Newsletter"
     URL_SEGMENT: "newsletter_en_us"
+  SilvercartNewsletterRecipientsAdmin:
+    Description: 'Please choose your export context and press the export button to download a CSV list of email recipients.'
+    DoExport: 'Export as CSV'
+    ExportContext: 'Export context'
+    ExportAll: 'Export all customers'
+    ExportAllNewsletterRecipients: 'Export all newsletter recipients'
+    ExportAllNewsletterRecipientsWithAccount: 'Export all newsletter recipients with customer account'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Export all newsletter recipients without customer account'
+    ExportAllNonNewsletterRecipients: 'Export all non-newsletter recipients'
+    MENUTITLE: "Newsletter Recipients"
   SilvercartNewsletterResponsePage:
     DEFAULT_TITLE: "Newsletter Status"
     DEFAULT_URLSEGMENT: "newsletter_status_en_us"
