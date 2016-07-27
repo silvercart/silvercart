@@ -1529,6 +1529,47 @@ de:
     CMSTITLE: "Slider für Warengruppen"
     DESCRIPTION: "Erzeugt einen Slider, der alle Warengruppen anzeigt."
     TITLE: "Slider für Warengruppen"
+  SilvercartProductImageAdmin:
+    CronNotInstalledDescription: |
+        Die Installation des Artikelbild-Imports wurde noch nicht vollständig abgeschlossen.
+        Bitte fügen Sie das dafür notwendige Programm (`sake SilvercartProductImageImporter/doImport`) zu den Zeitgesteuerten Aufgaben Ihres Servers hinzu.
+        Wenden Sie sich für weitere Details an Ihren Shop-Betreuer.
+    CronNotInstalledTitle: "Achtung"
+    CronIsRunningDescription: "Der Artikelbild-Import wird in diesem Moment durchgeführt."
+    CronIsRunningTitle: "Achtung"
+    Description: |
+        Verwenden Sie diese Upload-Funktion, um viele Bilder verschiedener Artikel auf einmal hochzuladen.
+        Die Bilder werden automatisch zugeordnet, wenn Sie die Dateinamen wie folgt benennen:
+
+        [Artikelnummer].png/jpg/jpeg
+        ODER
+        [Artikelnummer]-[Fortlaufende Nummer].png/jpg/jpeg
+        ODER
+        [Artikelnummer]-[Fortlaufende Nummer]-[Kurzbeschreibung-ohne-Leerzeichen].png/jpg/jpeg
+
+        Die Angabe [Kurzbeschreibung-ohne-Leerzeichen] ist optional und wird für die Suchmaschinenoptimierung (SEO) verwendet, um eine bessere Sichtbarkeit durch Suchmaschinen wie Google zu erlangen.
+        Wird [Kurzbeschreibung-ohne-Leerzeichen] nicht angegeben, wird der Artikelname als Parameter für die Suchmaschinenoptimierung verwendet.
+
+        Beispiel:
+        Sie wollen den beiden Artikeln mit den Artikelnummern 502.133.66.5 und 758.500.08.9 jeweils 4 Bilder zuordnen. 3 davon sollen eine eigene Kurzbeschreibung erhalten.
+        Ein Bild soll jeweils für die Artikel mit den Artikelnummern 128.000.01.7 und 542.550.08.1 hochgeladen werden.
+        Die Dateinamen sollten demnach wie folgt aussehen:
+
+        502.133.66.5-1.png
+        502.133.66.5-2-Kaffeemaschine-XYZ-Vorderansicht.png
+        502.133.66.5-3-Kaffeemaschine-XYZ-Ansicht-linke-Seite.png
+        502.133.66.5-4-Kaffeemaschine-XYZ-Ansicht-rechte-Seite.png
+        758.500.08.9-1.png
+        758.500.08.9-2.png
+        758.500.08.9-3.png
+        758.500.08.9-4.png
+        128.000.01.7.png
+        542.550.08.1.png
+
+        Beachten Sie hierbei, dass das Bild, welches mit der fortlaufenden Nummer 1 angegeben ist, als Bild für die Listenansicht verwendet wird.
+        Beachten Sie auch, dass bestehende Bilder betroffener Artikel komplett überschrieben werden, wenn Sie diese Funktion verwenden.
+    FileInfoTitle: "Die folgenden Artikelbilder wurden noch nicht verarbeitet:"
+    UploadProductImages: "Artikelbilder hochladen"
   SilvercartProductImageGallery:
     PLURALNAME: "Gallerien"
     SINGULARNAME: "Gallerie"

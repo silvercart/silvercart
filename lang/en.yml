@@ -1529,6 +1529,47 @@ en:
     CMSTITLE: "Slider for product groups"
     DESCRIPTION: "Creates a slider that displays all product groups."
     TITLE: "Slider for product groups"
+  SilvercartProductImageAdmin:
+    CronNotInstalledDescription: |
+        The installation of the product image import is not finished yet.
+        Please add the required program (`sake SilvercartProductImageImporter/doImport`) to your server systems cronjobs.
+        Ask your system provider for further support.
+    CronNotInstalledTitle: "Caution"
+    CronIsRunningDescription: "The product image import is currently running."
+    CronIsRunningTitle: "Caution"
+    Description: |
+        Use this upload form to upload many images of different products at once.
+        The images will be automatically assigned if you name them like described below:
+
+        [productnumber].png/jpg/jpeg
+        OR
+        [productnumber]-[consecutive number].png/jpg/jpeg
+        OR
+        [productnumber]-[consecutive number]-[short-description-without-whitespaces].png/jpg/jpeg
+
+        [short-description-without-whitespaces] is optional and is used for search engine optimization (SEO), to reach a better visibility on search engines like Google.
+        If [short-description-without-whitespaces] is empty, the product title will be used instead.
+
+        Example:
+        You want to add 4 images for the products 502.133.66.5 and 758.500.08.9. Three of them should get an own SEO description.
+        You want to add 1 image for the products 128.000.01.7 and 542.550.08.1.
+        The filenames of your images should be set like mentioned below:
+
+        502.133.66.5-1.png
+        502.133.66.5-2-coffee-machine-XYZ-front-side.png
+        502.133.66.5-3-coffee-machine-XYZ-left-side.png
+        502.133.66.5-4-coffee-machine-XYZ-right-side.png
+        758.500.08.9-1.png
+        758.500.08.9-2.png
+        758.500.08.9-3.png
+        758.500.08.9-4.png
+        128.000.01.7.png
+        542.550.08.1.png
+
+        The image with the consecutive number 1 will be used for product overview pages.
+        Already existing images of affected products will be deleted when using this function.
+    FileInfoTitle: "The following product images are not handled yet:"
+    UploadProductImages: "Upload product images"
   SilvercartProductImageGallery:
     PLURALNAME: "Galleries"
     SINGULARNAME: "Gallery"

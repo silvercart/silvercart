@@ -206,7 +206,7 @@ nl:
     NEWCUSTOMER: "Bent u een nieuwe klant?"
     PROCEED_WITHOUT_REGISTRATION: "Nee, ik wil mij niet registreren."
     PROCEED_WITH_REGISTRATION: "Ja, ik wil mij registreren."
-    REGISTERTEXT: "<h3>Wilt u zich registreren?</h3><ul><li>U kan bij een volgende aankop uw gegevens opnieuw gebruiken</li><li>Actuele informatie over uw bestelling inzien</li><li>Verschillende adressen opgeven en bewaren</li><li>Uw persoonlijke gegevens aanpassen</li></ul><br/><br/></p>"
+    REGISTERTEXT: "<h3>Wilt u zich registreren?</h3><ul><li>U kan bij een volgende aankop uw gegevens opnieuw gebruiken</li><li>Actuele informatie over uw bestelling inzien</li><li>Verschillende adressen opgeven en bewaren</li><li>Uw persoonlijke gegevens aanpassen</li></ul>"
     TITLE: "Registratie"
   SilvercartCheckoutFormStep1LoginForm:
     TITLE: "Log in en ga verder"
@@ -1529,6 +1529,47 @@ nl:
     CMSTITLE: "Diashow voor productgroepen"
     DESCRIPTION: "Maak een diashow voor alle productgroepen."
     TITLE: "Diashow voor productgroepen"
+  SilvercartProductImageAdmin:
+    CronNotInstalledDescription: |
+        The installation of the product image import is not finished yet.
+        Please add the required program (`sake SilvercartProductImageImporter/doImport`) to your server systems cronjobs.
+        Ask your system provider for further support.
+    CronNotInstalledTitle: "Caution"
+    CronIsRunningDescription: "The product image import is currently running."
+    CronIsRunningTitle: "Caution"
+    Description: |
+        Use this upload form to upload many images of different products at once.
+        The images will be automatically assigned if you name them like described below:
+
+        [productnumber].png/jpg/jpeg
+        OR
+        [productnumber]-[consecutive number].png/jpg/jpeg
+        OR
+        [productnumber]-[consecutive number]-[short_description_without_whitespaces].png/jpg/jpeg
+
+        [short_description_without_whitespaces] is optional and is used for search engine optimization (SEO), to reach a better visibility on search engines like Google.
+        If [short_description_without_whitespaces] is empty, the product title will be used instead.
+
+        Example:
+        You want to add 4 images for the products 502.133.66.5 and 758.500.08.9. Three of them should get an own SEO description.
+        You want to add 1 image for the products 128.000.01.7 and 542.550.08.1.
+        The filenames of your images should be set like mentioned below:
+
+        502.133.66.5-1.png
+        502.133.66.5-2-coffee_machine_XYZ_front_side.png
+        502.133.66.5-3-coffee_machine_XYZ_left_side.png
+        502.133.66.5-4-coffee_machine_XYZ_right_side.png
+        758.500.08.9-1.png
+        758.500.08.9-2.png
+        758.500.08.9-3.png
+        758.500.08.9-4.png
+        128.000.01.7.png
+        542.550.08.1.png
+
+        The image with the consecutive number 1 will be used for product overview pages.
+        Already existing images of affected products will be deleted when using this function.
+    FileInfoTitle: "The following product images are not handled yet:"
+    UploadProductImages: "Upload product images"
   SilvercartProductImageGallery:
     PLURALNAME: "Galerijen"
     SINGULARNAME: "Galerij"
