@@ -572,6 +572,7 @@ class SilvercartPage_Controller extends ContentController {
             $this->class != 'SilvercartCheckoutStep_Controller' &&
             $this->class != 'ErrorPage_Controller' &&
             $this->class != 'Security' &&
+            $this->class != 'SilvercartFrontPage_Controller' &&
             !$this->class instanceof SilvercartCheckoutStep_Controller &&
             !$this->class instanceof Security &&
             !is_subclass_of($this->class, 'SilvercartCheckoutStep_Controller')
