@@ -257,14 +257,16 @@ class SilvercartTools extends Object {
      * used to retrieve links dynamically
      *
      * @param string $identifierCode the classes name
+     * @param bool   $force          Set to true to force a database access
      * 
      * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.11.2013
+     * @since 26.07.2016
      */
-    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") {
-        if (!array_key_exists($identifierCode, self::$pagesByIdentifierCode)) {
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage", $force = false) {
+        if (!array_key_exists($identifierCode, self::$pagesByIdentifierCode) ||
+            $force) {
             self::$pagesByIdentifierCode[$identifierCode] = SilvercartPage::get()->filter('IdentifierCode', $identifierCode)->first();
         }
         return self::$pagesByIdentifierCode[$identifierCode];
@@ -274,14 +276,15 @@ class SilvercartTools extends Object {
      * returns a page link by IdentifierCode
      *
      * @param string $identifierCode the DataObjects IdentifierCode
+     * @param bool   $force          Set to true to force a database access
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 26.07.2016
      */
-    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") {
-        $page = self::PageByIdentifierCode($identifierCode);
+    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage", $force = false) {
+        $page = self::PageByIdentifierCode($identifierCode, $force);
         if ($page === false ||
             is_null($page)) {
             return '';
