@@ -258,5 +258,33 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
         return SilvercartConfig::InvoiceAddressIsAlwaysShippingAddress();
     }
     
+    /**
+     * Executed an extension hook to add some HTML content after the invoice
+     * address field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function AfterInvoiceAddressContent() {
+        $contentParts = $this->extend('updateAfterInvoiceAddressContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the invoice
+     * address field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function BeforeInvoiceAddressContent() {
+        $contentParts = $this->extend('updateBeforeInvoiceAddressContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
 }
 

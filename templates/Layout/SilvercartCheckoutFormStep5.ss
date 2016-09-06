@@ -6,25 +6,31 @@
     <div class="span4">
     <% if hasOnlyOneStandardAddress %>
         <div class="checkout-change-area silvercart-highlighted-box well margin-bottom">
+        {$BeforeInvoiceAddressContent}
         <% with AddressData %>
             <% with SilvercartInvoiceAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_with %>
         <% end_with %>
+        {$AfterInvoiceAddressContent}
             <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
     <% else %>              
         <% with AddressData %>
         <div class="checkout-change-area silvercart-highlighted-box well margin-bottom">
+            {$BeforeInvoiceAddressContent}
             <% with SilvercartInvoiceAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_with %>
+            {$AfterInvoiceAddressContent}
             <a class="btn btn-small checkout-change-button" href="{$Up.Controller.AddressStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
         <div class="checkout-change-area silvercart-highlighted-box well margin-bottom">
+            {$BeforeShippingAddressContent}
             <% with SilvercartShippingAddress %>
                 <% include SilvercartAddressDetailReadOnly %>
             <% end_with %>
+            {$AfterShippingAddressContent}
             <a class="btn btn-small checkout-change-button" href="{$Up.Controller.AddressStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
         </div>
         <% end_with %>
@@ -33,11 +39,13 @@
         <div class="silvercart-highlighted-box well checkout-change-area margin-bottom">
             <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_SHIPPING') %>:</strong>
             <p class="silvercart-highlighted-content">
+            {$BeforeShippingMethodContent}
             <% with SilvercartShoppingCart %>
                 {$CarrierAndShippingMethodTitle} <% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %>
                 <% if hasHandlingCostShipment %> ({$HandlingCostShipment.Nice})<% end_if %>
                 <% if ShippingMethod.DeliveryTime %><br/><small class="delivery-time-hint">$ShippingMethod.fieldLabel(ExpectedDelivery):<br/>{$ShippingMethod.DeliveryTime}</small><% end_if %>
             <% end_with %>
+            {$AfterShippingMethodContent}
             </p>
             <% if not $Controller.SkipShippingStep %>
             <a class="btn checkout-change-button" href="{$Controller.ShipmentStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>
@@ -46,10 +54,12 @@
         <div class="silvercart-highlighted-box well checkout-change-area margin-bottom">
             <strong><% _t('SilvercartCheckoutFormStep.CHOOSEN_PAYMENT') %>:</strong>
             <p class="silvercart-highlighted-content">
+            {$BeforePaymentMethodContent}
             <% with SilvercartShoppingCart %>
                 {$payment.Name}
                 <% if hasHandlingCostPayment %> ({$HandlingCostPayment.Nice})<% end_if %>
             <% end_with %>
+            {$AfterPaymentMethodContent}
             </p>
             <% if not $Controller.SkipPaymentStep %>
             <a class="btn checkout-change-button" href="{$Controller.PaymentStepLink}"><i class="icon-edit"></i> <% _t('Silvercart.Change') %></a>

@@ -119,6 +119,7 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlFormStep {
             $invoiceData  = SilvercartTools::extractAddressDataFrom('Invoice', $checkoutData);
 
             $order = $this->createOrder($customerEmail, $checkoutData, $customerNote);
+            $this->extend('onAfterCreateOrder', $order);
 
             $order->createShippingAddress($shippingData);
             $order->createInvoiceAddress($invoiceData);

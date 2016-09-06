@@ -427,5 +427,117 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
         }
         return true;
     }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the invoice
+     * address field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function AfterInvoiceAddressContent() {
+        $contentParts = $this->extend('updateAfterInvoiceAddressContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the invoice
+     * address field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function BeforeInvoiceAddressContent() {
+        $contentParts = $this->extend('updateBeforeInvoiceAddressContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * address field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function AfterShippingAddressContent() {
+        $contentParts = $this->extend('updateAfterShippingAddressContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * address field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function BeforeShippingAddressContent() {
+        $contentParts = $this->extend('updateBeforeShippingAddressContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * method field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function AfterShippingMethodContent() {
+        $contentParts = $this->extend('updateAfterShippingMethodContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * method field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function BeforeShippingMethodContent() {
+        $contentParts = $this->extend('updateBeforeShippingMethodContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the payment
+     * method field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function AfterPaymentMethodContent() {
+        $contentParts = $this->extend('updateAfterPaymentMethodContent');
+        return implode(PHP_EOL, $contentParts);
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the payment
+     * method field.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.07.2016
+     */
+    public function BeforePaymentMethodContent() {
+        $contentParts = $this->extend('updateBeforePaymentMethodContent');
+        return implode(PHP_EOL, $contentParts);
+    }
 }
 
