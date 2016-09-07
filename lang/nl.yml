@@ -37,7 +37,7 @@ nl:
     NO: "Nee"
     NOT_ALLOWED_TO_PRINT: "You are not allowed to print this object!"
     Oclock: "o'clock"
-    PAGE: "Page"
+    PAGE: "Pagina"
     PRINT: "Afdrukken"
     PRIORITY: "Priority (the higher the more important)"
     SEC: "seconde"
@@ -57,7 +57,7 @@ nl:
     UPDATE_AVAILABLE_TEXT: "Download the latest SilverCart version on <a href=\"http://www.silvercart.org/downloads/\" target=\"blank\">http://www.silvercart.org/downloads/</a>."
     WEEK: "week"
     WEEKS: "weken"
-    X_OF_Y: "%s of %s"
+    X_OF_Y: "%s van %s"
     YES: "Ja"
     YESTERDAY: "yesterday"
   SilvercartAddress:
