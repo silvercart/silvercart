@@ -1,6 +1,6 @@
 <div class="form-vertical grouped">
     <h4><% _t('SilvercartMyAccountHolder.ALREADY_HAVE_AN_ACCOUNT') %></h4>
-    <div class="margin-side adlign-center">
+    <div class="margin-side">
         $InsertCustomHtmlForm(SilvercartLoginForm)
     </div>
 
