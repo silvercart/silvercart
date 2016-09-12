@@ -53,6 +53,8 @@ a.active:link, a.active:visited {
   background: #B0000A;
   background-color: #B0000A;
   filter:#B0000A;
+  color: #fff;
+  text-shadow: none;
 }
 /* nested ul */
 .navbar .nav div {
