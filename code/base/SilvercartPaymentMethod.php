@@ -1122,7 +1122,7 @@ class SilvercartPaymentMethod extends DataObject {
                         $languageClassName = $this->ClassName . 'Language';
                         foreach ($languages as $language) {
                             $relationField = $this->ClassName . 'ID';
-                            $filter = sprintf("\"Locale\" = '%s' AND \"%s\" = '%s'", $language, $relationField, $paymentMethod->ID);
+                            $filter = sprintf("\"SilvercartPaymentMethodLanguage\".\"Locale\" = '%s' AND \"%s\" = '%s'", $language, $relationField, $paymentMethod->ID);
                             $langObj = DataObject::get_one($languageClassName, $filter);
                             if (!$langObj) {
                                 $langObj = new $languageClassName();
@@ -1153,7 +1153,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $languages = array('de_DE', 'en_US', 'en_GB');
                 foreach ($languages as $language) {
                    $filter = sprintf(
-                       "\"Locale\" = '%s' AND \"%sID\" = '%s'",
+                       "\"SilvercartPaymentMethodLanguage\".\"Locale\" = '%s' AND \"%sID\" = '%s'",
                        $language,
                        $this->class,
                        $this->ID
