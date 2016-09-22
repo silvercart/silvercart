@@ -200,8 +200,9 @@ class SilvercartShopEmail extends DataObject {
                 $additionalRecipientsArray[] = htmlentities($additionalRecipient->getEmailAddressWithName());
             }
         }
-        $additionalRecipientsString = implode('<br/>', $additionalRecipientsArray);
-        return $additionalRecipientsString;
+        $additionalRecipientsHtml = new HTMLText();
+        $additionalRecipientsHtml->setValue(implode('<br/>', $additionalRecipientsArray));
+        return $additionalRecipientsHtml;
     }
 
     /**
