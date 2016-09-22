@@ -299,7 +299,9 @@ class SilvercartPlugin extends Object {
         $result = '';
         if (is_array($extensionResultSet)) {
             foreach ($extensionResultSet as $key => $extensionResult) {
-                if (!is_string($extensionResult) ||
+                if ($extensionResult instanceof StringField) {
+                    $extensionResultSet[$key] = $extensionResult->getValue();
+                } elseif (!is_string($extensionResult) ||
                     strlen(trim($extensionResult)) == 0 ||
                     empty($extensionResult)) {
                     unset($extensionResultSet[$key]);
