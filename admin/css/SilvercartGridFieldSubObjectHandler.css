@@ -18,7 +18,7 @@
     background-color: transparent !important;
     background-image: none !important;
 }
-.sub-list .sub-list-record {
+.sub-list span.sub-list-record {
     display: inline-block;
     padding: 3px 5px;
     color: #ffffff;
@@ -38,23 +38,37 @@
     background-image: -o-linear-gradient(#b0bec7, #98aab6);
     background-image: linear-gradient(#b0bec7, #98aab6);
 }
+.sub-list table {
+    width: 100%;
+}
+.sub-list table .sub-list-record td {
+    padding: 4px !important;
+}
+.sub-list table .sub-list-record td select {
+    width: auto !important;
+}
 
-.sub-list .sub-list-record-remove {
+.sub-list .sub-list-record-action {
     width: 16px;
     height: 16px;
     display: inline-block;
     position: relative;
     top: 3px;
-}
-.sub-list .sub-list-record-remove:hover {
     cursor: pointer;
 }
 .sub-list .sub-list-record.action-in-progress,
-.sub-list .sub-list-record.action-in-progress .sub-list-record-remove:hover {
+.sub-list .sub-list-record.action-in-progress .sub-list-record-action:hover {
     cursor: wait !important;
 }
 .sub-list .sub-list-record.action-in-progress {
     opacity: 0.8;
+}
+.sub-list .sub-list-record.active0 {
+    opacity: 0.5;
+}
+.sub-list .sub-list-record.default1 {
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 .grid.field table tbody tr.sub-row,

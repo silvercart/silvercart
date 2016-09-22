@@ -54,6 +54,13 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
      * @var bool
      */
     protected $addedJavascript = false;
+    
+    /**
+     * Name of the sub list template
+     *
+     * @var string
+     */
+    protected $subListTemplate = 'SilvercartGridFieldSubObjectHandler_sublist';
 
     /**
      * Sets the defaults.
@@ -71,6 +78,26 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
         $this->parentObject    = $parentObject;
         $this->targetClassName = $targetClassName;
         $this->subList         = $subList;
+    }
+    
+    /**
+     * Returns the sub list template name.
+     * 
+     * @return string
+     */
+    public function getSubListTemplate() {
+        return $this->subListTemplate;
+    }
+
+    /**
+     * Sets the sub list template name.
+     * 
+     * @param string $subListTemplate Sub list template
+     * 
+     * @return void
+     */
+    public function setSubListTemplate($subListTemplate) {
+        $this->subListTemplate = $subListTemplate;
     }
     
     /**
@@ -159,9 +186,37 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
             'actionName' => 'removesubobject',
             'args'       => array(),
         );
+        $activateState = array(
+            'grid'       => $this->getNameFromParent($gridField),
+            'actionName' => 'activatesubobject',
+            'args'       => array(),
+        );
+        $deactivateState = array(
+            'grid'       => $this->getNameFromParent($gridField),
+            'actionName' => 'deactivatesubobject',
+            'args'       => array(),
+        );
+        $defaultState = array(
+            'grid'       => $this->getNameFromParent($gridField),
+            'actionName' => 'defaultsubobject',
+            'args'       => array(),
+        );
+        $undefaultState = array(
+            'grid'       => $this->getNameFromParent($gridField),
+            'actionName' => 'undefaultsubobject',
+            'args'       => array(),
+        );
 
         $actionID = preg_replace('/[^\w]+/', '_', uniqid('', true));
         Session::set($actionID, $state);
+        $activateActionID = preg_replace('/[^\w]+/', '_', uniqid('', true));
+        Session::set($activateActionID, $activateState);
+        $deactivateActionID = preg_replace('/[^\w]+/', '_', uniqid('', true));
+        Session::set($deactivateActionID, $deactivateState);
+        $defaultActionID = preg_replace('/[^\w]+/', '_', uniqid('', true));
+        Session::set($defaultActionID, $defaultState);
+        $undefaultActionID = preg_replace('/[^\w]+/', '_', uniqid('', true));
+        Session::set($undefaultActionID, $undefaultState);
         
         $lists = '';
         $sublist   = $this->subList;
@@ -175,13 +230,17 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
                     'ParentRecordID' => $recordID,
                     'TargetURL'      => $gridField->Link(),
                     'ActionID'       => $actionID,
-                ))->renderWith('SilvercartGridFieldSubObjectHandler_sublist');
+                    'ActivateActionID'   => $activateActionID,
+                    'DeactivateActionID' => $deactivateActionID,
+                    'DefaultActionID'    => $defaultActionID,
+                    'UndefaultActionID'  => $undefaultActionID,
+                ))->renderWith($this->getSubListTemplate());
             }
         }
         
         return array(
             'before' => '<input type="hidden" value="" name="SubObjectParentID" />' 
-                      . '<input type="hidden" value="" name="SubObjectRemovalID" />',
+                      . '<input type="hidden" value="" name="SubObjectID" />',
             'after'  => '<div class="sub-object-lists" data-target-gridfield="' . $gridField->getName() . '">' . $lists . '</div>',
         );
     }
@@ -201,6 +260,10 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
         return array(
             'addsubobject'    => 'addSubObject',
             'removesubobject' => 'removeSubObject',
+            'activatesubobject' => 'activatesubobject',
+            'deactivatesubobject' => 'deactivatesubobject',
+            'defaultsubobject' => 'defaultsubobject',
+            'undefaultsubobject' => 'undefaultsubobject',
         );
     }
 
@@ -230,9 +293,14 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
                 $subObject->exists()) {
                 $this->subList->add($subObject);
             }
-        } elseif ($actionName == 'removesubobject') {
+        } elseif ($actionName == 'removesubobject' ||
+                  $actionName == 'activatesubobject' ||
+                  $actionName == 'deactivatesubobject' ||
+                  $actionName == 'defaultsubobject' ||
+                  $actionName == 'undefaultsubobject') {
+            
             $recordID    = $data['SubObjectParentID'];
-            $subObjectID = $data['SubObjectRemovalID'];
+            $subObjectID = $data['SubObjectID'];
             
             $list      = $gridField->getList();
             $parent    = DataObject::get($gridField->getModelClass())->byID($recordID);
@@ -240,7 +308,15 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
             
             if ($subObject instanceof $this->targetClassName &&
                 $subObject->exists()) {
-                $this->subList->remove($subObject);
+                if ($actionName == 'defaultsubobject' ||
+                    $actionName == 'undefaultsubobject') {
+                    $this->subList->add($subObject, array('IsDefault' => $actionName == 'defaultsubobject'));
+                } elseif ($actionName == 'activatesubobject' ||
+                          $actionName == 'deactivatesubobject') {
+                    $this->subList->add($subObject, array('IsActive' => $actionName == 'activatesubobject'));
+                } elseif ($actionName == 'removesubobject') {
+                    $this->subList->remove($subObject);
+                }
             }
         }
     }
