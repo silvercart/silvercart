@@ -25,7 +25,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'Code'                => 'VarChar',
         'badgeColor'          => "Enum('default,success,warning,important,info,inverse','default')",
         'SetForPositiveStock' => 'Boolean(0)',
@@ -38,7 +38,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      *
      * @var array
      */
-    public static $casting = array(
+    private static $casting = array(
         'Title'          => 'Text',
         'AdditionalText' => 'Text',
         'SetForPositiveStockNice' => 'Text',
@@ -52,8 +52,17 @@ class SilvercartAvailabilityStatus extends DataObject {
      *
      * @var array
      */
-    public static $has_many = array(
+    private static $has_many = array(
         'SilvercartAvailabilityStatusLanguages' => 'SilvercartAvailabilityStatusLanguage'
+    );
+    
+    /**
+     * Default DB attribute values.
+     *
+     * @var array
+     */
+    private static $defaults = array(
+        'badgeColor' => "default",
     );
 
     /**
@@ -339,6 +348,10 @@ class SilvercartAvailabilityStatus extends DataObject {
             'info'      => '<span style="padding: 4px 8px; color: #fff; background-color:#3a87ad">' . $this->Title . '</span>',
             'inverse'   => '<span style="padding: 4px 8px; color: #fff; background-color:#333333">' . $this->Title . '</span>',
         );
+        if (empty($this->badgeColor) ||
+            !array_key_exists($this->badgeColor, $badgeColorSource)) {
+            $this->badgeColor = 'default';
+        }
         $htmlText = HTMLText::create();
         $htmlText->setValue($badgeColorSource[$this->badgeColor]);
         return $htmlText;
