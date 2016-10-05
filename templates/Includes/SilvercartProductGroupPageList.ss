@@ -62,7 +62,7 @@
                                 <% if isBuyableDueToStockManagementSettings %>
                                     $productAddCartForm
                                 <% else %>
-                                    <span class="btn btn-small btn-danger disabled pull-right"><% _t('SilvercartProductPage.OUT_OF_STOCK') %></span>
+                                    <span class="btn btn-small btn-danger disabled pull-left"><% _t('SilvercartProductPage.OUT_OF_STOCK') %></span>
                                 <% end_if %>   
                             </div>
                             <div class="span6">
