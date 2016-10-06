@@ -48,7 +48,7 @@ class SilvercartGridFieldQuickAccessController implements GridField_HTMLProvider
      * @return Array
      */
     public function getHTMLFragments($gridField) {
-        Requirements::css(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/css/SilvercartGridFieldQuickAccessController.css');
+        Requirements::css('silvercart/admin/css/SilvercartGridFieldQuickAccessController.css');
     }
 
     /***************************************************************************

@@ -31,9 +31,8 @@ class SilvercartMultiDropdownField extends DropdownField {
      * @since 25.06.2014
      */
     public function Field($properties = array()) {
-        $baseUrl = SilvercartTools::getBaseURLSegment();
-        Requirements::css($baseUrl . 'silvercart/admin/css/SilvercartMultiDropdownField.css');
-        Requirements::javascript($baseUrl . 'silvercart/admin/javascript/SilvercartMultiDropdownField.js');
+        Requirements::css('silvercart/admin/css/SilvercartMultiDropdownField.css');
+        Requirements::javascript('silvercart/admin/javascript/SilvercartMultiDropdownField.js');
         return parent::Field($properties);
     }
 

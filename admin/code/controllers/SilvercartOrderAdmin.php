@@ -63,15 +63,12 @@ class SilvercartOrderAdmin extends SilvercartModelAdmin {
      */
     public function init($skipUpdateInit = false) {
         parent::init(true);
-        $baseUrl = SilvercartTools::getBaseURLSegment();
+        
+        Requirements::javascript(FRAMEWORK_DIR . '/thirdparty/jquery-ui/jquery.datepicker.js');
 
-        Requirements::javascript($baseUrl.FRAMEWORK_DIR.'/thirdparty/jquery-ui/jquery-ui-1.8rc3.custom.js');
-        Requirements::javascript($baseUrl.FRAMEWORK_DIR.'/thirdparty/jquery-ui/jquery.datepicker.js');
-        Requirements::css($baseUrl.FRAMEWORK_DIR.'/thirdparty/jquery-ui-themes/smoothness/jquery-ui-1.8rc3.custom.css');
-
-        Requirements::javascript($baseUrl.'silvercart/admin/javascript/jquery-ui/date-range-picker/js/date.js');
-        Requirements::javascript($baseUrl.'silvercart/admin/javascript/jquery-ui/date-range-picker/js/daterangepicker.jQuery.js');
-        Requirements::css($baseUrl.'silvercart/admin/javascript/jquery-ui/date-range-picker/css/ui.daterangepicker.css');
+        Requirements::javascript('silvercart/admin/javascript/jquery-ui/date-range-picker/js/date.js');
+        Requirements::javascript('silvercart/admin/javascript/jquery-ui/date-range-picker/js/daterangepicker.jQuery.js');
+        Requirements::css('silvercart/admin/javascript/jquery-ui/date-range-picker/css/ui.daterangepicker.css');
         
         Requirements::customScript(
                 sprintf(
@@ -79,7 +76,7 @@ class SilvercartOrderAdmin extends SilvercartModelAdmin {
             (function($) {
                 $(document).ready(function() { 
                     //Date picker
-                    $('#Form_SearchForm_q-Created').daterangepicker({
+                    $('#Form_SearchForm_q_Created').daterangepicker({
                         arrows: false,
                         dateFormat: 'dd.mm.yy',
                         presetRanges: [

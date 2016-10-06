@@ -95,7 +95,7 @@ class SilvercartFileUploadField extends UploadField {
      * @since 26.03.2013
      */
     public function Field($properties = array()) {
-        Requirements::javascript(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/javascript/SilvercartFileUploadField.js');
+        Requirements::javascript('silvercart/admin/javascript/SilvercartFileUploadField.js');
         return parent::Field($properties);
     }
 

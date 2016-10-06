@@ -73,7 +73,7 @@ class SilvercartGridFieldPopupTrigger implements GridField_HTMLProvider {
      * @return array
      */
     public function getHTMLFragments($gridField) {
-        Requirements::javascript(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/javascript/SilvercartGridFieldPopupTrigger.js');
+        Requirements::javascript('silvercart/admin/javascript/SilvercartGridFieldPopupTrigger.js');
         return array(
             'after' => sprintf(
                     '<div class="sc-grid-field-popup-trigger" rel="%s"></div>',

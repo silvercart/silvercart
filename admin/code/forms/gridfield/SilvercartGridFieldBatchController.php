@@ -182,8 +182,8 @@ class SilvercartGridFieldBatchController implements GridField_HTMLProvider, Grid
      * @return array
      */
     public function getHTMLFragments($gridField) {
-        Requirements::css(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/css/SilvercartGridFieldBatchController.css');
-        Requirements::javascript(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/javascript/SilvercartGridFieldBatchController.js');
+        Requirements::css('silvercart/admin/css/SilvercartGridFieldBatchController.css');
+        Requirements::javascript('silvercart/admin/javascript/SilvercartGridFieldBatchController.js');
         $source = array(
             '' => 'Bitte wählen',
         );

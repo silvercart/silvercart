@@ -177,8 +177,8 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
      * @return array
      */
     public function getHTMLFragments($gridField) {
-        Requirements::css(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/css/SilvercartGridFieldSubObjectHandler.css');
-        Requirements::javascript(SilvercartTools::getBaseURLSegment() . 'silvercart/admin/javascript/SilvercartGridFieldSubObjectHandler.js');
+        Requirements::css('silvercart/admin/css/SilvercartGridFieldSubObjectHandler.css');
+        Requirements::javascript('silvercart/admin/javascript/SilvercartGridFieldSubObjectHandler.js');
         
         
         $state = array(
