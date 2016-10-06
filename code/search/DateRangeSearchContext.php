@@ -95,13 +95,13 @@ class DateRangeSearchContext extends SearchContext {
                     if ($min_val && $max_val) {
                         $filter->setMin($min_val);
                         $filter->setMax($max_val);
-                        $filter->apply($query);
+                        $query = $query->alterDataQuery(array($filter, 'apply'));
                     } else if ($min_val) {
                         $filter->setMin($min_val);
-                        $filter->apply($query);
+                        $query = $query->alterDataQuery(array($filter, 'apply'));
                     } else if ($max_val) {
                         $filter->setMax($max_val);
-                        $filter->apply($query);
+                        $query = $query->alterDataQuery(array($filter, 'apply'));
                     }
                 }
             }
