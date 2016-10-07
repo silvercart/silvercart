@@ -1071,6 +1071,22 @@ class SilvercartProductGroupPage extends Page {
     }
     
     /**
+     * Adds a ParentID if not available.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.10.2016
+     */
+    protected function onBeforeWrite() {
+        if (!isset($this->ParentID)) {
+            $productGroupHolder = SilvercartProductGroupHolder::get()->first();
+            $this->ParentID     = $productGroupHolder->ID;
+        }
+        parent::onBeforeWrite();
+    }
+    
+    /**
      * Set LastEdited field to now for the SilvercartProductGroupHolder.
      *
      * @return void
