@@ -43,12 +43,14 @@ Abwicklungsbezogene Objekte:
 - Frachtführer
 - Versandart
 
-*Was tun, wenn es klemmt?*
+**Was tun, wenn es klemmt?**
 Frachtgruppen, Zonen, Länder, Versandarten - hier kann man schnell den Überblick verlieren. Wenn etwas nicht so läuft, wie Sie es sich vorstellen, dann liegt das wahrscheinlich daran,
-dass entweder eine Einstellung bzw. Zuordnung fehlt. Oder dass eben genau eine solche Einstellung den gewünschten Erfolg vereitelt. Das ist allerdings nicht immer offensichtlich.
+dass eine Einstellung oder eine Zuordnung fehlt. Oder dass eben genau eine solche Einstellung den gewünschten Erfolg vereitelt, weil eine Einstellung ein Ausschlusskriterium ist. Das ist allerdings nicht immer offensichtlich.
 
 Beispiel: Eine Zahlungsart kann an eine Versandart gebunden werden. Das bedeutet, dass die Zahlart nur ausgewählt werden kann, wenn die verknüpfte Versandart ausgewählt wurde.
 Für den Fall, dass die Versandart nicht ausgewählt werden kann, da z.B. kein gültiges Zielland gewählt wurde, dann lässt sich auch die Zahlart nicht auswählen.
 
 Dies ist wichtig, da beispielsweise die Zahlart Nachnahme nicht mit jeder Versandart und dann auch nicht in jedes Land gewählt werden kann, da der Frachtführer das schlichtweg nicht anbietet.
+
+Auch hebelt beispielsweise die Einstellung "Versandkostenfrei ab xxx €" alle Versandkostenberechnungen aus, wenn der Warenkorb diesen Betrag erreicht. 
 
