@@ -2,6 +2,6 @@
 
 ![](_images/silvercartsystemrequirements.png)
 
-SilverCart will run on any SilverStripe 2.4.2 to 2.4.9 installation.
+SilverCart 3 will run on any SilverStripe 3.x installation. Please note that SilverCart for SilverStripe 2.x is no longer supported.
 
 Information on the SilverStripe system requirements can be found on the [SilverStripe homepage](http://doc.silverstripe.org/framework/en/installation/server-requirements). 

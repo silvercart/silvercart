@@ -4,14 +4,14 @@ SilverCart is an ecommerce module for the CMS SilverStripe.
 
 It is designed for large shops and high performance. It works equally well for small projects with 55 products and for largest projects with more than 300.000 products.
 
- * [Features](features)
-   * [Product and manufacturer administration](1-Features#product-and-manufacturer-administration)
-   * [Layout & design](1-Features#layout-and-design)
-   * [Payment methods and interfaces](1-Features#payment-methods-and-interfaces)
-   * [User and shop administration](1-Features#user-and-shop-administration)
-   * [Development & customization](1-Features#development-and-customization)
-   * [Expandability](1-Features#expandability)
- * [Getting Help](2-Getting-Help#getting-help)
+ * [Features](Features)
+   * [Product and manufacturer administration](Features#product-and-manufacturer-administration)
+   * [Layout & design](Features#layout-and-design)
+   * [Payment methods and interfaces](Features#payment-methods-and-interfaces)
+   * [User and shop administration](Features#user-and-shop-administration)
+   * [Development & customization](Features#development-and-customization)
+   * [Expandability](Features#expandability)
+ * [Getting Help](Getting-Help#getting-help)
  * [The SilverCart Handbook](The-SilverCart-Handbook/#the-silvercart-handbook)
    * [Modules for SilverCart](The-SilverCart-Handbook/Modules-for-SilverCart/#modules-for-silvercart)
    * [Shipping Fee Management](The-SilverCart-Handbook/Shipping-Fee-Management/#shipping-fee-management)
