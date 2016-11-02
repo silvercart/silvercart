@@ -158,6 +158,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
      * @var array
      */
     private static $allowed_actions = array(
+        'addNewAddress',
         'editAddress',
     );
 
@@ -501,6 +502,30 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $this->redirectBack();
         }
         return $rendered;
+    }
+    
+    /**
+     * Renders a form to add addresses and handles it's sumbit event.
+     *
+     * @param SS_HTTPRequest $request the given request
+     * 
+     * @return type 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.11.2016
+     */
+    public function addNewAddress(SS_HTTPRequest $request) {
+        $params = $request->allParams();
+        if (strtolower($params['ID']) == 'customhtmlformsubmit') {
+            $this->CustomHtmlFormSubmit($request);
+            $form = $this->getRegisteredCustomHtmlForm('SilvercartAddAddressForm');
+            if ($form->submitSuccess) {
+                $form->addMessage(_t('SilvercartAddressHolder.ADDED_ADDRESS_SUCCESS', 'Your address was successfully saved.'));
+            } else {
+                $form->addMessage(_t('SilvercartAddressHolder.ADDED_ADDRESS_FAILURE', 'Your address could not be saved.'));
+            }
+        }
+        return $this->render();
     }
     
     /**
