@@ -244,6 +244,11 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
                     $preferences['submitAction'] = 'editAddress/' . $addressID . '/customHtmlFormSubmit';
                     $this->registerCustomHtmlForm('SilvercartEditAddressForm', new SilvercartEditAddressForm($this, array('addressID' => $addressID), $preferences));
                 }
+            } elseif ($requestParams['Action'] == 'addNewAddress') {
+                Session::set("redirect", $this->Link());
+                $preferences = array();
+                $preferences['submitAction'] = 'addNewAddress/customHtmlFormSubmit';
+                $this->registerCustomHtmlForm('SilvercartAddAddressForm', new SilvercartAddAddressForm($this, array(), $preferences));
             }
         }
     }
