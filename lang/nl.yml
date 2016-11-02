@@ -76,7 +76,7 @@ nl:
     IS_PACKSTATION: "Address is PACKSTATION"
     InvoiceAddressAsShippingAddress: "Gebruik factuuradres als verzendadres"
     MISSES: "Mw"
-    MISTER: "Dhr"
+    MISTER: "Hr"
     NAME: "Name"
     NO_ADDRESS_AVAILABLE: "Geen adres beschikbaar"
     PACKSTATION: "Packstation (e.g. \"Packstation 105\")"
