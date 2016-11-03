@@ -46,7 +46,7 @@
         </div>
         <div class="span8">
         <div class="silvercart-address-bottom wellr">
-<!--            <% if isInvoiceAddress %>
+            <% if isInvoiceAddress %>
              <span class="silvercart-message">
                 <strong>
                     <% _t('SilvercartAddressHolder.DEFAULT_INVOICE','This is your invoice address') %>
@@ -59,32 +59,34 @@
                     <% _t('SilvercartAddressHolder.DEFAULT_SHIPPING','This is your shipping address') %>
                 </strong>
             </span>
-            <% end_if %>-->
+            <% end_if %>
             
-            <% if isInvoiceAddress %>
-            <% else %>
+            <% if not isInvoiceAddress && $Member.SilvercartInvoiceAddress.canEdit %>
                 <a href="{$CurrentPage.Link}setInvoiceAddress/$ID" class="btn btn-small"><% _t('SilvercartAddressHolder.SET_AS','Set as') %> <% _t('SilvercartAddressHolder.INVOICEADDRESS','invoice address') %></a>
             <% end_if %>
 
-            <% if isShippingAddress %>
-            <% else %>
+            <% if not isShippingAddress %>
             <br/><br/><a href="{$CurrentPage.Link}setShippingAddress/$ID" class="btn btn-small"><% _t('SilvercartAddressHolder.SET_AS','Set as') %> <% _t('SilvercartAddressHolder.SHIPPINGADDRESS','shipping address') %></a>
             <% end_if %>
             
+            <% if canEdit || canDelete %>
             <div class="btn-group pull-right">
+                <% if canEdit %>
                 <a class="btn btn-small edit32" data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartAddressHolder.EDIT','edit') %>" data-original-title="" title="" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.PageByIdentifierCodeLink(SilvercartAddressPage)}edit/{$ID}" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>">
                     <span class="icon-pencil">
                         &nbsp;
                     </span>
                 </a>
-                <% if isLastAddress %><% else %>
-                    <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>" data-original-title="" title="" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID">
+                <% end_if %>
+                <% if isLastAddress %><% else_if canDelete %>
+                <a class="btn btn-small btn-danger" data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>" data-original-title="" title="" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID">
                     <span class="icon-trash">
                         &nbsp;
                     </span>
                 </a>
                 <% end_if %>
             </div>       
+            <% end_if %>
         </div>
     </div>
 </div>   

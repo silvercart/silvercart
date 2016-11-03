@@ -115,12 +115,14 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
                 "ID"       => $id
             );
             $address = SilvercartAddress::get()->filter($filter)->first();
-            $address->castedUpdate($formData);
-            $country = SilvercartCountry::get()->byID($formData['Country']);
-            if ($country) {
-                $address->SilvercartCountryID = $country->ID;
+            if ($address->canEdit()) {
+                $address->castedUpdate($formData);
+                $country = SilvercartCountry::get()->byID($formData['Country']);
+                if ($country) {
+                    $address->SilvercartCountryID = $country->ID;
+                }
+                $address->write();
             }
-            $address->write();
             $this->submitSuccess = true;
             if (Session::get("redirect")) {
                 $this->controller->redirect(Session::get("redirect"));

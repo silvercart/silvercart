@@ -58,16 +58,20 @@
                                                 $address.fieldLabel(PhoneShort): $PhoneAreaCode $Phone
                                             <% end_if %>
                                         </div>
+                                    <% if address.canEdit || address.canDelete %>
                                         <div class="btn-group pull-right">
-                                        <a class="btn btn-small edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.Link}editAddress/$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top">
-                                            <span class="icon-edit"></span>
-                                        </a>
-                                        <% if isLastAddress %><% else %><% if Top.canDelete %>
-                                        <a class="btn btn-small btn-danger delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top">
-                                            <span class="icon-trash"></span>
-                                        </a>
-                                        <% end_if %><% end_if %>
+                                        <% if address.canEdit %>
+                                            <a class="btn btn-small edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.Link}editAddress/$ID" title="<% _t('SilvercartAddressHolder.EDIT','edit') %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top">
+                                                <span class="icon-edit"></span>
+                                            </a>
+                                        <% end_if %>
+                                        <% if isLastAddress %><% else_if address.canDelete %>
+                                            <a class="btn btn-small btn-danger delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<% _t('SilvercartAddressHolder.DELETE','Delete') %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top">
+                                                <span class="icon-trash"></span>
+                                            </a>
+                                        <% end_if %>
                                     </div>
+                                    <% end_if %>
                                     </div>
 
                                 </div>

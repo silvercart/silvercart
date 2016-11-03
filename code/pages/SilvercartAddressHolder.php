@@ -216,7 +216,9 @@ class SilvercartAddressHolder_Controller extends SilvercartMyAccountHolder_Contr
             if ($membersAddresses->count() == 1) {
                 // address can't be deleted because it's the only one
                 $this->setErrorMessage(_t('SilvercartAddressHolder.ADDRESS_CANT_BE_DELETED', "Sorry, but you can't delete your only address."));
-            } elseif ($membersAddress instanceof SilvercartAddress && $membersAddress->exists()) {
+            } elseif ($membersAddress instanceof SilvercartAddress &&
+                      $membersAddress->exists() &&
+                      $membersAddress->canDelete()) {
                 // Address contains to logged in user - delete it
                 if ($member->SilvercartInvoiceAddress()->ID == $addressID) {
                     // set shipping address as users invoice address

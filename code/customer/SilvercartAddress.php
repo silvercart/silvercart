@@ -26,7 +26,7 @@ class SilvercartAddress extends DataObject {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'TaxIdNumber'       => 'VarChar(30)',
         'Company'           => 'VarChar(255)',
         'Salutation'        => 'Enum("Herr,Frau","Herr")',
@@ -50,7 +50,7 @@ class SilvercartAddress extends DataObject {
      *
      * @var array
      */
-    public static $has_one = array(
+    private static $has_one = array(
         'Member'            => 'Member',
         'SilvercartCountry' => 'SilvercartCountry'
     );
@@ -60,7 +60,7 @@ class SilvercartAddress extends DataObject {
      *
      * @var array
      */
-    public static $casting = array(
+    private static $casting = array(
         'FullName'              => 'Text',
         'SalutationText'        => 'VarChar',
         'SilvercartCountryISO2' => 'Text',
@@ -74,7 +74,7 @@ class SilvercartAddress extends DataObject {
      *
      * @var array
      */
-    public static $defaults = array(
+    private static $defaults = array(
         'IsPackstation' => '0',
     );
     
@@ -95,8 +95,15 @@ class SilvercartAddress extends DataObject {
      *
      * @var bool
      */
-    public static $api_access = true;
+    private static $api_access = true;
     
+    /**
+     * Set this to true to make the invoice address readonly for customers.
+     *
+     * @var bool
+     */
+    private static $invoice_address_is_readonly = false;
+
     /**
      * Property to indicate whether this is an anonymous address
      *
@@ -124,6 +131,35 @@ class SilvercartAddress extends DataObject {
      * @var bool
      */
     protected $isRestfulContext = false;
+
+    /**
+     * Sets the customer readonly state for invoice addresses.
+     * 
+     * @param bool $invoice_address_is_readonly Set to true to make the invoice address readonly
+     * 
+     * @return void
+     */
+    public static function set_invoice_address_is_readonly($invoice_address_is_readonly) {
+        self::$invoice_address_is_readonly = $invoice_address_is_readonly;
+    }
+    
+    /**
+     * Returns the customer readonly state for invoice addresses. 
+     * 
+     * @return bool
+     */
+    public static function get_invoice_address_is_readonly() {
+        return self::$invoice_address_is_readonly;
+    }
+    
+    /**
+     * Returns the customer readonly state for invoice addresses. 
+     * 
+     * @return bool
+     */
+    public static function invoice_address_is_readonly() {
+        return self::get_invoice_address_is_readonly();
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -178,11 +214,11 @@ class SilvercartAddress extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2013
      */
-    public function CanView($member = null) {
+    public function canView($member = null) {
         $canView = false;
         if ((Member::currentUserID() == $this->MemberID &&
              !is_null($this->MemberID)) ||
-            Permission::check('SILVERCART_ADDRESS_VIEW')) {
+            Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')) {
             $canView = true;
         }
         return $canView;
@@ -196,10 +232,20 @@ class SilvercartAddress extends DataObject {
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.05.2013
+     * @since 02.11.2016
      */
-    public function CanEdit($member = null) {
-        return Permission::check('SILVERCART_ADDRESS_EDIT');
+    public function canEdit($member = null) {
+        $canEdit = false;
+        if ((Member::currentUserID() == $this->MemberID &&
+             !is_null($this->MemberID)) &&
+            !($this->isInvoiceAddress() &&
+              self::invoice_address_is_readonly())) {
+            $canEdit = true;
+        }
+        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_EDIT')) {
+            $canEdit = true;
+        }
+        return $canEdit;
     }
 
     /**
@@ -210,10 +256,20 @@ class SilvercartAddress extends DataObject {
      * @return boolean
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.05.2013
+     * @since 02.11.2016
      */
-    public function CanDelete($member = null) {
-        return Permission::check('SILVERCART_ADDRESS_DELETE');
+    public function canDelete($member = null) {
+        $canDelete = false;
+        if ((Member::currentUserID() == $this->MemberID &&
+             !is_null($this->MemberID)) &&
+            !($this->isInvoiceAddress() &&
+              self::invoice_address_is_readonly())) {
+            $canDelete = true;
+        }
+        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_DELETE')) {
+            $canDelete = true;
+        }
+        return $canDelete;
     }
     
     /**
