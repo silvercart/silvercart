@@ -883,7 +883,7 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
     display: none;
 }
 .mobile-show-sm {
-    display: none;
+    display: none !important;
 }
 .mobile-hide-sm {
 }
