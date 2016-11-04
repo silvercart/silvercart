@@ -26,7 +26,6 @@
     </td>
 <% if $CurrentPage.EditableShoppingCart %>
     <td class="text-right borderlr quantity">  
-        <%-- @todo mit Link zusammenfassen ohne 3 Formulare damit Template umgesetzt werden kann --%>
         <div class="btn-group">
             <div class="pull-left input-prepend input-append form-prepend">{$DecrementPositionQuantityForm}</div>
             <div class="pull-left">
@@ -39,8 +38,6 @@
             </div>
             <% if isQuantityIncrementableBy %>
             <div class="pull-left input-append">{$IncrementPositionQuantityForm}</div>
-
-
             <% end_if %> 
         </div>
     </td>
