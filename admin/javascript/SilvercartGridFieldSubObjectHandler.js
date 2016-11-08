@@ -37,7 +37,9 @@
                 if (actionName === 'remove') {
                     successRemove(subListRecordAction, parentID, recordID, recordTitle, subListRecord);
                 } else if (actionName === 'activate' ||
-                           actionName === 'deactivate') {
+                           actionName === 'deactivate' ||
+                           actionName === 'default' ||
+                           actionName === 'undefault') {
                     successButtonSwitch(subListRecordAction, parentID, recordID, recordTitle, subListRecord);
                 }
                 subListRecord.removeClass('action-in-progress');
