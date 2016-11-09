@@ -13,8 +13,7 @@
         <ul class="unstyled">
             <li><a class="highlight" href="$silvercartProduct.Link"><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $getProductNumberShop</a></li>
             <% if getCartDescription %><li><small>$getCartDescription</small></li><% end_if %>
-            <%-- @TODO SilvercartFreightgroupShoppingCartPositionPlugin.php $addToTitle begins with <p> end </div> --%>
-            <li><small><%-- $addToTitle --%></small></li>
+            <% if $addToTitle %><li><small>{$addToTitle}</small></li><% end_if %>
         </ul>
     </td>
     <td class="sub-price text-right">
