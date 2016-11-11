@@ -28,6 +28,7 @@ class SilvercartActionHandler extends DataExtension {
     public static $allowed_actions = array(
         'addToCart',
         'doSearch',
+        'doLogin',
     );
     
     /**
@@ -160,4 +161,41 @@ class SilvercartActionHandler extends DataExtension {
             $this->owner->redirect($searchResultsPage->RelativeLink());
         }
     }
+    
+    /**
+     * Action to do a login
+     * 
+     * @param SS_HTTPRequest $request    Request to check for product data
+     * @param bool           $doRedirect Redirect after setting search settings?
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.06.2014
+     */
+    public function doLogin(SS_HTTPRequest $request, $doRedirect = true) {
+        $postVars     = $request->postVars();
+        $emailAddress = $postVars['emailaddress'];
+        $password     = $postVars['password'];
+        $member       = Member::get()->filter('Email', $emailAddress)->first();
+
+        if ($member instanceof Member &&
+            $member->exists()) {
+            $customer = MemberAuthenticator::authenticate(
+                array(
+                    'Email'    => $emailAddress,
+                    'Password' => $password
+                )
+            );
+
+            if ($customer instanceof Member &&
+                $customer->exists()) {
+                //transfer cart positions from an anonymous user to the one logging in
+                $anonymousCustomer = SilvercartCustomer::currentAnonymousCustomer();
+                if ($anonymousCustomer) {
+                    if ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions()->count() > 0) {
+                        //delete registered customers cart positions
+                        if ($customer->getCart()->SilvercartShoppingCartPositions()) {
+                            foreach ($customer->getCart()->SilvercartShoppingCartPositions() as $position) {
+                                $position->delete();
 }
