@@ -198,4 +198,34 @@ class SilvercartActionHandler extends DataExtension {
                         if ($customer->getCart()->SilvercartShoppingCartPositions()) {
                             foreach ($customer->getCart()->SilvercartShoppingCartPositions() as $position) {
                                 $position->delete();
+                            }
+                        }
+                        //add anonymous positions to the registered user
+
+                        foreach ($anonymousCustomer->getCart()->SilvercartShoppingCartPositions() as $position) {
+                            $customer->getCart()->SilvercartShoppingCartPositions()->add($position);
+                        }
+                    }
+                    $anonymousCustomer->logOut();
+                    $anonymousCustomer->delete();
+                }
+
+                $customer->logIn();
+                $customer->write();
+            } else {
+                $messages = array(
+                    'Authentication' => array(
+                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG'),
+                    )
+                );
+            }
+        } else {
+                $messages = array(
+                    'Authentication' => array(
+                        'message' => _t('SilvercartPage.CREDENTIALS_WRONG'),
+                    )
+                );
+        }
+        $this->redirectBack($postVars['redirect_to']);
+    }
 }
