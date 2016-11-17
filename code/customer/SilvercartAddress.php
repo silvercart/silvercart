@@ -30,6 +30,7 @@ class SilvercartAddress extends DataObject {
         'TaxIdNumber'       => 'VarChar(30)',
         'Company'           => 'VarChar(255)',
         'Salutation'        => 'Enum("Herr,Frau","Herr")',
+        'AcademicTitle'     => 'VarChar(50)',
         'FirstName'         => 'VarChar(50)',
         'Surname'           => 'VarChar(50)',
         'Addition'          => 'VarChar(255)',
@@ -333,6 +334,10 @@ class SilvercartAddress extends DataObject {
                 'title'     => $this->fieldLabel('Salutation'),
                 'filter'    => 'ExactMatchFilter'
             ),
+            'AcademicTitle' => array(
+                'title'     => $this->fieldLabel('AcademicTitle'),
+                'filter'    => 'PartialMatchFilter'
+            ),
             'FirstName'         => array(
                 'title'     => $this->fieldLabel('FirstName'),
                 'filter'    => 'PartialMatchFilter'
@@ -453,6 +458,7 @@ class SilvercartAddress extends DataObject {
                 'Packstation'           => _t('SilvercartAddress.PACKSTATION'),
                 'PackstationPlain'      => _t('SilvercartAddress.PACKSTATION_PLAIN'),
                 'Salutation'            => _t('SilvercartAddress.SALUTATION'),
+                'AcademicTitle'         => _t('SilvercartAddress.AcademicTitle'),
                 'FirstName'             => _t('SilvercartAddress.FIRSTNAME'),
                 'Surname'               => _t('SilvercartAddress.SURNAME'),
                 'TaxIdNumber'           => _t('SilvercartAddress.TAXIDNUMBER'),
@@ -648,6 +654,7 @@ class SilvercartAddress extends DataObject {
         
         $propertiesToCheck = array(
             'Salutation',
+            'AcademicTitle',
             'FirstName',
             'Surname',
             'Addition',

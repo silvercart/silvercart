@@ -61,6 +61,7 @@ en_GB:
     YES: "Yes"
     YESTERDAY: "yesterday"
   SilvercartAddress:
+    AcademicTitle: "Academic title"
     ADDITION: "Addition"
     ADDRESSTYPE: "Type of address"
     CITY: "City"

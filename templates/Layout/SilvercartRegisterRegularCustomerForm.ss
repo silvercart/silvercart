@@ -24,6 +24,12 @@
                 $CustomHtmlFormFieldByName(Salutation,CustomHtmlFormFieldSelect)
             </div>
             <div class="span4">
+                $CustomHtmlFormFieldByName(AcademicTitle)
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span4">
                 $CustomHtmlFormFieldByName(FirstName)
             </div>
             <div class="span4 last">

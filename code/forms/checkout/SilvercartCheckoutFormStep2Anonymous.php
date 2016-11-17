@@ -205,6 +205,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             "Frau"  => _t('SilvercartAddress.MISSES', 'misses'),
             "Herr"  => _t('SilvercartAddress.MISTER', 'mister')
         );
+        $this->formFields['Invoice_AcademicTitle']['title'] = _t('SilvercartAddress.AcademicTitle', 'Academic title');
         $this->formFields['Invoice_FirstName']['title']     = _t('SilvercartAddress.FIRSTNAME', 'firstname');
         $this->formFields['Invoice_Surname']['title']       = _t('SilvercartAddress.SURNAME', 'surname');
         $this->formFields['Invoice_Addition']['title']      = _t('SilvercartAddress.ADDITION', 'addition');
@@ -222,6 +223,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
             "Frau"  => _t('SilvercartAddress.MISSES'),
             "Herr"  => _t('SilvercartAddress.MISTER')
         );
+        $this->formFields['Shipping_AcademicTitle']['title']    = _t('SilvercartAddress.AcademicTitle');
         $this->formFields['Shipping_FirstName']['title']        = _t('SilvercartAddress.FIRSTNAME');
         $this->formFields['Shipping_Surname']['title']          = _t('SilvercartAddress.SURNAME');
         $this->formFields['Shipping_Addition']['title']         = _t('SilvercartAddress.ADDITION');
@@ -274,6 +276,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
         // the same as the invoice address.
         if ($data['InvoiceAddressAsShippingAddress'] == '1') {
             $this->deactivateValidationFor('Shipping_Salutation');
+            $this->deactivateValidationFor('Shipping_AcademicTitle');
             $this->deactivateValidationFor('Shipping_FirstName');
             $this->deactivateValidationFor('Shipping_Surname');
             $this->deactivateValidationFor('Shipping_Addition');
@@ -340,6 +343,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
         // Set invoice address as shipping address if desired
         if ($data['InvoiceAddressAsShippingAddress'] == '1') {
             $formData['Shipping_Salutation']       = $formData['Invoice_Salutation'];
+            $formData['Shipping_AcademicTitle']    = $formData['Invoice_AcademicTitle'];
             $formData['Shipping_FirstName']        = $formData['Invoice_FirstName'];
             $formData['Shipping_Surname']          = $formData['Invoice_Surname'];
             $formData['Shipping_Addition']         = $formData['Invoice_Addition'];

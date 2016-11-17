@@ -61,6 +61,7 @@ nl:
     YES: "Ja"
     YESTERDAY: "yesterday"
   SilvercartAddress:
+    AcademicTitle: "Academische titel"
     ADDITION: "Toevoeging"
     ADDRESSTYPE: "Type of address"
     CITY: "Woonplaats"

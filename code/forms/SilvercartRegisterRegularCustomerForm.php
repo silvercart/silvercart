@@ -165,6 +165,10 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                         'isFilledIn' => true
                     )
                 ),
+                'AcademicTitle' => array(
+                    'type'              => 'TextField',
+                    'title'             => _t('SilvercartAddress.AcademicTitle', 'Academic title'),
+                ),
                 'FirstName' => array(
                     'type'              => 'TextField',
                     'title'             => _t('SilvercartAddress.FIRSTNAME', 'firstname'),

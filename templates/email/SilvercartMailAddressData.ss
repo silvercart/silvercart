@@ -15,6 +15,10 @@
         <td>$SalutationText</td>
     </tr>
     <tr>
+        <td>$fieldLabel(AcademicTitle)</td>
+        <td>$AcademicTitle</td>
+    </tr>
+    <tr>
         <td>$fieldLabel(FirstName)</td>
         <td>$FirstName</td>
     </tr>

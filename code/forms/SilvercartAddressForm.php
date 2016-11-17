@@ -91,6 +91,10 @@ class SilvercartAddressForm extends CustomHtmlForm {
                         'isFilledIn' => true
                     )
                 ),
+                'AcademicTitle' => array(
+                    'type'      => 'TextField',
+                    'title'     => $address->fieldLabel('AcademicTitle'),
+                ),
                 'FirstName' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('FirstName'),

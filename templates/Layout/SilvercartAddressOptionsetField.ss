@@ -42,7 +42,7 @@
                                                 </div>
                                             <% end_if %>
                                             
-                                            $SalutationText $FirstName $Surname<br/>
+                                            {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname}<br/>
                                             <% if Addition %>
                                                 $Addition<br/>
                                             <% end_if %>

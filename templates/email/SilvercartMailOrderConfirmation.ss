@@ -19,7 +19,7 @@
 </style>
 <h1><% _t('SilvercartOrderConfirmationPage.ORDERCONFIRMATION') %></h1>
 
-<p><% _t('SilvercartShopEmail.HELLO', 'Hello') %> $Salutation $FirstName $Surname,</p>
+<p><% _t('SilvercartShopEmail.HELLO', 'Hello') %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
 <p><% _t('SilvercartShopEmail.ORDER_ARRIVED', 'We confirm your order, many thanks.') %></p>
 
 <% with SilvercartOrder %>

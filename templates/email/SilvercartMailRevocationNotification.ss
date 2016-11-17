@@ -15,7 +15,7 @@
 <% _t('SilvercartRevocationForm.RevocationDate') %>: <strong>{$CurrentDate}</strong><br/>
 <% _t('SilvercartRevocationForm.OrderDate') %>: <strong>{$OrderDate}</strong><br/>
 <% _t('SilvercartRevocationForm.OrderNumber') %>: <strong>{$OrderNumber}</strong><br/>
-<% _t('SilvercartRevocationForm.NameOfConsumer') %>: <strong>{$Salutation} {$FirstName} {$Surname}</strong><br/>
+<% _t('SilvercartRevocationForm.NameOfConsumer') %>: <strong>{$SalutationText} {$AcademicTitle} {$FirstName} {$Surname}</strong><br/>
 <% _t('SilvercartRevocationForm.AddressOfConsumer') %>:<br/>
 {$Street} {$StreetNumber}<br/>
 {$Addition}<br/>

@@ -41,12 +41,18 @@
             $CustomHtmlFormFieldByName(Invoice_Salutation,CustomHtmlFormFieldSelect)
         </div>
         <div class="span4">
+            $CustomHtmlFormFieldByName(Invoice_AcademicTitle)
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span4">
             $CustomHtmlFormFieldByName(Invoice_FirstName)
         </div>
         <div class="span4 last">
             $CustomHtmlFormFieldByName(Invoice_Surname)
         </div>
-    </div>    
+    </div>
 
     <div class="row-fluid">
         <div class="span4">
@@ -114,6 +120,12 @@
             <div class="span4">
                 $CustomHtmlFormFieldByName(Shipping_Salutation,CustomHtmlFormFieldSelect)
             </div>
+            <div class="span4">
+                $CustomHtmlFormFieldByName(Shipping_AcademicTitle)
+            </div>
+        </div>
+
+        <div class="row-fluid">
             <div class="span4">
                 $CustomHtmlFormFieldByName(Shipping_FirstName)
             </div>
