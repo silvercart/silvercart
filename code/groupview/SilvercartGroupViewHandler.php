@@ -209,8 +209,9 @@ class SilvercartGroupViewHandler {
     public static function getDefaultGroupViewInherited() {
         $controller = @Controller::curr();
 
-        if ($controller) {
-            if ($controller->getUseOnlyDefaultGroupViewInherited()) {
+        if ($controller instanceof Controller) {
+            if ($controller->hasMethod('getUseOnlyDefaultGroupViewInherited') &&
+                $controller->getUseOnlyDefaultGroupViewInherited()) {
                 $defaultGroupView = $controller->getDefaultGroupViewInherited();
             } else {
                 $defaultGroupView = self::$defaultGroupView;
