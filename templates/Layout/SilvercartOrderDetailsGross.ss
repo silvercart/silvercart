@@ -9,7 +9,7 @@
             <th class="text-right"><% _t('SilvercartPrice.SINGULARNAME') %></th>
         </tr>
         <tr class="mobile-show-sm">
-            <th class="text-left" colspan="5">{$singular_name}</th>
+            <th class="text-left" colspan="6">{$singular_name}</th>
         </tr>
     </thead>
     <tbody>
