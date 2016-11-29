@@ -224,9 +224,6 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
      * @since 20.10.2011
      */
     public function init() {
-        if (!SilvercartWidget::$use_anything_slider) {
-            return;
-        }
         $autoplay           = 'false';
         $autoPlayDelayed    = 'false';
         $autoPlayLocked     = 'true';
@@ -277,53 +274,86 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
                 $delayBeforeAnimate = 500;
                 $effect             = 'fade';
         }
-            
-        Requirements::customScript(
-            sprintf('
-                $(document).ready(function() {
-                    $("#SilvercartImageSliderWidget%d")
-                    .anythingSlider({
-                        startPanel:         1,
-                        autoPlay:           %s,
-                        autoPlayDelayed:    %s,
-                        autoPlayLocked:     %s,
-                        stopAtEnd:          %s,
-                        buildArrows:        %s,
-                        buildNavigation:    %s,
-                        buildStartStop:     %s,
-                        delay:              %d,
-                        animationTime:      %s,
-                        delayBeforeAnimate: %d,
-                        theme:              \'silvercart-default\',
-                        vertical:           %s,
-                        navigationFormatter: function(index, panel){
-                            panel.css("display", "block");
-                            return index;
-                        }
-                    })
-                    .anythingSliderFx({
-                        // base FX definitions
-                        // ".selector" : [ "effect(s)", "size", "time", "easing" ]
-                        // "size", "time" and "easing" are optional parameters, but must be kept in order if added
-                        \'.panel\' : [ \'%s\', \'\', 500, \'easeInOutCirc\' ]
+           
+        if (!SilvercartWidget::$use_anything_slider) {
+            exit();
+            Requirements::customScript(
+                sprintf('
+var imageSliderAutoPlay = %s,
+    imageSliderAutoPlayDelayed = %s,
+    imageSliderAutoPlayLocked = %s,
+    imageSliderStopAtEnd = %s,
+    imageSliderBuildArrows = %s,
+    imageSliderBuildNavigation = %s,
+    imageSliderBuildStartStop = %s,
+    imageSliderDelay = %d,
+    imageSliderAnimationTime = %s,
+    imageSliderDelayBeforeAnimate = %d,
+    imageSliderVertical = %s,
+    imageSliderEffect = \'%s\';',
+                    $this->ID,
+                    $autoplay,
+                    $autoPlayDelayed,
+                    $autoPlayLocked,
+                    $stopAtEnd,
+                    $buildArrows,
+                    $buildNavigation,
+                    $buildStartStop,
+                    $this->slideDelay,
+                    $animationTime,
+                    $delayBeforeAnimate,
+                    $vertical,
+                    $effect
+                )
+            );
+        } else {
+            Requirements::customScript(
+                sprintf('
+                    $(document).ready(function() {
+                        $("#SilvercartImageSliderWidget%d")
+                        .anythingSlider({
+                            startPanel:         1,
+                            autoPlay:           %s,
+                            autoPlayDelayed:    %s,
+                            autoPlayLocked:     %s,
+                            stopAtEnd:          %s,
+                            buildArrows:        %s,
+                            buildNavigation:    %s,
+                            buildStartStop:     %s,
+                            delay:              %d,
+                            animationTime:      %s,
+                            delayBeforeAnimate: %d,
+                            theme:              \'silvercart-default\',
+                            vertical:           %s,
+                            navigationFormatter: function(index, panel){
+                                panel.css("display", "block");
+                                return index;
+                            }
+                        })
+                        .anythingSliderFx({
+                            // base FX definitions
+                            // ".selector" : [ "effect(s)", "size", "time", "easing" ]
+                            // "size", "time" and "easing" are optional parameters, but must be kept in order if added
+                            \'.panel\' : [ \'%s\', \'\', 500, \'easeInOutCirc\' ]
+                        });
                     });
-                });
-                ',
-                $this->ID,
-                $autoplay,
-                $autoPlayDelayed,
-                $autoPlayLocked,
-                $stopAtEnd,
-                $buildArrows,
-                $buildNavigation,
-                $buildStartStop,
-                $this->slideDelay,
-                $animationTime,
-                $delayBeforeAnimate,
-                $vertical,
-                $effect
-            )
-        );
+                    ',
+                    $this->ID,
+                    $autoplay,
+                    $autoPlayDelayed,
+                    $autoPlayLocked,
+                    $stopAtEnd,
+                    $buildArrows,
+                    $buildNavigation,
+                    $buildStartStop,
+                    $this->slideDelay,
+                    $animationTime,
+                    $delayBeforeAnimate,
+                    $vertical,
+                    $effect
+                )
+            );
+        } 
     }
 
     /**

@@ -72,7 +72,7 @@ function flexSlideShow() {
 		 slideshowSpeed: 4000,
 		 directionNav: false,
 		 pauseOnHover: true,
-		 directionNav: false
+		 controlNav: imageSliderBuildNavigation
 	});
 }
 
