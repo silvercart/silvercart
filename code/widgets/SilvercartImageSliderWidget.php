@@ -276,7 +276,6 @@ class SilvercartImageSliderWidget_Controller extends SilvercartWidget_Controller
         }
            
         if (!SilvercartWidget::$use_anything_slider) {
-            exit();
             Requirements::customScript(
                 sprintf('
 var imageSliderAutoPlay = %s,
