@@ -168,7 +168,7 @@ class SilvercartAddressForm extends CustomHtmlForm {
                     ),
                 )
             );
-            if (SilvercartConfig::enableBusinessCustomers()) {
+            if ($this->EnableBusinessCustomers()) {
                 $this->formFields = array_merge(
                     $this->formFields,
                     array(
