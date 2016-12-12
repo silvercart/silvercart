@@ -1161,15 +1161,6 @@ class SilvercartShoppingCart extends DataObject {
             $handlingCostShipmentObj->setCurrency(SilvercartConfig::DefaultCurrency());
         }
 
-        if (SilvercartConfig::PriceType() == 'net') {
-            $taxRate = $this->getMostValuableTaxRate();
-            if ($taxRate !== false) {
-                $handlingCostShipment = round(($handlingCostShipmentObj->getAmount() / (100 + $taxRate->Rate) * 100), 2);
-            }
-
-            $handlingCostShipmentObj->setAmount($handlingCostShipment);
-        }
-
         return $handlingCostShipmentObj;
     }
     
