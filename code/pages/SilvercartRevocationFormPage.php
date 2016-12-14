@@ -67,6 +67,15 @@ class SilvercartRevocationFormPage extends SilvercartMetaNavigationHolder {
  * @license see license file in modules root directory
  */
 class SilvercartRevocationFormPage_Controller extends SilvercartMetaNavigationHolder_Controller {
+    
+    /**
+     * Allowed actions.
+     *
+     * @var array
+     */
+    private static $allowed_actions = array(
+        'successs',
+    );
 
     /**
      * initialisation of the form object
