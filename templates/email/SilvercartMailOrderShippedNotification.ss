@@ -19,7 +19,7 @@
 </style>
 <h1><% _t('SilvercartShopEmail.ORDER_SHIPPED_NOTIFICATION') %></h1>
 
-<p><% _t('SilvercartShopEmail.HELLO', 'Hello') %> $Salutation $FirstName $Surname,</p>
+<p><% _t('SilvercartShopEmail.HELLO', 'Hello') %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
 <p><% _t('SilvercartShopEmail.ORDER_SHIPPED_MESSAGE', 'Your order has been shipped.') %></p>
 
 <% with SilvercartOrder %>

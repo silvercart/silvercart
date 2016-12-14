@@ -61,6 +61,7 @@ nl:
     YES: "Ja"
     YESTERDAY: "yesterday"
   SilvercartAddress:
+    AcademicTitle: "Academische titel"
     ADDITION: "Toevoeging"
     ADDRESSTYPE: "Type of address"
     CITY: "Woonplaats"
@@ -1185,7 +1186,7 @@ nl:
     INCLUDING_TAX: "incl. %s%% BTW"
     INCREMENT_POSITION: "Increase quantity"
     ISACTIVE: "Actief"
-    I_ACCEPT: "Ik accpeteer de"
+    I_ACCEPT: "Ik accepteer de"
     I_HAVE_READ: "Ik heb de"
     JANUARY: "Januari"
     JULY: "Juli"

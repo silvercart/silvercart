@@ -13,7 +13,7 @@
     <body>        
         <h1><% _t('SilvercartMailForgotPassword.TITLE') %></h1>
 
-        <p><% _t('SilvercartShopEmail.HELLO') %> $SalutationText $FirstName $Surname,</p>
+        <p><% _t('SilvercartShopEmail.HELLO') %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
 
         <p><% _t('SilvercartMailForgotPassword.VISIT_TEXT') %><br/>
             $PasswordResetLink<br/>

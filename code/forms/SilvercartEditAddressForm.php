@@ -68,6 +68,7 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
             $this->address = SilvercartAddress::get()->filter($filter)->first();
             if ($this->address) {
                 $this->formFields['Salutation']['selectedValue']    = $this->address->Salutation;
+                $this->formFields['AcademicTitle']['value']         = $this->address->AcademicTitle;
                 $this->formFields['FirstName']['value']             = $this->address->FirstName;
                 $this->formFields['Surname']['value']               = $this->address->Surname;
                 $this->formFields['Addition']['value']              = $this->address->Addition;

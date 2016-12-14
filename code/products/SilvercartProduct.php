@@ -2570,6 +2570,14 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             }
         }
         
+        if ($this->SilvercartTaxID == 0) {
+            $defaultTaxRate = SilvercartTax::getDefault();
+            if ($defaultTaxRate instanceof SilvercartTax &&
+                $defaultTaxRate->exists()) {
+                $this->SilvercartTaxID = $defaultTaxRate->ID;
+            }
+        }
+        
         if (array_key_exists('RefreshCache', $_POST) &&
             ($_POST['RefreshCache'] == '1' ||
              $_POST['RefreshCache'] == 'on')) {

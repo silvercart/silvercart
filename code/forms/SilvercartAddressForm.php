@@ -91,6 +91,10 @@ class SilvercartAddressForm extends CustomHtmlForm {
                         'isFilledIn' => true
                     )
                 ),
+                'AcademicTitle' => array(
+                    'type'      => 'TextField',
+                    'title'     => $address->fieldLabel('AcademicTitle'),
+                ),
                 'FirstName' => array(
                     'type'      => 'TextField',
                     'title'     => $address->fieldLabel('FirstName'),
@@ -164,7 +168,7 @@ class SilvercartAddressForm extends CustomHtmlForm {
                     ),
                 )
             );
-            if (SilvercartConfig::enableBusinessCustomers()) {
+            if ($this->EnableBusinessCustomers()) {
                 $this->formFields = array_merge(
                     $this->formFields,
                     array(

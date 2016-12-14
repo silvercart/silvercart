@@ -131,6 +131,7 @@ function deactivateShippingAddressValidation() {
     if (typeof(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) {
             deactivateValidationFor('Shipping_Salutation');
+            deactivateValidationFor('Shipping_AcademicTitle');
             deactivateValidationFor('Shipping_FirstName');
             deactivateValidationFor('Shipping_Surname');
             deactivateValidationFor('Shipping_Addition');
@@ -164,6 +165,7 @@ function activateShippingAddressValidation() {
     if (typeof(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) !== 'undefined') {
         with(SilvercartCheckoutFormStep2Anonymous_customHtmlFormSubmit_1) {
             activateValidationFor('Shipping_Salutation');
+            activateValidationFor('Shipping_AcademicTitle');
             activateValidationFor('Shipping_FirstName');
             activateValidationFor('Shipping_Surname');
             activateValidationFor('Shipping_Addition');

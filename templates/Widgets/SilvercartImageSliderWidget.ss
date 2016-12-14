@@ -9,7 +9,7 @@
     </div>
     <% end_if %>
 
-    <div class="flexslider">
+    <div class="flexslider <% if not $buildNavigation %>noControlNav<% end_if %>">
         <ul class="slides">
             <% loop slideImages %>
             <li>

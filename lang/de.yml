@@ -61,6 +61,7 @@ de:
     YES: "Ja"
     YESTERDAY: "gestern"
   SilvercartAddress:
+    AcademicTitle: "Titel"
     ADDITION: "Adresszusatz"
     ADDRESSTYPE: "Art der Adresse"
     CITY: "Ort"

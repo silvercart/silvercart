@@ -67,12 +67,15 @@ function cartContent() {
 
 // flexslider on home page
 function flexSlideShow() {
+    if (typeof imageSliderBuildNavigation === 'undefined') {
+        var imageSliderBuildNavigation = true;
+    }
 	$('.flexslider').flexslider({
 		 animation: "slide",
 		 slideshowSpeed: 4000,
 		 directionNav: false,
 		 pauseOnHover: true,
-		 directionNav: false
+		 controlNav: imageSliderBuildNavigation
 	});
 }
 

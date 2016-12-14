@@ -242,6 +242,9 @@ class SilvercartTax extends DataObject {
         } else {
             $rate = $overwritten[0];
         }
+        if (is_null($rate)) {
+            $rate = 0;
+        }
         return $rate;
     }
     

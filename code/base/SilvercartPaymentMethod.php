@@ -667,7 +667,9 @@ class SilvercartPaymentMethod extends DataObject {
             } else {
                 $shoppingCartTotal  = $silvercartShoppingCart->getAmountTotalNetWithoutVat(array(), false, true);
                 $taxRate            = $silvercartShoppingCart->getMostValuableTaxRate();
-                $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+                if ($taxRate instanceof SilvercartTax) {
+                    $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+                }
             }
 
             if ($handlingCostAmount < 0 &&
