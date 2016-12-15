@@ -86,7 +86,7 @@ class SilvercartCheckoutStep extends CustomHtmlFormStepPage {
             is_array($sessionStepData)) {
 
             foreach ($sessionStepData as $sessionIdx => $sessionContent) {
-                unset($_SESSION['CustomHtmlFormStep'][$sessionIdx]);
+                Session::clear('CustomHtmlFormStep.' . $sessionIdx);
             }
         }
     }
@@ -335,11 +335,13 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             }
         }
 
-        if (isset($_SESSION['paypal_module_payer_id'])) {
-            unset($_SESSION['paypal_module_payer_id']);
+        $paypal_module_payer_id = Session::get('paypal_module_payer_id');
+        if (!is_null($paypal_module_payer_id)) {
+            Session::clear('paypal_module_payer_id');
         }
-        if (isset($_SESSION['paypal_module_token'])) {
-            unset($_SESSION['paypal_module_token']);
+        $paypal_module_token = Session::get('paypal_module_token');
+        if (!is_null($paypal_module_token)) {
+            Session::clear('paypal_module_token');
         }
     }
 

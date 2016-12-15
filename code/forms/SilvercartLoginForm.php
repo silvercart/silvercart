@@ -117,7 +117,6 @@ class SilvercartLoginForm extends CustomHtmlForm {
                             $customer->getCart()->SilvercartShoppingCartPositions()->add($position);
                         }
                     }
-                    $anonymousCustomer->logOut();
                     $anonymousCustomer->delete();
                 }
 

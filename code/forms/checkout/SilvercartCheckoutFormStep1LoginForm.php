@@ -26,32 +26,46 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlFormStep {
      * @var bool
      */
     protected $excludeFromCache = true;
-
+    
     /**
-     * The form field definitions.
-     *
-     * @var array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 08.04.2011
+     * Don't enable Security token for this type of form because we'll run
+     * into caching problems when using it.
+     * 
+     * @var boolean
      */
-    protected $formFields = array(
-        'Email' => array(
-            'type'              => 'TextField',
-            'title'             => 'Email',
-            'checkRequirements' => array(
-                'isEmailAddress'    => true,
-                'isFilledIn'        => true
-            )
-        ),
-        'Password' => array(
-            'type'              => 'PasswordField',
-            'title'             => 'Password',
-            'checkRequirements' => array(
-                'isFilledIn'        => true
-            )
-        )
-    );
+    protected $securityTokenEnabled = false;
+    
+    /**
+     * Returns the forms fields.
+     * 
+     * @param bool $withUpdate Call the method with extension updates or not?
+     *
+     * @return array
+     */
+    public function getFormFields($withUpdate = true) {
+        if (!array_key_exists('emailaddress', $this->formFields)) {
+            $this->formFields = array(
+                'Email' => array(
+                    'type'  => 'TextField',
+                    'title' => _t('SilvercartPage.EMAIL_ADDRESS'),
+                    'value' => '',
+                    'checkRequirements' => array(
+                        'isEmailAddress' => true,
+                        'isFilledIn'     => true,
+                    )
+                ),
+                'Password' => array(
+                    'type'  => 'PasswordField',
+                    'title' => _t('SilvercartPage.PASSWORD'),
+                    'value' => '',
+                    'checkRequirements' => array(
+                        'isFilledIn' => true
+                    )
+                ),
+            );
+        }
+        return parent::getFormFields($withUpdate);
+    }
 
     /**
      * Set initial form values
@@ -130,13 +144,13 @@ class SilvercartCheckoutFormStep1LoginForm extends CustomHtmlFormStep {
                             $customer->getCart()->SilvercartShoppingCartPositions()->add($position);
                         }
                     }
-                    $anonymousCustomer->logOut();
                     $anonymousCustomer->delete();
                 }
 
                 $customer->logIn();
                 $customer->write();
-
+                Session::save();
+                
                 $this->getController()->redirect($this->getController()->Link());
             } else {
                 $this->addErrorMessage('Password', _t('SilvercartPage.PASSWORD_WRONG', 'This user does not exist.'));

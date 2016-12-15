@@ -175,8 +175,14 @@ class SilvercartActionHandler extends DataExtension {
      */
     public function doLogin(SS_HTTPRequest $request, $doRedirect = true) {
         $postVars     = $request->postVars();
-        $emailAddress = $postVars['emailaddress'];
-        $password     = $postVars['password'];
+        if (array_key_exists('emailaddress', $postVars) &&
+            array_key_exists('password', $postVars)) {
+            $emailAddress = $postVars['emailaddress'];
+            $password     = $postVars['password'];
+        } else {
+            $emailAddress = $postVars['Email'];
+            $password     = $postVars['Password'];
+        }
         $member       = Member::get()->filter('Email', $emailAddress)->first();
 
         if ($member instanceof Member &&
@@ -206,10 +212,9 @@ class SilvercartActionHandler extends DataExtension {
                             $customer->getCart()->SilvercartShoppingCartPositions()->add($position);
                         }
                     }
-                    $anonymousCustomer->logOut();
                     $anonymousCustomer->delete();
                 }
-
+                
                 $customer->logIn();
                 $customer->write();
             } else {
