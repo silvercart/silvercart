@@ -74,7 +74,7 @@ class SilvercartRevocationFormPage_Controller extends SilvercartMetaNavigationHo
      * @var array
      */
     private static $allowed_actions = array(
-        'successs',
+        'success',
     );
 
     /**
