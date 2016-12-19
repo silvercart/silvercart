@@ -2578,6 +2578,27 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             }
         }
         
+        $priceGrossCurrency = $this->PriceGross->getCurrency();
+        if (is_null($this->PriceGrossCurrency) &&
+            is_null($priceGrossCurrency)) {
+            $this->PriceGrossCurrency = SilvercartConfig::DefaultCurrency();
+        }
+        $priceNetCurrency = $this->PriceNet->getCurrency();
+        if (is_null($this->PriceNetCurrency) &&
+            is_null($priceNetCurrency)) {
+            $this->PriceNetCurrency = SilvercartConfig::DefaultCurrency();
+        }
+        $MSRPriceCurrency = $this->MSRPrice->getCurrency();
+        if (is_null($this->MSRPriceCurrency) &&
+            is_null($MSRPriceCurrency)) {
+            $this->MSRPriceCurrency = SilvercartConfig::DefaultCurrency();
+        }
+        $purchasePriceCurrency = $this->PurchasePrice->getCurrency();
+        if (is_null($this->PurchasePriceCurrency) &&
+            is_null($purchasePriceCurrency)) {
+            $this->PurchasePriceCurrency = SilvercartConfig::DefaultCurrency();
+        }
+        
         if (array_key_exists('RefreshCache', $_POST) &&
             ($_POST['RefreshCache'] == '1' ||
              $_POST['RefreshCache'] == 'on')) {
