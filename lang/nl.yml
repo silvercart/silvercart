@@ -1400,7 +1400,7 @@ nl:
     PRICE: "Prijs"
     PRICE_AMOUNT_ASC: "Prijs (laag naar hoog)"
     PRICE_AMOUNT_DESC: "Prijs (hoog naar laag)"
-    PRICE_ENTIRE: "Totoaalprijs"
+    PRICE_ENTIRE: "Totaalprijs"
     PRICE_GROSS: "Prijs (bruto)"
     PRICE_GROSS_CURRENCY: "Currency (gross)"
     PRICE_NET: "Prijs (netto)"
