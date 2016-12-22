@@ -160,6 +160,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     private static $allowed_actions = array(
         'addNewAddress',
         'editAddress',
+        'deleteAddress',
     );
 
     /**
@@ -468,6 +469,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function deleteAddress(SS_HTTPRequest $request, $context = 'SilvercartCheckoutStep') {
         $silvercartAddressHolder = new SilvercartAddressHolder_Controller();
         $silvercartAddressHolder->deleteAddress($request, $context);
+        $this->redirectBack();
     }
     
     /**

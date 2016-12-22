@@ -589,34 +589,6 @@ class SilvercartPage_Controller extends ContentController {
     }
     
     /**
-     * Returns the HTTP error response.
-     * 
-     * @param string $code    Error code
-     * @param string $message Error message
-     * 
-     * @return void
-     * 
-     * @throws SS_HTTPResponse_Exception
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.05.2015
-     */
-    public function httpError($code, $message = null) {
-        $combined_files = Requirements::get_combine_files();
-        try {
-            $response = parent::httpError($code, $message);
-        } catch (SS_HTTPResponse_Exception $e) {
-            $originalResponse = $e->getResponse();
-            Requirements::restore();
-            foreach ($combined_files as $combinedFileName => $files) {
-                Requirements::combine_files($combinedFileName, $files);
-                Requirements::process_combined_files();
-            }
-            $response = $this->request->isMedia() ? null : self::error_response_for($code);
-            throw new SS_HTTPResponse_Exception($response ? $response : ($originalResponse ? $originalResponse : $message), $code);
-        }
-    }
-    
-    /**
      * Returns the error response for the given status code.
      * Workaround to include CSS requirements into response HTML code.
      * 
