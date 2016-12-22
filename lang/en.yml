@@ -954,6 +954,7 @@ en:
     SINGULARNAME: "Newsletter page"
     TITLE: "Newsletter"
     URL_SEGMENT: "newsletter_en_us"
+    UseDoubleOptIn: 'Use double opt-in'
   SilvercartNewsletterRecipientsAdmin:
     Description: 'Please choose your export context and press the export button to download a CSV list of email recipients.'
     DoExport: 'Export as CSV'
@@ -1161,6 +1162,7 @@ en:
     DAY: "Day"
     DECEMBER: "December"
     DECREMENT_POSITION: "Decrease quantity"
+    DELETE: "Delete"
     DETAILS: "Details"
     DETAILS_FOR: "Details for %s"
     DIDNOT_RETURN_RESULTS: "did not return any results in our shop."

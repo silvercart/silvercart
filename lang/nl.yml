@@ -954,6 +954,7 @@ nl:
     SINGULARNAME: "Newsletter page"
     TITLE: "Nieuwsbrief"
     URL_SEGMENT: "nieuwsbrief_nl_nl"
+    UseDoubleOptIn: 'Gebruik double opt-in' 
   SilvercartNewsletterRecipientsAdmin:
     Description: 'Please choose your export context and press the export button to download a CSV list of email recipients.'
     DoExport: 'Export as CSV'
@@ -1161,6 +1162,7 @@ nl:
     DAY: "Dag"
     DECEMBER: "December"
     DECREMENT_POSITION: "Decrease quantity"
+    DELETE: "Verwijderen"
     DETAILS: "Details"
     DETAILS_FOR: "Details voor %s"
     DIDNOT_RETURN_RESULTS: "heeft geen resultaten opgeleverd in onze winkel."
@@ -1400,7 +1402,7 @@ nl:
     PRICE: "Prijs"
     PRICE_AMOUNT_ASC: "Prijs (laag naar hoog)"
     PRICE_AMOUNT_DESC: "Prijs (hoog naar laag)"
-    PRICE_ENTIRE: "Totaalprijs"
+    PRICE_ENTIRE: "Totoaalprijs"
     PRICE_GROSS: "Prijs (bruto)"
     PRICE_GROSS_CURRENCY: "Currency (gross)"
     PRICE_NET: "Prijs (netto)"

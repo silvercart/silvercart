@@ -1,7 +1,7 @@
 if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
     //console.error('Class ss.i18n not defined');
 } else {
-    ss.i18n.addDictionary('en_US', {
+    ss.i18n.addDictionary('nl_NL', {
         'Boolean.NO':                                           'No',
         'Boolean.YES':                                          'Yes',
         'Silvercart.ShowAll':                                   'Show all',
@@ -15,6 +15,6 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
         'SilvercartGridFieldBatchController.NO_ENTRY_SELECTED': 'No objects selected! Please select at least one object entry.',
         'SilvercartGridFieldBatchController.NO_ACTION_SELECTED':'No action selected! Please select an action to execute.',
         
-        'TABLEFIELD.DELETECONFIRMMESSAGE':                      'Are you sure you want to delete this entry?'
+        'TABLEFIELD.DELETECONFIRMMESSAGE':                      'Weet u zeker dat u dit bestand wilt verwijderen?'
     });
 }

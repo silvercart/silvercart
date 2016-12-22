@@ -175,7 +175,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
             // ----------------------------------------------------------------
             switch ($formData['NewsletterAction']) {
                 case '1':
-                    SilvercartNewsletter::subscribeRegisteredCustomer($member);
+                    SilvercartNewsletter::subscribeRegisteredCustomer($member, $this->Controller()->UseDoubleOptIn);
                     $this->setSessionMessage(
                         sprintf(
                             _t('SilvercartNewsletterStatus.SUBSCRIBED_SUCCESSFULLY'),
@@ -225,7 +225,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
                             )
                         );
                     } else {
-                        SilvercartNewsletter::subscribeAnonymousCustomer($formData['Salutation'], $formData['FirstName'], $formData['Surname'], $formData['Email']);
+                        SilvercartNewsletter::subscribeAnonymousCustomer($formData['Salutation'], $formData['FirstName'], $formData['Surname'], $formData['Email'], $this->Controller()->UseDoubleOptI);
                         $this->setSessionMessage(
                             sprintf(
                                 _t('SilvercartNewsletterStatus.SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN'),

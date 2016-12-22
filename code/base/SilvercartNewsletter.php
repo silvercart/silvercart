@@ -56,10 +56,13 @@ class SilvercartNewsletter extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
      */
-    public static function subscribeRegisteredCustomer($member) {
+    public static function subscribeRegisteredCustomer($member, $useDoubleOptIn = true) {
         $subscribed = false;
         
         if ($member instanceof Member) {
+            if (!$useDoubleOptIn) {
+                $member->NewsletterOptInStatus = true;
+            }
             
             if ($member->NewsletterOptInStatus) {
                 // Opt-in is done, so subscribe to newsletter
@@ -114,11 +117,12 @@ class SilvercartNewsletter extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 25.08.2011
      */
-    public static function subscribeAnonymousCustomer($salutation, $firstName, $surName, $email) {
+    public static function subscribeAnonymousCustomer($salutation, $firstName, $surName, $email, $useDoubleOptIn = true) {
         $doOptIn = true;
         
-        if (SilvercartAnonymousNewsletterRecipient::doesExist($email) &&
-            SilvercartAnonymousNewsletterRecipient::isOptInDoneFor($email)) {
+        if (!$useDoubleOptIn ||
+            (SilvercartAnonymousNewsletterRecipient::doesExist($email) &&
+             SilvercartAnonymousNewsletterRecipient::isOptInDoneFor($email))) {
             
             $doOptIn = false;
         }

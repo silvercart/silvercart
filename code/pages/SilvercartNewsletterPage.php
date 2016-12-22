@@ -19,6 +19,24 @@
  * @since 22.03.2011
  */
 class SilvercartNewsletterPage extends SilvercartMetaNavigationHolder {
+    
+    /**
+     * DB attributes
+     *
+     * @var array
+     */
+    private static $db = array(
+        'UseDoubleOptIn' => 'Boolean',
+    );
+    
+    /**
+     * default values for DB attributes
+     *
+     * @var array
+     */
+    private static $defaults = array(
+        'UseDoubleOptIn' => true,
+    );
 
     /**
      * Defines the allowed children of this page.
@@ -63,6 +81,30 @@ class SilvercartNewsletterPage extends SilvercartMetaNavigationHolder {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
     }
+    
+    /**
+     * Returns the CMS fields.
+     * 
+     * @return FieldList
+     */
+    public function getCMSFields() {
+        $fields = parent::getCMSFields();
+        
+        $useDoubleOptInField = new CheckboxField('UseDoubleOptIn', $this->fieldLabel('UseDoubleOptIn'));
+        $fields->insertAfter('MenuTitle', $useDoubleOptInField);
+        
+        return $fields;
+    }
+    
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'UseDoubleOptIn' => _t('SilvercartNewsletterPage.UseDoubleOptIn'),
+                )
+        );
+    }
+    
 }
 
 

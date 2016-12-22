@@ -136,7 +136,8 @@ class SilvercartNewsletterOptInConfirmationPage_Controller extends Page_Controll
                         if ($anonymousCustomer) {
                             SilvercartAnonymousNewsletterRecipient::doConfirmationByHash($hash);
                         } else {
-                            $customer->setField('NewsletterOptInStatus', true);
+                            $customer->NewsletterOptInStatus  = true;
+                            $customer->SubscribedToNewsletter = true;
                             $customer->write();
                         }
                         $statusMessage = $this->ConfirmationSuccessMessage;
