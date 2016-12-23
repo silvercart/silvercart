@@ -458,6 +458,7 @@ class SilvercartPage_Controller extends ContentController {
             'customhtmlform/script/jquery.pixeltricks.forms.checkFormData.js',
             'customhtmlform/script/jquery.pixeltricks.forms.events.js',
             'customhtmlform/script/jquery.pixeltricks.forms.validator.js',
+            'customhtmlform/script/jquery.scrollTo.min.js',
             'silvercart/javascript/jquery.pixeltricks.tools.js',
             'silvercart/javascript/jquery.cookie.js',
             'silvercart/javascript/bootstrap.min.js',

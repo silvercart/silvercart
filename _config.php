@@ -31,6 +31,7 @@ CustomHtmlForm::useSpamCheckFor('SilvercartRevocationForm');
 CustomHtmlForm::$custom_error_box_css_class = 'help-inline';
 CustomHtmlForm::$custom_error_box_selection_method = 'append';
 CustomHtmlForm::$custom_error_box_sub_selector = ' .controls';
+CustomHtmlFormPage_Controller::$do_use_own_jquery = false;
 
 // Require i18n javascript
 Requirements::add_i18n_javascript('silvercart/javascript/lang');
