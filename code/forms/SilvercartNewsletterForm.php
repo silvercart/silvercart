@@ -123,7 +123,7 @@ class SilvercartNewsletterForm extends CustomHtmlForm {
         if ($member) {
             $this->formFields['Salutation']['checkRequirements']    = array();
             $this->formFields['Salutation']['type']                 = 'ReadonlyField';
-            $this->formFields['Salutation']['value']                = $member->Salutation;
+            $this->formFields['Salutation']['value']                = $member->SalutationText;
             $this->formFields['FirstName']['checkRequirements']     = array();
             $this->formFields['FirstName']['type']                  = 'ReadonlyField';
             $this->formFields['FirstName']['value']                 = $member->FirstName;
