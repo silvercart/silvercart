@@ -289,6 +289,10 @@ class SilvercartAddress extends DataObject {
                     SilvercartCountry::getPrioritiveDropdownMap());
             $fields->replaceField('SilvercartCountryID', $countryDropdown);
         }
+        $fields->dataFieldByName('Salutation')->setSource(array(
+            'Herr' => _t('SilvercartAddress.MISTER'),
+            'Frau' => _t('SilvercartAddress.MISSES')
+        ));
         return $fields;
     }
     
