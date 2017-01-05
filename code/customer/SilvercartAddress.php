@@ -64,6 +64,7 @@ class SilvercartAddress extends DataObject {
     private static $casting = array(
         'FullName'              => 'Text',
         'SalutationText'        => 'VarChar',
+        'Summary'               => 'Text',
         'SilvercartCountryISO2' => 'Text',
         'SilvercartCountryISO3' => 'Text',
         'SilvercartCountryISON' => 'Text',
@@ -508,6 +509,36 @@ class SilvercartAddress extends DataObject {
         $title = $this->singular_name();
         $this->extend('updateTitle', $title);
         return $title;
+    }
+    
+    /**
+     * Returns the title to represent this address.
+     * 
+     * @return string
+     */
+    public function getSummary() {
+        $summary = '';
+        if (!empty($this->Company)) {
+            $summary .= $this->Company . ', ';
+        }
+        $summary .= $this->SalutationText . ' ';
+        if (!empty($this->AcademicTitle)) {
+            $summary .= $this->AcademicTitle . ' ';
+        }
+        $summary .= $this->FullName . ', ';
+        if (!empty($this->Addition)) {
+            $summary .= $this->Addition . ', ';
+        }
+        if ($this->IsPackstation) {
+            $summary .= $this->PostNumber . ' ';
+            $summary .= $this->fieldLabel('Packstation') . ' ' . $this->Packstation . ', ';
+        } else {
+            $summary .= $this->Street . ' ' . $this->StreetNumber . ', ';
+        }
+        $summary .= $this->Postcode . ' ' . $this->City . ', ';
+        $summary .= $this->Postcode . ' ' . $this->City . ', ';
+        $this->extend('updateSummary', $summary);
+        return $summary;
     }
     
     /**
