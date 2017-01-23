@@ -850,6 +850,21 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $shopEmailForgotPasswordEmail->EmailText    = $defaultTemplate;
             $shopEmailForgotPasswordEmail->write();
         }
+        $shopEmailChangePasswordEmail = SilvercartShopEmail::get()->filter('Identifier', 'ChangePasswordEmail')->first();
+        if (!$shopEmailChangePasswordEmail) {
+            $shopEmailChangePasswordEmail = new SilvercartShopEmail();
+            $shopEmailChangePasswordEmail->Identifier   = 'ChangePasswordEmail';
+            $shopEmailChangePasswordEmail->Subject      = _t('SilvercartShopEmail.CHANGE_PASSWORD_SUBJECT', 'Change your password');
+            $shopEmailChangePasswordEmail->Variables    = "";
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/ChangePasswordEmail.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailChangePasswordEmail->EmailText    = $defaultTemplate;
+            $shopEmailChangePasswordEmail->write();
+        }
         $shopEmailOrderShippedNotification = SilvercartShopEmail::get()->filter('Identifier', 'OrderShippedNotification')->first();
         if (!$shopEmailOrderShippedNotification) {
             $shopEmailOrderShippedNotification = new SilvercartShopEmail();

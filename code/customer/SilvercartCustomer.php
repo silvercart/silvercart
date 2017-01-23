@@ -1119,6 +1119,62 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
             'currentUser',
         );
     }
+    
+    /**
+     * Sends an email to the customer, containing a link to change the password.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.01.2017
+     */
+    public function sendChangePasswordEmail() {
+        /* @var $member Member */
+        $member                         = $this->owner;
+        $variables                      = $member->toMap();
+        $token                          = $member->generateAutologinTokenAndStoreHash();
+        $variables['PasswordResetLink'] = Director::absoluteURL(Security::getPasswordResetLink($member, $token));
+        
+        foreach ($member->db() as $dbFieldName => $dbFieldType) {
+            if (!array_key_exists($dbFieldName, $variables)) {
+                $variables[$dbFieldName] = $member->{$dbFieldName};
+            }
+        }
+        $variables['SalutationText'] = SilvercartTools::getSalutationText($variables['Salutation']);
+
+        $this->requireDefaultChangePasswordEmail();
+        SilvercartShopEmail::send(
+                'ChangePasswordEmail',
+                $member->Email,
+                $variables
+        );
+    }
+    
+    /**
+     * Creates the change password email in backend.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.01.2017
+     */
+    public function requireDefaultChangePasswordEmail() {
+        $shopEmailChangePasswordEmail = SilvercartShopEmail::get()->filter('Identifier', 'ChangePasswordEmail')->first();
+        if (!$shopEmailChangePasswordEmail) {
+            $shopEmailChangePasswordEmail = new SilvercartShopEmail();
+            $shopEmailChangePasswordEmail->Identifier   = 'ChangePasswordEmail';
+            $shopEmailChangePasswordEmail->Subject      = _t('SilvercartShopEmail.CHANGE_PASSWORD_SUBJECT', 'Change your password');
+            $shopEmailChangePasswordEmail->Variables    = "";
+            $defaultTemplateFile = Director::baseFolder() . '/silvercart/templates/email/ChangePasswordEmail.ss';
+            if (is_file($defaultTemplateFile)) {
+                $defaultTemplate = SilvercartShopEmail::parse(file_get_contents($defaultTemplateFile));
+            } else {
+                $defaultTemplate = '';
+            }
+            $shopEmailChangePasswordEmail->EmailText    = $defaultTemplate;
+            $shopEmailChangePasswordEmail->write();
+        }
+    }
 }
 
 /**

@@ -7,6 +7,9 @@ CheckboxSetField:
 DataObject:
   extensions:
     ['SilvercartDataObject']
+GridFieldDetailForm_ItemRequest:
+  extensions:
+    ['SilvercartGridFieldDetailForm_ItemRequest']
 Group:
   extensions:
     ['SilvercartGroupExtension']
