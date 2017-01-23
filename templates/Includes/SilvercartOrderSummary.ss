@@ -12,17 +12,17 @@
         <tbody>
             <% loop CurrentPage.CurrentMembersOrders(3) %>
                 <tr>
-                    <td class="creationdate"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">{$Created.Nice}</a></td>
-                    <td class="ordernumber"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID"><span class="mobile-show-sm inline">#</span>{$OrderNumber}</a></td>
+                    <td class="creationdate"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)detail/$ID">{$Created.Nice}</a></td>
+                    <td class="ordernumber"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)detail/$ID"><span class="mobile-show-sm inline">#</span>{$OrderNumber}</a></td>
                     <td class="positions">
-                        <a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">
+                        <a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)detail/$ID">
                         <% loop SilvercartOrderPositions %>
                             $Title.RAW <% if Last %><% else %> | <% end_if %>
                         <% end_loop %>
                         </a>
                     </td>
-                    <td class="orderstatus"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID">{$SilvercartOrderStatus.Title}</a></td>
-                    <td class="detailbutton"><a class="btn btn-small btn-primary" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)$ID" title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>"  data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>"><i class="icon-eye-open"></i></a></td>
+                    <td class="orderstatus"><a class="highlight" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)detail/$ID">{$SilvercartOrderStatus.Title}</a></td>
+                    <td class="detailbutton"><a class="btn btn-small btn-primary" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartOrderDetailPage)detail/$ID" title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>"  data-toggle="tooltip" data-placement="top" data-title="<% _t('SilvercartPage.SHOW_DETAILS','show details') %>"><i class="icon-eye-open"></i></a></td>
                 </tr>
             <% end_loop %>
         </tbody>
