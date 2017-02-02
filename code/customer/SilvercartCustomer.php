@@ -1140,7 +1140,8 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
                 $variables[$dbFieldName] = $member->{$dbFieldName};
             }
         }
-        $variables['SalutationText'] = SilvercartTools::getSalutationText($variables['Salutation']);
+        $variables['SalutationText']           = SilvercartTools::getSalutationText($variables['Salutation']);
+        $variables['SilvercartInvoiceAddress'] = $this->owner->SilvercartInvoiceAddress();
 
         $this->requireDefaultChangePasswordEmail();
         SilvercartShopEmail::send(
