@@ -22,7 +22,7 @@
                             <% if PriceIsLowerThanMsr %>
                                 <span class="strike-through">$MSRPrice.Nice</span> 
                             <% end_if %>
-                            $PriceNice
+                            <span id="product-price-{$ID}">{$PriceNice}</span>
                         </div>
                     </div>
                     <div class="sc-product-price-info">

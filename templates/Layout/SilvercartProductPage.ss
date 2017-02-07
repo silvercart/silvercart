@@ -63,7 +63,7 @@
                                     <% if PriceIsLowerThanMsr %>
                                         <span class="strike-through">$MSRPrice.Nice</span> 
                                     <% end_if %>
-                                    <strong class="price">$PriceNice</strong> 
+                                    <strong class="price" id="product-price-{$ID}">$PriceNice</strong> 
                                 </span><br/>
                                 <small>
                                     <% if CurrentPage.showPricesGross %>
