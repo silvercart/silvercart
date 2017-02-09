@@ -329,13 +329,19 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
      *
      * @return void 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.09.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 09.02.2017
      */
     public function onBeforeWrite() {
         if ($this->owner->isInDB() && !is_null($this->languageObj)) {
             $relationFieldName = $this->getRelationFieldName();
             $this->languageObj->{$relationFieldName} = $this->owner->ID;
+        }
+        $language = $this->getLanguage();
+        if ($language instanceof DataObject &&
+            $language->exists()) {
+            SilvercartLanguageHelper::writeLanguageObject($this->getLanguage(), $this->owner->toMap());
         }
     }
     
