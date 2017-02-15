@@ -73,8 +73,8 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
                         sprintf(
                                 "\"%s\".\"Locale\" = IFNULL((%s), (%s)) %s",
                                 $this->getBaseLanguageClassName(),
-                                $this->getLocaleDependantSelect(Translatable::get_current_locale()),
-                                $this->getLocaleDependantSelect($silvercartDefaultLocale),
+                                $this->getLocaleDependantSelect(Translatable::get_current_locale(), $query),
+                                $this->getLocaleDependantSelect($silvercartDefaultLocale, $query),
                                 $addToWhere
                         )
                 );
@@ -98,17 +98,47 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
      * 
      * @return string
      */
-    public function getLocaleDependantSelect($locale) {
-        $localeDependantSelect = sprintf(
-                "SELECT \"%s\".\"Locale\" FROM \"%s\" WHERE \"%s\".\"Locale\" = '%s' AND \"%s\".\"ID\" = \"%s\".\"%s\" LIMIT 0,1",
-                $this->getBaseLanguageClassName(),
-                $this->getBaseLanguageClassName(),
-                $this->getBaseLanguageClassName(),
-                $locale,
-                $this->getBaseClassName(),
-                $this->getLanguageClassName(),
-                $this->getRelationFieldName()
-        );
+    public function getLocaleDependantSelect($locale, SQLQuery $query) {
+        $id    = 0;
+        $where = $query->getWhere();
+        if (is_array($where)) {
+            $stringPart = '"' . $this->getClassName() . '"."ID" = ';
+            foreach ($where as $wherePart) {
+                if (strpos($wherePart, $stringPart) === 0) {
+                    $id = (int) trim(substr($wherePart, strlen($stringPart)));
+                }
+            }
+        }
+        if ($id > 0) {
+            $relationSelect = sprintf(
+                    "SELECT \"%s\".\"ID\" FROM \"%s\" WHERE \"%s\".\"%sID\" = %d",
+                    $this->getLanguageClassName(),
+                    $this->getLanguageClassName(),
+                    $this->getLanguageClassName(),
+                    $this->getClassName(),
+                    $id
+            );
+            $localeDependantSelect = sprintf(
+                    "SELECT \"%s\".\"Locale\" FROM \"%s\" WHERE \"%s\".\"Locale\" = '%s' AND \"%s\".\"ID\" IN (%s) LIMIT 0,1",
+                    $this->getBaseLanguageClassName(),
+                    $this->getBaseLanguageClassName(),
+                    $this->getBaseLanguageClassName(),
+                    $locale,
+                    $this->getBaseLanguageClassName(),
+                    $relationSelect
+            );
+        } else {
+            $localeDependantSelect = sprintf(
+                    "SELECT \"%s\".\"Locale\" FROM \"%s\" WHERE \"%s\".\"Locale\" = '%s' AND \"%s\".\"ID\" = \"%s\".\"%s\" LIMIT 0,1",
+                    $this->getBaseLanguageClassName(),
+                    $this->getBaseLanguageClassName(),
+                    $this->getBaseLanguageClassName(),
+                    $locale,
+                    $this->getBaseClassName(),
+                    $this->getLanguageClassName(),
+                    $this->getRelationFieldName()
+            );
+        }
         return $localeDependantSelect;
     }
     
@@ -175,6 +205,16 @@ class SilvercartDataObjectMultilingualDecorator extends DataExtension {
         return $baseClassName;
     }
 
+
+    /**
+     * Returns the class name
+     *
+     * @return string
+     */
+    public function getClassName() {
+        $className = $this->owner->class;
+        return $className;
+    }
 
     /**
      * Returns the language class name
