@@ -724,8 +724,8 @@ footer {margin:82px 0 0 0;}
 	width:auto;
 }
 .product-set .product-info .dl-horizontal dd {
-	float:left;
-		margin-left: 20px;
+	float:right;
+	margin-left: 20px;
 }
 /* product-inputs */
 .product-set .product-inputs {
