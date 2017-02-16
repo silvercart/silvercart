@@ -991,6 +991,18 @@ class SilvercartRequireDefaultRecords extends DataObject {
 
         self::createTestConfiguration();
         self::createTestData();
+        
+        $defaultTax = SilvercartTax::get()->filter('isDefault', 1)->first();
+        if (!($defaultTax instanceof SilvercartTax) ||
+            !$defaultTax->exists()) {
+            $defaultTax = SilvercartTax::get()->first();
+            if ($defaultTax instanceof SilvercartTax &&
+                $defaultTax->exists()) {
+                $defaultTax->isDefault = true;
+                $defaultTax->write();
+            }
+            
+        }
     }
     
     /**
