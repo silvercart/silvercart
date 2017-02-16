@@ -146,3 +146,4 @@ var scLoadSubObjectsRepeat = 0,
         }, 200);
     })(jQuery);
 };
+scLoadSubObjects();
