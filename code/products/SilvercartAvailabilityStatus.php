@@ -127,21 +127,30 @@ class SilvercartAvailabilityStatus extends DataObject {
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldList the fields for the backend
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2014
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'Code', false);
 
+        $htmlDefault   = new HTMLText();
+        $htmlSuccess   = new HTMLText();
+        $htmlWarning   = new HTMLText();
+        $htmlImportant = new HTMLText();
+        $htmlInfo      = new HTMLText();
+        $htmlInverse   = new HTMLText();
+        $htmlDefault   ->setValue('<span style="padding: 4px 8px; color: #fff; background-color:#999999">' . $this->Title . '</span>');
+        $htmlSuccess   ->setValue('<span style="padding: 4px 8px; color: #fff; background-color:#468847">' . $this->Title . '</span>');
+        $htmlWarning   ->setValue('<span style="padding: 4px 8px; color: #fff; background-color:#f89406">' . $this->Title . '</span>');
+        $htmlImportant ->setValue('<span style="padding: 4px 8px; color: #fff; background-color:#b94a48">' . $this->Title . '</span>');
+        $htmlInfo      ->setValue('<span style="padding: 4px 8px; color: #fff; background-color:#3a87ad">' . $this->Title . '</span>');
+        $htmlInverse   ->setValue('<span style="padding: 4px 8px; color: #fff; background-color:#333333">' . $this->Title . '</span>');
+        
         $badgeColorSource = array(
-            'default'   => '<span style="padding: 4px 8px; color: #fff; background-color:#999999">' . $this->Title . '</span>',
-            'success'   => '<span style="padding: 4px 8px; color: #fff; background-color:#468847">' . $this->Title . '</span>',
-            'warning'   => '<span style="padding: 4px 8px; color: #fff; background-color:#f89406">' . $this->Title . '</span>',
-            'important' => '<span style="padding: 4px 8px; color: #fff; background-color:#b94a48">' . $this->Title . '</span>',
-            'info'      => '<span style="padding: 4px 8px; color: #fff; background-color:#3a87ad">' . $this->Title . '</span>',
-            'inverse'   => '<span style="padding: 4px 8px; color: #fff; background-color:#333333">' . $this->Title . '</span>',
+            'default'   => $htmlDefault,
+            'success'   => $htmlSuccess,
+            'warning'   => $htmlWarning,
+            'important' => $htmlImportant,
+            'info'      => $htmlInfo,
+            'inverse'   => $htmlInverse,
         );
         
         $fields->removeByName('badgeColor');
