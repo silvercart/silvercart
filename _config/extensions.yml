@@ -235,6 +235,9 @@ SilvercartIncrementPositionQuantityForm:
 SilvercartOrder:
   extensions:
     ['SilvercartPluginObjectExtension']
+SilvercartProductAddCartForm:
+  extensions:
+    ['SilvercartPluginObjectExtension']
 SilvercartProductAddCartFormDetail:
   extensions:
     ['SilvercartPluginObjectExtension']
