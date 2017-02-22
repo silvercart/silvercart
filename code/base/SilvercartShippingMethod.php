@@ -460,6 +460,12 @@ class SilvercartShippingMethod extends DataObject {
      * @return string
      */
     public static function get_delivery_time($context, $forceDisplayInDays = false) {
+
+        // override $forceDisplayInDays if set via config
+        if (true === Config::inst()->get('SilvercartShippingMethod', 'always_force_display_in_days')) {
+            $forceDisplayInDays = true;
+        }
+
         $deliveryTime = '';
         if (is_object($context)) {
             if (!empty($context->DeliveryTimeText)) {
