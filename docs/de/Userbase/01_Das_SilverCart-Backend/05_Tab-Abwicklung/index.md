@@ -8,47 +8,111 @@ Alle Zahlungsmodule haben gemeinsame Konfigurationsoptionen, die im Folgenden au
 
 ### Grundeinstellungen
 
-** aktiviert **
+**aktiviert**
 
 Mit dieser Option lässt sich jede Zahlart komfortabel ein- und ausschalten.
 
-** Mindestbetrag für Modul **
+**Mindestbetrag für Modul**
 
 Der Bestellwert muss zur Zulassung dieser Zahlart erreicht werden.
 
-** Höchstbetrag für Modul **
+**Höchstbetrag für Modul**
 
 Der Bestellwert darf diesen Betrag nicht überschreiten, sonst ist die Zahlart nicht mehr verfügbar.
 
-** Name **
+**Name**
 
 Ein frei konfigurierbarer Name, der dem Kunden im Checkout als Name der Zahlart angezeigt wird.
 
-** Beschreibung **
+**Beschreibung**
 
 Die Beschreibung der Zahlart wird dem Kunden im Checkout angezeigt. Sie dient der Erläuterung der Zahlart.
 
-** Modus **
+**Modus**
 
 Die Zahlart kann im Entwicklungsmodus getestet werden (dev) oder für den Livebetrieb freigeschaltet werden (live).
 
-** Standard Bestellstatus für diese Zahlart **
+**Standard Bestellstatus für diese Zahlart**
 
 Bestellungen bekommen diesen Status, wenn sie mit dieser Zahlart abgeschlossen werden.
 
-** Logos **
+**Logos**
 
 Zahlarten können Logos haben, die im Checkout angezeigt werden. Dazu müssen Sie die Checkbox Logos anzeigen` setzen.
 
-** Zugriffsverwaltung **
+**Zugriffsverwaltung**
 
 Die Verfügbarkeit der Zahlart kann an verschiedenen Bedingungen geknüpft werden. So kann eine Mindestanzahl von Bestellungen definiert werden, die ein Kunde abgeschlossen haben muss, bevor er die Zahlart nutzen kann. Dazu muss die Checkbox `die folgende Regel anwenden` gesetzt sein. Außerdem kann unter dem Reiter `Gruppen` die Zahlart für bestimmte Gruppen aktiviert oder ausdrücklich deaktiviert werden. Unter dem Reiter `Kunden` können Sie eine Zahlart sogar für einzelne Kunden aktivieren und deaktivieren.
 1-2  Stichwörter bearbeiten
 
-## Versandarten
+**Länder**
+
+Eine Zahlart kann an ein oder mehrere Länder gebunden werden. Das bedeutet, dass diese Zahlart nur für Kunden aus dem jeweiligen Land gültig ist. Ausschlaggebend ist hier das Land der Rechnungsadresse.
+
+**Versandarten**
+
 Eine Zahlart kann an eine oder mehrere Versandarten gebunden werden. Das bedeutet, dass die Zahlart nur in Kombination mit dieser Versandart verwendet werden kann. Dies ist wichtig, wenn beispielsweise die Zahlart "Nachnahme" gewählt wurde, die ja nur im Zusammenhang mit einer bestimmten Versandoption gewäh​lt werden kann.
 
-Wenn Sie die Beispielkonfiguration angelegt haben, dann existiert bereits die Versandart `Paket`. Andernfalls können Sie eine Versandart erstellen, indem Sie auf die Schaltfläche `Erstelle Versandart` klicken. Ein Versandart hat immer einen Namen, und muss einem Frachtführer zugeordnet sein. Unter dem Reiter `Versandgebühren` (Erst sichtbar nach dem Hinzufügen) werden alle Versandgebühren gezeigt, die zu dieser Versandart gehören. Der Reiter `Zonen` zeigt alle Zonen, die gepflegt wurden. Die Zonen werden per Checkbox dieser Versandart zugeordnet. Eine Versandart kann mehreren Zonen zugeordnet werden.
+## Versandarten
+Wenn Sie die Beispielkonfiguration angelegt haben, dann existiert bereits die Versandart `Paket`. Andernfalls können Sie eine Versandart erstellen, in dem Sie auf die Schaltfläche `Erstelle Versandart` klicken. Ein Versandart hat immer einen Namen und muss einem Frachtführer zugeordnet sein. 
+
+### Hauptteil
+**Aktiv**
+Mit dieser Option lässt sich die Versandart ein- und ausschalten.
+
+**Ist Selbstabholung (kein tatsächlicher Versand)**
+Aktivieren Sie diese Option, wenn es sich bei der Versandart um Selbstabholung handelt.
+
+**Priorität (Je höher desto wichtiger)**
+Tragen Sie hier einen ganzzahligen Wert ein. Unter allen Versandarten wird die Versandart mit der höchsten Priorität ermittelt.
+
+**Nicht auf Versandgebührenseite anzeigen**
+Aktivieren Sie diese Option, wenn Sie diese Versandart nicht auf der automatisch erzeugten Versandgebührenseite anzeigen möchten.
+
+**Minimale Lieferzeit**
+Minimale Lieferzeit in Werktagen
+
+**Maximale Lieferzeit**
+Maximale Lieferzeit in Werktagen
+
+**Eigener Text für die Angabe der Lieferzeit**
+Wird anstelle von "Minimale Lieferzeit" und "Maximale Lieferzeit" angezeigt.
+
+Bei Zahlart Vorkasse werden keine Kalenderdaten als Lieferdatum angezeigt, sondern eine Zeitspanne nach Zahlungseingang. 
+Dies ist notwendig, da das Datum des Zahlungseingangs nicht bekannt sein kann.
+
+Bei der Angabe von tatsächlichen Datumszeiträumen werden Sonntage berücksichtigt. Nicht berücksichtigt werden Feiertage.
+
+Dieses Verhalten kann über eine Konfigurationseinstellung geändert werden, so dass **immer** eine Zeitspanne in Tagen angezeigt wird. Fügen Sie hierfür in der
+config.yml folgende Zeilen hinzu:
+
+    Name: Always show days
+    ---
+    SilvercartShippingMethod:
+      always_force_display_in_days: true
+
+**Name**
+Hier können Sie der Versandart einen Namen geben
+
+**Beschreibung**
+Beschreibung für Versandgebührenseite (wird anstelle von "Beschreibung" verwendet)
+
+**Frachtführer**
+Hier weisen Sie der Versandart einen Frachtführer zu.
+
+
+### Versandgebühren
+
+Unter dem Reiter `Versandgebühren` (Erst sichtbar nach dem Hinzufügen) werden alle Versandgebühren gezeigt, die zu dieser Versandart gehören. 
+
+## Übersetzung
+
+## Zonen
+
+Der Reiter `Zonen` zeigt alle Zonen, die gepflegt wurden. Die Zonen werden per Checkbox dieser Versandart zugeordnet. Eine Versandart kann mehreren Zonen zugeordnet werden.
+
+## Gruppen
+Eine Versandart kann an eine oder mehrere Kundengruppen gebunden werden. Das bedeutet, dass die Versandart nur von Kunden, die der jeweiligen Kundengruppe angehören ausgewählt werden werden kann.
 
 ## Zonen
 
