@@ -173,14 +173,6 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
             'Frau' => _t('SilvercartAddress.MISSES')
         ));
         
-        if ($this->owner->exists()) {
-            //make addresses deletable in the grid field
-            $addressesGrid = $fields->dataFieldByName('SilvercartAddresses');
-            $addressesConfig = $addressesGrid->getConfig();
-            $addressesConfig->removeComponentsByType('GridFieldDeleteAction');
-            $addressesConfig->addComponent(new GridFieldDeleteAction());
-        }
-        
         $fields->removeByName('NewsletterOptInStatus');
         $fields->removeByName('NewsletterConfirmationHash');
         $fields->removeByName('SilvercartShoppingCartID');
@@ -189,12 +181,20 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
         $fields->removeByName('SilvercartCustomerConfigID');
         $fields->removeByName('SilvercartShippingAddressInUseID');
         
-        $addresses = $this->owner->SilvercartAddresses()->map('ID', 'Summary')->toArray();
+        if ($this->owner->exists()) {
+            //make addresses deletable in the grid field
+            $addressesGrid = $fields->dataFieldByName('SilvercartAddresses');
+            $addressesConfig = $addressesGrid->getConfig();
+            $addressesConfig->removeComponentsByType('GridFieldDeleteAction');
+            $addressesConfig->addComponent(new GridFieldDeleteAction());
         
-        $invoiceAddressField  = new DropdownField('SilvercartInvoiceAddressID',  $this->owner->fieldLabel('SilvercartInvoiceAddress'),  $addresses);
-        $shippingAddressField = new DropdownField('SilvercartShippingAddressID', $this->owner->fieldLabel('SilvercartShippingAddress'), $addresses);
-        $fields->insertBefore($invoiceAddressField,  'Locale');
-        $fields->insertBefore($shippingAddressField, 'Locale');
+            $addresses = $this->owner->SilvercartAddresses()->map('ID', 'Summary')->toArray();
+
+            $invoiceAddressField  = new DropdownField('SilvercartInvoiceAddressID',  $this->owner->fieldLabel('SilvercartInvoiceAddress'),  $addresses);
+            $shippingAddressField = new DropdownField('SilvercartShippingAddressID', $this->owner->fieldLabel('SilvercartShippingAddress'), $addresses);
+            $fields->insertBefore($invoiceAddressField,  'Locale');
+            $fields->insertBefore($shippingAddressField, 'Locale');
+        }
     }
     
     /**
