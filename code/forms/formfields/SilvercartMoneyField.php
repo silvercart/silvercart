@@ -85,16 +85,10 @@ class SilvercartMoneyField extends MoneyField {
             if (empty($val['Currency'])) {
                 $val['Currency'] = $defaultCurrency;
             }
-            if (!empty($val['Amount'])) {
-                $val['Amount'] = $this->prepareAmount($val['Amount']);
-            }
         } elseif ($val instanceof Money) {
             if ($val->getCurrency() != $defaultCurrency &&
                 $this->getCurrencyIsReadonly()) {
                 $val->setCurrency($defaultCurrency);
-            }
-            if ($val->getAmount() != '') {
-                $val->setAmount($this->prepareAmount($val->getAmount()));
             }
         }
         parent::setValue($val);
