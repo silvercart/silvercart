@@ -50,13 +50,30 @@
                         <td><% _t('SilvercartOrder.STATUS') %></td>
                         <td>$SilvercartOrderStatus.Title</td>
                     </tr>
+                <% if $SilvercartShippingMethod.DeliveryTime %>
+                    <tr>
+                        <td>{$SilvercartShippingMethod.fieldLabel(ExpectedDelivery)}</td>
+                        <td>{$SilvercartShippingMethod.DeliveryTime}</td>
+                    </tr>
+                <% end_if %>
                 <% if Note %>
                     <tr>
                         <td><% _t('SilvercartOrder.YOUR_REMARK') %></td>
                         <td>$FormattedNote</td>
                     </tr>
                 <% end_if %>
-                <% if trackingCodeNVE %>
+                <% if $TrackingCode %>
+                    <tr>
+                        <td><% _t('SilvercartOrder.Tracking') %></td>
+                        <td>{$TrackingCode}</td>
+                    </tr>
+                    <% if $TrackingLink %>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><a href="{$TrackingLink}" target="blank" title="<% _t('SilvercartOrder.TrackingLinkLabel') %>"><% _t('SilvercartOrder.TrackingLinkLabel') %></a></td>
+                    </tr>
+                    <% end_if %>
+                <% else_if $trackingCodeNVE %>
                     <tr>
                         <td><% _t('SilvercartShipmentDhlOrder.TRACKING_CODE_NVE_FOR_TRACKING') %></td>
                         <td>$trackingCodeNVE</td>
