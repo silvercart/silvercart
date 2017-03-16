@@ -406,7 +406,7 @@ class SilvercartProductGroupChildProductsWidgetLanguage extends DataObject {
      * @since 13.11.2012
      */
     public function plural_name() {
-        return_t('Silvercart.TRANSLATIONS');
+        return _t('Silvercart.TRANSLATIONS');
     }
 
     /**
