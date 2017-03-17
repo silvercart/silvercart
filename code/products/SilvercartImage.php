@@ -26,8 +26,9 @@ class SilvercartImage extends DataObject {
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'ProductNumberToReference'  => 'Varchar(128)',
+        'SortOrder'                 => 'Int',
     );
 
     /**
@@ -35,7 +36,7 @@ class SilvercartImage extends DataObject {
      *
      * @var array
      */
-    public static $has_one = array(
+    private static $has_one = array(
         'SilvercartProduct'         => 'SilvercartProduct',
         'SilvercartPaymentMethod'   => 'SilvercartPaymentMethod',
         'Image'                     => 'Image',
@@ -46,7 +47,7 @@ class SilvercartImage extends DataObject {
      *
      * @var array
      */
-    public static $has_many = array(
+    private static $has_many = array(
         'SilvercartImageLanguages' => 'SilvercartImageLanguage'
     );
     
@@ -55,16 +56,23 @@ class SilvercartImage extends DataObject {
      *
      * @var array
      */
-    public static $belongs_many_many = array(
+    private static $belongs_many_many = array(
         'SilvercartSlidorionProductGroupWidgets' => 'SilvercartSlidorionProductGroupWidget',
     );
+    
+    /**
+     * Default sort field and direction.
+     *
+     * @var string
+     */
+    private static $default_sort = 'SortOrder ASC';
 
     /**
      * Casted properties
      *
      * @var array
      */
-    public static $casting = array(
+    private static $casting = array(
         'Title'          => 'VarChar',
         'Content'        => 'HTMLText',
         'Description'    => 'HTMLText',

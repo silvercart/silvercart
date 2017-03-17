@@ -1529,6 +1529,10 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $imageGridField->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $imageGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
+        if (class_exists('GridFieldSortableRows')) {
+            $imageGridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
+        }
+        
         $imageUploadField = new SilvercartImageUploadField('UploadSilvercartImages', $this->fieldLabel('AddSilvercartImage'));
         $imageUploadField->setFolderName('Uploads/product-images');
         
