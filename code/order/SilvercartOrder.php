@@ -44,6 +44,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'IsSeen'                            => 'Boolean(0)',
         'TrackingCode'                      => 'VarChar(64)',
         'TrackingLink'                      => 'Text',
+        'PaymentReferenceID'                => 'Text',
+        'PaymentReferenceMessage'           => 'Text',
+        'PaymentReferenceData'              => 'Text',
         /**
          * @deprecated
          */
@@ -338,6 +341,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'ValueOfGoods'                          => _t('SilvercartPage.VALUE_OF_GOODS'),
                 'TrackingCode'                          => _t('SilvercartOrder.TrackingCode'),
                 'TrackingLink'                          => _t('SilvercartOrder.TrackingLink'),
+                'PaymentReferenceID'                    => _t('SilvercartOrder.PaymentReferenceID'),
+                'PaymentReferenceMessage'               => _t('SilvercartOrder.PaymentReferenceMessage'),
+                'PaymentReferenceData'                  => _t('SilvercartOrder.PaymentReferenceData'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -716,6 +722,19 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 )
         );
         $fields->addFieldToTab('Root.PrintPreviewTab', $printPreviewField);
+        
+        if (!empty($this->PaymentReferenceID)) {
+            $paymentReferenceIDField = new TextField('PaymentReferenceID_Readonly', $this->fieldLabel('PaymentReferenceID'), $this->PaymentReferenceID);
+            $paymentReferenceIDField->setReadonly(true);
+            $fields->insertAfter($paymentReferenceIDField, 'PaymentReferenceID');
+        }
+        if (empty($this->PaymentReferenceID)) {
+            $fields->removeByName('PaymentReferenceMessage');
+        } else {
+            $fields->dataFieldByName('PaymentReferenceMessage')->setReadonly(true);
+        }
+        $fields->removeByName('PaymentReferenceID');
+        $fields->removeByName('PaymentReferenceData');
         
         return $fields;
     }
@@ -2354,6 +2373,18 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $this->extend('updateOnAfterWrite');
         $this->didHandleOrderStatusChange = false;
     }
+
+    /**
+     * Returns an order by the given PaymentReferenceID.
+     * 
+     * @param string $paymentReferenceID Payment reference ID
+     * 
+     * @return SilvercrtOrder
+     */
+    public static function get_by_payment_reference_id($paymentReferenceID) {
+        return SilvercartOrder::get()->filter('PaymentReferenceID', $paymentReferenceID)->first();
+    }
+
 
     /**
      * Recalculates the order totals for the attributed positions.
