@@ -129,6 +129,12 @@ class SilvercartPaymentMethod extends DataObject {
      */
     protected $returnLink = '';
     /**
+     * The link to notify shop after payment (push).
+     *
+     * @var string
+     */
+    protected $notificationLink = '';
+    /**
      * Indicates whether an error occured or not.
      *
      * @var bool
@@ -214,6 +220,13 @@ class SilvercartPaymentMethod extends DataObject {
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
+    
+    /**
+     * Set to true to delete the object after writing.
+     *
+     * @var bool
+     */
+    protected $deleteAfterWrite = false;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -426,6 +439,18 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getReturnLink() {
         return $this->returnLink;
+    }
+
+    /**
+     * Returns the link to notify the shop (push)
+     *
+     * @return string
+     */
+    public function getNotificationLink() {
+        if (empty($this->notificationLink)) {
+            $this->setNotificationLink(Director::absoluteUrl(SilvercartTools::PageByIdentifierCode('SilvercartPaymentNotification')->Link() . 'process/' . $this->moduleName . '/' . $this->ID));
+        }
+        return $this->notificationLink;
     }
 
     /**
@@ -1210,17 +1235,104 @@ class SilvercartPaymentMethod extends DataObject {
         $this->extend('updateExcludeFromScaffolding', $excludeFields);
         return $excludeFields;
     }
+    
+    /**
+     * On before write. Checks for payment method detail request data when creating new payment 
+     * methods.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.02.2017
+     */
+    public function onBeforeWrite() {
+        if (!$this->exists() &&
+            array_key_exists('PaymentMethod', $_POST) &&
+            SilvercartCustomer::currentUser()->isAdmin()) {
+            
+            $paymentMethod  = $_POST['PaymentMethod'];
+            $paymentChannel = '';
+            if (strpos($paymentMethod, '--') !== false) {
+                list(
+                    $paymentMethod,
+                    $paymentChannel
+                ) = explode('--', $paymentMethod);
+            }
+            unset($_POST['PaymentMethod']);
+            
+            $payment = new $paymentMethod();
+            $payment->Name  = _t($paymentMethod . '.NAME',  $payment->moduleName);
+            if (!empty($paymentChannel)) {
+                $payment->Name = $this->getPaymentChannelName($paymentChannel);
+                $payment->PaymentChannel = $paymentChannel;
+            }
+            $payment->write();
+            $this->deleteAfterWrite = true;
+        }
+        parent::onBeforeWrite();
+    }
+
+    /**
+     * On after write. Deletes the payment method right after creating it if necessary.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.02.2017
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+        if ($this->deleteAfterWrite == true) {
+            $this->delete();
+        }
+    }
 
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
      * @return FieldList the fields for the backend
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.10.10
      */
     public function getCMSFields() {
         $this->getCMSFieldsIsCalled = true;
         $fields = SilvercartDataObject::getCMSFields($this);
+        
+        $paymentMethods = array();
+        $subClasses = ClassInfo::subclassesFor($this->class);
+        foreach ($subClasses as $subClass) {
+            if ($subClass == 'SilvercartPaymentMethod') {
+                continue;
+            }
+            $subObject = singleton($subClass);
+            $paymentMethods[$subClass] = array(
+                'channels' => $subObject->getPossiblePaymentChannels(),
+                'name'     => _t($subClass . '.NAME',  $subObject->moduleName),
+                'title'    => _t($subClass . '.TITLE',  $subObject->moduleName),
+            );
+        }
+        
+        $paymentMethodsSource = array();
+        foreach ($paymentMethods as $paymentMethodName => $paymentMethodData) {
+            if (count($paymentMethodData['channels']) > 0) {
+                foreach ($paymentMethodData['channels'] as $channelName => $channelTitle) {
+                    $paymentMethodsSource[$paymentMethodName . '--' . $channelName] = $channelTitle;
+                }
+            } else {
+                $paymentMethodsSource[$paymentMethodName] = $paymentMethodData['title'];
+            }
+        }
+        asort($paymentMethodsSource);
+        
+        $paymentMethodsField = new DropdownField('PaymentMethod', $this->singular_name());
+        $paymentMethodsField->setSource($paymentMethodsSource);
+        $fields->addFieldToTab('Root.Main', $paymentMethodsField);
+        
+        foreach (self::$db as $dbFieldName => $dbFieldType) {
+            $fields->removeByName($dbFieldName);
+        }
+        foreach (self::$has_one as $has_oneFieldName => $has_oneFieldType) {
+            $fields->removeByName($has_oneFieldName . 'ID');
+        }
+        
         return $fields;
     }
     
@@ -1515,6 +1627,18 @@ class SilvercartPaymentMethod extends DataObject {
     public function setReturnLink($link) {
         $this->returnLink = $link;
         $this->extend('updateReturnLink', $this->returnLink);
+    }
+
+    /**
+     * sets the link to notify the shop (push)
+     *
+     * @param string $link the url
+     *
+     * @return void
+     */
+    public function setNotificationLink($link) {
+        $this->notificationLink = $link;
+        $this->extend('updateNotificationLinkLink', $this->notificationLink);
     }
     
     /**
@@ -1995,7 +2119,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @return string
      */
     public function getPaymentChannelName($paymentChannel) {
-        return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel));
+        return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel), $paymentChannel);
     }
     
     /**
