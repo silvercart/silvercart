@@ -706,7 +706,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'title'     => $this->fieldLabel('isActive'),
                 'filter'    => 'PartialMatchFilter'
             ),
-            'SilvercartProductGroupID' => array(
+            'SilvercartProductGroup.ID' => array(
                 'title'     => $this->fieldLabel('SilvercartProductGroup'),
                 'filter'    => 'ExactMatchFilter'
             ),
