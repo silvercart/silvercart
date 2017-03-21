@@ -129,6 +129,13 @@ class SilvercartProductGroupPage extends Page {
      * @var array
      */
     protected $links = array();
+    
+    /**
+     * Optional pagination context. If not set, the return value of getProducts() will be used.
+     *
+     * @var PaginatedList
+     */
+    protected $paginationContext = null;
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
@@ -1137,10 +1144,12 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getProductsOnPagesString() {
         $productsOnPagesString = '';
-        $products = $this->getProducts();
-        if ($products->exists()) {
-            $singularOrPlural = 'PRODUCT_ON_PAGE';
-        } elseif ($products->TotalPages() == 1) {
+        $products = $this->getPaginationContext();
+        if ($products->exists() &&
+            $products->TotalPages() != 1) {
+            $singularOrPlural = 'PRODUCTS_ON_PAGES';
+        } elseif ($products->exists() &&
+                  $products->TotalPages() == 1) {
             $singularOrPlural = 'PRODUCTS_ON_PAGE';
         } else {
             $singularOrPlural = 'PRODUCTS_ON_PAGES';
@@ -1153,6 +1162,29 @@ class SilvercartProductGroupPage extends Page {
             );
         }
         return $productsOnPagesString;
+    }
+    
+    /**
+     * Returns the pagination context.
+     * 
+     * @return PaginatedList
+     */
+    public function getPaginationContext() {
+        if (is_null($this->paginationContext)) {
+            $this->paginationContext = $this->getProducts();
+        }
+        return $this->paginationContext;
+    }
+    
+    /**
+     * Sets the pagination context.
+     * 
+     * @param type $paginationContext
+     * 
+     * @return void
+     */
+    public function setPaginationContext($paginationContext) {
+        $this->paginationContext = $paginationContext;
     }
     
 }

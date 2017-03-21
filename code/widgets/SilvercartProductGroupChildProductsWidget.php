@@ -149,22 +149,13 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
      * @since 15.07.2015
      */
     public function getElementsByProductGroup() {
-        $cache            = false;
+        $products         = new ArrayList();
         $productGroupPage = Controller::curr();
-        $elements         = new PaginatedList(new ArrayList());
-
-        if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
-            $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
-            $elements->pageStart  = $productGroupPage->getSqlOffset();
-        }
-        $pageEnd    = $elements->pageStart + $elements->pageLength;
-        $elementIdx = 0;
-        $products   = new ArrayList();
 
         if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
              $productGroupPage->getProducts()->count() > 0) {
 
-            return $elements;
+            return new PaginatedList(new ArrayList());
         }
 
         $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
@@ -180,18 +171,14 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
             $products = SilvercartProduct::getProducts('("SilvercartProduct"."SilvercartProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SilvercartProduct"."ID" IN (' . $mirrored . '))');
         }
 
-        foreach ($products as $product) {
-            if ($elementIdx >= $elements->pageStart &&
-                $elementIdx < $pageEnd) {
-                $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
-                $elements->push($product);
-            }
-            $elementIdx++;
+        $elements = new PaginatedList($products);
+        $productGroupPage->addTotalNumberOfProducts($products->count());
+        $productGroupPage->setPaginationContext($elements);
+        
+        if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
+            $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
+            $elements->pageStart  = $productGroupPage->getSqlOffset();
         }
-
-        $elements->totalSize = $elementIdx;
-        $productGroupPage->addTotalNumberOfProducts($elements->totalSize);
-
         return $elements;
     }
 

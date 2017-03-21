@@ -10,12 +10,12 @@
     <% end_if %>
 
     <div class="silvercart-product-group-page-control-top">
-        <% include SilvercartProductGroupPageControls %>
+        <% include SilvercartProductGroupPageControlsTop %>
     </div>
     <div class="silvercart-product-group-page">
         $RenderProductGroupPageGroupView
     </div>
     <div class="silvercart-product-group-page-control-top">
-        <% include SilvercartProductGroupPageControls %>
+        <% include SilvercartProductGroupPageControlsBottom %>
     </div>
 <% end_if %>
