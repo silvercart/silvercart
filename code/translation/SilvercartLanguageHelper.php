@@ -62,6 +62,9 @@ class SilvercartLanguageHelper {
      * @since 09.07.2014
      */
     public static function prepareCMSFields($className, $restrictFields = false) {
+        if (is_object($className)) {
+            $className = get_class($className);
+        }
         $dataobject = singleton($className);
         if (!$dataobject) {
             return new FieldList();
