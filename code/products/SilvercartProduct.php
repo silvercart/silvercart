@@ -750,7 +750,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     public function sortableFrontendFields() {
         if (is_null(self::$sortableFrontendFields)) {
             $sortableFrontendFields = array(
-                ''                                     => $this->fieldLabel('CatalogSort'),
                 'SilvercartProductLanguage.Title ASC'  => $this->fieldLabel('TitleAsc'),
                 'SilvercartProductLanguage.Title DESC' => $this->fieldLabel('TitleDesc'),
             );
