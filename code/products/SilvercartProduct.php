@@ -869,7 +869,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 'TitleDesc'                             => _t('SilvercartProduct.TITLE_DESC'),
                 'PriceAmountAsc'                        => _t('SilvercartProduct.PRICE_AMOUNT_ASC'),
                 'PriceAmountDesc'                       => _t('SilvercartProduct.PRICE_AMOUNT_DESC'),
-                'CatalogSort'                           => _t('SilvercartProduct.CATALOGSORT'),
                 'DefaultShippingFee'                    => _t('SilvercartShippingFee.SINGULARNAME'),
                 'RefreshCache'                          => _t('SilvercartProduct.RefreshCache'),
                 'ExcludeFromPaymentDiscounts'           => _t('SilvercartProduct.ExcludeFromPaymentDiscounts'),
