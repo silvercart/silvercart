@@ -1,3 +1,4 @@
+<% cached 'Footer',$CurrentPage.MemberGroupCacheKey %>
 <footer>
     <div class="footerOuter">
         <div class="container">
@@ -49,3 +50,4 @@
         </div>
     </div>
 </footer>
+<% end_cached %>

@@ -36,6 +36,13 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
     protected $groupIDs = null;
     
     /**
+     * Group ID string to use as cache key part
+     *
+     * @var array
+     */
+    protected $groupCacheKey = null;
+    
+    /**
      * Determines whether the customer has to pay taxes or not
      *
      * @var bool
@@ -488,6 +495,18 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
             $this->groupIDs = $this->owner->Groups()->map('ID','ID')->toArray();
         }
         return $this->groupIDs;
+    }
+    
+    /**
+     * Returns the related groups as a cache key string.
+     *
+     * @return string
+     */
+    public function getGroupCacheKey() {
+        if (is_null($this->groupCacheKey)) {
+            $this->groupCacheKey = implode('_', $this->owner->Groups()->sort('ID')->map('ID','ID')->toArray());
+        }
+        return $this->groupCacheKey;
     }
 
     /**

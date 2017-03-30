@@ -220,6 +220,20 @@ class SilvercartPage extends SiteTree {
     }
     
     /**
+     * Returns the related groups as a cache key string.
+     *
+     * @return string
+     */
+    public function MemberGroupCacheKey() {
+        $memberGroupCacheKey = '0';
+        $member = SilvercartCustomer::currentUser();
+        if ($member instanceof Member) {
+            $memberGroupCacheKey = $member->getGroupCacheKey();
+        }
+        return i18n::get_locale() . '_' . $memberGroupCacheKey;
+    }
+    
+    /**
      * Dummy to provide enhanced product group functions.
      * 
      * @return boolean
