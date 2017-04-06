@@ -960,7 +960,7 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
      *  General
      **************************************************************************/
     .mobile-show-sm {
-        display: block;
+        display: block !important;
     }
     .mobile-show-sm.inline {
         display: inline;
