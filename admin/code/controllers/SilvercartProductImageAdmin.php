@@ -204,12 +204,13 @@ class SilvercartProductImageImporter extends BuildTask {
             
             foreach ($imageData as $productnumber => $data) {
                 $product = SilvercartProduct::get_by_product_number($productnumber);
-                if ($product->exists()) {
+                if ($product instanceof SilvercartProduct &&
+                    $product->exists()) {
                     $this->deleteExistingImages($product);
-                }
-                ksort($data);
-                foreach ($data as $consecutiveNumber => $imageInfo) {
-                    $this->addNewImage($product, $imageInfo['filename'], $imageInfo['description'], $consecutiveNumber);
+                    ksort($data);
+                    foreach ($data as $consecutiveNumber => $imageInfo) {
+                        $this->addNewImage($product, $imageInfo['filename'], $imageInfo['description'], $consecutiveNumber);
+                    }
                 }
             }
         }
