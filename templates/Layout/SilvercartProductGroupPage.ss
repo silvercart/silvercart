@@ -1,5 +1,5 @@
-<% cached CacheKey %>
 <div class="row">
+<% cached CacheKey %>
     <div class="span9">
         <% include SilvercartBreadCrumbs %>
         <div class="section-header clearfix">
@@ -30,8 +30,8 @@
         <% end_if %>
 
     </div>
+<% end_cached %>
     <aside class="span3">
         {$InsertWidgetArea(Sidebar)}
    </aside>
 </div>
-<% end_cached %>
