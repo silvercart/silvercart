@@ -504,9 +504,39 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
      */
     public function getGroupCacheKey() {
         if (is_null($this->groupCacheKey)) {
-            $this->groupCacheKey = implode('_', $this->owner->Groups()->sort('ID')->map('ID','ID')->toArray());
+            $groupCodes = $this->owner->Groups()->sort('Code')->map('ID','Code')->toArray();
+            foreach ($groupCodes as $groupID => $groupCode) {
+                if ($groupCode == 'administrators') {
+                    unset($groupCodes[$groupID]);
+                } elseif ($groupCode == 'anonymous') {
+                    if (!in_array(self::default_customer_group_code(), $groupCodes)) {
+                        $groupCodes[$groupID] = self::default_customer_group_code();
+                    } else {
+                        unset($groupCodes[$groupID]);
+                    }
+                }
+            }
+            $this->groupCacheKey = implode('_', $groupCodes);
+        }
+        if (Controller::curr()->getRequest()->getVar('stage') == 'Stage' &&
+            Controller::curr()->canViewStage('Stage', $this->owner)) {
+            $this->groupCacheKey .= '_' . uniqid('StageRandomCacheKey');
         }
         return $this->groupCacheKey;
+    }
+    
+    /**
+     * Returns the group cache key for the current session Member context.
+     * 
+     * @return string
+     */
+    public static function get_group_cache_key() {
+        $cacheKey = self::default_customer_group_code();
+        $member   = self::currentUser();
+        if ($member instanceof Member) {
+            $cacheKey = $member->getGroupCacheKey();
+        }
+        return $cacheKey;
     }
 
     /**

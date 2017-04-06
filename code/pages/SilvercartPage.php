@@ -225,12 +225,7 @@ class SilvercartPage extends SiteTree {
      * @return string
      */
     public function MemberGroupCacheKey() {
-        $memberGroupCacheKey = '0';
-        $member = SilvercartCustomer::currentUser();
-        if ($member instanceof Member) {
-            $memberGroupCacheKey = $member->getGroupCacheKey();
-        }
-        return i18n::get_locale() . '_' . $memberGroupCacheKey;
+        return i18n::get_locale() . '_' . SilvercartCustomer::get_group_cache_key();
     }
     
     /**

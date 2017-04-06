@@ -1965,41 +1965,17 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 03.04.2017
      */
     public function CacheKeyParts() {
         if (is_null($this->cacheKeyParts)) {
-            $product                = singleton('SilvercartProduct');
-            $products               = $this->getProducts();
-            $productMapIDs          = '';
-            $productMapLastEdited   = '';
-            $groupIDs               = '';
-
-            if ($products instanceof SS_List &&
-                $products->count() > 0) {
-                $productMap = $this->getProducts()->map('ID', 'LastEditedForCache')->toArray();
-                if (!is_array($productMap)) {
-                    $productMap = array();
-                }
-                $productMapIDs          = implode('_', array_keys($productMap));
-                sort($productMap);
-                $productMapLastEdited   = array_pop($productMap);
-
-                if (Member::currentUserID() > 0) {
-                    $groupIDs = implode('-', SilvercartCustomer::currentUser()->getGroupIDs());
-                }
-            }
             $cacheKeyParts = array(
-                i18n::get_locale(),
                 $this->LastEdited,
-                $productMapIDs,
-                $productMapLastEdited,
-                $groupIDs,
-                $this->getProductsPerPageSetting(),
+                $this->MemberGroupCacheKey(),
                 $this->getSqlOffset(),
-                SilvercartProduct::defaultSort(),
+                $this->getProductsPerPageSetting(),
                 SilvercartGroupViewHandler::getActiveGroupView(),
-                $product->getDefaultSort(),
+                str_replace('-', '_', SilvercartTools::string2urlSegment(SilvercartProduct::defaultSort())),
             );
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;
@@ -2013,7 +1989,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.11.2012
+     * @since 03.04.2017
      */
     public function CacheKey() {
         if (is_null($this->cacheKey)) {
@@ -2023,7 +1999,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         }
         return $this->cacheKey;
     }
-    
+
     /**
      * Returns the products (all or by the given hash key)
      *

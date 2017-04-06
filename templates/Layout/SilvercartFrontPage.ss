@@ -1,14 +1,11 @@
+<% cached 'FrontPage',$CurrentPage.MemberGroupCacheKey %>
 <div class="row">
     <div class="span9">
-        $InsertWidgetArea(Content)
-        $Content
+        {$InsertWidgetArea(Content)}
+        {$Content}
     </div>
     <aside class="span3">
-            $InsertWidgetArea(Sidebar)            
+        {$InsertWidgetArea(Sidebar)}
     </aside>
-</div><!--end row-->
-
-
-
-
-
+</div>
+<% end_cached %>
