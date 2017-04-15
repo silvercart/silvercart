@@ -2269,7 +2269,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $link = '';
 
         if ($this->SilvercartProductGroup()) {
-            $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
+            $link = $this->SilvercartProductGroup()->OriginalLink() . 'detail/' . $this->ID . '/' . $this->title2urlSegment();
         }
         
         return $link;
