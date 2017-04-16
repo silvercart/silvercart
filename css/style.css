@@ -377,13 +377,13 @@ footer {margin:82px 0 0 0;}
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-on.png') no-repeat left top;
+		background:url('/silvercart/img/star-on.png') no-repeat left top;
 	}
 	.sc-products .sc-product-shortinfo .rating i.star-off {
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-off.png') no-repeat left top;
+		background:url('/silvercart/img/star-off.png') no-repeat left top;
 	}
 
 
@@ -460,13 +460,13 @@ footer {margin:82px 0 0 0;}
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-on.png') no-repeat left top;
+		background:url('/silvercart/img/star-on.png') no-repeat left top;
 	}
 	.sc-products .sc-product-shortinfo .sc-product-price .rating i.star-off {
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-off.png') no-repeat left top;
+		background:url('/silvercart/img/star-off.png') no-repeat left top;
 	}
 	.sc-products .sc-product-shortinfo p {
 		margin:0;
@@ -562,13 +562,13 @@ footer {margin:82px 0 0 0;}
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-on.png') no-repeat left top;
+		background:url('/silvercart/img/star-on.png') no-repeat left top;
 	}
 	.sc-products-vertical .sc-product-shortinfo .rating i.star-off {
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-off.png') no-repeat left top;
+		background:url('/silvercart/img/star-off.png') no-repeat left top;
 	}
 
 
@@ -655,13 +655,13 @@ footer {margin:82px 0 0 0;}
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-on.png') no-repeat left top;
+		background:url('/silvercart/img/star-on.png') no-repeat left top;
 	}
 	.sc-products-vertical-tiny .sc-product-shortinfo .rating i.star-off {
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-off.png') no-repeat left top;
+		background:url('/silvercart/img/star-off.png') no-repeat left top;
 	}
 
 
@@ -707,13 +707,13 @@ footer {margin:82px 0 0 0;}
 	width:17px;
 	height:17px;
 	display: block;
-	background:url('../img/star-on.png') no-repeat left top;
+	background:url('/silvercart/img/star-on.png') no-repeat left top;
 }
 .product-set .product-rate .rating i.star-off {
 	width:17px;
 	height:17px;
 	display: block;
-	background:url('../img/star-off.png') no-repeat left top;
+	background:url('/silvercart/img/star-off.png') no-repeat left top;
 }
 /* product-info*/
 .product-set .product-info .dl-horizontal {
@@ -815,13 +815,13 @@ footer {margin:82px 0 0 0;}
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-on.png') no-repeat left top;
+		background:url('/silvercart/img/star-on.png') no-repeat left top;
 	}
 	.product-tab #read-review .single-review .rating i.star-off {
 		width:17px;
 		height:17px;
 		display: block;
-		background:url('../img/star-off.png') no-repeat left top;
+		background:url('/silvercart/img/star-off.png') no-repeat left top;
 	}
 
 

@@ -537,13 +537,13 @@ input[type="color"]:focus,
   width:17px;
   height:17px;
   display: block;
-  background:url('../img/star-on.png') no-repeat left top;
+  background:url('/silvercart/img/star-on.png') no-repeat left top;
 }
 .table td.desc .rating i.star-off {
   width:17px;
   height:17px;
   display: block;
-  background:url('../img/star-off.png') no-repeat left top;
+  background:url('/silvercart/img/star-off.png') no-repeat left top;
 }
 /* quantity */
 .table td.quantity input {
