@@ -358,6 +358,7 @@ class SilvercartSubNavigationWidget extends SilvercartWidget {
             'IsActivePage'      => $isActivePage,
             'IsSectionPage'     => $isSectionPage,
             'IsRootPage'        => $isRootPage,
+            'ProductGroup'      => $rootPage,
         );
 
         $parser     = new SSViewer('SilvercartSubNavigationWidgetEntry');
