@@ -28,9 +28,15 @@ SiteTree::set_create_default_pages(false);
 // ----------------------------------------------------------------------------
 CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
 CustomHtmlForm::useSpamCheckFor('SilvercartRevocationForm');
-CustomHtmlForm::$custom_error_box_css_class = 'help-inline';
-CustomHtmlForm::$custom_error_box_selection_method = 'append';
-CustomHtmlForm::$custom_error_box_sub_selector = ' .controls';
+if (empty(CustomHtmlForm::$custom_error_box_css_class)) {
+    CustomHtmlForm::$custom_error_box_css_class = 'help-inline';
+}
+if (empty(CustomHtmlForm::$custom_error_box_selection_method)) {
+    CustomHtmlForm::$custom_error_box_selection_method = 'append';
+}
+if (empty(CustomHtmlForm::$custom_error_box_sub_selector)) {
+    CustomHtmlForm::$custom_error_box_sub_selector = ' .controls';
+}
 CustomHtmlFormPage_Controller::$do_use_own_jquery = false;
 
 // Require i18n javascript
