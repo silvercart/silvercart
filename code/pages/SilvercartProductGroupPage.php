@@ -2620,16 +2620,43 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return mixed
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.03.2014
+     * @since 23.05.2017
      */
     public function handleAction($request, $action) {
-        if (is_numeric($this->urlParams['Action'])) {
+        if ($this->isProductDetailView()) {
             $this->urlParams['Action'] = (int) $this->urlParams['Action'];
-            $product = SilvercartProduct::get()->byID(Convert::raw2sql($this->urlParams['Action']));
-            if ($product instanceof SilvercartProduct) {
-                $this->redirect($product->Link());
-                return;
+
+            if (!empty($this->urlParams['OtherID'])) {
+                $secondaryAction = $this->urlParams['OtherID'];
+                if ($this->hasMethod($secondaryAction) &&
+                    $this->hasAction($secondaryAction)) {
+
+                    $result = $this->{$secondaryAction}($request);
+                    if (is_array($result)) {
+                        return $this->getViewer($this->action)->process($this->customise($result));
+                    } else {
+                        return $result;
+                    }
+                }
             }
+            $product     = $this->getDetailViewProduct();
+            $productLink = $product->Link();
+            $calledLink  = $request->getURL();
+            
+            if (strpos($calledLink, '/') != strpos($productLink, '/')) {
+                if (strpos($productLink, '/') == 0) {
+                    $calledLink = '/' . $calledLink;
+                } elseif (strpos($calledLink, '/') == 0) {
+                    $productLink = '/' . $productLink;
+                }
+            }
+            
+            if ($calledLink != $productLink) {
+                SilvercartTools::redirectPermanentlyTo($productLink);
+            }
+            
+            $this->setProduct($product);
+            return $this->render();
         } elseif ($this->isFilteredByManufacturer()) {
             $url = str_replace($this->urlParams['Action'] . '/' . $this->urlParams['ID'], '', $_REQUEST['url']);
             $this->urlParams['Action'] = '';
@@ -2639,6 +2666,44 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
             exit();
         }
         return parent::handleAction($request, $action);
+    }
+    
+    /**
+     * Overwrites checking for an existing action if a product detail view is called.
+     * 
+     * @param string $action Action to check
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2017
+     */
+	public function hasAction($action) {
+        $hasAction = parent::hasAction($action);
+        if (!$hasAction &&
+            $this->isProductDetailView()) {
+            $hasAction = true;
+        }
+        return $hasAction;
+    }
+    
+    /**
+     * Overwrites access handling if a product detail view is called.
+     * 
+     * @param string $action Action to check access for
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.05.2017
+     */
+    public function checkAccessAction($action) {
+        $hasAccess = parent::checkAccessAction($action);
+        if (!$hasAccess &&
+            $this->isProductDetailView()) {
+            $hasAccess = true;
+        }
+        return $hasAccess;
     }
 
     /**
@@ -2768,12 +2833,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
      * @return SilvercartProduct
      */
     public function getDetailViewProduct() {
-        if ($this->urlParams['Action'] != 'detail' ||
-            is_numeric($this->urlParams['ID']) == false) {
+        if (!is_numeric($this->urlParams['Action'])) {
             return null;
         }
         if (is_null($this->detailViewProduct)) {
-            $this->detailViewProduct = DataObject::get_by_id('SilvercartProduct', Convert::raw2sql($this->urlParams['ID']));
+            $this->detailViewProduct = SilvercartProduct::get()->byID(Convert::raw2sql($this->urlParams['Action']));
         }
 
         return $this->detailViewProduct;
