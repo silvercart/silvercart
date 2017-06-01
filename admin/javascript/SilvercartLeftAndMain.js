@@ -66,5 +66,41 @@
         $('li[aria-controls="Root_PrintPreviewTab"]').live('click', function() {
             $('iframe.print-preview').height($('.cms-content-fields').height() - 54);
         });
+
+        $('.hover-image-preview').live('hover', function(e) {
+            var imageURL = $(this).data('img-src');
+            if (e.type === 'mouseenter') {
+                if ($('#hover-image-preview-box').length === 0) {
+                    $('body').append('<div id="hover-image-preview-box"><img/></div>');
+                    $('#hover-image-preview-box').hide();
+                    $('#hover-image-preview-box').css({
+                        maxWidth : '1000px',
+                        maxheight : '500px',
+                        position: 'absolute',
+                        zIndex: '100'
+                    });
+                    $('#hover-image-preview-box img').css({
+                        width: 'auto',
+                        height: 'auto',
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        boxShadow: '0px 0px 10px #555555',
+                        padding: '20px',
+                        backgroundColor: '#ffffff'
+                    });
+                }
+                $('#hover-image-preview-box').css({
+                    top: e.pageY - 10,
+                    left: e.pageX + 30
+                });
+                $('#hover-image-preview-box img').attr('src', imageURL);
+                $('#hover-image-preview-box').show();
+            } else if (e.type === 'mouseleave') {
+                $('#hover-image-preview-box').hide();
+            }
+        });
+        $('.hover-image-preview').live('click', function(e) {
+            $('#hover-image-preview-box').hide();
+        });
     });
 }(jQuery));

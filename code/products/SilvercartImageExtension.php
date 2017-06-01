@@ -57,13 +57,42 @@ class SilvercartImageExtension extends DataExtension {
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 04.05.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.05.2017
      */
     public function ImageThumbnail() {
-        $imageTag = $this->owner->SetRatioSize(50,50);
-        return $imageTag;
+        $image = $this->owner->SetRatioSize(50,50);
+        /* @var $image Image_Cached */
+        if (!is_null($image)) {
+            $html = new HTMLText();
+            $html->setValue($image->getTagWithPreview($this->owner));
+            return $html;
+        }
+        return $image;
     }
+
+	/**
+	 * Return an XHTML img tag for this Image,
+	 * or NULL if the image file doesn't exist on the filesystem.
+	 *
+	 * @return string
+	 */
+	public function getTagWithPreview($originalImage = null) {
+        if (is_null($originalImage)) {
+            $originalImage = $this->owner;
+        }
+		if ($this->owner->exists()) {
+            $originalUrl = $originalImage->getURL();
+			$url   = $this->owner->getURL();
+			$title = ($this->owner->Title) ? $this->owner->Title : $this->owner->Filename;
+			if ($this->owner->Title) {
+				$title = Convert::raw2att($this->owner->Title);
+			} elseif (preg_match("/([^\/]*)\.[a-zA-Z0-9]{1,6}$/", $title, $matches)) {
+                $title = Convert::raw2att($matches[1]);
+			}
+			return "<img src=\"$url\" alt=\"$title\" data-img-src=\"$originalUrl\" class=\"hover-image-preview\" />";
+		}
+	}
 
 
     /**
