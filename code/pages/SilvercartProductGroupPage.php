@@ -55,6 +55,7 @@ class SilvercartProductGroupPage extends Page {
         'DefaultGroupHolderView'        => 'VarChar(255)',
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DoNotShowProducts'             => 'Boolean(0)',
+        'LastEditedForCache'            => 'SS_DateTime',
     );
 
     /**
@@ -508,6 +509,10 @@ class SilvercartProductGroupPage extends Page {
                 )
             );
             $fields->insertAfter($manageWidgetsButton, 'WidgetSetContent');
+        }
+        
+        if ($fields->dataFieldByName('LastEditedForCache') instanceof FormField) {
+            $fields->removeByName('LastEditedForCache');
         }
 
         $this->extend('extendCMSFields', $fields);
@@ -1971,6 +1976,7 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         if (is_null($this->cacheKeyParts)) {
             $cacheKeyParts = array(
                 $this->LastEdited,
+                $this->LastEditedForCache,
                 $this->MemberGroupCacheKey(),
                 $this->getSqlOffset(),
                 $this->getProductsPerPageSetting(),

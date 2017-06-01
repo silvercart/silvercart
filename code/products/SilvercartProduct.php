@@ -1404,20 +1404,6 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         if ($this->exists()) {
             $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
         }
-        
-        $descriptionToggle = ToggleCompositeField::create(
-                'ProductDescriptionToggle',
-                $this->fieldLabel('LongDescription'),
-                array(
-                    $fields->dataFieldByName('Title'),
-                    $fields->dataFieldByName('ShortDescription'),
-                    $fields->dataFieldByName('LongDescription'),
-                )
-        )->setHeadingLevel(4)->setStartClosed(false);
-        $fields->removeByName('Title');
-        $fields->removeByName('ShortDescription');
-        $fields->removeByName('LongDescription');
-        $fields->insertAfter($descriptionToggle, 'ProductBaseDataToggle');
 
         $availabilityGroup  = new SilvercartFieldGroup('AvailabilityGroup', '', $fields);
         $availabilityGroup->push(           $fields->dataFieldByName('SilvercartAvailabilityStatusID'));
@@ -1433,8 +1419,22 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 array(
                     $availabilityGroup,
                 )
-        )->setHeadingLevel(4)->setStartClosed(true);
-        $fields->insertAfter($availabilityGroupToggle, 'ProductDescriptionToggle');
+        )->setHeadingLevel(4)->setStartClosed(false);
+        $fields->insertAfter($availabilityGroupToggle, 'ProductBaseDataToggle');
+        
+        $descriptionToggle = ToggleCompositeField::create(
+                'ProductDescriptionToggle',
+                $this->fieldLabel('LongDescription'),
+                array(
+                    $fields->dataFieldByName('Title'),
+                    $fields->dataFieldByName('ShortDescription'),
+                    $fields->dataFieldByName('LongDescription'),
+                )
+        )->setHeadingLevel(4)->setStartClosed(false);
+        $fields->removeByName('Title');
+        $fields->removeByName('ShortDescription');
+        $fields->removeByName('LongDescription');
+        $fields->insertAfter($descriptionToggle, 'AvailabilityGroupToggle');
         
         $timeGroup = new SilvercartFieldGroup('TimeGroup', '', $fields);
         $timeGroup->push(        $fields->dataFieldByName('ReleaseDate'));
@@ -1450,7 +1450,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                     $timeGroup,
                 )
         )->setHeadingLevel(4)->setStartClosed(true);
-        $fields->insertAfter($timeGroupToggle, 'AvailabilityGroupToggle');
+        $fields->insertAfter($timeGroupToggle, 'ProductDescriptionToggle');
         
         $miscGroup = new SilvercartFieldGroup('MiscGroup', '', $fields);
         if ($fields->hasField('SilvercartManufacturerID')) {
@@ -2605,6 +2605,15 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             ($_POST['RefreshCache'] == '1' ||
              $_POST['RefreshCache'] == 'on')) {
             $this->markForCacheRefresh();
+        }
+    }
+    
+    public function extendMarkForCacheRefresh() {
+        $this->SilvercartProductGroup()->LastEditedForCache = date('Y-m-d H:i:s');
+        $this->SilvercartProductGroup()->write();
+        foreach ($this->SilvercartProductGroupMirrorPages() as $productGroup) {
+            $productGroup->LastEditedForCache = date('Y-m-d H:i:s');
+            $productGroup->write();
         }
     }
 

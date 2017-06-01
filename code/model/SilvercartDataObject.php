@@ -146,6 +146,9 @@ class SilvercartDataObject extends DataExtension {
      */
     public function markForCacheRefresh() {
         $this->owner->LastEditedForCache = date('Y-m-d H:i:s');
+        if ($this->owner->hasMethod('extendMarkForCacheRefresh')) {
+            $this->owner->extendMarkForCacheRefresh();
+        }
     }
 
     /**
