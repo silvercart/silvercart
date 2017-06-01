@@ -91,8 +91,16 @@
                 }
                 $('#hover-image-preview-box').css({
                     top: e.pageY - 10,
-                    left: e.pageX + 30
+                    left: e.pageX + 30,
+                    bottom: 'auto'
                 });
+                if (e.pageY > window.innerHeight / 2) {
+                    $('#hover-image-preview-box').css({
+                        bottom: window.innerHeight - e.pageY - 10,
+                        left: e.pageX + 30,
+                        top: 'auto'
+                    });
+                }
                 $('#hover-image-preview-box img').attr('src', imageURL);
                 $('#hover-image-preview-box').show();
             } else if (e.type === 'mouseleave') {

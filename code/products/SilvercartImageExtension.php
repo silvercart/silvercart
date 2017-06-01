@@ -55,13 +55,16 @@ class SilvercartImageExtension extends DataExtension {
     /**
      * Returns the nicely formatted Price of the product.
      * 
-     * @return string
+     * @param int $width  width
+     * @param int $height height
+     * 
+     * @return HTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.05.2017
      */
-    public function ImageThumbnail() {
-        $image = $this->owner->SetRatioSize(50,50);
+    public function ImageThumbnail($width = 50, $height = 50) {
+        $image = $this->owner->SetRatioSize($width, $height);
         /* @var $image Image_Cached */
         if (!is_null($image)) {
             $html = new HTMLText();

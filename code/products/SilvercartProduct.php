@@ -2828,7 +2828,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $thumb = false;
         $file = $this->getListImage();
         if (is_object($file)) {
-            $thumb = $file->SetRatioSize(30,30);
+            $thumb = $file->ImageThumbnail(60,30);
         }
         return $thumb;
     }
