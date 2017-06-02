@@ -2522,6 +2522,11 @@ class SilvercartProductGroupPage_Controller extends Page_Controller {
         $productID  = $params['ID'];
         $product    = SilvercartProduct::get()->byID($productID);
         
+        if (!($product instanceof SilvercartProduct) ||
+            !$product->exists()) {
+            return $this->httpError(404);
+        }
+        
         $productLink = $product->Link();
         $calledLink  = $request->getURL();
 
