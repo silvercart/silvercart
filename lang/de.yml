@@ -13,6 +13,7 @@ de:
   Silvercart:
     BusinessDay: "Werktag"
     BusinessDays: "Werktage"
+    Categories: "Unsere Kategorien"
     CHOOSE: "wählen"
     CLEAR_CACHE: "Cache leeren"
     CONTENT: "Inhalt"
