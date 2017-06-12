@@ -328,15 +328,12 @@ input[type="color"]:focus,
 .navbar .nav > .active > a span,
 .navbar .nav > .active > a:focus span,
 .navbar .nav > .active > a:hover span {
-/*  color: #fff;
+  color: #fff;
   text-decoration: none;
-  background: #f16325;
-  background-color: #f16325;
-  filter:#f16325;
   -webkit-text-shadow:0 1px 0 rgba(0,0,0,.1);
   -moz-text-shadow:0 1px 0 rgba(0,0,0,.1);
   text-shadow:0 1px 0 rgba(0,0,0,.1);
-  cursor:default;*/
+  cursor:default;
 }
 
 /* ul nested inside ul */
