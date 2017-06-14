@@ -11,3 +11,4 @@
     </div>
     <% end_if %>
 </div>
+{$CustomOutput}

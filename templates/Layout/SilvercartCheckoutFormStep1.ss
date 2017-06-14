@@ -7,3 +7,4 @@
         $InsertCustomHtmlForm(SilvercartCheckoutFormStep1NewCustomerForm)
     </div>
 </div>
+{$CustomOutput}

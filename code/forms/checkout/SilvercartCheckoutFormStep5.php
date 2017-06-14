@@ -21,6 +21,13 @@
 class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit {
 
     /**
+     * A list of custom output to add to the content area.
+     *
+     * @var array
+     */
+    public static $customOutput = array();
+
+    /**
      * Don't cache this form.
      *
      * @var bool
@@ -538,6 +545,40 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
     public function BeforePaymentMethodContent() {
         $contentParts = $this->extend('updateBeforePaymentMethodContent');
         return implode(PHP_EOL, $contentParts);
+    }
+
+    /**
+     * Add a custom output snippet.
+     *
+     * @param string $output the output to add
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2017
+     */
+    public static function addCustomOutput($output) {
+        self::$customOutput[] = $output;
+    }
+
+    /**
+     * Returns the combined custom output snippets as string.
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2017
+     */
+    public function CustomOutput() {
+        $this->extend('updateCustomOutput');
+
+        $output = '';
+
+        if (count(self::$customOutput) > 0) {
+            $output = implode("\n", self::$customOutput);
+        }
+
+        return $output;
     }
 }
 

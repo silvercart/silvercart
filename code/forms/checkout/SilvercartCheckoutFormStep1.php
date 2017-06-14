@@ -19,6 +19,13 @@
  * @license see license file in modules root directory
  */
 class SilvercartCheckoutFormStep1 extends CustomHtmlFormStep {
+
+    /**
+     * A list of custom output to add to the content area.
+     *
+     * @var array
+     */
+    public static $customOutput = array();
     
     /**
      * Set this to false to hide the step in navigation
@@ -131,6 +138,40 @@ class SilvercartCheckoutFormStep1 extends CustomHtmlFormStep {
      * @since 08.04.2011
      */
     public function submitSuccess($data, $form, $formData) {
+    }
+
+    /**
+     * Add a custom output snippet.
+     *
+     * @param string $output the output to add
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2017
+     */
+    public static function addCustomOutput($output) {
+        self::$customOutput[] = $output;
+    }
+
+    /**
+     * Returns the combined custom output snippets as string.
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2017
+     */
+    public function CustomOutput() {
+        $this->extend('updateCustomOutput');
+
+        $output = '';
+
+        if (count(self::$customOutput) > 0) {
+            $output = implode("\n", self::$customOutput);
+        }
+
+        return $output;
     }
 }
 

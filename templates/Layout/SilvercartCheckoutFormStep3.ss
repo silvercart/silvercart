@@ -13,3 +13,4 @@
     <% end_loop %>
     </div>
 </form>
+{$CustomOutput}

@@ -8,3 +8,4 @@
 <% else %>
     $InsertCustomHtmlForm(SilvercartCheckoutFormStep2Anonymous)
 <% end_if %>
+{$CustomOutput}

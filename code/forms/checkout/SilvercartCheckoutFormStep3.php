@@ -21,6 +21,13 @@
 class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
 
     /**
+     * A list of custom output to add to the content area.
+     *
+     * @var array
+     */
+    public static $customOutput = array();
+
+    /**
      * Don't cache this form.
      *
      * @var bool
@@ -258,6 +265,40 @@ class SilvercartCheckoutFormStep3 extends CustomHtmlFormStep {
             }
         }
         return $this->skipShippingStep;
+    }
+
+    /**
+     * Add a custom output snippet.
+     *
+     * @param string $output the output to add
+     *
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2017
+     */
+    public static function addCustomOutput($output) {
+        self::$customOutput[] = $output;
+    }
+
+    /**
+     * Returns the combined custom output snippets as string.
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.06.2017
+     */
+    public function CustomOutput() {
+        $this->extend('updateCustomOutput');
+
+        $output = '';
+
+        if (count(self::$customOutput) > 0) {
+            $output = implode("\n", self::$customOutput);
+        }
+
+        return $output;
     }
     
 }
