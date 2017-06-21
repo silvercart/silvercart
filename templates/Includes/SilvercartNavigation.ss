@@ -79,5 +79,5 @@
     </div>
 </div>
 <div class="mobile-show-sm category-link">
-    <a class="btn btn-primary btn-block btn-large" href="{$PageByIdentifierCodeLink(SilvercartProductGroupHolder)}"><% _t('Silvercart.OurCategories', 'Our Categories') %> <i class="icon icon-caret-right"></i></a>
+    <a class="btn btn-primary btn-block btn-large" href="{$PageByIdentifierCodeLink(SilvercartProductGroupHolder)}"><% _t('Silvercart.Categories', 'Our Categories') %> <i class="icon icon-caret-right"></i></a>
 </div>
