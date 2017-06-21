@@ -31,6 +31,7 @@ class SilvercartFile extends DataObject {
         'SilvercartProduct'         => 'SilvercartProduct',
         'File'                      => 'File',
         'SilvercartDownloadPage'    => 'SilvercartDownloadPage',
+        'Thumbnail'                 => 'Image',
     );
     
     /**
@@ -77,7 +78,14 @@ class SilvercartFile extends DataObject {
      * @return string
      */
     public function getFileIcon() {
-        return '<img src="' . $this->File()->Icon() . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />';
+        $file = $this->File();
+		$ext  = strtolower($file->getExtension());
+        if (Director::fileExists(project() . "/images/app_icons/{$ext}_32.png")) {
+            $icon = project() . "/images/app_icons/{$ext}_32.png";
+        } else {
+            $icon = $this->File()->Icon();
+        }
+        return '<img src="' . $icon . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />';
     }
     
     /**

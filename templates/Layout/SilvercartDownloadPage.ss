@@ -9,32 +9,30 @@
             
             <% if SilvercartFiles %>
                 <div id="downloads">
-                    <table class="table full silvercart-default-table">
-                        <colgroup>
-                            <col width="20%"></col>
-                            <col width="65%"></col>
-                            <col width="15%"></col>
-                        </colgroup>
-                        <tr>
-                            <th><% _t('SilvercartFile.TYPE') %></th>
-                            <th><% _t('SilvercartFile.TITLE') %></th>
-                            <th class="align_right"><% _t('SilvercartFile.SIZE') %></th>
-                        </tr>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="left"><% _t('SilvercartFile.TYPE') %></th>
+                                <th class="left"><% _t('SilvercartFile.DESCRIPTION') %></th>
+                                <th class="right"><% _t('SilvercartFile.SIZE') %></th>
+                                <th class="right">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         <% loop SilvercartFiles %>
-                            <tr class="$EvenOdd">
-                                <td>
-                                    <div class="silvercart-file-icon">
-                                        <a href="$File.Link">$FileIcon</a>
-                                    </div>
+                            <tr>
+                                <td class="left"><a href="{$File.Link}">{$FileIcon}</a></td>
+                                <td class="left">
+                                <% if $Thumbnail %>
+                                    <a href="{$File.Link}"><img src="{$Thumbnail.SetWidth(100).URL}" class="pull-left thumbnail" alt="{$Title}" /></a>
+                                <% end_if %>
+                                    <h2><a href="{$File.Link}">{$Title}</a></h2>{$Description}
                                 </td>
-                                <td>
-                                    <a href="$File.Link">$Title</a>
-                                </td>
-                                <td class="align_right">
-                                    <a href="$File.Link">$File.Size</a>
-                                </td>
+                                <td class="right nowrap"><a href="{$File.Link}">{$File.Size}</a></td>
+                                <td class="right nowrap"><a href="{$File.Link}" class="btn btn-primary"><span class="icon-download"></span> Download</a></td>
                             </tr>
                         <% end_loop %>
+                        </tbody>
                     </table>
                 </div>
             <% end_if %>
