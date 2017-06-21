@@ -16,30 +16,13 @@
                         <% if $hasProductsOrChildren %>
                     <li class="<% if $LinkOrSection == section %>active<% else %>{$LinkingMode}<% end_if %> <% if $IsRedirectedChild %>active<% end_if %>">
                         <a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>">{$MenuTitle.XML}  <% if $Children %><i class="icon-caret-down"></i><% end_if %></a>
-                            <% if $Children %>
-                        <div>
-                            <ul>
-                                <% loop $Children %>
-                                <li class="{$LinkOrSection}">
-                                    <% if $Children %>
-                                    <a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>"> <span>-</span> {$MenuTitle.XML} ({$Children.Count}) <i class="icon-caret-right pull-right"></i></a>
-                                    <div>
-                                       <ul>
-                                        <% loop $Children %>
-                                           <li class="{$LinkOrSection}"><a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>"> <span>-</span> {$MenuTitle.XML} <% if $Children %>({$Children.Count})<% end_if %></a></li>
-                                        <% end_loop %>
-                                       </ul>
-                                   </div>
-
-                                    <% else %>
-                                    <a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>"><span>-</span> {$MenuTitle.XML}</a>
-                                    <% end_if %>
-
-                                </li>
-                                <% end_loop %>
-                            </ul>
-                        </div>
-                            <% end_if %>
+                        <% if $ClassName == 'RedirectorPage' %>
+                            <% with $LinkTo %>
+                                <% include SilvercartNavigationSubmenu %>
+                            <% end_with %>
+                        <% else %>
+                            <% include SilvercartNavigationSubmenu %>
+                        <% end_if %>
                     </li>
                         <% else %>
                     <li><a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO'),$Title.XML) %>">{$MenuTitle.XML}</a></li>
