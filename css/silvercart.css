@@ -181,6 +181,13 @@ hr.margin {
     /*margin-left: 0;*/
 }
 
+/***************************************************************************
+ *  Footer
+ **************************************************************************/
+footer .section-header {
+    display: none;
+}
+
 /*******************************************************************************
  *  Tables
  ******************************************************************************/
@@ -936,6 +943,9 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
 		text-align: inherit !important; 
 		float: none !important;
 	}
+    footer .section-header {
+        display: block;
+    }
     
     /***************************************************************************
      *  Shopping Cart
@@ -1080,11 +1090,11 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
     footer {
         margin-top: 10px;
     }
+    footer .section-header {
+        display: block;
+    }
     footer .section-header h3 {
         padding-left: 10px;
-    }
-    footer .footer-links {
-        display: none;
     }
     .container.footer {
         text-align: center;

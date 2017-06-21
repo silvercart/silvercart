@@ -7,6 +7,9 @@
                 <% loop $FooterColumns %>
                     <% if $Children %>
                     <div class="span3">
+                        <div class="section-header clearfix">
+                            <h3><a href="{$Link}" title="<% sprintf(_t('SilvercartPage.GOTO', 'go to %s page'),$Title.XML) %>">{$MenuTitle.XML}</a></h3>
+                        </div>
                         <div class="footer-links">
                             <ul class="unstyled">
                             <% loop $Children %>
