@@ -470,23 +470,6 @@ input[type="color"]:focus,
   filter: alpha(opacity=50);
 }
 
-
-.table {
-  margin:0;
-}
-.table th,
-.table td {
-  padding: 5px 0;
-  text-align: center;
-  vertical-align: top;
-  border:none;
-}
-.table th {
-  padding:8px 0;
-  background: none;
-/*  font-size: 14px;*/
-  font-weight: normal;
-}
 .table thead {
   border:1px solid #ddd;
   background: #e7e7e7;
