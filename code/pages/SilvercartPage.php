@@ -317,12 +317,37 @@ class SilvercartPage extends SiteTree {
      * @return string The XHTML metatags
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.04.2012
+     * @since 23.06.2017
      */
     public function MetaTags($includeTitle = true) {
         $tags = parent::MetaTags($includeTitle);
         $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $tags);
+        $tags .= '<link rel="canonical" href="' . $this->AbsoluteCanonicalLink() . '" />' . PHP_EOL;
         return $tags;
+    }
+    
+    /**
+     * Returns the absolute canonical link.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.06.2017
+     */
+    public function AbsoluteCanonicalLink() {
+        return Director::absoluteURL($this->CanonicalLink());
+    }
+    
+    /**
+     * Returns the relative canonical link.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.06.2017
+     */
+    public function CanonicalLink() {
+        return $this->Link();
     }
     
     /**

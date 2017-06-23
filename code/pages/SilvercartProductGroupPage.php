@@ -262,6 +262,34 @@ class SilvercartProductGroupPage extends Page {
         }
         return $this->links[$linkKey];
     }
+    
+    /**
+     * Returns the relative canonical link.
+     * Adds the HTTP GET parameter 'start' if needed.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.06.2017
+     */
+    public function CanonicalLink() {
+        $link = parent::CanonicalLink();
+        if (!(Controller::curr()->hasMethod('isProductDetailView') &&
+              Controller::curr()->isProductDetailView())) {
+            if (array_key_exists('start', $_GET)) {
+                $char = '?';
+                if (strpos($link, $char) !== false) {
+                    $char = '&';
+                }
+                if (strpos($link, '?start=') === false &&
+                    strpos($link, '&start=') === false &&
+                    (int) $_GET['start'] > 0) {
+                    $link .= $char . 'start=' . $_GET['start'];
+                }
+            }
+        }
+        return $link;
+    }
 
     /**
      * returns the original page link. This is needed by the breadcrumbs. When
