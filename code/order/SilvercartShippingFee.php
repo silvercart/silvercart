@@ -381,11 +381,11 @@ class SilvercartShippingFee extends DataObject {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 27.06.2017
      */
     public function getTaxAmount($price = null) {
         if (is_null($price)) {
-            $price = $this->getPriceAmount();
+            $price = $this->Price->getAmount();
         }
         $taxRate   = $this->getTaxRate();
         $taxAmount = $price - ($price / (100 + $taxRate) * 100);
