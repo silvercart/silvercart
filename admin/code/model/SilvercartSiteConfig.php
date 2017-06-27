@@ -32,6 +32,8 @@ class SilvercartSiteConfig extends DataExtension {
         'ShopStreetNumber' => 'Varchar(6)',
         'ShopPostcode'     => 'Varchar(32)',
         'ShopCity'         => 'Varchar(256)',
+        'ShopPhone'        => 'Varchar(256)',
+        'ShopOpeningHours' => 'Text',
         'SilvercartVersion'                     => 'VarChar(16)',
         'SilvercartMinorVersion'                => 'VarChar(16)',
         'DefaultCurrency'                       => 'VarChar(16)',
@@ -75,6 +77,7 @@ class SilvercartSiteConfig extends DataExtension {
         'GoogleConversionTrackingCode'  => 'Text',
         'GoogleWebmasterCode'           => 'Text',
         'PiwikTrackingCode'             => 'Text',
+        'GoogleplusLink'                => 'Text',
         'FacebookLink'                  => 'Text',
         'TwitterLink'                   => 'Text',
         'XingLink'                      => 'Text',
@@ -88,6 +91,8 @@ class SilvercartSiteConfig extends DataExtension {
     private static $has_one = array(
         'SilvercartLogo'            => 'Image',
         'SilvercartNoImage'         => 'Image',
+        'Favicon'                   => 'Image',
+        'MobileTouchIcon'           => 'Image',
         'StandardProductCondition'  => 'SilvercartProductCondition',
         'ShopCountry'               => 'SilvercartCountry',
     );
@@ -186,6 +191,8 @@ class SilvercartSiteConfig extends DataExtension {
                     'ShopPostcode'                          => _t('SilvercartConfig.ShopPostcode'),
                     'ShopCity'                              => _t('SilvercartConfig.ShopCity'),
                     'ShopCountry'                           => _t('SilvercartConfig.ShopCountry'),
+                    'ShopPhone'                             => _t('SilvercartConfig.ShopPhone'),
+                    'ShopOpeningHours'                      => _t('SilvercartConfig.ShopOpeningHours'),
                     'addToCartMaxQuantity'                  => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
                     'DefaultCurrency'                       => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
                     'DefaultPriceType'                      => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
@@ -248,6 +255,7 @@ class SilvercartSiteConfig extends DataExtension {
                     'GoogleConversionTrackingCode'  => _t('SilvercartSiteConfig.GOOGLE_CONVERSION_TRACKING_CODE'),
                     'GoogleWebmasterCode'           => _t('SilvercartSiteConfig.GOOGLE_WEBMASTER_CODE'),
                     'PiwikTrackingCode'             => _t('SilvercartSiteConfig.PIWIK_TRACKING_CODE'),
+                    'GoogleplusLink'                => _t('SilvercartSiteConfig.GoogleplusLink'),
                     'FacebookLink'                  => _t('SilvercartSiteConfig.FACEBOOK_LINK'),
                     'TwitterLink'                   => _t('SilvercartSiteConfig.TWITTER_LINK'),
                     'XingLink'                      => _t('SilvercartSiteConfig.XING_LINK'),
@@ -265,6 +273,10 @@ class SilvercartSiteConfig extends DataExtension {
 
                     'SilvercartLogo'           => _t('SilvercartConfig.SilvercartLogo'),
                     'SilvercartLogoDesc'       => _t('SilvercartConfig.SilvercartLogoDesc'),
+                    'Favicon'                  => _t('SilvercartConfig.Favicon'),
+                    'FaviconDesc'              => _t('SilvercartConfig.FaviconDesc'),
+                    'MobileTouchIcon'          => _t('SilvercartConfig.MobileTouchIcon'),
+                    'MobileTouchIconDesc'      => _t('SilvercartConfig.MobileTouchIconDesc'),
                     'ColorScheme'              => _t('SilvercartConfig.ColorScheme'),
                     'ColorSchemeTab'           => _t('SilvercartConfig.ColorSchemeTab'),
                     'ColorSchemeConfiguration' => _t('SilvercartConfig.ColorSchemeConfiguration'),
@@ -298,12 +310,14 @@ class SilvercartSiteConfig extends DataExtension {
         $fields->addFieldToTab('Root.SEO', $googleConversionTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
         
-        $facebookLinkField  = new TextField('FacebookLink',     $this->owner->fieldLabel('FacebookLink'));
-        $twitterLinkField   = new TextField('TwitterLink',      $this->owner->fieldLabel('TwitterLink'));
-        $xingLinkField      = new TextField('XingLink',         $this->owner->fieldLabel('XingLink'));
+        $facebookLinkField   = new TextField('FacebookLink',   $this->owner->fieldLabel('FacebookLink'));
+        $twitterLinkField    = new TextField('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
+        $googleplusLinkField = new TextField('GoogleplusLink', $this->owner->fieldLabel('GoogleplusLink'));
+        $xingLinkField       = new TextField('XingLink',       $this->owner->fieldLabel('XingLink'));
         
         $fields->addFieldToTab('Root.SocialMedia', $facebookLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $googleplusLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
         
         $translatable = new Translatable();
@@ -426,12 +440,14 @@ class SilvercartSiteConfig extends DataExtension {
                 'ShopDataConfiguration',
                 $this->owner->fieldLabel('ShopDataConfiguration'),
                 array(
-                    new TextField('ShopName',          $this->owner->fieldLabel('ShopName')),
-                    new TextField('ShopStreet',        $this->owner->fieldLabel('ShopStreet')),
-                    new TextField('ShopStreetNumber',  $this->owner->fieldLabel('ShopStreetNumber')),
-                    new TextField('ShopPostcode',      $this->owner->fieldLabel('ShopPostcode')),
-                    new TextField('ShopCity',          $this->owner->fieldLabel('ShopCity')),
-                    new DropdownField('ShopCountryID', $this->owner->fieldLabel('ShopCountry'), SilvercartCountry::getPrioritiveDropdownMap()),
+                    new TextField('ShopName',             $this->owner->fieldLabel('ShopName')),
+                    new TextField('ShopStreet',           $this->owner->fieldLabel('ShopStreet')),
+                    new TextField('ShopStreetNumber',     $this->owner->fieldLabel('ShopStreetNumber')),
+                    new TextField('ShopPostcode',         $this->owner->fieldLabel('ShopPostcode')),
+                    new TextField('ShopCity',             $this->owner->fieldLabel('ShopCity')),
+                    new DropdownField('ShopCountryID',    $this->owner->fieldLabel('ShopCountry'), SilvercartCountry::getPrioritiveDropdownMap()),
+                    new TextField('ShopPhone',            $this->owner->fieldLabel('ShopPhone')),
+                    new TextareaField('ShopOpeningHours', $this->owner->fieldLabel('ShopOpeningHours')),
                 )
         )->setHeadingLevel(4);
 
@@ -561,8 +577,12 @@ class SilvercartSiteConfig extends DataExtension {
 
             $fields->removeByName('ColorScheme');
             
-            $logoField = new UploadField('SilvercartLogo',   $this->owner->fieldLabel('SilvercartLogo'));
+            $logoField      = new UploadField('SilvercartLogo',  $this->owner->fieldLabel('SilvercartLogo'));
+            $faviconField   = new UploadField('Favicon',         $this->fieldLabel('Favicon'));
+            $touchIconField = new UploadField('MobileTouchIcon', $this->fieldLabel('MobileTouchIcon'));
             $logoField->setDescription($this->owner->fieldLabel('SilvercartLogoDesc'));
+            $faviconField->setDescription($this->owner->fieldLabel('FaviconDesc'));
+            $touchIconField->setDescription($this->owner->fieldLabel('MobileTouchIconDesc'));
             // Build color scheme toggle group
             $colorSchemeConfigurationField = ToggleCompositeField::create(
                     'ColorSchemeConfiguration',
@@ -572,6 +592,8 @@ class SilvercartSiteConfig extends DataExtension {
                         $fields->dataFieldByName('Tagline'),
                         $fields->dataFieldByName('Theme'),
                         $logoField,
+                        $faviconField,
+                        $touchIconField,
                         new LiteralField('ColorScheme', $this->owner->customise(array('ColorSchemes' => $colorSchemes))->renderWith('ColorSchemeField'))
                     )
             )->setHeadingLevel(4)->setStartClosed(true);

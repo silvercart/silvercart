@@ -11,6 +11,7 @@ de:
     DEFAULT_TITLE: "Widerrufsbelehrung"
     DEFAULT_URLSEGMENT: "widerrufsbelehrung"
   Silvercart:
+    at: im
     BusinessDay: "Werktag"
     BusinessDays: "Werktage"
     Categories: "Unsere Kategorien"
@@ -300,6 +301,8 @@ de:
     EXAMPLE_CONFIGURATION_ALREADY_ADDED: "Beispielkonfiguration wurde bereits angelegt"
     EXAMPLE_DATA_ALREADY_ADDED: "Beispieldaten wurden bereits hinzugefügt"
     EmailConfiguration: "E-Mail-Einstellungen"
+    Favicon: "Favicon"
+    FaviconDesc: "Das Favicon ist ein Bild, welches in der Regel in der Adresszeile eines Webbrowsers links von der URL angezeigt wird, in einigen Browsern auch am geöffneten Tab. Das Favicon sollte quadratisch sein und Dimensionen von ca 32x32 Pixeln haben."
     FLAT: "flach"
     FREEOFSHIPPINGCOSTSFROM: "Versandkostenfrei ab"
     FREEOFSHIPPINGCOSTSTAB: "Versandkostenfreiheit"
@@ -316,6 +319,8 @@ de:
     MINIMUMORDERVALUE_HEADLINE: "Mindestbestellwert"
     MinimumAgeToOrder: "Mindestalter für Bestellungen"
     MinimumAgeToOrderError: "Das Mindestalter für Bestellungen beträgt %s Jahre."
+    MobileTouchIcon: "Mobile Touch Icon"
+    MobileTouchIconDesc: "Das Mobile Touch Icon wird verwendet, wenn ein Besucher Ihren Shop als Verknüpfung auf dem Homescreen eines Smartphones oder Tablets ablegt. Das Icon sollte in den Dimensionen 192x192 Pixel vorliegen."
     OPEN_RECORD: "Datensatz öffnen"
     PLURALNAME: "Allgemeine Konfigurationen"
     PRICETYPEANONYMOUSCUSTOMERS: "Preistyp für anonyme Kunden"
@@ -344,6 +349,8 @@ de:
     ShopCountry: "Land"
     ShopData: "Betreiber-Daten"
     ShopName: "Shop-Name"
+    ShopOpeningHours: "Öffnungszeiten"
+    ShopPhone: "Telefon"
     ShopPostcode: "Postleitzahl"
     ShopStreet: "Straße"
     ShopStreetNumber: "Hausnummer"
@@ -1843,6 +1850,7 @@ de:
   SilvercartSiteConfig:
     CREATE_TRANSLATION_DESC: "Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist."
     FACEBOOK_LINK: "Facebook Link"
+    GoogleplusLink: "Google Plus Link"
     GOOGLE_ANALYTICS_TRACKING_CODE: "Google Analytics Tracking Code"
     GOOGLE_CONVERSION_TRACKING_CODE: "Google Conversion Tracking Code"
     GOOGLE_WEBMASTER_CODE: "Google Webmaster Tools Code"

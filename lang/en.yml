@@ -11,6 +11,7 @@ en:
     DEFAULT_TITLE: "Revocation instruction"
     DEFAULT_URLSEGMENT: "revocation-instruction"
   Silvercart:
+    at: at
     BusinessDay: "Business day"
     BusinessDays: "Business days"
     Categories: "Our Categories"
@@ -300,6 +301,8 @@ en:
     EXAMPLE_CONFIGURATION_ALREADY_ADDED: "Example Configuration already added"
     EXAMPLE_DATA_ALREADY_ADDED: "Example Data already added"
     EmailConfiguration: "Email Settings"
+    Favicon: "Favicon"
+    FaviconDesc: "The favicon is an image which will be shown in the address bar of your browser, on the left side of the URL. Some browsers also show it right at the opened tab. The favicon should be quadratic with dimensions of 32x32 pixels."
     FLAT: "flat"
     FREEOFSHIPPINGCOSTSFROM: "Free of shipping costs from"
     FREEOFSHIPPINGCOSTSTAB: "Free of shipping costs"
@@ -316,6 +319,8 @@ en:
     MINIMUMORDERVALUE_HEADLINE: "Minimum order value"
     MinimumAgeToOrder: "Minimum age to order"
     MinimumAgeToOrderError: "The minimum age to order is %s years."
+    MobileTouchIcon: "Mobile Touch Icon"
+    MobileTouchIconDesc: "The mobile touch icon will be used if a visitor saves your shop as a shourtcut on the homescreen of a smartphone or tablet. The icon should have dimensions of 192x192 pixels."
     OPEN_RECORD: "open record"
     PLURALNAME: "General configurations"
     PRICETYPEANONYMOUSCUSTOMERS: "Pricetype anonymous customers"
@@ -344,6 +349,8 @@ en:
     ShopCountry: "Country"
     ShopData: "Shop data"
     ShopName: "Shop name"
+    ShopOpeningHours: "Opening hours"
+    ShopPhone: "Phone"
     ShopPostcode: "Postcode"
     ShopStreet: "Street"
     ShopStreetNumber: "Street number"
@@ -1843,6 +1850,7 @@ en:
   SilvercartSiteConfig:
     CREATE_TRANSLATION_DESC: "New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset."
     FACEBOOK_LINK: "Facebook Link"
+    GoogleplusLink: "Google Plus Link"
     GOOGLE_ANALYTICS_TRACKING_CODE: "Google Analytics Tracking Code"
     GOOGLE_CONVERSION_TRACKING_CODE: "Google Conversion Tracking Code"
     GOOGLE_WEBMASTER_CODE: "Google Webmaster Tools Code"
