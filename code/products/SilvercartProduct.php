@@ -2432,15 +2432,18 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     /**
      * Returns a HTML snippet to display the availability of the product.
      *
+     * @param string $baseCssClass         Base CSS class to use to render the badge (default: label)
+     * @param string $additionalCssClasses Additional CSS classes to use to render the badge.
+     * 
      * @return string
      */
-    public function getAvailability() {
+    public function getAvailability($baseCssClass = 'label', $additionalCssClasses = '') {
         if ($this->SilvercartAvailabilityStatus()) {
             if ($this->SilvercartAvailabilityStatus()->Code == 'not-available'
              && !empty($this->PurchaseTimeUnit)
              && (!empty($this->PurchaseMinDuration)
               || !empty($this->PurchaseMaxDuration))) {
-                $class = 'available-in label label-warning';
+                $class = 'available-in ' . $baseCssClass . ' ' . $baseCssClass . '-warning';
                 if (empty($this->PurchaseMinDuration)) {
                     $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMinDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
                 } elseif (empty($this->PurchaseMaxDuration)) {
@@ -2449,14 +2452,30 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                     $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN_MIN_MAX'), $this->PurchaseMinDuration, $this->PurchaseMaxDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
                 }
             } else {
-                $class = $this->SilvercartAvailabilityStatus()->Code.' label label-'.$this->SilvercartAvailabilityStatus()->badgeColor;
+                $class = $this->SilvercartAvailabilityStatus()->Code . ' ' . $baseCssClass . ' ' . $baseCssClass . '-'.$this->SilvercartAvailabilityStatus()->badgeColor;
                 $title = $this->SilvercartAvailabilityStatus()->Title;
             }
-            $html = '<span class="' . $class . '" title="' . $title . '">' . $title . '</span>';
+            $html = '<span class="' . $class . ' ' . $additionalCssClasses . '" title="' . $title . '">' . $title . '</span>';
         } else {
             $html = '';
         }
         return $html;
+    }
+
+    /**
+     * Returns a HTML snippet to display the availability of the product.
+     * Alias for self::getAvailability().
+     *
+     * @param string $baseCssClass         Base CSS class to use to render the badge (default: label)
+     * @param string $additionalCssClasses Additional CSS classes to use to render the badge.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.06.2017
+     */
+    public function Availability($baseCssClass = 'label', $additionalCssClasses = '') {
+        return $this->getAvailability($baseCssClass, $additionalCssClasses);
     }
 
     /**
