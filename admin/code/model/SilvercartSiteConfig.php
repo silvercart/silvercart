@@ -578,8 +578,8 @@ class SilvercartSiteConfig extends DataExtension {
             $fields->removeByName('ColorScheme');
             
             $logoField      = new UploadField('SilvercartLogo',  $this->owner->fieldLabel('SilvercartLogo'));
-            $faviconField   = new UploadField('Favicon',         $this->fieldLabel('Favicon'));
-            $touchIconField = new UploadField('MobileTouchIcon', $this->fieldLabel('MobileTouchIcon'));
+            $faviconField   = new UploadField('Favicon',         $this->owner->fieldLabel('Favicon'));
+            $touchIconField = new UploadField('MobileTouchIcon', $this->owner->fieldLabel('MobileTouchIcon'));
             $logoField->setDescription($this->owner->fieldLabel('SilvercartLogoDesc'));
             $faviconField->setDescription($this->owner->fieldLabel('FaviconDesc'));
             $touchIconField->setDescription($this->owner->fieldLabel('MobileTouchIconDesc'));
