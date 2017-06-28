@@ -49,3 +49,6 @@
     </div>
 </footer>
 <% end_cached %>
+<% if $CurrentPage.isProductDetailView %>
+    {$Product.Microdata}
+<% end_if %>

@@ -2368,6 +2368,66 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     public function getTaxAmountNice() {
         return str_replace('.', ',', number_format($this->getTaxAmount(),2)) . ' ' . $this->Price->getSymbol();
     }
+    
+    /**
+     * Creates the product micro data as a JSON string to use for SEO.
+     * 
+     * @param bool $plain Set to true to get the plain JSON string without HTML tag
+     * 
+     * @return string
+     */
+    public function getMicrodata($plain = false) {
+        if ($this->getPriceIsLowerThanMsr()) {
+            $offers = array(
+                '@type'         => 'AggregateOffer',
+                'highPrice'     => $this->MSRPrice->getAmount(),
+                'lowPrice'      => $this->getPrice()->getAmount(),
+                'priceCurrency' => $this->getPrice()->getCurrency(),
+            );
+        } else {
+            $offers = array(
+                '@type'         => 'Offer',
+                'price'         => $this->getPrice()->getAmount(),
+                'priceCurrency' => $this->getPrice()->getCurrency(),
+            );
+        }
+        if ($this->SilvercartAvailabilityStatus()->exists()) {
+            $offers['availability'] = $this->SilvercartAvailabilityStatus()->Title;
+        }
+        
+        $jsonData = array(
+            '@context'    => 'http://schema.org',
+            '@type'       => 'Product',
+            'productID'   => $this->ProductNumberShop,
+            'mpn'         => $this->ProductNumberShop,
+            'name'        => htmlentities(strip_tags($this->Title)),
+            'description' => htmlentities(strip_tags($this->getLongDescription())),
+            'url'         => $this->AbsoluteLink(),
+            'image'       => $this->getListImage()->getAbsoluteURL(),
+            'offers'      => $offers,
+        );
+        
+        $manufacturer = $this->SilvercartManufacturer();
+        if ($manufacturer instanceof SilvercartManufacturer &&
+            $manufacturer->exists()) {
+            $manufacturerData = array(
+                '@type' => 'Brand',
+                'name'  => $manufacturer->Title,
+            );
+            if ($manufacturer->Logo()->exists()) {
+                $manufacturerData["logo"] = $manufacturer->Logo()->getAbsoluteURL();
+            }
+            $jsonData["brand"]       = $manufacturerData;
+        }
+        
+        $this->extend('updateMicrodata', $jsonData);
+
+        $output = json_encode($jsonData, JSON_PRETTY_PRINT);
+        if (!$plain) {
+            $output = '<script type="application/ld+json">' . $output . '</script>';
+        }
+        return $output;
+    }
 
     /**
      * Returns a HTML snippet to display the availability of the product.
