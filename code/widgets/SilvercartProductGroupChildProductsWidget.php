@@ -140,46 +140,22 @@ class SilvercartProductGroupChildProductsWidget_Controller extends SilvercartWid
     }
 
     /**
-     * Returns a number of products from the chosen productgroup.
+     * Returns the products of all children (recursively) of the current product group page.
      *
-     * @return ArrayList
+     * @return PaginatedList
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.07.2015
+     * @since 29.06.2017
      */
     public function getElementsByProductGroup() {
-        $products         = new ArrayList();
         $productGroupPage = Controller::curr();
-
         if (!$productGroupPage instanceof SilvercartProductGroupPage_Controller ||
              $productGroupPage->getProducts()->count() > 0) {
 
             return new PaginatedList(new ArrayList());
         }
-
-        $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
-        if (is_array($pageIDsToWorkOn) &&
-            count($pageIDsToWorkOn) > 0) {
-            if (SilvercartConfig::DefaultLanguage() != i18n::get_locale()) {
-                $translationGroupQuery = 'SELECT "STTG"."TranslationGroupID" FROM "SiteTree_translationgroups" AS "STTG" WHERE "STTG"."OriginalID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
-                $translationIDsQuery   = 'SELECT "STTG2"."OriginalID" FROM "SiteTree_translationgroups" AS "STTG2" WHERE "STTG2"."TranslationGroupID" IN (' . $translationGroupQuery . ')';
-                $mirrored              = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SPGMP"."SilvercartProductGroupPageID" IN (' . $translationIDsQuery . ')';
-            } else {
-                $mirrored = 'SELECT "SPGMP"."SilvercartProductID" FROM SilvercartProduct_SilvercartProductGroupMirrorPages AS "SPGMP" WHERE "SPGMP"."SilvercartProductGroupPageID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
-            }
-            $products = SilvercartProduct::getProducts('("SilvercartProduct"."SilvercartProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "SilvercartProduct"."ID" IN (' . $mirrored . '))');
-        }
-
-        $elements = new PaginatedList($products);
-        $productGroupPage->addTotalNumberOfProducts($products->count());
-        $productGroupPage->setPaginationContext($elements);
-        
-        if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
-            $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
-            $elements->pageStart  = $productGroupPage->getSqlOffset();
-        }
-        return $elements;
+        return $productGroupPage->getProductsFromChildren();
     }
 
     /**
