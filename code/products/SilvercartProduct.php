@@ -3118,6 +3118,35 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         }
         return true;
     }
+
+    /**
+     * Returns if a product is new dependent on its creation date (Created) and the given
+     * time difference ($timeDifference).
+     * 
+     * @param string $timeDifference '+8 month' OR '-8 day' OR '-1 year'
+     *
+     * @return bool
+     *
+     * @author Jiri Ripa <jripa@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.06.2017
+     */
+    public function isNewProduct($timeDifference = '+2 month') {
+        if ($timeDifference == '+2 month') {
+            $this->extend('updateIsNewProductTimeDifference', $timeDifference);
+        }
+        $isNew = false;
+        $date  = new DateTime($this->Created);
+        $date->format('Y/m/d');
+        $date->modify($timeDifference);
+        $modifiedDate = $date->getTimestamp();
+        $currentDate  = time();
+        if ($modifiedDate > $currentDate) {
+            $isNew = true;
+        }
+        $this->extend('updateIsNewProduct', $isNew);
+        return $isNew;
+    }
     
     /**
      * Checks whether there is a status change needed and executes the change if 
