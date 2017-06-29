@@ -560,6 +560,56 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
 
         return $hasMsrPrice;
     }
+    
+    /**
+     * Returns whether the first image of this product has a portrait orientation.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.06.2017
+     */
+    public function hasPortraitOrientationImage() {
+        $hasPortraitOrientationImage = false;
+        $image = $this->getSilvercartImages()->first();
+        if ($image instanceof SilvercartImage &&
+            $image->Image()->exists()) {
+            
+            $imageFile = $image->Image();
+            $maxRatio  = 2.5;
+
+            if ($imageFile->getWidth() > 0 &&
+                $imageFile->getHeight() > 0) {
+                
+                $orientation = $imageFile->getOrientation();
+                $ratio       = $imageFile->getWidth() / $imageFile->getHeight();
+
+                if ($orientation == Image::ORIENTATION_LANDSCAPE &&
+                    ($ratio <= $maxRatio ||
+                     $imageFile->getWidth() < 400)) {
+                    $hasPortraitOrientationImage = true;
+                } elseif ($orientation == Image::ORIENTATION_PORTRAIT) {
+                    $hasPortraitOrientationImage = true;
+                } elseif ($orientation != Image::ORIENTATION_LANDSCAPE) {
+                    $hasPortraitOrientationImage = true;
+                }
+            }
+        }
+        $this->extend('updateHasPortraitOrientationImage', $hasPortraitOrientationImage, $imageFile);
+        return $hasPortraitOrientationImage;
+    }
+    
+    /**
+     * Returns whether the first image of this product has a landscape orientation.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.06.2017
+     */
+    public function hasLandscapeOrientationImage() {
+        return !$this->hasPortraitOrientationImage();
+    }
 
     /**
      * Return a map of permission codes to add to the dropdown shown in the Security section of the CMS.
