@@ -1,5 +1,23 @@
 var silvercartVisibilityChangeCallBackListFocus = new Array();
-var silvercartVisibilityChangeCallBackListBlur  = new Array();
+var silvercartVisibilityChangeCallBackListBlur  = new Array();// initialize namespace or use existing one
+var silvercart          = silvercart            ? silvercart            : [];
+    silvercart.address  = silvercart.address    ? silvercart.address    : [];
+
+silvercart.address.toggleAddForm = function(event) {
+    event.preventDefault();
+    $('#silvercart-add-address-form').slideToggle(function() {
+        if ($('#silvercart-add-address-link').length) {
+            if ($(this).is(':visible')) {
+                $('#silvercart-add-address-link').fadeOut();
+            } else {
+                $('#silvercart-add-address-link').fadeIn();
+            }
+        }
+        if ($('#silvercart-add-address-form-scrolltarget').length > 0) {
+            document.location.hash = $('#silvercart-add-address-form-scrolltarget').attr('name');
+        }
+    });
+};
 
 function cutCountryList() {
     $('.country-list').each(function() {
@@ -122,11 +140,9 @@ $(document).ready(function(){
             });
         }
     }
+    
+    if ($('#silvercart-add-address-link').length > 0) {
+        $('#silvercart-add-address-link, .silvercart-trigger-add-address-link').click(function(event) {silvercart.address.toggleAddForm(event);});
+        $('#silvercart-add-address-form-cancel-id').click(function(event) {silvercart.address.toggleAddForm(event);});
+    }
 });
-
-//(function($){
-//        $.fn.extend({
-//                slidorion: function(options) {
-//                }
-//        });
-//})(jQuery);

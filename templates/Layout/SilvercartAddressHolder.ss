@@ -41,10 +41,7 @@
             <div class="hidden-form" id="silvercart-add-address-form">
                 $insertCustomHtmlForm(SilvercartAddAddressForm)
             </div>
-           <a class="btn btn-small" href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
-
-            <% require javascript(silvercart/javascript/SilvercartAddressHolder.js) %>
-            
+            <a class="btn btn-small" href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>
