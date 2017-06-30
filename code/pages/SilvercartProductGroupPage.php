@@ -270,7 +270,7 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.06.2017
+     * @since 30.06.2017
      */
     public function CanonicalLink() {
         $link = parent::CanonicalLink();
@@ -287,6 +287,8 @@ class SilvercartProductGroupPage extends Page {
                     $link .= $char . 'start=' . $_GET['start'];
                 }
             }
+        } elseif (Controller::curr()->isProductDetailView()) {
+            $link = Controller::curr()->getDetailViewProduct()->CanonicalLink();
         }
         return $link;
     }

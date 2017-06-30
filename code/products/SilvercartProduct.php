@@ -2313,15 +2313,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return string URL of $this
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.07.2012
+     * @since 30.06.2017
      */
     public function CanonicalLink() {
-        $link = '';
-
+        $link = $this->Link();
         if ($this->SilvercartProductGroup()) {
-            $link = $this->SilvercartProductGroup()->OriginalLink() . $this->ID . '/' . $this->title2urlSegment();
+            $link = $this->buildLink($this->SilvercartProductGroup(), $this->title2urlSegment());
         }
-        
         return $link;
     }
     
