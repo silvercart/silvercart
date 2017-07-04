@@ -61,6 +61,13 @@ class SilvercartProductGroupHolder extends Page {
     private static $icon = "silvercart/img/page_icons/product_group_holder";
     
     /**
+     * Indicator to check whether getCMSFields is called
+     *
+     * @var boolean
+     */
+    protected $getCMSFieldsIsCalled = false;
+    
+    /**
      * Singular name for this object
      *
      * @return string
@@ -122,6 +129,7 @@ class SilvercartProductGroupHolder extends Page {
      * @return FieldList Fields of the CMS
      */
     public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields();
         
         $useOnlydefaultGroupviewSource  = array(
@@ -175,6 +183,31 @@ class SilvercartProductGroupHolder extends Page {
 
         $this->extend('extendCMSFields', $fields);
         return $fields;
+    }
+    
+    /**
+     * Returns a dynamic meta description.
+     * 
+     * @return string
+     */
+    public function getMetaDescription() {
+        $metaDescription = $this->getField('MetaDescription');
+        if (!$this->getCMSFieldsIsCalled) {
+            if (empty($metaDescription)) {
+                $descriptionArray = array($this->Title);
+                $children         = $this->Children();
+                if ($children->count() > 0) {
+                    $map = $children->map();
+                    if ($map instanceof SS_Map) {
+                        $map = $map->toArray();
+                    }
+                    $descriptionArray = array_merge($descriptionArray, $map);
+                }
+                $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
+            }
+            $this->extend('updateMetaDescription', $metaDescription);
+        }
+        return $metaDescription;
     }
 
     /**

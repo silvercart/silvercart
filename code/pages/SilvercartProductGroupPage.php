@@ -1075,9 +1075,6 @@ class SilvercartProductGroupPage extends Page {
      * related products or the single product in detail view
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 06.11.2014
      */
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
@@ -1087,17 +1084,20 @@ class SilvercartProductGroupPage extends Page {
                     $product = Controller::curr()->getDetailViewProduct();
                     $metaDescription = $product->MetaDescription;
                 } else {
-                    $products = $this->getProducts();
+                    $descriptionArray = array($this->Title);
+                    $children         = $this->Children();
+                    if ($children->count() > 0) {
+                        $map = $children->map();
+                        if ($map instanceof SS_Map) {
+                            $map = $map->toArray();
+                        }
+                        $descriptionArray = array_merge($descriptionArray, $map);
+                    }
+                    $products = $this->getProductsToDisplay();
                     if ($products->count() > 0) {
-                        $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray(
-                                array_merge(
-                                    array(
-                                        $this->Title
-                                    ),
-                                    $products->map()->toArray()
-                                )
-                        );
-                    } 
+                        $descriptionArray = array_merge($descriptionArray, $products->map()->toArray());
+                    }
+                    $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
                 }
             }
             $this->extend('updateMetaDescription', $metaDescription);
