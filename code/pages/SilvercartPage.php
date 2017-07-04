@@ -421,6 +421,22 @@ class SilvercartPage extends SiteTree {
         }
         return $metaDescription;
     }
+    
+    /**
+     * Checks if the given link is the start page link.
+     * 
+     * @param string $link Link to check
+     * 
+     * @return bool
+     */
+    public function isStartPage($link = '') {
+        if (empty($link)) {
+            $link = $this->Link();
+        }
+        $relativeLink = Director::makeRelative($link);
+        $plainLink    = str_replace('/', '', $relativeLink);
+        return $plainLink == Config::inst()->get('RootURLController', 'default_homepage_link');
+    }
 }
 
 /**
