@@ -67,10 +67,12 @@ function cartContent() {
 
 // flexslider on home page
 function flexSlideShow() {
-    if (typeof imageSliderBuildNavigation === 'undefined') {
-        var imageSliderBuildNavigation = true;
-    }
-	$('.flexslider').flexslider({
+    var flexslider = $('.flexslider');
+    if (flexslider) {
+        if (typeof imageSliderBuildNavigation === 'undefined') {
+            var imageSliderBuildNavigation = true;
+        }
+        flexslider.flexslider({
 		 animation: "slide",
 		 slideshowSpeed: 4000,
 		 directionNav: false,
@@ -78,14 +80,9 @@ function flexSlideShow() {
 		 controlNav: imageSliderBuildNavigation
 	});
 }
-
-// bootstrap carousel in caregories grid and list
 function productSlider() {
 	$('.carousel').carousel();
 }
-
-
-// link fancybox plugin on product detail
 function productFancyBox() {
 	$(".fancybox").fancybox({
 		openEffect	: 'none',
