@@ -571,7 +571,7 @@ class SilvercartProductGroupItemsWidget_Controller extends SilvercartWidget_Cont
      * @since 03.02.2012
      */
     public function getElementsByProducts() {
-        $products = $this->SilvercartProducts();
+        $products = $this->SilvercartProducts()->where(SilvercartProduct::get_frontend_sql_filter());
         
         foreach ($products as $product) {
             $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
