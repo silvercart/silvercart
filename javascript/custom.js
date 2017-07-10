@@ -73,12 +73,13 @@ function flexSlideShow() {
             var imageSliderBuildNavigation = true;
         }
         flexslider.flexslider({
-		 animation: "slide",
-		 slideshowSpeed: 4000,
-		 directionNav: false,
-		 pauseOnHover: true,
-		 controlNav: imageSliderBuildNavigation
-	});
+            animation: "slide",
+            slideshowSpeed: 4000,
+            directionNav: false,
+            pauseOnHover: true,
+            controlNav: imageSliderBuildNavigation
+        });
+    }
 }
 function productSlider() {
 	$('.carousel').carousel();
