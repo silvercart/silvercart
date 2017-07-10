@@ -87,6 +87,7 @@ $(document).ready(function(){
     });
     if ($(".silvercart-product-group-page-selectors")) {
         $(".silvercart-product-group-page-selectors select").on('change', function() { this.form.submit(); });
+        $(".silvercart-product-group-page-selectors button[name='action_customHtmlFormSubmit']").hide();
     }
     
     var hidden,
