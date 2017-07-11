@@ -2482,7 +2482,11 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         
         $this->extend('updateMicrodata', $jsonData);
 
-        $output = json_encode($jsonData, JSON_PRETTY_PRINT);
+        if (defined('JSON_PRETTY_PRINT')) {
+            $output = json_encode($jsonData);
+        } else {
+            $output = json_encode($jsonData, JSON_PRETTY_PRINT);
+        }
         if (!$plain) {
             $output = '<script type="application/ld+json">' . $output . '</script>';
         }
