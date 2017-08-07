@@ -27,6 +27,7 @@ class SilvercartAvailabilityStatus extends DataObject {
      */
     private static $db = array(
         'Code'                => 'VarChar',
+        'SeoMicrodataCode'    => "Enum(',Discontinued,InStock,InStoreOnly,LimitedAvailability,OnlineOnly,OutOfStock,PreOrder,PreSale,SoldOut','')",
         'badgeColor'          => "Enum('default,success,warning,important,info,inverse','default')",
         'SetForPositiveStock' => 'Boolean(0)',
         'SetForNegativeStock' => 'Boolean(0)',
@@ -41,6 +42,7 @@ class SilvercartAvailabilityStatus extends DataObject {
     private static $casting = array(
         'Title'          => 'Text',
         'AdditionalText' => 'Text',
+        'MicrodataCode'  => 'Text',
         'SetForPositiveStockNice' => 'Text',
         'SetForNegativeStockNice' => 'Text',
         'BadgeColorIndicator'     => 'HTMLText',
@@ -63,6 +65,25 @@ class SilvercartAvailabilityStatus extends DataObject {
      */
     private static $defaults = array(
         'badgeColor' => "default",
+    );
+    
+    /**
+     * List of default microdata codes.
+     *
+     * @var array
+     */
+    public static $default_microdata_codes = array(
+        'available'           => 'InStock',
+        'not-available'       => 'OutOfStock',
+        'Discontinued'        => 'Discontinued',
+        'InStock'             => 'InStock',
+        'InStoreOnly'         => 'InStoreOnly',
+        'LimitedAvailability' => 'LimitedAvailability',
+        'OnlineOnly'          => 'OnlineOnly',
+        'OutOfStock'          => 'OutOfStock',
+        'PreOrder'            => 'PreOrder',
+        'PreSale'             => 'PreSale',
+        'SoldOut'             => 'SoldOut',
     );
 
     /**
@@ -107,6 +128,17 @@ class SilvercartAvailabilityStatus extends DataObject {
                 'badgeColor'                            => _t('SilvercartOrderStatus.BADGECOLOR'),
                 'Code'                                  => _t('SilvercartOrderStatus.CODE'),
                 'Title'                                 => _t('SilvercartAvailabilityStatus.SINGULARNAME'),
+                'SeoMicrodataCode'                      => _t('SilvercartAvailabilityStatus.SeoMicrodataCode'),
+                'SeoMicrodataCodeDescription'           => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeDescription'),
+                'SeoMicrodataCodeDiscontinued'          => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeDiscontinued'),
+                'SeoMicrodataCodeInStock'               => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeInStock'),
+                'SeoMicrodataCodeInStoreOnly'           => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeInStoreOnly'),
+                'SeoMicrodataCodeLimitedAvailability'   => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeLimitedAvailability'),
+                'SeoMicrodataCodeOnlineOnly'            => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeOnlineOnly'),
+                'SeoMicrodataCodeOutOfStock'            => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeOutOfStock'),
+                'SeoMicrodataCodePreOrder'              => _t('SilvercartAvailabilityStatus.SeoMicrodataCodePreOrder'),
+                'SeoMicrodataCodePreSale'               => _t('SilvercartAvailabilityStatus.SeoMicrodataCodePreSale'),
+                'SeoMicrodataCodeSoldOut'               => _t('SilvercartAvailabilityStatus.SeoMicrodataCodeSoldOut'),
                 'AdditionalText'                        => _t('SilvercartAvailabilityStatus.ADDITIONALTEXT'),
                 'SetForPositiveStock'                   => _t('SilvercartAvailabilityStatus.SetForPositiveStock'),
                 'SetForPositiveStockDesc'               => _t('SilvercartAvailabilityStatus.SetForPositiveStockDesc'),
@@ -158,6 +190,18 @@ class SilvercartAvailabilityStatus extends DataObject {
                 'Root.Main',
                 new OptionsetField('badgeColor', $this->fieldLabel('badgeColor'), $badgeColorSource)
         );
+        
+        $enumValues = $this->owner->dbObject('SeoMicrodataCode')->enumValues();
+        $i18nSource = array();
+        foreach ($enumValues as $value => $label) {
+            if (empty($label)) {
+                $i18nSource[$value] = '';
+            } else {
+                $i18nSource[$value] = _t('SilvercartAvailabilityStatus.SeoMicrodataCode' . $label, $label);
+            }
+        }
+        $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
+        $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
 
         return $fields;
     }
@@ -208,24 +252,36 @@ class SilvercartAvailabilityStatus extends DataObject {
     }
     
     /**
-     * getter for the pseudo attribute title
+     * Getter for the pseudo attribute title.
+     * Returns the title in the corresponding frontend language.
      *
-     * @return string the title in the corresponding frontend language 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.01.2012
+     * @return string
      */
     public function getTitle() {
         return $this->getLanguageFieldValue('Title');
+    }
+    
+    /**
+     * Returns the title for SEO microdata
+     *
+     * @return string
+     */
+    public function getMicrodataCode() {
+        $microDataCode = $this->SeoMicrodataCode;
+        if (empty($microDataCode) &&
+            array_key_exists($this->Code, self::$default_microdata_codes)) {
+            $microDataCode = self::$default_microdata_codes[$this->Code];
+        }
+        if (!empty($microDataCode)) {
+            $microDataCode = 'http://schema.org/' . $microDataCode;
+        }
+        return $microDataCode;
     }
 
     /**
      * getter for the pseudo attribute AdditionalText
      *
-     * @return string the title in the corresponding frontend language
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 05.12.2012
+     * @return string
      */
     public function getAdditionalText() {
         return $this->getLanguageFieldValue('AdditionalText');

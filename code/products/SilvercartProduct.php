@@ -2440,7 +2440,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             );
         }
         if ($this->SilvercartAvailabilityStatus()->exists()) {
-            $offers['availability'] = $this->SilvercartAvailabilityStatus()->Title;
+            $offers['availability'] = $this->SilvercartAvailabilityStatus()->MicrodataCode;
         }
         
         $jsonData = array(
