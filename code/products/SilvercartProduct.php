@@ -1139,6 +1139,43 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         }
         return $filter;
     }
+    
+    /**
+     * Returns the SQL filter to prevent to display products which don't match the required
+     * attributes.
+     * 
+     * @return string
+     */
+    public static function get_frontend_sql_filter() {
+        $requiredAttributes = self::getRequiredAttributes();
+        $pricetype          = SilvercartConfig::Pricetype();
+        $filter             = "";
+
+        if (!empty($requiredAttributes)) {
+            foreach ($requiredAttributes as $requiredAttribute) {
+                //find out if we are dealing with a real attribute or a multilingual field
+                if (array_key_exists($requiredAttribute, DataObject::custom_database_fields('SilvercartProduct')) || $requiredAttribute == "Price") {
+                    if ($requiredAttribute == "Price") {
+                        // Gross price as default if not defined
+                        if ($pricetype == "net") {
+                            $filter .= sprintf("(PriceNetAmount != 0.0) AND ");
+                        } else {
+                            $filter .= sprintf("(PriceGrossAmount != 0.0) AND ");
+                        }
+                    } else {
+                        $filter .= sprintf("%s != '' AND ", $requiredAttribute);
+                    }
+                } else {
+                    // if its a multilingual attribute it comes from a relational class
+                    $filter .= sprintf("SilvercartProductLanguage.%s != '' AND ", $requiredAttribute);
+                }
+                
+            }
+        }
+        $filter .= 'isActive = 1 AND SilvercartProductGroupID > 0';
+        
+        return $filter;
+    }
 
     /**
      * Getter similar to DataObject::get(); returns a SS_List of products filtered by the requirements in self::getRequiredAttributes();
@@ -1173,37 +1210,12 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @since 03.02.2015
      */
     public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null) {
-        $requiredAttributes = self::getRequiredAttributes();
-        $pricetype          = SilvercartConfig::Pricetype();
-        $filter             = "";
-
-        if (!empty($requiredAttributes)) {
-            foreach ($requiredAttributes as $requiredAttribute) {
-                //find out if we are dealing with a real attribute or a multilingual field
-                if (array_key_exists($requiredAttribute, DataObject::custom_database_fields('SilvercartProduct')) || $requiredAttribute == "Price") {
-                    if ($requiredAttribute == "Price") {
-                        // Gross price as default if not defined
-                        if ($pricetype == "net") {
-                            $filter .= sprintf("(PriceNetAmount != 0.0) AND ");
-                        } else {
-                            $filter .= sprintf("(PriceGrossAmount != 0.0) AND ");
-                        }
-                    } else {
-                        $filter .= sprintf("%s != '' AND ", $requiredAttribute);
-                    }
-                } else {
-                    // if its a multilingual attribute it comes from a relational class
-                    $filter .= sprintf("SilvercartProductLanguage.%s != '' AND ", $requiredAttribute);
-                }
-                
-            }
-        }
+        $filter = self::get_frontend_sql_filter();
 
         if ($whereClause != "") {
-            $filter = $filter . $whereClause . ' AND ';
+            $filter = $filter . ' AND ' . $whereClause;
         }
 
-        $filter .= 'isActive = 1 AND SilvercartProductGroupID > 0';
 
         if ($sort === null) {
             $sort = self::defaultSort();
@@ -2470,7 +2482,11 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         
         $this->extend('updateMicrodata', $jsonData);
 
-        $output = json_encode($jsonData, JSON_PRETTY_PRINT);
+        if (defined('JSON_PRETTY_PRINT')) {
+            $output = json_encode($jsonData);
+        } else {
+            $output = json_encode($jsonData, JSON_PRETTY_PRINT);
+        }
         if (!$plain) {
             $output = '<script type="application/ld+json">' . $output . '</script>';
         }

@@ -423,6 +423,20 @@ class SilvercartPage extends SiteTree {
     }
     
     /**
+     * Returns the given string to use as a valid URL segment.
+     * 
+     * @param string $string String to convert
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.07.2017
+     */
+    public function String2urlSegment($string) {
+        return SilvercartTools::string2urlSegment($string);
+    }
+    
+    /**
      * Checks if the given link is the start page link.
      * 
      * @param string $link Link to check

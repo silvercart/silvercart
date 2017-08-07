@@ -85,4 +85,15 @@ class SilvercartCustomerAdmin extends SilvercartModelAdmin {
         return $searchForm;
     }
     
+    /**
+     * Removes anonymous customers out of the list.
+     * 
+     * @return SS_List
+     */
+    public function getList() {
+        /* @var $list DataList */
+        $list = parent::getList();
+        return $list->where('"Member"."ID" NOT IN (SELECT "Group_Members"."MemberID" FROM "Group_Members" WHERE "Group_Members"."GroupID" = (SELECT "Group"."ID" FROM "Group" WHERE "Group"."Code" = \'anonymous\'))');
+    }
+    
 }

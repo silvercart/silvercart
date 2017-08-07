@@ -12,7 +12,7 @@
     {$CustomHtmlFormSpecialFields}
     <div class="compareItem inline pull-left">
     <% loop Actions %>
-        <button class="btn btn-mini btn-primary active type-button"><i class="icon-filter"></i> {$Title}</button>
+        <button class="btn btn-mini btn-primary active type-button" name="{$name}"><i class="icon-filter"></i> {$Title}</button>
     <% end_loop %>
     </div>
 </form>
