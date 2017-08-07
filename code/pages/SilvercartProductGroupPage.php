@@ -1082,8 +1082,9 @@ class SilvercartProductGroupPage extends Page {
         $metaDescription = $this->getField('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaDescription)) {
-                if ((Controller::curr() instanceof SilvercartProductGroupPage_Controller) &&  Controller::curr()->isProductDetailView()) {
-                    $product = Controller::curr()->getDetailViewProduct();
+                $ctrl = Controller::curr();
+                if (($ctrl instanceof SilvercartProductGroupPage_Controller) &&  $ctrl->isProductDetailView()) {
+                    $product = $ctrl->getDetailViewProduct();
                     $metaDescription = $product->MetaDescription;
                 } else {
                     $descriptionArray = array($this->Title);
@@ -1097,7 +1098,10 @@ class SilvercartProductGroupPage extends Page {
                     }
                     $products = $this->getProductsToDisplay();
                     if ($products->count() > 0) {
-                        $descriptionArray = array_merge($descriptionArray, $products->map()->toArray());
+                        $currOffset       = $ctrl->CurrentOffset();
+                        $sqlOffset        = $ctrl->getProductsPerPageSetting();
+                        $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
+                        $descriptionArray = array_merge($descriptionArray, $products);
                     }
                     $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
                 }
