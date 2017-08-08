@@ -167,7 +167,7 @@ de:
     SeoMicrodataCodeLimitedAvailability: "Begrenzte Verfügbarkeit"
     SeoMicrodataCodeOnlineOnly: "Nur online"
     SeoMicrodataCodeOutOfStock: "Nicht auf Lager"
-    SeoMicrodataCodePreOrder: "Vorbestellt"
+    SeoMicrodataCodePreOrder: "Vorbestellbar"
     SeoMicrodataCodePreSale: "Vorverkauf"
     SeoMicrodataCodeSoldOut: "Ausverkauft"
     SetForNegativeStock: "Automatisch an Artikel zuweisen, wenn sich der Lagerbestand von > 0 auf 0 ändert."
