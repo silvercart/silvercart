@@ -24,6 +24,35 @@
             </div>
         </div>
     </div>
+<% with $SiteConfig %>
+    <% if $ShopOpeningHours || $ShopPhone || $ShopAdditionalInfo || $ShopAdditionalInfo2 %>
+    <div class="container footer">
+        <div class="row">
+            <% if $ShopOpeningHours || $ShopPhone %>
+            <div class="span3">
+                <% if $ShopPhone %>
+                <span class="icon icon-info-sign"></span> {$ShopPhone.Raw}<br/>
+                <% end_if %>
+                <% if $ShopPhone %>
+                <span class="icon icon-time"></span> {$ShopOpeningHours.Raw}
+                <% end_if %>
+            </div>
+            <% end_if %>
+            <% if $ShopAdditionalInfo %>
+            <div class="span3">
+                {$ShopAdditionalInfo.Raw}
+            </div>
+            <% end_if %>
+            <% if $ShopAdditionalInfo2 %>
+            <div class="span6">
+                {$ShopAdditionalInfo2.Raw}
+            </div>
+            <% end_if %>
+        </div>
+    </div>
+    <hr/>
+    <% end_if %>
+<% end_with %>
 
     <div class="container footer">
         <div class="row">

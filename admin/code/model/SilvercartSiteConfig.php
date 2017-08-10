@@ -34,6 +34,8 @@ class SilvercartSiteConfig extends DataExtension {
         'ShopCity'         => 'Varchar(256)',
         'ShopPhone'        => 'Varchar(256)',
         'ShopOpeningHours' => 'Text',
+        'ShopAdditionalInfo'                    => 'Text',
+        'ShopAdditionalInfo2'                   => 'Text',
         'SilvercartVersion'                     => 'VarChar(16)',
         'SilvercartMinorVersion'                => 'VarChar(16)',
         'DefaultCurrency'                       => 'VarChar(16)',
@@ -193,6 +195,10 @@ class SilvercartSiteConfig extends DataExtension {
                     'ShopCountry'                           => _t('SilvercartConfig.ShopCountry'),
                     'ShopPhone'                             => _t('SilvercartConfig.ShopPhone'),
                     'ShopOpeningHours'                      => _t('SilvercartConfig.ShopOpeningHours'),
+                    'ShopAdditionalInfo'                    => _t('SilvercartConfig.ShopAdditionalInfo'),
+                    'ShopAdditionalInfoDesc'                => _t('SilvercartConfig.ShopAdditionalInfoDesc'),
+                    'ShopAdditionalInfo2'                   => _t('SilvercartConfig.ShopAdditionalInfo2'),
+                    'ShopAdditionalInfo2Desc'               => _t('SilvercartConfig.ShopAdditionalInfo2Desc'),
                     'addToCartMaxQuantity'                  => _t('SilvercartConfig.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
                     'DefaultCurrency'                       => _t('SilvercartConfig.DEFAULTCURRENCY', 'Default currency'),
                     'DefaultPriceType'                      => _t('SilvercartConfig.DEFAULTPRICETYPE', 'Default price type'),
@@ -448,6 +454,8 @@ class SilvercartSiteConfig extends DataExtension {
                     new DropdownField('ShopCountryID',    $this->owner->fieldLabel('ShopCountry'), SilvercartCountry::getPrioritiveDropdownMap()),
                     new TextField('ShopPhone',            $this->owner->fieldLabel('ShopPhone')),
                     new TextareaField('ShopOpeningHours', $this->owner->fieldLabel('ShopOpeningHours')),
+                    new TextareaField('ShopAdditionalInfo',  $this->owner->fieldLabel('ShopAdditionalInfo')),
+                    new TextareaField('ShopAdditionalInfo2', $this->owner->fieldLabel('ShopAdditionalInfo2')),
                 )
         )->setHeadingLevel(4);
 
@@ -498,6 +506,8 @@ class SilvercartSiteConfig extends DataExtension {
         $fields->dataFieldByName('DefaultMailOrderNotificationRecipient')   ->setRightTitle($this->owner->fieldLabel('DefaultMailOrderNotificationRecipientRightTitle'));
         $fields->dataFieldByName('DefaultContactMessageRecipient')          ->setRightTitle($this->owner->fieldLabel('DefaultContactMessageRecipientRightTitle'));
         $fields->dataFieldByName('userAgentBlacklist')                      ->setRightTitle($this->owner->fieldLabel('userAgentBlacklistRightTitle'));
+        $fields->dataFieldByName('ShopAdditionalInfo')                      ->setDescription($this->owner->fieldLabel('ShopAdditionalInfoDesc'));
+        $fields->dataFieldByName('ShopAdditionalInfo2')                     ->setDescription($this->owner->fieldLabel('ShopAdditionalInfo2Desc'));
 
         // Add i18n to DefaultPriceType source
         $i18nForDefaultPriceTypeField = array();
