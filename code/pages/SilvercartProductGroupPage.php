@@ -1080,7 +1080,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
-        if (!$this->getCMSFieldsIsCalled) {
+        if (!$this->getCMSFieldsIsCalled &&
+            !SilvercartTools::isBackendEnvironment()) {
             if (empty($metaDescription)) {
                 $ctrl = Controller::curr();
                 if (($ctrl instanceof SilvercartProductGroupPage_Controller) &&  $ctrl->isProductDetailView()) {
@@ -1123,7 +1124,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getMetaTitle() {
         $metaTitle = $this->getField('MetaTitle');
-        if (!$this->getCMSFieldsIsCalled) {
+        if (!$this->getCMSFieldsIsCalled &&
+            !SilvercartTools::isBackendEnvironment()) {
             if (empty($metaTitle)) {
                 if ((Controller::curr() instanceof SilvercartProductGroupPage_Controller) &&  Controller::curr()->isProductDetailView()) {
                     $product = Controller::curr()->getDetailViewProduct();
@@ -1144,7 +1146,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getproductsPerPage() {
         $productsPerPage = $this->getField('productsPerPage');
-        if (!$this->getCMSFieldsIsCalled) {
+        if (!$this->getCMSFieldsIsCalled &&
+            !SilvercartTools::isBackendEnvironment()) {
             $this->extend('updateProductsPerPage', $productsPerPage);
         }
         return $productsPerPage;
@@ -1157,7 +1160,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getproductGroupsPerPage() {
         $productGroupsPerPage = $this->getField('productGroupsPerPage');
-        if (!$this->getCMSFieldsIsCalled) {
+        if (!$this->getCMSFieldsIsCalled &&
+            !SilvercartTools::isBackendEnvironment()) {
             $this->extend('updateProductGroupsPerPage', $productGroupsPerPage);
         }
         return $productGroupsPerPage;
@@ -1170,7 +1174,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getuseContentFromParent() {
         $useContentFromParent = $this->getField('useContentFromParent');
-        if (!$this->getCMSFieldsIsCalled) {
+        if (!$this->getCMSFieldsIsCalled &&
+            !SilvercartTools::isBackendEnvironment()) {
             $this->extend('updateUseContentFromParent', $useContentFromParent);
         }
         return $useContentFromParent;
@@ -1183,7 +1188,8 @@ class SilvercartProductGroupPage extends Page {
      */
     public function getDoNotShowProducts() {
         $doNotShowProducts = $this->getField('DoNotShowProducts');
-        if (!$this->getCMSFieldsIsCalled) {
+        if (!$this->getCMSFieldsIsCalled &&
+            !SilvercartTools::isBackendEnvironment()) {
             $this->extend('updateDoNotShowProducts', $doNotShowProducts);
         }
         return $doNotShowProducts;
