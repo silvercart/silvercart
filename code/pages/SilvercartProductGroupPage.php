@@ -25,28 +25,28 @@ class SilvercartProductGroupPage extends Page {
      *
      * @var array
      */
-    public static $allowed_children = array('SilvercartProductGroupPage');
+    private static $allowed_children = array('SilvercartProductGroupPage');
 
     /**
      * ???.
      *
      * @var boolean
      */
-    public static $can_be_root = false;
+    private static $can_be_root = false;
     
     /**
      * The icon for this page type in the backend sitetree.
      * 
      * @var string
      */
-    public static $icon = "silvercart/img/page_icons/product_group";
+    private static $icon = "silvercart/img/page_icons/product_group";
 
     /**
      * Attributes.
      *
      * @var array
      */
-    public static $db = array(
+    private static $db = array(
         'productsPerPage'               => 'Int',
         'productGroupsPerPage'          => 'Int',
         'useContentFromParent'          => 'Boolean(0)',
@@ -63,7 +63,7 @@ class SilvercartProductGroupPage extends Page {
      *
      * @var array
      */
-    public static $has_one = array(
+    private static $has_one = array(
         'GroupPicture'                      => 'Image',
     );
 
@@ -72,7 +72,7 @@ class SilvercartProductGroupPage extends Page {
      *
      * @var array
      */
-    public static $has_many = array(
+    private static $has_many = array(
         'SilvercartProducts' => 'SilvercartProduct'
     );
 
@@ -81,7 +81,7 @@ class SilvercartProductGroupPage extends Page {
      *
      * @var array
      */
-    public static $belongs_many_many = array(
+    private static $belongs_many_many = array(
         'SilvercartMirrorProducts'      => 'SilvercartProduct',
     );
 
@@ -90,7 +90,7 @@ class SilvercartProductGroupPage extends Page {
      *
      * @var array
      */
-    public static $casting = array(
+    private static $casting = array(
         'ProductsOnPagesString' => 'HTMLText',
     );
 
