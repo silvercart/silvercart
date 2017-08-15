@@ -1075,9 +1075,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return SilvercartProduct
      */
     public static function get_by_product_number($productNumber) {
-        return self::get()
+        $product = self::get()
                 ->filter('ProductNumberShop', $productNumber)
                 ->first();
+        if (is_null($product)) {
+            $product = new SilvercartProduct();
+        }
+        return $product;
     }
     
     /**
