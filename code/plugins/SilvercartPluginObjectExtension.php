@@ -148,16 +148,18 @@ class SilvercartPluginObjectExtension extends DataExtension {
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.11.2011
+     * @since 14.08.2017
      */
     public function updateFormFields(&$formFields) {
-        $formFields = SilvercartPlugin::call($this->owner, 'updateFormFields', $formFields, true, array());
+        $result = SilvercartPlugin::call($this->owner, 'updateFormFields', $formFields, true, array());
         
-        if ($formFields &&
-            is_array($formFields) &&
-            count($formFields) > 0) {
-            
-            $formFields = $formFields[0];
+        if ($result != false) {
+            if (is_array($result) &&
+                count($result) > 0) {
+                $formFields = $result[0];
+            } else {
+                $formFields = $result;
+            }
         }
     }
     
