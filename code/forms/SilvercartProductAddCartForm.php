@@ -88,11 +88,16 @@ class SilvercartProductAddCartForm extends CustomHtmlForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.03.2013
+     * @since 28.08.2017
      */
     protected function fillInFieldValues() {
         parent::fillInFieldValues();
-        if ($this->getProduct()->isInCart()) {
+        $textFields = array(
+            'TextField',
+            'SilvercartTextField',
+        );
+        if ($this->getProduct()->isInCart() &&
+            in_array($this->formFields['productQuantity']['type'], $textFields)) {
             $this->formFields['productQuantity']['value'] = $this->getProduct()->getQuantityInCart();
         }
     }
