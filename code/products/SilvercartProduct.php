@@ -2755,9 +2755,19 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         }
     }
     
+    /**
+     * Extension to add (mirrored) product groups to the cache refesh marker.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.08.2017
+     */
     public function extendMarkForCacheRefresh() {
-        $this->SilvercartProductGroup()->LastEditedForCache = date('Y-m-d H:i:s');
-        $this->SilvercartProductGroup()->write();
+        if ($this->SilvercartProductGroup()->exists()) {
+            $this->SilvercartProductGroup()->LastEditedForCache = date('Y-m-d H:i:s');
+            $this->SilvercartProductGroup()->write();
+        }
         foreach ($this->SilvercartProductGroupMirrorPages() as $productGroup) {
             $productGroup->LastEditedForCache = date('Y-m-d H:i:s');
             $productGroup->write();
