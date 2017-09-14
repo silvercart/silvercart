@@ -11,7 +11,7 @@
 
     <div class="flexslider <% if not $buildNavigation %>noControlNav<% end_if %>">
         <ul class="slides">
-            <% loop slideImages %>
+            <% loop getSlideImages %>
             <li>
                 <% if LinkedSite %>
                 <a href="$LinkedSite.Link">

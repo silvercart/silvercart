@@ -65,6 +65,17 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
     public static $many_many = array(
         'slideImages' => 'SilvercartImageSliderImage'
     );
+
+    /**
+     * Has_many relationships.
+     *
+     * @var array
+     */
+    private static $many_many_extraFields = array(
+        'slideImages' => array(
+            'Sort' => 'Int',
+        ),
+    );
     
     /**
      * Getter for the multilingula FrontTitle
@@ -200,6 +211,23 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+
+    /**
+     * Returns the images to display
+     *
+     * @return ArrayList
+     */
+    public function getSlideImages() {
+        $imagesToDisplay = new ArrayList();
+
+        foreach ($this->slideImages()->sort('Sort') as $SilvercartImage) {
+            if ($SilvercartImage->ImageID > 0) {
+                    $imagesToDisplay->push($SilvercartImage);
+            }
+        }
+
+        return $imagesToDisplay;
     }
 }
 
