@@ -155,7 +155,7 @@ class SilvercartImageSliderImage extends DataObject {
      */
     public function getCMSFields() {
         $fields = SilvercartDataObject::getCMSFields($this, 'ExtraCssClasses', false);
-        
+        /*
         $siteTreeField = new TreeDropdownField(
             'SiteTreeID',
             $this->fieldLabel('Linkpage'),
@@ -164,9 +164,10 @@ class SilvercartImageSliderImage extends DataObject {
             'Title',
             false
         );
+        */
         $productNumberToReferenceField = new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference'));
         $productNumberToReferenceField->setDescription($this->fieldLabel('ProductNumberToReferenceInfo'));
-        $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
+       // $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
         $fields->addFieldToTab('Root.Main', $productNumberToReferenceField, 'SiteTreeID');
         $fields->removeByName('SilvercartImageSliderWidgets');
         
