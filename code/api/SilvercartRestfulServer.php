@@ -216,14 +216,17 @@ class SilvercartRestfulServer extends RestfulServer {
      *
      * @return bool|Member
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-02-22
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 14.09.2017
      */
     protected function authenticate() {
         $serverAuth = $this->checkServerLoginCredentials();
 
         if (!$serverAuth) {
-            if ($member = Member::currentMember()) {
+            $member = SilvercartCustomer::currentUser();
+            if ($member instanceof Member &&
+                $member->exists()) {
                 return $member;
             } else {
                 return false;

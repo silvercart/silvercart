@@ -158,6 +158,13 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     public static $default_sort = 'ProductNumberShop';
 
     /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     */
+    private static $api_access = true;
+
+    /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
