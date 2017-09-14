@@ -119,6 +119,7 @@ class SilvercartImageSliderWidget extends SilvercartWidget {
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $slideImagesTable->getConfig()->addComponent(new GridFieldDeleteAction());
+        $slideImagesTable->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
         
         $slideImagesUploadField = new SilvercartImageUploadField('UploadslideImages', $this->fieldLabel('AddImage'));
         $slideImagesUploadField->setFolderName('Uploads/slider-images');
