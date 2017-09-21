@@ -1675,11 +1675,6 @@ en:
     SINGULARNAME: "Translation"
   SilvercartQuickSearchForm:
     SUBMITBUTTONTITLE: "Search"
-  SilvercartRating:
-    GRADE: "rating grade"
-    PLURALNAME: "ratings"
-    SINGULARNAME: "rating"
-    TEXT: "rating text"
   SilvercartRegisterConfirmationPage:
     ALREADY_REGISTERES_MESSAGE_TEXT: "Message: user already registered"
     CONFIRMATIONMAIL_SUBJECT: "Confirmation mail: subject"

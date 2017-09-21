@@ -1221,11 +1221,6 @@ ru:
     SINGULARNAME: "перевод"
   SilvercartQuickSearchForm:
     SUBMITBUTTONTITLE: "искать"
-  SilvercartRating:
-    GRADE: "отзыв"
-    PLURALNAME: "отзыв"
-    SINGULARNAME: "отзыв"
-    TEXT: "текст отзыва"
   SilvercartRegisterConfirmationPage:
     ALREADY_REGISTERES_MESSAGE_TEXT: "пользователь уже зарегистрирован"
     CONFIRMATIONMAIL_SUBJECT: "подтверждение: тема"

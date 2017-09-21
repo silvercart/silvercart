@@ -1675,11 +1675,6 @@ de:
     SINGULARNAME: "Übersetzung"
   SilvercartQuickSearchForm:
     SUBMITBUTTONTITLE: "Suchen"
-  SilvercartRating:
-    GRADE: "Bewertungsnote"
-    PLURALNAME: "Bewertungen"
-    SINGULARNAME: "Bewertung"
-    TEXT: "Bewertungstext"
   SilvercartRegisterConfirmationPage:
     ALREADY_REGISTERES_MESSAGE_TEXT: "Nachricht: Benutzer bereits registriert"
     CONFIRMATIONMAIL_SUBJECT: "Bestätigungsmail: Betreff"
