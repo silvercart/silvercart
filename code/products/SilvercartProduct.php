@@ -2768,16 +2768,14 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 31.08.2017
+     * @since 12.10.2017
      */
     public function extendMarkForCacheRefresh() {
         if ($this->SilvercartProductGroup()->exists()) {
-            $this->SilvercartProductGroup()->LastEditedForCache = date('Y-m-d H:i:s');
-            $this->SilvercartProductGroup()->write();
+            $this->SilvercartProductGroup()->updateLastEditedForCache();
         }
         foreach ($this->SilvercartProductGroupMirrorPages() as $productGroup) {
-            $productGroup->LastEditedForCache = date('Y-m-d H:i:s');
-            $productGroup->write();
+            $productGroup->updateLastEditedForCache();
         }
     }
 

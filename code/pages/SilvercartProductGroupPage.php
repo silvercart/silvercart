@@ -1305,6 +1305,35 @@ class SilvercartProductGroupPage extends Page {
         $this->paginationContext = $paginationContext;
     }
     
+    /**
+     * Updates the LastEditedForCache property for Stage and Live version.
+     * 
+     * @param string $newDate New date in Y-m-d H:i:s format
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2017
+     */
+    public function updateLastEditedForCache($newDate = null) {
+        if (is_null($newDate)) {
+            $newDate = date('Y-m-d H:i:s');
+        }
+        $latestPublished = $this->latestPublished();
+        $this->LastEditedForCache = $newDate;
+        $this->write();
+        if ($latestPublished) {
+            $this->publish('Stage', 'Live');
+        } else {
+            $liveVersion = Versioned::get_one_by_stage('SilvercartProductGroupPage', 'Live', '"SilvercartProductGroupPage"."ID" = ' . $this->ID);
+            if ($liveVersion instanceof SilvercartProductGroupPage &&
+                $liveVersion->exists()) {
+                $liveVersion->LastEditedForCache = $this->LastEditedForCache;
+                $liveVersion->writeToStage('Live');
+            }
+        }
+    }
+    
 }
 
 /**
