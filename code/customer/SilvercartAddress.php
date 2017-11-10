@@ -133,6 +133,20 @@ class SilvercartAddress extends DataObject {
      * @var bool
      */
     protected $isRestfulContext = false;
+    
+    /**
+     * Marks the address as shipping address in order context.
+     *
+     * @var bool
+     */
+    protected $isOrderShippingAddress = null;
+    
+    /**
+     * Marks the address as invoice address in order context.
+     *
+     * @var bool
+     */
+    protected $isOrderInvoiceAddress = null;
 
     /**
      * Sets the customer readonly state for invoice addresses.
@@ -797,9 +811,13 @@ class SilvercartAddress extends DataObject {
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 10.11.2017
      */
     public function isInvoiceAddress() {
+        $isOrderInvoiceAddress = $this->getIsOrderInvoiceAddress();
+        if (!is_null($isOrderInvoiceAddress)) {
+            return $isOrderInvoiceAddress;
+        }
         $isInvoiceAddress = false;
         if ($this->ID == SilvercartCustomer::currentUser()->SilvercartInvoiceAddressID ||
             $this->isAnonymousInvoiceAddress()) {
@@ -815,9 +833,13 @@ class SilvercartAddress extends DataObject {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 23.02.2016
+     * @since 10.11.2017
      */
     public function isShippingAddress() {
+        $isOrderShippingAddress = $this->getIsOrderShippingAddress();
+        if (!is_null($isOrderShippingAddress)) {
+            return $isOrderShippingAddress;
+        }
         $isShippingAddress = false;
         if ($this->ID == SilvercartCustomer::currentUser()->SilvercartShippingAddressID ||
             $this->isAnonymousShippingAddress()) {
@@ -853,6 +875,46 @@ class SilvercartAddress extends DataObject {
         }
         
         return $isInvoiceAndShippingAddress;
+    }
+    
+    /**
+     * Returns if this address is the current shipping address in order context.
+     * 
+     * @return bool
+     */
+    public function getIsOrderShippingAddress() {
+        return $this->isOrderShippingAddress;
+    }
+
+    /**
+     * Returns if this address is the current invoice address in order context.
+     * 
+     * @return bool
+     */
+    public function getIsOrderInvoiceAddress() {
+        return $this->isOrderInvoiceAddress;
+    }
+
+    /**
+     * Sets if this address is the current shipping address in order context.
+     * 
+     * @param bool $isOrderShippingAddress Is shipping address?
+     * 
+     * @return void
+     */
+    public function setIsOrderShippingAddress($isOrderShippingAddress) {
+        $this->isOrderShippingAddress = $isOrderShippingAddress;
+    }
+
+    /**
+     * Sets if this address is the current invoice address in order context.
+     * 
+     * @param bool $isOrderInvoiceAddress Is invoice address?
+     * 
+     * @return void
+     */
+    public function setIsOrderInvoiceAddress($isOrderInvoiceAddress) {
+        $this->isOrderInvoiceAddress = $isOrderInvoiceAddress;
     }
     
    

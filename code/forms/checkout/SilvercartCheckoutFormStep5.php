@@ -242,6 +242,13 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
             }
         }
         
+        $shippingAddress->setIsOrderShippingAddress(true);
+        $invoiceAddress->setIsOrderInvoiceAddress(true);
+        if (!$this->hasOnlyOneStandardAddress()) {
+            $shippingAddress->setIsOrderInvoiceAddress(false);
+            $invoiceAddress->setIsOrderShippingAddress(false);
+        }
+        
         $addressData = new ArrayData(
             array(
                 'SilvercartShippingAddress' => $shippingAddress,
