@@ -105,7 +105,7 @@ class SilvercartSiteConfig extends DataExtension {
      * @var array
      */
     private static $defaults = array(
-        'SilvercartVersion'             => '3.1',
+        'SilvercartVersion'             => '3.4',
         'SilvercartMinorVersion'        => '0',
         'DefaultPriceType'              => 'gross',
         'productsPerPage'               => 18,
