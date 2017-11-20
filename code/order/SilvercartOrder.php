@@ -735,6 +735,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         $fields->removeByName('PaymentReferenceID');
         $fields->removeByName('PaymentReferenceData');
+        $this->extend('updateCMSFields', $fields);
         
         return $fields;
     }
@@ -796,6 +797,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         
         if (empty($registrationData)) {
             $addressData = $member->SilvercartInvoiceAddress()->toMap();
+            $this->extend('updateCreateInvoiceAddressData', $addressData);
             unset($addressData['ID']);
             unset($addressData['ClassName']);
             unset($addressData['RecordClassName']);
@@ -804,6 +806,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $orderInvoiceAddress->castedUpdate($registrationData);
             $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
         }
+        $this->extend('updateCreateInvoiceAddress', $orderInvoiceAddress);
         $orderInvoiceAddress->write();
         $this->SilvercartInvoiceAddressID = $orderInvoiceAddress->ID;
         
@@ -828,6 +831,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
        
         if (empty($registrationData)) {
             $addressData = $member->SilvercartShippingAddress()->toMap();
+            $this->extend('updateCreateShippingAddressData', $addressData);
             unset($addressData['ID']);
             unset($addressData['ClassName']);
             unset($addressData['RecordClassName']);
@@ -836,7 +840,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $orderShippingAddress->castedUpdate($registrationData);
             $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
         }
-
+        $this->extend('updateCreateShippingAddress', $orderShippingAddress);
         $orderShippingAddress->write(); //write here to have an object ID
         $this->SilvercartShippingAddressID = $orderShippingAddress->ID;
        
