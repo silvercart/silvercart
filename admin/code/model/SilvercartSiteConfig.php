@@ -92,6 +92,7 @@ class SilvercartSiteConfig extends DataExtension {
      */
     private static $has_one = array(
         'SilvercartLogo'            => 'Image',
+        'SilvercartNavigationLogo'  => 'Image',
         'SilvercartNoImage'         => 'Image',
         'Favicon'                   => 'Image',
         'MobileTouchIcon'           => 'Image',
@@ -277,15 +278,17 @@ class SilvercartSiteConfig extends DataExtension {
                     'ExistingTransHeader'           => _t('Translatable.EXISTING'),
                     'CurrentLocale'                 => _t('Translatable.CURRENTLOCALE'),
 
-                    'SilvercartLogo'           => _t('SilvercartConfig.SilvercartLogo'),
-                    'SilvercartLogoDesc'       => _t('SilvercartConfig.SilvercartLogoDesc'),
-                    'Favicon'                  => _t('SilvercartConfig.Favicon'),
-                    'FaviconDesc'              => _t('SilvercartConfig.FaviconDesc'),
-                    'MobileTouchIcon'          => _t('SilvercartConfig.MobileTouchIcon'),
-                    'MobileTouchIconDesc'      => _t('SilvercartConfig.MobileTouchIconDesc'),
-                    'ColorScheme'              => _t('SilvercartConfig.ColorScheme'),
-                    'ColorSchemeTab'           => _t('SilvercartConfig.ColorSchemeTab'),
-                    'ColorSchemeConfiguration' => _t('SilvercartConfig.ColorSchemeConfiguration'),
+                    'SilvercartLogo'               => _t('SilvercartConfig.SilvercartLogo'),
+                    'SilvercartLogoDesc'           => _t('SilvercartConfig.SilvercartLogoDesc'),
+                    'SilvercartNavigationLogo'     => _t('SilvercartConfig.SilvercartNavigationLogo'),
+                    'SilvercartNavigationLogoDesc' => _t('SilvercartConfig.SilvercartNavigationLogoDesc'),
+                    'Favicon'                      => _t('SilvercartConfig.Favicon'),
+                    'FaviconDesc'                  => _t('SilvercartConfig.FaviconDesc'),
+                    'MobileTouchIcon'              => _t('SilvercartConfig.MobileTouchIcon'),
+                    'MobileTouchIconDesc'          => _t('SilvercartConfig.MobileTouchIconDesc'),
+                    'ColorScheme'                  => _t('SilvercartConfig.ColorScheme'),
+                    'ColorSchemeTab'               => _t('SilvercartConfig.ColorSchemeTab'),
+                    'ColorSchemeConfiguration'     => _t('SilvercartConfig.ColorSchemeConfiguration'),
                 )
         );
     }
@@ -587,10 +590,12 @@ class SilvercartSiteConfig extends DataExtension {
 
             $fields->removeByName('ColorScheme');
             
-            $logoField      = new UploadField('SilvercartLogo',  $this->owner->fieldLabel('SilvercartLogo'));
-            $faviconField   = new UploadField('Favicon',         $this->owner->fieldLabel('Favicon'));
-            $touchIconField = new UploadField('MobileTouchIcon', $this->owner->fieldLabel('MobileTouchIcon'));
+            $logoField           = new UploadField('SilvercartLogo',           $this->owner->fieldLabel('SilvercartLogo'));
+            $navigationLogoField = new UploadField('SilvercartNavigationLogo', $this->owner->fieldLabel('SilvercartNavigationLogo'));
+            $faviconField        = new UploadField('Favicon',                  $this->owner->fieldLabel('Favicon'));
+            $touchIconField      = new UploadField('MobileTouchIcon',          $this->owner->fieldLabel('MobileTouchIcon'));
             $logoField->setDescription($this->owner->fieldLabel('SilvercartLogoDesc'));
+            $navigationLogoField->setDescription($this->owner->fieldLabel('SilvercartNavigationLogoDesc'));
             $faviconField->setDescription($this->owner->fieldLabel('FaviconDesc'));
             $touchIconField->setDescription($this->owner->fieldLabel('MobileTouchIconDesc'));
             // Build color scheme toggle group
@@ -602,6 +607,7 @@ class SilvercartSiteConfig extends DataExtension {
                         $fields->dataFieldByName('Tagline'),
                         $fields->dataFieldByName('Theme'),
                         $logoField,
+                        $navigationLogoField,
                         $faviconField,
                         $touchIconField,
                         new LiteralField('ColorScheme', $this->owner->customise(array('ColorSchemes' => $colorSchemes))->renderWith('ColorSchemeField'))

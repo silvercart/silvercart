@@ -373,6 +373,8 @@ en:
     ShowTaxAndDutyHint: "Show hint for additional taxes and duty for non EU countries."
     SilvercartLogo: "Logo"
     SilvercartLogoDesc: "Will be displayed inside the shops head area."
+    SilvercartNavigationLogo: "Logo Navigation"
+    SilvercartNavigationLogoDesc: "Will be displayed in navigation when pinned at the top after scolling fown (if the theme supports a pinned navigation)."
     TABBED: "tabbed"
     TRANSLATION: "Translation"
     TRANSLATIONS: "Translations"
