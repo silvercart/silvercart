@@ -50,12 +50,6 @@
                         <td><% _t('SilvercartOrder.STATUS') %></td>
                         <td>$SilvercartOrderStatus.Title</td>
                     </tr>
-                <% if $SilvercartShippingMethod.DeliveryTime %>
-                    <tr>
-                        <td>{$SilvercartShippingMethod.fieldLabel(ExpectedDelivery)}</td>
-                        <td>{$SilvercartShippingMethod.DeliveryTime}</td>
-                    </tr>
-                <% end_if %>
                 <% if Note %>
                     <tr>
                         <td><% _t('SilvercartOrder.YOUR_REMARK') %></td>

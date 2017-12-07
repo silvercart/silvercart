@@ -444,10 +444,54 @@ class SilvercartShippingMethod extends DataObject {
      * @return string
      */
     public function getDeliveryTime($forceDisplayInDays = false) {
-        $deliveryTime = self::get_delivery_time($this->getShippingFee(), $forceDisplayInDays);
+        $deliveryTime = self::get_delivery_time_for($this->getShippingFee(), $forceDisplayInDays);
         if (empty($deliveryTime)) {
-            $deliveryTime = self::get_delivery_time($this, $forceDisplayInDays);
+            $deliveryTime = self::get_delivery_time_for($this, $forceDisplayInDays);
         }
+        return $deliveryTime;
+    }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @param int    $minDays            Delivery time minimum days
+     * @param int    $maxDays            Delivery time maximum days
+     * @param string $text               Delivery time text
+     * @param bool   $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public static function get_delivery_time($minDays, $maxDays, $text = '', $forceDisplayInDays = false) {
+        // override $forceDisplayInDays if set via config
+        if (true === Config::inst()->get('SilvercartShippingMethod', 'always_force_display_in_days')) {
+            $forceDisplayInDays = true;
+        }
+
+        $deliveryTime = '';
+            if (!empty($text)) {
+                $deliveryTime = $text;
+            } elseif ($minDays > 0) {
+                if (self::isInCheckoutContextWithPrepayment() ||
+                    $forceDisplayInDays) {
+                    $deliveryTime  = $minDays;
+                    if ($maxDays > 0) {
+                        $deliveryTime .= ' - ';
+                        $deliveryTime .= $maxDays;
+                    }
+                    if ($deliveryTime === '1') {
+                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
+                    } else {
+                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
+                    }
+                    $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
+                } else {
+                    $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($minDays)*60*60*24)), true, true, true);
+                    if ($maxDays > 0) {
+                        $deliveryTime .= ' - ';
+                        $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($maxDays)*60*60*24)), true, true, true);
+                    }
+                }
+            }
         return $deliveryTime;
     }
     
@@ -459,41 +503,8 @@ class SilvercartShippingMethod extends DataObject {
      * 
      * @return string
      */
-    public static function get_delivery_time($context, $forceDisplayInDays = false) {
-
-        // override $forceDisplayInDays if set via config
-        if (true === Config::inst()->get('SilvercartShippingMethod', 'always_force_display_in_days')) {
-            $forceDisplayInDays = true;
-        }
-
-        $deliveryTime = '';
-        if (is_object($context)) {
-            if (!empty($context->DeliveryTimeText)) {
-                $deliveryTime = $context->DeliveryTimeText;
-            } elseif ($context->DeliveryTimeMin > 0) {
-                if (self::isInCheckoutContextWithPrepayment() ||
-                    $forceDisplayInDays) {
-                    $deliveryTime  = $context->DeliveryTimeMin;
-                    if ($context->DeliveryTimeMax > 0) {
-                        $deliveryTime .= ' - ';
-                        $deliveryTime .= $context->DeliveryTimeMax;
-                    }
-                    if ($deliveryTime === '1') {
-                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDay');
-                    } else {
-                        $deliveryTime .= ' ' . _t('Silvercart.BusinessDays');
-                    }
-                    $deliveryTime .= ' ' . _t('SilvercartShippingMethod.DeliveryTimePrepaymentHint');
-                } else {
-                    $deliveryTime  = SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMin)*60*60*24)), true, true, true);
-                    if ($context->DeliveryTimeMax > 0) {
-                        $deliveryTime .= ' - ';
-                        $deliveryTime .= SilvercartTools::getDateNice(date(_t('Silvercart.DATEFORMAT'), time() + (self::addSundaysToDeliveryTime($context->DeliveryTimeMax)*60*60*24)), true, true, true);
-                    }
-                }
-            }
-        }
-        return $deliveryTime;
+    public static function get_delivery_time_for($context, $forceDisplayInDays = false) {
+        return self::get_delivery_time($context->DeliveryTimeMin, $context->DeliveryTimeMax, $context->DeliveryTimeText, $forceDisplayInDays);
     }
     
     /**

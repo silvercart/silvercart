@@ -43,7 +43,7 @@
             <% with SilvercartShoppingCart %>
                 {$CarrierAndShippingMethodTitle} <% with ShippingMethod.ShippingFee %><% if PostPricing %>*<% end_if %><% end_with %>
                 <% if hasHandlingCostShipment %> ({$HandlingCostShipment.Nice})<% end_if %>
-                <% if ShippingMethod.DeliveryTime %><br/><small class="delivery-time-hint">$ShippingMethod.fieldLabel(ExpectedDelivery):<br/>{$ShippingMethod.DeliveryTime}</small><% end_if %>
+                <% if $CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID) %><br/><small class="delivery-time-hint">{$ShippingMethod.fieldLabel(ExpectedDelivery)}:<br/>{$CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID)}</small><% end_if %>
             <% end_with %>
             {$AfterShippingMethodContent}
             </p>

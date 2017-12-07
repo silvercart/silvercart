@@ -259,7 +259,7 @@ class SilvercartShippingFee extends DataObject {
         
         $parentDeliveryTime = '';
         if ($this->SilvercartShippingMethod()->exists()) {
-            $parentDeliveryTime = '<br/>(' . SilvercartShippingMethod::get_delivery_time($this->SilvercartShippingMethod(), true) . ')';
+            $parentDeliveryTime = '<br/>(' . SilvercartShippingMethod::get_delivery_time_for($this->SilvercartShippingMethod(), true) . ')';
         }
         
         $fieldGroup->pushAndBreak(  new LiteralField('DeliveryTimeHint', '<strong>' . $this->fieldLabel('DeliveryTimeHint') . $parentDeliveryTime . '</strong>'));
@@ -616,7 +616,7 @@ class SilvercartShippingFee extends DataObject {
      * @return string
      */
     public function getDeliveryTime($forceDisplayInDays = false) {
-        return SilvercartShippingMethod::get_delivery_time($this, $forceDisplayInDays);
+        return SilvercartShippingMethod::get_delivery_time_for($this, $forceDisplayInDays);
     }
 }
 

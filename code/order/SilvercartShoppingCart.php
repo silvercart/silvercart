@@ -1317,6 +1317,64 @@ class SilvercartShoppingCart extends DataObject {
             return false;
         }
     }
+    
+    /**
+     * Returns the delivery time as string.
+     * 
+     * @param int  $shippingMethodID   ID of the shipping method to use for delivery
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public function getDeliveryTime($shippingMethodID = 0, $forceDisplayInDays = false) {
+        $deliveryDaysMin  = 0;
+        $deliveryDaysMax  = 0;
+        $deliveryDaysText = '';
+        if ($shippingMethodID != 0) {
+            $shippingMethod = SilvercartShippingMethod::get()->byID($shippingMethodID);
+        } else {
+            $shippingMethod = $this->getShippingMethod();
+        }
+        if ($shippingMethod instanceof SilvercartShippingMethod &&
+            $shippingMethod->exists()) {
+            
+            $deliveryDaysMin = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
+            $deliveryDaysMax = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;
+            if ($deliveryDaysMin == 0) {
+                $deliveryDaysMin = $shippingMethod->DeliveryTimeMin;
+            }
+            if ($deliveryDaysMax == 0) {
+                $deliveryDaysMax = $shippingMethod->DeliveryTimeMax;
+            }
+        }
+        
+        $productDeliveryDaysMin = 0;
+        $productDeliveryDaysMax = 0;
+        foreach ($this->SilvercartShoppingCartPositions() as $position) {
+            $min = $position->SilvercartProduct()->getPurchaseMinDurationDays();
+            $max = $position->SilvercartProduct()->getPurchaseMaxDurationDays();
+            if ($min > $productDeliveryDaysMin) {
+                $productDeliveryDaysMin = $min;
+            }
+            if ($max > $productDeliveryDaysMax) {
+                $productDeliveryDaysMax = $max;
+            }
+        }
+        
+        if ($productDeliveryDaysMin > $deliveryDaysMin) {
+            $deliveryDaysMin = $productDeliveryDaysMin;
+        }
+        if ($productDeliveryDaysMax > $deliveryDaysMax) {
+            $deliveryDaysMax = $productDeliveryDaysMax;
+        }
+        if ($deliveryDaysMax < $productDeliveryDaysMin) {
+            $deliveryDaysMax = 0;
+        }
+        
+        $deliveryTime = SilvercartShippingMethod::get_delivery_time($deliveryDaysMin, $deliveryDaysMax, $deliveryDaysText, $forceDisplayInDays);
+        $this->extend('updateDeliveryTime', $deliveryTime);
+        return $deliveryTime;
+    }
 
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable

@@ -2503,6 +2503,57 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         }
         return $output;
     }
+    
+    /**
+     * Returns the purchase min duration in business days.
+     * 
+     * @return int
+     */
+    public function getPurchaseMinDurationDays() {
+        $days = 0;
+        if ($this->SilvercartAvailabilityStatus()->Code == 'not-available'
+             && !empty($this->PurchaseTimeUnit)
+             && !empty($this->PurchaseMinDuration)) {
+            $days = (int) $this->PurchaseMinDuration * $this->getPurchaseTimeUnitBusinessDays();
+        }
+        return $days;
+    }
+    
+    /**
+     * Returns the purchase min duration in business days.
+     * 
+     * @return int
+     */
+    public function getPurchaseMaxDurationDays() {
+        $days = 0;
+        if ($this->SilvercartAvailabilityStatus()->Code == 'not-available'
+             && !empty($this->PurchaseTimeUnit)
+             && !empty($this->PurchaseMaxDuration)) {
+            $days = (int) $this->PurchaseMaxDuration * $this->getPurchaseTimeUnitBusinessDays();
+        }
+        return $days;
+    }
+    
+    /**
+     * Returns the count of business days for the related purchase time unit.
+     * 
+     * @return int
+     */
+    public function getPurchaseTimeUnitBusinessDays() {
+        switch ($this->PurchaseTimeUnit) {
+            case 'Months':
+                $timeUnitDays = 24;
+                break;
+            case 'Weeks':
+                $timeUnitDays = 6;
+                break;
+            case 'Days':
+            default:
+                $timeUnitDays = 1;
+                break;
+        }
+        return $timeUnitDays;
+    }
 
     /**
      * Returns a HTML snippet to display the availability of the product.
@@ -2520,9 +2571,9 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
               || !empty($this->PurchaseMaxDuration))) {
                 $class = 'available-in ' . $baseCssClass . ' ' . $baseCssClass . '-warning';
                 if (empty($this->PurchaseMinDuration)) {
-                    $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMinDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
-                } elseif (empty($this->PurchaseMaxDuration)) {
                     $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMaxDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
+                } elseif (empty($this->PurchaseMaxDuration)) {
+                    $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN'), $this->PurchaseMinDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
                 } else {
                     $title = sprintf(_t('SilvercartAvailabilityStatus.STATUS_AVAILABLE_IN_MIN_MAX'), $this->PurchaseMinDuration, $this->PurchaseMaxDuration, _t('Silvercart.' . strtoupper($this->PurchaseTimeUnit)));
                 }

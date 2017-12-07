@@ -7,16 +7,14 @@
                 <input type="radio" name="$name" value="$value" id="$htmlId"<% if checked %> checked="checked"<% end_if %> />
                        $label                 
             </label>        
-            <% if description %>
+            <% if $description || $CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID) %>
                 <div class="alert alert-info silvercart-checkout-shipping-additionalInfo-description">
-                    <p><i>$description</i></p>
-                <% if ShippingMethod.DeliveryTime %>
-                    <strong><i>$ShippingMethod.fieldLabel(ExpectedDelivery): {$ShippingMethod.DeliveryTime}</i></strong>
+                <% if $description %>
+                    <p><i>{$description}</i></p>
                 <% end_if %>
-                </div>
-            <% else_if ShippingMethod.DeliveryTime %>
-                <div class="alert alert-info silvercart-checkout-shipping-additionalInfo-description">
-                    <strong><i>$ShippingMethod.fieldLabel(ExpectedDelivery): {$ShippingMethod.DeliveryTime}</i></strong>
+                <% if $CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID) %>
+                    <strong><i>{$ShippingMethod.fieldLabel(ExpectedDelivery)}: {$CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID)}</i></strong>
+                <% end_if %>
                 </div>
             <% end_if %>
         </li>
