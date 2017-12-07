@@ -19,7 +19,7 @@
  * @license see license file in modules root directory
  * @since 22.10.2010
  */
-class SilvercartAddress extends DataObject {
+class SilvercartAddress extends DataObject implements PermissionProvider {
     
     /**
      * Attributes.
