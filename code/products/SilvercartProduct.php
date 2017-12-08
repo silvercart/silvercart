@@ -2466,6 +2466,12 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             $offers['availability'] = $this->SilvercartAvailabilityStatus()->MicrodataCode;
         }
         
+        $imageURL  = '';
+        $listImage = $this->getListImage();
+        if ($listImage instanceof Image) {
+            $imageURL = $listImage->getAbsoluteURL();
+        }
+        
         $jsonData = array(
             '@context'    => 'http://schema.org',
             '@type'       => 'Product',
@@ -2474,7 +2480,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             'name'        => htmlentities(strip_tags($this->Title)),
             'description' => htmlentities(strip_tags($this->getLongDescription())),
             'url'         => $this->AbsoluteLink(),
-            'image'       => $this->getListImage()->getAbsoluteURL(),
+            'image'       => $imageURL,
             'offers'      => $offers,
         );
         
