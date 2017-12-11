@@ -182,27 +182,29 @@ class SilvercartContactMessage extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
+     * @since 11.12.2017
      */
     public function send() {
         $silvercartPluginCall = SilvercartPlugin::call($this, 'send');
 
         if (!$silvercartPluginCall) {
+            
+            $fields = [];
+            foreach (array_keys($this->db()) as $fieldName) {
+                $value = $this->{$fieldName};
+                if ($fieldName == 'Message') {
+                    $value = str_replace('\r\n', '<br/>', nl2br($value));
+                }
+                $fields[$fieldName] = $value;
+            }
+            foreach (array_keys($this->hasOne()) as $hasOneName) {
+                $fields[$hasOneName] = $this->{$hasOneName}();
+            }
+            
             SilvercartShopEmail::send(
                 'ContactMessage',
                 SilvercartConfig::DefaultContactMessageRecipient(),
-                array(
-                    'FirstName'         => $this->FirstName,
-                    'Surname'           => $this->Surname,
-                    'Street'            => $this->Street,
-                    'StreetNumber'      => $this->StreetNumber,
-                    'Postcode'          => $this->Postcode,
-                    'City'              => $this->City,
-                    'SilvercartCountry' => $this->SilvercartCountry(),
-                    'Email'             => $this->Email,
-                    'Phone'             => $this->Phone,
-                    'Message'           => str_replace('\r\n', '<br/>', nl2br($this->Message)),
-                )
+                $fields
             );
         }
     }
