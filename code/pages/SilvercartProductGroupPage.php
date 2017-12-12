@@ -1099,9 +1099,13 @@ class SilvercartProductGroupPage extends Page {
                     }
                     $products = $this->getProductsToDisplay();
                     if ($products->count() > 0) {
+                        $productsMap = $products->map();
+                        if ($productsMap instanceof SS_Map) {
+                            $productsMap = $productsMap->toArray();
+                        }
                         $currOffset       = $ctrl->CurrentOffset();
                         $sqlOffset        = $ctrl->getProductsPerPageSetting();
-                        $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
+                        $products         = array_slice($productsMap, $currOffset, $sqlOffset);
                         $descriptionArray = array_merge($descriptionArray, $products);
                     }
                     $metaDescription = SilvercartSeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
