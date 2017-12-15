@@ -811,7 +811,7 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.11.2017
+     * @since 15.12.2017
      */
     public function isInvoiceAddress() {
         $isOrderInvoiceAddress = $this->getIsOrderInvoiceAddress();
@@ -819,7 +819,10 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
             return $isOrderInvoiceAddress;
         }
         $isInvoiceAddress = false;
-        if ($this->ID == SilvercartCustomer::currentUser()->SilvercartInvoiceAddressID ||
+        $currentCustomer  = SilvercartCustomer::currentUser();
+        if (($currentCustomer instanceof Member &&
+             $this->ID == $currentCustomer->SilvercartInvoiceAddressID) ||
+            $this->ID == $this->Member()->SilvercartInvoiceAddressID ||
             $this->isAnonymousInvoiceAddress()) {
             $isInvoiceAddress = true;
         }
@@ -833,7 +836,7 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 10.11.2017
+     * @since 15.12.2017
      */
     public function isShippingAddress() {
         $isOrderShippingAddress = $this->getIsOrderShippingAddress();
@@ -841,7 +844,10 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
             return $isOrderShippingAddress;
         }
         $isShippingAddress = false;
-        if ($this->ID == SilvercartCustomer::currentUser()->SilvercartShippingAddressID ||
+        $currentCustomer   = SilvercartCustomer::currentUser();
+        if (($currentCustomer instanceof Member &&
+             $this->ID == $currentCustomer->SilvercartShippingAddressID) ||
+            $this->ID == $this->Member()->SilvercartShippingAddressID ||
             $this->isAnonymousShippingAddress()) {
             $isShippingAddress = true;
         } else if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
