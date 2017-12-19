@@ -247,10 +247,10 @@ class SilvercartShopEmail extends DataObject {
         $emailSubjectTemplate = new SSViewer_FromString($mailObj->Subject);
         $emailSubject         = HTTP::absoluteURLs($emailSubjectTemplate->process($templateVariables));
 
-        $this->sendEmail($to, $emailSubject, $plainText, $emailText, $attachments);
+        self::send_email($to, $emailSubject, $emailText, $attachments);
         
         if (SilvercartConfig::GlobalEmailRecipient() != '') {
-            $this->sendEmail(SilvercartConfig::GlobalEmailRecipient(), $emailSubject, $plainText, $emailText);
+            self::send_email(SilvercartConfig::GlobalEmailRecipient(), $emailSubject, $emailText);
         }
 
         //Send the email to additional standard receipients from the n:m
@@ -265,15 +265,15 @@ class SilvercartShopEmail extends DataObject {
                 } else {
                     continue;
                 }
-                $this->sendEmail($recipient, $emailSubject, $plainText, $emailText, $attachments);
+                self::send_email($recipient, $emailSubject, $emailText, $attachments);
             }
         }
         
         $additionalReceipients = [];
-        $this->extend('addAdditionalRecipients', $additionalReceipients, $to);
+        SilvercartShopEmail::singleton()->extend('addAdditionalRecipients', $additionalReceipients, $to);
         if (is_array($additionalReceipients)) {
             foreach ($additionalReceipients as $recipient) {
-                $this->sendEmail($recipient, $emailSubject, $plainText, $emailText, $attachments);
+                self::send_email($recipient, $emailSubject, $emailText, $attachments);
             }
         }
     }
@@ -291,17 +291,17 @@ class SilvercartShopEmail extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.12.2017
      */
-    public function sendEmail($recipient, $subject, $content, $htmlContent, $attachments = null) {
+    public static function send_email($recipient, $subject, $content, $attachments = null) {
         $email = new Email(
-            Config::EmailSender(),
+            SilvercartConfig::EmailSender(),
             $recipient,
             $subject,
             $content
         );
-        $email->setHTMLTemplate('SilvercartShopEmail');
-        $email->setData([
+        $email->setTemplate('SilvercartShopEmail');
+        $email->populateTemplate([
             'ShopEmailSubject' => $subject,
-            'ShopEmailMessage' => $htmlContent,
+            'ShopEmailMessage' => $content,
         ]);
         if (!is_null($attachments)) {
             self::attachFiles($email, $attachments);
