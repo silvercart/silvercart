@@ -600,6 +600,37 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
         return $isAnonymousCustomer;
     }
 
+    /**
+     * Returns whether the current customer is in the given zone.
+     * 
+     * @var SilvercartZone $zone Zone
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.12.2017
+     */
+    public function isInZone($zone) {
+        $isInZone = true;
+        if ($zone instanceof SilvercartZone &&
+            $zone->exists()) {
+            $isInZone = false;
+            
+            $shippingAddress = $this->owner->SilvercartShippingAddress();
+            $shippingCountry = $shippingAddress->SilvercartCountry();
+            if ($shippingCountry->exists()) {
+                $matchingZones = SilvercartZone::getZonesFor($shippingCountry->ID);
+                if ($matchingZones->exists()) {
+                    $foundZone = $matchingZones->byID($zone->ID);
+                    if ($foundZone instanceof SilvercartZone &&
+                        $foundZone->exists()) {
+                        $isInZone = true;
+                    }
+                }
+            }
+        }
+        return $isInZone;
+    }
 
     /**
      * Creates an anonymous customer if there's no currentMember object.
