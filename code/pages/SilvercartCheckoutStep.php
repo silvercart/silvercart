@@ -360,6 +360,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
     public function joinAddressDataTo($prefix, $data) {
         $addressData = array();
         $checkoutDataFields = array(
+            $prefix.'_OriginalID'       => 'ID',
             $prefix.'_TaxIdNumber'      => 'TaxIdNumber',
             $prefix.'_Company'          => 'Company',
             $prefix.'_Salutation'       => 'Salutation',
@@ -380,14 +381,32 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             $prefix.'_Packstation'      => 'Packstation',
             $prefix.'_IsPackstation'    => 'IsPackstation',
         );
+        $this->extend('updateJoinAddressDataToCheckoutDataFields', $checkoutDataFields, $prefix, $data);
         
         if (is_array($data)) {
+            var_dump($data);
             foreach ($checkoutDataFields as $checkoutFieldName => $dataFieldName) {
                 if (isset($data[$dataFieldName])) {
                     $addressData[$checkoutFieldName] = $data[$dataFieldName];
+                    unset($data[$dataFieldName]);
+                }
+            }
+            unset($data['ID']);
+            unset($data['Created']);
+            unset($data['LastEdited']);
+            unset($data['ClassName']);
+            unset($data['MemberID']);
+            unset($data['RecordClassName']);
+            if (count($data > 0)) {
+                foreach ($data as $dataFieldName => $dataFieldValue) {
+                    if (!array_key_exists($prefix . '_' . $dataFieldName, $addressData)) {
+                        $addressData[$prefix . '_' . $dataFieldName] = $dataFieldValue;
+                        unset($data[$dataFieldName]);
+                    }
                 }
             }
         }
+        $this->extend('updateJoinAddressDataTo', $addressData, $prefix, $data);
 
         return $addressData;
     }
