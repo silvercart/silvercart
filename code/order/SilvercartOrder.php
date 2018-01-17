@@ -803,6 +803,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             unset($addressData['RecordClassName']);
             $orderInvoiceAddress->castedUpdate($addressData);
         } else {
+            $this->extend('updateCreateInvoiceAddressData', $registrationData);
             $orderInvoiceAddress->castedUpdate($registrationData);
             $orderInvoiceAddress->SilvercartCountryID = $registrationData['CountryID'];
         }
@@ -837,6 +838,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             unset($addressData['RecordClassName']);
             $orderShippingAddress->castedUpdate($addressData);
         } else {
+            $this->extend('updateCreateShippingAddressData', $registrationData);
             $orderShippingAddress->castedUpdate($registrationData);
             $orderShippingAddress->SilvercartCountryID = $registrationData['CountryID'];
         }
