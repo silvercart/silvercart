@@ -68,6 +68,14 @@ class SilvercartShopEmail extends DataObject {
     );
     
     /**
+     * Alternative email address to use as universal recipient in dev mode.
+     * The original recipient address will be overwritten and added to the subject.
+     *
+     * @var string
+     */
+    private static $dev_email_recipient = '';
+
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -289,9 +297,17 @@ class SilvercartShopEmail extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.12.2017
+     * @since 16.01.2018
      */
     public static function send_email($recipient, $subject, $content, $attachments = null) {
+        if (Director::isDev()) {
+            $devEmailRecipient = self::config()->get('dev_email_recipient');
+            if (!empty($devEmailRecipient)) {
+                $originalRecipient = $recipient;
+                $recipient = $devEmailRecipient;
+                $subject .= ' [original recipient: ' . $originalRecipient . ']';
+            }
+        }
         $email = new Email(
             SilvercartConfig::EmailSender(),
             $recipient,
