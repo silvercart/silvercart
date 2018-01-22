@@ -25,6 +25,15 @@ select:focus {
   outline:none;
 }
 
+input, textarea, .uneditable-input {
+    width: 100%;
+    max-width: 206px;
+}
+select {
+    width: 100%;
+    max-width: 220px;
+}
+
 select, textarea,
 input[type="text"],
 input[type="password"],
