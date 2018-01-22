@@ -724,69 +724,6 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
 }
 
 /*******************************************************************************
- *  SilverCart Search Auto Completion
- ******************************************************************************/
-.silvercart-search-autocompletion-results {
-    display: inline-block;
-    width: 0px;
-    height: 0px;
-    overflow: visible;
-}
-.silvercart-search-autocompletion-results ul {
-    position: absolute;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-    z-index: 1100;
-    
-    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    
-    -webkit-border-radius: 4px 0 4px 4px;
-    -moz-border-radius: 4px 0 4px 4px;
-    border-radius: 4px 0 4px 4px;
-}
-.silvercart-search-autocompletion-results ul li {
-    margin: 0;
-    padding: 0;
-    background: #ffffff;
-    border: none;
-    border-left: 1px solid #dddddd;
-    border-right: 1px solid #dddddd;
-}
-.silvercart-search-autocompletion-results ul li:first-child {
-    border-top: 1px solid #dddddd;
-}
-.silvercart-search-autocompletion-results ul li:last-child {
-    border-bottom: 1px solid #dddddd;
-}
-
-.silvercart-search-autocompletion-results ul li a {
-    margin: 0;
-    padding: 4px 8px;
-    display: block;
-    text-decoration: none;
-    color: #353535;
-}
-.silvercart-search-autocompletion-results ul li.active a,
-.silvercart-search-autocompletion-results ul li a:hover {
-    background: #dddddd;
-}
-.silvercart-search-autocompletion-results ul li a .title {
-    float: left;
-}
-.silvercart-search-autocompletion-results ul li a .price {
-    float: right;
-    padding-left: 12px;
-    font-weight: bold;
-}
-.silvercart-search-autocompletion-results ul li:nth-child(even) {
-    background: #f4f4f4;
-}
-
-/*******************************************************************************
  *  SilverCart Customer Rating
  ******************************************************************************/
 .silvercart-customer-rating-link {
