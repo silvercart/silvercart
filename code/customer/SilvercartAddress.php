@@ -237,6 +237,12 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
             Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')) {
             $canView = true;
         }
+		$results = $this->extend('canView', $member);
+		if ($results && is_array($results)) {
+            if(!min($results)) {
+                $canView = false;
+            }
+        }
         return $canView;
     }
 
@@ -261,6 +267,12 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
         if (Permission::checkMember($member, 'SILVERCART_ADDRESS_EDIT')) {
             $canEdit = true;
         }
+		$results = $this->extend('canEdit', $member);
+		if ($results && is_array($results)) {
+            if(!min($results)) {
+                $canEdit = false;
+            }
+        }
         return $canEdit;
     }
 
@@ -284,6 +296,12 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
         }
         if (Permission::checkMember($member, 'SILVERCART_ADDRESS_DELETE')) {
             $canDelete = true;
+        }
+		$results = $this->extend('canDelete', $member);
+		if ($results && is_array($results)) {
+            if(!min($results)) {
+                $canDelete = false;
+            }
         }
         return $canDelete;
     }
