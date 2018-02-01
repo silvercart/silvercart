@@ -57,7 +57,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         'StockQuantityOverbookable'   => 'Boolean(0)',
         'StockQuantityExpirationDate' => 'Date',
         'PackagingQuantity'           => 'Int',
-        'Weight'                      => 'Int', //unit is gramm
+        'Weight'                      => 'Float', //unit is gramm
         'ReleaseDate'                 => 'Datetime',
         'LaunchDate'                  => 'Datetime',
         'SalesBanDate'                => 'Datetime',

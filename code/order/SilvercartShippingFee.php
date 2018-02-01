@@ -27,7 +27,7 @@ class SilvercartShippingFee extends DataObject {
      * @var array
      */
     public static $db = array(
-        'MaximumWeight'                 => 'Int',
+        'MaximumWeight'                 => 'Float',
         'UnlimitedWeight'               => 'Boolean',
         'Price'                         => 'SilvercartMoney',
         'PostPricing'                   => 'Boolean',

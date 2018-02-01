@@ -36,7 +36,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'TaxAmountPayment'                  => 'Float',
         'TaxAmountShipment'                 => 'Float',
         'Note'                              => 'Text',
-        'WeightTotal'                       => 'Int', //unit is gramm
+        'WeightTotal'                       => 'Float', //unit is gramm
         'CustomersEmail'                    => 'VarChar(60)',
         'OrderNumber'                       => 'VarChar(128)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
