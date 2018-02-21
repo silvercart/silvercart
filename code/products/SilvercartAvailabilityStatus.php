@@ -191,7 +191,7 @@ class SilvercartAvailabilityStatus extends DataObject {
                 new OptionsetField('badgeColor', $this->fieldLabel('badgeColor'), $badgeColorSource)
         );
         
-        $enumValues = $this->owner->dbObject('SeoMicrodataCode')->enumValues();
+        $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
         $i18nSource = array();
         foreach ($enumValues as $value => $label) {
             if (empty($label)) {
