@@ -1474,8 +1474,18 @@ en:
   SilvercartProductAvailabilityStatusAdmin:
     MENUTITLE: "Availibility"
   SilvercartProductCondition:
+    DefaultDamaged: "Damaged"
+    DefaultNew: "New"
+    DefaultRefurbished: "Refurbished"
+    DefaultUsed: "Used"
     PLEASECHOOSE: "Please choose"
     PLURALNAME: "Product conditions"
+    SeoMicrodataCode: "SEO microdata code"
+    SeoMicrodataCodeDescription: "Set up one of these values to increase the SEO visibility."
+    SeoMicrodataCodeDamaged: "Damaged"
+    SeoMicrodataCodeNew: "New"
+    SeoMicrodataCodeRefurbished: "Refurbished"
+    SeoMicrodataCodeUsed: "Used"
     SINGULARNAME: "Product condition"
     TITLE: "Condition"
     USE_AS_STANDARD_CONDITION: "Use as default condition if not defined at the product"

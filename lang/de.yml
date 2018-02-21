@@ -1474,8 +1474,18 @@ de:
   SilvercartProductAvailabilityStatusAdmin:
     MENUTITLE: "Verfügbarkeit"
   SilvercartProductCondition:
+    DefaultDamaged: "Beschädigt/Defekt"
+    DefaultNew: "Neu"
+    DefaultRefurbished: "Generalüberholt"
+    DefaultUsed: "Gebraucht"
     PLEASECHOOSE: "Bitte wählen"
     PLURALNAME: "Artikelzustände"
+    SeoMicrodataCode: "SEO Microdata Code"
+    SeoMicrodataCodeDescription: "Ordnen Sie hier einen passenden Wert zu, um die Sichtbarkeit bei Suchmaschinen zu steigern."
+    SeoMicrodataCodeDamaged: "Beschädigt/Defekt"
+    SeoMicrodataCodeNew: "Neu"
+    SeoMicrodataCodeRefurbished: "Generalüberholt"
+    SeoMicrodataCodeUsed: "Gebraucht"
     SINGULARNAME: "Artikelzustand"
     TITLE: "Zustand"
     USE_AS_STANDARD_CONDITION: "Als Vorgabe-Zustand verwenden, wenn nichts am Artikel definiert ist"

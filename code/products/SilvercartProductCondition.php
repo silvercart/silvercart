@@ -19,15 +19,25 @@
  * @copyright 2013 pixeltricks GmbH
  */
 class SilvercartProductCondition extends DataObject {
+
+    /**
+     * attributes
+     *
+     * @var array
+     */
+    private static $db = array(
+        'Code'             => 'VarChar',
+        'SeoMicrodataCode' => "Enum(',NewCondition,UsedCondition,DamagedCondition,RefurbishedCondition','')",
+    );
     
     /**
      * n:m relations
      *
      * @var array
      */
-    public static $has_many = array(
+    private static $has_many = array(
         'SilvercartProducts'                  => 'SilvercartProduct',
-        'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage'
+        'SilvercartProductConditionLanguages' => 'SilvercartProductConditionLanguage',
     );
     
     /**
@@ -35,8 +45,21 @@ class SilvercartProductCondition extends DataObject {
      *
      * @var array
      */
-    public static $casting = array(
-        'Title'             => 'VarChar(255)'
+    private static $casting = array(
+        'Title'         => 'VarChar(255)',
+        'MicrodataCode' => 'Text',
+    );
+    
+     /**
+     * List of default microdata codes.
+     *
+     * @var array
+     */
+    private static $default_microdata_codes = array(
+        'new'         => 'NewCondition',
+        'used'        => 'UsedCondition',
+        'damaged'     => 'DamagedCondition',
+        'refurbished' => 'RefurbishedCondition',
     );
 
     /**
@@ -97,13 +120,23 @@ class SilvercartProductCondition extends DataObject {
     /**
      * define the CMS fields
      *
-     * @return FieldList 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.02.2013
+     * @return FieldList
      */
     public function getCMSFields() {
-        $fields = SilvercartDataObject::getCMSFields($this);
+        $fields = SilvercartDataObject::getCMSFields($this, 'Code', false);
+        
+        $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
+        $i18nSource = array();
+        foreach ($enumValues as $value => $label) {
+            if (empty($label)) {
+                $i18nSource[$value] = '';
+            } else {
+                $i18nSource[$value] = $this->fieldLabel('SeoMicrodataCode' . $label);
+            }
+        }
+        $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
+        $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
+        
         return $fields;
     }
     
@@ -143,7 +176,17 @@ class SilvercartProductCondition extends DataObject {
             array(
                 'Title'                                 => _t('SilvercartProductCondition.TITLE'),
                 'SilvercartProducts'                    => _t('SilvercartProduct.PLURALNAME'),
-                'SilvercartProductConditionLanguages'   => _t('SilvercartProductConditionLanguage.PLURALNAME')
+                'SilvercartProductConditionLanguages'   => _t('SilvercartProductConditionLanguage.PLURALNAME'),
+                'DefaultDamaged'                        => _t('SilvercartProductCondition.DefaultDamaged', 'Damaged'),
+                'DefaultNew'                            => _t('SilvercartProductCondition.DefaultNew', 'New'),
+                'DefaultRefurbished'                    => _t('SilvercartProductCondition.DefaultRefurbished', 'Refurbished'),
+                'DefaultUsed'                           => _t('SilvercartProductCondition.DefaultUsed', 'Used'),
+                'SeoMicrodataCode'                      => _t('SilvercartProductCondition.SeoMicrodataCode', 'SEO microdata code'),
+                'SeoMicrodataCodeDescription'           => _t('SilvercartProductCondition.SeoMicrodataCodeDescription', 'Set up one of these values to increase the SEO visibility.'),
+                'SeoMicrodataCodeDamagedCondition'      => _t('SilvercartProductCondition.SeoMicrodataCodeDamaged', 'Damaged'),
+                'SeoMicrodataCodeNewCondition'          => _t('SilvercartProductCondition.SeoMicrodataCodeNew', 'New'),
+                'SeoMicrodataCodeRefurbishedCondition'  => _t('SilvercartProductCondition.SeoMicrodataCodeRefurbished', 'Refurbished'),
+                'SeoMicrodataCodeUsedCondition'         => _t('SilvercartProductCondition.SeoMicrodataCodeUsed', 'Used'),
             )
         );
         
@@ -185,6 +228,45 @@ class SilvercartProductCondition extends DataObject {
         
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Default records for product conditions.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2018
+     */
+    public function requireDefaultRecords() {
+        foreach (self::$default_microdata_codes as $code => $microdataCode) {
+            $condition = SilvercartProductCondition::get()->filter('Code', $code)->first();
+            if (is_null($condition) ||
+                !$condition->exists()) {
+                $condition = new SilvercartProductCondition();
+                $condition->Code             = $code;
+                $condition->SeoMicrodataCode = $microdataCode;
+                $condition->Title            = $this->fieldLabel('Default' . ucfirst($code));
+                $condition->write();
+            }
+        }
+    }
+    
+    /**
+     * Returns the title for SEO microdata
+     *
+     * @return string
+     */
+    public function getMicrodataCode() {
+        $microDataCode = $this->SeoMicrodataCode;
+        if (empty($microDataCode) &&
+            array_key_exists($this->Title, self::$default_microdata_codes)) {
+            $microDataCode = self::$default_microdata_codes[$this->Code];
+        }
+        if (!empty($microDataCode)) {
+            $microDataCode = 'http://schema.org/' . $microDataCode;
+        }
+        return $microDataCode;
     }
 }
 

@@ -2451,19 +2451,22 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         if ($this->getPriceIsLowerThanMsr()) {
             $offers = array(
                 '@type'         => 'AggregateOffer',
-                'highPrice'     => $this->MSRPrice->getAmount(),
-                'lowPrice'      => $this->getPrice()->getAmount(),
+                'highPrice'     => number_format($this->MSRPrice->getAmount(), 2, '.', ''),
+                'lowPrice'      => number_format($this->getPrice()->getAmount(), 2, '.', ''),
                 'priceCurrency' => $this->getPrice()->getCurrency(),
             );
         } else {
             $offers = array(
                 '@type'         => 'Offer',
-                'price'         => $this->getPrice()->getAmount(),
+                'price'         => number_format($this->getPrice()->getAmount(), 2, '.', ''),
                 'priceCurrency' => $this->getPrice()->getCurrency(),
             );
         }
         if ($this->SilvercartAvailabilityStatus()->exists()) {
             $offers['availability'] = $this->SilvercartAvailabilityStatus()->MicrodataCode;
+        }
+        if ($this->SilvercartProductCondition()->exists()) {
+            $offers['itemCondition'] = $this->SilvercartProductCondition()->MicrodataCode;
         }
         
         $imageURL  = '';
@@ -2475,7 +2478,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $jsonData = array(
             '@context'    => 'http://schema.org',
             '@type'       => 'Product',
-            'productID'   => $this->ProductNumberShop,
+            'sku'         => $this->ProductNumberShop,
             'mpn'         => $this->ProductNumberShop,
             'name'        => htmlentities(strip_tags($this->Title)),
             'description' => htmlentities(strip_tags($this->getLongDescription())),
@@ -2484,25 +2487,26 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
             'offers'      => $offers,
         );
         
+        if ($this->EANCode) {
+            $jsonData["gtin"] = $this->EANCode;
+        }
+
         $manufacturer = $this->SilvercartManufacturer();
         if ($manufacturer instanceof SilvercartManufacturer &&
             $manufacturer->exists()) {
             $manufacturerData = array(
-                '@type' => 'Brand',
+                '@type' => 'Thing',
                 'name'  => $manufacturer->Title,
             );
-            if ($manufacturer->Logo()->exists()) {
-                $manufacturerData["logo"] = $manufacturer->Logo()->getAbsoluteURL();
-            }
-            $jsonData["brand"]       = $manufacturerData;
+            $jsonData["brand"] = $manufacturerData;
         }
         
         $this->extend('updateMicrodata', $jsonData);
 
         if (defined('JSON_PRETTY_PRINT')) {
-            $output = json_encode($jsonData);
+            $output = json_encode($jsonData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } else {
-            $output = json_encode($jsonData, JSON_PRETTY_PRINT);
+            $output = json_encode($jsonData);
         }
         if (!$plain) {
             $output = '<script type="application/ld+json">' . $output . '</script>';
