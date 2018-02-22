@@ -1,14 +1,20 @@
 (function($) {
     $('.col-add-sub-object.action').live('click', function(event) {
-        if ($('button.action.add-sub-object-button').has(event.target).length === 0) {
+        if (($(event.target).hasClass('action') &&
+             $(event.target).hasClass('add-sub-object-button')) ||
+            $('button.action.add-sub-object-button').has(event.target).length > 0) {
+            var button;
+            if ($(event.target).hasClass('action') &&
+                $(event.target).hasClass('add-sub-object-button')) {
+                button = event.target;
+            } else {
+                button = $('button.action.add-sub-object-button').has(event.target);
+            }
+            var recordID = $(button).attr('data-select-target');
+            $('input[name="SubObjectParentID"]').val(recordID);
+        } else {
             event.preventDefault();
             return false;
-        } else {
-            var button   = $('button.action.add-sub-object-button').has(event.target),
-                recordID = $(button).attr('data-select-target');
-            $('input[name="SubObjectParentID"]').val(recordID);
-            scLoadSubObjectsRepeat = 1;
-            setTimeout(scLoadSubObjects, 400);
         }
     });
     $('.sub-list-record-action').live('click', function() {
@@ -20,7 +26,7 @@
             actionName    = $(this).data('action-name'),
             parentID      = subList.data('parent-record-id'),
             recordID      = $(this).data('record-id'),
-            recordTitle   = $('.sub-list-record-title', subListRecord).html(),
+            recordTitle   = $('.title', subListRecord).html(),
             actionStateID = 'action_gridFieldAlterAction?StateID=' + actionID,
             targetData    = {};
             targetData[actionStateID]           = "";
@@ -64,7 +70,7 @@
         });
 
         subListRecord.fadeOut('slow');
-    }
+    };
     var successButtonSwitch = function(button, parentID, recordID, recordTitle, subListRecord) {
         var alterActionName = button.data('alter-action-name'),
             alterActionID   = button.data('alter-action-id'),
@@ -100,50 +106,53 @@
                 subListRecord.removeClass('default1');
                 subListRecord.addClass('default0');
             }
-    }
-})(jQuery);
+    };
+    var scLoadSubObjectsRepeat = 0,
+        scLoadSubObjects = function() {
+            var currentRun = 0,
+                maxRuns    = 20,
+                interval   = setInterval(function() {
+                    if ($('.sub-object-lists .sub-list').length > 0) {
+                        clearInterval(interval);
+                        $('.sub-object-lists').each(function() {
+                            var subObjectLists      = $(this),
+                                targetGridFieldName = $(this).attr('data-target-gridfield'),
+                                targetGridField     = $('.grid.field[data-name="' + targetGridFieldName + '"]'),
+                                targetGridFieldRows = $('table tbody tr', targetGridField);
 
-var scLoadSubObjectsRepeat = 0,
-    scLoadSubObjects = function() {
-    (function($) {
-        var currentRun = 0,
-            maxRuns    = 20,
-            interval   = setInterval(function() {
-                if ($('.sub-object-lists .sub-list').length > 0) {
-                    clearInterval(interval);
-                    $('.sub-object-lists').each(function() {
-                        var subObjectLists      = $(this),
-                            targetGridFieldName = $(this).attr('data-target-gridfield'),
-                            targetGridField     = $('.grid.field[data-name="' + targetGridFieldName + '"]'),
-                            targetGridFieldRows = $('table tbody tr', targetGridField);
-
-                        targetGridFieldRows.each(function() {
-                            var currentRow = $(this),
-                                recordID   = $(this).attr('data-id'),
-                                subList    = $('.sub-list[data-parent-record-id="' + recordID + '"]', subObjectLists);
-                            if (subList.length > 0) {
-                                var evenOdd = currentRow.hasClass('even') ? 'even' : 'odd',
-                                    subRow  = '<tr class="sub-row ' + evenOdd + '"><td colspan="' + $('td', currentRow).length + '">' + subList.wrap('<div>').parent().html(); + '</td></tr>';
-                                subList.unwrap();
-                                subList.remove();
-                                currentRow.after(subRow);
-                            }
+                            targetGridFieldRows.each(function() {
+                                var currentRow = $(this),
+                                    recordID   = $(this).attr('data-id'),
+                                    subList    = $('.sub-list[data-parent-record-id="' + recordID + '"]', subObjectLists);
+                                if (subList.length > 0) {
+                                    var evenOdd = currentRow.hasClass('even') ? 'even' : 'odd',
+                                        subRow  = '<tr class="sub-row ' + evenOdd + '"><td colspan="' + $('td', currentRow).length + '">' + subList.wrap('<div>').parent().html(); + '</td></tr>';
+                                    subList.unwrap();
+                                    subList.remove();
+                                    currentRow.after(subRow);
+                                }
+                            });
                         });
-                    });
-                    if (scLoadSubObjectsRepeat > 0) {
-                        scLoadSubObjectsRepeat--;
-                        setTimeout(scLoadSubObjects, 400);
+                        if (scLoadSubObjectsRepeat > 0) {
+                            scLoadSubObjectsRepeat--;
+                            setTimeout(scLoadSubObjects, 400);
+                        }
                     }
-                }
-                if (currentRun >= maxRuns) {
-                    clearInterval(interval);
-                    if (scLoadSubObjectsRepeat > 0) {
-                        scLoadSubObjectsRepeat--;
-                        setTimeout(scLoadSubObjects, 400);
+                    if (currentRun >= maxRuns) {
+                        clearInterval(interval);
+                        if (scLoadSubObjectsRepeat > 0) {
+                            scLoadSubObjectsRepeat--;
+                            setTimeout(scLoadSubObjects, 400);
+                        }
                     }
-                }
-                currentRun++;
-        }, 200);
-    })(jQuery);
-};
-scLoadSubObjects();
+                    currentRun++;
+            }, 200);
+    };
+    scLoadSubObjects();
+    setInterval(function() {
+        if ($('.sub-object-lists .sub-list').length > 0 &&
+            $('.sub-object-lists').length > 0) {
+            scLoadSubObjects();
+        }
+    }, 500);
+})(jQuery);

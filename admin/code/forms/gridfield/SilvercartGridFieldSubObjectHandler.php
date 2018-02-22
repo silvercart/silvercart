@@ -49,13 +49,6 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
     protected $URLHandlers = null;
     
     /**
-     * 
-     *
-     * @var bool
-     */
-    protected $addedJavascript = false;
-    
-    /**
      * Name of the sub list template
      *
      * @var string
@@ -400,10 +393,6 @@ class SilvercartGridFieldSubObjectHandler implements GridField_HTMLProvider, Gri
                 $content = $dropdown->Field()
                          . $action->Field()
                          . '<input type="hidden" value="' . $record->ClassName . '" name="SubObjectParentClassName' . $record->ID . '" />';
-            }
-            if (!$this->addedJavascript) {
-                $this->addedJavascript = true;
-                $content .= '<script type="text/javascript">scLoadSubObjects();</script>';
             }
             return $content;
         }
