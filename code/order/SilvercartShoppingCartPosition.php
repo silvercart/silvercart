@@ -161,18 +161,25 @@ class SilvercartShoppingCartPosition extends DataObject {
      * 
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.11.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 28.02.2018
      */
     public function getTitle() {
+        $title = $this->SilvercartProduct()->Title;
+        $this->extend('updateTitle', $title);
+        
         if (is_null($this->pluggedInTitle)) {
             $pluginTitle = SilvercartPlugin::call($this, 'overwriteGetTitle', null, false, '');
-            if ($pluginTitle == '') {
-                $pluginTitle = $this->SilvercartProduct()->Title;
+            if ($pluginTitle != '') {
+                Deprecation::notice('4.0', 'SilvercartPlugin::call overwriteGetTitle is deprecated. Please use a DataExtension with the method "updateTitle(&$title)" instead.');
+            } else {
+                $pluginTitle = $title;
             }
-            $this->pluggedInTitle = $pluginTitle;
+            $title = $this->pluggedInTitle = $pluginTitle;
         }
-        return $this->pluggedInTitle;
+        
+        return $title;
     }
 
     /**
