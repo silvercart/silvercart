@@ -504,6 +504,10 @@ class SilvercartShippingMethod extends DataObject {
      * @return string
      */
     public static function get_delivery_time_for($context, $forceDisplayInDays = false) {
+        if (is_null($context) ||
+            $context == false) {
+            return false;
+        }
         return self::get_delivery_time($context->DeliveryTimeMin, $context->DeliveryTimeMax, $context->DeliveryTimeText, $forceDisplayInDays);
     }
     
