@@ -68,6 +68,20 @@ class SilvercartProductGroupHolder extends Page {
     protected $getCMSFieldsIsCalled = false;
     
     /**
+     * Cache key parts for this product group
+     * 
+     * @var array 
+     */
+    protected $cacheKeyParts = null;
+    
+    /**
+     * Cache key for this product group
+     * 
+     * @var string
+     */
+    protected $cacheKey = null;
+    
+    /**
      * Singular name for this object
      *
      * @return string
@@ -388,6 +402,55 @@ class SilvercartProductGroupHolder extends Page {
         }
         return $useOnlyDefaultGroupHolderView;
     }
+
+    /**
+     * Returns the cache key parts for this product group holder
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            
+            $lastEditedChildID = 0;
+            if ($this->Children()->Count() > 0) {
+                $this->Children()->sort('LastEdited', 'DESC');
+                $lastEditedChildID = $this->Children()->First()->ID;
+            }
+            $ctrl = Controller::curr();
+            /* @var $ctrl SilvercartProductGroupHolder_Controller */
+            
+            $cacheKeyParts = array(
+                i18n::get_locale(),
+                $this->LastEdited,
+                $ctrl->getSqlOffsetForProductGroups(),
+                SilvercartGroupViewHandler::getActiveGroupHolderView(),
+                $lastEditedChildID,
+            );
+            $this->extend('updateCacheKeyParts', $cacheKeyParts);
+            $this->cacheKeyParts = $cacheKeyParts;
+        }
+        return $this->cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group holder
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
+     */
+    public function CacheKey() {
+        if (is_null($this->cacheKey)) {
+            $cacheKey = implode('_', $this->CacheKeyParts());
+            $this->extend('updateCacheKey', $cacheKey);
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
+    }
 }
 
 /**
@@ -654,31 +717,15 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
     /**
      * Returns the cache key parts for this product group holder
      * 
-     * @return array
+     * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.01.2014
+     * @since 07.03.2018
      */
     public function CacheKeyParts() {
-        if (is_null($this->cacheKeyParts)) {
-            
-            $lastEditedChildID = 0;
-            if ($this->dataRecord->Children()->Count() > 0) {
-                $this->dataRecord->Children()->sort('LastEdited', 'DESC');
-                $lastEditedChildID = $this->dataRecord->Children()->First()->ID;
-            }
-            
-            $cacheKeyParts = array(
-                i18n::get_locale(),
-                $this->dataRecord->LastEdited,
-                $this->getSqlOffsetForProductGroups(),
-                SilvercartGroupViewHandler::getActiveGroupHolderView(),
-                $lastEditedChildID,
-            );
-            $this->extend('updateCacheKeyParts', $cacheKeyParts);
-            $this->cacheKeyParts = $cacheKeyParts;
-        }
-        return $this->cacheKeyParts;
+        $cacheKeyParts = $this->data()->CacheKeyParts();
+        $this->extend('updateCacheKeyParts', $cacheKeyParts);
+        return $cacheKeyParts;
     }
     
     /**
@@ -687,15 +734,12 @@ class SilvercartProductGroupHolder_Controller extends Page_Controller {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.01.2014
+     * @since 07.03.2018
      */
     public function CacheKey() {
-        if (is_null($this->cacheKey)) {
-            $cacheKey = implode('_', $this->CacheKeyParts());
-            $this->extend('updateCacheKey', $cacheKey);
-            $this->cacheKey = $cacheKey;
-        }
-        return $this->cacheKey;
+        $cacheKey = $this->data()->CacheKey();
+        $this->extend('updateCacheKey', $cacheKey);
+        return $cacheKey;
     }
     
 }
