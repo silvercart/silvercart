@@ -392,8 +392,9 @@ class SilvercartShopEmail extends DataObject {
      * 
      * @return string
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2011
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.03.2018
      */
     public static function parse($content) {
         // i18n _t(...)
@@ -404,7 +405,15 @@ class SilvercartShopEmail extends DataObject {
             foreach ($matches[0] as $index => $match) {
                 $content = str_replace($match, _t($matches[2][$index]), $content);
             }
-        }        
+        }
+        $plainPattern = '<' . '%t (([^ ]*) (\'([^\']*)\')) +%' . '>';
+        $pattern = '/' . $plainPattern . '/';
+        preg_match_all($pattern, $content, $matches);
+        if (is_array($matches[0])) {
+            foreach ($matches[0] as $index => $match) {
+                $content = str_replace($match, _t($matches[2][$index]), $content);
+            }
+        }
         return $content;
     }
 
