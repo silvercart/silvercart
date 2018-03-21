@@ -70,7 +70,11 @@ class SilvercartDataObject extends DataExtension {
         if ($toStage == 'Live') {
             if ($this->owner instanceof SilvercartPage &&
                 $this->owner->UseAsRootForMainNavigation) {
-                DB::query('UPDATE SilvercartPage_Live SET UseAsRootForMainNavigation = 0 WHERE ID != ' . $this->owner->ID);
+                $query = 'UPDATE SilvercartPage_Live SET UseAsRootForMainNavigation = 0 WHERE ID != ' . $this->owner->ID;
+                if ($this->owner->hasExtension('Translatable')) {
+                    $query .= " AND ID IN (SELECT ID FROM SiteTree_Live WHERE Locale = '" . $this->owner->Locale . "')";
+                }
+                DB::query($query);
             }
         }
     }

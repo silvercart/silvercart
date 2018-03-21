@@ -175,7 +175,11 @@ class SilvercartPage extends SiteTree {
             $changed = $this->getChangedFields(false, 1);
             $ch      = $changed['UseAsRootForMainNavigation'];
             if ($this->UseAsRootForMainNavigation) {
-                DB::query('UPDATE SilvercartPage SET UseAsRootForMainNavigation = 0 WHERE ID != ' . $this->ID);
+                $query = 'UPDATE SilvercartPage SET UseAsRootForMainNavigation = 0 WHERE ID != ' . $this->ID;
+                if ($this->hasExtension('Translatable')) {
+                    $query .= " AND ID IN (SELECT ID FROM SiteTree WHERE Locale = '" . $this->Locale . "')";
+                }
+                DB::query($query);
             } elseif ($ch['before'] != $ch['after']) {
                 $this->UseAsRootForMainNavigation = true;
             }
