@@ -28,42 +28,6 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
     protected $excludeFromCache = true;
 
     /**
-     * The form field definitions.
-     *
-     * @var array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.07.2011
-     */
-    protected $formFields = array(
-        'InvoiceAddressAsShippingAddress' => array(
-            'type'      => 'CheckboxField',
-            'title'     => 'Rechnungsadresse als Versandadresse nutzen',
-            'value'     => '1',
-            'jsEvents'  => array(
-                'setEventHandler' => array(
-                    'type'          => 'click',
-                    'callFunction'  => 'toggleShippingAddressSection'
-                )
-            )
-        ),
-        'InvoiceAddress' => array(
-            'type'              => 'SilvercartAddressOptionsetField',
-            'title'             => 'Rechnungsadresse',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-        'ShippingAddress' => array(
-            'type'              => 'SilvercartAddressOptionsetField',
-            'title'             => 'Lieferadresse',
-            'checkRequirements' => array(
-                'isFilledIn' => true
-            )
-        ),
-    );
-
-    /**
      * init
      *
      * @param Controller $controller  the controller object
@@ -128,55 +92,83 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
      * @since 16.07.2014
      */
     public function getFormFields($withUpdate = true) {
-
-        // --------------------------------------------------------------------
-        // Set i18n labels
-        // --------------------------------------------------------------------
-        $this->formFields['InvoiceAddressAsShippingAddress']['title'] = _t('SilvercartAddress.InvoiceAddressAsShippingAddress');
-        $this->formFields['InvoiceAddress']['title'] = _t('SilvercartPage.BILLING_ADDRESS');
-        $this->formFields['ShippingAddress']['title'] = _t('SilvercartPage.SHIPPING_ADDRESS');
-
-        // --------------------------------------------------------------------
-        // Insert values from customers saved addresses
-        // --------------------------------------------------------------------
-        $member = SilvercartCustomer::currentRegisteredCustomer(); //method located in decorator; can not be called via class Member
-        if ($member) {
-            if ($member->SilvercartInvoiceAddress()->ID > 0) {
-                $this->formFields['InvoiceAddress']['value'] = array(
-                    $member->SilvercartInvoiceAddress()->ID => $member->SilvercartInvoiceAddress()->ID
-                );
-            } else {
-                $this->formFields['InvoiceAddress']['value'] = $member->SilvercartAddresses()->map()->toArray();
+        if (!array_key_exists('InvoiceAddress', $this->formFields)) {
+            
+            $invoiceAddressValue          = [];
+            $shippingAddressValue         = [];
+            $invoiceAddressSelectedValue  = '';
+            $shippingAddressSelectedValue = '';
+            
+            $member = SilvercartCustomer::currentRegisteredCustomer();
+            if ($member instanceof Member &&
+                $member->exists()) {
+                if ($member->SilvercartInvoiceAddress()->ID > 0) {
+                    $invoiceAddressValue = [
+                        $member->SilvercartInvoiceAddress()->ID => $member->SilvercartInvoiceAddress()->ID
+                    ];
+                } else {
+                    $invoiceAddressValue = $member->SilvercartAddresses()->map()->toArray();
+                }
+                $shippingAddressValue = $member->SilvercartAddresses()->map()->toArray();
+                if ($member->SilvercartInvoiceAddress()) {
+                    $invoiceAddressSelectedValue = $member->SilvercartInvoiceAddress()->ID;
+                }
+                if ($member->SilvercartShippingAddress()) {
+                    $shippingAddressSelectedValue = $member->SilvercartShippingAddress()->ID;
+                }
             }
-            $this->formFields['ShippingAddress']['value'] = $member->SilvercartAddresses()->map()->toArray();
-            if ($member->SilvercartInvoiceAddress()) {
-                $this->formFields['InvoiceAddress']['selectedValue'] = $member->SilvercartInvoiceAddress()->ID;
-            }
-            if ($member->SilvercartShippingAddress()) {
-                $this->formFields['ShippingAddress']['selectedValue'] = $member->SilvercartShippingAddress()->ID;
-            }
-        }
-
-        // --------------------------------------------------------------------
-        // Insert values from previous entries the customer has made
-        // --------------------------------------------------------------------
-        $this->controller->fillFormFields($this->formFields);
-
-        if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
-            $this->controller->addJavascriptOnloadSnippet(
-                array(
-                    'deactivateShippingAddressValidation();
-                    $(\'#ShippingAddressFields\').css(\'display\', \'none\');',
-                    'loadInTheEnd'
-                )
+            
+            $this->formFields = array(
+                'InvoiceAddressAsShippingAddress' => array(
+                    'type'      => 'CheckboxField',
+                    'title'     => _t('SilvercartAddress.InvoiceAddressAsShippingAddress'),
+                    'value'     => '1',
+                    'jsEvents'  => array(
+                        'setEventHandler' => array(
+                            'type'          => 'click',
+                            'callFunction'  => 'toggleShippingAddressSection'
+                        )
+                    )
+                ),
+                'InvoiceAddress' => array(
+                    'type'              => 'SilvercartAddressOptionsetField',
+                    'title'             => _t('SilvercartPage.BILLING_ADDRESS'),
+                    'value'             => $invoiceAddressValue,
+                    'selectedValue'     => $invoiceAddressSelectedValue,
+                    'checkRequirements' => array(
+                        'isFilledIn' => true
+                    )
+                ),
+                'ShippingAddress' => array(
+                    'type'              => 'SilvercartAddressOptionsetField',
+                    'title'             => _t('SilvercartPage.SHIPPING_ADDRESS'),
+                    'value'             => $shippingAddressValue,
+                    'selectedValue'     => $shippingAddressSelectedValue,
+                    'checkRequirements' => array(
+                        'isFilledIn' => true
+                    )
+                ),
             );
+            
+            $this->controller->fillFormFields($this->formFields);
+            
+            if ($this->formFields['InvoiceAddressAsShippingAddress']['value'] == '1') {
+                $this->controller->addJavascriptOnloadSnippet(
+                    array(
+                        'deactivateShippingAddressValidation();
+                        $(\'#ShippingAddressFields\').css(\'display\', \'none\');',
+                        'loadInTheEnd'
+                    )
+                );
+            }
+
+            if ($this->InvoiceAddressIsAlwaysShippingAddress()) {
+                $this->formFields['InvoiceAddressAsShippingAddress']['type'] = 'HiddenField';
+                unset($this->formFields['InvoiceAddressAsShippingAddress']['jsEvents']);
+                $this->formFields['ShippingAddress']['selectedValue'] = $this->formFields['InvoiceAddress']['selectedValue'];
+            }
         }
-        
-        if ($this->InvoiceAddressIsAlwaysShippingAddress()) {
-            $this->formFields['InvoiceAddressAsShippingAddress']['type'] = 'HiddenField';
-            unset($this->formFields['InvoiceAddressAsShippingAddress']['jsEvents']);
-            $this->formFields['ShippingAddress']['selectedValue'] = $this->formFields['InvoiceAddress']['selectedValue'];
-        }
+
         return parent::getFormFields($withUpdate);
     }
 
