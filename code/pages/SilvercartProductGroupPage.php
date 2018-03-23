@@ -1358,13 +1358,14 @@ class SilvercartProductGroupPage extends Page {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2018
+     * @since 23.03.2018
      */
     public function CacheKeyParts() {
         if (is_null($this->cacheKeyParts)) {
             $ctrl = Controller::curr();
             /* @var $ctrl SilvercartProductGroupPage_Controller */
             $cacheKeyParts = array(
+                $this->ID,
                 $this->LastEdited,
                 $this->LastEditedForCache,
                 $this->MemberGroupCacheKey(),
