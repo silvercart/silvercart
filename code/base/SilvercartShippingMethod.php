@@ -521,7 +521,7 @@ class SilvercartShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2014
      */
-    protected static function addSundaysToDeliveryTime($deliveryTime) {
+    public static function addSundaysToDeliveryTime($deliveryTime) {
         $currentWeekDay = date('N');
         $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
         $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
