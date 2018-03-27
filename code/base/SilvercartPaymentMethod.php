@@ -1655,6 +1655,15 @@ class SilvercartPaymentMethod extends DataObject {
     }
 
     /**
+     * Returns the controller.
+     *
+     * @return Controller
+     */
+    public function getController() {
+        return $this->controller;
+    }
+
+    /**
      * set the controller
      *
      * @param Controller $controller the controller action
@@ -1961,7 +1970,15 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 07.04.2011
      */
     public function getStepConfiguration() {
-        $directory = 'silvercart_payment_' . strtolower($this->moduleName) . '/templates/checkout/';
+        $directory        = '';
+		$modules          = SS_ClassLoader::instance()->getManifest()->getModules();
+        $directoryPattern = Director::baseFolder() . "/silvercart[_|-]payment[_|-]" . strtolower($this->moduleName);
+        foreach ($modules as $module) {
+            if (preg_match("@" . $directoryPattern . "@", $module) > 0) {
+                $directory = str_replace(Director::baseFolder() . '/', '', $module) . '/templates/checkout/';
+                break;
+            }
+        }
         $className = $this->ClassName;
         /**
          * original expression
@@ -2218,6 +2235,7 @@ class SilvercartPaymentMethodLanguage extends DataObject {
                     'Name'                      => _t('SilvercartPaymentMethod.NAME'),
                     'paymentDescription'        => _t('SilvercartShopAdmin.PAYMENT_DESCRIPTION'),
                     'LongPaymentDescription'    => _t('SilvercartPaymentMethod.LONG_PAYMENT_DESCRIPTION'),
+                    'PaymentChannel'            => _t('SilvercartPaymentMethod.PaymentChannel', 'PaymentChannel'),
                 )
         );
 
