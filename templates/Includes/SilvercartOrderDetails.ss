@@ -31,16 +31,24 @@
                 <td class="text-left full">$getFormattedNote</td>
             </tr>
             <% end_if %>
-            <% if TrackingCode %>
+            <% if $ExpectedDelivery %>
             <tr>
-                <td class="text-left nowrap"><strong><% _t('SilvercartOrder.Tracking') %></strong></td>
+                <td class="text-left nowrap"><%t SilvercartOrder.ExpectedDelivery '' %></td>
+                <td class="text-left full">{$ExpectedDeliveryNice}</td>
+            </tr>
+            <% end_if %>
+            <% if $TrackingCode %>
+            <tr>
+                <td class="text-left nowrap"><strong><%t SilvercartOrder.Tracking '' %></strong></td>
                 <td class="text-left full"><a href="{$TrackingLink}" target="blank" title="<% _t('SilvercartOrder.TrackingLinkLabel') %>"><% _t('SilvercartOrder.TrackingLinkLabel') %></a></td>
             </tr>
             <% end_if %>
+            <% if $CurrentPage.PageByIdentifierCode(SilvercartRevocationFormPage) %>
             <tr>
-                <td class="text-left nowrap"><% _t('SilvercartRevocationFormPage.TITLE','Revocation') %></td>
+                <td class="text-left nowrap"><%t SilvercartRevocationFormPage.TITLE 'Revocation' %></td>
                 <td class="text-left full"><a class="silvercart-button btn" href="$CurrentPage.PageByIdentifierCodeLink(SilvercartRevocationFormPage)?o={$ID}"><% _t('SilvercartRevocationForm.GoTo','Go to revocation form') %> <i class="icon icon-caret-right"></i></a></td>
             </tr>
+            <% end_if %>
 
             $OrderDetailInformation
         </tbody>

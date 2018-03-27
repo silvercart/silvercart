@@ -47,6 +47,8 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'PaymentReferenceID'                => 'Text',
         'PaymentReferenceMessage'           => 'Text',
         'PaymentReferenceData'              => 'Text',
+        'ExpectedDeliveryMin'               => 'Date',
+        'ExpectedDeliveryMax'               => 'Date',
         /**
          * @deprecated
          */
@@ -344,6 +346,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'PaymentReferenceID'                    => _t('SilvercartOrder.PaymentReferenceID'),
                 'PaymentReferenceMessage'               => _t('SilvercartOrder.PaymentReferenceMessage'),
                 'PaymentReferenceData'                  => _t('SilvercartOrder.PaymentReferenceData'),
+                'ExpectedDelivery'                      => _t('SilvercartOrder.ExpectedDelivery', 'Expected Delivery'),
+                'ExpectedDeliveryMax'                   => _t('SilvercartOrder.ExpectedDeliveryMax', 'Maximum expected Delivery'),
+                'ExpectedDeliveryMin'                   => _t('SilvercartOrder.ExpectedDeliveryMin', 'Minimum expected Delivery'),
             )
         );
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -491,6 +496,33 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getCreatedNice() {
         return date('d.m.Y H:i', strtotime($this->Created)) . ' Uhr';
+    }
+    
+    /**
+     * Returns the expected delivery date (span).
+     * 
+     * @return string
+     */
+    public function getExpectedDelivery() {
+        $expectedDelivery = $this->ExpectedDeliveryMax;
+        if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
+            $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
+        }
+        return $expectedDelivery;
+    }
+    
+    /**
+     * Returns the expected delivery date (span) in a nice format.
+     * 
+     * @return string
+     */
+    public function getExpectedDeliveryNice() {
+        $expectedDelivery = $this->ExpectedDeliveryMax;
+        if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
+            $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
+            $expectedDelivery = date('d.m.Y', strtotime($this->ExpectedDeliveryMin)) . ' - ' . date('d.m.Y', strtotime($this->ExpectedDeliveryMax));
+        }
+        return $expectedDelivery;
     }
 
     /**
@@ -866,6 +898,9 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $silvercartShoppingCart->setShippingMethodID($this->SilvercartShippingMethodID);
             $this->MemberID         = $member->ID;
 
+            $this->ExpectedDeliveryMin = $silvercartShoppingCart->getDeliveryTimeMin();
+            $this->ExpectedDeliveryMax = $silvercartShoppingCart->getDeliveryTimeMax();
+            
             if (SilvercartPlugin::call($this, 'overwriteCreateFromShoppingCart', array($silvercartShoppingCart))) {
                 return true;
             }
