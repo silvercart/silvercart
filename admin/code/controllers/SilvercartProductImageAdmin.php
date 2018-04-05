@@ -283,7 +283,6 @@ class SilvercartProductImageImporter extends BuildTask {
      */
     protected function deleteExistingImages(SilvercartProduct $product) {
         foreach ($product->SilvercartImages() as $existingImage) {
-            print " --- DELETING IMAGE (" . $product->ProductNumberShop . ")" . PHP_EOL;
             /* @var $existingImage SilvercartImage */
             $existingImage->delete();
         }
