@@ -89,6 +89,10 @@ class SilvercartPaymentNotification_Controller extends Page_Controller {
             Director::forceSSL();
         }
         parent::init();
+        if ($this->getRequest()->param('Action') == 'process') {
+            $this->process();
+            exit();
+        }
     }
     /**
      * Bestimmt das zu ladende Zahlungsmodul und ruft dessen Verarbeitungs
