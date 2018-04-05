@@ -161,6 +161,13 @@ class SilvercartProductImageImporter extends BuildTask {
     private static $import_is_installed_file_name = 'scpii-is-installed';
     
     /**
+     * Character to use to separate the prduct number and image name.
+     *
+     * @var string
+     */
+    private static $image_name_separator = '-';
+    
+    /**
      * Runs this task.
      * 
      * @param SS_HTTPRequest $request Request
@@ -177,17 +184,21 @@ class SilvercartProductImageImporter extends BuildTask {
         $uploadedFiles = $this->getUploadedFiles();
         if (count($uploadedFiles) > 0) {
             $imageData = array();
+            $found     = array();
+            $notFound  = array();
+            $importedImagesCount = 0;
             foreach ($uploadedFiles as $uploadedFile) {
                 $consecutiveNumber = 1;
                 $nameWithoutEnding = strrev(substr(strrev($uploadedFile), strpos(strrev($uploadedFile), '.') + 1));
                 $description       = '';
+                $separator         = self::get_image_name_separator();
                 
-                if (strpos($nameWithoutEnding, '-') !== false) {
-                    $parts = explode('-', $nameWithoutEnding);
+                if (strpos($nameWithoutEnding, $separator) !== false) {
+                    $parts = explode($separator, $nameWithoutEnding);
                     $productnumber     = array_shift($parts);
                     $consecutiveNumber = array_shift($parts);
                     if (count($parts) > 0) {
-                        $description = str_replace('   ', ' - ', str_replace('-', ' ', implode('-', $parts)));
+                        $description = str_replace('   ', ' ' . $separator . ' ', str_replace($separator, ' ', implode($separator, $parts)));
                     }
                 } else {
                     $productnumber = $nameWithoutEnding;
@@ -206,14 +217,25 @@ class SilvercartProductImageImporter extends BuildTask {
                 $product = SilvercartProduct::get_by_product_number($productnumber);
                 if ($product instanceof SilvercartProduct &&
                     $product->exists()) {
+                    $found[] = $productnumber;
                     $this->deleteExistingImages($product);
                     ksort($data);
                     foreach ($data as $consecutiveNumber => $imageInfo) {
+                        $importedImagesCount++;
                         $this->addNewImage($product, $imageInfo['filename'], $imageInfo['description'], $consecutiveNumber);
                     }
+                } else {
+                    $notFound[] = $productnumber;
                 }
             }
         }
+        
+        SilvercartTools::Log('INFO', 'imported ' . $importedImagesCount . ' images for ' . count($found) . ' products.', 'SilvercartProductImageImporter');
+        SilvercartTools::Log('INFO', 'did not find ' . count($notFound) . ' products.', 'SilvercartProductImageImporter');
+        SilvercartTools::Log('INFO', '- product numbers: ' . implode(', ', $notFound), 'SilvercartProductImageImporter');
+        SilvercartTools::Log('INFO', '', 'SilvercartProductImageImporter');
+        SilvercartTools::Log('INFO', '', 'SilvercartProductImageImporter');
+        SilvercartTools::Log('INFO', '', 'SilvercartProductImageImporter');
         
         $this->unmarkAsRunning();
     }
@@ -261,6 +283,7 @@ class SilvercartProductImageImporter extends BuildTask {
      */
     protected function deleteExistingImages(SilvercartProduct $product) {
         foreach ($product->SilvercartImages() as $existingImage) {
+            print " --- DELETING IMAGE (" . $product->ProductNumberShop . ")" . PHP_EOL;
             /* @var $existingImage SilvercartImage */
             $existingImage->delete();
         }
@@ -431,5 +454,25 @@ class SilvercartProductImageImporter extends BuildTask {
      */
     public static function set_relative_upload_folder($relative_upload_folder) {
         self::$relative_upload_folder = $relative_upload_folder;
+    }
+    
+    /**
+     * Returns the character to use to separate the prduct number and image name.
+     * 
+     * @return string
+     */
+    public static function get_image_name_separator() {
+        return self::$image_name_separator;
+    }
+    
+    /**
+     * Sets the character to use to separate the prduct number and image name.
+     * 
+     * @param string $image_name_separator Character to use to separate the prduct number and image name.
+     * 
+     * @return void
+     */
+    public static function set_image_name_separator($image_name_separator) {
+        self::$image_name_separator = $image_name_separator;
     }
 }
