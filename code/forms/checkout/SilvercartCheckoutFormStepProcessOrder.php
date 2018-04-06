@@ -34,6 +34,20 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlFormStep {
      * @var bool
      */
     protected $sendConfirmationMail = true;
+    
+    /**
+     * Order.
+     *
+     * @var SilvercartOrder
+     */
+    protected $order = null;
+    
+    /**
+     * Payment method chosen for checkout.
+     *
+     * @var SilvercartPaymentMethod
+     */
+    protected $paymentMethod = null;
 
     /**
      * constructor
@@ -89,9 +103,10 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlFormStep {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 05.04.2018
      */
     public function process() {
+        $result = false;
         $checkoutData = $this->controller->getCombinedStepData();
         $member = SilvercartCustomer::currentUser();
         if ($member instanceof Member) {
@@ -136,12 +151,13 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlFormStep {
                     'orderId' => $order->ID
                 )
             );
+            $this->setOrder($order);
             $this->controller->addCompletedStep();
             $this->controller->NextStep(false);
+            $result = true;
         }
 
-
-        return false;
+        return $result;
     }
 
     /**
@@ -168,5 +184,37 @@ class SilvercartCheckoutFormStepProcessOrder extends CustomHtmlFormStep {
         $order->createFromShoppingCart();
 
         return $order;
+    }
+    
+    /**
+     * Sets the order.
+     * 
+     * @param SilvercartOrder $order Order
+     * 
+     * @return void
+     */
+    public function setOrder(SilvercartOrder $order) {
+        $this->order = $order;
+    }
+    
+    /**
+     * Returns the order.
+     * 
+     * @return SilvercartOrder
+     */
+    public function getOrder() {
+        return $this->order;
+    }
+    
+    /**
+     * Returns the payment method chosen for checkout.
+     * 
+     * @return SilvercartPaymentMethod
+     */
+    public function getPaymentMethod() {
+        if (is_null($this->paymentMethod)) {
+            $this->paymentMethod = SilvercartCheckoutFormStepPaymentInit::init_payment_method($this->getController());
+        }
+        return $this->paymentMethod;
     }
 }

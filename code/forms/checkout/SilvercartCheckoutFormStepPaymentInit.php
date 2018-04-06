@@ -46,33 +46,10 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlFormStep {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 05.04.2018
      */
     public function __construct($controller, $params = null, $preferences = null, $barebone = false) {
-        $member       = SilvercartCustomer::currentUser();
-        $checkoutData = $controller->getCombinedStepData();
-
-        if (!$this->payment &&
-             $member) {
-
-            if (array_key_exists('PaymentMethod', $checkoutData)) {
-                $this->paymentMethodObj = DataObject::get_by_id(
-                    'SilvercartPaymentMethod',
-                    $checkoutData['PaymentMethod']
-                );
-                if ($this->paymentMethodObj) {
-                    $this->paymentMethodObj->setController($controller);
-
-                    $this->paymentMethodObj->setCancelLink(Director::absoluteURL($controller->Link()) . 'GotoStep/2');
-                    $this->paymentMethodObj->setReturnLink(Director::absoluteURL($controller->Link()));
-
-                    $this->paymentMethodObj->setCustomerDetailsByCheckoutData($checkoutData);
-                    $this->paymentMethodObj->setInvoiceAddressByCheckoutData($checkoutData);
-                    $this->paymentMethodObj->setShippingAddressByCheckoutData($checkoutData);
-                    $this->paymentMethodObj->setShoppingCart($member->getCart());
-                }
-            }
-        }
+        $this->paymentMethodObj = self::init_payment_method($controller);
 
         parent::__construct($controller, $params, $preferences, $barebone);
 
@@ -147,5 +124,45 @@ class SilvercartCheckoutFormStepPaymentInit extends CustomHtmlFormStep {
     public function getPaymentMethod() {
         return $this->paymentMethodObj;
     }
+    
+    /**
+     * Initializes the payment method.
+     * 
+     * @param Controller $controller Controller
+     * 
+     * @return \SilvercartPaymentMethod
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2018
+     */
+    public static function init_payment_method($controller) {
+        $paymentMethod = null;
+        $member        = SilvercartCustomer::currentUser();
+        $checkoutData  = $controller->getCombinedStepData();
+
+        if ($member instanceof Member &&
+            $member->exists()) {
+
+            if (array_key_exists('PaymentMethod', $checkoutData)) {
+                $paymentMethod = SilvercartPaymentMethod::get()->byID($checkoutData['PaymentMethod']);
+                if ($paymentMethod instanceof SilvercartPaymentMethod &&
+                    $paymentMethod->exists()) {
+                    
+                    $paymentMethod->setController($controller);
+
+                    $paymentMethod->setCancelLink(Director::absoluteURL($controller->Link()) . 'GotoStep/2');
+                    $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()));
+
+                    $paymentMethod->setCustomerDetailsByCheckoutData($checkoutData);
+                    $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
+                    $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
+                    $paymentMethod->setShoppingCart($member->getCart());
+                }
+            }
+        }
+        
+        return $paymentMethod;
+    }
+    
 }
 

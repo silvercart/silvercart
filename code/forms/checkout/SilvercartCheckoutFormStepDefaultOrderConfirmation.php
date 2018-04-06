@@ -35,6 +35,20 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlFormS
      * @var bool
      */
     protected $excludeFromCache = true;
+    
+    /**
+     * Order.
+     *
+     * @var SilvercartOrder
+     */
+    protected $order = null;
+    
+    /**
+     * Payment method chosen for checkout.
+     *
+     * @var SilvercartPaymentMethod
+     */
+    protected $paymentMethod = null;
 
     /**
      * Here we set some preferences.
@@ -99,5 +113,48 @@ class SilvercartCheckoutFormStepDefaultOrderConfirmation extends CustomHtmlFormS
         }
 
         return $output;
+    }
+    
+    /**
+     * Returns the order.
+     * 
+     * @return SilvercartOrder
+     */
+    public function getOrder() {
+        if (is_null($this->order)) {
+            $this->order = self::init_order($this->getController());
+        }
+        return $this->order;
+    }
+    
+    /**
+     * Returns the payment method chosen for checkout.
+     * 
+     * @return SilvercartPaymentMethod
+     */
+    public function getPaymentMethod() {
+        if (is_null($this->paymentMethod)) {
+            $this->paymentMethod = SilvercartCheckoutFormStepPaymentInit::init_payment_method($this->getController());
+        }
+        return $this->paymentMethod;
+    }
+    
+    /**
+     * Initializes the order.
+     * 
+     * @param Controller $controller Controller
+     * 
+     * @return \SilvercartOrder
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2018
+     */
+    public static function init_order($controller) {
+        $order        = null;
+        $checkoutData = $controller->getCombinedStepData();
+        if (array_key_exists('orderId', $checkoutData)) {
+            $order = SilvercartOrder::get()->byID($checkoutData['orderId']);
+        }
+        return $order;
     }
 }
