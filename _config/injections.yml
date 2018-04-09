@@ -1,0 +1,6 @@
+---
+Name: silvercart-injections
+---
+Injector:
+  MemberLoginForm:
+    class: SilvercartMemberLoginForm
