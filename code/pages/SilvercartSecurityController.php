@@ -39,6 +39,7 @@ class SilvercartSecurityController extends DataExtension {
      * @since 08.07.2014
      */
     public function onBeforeInit() {
+        SilvercartPage_Controller::singleton()->loadJSRequirements();
         SilvercartTools::initSession();
         
         i18n::set_default_locale(Translatable::get_current_locale());

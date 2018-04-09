@@ -360,27 +360,42 @@ class SilvercartPage extends SiteTree {
      * @return ArrayList 
      */
     public function getAllTranslations() {
+        if (Controller::curr() instanceof Security) {
+            $page = SilvercartTools::PageByIdentifierCode('SilvercartFrontPage');
+        } else {
+            $page = $this; 
+        }
         $currentLocale      = Translatable::get_current_locale();
-        $translations       = $this->getTranslations();
+        $translations       = $page->getTranslations();
         $translationSource  = new ArrayList();
         if ($translations) {
+            if (Controller::curr() instanceof Security) {
+                $link = $this->Link(Controller::curr()->getAction()) . '?locale=' . $currentLocale;
+            } else {
+                $link = $this->Link();
+            }
             $translationSource->push(new DataObject(
                 array(
                     'Name'          => SilvercartLanguageHelper::getLanguageName($currentLocale, $currentLocale),
                     'NativeName'    => SilvercartLanguageHelper::getLanguageName($currentLocale, $currentLocale),
                     'Code'          => $this->getIso2($currentLocale),
                     'RFC1766'       => i18n::convert_rfc1766($currentLocale),
-                    'Link'          => $this->Link(),
+                    'Link'          => $link,
                 )
             ));
             foreach ($translations as $translation) {
+                if (Controller::curr() instanceof Security) {
+                    $link = $this->Link(Controller::curr()->getAction()) . '?locale=' . $translation->Locale;
+                } else {
+                    $link = $translation->Link();
+                }
                 $translationSource->push(new DataObject(
                     array(
                         'Name'          => SilvercartLanguageHelper::getLanguageName($translation->Locale, $currentLocale),
                         'NativeName'    => SilvercartLanguageHelper::getLanguageName($translation->Locale, $translation->Locale),
                         'Code'          => $this->getIso2($translation->Locale),
                         'RFC1766'       => i18n::convert_rfc1766($translation->Locale),
-                        'Link'          => $translation->Link(),
+                        'Link'          => $link,
                     )
                 ));
             }
@@ -424,6 +439,15 @@ class SilvercartPage extends SiteTree {
             $this->extend('updateMetaDescription', $metaDescription);
         }
         return $metaDescription;
+    }
+    
+    /**
+     * Returns the URL-encoded BackURL parameter to add to Security login links.
+     * 
+     * @return string
+     */
+    public function getBackURL() {
+        return urlencode($this->Link());
     }
     
     /**
@@ -511,10 +535,11 @@ class SilvercartPage_Controller extends ContentController {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.10.2014
+     * @since 09.04.2018
      */
     public function loadJSRequirements() {
-        if (SilvercartTools::isIsolatedEnvironment()) {
+        if (SilvercartTools::isIsolatedEnvironment() &&
+            !(Controller::curr() instanceof Security)) {
             return;
         }
 
