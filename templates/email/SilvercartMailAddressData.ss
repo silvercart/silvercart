@@ -1,23 +1,30 @@
 
 <table>
-<% if isCompanyAddress %>
+<% if $TaxIdNumber %>
     <tr>
         <td>$fieldLabel(TaxIdNumber)</td>
         <td>$TaxIdNumber</td>
     </tr>
+<% end_if %>
+<% if $Company %>
     <tr>
         <td>$fieldLabel(Company)</td>
         <td>$Company</td>
     </tr>
 <% end_if %>
+<% if $FirstName || $Surname %>
+    <% if $Salutation %>
     <tr>
         <td>$fieldLabel(Salutation)</td>
         <td>$SalutationText</td>
     </tr>
+    <% end_if %>
+    <% if $AcademicTitle %>
     <tr>
         <td>$fieldLabel(AcademicTitle)</td>
         <td>$AcademicTitle</td>
     </tr>
+    <% end_if %>
     <tr>
         <td>$fieldLabel(FirstName)</td>
         <td>$FirstName</td>
@@ -26,6 +33,7 @@
         <td>$fieldLabel(Surname)</td>
         <td>$Surname</td>
     </tr>
+<% end_if %>
 <% if Addition %>
     <tr>
         <td>$fieldLabel(Addition)</td>
