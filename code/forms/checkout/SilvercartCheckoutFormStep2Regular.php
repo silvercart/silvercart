@@ -205,7 +205,7 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 10.04.2018
      */
     public function submitSuccess($data, $form, $formData) {
         // Set invoice address as shipping address if desired
@@ -213,14 +213,13 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
             $formData['ShippingAddress'] = $formData['InvoiceAddress'];
         }
         
-        if (SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['InvoiceAddress']) &&
-            SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress'])) {
-            $invoiceAddress = DataObject::get_by_id('SilvercartAddress', $formData['InvoiceAddress']);
+        if ($this->addressesAreValid($formData)) {
+            $invoiceAddress = SilvercartAddress::get()->byID($formData['InvoiceAddress']);
             $formData = array_merge(
                     $formData,
                     $this->controller->joinAddressDataTo('Invoice', $invoiceAddress->toMap())
             );
-            $shippingAddress = DataObject::get_by_id('SilvercartAddress', $formData['ShippingAddress']);
+            $shippingAddress = SilvercartAddress::get()->byID($formData['ShippingAddress']);
             $formData = array_merge(
                     $formData,
                     $this->controller->joinAddressDataTo('Shipping', $shippingAddress->toMap())
@@ -235,7 +234,25 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
             if (!SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress'])) {
                 $this->addErrorMessage('ShippingAddress', _t('SilvercartCheckoutFormStep2.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
             }
+            $this->getController()->redirectBack();
         }
+    }
+    
+    /**
+     * Returns whether the submitted addresses are valid.
+     * 
+     * @param array $formData Submitted form data
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.04.2018
+     */
+    protected function addressesAreValid($formData) {
+        $addressesAreValid = SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['InvoiceAddress']) &&
+                                SilvercartCustomer::currentUser()->SilvercartAddresses()->Find('ID', $formData['ShippingAddress']);
+        $this->extend('updateAddressesAreValid', $addressesAreValid, $formData);
+        return $addressesAreValid;
     }
     
     /**
