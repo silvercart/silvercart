@@ -1154,13 +1154,16 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2013
+     * @since 16.04.2018
      */
     public function HandlingCostShipment() {
         $handlingCostShipment = 0;
         $selectedShippingMethod = $this->getShippingMethod();
 
-        if ($selectedShippingMethod) {
+        if ($selectedShippingMethod instanceof SilvercartShippingMethod &&
+            $selectedShippingMethod->exists() &&
+            $selectedShippingMethod->getShippingFee() instanceof SilvercartShippingFee &&
+            $selectedShippingMethod->getShippingFee()->exists()) {
             $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
             $handlingCostShipmentObj = new Money();
@@ -1344,7 +1347,9 @@ class SilvercartShoppingCart extends DataObject {
                 $shippingMethod = $this->getShippingMethod();
             }
             if ($shippingMethod instanceof SilvercartShippingMethod &&
-                $shippingMethod->exists()) {
+                $shippingMethod->exists() &&
+                $shippingMethod->getShippingFee() instanceof SilvercartShippingFee &&
+                $shippingMethod->getShippingFee()->exists()) {
 
                 $deliveryDaysMin = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
                 $deliveryDaysMax = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;

@@ -658,7 +658,8 @@ class SilvercartShippingMethod extends DataObject {
         $allowedShippingMethodsArray    = array();
         $shippingMethods                = self::getAllowedShippingMethodsBase($carrier);
 
-        if ($shippingMethods) {
+        if ($shippingMethods instanceof DataList &&
+            $shippingMethods->exists()) {
             foreach ($shippingMethods as $shippingMethod) {
                 if (!is_null($shippingAddress)) {
                     $shippingMethod->setShippingAddress($shippingAddress);
