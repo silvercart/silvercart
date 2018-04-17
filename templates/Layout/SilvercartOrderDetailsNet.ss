@@ -98,10 +98,17 @@
         <!-- charges and discounts for the shopping cart value -->
         <% loop SilvercartOrderChargePositionsTotal %>
             <tr class="{$EvenOdd} auto">
-                <td class="desc-col" colspan="2">{$Title.RAW}</td>
+            <% if $getTypeSafeQuantity > 1 %>
+                <td class="desc-col" colspan="2"><strong>{$Title.RAW}</strong></td>
                 <td class="text-right mobile-hide-sm">{$Price.Nice}</td>
                 <td class="text-right mobile-hide-sm">{$TaxRate}%</td>
                 <td class="text-right mobile-hide-sm"><span class="silvercart-quantity-label">{$getTypeSafeQuantity}<span class="mobile-show-sm inline">x</span></span></td>
+            <% else %>
+                <td class="mobile-hide-sm">&nbsp;</td>
+                <td class="mobile-hide-sm">&nbsp;</td>
+                <td class="mobile-hide-sm">&nbsp;</td>
+                <td class="text-right desc-col" colspan="2"><strong>{$Title.RAW}</strong></td>
+            <% end_if %>
                 <td class="text-right price-col">{$PriceTotal.Nice}</td>
             </tr>
         <% end_loop %>
@@ -117,7 +124,7 @@
             <% end_loop %>
         <% end_if %>
 
-        <tr>
+        <tr class="text-big dark-line">
             <td class="mobile-hide-sm">&nbsp;</td>
             <td class="mobile-hide-sm">&nbsp;</td>
             <td class="mobile-hide-sm">&nbsp;</td>
