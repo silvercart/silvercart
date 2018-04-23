@@ -8,7 +8,6 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Forms\ProductGroupPageSelectorsForm;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Pages\ProductGroupPage;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\Manufacturer;
 use SilverCart\Model\Product\Product;
 use SilverCart\View\GroupView\GroupViewHandler;
@@ -619,10 +618,11 @@ class ProductGroupPageController extends \PageController {
         } elseif (!array_key_exists($hashKey, $this->groupProducts) || $force) {
             $SQL_start       = $this->getSqlOffset($numberOfProducts);
             $productsPerPage = $this->getProductsPerPageSetting();
-            $pluginProducts  = Plugin::call($this, 'overwriteGetProducts', array($numberOfProducts, $productsPerPage, $SQL_start, $sort), true, new ArrayList());
+            $products        = null;
+            $this->extend('overwriteGetProducts', $products, $numberOfProducts, $productsPerPage, $SQL_start, $sort);
 
-            if (!empty($pluginProducts)) {
-                $this->groupProducts[$hashKey] = $pluginProducts;
+            if (!is_null($products)) {
+                $this->groupProducts[$hashKey] = $products;
             } else {
                 $this->listFilters = [];
                 $filter            = '';

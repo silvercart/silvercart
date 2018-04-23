@@ -6,14 +6,15 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email;
+use SilverStripe\Core\Extensible;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\Security\Member;
 use SilverStripe\View\ArrayData;
 
 /**
@@ -34,6 +35,8 @@ use SilverStripe\View\ArrayData;
  * @license see license file in modules root directory
  */
 class Config {
+    
+    use Extensible;
     
     /**
      * Contains the possible values for products per page selectors for
@@ -806,24 +809,17 @@ class Config {
      *
      * @return string returns "gross" or "net"
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 23.04.2018
      */
     public static function Pricetype() {
         if (is_null(self::$priceType)) {
-            $member         = Customer::currentUser();
-            $configObject   = self::getConfig();
-
-            $silvercartPluginResult = Plugin::call(
-                $configObject,
-                'overwritePricetype',
-                array()
-            );
-
-            if (!empty($silvercartPluginResult)) {
-                self::$priceType = $silvercartPluginResult;
-            } elseif ($member) {
+            $member       = Customer::currentUser();
+            $configObject = self::getConfig();
+            
+            if ($member instanceof Member &&
+                $member->exists()) {
                 foreach ($member->Groups() as $group) {
                     if (!empty($group->Pricetype) &&
                         $group->Pricetype != '---') {
@@ -837,6 +833,7 @@ class Config {
             } else {
                 self::$priceType = self::DefaultPriceType();
             }
+            $configObject->extend('updatePriceType', self::$priceType, $member);
         }
         return self::$priceType;
     }

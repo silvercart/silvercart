@@ -44,7 +44,6 @@ SilverCart\Model\Product\Product:
   extensions:
     - SilverCart\ORM\DataObjectCacheExtension
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
-    - SilverCart\Model\Plugins\PluginObjectExtension
 SilverCart\Model\Pages\ProductGroupHolderController:
   extensions:
     - SilverCart\View\GroupView\GroupViewExtension
@@ -54,7 +53,6 @@ SilverCart\Model\Pages\ProductGroupPage:
 SilverCart\Model\Pages\ProductGroupPageController:
   extensions:
     - SilverCart\View\GroupView\GroupViewExtension
-    - SilverCart\Model\Plugins\PluginObjectExtension
 SilverCart\Model\Product\ProductTranslation:
   extensions:
     - SilverCart\ORM\DataObjectCacheExtension
@@ -225,24 +223,3 @@ SilverCart\Model\Widgets\TextWidget:
 SilverCart\Model\Widgets\TextWithLinkWidget:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
-SilverCart\Admin\Model\Config:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension
-SilverCart\Model\ContactMessage:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension
-SilverCart\Forms\IncrementPositionQuantityForm:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension
-SilverCart\Model\Order\Order:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension
-SilverCart\Forms\RemovePositionForm:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension
-SilverCart\Model\Order\ShoppingCart:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension
-SilverCart\Model\Order\ShoppingCartPosition:
-  extensions:
-    - SilverCart\Model\Plugins\PluginObjectExtension

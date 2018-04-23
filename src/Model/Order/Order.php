@@ -21,7 +21,6 @@ use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
@@ -939,7 +938,9 @@ class Order extends DataObject implements PermissionProvider {
             $shoppingCart->setShippingMethodID($this->ShippingMethodID);
             $this->MemberID = $member->ID;
 
-            if (Plugin::call($this, 'overwriteCreateFromShoppingCart', array($shoppingCart))) {
+            $overwriteCreateFromShoppingCart = false;
+            $this->extend('overwriteCreateFromShoppingCart', $overwriteCreateFromShoppingCart, $shoppingCart);
+            if ($overwriteCreateFromShoppingCart) {
                 return true;
             }
             
@@ -994,8 +995,6 @@ class Order extends DataObject implements PermissionProvider {
             $this->write();
             
             $this->extend('onAfterCreateFromShoppingCart', $shoppingCart);
-
-            Plugin::call($this, 'createFromShoppingCart', array($this, $shoppingCart));
         }
     }
 
@@ -1056,11 +1055,6 @@ class Order extends DataObject implements PermissionProvider {
                         }
 
                         $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
-                        $result = Plugin::call($this, 'convertShoppingCartPositionToOrderPosition', array($shoppingCartPosition, $orderPosition), true, array());
-
-                        if (!empty($result)) {
-                            $orderPosition = $result[0];
-                        }
 
                         $orderPosition->write();
                         unset($orderPosition);
@@ -1234,7 +1228,6 @@ class Order extends DataObject implements PermissionProvider {
             
                 $this->write();
             }
-            Plugin::call($this, 'convertShoppingCartPositionsToOrderPositions', array($this), true);
         }
     }
 
@@ -2088,11 +2081,13 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.09.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 23.04.2018
      */
     public function OrderDetailInformation() {
-        return Plugin::call($this, 'OrderDetailInformation', array($this));
+        $orderDetailInformation = '';
+        $this->extend('updateOrderDetailInformation', $orderDetailInformation);
+        return $orderDetailInformation;
     }
 
     /**
@@ -2194,8 +2189,9 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.04.2018
      */
     public function IsPriceTypeGross() {
         $isPriceTypeGross = false;
@@ -2204,13 +2200,7 @@ class Order extends DataObject implements PermissionProvider {
             $isPriceTypeGross = true;
         }
 
-        $isPriceTypeGross = Plugin::call(
-            $this,
-            'IsPriceTypeGross',
-            array(
-                $isPriceTypeGross
-            )
-        );
+        $this->extend('updateIsPriceTypeGross', $isPriceTypeGross);
 
         return $isPriceTypeGross;
     }
@@ -2220,8 +2210,9 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 23.04.2018
      */
     public function IsPriceTypeNet() {
         $isPriceTypeNet = false;
@@ -2230,13 +2221,7 @@ class Order extends DataObject implements PermissionProvider {
             $isPriceTypeNet = true;
         }
 
-        $isPriceTypeNet = Plugin::call(
-            $this,
-            'IsPriceTypeNet',
-            array(
-                $isPriceTypeNet
-            )
-        );
+        $this->extend('updateIsPriceTypeNet', $isPriceTypeNet);
 
         return $isPriceTypeNet;
     }

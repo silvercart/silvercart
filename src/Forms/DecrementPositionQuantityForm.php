@@ -7,7 +7,6 @@ use SilverCart\Forms\UpdatePositionForm;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
-use SilverCart\Model\Plugins\Plugin;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\FormAction;
 
@@ -48,31 +47,29 @@ class DecrementPositionQuantityForm extends UpdatePositionForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.11.2017
+     * @since 23.04.2018
      */
     public function doSubmit($data, CustomForm $form) {
-        $overwrite = Plugin::call($this, 'overwriteSubmitSuccess', [$data, $form], null, 'boolean');
-        
-        if (!$overwrite) {
-            if (array_key_exists('PositionID', $data) &&
-                is_numeric($data['PositionID'])) {
-                //check if the position belongs to this user. Malicious people could manipulate it.
-                $member   = Customer::currentUser();
-                $position = ShoppingCartPosition::get()->byID($data['PositionID']);
-                if ($position instanceof ShoppingCartPosition &&
-                    $position->exists() &&
-                    $position->ShoppingCartID == $member->getCart()->ID) {
-                    if ($position->Quantity <= 1) {
-                        $position->delete();
-                    } else {
-                        $position->Quantity--;
-                        $position->write();
-                    }
-                    $backLinkPage = SiteTree::get()->byID($data['BlID']);
-                    $this->getController()->redirect($backLinkPage->Link());
+        $this->extend('onBeforeDoSubmit', $data, $form);
+        if (array_key_exists('PositionID', $data) &&
+            is_numeric($data['PositionID'])) {
+            //check if the position belongs to this user. Malicious people could manipulate it.
+            $member   = Customer::currentUser();
+            $position = ShoppingCartPosition::get()->byID($data['PositionID']);
+            if ($position instanceof ShoppingCartPosition &&
+                $position->exists() &&
+                $position->ShoppingCartID == $member->getCart()->ID) {
+                if ($position->Quantity <= 1) {
+                    $position->delete();
+                } else {
+                    $position->Quantity--;
+                    $position->write();
                 }
+                $backLinkPage = SiteTree::get()->byID($data['BlID']);
+                $this->getController()->redirect($backLinkPage->Link());
             }
         }
+        $this->extend('onAfterDoSubmit', $data, $form);
     }
 
 }

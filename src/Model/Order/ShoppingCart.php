@@ -9,7 +9,6 @@ use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Tax;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverStripe\ORM\ArrayList;
@@ -491,7 +490,8 @@ class ShoppingCart extends DataObject {
             $member = Customer::createAnonymousCustomer();
         }
 
-        $overwriteAddProduct = Plugin::call($member->getCart(), 'overwriteAddProduct', array($formData), false, 'boolean');
+        $overwriteAddProduct = false;
+        $member->getCart()->extend('overwriteAddProduct', $overwriteAddProduct, $formData);
         
         if ($overwriteAddProduct) {
             $error = false;
@@ -533,7 +533,8 @@ class ShoppingCart extends DataObject {
             $member = Customer::createAnonymousCustomer();
         }
         
-        $overwriteRemoveProduct = Plugin::call($member->getCart(), 'overwriteRemoveProduct', array($data), false, 'boolean');
+        $overwriteRemoveProduct = false;
+        $member->getCart()->extend('overwriteRemoveProduct', $overwriteRemoveProduct, $data);
         
         if ($overwriteRemoveProduct) {
             $error = false;
@@ -557,10 +558,11 @@ class ShoppingCart extends DataObject {
      * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.09.2012
+     * @since 23.04.2018
      */
     public function addToEditableShoppingCartTable() {
-        $addToCartTable = Plugin::call($this, 'addToEditableShoppingCartTable', array(), false, 'ArrayList');
+        $addToCartTable = new ArrayList();
+        $this->extend('addToEditableShoppingCartTable', $addToCartTable);
         return $addToCartTable;
     }
 

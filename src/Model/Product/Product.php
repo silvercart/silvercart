@@ -19,7 +19,6 @@ use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Pages\ProductGroupPageController;
 use SilverCart\Model\Pages\RegistrationPage;
 use SilverCart\Model\Pages\SearchResultsPageController;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\AvailabilityStatus;
 use SilverCart\Model\Product\File;
 use SilverCart\Model\Product\Manufacturer;
@@ -2043,7 +2042,6 @@ class Product extends DataObject implements PermissionProvider {
             if (!is_null($positionNotice)) {
                 ShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, $positionNotice);
             }
-            Plugin::call($this, 'onAfterAddToCart', array($shoppingCartPosition));
         }
         $this->extend('onAfterAddToCart', $shoppingCartPosition);
 
@@ -3204,7 +3202,8 @@ class Product extends DataObject implements PermissionProvider {
      */
     public function getPluggedInTabs() {
         if (is_null($this->pluggedInTabs)) {
-            $this->pluggedInTabs = Plugin::call($this, 'getPluggedInTabs', array(), false, 'ArrayList');
+            $this->pluggedInTabs = new ArrayList();
+            $this->extend('addPluggedInTab', $this->pluggedInTabs);
         }
         return $this->pluggedInTabs;
     }
@@ -3216,7 +3215,8 @@ class Product extends DataObject implements PermissionProvider {
      */
     public function getPluggedInProductMetaData() {
         if (is_null($this->pluggedInProductMetaData)) {
-            $this->pluggedInProductMetaData = Plugin::call($this, 'getPluggedInProductMetaData', array(), false, 'ArrayList');
+            $this->pluggedInProductMetaData = new ArrayList();
+            $this->extend('addPluggedInProductMetaData', $this->pluggedInProductMetaData);
         }
         return $this->pluggedInProductMetaData;
     }
@@ -3228,7 +3228,8 @@ class Product extends DataObject implements PermissionProvider {
      */
     public function getPluggedInProductListAdditionalData() {
         if (is_null($this->pluggedInProductListAdditionalData)) {
-            $this->pluggedInProductListAdditionalData = Plugin::call($this, 'getPluggedInProductListAdditionalData', array(), false, 'ArrayList');
+            $this->pluggedInProductListAdditionalData = new ArrayList();
+            $this->extend('addPluggedInProductListAdditionalData', $this->pluggedInProductListAdditionalData);
         }
         return $this->pluggedInProductListAdditionalData;
     }
@@ -3240,7 +3241,8 @@ class Product extends DataObject implements PermissionProvider {
      */
     public function getPluggedInAfterImageContent() {
         if (is_null($this->pluggedInAfterImageContent)) {
-            $this->pluggedInAfterImageContent = Plugin::call($this, 'getPluggedInAfterImageContent', array(), false, 'ArrayList');
+            $this->pluggedInAfterImageContent = new ArrayList();
+            $this->extend('addPluggedInAfterImageContent', $this->pluggedInAfterImageContent);
         }
         return $this->pluggedInAfterImageContent;
     }

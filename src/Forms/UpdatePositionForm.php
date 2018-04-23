@@ -4,7 +4,6 @@ namespace SilverCart\Forms;
 
 use SilverCart\Forms\CustomForm;
 use SilverCart\Model\Order\ShoppingCartPosition;
-use SilverCart\Model\Plugins\Plugin;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HiddenField;
@@ -67,7 +66,6 @@ class UpdatePositionForm extends CustomForm {
                 HiddenField::create('PositionID', 'PositionID', $this->getPosition()->ID),
                 HiddenField::create('BlID', 'BlID', $blID),
             ];
-            Plugin::call($this, 'updateFormFields', [$fields], true);
         });
         return parent::getCustomFields();
     }

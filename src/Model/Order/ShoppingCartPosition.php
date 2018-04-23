@@ -9,7 +9,6 @@ use SilverCart\Forms\IncrementPositionQuantityForm;
 use SilverCart\Forms\RemovePositionForm;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\Product;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\DataObject;
@@ -159,17 +158,12 @@ class ShoppingCartPosition extends DataObject {
      * Returns the title of the shopping cart position.
      * 
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.11.2012
      */
     public function getTitle() {
         if (is_null($this->pluggedInTitle)) {
-            $pluginTitle = Plugin::call($this, 'overwriteGetTitle', null, false, '');
-            if ($pluginTitle == '') {
-                $pluginTitle = $this->Product()->Title;
-            }
-            $this->pluggedInTitle = $pluginTitle;
+            $title = $this->Product()->Title;
+            $this->extend('updateTitle', $title);
+            $this->pluggedInTitle = $title;
         }
         return $this->pluggedInTitle;
     }
@@ -205,10 +199,11 @@ class ShoppingCartPosition extends DataObject {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.04.2012
+     * @since 23.04.2018
      */
     public function addToTitle() {
-        $addToTitle = Plugin::call($this, 'addToTitle', null, false, '');
+        $addToTitle = '';
+        $this->extend('addToTitle', $addToTitle);
         return $addToTitle;
     }
 
@@ -218,10 +213,11 @@ class ShoppingCartPosition extends DataObject {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.07.2012
+     * @since 23.04.2018
      */
     public function addToTitleForWidget() {
-        $addToTitleForWidget = Plugin::call($this, 'addToTitleForWidget', null, false, '');
+        $addToTitleForWidget = '';
+        $this->extend('addToTitleForWidget', $addToTitleForWidget);
         if (empty($addToTitleForWidget)) {
             $addToTitleForWidget = $this->addToTitle();
         }
@@ -242,10 +238,11 @@ class ShoppingCartPosition extends DataObject {
         $priceKey = (string) $forSingleProduct . '-' . (string) $priceType;
 
         if (!array_key_exists($priceKey, $this->prices)) {
-            $pluginPriceObj = Plugin::call($this, 'overwriteGetPrice', array($forSingleProduct), false, 'DataObject');
+            $overwrittenPrice = null;
+            $this->extend('overwriteGetPrice', $overwrittenPrice, $forSingleProduct, $priceType);
 
-            if ($pluginPriceObj !== false) {
-                return $pluginPriceObj;
+            if (!is_null($overwrittenPrice)) {
+                return $overwrittenPrice;
             }
 
             $product = $this->Product();
@@ -275,13 +272,10 @@ class ShoppingCartPosition extends DataObject {
      * @return string
      */
     public function getProductNumberShop() {
-        $pluginObj = Plugin::call($this, 'overwriteGetProductNumberShop');
-
-        if (!empty($pluginObj)) {
-            return $pluginObj;
-        }
-
-        return $this->Product()->ProductNumberShop;
+        $productNumber = $this->Product()->ProductNumberShop;
+        $this->extend('overwriteGetProductNumberShop', $productNumber);
+        $this->extend('updateProductNumberShop', $productNumber);
+        return $productNumber;
     }
 
     /**
@@ -358,26 +352,24 @@ class ShoppingCartPosition extends DataObject {
      * 
      * @return bool Can this position be incremented
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 23.04.2018
      */
     public function isQuantityIncrementableBy($quantity = 1) {
         if (!array_key_exists((int) $quantity, $this->isQuantityIncrementableByList)) {
             $isQuantityIncrementableBy = true;
-            $pluginResult              = Plugin::call($this, 'overwriteIsQuantityIncrementableBy', $quantity, false, 'DataObject');
 
-            if (is_null($pluginResult) &&
-                Config::EnableStockManagement()) {
+            if (Config::EnableStockManagement()) {
                 $isQuantityIncrementableBy = false;
                 if ($this->Product()->isStockQuantityOverbookable()) {
                     $isQuantityIncrementableBy = true;
                 } elseif ($this->Product()->StockQuantity >= ($this->Quantity + $quantity)) {
                     $isQuantityIncrementableBy = true;
                 }
-            } elseif (!is_null($pluginResult) &&
-                      is_bool($pluginResult)) {
-                $isQuantityIncrementableBy = $pluginResult;
             }
+            $this->extend('overwriteIsQuantityIncrementableBy', $isQuantityIncrementableBy);
+            $this->extend('updateIsQuantityIncrementableBy', $isQuantityIncrementableBy);
             $this->isQuantityIncrementableByList[$quantity] = $isQuantityIncrementableBy;
         }
         return $this->isQuantityIncrementableByList[$quantity];

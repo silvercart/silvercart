@@ -4,7 +4,6 @@ namespace SilverCart\Model\Order;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\Order;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnit;
 use SilverCart\ORM\DataObjectExtension;
@@ -503,11 +502,11 @@ class OrderPosition extends DataObject {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.06.2012
+     * @since 23.04.2018
      */
     public function addToTitle() {
-        $addToTitle = Plugin::call($this, 'addToTitle', null, false, '');
-
+        $addToTitle = '';
+        $this->extend('addToTitle', $addToTitle);
         return $addToTitle;
     }
 }

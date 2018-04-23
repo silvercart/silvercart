@@ -21,7 +21,6 @@ use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Payment\PaymentMethod;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Widgets\Widget;
 use SilverStripe\CMS\Controllers\ContentController;
@@ -211,8 +210,7 @@ class PageController extends ContentController {
 
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
-
-        Plugin::call($this, 'init', array($this));
+        
         self::$instanceMemorizer[$this->ID] = true;
         parent::init();
     }

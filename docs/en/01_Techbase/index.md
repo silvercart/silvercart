@@ -7,7 +7,6 @@ finally learn how to ride the SilverCart in the “Develop” section where we p
  * [Develop](Develop/index)
    * [Theming](Develop/1-Theming)
    * [Translations](Develop/2-Translations)
-   * [The Plugin System](Develop/3-The-Plugin-System)
    * [Groupviews](Develop/4-Groupviews)
    * [Payment Module Basics](Develop/5-Payment-Module-Basics)
    * [Enhanced Cache Keys](Develop/6-Enhanced-Cache-Keys)

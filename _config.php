@@ -22,23 +22,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
-use SilverCart\Forms\IncrementPositionQuantityForm;
-use SilverCart\Model\ContactMessage;
 use SilverCart\Model\Order\Order;
-use SilverCart\Model\Order\OrderPosition;
-use SilverCart\Model\Order\ShoppingCart;
-use SilverCart\Model\Order\ShoppingCartPosition;
-use SilverCart\Model\Pages\ProductGroupPageController;
-use SilverCart\Model\Plugins\Plugin;
-use SilverCart\Model\Plugins\Providers\ConfigPluginProvider;
-use SilverCart\Model\Plugins\Providers\ContactMessagePluginProvider;
-use SilverCart\Model\Plugins\Providers\IncrementPositionQuantityFormPluginProvider;
-use SilverCart\Model\Plugins\Providers\OrderPluginProvider;
-use SilverCart\Model\Plugins\Providers\OrderPositionPluginProvider;
-use SilverCart\Model\Plugins\Providers\ProductPluginProvider;
-use SilverCart\Model\Plugins\Providers\ProductGroupPageControllerPluginProvider;
-use SilverCart\Model\Plugins\Providers\ShoppingCartPluginProvider;
-use SilverCart\Model\Plugins\Providers\ShoppingCartPositionPluginProvider;
 use SilverCart\Model\Product\Product;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverCart\View\GroupView\GroupViewList;
@@ -76,16 +60,6 @@ SiteTree::config()->set('create_default_pages', false);
 Member::config()->set('validation_enabled', true);
 // Require i18n javascript
 Requirements::add_i18n_javascript('silvercart/silvercart:client/javascript/lang');
-// Register PluginProvider
-Plugin::registerPluginProvider(Config::class, ConfigPluginProvider::class);
-Plugin::registerPluginProvider(ContactMessage::class,                ContactMessagePluginProvider::class);
-Plugin::registerPluginProvider(IncrementPositionQuantityForm::class, IncrementPositionQuantityFormPluginProvider::class);
-Plugin::registerPluginProvider(Order::class,                         OrderPluginProvider::class);
-Plugin::registerPluginProvider(OrderPosition::class,                 OrderPositionPluginProvider::class);
-Plugin::registerPluginProvider(Product::class,                       ProductPluginProvider::class);
-Plugin::registerPluginProvider(ProductGroupPageController::class,    ProductGroupPageControllerPluginProvider::class);
-Plugin::registerPluginProvider(ShoppingCart::class,                  ShoppingCartPluginProvider::class);
-Plugin::registerPluginProvider(ShoppingCartPosition::class,          ShoppingCartPositionPluginProvider::class);
 // configure WidgetSet
 if (class_exists('WidgetSets\\Extensions\\WidgetSetWidgetExtension')) {
     \WidgetSets\Extensions\WidgetSetWidgetExtension::prevent_widget_creation_by_class(SilverCart\Model\Widgets\Widget::class);

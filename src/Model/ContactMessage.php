@@ -7,7 +7,6 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
-use SilverCart\Model\Plugins\Plugin;
 use SilverCart\Model\ShopEmail;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Forms\DropdownField;
@@ -111,7 +110,7 @@ class ContactMessage extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
+     * @since 23.04.2018
      */
     public function fieldLabels($includerelations = true) {
         $fields = array_merge(
@@ -132,8 +131,7 @@ class ContactMessage extends DataObject {
             )
         );
         
-        $this->extend('updateFieldLabels', $fields);
-        Plugin::call($this, 'fieldLabels', array($fields), true);
+        $this->extend('updateFieldLabels', $fields, $includerelations);
         
         return $fields;
     }
@@ -144,7 +142,7 @@ class ContactMessage extends DataObject {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @since 23.04.2018
      */
     public function summaryFields() {
         $fields = array(
@@ -156,7 +154,6 @@ class ContactMessage extends DataObject {
         );
         
         $this->extend('updateSummaryFields', $fields);
-        Plugin::call($this, 'summaryFields', array($fields), true);
             
         return $fields;
     }
@@ -196,34 +193,31 @@ class ContactMessage extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
+     * @since 23.04.2018
      */
     public function send() {
-        $silvercartPluginCall = Plugin::call($this, 'send');
+        $this->extend('onBeforeSend');
+        $fields = ['ContactMessage' => $this];
+        $db     = $this->config()->get('db');
+        $hasOne = $this->config()->get('has_one');
 
-        if (!$silvercartPluginCall) {
-            
-            $fields = ['ContactMessage' => $this];
-            $db     = $this->config()->get('db');
-            $hasOne = $this->config()->get('has_one');
-            
-            foreach (array_keys($db) as $fieldName) {
-                $value = $this->{$fieldName};
-                if ($fieldName == 'Message') {
-                    $value = str_replace('\r\n', '<br/>', nl2br($value));
-                }
-                $fields[$fieldName] = $value;
+        foreach (array_keys($db) as $fieldName) {
+            $value = $this->{$fieldName};
+            if ($fieldName == 'Message') {
+                $value = str_replace('\r\n', '<br/>', nl2br($value));
             }
-            foreach (array_keys($hasOne) as $hasOneName) {
-                $fields[$hasOneName] = $this->{$hasOneName}();
-            }
-            
-            ShopEmail::send(
-                'ContactMessage',
-                Config::DefaultContactMessageRecipient(),
-                $fields
-            );
+            $fields[$fieldName] = $value;
         }
+        foreach (array_keys($hasOne) as $hasOneName) {
+            $fields[$hasOneName] = $this->{$hasOneName}();
+        }
+
+        ShopEmail::send(
+            'ContactMessage',
+            Config::DefaultContactMessageRecipient(),
+            $fields
+        );
+        $this->extend('onAfterSend');
     }
     
     /**
