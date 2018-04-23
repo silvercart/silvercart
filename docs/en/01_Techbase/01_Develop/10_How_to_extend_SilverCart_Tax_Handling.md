@@ -2,28 +2,32 @@
 
 Basically, SilverCart works with static tax rates, created in backend and related to the products.
 
-But there are some cases where it is necessary to have a dynamic tax handling, e.g. dependant on some customer data like the customers shipping country.
+But there are some cases where it is necessary to have a dynamic tax handling, e.g. dependent on some customer data like the customers shipping country.
 
 ### What do I need to extend the SilverCart Tax Handling?
 
 Well, we use the decorator pattern to extend the tax handling, so you need a decorator.
 
-First, let's create MySilvercartTaxDecorator.php to add the custom handling to the tax system.
+First, let's create MyTaxExtension.php to add the custom handling to the tax system.
 
 What we need to do that is an extension of DataObjectDecorator which provides the method getTaxRate(). getTaxRate() needs to return the tax rate as a Float value.
 
-The decorator in /mysite/code/MySilvercartTaxDecorator.php should look like that:
+The decorator in /mysite/code/Model/Product/MyTaxExtension.php should look like that:
 
 	:::php
 	<?php
+    
+    namespace MySite\Model\Product;
+    
+    use SilverStripe\ORM\DataExtension;
 	
 	/**
-	 * Decorates SilvercartTax.
+	 * Decorates SilverCart\Model\Product\Tax.
 	 * 
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
 	 * @since 06.11.2013
 	 */
-	class MySilvercartTaxDecorator extends DataObjectDecorator {
+	class MyTaxExtenion extends DataExtension {
 	
 		/**
 		 * Overwrites SilverCart's original tax handling.
@@ -48,57 +52,60 @@ The decorator in /mysite/code/MySilvercartTaxDecorator.php should look like that
 To register the decorator to the right base object, open your /mysite/_config.php and add the following line:
 
 	:::php
-	Object::add_extension('SilvercartTax', 'MySilvercartTaxDecorator');
+    ---
+    Name: my-extensions
+    ---
+    SilverCart\Model\Product\Tax:
+      extensions:
+        - MySite\Model\Product\MyTaxExtension
 
-### Example #1: Adding Country Dependant Tax Rates
+### Example #1: Adding Country Dependent Tax Rates
 
-Let's say, you have extended the SilvercartCountry Object to have an extended tax handling for any country.
+Let's say, you have extended the SilverCart\Model\Customer\Country Object to have an extended tax handling for any country.
 
-This simple example expects that you have implemented a decorator for SilvercartCountry that provides a method getTaxRateFor() and three static country dependant tax rates.
+This simple example expects that you have implemented an extension for SilverCart\Model\Customer\Country that provides a method getTaxRateFor() and three static country dependent tax rates.
 The decorator could look something like that:
 
 	:::php
 	<?php
+    
+    namespace MySite\Model\Customer;
+    
+    use SilverCart\Model\Product\Tax;
+    use SilverStripe\ORM\DataExtension;
 	
 	/**
-	 * Decorates SilvercartCountry.
-	 * Provides country dependant tax handling.
+	 * Decorates SilverCart\Model\Customer\Country.
+	 * Provides country dependent tax handling.
 	 * 
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
 	 * @since 06.11.2013
 	 */
-	class MySilvercartCountryDecorator extends DataObjectDecorator {
+	class MyCountryExtension extends DataExtension {
 	
 		/**
-		 * Additional statics for the decorated DataObject. Adds some country 
-		 * dependant static tax rates.
+		 * Additional db fields for the decorated DataObject. Adds some country 
+		 * dependent static tax rates.
 		 * 
-		 * @return array
-		 * 
-		 * @author Sebastian Diel <sdiel@pixeltricks.de>
-		 * @since 05.11.2013
+		 * @var array
 		 */
-		public function extraStatics() {
-			return array(
-				'db' => array(
-					'TaxRate1' => 'Float',
-					'TaxRate2' => 'Float',
-					'TaxRate3' => 'Float',
-				),
-			);
-		}
+        private static $db = array(
+            'TaxRate1' => 'Float',
+            'TaxRate2' => 'Float',
+            'TaxRate3' => 'Float',
+        );
 	
 		/**
 		 * Overwrites SilverCart's original tax handling.
 		 *
-		 * @param SilvercartTax $tax Base tax object related to the product to get tax for.
+		 * @param Tax $tax Base tax object related to the product to get tax for.
 		 *
 		 * @return float
 		 * 
 		 * @author Sebastian Diel <sdiel@pixeltricks.de>
 		 * @since 10.11.2011
 		 */
-		public function getTaxRateFor(SilvercartTax $tax) {
+		public function getTaxRateFor(Tax $tax) {
 			$taxRate = 0;
 	
 			switch($tax->Identifier) {
@@ -121,19 +128,26 @@ The decorator could look something like that:
 	}
 
 
-Now, your decorator could look like that to bring some shipping country dependant tax rates:
+Now, your decorator could look like that to bring some shipping country dependent tax rates:
 
 	:::php
 	<?php
+    
+    namespace MySite\Model\Product;
+    
+    use SilverCart\Model\Customer\Address;
+    use SilverCart\Model\Customer\Country;
+    use SilverStripe\ORM\DataExtension;
+    use SilverStripe\Security\Member;
 	
 	/**
-	 * Decorates SilvercartTax.
-	 * The tax will be determined dependant on the customers shipping coutry.
+	 * Decorates SilverCart\Model\Product\Tax.
+	 * The tax will be determined dependent on the customers shipping coutry.
 	 * 
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
 	 * @since 06.11.2013
 	 */
-	class MySilvercartTaxDecorator extends DataObjectDecorator {
+	class MyTaxExtension extends DataExtension {
 	
 		/**
 		 * Overwrites SilverCart's original tax handling.
@@ -147,12 +161,12 @@ Now, your decorator could look like that to bring some shipping country dependan
 			$taxRate = 0;
 	
 			// your tax handling here
-			$member = Member::currentUser();
+			$member = Security::getCurrentUser();
 			if ($member instanceof Member) {
-				$shippingAddress = $member->SilvercartShippingAddress();
-				if ($shippingAddress instanceof SilvercartAddress) {
-					$shippingCountry = $shippingAddress->SilvercartCountry();
-					if ($shippingCountry instanceof SilvercartCountry) {
+				$shippingAddress = $member->ShippingAddress();
+				if ($shippingAddress instanceof Address) {
+					$shippingCountry = $shippingAddress->Country();
+					if ($shippingCountry instanceof Country) {
 						$taxRate = $shippingCountry->getTaxRateFor($this->owner);
 					}
 				}
@@ -165,11 +179,18 @@ Now, your decorator could look like that to bring some shipping country dependan
 
 #### Register the Decorators
 
-To register the decorators to the right base objects, open your /mysite/_config.php and add the following lines:
+To register the decorators to the right base objects, open your /mysite/_config/extensions.yml and add the following lines:
 
 	:::php
-	Object::add_extension('SilvercartCountry', 'MySilvercartCountryDecorator');
-	Object::add_extension('SilvercartTax',     'MySilvercartTaxDecorator');
+    ---
+    Name: my-extensions
+    ---
+    SilverCart\Model\Customer\Country:
+      extensions:
+        - MySite\Model\Customer\MyCountryExtension
+    SilverCart\Model\Product\Tax:
+      extensions:
+        - MySite\Model\Product\MyTaxExtension
 
 #### Flush your cache and build your changes
 
@@ -180,24 +201,29 @@ To get the new stuff working, run a /dev/build/?flush=all on your project:
 Now, you should have custom tax handling for all your products.
 
 
-### Example #2: Adding Custom API Dependant Tax Rates
+### Example #2: Adding Custom API Dependent Tax Rates
 
 Let's say, you have an API provider that returns a tax rate by given customer data.
 
-Now, your decorator could look like that to bring some custom tax API dependant tax rates:
+Now, your decorator could look like that to bring some custom tax API dependent tax rates:
 
 	:::php
 	<?php
+    
+    namespace MySite\Model\Product;
+    
+    use SilverStripe\ORM\DataExtension;
+    use SilverStripe\Security\Member;
 	
 	/**
-	 * Decorates SilvercartTax.
-	 * The tax will be determined dependant on the customers shipping coutry
+	 * Decorates SilverCart\Model\Product\Tax.
+	 * The tax will be determined dependent on the customers shipping coutry
 	 * using a custom tax API.
 	 * 
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
 	 * @since 06.11.2013
 	 */
-	class MySilvercartTaxDecorator extends DataObjectDecorator {
+	class MyTaxExtension extends DataExtension {
 	
 		/**
 		 * Overwrites SilverCart's original tax handling.
@@ -211,9 +237,9 @@ Now, your decorator could look like that to bring some custom tax API dependant 
 			$taxRate = 0;
 	
 			// your tax handling here
-			$member = Member::currentUser();
+			$member = Security::getCurrentUser();
 			if ($member instanceof Member) {
-				// Call the tax API here to get some customer dependant tax data
+				// Call the tax API here to get some customer dependent tax data
 				// using a custom API connector object.
 				$myCustomTaxAPI = new MyCustomTaxAPIConnector();
 				$taxRate = $myCustomTaxAPI->getTaxRateFor($member);
@@ -226,10 +252,15 @@ Now, your decorator could look like that to bring some custom tax API dependant 
 
 #### Register the Decorators
 
-To register the decorator to the right base object, open your /mysite/_config.php and add the following line:
+To register the decorator to the right base object, open your /mysite/_config/extensions.yml and add the following line:
 
 	:::php
-	Object::add_extension('SilvercartTax', 'MySilvercartTaxDecorator');
+    ---
+    Name: my-extensions
+    ---
+    SilverCart\Model\Product\Tax:
+      extensions:
+        - MySite\Model\Product\MyTaxExtension
 
 #### Flush your cache and build your changes
 

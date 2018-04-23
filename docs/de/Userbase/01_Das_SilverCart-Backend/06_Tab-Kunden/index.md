@@ -79,7 +79,7 @@ Hinter dem Menüpunkt "Sicherheit" steckt die Benutzerverwaltung von SilverCart.
 
 In der Baumstruktur auf der linken Seite werden die Benutzergruppen angezeigt. Wenn Sie die Wurzel "Sicherheitsgruppen" anwählen, werden alle registrierten/angelegten Benutzer angezeigt. Wenn Sie hier einen Benutzer löschen, dann wird er vollständig aus dem System gelöscht. Befinden Sie sich hingegen in einer Gruppe beim Löschen eines Nutzers, so wird er nur aus der Gruppe entfernt.
 
-Mitglieder in der Gruppe "Administratoren" haben vollen Zugriff auf das Back-End. "Inhaltsautoren" können die Bereiche "Sicherheit" "Silvercart Administration" und "Silvercart Konfiguration" nicht betreten.
+Mitglieder in der Gruppe "Administratoren" haben vollen Zugriff auf das Back-End. "Inhaltsautoren" können die Bereiche "Sicherheit", "Abwicklung", "Bestellungen" und "Einstellungen" nicht betreten.
 
 Sollte ein Besucher ohne Anmeldung etwas in den Warenkorb legen, so wird ein "Anonymer Kunde" erzeugt und automatisch eingeloggt. Der Warenkorb des anonymen Kunden bleibt dann einige Tage bestehen, sollte er sich nicht zu Checkout begeben. Registriert sich ein Nutzer während des Bestellprozesses, dann wird ein Endkunde erzeugt und der Warenkorb auf diesen Endkunden übertragen. Das gleiche passiert mit einem Kunden, der etwas in den Warenkorb legt und sich dann erst einloggt.
 

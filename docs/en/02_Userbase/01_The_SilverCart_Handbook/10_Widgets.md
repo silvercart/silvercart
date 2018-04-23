@@ -40,7 +40,7 @@ This widget is a living bug, please do not use it. We could not get rid of it ye
 ![](_images/widget-silvercart-login_1-2.jpg)
 
 Displays a login form; no further configuration options;
-### Silvercart productgroup items
+### Productgroup items
 
 ![](_images/widget-product-group-items_1-2.jpg)
 
@@ -49,17 +49,17 @@ Choose a product group from the dropdown menu. The menu shows all product groups
 Define a number of products to show. If you set 5 the top 5 products are selected as shown in you sort order.
 
 The field “use listview” and “Use regular product view…” may be set to 0 or 1. If you switch on the regular product view by setting the field to “1” the products get shown with the template you know from the product categories. This is useful if you want to show this widget in the content area. If you have the regular product view switched on you may toggle between tile view and list view by changing the value of “use listview”.
-### Silvercart productgroup navigation
+### Productgroup navigation
 
 ![](_images/widget-product-group-navigation_1-2.jpg)
 
 This wiget works only if you have product groups as children of a product group in your site tree. If you choose a prodct group from the dropdown all the sub-groups will be shown in the widget.
-### Silvercart search
+### Search
 
 ![](_images/widget-silvercart-search_1-2.jpg)
 
 This widget simply shows a search form. Upon submission the search results page will be called.
-### Silvercart shoppingcart
+### Shoppingcart
 
 ![](_images/widget-silvercart-shopping-cart_1-2.jpg)
 
@@ -82,7 +82,7 @@ Shows a list of all existing manufacturers; no special fields;
 
 ![](_images/silvercart2_manufacturer_list_widget.png)
 
-### Silvercart topseller products
+### Topseller products
 
 ![](_images/widget-silvercart-topseller_1-2.jpg)
 

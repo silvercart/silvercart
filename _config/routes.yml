@@ -1,15 +1,26 @@
 ---
 Name: silvercart_print_routes
 ---
-Director:
+SilverStripe\Control\Director:
   rules:
-    'silvercart-print/$DataObjectName/$DataObjectID': 'SilvercartPrint_Controller'
-    'silvercart-print-inline/$DataObjectName/$DataObjectID': 'SilvercartPrint_Controller'
-    'silvercart-print-many/$DataObjectName/$DataObjectID': 'SilvercartPrint_Controller'
+    'silvercart-print/$DataObjectName/$DataObjectID': SilverCart\View\Printer\PrinterController
+    'silvercart-print-inline/$DataObjectName/$DataObjectID': SilverCart\View\Printer\PrinterController
+    'silvercart-print-many/$DataObjectName/$DataObjectID': SilverCart\View\Printer\PrinterController
 ---
-Name: silvercart_api_routes
+Name: silvercart_action_routes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
 ---
-Director:
+SilverStripe\Control\Director:
   rules:
-    'api/silvercart': 'SilvercartRestfulServer'
-    'api/v1': 'RestfulServer'
+    'sc-action//$Action/$ID/$OtherID': SilverCart\Control\ActionHandler
+---
+Name: silvercart_example_data_routes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
+---
+SilverStripe\Control\Director:
+  rules:
+    'example-data//$Action/$ID/$OtherID': SilverCart\Admin\Dev\ExampleDataController

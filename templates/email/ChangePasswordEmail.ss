@@ -10,19 +10,19 @@
             .text-right { text-align: right !important; }
         </style>
     </head>
-    <body>        
-        <h1><% _t('SilvercartMailForgotPassword.TITLE') %></h1>
+    <body>
+        <h1><%t SilverCart\Model\ShopEmail.ForgotPasswordTITLE 'Reset Password' %></h1>
 
-        <p><% _t('SilvercartShopEmail.HELLO') %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
+        <p><%t SilverCart\Model\ShopEmail.HELLO 'Hello' %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
 
-        <p><% _t('SilvercartMailForgotPassword.VISIT_TEXT') %><br/>
+        <p><%t SilverCart\Model\ShopEmail.ForgotPasswordVISIT_TEXT 'Please visit the following link to reset your password:' %><br/>
             $PasswordResetLink<br/>
-            <% _t('SilvercartMailForgotPassword.PASSWORT_RESET_LINK_HINT') %>
+            <%t SilverCart\Model\ShopEmail.ForgotPasswordPASSWORT_RESET_LINK_HINT 'If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser.' %>
         </p>
         
-        <p><% _t('SilvercartMailForgotPassword.NO_CHANGE') %></p>        
+        <p><%t SilverCart\Model\ShopEmail.ForgotPasswordNO_CHANGE 'If you do not want to change your password, you may ignore this email.' %></p>
 
-        <p><% _t('SilvercartShopEmail.REGARDS') %>,</p>
-        <p><% _t('SilvercartShopEmail.YOUR_TEAM') %></p>
+        <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
+        <p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
     </body>
 </html>

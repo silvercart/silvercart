@@ -1,9 +1,0 @@
-SilvercartConfig:
-  default:
-    Locale: en_US
-SilvercartManufacturer:
-  testmanufacturer:
-    Title: 'Test Manufacturer'
-    URLSegment: 'test-manufacturer'
-  manufacturerWithUmlaut:
-    Title: 'ä ö ü Ä Ö & Ü'

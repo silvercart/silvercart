@@ -104,12 +104,14 @@ We won't describe the process for all above mentioned templates since it's a rep
 
 So let's begin with changing the productgrouppage list view. If you have created example data (see Techbase: Setting up SilverCart, chapter three) that's the page type you get to see when clicking on “TestProductGroup1” or “TestProductGroup2” etc.
 
-In chapter one we created some directories “templates” and “templates/Layout” (their location depends wether you chose method number one or two). So let's create a new file “SilvercartProductGroupPageList.ss” in the directory “templates/Layout”:
+In chapter one we created some directories “templates” and “templates/Layout” (their location depends wether you chose method number one or two). So let's create a new file “ProductGroupPageList.ss” in the directory “templates/SilverCart/View/GroupView”:
 
 	- templates
 	  + Includes
-	  - Layout
-	    SilvercartProductGroupPageList.ss
+	  - SilverCart
+        - View
+          - GroupView
+            ProductGroupPageList.ss
 
 First thing to do after the creation of this file is to update Silverstripe by calling the productgroup page with a ”?flush=all” (this is needed so that the manifest builder knows there are new files).
 
@@ -139,9 +141,7 @@ Following is an overview of all available CSS files:
 				  SilvercartProductGroupHolder.css
 				  SilvercartProductGroupPage.css
 				  SilvercartProductPage.css
-				  SilvercartProductPagination.css
 				  SilvercartShoppingCartFull.css
-				  SilvercartSideBarCart.css
 
 ### Write your own CSS files
 

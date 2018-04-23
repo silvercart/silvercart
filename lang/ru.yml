@@ -1,40 +1,10 @@
 ru:
-  ImprintPage:
-    DEFAULT_TITLE: "о фирме"
-    DEFAULT_URLSEGMENT: "о фирме"
-  Silvercart:
-    CHOOSE: "выбрать"
-    CLEAR_CACHE: "очистить кэш"
-    CONTENT: "содержание"
-    CROSSSELLING: "кросс-продажи"
-    DATA: "данные"
-    DATE: "дата"
-    DAY: "день"
-    DAYS: "дни"
-    LANGUAGE: "язык"
-    LINKS: "ссылка"
-    LOADING_PRINT_VIEW: "версия для печати загружается"
+  SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     MARK_ALL: "все маркировать"
-    MIN: "минута"
-    MINS: "минуты"
-    MISC_CONFIG: "другие настройки"
-    MONTH: "месяц"
-    MONTHS: "месяцы"
-    MORE: "больше"
-    NO: "нет"
-    NOT_ALLOWED_TO_PRINT: "у вас нет прав для печати этого объекта"
-    PRINT: "распечатать"
-    SEC: "секунда"
-    SECS: "секунды"
-    SEO: "поисковая оптимизация"
-    TIMES: "время"
-    TRANSLATION: "перевод"
-    TRANSLATIONS: "переводы"
     UNMARK_ALL: "убрать маркировку"
-    WEEK: "неделя"
-    WEEKS: "недели"
-    YES: "да"
-  SilvercartAddress:
+  SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest:
+    SendChangePasswordEmail: "Send Change Password Email"
+  SilverCart\Model\Customer\Address:
     ADDITION: "доп. адрес"
     CITY: "город"
     COMPANY: "фирма"
@@ -46,6 +16,8 @@ ru:
     FAX: "факс"
     FIRSTNAME: "имя"
     InvoiceAddressAsShippingAddress: "использовать адрес как адрес доставки "
+    InvoiceAddresses: "адреса счетов"
+    InvoiceAddress: "адрес счета"
     MISSES: "госпожа"
     MISTER: "господин"
     NO_ADDRESS_AVAILABLE: "адрес отсутствует"
@@ -55,12 +27,14 @@ ru:
     PLURALNAME: "адреса "
     POSTCODE: "индекс"
     SALUTATION: "обращение"
+    ShippingAddresses: "адреса доставки заказа"
+    ShippingAddress: "адрес доставки заказа"
     SINGULARNAME: "адрес"
     STREET: "улица"
     STREETNUMBER: "номер дома"
     SURNAME: "фамилия"
     TAXIDNUMBER: "ИНН"
-  SilvercartAddressHolder:
+  SilverCart\Model\Pages\AddressHolder:
     ADD: "добавить новый адрес"
     ADDED_ADDRESS_FAILURE: "ваш адрес не сохранен"
     ADDED_ADDRESS_SUCCESS: "ваш адрес сохранен"
@@ -78,6 +52,7 @@ ru:
     DEFAULT_URLSEGMENT: "адрес"
     DELETE: "удалить"
     EDIT: "изменить"
+    EDIT_ADDRESS: "Edit address"
     EXCUSE_INVOICEADDRESS: "Извините, Вы не задали адрес плательщика."
     EXCUSE_SHIPPINGADDRESS: "Извините, Вы не задали адрес доставки."
     INVOICEADDRESS: "адрес плательщика"
@@ -95,53 +70,49 @@ ru:
     UPDATED_INVOICE_ADDRESS: "ваш адрес актуализирован"
     UPDATED_SHIPPING_ADDRESS: "адрес доставки актуализирован"
     URL_SEGMENT: "обзор адреса "
-  SilvercartAddressPage:
-    DEFAULT_TITLE: "подробности адреса"
-    DEFAULT_URLSEGMENT: "подробности адреса"
-    PLURALNAME: "страницы адреса"
-    SINGULARNAME: "страница адреса"
-    TITLE: "детали адреса"
-    URL_SEGMENT: "детали адреса"
-  SilvercartAvailabilityStatus:
+  SilverCart\Model\Product\AvailabilityStatus:
     PLURALNAME: "наличие"
     SINGULARNAME: "наличие"
     STATUS_AVAILABLE: "в наличие"
-    STATUS_AVAILABLE_IN: "наличие в %s"
-    STATUS_AVAILABLE_IN_MIN_MAX: "наличие в %s"
+    STATUS_AVAILABLE_IN: "наличие в {duration} {timeunit}"
+    STATUS_AVAILABLE_IN_MIN_MAX: "наличие в {minduration} - {maxduration} {timeunit}"
     STATUS_NOT_AVAILABLE: "нет в наличие"
     TITLE: "название"
-  SilvercartAvailabilityStatusLanguage:
+  SilverCart\Model\Product\AvailabilityStatusTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartBargainProductsWidget:
+  SilverCart\Model\Widgets\BargainProductsWidget:
     CMSTITLE: "слайдер „мелочей“"
     DESCRIPTION: "Этот виджет показывает количество артикулов, у которых наибольшая разница между специальным предложением и регулярной ценой максимальное."
     FETCHMETHOD_SORTORDERASC: "разница цен возрастает"
     FETCHMETHOD_SORTORDERDESC: "разница цен убывает"
     TITLE: "слайдер для „мелочей“"
-  SilvercartBargainProductsWidgetLanguage:
+  SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartCarrier:
+  SilverCart\Model\Shipment\Carrier:
     ATTRIBUTED_SHIPPINGMETHODS: "выбранный способ доставки"
     FULL_NAME: "полное имя"
     PLURALNAME: "фрахтовщик"
     SINGULARNAME: "фрахтовщик"
-  SilvercartCarrierAdmin:
+  SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: "фрахтовщик"
-  SilvercartCarrierLanguage:
+  SilverCart\Model\Shipment\CarrierTranslation:
     PLURALNAME: "Переводы"
     SINGULARNAME: "Перевод"
-  SilvercartCartPage:
+  SilverCart\Model\Pages\CartPage:
     CART_EMPTY: "Корзина пуста"
     DEFAULT_TITLE: "Корзина"
     DEFAULT_URLSEGMENT: "корзина"
     PLURALNAME: "корзина"
     SINGULARNAME: "корзина"
     URL_SEGMENT: "корзина"
-  SilvercartCheckoutFormStep:
-    CHOOSEN_PAYMENT: "выбранный способ оплаты"
-    CHOOSEN_SHIPPING: "выбранный способ доставки"
+  SilverCart\Model\Pages\CheckoutStep:
+    BACK_TO_SHOPPINGCART: "назад к корзине"
+    CHOSEN_PAYMENT: "выбранный способ оплаты"
+    CHOSEN_SHIPPING: "выбранный способ доставки"
+    DEFAULT_TITLE: "к оплате"
+    DEFAULT_URLSEGMENT: "выход"
     FORWARD: "дальше"
     I_ACCEPT_REVOCATION: "Я согласен с условиями возврата."
     I_ACCEPT_TERMS: "Я согласен с условиями сделки."
@@ -149,41 +120,10 @@ ru:
     ORDER: "заказ"
     ORDER_NOW: "заказать"
     OVERVIEW: "обзор "
-  SilvercartCheckoutFormStep1:
-    LOGIN: "Вход в систему"
-    NEWCUSTOMER: "Вы новый клиент?"
-    PROCEED_WITHOUT_REGISTRATION: "нет, я хочу купить без регистации"
-    PROCEED_WITH_REGISTRATION: "Я хочу быть зарегистрированным как клиент для использования своих данных при последующих покупках."
-    REGISTERTEXT: "хотите зарегистрирпваться, чтобы использовать свои данные при дальнейших покупках?"
-    TITLE: "Вход в систему"
-  SilvercartCheckoutFormStep1LoginForm:
-    TITLE: "зарегестрироваться и продолжить"
-  SilvercartCheckoutFormStep1NewCustomerForm:
-    CONTINUE_WITH_CHECKOUT: "продолжить мой заказ"
-    OPTIN_TEMP_TEXT: "после активанции Вашей учётной записи при помощи высланной ссалки Вы можете продолжить покупку."
-    TITLE: "дальше"
-  SilvercartCheckoutFormStep2:
-    EMPTYSTRING_COUNTRY: "--Страна--"
-    ERROR_ADDRESS_NOT_FOUND: "введённый адрес не найден"
-    TITLE: "доставка и оплата"
-  SilvercartCheckoutFormStep3:
-    EMPTYSTRING_SHIPPINGMETHOD: "-выбрать вид доставки"
-    TITLE: "способ доставки"
-  SilvercartCheckoutFormStep4:
-    CHOOSE_PAYMENT_METHOD: "я хочу %s заплатить"
-    EMPTYSTRING_PAYMENTMETHOD: "выбрать вид оплаты"
-    FIELDLABEL: "Выберите способ оплаты:"
-    TITLE: "информация по оплате"
-  SilvercartCheckoutFormStep5:
-    TITLE: "проверить заказ"
-  SilvercartCheckoutStep:
-    BACK_TO_SHOPPINGCART: "назад к корзине"
-    DEFAULT_TITLE: "к оплате"
-    DEFAULT_URLSEGMENT: "выход"
     PLURALNAME: "шаги заказа"
     SINGULARNAME: "шаг заказа"
     URL_SEGMENT: "заказ"
-  SilvercartConfig:
+  SilverCart\Admin\Model\Config:
     ADDED_EXAMPLE_CONFIGURATION: "Демо-конфигурация установлена"
     ADDED_EXAMPLE_DATA: "Демо-данные установлены"
     ADDTOCARTMAXQUANTITY: "максимально докпустимое количество товаров в корзине"
@@ -211,8 +151,8 @@ ru:
     ENABLEBUSINESSCUSTOMERS: "разрешить оптовых клиентов"
     ENABLESSL: "Использовать SSL"
     ENABLESTOCKMANAGEMENT: "включить контроль наличия"
-    ERROR_MESSAGE: "Параметр \"%s\" не опрделён.<br/>Войдите<a href=\"%sadmin/settings/\">в систему</a>определите параметр в \"SC Konfig -> Allgemeine Konfiguration\"."
-    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: "Не было найдено ни одной активной страны.<br/>Войдите <a href=\"%sadmin/settings/\">в систему</a> и определите в \"SC Konfig -> Länder\"."
+    ERROR_MESSAGE: "Параметр \"{field}\" не опрделён.<br/>Войдите<a href=\"{baseurl}admin/settings/\">в систему</a>определите параметр в \"SC Konfig -> Allgemeine Konfiguration\"."
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: "Не было найдено ни одной активной страны.<br/>Войдите <a href=\"{baseURL}admin/settings/\">в систему</a> и определите в \"SC Konfig -> Länder\"."
     ERROR_TITLE: "ошибка!"
     EXAMPLE_CONFIGURATION_ALREADY_ADDED: "доставка бесплатно от"
     EXAMPLE_DATA_ALREADY_ADDED: "Демо-данные добавлены"
@@ -243,6 +183,7 @@ ru:
     QUANTITY_OVERBOOKABLE: "Ist der Lagerbestand generell überbuchbar?"
     REDIRECTTOCARTAFTERADDTOCART: "показывать корзину после команды \"положить в корзину\""
     SEARCH: "поиск"
+    SEO: "поисковая оптимизация"
     SERVER: "сервер"
     SHOW_CONFIG: "показать конфигурацию"
     SINGULARNAME: "общая конфигурация"
@@ -253,33 +194,24 @@ ru:
     USEFREEOFSHIPPINGCOSTSFROM: "использовать настройки бесплатной доставки "
     USEMINIMUMORDERVALUE: "активировать минимальную сумму заказа"
     USE_DEFAULT_LANGUAGE: "использовать язык по умолчанию, если нет подходящего"
-  SilvercartConfigAdmin:
-    MENUTITLE: "общая конфигурация"
-  SilvercartContactFormPage:
+  SilverCart\Model\Pages\ContactFormPage:
+    DEFAULT_RESPONSE_CONTENT: "спасибо за сообщение, мы ответим в ближайшее время"
     DEFAULT_TITLE: "контакт"
     DEFAULT_URLSEGMENT: "контакт"
     PLURALNAME: "контактный формуляр"
     REQUEST: "запрос через контактный формуляр"
+    ResponseContent: "Content of the response page"
     SINGULARNAME: "контактный формуляр"
     TITLE: "контакт"
     URL_SEGMENT: "контакт"
-  SilvercartContactFormResponsePage:
-    CONTACT_CONFIRMATION: "подтверждение контакта"
-    CONTENT: "спасибо за сообщение, мы ответим в ближайшее время"
-    DEFAULT_CONTENT: "спасибо за сообщение, мы ответим в ближайшее время"
-    DEFAULT_TITLE: "подтверждение контакта"
-    DEFAULT_URLSEGMENT: "подтверждение контакта"
-    PLURALNAME: "формуляры ответа"
-    SINGULARNAME: "формуляр ответа"
-    URL_SEGMENT: "подтверждение контакта"
-  SilvercartContactMessage:
+  SilverCart\Model\ContactMessage:
     MESSAGE: "новость"
     PLURALNAME: "запросы контакта"
     SINGULARNAME: "запрос контакта"
     TEXT: "<h1>Запрос через контактный формуляр</h1><h2>Добрый день,</h2><p>мы плучили запрос с нашей вебстраницы.<br />Клиент <strong>\"$FirstName $Surname\"</strong> отправил запрос <strong>\"$Email\"</strong> .</p><h2>Сообщение</h2><p>$Message</p>"
-  SilvercartContactMessageAdmin:
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
     MENUTITLE: "запрос"
-  SilvercartCountry:
+  SilverCart\Model\Customer\Country:
     ACTIVE: "актив"
     ATTRIBUTED_PAYMENTMETHOD: "способ оплаты"
     ATTRIBUTED_ZONES: "выбранные зоны"
@@ -542,12 +474,12 @@ ru:
     TITLE_ZA: ""
     TITLE_ZM: ""
     TITLE_ZW: ""
-  SilvercartCountryAdmin:
+  SilverCart\Admin\Controllers\CountryAdmin:
     MENUTITLE: "страны"
-  SilvercartCountryLanguage:
+  SilverCart\Model\Customer\CountryTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartCustomer:
+  SilverCart\Model\Customer\Customer:
     ANONYMOUSCUSTOMER: "анонимный клиент"
     BIRTHDAY: "день рождения"
     BUSINESSCUSTOMER: "деловой клиент"
@@ -564,120 +496,95 @@ ru:
     SALUTATION: "обращение"
     SUBSCRIBEDTONEWSLETTER: "уже подписан на рассылку"
     TYPE: "тип"
-  SilvercartCustomerAdmin:
+  SilverCart\Admin\Controllers\CustomerAdmin:
     MENUTITLE: "колиенты"
-  SilvercartDataPage:
+  SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: "мои данные"
     DEFAULT_URLSEGMENT: "мои данные"
     PLURALNAME: "информационные страницы"
     SINGULARNAME: "информационная страница"
     TITLE: "мои данные"
     URL_SEGMENT: "мои данные"
-  SilvercartDataPrivacyStatementPage:
-    DEFAULT_TITLE: "о защите данных"
-    DEFAULT_URLSEGMENT: "о защите данных"
-    PLURALNAME: "страницы защиты данных"
-    SINGULARNAME: "страницы защиты данных"
-    TITLE: "о защите данных"
-    URL_SEGMENT: "о защите данных"
-  SilvercartEditAddressForm:
-    EMPTYSTRING_PLEASECHOOSE: "выбрать"
-  SilvercartEmailTemplates:
-    PLURALNAME: "шаблоны эл. Сообщений"
-    SINGULARNAME: "шаблон эл.сообщения"
-  SilvercartFile:
+  SilverCart\Model\Product\File:
     DESCRIPTION: "описание"
     FILE_ATTACHMENTS: "вложение"
     PLURALNAME: "файлы"
     SINGULARNAME: "файлы"
     TITLE: "имя пользователя"
-  SilvercartFileLanguage:
+  SilverCart\Model\Product\FileTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartFrontPage:
+  SilverCart\Model\Pages\FrontPage:
     CONTENT: "<h2>Добро пожаловать в<strong>SilverCart</strong> Webshop!</h2>"
     DEFAULT_CONTENT: "<h2>Добро пожаловать в<strong>SilverCart</strong> Webshop!</h2>"
     PLURALNAME: "пользовательские страницы"
     SINGULARNAME: "пользовательская страница"
-  SilvercartGroupExtension:
+  SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: ""
     PRICETYPE: "тип прайлиста"
-  SilvercartGroupView:
+  SilverCart\View\GroupView\GroupViewBase:
     LIST: "список"
     TILE: "значки"
-  SilvercartHandlingCost:
+  SilverCart\Model\Payment\HandlingCost:
     AMOUNT: "сумма"
     PLURALNAME: "цена обработки"
     SINGULARNAME: "цена обработки"
-  SilvercartImage:
+  SilverCart\Model\Product\Image:
     DESCRIPTION: "описание"
     PLURALNAME: "фотографии "
     SINGULARNAME: "фото"
     TITLE: "имя пользователя"
-  SilvercartImageAdmin:
+  SilverCart\Admin\Controllers\ImageAdmin:
     MENUTITLE: "фотографии"
-  SilvercartImageLanguage:
+  SilverCart\Model\Product\ImageTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartImageSliderImage:
+  SilverCart\Model\Widgets\ImageSliderImage:
     LINKPAGE: "ссылка на страницу"
     PLURALNAME: "слайд-изображения"
     SINGULARNAME: "Слайд-изображение"
-  SilvercartImageSliderImageLanguage:
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "первод"
-  SilvercartImageSliderWidget:
+  SilverCart\Model\Widgets\ImageSliderWidget:
     CMSTITLE: "слаид шоу"
     DESCRIPTION: "подготовка слайд шоу"
     TITLE: "слайд шоу"
-  SilvercartImageSliderWidgetLanguage:
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartInvoiceAddress:
-    PLURALNAME: "адреса счетов"
-    SINGULARNAME: "адрес счета"
-  SilvercartLatestBlogPostsWidget:
-    CMSTITLE: "показать последние записи блога"
-    DESCRIPTION: "показывает последние записи блога"
-    IS_CONTENT_VIEW: "использовать стандартный показ товара вместо виджета"
-    SHOW_ENTRY: "прочитать сообщение"
-    STOREADMIN_NUMBEROFPOSTS: "количество сообщений блога, которые будут показаны"
-    TITLE: "показать последние записи блога"
-    WIDGET_TITLE: "обзор виджета"
-  SilvercartLatestBlogPostsWidgetLanguage:
-    PLURALNAME: "рперводы"
-    SINGULARNAME: "перевод"
-  SilvercartLoginWidget:
+  SilverCart\Model\Widgets\LoginWidget:
     CMSTITLE: "Регистация в SilverCart"
     DESCRIPTION: "Этот виджет показывает форму входа в систему и ссылку на страницу регистрации. Если пользователь вошёл в систему, будет показана информация учётноий записи."
     TITLE: "ргистрация"
     TITLE_LOGGED_IN: "Мой профиль"
     TITLE_NOT_LOGGED_IN: "регистрация"
-  SilvercartManufacturer:
+  SilverCart\Model\Product\Manufacturer:
     PLURALNAME: "производитель"
     SINGULARNAME: "производитель"
-  SilvercartManufacturerAdmin:
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
     MENUTITLE: "производитель"
-  SilvercartMenu:
-    SECTION_externalConnections: "внешняя ссылка"
-    SECTION_maintenance: "техническое обслуживание"
-    SECTION_others: "другое"
-    SECTION_payment: "оплата"
-    SECTION_shipping: "пересылка"
-  SilvercartMetaNavigationHolder:
+  SilverCart\Model\Pages\MetaNavigationHolder:
     DEFAULT_TITLE: "метанавигазия обзор"
     DEFAULT_URLSEGMENT: "метанавигация"
     PLURALNAME: "обзоры метанавидации"
     SINGULARNAME: "метанавигазия обзор"
     URL_SEGMENT: "метанавигация"
-  SilvercartMetaNavigationPage:
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: "о фирме"
+    DEFAULT_URLSEGMENT_IMPRINT: "о фирме"
+    DEFAULT_TITLE_PRIVACY: "о защите данных"
+    DEFAULT_URLSEGMENT_PRIVACY: "о защите данных"
+    DEFAULT_TITLE_TERMS: "общие условия заключения сделки"
+    DEFAULT_URLSEGMENT_TERMS: "усливия заключения сделки"
     PLURALNAME: "страницы метаинформации"
     SINGULARNAME: "страница метаинформации"
-  SilvercartMyAccountHolder:
+  SilverCart\Model\Pages\MyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: "У Вас уже есть учётная запись?"
     DEFAULT_TITLE: "моя учётная запись"
     DEFAULT_URLSEGMENT: "моя учётная запись"
     GOTO_REGISTRATION: "к регистрационному формуляру"
+    MORE: "больше"
     PLURALNAME: "учётные записи"
     REGISTER_ADVANTAGES_TEXT: "После регистрации Вы можете можете получить доступ к своим данным, счетам и накладным."
     SINGULARNAME: "учётные записи"
@@ -688,59 +595,43 @@ ru:
     YOUR_CUSTOMERNUMBER: "Ваш номер клиента"
     YOUR_MOST_CURRENT_ORDERS: "Ваши актуальные заказы"
     YOUR_PERSONAL_DATA: "Ваши персональные данные"
-  SilvercartNewsletter:
+  SilverCart\Model\Newsletter\Newsletter:
     OPTIN_NOT_FINISHED_MESSAGE: "Вы будете плчать нашу рассылку после активации по эл.почте"
     SUBSCRIBED: "Вы подписались на Newsletter"
     UNSUBSCRIBED: "Вы не подписались на Newsletter"
-  SilvercartNewsletterForm:
+    StatusALREADY_SUBSCRIBED: "этот адрес \"{email}\" уже зарегистрирован."
+    StatusNO_EMAIL_FOUND: "\"{email}\" адрес не найден"
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: "Этот адрес уже зарегистрирован \"{email}\". Войдите в свою учёную запись и настройте опции рассылки : <a href=\"{link}\">Войти</a>."
+    StatusSUBSCRIBED_SUCCESSFULLY: "\"{email}\" адрес добавлен в список рассылки."
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: "Инструкция по регистрации отправлена на адрес \"{email}\"."
+    StatusUNSUBSCRIBED_SUCCESSFULLY: "\"{email}\" адрес удалён из списка рассылки."
+  SilverCart\Forms\NewsletterForm:
     ACTIONFIELD_SUBSCRIBE: "Я хочу подписаться на рассылку."
     ACTIONFIELD_TITLE: "Что Вы хотите сделать?"
     ACTIONFIELD_UNSUBSCRIBE: "Я хочу отказаться от подписки на Newsletter"
-  SilvercartNewsletterOptInConfirmationPage:
-    ALREADYCONFIRMEDMESSAGE: "<p>Вы уже зарегистрированы на получение рассылки.</p>"
-    ALREADY_CONFIRMED_MESSAGE_TEXT: "Сообщение: согласие на получеие информатионных сообщений получено."
-    CONFIRMATIONFAILUREMESSAGE: "<p>Регистрация на рассылку не может быть завершена.</p>"
-    CONFIRMATIONSUCCESSMESSAGE: "<p>Регистрация на получение рассылки завершена!</p><p>Желаем Вам приятных покупок.</p>"
-    CONTENT: ""
-    DEFAULT_ALREADYCONFIRMEDMESSAGE: "<p>Вы уже зарегистрированы на получение рассылки.</p>"
-    DEFAULT_CONFIRMATIONFAILUREMESSAGE: "<p>Регистация на получение рассылки не может быть завершена.</p>"
-    DEFAULT_CONFIRMATIONSUCCESSMESSAGE: "<p>Регистрация на получение рассылки завершена!</p><p>Желаем Вам приятных покупок.</p>"
-    DEFAULT_CONTENT: ""
-    DEFAULT_TITLE: "подписаться на рассылку"
-    DEFAULT_URLSEGMENT: "согласие на получение информатионных сообщений"
-    EMAIL_CONFIRMATION_TEXT: |
-                              <h1>Закончить регистрацию на получение рассылки.</h1><p>Нажмите на ссылку активации или скопируйте в адресную строку браузера.</p><p><a href="$ConfirmationLink">Подтвердить регистрацию</a></p><p>Если Вы не подписывались на рассылку, проигнорируйте это сообщение.</p><p>Администрация магазина.</p>
-                              
-    FAILURE_MESSAGE_TEXT: "ошибка"
-    PLURALNAME: "Страница согласия на получение рассылки."
-    SINGULARNAME: "Страницы согласия на получение рассылки."
-    SUCCESS_MESSAGE_TEXT: "Сообщение об успешном результате"
-    TITLE: "завершить регистрацию на рассылку"
-    TITLE_THANKS: "регистрация на рассылку завершена"
-    URL_SEGMENT: "согласие на получение информатионных сообщений"
-  SilvercartNewsletterPage:
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: "Message for already existing subscription"
+    AlreadyConfirmedMessageText: "Сообщение: согласие на получеие информатионных сообщений получено."
+    ConfirmationFailureMessage: "Message for subscription failure"
+    ConfirmationSuccessMessage: "Message for subscription success"
     DEFAULT_TITLE: "рассылка"
     DEFAULT_URLSEGMENT: "рассылка"
+    DefaultAlreadyConfirmedMessage: "<p>Вы уже зарегистрированы на получение рассылки.</p>"
+    DefaultConfirmationFailureMessage: "<p>Регистация на получение рассылки не может быть завершена.</p>"
+    DefaultConfirmationSuccessMessage: "<p>Регистрация на получение рассылки завершена!</p><p>Желаем Вам приятных покупок.</p>"
+    DefaultConfirmationSuccessSubject: "регистрация на рассылку завершена"
+    DefaultEmailConfirmationContent: "<h1>Закончить регистрацию на получение рассылки.</h1><p>Нажмите на ссылку активации или скопируйте в адресную строку браузера.</p><p><a href=\"$ConfirmationLink\">Подтвердить регистрацию</a></p><p>Если Вы не подписывались на рассылку, проигнорируйте это сообщение.</p><p>Администрация магазина.</p>"
+    DefaultEmailConfirmationSubject: "завершить регистрацию на рассылку"
+    DefaultOptInPageTitle: "подписаться на рассылку"
+    FailureMessageText: "ошибка"
+    OptInPageTitle: "Opt-in page title"
     PLURALNAME: "страницы рассылки"
     SINGULARNAME: "страница рассылки"
+    SuccessMessageText: "Сообщение об успешном результате"
+    THANKS_TITLE: "статус рассылки"
     TITLE: "рассылка"
     URL_SEGMENT: "рассылка"
-  SilvercartNewsletterResponsePage:
-    DEFAULT_TITLE: "статус рассылки"
-    DEFAULT_URLSEGMENT: "статус рассылки"
-    PLURALNAME: "страницы ответов рассылки"
-    SINGULARNAME: "страница ответов рассылики"
-    STATUS_TITLE: "Ваши настройки рассылки"
-    TITLE: "статус рассылки"
-    URL_SEGMENT: "статус рассылки"
-  SilvercartNewsletterStatus:
-    ALREADY_SUBSCRIBED: "этот адрес \"%s\" уже зарегистрирован."
-    NO_EMAIL_FOUND: "\"%s\" адрес не найден"
-    REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: "Этот адрес уже зарегистрирован \"%s\". Войдите в свою учёную запись и настройте опции рассылки : <a href=\"%s\">Войти</a>."
-    SUBSCRIBED_SUCCESSFULLY: "\"%s\" адрес добавлен в список рассылки."
-    SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: "Инструкция по регистрации отправлена на адрес \"%s\"."
-    UNSUBSCRIBED_SUCCESSFULLY: "\"%s\" адрес удалён из списка рассылки."
-  SilvercartNumberRange:
+  SilverCart\Model\Order\NumberRange:
     ACTUAL: "актуально"
     ACTUALCOUNT: "актуально"
     CUSTOMERNUMBER: "идентификационный номер клиента"
@@ -756,9 +647,9 @@ ru:
     STARTCOUNT: "старт"
     SUFFIX: "суффикс"
     TITLE: "Титель"
-  SilvercartNumberRangeAdmin:
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
     MENUTITLE: "диапазоны номеров"
-  SilvercartOrder:
+  SilverCart\Model\Order\Order:
     AMOUNTGROSSTOTAL: "сумма брутто"
     AMOUNTTOTAL: "сумма"
     CUSTOMER: "клиент "
@@ -790,37 +681,29 @@ ru:
     TAXRATESHIPMENT: "рамер налога на вид доставки"
     WEIGHTTOTAL: "общий вес"
     YOUR_REMARK: "примечание"
-  SilvercartOrderAddress:
+  SilverCart\Model\Order\OrderAddress:
     PLURALNAME: "адреса заказчика"
     SINGULARNAME: "адрес заказчика"
-  SilvercartOrderAdmin:
+  SilverCart\Admin\Controllers\OrderAdmin:
     MENUTITLE: "заказы"
-  SilvercartOrderConfirmationPage:
-    DEFAULT_TITLE: "страница подтверждения заказа"
-    DEFAULT_URLSEGMENT: "подтверждение заказа"
-    ORDERCONFIRMATION: "подтверждение заказа"
-    ORDERNOTIFICATION: "сообщение о заказе"
-    PLURALNAME: "страницы подтверждения заказа"
-    SINGULARNAME: "страница подтверждения заказа"
-    URL_SEGMENT: "подтверждение заказа"
-  SilvercartOrderDetailPage:
+  SilverCart\Model\Pages\OrderDetailPage:
     DEFAULT_TITLE: "подробности заказа"
     DEFAULT_URLSEGMENT: "подробности заказа"
     PLURALNAME: "страница подробностей заказа"
     SINGULARNAME: "страница подробностей заказа"
     TITLE: "подробности заказа"
     URL_SEGMENT: "подробности заказа"
-  SilvercartOrderHolder:
+  SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: "мои заказы"
     DEFAULT_URLSEGMENT: "мои заказы"
     PLURALNAME: "заказы"
     SINGULARNAME: "заказ"
     TITLE: "мои заказы"
     URL_SEGMENT: "мои заказы"
-  SilvercartOrderInvoiceAddress:
+  SilverCart\Model\Order\OrderInvoiceAddress:
     PLURALNAME: "адрес счёта за заказ"
     SINGULARNAME: "адрес счета за заказ"
-  SilvercartOrderPosition:
+  SilverCart\Model\Order\OrderPosition:
     ISCHARGEORDISCOUNT: "скидка / наценка"
     PLURALNAME: "Заказываемые позиции"
     PRICE: "цена"
@@ -829,18 +712,15 @@ ru:
     PRODUCTNUMBER: "артикул"
     QUANTITY: "количество "
     SHORT: "поз."
-    SILVERCARTPRODUCT: "артикул"
     SINGULARNAME: "Заказываемая позиция"
     TAX: "НДС"
     TAXRATE: "размер налога"
     TAXTOTAL: "НДС"
     TITLE: "имя"
-  SilvercartOrderSearchForm:
-    PLEASECHOOSE: "выберите "
-  SilvercartOrderShippingAddress:
+  SilverCart\Model\Order\OrderShippingAddress:
     PLURALNAME: "адреса доставки заказа"
     SINGULARNAME: "адрес доставки заказа"
-  SilvercartOrderStatus:
+  SilverCart\Model\Order\OrderStatus:
     ATTRIBUTED_SHOPEMAILS_LABEL_DESC: "Отмеченные сообщения будут отправлены, если состояние заказа будет установлено как:"
     ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: "выбранные сообщения"
     CODE: "код"
@@ -849,13 +729,13 @@ ru:
     PLURALNAME: "статус заказа"
     SHIPPED: "заказ отправлен"
     SINGULARNAME: "статус заказа"
-  SilvercartOrderStatusAdmin:
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
     MENUTITLE: "статус заказа"
-  SilvercartOrderStatusLanguage:
+  SilverCart\Model\Order\OrderStatusTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
     TITLE: "описание"
-  SilvercartPage:
+  SilverCart\Model\Pages\Page:
     ABOUT_US: "о нас"
     ABOUT_US_URL_SEGMENT: "о нас"
     ACCESS_CREDENTIALS_CALL: "введите ваши дынные"
@@ -864,7 +744,7 @@ ru:
     ADDRESSINFORMATION: "информация об адресе"
     ADDRESS_DATA: "адрес"
     ADMIN_AREA: "административный вход"
-    ALREADY_REGISTERED: "%s, Вы уже зарегистрированы."
+    ALREADY_REGISTERED: "{name}, Вы уже зарегистрированы."
     API_CREATE: "Возможно создание при помоши API объектов"
     API_DELETE: "Возможно удаление при помоши API объектов"
     API_EDIT: "Возможно изменение при помоши API объектов"
@@ -872,7 +752,7 @@ ru:
     APRIL: "апрель"
     AUGUST: "Август"
     BACK: "назад "
-    BACK_TO: "Назад к  &quot;%s&quot;"
+    BACK_TO: "Назад к  &quot;{title}&quot;"
     BILLING_ADDRESS: "адрес счета"
     BIRTHDAY: "День рождения"
     CANCEL: "отменить"
@@ -901,14 +781,14 @@ ru:
     FEBRUARY: "Февраль"
     FIND: "Найти:"
     FORWARD: "дальше"
-    GOTO: "перейти к %s  странице"
+    GOTO: "перейти к {title} странице"
     GOTO_CART: "в корзину"
     GOTO_CART_SHORT: "корзина"
     GOTO_CONTACT_LINK: "на страницу контакта"
-    GOTO_PAGE: "перейти к %s  странице"
+    GOTO_PAGE: "перейти к {count} странице"
     HEADERPICTURE: "рисунок заголовка"
     INCLUDED_VAT: "вкл. НДС"
-    INCLUDING_TAX: "вкл.%s%% НДС"
+    INCLUDING_TAX: "вкл. {amount}% НДС"
     ISACTIVE: "актив"
     I_ACCEPT: "я принимаю"
     I_HAVE_READ: "я уже"
@@ -947,7 +827,7 @@ ru:
     REGISTER: "регистрация "
     REMARKS: "замечание"
     REMOVE_FROM_CART: "удалить"
-    RETURNTOPRODUCTGROUP: "назад к \"%s\""
+    RETURNTOPRODUCTGROUP: "назад к \"{title}\""
     REVOCATION: "условия возврата"
     REVOCATIONREAD: "ознакомился с условиями возврата"
     SAVE: "сохранить"
@@ -957,9 +837,9 @@ ru:
     SHIPPING_ADDRESS: "адрес доставки"
     SHIPPING_AND_BILLING: "адрес доставки и счёта"
     SHOP_WITHOUT_REGISTRATION: "шоп без регистрации"
-    SHOWINPAGE: "установить язык %s  "
+    SHOWINPAGE: "установить язык {language}  "
     SHOW_DETAILS: "показать детали"
-    SHOW_DETAILS_FOR: "показать подробности %s"
+    SHOW_DETAILS_FOR: "показать подробности {title}"
     SITMAP_HERE: "Обзор нашей страницы."
     STEPS: "шаги"
     SUBMIT: "отправить"
@@ -967,7 +847,7 @@ ru:
     SUBTOTAL: "сумма"
     SUBTOTAL_NET: "сумма нетто"
     SUM: "сумма"
-    TAX: "вкл.%s%% НДС"
+    TAX: "вкл.{amount}% НДС"
     TERMSOFSERVICE_PRIVACY: "Условия заказа"
     THE_QUERY: "запрос"
     TITLE: "заголовок"
@@ -982,7 +862,7 @@ ru:
     WELCOME_PAGE_TITLE: "добро пожаловать"
     WELCOME_PAGE_URL_SEGMENT: "добро пожаловать"
     YEAR: "год"
-  SilvercartPaymentMethod:
+  SilverCart\Model\Payment\PaymentMethod:
     ACCESS_MANAGEMENT_BASIC_LABEL: "общее"
     ACCESS_MANAGEMENT_GROUP_LABEL: "по группе(ам)"
     ACCESS_MANAGEMENT_USER_LABEL: "по клиентам"
@@ -995,9 +875,15 @@ ru:
     MODE: "модус"
     NAME: "имя"
     NO_PAYMENT_METHOD_AVAILABLE: "нет рассрочки оплаты"
+    PAYMENT_DESCRIPTION: "описание"
     PAYMENT_IMPACT_TYPE_ABSOLUTE: "абсолютный"
     PAYMENT_IMPACT_TYPE_PERCENT: "процентный"
+    PAYMENT_ISACTIVE: "активирован"
     PAYMENT_LOGOS: "логотипы"
+    PAYMENT_MAXAMOUNTFORACTIVATION: "максимальное значение для модуля"
+    PAYMENT_MINAMOUNTFORACTIVATION: "минимальное значение для модуля"
+    PAYMENT_MODE_DEV: "Dev"
+    PAYMENT_MODE_LIVE: "Live"
     PAYMENT_MODIFY_PRODUCTVALUE: "сумма заказа"
     PAYMENT_MODIFY_TOTALVALUE: "общая сумма"
     PAYMENT_MODIFY_TYPE_CHARGE: "наценка"
@@ -1019,40 +905,36 @@ ru:
     SHOW_NOT_FOR_USERS_LABEL: "деактивировать клиентов"
     SHOW_ONLY_FOR_GROUPS_LABEL: "активировать группы"
     SHOW_ONLY_FOR_USERS_LABEL: "активировать клиентов"
+    SHOW_PAYMENT_LOGOS: "показать логотипы"
     SINGULARNAME: "Способ оплаты"
     STANDARD_ORDER_STATUS: "стандартное состояние заказа при этом способе оплаты"
     TILL_PURCHASE_VALUE: "до суммы"
     TITLE: "Способ оплаты"
-  SilvercartPaymentMethodAdmin:
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
     MENUTITLE: "виды оплаты"
-  SilvercartPaymentMethodLanguage:
+  SilverCart\Model\Payment\PaymentMethodTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartPaymentMethodsPage:
+  SilverCart\Model\Pages\PaymentMethodsPage:
     DEFAULT_TITLE: "способы оплаты"
     DEFAULT_URLSEGMENT: "способы оплаты"
     PLURALNAME: "страницы способов оплаты"
     SINGULARNAME: "страница способа оплаты"
-  SilvercartPaymentNotification:
+  SilverCart\Model\Pages\PaymentNotification:
     DEFAULT_TITLE: "оповещение о получении платежа"
     DEFAULT_URLSEGMENT: "оповещение о получении платежа"
     PLURALNAME: "оповещения о получении платежей"
     SINGULARNAME: "оповещения о получении платежей"
     TITLE: "оповещение о получении платежа"
     URL_SEGMENT: "оповещение о получении платежа"
-  SilvercartPaymentPrepaymentLanguage:
-    INVOICEINFO: "информация о платеже счётом"
-    PLURALNAME: "переводы"
-    SINGULARNAME: "перевод"
     TEXTBANKACCOUNTINFO: "информация способе предоплаты"
-  SilvercartPrice:
-    PLURALNAME: "цены"
-    SINGULARNAME: "цена"
-  SilvercartProduct:
+  SilverCart\Model\Product\Product:
     ADD_TO_CART: "добавить в корзину"
     AMOUNT_UNIT: "единица измерения"
     CHOOSE_MASTER: "выбрать мастер"
     COLUMN_TITLE: "имя"
+    DAY: "день"
+    DAYS: "дни"
     DESCRIPTION: "название"
     EAN: "европейский номер товара"
     FREE_OF_CHARGE: "бесплатная доставка"
@@ -1072,6 +954,10 @@ ru:
     METADESCRIPTION: "мета описание для поисковых систем"
     METAKEYWORDS: "ключевые слова для поисковых систем"
     METATITLE: "мета заголовок для поисковых систем"
+    MirrorPage_PLURALNAME: "„зеракальные“ группы товаров"
+    MirrorPage_SINGULARNAME: " „зеркальная“ группа товаров"
+    MONTH: "месяц"
+    MONTHS: "месяцы"
     MSRP: "рекомендованная цена производителя"
     NAME_DESCRIPTION: "имя & описание"
     PACKAGING_QUANTITY: "количество проданного товара"
@@ -1083,6 +969,7 @@ ru:
     PRICE_NET: "цена (нетто)"
     PRICE_SINGLE: "цена за единицу товара"
     PRICE_SINGLE_NET: "цена за единицу товара (нетто)"
+    PRICES: "цена"
     PRODUCTNUMBER: "артикул"
     PRODUCTNUMBER_MANUFACTURER: "артикул (производитель)"
     PRODUCTNUMBER_SHORT: "арт. №"
@@ -1099,31 +986,33 @@ ru:
     STOCK_QUANTITY_EXPIRATION_DATE: "Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist"
     TITLE: "артикул"
     VAT: "НДС"
+    WEEK: "неделя"
+    WEEKS: "недели"
     WEIGHT: "вес"
-  SilvercartProductAdmin:
+  SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: "артикул"
-  SilvercartProductCondition:
+  SilverCart\Model\Product\ProductCondition:
     PLEASECHOOSE: "пожалуйста выберите"
     PLURALNAME: "состояние товара"
     SINGULARNAME: "состояние товара"
     TITLE: "состояние "
     USE_AS_STANDARD_CONDITION: "использовать как шаблон состояния, если не уакзан для артикула"
-  SilvercartProductConditionAdmin:
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
     MENUTITLE: "состояние товара"
-  SilvercartProductConditionLanguage:
+  SilverCart\Model\Product\ProductConditionTranslation:
     PLURALNAME: "перводы"
     SINGULARNAME: "перевод"
-  SilvercartProductGroupHolder:
+  SilverCart\Model\Pages\ProductGroupHolder:
     DEFAULT_TITLE: "товарные группы"
     DEFAULT_URLSEGMENT: "товарные группы"
     PAGE_TITLE: "товарные группы"
     PLURALNAME: "Обзоры групп артиклей"
-    SHOW_PRODUCTS_WITH_COUNT_PLURAL: "показать %s артикулов "
-    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "показать %s артикулов "
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: "показать {count} артикулов "
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "показать {count} артикулов "
     SINGULARNAME: "обзор группы артикулов товара"
     SUBGROUPS_OF: "подгруппы "
     URL_SEGMENT: "товарные группы"
-  SilvercartProductGroupItemsWidget:
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
     CMSTITLE: "слидер продуктов"
     CMS_PRODUCTGROUPTABNAME: "товарная группа"
     CMS_PRODUCTSTABNAME: "артикул"
@@ -1135,17 +1024,14 @@ ru:
     STOREADMIN_FIELDLABEL: "пожалуйста, выберите группу товара:"
     TITLE: "слайдер товаров"
     USE_SELECTIONMETHOD: "метод выбора товаров"
-  SilvercartProductGroupItemsWidgetLanguage:
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartProductGroupMirrorPage:
-    PLURALNAME: "„зеракальные“ группы товаров"
-    SINGULARNAME: " „зеркальная“ группа товаров"
-  SilvercartProductGroupNavigationWidget:
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
     CMSTITLE: "SilverCart навигация по группам товаров"
     DESCRIPTION: "Этот виджет создаёт навигацию для групп товаров. ВОзможно установить какая группа будет выбрана как корневая."
     TITLE: "навигация по товарной группе"
-  SilvercartProductGroupPage:
+  SilverCart\Model\Pages\ProductGroupPage:
     ATTRIBUTES: "атрибут"
     DEFAULTGROUPVIEW: "стандартный список товара"
     DEFAULTGROUPVIEW_DEFAULT: "применить настройки вышестоящих групп или стандартные настройки"
@@ -1157,29 +1043,22 @@ ru:
     SINGULARNAME: "товарная группа"
     USEONLYDEFAULTGROUPVIEW: "использовать стандартный вид списка"
     USE_CONTENT_FROM_PARENT: "переименовать содержимое вышестоящих страниц"
-  SilvercartProductGroupPageSelector:
     OK: "ок"
     PRODUCTS_PER_PAGE: "артикул на странице"
-  SilvercartProductGroupSliderWidget:
-    CMSTITLE: "слайдер групп товаров"
-    DESCRIPTION: "создаёт слайдер всех групп товаров"
-    TITLE: "слайдер групп товаров"
-  SilvercartProductImageGallery:
-    PLURALNAME: "Галереи"
-    SINGULARNAME: "Галерея"
-  SilvercartProductLanguage:
+  SilverCart\Model\Product\ProductTranslation:
     LOCALE: "язык"
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartProductPage:
+  SilverCart\Model\Pages\ProductPage:
     ADD_TO_CART: "в корзину"
     OUT_OF_STOCK: "этот товар распродан"
     PACKAGING_CONTENT: "содержание"
     PLURALNAME: "страницы детального описания артикула"
+    PRINT: "распечатать"
     QUANTITY: "количество "
     SINGULARNAME: "страница детального описания артикула"
     URL_SEGMENT: "детальное описание артикула"
-  SilvercartProductSliderWidget:
+  SilverCart\Model\Widgets\ProductSliderWidget:
     AUTOPLAY: "активировать слайд-шоу"
     AUTOPLAYDELAYED: "активировать задержку слайд-шоу"
     AUTOPLAYLOCKED: "выключить слайд-шоу, если пользователь меняет слайды вручную"
@@ -1206,37 +1085,19 @@ ru:
     USE_LISTVIEW: "в виде списка"
     USE_ROUNDABOUT: "ипользовать обходной путь"
     USE_SLIDER: "использовать слайдер"
-  SilvercartProductTexts:
-    PLURALNAME: "переводы описания артикула"
-    SINGULARNAME: "переводы описания артикула"
-  SilvercartQuantityUnit:
+  SilverCart\Model\Product\QuantityUnit:
     ABBREVIATION: "сокращение"
     NAME: "имя"
     PLURALNAME: "единицы измерения количества"
     SINGULARNAME: "единица измерения количаества"
-  SilvercartQuantityUnitAdmin:
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
     MENUTITLE: "единицы измерения количества"
-  SilvercartQuantityUnitLanguage:
+  SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartQuickSearchForm:
+  SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "искать"
-  SilvercartRegisterConfirmationPage:
-    ALREADY_REGISTERES_MESSAGE_TEXT: "пользователь уже зарегистрирован"
-    CONFIRMATIONMAIL_SUBJECT: "подтверждение: тема"
-    CONFIRMATIONMAIL_TEXT: "подтверждение: сообщение"
-    CONFIRMATION_MAIL: "подтверждение"
-    CONTENT: "<p>Уважаемый покупатель,</p><p>для Вашего удобства, вы уже автоматически вошли в систему.</p><p>Приятных Вам приобретений!</p>"
-    DEFAULT_CONTENT: "<p>Уважаемый клиент,</p><p>для экономии Вашего времени, Вы вошли в систему автоматически.</p><p>Желаем приятных покупок!</p>"
-    DEFAULT_TITLE: "страница подтверждения регистрации"
-    DEFAULT_URLSEGMENT: "подтверждение регистрации"
-    FAILURE_MESSAGE_TEXT: "сообщение об ошибке"
-    PLURALNAME: "страницаы подтверждения регистрации"
-    SINGULARNAME: "страница подтверждения регистрации"
-    SUCCESS_MESSAGE_TEXT: "сообщение об успешном завершении"
-    TITLE: "сообщение подтверждения регистрации"
-    URL_SEGMENT: "подтверждение регистрации"
-  SilvercartRegistrationPage:
+  SilverCart\Model\Pages\RegistrationPage:
     ACTIVATION_MAIL_SUBJECT: "тема сообщения об активации"
     ACTIVATION_MAIL_TAB: "сообщение об активации"
     ACTIVATION_MAIL_TEXT: "сообщение об активации"
@@ -1244,6 +1105,7 @@ ru:
     CUSTOMER_SALUTATION: "Глубокоуважаемый клиент"
     DEFAULT_TITLE: "Страница для регистрации"
     DEFAULT_URLSEGMENT: "регистрировать"
+    DEFAULT_WELCOME_CONTENT: "<p>Уважаемый клиент,</p><p>для экономии Вашего времени, Вы вошли в систему автоматически.</p><p>Желаем приятных покупок!</p>"
     EMAIL_EXISTS_ALREADY: "этот эелетронный адрес уже занят."
     OTHERITEMS: "прочие"
     PLEASE_COFIRM: "Пожалуйста, подтвердите Вашу регистрацию."
@@ -1253,26 +1115,24 @@ ru:
     THANKS: "Благодарим за регистрацию."
     TITLE: "страница регистрации"
     URL_SEGMENT: "зарегистрировать "
+    WelcomeContent: "Content of the welcome page"
     YOUR_REGISTRATION: "ваша регистрация"
-  SilvercartSearchResultsPage:
+  SilverCart\Model\Pages\SearchResultsPage:
     DEFAULT_TITLE: "резултаты поиска"
     DEFAULT_URLSEGMENT: "результат поиска"
     PLURALNAME: "стараниицы результатов поиска"
-    RESULTTEXT: "Результаты поиска по запросу: <b>&rdquo;%s&rdquo;</b>"
+    RESULTTEXT: "Результаты поиска по запросу: <b>&rdquo;{query}&rdquo;</b>"
     SINGULARNAME: "страница ресультатов поиска"
     TITLE: "результаты поиска"
     URL_SEGMENT: "резултаты поиска"
-  SilvercartSearchWidget:
+  SilverCart\Model\Widgets\SearchWidget:
     CMSTITLE: "поиск SilverCart"
     DESCRIPTION: "Этот виджет показывает форму поиска артикулов."
     TITLE: "Вы что-то ищите?"
-  SilvercartSearchWidgetForm:
+  SilverCart\Model\Widgets\SearchWidgetForm:
     SEARCHLABEL: "задайте критерий поиска:"
     SUBMITBUTTONTITLE: "Поиск"
-  SilvercartShippingAddress:
-    PLURALNAME: "адреса доставки заказа"
-    SINGULARNAME: "адрес доставки заказа"
-  SilvercartShippingFee:
+  SilverCart\Model\Shipment\ShippingFee:
     ATTRIBUTED_SHIPPINGMETHOD: "выбранные способы доставки"
     COSTS: "затраты"
     EMPTYSTRING_CHOOSEZONE: "--выбрать зону"
@@ -1285,16 +1145,17 @@ ru:
     UNLIMITED_WEIGHT: "без ограничений"
     UNLIMITED_WEIGHT_LABEL: "неограниченный максимальный вес"
     ZONE_WITH_DESCRIPTION: "Зоны (доступны только зоны фрахтовшиков)"
-  SilvercartShippingFeesPage:
+  SilverCart\Model\Pages\ShippingFeesPage:
     DEFAULT_TITLE: "стоимость доставки"
     DEFAULT_URLSEGMENT: "стоимость доставки"
     PLURALNAME: "страницы стоимости доставки"
     SINGULARNAME: "страница сотимости доставки"
     TITLE: "стоимость доставки"
     URL_SEGMENT: "стоимость доставки"
-  SilvercartShippingMethod:
+  SilverCart\Model\Shipment\ShippingMethod:
     CHOOSE_DATAOBJECT_TO_IMPORT: "Что Вы хотите импортировать?"
     CHOOSE_SHIPPING_METHOD: "выберите способ доставки"
+    CHOOSE_SHIPPING_METHOD_TO: "выберите способ доставки {country}"
     DESCRIPTION: "Описание"
     FOR_PAYMENTMETHODS: "для оплаты"
     FOR_ZONES: "для зон"
@@ -1302,24 +1163,12 @@ ru:
     PACKAGE: "Пакет"
     PLURALNAME: "Способы отправки"
     SINGULARNAME: "Способ отправки"
-  SilvercartShippingMethodAdmin:
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: "Способы отправки"
-  SilvercartShippingMethodLanguage:
+  SilverCart\Model\Shipment\ShippingMethodTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartShopAdmin:
-    PAYMENT_DESCRIPTION: "описание"
-    PAYMENT_ISACTIVE: "активирован"
-    PAYMENT_MAXAMOUNTFORACTIVATION: "максимальное значение для модуля"
-    PAYMENT_MINAMOUNTFORACTIVATION: "минимальное значение для модуля"
-    PAYMENT_MODE_DEV: "Dev"
-    PAYMENT_MODE_LIVE: "Live"
-    SHOW_PAYMENT_LOGOS: "показать логотипы"
-  SilvercartShopAdministrationAdmin:
-    TITLE: "администратор SC"
-  SilvercartShopConfigurationAdmin:
-    SILVERCART_CONFIG: "kонфигурация SC"
-  SilvercartShopEmail:
+  SilverCart\Model\ShopEmail:
     ADDITIONALS_RECEIPIENTS: "дополнительный получатель"
     EMAILTEXT: "сообщение"
     HELLO: "привет"
@@ -1335,56 +1184,56 @@ ru:
     SUBJECT: "тема сообщения"
     VARIABLES: "переменные"
     YOUR_TEAM: "SilverCart Webshop Team"
-  SilvercartShopEmailAdmin:
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: "Shop E-Mail"
-  SilvercartShopEmailLanguage:
+  SilverCart\Model\ShopEmailTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перводы"
-  SilvercartShoppingCart:
-    ERROR_MINIMUMORDERVALUE_NOT_REACHED: "минимальная сумма заказа  %s"
+  SilverCart\Model\Order\ShoppingCart:
+    ERROR_MINIMUMORDERVALUE_NOT_REACHED: "минимальная сумма заказа {amount}"
     PLURALNAME: "корзины"
     SINGULARNAME: "корзина"
-  SilvercartShoppingCartPosition:
+  SilverCart\Model\Order\ShoppingCartPosition:
     MAX_QUANTITY_REACHED_MESSAGE: "Достигнуто максимальное количество для данной позиции."
     PLURALNAME: "позции корзины"
     QUANTITY_ADDED_MESSAGE: "артикул добавлен в корзину"
     QUANTITY_ADJUSTED_MESSAGE: "Количество данной позиции скорректировано по наличию на складе."
     REMAINING_QUANTITY_ADDED_MESSAGE: "Поскольку введённое количество не соответствует наличию на складе, оно будет приведено к соответствию."
     SINGULARNAME: "Позции корзины."
-  SilvercartShoppingcartWidget:
+  SilverCart\Model\Widgets\ShoppingcartWidget:
     CMSTITLE: "SilverCart корзина"
     DESCRIPTION: "Этот виджет показывает содержимое корзины. Дополнительно будут показаны ссылки на корзину (если там есть товар) и на страницу заказа."
     TITLE: "Корзина"
-  SilvercartSiteConfig:
+  SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: "Новый перевод будет действителен для всей иерархии страниц. Каждая страница будет создана как шаблон, и при наличии стандартного содержимого будет показана на выбранном языке. Если нет стандартного содержимого будут выбраны актуальные настройки."
     PUBLISHBUTTON: "Опубликовать все страницы данного языка. "
     TESTDATA_HEADLINE: "тестовые данные"
     TESTDATA_LINKTEXT: "Перейти с секции тестовых данных."
     TESTDATA_TEXT: "Ещё не создан ни один артикул, для наполнения тестовыми данными, нажмите здесь."
     WELCOME_TO_SILVERCART: "Добро пюожаловать в SilverCart!"
-  SilvercartSiteMapPage:
+  SilverCart\Model\Pages\SiteMapPage:
     PLURALNAME: "SiteMaps"
     SINGULARNAME: "SiteMap"
-  SilvercartStoreAdminMenu:
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
     CONFIG: "Настройки"
     MODULES: "модули"
     ORDERS: "Заказы"
     PRODUCTS: "Артикул"
-  SilvercartSubNavigationWidget:
+  SilverCart\Model\Widgets\SubNavigationWidget:
     CMSTITLE: "SilverCart подменю"
     DESCRIPTION: "Этот виджет показывает навигационную понель выбранной страницы и её подстрниц."
     TITLE: "подменю"
-  SilvercartTax:
+  SilverCart\Model\Product\Tax:
     LABEL: "название"
     PLURALNAME: "размер налогов"
     RATE_IN_PERCENT: "размер налогов в %"
     SINGULARNAME: "размер налога"
-  SilvercartTaxAdmin:
+  SilverCart\Admin\Controllers\TaxAdmin:
     MENUTITLE: "размер налогов"
-  SilvercartTaxLanguage:
+  SilverCart\Model\Product\TaxTranslation:
     PLURALNAME: "переводы"
     SINGULARNAME: "перевод"
-  SilvercartTestData:
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
     CURRENCY: "Евро"
     IMAGEFOLDERNAME: "Демо-данные"
     PRODUCTGROUPMARKETING_TITLE: "модули маркетинга"
@@ -1401,18 +1250,22 @@ ru:
     WIDGETSET_FRONTPAGE_CONTENT_TITLE: "стартовая страница содержимого"
     WIDGETSET_FRONTPAGE_SIDEBAR_TITLE: "стартовая страница панели инструментов"
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "панель инструментов групп товаров"
-  SilvercartTextWidgetLanguage:
+  SilverCart\Model\Widgets\TextWidget:
+    CONTENT: "содержание"
+  SilverCart\Model\Widgets\TextWidgetTranslation:
     PLURALNAME: "Переводы"
     SINGULARNAME: "Перевод"
-  SilvercartTopsellerProductsWidget:
+  SilverCart\Model\Widgets\TopsellerProductsWidget:
     CMSTITLE: "SilverCart популярный товар"
     DESCRIPTION: "Этот видвет"
     STOREADMIN_FIELDLABEL: "Количество артикулов, которые должны быть показаны:"
     TITLE: "популярный товар"
-  SilvercartWidget:
+  SilverCart\Model\Widgets\Widget:
+    CLASSNAME: "Class name"
+    FRONTCONTENT: "Content to display in frontend"
+    FRONTTITLE: "Title to display in frontend"
     SORT_ORDER_LABEL: "Сортировка"
-  SilvercartWidgetSet:
-  SilvercartZone:
+  SilverCart\Model\Shipment\Zone:
     ATTRIBUTED_COUNTRIES: "выбранная страна"
     ATTRIBUTED_SHIPPINGMETHODS: "выбранный способ доставки"
     COUNTRIES: "страны"
@@ -1421,14 +1274,22 @@ ru:
     PLURALNAME: "зоны"
     SINGULARNAME: "зона"
     USE_ALL_COUNTRIES: "После сохранения динамически применить все страны."
-  SilvercartZoneAdmin:
+  SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: "зоны"
-  SilvercartZoneLanguage:
+  SilverCart\Model\Shipment\ZoneTranslation:
     PLURALNAME: "перводы"
     SINGULARNAME: "перевод"
   SiteConfig:
     SITENAMEDEFAULT: "SilverCart"
     TAGLINEDEFAULT: "eCommerce software. Open-source. You'll love it."
-  TermsOfServicePage:
-    DEFAULT_TITLE: "общие условия заключения сделки"
-    DEFAULT_URLSEGMENT: "усливия заключения сделки"
+  SilverCart\Dev\Tools:
+    DATE: "дата"
+    NO: "нет"
+    PLEASECHOOSE: "--выбрать--"
+    YES: "да"
+  SilverCart\Forms\ChangeLanguageForm:
+    CHOOSE: "выбрать"
+    LANGUAGE: "язык"
+  SilverCart\Model\Translation\TranslationTools:
+    TRANSLATION: "Übersetzung"
+    TRANSLATIONS: "Übersetzungen"

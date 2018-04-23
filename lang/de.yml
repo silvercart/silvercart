@@ -1,69 +1,16 @@
 de:
-  GridAction:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchController:
+    EXECUTE: "Ausführen"
+    MARK_ALL: "Alle markieren"
+    UNMARK_ALL: "Markierung aufheben"
+  SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest:
+    SendChangePasswordEmail: "E-Mail zur passwortänderung senden"
+  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DUPLICATE_DESCRIPTION: "Dupliziert dieses Objekt"
     Duplicate: "Duplizieren"
-  GridFieldAction_Duplicate:
+  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DuplicatePermissionsFailure: "Duplizieren nicht erlaubt"
-  ImprintPage:
-    DEFAULT_TITLE: "Impressum"
-    DEFAULT_URLSEGMENT: "impressum"
-  RevocationInstructionPage:
-    DEFAULT_TITLE: "Widerrufsbelehrung"
-    DEFAULT_URLSEGMENT: "widerrufsbelehrung"
-  Silvercart:
-    at: im
-    BusinessDay: "Werktag"
-    BusinessDays: "Werktage"
-    Categories: "Unsere Kategorien"
-    CHOOSE: "wählen"
-    CLEAR_CACHE: "Cache leeren"
-    CONTENT: "Inhalt"
-    CROSSSELLING: "Cross-Selling"
-    Change: "Ändern"
-    DATA: "Daten"
-    DATE: "Datum"
-    DATEFORMAT: "d.m.Y"
-    DAY: "Tag"
-    DAYS: "Tage"
-    EXECUTE: "Ausführen"
-    LANGUAGE: "Sprache"
-    LINKS: "Links"
-    LOADING_PRINT_VIEW: "Druckansicht wird geladen"
-    MARK_ALL: "Alle markieren"
-    MIN: "Minute"
-    MINS: "Minuten"
-    MISC_CONFIG: "Sonstige Einstellungen"
-    MONTH: "Monat"
-    MONTHS: "Monate"
-    MORE: "Mehr"
-    New: "Neu"
-    NO: "Nein"
-    NOT_ALLOWED_TO_PRINT: "Sie haben keine Berechtigung, um dieses Objekt zu drucken!"
-    Oclock: "Uhr"
-    PAGE: "Seite"
-    PRINT: "Drucken"
-    PRIORITY: "Priorität (Je höher desto wichtiger)"
-    SEC: "Sekunde"
-    SECS: "Sekunden"
-    SEO: "SEO"
-    SOCIALMEDIA: "Social Media"
-    SORTORDER: "Sortierreihenfolge"
-    TIMES: "Zeiten"
-    TODAY: "heute"
-    TOTAL: "Gesamt"
-    TRANSLATION: "Übersetzung"
-    TRANSLATIONS: "Übersetzungen"
-    TaxAndDutyHint: "Achtung: Bei Lieferungen in das Nicht-EU- Ausland fallen zusätzliche Zölle, Steuern und Gebühren an."
-    To: "An"
-    UNMARK_ALL: "Markierung aufheben"
-    UPDATE_AVAILABLE: "Es ist ein Update verfügbar"
-    UPDATE_AVAILABLE_TEXT: "Laden Sie sich die aktuellste Version von SilverCart unter <a href=\"http://www.silvercart.org/downloads/\" target=\"blank\">http://www.silvercart.org/downloads/</a> herunter."
-    WEEK: "Woche"
-    WEEKS: "Wochen"
-    X_OF_Y: "%s von %s"
-    YES: "Ja"
-    YESTERDAY: "gestern"
-  SilvercartAddress:
+  SilverCart\Model\Customer\Address:
     AcademicTitle: "Titel"
     ADDITION: "Adresszusatz"
     ADDRESSTYPE: "Art der Adresse"
@@ -79,6 +26,8 @@ de:
     ISBUSINESSACCOUNT: "Ist Geschäftskunden Adresse"
     IS_PACKSTATION: "Adresse ist Packstation"
     InvoiceAddressAsShippingAddress: "Rechnungsadresse als Lieferadresse nutzen"
+    InvoiceAddresses: "Rechnungsadressen"
+    InvoiceAddress: "Rechnungsadresse"
     MISSES: "Frau"
     MISTER: "Herr"
     NAME: "Name"
@@ -94,6 +43,8 @@ de:
     POSTNUMBER: "Ihre PostNummer"
     POSTNUMBER_PLAIN: "PostNummer"
     SALUTATION: "Anrede"
+    ShippingAddresses: "Lieferadressen"
+    ShippingAddress: "Lieferadresse"
     SILVERCART_ADDRESS_DELETE: "Adresse löschen"
     SILVERCART_ADDRESS_EDIT: "Adresse bearbeiten"
     SILVERCART_ADDRESS_VIEW: "Adresse anschauen"
@@ -104,7 +55,7 @@ de:
     TAXIDNUMBER: "Steuernummer"
     USE_ABSOLUTEADDRESS: "Hausanschrift als Adresse verwenden"
     USE_PACKSTATION: "Packstation als Adresse verwenden"
-  SilvercartAddressHolder:
+  SilverCart\Model\Pages\AddressHolder:
     ADD: "Neue Adresse hinzuf&uuml;gen"
     ADDED_ADDRESS_FAILURE: "Ihre Adresse konnte nicht gespeichert werden."
     ADDED_ADDRESS_SUCCESS: "Ihre Adresse wurde gespeichert."
@@ -122,6 +73,7 @@ de:
     DEFAULT_URLSEGMENT: "adressuebersicht"
     DELETE: "Löschen"
     EDIT: "Bearbeiten"
+    EDIT_ADDRESS: "Adresse bearbeiten"
     EXCUSE_INVOICEADDRESS: "Entschuldigen Sie, aber Sie haben noch keine Rechnungsadresse angelegt."
     EXCUSE_SHIPPINGADDRESS: "Entschuldigen Sie, aber Sie haben noch keine Lieferadresse angelegt."
     INVOICEADDRESS: "Rechnungsadresse"
@@ -139,25 +91,17 @@ de:
     UPDATED_INVOICE_ADDRESS: "Ihre Rechungsadresse wurde erfolgreich aktualisiert."
     UPDATED_SHIPPING_ADDRESS: "Ihre Lieferadresse wurde erfolgreich aktualisiert."
     URL_SEGMENT: "adressuebersicht"
-  SilvercartAddressPage:
-    DEFAULT_TITLE: "Adressdetails"
-    DEFAULT_URLSEGMENT: "adressdetails"
-    DESCRIPTION: "Zeigt die Details einer Adresse"
-    PLURALNAME: "Adressseiten"
-    SINGULARNAME: "Adressseite"
-    TITLE: "Adressdetails"
-    URL_SEGMENT: "adressdetails"
-  SilvercartAnonymousNewsletterRecipient:
+  SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
     PLURALNAME: "Anonyme Newsletterempfänger"
     SINGULARNAME: "Anonymer Newsletterempfänger"
-  SilvercartAvailabilityStatus:
+  SilverCart\Model\Product\AvailabilityStatus:
     ADDITIONALTEXT: "Zusatztext"
     ISDEFAULT: "Ist Standard"
     PLURALNAME: "Verfügbarkeiten"
     SINGULARNAME: "Verfügbarkeit"
     STATUS_AVAILABLE: "verfügbar"
-    STATUS_AVAILABLE_IN: "verfügbar in %s %sn"
-    STATUS_AVAILABLE_IN_MIN_MAX: "verfügbar in %s bis %s %s"
+    STATUS_AVAILABLE_IN: "verfügbar in {duration} {timeunit}n"
+    STATUS_AVAILABLE_IN_MIN_MAX: "verfügbar in {minduration} bis {maxduration} {timeunit}"
     STATUS_NOT_AVAILABLE: "nicht verfügbar"
     SeoMicrodataCode: "SEO Microdata Code"
     SeoMicrodataCodeDescription: "Ordnen Sie hier einen passenden Wert zu, um die Sichtbarkeit bei Suchmaschinen zu steigern."
@@ -177,76 +121,59 @@ de:
     SetForPositiveStockDesc: ""
     SetForPositiveStockShort: "Auto. > 0"
     TITLE: "Bezeichnung"
-  SilvercartAvailabilityStatusLanguage:
+  SilverCart\Model\Product\AvailabilityStatusTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartBargainProductsWidget:
+  SilverCart\Model\Widgets\BargainProductsWidget:
     CMSTITLE: "SilverCart Slider für Schnäppchen"
     DESCRIPTION: "Dieses Widget zeigt eine konfigurierbare Anzahl der Artikel an, deren Differenz von UVP und Endpreis am größten ist."
     FETCHMETHOD_SORTORDERASC: "Preisdifferenz aufsteigend"
     FETCHMETHOD_SORTORDERDESC: "Preisdifferenz absteigend"
     TITLE: "Schnäppchen"
-  SilvercartBargainProductsWidgetLanguage:
+  SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartCarrier:
+  SilverCart\Model\Shipment\Carrier:
     ATTRIBUTED_SHIPPINGMETHODS: "zugeordnete Versandart"
     FULL_NAME: "voller Name"
     PLURALNAME: "Frachtführer"
     SINGULARNAME: "Frachtführer"
-  SilvercartCarrierAdmin:
+  SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: "Frachtführer"
-  SilvercartCarrierLanguage:
+  SilverCart\Model\Shipment\CarrierTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartCartPage:
+  SilverCart\Model\Pages\CartPage:
     CART_EMPTY: "Der Warenkorb ist leer."
     DEFAULT_TITLE: "Warenkorb"
     DEFAULT_URLSEGMENT: "warenkorb"
     PLURALNAME: "Warenkorbseiten"
     SINGULARNAME: "Warenkorbseiten"
     URL_SEGMENT: "warenkorb"
-  SilvercartCheckoutFormStep:
-    CHOOSEN_PAYMENT: "gewählte Bezahlart"
-    CHOOSEN_SHIPPING: "gewählte Versandart"
-    FORWARD: "Weiter"
-    I_ACCEPT_REVOCATION: "Ich akzeptiere die <a href=\"%s\" target=\"blank\">Widerrufsbelehrung</a>."
-    I_ACCEPT_TERMS: "Ich akzeptiere die <a href=\"%s\" target=\"blank\">Allgemeinen Geschäftsbedingungen</a>."
-    I_SUBSCRIBE_NEWSLETTER: "Ich möchte den Newsletter abonnieren."
-    ORDER: "Bestellung"
-    ORDER_NOW: "Jetzt kaufen"
-    OVERVIEW: "Übersicht"
-  SilvercartCheckoutFormStep1:
-    LOGIN: "Anmeldung"
-    NEWCUSTOMER: "Sie sind Neukunde?"
-    PROCEED_WITHOUT_REGISTRATION: "Nein, ich möchte Einkaufen ohne Registrierung."
-    PROCEED_WITH_REGISTRATION: "Ja, ich möchte mich als Kunde registrieren, so dass ich beim erneuten Einkauf auf meine Daten zurückgreifen kann."
-    REGISTERTEXT: "Möchten Sie sich registrieren, um bei einem erneuten Einkauf auf Ihre Daten, wie Rechnungs- und Lieferanschrift, zurückgreifen zu können?"
-    TITLE: "Anmeldung"
-  SilvercartCheckoutFormStep1LoginForm:
-    TITLE: "Anmelden und Fortfahren"
-  SilvercartCheckoutFormStep1NewCustomerForm:
-    CONTINUE_WITH_CHECKOUT: "Mit meinem Einkauf fortfahren"
-    OPTIN_TEMP_TEXT: "Nach der Aktivierung Ihres Benutzerkontos erhalten Sie einen Link, um mit Ihrem Einkauf fortzufahren."
-    TITLE: "Weiter"
-  SilvercartCheckoutFormStep2:
-    EMPTYSTRING_COUNTRY: "--Land--"
-    ERROR_ADDRESS_NOT_FOUND: "Die von Ihnen gewählte Adresse konnte nicht gefunden werden."
-    TITLE: "Adresse"
-  SilvercartCheckoutFormStep3:
-    EMPTYSTRING_SHIPPINGMETHOD: "--Versandart wählen--"
-    TITLE: "Versandart"
-  SilvercartCheckoutFormStep4:
-    CHOOSE_PAYMENT_METHOD: "Ich möchte per %s bezahlen"
-    EMPTYSTRING_PAYMENTMETHOD: "--Zahlart wählen--"
-    FIELDLABEL: "Bitte wählen Sie, auf welche Weise Sie bezahlen wollen:"
-    TITLE: "Zahlungsart"
-  SilvercartCheckoutFormStep5:
-    TITLE: "Bestätigen"
-  SilvercartCheckoutFormStepDefaultOrderConfirmation:
-    TITLE: "Bestellbestätigung"
-  SilvercartCheckoutStep:
+  SilverCart\Checkout\CheckoutStep1:
+    NewCustomer: "Sie sind Neukunde?"
+    StepTitle: "Anmeldung"
+  SilverCart\Checkout\CheckoutStep2:
+    StepTitle: "Adresse"
+  SilverCart\Checkout\CheckoutStep3:
+    StepTitle: "Versandart"
+  SilverCart\Checkout\CheckoutStep4:
+    StepTitle: "Zahlungsart"
+  SilverCart\Checkout\CheckoutStep5:
+    StepTitle: "Bestätigen"
+  SilverCart\Forms\Checkout\CheckoutLoginForm:
+    SubmitButtonTitle: "Anmelden und Fortfahren"
+  SilverCart\Forms\Checkout\CheckoutNewCustomerForm:
+    ProceedWithoutRegistration: "Nein, ich möchte Einkaufen ohne Registrierung."
+    ProceedWithRegistration: "Ja, ich möchte mich als Kunde registrieren, so dass ich beim erneuten Einkauf auf meine Daten zurückgreifen kann."
+    RegisterText: "Möchten Sie sich registrieren, um bei einem erneuten Einkauf auf Ihre Daten, wie Rechnungs- und Lieferanschrift, zurückgreifen zu können?"
+    SubmitButtonTitle: "Weiter"
+  SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm:
+    ChoosePaymentMethod: "Ich möchte per {payment} bezahlen"
+  SilverCart\Model\Pages\CheckoutStep:
     BACK_TO_SHOPPINGCART: "Zurück zum Warenkorb"
+    CHOSEN_PAYMENT: "gewählte Bezahlart"
+    CHOSEN_SHIPPING: "gewählte Versandart"
     ContentStep1: "Inhalt Schritt 1 - Login/Registrierung"
     ContentStep2: "Inhalt Schritt 2 - Liefer-/Rechungsadresse"
     ContentStep3: "Inhalt Schritt 3 - Versandart"
@@ -255,11 +182,18 @@ de:
     ContentStep6: "Inhalt Schritt 6 - Bestellbestätigung"
     DEFAULT_TITLE: "zur Kasse"
     DEFAULT_URLSEGMENT: "checkout"
+    FORWARD: "Weiter"
+    I_ACCEPT_REVOCATION: "Ich akzeptiere die <a href=\"{link}\" target=\"blank\">Widerrufsbelehrung</a>."
+    I_ACCEPT_TERMS: "Ich akzeptiere die <a href=\"{link}\" target=\"blank\">Allgemeinen Geschäftsbedingungen</a>."
+    I_SUBSCRIBE_NEWSLETTER: "Ich möchte den Newsletter abonnieren."
+    ORDER: "Bestellung"
+    ORDER_NOW: "Jetzt kaufen"
+    OVERVIEW: "Übersicht"
     PLURALNAME: "Checkout Schritte"
     SINGULARNAME: "Checkout Schritt"
     StepContent: "Inhalt für einzelne Schritte"
     URL_SEGMENT: "checkout"
-  SilvercartConfig:
+  SilverCart\Admin\Model\Config:
     ADDED_EXAMPLE_CONFIGURATION: "Beispielkonfiguration wurde angelegt"
     ADDED_EXAMPLE_DATA: "Beispieldaten wurden hinzugefügt"
     ADDTOCARTMAXQUANTITY: "Maximal erlaubte Anzahl eines Artikels im Warenkorb"
@@ -307,8 +241,8 @@ de:
     ENABLEPACKSTATION: "Adresseingabefelder für PACKSTATION aktivieren"
     ENABLESSL: "SSL verwenden"
     ENABLESTOCKMANAGEMENT: "Lagerbestandsverwaltung aktivieren"
-    ERROR_MESSAGE: "Der Parameter \"%s\" wurde nicht konfiguriert.<br/>Bitte <a href=\"%sadmin/settings/\">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter \"Einstellungen -> E-Mail-Einstellungen\"."
-    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: "Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href=\"%sadmin/settings/\">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter \"Abwicklung -> Länder\"."
+    ERROR_MESSAGE: "Der Parameter \"{field}\" wurde nicht konfiguriert.<br/>Bitte <a href=\"{baseurl}admin/settings/\">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter \"Einstellungen -> E-Mail-Einstellungen\"."
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: "Es wurde kein aktiviertes Land gefunden.<br/>Bitte <a href=\"{baseURL}admin/settings/\">loggen Sie sich ein</a> und konfigurieren Sie den fehlenden Parameter unter \"Abwicklung -> Länder\"."
     ERROR_TITLE: "Es ist ein Fehler aufgetreten!"
     EXAMPLE_CONFIGURATION_ALREADY_ADDED: "Beispielkonfiguration wurde bereits angelegt"
     EXAMPLE_DATA_ALREADY_ADDED: "Beispieldaten wurden bereits hinzugefügt"
@@ -330,7 +264,7 @@ de:
     MINIMUMORDERVALUE: "Mindestbestellwert"
     MINIMUMORDERVALUE_HEADLINE: "Mindestbestellwert"
     MinimumAgeToOrder: "Mindestalter für Bestellungen"
-    MinimumAgeToOrderError: "Das Mindestalter für Bestellungen beträgt %s Jahre."
+    MinimumAgeToOrderError: "Das Mindestalter für Bestellungen beträgt {age} Jahre."
     MobileTouchIcon: "Mobile Touch Icon"
     MobileTouchIconDesc: "Das Mobile Touch Icon wird verwendet, wenn ein Besucher Ihren Shop als Verknüpfung auf dem Homescreen eines Smartphones oder Tablets ablegt. Das Icon sollte in den Dimensionen 192x192 Pixel vorliegen."
     OPEN_RECORD: "Datensatz öffnen"
@@ -350,11 +284,13 @@ de:
     QUANTITY_OVERBOOKABLE: "Ist der Lagerbestand generell überbuchbar?"
     REDIRECTTOCARTAFTERADDTOCART: "Kunde zum Warenkorb umleiten nach Aktion \"In den Warenkorb legen\""
     SEARCH: "Suche"
+    SEO: "SEO"
     SERVER: "Server"
     SHOW_CONFIG: "Konfiguration anzeigen"
     SINGULARNAME: "Allgemeine Konfiguration"
     SKIP_PAYMENT_STEP_IF_UNIQUE: "Auswahl der Zahlungsart überspringen, wenn nur eine auswählbar ist."
     SKIP_SHIPPING_STEP_IF_UNIQUE: "Auswahl der Versandart überspringen, wenn nur eine auswählbar ist."
+    SOCIALMEDIA: "Social Media"
     STOCK: "Lager"
     SecurityConfiguration: "Sicherheits-Einstellungen"
     ShopAdditionalInfo: "Zusätzliche Informationen"
@@ -371,8 +307,8 @@ de:
     ShopStreet: "Straße"
     ShopStreetNumber: "Hausnummer"
     ShowTaxAndDutyHint: "Hinweis für zusätzliche Gebühren ins Nicht-EU Ausland anzeigen."
-    SilvercartLogo: "Logo"
-    SilvercartLogoDesc: "Wird im Kopfbereich des Shops angezeigt."
+    ShopLogo: "Logo"
+    ShopLogoDesc: "Wird im Kopfbereich des Shops angezeigt."
     TABBED: "verschachtelt"
     TRANSLATION: "Übersetzung"
     TRANSLATIONS: "Übersetzungen"
@@ -385,11 +321,10 @@ de:
     USE_STRICT_SEARCH_RELEVANCE: "Strengere Suche verwenden. Zeigt ausschließlich exakte Treffer an."
     UseMinimumAgeToOrder: "Mindestalter für Bestellungen verwenden?"
     redirectToCheckoutWhenInCart: "Sofort zum Checkout umleiten, wenn Kunde den Warenkorb betritt."
-  SilvercartConfigAdmin:
-    MENUTITLE: "Einstellungen Shop"
-  SilvercartContactFormPage:
+  SilverCart\Model\Pages\ContactFormPage:
     CityIsRequired: "Ort ist Pflichtfeld"
     CountryIsRequired: "Land ist Pflichtfeld"
+    DEFAULT_RESPONSE_CONTENT: "Vielen Dank für Ihre Nachricht. Wir werden Ihnen in Kürze antworten."
     DEFAULT_TITLE: "Kontakt"
     DEFAULT_URLSEGMENT: "kontakt"
     EnableCity: "Feld für Ort aktivieren"
@@ -402,35 +337,18 @@ de:
     PhoneNumberIsRequired: "Telefonnummer ist Pflichtfeld"
     PostcodeIsRequired: "PLZ ist Pflichtfeld"
     REQUEST: "Anfrage über das Kontaktformular"
+    ResponseContent: "Inhalt der Sendebestätigungs-Seite"
     SINGULARNAME: "Kontaktformularseite"
     StreetIsRequired: "Straße/Hausnummer ist Pflichtfeld"
     TITLE: "Kontakt"
     URL_SEGMENT: "kontakt"
-  SilvercartContactFormResponsePage:
-    CONTACT_CONFIRMATION: "Kontaktbestätigung"
-    CONTENT: "Vielen Dank für Ihre Nachricht. Wir werden Ihnen in Kürze antworten."
-    DEFAULT_CONTENT: "Vielen Dank für Ihre Nachricht. Wir werden Ihnen in Kürze antworten."
-    DEFAULT_TITLE: "Kontaktbestätigung"
-    DEFAULT_URLSEGMENT: "kontaktbestaetigung"
-    PLURALNAME: "Kontaktformularantwortseiten"
-    SINGULARNAME: "Kontaktformularantwortseite"
-    URL_SEGMENT: "kontaktbestaetigung"
-  SilvercartContactMessage:
+  SilverCart\Model\ContactMessage:
     MESSAGE: "Nachricht"
     PLURALNAME: "Kontaktanfragen"
     SINGULARNAME: "Kontaktanfrage"
-    TEXT: |
-           <h1>Anfrage über Kontaktformular</h1>
-           <h2>Hallo,</h2>
-           <p>Über die Webseite wurde eine Anfrage an euch gestellt.<br />
-           Der Kunde <strong>"$FirstName $Surname"</strong> hat die E-Mail-Adresse <strong>"$Email"</strong> für Rückantworten angegeben.</p>
-           <% if Phone %><p><strong>Telefon: {$Phone}</strong></p><% end_if %>
-           <h2>Die Nachricht</h2>
-           <p>$Message</p>
-           
-  SilvercartContactMessageAdmin:
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
     MENUTITLE: "Kontaktanfragen"
-  SilvercartCountry:
+  SilverCart\Model\Customer\Country:
     ACTIVE: "Aktiv"
     ATTRIBUTED_PAYMENTMETHOD: "zugeordnete Bezahlart"
     ATTRIBUTED_ZONES: "zugeordnete Zonen"
@@ -700,12 +618,12 @@ de:
     TITLE_ZA: "Südafrika"
     TITLE_ZM: "Sambia"
     TITLE_ZW: "Simbabwe"
-  SilvercartCountryAdmin:
+  SilverCart\Admin\Controllers\CountryAdmin:
     MENUTITLE: "Länder"
-  SilvercartCountryLanguage:
+  SilverCart\Model\Customer\CountryTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartCustomer:
+  SilverCart\Model\Customer\Customer:
     ADDRESS_DATA: "Adressdaten allgemein"
     ANONYMOUSCUSTOMER: "Anonymer Kunde"
     BASIC_DATA: "Allgemein"
@@ -721,65 +639,38 @@ de:
     INVOICE_DATA: "Rechnungs-Adressdaten"
     ISBUSINESSACCOUNT: "Ist Geschäftskunden Konto"
     NET: "Netto"
+    PRICETYPE_GROSS: "Brutto"
+    PRICETYPE_NET: "Netto"
     PRICING: "Preisangabe"
     REGULARCUSTOMER: "Endkunde"
     SALUTATION: "Anrede"
     SHIPPING_DATA: "Liefer-Adressdaten"
     SUBSCRIBEDTONEWSLETTER: "Newsletter aboniert"
     TYPE: "Typ"
-  SilvercartCustomerAdmin:
+  SilverCart\Admin\Controllers\CustomerAdmin:
     MENUTITLE: "Kunden"
-  SilvercartCustomerGroup:
-    PLURALNAME: "Kundengruppen"
-    SINGULARNAME: "Kundengruppe"
-  SilvercartDataPage:
+  SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: "Meine Daten"
     DEFAULT_URLSEGMENT: "meine-daten"
     PLURALNAME: "Datenseiten"
     SINGULARNAME: "Datenseite"
     TITLE: "Meine Daten"
     URL_SEGMENT: "meine-daten"
-  SilvercartDataPrivacyStatementPage:
-    DEFAULT_TITLE: "Datenschutzerklärung"
-    DEFAULT_URLSEGMENT: "datenschutzerklaerung"
-    PLURALNAME: "Datenschutzseiten"
-    SINGULARNAME: "Datenschutzseiten"
-    TITLE: "Datenschutzerklärung"
-    URL_SEGMENT: "datenschutzerklaerung"
-  SilvercartDateRangePicker:
-    ALL_AFTER: "Alles nach"
-    ALL_BEFORE: "Alles vor"
-    DATE: "Datum"
-    END_DATE: "Enddatum"
-    LAST_7_DAYS: "Letzte 7 Tage"
-    LAST_MONTH: "Vorheriger Monat"
-    NEXT: "Nächster"
-    PERIOD: "Zeitraum"
-    PREVIOUS: "Vorheriger"
-    START_DATE: "Startdatum"
-    THIS_MONTH: "Dieser Monat"
-    THIS_YEAR: "Dieses Jahr"
-    TODAY: "Heute"
-  SilvercartDownloadPage:
+  SilverCart\Model\Pages\DownloadPage:
     PLURALNAME: "Downloadseiten"
     SINGULARNAME: "Downloadseite"
-  SilvercartDownloadPageHolder:
+  SilverCart\Model\Pages\DownloadPageHolder:
     PLURALNAME: "Downloadseitenübersichten"
+    ResultsText: "Ihre Suche nach <strong>&quot;{term}&quot;</strong> ergab <strong>{count} Treffer</strong>."
     SINGULARNAME: "Downloadseitenübersicht"
     SearchResults: "Suchergebnisse"
-  SilvercartDownloadSearchForm:
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: "Ihr Suchbegriff..."
     submitButtonTitle: "Downloads durchsuchen"
-  SilvercartEditAddressForm:
-    EMPTYSTRING_PLEASECHOOSE: "--bitte wählen--"
-  SilvercartEditableTableListField:
-    BATCH_OPTIONS_LABEL: "Aktion auf Auswahl anwenden"
-    QUICK_ACCESS: "Schnellansicht"
-  SilvercartEmailAddress:
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: "E-Mail-Adressen"
     SINGULARNAME: "E-Mail-Adresse"
-  SilvercartEmailTemplates:
-    PLURALNAME: "E-Mail Vorlagen"
-    SINGULARNAME: "E-Mail Vorlage"
-  SilvercartFile:
+  SilverCart\Model\Product\File:
     DESCRIPTION: "Beschreibung"
     FILE_ATTACHMENTS: "Dateianhänge"
     PLURALNAME: "Dateien"
@@ -787,129 +678,98 @@ de:
     SIZE: "Größe"
     TITLE: "Anzeigename"
     TYPE: "Typ"
-  SilvercartFileLanguage:
+  SilverCart\Model\Product\FileTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartFrontPage:
+  SilverCart\Model\Pages\FrontPage:
     CONTENT: "<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>"
     DEFAULT_CONTENT: "<h2>Willkommen im <strong>SilverCart</strong> Webshop!</h2>"
     DESCRIPTION: "Frontpage (Startseite) des Webshops"
     PLURALNAME: "Frontseiten"
     SINGULARNAME: "Frontseite"
-  SilvercartGridFieldBatchAction_ActivateDataObject:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
     TITLE: "Aktivieren"
-  SilvercartGridFieldBatchAction_ChangeAvailabilityStatus:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
     TITLE: "Verfügbarkeit ändern auf..."
-  SilvercartGridFieldBatchAction_ChangeManufacturer:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
     TITLE: "Hersteller ändern auf..."
-  SilvercartGridFieldBatchAction_ChangeOrderStatus:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
     TITLE: "Bestellstatus ändern auf..."
-  SilvercartGridFieldBatchAction_ChangeProductGroup:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
     TITLE: "Warengruppe ändern auf..."
-  SilvercartGridFieldBatchAction_DeactivateDataObject:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
     TITLE: "Deaktivieren"
-  SilvercartGridFieldBatchAction_MarkAsNotSeen:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
     TITLE: "Als nicht gesehen markieren"
-  SilvercartGridFieldBatchAction_MarkAsSeen:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
     TITLE: "Als gesehen markieren"
-  SilvercartGridFieldBatchAction_PrintOrders:
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
     TITLE: "Bestellungen drucken (HTML)"
-  SilvercartGridFieldQuickAccessController:
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
     QUICKACCESSLABEL: "Schnellansicht"
-  SilvercartGridFieldSubObjectHandler:
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
     AddSubObjectColumnTitle: "Hinzufügen"
-  SilvercartGroupExtension:
+  SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: "---"
     PRICETYPE: "Preistyp"
-  SilvercartGroupView:
+  SilverCart\View\GroupView\GroupViewBase:
     LIST: "Liste"
     TILE: "Kacheln"
-  SilvercartHandlingCost:
+  SilverCart\Model\Payment\HandlingCost:
     AMOUNT: "Betrag"
     PLURALNAME: "Bearbeitungskosten"
     SINGULARNAME: "Bearbeitungskosten"
-  SilvercartImage:
+  SilverCart\Model\Product\Image:
     CONTENT: "Text Inhalt"
     DESCRIPTION: "Beschreibung (z.B. für Slidorion Textfeld)"
     PLURALNAME: "Bilder"
     SINGULARNAME: "Bild"
+    SORTORDER: "Sortierreihenfolge"
     THUMBNAIL: "Vorschau"
     TITLE: "Anzeigename"
-  SilvercartImageAdmin:
+  SilverCart\Admin\Controllers\ImageAdmin:
     MENUTITLE: "Bilder"
     SELECT_IMAGE_TYPE: "Bildtyp wählen"
     SELECT_OTHER_IMAGES: "Andere Bilder"
     SELECT_PAYMENTMETHOD_IMAGES: "Bilder für Zahlungsarten"
     SELECT_PRODUCT_IMAGES: "Artikelbilder"
-  SilvercartImageLanguage:
+  SilverCart\Model\Product\ImageTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartImageSliderImage:
+  SilverCart\Model\Widgets\ImageSliderImage:
     AltText: "Text für das ALT-Tag"
     LINKPAGE: "Seite, zu der verlinkt werden soll"
     PLURALNAME: "Sliderbilder"
     ProductNumberToReference: "Artikelnummer des Artikels, zu dem verlinkt werden soll"
     ProductNumberToReferenceInfo: "Wird anstelle der Seite verwendet."
     SINGULARNAME: "Sliderbild"
-  SilvercartImageSliderImageLanguage:
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartImageSliderWidget:
+  SilverCart\Model\Widgets\ImageSliderWidget:
     CMSTITLE: "Imageslider"
     DESCRIPTION: "Stellt einen Imageslider zur Verfügung, das mehrere Bilder in einer Slideshow darstellt."
     TITLE: "Bilder"
-  SilvercartImageSliderWidgetLanguage:
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartInvoiceAddress:
-    PLURALNAME: "Rechnungsadressen"
-    SINGULARNAME: "Rechnungsadresse"
-  SilvercartLatestBlogPostsWidget:
-    CMSTITLE: "Neueste Blogeinträge"
-    DESCRIPTION: "Zeigt die neuesten Blogeinträge an."
-    IS_CONTENT_VIEW: "Normale Artikelansicht statt Widgetansicht verwenden"
-    SHOW_ENTRY: "Meldung lesen"
-    STOREADMIN_NUMBEROFPOSTS: "Anzahl der Blogeinträge, die angezeigt werden sollen"
-    TITLE: "Neueste Blogeinträge anzeigen"
-    WIDGET_TITLE: "Überschrift für das Widget"
-  SilvercartLatestBlogPostsWidgetLanguage:
-    PLURALNAME: "Übersetzungen"
-    SINGULARNAME: "Übersetzung"
-  SilvercartLoginWidget:
+  SilverCart\Model\Widgets\LoginWidget:
     CMSTITLE: "SilverCart Anmeldung"
     DESCRIPTION: "Dieses Widget zeigt ein Loginformular und Links zu der Registrierungsseite. Ist der Kunde eingeloggt, werden ihm stattdessen Links zu den Bereichen seines Kundenkontos angezeigt."
     TITLE: "Anmeldung"
     TITLE_LOGGED_IN: "Mein Konto"
     TITLE_NOT_LOGGED_IN: "Anmeldung"
-  SilvercartMailForgotPassword:
-    NO_CHANGE: "Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte."
-    PASSWORT_RESET_LINK_HINT: "Falls Sie den Link nicht anklicken können, kopieren Sie diesen bitte in Ihre Zwischenablage und fügen Sie ihn in die Adressleiste Ihres Browsers ein."
-    TITLE: "Passwort zurücksetzen"
-    VISIT_TEXT: "Bitte besuchen Sie den folgenden Link, um Ihr Passwort zu ändern:"
-  SilvercartMailRevocationConfirmation:
-    Subject: "Bestätigung Ihres Widerrufs"
-    Text: "Hiermit bestätigen wir den Eingang Ihres Widerrufs mit den folgenden Daten:"
-    Title: "Bestätigung Ihres Widerrufs"
-  SilvercartMailRevocationNotification:
-    Subject: "Widerruf eines Kunden"
-    Text: "Ein Kunde hat einen Widerruf mit den folgenden Daten gesendet:"
-  SilvercartManufacturer:
+  SilverCart\Model\Product\Manufacturer:
     DESCRIPTION: "Beschreibung"
     ManufacturerNumber: "Herstellernummer"
     PLURALNAME: "Hersteller"
     SINGULARNAME: "Hersteller"
-  SilvercartManufacturerAdmin:
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
     MENUTITLE: "Hersteller"
-  SilvercartManufacturerLanguage:
+  SilverCart\Model\Product\ManufacturerTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartMenu:
-    SECTION_externalConnections: "Externe Anbindung"
-    SECTION_maintenance: "Wartung"
-    SECTION_others: "Anderes"
-    SECTION_payment: "Zahlung"
-    SECTION_shipping: "Versand"
-  SilvercartMetaNavigationHolder:
+  SilverCart\Model\Pages\MetaNavigationHolder:
     DEFAULT_TITLE: "Rechtliches"
     DEFAULT_TITLE_ABOUT: "Über uns"
     DEFAULT_TITLE_LEGAL: "Rechtliches"
@@ -923,14 +783,23 @@ de:
     PLURALNAME: "Metanavigationsübersichten"
     SINGULARNAME: "Metanavigationsübersicht"
     URL_SEGMENT: "rechtliches"
-  SilvercartMetaNavigationPage:
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: "Impressum"
+    DEFAULT_URLSEGMENT_IMPRINT: "impressum"
+    DEFAULT_TITLE_PRIVACY: "Datenschutzerklärung"
+    DEFAULT_URLSEGMENT_PRIVACY: "datenschutzerklaerung"
+    DEFAULT_TITLE_REVOCATION: "Widerrufsbelehrung"
+    DEFAULT_URLSEGMENT_REVOCATION: "widerrufsbelehrung"
+    DEFAULT_TITLE_TERMS: "Allgemeine Geschäftsbedingungen"
+    DEFAULT_URLSEGMENT_TERMS: "allgemeine-geschaeftsbedingungen-kaeuferinformationen"
     PLURALNAME: "Meta-Informations-Seiten"
     SINGULARNAME: "Meta-Informations-Seite"
-  SilvercartMyAccountHolder:
+  SilverCart\Model\Pages\MyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: "Sie haben schon ein Konto?"
     DEFAULT_TITLE: "Mein Konto"
     DEFAULT_URLSEGMENT: "mein-konto"
     GOTO_REGISTRATION: "Zum Registrierungsformular"
+    MORE: "Mehr"
     PLURALNAME: "Accountübersichten"
     REGISTER_ADVANTAGES_TEXT: "Wenn Sie sich registrieren, können Sie bei einem Einkauf auf Ihre Daten, wie Rechnungs- und Lieferanschrift, zurückgreifen."
     SINGULARNAME: "Accountübersicht"
@@ -941,45 +810,46 @@ de:
     YOUR_CUSTOMERNUMBER: "Ihre Kundennummer"
     YOUR_MOST_CURRENT_ORDERS: "Ihre aktuellsten Bestellungen"
     YOUR_PERSONAL_DATA: "Ihre persönlichen Daten"
-  SilvercartNewsletter:
+  SilverCart\Model\Newsletter\Newsletter:
     OPTIN_NOT_FINISHED_MESSAGE: "Sie erhalten den Newsletter erst, wenn Sie den Bestätigungslink in der Ihnen zugeschickten E-Mail aufrufen."
     PLURALNAME: "Newsletter"
     SINGULARNAME: "Newsletter"
     SUBSCRIBED: "Sie haben den Newsletter abonniert"
     UNSUBSCRIBED: "Sie haben den Newsletter nicht abonniert"
-  SilvercartNewsletterForm:
+    StatusALREADY_SUBSCRIBED: "Die E-Mail-Adresse \"{email}\" ist schon für den Newsletterempfang registriert."
+    StatusNO_EMAIL_FOUND: "Die E-Mail-Adresse \"{email}\" konnte nicht gefunden werden."
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: "Es ist schon ein Kunde mit der E-Mail-Adresse \"{email}\" registriert. Bitte loggen Sie sich zuerst ein und nehmen Sie dann die Einstellungen für den Newsletterempfang vor: <a href=\"{link}\">Zum Login</a>."
+    StatusSUBSCRIBED_SUCCESSFULLY: "Die E-Mail-Adresse \"{email}\" wurde zu der Liste der Newsletterempfänger hinzugefügt."
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: "Es wurde eine E-Mail mit Instruktionen zur Bestätigung an die Adresse \"{email}\" geschickt."
+    StatusUNSUBSCRIBED_SUCCESSFULLY: "Die E-Mail-Adresse \"{email}\" wurde von der Liste der Newsletterempfänger entfernt."
+  SilverCart\Forms\NewsletterForm:
     ACTIONFIELD_SUBSCRIBE: "Ich möchte den Newsletter abonnieren"
     ACTIONFIELD_TITLE: "Was wollen Sie tun?"
     ACTIONFIELD_UNSUBSCRIBE: "Ich möchte den Newsletter abbestellen"
-  SilvercartNewsletterOptInConfirmationPage:
-    ALREADYCONFIRMEDMESSAGE: "<p>Sie hatten die Newsletteranmeldung schon zuvor abgeschlossen.</p>"
-    ALREADY_CONFIRMED_MESSAGE_TEXT: "Nachricht: Benutzer hat Opt-In schon vollzogen"
-    CONFIRMATIONFAILUREMESSAGE: "<p>Ihre Newsletteranmeldung konnte nicht abgeschlossen werden.</p>"
-    CONFIRMATIONSUCCESSMESSAGE: "<p>Ihre Newsletteranmeldung war erfolgreich!</p><p>Wir wünschen Ihnen viel Spaß und Erfolg mit unseren Angeboten.</p>"
-    CONTENT: ""
-    DEFAULT_ALREADYCONFIRMEDMESSAGE: "<p>Sie hatten die Newsletteranmeldung schon zuvor abgeschlossen.</p>"
-    DEFAULT_CONFIRMATIONFAILUREMESSAGE: "<p>Ihre Newsletteranmeldung konnte nicht abgeschlossen werden.</p>"
-    DEFAULT_CONFIRMATIONSUCCESSMESSAGE: "<p>Ihre Newsletteranmeldung war erfolgreich!</p><p>Wir wünschen Ihnen viel Spaß und Erfolg mit unseren Angeboten.</p>"
-    DEFAULT_CONTENT: ""
-    DEFAULT_TITLE: "Newsletteranmeldung abschließen"
-    DEFAULT_URLSEGMENT: "newsletter-opt-in-confirmation"
-    EMAIL_CONFIRMATION_TEXT: "<h1>Newsletter-Anmeldung abschließen</h1><p>Bitte klicken Sie auf den Aktivierungslink oder kopieren Sie den Link in den Browser.</p><p><a href=\"$ConfirmationLink\">Anmeldung bestätigen</a></p><p>Sollten Sie den Newsletter nicht angefordert haben, ignorieren Sie diese Mail einfach.</p><p>Ihr Webshop Team</p>"
-    FAILURE_MESSAGE_TEXT: "Fehlermeldung"
-    PLURALNAME: "Newsletter Opt-In Seite"
-    SINGULARNAME: "Newsletter Opt-In Seiten"
-    SUCCESS_MESSAGE_TEXT: "Erfolgsmeldung"
-    TITLE: "Newsletteranmeldung abschließen"
-    TITLE_THANKS: "Newsletteranmeldung erfolgreich abgeschlossen"
-    URL_SEGMENT: "newsletter-opt-in-confirmation"
-  SilvercartNewsletterPage:
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessageText: "Nachricht: Benutzer hat Opt-In schon vollzogen"
+    AlreadyConfirmedMessage: "Meldung bei bereits vorhandener der Anmeldung"
+    ConfirmationFailureMessage: "Meldung bei Fehlschlag der Anmeldung"
+    ConfirmationSuccessMessage: "Meldung bei erfolgreicher der Anmeldung"
     DEFAULT_TITLE: "Newsletter"
     DEFAULT_URLSEGMENT: "newsletter"
+    DefaultAlreadyConfirmedMessage: "<p>Sie hatten die Newsletteranmeldung schon zuvor abgeschlossen.</p>"
+    DefaultConfirmationFailureMessage: "<p>Ihre Newsletteranmeldung konnte nicht abgeschlossen werden.</p>"
+    DefaultConfirmationSuccessMessage: "<p>Ihre Newsletteranmeldung war erfolgreich!</p><p>Wir wünschen Ihnen viel Spaß und Erfolg mit unseren Angeboten.</p>"
+    DefaultConfirmationSuccessSubject: "Newsletteranmeldung erfolgreich abgeschlossen"
+    DefaultEmailConfirmationContent: "<h1>Newsletter-Anmeldung abschließen</h1><p>Bitte klicken Sie auf den Aktivierungslink oder kopieren Sie den Link in den Browser.</p><p><a href=\"$ConfirmationLink\">Anmeldung bestätigen</a></p><p>Sollten Sie den Newsletter nicht angefordert haben, ignorieren Sie diese Mail einfach.</p><p>Ihr Webshop Team</p>"
+    DefaultEmailConfirmationSubject: "Newsletteranmeldung abschließen"
+    DefaultOptInPageTitle: "Newsletteranmeldung abschließen"
+    FailureMessageText: "Fehlermeldung"
+    OptInPageTitle: "Titel der Opt-In-Seite"
     PLURALNAME: "Newsletter-Seiten"
     SINGULARNAME: "Newsletter-Seite"
+    SuccessMessageText: "Erfolgsmeldung"
+    THANKS_TITLE: "Newsletter Status"
     TITLE: "Newsletter"
     URL_SEGMENT: "newsletter"
     UseDoubleOptIn: 'Double-Opt-In verwenden'
-  SilvercartNewsletterRecipientsAdmin:
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Bitte wählen Sie den Export-Kontext und betätigen Sie den Export-Button um eine CSV-Liste der E-Mail-Empfänger herunterzuladen.'
     DoExport: 'Als CSV exportieren'
     ExportContext: 'Export-Kontext'
@@ -989,22 +859,7 @@ de:
     ExportAllNewsletterRecipientsWithoutAccount: 'Adressen aller Newsletter-Empfäner ohne Kundenkonto exportieren'
     ExportAllNonNewsletterRecipients: 'Adressen aller nicht-Newsletter-Empfäner exportieren'
     MENUTITLE: "Newsletter-Empfänger"
-  SilvercartNewsletterResponsePage:
-    DEFAULT_TITLE: "Newsletter Status"
-    DEFAULT_URLSEGMENT: "newsletter_status"
-    PLURALNAME: "Newsletter-Antwort-Seiten"
-    SINGULARNAME: "Newsletter-Antwort-Seite"
-    STATUS_TITLE: "Ihre Newslettereinstellungen"
-    TITLE: "Newsletter Status"
-    URL_SEGMENT: "newsletter_status"
-  SilvercartNewsletterStatus:
-    ALREADY_SUBSCRIBED: "Die E-Mail-Adresse \"%s\" ist schon für den Newsletterempfang registriert."
-    NO_EMAIL_FOUND: "Die E-Mail-Adresse \"%s\" konnte nicht gefunden werden."
-    REGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: "Es ist schon ein Kunde mit der E-Mail-Adresse \"%s\" registriert. Bitte loggen Sie sich zuerst ein und nehmen Sie dann die Einstellungen für den Newsletterempfang vor: <a href=\"%s\">Zum Login</a>."
-    SUBSCRIBED_SUCCESSFULLY: "Die E-Mailadresse \"%s\" wurde zu der Liste der Newsletterempfänger hinzugefügt."
-    SUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: "Es wurde eine E-Mail mit Instruktionen zur Bestätigung an die Adresse \"%s\" geschickt."
-    UNSUBSCRIBED_SUCCESSFULLY: "Die E-Mailadresse \"%s\" wurde von der Liste der Newsletterempfänger entfernt."
-  SilvercartNumberRange:
+  SilverCart\Model\Order\NumberRange:
     ACTUAL: "Aktuell"
     ACTUALCOUNT: "Aktuell"
     CUSTOMERNUMBER: "Kundennummer"
@@ -1020,9 +875,9 @@ de:
     STARTCOUNT: "Start"
     SUFFIX: "Suffix"
     TITLE: "Titel"
-  SilvercartNumberRangeAdmin:
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
     MENUTITLE: "Nummernkreise"
-  SilvercartOrder:
+  SilverCart\Model\Order\Order:
     AMOUNTGROSSTOTAL: "Gesamtbetrag brutto"
     AMOUNTTOTAL: "Gesamtbetrag"
     BASICDATA: "Grunddaten"
@@ -1077,37 +932,42 @@ de:
     TrackingLinkLabel: "Anzeigen, wo sich meine Sendung gerade befindet"
     WEIGHTTOTAL: "Gesamtgewicht"
     YOUR_REMARK: "Ihre Bemerkung"
-  SilvercartOrderAddress:
+  SilverCart\Model\Order\OrderAddress:
     PLURALNAME: "Bestelladressen"
     SINGULARNAME: "Bestelladresse"
-  SilvercartOrderAdmin:
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: "Alles nach"
+    DateRangePickerALL_BEFORE: "Alles vor"
+    DateRangePickerDATE: "Datum"
+    DateRangePickerEND_DATE: "Enddatum"
+    DateRangePickerLAST_7_DAYS: "Letzte 7 Tage"
+    DateRangePickerLAST_MONTH: "Vorheriger Monat"
+    DateRangePickerNEXT: "Nächster"
+    DateRangePickerPERIOD: "Zeitraum"
+    DateRangePickerPREVIOUS: "Vorheriger"
+    DateRangePickerSTART_DATE: "Startdatum"
+    DateRangePickerTHIS_MONTH: "Dieser Monat"
+    DateRangePickerTHIS_YEAR: "Dieses Jahr"
+    DateRangePickerTODAY: "Heute"
     MENUTITLE: "Bestellungen"
-  SilvercartOrderConfirmationPage:
-    DEFAULT_TITLE: "Bestellbestätigungsseite"
-    DEFAULT_URLSEGMENT: "bestellbestaetigung"
-    ORDERCONFIRMATION: "Bestellbestätigung"
-    ORDERNOTIFICATION: "Bestellbenachrichtigung"
-    PLURALNAME: "Bestellbestätigungsseiten"
-    SINGULARNAME: "Bestellbestätigungsseite"
-    URL_SEGMENT: "bestellbestaetigung"
-  SilvercartOrderDetailPage:
+  SilverCart\Model\Pages\OrderDetailPage:
     DEFAULT_TITLE: "Bestelldetails"
     DEFAULT_URLSEGMENT: "bestelldetails"
     PLURALNAME: "Bestelldetailsseiten"
     SINGULARNAME: "Bestelldetailsseite"
     TITLE: "Bestelldetails"
     URL_SEGMENT: "bestelldetails"
-  SilvercartOrderHolder:
+  SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: "Meine Bestellungen"
     DEFAULT_URLSEGMENT: "meine-bestellungen"
     PLURALNAME: "Bestellübersichten"
     SINGULARNAME: "Bestellübersicht"
     TITLE: "Meine Bestellungen"
     URL_SEGMENT: "meine-bestellungen"
-  SilvercartOrderInvoiceAddress:
+  SilverCart\Model\Order\OrderInvoiceAddress:
     PLURALNAME: "Rechnungsadressen der Bestellungen"
     SINGULARNAME: "Rechnungsadresse der Bestellung"
-  SilvercartOrderLog:
+  SilverCart\Model\Order\OrderLog:
     CONTEXT: "Kontext"
     CREATED: "Datum/Uhrzeit"
     MESSAGE: "Aktion"
@@ -1117,7 +977,7 @@ de:
     MESSAGE_MARKEDASSEEN: "Als gesehen markiert"
     PLURALNAME: "Bestellungs-Log"
     SINGULARNAME: "Bestellungs-Log"
-  SilvercartOrderPosition:
+  SilverCart\Model\Order\OrderPosition:
     CHARGEORDISCOUNTMODIFICATIONIMPACT: "Auf-/Abschlags-Typ"
     ISCHARGEORDISCOUNT: "Ist Auf-/Abschlag"
     PLURALNAME: "Bestellpositionen"
@@ -1127,18 +987,15 @@ de:
     PRODUCTNUMBER: "Artikelnr."
     QUANTITY: "Menge"
     SHORT: "Pos."
-    SILVERCARTPRODUCT: "Artikel"
     SINGULARNAME: "Bestellposition"
     TAX: "MwSt."
     TAXRATE: "Steuersatz"
     TAXTOTAL: "MwSt. gesamt"
     TITLE: "Name"
-  SilvercartOrderSearchForm:
-    PLEASECHOOSE: "Bitte wählen"
-  SilvercartOrderShippingAddress:
+  SilverCart\Model\Order\OrderShippingAddress:
     PLURALNAME: "Lieferadressen der Bestellung"
     SINGULARNAME: "Lieferadresse der Bestellung"
-  SilvercartOrderStatus:
+  SilverCart\Model\Order\OrderStatus:
     ATTRIBUTED_SHOPEMAILS_LABEL_DESC: "Die folgenden markierten E-Mails werden verschickt, wenn dieser Bestellstatus für eine Bestellung gesetzt wird:"
     ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: "Zugeordnete E-Mails"
     BADGECOLOR: "Farbstatus"
@@ -1148,13 +1005,13 @@ de:
     PLURALNAME: "Bestellstatus"
     SHIPPED: "Bestellung versendet"
     SINGULARNAME: "Bestellstatus"
-  SilvercartOrderStatusAdmin:
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
     MENUTITLE: "Bestellstatus"
-  SilvercartOrderStatusLanguage:
+  SilverCart\Model\Order\OrderStatusTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
     TITLE: "Bezeichnung"
-  SilvercartPage:
+  SilverCart\Model\Pages\Page:
     ABOUT_US: "über uns"
     ABOUT_US_URL_SEGMENT: "ueber-uns"
     ACCESS_CREDENTIALS: "Zugangsdaten"
@@ -1164,7 +1021,7 @@ de:
     ADDRESSINFORMATION: "Adressinformationen"
     ADDRESS_DATA: "Adressdaten"
     ADMIN_AREA: "Admin Zugang"
-    ALREADY_REGISTERED: "Hallo %s, Sie haben sich schon registriert."
+    ALREADY_REGISTERED: "Hallo {name}, Sie haben sich schon registriert."
     API_CREATE: "kann über die API Objekte erstellen"
     API_DELETE: "kann über die API Objekte löschen"
     API_EDIT: "kann über die API Objete verändern"
@@ -1172,13 +1029,14 @@ de:
     APRIL: "April"
     AUGUST: "August"
     BACK: "Zurück"
-    BACK_TO: "Zurück zu &quot;%s&quot;"
+    BACK_TO: "Zurück zu &quot;{title}&quot;"
     BACK_TO_DEFAULT: "vorheriger Seite"
     BILLING_ADDRESS: "Rechnungsadresse"
     BIRTHDAY: "Geburtstag"
     CANCEL: "Abbrechen"
     CART: "Warenkorb"
     CATALOG: "Katalog"
+    Categories: "Unsere Kategorien"
     CHANGE_PAYMENTMETHOD_CALL: "Bitte wählen Sie eine andere Bezahlart oder kontaktieren sie den Shopbetreiber."
     CHANGE_PAYMENTMETHOD_LINK: "andere Zahlart wählen"
     CHECKOUT: "zur Kasse"
@@ -1204,15 +1062,15 @@ de:
     FEBRUARY: "Februar"
     FIND: "Finden:"
     FORWARD: "Weiter"
-    GOTO: "gehe zur %s Seite"
+    GOTO: "gehe zur {title} Seite"
     GOTO_CART: "zum Warenkorb"
     GOTO_CART_SHORT: "Warenkorb"
     GOTO_CONTACT_LINK: "Zur Kontakt Seite"
-    GOTO_PAGE: "Gehe zu Seite %s "
+    GOTO_PAGE: "Gehe zu Seite {count} "
     HEADERPICTURE: "Header Bild"
     HELLO: "Hallo"
     INCLUDED_VAT: "enthaltene MwSt."
-    INCLUDING_TAX: "inkl. %s%% MwSt."
+    INCLUDING_TAX: "inkl. {amount}% MwSt."
     INCREMENT_POSITION: "Anzahl erhöhen"
     ISACTIVE: "Aktiv"
     I_ACCEPT: "Ich akzeptiere die"
@@ -1232,7 +1090,7 @@ de:
     NEWSLETTER: "Newsletter"
     NEWSLETTER_FORM: "Newsletter Einstellungen"
     NEXT: "Vor"
-    NOT_FOUND: "Die Seite \"%s\" konnte nicht gefunden werden."
+    NOT_FOUND: "Die Seite \"{title}\" konnte nicht gefunden werden."
     NOVEMBER: "November"
     NO_ORDERS: "Sie haben noch keine Bestellungen abgeschlossen."
     NO_RESULTS: "Entschuldigung aber zu Ihrem Suchbegriff gibt es kein Ergebnisse."
@@ -1256,7 +1114,7 @@ de:
     REGISTER: "Registrieren"
     REMARKS: "Bemerkungen"
     REMOVE_FROM_CART: "entfernen"
-    RETURNTOPRODUCTGROUP: "Zurück zu \"%s\""
+    RETURNTOPRODUCTGROUP: "Zurück zu \"{title}\""
     REVOCATION: "Widerrufsbelehrung"
     REVOCATIONREAD: "Widerrufsbelehrung gelesen"
     SAVE: "Speichern"
@@ -1266,9 +1124,9 @@ de:
     SHIPPING_ADDRESS: "Lieferadresse"
     SHIPPING_AND_BILLING: "Liefer- und Rechnungsadresse"
     SHOP_WITHOUT_REGISTRATION: "Shop ohne Registrierung"
-    SHOWINPAGE: "Sprache auf %s stellen"
+    SHOWINPAGE: "Sprache auf {language} stellen"
     SHOW_DETAILS: "Details anzeigen"
-    SHOW_DETAILS_FOR: "Details zu %s anzeigen"
+    SHOW_DETAILS_FOR: "Details zu {title} anzeigen"
     SINGULARNAME: "Seite"
     SITMAP_HERE: "Hier können Sie eine Übersicht über unsere Seite sehen."
     STEPS: "Schritte"
@@ -1278,7 +1136,7 @@ de:
     SUBTOTAL_NET: "Zwischensumme (Netto)"
     SUM: "Summe"
     Start: "Start"
-    TAX: "inkl. %d%% MwSt."
+    TAX: "inkl. {amount}% MwSt."
     TERMSOFSERVICE_PRIVACY: "Allgemeine Geschäftsbedingungen und Datenschutz"
     THE_QUERY: "Der Begriff"
     TITLE: "Titel"
@@ -1299,19 +1157,19 @@ de:
     YEAR: "Jahr"
     YESTERDAY: "gestern"
     YOUR_REMARKS: "Ihre Nachricht an uns"
-  SilvercartPageListWidget:
+  SilverCart\Model\Widgets\PageListWidget:
     CMSTITLE: "Seitenliste"
     DESCRIPTION: "Dieses Widget zeigt eine Liste von Seiten mit Links zu den jeweiligen Seiten."
     PAGES: "Zugeordnete Seiten"
     TITLE: "Seitenliste"
-  SilvercartPageListWidgetPage:
+  SilverCart\Model\Widgets\PageListWidgetPage:
     WIDGET_IMAGE: "Bild"
     WIDGET_INFO_TAB: "Widget Infos"
     WIDGET_INFO_TAB_EXPLANATION: "Die folgenden Daten können von manchen Widgets genutzt werden."
     WIDGET_PRIORITY: "Sortierrang (je höher desto weiter hinten)"
     WIDGET_TEXT: "Beschreibung"
     WIDGET_TITLE: "Titel (optional)"
-  SilvercartPaymentMethod:
+  SilverCart\Model\Payment\PaymentMethod:
     ACCESS_MANAGEMENT_BASIC_LABEL: "Allgemein"
     ACCESS_MANAGEMENT_GROUP_LABEL: "Nach Gruppe(n)"
     ACCESS_MANAGEMENT_USER_LABEL: "Nach Kunde(n)"
@@ -1319,19 +1177,25 @@ de:
     ATTRIBUTED_COUNTRIES: "zugeordnete Länder"
     AddPaymentLogos: "Logo hinzufügen"
     BASIC_SETTINGS: "Grundeinstellungen"
-    ChargeOrDiscountForAmount: "auf %s"
+    ChargeOrDiscountForAmount: "auf {price}"
     ENABLE_RESTRICTION_BY_ORDER_LABEL: "Die folgende Regel anwenden"
-    ExcludedPosition: "davon ausgenommen ist Position %s"
-    ExcludedPositions: "davon ausgenommen sind die Positionen %s"
+    ExcludedPosition: "davon ausgenommen ist Position {position}"
+    ExcludedPositions: "davon ausgenommen sind die Positionen {positions}"
     FROM_PURCHASE_VALUE: "ab Warenwert"
     HANDLINGCOSTS_SETTINGS: "Bearbeitungskosten"
     LONG_PAYMENT_DESCRIPTION: "Beschreibung zur Anzeige auf der Zahlungsartseite"
     MODE: "Modus"
     NAME: "Name"
     NO_PAYMENT_METHOD_AVAILABLE: "Keine Zahlarten verfügbar"
+    PAYMENT_DESCRIPTION: "Beschreibung"
     PAYMENT_IMPACT_TYPE_ABSOLUTE: "Absolut"
     PAYMENT_IMPACT_TYPE_PERCENT: "Prozentual"
+    PAYMENT_ISACTIVE: "aktiviert"
     PAYMENT_LOGOS: "Logos"
+    PAYMENT_MAXAMOUNTFORACTIVATION: "Höchstbetrag für Modul"
+    PAYMENT_MINAMOUNTFORACTIVATION: "Mindestbetrag für Modul"
+    PAYMENT_MODE_DEV: "Entwicklung & Test"
+    PAYMENT_MODE_LIVE: "Live / in Betrieb"
     PAYMENT_MODIFY_PRODUCTVALUE: "Warenwert"
     PAYMENT_MODIFY_TOTALVALUE: "Gesamtwert"
     PAYMENT_MODIFY_TYPE_CHARGE: "Aufschlag"
@@ -1355,47 +1219,40 @@ de:
     SHOW_NOT_FOR_USERS_LABEL: "Für folgende Benutzer deaktivieren"
     SHOW_ONLY_FOR_GROUPS_LABEL: "Für folgende Gruppen aktivieren"
     SHOW_ONLY_FOR_USERS_LABEL: "Für folgende Benutzer aktivieren"
+    SHOW_PAYMENT_LOGOS: "Logos anzeigen"
     SINGULARNAME: "Zahlart"
     STANDARD_ORDER_STATUS: "Standard Bestellstatus für diese Zahlart"
     TILL_PURCHASE_VALUE: "bis Warenwert"
     TITLE: "Zahlart"
-  SilvercartPaymentMethodAdmin:
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
     MENUTITLE: "Zahlarten"
-  SilvercartPaymentMethodLanguage:
+  SilverCart\Model\Payment\PaymentMethodTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartPaymentMethodsPage:
+  SilverCart\Model\Pages\PaymentMethodsPage:
     DEFAULT_TITLE: "Zahlungsarten"
     DEFAULT_URLSEGMENT: "zahlungsarten"
     PLURALNAME: "Zahlungsartseiten"
     SINGULARNAME: "Zahlungsartseite"
-  SilvercartPaymentNotification:
+  SilverCart\Model\Pages\PaymentNotification:
     DEFAULT_TITLE: "Zahlungsbenachrichtigung"
     DEFAULT_URLSEGMENT: "zahlungsbenachrichtigung"
     PLURALNAME: "Zahlungsbenachrichtigungen"
     SINGULARNAME: "Zahlungsbenachrichtigung"
     TITLE: "Zahlungsbenachrichtigung"
     URL_SEGMENT: "zahlungsbenachrichtigung"
-  SilvercartPaymentPrepaymentLanguage:
-    INVOICEINFO: "Informationen zur Zahlart Rechnung"
-    PLURALNAME: "Übersetzungen"
-    SINGULARNAME: "Übersetzung"
     TEXTBANKACCOUNTINFO: "Informationen für Zahlart Vorkasse"
-  SilvercartPrice:
-    PLURALNAME: "Preise"
-    SINGULARNAME: "Preis"
-  SilvercartPriceType:
-    GROSS: "Brutto"
-    NET: "Netto"
-  SilvercartProduct:
+  SilverCart\Model\Product\Product:
     ADD_TO_CART: "in den Warenkorb"
     AMOUNT_UNIT: "Verkaufsmengeneinheit"
-    AddSilvercartFile: "Datei hinzufügen"
-    AddSilvercartImage: "Bild hinzufügen"
+    AddFile: "Datei hinzufügen"
+    AddImage: "Bild hinzufügen"
     BasicData: "Grunddaten"
     CHANGE_QUANTITY_CART: "Menge ändern"
     CHOOSE_MASTER: "-- Master wählen --"
     COLUMN_TITLE: "Name"
+    DAY: "Tag"
+    DAYS: "Tage"
     DESCRIPTION: "Artikelbeschreibung"
     EAN: "EAN"
     ExcludeFromPaymentDiscounts: "Dieser Artikel ist von Zahlungsart bedingten Abschlägen (Rabatten) ausgeschlossen."
@@ -1419,6 +1276,10 @@ de:
     METADESCRIPTION: "Meta Beschreibung für Suchmaschinen"
     METAKEYWORDS: "Meta Schlagworte für Suchmaschinen"
     METATITLE: "Meta Titel für Suchmaschinen"
+    MirrorPage_PLURALNAME: "Spiegel-Warengruppen"
+    MirrorPage_SINGULARNAME: "Spiegel-Warengruppe"
+    MONTH: "Monat"
+    MONTHS: "Monate"
     MSRP: "UVP"
     MSRP_CURRENCY: "Währung UVP"
     NAME_DESCRIPTION: "Name & Beschreibung"
@@ -1435,10 +1296,11 @@ de:
     PRICE_NET_CURRENCY: "Währung (Netto)"
     PRICE_SINGLE: "Einzelpreis"
     PRICE_SINGLE_NET: "Einzelpreis (Netto)"
+    PRICES: "Preise"
     PRODUCTNUMBER: "Artikelnummer"
     PRODUCTNUMBER_MANUFACTURER: "Artikelnummer (Hersteller)"
     PRODUCTNUMBER_SHORT: "Art.-Nr."
-    PRODUCT_QUESTION: "Bitte beantworten Sie mir die folgenden Fragen zum Artikel %s (%s):"
+    PRODUCT_QUESTION: "Bitte beantworten Sie mir die folgenden Fragen zum Artikel {title} ({productnumber}):"
     PRODUCT_QUESTION_LABEL: "Fragen zum Artikel"
     PURCHASEPRICE: "Einkaufspreis"
     PURCHASEPRICE_CURRENCY: "Währung Einkaufspreis"
@@ -1446,7 +1308,7 @@ de:
     PURCHASE_MIN_DURATION: "Min. Bezugsdauer"
     PURCHASE_TIME_UNIT: "Einheit (WBZ)"
     QUANTITY: "Anzahl"
-    QUANTITY_IS_IN_CART: "%s %s bereits im Warenkorb"
+    QUANTITY_IS_IN_CART: "{quantity} {unit} bereits im Warenkorb"
     QUANTITY_SHORT: "Anz."
     RefreshCache: "Nach dem Speichern den Cache für diesen Artikel erneuern"
     ReleaseDate: "Verkauf ab"
@@ -1465,31 +1327,43 @@ de:
     TITLE_DESC: "Bezeichnung absteigend"
     TimeGroup: "Zeitsteuerung"
     VAT: "MwSt"
+    WEEK: "Woche"
+    WEEKS: "Wochen"
     WEIGHT: "Gewicht"
     WIDGETAREA: "Widgets"
-  SilvercartProductAdmin:
+  SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: "Artikel"
-  SilvercartProductAvailabilityStatusAdmin:
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
     MENUTITLE: "Verfügbarkeit"
-  SilvercartProductCondition:
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: "Beschädigt/Defekt"
+    DefaultNew: "Neu"
+    DefaultRefurbished: "Generalüberholt"
+    DefaultUsed: "Gebraucht"
     PLEASECHOOSE: "Bitte wählen"
     PLURALNAME: "Artikelzustände"
+    SeoMicrodataCode: "SEO Microdata Code"
+    SeoMicrodataCodeDescription: "Ordnen Sie hier einen passenden Wert zu, um die Sichtbarkeit bei Suchmaschinen zu steigern."
+    SeoMicrodataCodeDamaged: "Beschädigt/Defekt"
+    SeoMicrodataCodeNew: "Neu"
+    SeoMicrodataCodeRefurbished: "Generalüberholt"
+    SeoMicrodataCodeUsed: "Gebraucht"
     SINGULARNAME: "Artikelzustand"
     TITLE: "Zustand"
     USE_AS_STANDARD_CONDITION: "Als Vorgabe-Zustand verwenden, wenn nichts am Artikel definiert ist"
-  SilvercartProductConditionAdmin:
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
     MENUTITLE: "Artikelzustände"
-  SilvercartProductConditionLanguage:
+  SilverCart\Model\Product\ProductConditionTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartProductGroupChildProductsWidget:
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
     CMSTITLE: "SilverCart Anzeige von Artikeln aus Unterwarengruppen"
     DESCRIPTION: "Dieses Widget zeigt Artikel aus Unterwarengruppen, wenn der aktuellen Warengruppe keine Artikel zugeordnet sind."
     TITLE: "Artikel aus Unterwarengruppen"
-  SilvercartProductGroupChildProductsWidgetLanguage:
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartProductGroupHolder:
+  SilverCart\Model\Pages\ProductGroupHolder:
     DEFAULT_TITLE: "Warengruppen"
     DEFAULT_URLSEGMENT: "warengruppen"
     LinkTo: "Warengruppe, zu der eine Weiterleitung erfolgen soll"
@@ -1497,12 +1371,12 @@ de:
     PLURALNAME: "Artikelgruppenübersichten"
     RedirectToProductGroup: "Direkt zu einer Warengruppe weiterleiten"
     RedirectionSettings: "Weiterleitung"
-    SHOW_PRODUCTS_WITH_COUNT_PLURAL: "%s Artikel anzeigen"
-    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "%s Artikel anzeigen"
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: "{count} Artikel anzeigen"
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: "{count} Artikel anzeigen"
     SINGULARNAME: "Artikelgruppenübersicht"
     SUBGROUPS_OF: "Untergruppen von "
     URL_SEGMENT: "warengruppen"
-  SilvercartProductGroupItemsWidget:
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
     CMSTITLE: "SilverCart Slider für Artikel"
     CMS_PRODUCTGROUPTABNAME: "Warengruppe"
     CMS_PRODUCTSTABNAME: "Artikel"
@@ -1513,31 +1387,28 @@ de:
     SELECTIONMETHOD_PRODUCTS: "Artikel von Hand wählen"
     SELECT_PRODUCT_DESCRIPTION: "Bitte Artikelnummern eingeben, durch Strichpunkt getrennt"
     STOREADMIN_FIELDLABEL: "Bitte wählen Sie die anzuzeigende Warengruppe:"
-    SilvercartProductGroupPageDescription: "Nur relevant, wenn \"Auswahlmethode für Artikel\" auf \"Aus Warengruppe\" gesetzt ist."
+    ProductGroupPageDescription: "Nur relevant, wenn \"Auswahlmethode für Artikel\" auf \"Aus Warengruppe\" gesetzt ist."
     TITLE: "Artikel"
     USE_SELECTIONMETHOD: "Auswahlmethode für Artikel"
-  SilvercartProductGroupItemsWidgetLanguage:
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartProductGroupManufacturersWidget:
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
     CMSTITLE: "SilverCart Herstellerliste"
     DESCRIPTION: "Dieses Widget stellt eine Liste aller Hersteller der betreffenden Warengruppe dar."
     RESETFILTER: "Alle anzeigen"
     TITLE: "Herstellerliste"
-  SilvercartProductGroupMirrorPage:
-    PLURALNAME: "Spiegel-Warengruppen"
-    SINGULARNAME: "Spiegel-Warengruppe"
-  SilvercartProductGroupNavigationWidget:
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
     CMSTITLE: "Warengruppennavigation"
     DESCRIPTION: "Dieses Widget erstellt eine Navigationshierarchie für Warengruppen. Es kann angegeben werden, welche Warengruppe als Wurzel genutzt werden soll."
     EXPAND_ACTIVE_SECTION_ONLY: "Nur aktiven Zweig aufklappen"
     LEVELS_TO_SHOW: "Ebenen bis zu welcher Tiefe anzeigen"
     SHOW_ALL_LEVELS: "Alle Ebenen anzeigen"
     TITLE: "Warengruppennavigation"
-  SilvercartProductGroupNavigationWidgetLanguage:
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartProductGroupPage:
+  SilverCart\Model\Pages\ProductGroupPage:
     ATTRIBUTES: "Attribut"
     BREADCRUMBS: "Warengruppen-Breadcrumbs"
     DEFAULTGROUPHOLDERVIEW: "Standard-Warengruppen-Ansicht"
@@ -1552,26 +1423,20 @@ de:
     PRODUCTGROUPSPERPAGE: "Warengruppen pro Seite"
     PRODUCTSPERPAGE: "Artikel pro Seite"
     PRODUCTSPERPAGEHINT: "Geben Sie für Artikel oder Warengruppen pro Seite 0 (Null) an, um die Standard-Einstellung zu verwenden."
-    PRODUCTS_ON_PAGE: "%s Artikel auf %s Seite"
-    PRODUCTS_ON_PAGES: "%s Artikel auf %s Seiten"
-    PRODUCT_ON_PAGE: "%s Artikel auf %s Seite"
+    PRODUCTS_ON_PAGE: "{productcount} Artikel auf {pagecount} Seite"
+    PRODUCTS_ON_PAGES: "{productcount} Artikel auf {pagecount} Seiten"
+    PRODUCT_ON_PAGE: "{productcount} Artikel auf {pagecount} Seite"
     SINGULARNAME: "Warengruppe"
     USEONLYDEFAULTGROUPHOLDERVIEW: "Ausschließlich die Standard-Warengruppen-Ansicht verwenden"
     USEONLYDEFAULTGROUPVIEW: "Ausschließlich die Standard-Artikellisten-Ansicht verwenden"
     USE_CONTENT_FROM_PARENT: "Inhalte von übergeordneten Seiten übernehmen"
-  SilvercartProductGroupPageSelector:
     OK: "Ok"
-    PRODUCTS_FOUND: "%d Artikel gefunden"
     PRODUCTS_PER_PAGE: "Artikel pro Seite"
     SORT_ORDER: "Sortierung"
-  SilvercartProductGroupSliderWidget:
-    CMSTITLE: "Slider für Warengruppen"
-    DESCRIPTION: "Erzeugt einen Slider, der alle Warengruppen anzeigt."
-    TITLE: "Slider für Warengruppen"
-  SilvercartProductImageAdmin:
+  SilverCart\Admin\Controllers\ProductImageAdmin:
     CronNotInstalledDescription: |
         Die Installation des Artikelbild-Imports wurde noch nicht vollständig abgeschlossen.
-        Bitte fügen Sie das dafür notwendige Programm (`sake SilvercartProductImageImporter/doImport`) zu den Zeitgesteuerten Aufgaben Ihres Servers hinzu.
+        Bitte fügen Sie das dafür notwendige Programm (`sake ProductImageImporter/doImport`) zu den Zeitgesteuerten Aufgaben Ihres Servers hinzu.
         Wenden Sie sich für weitere Details an Ihren Shop-Betreuer.
     CronNotInstalledTitle: "Achtung"
     CronIsRunningDescription: "Der Artikelbild-Import wird in diesem Moment durchgeführt."
@@ -1608,23 +1473,22 @@ de:
         Beachten Sie hierbei, dass das Bild, welches mit der fortlaufenden Nummer 1 angegeben ist, als Bild für die Listenansicht verwendet wird.
         Beachten Sie auch, dass bestehende Bilder betroffener Artikel komplett überschrieben werden, wenn Sie diese Funktion verwenden.
     FileInfoTitle: "Die folgenden Artikelbilder wurden noch nicht verarbeitet:"
+    MENUTITLE: "Artikelbild-Import"
     UploadProductImages: "Artikelbilder hochladen"
-  SilvercartProductImageGallery:
-    PLURALNAME: "Gallerien"
-    SINGULARNAME: "Gallerie"
-  SilvercartProductLanguage:
+  SilverCart\Model\Product\ProductTranslation:
     LOCALE: "Sprache"
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartProductPage:
+  SilverCart\Model\Pages\ProductPage:
     ADD_TO_CART: "in den Warenkorb"
     OUT_OF_STOCK: "Dieser Artikel ist ausverkauft."
     PACKAGING_CONTENT: "Inhalt"
     PLURALNAME: "Artikeldetailseiten"
+    PRINT: "Drucken"
     QUANTITY: "Anzahl"
     SINGULARNAME: "Artikeldetailseite"
     URL_SEGMENT: "artikeldetails"
-  SilvercartProductSliderWidget:
+  SilverCart\Model\Widgets\ProductSliderWidget:
     AUTOPLAY: "Automatische Slideshow aktivieren"
     AUTOPLAYDELAYED: "Verzögerung für automatische Slideshow aktivieren"
     AUTOPLAYLOCKED: "Automatische Slideshow deaktivieren, wenn Benutzer selbst navigiert"
@@ -1658,49 +1522,29 @@ de:
     USE_LISTVIEW: "Listendarstellung verwenden"
     USE_ROUNDABOUT: "Roundabout verwenden"
     USE_SLIDER: "Slider verwenden"
-  SilvercartProductTexts:
-    PLURALNAME: "Artikelübersetzungstexte"
-    SINGULARNAME: "Artikelübersetzungstext"
-  SilvercartQuantityUnit:
+  SilverCart\Model\Product\QuantityUnit:
     ABBREVIATION: "Abkürzung"
     EXPLANATION_TO_DECIMAL_PLACES: "Auf 0 stellen oder leer lassen, um keine Dezimalstellen zu verwenden. Diese Einstellung wird z.B. für \"in den Warenkorb legen\" Formulare benutzt."
     NAME: "Name"
     NUMBER_OF_DECIMAL_PLACES: "Anzahl Dezimalstellen"
     PLURALNAME: "Verkaufsmengeneinheiten"
     SINGULARNAME: "Verkaufsmengeneinheit"
-  SilvercartQuantityUnitAdmin:
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
     MENUTITLE: "Mengeneinheiten"
-  SilvercartQuantityUnitLanguage:
+  SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartQuickSearchForm:
+  SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "Suchen"
-  SilvercartRegisterConfirmationPage:
-    ALREADY_REGISTERES_MESSAGE_TEXT: "Nachricht: Benutzer bereits registriert"
-    CONFIRMATIONMAIL_SUBJECT: "Bestätigungsmail: Betreff"
-    CONFIRMATIONMAIL_TEXT: "Bestätigungsmail: Nachricht"
-    CONFIRMATION_MAIL: "Bestätigungsmail"
-    CONTENT: "<p>Lieber Kunde,</p><p>um Ihnen Arbeit zu ersparen, haben wir Sie bereits automatisch eingeloggt.</p><p>Viel Spass beim Einkaufen in unserem Shop!</p>"
-    DEFAULT_CONTENT: "<p>Lieber Kunde,</p><p>um Ihnen Arbeit zu ersparen, haben wir Sie bereits automatisch eingeloggt.</p><p>Viel Spass beim Einkaufen in unserem Shop!</p>"
-    DEFAULT_TITLE: "Registrierungsbestätigungsseite"
-    DEFAULT_URLSEGMENT: "register-confirmation"
-    FAILURE_MESSAGE_TEXT: "Fehlermeldung"
-    PLURALNAME: "Registrierungsbestätigungsseiten"
-    SINGULARNAME: "Registrierungsbestätigungsseite"
-    SUCCESS_MESSAGE_TEXT: "Erfolgsmeldung"
-    TITLE: "Registrierungsbestätigungsseite"
-    URL_SEGMENT: "register-confirmation"
-  SilvercartRegisterWelcomePage:
-    PLURALNAME: "Registrierungs-Willkommens-Seiten"
-    SINGULARNAME: "Registrierungs-Willkommens-Seite"
-  SilvercartRegistrationPage:
+  SilverCart\Model\Pages\RegistrationPage:
     ACTIVATION_MAIL_SUBJECT: "Betreff der Aktivierungsmail"
     ACTIVATION_MAIL_TAB: "Aktivierungsmail"
     ACTIVATION_MAIL_TEXT: "Nachricht der Aktivierungsmail"
     CONFIRMATION_TEXT: "<h1>Registrierung abschließen</h1><p>Bitte klicken Sie auf den Aktivierungslink oder kopieren Sie den Link in den Browser.</p><p><a href=\"$ConfirmationLink\">Registrierung bestätigen</a></p><p>Sollten Sie sich nicht registriert haben, ignorieren Sie diese Mail einfach.</p><p>Ihr Webshop Team</p>"
-    CUSTOMER_SALUTATION: "Sehr geehrter Kunde\,"
+    CUSTOMER_SALUTATION: "Sehr geehrter Kunde,"
     DEFAULT_TITLE: "Registrierungsseite"
     DEFAULT_URLSEGMENT: "registrieren"
+    DEFAULT_WELCOME_CONTENT: "<p>Lieber Kunde,</p><p>um Ihnen Arbeit zu ersparen, haben wir Sie bereits automatisch eingeloggt.</p><p>Viel Spass beim Einkaufen in unserem Shop!</p>"
     EMAIL_EXISTS_ALREADY: "Diese E-Mail-Adresse ist schon vergeben."
     OTHERITEMS: "Sonstiges"
     PLEASE_COFIRM: "Bitte bestätigen Sie Ihre Registrierung."
@@ -1710,8 +1554,9 @@ de:
     THANKS: "Vielen Dank für Ihre Registrierung."
     TITLE: "Registrierungsseite"
     URL_SEGMENT: "registrieren"
+    WelcomeContent: "Inhalt der Willkommens-Seite"
     YOUR_REGISTRATION: "Ihre Registrierung"
-  SilvercartRevocationForm:
+  SilverCart\Forms\RevocationForm:
     AddressOfConsumer: "Anschrift des/der Verbraucher(s)"
     Data: "Daten"
     GoTo: "Zum Widerrufsformular"
@@ -1722,7 +1567,7 @@ de:
     OrderNumber: "Bestellnummer"
     RevocationDate: "Datum des Widerrufs"
     RevocationOrderData: "Hiermit widerrufe(n) ich/wir den von mir/uns abgeschlossenen Vertrag über den Kauf der folgenden Waren / die Erbringung der folgenden Dienstleistung"
-  SilvercartRevocationFormPage:
+  SilverCart\Model\Pages\RevocationFormPage:
     DEFAULT_TITLE: "Widerruf"
     DEFAULT_URLSEGMENT: "widerruf"
     PLURALNAME: "Widerruf-Seiten"
@@ -1731,33 +1576,30 @@ de:
     SuccessText: "Vielen Dank! Wir haben Ihren Widerruf erhalten und werden Ihre Anfrage bearbeiten."
     TITLE: "Widerruf"
     URL_SEGMENT: "widerruf"
-  SilvercartSearchCloudWidget:
+  SilverCart\Model\Widgets\SearchCloudWidget:
     CMSTITLE: "Häufigste Suchbegriffe"
     DESCRIPTION: "Dieses Widget zeigt ein TagCloud mit den am häufigsten vorkommenden Suchbegriffen an."
     FONTSIZECOUNT: "Anzahl der Schriftgrade"
     TAGSPERCLOUD: "Anzahl der anzuzeigenden Suchbegriffe"
     TITLE: "Die häufigsten Suchbegriffe"
-  SilvercartSearchResultsPage:
+  SilverCart\Model\Pages\SearchResultsPage:
     CHOOSE_CONTEXT: "Ergebnisse für"
     DEFAULT_TITLE: "Suchergebnisse"
     DEFAULT_URLSEGMENT: "suchergebnisse"
     PLURALNAME: "Suchergebnisseiten"
     RELEVANCESORT: "Relevanz"
-    RESULTTEXT: "Suchergebnisse f&uuml;r den Begriff <b>&rdquo;%s&rdquo;</b>"
+    RESULTTEXT: "Suchergebnisse f&uuml;r den Begriff <b>&rdquo;{query}&rdquo;</b>"
     SINGULARNAME: "Suchergebnisseite"
     TITLE: "Suchergebnisse"
     URL_SEGMENT: "suchergebnisse"
-  SilvercartSearchWidget:
+  SilverCart\Model\Widgets\SearchWidget:
     CMSTITLE: "Suche"
     DESCRIPTION: "Dieses Widget zeigt ein Suchformular für die Artikelsuche an."
     TITLE: "Suchformular"
-  SilvercartSearchWidgetForm:
+  SilverCart\Model\Widgets\SearchWidgetForm:
     SEARCHLABEL: "Geben Sie bitte Ihren Suchbegriff ein:"
     SUBMITBUTTONTITLE: "Suchen"
-  SilvercartShippingAddress:
-    PLURALNAME: "Lieferadressen"
-    SINGULARNAME: "Lieferadresse"
-  SilvercartShippingFee:
+  SilverCart\Model\Shipment\ShippingFee:
     ATTRIBUTED_SHIPPINGMETHOD: "zugeordnete Versandarten"
     COSTS: "Kosten"
     DeliveryTimeHint: "Optionale Angabe über Lieferzeit. Überschreibt die Angabe der übergeordneten Versandart."
@@ -1773,16 +1615,19 @@ de:
     UNLIMITED_WEIGHT: "unbegrenzt"
     UNLIMITED_WEIGHT_LABEL: "Unbegrenztes Maximalgewicht"
     ZONE_WITH_DESCRIPTION: "Zone (nur Zonen des Frachtführers verfügbar)"
-  SilvercartShippingFeesPage:
+  SilverCart\Model\Pages\ShippingFeesPage:
     DEFAULT_TITLE: "Versandgebühren"
     DEFAULT_URLSEGMENT: "versandgebuehren"
     PLURALNAME: "Versandgebührenseiten"
     SINGULARNAME: "Versandgebührenseite"
     TITLE: "Versandgebühren"
     URL_SEGMENT: "versandgebuehren"
-  SilvercartShippingMethod:
+  SilverCart\Model\Shipment\ShippingMethod:
+    BusinessDay: "Werktag"
+    BusinessDays: "Werktage"
     CHOOSE_DATAOBJECT_TO_IMPORT: "Was wollen Sie importieren?"
-    CHOOSE_SHIPPING_METHOD: "Bitte wählen Sie Ihre Versandart für die Lieferung nach \"%s\""
+    CHOOSE_SHIPPING_METHOD: "Bitte wählen Sie Ihre Versandart"
+    CHOOSE_SHIPPING_METHOD_TO: "Bitte wählen Sie Ihre Versandart für die Lieferung nach \"{country}\""
     DESCRIPTION: "Beschreibung"
     DeliveryTime: "Lieferzeit"
     DeliveryTimeMax: "Maximale Lieferzeit"
@@ -1802,63 +1647,86 @@ de:
     PLURALNAME: "Versandarten"
     SINGULARNAME: "Versandart"
     isPickup: "Ist Selbstabholung (kein tatsächlicher Versand)"
-  SilvercartShippingMethodAdmin:
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: "Versandarten"
-  SilvercartShippingMethodLanguage:
+  SilverCart\Model\Shipment\ShippingMethodTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartShopAdmin:
-    PAYMENT_DESCRIPTION: "Beschreibung"
-    PAYMENT_ISACTIVE: "aktiviert"
-    PAYMENT_MAXAMOUNTFORACTIVATION: "Höchstbetrag für Modul"
-    PAYMENT_MINAMOUNTFORACTIVATION: "Mindestbetrag für Modul"
-    PAYMENT_MODE_DEV: "Entwicklung & Test"
-    PAYMENT_MODE_LIVE: "Live / in Betrieb"
-    SHOW_PAYMENT_LOGOS: "Logos anzeigen"
-  SilvercartShopAdministrationAdmin:
-    TITLE: "SC Admin"
-  SilvercartShopConfigurationAdmin:
-    SILVERCART_CONFIG: "Grundeinstellungen"
-  SilvercartShopEmail:
+  SilverCart\Model\ShopEmail:
     ADDITIONALS_RECEIPIENTS: "Zusätzliche Empfänger"
     EMAILTEXT: "Nachricht"
-    FORGOT_PASSWORD_SUBJECT: "Passwort zurücksetzen"
     HELLO: "Hallo"
     IDENTIFIER: "Bezeichner"
-    NEW_ORDER_PLACED: "Eine neue Bestellung wurde aufgegeben"
     ORDER_ARRIVED: "Ihre Bestellung ist soeben bei uns eingegangen, vielen Dank."
-    ORDER_ARRIVED_EMAIL_SUBJECT: "Ihre Bestellung in unserem Webshop"
     ORDER_SHIPPED_MESSAGE: "Ihre Bestellung wurde soeben von uns versendet."
     ORDER_SHIPPED_NOTIFICATION: "Versandbenachrichtigung"
-    ORDER_SHIPPED_NOTIFICATION_SUBJECT: "Ihre Bestellung wurde soeben von uns versendet."
     PLURALNAME: "Shop E-Mails"
     REGARDS: "Mit freundlichen Grüßen"
     SINGULARNAME: "Shop E-Mail"
     SUBJECT: "Betreff"
     VARIABLES: "Variablen"
     YOUR_TEAM: "Ihr SilverCart Webshop Team"
-  SilvercartShopEmailAdmin:
+    ForgotPasswordNO_CHANGE: "Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte."
+    ForgotPasswordPASSWORT_RESET_LINK_HINT: "Falls Sie den Link nicht anklicken können, kopieren Sie diesen bitte in Ihre Zwischenablage und fügen Sie ihn in die Adressleiste Ihres Browsers ein."
+    ForgotPasswordTITLE: "Passwort zurücksetzen"
+    ForgotPasswordVISIT_TEXT: "Bitte besuchen Sie den folgenden Link, um Ihr Passwort zu ändern:"
+    Preview: "Vorschau"
+    RevocationConfirmationText: "Hiermit bestätigen wir den Eingang Ihres Widerrufs mit den folgenden Daten:"
+    RevocationConfirmationTitle: "Bestätigung Ihres Widerrufs"
+    RevocationNotificationText: "Ein Kunde hat einen Widerruf mit den folgenden Daten gesendet:"
+    Subject_ChangePassword: "Passwort zurücksetzen"
+    Subject_ContactMessage: "Anfrage über das Kontaktformular"
+    Subject_ForgotPassword: "Passwort zurücksetzen"
+    Subject_NewsletterOptIn: "Newsletteranmeldung abschließen"
+    Subject_NewsletterOptInConfirmation: "Newsletteranmeldung erfolgreich abgeschlossen"
+    Subject_OrderConfirmation: "Ihre Bestellung in unserem Webshop"
+    Subject_OrderNotification: "Eine neue Bestellung wurde aufgegeben"
+    Subject_OrderShippedNotification: "Ihre Bestellung wurde soeben von uns versendet."
+    Subject_RevocationConfirmation: "Bestätigung Ihres Widerrufs"
+    Subject_RevocationNotification: "Widerruf eines Kunden"
+    TemplateName: "E-Mail-Typ"
+    TemplateName_ChangePassword: "Passwort ändern (Kunde)"
+    TemplateName_ContactMessage: "Kontaktanfrage (Betreiber)"
+    TemplateName_ForgotPassword: "Passwort vergessen (Kunde)"
+    TemplateName_NewsletterOptIn: "Newsletter-Opt-In (Kunde)"
+    TemplateName_NewsletterOptInConfirmation: "Newsletter-Opt-In-Bestätigung (Kunde)"
+    TemplateName_OrderConfirmation: "Bestellbestätigung (Kunde)"
+    TemplateName_OrderNotification: "Bestellbenachrichtigung (Betreiber)"
+    TemplateName_OrderShippedNotification: "Lieferbenachrichtigung (Kunde)"
+    TemplateName_RevocationConfirmation: "Widerrufsbestätigung (Kunde)"
+    TemplateName_RevocationNotification: "Widerrufsbenachrichtigung (Betreiber)"
+    Title_ChangePassword: "Passwort ändern"
+    Title_ContactMessage: "Kontaktanfrage"
+    Title_ForgotPassword: "Passwort vergessen"
+    Title_NewsletterOptIn: "Newsletter-Opt-In"
+    Title_NewsletterOptInConfirmation: "Newsletter-Opt-In-Bestätigung"
+    Title_OrderConfirmation: "Bestellbestätigung"
+    Title_OrderNotification: "Eine neue Bestellung wurde aufgegeben"
+    Title_OrderShippedNotification: "Lieferbenachrichtigung"
+    Title_RevocationConfirmation: "Bestätigung Ihres Widerrufs"
+    Title_RevocationNotification: "Ein Kunde hat einer Bestellung widerrufen"
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: "Shop E-Mails"
-  SilvercartShopEmailLanguage:
+  SilverCart\Model\ShopEmailTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartShoppingCart:
-    ERROR_MINIMUMORDERVALUE_NOT_REACHED: "Der Mindestbestellwert beträgt %s"
+  SilverCart\Model\Order\ShoppingCart:
+    ERROR_MINIMUMORDERVALUE_NOT_REACHED: "Der Mindestbestellwert beträgt {amount}"
     PLURALNAME: "Warenkörbe"
     SINGULARNAME: "Warenkorb"
-  SilvercartShoppingCartPosition:
+  SilverCart\Model\Order\ShoppingCartPosition:
     MAX_QUANTITY_REACHED_MESSAGE: "Die maximale Anzahl an Artikeln für diese Position wurde erreicht."
     PLURALNAME: "Warenkorbpositionen"
     QUANTITY_ADDED_MESSAGE: "Der Artikel wurde in den Warenkorb gelegt."
     QUANTITY_ADJUSTED_MESSAGE: "Die Menge dieser Position wurde an den verfügbaren Lagerbestand angepasst."
     REMAINING_QUANTITY_ADDED_MESSAGE: "Da wir die angeforderte Menge nicht mehr auf Lager haben, haben wir die verfügbare Menge in Ihren Warenkorb gelegt."
     SINGULARNAME: "Warenkorbposition"
-  SilvercartShoppingcartWidget:
+  SilverCart\Model\Widgets\ShoppingcartWidget:
     CMSTITLE: "Warenkorb"
     DESCRIPTION: "Dieses Widget zeigt den Inhalt des Warenkorbs. Zusätzlich werden Links zu den Warenkorb- und (falls sich Artikel im Warenkorb befinden) Checkoutseiten angezeigt"
     SHOWONLYWHENFILLED: "Dieses Widget nur anzeigen, wenn der Warenkorb gefüllt ist"
     TITLE: "Warenkorb"
-  SilvercartSiteConfig:
+  SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: "Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist."
     FACEBOOK_LINK: "Facebook Link"
     GoogleplusLink: "Google Plus Link"
@@ -1873,10 +1741,10 @@ de:
     TWITTER_LINK: "Twitter Link"
     WELCOME_TO_SILVERCART: "Willkommen bei SilverCart"
     XING_LINK: "Xing Link"
-  SilvercartSiteMapPage:
+  SilverCart\Model\Pages\SiteMapPage:
     PLURALNAME: "SiteMaps"
     SINGULARNAME: "SiteMap"
-  SilvercartSlidorionProductGroupWidget:
+  SilverCart\Model\Widgets\SlidorionProductGroupWidget:
     AUTOPLAY: "Automatisch starten"
     CMSTITLE: "Slidorion Akkordeon Slider"
     CMS_ADVANCEDTABNAME: "Erweiterte Einstellungen"
@@ -1891,10 +1759,10 @@ de:
     SCPRODUCTGROUPPAGES: "Anzuzeigende Slides"
     SINGULARNAME: "Slidorion Akkordeon"
     SPEED: "Animationsgeschwindigkeit"
-    SilvercartImagesDescription: "<strong>Achtung:</strong> Die optimalen Dimensionen für ein anzuzeigendes Bild sind <strong><u>426x%s Pixel</u></strong>."
+    ImagesDescription: "<strong>Achtung:</strong> Die optimalen Dimensionen für ein anzuzeigendes Bild sind <strong><u>426x%s Pixel</u></strong>."
     TITLE: "Slidorion Akkordeon"
     WIDGET_HEIGHT: "Höhe des Widgets (in Pixel)"
-  SilvercartStoreAdminMenu:
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
     CONFIG: "Einstellungen"
     CUSTOMER: "Kunden"
     DEFAULT: "CMS"
@@ -1903,7 +1771,7 @@ de:
     MODULES: "Module"
     ORDERS: "Bestellungen"
     PRODUCTS: "Artikel"
-  SilvercartSubNavigationWidget:
+  SilverCart\Model\Widgets\SubNavigationWidget:
     CMSTITLE: "Subnavigation"
     DESCRIPTION: "Dieses Widget zeigt eine Navigation des aktuellen Bereiches und dessen Unterseiten an."
     LABEL_TITLE: "Titel"
@@ -1912,18 +1780,18 @@ de:
     SINGULARNAME: "Subnavigation"
     STARTATLEVEL: "Zeige Hierarchie ab folgender Stufe an"
     TITLE: "Subnavigation"
-  SilvercartTax:
+  SilverCart\Model\Product\Tax:
     ISDEFAULT: "Ist Standard"
     LABEL: "Bezeichnung"
     PLURALNAME: "Steuersätze"
     RATE_IN_PERCENT: "Steuersatz in %"
     SINGULARNAME: "Steuersatz"
-  SilvercartTaxAdmin:
+  SilverCart\Admin\Controllers\TaxAdmin:
     MENUTITLE: "Steuersätze"
-  SilvercartTaxLanguage:
+  SilverCart\Model\Product\TaxTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartTestData:
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
     CURRENCY: "EUR"
     IMAGEFOLDERNAME: "Beispieldaten"
     PRODUCTGROUPCUSTOMISABLE_CONTENT: "Mit Hilfe von Widgets ist SilverCart ganz einfach anpassbar."
@@ -1952,37 +1820,41 @@ de:
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: "Warengruppenseiten Seitenleiste"
     slidorion_productGroupHolder_TITLE: "Vorteile von SilverCart"
     slidorion_productGroupHolder_URLSEGMENT: "vorteile-von-silvercart"
-  SilvercartTextWidget:
+  SilverCart\Model\Widgets\TextWidget:
+    CONTENT: "Inhalt"
     CSSFIELD_LABEL: "Zusätzliche CSS Klassen (optional):"
     DESCRIPTION: "Geben Sie beliebigen Text ein."
     FREETEXTFIELD_LABEL: "Ihr Text:"
     HEADLINEFIELD_LABEL: "Überschrift (optional):"
     IS_CONTENT_VIEW: "Inhaltsansicht statt Widgetansicht verwenden"
     TITLE: "Freitext"
-  SilvercartTextWidgetLanguage:
+  SilverCart\Model\Widgets\TextWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartTextWithLinkWidget:
+  SilverCart\Model\Widgets\TextWithLinkWidget:
     DESCRIPTION: "Widget um einen Text mit Titel und Link anzuzeigen."
     Link: "Link"
     LinkText: "Link-Text"
     PLURALNAME: "Freitext-mit-Link-Widgets"
     SINGULARNAME: "Freitext-mit-Link-Widget"
     TITLE: "Freitext mit Link"
-  SilvercartTextWithLinkWidgetLanguage:
+  SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
-  SilvercartTopsellerProductsWidget:
+  SilverCart\Model\Widgets\TopsellerProductsWidget:
     CMSTITLE: "Topseller"
     DESCRIPTION: "Dieses Widget zeigt eine konfigurierbare Anzahl der meistverkauften Artikel an."
     STOREADMIN_FIELDLABEL: "Anzahl der Artikel, die angezeigt werden sollen:"
     TITLE: "Topseller"
-  SilvercartWidget:
+  SilverCart\Model\Widgets\Widget:
+    CLASSNAME: "Typ"
+    FRONTCONTENT: "Inhalt zur Anzeige im Shop"
+    FRONTTITLE: "Titel zu Anzeige im Shop"
     SORT_ORDER_LABEL: "Sortierung"
-  SilvercartWidgetSet:
+  SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: "Widgets Sets verwalten"
     UseAsSlider: "Als Slider verwenden"
-  SilvercartZone:
+  SilverCart\Model\Shipment\Zone:
     ATTRIBUTED_COUNTRIES: "zugeordnete Länder"
     ATTRIBUTED_SHIPPINGMETHODS: "zugeordnete Versandart"
     COUNTRIES: "Länder"
@@ -1992,17 +1864,14 @@ de:
     SINGULARNAME: "Zone"
     USE_ALL_COUNTRIES: "Nach dem Speichern dynamisch alle Länder aufnehmen"
     VALID_FOR_ALL_AVAILABLE: "Gilt für alle auswählbaren Länder"
-  SilvercartZoneAdmin:
+  SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: "Zonen"
-  SilvercartZoneLanguage:
+  SilverCart\Model\Shipment\ZoneTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
   SiteConfig:
     SITENAMEDEFAULT: "SilverCart"
     TAGLINEDEFAULT: "eCommerce software. Open-source. You'll love it."
-  TermsOfServicePage:
-    DEFAULT_TITLE: "Allgemeine Geschäftsbedingungen"
-    DEFAULT_URLSEGMENT: "allgemeine-geschaeftsbedingungen-kaeuferinformationen"
   Translatable:
     CREATE: "Neue Übersetzung erstellen"
     CREATEBUTTON: "Erstellen"
@@ -2013,3 +1882,38 @@ de:
     NEWLANGUAGE: "Neue Sprache"
     PUBLISHBUTTON: "Alle Seiten der aktuellen Sprache veröffentlichen"
     TRANSLATIONS: "Übersetzungen"
+  SilverCart\Dev\Tools:
+    DATE: "Datum"
+    DATEFORMAT: "d.m.Y"
+    NO: "Nein"
+    Oclock: "Uhr"
+    PLEASECHOOSE: "--bitte wählen--"
+    PRIORITY: "Priorität (Je höher desto wichtiger)"
+    To: "An"
+    TODAY: "heute"
+    YES: "Ja"
+    YESTERDAY: "gestern"
+  SilverCart\Forms\ChangeLanguageForm:
+    CHOOSE: "wählen"
+    LANGUAGE: "Sprache"
+  SilverCart\Model\Translation\TranslationTools:
+    TRANSLATION: "Übersetzung"
+    TRANSLATIONS: "Übersetzungen"
+  SilverCart\Forms\CustomForm:
+    DefaultSuccessMessageSave: 'Ihre Daten wurden gespeichert.'
+    DefaultSuccessMessageSend: 'Ihre Daten wurden gesendet.'
+  SilverCart\Forms\CustomRequiredFields:
+    FieldCanNotHaveMoreDecimalPlaces: 'Das Feld {name} darf maximal {places} Dezimalstellen enthalten.'
+    FieldMayConsistOfNumbersOnly: 'Das Feld "{name}" darf nur Zahlen enthalten.'
+    FieldMayNotBeEmpty: 'Das Feld "{name}" darf nicht leer sein.'
+    FieldMayNotHaveValue: 'Das Feld "{name1}" darf nicht den gleichen Wert wie das Feld "{name2}" haben.'
+    FieldMustBeCurrencyAmount: 'In dieses Feld muss eine Währungsangabe (z.B. "1499,95") eingetragen werden.'
+    FieldMustBeDecimal: 'Das Feld {name} darf nur Zahlen sowie "." und "," enthalten.'
+    FieldMustBeEmail: 'Bitte geben Sie hier eine gültige Email Adresse an.'
+    FieldMustBeEmpty: 'Das Feld "{name}" muss leer sein.'
+    FieldMustContainSpecialSigns: 'Das Feld "{name}" muss Sonderzeichen enthalten (andere Zeichen als Buchstaben, Zahlen und die Zeichen "@" und ".").'
+    FieldMustHaveExactlyChars: 'Das Feld "{name}" erfordert genau {count} Zeichen.'
+    FieldMustHaveMinChars: 'Bitte mindestens {count} Zeichen eingeben.'
+    FieldMustHaveValue: 'Bitte geben Sie den gleichen Wert ein wie im Feld "{name}".'
+    FieldMustNotBeEmail: "Bitte geben Sie hier keine Email Adresse an."
+    FieldMustNotContainSpecialSigns: 'Das Feld "{name}" darf nur Buchstaben, Zahlen und die Zeichen "@" und "." enthalten.'

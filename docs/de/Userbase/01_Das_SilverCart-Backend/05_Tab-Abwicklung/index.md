@@ -88,7 +88,7 @@ config.yml folgende Zeilen hinzu:
 
     Name: Always show days
     ---
-    SilvercartShippingMethod:
+    SilverCart\Model\Shipment\ShippingMethod:
       always_force_display_in_days: true
 
 **Name**

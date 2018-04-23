@@ -1,0 +1,2292 @@
+<?php
+
+namespace SilverCart\Model\Payment;
+
+use ReflectionClass;
+use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
+use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverCart\Admin\Forms\ImageUploadField;
+use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\Tools;
+use SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm;
+use SilverCart\Model\Customer\Address;
+use SilverCart\Model\Customer\Country;
+use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Order\Order;
+use SilverCart\Model\Order\OrderStatus;
+use SilverCart\Model\Order\ShoppingCart;
+use SilverCart\Model\Pages\CheckoutStepController;
+use SilverCart\Model\Payment\HandlingCost;
+use SilverCart\Model\Payment\PaymentMethod;
+use SilverCart\Model\Payment\PaymentMethodTranslation;
+use SilverCart\Model\Product\Image;
+use SilverCart\Model\Product\Product;
+use SilverCart\Model\Product\Tax;
+use SilverCart\Model\Shipment\Zone;
+use SilverCart\Model\Shipment\ShippingMethod;
+use SilverCart\ORM\DataObjectExtension;
+use SilverCart\Model\Translation\TranslationTools;
+use SilverStripe\Assets\Folder;
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\Director;
+use SilverStripe\Control\RequestHandler;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Dev\Deprecation;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\OptionsetField;
+use SilverStripe\Forms\ReadonlyField;
+use SilverStripe\Forms\Tab;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\ToggleCompositeField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBMoney;
+use SilverStripe\ORM\Filters\ExactMatchFilter;
+use SilverStripe\ORM\Filters\GreaterThanFilter;
+use SilverStripe\ORM\Filters\LessThanFilter;
+use SilverStripe\Security\Group;
+use SilverStripe\Security\Member;
+use Translatable;
+
+/**
+ * Base class for payment.
+ * Every payment module must extend this class.
+ *
+ * @package SilverCart
+ * @subpackage Model_Payment
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 28.09.2017
+ * @copyright 2017 pixeltricks GmbH
+ * @license see license file in modules root directory
+ */
+class PaymentMethod extends DataObject {
+    
+    /**
+     * Defines the attributes of the class
+     *
+     * @var array
+     */
+    private static $db = array(
+        'isActive'                              => 'Boolean',
+        'minAmountForActivation'                => 'Float',
+        'maxAmountForActivation'                => 'Float',
+        'mode'                                  => "Enum('Live,Dev','Dev')",
+        'orderStatus'                           => 'Varchar(50)',
+        'showPaymentLogos'                      => 'Boolean',
+        'orderRestrictionMinQuantity'           => 'Int',
+        'enableActivationByOrderRestrictions'   => 'Boolean',
+        'ShowFormFieldsOnPaymentSelection'      => 'Boolean',
+        'sumModificationImpact'                 => "Enum('productValue,totalValue','productValue')",
+        'sumModificationImpactType'             => "Enum('charge,discount','charge')",
+        'sumModificationValue'                  => 'Float',
+        'sumModificationValueType'              => "Enum('absolute,percent','absolute')",
+        'sumModificationLabel'                  => 'Varchar(255)',
+        'sumModificationProductNumber'          => 'Varchar(255)',
+        'useSumModification'                    => 'Boolean(0)'
+    );
+    /**
+     * Defines 1:1 relations
+     *
+     * @var array
+     */
+    private static $has_one = array(
+        'Zone' => Zone::class,
+    );
+    /**
+     * Defines 1:n relations
+     *
+     * @var array
+     */
+    private static $has_many = array(
+        'HandlingCosts' => HandlingCost::class,
+        'Orders'        => Order::class,
+        'PaymentLogos'  => Image::class,
+    );
+    /**
+     * Defines n:m relations
+     *
+     * @var array
+     */
+    private static $many_many = array(
+        'ShippingMethods'        => ShippingMethod::class,
+        'ShowOnlyForGroups'      => Group::class,
+        'ShowNotForGroups'       => Group::class,
+        'ShowOnlyForUsers'       => Member::class,
+        'ShowNotForUsers'        => Member::class,
+        'OrderRestrictionStatus' => OrderStatus::class,
+    );
+    /**
+     * Defines m:n relations
+     *
+     * @var array
+     */
+    private static $belongs_many_many = array(
+        'Countries' => Country::class,
+    );
+    /**
+     * Virtual database columns.
+     *
+     * @var array
+     */
+    private static $casting = array(
+        'AttributedCountries'       => 'Varchar(255)',
+        'AttributedZones'           => 'Varchar(255)',
+        'activatedStatus'           => 'Varchar(255)',
+        'Name'                      => 'Varchar(150)',
+        'paymentDescription'        => 'Text',
+        'LongPaymentDescription'    => 'Text',
+    );
+    
+    /**
+     * Default values for new PaymentMethods
+     *
+     * @var array
+     */
+    private static $defaults = array(
+        'showPaymentLogos'                 => true,
+        'ShowFormFieldsOnPaymentSelection' => false,
+    );
+
+    /**
+     * DB table name
+     *
+     * @var string
+     */
+    private static $table_name = 'SilvercartPaymentMethod';
+
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool
+     */
+    private static $api_access = true;
+    
+    /**
+     * The link to direct after cancelling by user or session expiry.
+     *
+     * @var string
+     */
+    protected $cancelLink = '';
+    /**
+     * The link to redirect back into shop after payment.
+     *
+     * @var string
+     */
+    protected $returnLink = '';
+    /**
+     * The link to notify shop after payment (push).
+     *
+     * @var string
+     */
+    protected $notificationLink = '';
+    /**
+     * Indicates whether an error occured or not.
+     *
+     * @var bool
+     */
+    protected $errorOccured;
+    /**
+     * A list of errors.
+     *
+     * @var array
+     */
+    protected $errorList = array();
+    /**
+     * Indicates whether a payment module has multiple payment channels or not.
+     *
+     * @var bool
+     */
+    public static $has_multiple_payment_channels = false;
+    /**
+     * A list of possible payment channels.
+     *
+     * @var array
+     */
+    public static $possible_payment_channels = array();
+    /**
+     * Contains the module name for display in the admin backend
+     *
+     * @var string
+     */
+    protected $moduleName = '';
+    /**
+     * Contains a referer to the order object
+     *
+     * @var Controller
+     */
+    protected $controller;
+    /**
+     * Details of customer
+     *
+     * @var Member
+     */
+    protected $customerDetails = null;
+    /**
+     * Invoice address
+     *
+     * @var Address
+     */
+    protected $invoiceAddress = null;
+    /**
+     * Shipping address
+     *
+     * @var Address
+     */
+    protected $shippingAddress = null;
+    /**
+     * Shopping cart
+     *
+     * @var ShoppingCart
+     */
+    protected $shoppingCart = null;
+    /**
+     * Order
+     *
+     * @var Order
+     */
+    protected $order = null;
+    /**
+     * ID of the check out form to render additional form fields
+     *
+     * @var string
+     */
+    protected $formID = '';
+
+    /**
+     * Path to the uploads folder
+     *
+     * @var string
+     */
+    protected $uploadsFolder = '';
+    
+    /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
+    
+    /**
+     * Set to true to delete the object after writing.
+     *
+     * @var bool
+     */
+    protected $deleteAfterWrite = false;
+    
+    /**
+     * Returns the translated singular name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string The objects singular name 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
+     */
+    public function singular_name() {
+        return Tools::singular_name_for($this);
+    }
+
+    /**
+     * Returns the translated plural name of the object. If no translation exists
+     * the class name will be returned.
+     * 
+     * @return string the objects plural name
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.05.2012
+     */
+    public function plural_name() {
+        return Tools::plural_name_for($this);
+    }
+    
+    /**
+     * getter for the multilingual attribute name
+     *
+     * @return string 
+     */
+    public function getName() {
+        $name = '';     
+        if ($this->isExtendingPaymentMethod() && $this->hasMethod('getTranslationFieldValue')) {
+            $name = $this->getTranslationFieldValue('Name');
+        }
+        return $name;
+    }
+    
+    /**
+     * getter for the multilingual attribute paymentDescription
+     *
+     * @return string 
+     */
+    public function getpaymentDescription() {
+        $paymentDescription = '';
+        if ($this->isExtendingPaymentMethod() && $this->hasMethod('getTranslationFieldValue')) {
+            $paymentDescription = $this->getTranslationFieldValue('paymentDescription');
+        }
+        return $paymentDescription;
+    }
+    
+    /**
+     * getter for the multilingual attribute LongPaymentDescription
+     *
+     * @return string 
+     */
+    public function getLongPaymentDescription() {
+        $LongPaymentDescription = '';
+        if ($this->isExtendingPaymentMethod() && $this->hasMethod('getTranslationFieldValue')) {
+            $LongPaymentDescription = $this->getTranslationFieldValue('LongPaymentDescription');
+        }
+        return $LongPaymentDescription;
+    }
+    
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
+    
+    /**
+     * Searchable fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 06.03.2014
+     */
+    public function searchableFields() {
+        $searchableFields = array(
+            'isActive' => array(
+                'title'  => $this->fieldLabel('isActive'),
+                'filter' => ExactMatchFilter::class,
+            ),
+            'minAmountForActivation' => array(
+                'title'  => $this->fieldLabel('MinAmountForActivation'),
+                'filter' => GreaterThanFilter::class,
+            ),
+            'maxAmountForActivation' => array(
+                'title'  => $this->fieldLabel('MaxAmountForActivation'),
+                'filter' => LessThanFilter::class,
+            ),
+            'Countries.ID' => array(
+                'title'  => $this->fieldLabel('AttributedCountries'),
+                'filter' => ExactMatchFilter::class
+            )
+        );
+        $this->extend('updateSearchableFields', $searchableFields);
+        return $searchableFields;
+    }
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     *
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.07.2013
+     */
+    public function fieldLabels($includerelations = true) {
+        return array_merge(
+                parent::fieldLabels($includerelations),
+                array(
+                    'Title'                             => Product::singleton()->fieldLabel('Title'),
+                    'Name'                              => _t(PaymentMethod::class . '.NAME', 'Name'),
+                    'isActive'                          => _t(PaymentMethod::class . '.PAYMENT_ISACTIVE', 'Activated'),
+                    'activatedStatus'                   => _t(PaymentMethod::class . '.PAYMENT_ISACTIVE', 'Activated'),
+                    'AttributedZones'                   => Country::singleton()->fieldLabel('AttributedZones'),
+                    'AttributedCountries'               => _t(PaymentMethod::class . '.ATTRIBUTED_COUNTRIES', 'Attributed countries'),
+                    'minAmountForActivation'            => _t(PaymentMethod::class . '.FROM_PURCHASE_VALUE', 'from purchase value'),
+                    'maxAmountForActivation'            => _t(PaymentMethod::class . '.TILL_PURCHASE_VALUE', 'till purchase value'),
+                    'ShowFormFieldsOnPaymentSelection'  => _t(PaymentMethod::class . '.SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION', 'Show form fields on payment selection'),
+                    'PaymentMethodTranslations'         => PaymentMethodTranslation::singleton()->plural_name(),
+                    'ShippingMethods'                   => ShippingMethod::singleton()->plural_name(),
+                    'Countries'                         => Country::singleton()->plural_name(),
+                    'PaymentDescription'                => _t(PaymentMethod::class . '.PAYMENT_DESCRIPTION', 'Description'),
+                    'LongPaymentDescription'            => _t(PaymentMethod::class . '.LONG_PAYMENT_DESCRIPTION', 'Description to display on payment method page'),
+                    'HandlingCosts'                     => HandlingCost::singleton()->plural_name(),
+                    'PaymentLogos'                      => _t(PaymentMethod::class . '.PAYMENT_LOGOS', 'Logos'),
+                    'OrderStatus'                       => OrderStatus::singleton()->plural_name(),
+                    'ShowOnlyForGroups'                 => _t(PaymentMethod::class . '.SHOW_ONLY_FOR_GROUPS_LABEL', 'Deactivate for the following groups'),
+                    'ShowNotForGroups'                  => _t(PaymentMethod::class . '.SHOW_NOT_FOR_GROUPS_LABEL', 'Activate for the following groups'),
+                    'ShowNotForUsers'                   => _t(PaymentMethod::class . '.SHOW_NOT_FOR_USERS_LABEL', 'Activate for the following users'),
+                    'ShowOnlyForUsers'                  => _t(PaymentMethod::class . '.SHOW_ONLY_FOR_USERS_LABEL', 'Deactivate for the following users'),
+                    'AddPaymentLogos'                   => _t(PaymentMethod::class . '.AddPaymentLogos', 'Add Logo'),
+                    'modeLive'                          => _t(PaymentMethod::class . '.PAYMENT_MODE_LIVE', 'Live'),
+                    'modeDev'                           => _t(PaymentMethod::class . '.PAYMENT_MODE_DEV', 'Dev'),
+                    'SumModifiers'                      => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFIERS', 'Charges/Discounts'),
+                    'sumModificationImpact'             => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFICATIONIMPACT', 'Discount'),
+                    'sumModificationImpactType'         => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFICATIONIMPACTTYPE', 'Type'),
+                    'sumModificationValue'              => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFICATIONVALUE', 'Value'),
+                    'sumModificationValueType'          => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE', 'The value is'),
+                    'sumModificationLabel'              => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFICATIONLABELFIELD', 'Label for shopping cart/order'),
+                    'sumModificationProductNumber'      => _t(PaymentMethod::class . '.PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD', 'Product number to use for XML order export'),
+                    'useSumModification'                => _t(PaymentMethod::class . '.PAYMENT_USE_SUMMODIFICATION', 'Activate'),
+                    'MaxAmountForActivation'            => _t(PaymentMethod::class . '.PAYMENT_MAXAMOUNTFORACTIVATION', 'Maximum amount'),
+                    'MinAmountForActivation'            => _t(PaymentMethod::class . '.PAYMENT_MINAMOUNTFORACTIVATION', 'Minimum amount'),
+                    'Translations'                      => _t(Config::class . '.TRANSLATIONS', 'Translations'),
+                    'ModifyProductValue'                => _t(PaymentMethod::class . '.PAYMENT_MODIFY_PRODUCTVALUE', 'Product value'),
+                    'ModifyTotalValue'                  => _t(PaymentMethod::class . '.PAYMENT_MODIFY_TOTALVALUE', 'Total value'),
+                    'ModifyCharge'                      => _t(PaymentMethod::class . '.PAYMENT_MODIFY_TYPE_CHARGE', 'Charge'),
+                    'ModifyDiscount'                    => _t(PaymentMethod::class . '.PAYMENT_MODIFY_TYPE_DISCOUNT', 'Discount'),
+                    'ModifyAbsolute'                    => _t(PaymentMethod::class . '.PAYMENT_IMPACT_TYPE_ABSOLUTE', 'Absolute'),
+                    'ModifyPercent'                     => _t(PaymentMethod::class . '.PAYMENT_IMPACT_TYPE_PERCENT', 'In percent'),
+                    'ActivationByOrderRestrictions'     => _t(PaymentMethod::class . '.ENABLE_RESTRICTION_BY_ORDER_LABEL', 'Use the following rule'),
+                    'AccessManagementBasic'             => _t(PaymentMethod::class . '.ACCESS_MANAGEMENT_BASIC_LABEL', 'General'),
+                    'AccessManagementGroup'             => _t(PaymentMethod::class . '.ACCESS_MANAGEMENT_GROUP_LABEL', 'By group(s)'),
+                    'AccessManagementUser'              => _t(PaymentMethod::class . '.ACCESS_MANAGEMENT_USER_LABEL', 'By user(s)'),
+                    'AccessSettings'                    => _t(PaymentMethod::class . '.ACCESS_SETTINGS', 'Access management'),
+                    'BasicSettings'                     => _t(PaymentMethod::class . '.BASIC_SETTINGS', 'Basic settings'),
+                    'DefaultOrderStatus'                => _t(PaymentMethod::class . '.STANDARD_ORDER_STATUS', 'Default order status for this payment method'),
+                    'HandlingCosts'                     => _t(PaymentMethod::class . '.HANDLINGCOSTS_SETTINGS', 'Handling costs'),
+                    'Mode'                              => _t(PaymentMethod::class . '.MODE', 'Mode'),
+                    'RestrictionByOrderQuantityLabel'   => _t(PaymentMethod::class . '.RESTRICT_BY_ORDER_QUANTITY', 'The customer must have completed the following number of orders'),
+                    'RestrictionByOrderStatusLabel'     => _t(PaymentMethod::class . '.RESTRICT_BY_ORDER_STATUS', 'whose order status is marked in the following list'),
+                    'RestrictionLabel'                  => _t(PaymentMethod::class . '.RESTRICTION_LABEL', 'Activate only, when the following criteria are met'),
+                    'ShippingMethodsDesc'               => _t(PaymentMethod::class . '.SHIPPINGMETHOD_DESC', 'Bind the payment method to the following shipping methods:'),
+                    'ShowPaymentLogos'                  => _t(PaymentMethod::class . '.SHOW_PAYMENT_LOGOS', 'Show logos in frontend'),
+                )
+        );
+    }
+
+    /**
+     * i18n for summary fields
+     *
+     * @return array
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 28.02.2011
+     */
+    public function summaryFields() {
+        return array(
+            'Name'                   => $this->fieldLabel('Name'),
+            'activatedStatus'        => $this->fieldLabel('activatedStatus'),
+            'AttributedCountries'    => $this->fieldLabel('AttributedCountries'),
+            'minAmountForActivation' => $this->fieldLabel('MinAmountForActivation'),
+            'maxAmountForActivation' => $this->fieldLabel('MaxAmountForActivation'),
+        );
+    }
+
+    /**
+     * Returns the title of the payment method
+     *
+     * @return string
+     */
+    public function getTitle() {
+        return $this->Name;
+    }
+
+    /**
+     * Returns the status that for orders created with this payment method
+     *
+     * @return string orderstatus code
+     */
+    public function getDefaultOrderStatus() {
+        return $this->orderStatus;
+    }
+
+    /**
+     * Returns the path to the payment methods logo
+     *
+     * @return string
+     */
+    public function getLogo() {
+        
+    }
+
+    /**
+     * Returns the link for cancel action or end of session
+     *
+     * @return string
+     */
+    public function getCancelLink() {
+        return $this->cancelLink;
+    }
+
+    /**
+     * Returns the link to get back in the shop
+     *
+     * @return string
+     */
+    public function getReturnLink() {
+        return $this->returnLink;
+    }
+
+    /**
+     * Returns the link to notify the shop (push)
+     *
+     * @return string
+     */
+    public function getNotificationLink() {
+        if (empty($this->notificationLink)) {
+            $this->setNotificationLink(Director::absoluteUrl(Tools::PageByIdentifierCode('SilvercartPaymentNotification')->Link() . 'process/' . $this->moduleName . '/' . $this->ID));
+        }
+        return $this->notificationLink;
+    }
+
+    /**
+     * Returns handling costs for this payment method
+     *
+     * @return Money a money object
+     */
+    public function getHandlingCost() {
+        $controller         = Controller::curr();
+        $member             = Customer::currentRegisteredCustomer();
+        $handlingCostToUse  = false;
+
+        if (method_exists($controller, 'getAddress')) {
+            // 1) Use shipping address from checkout
+            $shippingAddress   = $controller->getAddress('ShippingAddress');
+        } else {
+            if ($member &&
+                $member->ShippingAddressID > 0) {
+
+                // 2) Use customer's default shipping address
+                $shippingAddress = $member->ShippingAddress();
+            } else {
+                // 3) Generate shipping address with shop's default country
+                $currentShopLocale = i18n::get_lang_from_locale(i18n::get_locale());
+                $shippingAddress = new Address();
+                $shippingAddress->Country = Country::get()->filter('ISO2', strtoupper($currentShopLocale))->first();
+            }
+        }
+
+        if (!$shippingAddress) {
+            return false;
+        }
+
+        $zonesDefined = false;
+
+        foreach ($this->HandlingCosts() as $handlingCost) {
+            $zone = $handlingCost->Zone();
+
+            if ($zone->Countries()->find('ISO3', $shippingAddress->Country()->ISO3)) {
+                $handlingCostToUse = $handlingCost;
+                $zonesDefined = true;
+                break;
+            }
+        }
+
+        // Fallback if HandlingCosts are available but no zone is defined
+        if (!$zonesDefined) {
+            if ($this->HandlingCosts()->Count() > 0) {
+                $handlingCostToUse = $this->HandlingCosts()->First();
+            } else {
+                $tax                              = Tax::get()->filter('isDefault', 1)->first();
+                $handlingCostToUse                = new HandlingCost();
+                $handlingCostToUse->PaymentMethod = $this;
+                $handlingCostToUse->Tax           = $tax;
+                $handlingCostToUse->TaxID         = $tax->ID;
+                $handlingCostToUse->amount        = new DBMoney();
+                $handlingCostToUse->amount->setAmount(0);
+                $handlingCostToUse->amount->setCurrency(Config::DefaultCurrency());
+            }
+        }
+
+        return $handlingCostToUse;
+    }
+    
+    /**
+     * Returns the charges and discounts for the product values for this 
+     * payment method.
+     * 
+     * @param ShoppingCart $shoppingCart The shopping cart object
+     * @param string       $priceType    'gross' or 'net'
+     *
+     * @return mixed boolean|DataObject
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2014
+     */
+    public function getChargesAndDiscountsForProducts(ShoppingCart $shoppingCart, $priceType = false) {
+        $handlingCosts = new DBMoney;
+        $handlingCosts->setAmount(0);
+        $handlingCosts->setCurrency(Config::DefaultCurrency());
+
+        if ($priceType === false) {
+            $priceType = Config::PriceType();
+        }
+
+        if ($this->useSumModification &&
+            $this->sumModificationImpact == 'productValue') {
+            
+            $excludedPositions  = array();
+            $shoppingCartAmount = $shoppingCart->getAmountTotalWithoutFees(array(), false, true);
+            
+            switch ($this->sumModificationValueType) {
+                case 'percent':
+                    $modificationValue = $shoppingCartAmount->getAmount() / 100 * $this->sumModificationValue;
+                    $index = 1;
+                    foreach ($shoppingCart->ShoppingCartPositions() as $position) {
+                        if ($position->ProductID > 0 &&
+                            $position->Product() instanceof Product &&
+                            $position->Product()->ExcludeFromPaymentDiscounts) {
+                            $modificationValue -= $position->getPrice()->getAmount() / 100 * $this->sumModificationValue;
+                            $excludedPositions[] = $index;
+                        }
+                        $index++;
+                    }
+                    $this->sumModificationLabel .= ' (' . _t(PaymentMethod::class . '.ChargeOrDiscountForAmount',
+                            'on {price}',
+                            [
+                                'price' => $shoppingCartAmount->Nice()
+                            ]
+                    ) . ')';
+                    break;
+                case 'absolute':
+                default:
+                    $modificationValue = $this->sumModificationValue;
+            }
+            
+            if (count($excludedPositions) > 0) {
+                if (count($excludedPositions) == 1) {
+                    $this->sumModificationLabel .= ' (' . _t(PaymentMethod::class . '.ExcludedPosition',
+                            'position {position} is excluded',
+                            [
+                                'position' => implode(', ', $excludedPositions)
+                            ]
+                    ) . ')';
+                } else {
+                    $this->sumModificationLabel .= ' (' . _t(PaymentMethod::class . '.ExcludedPositions',
+                            'the positions {positions} are excluded',
+                            [
+                                'positions' => implode(', ', $excludedPositions)
+                            ]
+                    ) . ')';
+                }
+            }
+            
+            if ($this->sumModificationImpactType == 'charge') {
+                $handlingCostAmount = $modificationValue;
+            } else {
+                $handlingCostAmount = "-".$modificationValue;
+            }
+
+            if (Config::PriceType() == 'gross') {
+                $shoppingCartTotal = $shoppingCart->getAmountTotalGrossWithoutFees(array(), false, true);
+            } else {
+                $shoppingCartTotal = $shoppingCart->getAmountTotalNetWithoutFees(array(), false, true);
+            }
+
+            if ($handlingCostAmount < 0 &&
+                $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
+
+                if ($shoppingCartTotal->getAmount == 0.0) {
+                    $handlingCostAmount = 0.0;
+                } else {
+                    $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
+                }
+            }
+
+            if (Config::PriceType() == 'net') {
+                $taxRate = $shoppingCart->getMostValuableTaxRate();
+
+                if ($taxRate) {
+                    $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+                }
+            }
+
+            $handlingCosts->setAmount(round($handlingCostAmount, 2));
+        }
+        
+        $this->extend('updateChargesAndDiscountsForProducts', $handlingCosts);
+        if ($handlingCosts->getAmount() == 0) {
+            $handlingCosts = false;
+        }
+        return $handlingCosts;
+    }
+    
+    /**
+     * Returns the charges and discounts for the shopping cart total for
+     * this payment method.
+     * 
+     * @param ShoppingCart $shoppingCart The shopping cart object
+     * @param string       $priceType    'gross' or 'net'
+     *
+     * @return mixed boolean|DataObject
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2013
+     */
+    public function getChargesAndDiscountsForTotal(ShoppingCart $shoppingCart, $priceType = false) {
+        $handlingCosts = new DBMoney;
+        $handlingCosts->setAmount(0);
+        $handlingCosts->setCurrency(Config::DefaultCurrency());
+
+        if ($priceType === false) {
+            $priceType = Config::PriceType();
+        }
+
+        if ($this->useSumModification &&
+            $this->sumModificationImpact == 'totalValue') {
+            
+            $excludedPositions = array();
+            
+            switch ($this->sumModificationValueType) {
+                case 'percent':
+                    $amount            = $shoppingCart->getAmountTotal(array(), false, true);
+                    $modificationValue = $amount->getAmount() / 100 * $this->sumModificationValue;
+                    $index = 1;
+                    foreach ($shoppingCart->ShoppingCartPositions() as $position) {
+                        if ($position->ProductID > 0 &&
+                            $position->Product() instanceof Product &&
+                            $position->Product()->ExcludeFromPaymentDiscounts) {
+                            $modificationValue -= $position->getPrice()->getAmount() / 100 * $this->sumModificationValue;
+                            $excludedPositions[] = $index;
+                        }
+                        $index++;
+                    }
+                    break;
+                case 'absolute':
+                default:
+                    $modificationValue = $this->sumModificationValue;
+            }
+            
+            if (count($excludedPositions) > 0) {
+                if (count($excludedPositions) == 1) {
+                    $this->sumModificationLabel .= ' (' . _t(PaymentMethod::class . '.ExcludedPosition',
+                            'position {position} is excluded',
+                            [
+                                'position' => implode(', ', $excludedPositions)
+                            ]
+                    ) . ')';
+                } else {
+                    $this->sumModificationLabel .= ' (' . _t(PaymentMethod::class . '.ExcludedPositions',
+                            'the positions {positions} are excluded',
+                            [
+                                'positions' => implode(', ', $excludedPositions)
+                            ]
+                    ) . ')';
+                }
+            }
+            
+            if ($this->sumModificationImpactType == 'charge') {
+                $handlingCostAmount = $modificationValue;
+            } else {
+                $handlingCostAmount = "-".$modificationValue;
+            }
+
+            if (Config::PriceType() == 'gross') {
+                $shoppingCartTotal = $shoppingCart->getAmountTotal(array(), false, true);
+            } else {
+                $shoppingCartTotal  = $shoppingCart->getAmountTotalNetWithoutVat(array(), false, true);
+                $taxRate            = $shoppingCart->getMostValuableTaxRate();
+                if ($taxRate instanceof Tax) {
+                    $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
+                }
+            }
+
+            if ($handlingCostAmount < 0 &&
+                $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)) {
+
+                $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
+            }
+
+            $handlingCosts->setAmount($handlingCostAmount);
+        }
+        
+        $this->extend('updateChargesAndDiscountsForTotal', $handlingCosts);
+        if ($handlingCosts->getAmount() == 0) {
+            $handlingCosts = false;
+        }
+        return $handlingCosts;
+    }
+
+    /**
+     * Retunrns a path to a picture with additional information for this payment method
+     *
+     * @return int
+     */
+    public function getDescriptionImage() {
+        
+    }
+
+    /**
+     * Returns if an error has occured
+     *
+     * @return bool
+     */
+    public function getErrorOccured() {
+        if (count($this->getErrorList()) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns a ArrayList with errors
+     *
+     * @return ArrayList
+     */
+    public function getErrorList() {
+        $errorList = array();
+        $errorIdx = 0;
+
+        foreach ($this->errorList as $error) {
+            $errorList['error' . $errorIdx] = array(
+                'error' => $error
+            );
+            $errorIdx++;
+        }
+
+        return new ArrayList($errorList);
+    }
+    
+    /**
+     * Returns active payment methods.
+     * 
+     * @return DataList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2012
+     */
+    public static function getActivePaymentMethods() {
+        return PaymentMethod::get()->filter('isActive', 1);
+    }
+    
+    /**
+     * Returns allowed payment methods.
+     * 
+     * @param Country      $shippingCountry                  The Country to check the payment methods for.
+     * @param ShoppingCart $shoppingCart                     The shopping cart object
+     * @param Boolean      $forceAnonymousCustomerIfNotExist When true, an anonymous customer will be created when no customer exists
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 15.11.2014
+     */
+    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false) {
+        if (!$shippingCountry) {
+            return new ArrayList();
+        }
+        
+        $allowedPaymentMethods  = array();
+        $paymentMethods         = $shippingCountry->PaymentMethods('isActive = 1');
+        $member                 = Customer::currentUser();
+        if (!$member &&
+            $forceAnonymousCustomerIfNotExist) {
+            $member         = new Member();
+            $anonymousGroup = Group::get()->filter('Code', 'anonymous')->first();
+            $memberGroups   = new ArrayList();
+            $memberGroups->push($anonymousGroup);
+        } else {
+            $memberGroups = $member->Groups();
+        }
+        
+        $shippingMethodID = null;
+        if (Controller::curr() instanceof CheckoutStepController) {
+            $checkoutData = Controller::curr()->getCheckout()->getData();
+            if (array_key_exists('ShippingMethod', $checkoutData)) {
+                $shippingMethodID   = $checkoutData['ShippingMethod'];
+            }
+        }
+        
+        if ($paymentMethods) {
+            foreach ($paymentMethods as $paymentMethod) {
+                $assumePaymentMethod    = true;
+                $containedInGroup       = false;
+                $containedInUsers       = false;
+                $doAccessChecks         = true;
+        
+                // ------------------------------------------------------------
+                // Basic checks
+                // ------------------------------------------------------------
+                if ($paymentMethod->enableActivationByOrderRestrictions) {
+                    $assumePaymentMethod = $paymentMethod->isActivationByOrderRestrictionsPossible($member);
+                    $doAccessChecks      = false;
+                }
+                
+                $checkAmount = $shoppingCart->getAmountTotalWithoutFees()->getAmount();
+
+                if (!$paymentMethod->isAvailableForAmount($checkAmount)) {
+                    $assumePaymentMethod = false;
+                    $doAccessChecks      = false;
+                }
+                
+                // ------------------------------------------------------------
+                // Shipping method check
+                // ------------------------------------------------------------
+                if (!is_null($shippingMethodID) &&
+                    $paymentMethod->ShippingMethods()->exists() &&
+                    !$paymentMethod->ShippingMethods()->find('ID', $shippingMethodID)) {
+                    $assumePaymentMethod    = false;
+                    $doAccessChecks         = false;
+                }
+                
+                // ------------------------------------------------------------
+                // Access checks
+                // ------------------------------------------------------------
+                
+                if ($doAccessChecks) {
+                    // Check if access for groups or is set positively
+                    if ($paymentMethod->ShowOnlyForGroups()->exists()) {
+                        foreach ($paymentMethod->ShowOnlyForGroups() as $paymentGroup) {
+                            if ($memberGroups->find('ID', $paymentGroup->ID)) {
+                                $containedInGroup = true;
+                                break;
+                            }
+                        }
+
+                        if ($containedInGroup) {
+                            $assumePaymentMethod = true;
+                        } else {
+                            $assumePaymentMethod = false;
+                        }
+                    }
+
+                    // Check if access for users or is set positively
+                    if ($paymentMethod->ShowOnlyForUsers()->exists()) {
+                        if ($paymentMethod->ShowOnlyForUsers()->find('ID', $member->ID)) {
+                            $containedInUsers = true;
+                        }
+
+                        if ($containedInUsers) {
+                            $assumePaymentMethod = true;
+                        } else {
+                            if (!$containedInGroup) {
+                                $assumePaymentMethod = false;
+                            }
+                        }
+                    }
+
+                    // Check if access for groups is set negatively
+                    if ($paymentMethod->ShowNotForGroups()->exists()) {
+                        foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
+                            if ($memberGroups->find('ID', $paymentGroup->ID)) {
+                                if (!$containedInUsers) {
+                                    $assumePaymentMethod = false;
+                                }
+                            }
+                        }
+                    }
+
+                    // Check if access for users is set negatively
+                    if ($paymentMethod->ShowNotForUsers()->exists()) {
+                        if ($paymentMethod->ShowNotForUsers()->find('ID', $member->ID)) {
+                            if (!$containedInUsers) {
+                                $assumePaymentMethod = false;
+                            }
+                        }
+                    }
+                }
+                
+                if ($assumePaymentMethod) {
+                    $allowedPaymentMethods[] = $paymentMethod;
+                }
+            }
+        }
+        
+        $allowedPaymentMethodList = new ArrayList($allowedPaymentMethods);
+        
+        return $allowedPaymentMethodList;
+    }
+    
+    /**
+     * Checks if the given member has completed enough orders with a
+     * specified status.
+     * 
+     * @param Member $member The member object whose orders are checked
+     * 
+     * @return boolean
+     * 
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.07.2011
+     */
+    protected function isActivationByOrderRestrictionsPossible(Member $member) {
+        $isActivationByOrderRestrictionsPossible = false;
+        $nrOfValidOrders                         = 0;
+        
+        if (!$member) {
+           return $isActivationByOrderRestrictionsPossible;
+        }
+        
+        if ($member->Orders()) {
+            foreach ($member->Orders() as $order) {
+                if ($this->OrderRestrictionStatus()->find('ID', $order->OrderStatus()->ID)) {
+                    $nrOfValidOrders++;
+                }
+                if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
+                    break;
+                }
+            }
+            
+            if ($nrOfValidOrders >= $this->orderRestrictionMinQuantity) {
+                $isActivationByOrderRestrictionsPossible = true;
+            }
+        }
+        
+        return $isActivationByOrderRestrictionsPossible;
+    }
+
+    /**
+     * Returns allowed shipping methods. Those are
+     * 
+     * - shipping methods which are related directly to the payment method
+     * - shipping methods which are NOT related to any payment method
+     *
+     * @return ArrayList
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 11.05.2011
+     */
+    public function getAllowedShippingMethods() {
+        $allowedShippingMethods = array();
+        $shippingMethods        = ShippingMethod::get()->filter(array("isActive" => 1));
+
+        if ($shippingMethods->exists()) {
+            foreach ($shippingMethods as $shippingMethod) {
+
+                // Find shippping methods that are directly related to
+                // payment methods....
+                if ($shippingMethod->PaymentMethods()->exists()) {
+                    
+                    // ... and exclude them, if the current payment method is
+                    // not related.
+                    if (!$shippingMethod->PaymentMethods()->find('ID', $this->ID)) {
+                        continue;
+                    }
+                }
+                
+                // If there is no shipping fee defined for this shipping
+                // method we don't want to show it.
+                if ($shippingMethod->getShippingFee() !== false) {
+                    $allowedShippingMethods[] = $shippingMethod;
+                }
+            }
+        }
+        
+        $allowedShippingMethodList = new ArrayList($allowedShippingMethods);
+        
+        return $allowedShippingMethodList;
+    }
+
+    /**
+     * Returns weather this payment method is available for a zone specified by id or not
+     *
+     * @param int $zoneId Zone id to be checked
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.11.2010
+     */
+    public function isAvailableForZone($zoneId) {
+        
+    }
+
+    /**
+     * Is this payment method allowed for a shipping method?
+     *
+     * @param int $shippingMethodId Die ID id of shipping method to be checked
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.11.2010
+     */
+    public function isAvailableForShippingMethod($shippingMethodId) {
+        
+    }
+
+    /**
+     * Is this payment method allowed for a total amount?
+     *
+     * @param int $amount Amount to be checked
+     *
+     * @return bool
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.11.2010
+     */
+    public function isAvailableForAmount($amount) {
+        $isAvailable    = false;
+        $amount         = (float) $amount;
+        $minAmount      = (float) $this->minAmountForActivation;
+        $maxAmount      = (float) $this->maxAmountForActivation;
+
+        if (($minAmount != 0.0 &&
+             $maxAmount != 0.0)) {
+            
+            if ($amount >= $minAmount &&
+                $amount <= $maxAmount) {
+
+                $isAvailable = true;
+            }
+        } else if ($minAmount != 0.0) {
+            if ($amount >= $minAmount) {
+                $isAvailable = true;
+            }
+        } else if ($maxAmount != 0.0) {
+            if ($amount <= $maxAmount) {
+                $isAvailable = true;
+            }
+        } else {
+            $isAvailable = true;
+        }
+
+        return $isAvailable;
+    }
+
+    /**
+     * writes a payment method to the db in case none does exist yet
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.02.2013
+     */
+    public function requireDefaultRecords() {
+        parent::requireDefaultRecords();
+
+        $this->createUploadFolder();
+
+        // not a base class
+        if ($this->moduleName !== '') {
+
+            $className = $this->ClassName;
+            /**
+             * original expression
+             * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
+             * was replaced with eval call to provide compatibility to PHP 5.2
+             */
+            $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
+
+            if ($has_multiple_payment_channels) {
+                $paymentModule = new $className();
+                foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
+                    if (!DataObject::get($className)->filter('PaymentChannel', $channel)->exists()) {
+                        $paymentMethod = new $className();
+                        $paymentMethod->isActive       = 0;
+                        $paymentMethod->PaymentChannel = $channel;
+                        $paymentMethod->write();
+                        $languages = array('de_DE', 'en_US', 'en_GB');
+
+                        if (!in_array(Translatable::get_current_locale(), $languages)) {
+                            $languages[]    = Translatable::get_current_locale();
+                        }
+                        $languageClassName = $this->ClassName . 'Translation';
+                        foreach ($languages as $language) {
+                            $reflection = new ReflectionClass($this->ClassName);
+                            $relationField = $reflection->getShortName() . 'ID';
+                            $table  = Tools::get_table_name(PaymentMethodTranslation::class);
+                            $filter = sprintf('"' . $table . '"."Locale" = \'%s\' AND "%s" = \'%s\'', $language, $relationField, $paymentMethod->ID);
+                            $langObj = DataObject::get_one($languageClassName, $filter);
+                            if (!$langObj) {
+                                $langObj = new $languageClassName();
+                                $langObj->Locale = $language;
+                            }
+                            $langObj->Name = $name;
+                            $langObj->{$relationField} = $paymentMethod->ID;
+                            $langObj->write();
+                        }
+                    }
+                }
+            } elseif (!DataObject::get_one($className)) {
+                // entry does not exist yet
+                //prepayment's default record gets activated if test data is enabled
+                if ($this->moduleName == "Prepayment" && RequireDefaultRecords::isEnabledTestData()) {
+                    $this->isActive = 1;
+                    //As we do not know if the country is instanciated yet we do write this relation in the country class too.
+                    $germany = Country::get()->filter('ISO2', 'DE')->first();
+                    if ($germany) {
+                        $this->Countries()->add($germany);
+                    }
+                } else {
+                    $this->isActive = 0;
+                }
+                $this->Name     = _t($className . '.NAME',  $this->moduleName);
+                $this->Title    = _t($className . '.TITLE', $this->moduleName);
+                $this->write();
+                $languages = array('de_DE', 'en_US', 'en_GB');
+                foreach ($languages as $language) {
+                    $filter = sprintf(
+                       '"%s"."Locale" = \'%s\' AND "%sID" = \'%s\'',
+                        Tools::get_table_name(PaymentMethodTranslation::class),
+                        $language,
+                        get_class($this),
+                        $this->ID
+                    );
+                    $langObjClassName   = get_class($this) . 'Translation';
+                    $langObjClassNameId = $langObjClassName.'ID';
+                    $langObj = DataObject::get_one($langObjClassName, $filter);
+                    if (!$langObj) {
+                        $langObj = new $langObjClassName();
+                        $langObj->Locale = $language;
+                    }
+                    $langObj->Name = $this->moduleName;
+                    $langObj->setField($langObjClassNameId, $this->ID);
+                    $langObj->write();
+                }
+            }
+        }
+    }
+    
+    /**
+     * find out if we are dealing with an extended class or with PaymentMethod.
+     * This is needed for the multilingual feature
+     *
+     * @return boolean 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 29.01.2012
+     */
+    public function isExtendingPaymentMethod() {
+        $result = false;
+        if ($this->ClassName) {
+            if (in_array(PaymentMethod::class, class_parents($this->ClassName))) {
+                $result = true;
+            }
+        }
+        return $result;
+    }
+    
+    /**
+     * exclude the following fields
+     *
+     * @return array field names or relation names as numeric array 
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 10.02.2013
+     */
+    public function excludeFromScaffolding() {
+        $excludeFields = array(
+            'Countries',
+            'Orders'
+        );
+        $this->extend('updateExcludeFromScaffolding', $excludeFields);
+        return $excludeFields;
+    }
+    
+    /**
+     * On before write. Checks for payment method detail request data when creating new payment 
+     * methods.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.02.2017
+     */
+    public function onBeforeWrite() {
+        if (!$this->exists() &&
+            array_key_exists('PaymentMethod', $_POST) &&
+            Customer::currentUser()->isAdmin()) {
+            
+            $paymentMethod  = $_POST['PaymentMethod'];
+            $paymentChannel = '';
+            if (strpos($paymentMethod, '--') !== false) {
+                list(
+                    $paymentMethod,
+                    $paymentChannel
+                ) = explode('--', $paymentMethod);
+            }
+            unset($_POST['PaymentMethod']);
+            
+            $payment = Injector::inst()->get($paymentMethod);
+            $payment->Name  = _t($paymentMethod . '.NAME',  $payment->moduleName);
+            if (!empty($paymentChannel)) {
+                $payment->Name = $this->getPaymentChannelName($paymentChannel);
+                $payment->PaymentChannel = $paymentChannel;
+            }
+            $payment->write();
+            $this->deleteAfterWrite = true;
+        }
+        parent::onBeforeWrite();
+    }
+
+    /**
+     * On after write. Deletes the payment method right after creating it if necessary.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.02.2017
+     */
+    public function onAfterWrite() {
+        parent::onAfterWrite();
+        if ($this->deleteAfterWrite == true) {
+            $this->delete();
+        }
+    }
+
+    /**
+     * customizes the backends fields, mainly for ModelAdmin
+     *
+     * @return FieldList the fields for the backend
+     */
+    public function getCMSFields() {
+        $this->getCMSFieldsIsCalled = true;
+        $fields = DataObjectExtension::getCMSFields($this);
+        
+        $paymentMethods = array();
+        $subClasses = ClassInfo::subclassesFor(get_class($this));
+        foreach ($subClasses as $subClass) {
+            if ($subClass == PaymentMethod::class) {
+                continue;
+            }
+            $subObject = singleton($subClass);
+            $paymentMethods[$subClass] = array(
+                'channels' => $subObject->getPossiblePaymentChannels(),
+                'name'     => _t($subClass . '.NAME',  $subObject->moduleName),
+                'title'    => _t($subClass . '.TITLE',  $subObject->moduleName),
+            );
+        }
+        
+        $paymentMethodsSource = array();
+        foreach ($paymentMethods as $paymentMethodName => $paymentMethodData) {
+            if (count($paymentMethodData['channels']) > 0) {
+                foreach ($paymentMethodData['channels'] as $channelName => $channelTitle) {
+                    $paymentMethodsSource[$paymentMethodName . '--' . $channelName] = $channelTitle;
+                }
+            } else {
+                $paymentMethodsSource[$paymentMethodName] = $paymentMethodData['title'];
+            }
+        }
+        asort($paymentMethodsSource);
+        
+        $paymentMethodsField = new DropdownField('PaymentMethod', $this->singular_name());
+        $paymentMethodsField->setSource($paymentMethodsSource);
+        $fields->addFieldToTab('Root.Main', $paymentMethodsField);
+        
+        foreach (self::$db as $dbFieldName => $dbFieldType) {
+            $fields->removeByName($dbFieldName);
+        }
+        foreach (self::$has_one as $has_oneFieldName => $has_oneFieldType) {
+            $fields->removeByName($has_oneFieldName . 'ID');
+        }
+        
+        return $fields;
+    }
+    
+    /**
+     * GUI for additional charges / discounts
+     * 
+     * @param FieldList $fields Fields to modify
+     * 
+     * @return void
+     */
+    public function getFieldsForChargesAndDiscounts($fields) {
+        $this->getCMSFieldsIsCalled = true;
+        $impactFieldValues = array(
+            'productValue'  => $this->fieldLabel('ModifyProductValue'),
+            'totalValue'    => $this->fieldLabel('ModifyTotalValue'),
+        );
+        $impactTypeValues = array(
+            'charge'    => $this->fieldLabel('ModifyCharge'),
+            'discount'  => $this->fieldLabel('ModifyDiscount'),
+        );
+        $impactValueTypeValues = array(
+            'absolute'  => $this->fieldLabel('ModifyAbsolute'),
+            'percent'   => $this->fieldLabel('ModifyPercent'),
+        );
+        
+        $sumModifiersDataToggle = ToggleCompositeField::create(
+                'SumModifiers',
+                $this->fieldLabel('SumModifiers'),
+                array(
+                        new CheckboxField('useSumModification',         $this->fieldLabel('useSumModification')),
+                        new OptionsetField('sumModificationImpact',     $this->fieldLabel('sumModificationImpact'),     $impactFieldValues),
+                        new OptionsetField('sumModificationImpactType', $this->fieldLabel('sumModificationImpactType'), $impactTypeValues),
+                        new TextField(    'sumModificationValue',       $this->fieldLabel('sumModificationValue')),
+                        new OptionsetField('sumModificationValueType',  $this->fieldLabel('sumModificationValueType'),  $impactValueTypeValues),
+                        new TextField(     'sumModificationLabel',      $this->fieldLabel('sumModificationLabel')),
+                        new TextField('sumModificationProductNumber',   $this->fieldLabel('sumModificationProductNumber')),
+                )
+        )->setHeadingLevel(4)->setStartClosed(true);
+        
+        $fields->addFieldToTab('Root.Basic', $sumModifiersDataToggle);
+    }
+
+    /**
+     * Returns modified CMS fields for the payment modules
+     *
+     * @return FieldList
+     */
+    public function getCMSFieldsForModules() {
+        $this->getCMSFieldsIsCalled = true;
+        $tabset = new TabSet('Root');
+        $fields = new FieldList($tabset);
+        
+        // --------------------------------------------------------------------
+        // Common GUI elements for all payment methods
+        // --------------------------------------------------------------------
+        $tabBasic = new Tab('Basic', $this->fieldLabel('BasicSettings'));
+        $translationsTab = new Tab('Translations');
+        $translationsTab->setTitle($this->fieldLabel('Translations'));
+        $tabset->push($tabBasic);
+        $tabset->push($translationsTab);
+        $tabBasicFieldList = new FieldList();
+        $tabBasic->setChildren($tabBasicFieldList);
+        //multilingual fields
+        $tabBasicFieldList->push(new CheckboxField('isActive', $this->fieldLabel('isActive')));
+        if ($this->hasField('PaymentChannel')) {
+            $tabBasicFieldList->push(new ReadonlyField('DisplayPaymentChannel', $this->fieldLabel('PaymentChannel'), $this->getPaymentChannelName($this->PaymentChannel)));
+        }
+        $tabBasicFieldList->push(new DropdownField('mode', $this->fieldLabel('Mode'),
+                    array(
+                        'Live' => $this->fieldLabel('modeLive'),
+                        'Dev'  => $this->fieldLabel('modeDev'),
+                    ),
+                    $this->mode
+                ));
+        if ($this->isExtendingPaymentMethod()) {
+           $languageFields = TranslationTools::prepare_cms_fields($this->getTranslationClassName());
+            foreach ($languageFields as $languageField) {
+                $tabBasicFieldList->push($languageField);
+            } 
+        }
+        $tabBasicFieldList->push(new TextField('minAmountForActivation', $this->fieldLabel('MinAmountForActivation')));
+        $tabBasicFieldList->push(new TextField('maxAmountForActivation', $this->fieldLabel('MaxAmountForActivation')));
+        $tabBasicFieldList->push(new DropdownField(
+                    'orderStatus',
+                     $this->fieldLabel('DefaultOrderStatus'),
+                    OrderStatus::getStatusList()->map('Code', 'Title')->toArray()
+                ));
+        $tabBasicFieldList->dataFieldByName('orderStatus')->setEmptyString(Tools::field_label('PleaseChoose'));
+        
+        // --------------------------------------------------------------------
+        // Handling cost table
+        // --------------------------------------------------------------------
+        $tabHandlingCosts= new Tab('HandlingCosts', $this->fieldLabel('HandlingCosts'));
+        $tabset->push($tabHandlingCosts);
+        
+        $handlingCostField = new GridField(
+                'HandlingCosts',
+                $this->fieldLabel('HandlingCosts'),
+                $this->HandlingCosts(),
+                GridFieldConfig_RelationEditor::create(50)
+        );
+        $tabHandlingCosts->setChildren(
+            new FieldList(
+                $handlingCostField
+            )
+        );
+        
+
+        // --------------------------------------------------------------------
+        // GUI for management of logo images
+        // --------------------------------------------------------------------
+        $tabLogos = new Tab('Logos', $this->fieldLabel('PaymentLogos'));
+        $tabset->push($tabLogos);
+        
+        $paymentLogosTable = new GridField(
+                'PaymentLogos',
+                $this->fieldLabel('PaymentLogos'),
+                $this->PaymentLogos(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        
+        $paymentLogosTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
+        $paymentLogosTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
+        $paymentLogosTable->getConfig()->addComponent(new GridFieldDeleteAction());
+        
+        $paymentLogosUploadField = new ImageUploadField('UploadPaymentLogos', $this->fieldLabel('AddPaymentLogos'));
+        $paymentLogosUploadField->setFolderName('Uploads/payment-images');
+        
+        $tabLogos->setChildren(
+            new FieldList(
+                new CheckboxField('showPaymentLogos', $this->fieldLabel('ShowPaymentLogos')),
+                $paymentLogosUploadField,
+                $paymentLogosTable
+            )
+        );
+        
+        // --------------------------------------------------------------------
+        // GUI for access management
+        // --------------------------------------------------------------------
+        $tabAccessManagement = new Tab('AccessManagement', $this->fieldLabel('AccessSettings'));
+        $tabset->push($tabAccessManagement);
+        
+        $tabsetAccessManagement = new TabSet('AccessManagementSection');
+        $tabAccessManagement->push($tabsetAccessManagement);
+        
+        $tabAccessManagementBasic = new Tab('AccessManagementBasic', $this->fieldLabel('AccessManagementBasic'));
+        $tabAccessManagementGroup = new Tab('AccessManagementGroup', $this->fieldLabel('AccessManagementGroup'));
+        $tabAccessManagementUser  = new Tab('AccessManagementUser',  $this->fieldLabel('AccessManagementUser'));
+        $tabsetAccessManagement->push($tabAccessManagementBasic);
+        $tabsetAccessManagement->push($tabAccessManagementGroup);
+        $tabsetAccessManagement->push($tabAccessManagementUser);
+        
+        $showOnlyForGroupsTable = new GridField(
+                'ShowOnlyForGroups',
+                $this->fieldLabel('ShowOnlyForGroups'),
+                $this->ShowOnlyForGroups(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        $showNotForGroupsTable = new GridField(
+                'ShowNotForGroups',
+                $this->fieldLabel('ShowNotForGroups'),
+                $this->ShowNotForGroups(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        $showOnlyForUsersTable = new GridField(
+                'ShowOnlyForUsers',
+                $this->fieldLabel('ShowOnlyForUsers'),
+                $this->ShowOnlyForUsers(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        $showNotForUsersTable = new GridField(
+                'ShowNotForUsers',
+                $this->fieldLabel('ShowNotForUsers'),
+                $this->ShowNotForUsers(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        
+        $restrictionByOrderQuantityField = new TextField('orderRestrictionMinQuantity', '');
+        
+        $restrictionByOrderStatusField = new GridField(
+                'OrderRestrictionStatus',
+                $this->fieldLabel('OrderStatus'),
+                $this->OrderRestrictionStatus(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        
+        // Access management basic --------------------------------------------
+        $tabAccessManagementBasic->push(
+            new HeaderField('RestrictionLabel', $this->fieldLabel('RestrictionLabel') . ':', 2)
+        );
+        $tabAccessManagementBasic->push(new LiteralField('separatorForActivationByOrderRestrictions', '<hr />'));
+        $tabAccessManagementBasic->push(
+            new CheckboxField(
+                'enableActivationByOrderRestrictions',
+                $this->fieldLabel('ActivationByOrderRestrictions')
+            )
+        );
+        $tabAccessManagementBasic->push(
+            new LiteralField('RestrictionByOrderQuantityLabel', '<p>' . $this->fieldLabel('RestrictionByOrderQuantityLabel') . ':</p>')
+        );
+        $tabAccessManagementBasic->push($restrictionByOrderQuantityField);
+        $tabAccessManagementBasic->push(
+            new LiteralField('RestrictionByOrderStatusLabel', '<p>' . $this->fieldLabel('RestrictionByOrderStatusLabel') . ':</p>')
+        );
+        $tabAccessManagementBasic->push(
+            $restrictionByOrderStatusField
+        );
+        
+        // Access management for groups ---------------------------------------
+        $tabAccessManagementGroup->push(
+            new HeaderField('ShowOnlyForGroupsLabel', $this->fieldLabel('ShowOnlyForGroups') . ':', 2)
+        );
+        $tabAccessManagementGroup->push($showOnlyForGroupsTable);
+        $tabAccessManagementGroup->push(
+            new HeaderField('ShowNotForGroupsLabel', $this->fieldLabel('ShowNotForGroups') . ':', 2)
+        );
+        $tabAccessManagementGroup->push($showNotForGroupsTable);
+        
+        // Access management for users ----------------------------------------
+        $tabAccessManagementUser->push(
+            new HeaderField('ShowOnlyForUsersLabel', $this->fieldLabel('ShowOnlyForUsers') . ':', 2)
+        );
+        $tabAccessManagementUser->push($showOnlyForUsersTable);
+        $tabAccessManagementUser->push(
+            new HeaderField('ShowNotForUsersLabel', $this->fieldLabel('ShowNotForUsers') . ':', 2)
+        );
+        $tabAccessManagementUser->push($showNotForUsersTable);
+        
+        // --------------------------------------------------------------------
+        // Countries
+        // --------------------------------------------------------------------
+        $countriesTab = new Tab('Countries', $this->fieldLabel('Countries'));
+        $tabset->push($countriesTab);
+        $countriesTable = new GridField(
+                'Countries',
+                $this->fieldLabel('Countries'),
+                $this->Countries(),
+                GridFieldConfig_RelationEditor::create()
+        );
+        $countriesTab->push($countriesTable);
+        
+        // --------------------------------------------------------------------
+        // shipping methods
+        // --------------------------------------------------------------------
+        $shippingMethodsTab     = new Tab('ShippingMethods', $this->fieldLabel('ShippingMethods'));
+        $shippingMethodsDesc    = new HeaderField('ShippingMethodsDesc', $this->fieldLabel('ShippingMethodsDesc'));
+        
+        $shippingMethodsTable = new GridField(
+                'ShippingMethods',
+                $this->fieldLabel('ShippingMethods'),
+                $this->ShippingMethods(),
+                GridFieldConfig_RelationEditor::create(50)
+        );
+        $tabset->push($shippingMethodsTab);
+        $shippingMethodsTab->push($shippingMethodsDesc);
+        $shippingMethodsTab->push($shippingMethodsTable);
+        
+        $this->getFieldsForChargesAndDiscounts($fields);
+        
+        $this->extend('updateCMSFields', $fields);
+        
+        return $fields;
+    }
+
+    /**
+     * Returns the original CMSFields.
+     *
+     * @return FieldList
+     * @deprecated since version 2.0 we are using DataObjectExtension::getCMSFields()
+     */
+    public function getCMSFieldsOriginal() {
+        $this->getCMSFieldsIsCalled = true;
+        return parent::getCMSFields();
+    }
+
+    /**
+     * set the link to be visited on a cancel action
+     *
+     * @param string $link the url
+     *
+     * @return void
+     */
+    public function setCancelLink($link) {
+        $this->cancelLink = $link;
+        $this->extend('updateCancelLink', $this->cancelLink);
+    }
+
+    /**
+     * sets the link to return to the shop
+     *
+     * @param string $link the url
+     *
+     * @return void
+     */
+    public function setReturnLink($link) {
+        $this->returnLink = $link;
+        $this->extend('updateReturnLink', $this->returnLink);
+    }
+
+    /**
+     * sets the link to notify the shop (push)
+     *
+     * @param string $link the url
+     *
+     * @return void
+     */
+    public function setNotificationLink($link) {
+        $this->notificationLink = $link;
+        $this->extend('updateNotificationLinkLink', $this->notificationLink);
+    }
+    
+    /**
+     * Returns the sumModificationValue.
+     * 
+     * @return float
+     */
+    public function getsumModificationValue() {
+        $sumModificationValue = $this->getField('sumModificationValue');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateSumModificationValue', $sumModificationValue);
+        }
+        return $sumModificationValue;
+    }
+
+    /**
+     * set the controller
+     *
+     * @param Controller $controller the controller action
+     *
+     * @return void
+     */
+    public function setController($controller) {
+        $this->controller = $controller;
+    }
+    
+    /**
+     * Returns the controller.
+     * 
+     * @return Controller
+     */
+    public function getController() {
+        return $this->controller;
+    }
+
+    /**
+     * Returns the attributed countries as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     */
+    public function AttributedCountries() {
+        return Tools::AttributedDataObject($this->Countries());
+    }
+
+    /**
+     * Returns the attributed zones as string (limited to 150 chars).
+     *
+     * @return string
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 05.04.2012
+     * @deprecated
+     */
+    public function AttributedZones() {
+        return Tools::AttributedDataObject($this->Zone());
+    }
+
+    /**
+     * Returns the activation status as HTML-Checkbox-Tag.
+     *
+     * @return CheckboxField
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.06.2012
+     */
+    public function activatedStatus() {
+        $checkboxField = new CheckboxField('isActivated' . $this->ID, 'isActived', $this->isActive);
+        $checkboxField->setReadonly(true);
+        $checkboxField->setDisabled(true);
+        return $checkboxField;
+    }
+
+    /**
+     * writes a log entry
+     *
+     * @param string $context the context for the log entry
+     * @param string $text    the text for the log entry
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.11.2010
+     */
+    public function Log($context, $text) {
+        Config::Log($context, $text, $this->ClassName);
+    }
+
+    /**
+     * registers an error
+     *
+     * @param string $errorText text for the error message
+     *
+     * @return void
+     *
+     * @author Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 18.11.2010
+     */
+    public function addError($errorText) {
+        array_push($this->errorList, $errorText);
+    }
+
+    /**
+     * Creates order status DB objects from the given list.
+     *
+     * @param array $orderStatusList The order status list as associative array
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
+     */
+    public function createRequiredOrderStatus($orderStatusList) {
+        foreach ($orderStatusList as $code => $title) {
+            $table = Tools::get_table_name(OrderStatus::class);
+            if (!OrderStatus::get()->filter('Code', $code)->sort($table . '.ID')->first()) {
+                $orderStatus = new OrderStatus();
+                $orderStatus->Title = $title;
+                $orderStatus->Code = $code;
+                $orderStatus->write();
+            }
+        }
+    }
+
+    /**
+     * Creates the upload folder for payment images if it doesn't exist.
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
+     */
+    public function createUploadFolder() {
+        $uploadsFolder = Folder::get()->filter('Name', 'Uploads')->first();
+
+        if (!$uploadsFolder) {
+            $uploadsFolder = new Folder();
+            $uploadsFolder->Name = 'Uploads';
+            $uploadsFolder->Title = 'Uploads';
+            $uploadsFolder->Filename = 'assets/Uploads/';
+            $uploadsFolder->write();
+        }
+
+        $this->uploadsFolder = $uploadsFolder;
+    }
+
+    /**
+     * Creates the upload folder for payment images if it doesn't exist.
+     *
+     * @param array  $paymentLogos      The payment logos as associative array:
+     *                                  ['LogoName' => 'PATH_TO_FILE', ....]
+     * @param string $paymentModuleName The name of the payment module
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 16.06.2014
+     */
+    public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
+        //make sure that the folder "Uploads" exists
+        Folder::find_or_make('Uploads');
+        $paymentModule = PaymentMethod::get()->filter(array("ClassName" => $paymentModuleName))->sort(array("ID" => "ASC"))->first();
+        if ($paymentModule) {
+            if (count($this->getPossiblePaymentChannels()) > 0) {
+                // Multiple payment channels
+                foreach ($paymentLogos as $paymentChannel => $logos) {
+                    $paymentChannelMethod = DataObject::get_one($paymentModuleName, sprintf("\"PaymentChannel\"='%s'", $paymentChannel), true, $paymentModuleName.".ID");
+                    if ($paymentChannelMethod) {
+                        if (!$paymentChannelMethod->PaymentLogos()->exists()) {
+                            foreach ($logos as $title => $logo) {
+                                $paymentLogo = new Image();
+                                $paymentLogo->Title = $title;
+                                $storedLogo = \SilverStripe\Assets\Image::get()->filter('Name', basename($logo))->first();
+                                if ($storedLogo) {
+                                    $paymentLogo->ImageID = $storedLogo->ID;
+                                } else {
+                                    file_put_contents(Director::baseFolder() . '/' . $this->uploadsFolder->Filename . basename($logo), file_get_contents(Director::baseFolder() . $logo));
+                                    $image = new \SilverStripe\Assets\Image();
+                                    $image->setFilename($this->uploadsFolder->Filename . basename($logo));
+                                    $image->setName(basename($logo));
+                                    $image->Title = basename($logo, '.png');
+                                    $image->ParentID = $this->uploadsFolder->ID;
+                                    $image->write();
+                                    $paymentLogo->ImageID = $image->ID;
+                                }
+                                $paymentLogo->write();
+                                $paymentChannelMethod->PaymentLogos()->add($paymentLogo);
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Single payment channels
+                foreach ($paymentLogos as $title => $logo) {
+                    if (!$paymentModule->PaymentLogos()->exists()) {
+
+                        $paymentLogo = new Image();
+                        $paymentLogo->Title = $title;
+                        $storedLogo = \SilverStripe\Assets\Image::get()->filter('Name', basename($logo))->first();
+
+                        if ($storedLogo) {
+                            $paymentLogo->ImageID = $storedLogo->ID;
+                        } else {
+                            file_put_contents(Director::baseFolder() . '/' . $this->uploadsFolder->Filename . basename($logo), file_get_contents(Director::baseFolder() . $logo));
+                            $image = new \SilverStripe\Assets\Image();
+                            $image->setFilename($this->uploadsFolder->Filename . basename($logo));
+                            $image->setName(basename($logo));
+                            $image->Title = basename($logo, '.png');
+                            $image->ParentID = $this->uploadsFolder->ID;
+                            $image->write();
+                            $paymentLogo->ImageID = $image->ID;
+                        }
+                        $paymentLogo->write();
+                        $paymentModule->PaymentLogos()->add($paymentLogo);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the customers details
+     *
+     * @param Member $customerDetails Details of customer
+     *
+     * @return void
+     */
+    public function setCustomerDetails(Member $customerDetails) {
+        $this->customerDetails = $customerDetails;
+    }
+
+    /**
+     * Sets the invoice address
+     *
+     * @param Address $invoiceAddress Invoice address
+     *
+     * @return void
+     */
+    public function setInvoiceAddress(Address $invoiceAddress) {
+        $this->invoiceAddress = $invoiceAddress;
+    }
+
+    /**
+     * Sets the shipping address
+     *
+     * @param Address $shippingAddress Shipping address
+     *
+     * @return void
+     */
+    public function setShippingAddress(Address $shippingAddress) {
+        $this->shippingAddress = $shippingAddress;
+    }
+
+    /**
+     * Sets the shopping cart
+     *
+     * @param ShoppingCart $shoppingCart Shopping cart
+     *
+     * @return void
+     */
+    public function setShoppingCart(ShoppingCart $shoppingCart) {
+        $this->shoppingCart = $shoppingCart;
+    }
+
+    /**
+     * Sets the order object
+     *
+     * @param Order $order The order object
+     *
+     * @return void
+     */
+    public function setOrder(Order $order) {
+        $this->order = $order;
+    }
+
+    /**
+     * Returns the customers details
+     *
+     * @return Member
+     */
+    public function getCustomerDetails() {
+        return $this->customerDetails;
+    }
+
+    /**
+     * Returns the invoice address
+     *
+     * @return Address
+     */
+    public function getInvoiceAddress() {
+        return $this->invoiceAddress;
+    }
+
+    /**
+     * Returns the shipping address
+     *
+     * @return Address
+     */
+    public function getShippingAddress() {
+        return $this->shippingAddress;
+    }
+
+    /**
+     * Returns the shopping cart
+     *
+     * @return ShoppingCart
+     */
+    public function getShoppingCart() {
+        return $this->shoppingCart;
+    }
+
+    /**
+     * Returns the step configuration.
+     *
+     * Should return an array with the following structure:
+     * array(
+     *     '{insert module-filesystem-name}/templates/checkout/' => array(
+     *         'prefix' => 'SilverCart\\{insert module-class-name}\\Forms\\CheckoutFormStep'
+     *     )
+     * )
+     *
+     * @return void
+     */
+    public function getStepConfiguration() {
+        Deprecation::notice(
+                '4.0',
+                'PaymentMethod::getStepConfiguration() is deprecated.'
+        );
+        $directory = 'silvercart-payment-' . strtolower($this->moduleName) . '/templates/checkout/';
+        $className = $this->ClassName;
+        /**
+         * original expression
+         * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
+         * was replaced with eval call to provide compatibility to PHP 5.2
+         */
+        $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
+        if ($has_multiple_payment_channels
+            && !empty($this->PaymentChannel)
+            && is_string($this->PaymentChannel)) {
+            
+            $directory .= $this->PaymentChannel . '/';
+            $stepModule = $this->moduleName . ucfirst($this->PaymentChannel);
+        } else {
+            $stepModule = $this->moduleName;
+        }
+        if ($this->ShowFormFieldsOnPaymentSelection) {
+            $stepModule .= 'Preceded';
+        }
+        $prefix = 'SilverCart\\' . $stepModule . '\\Forms\\CheckoutFormStep';
+        return array(
+            $directory => array(
+                'prefix' => $prefix,
+            ),
+        );
+    }
+
+    /**
+     * Returns the order
+     *
+     * @return Order
+     */
+    public function getOrder() {
+        return $this->order;
+    }
+
+    /**
+     * Sets the customers details by checkout data
+     *
+     * @param array $checkoutData Checkout data
+     *
+     * @return void
+     */
+    public function setCustomerDetailsByCheckoutData($checkoutData) {
+        $addressData     = $checkoutData['InvoiceAddress'];
+        $customerDetails = new Member();
+        $customerDetails->Email      = isset($checkoutData['Email']) ? $checkoutData['Email'] : '';
+        $customerDetails->Salutation = isset($addressData['Salutation']) ? $addressData['Salutation'] : '';
+        $customerDetails->FirstName  = isset($addressData['FirstName']) ? $addressData['FirstName'] : '';
+        $customerDetails->Surname    = isset($addressData['Surname']) ? $addressData['Surname'] : '';
+        $this->setCustomerDetails($customerDetails);
+    }
+
+    /**
+     * Sets the customers details by checkout data
+     *
+     * @param array $checkoutData Checkout data
+     *
+     * @return void
+     */
+    public function setInvoiceAddressByCheckoutData($checkoutData) {
+        $address = $this->getAddressByCheckoutData($checkoutData);
+        $this->setInvoiceAddress($address);
+    }
+
+    /**
+     * Sets the customers details by checkout data
+     *
+     * @param array $checkoutData Checkout data
+     *
+     * @return void
+     */
+    public function setShippingAddressByCheckoutData($checkoutData) {
+        $address = $this->getAddressByCheckoutData($checkoutData, 'ShippingAddress');
+        $this->setShippingAddress($address);
+    }
+    
+    /**
+     * Creates an address using the given checkout data and prefix.
+     * 
+     * @param array  $checkoutData Checkout data
+     * @param string $type         Address type
+     * 
+     * @return Address
+     */
+    public function getAddressByCheckoutData($checkoutData, $type = 'InvoiceAddress') {
+        $db      = Address::config()->get('db');
+        $has_one = Address::config()->get('has_one');
+        
+        $addressData = $checkoutData[$type];
+        $address     = new Address();
+        foreach (array_keys($db) as $fieldname) {
+            if (array_key_exists($fieldname, $addressData)) {
+                $address->{$fieldname} = $addressData[$fieldname];
+            }
+        }
+        foreach (array_keys($has_one) as $relationname) {
+            $fieldname         = $relationname . 'ID';
+            $plainFieldname    = str_replace('Silvercart', '', $fieldname);
+            $plainRelationname = str_replace('Silvercart', '', $relationname);
+            if (array_key_exists($relationname, $addressData)) {
+                $address->{$fieldname} = $addressData[$relationname];
+            } elseif (array_key_exists($fieldname, $addressData)) {
+                $address->{$fieldname} = $addressData[$fieldname];
+            } elseif (array_key_exists($plainRelationname, $addressData)) {
+                $address->{$fieldname} = $addressData[$plainRelationname];
+            } elseif (array_key_exists($plainFieldname, $addressData)) {
+                $address->{$fieldname} = $addressData[$plainFieldname];
+            }
+            if (!is_null($address->{$fieldname})) {
+                $address->{$plainFieldname} = $address->{$fieldname};
+            }
+        }
+        
+        if (is_null($address->IsPackstation) ||
+            $type == 'InvoiceAddress') {
+            $address->IsPackstation = false;
+        }
+        $address->Country = Country::get()->byID($address->CountryID);
+        
+        return $address;
+    }
+
+    /**
+     * Returns all possible payment channels of the current payment module.
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.03.2011
+     */
+    public function getPossiblePaymentChannels() {
+        $possiblePaymentChannels = array();
+        $className = $this->ClassName;
+        /**
+         * original expression
+         * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
+         * was replaced with eval call to provide compatibility to PHP 5.2
+         */
+        $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
+        $possible_payment_channels = eval('return ' . $className . '::$possible_payment_channels;');
+        if ($has_multiple_payment_channels == false
+            || count($possible_payment_channels) == 0) {
+            return array();
+        }
+        foreach ($possible_payment_channels as $key => $value) {
+            $possiblePaymentChannels[$key] = _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($key), $value);
+        }
+        return $possiblePaymentChannels;
+    }
+
+    /**
+     * Returns the i18n title for a payment channel.
+     *
+     * @param string $paymentChannel The payment channel
+     *
+     * @return string
+     */
+    public function getPaymentChannelName($paymentChannel) {
+        return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel), $paymentChannel);
+    }
+    
+    /**
+     * Returns an optional payment specific form name to insert into checkout step 3.
+     *
+     * @return string|boolean
+     */
+    public function getNestedFormName() {
+        return false;
+    }
+    
+    public function CheckoutChoosePaymentMethodForm(RequestHandler $controller = null) {
+        if (is_null($controller)) {
+            $controller = Controller::curr();
+        }
+        $member   = Customer::currentUser();
+        $checkout = $controller->getCheckout();
+        /* @var $checkout \SilverCart\Checkout\Checkout */
+        $checkoutData = $checkout->getData();
+        
+        $this->setController($controller);
+        $this->setCancelLink(Director::absoluteURL($controller->Link('step/3')));
+        $this->setReturnLink(Director::absoluteURL($controller->Link()));
+        $this->setCustomerDetailsByCheckoutData($checkoutData);
+        $this->setInvoiceAddressByCheckoutData($checkoutData);
+        $this->setShippingAddressByCheckoutData($checkoutData);
+        if (array_key_exists('ShippingMethod', $checkoutData)) {
+            $member->getCart()->setShippingMethodID($checkoutData['ShippingMethod']);
+        }
+        $this->setShoppingCart($member->getCart());
+        
+        $formName = $this->getNestedFormName();
+        if (!class_exists($formName)) {
+            $formName = CheckoutChoosePaymentMethodForm::class;
+        }
+        
+        $form = new $formName($this, $controller);
+        return $form;
+    }
+
+    /***********************************************************************************************
+     ***********************************************************************************************
+     **                                                                                           ** 
+     ** Payment processing section. SilverCart checkout will call these methods:                  ** 
+     **                                                                                           ** 
+     **     - processBeforeOrder                                                                  ** 
+     **     - processAfterOrder                                                                   ** 
+     **     - processBeforePaymentProvider                                                        ** 
+     **     - processAfterPaymentProvider                                                         ** 
+     **     - processConfirmationText                                                             ** 
+     **                                                                                           ** 
+     ***********************************************************************************************
+     **********************************************************************************************/
+    
+    /**
+     * Is called by default checkout right before placing an order.
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.04.2018
+     */
+    public function processBeforeOrder(array $checkoutData) {}
+    
+    /**
+     * Is called by default checkout right after placing an order.
+     * 
+     * @param \SilverCart\Model\Order\Order $order        Order
+     * @param array                         $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.04.2018
+     */
+    public function processAfterOrder(Order $order, array $checkoutData) {}
+    
+    /**
+     * Is called right before redirecting to the external payment provider (e.g. like redirecting to
+     * paypal to do the payment).
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.04.2018
+     */
+    public function processBeforePaymentProvider(array $checkoutData) {}
+    
+    /**
+     * Is called right after returning to the checkout after being redirected to the external 
+     * payment provider (e.g. like doing the payment at PayPal and then redirecting to the shop).
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.04.2018
+     */
+    public function processAfterPaymentProvider(array $checkoutData) {}
+    
+    /**
+     * Is called before rendering the order confirmation page right after the order placement is 
+     * finalized.
+     * Expects an optional string to display additional information to the customer (e.g. showing
+     * the shop owners bank account data if the customer chose prepayment).
+     * 
+     * @param \SilverCart\Model\Order\Order $order        Order
+     * @param array                         $checkoutData Checkout data
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.04.2018
+     */
+    public function processConfirmationText(Order $order, array $checkoutData) {}
+}

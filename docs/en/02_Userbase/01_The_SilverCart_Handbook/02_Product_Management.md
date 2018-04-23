@@ -13,7 +13,7 @@ A product group shows products assigned to this group though it is possible to m
 ## Adding a Single Product
 - - -
 
-We hope You do not have to add all Your products by hand. With SilverCart this task can be done with a bulk upload of products. For a small amount of products to add you can use the “Silvercart Administration” section of the backoffice. Add a single product by pressing the “create product” button on the left.
+We hope You do not have to add all Your products by hand. With SilverCart this task can be done with a bulk upload of products. For a small amount of products to add you can use the “Products” section of the backoffice. Add a single product by pressing the “create product” button on the left.
 
 ![](_images/product_1_3_create.png)
 

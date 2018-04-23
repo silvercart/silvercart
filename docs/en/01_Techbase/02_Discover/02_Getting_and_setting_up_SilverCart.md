@@ -12,11 +12,6 @@ We provide downloads for older versions of our module, but we recommend to alway
 
 Take me to the download page!
 ### Get SilverCart project modules
-#### Module "CustomHtmlForm"
-
-A shop application is a lot about forms. In order to handle forms more comfortable we wrote a module for this task, which is mandatory for SilverCart to work.
-
-Take me to the download page!
 #### Module "SilverCart Prepayment"
 
 This is the most basic payment module for SilverCart. You should always install this one if you just want to test SilverCart or don't know what payment options you're going to offer.
@@ -54,16 +49,16 @@ The correct names would be: - silvercart - silvercart_payment_prepayment - silve
 Set an admin email by adding the line “Email::setAdminEmail('YOUR_EMAIL_ADDRESS');” to the end of the file. Remove the line “SSViewer::set_theme('blackcandy');”
 #### Manipulate the file "/mysite/code/Page.php":
 
-You have to alter the class hierarchy in this file. “Page” has to extend “SilvercartPage” instead of “SiteTree” and “Page_Controller” has to extend “SilvercartPage_Controller” instead of “ContentController”.
+You have to alter the class hierarchy in this file. “Page” has to extend “SilverCart\Model\Pages\Page\Page” instead of “SiteTree” and “Page_Controller” has to extend “SilverCart\Model\Pages\Page\Page_Controller” instead of “ContentController”.
 
 So the class declarations should look like this:
 
 	:::php
 	//...
-	class Page extends SilvercartPage {
+	class Page extends \SilverCart\Model\Pages\Page\Page {
 		// Your code here...
 	}
-	class Page_Controller extends SilvercartPage_Controller {
+	class Page_Controller extends \SilverCart\Model\Pages\Page\Page_Controller {
 		// Your code here...
 	}
 	//...

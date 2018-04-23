@@ -1,0 +1,103 @@
+
+.col-QuickAccess {
+    width: 48px;
+}
+.QuickAccess {
+    display:                    none;
+    text-indent:                0 !important;
+}
+.QuickAccess .arrow {
+    border-right-color:         #FFFFFF;
+    border-width:               10px 10px 10px 0;
+    margin-top:                 -15px;
+    margin-left:                17px;
+    position:                   absolute;
+    z-index:                    1011;
+}
+.QuickAccess .arrow:after {
+    border-color:               transparent;
+    border-style:               solid;
+    display:                    inline-block;
+    height:                     0;
+    position:                   absolute;
+    width:                      0;
+    content:                    "";
+    z-index:                    -1;
+    border-right-color:         rgba(0, 0, 0, 0.25);
+    border-width:               11px 11px 11px 0;
+    bottom:                     -34px;
+    left:                       -5px;
+}
+.QuickAccessContent {
+    background:                 #fff;
+    background-clip:            padding-box;
+    background-color:           #FFFFFF;
+    border:                     1px solid rgba(0, 0, 0, 0.2);
+    border-radius:              6px 6px 6px 6px;
+    box-shadow:                 0 5px 10px rgba(0, 0, 0, 0.2);
+    padding:                    1px;
+    margin-top:                 -80px !important;
+    margin-left:                22px !important;
+    position:                   absolute;
+    z-index:                    1010;
+    min-width:                  500px;
+}
+.QuickAccessContent .popover-title {
+    background-color:           #F7F7F7;
+    border-bottom:              1px solid #EBEBEB;
+    border-radius:              5px 5px 0 0;
+    font-size:                  14px;
+    font-weight:                normal;
+    line-height:                18px;
+    margin:                     0;
+    padding:                    8px 14px;
+}
+.QuickAccessContent .popover-content {
+    padding:                    6px 9px;
+}
+.TriggerQuickAccess {
+    position:                   relative;
+    color:                      #000;
+}
+.TriggerQuickAccess .icon-show {
+    display:                    block;
+    width:                      100%;
+    height:                     100%;
+    cursor:                     pointer;
+}
+.TriggerQuickAccess:hover .QuickAccess {
+    display:                    block;
+}
+
+.TriggerQuickAccess input {
+    background-color:           #fff !important;
+}
+.TriggerQuickAccess input {
+    background-color:           #f0f0f0 !important;
+}
+.TriggerQuickAccess table td {
+    background-color:           #fff !important;
+    color:                      #000 !important;
+}
+.TriggerQuickAccess .field label.left {
+    width:                      auto; 
+}
+.TriggerQuickAccess .silvercart-fieldgroup .fieldgroupField {
+    width:                      220px;
+}
+.TriggerQuickAccess .silvercart-fieldgroup {
+    margin-top: 0px;
+}
+
+.multi-col-field {
+    text-align: right;
+    border-bottom: 1px solid #d0d3d5;
+    margin: 6px 0px;
+    padding: 0px 10px;
+}
+.multi-col-field strong {
+}
+.multi-col-field span {
+    display: inline-block;
+    width: 100px;
+}

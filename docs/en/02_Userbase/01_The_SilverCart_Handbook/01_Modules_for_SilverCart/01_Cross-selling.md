@@ -13,7 +13,7 @@ Head over to [the SilverCart custom download page](http://www.silvercart.org/dow
 ## Installation
 - - -
 
-Extract the downloaded file and copy the folder “silvercart_marketing_cross_selling” to your Silvercart's root directory. Now call your website's base URL with an appended ”/dev/build/?flush=all”.
+Extract the downloaded file and copy the folder “silvercart_marketing_cross_selling” to your SilverCart's root directory. Now call your website's base URL with an appended ”/dev/build/?flush=all”.
 ## Adding products to the widget
 - - -
 

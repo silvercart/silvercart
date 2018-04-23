@@ -3,12 +3,12 @@
 
 ![](_images/meta-data-for-products_1-2.jpg)	
 
-Silvercart's is build to be SEO friendly.
+SilverCart is build to be SEO friendly.
 
 
 * Each product has a unique URL. If a product could be reached under 2 or more URL's search engines would degrade it in rank because they suspect to be cheated with duplicate content.
 * A product's name is always part of the URL.
-* Silvercart's sites and products can be prioritized for search engines via backoffice. The cart page is less inportant than the page of a product group.
+* SilverCart's sites and products can be prioritized for search engines via backoffice. The cart page is less inportant than the page of a product group.
 * Products can be provided with seperate meta keywords, meta descriptions and meta titles.
 
 

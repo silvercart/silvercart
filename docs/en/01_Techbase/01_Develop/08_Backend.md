@@ -18,8 +18,8 @@ First, you need a DB field to sort your records by. Let's create an object **MyO
 		 *
 		 * @var array
 		 */
-		public static $db = array(
-			'Title'		=> 'VarChar(64)',
+		private static $db = array(
+			'Title'		=> 'Varchar(64)',
 			'Priority'	=> 'Int',
 		);
 		
@@ -28,19 +28,21 @@ First, you need a DB field to sort your records by. Let's create an object **MyO
 		 *
 		 * @var string
 		 */
-		public static $default_sort = "Priority DESC";
+		private static $default_sort = "Priority DESC";
 		
 	}
 
-Now, your ModelAdmin should extend **SilvercartModelAdmin**. The class **SilvercartModelAdmin** provides a public static property **$sortable_field** which is the name of the DB field to sort your records by.
+Now, your ModelAdmin should extend **SilverCart\Admin\Controllers\ModelAdmin**. The class **SilverCart\Admin\Controllers\ModelAdmin** provides a public static property **$sortable_field** which is the name of the DB field to sort your records by.
 
 	:::php
 	<?php
+    
+    use SilverCart\Admin\Controllers\ModelAdmin;
 	
 	/**
 	 * Documentation of MyObjectAdmin.
 	 */
-	class MyObjectAdmin extends SilvercartModelAdmin {
+	class MyObjectAdmin extends ModelAdmin {
 	
 		/**
 		 * Name of DB field to make records sortable by.
@@ -54,7 +56,7 @@ Now, your ModelAdmin should extend **SilvercartModelAdmin**. The class **Silverc
 		 * 
 		 * @var string
 		 */
-		public static $menuCode = 'default';
+		private static $menuCode = 'default';
 		
 		/**
 		 * The section of the menu under which this admin should be grouped.
@@ -68,21 +70,21 @@ Now, your ModelAdmin should extend **SilvercartModelAdmin**. The class **Silverc
 		 *
 		 * @var string
 		 */
-		public static $url_segment = 'my-object';
+		private static $url_segment = 'my-object';
 		
 		/**
 		 * The menu title
 		 *
 		 * @var string
 		 */
-		public static $menu_title = 'My Objects';
+		private static $menu_title = 'My Objects';
 		
 		/**
 		 * Managed models
 		 *
 		 * @var array
 		 */
-		public static $managed_models = array(
+		private static $managed_models = array(
 			'MyObject',
 		);
 		
@@ -100,18 +102,24 @@ Action to activate:
 
 	:::php
 	<?php
+
+    namespace SilverCart\Admin\Forms\GridField;
+
+    use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
+    use SilverStripe\Forms\GridField\GridField;
+    use SilverStripe\ORM\DataObject;
 	
 	/**
 	 * Batch action to mark an DataObject as active.
 	 *
-	 * @package Silvercart
-	 * @subpackage Forms_GridField_BatchActions
+     * @package SilverCart
+     * @subpackage Admin_Forms_GridField_BatchActions
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
 	 * @copyright 2013 pixeltricks GmbH
 	 * @since 14.03.2013
 	 * @license see license file in modules root directory
 	 */
-	class SilvercartGridFieldBatchAction_ActivateDataObject extends SilvercartGridFieldBatchAction {
+	class GridFieldBatchAction_ActivateDataObject extends GridFieldBatchAction {
 	    
 	    /**
 	     * Handles the action.
@@ -140,18 +148,24 @@ Action to deactivate:
 
 	:::php
 	<?php
+
+    namespace SilverCart\Admin\Forms\GridField;
+
+    use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
+    use SilverStripe\Forms\GridField\GridField;
+    use SilverStripe\ORM\DataObject;
 	
 	/**
 	 * Batch action to mark an DataObject as not active.
 	 *
-	 * @package Silvercart
-	 * @subpackage Forms_GridField_BatchActions
+     * @package SilverCart
+     * @subpackage Admin_Forms_GridField_BatchActions
 	 * @author Sebastian Diel <sdiel@pixeltricks.de>
 	 * @copyright 2013 pixeltricks GmbH
 	 * @since 14.03.2013
 	 * @license see license file in modules root directory
 	 */
-	class SilvercartGridFieldBatchAction_DeactivateDataObject extends SilvercartGridFieldBatchAction {
+	class GridFieldBatchAction_DeactivateDataObject extends GridFieldBatchAction {
 	    
 	    /**
 	     * Handles the action.
@@ -181,32 +195,38 @@ We can add a human readable action name by adding a "TITLE" property for the bat
 Snippet for en.yml:
 
 	:::php
-	  SilvercartGridFieldBatchAction_ActivateDataObject:
+	  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
 	    TITLE: "Activate"
-	  SilvercartGridFieldBatchAction_DeactivateDataObject:
+	  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
 	    TITLE: "Deactivate"
 
 To get batch actions working, register them to the managed model.
-It is also important that your **"MyModelAdmin extends SilvercartModelAdmin"**.
+It is also important that your **"MyModelAdmin extends SilverCart\Admin\Controllers\ModelAdmin"**.
 
 	:::php
-	SilvercartGridFieldBatchController::addBatchActionFor('MyDataObject', 'SilvercartGridFieldBatchAction_ActivateDataObject');
-	SilvercartGridFieldBatchController::addBatchActionFor('MyDataObject', 'SilvercartGridFieldBatchAction_DeactivateDataObject');
+    use MyDataObject;
+    use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject;
+    use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject;
+    use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
+	GridFieldBatchController::addBatchActionFor(MyDataObject::class, GridFieldBatchAction_ActivateDataObject::class);
+	GridFieldBatchController::addBatchActionFor(MyDataObject::class, GridFieldBatchAction_DeactivateDataObject::class);
 
 After doing that the work ist done and you can use the batch action on your MyDataObject.
 
 ## How to add Quick Access Fields to a GridField?
 - - -
 
-The ModelAdmin you want to add Quick Access Fields to its GridField needs to extend SilvercartModelAdmin.
+The ModelAdmin you want to add Quick Access Fields to its GridField needs to extend SilverCart\Admin\Controllers\ModelAdmin.
 
 	:::php
 	<?php
+    
+    use SilverCart\Admin\Controllers\ModelAdmin;
 	
 	/**
 	 * Documentation of MyObjectAdmin.
 	 */
-	class MyObjectAdmin extends SilvercartModelAdmin {
+	class MyObjectAdmin extends ModelAdmin {
 	
 		/**
 		 * Name of DB field to make records sortable by.
@@ -269,12 +289,12 @@ The managed model needs to have the method **getQuickAccessFields()** which shou
 		 *
 		 * @var array
 		 */
-		public static $db = array(
-			'Title'		=> 'VarChar(64)',
+		private static $db = array(
+			'Title'		=> 'Varchar(64)',
 			'Priority'	=> 'Int',
 		);
 	
-		public static $has_many = array(
+		private static $has_many = array(
 			'HasManyObjects' => 'HasManyObject',
 		);
 		
@@ -283,7 +303,7 @@ The managed model needs to have the method **getQuickAccessFields()** which shou
 		 *
 		 * @var string
 		 */
-		public static $default_sort = "Priority DESC";
+		private static $default_sort = "Priority DESC";
 		
 		/**
 		 * Returns the quick access fields to display in GridField
@@ -292,7 +312,7 @@ The managed model needs to have the method **getQuickAccessFields()** which shou
 		 */
 		public function getQuickAccessFields() {
 		    $quickAccessFields = new FieldList();
-		    $manyManyObjectTable = new SilvercartTableField(
+		    $manyManyObjectTable = new \SilverCart\Admin\Forms\TableField(
 	                'HasManyObjects__' . $this->ID,
 	                $this->fieldLabel('HasManyObjects'),
 	                $this->HasManyObjects()

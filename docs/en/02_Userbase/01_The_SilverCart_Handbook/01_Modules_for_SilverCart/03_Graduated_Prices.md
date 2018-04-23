@@ -2,7 +2,7 @@
 
 Presumptions:
 
-* Silvercart 1.3
+* SilverCart 1.3
 * module silvercart_product_graduatedprice installed
 * Silverstripe 2.4.7
 * Configuration→General Configuration→General→Layout→Display type of product administration is set to tabbed

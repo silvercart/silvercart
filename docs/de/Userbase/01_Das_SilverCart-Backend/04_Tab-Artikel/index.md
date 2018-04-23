@@ -88,11 +88,11 @@ Die folgenden Felder stehen Ihnen zur Auswahl zur Verfügung:
 * Artikelnummer (Hersteller)
 * Ist der Lagerbestand dieses Artikels überbuchbar?
 * Einkaufspreis
-* Silvercart Product Group ID
+* Product Group ID
 * Währung
 * Einkaufspreis
-* Silvercart Manufacturer ID
-* UVP Silvercart
+* Manufacturer ID
+* UVP
 * Availability Status ID
 * Währung
 * UVP
@@ -108,7 +108,7 @@ Sie haben auch die Möglichkeit, über `Alle Spalten` oder `Keine Spalten` mit e
 
 #### Importieren
 
-Die SilverCart Shopsoftware bietet Ihnen die Möglichkeit, Ihre Produktdaten über eine CSV-Datei zu importieren. Welche Werte die Importfunktion erwartet, sehen Sie wenn Sie Spezifikation für SilvercartProduct zeigen wählen.
+Die SilverCart Shopsoftware bietet Ihnen die Möglichkeit, Ihre Produktdaten über eine CSV-Datei zu importieren. Welche Werte die Importfunktion erwartet, sehen Sie wenn Sie "Spezifikation für Artikel zeigen" wählen.
 
 Mit der Checkbox `Clear Database before import` bestimmen Sie, ob alle Produkte vor dem Import gelöscht werden sollen. Wählen Sie diese Option nur, wenn Sie sich absolut sicher sind.
 

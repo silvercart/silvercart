@@ -17,7 +17,7 @@ A basic installation of SilverCart already has a shipping method set: DHL-packag
 
 In an example I will show you how to create a new shipping fee from a new carrier called UPS.
 
-Log yourself in to the backoffice and go to SilvercartConfiguration→Carrier:
+Log yourself in to the backoffice and go to "Handling"→"Carriers":
 
 ![](_images/1-2-config-carrier.png)
 

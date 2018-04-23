@@ -3,7 +3,7 @@
 ## Where are the email templates located?
 - - -
 
-The email templates are managed in “Silvercart Configuration”:
+The email templates are managed in “Settings”:
 
 ![](_images/email_overview_1-2.png)
 

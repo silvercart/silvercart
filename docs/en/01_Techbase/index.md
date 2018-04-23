@@ -15,7 +15,7 @@ finally learn how to ride the SilverCart in the “Develop” section where we p
    * [How to extend SilverCart Tax Handling](Develop/8-How-to-extend-SilverCart-Tax-Handling)
  * [Discover](Discover/index)
    * [System Requirements](Discover/1-System-Requirements)
-   * [Getting and setting up Silvercart](Discover/2-Getting-and-setting-up-Silvercart)
+   * [Getting and setting up SilverCart](Discover/2-Getting-and-setting-up-Silvercart)
    * [Installation](Discover/Installation#installation)
    * [SilverCart architecture](Discover/SilverCart-Architecture#silvercart-architecture)
  * [Interact](Interact/index)

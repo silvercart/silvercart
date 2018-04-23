@@ -1,6 +1,1 @@
-log/SilvercartCsvImportBulkLoader.log
-log/SilvercartPaymentPaypal.log
-log/SilvercartPaymentSofortueberweisung.log
-log/SilvercartShippingMethod.log
-log/undefined.log
-product_exports/
+/log/*\.log

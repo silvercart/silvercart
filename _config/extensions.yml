@@ -1,261 +1,248 @@
 ---
 Name: silvercart-extensions
 ---
-CheckboxSetField:
+SilverStripe\Forms\CheckboxSetField:
   extensions:
-    ['SilvercartCheckboxSetField']
-DataObject:
+    - SilverCart\Forms\FormFields\CheckboxSetFieldExtension
+SilverStripe\ORM\DataObject:
   extensions:
-    ['SilvercartDataObject']
-GridFieldDetailForm_ItemRequest:
+    - SilverCart\ORM\DataObjectExtension
+SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
-    ['SilvercartGridFieldDetailForm_ItemRequest']
-Group:
+    - SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest
+SilverStripe\Security\Group:
   extensions:
-    ['SilvercartGroupExtension']
-Image:
+    - SilverCart\Model\Customer\GroupExtension
+SilverStripe\Assets\Image:
   extensions:
-    ['SilvercartImageExtension']
-LeftAndMain:
+    - SilverCart\Assets\ImageExtension
+SilverStripe\Admin\LeftAndMain:
   extensions:
-    ['SilvercartLeftAndMainExtension']
-Member:
+    - SilverCart\Admin\Controllers\LeftAndMainExtension
+SilverStripe\Security\Member:
   extensions:
-    ['SilvercartCustomer']
-Member_Validator:
+    - SilverCart\Model\Customer\Customer
+SilverStripe\Security\Member_Validator:
   extensions:
-    ['SilvercartCustomer_Validator']
-ModelAdmin:
+    - SilverCart\Model\Customer\CustomerValidator
+SilverStripe\Admin\ModelAdmin:
   extensions:
-    ['SilvercartModelAdminExtension']
-Money:
+    - SilverCart\Admin\Controllers\ModelAdminExtension
+SilverStripe\ORM\FieldType\DBMoney:
   extensions:
-    ['SilvercartMoneyExtension']
-PaginatedList:
+    - SilverCart\ORM\FieldType\DBMoneyExtension
+SilverStripe\Security\Security:
   extensions:
-    ['SilvercartPaginatedList']
-Security:
+    - SilverCart\Security\SecurityExtension
+SilverStripe\Security\MemberAuthenticator\LogoutHandler:
   extensions:
-    ['SilvercartSecurityController','CustomHtmlFormPage_Controller']
-SilvercartPage:
+    - SilverCart\Security\MemberAuthenticator\LogoutHandlerExtension
+SilverCart\Model\Pages\Page:
   extensions:
-    ['SilvercartPageListWidgetPage']
-SilvercartProduct:
+    - SilverCart\Model\Widgets\PageListWidgetPage
+SilverCart\Model\Product\Product:
   extensions:
-    ['SilvercartDataObject','SilvercartDataObjectMultilingualDecorator','SilvercartPluginObjectExtension']
-SilvercartProductGroupHolder_Controller:
+    - SilverCart\ORM\DataObjectCacheExtension
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Model\Pages\ProductGroupHolderController:
   extensions:
-    ['SilvercartGroupViewDecorator']
-SilvercartProductGroupPage_Controller:
+    - SilverCart\View\GroupView\GroupViewExtension
+SilverCart\Model\Pages\ProductGroupPage:
   extensions:
-    ['SilvercartGroupViewDecorator','SilvercartPluginObjectExtension']
-SilvercartProductLanguage:
+    - SilverCart\ORM\DataObjectCacheExtension
+SilverCart\Model\Pages\ProductGroupPageController:
   extensions:
-    ['SilvercartDataObject','SilvercartLanguageDecorator']
-SilvercartSearchResultsPage_Controller:
+    - SilverCart\View\GroupView\GroupViewExtension
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Model\Product\ProductTranslation:
   extensions:
-    ['SilvercartGroupViewDecorator']
-SiteTree:
+    - SilverCart\ORM\DataObjectCacheExtension
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Pages\SearchResultsPageController:
+  extensions:
+    - SilverCart\View\GroupView\GroupViewExtension
+SilverStripe\CMS\Model\SiteTree:
   extensions:
     ['Translatable']
-SiteConfig:
+SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    ['Translatable','SilvercartSiteConfig']
-WidgetSet:
+    - Translatable
+    - SilverCart\Admin\Model\SiteConfigExtension
+WidgetSets\Model\WidgetSet:
   extensions:
-    ['SilvercartWidgetSet']
-SilvercartAvailabilityStatusLanguage:
+    - SilverCart\Model\Widgets\WidgetSetExtension
+SilverCart\Model\Product\AvailabilityStatusTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartCarrierLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Shipment\CarrierTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartCountryLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Customer\CountryTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartFileLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\FileTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartImageLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\ImageTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartManufacturerLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\ManufacturerTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartOrderStatusLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Order\OrderStatusTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartPaymentMethodLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Payment\PaymentMethodTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartProductConditionLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\ProductConditionTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartQuantityUnitLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\QuantityUnitTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartShippingMethodLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Shipment\ShippingMethodTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartShopEmailLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\ShopEmailTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartTaxLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\TaxTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartZoneLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Shipment\ZoneTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartBargainProductsWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartImageSliderImageLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ImageSliderImageTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartImageSliderWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartLatestBlogPostsWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\PageListWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartPageListWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartProductGroupChildProductsWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartProductGroupItemsWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ProductGroupManufacturersWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartProductGroupManufacturersWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartProductGroupNavigationWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\SlidorionProductGroupWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartSlidorionProductGroupWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\SubNavigationWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartSubNavigationWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\TextWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartTextWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartTextWithLinkWidgetLanguage:
+    - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Product\AvailabilityStatus:
   extensions:
-    ['SilvercartLanguageDecorator']
-SilvercartAvailabilityStatus:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Shipment\Carrier:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartCarrier:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Customer\Country:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartCountry:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Product\File:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartFile:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Product\Image:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartImage:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Product\Manufacturer:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartManufacturer:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Order\OrderStatus:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartOrderStatus:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Product\ProductCondition:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartProductCondition:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Product\QuantityUnit:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartQuantityUnit:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Shipment\ShippingMethod:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartShippingMethod:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\ShopEmail:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartShopEmail:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Product\Tax:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartTax:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Shipment\Zone:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartZone:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\BargainProductsWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartBargainProductsWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ImageSliderImage:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartImageSliderImage:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ImageSliderWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartImageSliderWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\PageListWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartLatestBlogPostsWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartPageListWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ProductGroupItemsWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartProductGroupChildProductsWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartProductGroupItemsWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ProductGroupNavigationWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartProductGroupManufacturersWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\SlidorionProductGroupWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartProductGroupNavigationWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\SubNavigationWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartSlidorionProductGroupWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\TextWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartSubNavigationWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\TextWithLinkWidget:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartTextWidget:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Admin\Model\Config:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartTextWithLinkWidget:
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Model\ContactMessage:
   extensions:
-    ['SilvercartDataObjectMultilingualDecorator']
-SilvercartConfig:
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Forms\IncrementPositionQuantityForm:
   extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartContactMessage:
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Model\Order\Order:
   extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartIncrementPositionQuantityForm:
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Forms\RemovePositionForm:
   extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartOrder:
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Model\Order\ShoppingCart:
   extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartProductAddCartForm:
+    - SilverCart\Model\Plugins\PluginObjectExtension
+SilverCart\Model\Order\ShoppingCartPosition:
   extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartProductAddCartFormDetail:
-  extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartProductAddCartFormList:
-  extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartProductAddCartFormTile:
-  extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartProductCsvBulkLoader:
-  extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartRemovePositionForm:
-  extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartShoppingCart:
-  extensions:
-    ['SilvercartPluginObjectExtension']
-SilvercartShoppingCartPosition:
-  extensions:
-    ['SilvercartPluginObjectExtension']
+    - SilverCart\Model\Plugins\PluginObjectExtension

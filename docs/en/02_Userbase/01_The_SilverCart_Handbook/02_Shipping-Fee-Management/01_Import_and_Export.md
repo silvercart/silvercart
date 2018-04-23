@@ -21,7 +21,7 @@ The available columns are:
  * Title to display
 * isActive
  * Determines whether the shipping method is active for checkout or not
-* SilvercartCarrierID
+* CarrierID
  * The ID of the related carrier
 * AttributedZoneIDs
  * One or more IDs of related zones
@@ -45,11 +45,11 @@ The available columns are:
  * Price amount of the fee (e.g. 3.9)
 * PriceCurrency
  * Price currency of the fee (e.g. EUR)
-* SilvercartZoneID
+* ZoneID
  * ID of the related zone
-* SilvercartShippingMethodID
+* ShippingMethodID
  * ID of the related shipping method
-* SilvercartTaxID
+* TaxID
  * ID of the tax to use for the fee
 
 Example file to import new shipping fees, related to the shipping methods:
@@ -62,7 +62,7 @@ The columns of the file have to be set in opening and closing quotes (”). The 
 
 Here is an example content of a CSV file:
 	:::php
-	"ID";"Title";"isActive";"SilvercartCarrierID";"AttributedZoneIDs"
+	"ID";"Title";"isActive";"CarrierID";"AttributedZoneIDs"
 	"1";"Package";"1";"1";"2;"2,1"
 	"2";"Package Plus";"1";"1";"1"
 	"3";"Package Deluxe";"1";"1";"2, 1"

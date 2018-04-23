@@ -20,25 +20,29 @@ You create a folder structure on the root level of your Silverstripe installatio
 	...
 	+ silvercart
 	...
-	- silvercart_payment_mycustomname
-	  - checkout
-		- SilvercartPaymentMyCustomNameFormStep1.php
-		- SilvercartPaymentMyCustomNameFormStep2.php
-		- ...
+	- silvercart-payment-mycustomname
+      - _config
 	  - code
-		  SilvercartPaymentMyCustomName.php
+        - Forms
+          - CheckoutFormStep1.php
+          - CheckoutFormStep2.php
+          - ...
+        - Model
+		  - PaymentMyCustomName.php
+		  - PaymentMyCustomNameTranslation.php
+          - ...
 	  - lang
-		  en_US.php
+		  en.yml
 		  ...
 	  - templates
-		- checkout
-		  - SilvercartPaymentMyCustomNameFormStep1.ss
-		  - SilvercartPaymentMyCustomNameFormStep2.ss
+		- Forms
+		  - CheckoutFormStep1.ss
+		  - CheckoutFormStep2.ss
 	  _config.php
 
 ### Bundling code in the payment class
 
-All of your business logic should be located in the payment class (“SilvercartPaymentMyCustomName” in our above example).
+All of your business logic should be located in the payment class (“PaymentMyCustomName” in our above example).
 ### Payment sequence steps
 
 The payment module sequence steps can display informations to your customer, ask data from them or execute processing logic like getting tokens from payment providers or jumping to a payment provider's checkout.
@@ -101,24 +105,27 @@ Payment steps are actually CustomHtmlForm steps, so every step is a class/templa
 #### Conventions for sequence files
 
 1. Place your sequence of steps in the directory “silvercart_payment_mycustomname/checkout/”
-2. Use the naming scheme “SilvercartPayment{MyCustomName[FormStep{n[.php” for the class files.
+2. Use the naming scheme “Payment{MyCustomName[FormStep{n[.php” for the class files.
      * If you have two steps for your payment module “MyCustomName” your class files should look like this:
-       * SilvercartPaymentMyCustomNameFormStep1.php
-       * SilvercartPaymentMyCustomNameFormStep2.php
+       * CheckoutFormStep1.php
+       * CheckoutFormStep2.php
 3. Every step needs a template for the php class. The templates should be located inside the folder “silvercart_payment_mycustomname/templates/checkout/”.
 4. The templates need to follow the naming scheme for the php classes, except that the file extension is ”.ss” instead of ”.php”.
    * According to our example for the php classes your template files should be named like this:
-     * SilvercartPaymentMyCustomNameFormStep1.ss
-     * SilvercartPaymentMyCustomNameFormStep2.ss
+     * CheckoutFormStep1.ss
+     * CheckoutFormStep2.ss
 
 
 ## Skeleton for a custom payment class
 - - -
 
-###### SilvercartPaymentMyCustomName.php
+###### PaymentMyCustomName.php
 
 	:::php
 	<?php
+    namespace MyNameSpace\MyCustomName\Model;
+    use SilverCart\Model\Payment\PaymentMethod;
+    use SilverStripe\Forms\FieldList;
 	/**
 	 * Class description.
 	 *
@@ -127,7 +134,7 @@ Payment steps are actually CustomHtmlForm steps, so every step is a class/templa
 	 * @author {author}
 	 * @since {since}
 	 */
-	class SilvercartPaymentMyCustomName extends SilvercartPaymentMethod {
+	class PaymentMyCustomName extends PaymentMethod {
 	
 		/**
 		 * contains module name for display in the admin backend
@@ -163,7 +170,7 @@ Payment steps are actually CustomHtmlForm steps, so every step is a class/templa
 		 *
 		 * @param mixed $params optional
 		 *
-		 * @return FieldSet
+		 * @return FieldList
 		 *
 		 * @author {author}
 		 * @since {since}
@@ -226,9 +233,9 @@ Payment steps are actually CustomHtmlForm steps, so every step is a class/templa
 	}
 
 
-## Helper methods from the SilvercartPaymentMethod class
+## Helper methods from the PaymentMethod class
 - - -
-Since your payment class extends the SilvercartPaymentMethod class you have access to a bunch of useful methods:
+Since your payment class extends the PaymentMethod class you have access to a bunch of useful methods:
 
 	:::php
 	$this->getReturnLink();
@@ -254,32 +261,32 @@ Keep in mind that this method returns the desired information only after the ord
 - - -
 SilverCart offers CustomHtmlForms that provide basic functionality and can be extended by every payment module's steps:
 
-* **SilvercartCheckoutFormStepPaymentInit**
+* **CheckoutFormStepPaymentInit**
   * This is the common base for all steps that don't need the following two special cases. It checks if the user may use the checkout process and provides handy methods e.g. for getting the current payment method object.
-* **SilvercartCheckoutFormStepProcessOrder**
+* **CheckoutFormStepProcessOrder**
   * This is the step that transfers the shoppingcart to an order.
-* **SilvercartCheckoutFormStepDefaultOrderConfirmation**
+* **CheckoutFormStepDefaultOrderConfirmation**
   * Usually the last step in the checkout process. It displays a status page that informs the customer about the current status.
      
 Let's have a look at how some existing payment modules use that structure:
 ### Example: Prepayment
 
-* **SilvercartPaymentPrepaymentCheckoutFormStep1:** Extends “SilvercartCheckoutFormStepPaymentInit”
-* **SilvercartPaymentPrepaymentCheckoutFormStep2:** Extends “SilvercartCheckoutFormStepProcessOrder”
+* **\SilverCart\Prepayment\Forms\CheckoutFormStep1:** Extends “CheckoutFormStepPaymentInit”
+* **\SilverCart\Prepayment\Forms\CheckoutFormStep2:** Extends “CheckoutFormStepProcessOrder”
   * The shoppingcart gets transferred to an order
-* **SilvercartPaymentPrepaymentCheckoutFormStep3:** Extends “SilvercartCheckoutFormStepDefaultOrderConfirmation”
+* **\SilverCart\Prepayment\Forms\CheckoutFormStep3:** Extends “CheckoutFormStepDefaultOrderConfirmation”
 
 ### Example: Paypal
 
-* **SilvercartPaymentPaypalCheckoutFormStep1:** Extends “SilvercartCheckoutFormStepPaymentInit”
+* **\SilverCart\PayPal\Forms\CheckoutFormStep1:** Extends “CheckoutFormStepPaymentInit”
   * Redirects the user to the paypal checkout website
-* **SilvercartPaymentPaypalCheckoutFormStep2:** Extends “SilvercartCheckoutFormStepPaymentInit”
+* **\SilverCart\PayPal\Forms\CheckoutFormStep2:** Extends “CheckoutFormStepPaymentInit”
   * Handles the jump back from paypal to the shop website
-* **SilvercartPaymentPaypalCheckoutFormStep3:** Extends “SilvercartCheckoutFormStepProcessOrder”
+* **\SilverCart\PayPal\Forms\CheckoutFormStep3:** Extends “CheckoutFormStepProcessOrder”
   * The shoppingcart gets transferred to an order
-* **SilvercartPaymentPaypalCheckoutFormStep4:** Extends “SilvercartCheckoutFormStepPaymentInit”
+* **\SilverCart\PayPal\Forms\CheckoutFormStep4:** Extends “CheckoutFormStepPaymentInit”
   * Approves the order and payment with paypal
-* **SilvercartPaymentPaypalCheckoutFormStep5:** Extends “SilvercartCheckoutFormStepDefaultOrderConfirmation”
+* **\SilverCart\PayPal\Forms\CheckoutFormStep5:** Extends “CheckoutFormStepDefaultOrderConfirmation”
   * Displays the standard order confirmation page to the customer
 
 ##Jumping from the webshop to the payment provider
@@ -288,9 +295,9 @@ Let's have a look at how some existing payment modules use that structure:
 
 	:::php
 	public function processPaymentBeforeOrder() {
-		$this->controller->addCompletedStep($this->controller->getCurrentStep());
-		$this->controller->addCompletedStep($this->controller->getNextStep());
-		$this->controller->setCurrentStep($this->controller->getNextStep());
+		$this->getController()->addCompletedStep($this->getController()->getCurrentStep());
+		$this->getController()->addCompletedStep($this->getController()->getNextStep());
+		$this->getController()->setCurrentStep($this->getController()->getNextStep());
 		
 		if ($this->mode == 'Live') {
 			Director::redirect({LIVE_URL_TO_YOUR_PAYMENT_PROVIDER_GATEWAY});
@@ -302,17 +309,17 @@ Let's have a look at how some existing payment modules use that structure:
 What are we doing here?
 
 	:::php
-	$this->controller->addCompletedStep($this->controller->getCurrentStep());
+	$this->getController()->addCompletedStep($this->getController()->getCurrentStep());
 
 Since we are in the checkout process we want to set the current step as completed. This is important because of the return link that we get from “$this→getReturnLink();”; this link directs to the exact same URL in the checkout process where we are. If the current step is not completed it would be displayed again.
 
 	:::php
-	$this->controller->addCompletedStep($this->controller->getNextStep());
+	$this->getController()->addCompletedStep($this->getController()->getNextStep());
 
 We set the following step as completed, too, because it contains a processor method only.
 
 	:::php
-	$this->controller->setCurrentStep($this->controller->getNextStep());
+	$this->getController()->setCurrentStep($this->getController()->getNextStep());
 
 Finally we set the current step to the following one, so that the correct step gets executed after the return jump from the payment provider.
 

@@ -3,9 +3,9 @@
 - - -
 The plugin system has some advantages to just using decorators:
 
-1. All pluggable methods are put together in one file (the plugin provider) that can easily be found via the naming convention, e.g. for “SilvercartOrder” the plugin provider is called “SilvercartOrderPluginProvider”.
-2. Otherwise you would have to check the source code of SilvercartOrder and find out, what methods are extendable.
-3. We can gather common methods for all plugins in the base class “SilvercartPlugin”.
+1. All pluggable methods are put together in one file (the plugin provider) that can easily be found via the naming convention, e.g. for “Order” the plugin provider is called “OrderPluginProvider”.
+2. Otherwise you would have to check the source code of Order and find out, what methods are extendable.
+3. We can gather common methods for all plugins in the base class “Plugin”.
 4. When multiple plugins are decorated into one plugin provider method their output is merged automatically.
 5. The gates are open for later developments like priorities when multiple plugins are decorated into one plugin provider method
 
@@ -15,9 +15,9 @@ The plugin system has some advantages to just using decorators:
 As long as you don't want to write your own plugin providers the mechanism for decorating is exactly the one you know from Silverstripe: use a DataObjectDecorator object, add it as extension and provide the methods you want to decorate. You can find more information on this and on writing your own plugin providers in the following paragraphs.
 ## The structure of the SilverCart plugin system
 - - -
-The most basic object for plugins is the class “SilvercartPlugin”. It provides methods that can and should be used by all plugins.
+The most basic object for plugins is the class “Plugin”. It provides methods that can and should be used by all plugins.
 
-This basic object is extended by specialized objects that are plugin-providers for SilverCart classes. Among those are e.g. “SilvercartPluginOrder”, “SilvercartPluginShoppingCart”, etc. The plugin-provider objects can be decorated with your own specialized plugins. They expose all possible hooks that you can implemented to provide additional functionality and outputs to the original SilverCart classes.
+This basic object is extended by specialized objects that are plugin-providers for SilverCart classes. Among those are e.g. “OrderPlugin”, “ShoppingCartPlugin”, etc. The plugin-provider objects can be decorated with your own specialized plugins. They expose all possible hooks that you can implemented to provide additional functionality and outputs to the original SilverCart classes.
 
 ![](_images/silvercart_plugin_system_overview.jpg)
 
@@ -31,7 +31,9 @@ This basic object is extended by specialized objects that are plugin-providers f
 The following example demonstrates the use of plugins by the SilverCart DHL shipping module. Create the plugin file:
 
 	:::php
-	class SilvercartShipmentDhlOrderPlugin extends DataObjectDecorator {
+    namespace MyNameSpace\Model\Plugins;
+    use SilverStripe\Core\Extension;
+	class ShipmentDhlOrderPlugin extends Extension {
 		public function pluginOrderDetailInformation(&$arguments) {
 			return "OK";
 		}
@@ -40,13 +42,13 @@ The following example demonstrates the use of plugins by the SilverCart DHL ship
 Register the plugin (preferrably in your “_config.php” file):
 
 	:::php
-	Object::add_extension('SilvercartOrderPluginProvider', 'SilvercartShipmentDhlOrderPlugin');
+    \SilverCart\Model\Plugins\Providers\OrderPluginProvider::add_extension(\MyNameSpace\Model\Plugins\ShipmentDhlOrderPlugin::class);
 
 ## Available plugin providers
 - - -
 Currently the following plug-in providers are available; on the second level all available plugin methods are listed.
 
- * SilvercartOrderPluginProvider
+ * OrderPluginProvider
  * pluginInit
  * pluginCreateFromShoppingCart
  * pluginOrderDetailInformation
@@ -56,7 +58,9 @@ Currently the following plug-in providers are available; on the second level all
 ### Create a new plugin provider class
 
 	:::php
-	class MySilvercartOrderPluginProvider extends SilvercartPlugin {
+    namespace MyNameSpace\Model\Plugins;
+    use SilverCart\Model\Plugins\Plugin;
+	class MyOrderPluginProvider extends Plugin {
 		public function TestMethod(&$arguments) {
 			$result = $this->extend('pluginTestMethod', $arguments);
 			
@@ -67,14 +71,19 @@ Currently the following plug-in providers are available; on the second level all
 ### Register the new plugin provider class
 
 	:::php
-	SilvercartPlugin::registerPluginProvider('SilvercartOrder', 'MySilvercartOrderPluginProvider');
+    use MyNameSpace\Model\Plugins\MyOrderPluginProvider;
+    use SilverCart\Model\Order\Order;
+    use SilverCart\Model\Plugins\Plugin;
+	Plugin::registerPluginProvider(Order::class, MyOrderPluginProvider::class);
 
 
 ### Implement the new methods from the provider in your plugin
 
 	:::php
 	<?php
-	class SilvercartShipmentDhlOrderPlugin extends DataObjectDecorator {
+    namespace MyNameSpace\Model\Plugins;
+    use SilverStripe\Core\Extension;
+	class ShipmentDhlOrderPlugin extends Extension {
 		public function pluginTestMethod(&$arguments) {
 			return "It works!";
 		}
@@ -84,7 +93,7 @@ Currently the following plug-in providers are available; on the second level all
 ### Calling the new plugin methods from a template
 
 	:::php
-	$SilvercartPlugin(TestMethod)
+	$Plugin(TestMethod)
 
 ### Enable plugin functionality in an object
 
@@ -92,11 +101,14 @@ Just add the following line to your “_config.php” file:
 
 	:::php
 	<?php
-	Object::add_extension('{OBJECT_NAME}', 'SilvercartPluginObjectExtension');
+    use SilverCart\Model\Plugins\PluginObjectExtension;
+	{OBJECT_FQN}::add_extension(PluginObjectExtension::class);
 
-This is needed so that calls from templates to the method “SilvercartPlugin” are possible.
+This is needed so that calls from templates to the method “Plugin” are possible.
 
-We use this mechanism ourselves for the core objects, e.g. the “SilvercartOrder” object is added in SilverCart's “_config.php”:
+We use this mechanism ourselves for the core objects, e.g. the “Order” object is added in SilverCart's “_config.php”:
 
 	:::php
-	Object::add_extension('SilvercartOrder', 'SilvercartPluginObjectExtension');
+    use SilverCart\Model\Order\Order;
+    use SilverCart\Model\Plugins\PluginObjectExtension;
+	Order::add_extension(PluginObjectExtension::class);

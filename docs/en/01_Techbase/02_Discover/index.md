@@ -1,7 +1,7 @@
 # Discover
 
 * [System Requirements](1-System-Requirements)
-* [Getting and setting up Silvercart](2-Getting-and-setting-up-Silvercart)
+* [Getting and setting up SilverCart](2-Getting-and-setting-up-Silvercart)
    * [Get it](2-Getting-and-setting-up-Silvercart#get-it)
    * [Install it](2-Getting-and-setting-up-Silvercart#install-it)
    * [Next steps](2-Getting-and-setting-up-Silvercart#next-steps)

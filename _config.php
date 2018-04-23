@@ -1,280 +1,153 @@
 <?php
 /**
- * Copyright 2013 pixeltricks GmbH
+ * Copyright 2017 pixeltricks GmbH
  *
  * This file is part of SilverCart.
  *
- * @package Silvercart
+ * @package SilverCart
  * @subpackage Config
  * @ignore 
  */
 
-// ----------------------------------------------------------------------------
-// Define required attributes
-// ----------------------------------------------------------------------------
-SilvercartProduct::addRequiredAttribute("Price");
+use SilverCart\Admin\Controllers\LeftAndMainExtension;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
+use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\Tools;
+use SilverCart\Forms\IncrementPositionQuantityForm;
+use SilverCart\Model\ContactMessage;
+use SilverCart\Model\Order\Order;
+use SilverCart\Model\Order\OrderPosition;
+use SilverCart\Model\Order\ShoppingCart;
+use SilverCart\Model\Order\ShoppingCartPosition;
+use SilverCart\Model\Pages\ProductGroupPageController;
+use SilverCart\Model\Plugins\Plugin;
+use SilverCart\Model\Plugins\Providers\ConfigPluginProvider;
+use SilverCart\Model\Plugins\Providers\ContactMessagePluginProvider;
+use SilverCart\Model\Plugins\Providers\IncrementPositionQuantityFormPluginProvider;
+use SilverCart\Model\Plugins\Providers\OrderPluginProvider;
+use SilverCart\Model\Plugins\Providers\OrderPositionPluginProvider;
+use SilverCart\Model\Plugins\Providers\ProductPluginProvider;
+use SilverCart\Model\Plugins\Providers\ProductGroupPageControllerPluginProvider;
+use SilverCart\Model\Plugins\Providers\ShoppingCartPluginProvider;
+use SilverCart\Model\Plugins\Providers\ShoppingCartPositionPluginProvider;
+use SilverCart\Model\Product\Product;
+use SilverCart\View\GroupView\GroupViewHandler;
+use SilverCart\View\GroupView\GroupViewList;
+use SilverCart\View\GroupView\GroupViewTile;
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\Admin\SecurityAdmin;
+use SilverStripe\AssetAdmin\Controller\AssetAdmin;
+use SilverStripe\CMS\Controllers\CMSPagesController;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Reports\ReportAdmin;
+use SilverStripe\Security\Member;
+use SilverStripe\SiteConfig\SiteConfigLeftAndMain;
+use SilverStripe\View\Requirements;
+use WidgetSets\Admin\Controllers\WidgetSetAdmin;
 
-// ----------------------------------------------------------------------------
-// disable default pages for SiteTree
-// ----------------------------------------------------------------------------
-SiteTree::set_create_default_pages(false);
-
-// ----------------------------------------------------------------------------
-// Add some URL rules for custom controllers
-// ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
-// Set spam check for forms
-// ----------------------------------------------------------------------------
-CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
-CustomHtmlForm::useSpamCheckFor('SilvercartRevocationForm');
-if (empty(CustomHtmlForm::$custom_error_box_css_class)) {
-    CustomHtmlForm::$custom_error_box_css_class = 'help-inline';
-}
-if (empty(CustomHtmlForm::$custom_error_box_selection_method)) {
-    CustomHtmlForm::$custom_error_box_selection_method = 'append';
-}
-if (empty(CustomHtmlForm::$custom_error_box_sub_selector)) {
-    CustomHtmlForm::$custom_error_box_sub_selector = ' .controls';
-}
-CustomHtmlFormPage_Controller::$do_use_own_jquery = false;
-
-// Require i18n javascript
-Requirements::add_i18n_javascript('silvercart/javascript/lang');
-
-// ----------------------------------------------------------------------------
-// Register SilvercartPluginProvider
-// ----------------------------------------------------------------------------
-SilvercartPlugin::registerPluginProvider('SilvercartConfig',                        'SilvercartConfigPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartContactMessage',                'SilvercartContactMessagePluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartIncrementPositionQuantityForm', 'SilvercartIncrementPositionQuantityFormPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartOrder',                         'SilvercartOrderPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartOrderPosition',                 'SilvercartOrderPositionPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProduct',                       'SilvercartProductPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormDetail',      'SilvercartProductAddCartFormDetailPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormList',        'SilvercartProductAddCartFormListPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartFormTile',        'SilvercartProductAddCartFormTilePluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProductAddCartForm',            'SilvercartProductAddCartFormPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProductCsvBulkLoader',          'SilvercartProductCsvBulkLoaderPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartProductGroupPage_Controller',   'SilvercartProductGroupPage_ControllerPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartRemovePositionForm',            'SilvercartRemovePositionFormPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',                  'SilvercartShoppingCartPluginProvider');
-SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
-
-// use custom classes
-Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
-
-// configure WidgetSet
-WidgetSetWidgetExtension::preventWidgetCreationByClass('SilvercartWidget');
-
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_ChangeOrderStatus');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_PrintOrders');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_MarkAsSeen');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartOrder', 'SilvercartGridFieldBatchAction_MarkAsNotSeen');
-
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ActivateDataObject');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_DeactivateDataObject');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeAvailabilityStatus');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeManufacturer');
-SilvercartGridFieldBatchController::addBatchActionFor('SilvercartProduct', 'SilvercartGridFieldBatchAction_ChangeProductGroup');
-
-// ----------------------------------------------------------------------------
-// Blacklists for SilvercartRestfulServer
-// ----------------------------------------------------------------------------
-SilvercartRestfulServer::addApiAccessBlackListFields(
-    'Group',
-    array(
-         'Locked',
-         'Sort',
-         'IPRestrictions',
-         'HtmlEditorConfig',
-    )
-);
-SilvercartRestfulServer::addApiAccessBlackListFields(
-    'Member',
-    array(
-        'NewsletterConfirmationHash',
-        'HasAcceptedTermsAndConditions',
-        'HasAcceptedRevocationInstruction',
-        'Password',
-        'RememberLoginToken',
-        'NumVisit',
-        'LastVisited',
-        'Bounced',
-        'AutoLoginHash',
-        'AutoLoginExpired',
-        'PasswordEncryption',
-        'Salt',
-        'PasswordExpiry',
-        'LockedOutUntil',
-        'Locale',
-        'FailedLoginCount',
-        'DateFormat',
-        'TimeFormat',
-    )
-);
-SilvercartRestfulServer::addApiAccessBlackListFields(
-    'SilvercartOrder',
-    array(
-        'HasAcceptedTermsAndConditions',
-        'HasAcceptedRevocationInstruction',
-        'IsSeen',
-        'Version',
-));
-SilvercartRestfulServer::addApiAccessBlackListFields(
-    'SilvercartOrderPosition',
-    array(
-        'numberOfDecimalPlaces',
-    )
-);
-SilvercartRestfulServer::addApiAccessBlackListFields(
-    'SilvercartShippingMethod',
-    array(
-         'isActive',
-         'priority',
-    )
-);
-
-// ----------------------------------------------------------------------------
-// Enable DataObject validation
-// ----------------------------------------------------------------------------
-Config::inst()->update('Member', 'validation_enabled', true);
-
-// ----------------------------------------------------------------------------
-// Define path constants
-// ----------------------------------------------------------------------------
-$path = dirname(__FILE__) . '/';
-$relPath = substr(Director::makeRelative($path), 1);
-
-define('PIXELTRICKS_CHECKOUT_BASE_PATH', $path);
-define('PIXELTRICKS_CHECKOUT_BASE_PATH_REL', $relPath);
-
-// ----------------------------------------------------------------------------
-// Register at required modules
-// ----------------------------------------------------------------------------
-CustomHtmlForm::registerModule('silvercart', 49);
-CustomHtmlFormActionHandler::addHandler('SilvercartActionHandler');
-
-// ----------------------------------------------------------------------------
-// Set spam check for forms
-// ----------------------------------------------------------------------------
-CustomHtmlForm::useSpamCheckFor('SilvercartContactForm');
-
-// ----------------------------------------------------------------------------
-// Check if the page.php descends from the SilvercartPage
-// ----------------------------------------------------------------------------
-
+// Check if the page.php descends from the SilverCart\Model\Pages\Page
 if (class_exists('Page')) {
     $ext = new ReflectionClass('Page');
-
-    if ($ext->getParentClass()->getName() != 'SilvercartPage') {
-        throw new Exception('Class "Page" has to extend "SilvercartPage".');
+    if ($ext->getParentClass()->getName() != \SilverCart\Model\Pages\Page::class) {
+        throw new Exception('Class "Page" has to extend "SilverCart\Model\Pages\Page".');
     }
 }
-if (class_exists('Page_Controller')) {
-    $ext = new ReflectionClass('Page_Controller');
+if (class_exists('PageController')) {
+    $ext = new ReflectionClass('PageController');
 
-    if ($ext->getParentClass()->getName() != 'SilvercartPage_Controller') {
-        throw new Exception('Class "Page_Controller" has to extend "SilvercartPage_Controller".');
+    if ($ext->getParentClass()->getName() != \SilverCart\Model\Pages\PageController::class) {
+        throw new Exception('Class "PageController" has to extend "SilverCart\Model\Pages\PageController::class".');
     }
 }
-
-// ----------------------------------------------------------------------------
+// Define required attributes to display a product in frontend
+Product::addRequiredAttribute("Price");
+// disable default pages for SiteTree
+SiteTree::config()->set('create_default_pages', false);
+// Enable validation for Member
+Member::config()->set('validation_enabled', true);
+// Require i18n javascript
+Requirements::add_i18n_javascript('silvercart/silvercart:client/javascript/lang');
+// Register PluginProvider
+Plugin::registerPluginProvider(Config::class, ConfigPluginProvider::class);
+Plugin::registerPluginProvider(ContactMessage::class,                ContactMessagePluginProvider::class);
+Plugin::registerPluginProvider(IncrementPositionQuantityForm::class, IncrementPositionQuantityFormPluginProvider::class);
+Plugin::registerPluginProvider(Order::class,                         OrderPluginProvider::class);
+Plugin::registerPluginProvider(OrderPosition::class,                 OrderPositionPluginProvider::class);
+Plugin::registerPluginProvider(Product::class,                       ProductPluginProvider::class);
+Plugin::registerPluginProvider(ProductGroupPageController::class,    ProductGroupPageControllerPluginProvider::class);
+Plugin::registerPluginProvider(ShoppingCart::class,                  ShoppingCartPluginProvider::class);
+Plugin::registerPluginProvider(ShoppingCartPosition::class,          ShoppingCartPositionPluginProvider::class);
+// configure WidgetSet
+if (class_exists('WidgetSets\\Extensions\\WidgetSetWidgetExtension')) {
+    \WidgetSets\Extensions\WidgetSetWidgetExtension::prevent_widget_creation_by_class(SilverCart\Model\Widgets\Widget::class);
+}
+// Register GridField batch controllers
+GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_ChangeOrderStatus::class);
+GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_PrintOrders::class);
+GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_MarkAsSeen::class);
+GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_MarkAsNotSeen::class);
+GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ActivateDataObject::class);
+GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_DeactivateDataObject::class);
+GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ChangeAvailabilityStatus::class);
+GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ChangeManufacturer::class);
+GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ChangeProductGroup::class);
 // add possible group views
-// ----------------------------------------------------------------------------
-SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewList');
-SilvercartGroupViewHandler::addGroupView('SilvercartGroupViewTile');
-SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewList');
-SilvercartGroupViewHandler::addGroupHolderView('SilvercartGroupViewTile');
-// ----------------------------------------------------------------------------
-// set default group view if not existant
-// ----------------------------------------------------------------------------
-
-if (is_null(SilvercartGroupViewHandler::getDefaultGroupView())) {
-    SilvercartGroupViewHandler::setDefaultGroupView('SilvercartGroupViewList');
+GroupViewHandler::addGroupView(GroupViewList::class);
+GroupViewHandler::addGroupView(GroupViewTile::class);
+GroupViewHandler::addGroupHolderView(GroupViewList::class);
+GroupViewHandler::addGroupHolderView(GroupViewTile::class);
+// set default group view if not done in project yet
+if (is_null(GroupViewHandler::getDefaultGroupView())) {
+    GroupViewHandler::setDefaultGroupView(GroupViewList::class);
 }
-if (is_null(SilvercartGroupViewHandler::getDefaultGroupHolderView())) {
-    SilvercartGroupViewHandler::setDefaultGroupHolderView('SilvercartGroupViewList');
+if (is_null(GroupViewHandler::getDefaultGroupHolderView())) {
+    GroupViewHandler::setDefaultGroupHolderView(GroupViewList::class);
 }
-
+// Add product detail pages to Google Sitemap.
 if (class_exists('GoogleSitemap') &&
     method_exists('GoogleSitemap', 'register_dataobject')) {
-    GoogleSitemap::register_dataobject('SilvercartProduct', null, '0.2');
+    GoogleSitemap::register_dataobject(Product::class, null, '0.2');
 }
-
-// ----------------------------------------------------------------------------
 // add silvercart branding if no other branding is set
-// ----------------------------------------------------------------------------
-if (Config::inst()->get('LeftAndMain', 'application_name') == 'SilverStripe') {
-    Config::inst()->update('LeftAndMain', 'application_name', 'SilverCart - ' . SilvercartConfig::SilvercartFullVersion());
-    Config::inst()->update('LeftAndMain', 'application_link', 'http://www.silvercart.org');
+if (LeftAndMain::config()->get('application_name') == 'SilverStripe') {
+    LeftAndMain::config()->set('application_name', 'SilverCart - ' . Config::SilvercartFullVersion());
+    LeftAndMain::config()->set('application_link', 'https://www.silvercart.org');
 }
-// ----------------------------------------------------------------------------
 // Register menus for the storeadmin
-// ----------------------------------------------------------------------------
-SilvercartConfig::registerMenu('default',   _t('SilvercartStoreAdminMenu.DEFAULT'));
-SilvercartConfig::registerMenu('files',     _t('SilvercartStoreAdminMenu.FILES'));
-SilvercartConfig::registerMenu('orders',    _t('SilvercartStoreAdminMenu.ORDERS'));
-SilvercartConfig::registerMenu('products',  _t('SilvercartStoreAdminMenu.PRODUCTS'));
-SilvercartConfig::registerMenu('handling',  _t('SilvercartStoreAdminMenu.HANDLING'));
-SilvercartConfig::registerMenu('customer',  _t('SilvercartStoreAdminMenu.CUSTOMER'));
-SilvercartConfig::registerMenu('config',    _t('SilvercartStoreAdminMenu.CONFIG'));
-SilvercartConfig::registerMenu('modules',   _t('SilvercartStoreAdminMenu.MODULES'));
-
-//AssetAdmin::$menuCode = 'files';
-Config::inst()->update('AssetAdmin',            'menuCode', 'files');
-Config::inst()->update('CMSFileAddController',  'menuCode', 'files');
-Config::inst()->update('CMSSettingsController', 'menuCode', 'config');
-Config::inst()->update('SecurityAdmin',         'menuCode', 'customer');
-
-Config::inst()->update('CMSPagesController',    'menuSortIndex', 10);
-Config::inst()->update('WidgetSetAdmin',        'menuSortIndex', 20);
-Config::inst()->update('ReportAdmin',           'menuSortIndex', 30);
-
-Config::inst()->update('AssetAdmin',            'menuSortIndex', 1);
-
-Config::inst()->update('SecurityAdmin',         'menuSortIndex', 30);
-
-Config::inst()->update('CMSSettingsController', 'menuSortIndex', 1);
-
-
-// ----------------------------------------------------------------------------
-// Dirty bugfixes ....
-// ----------------------------------------------------------------------------
+Config::registerMenu('default',   _t(LeftAndMainExtension::class . '.DEFAULT', 'CMS'));
+Config::registerMenu('files',     _t(LeftAndMainExtension::class . '.FILES', 'Files'));
+Config::registerMenu('orders',    _t(LeftAndMainExtension::class . '.ORDERS', 'Orders'));
+Config::registerMenu('products',  _t(LeftAndMainExtension::class . '.PRODUCTS', 'Products'));
+Config::registerMenu('handling',  _t(LeftAndMainExtension::class . '.HANDLING', 'Handling'));
+Config::registerMenu('customer',  _t(LeftAndMainExtension::class . '.CUSTOMER', 'Customers'));
+Config::registerMenu('config',    _t(LeftAndMainExtension::class . '.CONFIG', 'Configuration'));
+Config::registerMenu('modules',   _t(LeftAndMainExtension::class . '.MODULES', 'Modules'));
+AssetAdmin::config()->set('menuCode',      'files');
+AssetAdmin::config()->set('menuSortIndex', 1);
+SecurityAdmin::config()->set('menuCode',      'customer');
+SecurityAdmin::config()->set('menuSortIndex', 30);
+CMSPagesController::config()->set('menuSortIndex', 10);
+WidgetSetAdmin::config()->set('menuSortIndex', 20);
+ReportAdmin::config()->set('menuSortIndex', 30);
+SiteConfigLeftAndMain::config()->set('menuCode', 'config');
+SiteConfigLeftAndMain::config()->set('menuSortIndex', 1);
+// prepare a posted email address
 if (array_key_exists('Email', $_POST)) {
-    $_POST['Email'] = SilvercartTools::prepareEmailAddress($_POST['Email']);
+    $_POST['Email'] = Tools::prepareEmailAddress($_POST['Email']);
 }
-
-$cacheDirectories = array(
-    'cacheblock' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'cacheblock',
-    'silvercart' => getTempFolder() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'silvercart',
-);
-
-if (Director::isDev()) {
-    $cachelifetime = 1;
-} else {
-    $cachelifetime = 86400;
-}
-
-foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
-    SilvercartCleanCacheTask::register_cache_directory($cacheDirectory);
-    if (!is_dir($cacheDirectory)) {
-        mkdir($cacheDirectory);
-    }
-
-    SS_Cache::add_backend(
-        $cacheName,
-        'File',
-        array(
-            'cache_dir'              => $cacheDirectory,
-            'hashed_directory_level' => 1,
-        )
-    );
-    SS_Cache::set_cache_lifetime($cacheName, $cachelifetime);
-    SS_Cache::pick_backend($cacheName, $cacheName);
-}
-SS_Cache::set_cache_lifetime('aggregate', $cachelifetime);
-
+define('SILVERCART_PATH',     realpath(__DIR__));
+define('SILVERCART_CLIENT_PATH', SILVERCART_PATH . DIRECTORY_SEPARATOR . 'client');
+define('SILVERCART_IMG_PATH', SILVERCART_CLIENT_PATH . DIRECTORY_SEPARATOR . 'img');
+define('SILVERCART_LOG_PATH', SILVERCART_PATH . DIRECTORY_SEPARATOR . 'log');
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.

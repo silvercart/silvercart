@@ -1,0 +1,588 @@
+.silvercart.cms-sitename .cms-sitename__link {
+    background: url("../../img/logo_small.png") no-repeat scroll left center transparent;
+}
+/*CMS menu*/
+.cms-menu__list li a span.toggle-children {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+input.text.silvercartmoney {
+    width: 115px;
+    text-align: right;
+    display: inline-block;
+}
+
+
+
+#Form_ItemEditForm fieldset,
+#Form_ItemEditForm fieldset #Root,
+#Form_ItemEditForm fieldset #Root_Preview,
+#Form_ItemEditForm fieldset #Root_Preview .full-height,
+.full-height {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.collapsed .silvercart.cms-logo a {
+    height: 24px;
+    top: 0;
+}
+
+.silvercart-clearfix {
+    clear:              both;
+}
+
+.silvercart-widget {
+    margin:             0px 0px 10px 0px;
+}
+#contentPanel {
+    z-index: 5000;
+}
+
+/*******************************************************************************
+        model admin right part, especially forms
+*******************************************************************************/
+.silvercart-fieldgroup {
+    
+}
+.silvercart-fieldgroup .fieldgroup {
+
+}
+.silvercart-break {
+    color: #ff0000;
+}
+.silvercart-break:after,
+.silvercart-fieldgroup .fieldgroup:after {
+    clear:both;
+    content:".";
+    display:block;
+    font-size:0;
+    height:0;
+    visibility:hidden;
+}
+.silvercart-fieldgroup .fieldgroupField {
+    float: left;
+    padding: 0px 12px 6px 0;
+    min-width: 140px;
+}
+.silvercart-fieldgroup .fieldgroupField.field {
+    border-bottom: none !important;
+    box-shadow: none !important;
+    display: block;
+    margin: 0px !important;
+}
+.silvercart-fieldgroup .fieldgroupField {
+    padding-left: 12px !important;
+}
+.silvercart-fieldgroup .fieldgroupField.silvercart-clearfix,
+.silvercart-fieldgroup .fieldgroupField:first-child {
+    padding-left: 0px !important;
+}
+.silvercart-fieldgroup .fieldgroupField label {
+    display: block;
+    width: auto !important;
+    margin: auto !important;
+    float: none !important;
+    font-weight: bold;
+}
+.silvercart-fieldgroup .fieldgroupField select {
+    
+}
+.silvercart-fieldgroup .fieldgroupField input[type="checkbox"] {
+    float: left;
+    margin: 0 4px 0 0;
+    height: 34px;
+}
+.silvercart-fieldgroup .fieldgroupField input[type="checkbox"] ~ label {
+    line-height: 34px;
+    white-space: nowrap;
+}
+.silvercart-form-highlight,
+.silvercart-field-group {
+    padding:    0px;
+    margin:     6px 0;
+}
+.ss-toggle .ui-accordion-content .field label {
+    width: auto;
+}
+
+.silvercart-batch-option-callback-target {
+    display: inline-block;
+}
+
+.right form .silvercart-batch-option-callback-target .field label.left,
+.right form .silvercart-batch-option-callback-target .field .middleColumn {
+    display:    inline-block;
+    width:      auto;
+}
+
+
+.importSpec {
+    
+}
+.importSpec dl {
+    
+}
+.importSpec dt {
+}
+.importSpec dd {
+    margin-left: 24px;
+}
+.importSpec dd:before {
+    content: '(';
+}
+.importSpec dd:after {
+    content: ')';
+}
+
+.sc-left {
+    float: left;
+}
+.padd {
+    padding: 12px;
+}
+
+
+.right form .TableListField tr.is-not-seen,
+.right form .TableListField tr.is-not-seen td,
+.right form .TableListField tr.is-not-seen td a {
+    background-color: #63C5FF;
+    color: #fff;
+}
+.right form .TableListField tr.is-not-seen:hover,
+.right form .TableListField tr.is-not-seen:hover td,
+.right form .TableListField tr.is-not-seen:hover td a {
+    background-color: #91D6FF;
+}
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow: auto;
+}
+
+.ui-accordion-content {
+    height: auto !important;
+}
+
+.admin-quick-preview {
+    
+}
+.admin-quick-preview th {
+    text-align: left;
+}
+.admin-quick-preview td {
+    text-align: right;
+    padding: 3px 12px;
+}
+.silvercart-table-field {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+.silvercart-table-field th {
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: none repeat scroll 0 0 #98AAB6;
+}
+.silvercart-table-field td {
+    text-align: right;
+    padding: 3px 12px;
+}
+
+.field.important {
+    background: #f00;
+}
+.field.important label {
+    color: #fff !important;
+}
+.field.plain {
+    margin-bottom: 0;
+    padding: 0;
+    border: none;
+    display: inline-block;
+    vertical-align: bottom;
+}
+.field.plain div {
+    vertical-align: bottom;
+}
+.field.plain:after {
+    display: none;
+}
+
+.silvercart-formfield-label {
+    color: #666;
+    padding: 2px 0px 8px 8px;
+}
+
+.cms-menu-list li ul.collapse li a {
+    padding: 0 10px 0 20px;
+}
+.cms-menu-list li ul.collapse li a .icon {
+    margin-right: 8px;
+}
+.cms-menu.cms-panel.cms-panel-layout.collapsed,
+.cms-menu.cms-panel.cms-panel-layout.collapsed .cms-panel-content,
+.cms-menu.cms-panel.cms-panel-layout.collapsed .cms-menu-list {
+    overflow: visible;
+}
+.cms-menu-list.collapsed li:hover ul {
+    position: absolute;
+    z-index: 50;
+    display: block;
+}
+.cms-menu-list.collapsed li:hover ul li {
+    display: block !important;
+}
+
+.icon.icon-16 {
+    background-color: transparent;
+    background-image: url("../../img/glyphicons-halflings.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: -432px 0 !important;
+}
+.current .icon.icon-16 {
+    background-image: url("../../img/glyphicons-halflings-white.png") !important;
+}
+
+.menu__icon.font-icon-database,
+.icon.icon-16.icon-default {
+    background-position: -22px -24px !important;
+}
+.icon.icon-16.icon-files {
+    background-position: -408px -120px !important;
+}
+.icon.icon-16.icon-orders {
+    background-position: -166px -24px !important;
+}
+.icon.icon-16.icon-products {
+    background-position: -358px -120px !important;
+}
+.icon.icon-16.icon-handling {
+    background-position: -216px -120px !important;
+}
+.icon.icon-16.icon-customer {
+    background-position: -168px 0 !important;
+}
+
+.icon.icon-16.icon-silvercart-admin-controllers-imageadmin {
+    background-position: -456px -48px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-orderadmin {
+    background-position: -168px -168px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-orderstatusadmin {
+    background-position: -24px -48px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-numberrangeadmin {
+    background-position: -288px -168px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-productadmin {
+    background-position: -454px -24px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-manufactureradmin {
+    background-position: -310px -24px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-productconditionadmin {
+    background-position: -70px -144px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-availabilitystatusadmin {
+    background-position: -334px -168px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-quantityunitadmin {
+    background-position: -454px -96px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-taxadmin {
+    background-position: -406px -96px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-paymentmethodadmin {
+    background-position: -144px -168px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-shippingmethodadmin {
+    background-position: -240px -144px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-zoneadmin {
+    background-position: -48px -72px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-countryadmin {
+    background-position: -336px -144px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-carrieradmin {
+    background-position: -72px -24px !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-customeradmin {
+    background-position: -168px 0 !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-contactmessageadmin {
+    background-position: -72px 0 !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-configadmin {
+    background-position: -432px 0 !important;
+}
+.icon.icon-16.icon-silvercart-admin-controllers-shopemailadmin {
+    background-position: -72px 0 !important;
+}
+
+.menu__icon.font-icon-database:before,
+.menu__icon.font-icon-sitemap:before,
+.menu__icon.font-icon-chart-line:before,
+.menu__icon.font-icon-image:before,
+.menu__icon.font-icon-torsos-all:before,
+.menu__icon.font-icon-cog:before {
+    content: '';
+}
+.menu__icon.font-icon-database,
+.menu__icon.font-icon-sitemap,
+.menu__icon.font-icon-chart-line,
+.menu__icon.font-icon-image,
+.menu__icon.font-icon-torsos-all,
+.menu__icon.font-icon-cog {
+    width: 16px;
+    height: 16px;
+    background-image: url("../../img/glyphicons-halflings.png") !important;
+}
+.menu__icon.font-icon-sitemap,
+.icon.icon-16.icon-cmspagescontroller {
+    background-position: -22px -24px !important;
+}
+.menu__icon.font-icon-chart-line,
+.icon.icon-16.icon-reportadmin {
+    background-position: -264px -24px !important;
+}
+.menu__icon.font-icon-image,
+.icon.icon-16.icon-assetadmin {
+    background-position: -384px -120px !important;
+}
+.menu__icon.font-icon-torsos-all,
+.icon.icon-16.icon-securityadmin {
+    background-position: -288px -24px !important;
+}
+.menu__icon.font-icon-cog,
+.icon.icon-16.icon-cmssettingscontroller {
+    background-position: -432px 0 !important;
+}
+
+.icon.icon-16.icon- {
+    background-position: -384px -144px !important;
+}
+
+.icon.icon-16.icon-widgetsets-admin-controllers-widgetsetadmin {
+    background-position: -238px 0 !important;
+}
+
+.icon.icon-24 {
+    background-color: transparent;
+    background-image: url("../../img/glyphicons-mini.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 0;
+    height: 24px;
+    width: 24px;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block;
+}
+.icon.icon-24.white {
+    background-image: url("../../img/glyphicons-mini-white.png");
+}
+.icon.icon-24.icon-checked {
+    background-position: -62px -480px;
+}
+.icon.icon-24.icon-not-checked {
+    background-position: -94px -480px;
+}
+.icon.icon-24.icon-magnifier {
+    background-position: -222px -60px;
+}
+.icon.icon-24.icon-eye {
+    background-position: -30px -156px;
+}
+
+.icon.icon-32 {
+    background-color: transparent;
+    background-image: url("../../img/glyphicons.png");
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: 0 0;
+    height: 32px;
+    width: 32px;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block;
+}
+.icon.icon-32.white {
+    background-image: url("../../img/glyphicons-white.png");
+}
+.icon.icon-32.icon-checked {
+    background-position: -94px -720px;
+}
+.icon.icon-32.icon-not-checked {
+    background-position: -142px -720px;
+}
+
+.cms-menu-list li a .text {
+    display: inline-block;
+}
+.cms-menu-list li.current li.current a {
+    font-weight: normal;
+}
+
+tr [class^="col-GridFieldBatchControllerCheckbox"],
+tr [class*=" col-GridFieldBatchControllerCheckbox"] {
+    width: 72px;
+}
+tr [class^="col-GridFieldBatchControllerCheckbox"] span,
+tr [class*=" col-GridFieldBatchControllerCheckbox"] span {
+    margin: 0 !important;
+    vertical-align: middle;
+}
+tr [class^="col-GridFieldBatchControllerCheckbox"] span.check-all,
+tr [class*=" col-GridFieldBatchControllerCheckbox"] span.check-all,
+tr [class^="col-GridFieldBatchControllerCheckbox"] span.uncheck-all,
+tr [class*=" col-GridFieldBatchControllerCheckbox"] span.uncheck-all {
+    cursor: pointer;
+}
+.col-batch-action-selector.action {
+    text-align: center;
+}
+
+.cursor-context-menu {
+    cursor: context-menu;
+}
+
+.silvercart-permanent-notification {
+    position:                   absolute;
+    right:                      24px;
+    top:                        12px;
+    z-index:                    1000;
+    background:                 #000;
+    opacity:                    0.7;
+    -webkit-border-radius:      6px;
+    border-radius:              6px;
+    padding:                    6px 12px 12px 12px;
+    width:                      250px;
+    color:                      #fff;
+    filter:                     alpha(opacity=70);
+}
+.silvercart-permanent-notification.hidden {
+    display:                    none;
+}
+.silvercart-permanent-notification h2 {
+    color:                      #fff;
+    font-size:                  16px;
+    line-height:                1.5;
+}
+.silvercart-permanent-notification p {
+    color:                      #fff;
+    font-size:                  12px;
+    line-height:                1.2;
+}
+.silvercart-permanent-notification .btn-close {
+    color:                      #fff;
+    position:                   absolute;
+    right:                      6px;
+    top:                        3px;
+    font-size:                  14px;
+    cursor:                     pointer;
+}
+
+iframe.print-preview {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 4px 0px #888888 inset;
+}
+
+
+
+.cms-search-form h2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 12px;
+    margin-left: -7px;
+    margin-right: -8px;
+    padding: 5px 7px;
+    border-top: 1px solid #a1b2bc;
+    
+    color: #ffffff;
+    text-shadow: #1e5270 0 -1px 0;
+    border-top: 1px solid #55a4d2;
+    border-bottom: 1px solid #236184;
+    background-color: #338dc1;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzOGRjMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzI4NzA5OSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #338dc1), color-stop(100%, #287099));
+    background-image: -webkit-linear-gradient(#338dc1, #287099);
+    background-image: -moz-linear-gradient(#338dc1, #287099);
+    background-image: -o-linear-gradient(#338dc1, #287099);
+    background-image: linear-gradient(#338dc1, #287099);
+}
+
+
+/*******************************************************************************
+* Twitter Bootstrap Extension                                                  *
+********************************************************************************/
+
+.alert {
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background-color: #fcf8e3;
+  border: 1px solid #fbeed5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.alert,
+.alert h4 {
+  color: #c09853;
+}
+.alert h4 {
+  margin: 0;
+}
+.alert .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  line-height: 20px;
+}
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #468847;
+}
+.alert-success h4 {
+  color: #468847;
+}
+.alert-danger,
+.alert-error {
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: #b94a48;
+}
+.alert-danger h4,
+.alert-error h4 {
+  color: #b94a48;
+}
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #3a87ad;
+}
+.alert-info h4 {
+  color: #3a87ad;
+}
+.alert-block {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.alert-block > p,
+.alert-block > ul {
+  margin-bottom: 0;
+}
+.alert-block p + p {
+  margin-top: 5px;
+}

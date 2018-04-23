@@ -1,21 +1,20 @@
 <div class="row">
     <div class="span9">
-        <% include SilvercartBreadCrumbs %>  
+        <% include SilverCart/Model/Pages/BreadCrumbs %>
         <div class="section-header clearfix">
-            <h1>$Title</h1>
+            <h1>{$Title}</h1>
         </div>
-        $Content
-        <% if Form %>
+        {$Content}
+        <% if $Form %>
         <div class="form">
-            $Form
+            {$Form}
         </div>
         <% end_if %>
         <div class="silvercartWidgetHolder">
-                $InsertWidgetArea(Content)
+            {$InsertWidgetArea(Content)}
         </div>
-        $PageComments  
-    </div><!--end span9-->
+    </div>
     <aside class="span3">
-        $InsertWidgetArea(Sidebar)  
-    </aside><!--end aside-->
+        {$InsertWidgetArea(Sidebar)}
+    </aside>
 </div>

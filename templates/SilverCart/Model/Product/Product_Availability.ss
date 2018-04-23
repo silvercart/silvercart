@@ -1,0 +1,1 @@
+<span class="{$AvailabilityCSSClasses}" title="{$Title}">{$Title}</span>

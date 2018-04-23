@@ -7,7 +7,7 @@ A new customer can register to the store on a one page form. The dropdown for co
 
 ![](_images/registration-form_2_1-2.jpg)
 
-Note: At Silvercart Configuration→General Configuration you may configure wether the birth date is asked during the registration or not:
+Note: At the "Settings" section you may configure wether the birth date is asked during the registration or not:
 
 ![](_images/config-registration_1-2.png)
 

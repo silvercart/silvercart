@@ -15,7 +15,7 @@ We extended form scaffolding for our needs by adding some static methods. Before
 Now you shoud define them like this:
 
         pubic function getCMSFields() {
-            $fields = SilvercartDataObject::getCMSFields()
+            $fields = DataObjectExtension::getCMSFields()
             return $fields;
         }
 

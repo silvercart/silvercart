@@ -10,7 +10,7 @@ Das zweite Feld "Globaler E-Mail Empfänger" ist kein Pflichtfeld. Sie können h
 
 Über die Checkbox "Geburtsdatum bei Registrierung abfragen?" können Sie bestimmen, ob das Geburtsdatum bei der Registrierung angegeben werden muss.
 
-Im folgenden Dropdown definieren Sie einen standard Artikelzustand, zB neu, gebraucht, generalüberholt, etc. Bitte beachten Sie, dass Sie unter Silvercart Konfiguration-> Artikelzustand zuerst Artikelzustände anlegen müssen, bevor das Dropdown-Feld Werte anzeigt.
+Im folgenden Dropdown definieren Sie einen standard Artikelzustand, zB neu, gebraucht, generalüberholt, etc. Bitte beachten Sie, dass Sie unter "Artikel"->"Artikelzustand" zuerst Artikelzustände anlegen müssen, bevor das Dropdown-Feld Werte anzeigt.
 
 
 ### Zugriff
