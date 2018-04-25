@@ -123,7 +123,6 @@ class NewsletterPage extends MetaNavigationHolder {
                     'DefaultConfirmationFailureMessage' => _t(NewsletterPage::class . '.DefaultConfirmationFailureMessage', 'Your newsletter registration couldn\'t be completed.'),
                     'DefaultConfirmationSuccessMessage' => _t(NewsletterPage::class . '.DefaultConfirmationSuccessMessage', 'Your newsletter registration was successful! Hopefully our offers will be of good use to you.'),
                     'DefaultAlreadyConfirmedMessage'    => _t(NewsletterPage::class . '.DefaultAlreadyConfirmedMessage', 'Your newsletter registration has been completed already.'),
-                    'DefaultEmailConfirmationContent'   => _t(NewsletterPage::class . '.DefaultEmailConfirmationContent', '<h1>Complete newsletter registration</h1><p>Click on the activation link or copy the link to your browser please.</p><p><a href=\"$ConfirmationLink\">Confirm newsletter registration</a></p><p>If you haven\'t requested the newsletter registration just ignore this email.</p><p>Your webshop team</p>'),
                     'DefaultEmailConfirmationSubject'   => _t(NewsletterPage::class . '.DefaultEmailConfirmationSubject', 'Complete newsletter registration'),
                     'OptInPageTitle'                    => _t(NewsletterPage::class . '.OptInPageTitle', 'Opt-in page title'),
                     'ConfirmationFailureMessage'        => _t(NewsletterPage::class . '.ConfirmationFailureMessage', 'Message for subscription failure'),

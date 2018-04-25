@@ -1,8 +1,8 @@
-<h1>Anfrage über Kontaktformular</h1>
+<h1><%t SilverCart\Model\Pages\ContactFormPage.REQUEST 'Request via contact form' %></h1>
 
-<p>Über die Webseite wurde eine Anfrage an euch gestellt.</p>
+<p><%t SilverCart\Model\Pages\ContactFormPage.EmailContactRequest 'A customer sent a contact request.' %></p>
 
-<h2>Kundendaten</h2>
+<h2><%t SilverCart\Model\Order\Order.CUSTOMERDATA 'Customer Data' %></h2>
 <table>
     <tr><td>{$ContactMessage.fieldLabel(Name)}:</td><td><strong>{$Salutation} {$FirstName} {$Surname}</strong></td></tr>
     <tr><td>{$ContactMessage.fieldLabel(Email)}:</td><td><strong>{$Email}</strong></td></tr>
@@ -23,5 +23,5 @@
 <% end_if %>
 </table>
 
-<h2>Die Nachricht</h2>
+<h2><%t SilverCart\Model\ShopEmail.EMAILTEXT 'Message' %></h2>
 <p>{$Message}</p>
