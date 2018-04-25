@@ -2327,7 +2327,11 @@ class Order extends DataObject implements PermissionProvider {
                 
                 $newOrderStatus->sendMailFor($this);
             }
-            OrderLog::addChangedLog($this, OrderStatus::class, $this->original['OrderStatusID'], $this->OrderStatusID);
+            $orderStatusID = 0;
+            if (array_key_exists('OrderStatusID', $this->original)) {
+                $orderStatusID = $this->original['OrderStatusID'];
+            }
+            OrderLog::addChangedLog($this, OrderStatus::class, $orderStatusID, $this->OrderStatusID);
         }
         if (array_key_exists('sa__FirstName', $_POST) &&
             $this->ShippingAddress()->ID > 0) {
