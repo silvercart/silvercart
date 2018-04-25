@@ -40,6 +40,13 @@ class PageListWidget extends Widget {
     );
 
     /**
+     * DB table name
+     *
+     * @var string
+     */
+    private static $table_name = 'SilvercartPageListWidget';
+
+    /**
      * Casting
      *
      * @var array
