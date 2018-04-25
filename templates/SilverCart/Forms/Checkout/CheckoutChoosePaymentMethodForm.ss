@@ -9,20 +9,18 @@
 <% with $PaymentMethod %>
     <div class="silvercart-checkout-payment-additionalInfo clearfix">
         <h2>{$Name}</h2>
-        <% if $showPaymentLogos %>
-            <div class="silvercart-checkout-payment-additionalInfo-logos margin">
-            <% if $PaymentLogos %>
-                <span class="silvercart-checkout-payment-additionalInfo-logo">
-                    <% loop $PaymentLogos %>
-                        {$Image.Pad(250,70)}
-                    <% end_loop %>
-                </span>
-            <% end_if %>
-            </div>
-        <% end_if %>
-        <% if $paymentDescription %>
-            <div class="silvercart-checkout-payment-additionalInfo-description"><i>{$paymentDescription.RAW}</i></div>
-        <% end_if %>
+    <% if $showPaymentLogos && $PaymentLogos.exists %>
+        <div class="logos margin">
+            <span class="logo">
+                <% loop $PaymentLogos %>
+                    {$Image.Pad(250,70)}
+                <% end_loop %>
+            </span>
+        </div>
+    <% end_if %>
+    <% if $paymentDescription %>
+        <div class="silvercart-checkout-payment-additionalInfo-description"><i>{$paymentDescription.RAW}</i></div>
+    <% end_if %>
     </div>
 <% end_with %>
 <% loop $Actions %>
