@@ -92,9 +92,13 @@ trait OrderCheckoutStep {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
-        $orderID = $checkoutData['Order'];
-        $order   = Order::get()->byID($orderID);
-        $this->setOrder($order);
+        if (array_key_exists('Order', $checkoutData)) {
+            $orderID = $checkoutData['Order'];
+            $order   = Order::get()->byID($orderID);
+            if ($order instanceof Order) {
+                $this->setOrder($order);
+            }
+        }
         return $this;
     }
 
@@ -109,6 +113,11 @@ trait OrderCheckoutStep {
      * @since 12.04.2018
      */
     public function placeOrder($checkoutData = null) {
+        $order = $this->getOrder();
+        if ($order instanceof Order &&
+            $order->exists()) {
+            return $this;
+        }
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
