@@ -3,7 +3,9 @@
 namespace SilverCart\Model\Pages;
 
 use SilverCart\Admin\Model\Config;
+use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Control\Director;
+use SilverStripe\Control\HTTPRequest;
 
 /**
  * PaymentNotification Controller class. Handles Payment provider requests.
@@ -47,18 +49,15 @@ class PaymentNotificationController extends \PageController {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.09.2017
+     * @since 24.04.2018
      */
-    public function process() {
+    public function process(HTTPRequest $request) {
         $paymentName = $this->urlParams['ID'];
-        $paymentNotificationClassName = 'SilverCart\\' . $paymentName . '\\Payment' . $paymentName . 'Notification';
-        $paymentChannel = '';
-        if (array_key_exists('OtherID', $this->urlParams)) {
-            $paymentChannel = $this->urlParams['OtherID'];
-        }
-        if (class_exists($paymentNotificationClassName)) {
-            $paymentNotificationClass = new $paymentNotificationClassName();
-            return $paymentNotificationClass->process($paymentChannel);
+        $paymentID   = $this->urlParams['OtherID'];
+        $payment     = PaymentMethod::get()->byID($paymentID);
+        if ($payment instanceof PaymentMethod &&
+            $payment->exists()) {
+            return $payment->doProcessNotification($request);
         }
     }
 }

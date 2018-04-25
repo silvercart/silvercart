@@ -45,16 +45,30 @@ class CheckoutStep6 extends CheckoutStep {
         $this->initPaymentMethod($checkoutData);
         $this->initShippingMethod($checkoutData);
         $this->initAddressData($checkoutData);
+        $this->initOrder($checkoutData);
     }
     
+    /**
+     * Processes this checkout step.
+     * The default payment handling is processed here.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
     public function process() {
         $checkoutData = $this->getCheckout()->getData();
         $payment = $this->getPaymentMethod();
-        $payment->processBeforeOrder($checkoutData);
-        $this->placeOrder($checkoutData);
-        $payment->processAfterOrder($this->getOrder(), $checkoutData);
-        $this->getCheckout()->finalize();
-        $this->getController()->redirect($this->getController()->Link('thanks'));
+        $payment->doProcessBeforePaymentProvider($checkoutData);
+        $payment->doProcessAfterPaymentProvider($checkoutData);
+        $payment->doProcessBeforeOrder($checkoutData);
+        if ($payment->canPlaceOrder($checkoutData)) {
+            $this->placeOrder($checkoutData);
+            $payment->doProcessAfterOrder($this->getOrder(), $checkoutData);
+            $this->getCheckout()->finalize();
+            $this->getController()->redirect($this->getController()->Link('thanks'));
+        }
     }
 
     /**

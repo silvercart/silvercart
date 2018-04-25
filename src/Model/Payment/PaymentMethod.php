@@ -29,6 +29,7 @@ use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
+use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
@@ -1762,7 +1763,7 @@ class PaymentMethod extends DataObject {
      * @since 17.11.2010
      */
     public function Log($context, $text) {
-        Config::Log($context, $text, $this->ClassName);
+        Config::Log($context, $text, empty($this->moduleName) ? 'payment' : 'payment-' . $this->moduleName);
     }
 
     /**
@@ -1793,7 +1794,7 @@ class PaymentMethod extends DataObject {
     public function createRequiredOrderStatus($orderStatusList) {
         foreach ($orderStatusList as $code => $title) {
             $table = Tools::get_table_name(OrderStatus::class);
-            if (!OrderStatus::get()->filter('Code', $code)->sort($table . '.ID')->first()) {
+            if (!OrderStatus::get()->filter('Code', $code)->sort('"' . $table . '"."ID"')->first()) {
                 $orderStatus = new OrderStatus();
                 $orderStatus->Title = $title;
                 $orderStatus->Code = $code;
@@ -1834,67 +1835,68 @@ class PaymentMethod extends DataObject {
      *
      * @return void
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
      */
     public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
-        //make sure that the folder "Uploads" exists
         Folder::find_or_make('Uploads');
-        $paymentModule = PaymentMethod::get()->filter(array("ClassName" => $paymentModuleName))->sort(array("ID" => "ASC"))->first();
-        if ($paymentModule) {
+        $paymentModule = PaymentMethod::get()->filter('ClassName', $paymentModuleName)->sort('ID', 'ASC')->first();
+        if ($paymentModule instanceof PaymentMethod) {
             if (count($this->getPossiblePaymentChannels()) > 0) {
-                // Multiple payment channels
                 foreach ($paymentLogos as $paymentChannel => $logos) {
-                    $paymentChannelMethod = DataObject::get_one($paymentModuleName, sprintf("\"PaymentChannel\"='%s'", $paymentChannel), true, $paymentModuleName.".ID");
-                    if ($paymentChannelMethod) {
-                        if (!$paymentChannelMethod->PaymentLogos()->exists()) {
-                            foreach ($logos as $title => $logo) {
-                                $paymentLogo = new Image();
-                                $paymentLogo->Title = $title;
-                                $storedLogo = \SilverStripe\Assets\Image::get()->filter('Name', basename($logo))->first();
-                                if ($storedLogo) {
-                                    $paymentLogo->ImageID = $storedLogo->ID;
-                                } else {
-                                    file_put_contents(Director::baseFolder() . '/' . $this->uploadsFolder->Filename . basename($logo), file_get_contents(Director::baseFolder() . $logo));
-                                    $image = new \SilverStripe\Assets\Image();
-                                    $image->setFilename($this->uploadsFolder->Filename . basename($logo));
-                                    $image->setName(basename($logo));
-                                    $image->Title = basename($logo, '.png');
-                                    $image->ParentID = $this->uploadsFolder->ID;
-                                    $image->write();
-                                    $paymentLogo->ImageID = $image->ID;
-                                }
-                                $paymentLogo->write();
-                                $paymentChannelMethod->PaymentLogos()->add($paymentLogo);
-                            }
-                        }
+                    $paymentChannel = DataObject::get($paymentModuleName)->filter('PaymentChannel', $paymentChannel)->first();
+                    if ($paymentChannel) {
+                        $this->addPaymentLogos($paymentChannel, $logos);
                     }
                 }
             } else {
-                // Single payment channels
-                foreach ($paymentLogos as $title => $logo) {
-                    if (!$paymentModule->PaymentLogos()->exists()) {
+                $this->addPaymentLogos($paymentModule, $paymentLogos);
+            }
+        }
+    }
+    
+    /**
+     * Adds the given payment logos for the given payment module.
+     * 
+     * @param PaymentMethod $paymentModule Payment module
+     * @param array         $paymentLogos  Payment logos
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    protected function addPaymentLogos($paymentModule, $paymentLogos) {
+        if (!$paymentModule->PaymentLogos()->exists()) {
+            foreach ($paymentLogos as $title => $logo) {
+                $image = \SilverStripe\Assets\Image::get()->filter('Name', basename($logo))->first();
 
-                        $paymentLogo = new Image();
-                        $paymentLogo->Title = $title;
-                        $storedLogo = \SilverStripe\Assets\Image::get()->filter('Name', basename($logo))->first();
+                if ((!($image instanceof \SilverStripe\Assets\Image) ||
+                     !$image->exists()) &&
+                    file_exists($logo)) {
 
-                        if ($storedLogo) {
-                            $paymentLogo->ImageID = $storedLogo->ID;
-                        } else {
-                            file_put_contents(Director::baseFolder() . '/' . $this->uploadsFolder->Filename . basename($logo), file_get_contents(Director::baseFolder() . $logo));
-                            $image = new \SilverStripe\Assets\Image();
-                            $image->setFilename($this->uploadsFolder->Filename . basename($logo));
-                            $image->setName(basename($logo));
-                            $image->Title = basename($logo, '.png');
-                            $image->ParentID = $this->uploadsFolder->ID;
-                            $image->write();
-                            $paymentLogo->ImageID = $image->ID;
-                        }
-                        $paymentLogo->write();
-                        $paymentModule->PaymentLogos()->add($paymentLogo);
-                    }
+                    $fileContent = file_get_contents($logo);
+                    $fileHash    = sha1($fileContent);
+                    $hashDir     = substr($fileHash, 0, 10);
+                    $uploadsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->uploadsFolder->Filename;
+                    mkdir($uploadsPath . $hashDir);
+                    file_put_contents($uploadsPath . $hashDir . DIRECTORY_SEPARATOR . basename($logo), $fileContent);
+                    $image = new \SilverStripe\Assets\Image();
+                    $image->Filename     = $this->uploadsFolder->Filename . basename($logo);
+                    $image->Hash         = sha1($fileContent);
+                    $image->Name         = basename($logo);
+                    $image->Title        = basename($logo, '.png');
+                    $image->ParentID     = $this->uploadsFolder->ID;
+                    $image->write();
+                }
+
+                if ($image instanceof \SilverStripe\Assets\Image &&
+                    $image->exists()) {
+                    $paymentLogo          = new Image();
+                    $paymentLogo->Title   = $title;
+                    $paymentLogo->ImageID = $image->ID;
+                    $paymentLogo->write();
+                    $paymentModule->PaymentLogos()->add($paymentLogo);
                 }
             }
         }
@@ -2212,16 +2214,188 @@ class PaymentMethod extends DataObject {
     /***********************************************************************************************
      ***********************************************************************************************
      **                                                                                           ** 
+     ** Internal Payment processing section.                                                      ** 
+     **                                                                                           ** 
+     **     - doPocessBeforeOrder                                                                 ** 
+     **     - doProcessAfterOrder                                                                 ** 
+     **     - doProcessBeforePaymentProvider                                                      ** 
+     **     - doProcessAfterPaymentProvider                                                       ** 
+     **     - doProcessNotification                                                               ** 
+     **                                                                                           ** 
+     ***********************************************************************************************
+     **********************************************************************************************/
+    
+    /**
+     * Is called right before redirecting to the external payment provider (e.g. like redirecting to
+     * paypal to do the payment).
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function doProcessBeforePaymentProvider(array $checkoutData) {
+        if ($this->canProcessBeforePaymentProvider($checkoutData)) {
+            $this->processBeforePaymentProvider($checkoutData);
+        }
+    }
+    
+    /**
+     * Is called right after returning to the checkout after being redirected to the external 
+     * payment provider (e.g. like doing the payment at PayPal and then redirecting to the shop).
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function doProcessAfterPaymentProvider(array $checkoutData) {
+        if ($this->canProcessAfterPaymentProvider($checkoutData)) {
+            $this->processAfterPaymentProvider($checkoutData);
+        }
+    }
+    
+    /**
+     * Is called by default checkout right before placing an order.
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function doProcessBeforeOrder(array $checkoutData) {
+        if ($this->canProcessBeforeOrder($checkoutData)) {
+            $this->processBeforeOrder($checkoutData);
+        }
+    }
+    
+    /**
+     * Is called by default checkout right after placing an order.
+     * 
+     * @param \SilverCart\Model\Order\Order $order        Order
+     * @param array                         $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function doProcessAfterOrder(Order $order, array $checkoutData) {
+        if ($this->canProcessAfterOrder($order, $checkoutData)) {
+            $this->processAfterOrder($order, $checkoutData);
+        }
+    }
+    
+    /**
+     * Is called when a payment provider sends a background notification to the shop.
+     * 
+     * @param HTTPRequest $request Request data
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function doProcessNotification(HTTPRequest $request) {
+        return $this->processNotification($request);
+    }
+
+    /***********************************************************************************************
+     ***********************************************************************************************
+     **                                                                                           ** 
      ** Payment processing section. SilverCart checkout will call these methods:                  ** 
      **                                                                                           ** 
-     **     - processBeforeOrder                                                                  ** 
-     **     - processAfterOrder                                                                   ** 
+     **     - canProcessBeforePaymentProvider                                                     ** 
+     **     - canProcessAfterPaymentProvider                                                      ** 
+     **     - canProcessBeforeOrder                                                               ** 
+     **     - canProcessAfterOrder                                                                ** 
+     **     - canPlaceOrder                                                                       ** 
      **     - processBeforePaymentProvider                                                        ** 
      **     - processAfterPaymentProvider                                                         ** 
+     **     - processBeforeOrder                                                                  ** 
+     **     - processAfterOrder                                                                   ** 
+     **     - processNotification                                                                 ** 
      **     - processConfirmationText                                                             ** 
      **                                                                                           ** 
      ***********************************************************************************************
      **********************************************************************************************/
+    
+    /**
+     * Returns whether the checkout is ready to call self::processBeforePaymentProvider().
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function canProcessBeforePaymentProvider(array $checkoutData) {
+        return false;
+    }
+    
+    /**
+     * Returns whether the checkout is ready to call self::processAfterPaymentProvider().
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function canProcessAfterPaymentProvider(array $checkoutData) {
+        return false;
+    }
+    
+    /**
+     * Returns whether the checkout is ready to call self::processBeforeOrder().
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function canProcessBeforeOrder(array $checkoutData) {
+        return false;
+    }
+    
+    /**
+     * Returns whether the checkout is ready to call self::processAfterOrder().
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function canProcessAfterOrder(Order $order, array $checkoutData) {
+        return $this->canPlaceOrder($checkoutData) && $order instanceof Order && $order->exists();
+    }
+    
+    /**
+     * Is called by default checkout right before placing an order.
+     * If this returns false, the order won't be placed and the checkout won't be finalized.
+     * 
+     * @param array $checkoutData Checkout data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    public function canPlaceOrder(array $checkoutData) {
+        return false;
+    }
     
     /**
      * Is called by default checkout right before placing an order.
@@ -2233,7 +2407,7 @@ class PaymentMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    public function processBeforeOrder(array $checkoutData) {}
+    protected function processBeforeOrder(array $checkoutData) {}
     
     /**
      * Is called by default checkout right after placing an order.
@@ -2246,7 +2420,7 @@ class PaymentMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    public function processAfterOrder(Order $order, array $checkoutData) {}
+    protected function processAfterOrder(Order $order, array $checkoutData) {}
     
     /**
      * Is called right before redirecting to the external payment provider (e.g. like redirecting to
@@ -2259,7 +2433,7 @@ class PaymentMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    public function processBeforePaymentProvider(array $checkoutData) {}
+    protected function processBeforePaymentProvider(array $checkoutData) {}
     
     /**
      * Is called right after returning to the checkout after being redirected to the external 
@@ -2272,7 +2446,19 @@ class PaymentMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    public function processAfterPaymentProvider(array $checkoutData) {}
+    protected function processAfterPaymentProvider(array $checkoutData) {}
+    
+    /**
+     * Is called when a payment provider sends a background notification to the shop.
+     * 
+     * @param HTTPRequest $request Request data
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.04.2018
+     */
+    protected function processNotification(HTTPRequest $request) {}
     
     /**
      * Is called before rendering the order confirmation page right after the order placement is 

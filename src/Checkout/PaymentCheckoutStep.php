@@ -63,12 +63,13 @@ trait PaymentCheckoutStep {
         }
         $customer        = Security::getCurrentUser();
         $controller      = $this->getController();
+        $currentStep     = $controller->getCheckout()->getCurrentStep();
         $paymentMethodID = $checkoutData['PaymentMethod'];
         $paymentMethod   = PaymentMethod::get()->byID($paymentMethodID);
         /* @var $paymentMethod PaymentMethod */
         $paymentMethod->setController($controller);
         $paymentMethod->setCancelLink(Director::absoluteURL($controller->Link()) . 'step/4');
-        $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()));
+        $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()) . 'step/' . $currentStep->StepNumber());
         $paymentMethod->setCustomerDetailsByCheckoutData($checkoutData);
         $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
         $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
