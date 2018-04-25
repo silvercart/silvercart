@@ -350,7 +350,7 @@ class ShoppingCart extends DataObject {
      *
      * @param string $priceType 'gross' or 'net'
      *
-     * @return void
+     * @return DataObject
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>

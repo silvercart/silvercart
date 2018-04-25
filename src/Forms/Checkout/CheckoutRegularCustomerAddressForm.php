@@ -137,7 +137,6 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
         
         if (Customer::currentUser()->Addresses()->find('ID', $data['InvoiceAddress']) &&
             Customer::currentUser()->Addresses()->find('ID', $data['ShippingAddress'])) {
-            var_dump($data);
             $invoiceAddress  = Address::get()->byID($data['InvoiceAddress']);
             $shippingAddress = Address::get()->byID($data['ShippingAddress']);
             $data['InvoiceAddress']  = $invoiceAddress->toMap();

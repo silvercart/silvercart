@@ -725,7 +725,7 @@ ru:
     ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: "выбранные сообщения"
     CODE: "код"
     INWORK: "в обработке"
-    PAYED: "оплачено"
+    PAID: "оплачено"
     PLURALNAME: "статус заказа"
     SHIPPED: "заказ отправлен"
     SINGULARNAME: "статус заказа"

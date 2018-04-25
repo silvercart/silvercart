@@ -178,6 +178,14 @@ class Checkout extends ViewableData {
         return $stepExists;
     }
     
+    /**
+     * Returns whether there is a next step or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
     public function nextStepExists() {
         $currentStep = $this->getCurrentStep();
         $nextStep    = $this->getStepByIndex($currentStep->StepNumber());

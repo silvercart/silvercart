@@ -207,9 +207,9 @@ class RequireDefaultRecords {
                 'en_GB' => 'Waiting for payment',
                 'de_DE' => 'Auf Zahlungseingang wird gewartet',
             ),
-            'payed' => array(
-                'en_US' => 'Payed',
-                'en_GB' => 'Payed',
+            'paid' => array(
+                'en_US' => 'Paid',
+                'en_GB' => 'Paid',
                 'de_DE' => 'Bezahlt',
             ),
             'shipped' => array(
@@ -233,7 +233,7 @@ class RequireDefaultRecords {
 
         if ($fallbackLocale !== false) {
             $defaultStatusEntries['pending'][$fallbackLocale] = $defaultStatusEntries['pending']['en_US'];
-            $defaultStatusEntries['payed'][$fallbackLocale]   = $defaultStatusEntries['payed']['en_US'];
+            $defaultStatusEntries['paid'][$fallbackLocale]    = $defaultStatusEntries['paid']['en_US'];
             $defaultStatusEntries['shipped'][$fallbackLocale] = $defaultStatusEntries['shipped']['en_US'];
             $defaultStatusEntries['inwork'][$fallbackLocale]  = $defaultStatusEntries['inwork']['en_US'];
         }

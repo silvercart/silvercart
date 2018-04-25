@@ -1001,7 +1001,7 @@ nl:
     BADGECOLOR: "Color code"
     CODE: "Code"
     INWORK: "In work"
-    PAYED: "Betaald"
+    PAID: "Betaald"
     PLURALNAME: "Bestel status"
     SHIPPED: "Bestelling verstuurd"
     SINGULARNAME: "Bestel status"

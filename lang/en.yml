@@ -1001,7 +1001,7 @@ en:
     BADGECOLOR: "Color code"
     CODE: "Code"
     INWORK: "In work"
-    PAYED: "Paid"
+    PAID: "Paid"
     PLURALNAME: "Order status"
     SHIPPED: "Shipped"
     SINGULARNAME: "Order status"

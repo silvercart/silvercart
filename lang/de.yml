@@ -1001,7 +1001,7 @@ de:
     BADGECOLOR: "Farbstatus"
     CODE: "Code"
     INWORK: "In Bearbeitung"
-    PAYED: "Bezahlt"
+    PAID: "Bezahlt"
     PLURALNAME: "Bestellstatus"
     SHIPPED: "Bestellung versendet"
     SINGULARNAME: "Bestellstatus"
