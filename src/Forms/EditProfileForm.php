@@ -144,7 +144,10 @@ class EditProfileForm extends CustomForm {
                 PasswordField::create('PasswordCheck', $page->fieldLabel('PasswordCheck')),
                 $newsletterField = CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter'), $subscribedToNewsletterValue),
             ];
-            $newsletterField->setDescription(Newsletter::singleton()->fieldLabel('OptInNotFinished'));
+            if (!$member->SubscribedToNewsletter ||
+                !$member->NewsletterOptInStatus) {
+                $newsletterField->setDescription(Newsletter::singleton()->fieldLabel('OptInNotFinished'));
+            }
             if ($this->demandBirthdayDate()) {
                 $fields[] = DropdownField::create('BirthdayDay', $page->fieldLabel('Day'), $birthdayDaySource, $birthdayDayValue);
                 $fields[] = DropdownField::create('BirthdayMonth', $page->fieldLabel('Month'), Tools::getMonthMap(), $birthdayMonthValue);

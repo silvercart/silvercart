@@ -9,6 +9,7 @@ use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\RequiredFields;
 use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\Security;
 
 /**
  * custom form definition.
