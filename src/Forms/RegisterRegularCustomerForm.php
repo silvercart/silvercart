@@ -22,6 +22,7 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\PasswordField;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
+use SilverStripe\Security\Security;
 
 /**
  * Form for registration of a regular customer.
