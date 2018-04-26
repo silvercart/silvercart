@@ -189,18 +189,20 @@ class CheckoutStepController extends \PageController {
         $currentStepName = $stepList[$stepNumber];
         $currentStep     = new $currentStepName($this);
         if ($currentStep->canAccess()) {
+            $checkout->resetCurrentStep($currentStepName);
+            $checkout->setCurrentStep($currentStep);
+            $checkout->saveInSession();
+            $checkout->initStep();
             if ($currentStep->IsVisible()) {
-                $checkout->resetCurrentStep($currentStepName);
-                $checkout->saveInSession();
-                $checkout->initStep();
                 return $this->render();
             } else {
                 $nextStepIndex = $stepNumber + 2;
-                $currentStep->init();
                 $currentStep->process();
                 $currentStep->complete();
                 if ($checkout->nextStepExists()) {
                     $this->redirect($this->Link('step/' . $nextStepIndex));
+                } else {
+                    return $this->render();
                 }
             }
         } else {

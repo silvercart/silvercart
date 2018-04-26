@@ -238,6 +238,21 @@ class Checkout extends ViewableData {
     }
     
     /**
+     * Returns the current checkout step to use in template.
+     * 
+     * @param CheckoutStep $currentStep Current step
+     * 
+     * @return $this
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 16.11.2017
+     */
+    public function setCurrentStep($currentStep) {
+        $this->currentStep = $currentStep;
+        return $this;
+    }
+    
+    /**
      * Resets the current step.
      * 
      * @param string $currentStepName Optional current step name
