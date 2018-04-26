@@ -58,25 +58,4 @@ class MyAccountHolder extends \Page {
         return Tools::plural_name_for($this); 
     }
 
-    /**
-     * manipulates the Breadcrumbs
-     *
-     * @param int    $maxDepth       maximum levels
-     * @param bool   $unlinked       link breadcrumbs elements
-     * @param bool   $stopAtPageType name of PageType to stop at
-     * @param bool   $showHidden     show pages that will not show in menus
-     * @param string $delimiter      delimiter string to use
-     *
-     * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
-     */
-    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $delimiter = '&raquo;') {
-        if ($stopAtPageType == false) {
-            $stopAtPageType = FrontPage::class;
-        }
-        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden, $delimiter);
-    }
-
 }

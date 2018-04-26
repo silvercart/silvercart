@@ -60,7 +60,7 @@ class OrderAdmin extends ModelAdmin {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 20.04.2018
      */
-    public function init($skipUpdateInit = false) {
+    protected function init($skipUpdateInit = false) {
         parent::init(true);
         
         Requirements::javascript('silvercart/silvercart:client/admin/javascript/jquery-ui/jquery.ui.datepicker.js');

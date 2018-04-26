@@ -6,6 +6,8 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Pages\MyAccountHolder;
 use SilverStripe\Control\Controller;
+use SilverStripe\ORM\FieldType\DBText;
+use SilverStripe\View\ArrayData;
 
 /**
  * Child of customer area; overview of all addresses;
@@ -108,36 +110,35 @@ class AddressHolder extends MyAccountHolder {
     }
     
     /**
-     * Adds the part for 'Add new address' to the breadcrumbs. Sets the link for
-     * The default action in breadcrumbs.
+     * Adds the add/edit address title to the bradcrumbs by context.
      *
-     * @param int    $maxDepth       maximum levels
-     * @param bool   $unlinked       link breadcrumbs elements
-     * @param bool   $stopAtPageType name of PageType to stop at
-     * @param bool   $showHidden     show pages that will not show in menus
-     * @param string $delimiter      delimiter string to use
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
      * 
-     * @return string
+     * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2011
+     * @since 26.04.2018
      */
-    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $delimiter = '&raquo;') {
-        $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden, $delimiter);
+    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) {
+        $items = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
+        $breadcrumbItem = '';
         if (Controller::curr()->getAction() == 'addNewAddress') {
-            $parts = explode(" " . $delimiter . " ", $breadcrumbs);
-            $addressHolder = array_pop($parts);
-            $parts[] = ("<a href=\"" . $this->Link() . "\">" . $addressHolder . "</a>");
-            $parts[] = _t(AddressHolder::class . '.ADD', 'Add new address');
-            $breadcrumbs = implode(" " . $delimiter . " ", $parts);
+            $breadcrumbItem = _t(AddressHolder::class . '.ADD', 'Add new address');
         } elseif (Controller::curr()->getAction() == 'edit') {
-            $parts = explode(" " . $delimiter . " ", $breadcrumbs);
-            $addressHolder = array_pop($parts);
-            $parts[] = ("<a href=\"" . $this->Link() . "\">" . $addressHolder . "</a>");
-            $parts[] = _t(AddressHolder::class . '.EDIT_ADDRESS', 'Edit address');
-            $breadcrumbs = implode(" " . $delimiter . " ", $parts);
+            $breadcrumbItem = _t(AddressHolder::class . '.EDIT_ADDRESS', 'Edit address');
         }
-        return $breadcrumbs;
+        if (!empty($breadcrumbItem)) {
+            $title = new DBText();
+            $title->setValue($breadcrumbItem);
+            $items->push(new ArrayData([
+                'MenuTitle' => $title,
+                'Title'     => $title,
+                'Link'      => '',
+            ]));
+        }
+        return $items;
     }
 
 }

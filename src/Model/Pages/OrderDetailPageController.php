@@ -46,10 +46,9 @@ class OrderDetailPageController extends MyAccountHolderController {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function init() {
+    protected function init() {
         $orderID = $this->getRequest()->param('ID');
         $this->setOrderID($orderID);
-        $this->setBreadcrumbElementID($orderID);
         // get the order to check whether it is related to the actual customer or not.
         $order = Order::get()->byID($this->getOrderID());
         /* @var $order Order */

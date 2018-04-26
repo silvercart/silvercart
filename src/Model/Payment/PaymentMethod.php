@@ -56,7 +56,6 @@ use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\LessThanFilter;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
-use Translatable;
 
 /**
  * Base class for payment.
@@ -874,7 +873,7 @@ class PaymentMethod extends DataObject {
         }
         
         $allowedPaymentMethods  = array();
-        $paymentMethods         = $shippingCountry->PaymentMethods('isActive = 1');
+        $paymentMethods         = $shippingCountry->PaymentMethods()->filter('isActive', true);
         $member                 = Customer::currentUser();
         if (!$member &&
             $forceAnonymousCustomerIfNotExist) {
@@ -1174,8 +1173,8 @@ class PaymentMethod extends DataObject {
                         $paymentMethod->write();
                         $languages = array('de_DE', 'en_US', 'en_GB');
 
-                        if (!in_array(Translatable::get_current_locale(), $languages)) {
-                            $languages[]    = Translatable::get_current_locale();
+                        if (!in_array(Tools::current_locale(), $languages)) {
+                            $languages[] = Tools::current_locale();
                         }
                         $languageClassName = $this->ClassName . 'Translation';
                         foreach ($languages as $language) {

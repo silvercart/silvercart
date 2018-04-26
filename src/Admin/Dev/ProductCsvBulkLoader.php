@@ -2,6 +2,7 @@
 
 namespace SilverCart\Dev;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Product\Product;
@@ -12,7 +13,6 @@ use SilverStripe\Dev\CSVParser;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\Queries\SQLSelect;
-use Translatable;
 
 /**
  * We use our own bulkloader because there's an unpatched bug in Silverstripe's
@@ -243,7 +243,7 @@ class ProductCsvBulkLoader extends CsvBulkLoader {
                     ProductTranslation::class,
                     date('Y-m-d H:i:s'),
                     $insertID,
-                    Translatable::get_current_locale()
+                    Tools::current_locale()
                 )
             );
             

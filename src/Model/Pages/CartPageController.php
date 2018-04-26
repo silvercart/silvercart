@@ -52,7 +52,7 @@ class CartPageController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function init() {
+    protected function init() {
         if (Customer::currentUser() &&
             Customer::currentUser()->ShoppingCartID > 0) {
             Customer::currentUser()->getCart();

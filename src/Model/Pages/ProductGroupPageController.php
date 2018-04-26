@@ -18,11 +18,9 @@ use SilverStripe\Core\Convert;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\Security\Member;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
-use Translatable;
 
 /**
  * ProductGroupPage Controller class.
@@ -231,7 +229,7 @@ class ProductGroupPageController extends \PageController {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.07.2013
      */
-    public function init($skip = false) {
+    protected function init($skip = false) {
         parent::init();
         if (!$skip) {
             if (isset($_GET['start'])) {
@@ -357,23 +355,6 @@ class ProductGroupPageController extends \PageController {
     }
 
     /**
-     * Returns the pages original breadcrumbs
-     *
-     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType name of pagetype to stop at
-     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
-     *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.07.2012
-     */
-    public function OriginalBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
-    }
-
-    /**
      * returns the original page link. This is needed by the breadcrumbs. When
      * a product detail view is requested, the default method self::Link() will
      * return a modified link to the products detail view. This controller handles
@@ -390,149 +371,6 @@ class ProductGroupPageController extends \PageController {
      */
     public function OriginalLink() {
         return $this->data()->OriginalLink();
-    }
-
-    /**
-     * manipulates the parts the pages breadcrumbs if a product detail view is 
-     * requested.
-     *
-     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked         true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType   name of pagetype to stop at
-     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
-     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
-     * 
-     * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 09.10.2012
-     */
-    public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = false) {
-        $parts = parent::BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden);
-        
-        if ($this->isProductDetailView()) {
-            if ($showProductTitle) {
-                $title = new DBText();
-                $title->setValue($this->getDetailViewProduct()->Title);
-                $parts->push(
-                        new ArrayData(
-                                array(
-                                    'MenuTitle' => $title,
-                                    'Title' => $title,
-                                    'Link'  => '',
-                                )
-                        )
-                );
-            }
-        }
-        
-        $this->extend('updateBreadcrumbParts', $parts);
-        
-        return $parts;
-    }
-    
-    /**
-     * returns the breadcrumbs as ArrayList for use in controls without product title
-     * 
-     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType name of pagetype to stop at
-     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
-     *
-     * @return ArrayList 
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 09.10.2012
-     */
-    public function DropdownBreadcrumbsWithProduct($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        return $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden, true);
-    }
-
-    /**
-     * manipulates the defaul logic of building the pages breadcrumbs if a
-     * product detail view is requested and returns the breadcrumbs without 
-     * product title.
-     *
-     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType name of pagetype to stop at
-     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
-     *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.10.2012
-     */
-    public function BreadcrumbsWithoutProduct($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        return $this->Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden, false);
-    }
-
-    /**
-     * manipulates the defaul logic of building the pages breadcrumbs if a
-     * product detail view is requested and returns the breadcrumbs without 
-     * product title.
-     *
-     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
-     * @param string $stopAtPageType   name of pagetype to stop at
-     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
-     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
-     *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.04.2013
-     */
-    public function BreadcrumbsWithoutLink($maxDepth = 20, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
-        return $this->Breadcrumbs($maxDepth, true, $stopAtPageType, $showHidden, $showProductTitle);
-    }
-
-    /**
-     * manipulates the defaul logic of building the pages breadcrumbs if a
-     * product detail view is requested.
-     *
-     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked         true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType   name of pagetype to stop at
-     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
-     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
-     *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.04.2015
-     */
-    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
-        if ($this->isProductDetailView()) {
-            return $this->BreadcrumbsForProduct($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
-        }
-        $breadcrumbs = null;
-        $this->extend('overwriteBreadcrumbs', $breadcrumbs);
-        if (is_null($breadcrumbs)) {
-            $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
-        }
-        return $breadcrumbs;
-    }
-
-    /**
-     * Returns the breadcrumbs for a product detail.
-     *
-     * @param int    $maxDepth         maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked         true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType   name of pagetype to stop at
-     * @param bool   $showHidden       true, if hidden pages should be displayed in breadcrumbs
-     * @param bool   $showProductTitle true, if product title should be displayed in breadcrumbs
-     *
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.12.2015
-     */
-    public function BreadcrumbsForProduct($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $showProductTitle = true) {
-        $parts    = $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden, $showProductTitle);
-		$template = new SSViewer('BreadcrumbsTemplate');
-		return $template->process($this->customise((array(
-			'Pages' => ($parts)
-		))));
     }
     
     /**
@@ -611,7 +449,7 @@ class ProductGroupPageController extends \PageController {
      * @since 24.04.2014
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
-        $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit . Translatable::get_current_locale());
+        $hashKey = md5($numberOfProducts . '_' . $sort . '_' . $disableLimit . Tools::current_locale());
         if ($this->data()->DoNotShowProducts &&
             !$force) {
             $this->groupProducts[$hashKey] = new ArrayList();
@@ -635,7 +473,7 @@ class ProductGroupPageController extends \PageController {
                     $productsPerPage = (int) $numberOfProducts;
                 }
                 
-                $translations               = $this->getTranslations();
+                $translations               = Tools::get_translations($this);
                 $translationProductGroupIDs = array(
                     $this->ID,
                 );
@@ -1389,7 +1227,7 @@ class ProductGroupPageController extends \PageController {
     public function handleRequest(HTTPRequest $request) {
         $allowed_actions = array_merge(
                 $this->config()->get('allowed_actions'),
-                ['hersteller']
+                [Manufacturer::get_filter_action()]
         );
         $this->config()->update('allowed_actions', $allowed_actions);
         $this->setRequest($request);

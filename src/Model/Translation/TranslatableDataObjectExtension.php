@@ -12,7 +12,6 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\Queries\SQLSelect;
 use ReflectionClass;
-use Translatable;
 
 /** 
  * Extends DataObjects to make them multilingual.
@@ -74,13 +73,13 @@ class TranslatableDataObjectExtension extends DataExtension {
                 );
             }
             if (Config::useDefaultLanguageAsFallback() &&
-                Translatable::get_current_locale() != $silvercartDefaultLocale &&
+                Tools::current_locale() != $silvercartDefaultLocale &&
                 !empty ($silvercartDefaultLocale)) {
                 $query->addWhere(
                         sprintf(
                                 "\"%s\".\"Locale\" = IFNULL((%s), (%s)) %s",
                                 $this->getBaseTranslationTableName(),
-                                $this->getLocaleDependentSelect(Translatable::get_current_locale(), $query),
+                                $this->getLocaleDependentSelect(Tools::current_locale(), $query),
                                 $this->getLocaleDependentSelect($silvercartDefaultLocale, $query),
                                 $addToWhere
                         )
@@ -90,7 +89,7 @@ class TranslatableDataObjectExtension extends DataExtension {
                         sprintf(
                                 "\"%s\".\"Locale\" = '%s' %s",
                                 $this->getBaseTranslationTableName(),
-                                Translatable::get_current_locale(),
+                                Tools::current_locale(),
                                 $addToWhere
                         )
                 );
@@ -111,9 +110,9 @@ class TranslatableDataObjectExtension extends DataExtension {
         $where = $query->getWhere();
         if (is_array($where)) {
             $stringPart = '"' . $this->getTableName() . '"."ID" = ';
-            foreach ($where as $wherePart) {
+            foreach ($where as $wherePart => $value) {
                 if (strpos($wherePart, $stringPart) === 0) {
-                    $id = (int) trim(substr($wherePart, strlen($stringPart)));
+                    $id = $value;
                 }
             }
         }
@@ -221,7 +220,7 @@ class TranslatableDataObjectExtension extends DataExtension {
         if (!$this->owner->isInDB()) {
             if ($force) {
                 $translation         = new $translationClassName();
-                $translation->Locale = Translatable::get_current_locale();
+                $translation->Locale = Tools::current_locale();
             }
             $this->translationCache[$translationCacheKey] = $translation;
         } elseif (is_null($translation)) {
@@ -229,7 +228,7 @@ class TranslatableDataObjectExtension extends DataExtension {
             if (!($translation instanceof $translationClassName) ||
                 !$translation->exists()) {
                 $translation = new $translationClassName();
-                $translation->Locale = Translatable::get_current_locale();
+                $translation->Locale = Tools::current_locale();
                 $translation->{$relationFieldName} = $this->owner->ID;
             }
             $this->translationCache[$translationCacheKey] = $translation;
@@ -544,7 +543,7 @@ class TranslatableDataObjectExtension extends DataExtension {
      */
     public function hasCurrentTranslation() {
         $hasTranslation = false;
-        $translation    = $this->getTranslationFor(Translatable::get_current_locale());
+        $translation    = $this->getTranslationFor(Tools::current_locale());
         if ($translation->exists()) {
             $hasTranslation = true;
         }

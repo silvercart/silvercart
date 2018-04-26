@@ -4,7 +4,6 @@ namespace SilverCart\Model;
 
 use SilverCart\Dev\Tools;
 use SilverStripe\ORM\DataObject;
-use Translatable;
 
 /**
  * A search query.
@@ -48,12 +47,12 @@ class SearchQuery extends DataObject {
         $searchQuery = self::get()
                 ->filter(array(
                     'SearchQuery' => $query,
-                    'Locale'      => Translatable::get_current_locale(),
+                    'Locale'      => Tools::current_locale(),
                 ))
                 ->first();
         if (!($searchQuery instanceof SearchQuery)) {
             $searchQuery = new SearchQuery();
-            $searchQuery->Locale        = Translatable::get_current_locale();
+            $searchQuery->Locale        = Tools::current_locale();
             $searchQuery->SearchQuery   = $query;
             $searchQuery->Count         = 0;
             $searchQuery->Hits          = 0;
@@ -70,7 +69,7 @@ class SearchQuery extends DataObject {
      */
     public static function get_most_searched($limit) {
         $searchQueries = self::get()
-                ->filter('Locale', Translatable::get_current_locale())
+                ->filter('Locale', Tools::current_locale())
                 ->exclude('SearchQuery', '')
                 ->sort('Count', 'DESC')
                 ->limit($limit);

@@ -57,13 +57,13 @@
                 <% loop $AllTranslations %>
                     <% if $First %>
                         <a class="btn dropdown-toggle first" data-toggle="dropdown" href="#" hreflang="{$RFC1766}" title="<%t SilverCart\Model\Pages\Page.SHOWINPAGE 'set language to {language}' language=$Name %>">
-                            <img alt="{$Name}" src="{$BaseHref}resources/silvercart/silvercart/client/img/icons/flags/{$Code}.png" width="19" /> <span class="caret"></span>
+                            <img alt="{$Name}" src="{$BaseHref}resources/vendor/silvercart/silvercart/client/img/icons/flags/{$Code}.png" width="19" /> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu language">
                     <% else %>
                             <li class="{$RFC1766}">
                                 <a href="{$Link}" hreflang="$RFC1766" title="<%t SilverCart\Model\Pages\Page.SHOWINPAGE 'set language to {language}' language=$Name %>">
-                                    <img alt="{$Name}" src="{$BaseHref}resources/silvercart/silvercart/client/img/icons/flags/{$Code}.png" width="19" /> {$Name}</a>
+                                    <img alt="{$Name}" src="{$BaseHref}resources/vendor/silvercart/silvercart/client/img/icons/flags/{$Code}.png" width="19" /> {$Name}</a>
                             </li>
                     <% end_if %>
                 <% end_loop %>

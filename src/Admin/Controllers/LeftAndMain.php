@@ -35,7 +35,7 @@ class LeftAndMain extends \SilverStripe\Admin\LeftAndMain {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.02.2013
      */
-    public function init($skipUpdateInit = false) {
+    protected function init($skipUpdateInit = false) {
         parent::init();
         if (!$skipUpdateInit) {
             $this->extend('updateInit');

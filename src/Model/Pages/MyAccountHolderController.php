@@ -5,11 +5,7 @@ namespace SilverCart\Model\Pages;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\LoginForm;
-use SilverCart\Model\Pages\FrontPage;
-use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
-use SilverStripe\Core\Convert;
-use SilverStripe\ORM\DataObject;
 
 /**
  * MyAccountHolder Controller class.
@@ -24,13 +20,6 @@ use SilverStripe\ORM\DataObject;
 class MyAccountHolderController extends \PageController {
 
     /**
-     * ID of the breadcrumb element
-     *
-     * @var int
-     */
-    protected $breadcrumbElementID;
-
-    /**
      * statements to be called on object initialisation
      *
      * @return void
@@ -38,7 +27,7 @@ class MyAccountHolderController extends \PageController {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.11.2010
      */
-    public function init() {
+    protected function init() {
         if (Config::EnableSSL()) {
             Director::forceSSL();
         }
@@ -69,86 +58,6 @@ class MyAccountHolderController extends \PageController {
             )
         );
         return Tools::string2html($output);
-    }
-
-    /**
-     * template method for breadcrumbs
-     * show breadcrumbs for pages which show a DataObject determined via URL parameter ID
-     * see _config.php
-     *
-     * @return string
-     */
-    public function getBreadcrumbs() {
-        $page = Tools::PageByIdentifierCode($this->IdentifierCode);
-
-        return $this->ContextBreadcrumbs($page, 20, false, FrontPage::class, true);
-    }
-
-    /**
-     * pages with own url rewriting need their breadcrumbs created in a different way
-     *
-     * @param Controller $context        the current controller
-     * @param int        $maxDepth       maximum levels
-     * @param bool       $unlinked       link breadcrumbs elements
-     * @param bool       $stopAtPageType name of PageType to stop at
-     * @param bool       $showHidden     show pages that will not show in menus
-     *
-     * @return string html for breadcrumbs
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 04.03.2014
-     */
-    public function ContextBreadcrumbs($context, $maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        $page = $context;
-        $parts = array();
-
-        $contextObject = DataObject::get($context->getSection())->byID($this->getBreadcrumbElementID());
-        
-        if ($contextObject) {
-            $parts[] = $contextObject->Title;
-        }
-
-        $i = 0;
-        while (
-            $page
-            && (!$maxDepth || sizeof($parts) < $maxDepth)
-            && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
-        ) {
-            if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
-                if ($page->URLSegment == 'home') {
-                    $hasHome = true;
-                }
-                if (($page->ID == $this->ID) || $unlinked) {
-                    $parts[] = Convert::raw2xml($page->Title);
-                } else {
-                    $parts[] = ("<a href=\"" . $page->Link() . "\">" . Convert::raw2xml($page->Title) . "</a>");
-                }
-            }
-            $page = $page->Parent;
-        }
-
-        return implode(" &raquo; ", array_reverse($parts));
-    }
-
-    /**
-     * returns the BreadcrumbElementID
-     *
-     * @return int
-     */
-    public function getBreadcrumbElementID() {
-        return $this->breadcrumbElementID;
-    }
-
-    /**
-     * sets the BreadcrumbElementID
-     *
-     * @param int $breadcrumbElementID BreadcrumbElementID
-     *
-     * @return void
-     */
-    public function setBreadcrumbElementID($breadcrumbElementID) {
-        $this->breadcrumbElementID = $breadcrumbElementID;
     }
 
     /**

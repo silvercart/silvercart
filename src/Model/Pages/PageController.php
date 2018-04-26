@@ -29,20 +29,16 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Core\Convert;
 use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\ErrorPage\ErrorPageController;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
-use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
-use Translatable;
 
 /**
  * Standard Controller
@@ -82,8 +78,8 @@ class PageController extends ContentController {
      * @since 17.10.2017
      */
     public function __construct($dataRecord = null) {
-        i18n::config()->merge('default_locale', Translatable::get_current_locale());
-        i18n::set_locale(Translatable::get_current_locale());
+        i18n::config()->merge('default_locale', Tools::current_locale());
+        i18n::set_locale(Tools::current_locale());
         parent::__construct($dataRecord);
     }
     
@@ -144,7 +140,9 @@ class PageController extends ContentController {
      * @since 05.06.2014
      */
     public function RequireColorSchemeCSS() {
-        Requirements::themedCSS('client/css/color_' . Config::getConfig()->ColorScheme);
+        if (!is_null(Config::getConfig()->ColorScheme)) {
+            Requirements::themedCSS('client/css/color_' . Config::getConfig()->ColorScheme);
+        }
     }
 
     /**
@@ -156,7 +154,7 @@ class PageController extends ContentController {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function init() {
+    protected function init() {
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
             if (Config::isUserAgentBlacklisted($_SERVER['HTTP_USER_AGENT'])) {
                 exit();
@@ -224,7 +222,9 @@ class PageController extends ContentController {
      * @since 15.11.2017
      */
     public function ChangeLanguageForm() {
-        if ($this->getTranslations()) {
+        $translations = Tools::get_translations($this->data());
+        if ($translations instanceof \SilverStripe\ORM\SS_List &&
+            $translations->exists()) {
             $form = new ChangeLanguageForm($this);
         }
         return $form;
@@ -369,138 +369,6 @@ class PageController extends ContentController {
             'API_EDIT'   => Page::singleton()->fieldLabel('APIEdit'),
             'API_DELETE' => Page::singleton()->fieldLabel('APIDelete'),
         );
-    }
-
-    /**
-     * template method for breadcrumbs
-     * show breadcrumbs for pages which show a DataObject determined via URL parameter ID
-     * see _config.php
-     *
-     * @return string
-     */
-    public function getBreadcrumbs() {
-        $page = SiteTree::get()->filter('URLSegment', $this->urlParams['URLSegment'])->first();
-
-        return $this->ContextBreadcrumbs($page);
-    }
-
-    /**
-     * pages with own url rewriting need their breadcrumbs created in a different way
-     *
-     * @param Controller $context        the current controller
-     * @param int        $maxDepth       maximum levels
-     * @param bool       $unlinked       link breadcrumbs elements
-     * @param bool       $stopAtPageType ???
-     * @param bool       $showHidden     show pages that will not show in menus
-     *
-     * @return string
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 3.11.2010
-     */
-    public function ContextBreadcrumbs($context, $maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        $page = $context;
-        $parts = array();
-
-        // Get address type
-        $address = DataObject::get_by_id($context->getSection(), $this->urlParams['ID']);
-        $parts[] = $address->i18n_singular_name();
-
-        $i = 0;
-        while (
-            $page
-            && (!$maxDepth || sizeof($parts) < $maxDepth)
-            && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
-        ) {
-            if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
-                if ($page->URLSegment == 'home') {
-                    $hasHome = true;
-                }
-                if (($page->ID == $this->ID) || $unlinked) {
-                    $parts[] = Convert::raw2xml($page->Title);
-                } else {
-                    $parts[] = ("<a href=\"" . $page->Link() . "\">" . Convert::raw2xml($page->Title) . "</a>");
-                }
-            }
-            $page = $page->Parent;
-        }
-
-        return implode(" &raquo; ", array_reverse($parts));
-    }
-    
-    /**
-     * manipulates the parts the pages breadcrumbs if a product detail view is 
-     * requested.
-     *
-     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType name of pagetype to stop at
-     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
-     *
-     * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 09.10.2012
-     */
-    public function BreadcrumbParts($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        $parts = new ArrayList();
-        $page  = $this;
-
-        while (
-            $page
-            && (!$maxDepth ||
-                    $parts->count() < $maxDepth)
-            && (!$stopAtPageType ||
-                    $page->ClassName != $stopAtPageType)
-        ) {
-            if ($showHidden ||
-                $page->ShowInMenus ||
-                ($page->ID == $this->ID)) {
-                
-                if ($page->hasMethod('OriginalLink')) {
-                    $link = $page->OriginalLink();
-                } else {
-                    $link = $page->Link();
-                }
-
-                if ($page->ID == $this->ID) {
-                    $isActive = true;
-                } else {
-                    $isActive = false;
-                }
-
-                $parts->unshift(
-                    new ArrayData(
-                        array(
-                            'MenuTitle' => $page->MenuTitle,
-                            'Title'     => $page->Title,
-                            'Link'      => $link,
-                            'Parent'    => $page->Parent,
-                            'IsActive'  => $isActive,
-                        )
-                    )
-                );
-            }
-            $page = $page->Parent;
-        }
-        return $parts;
-    }
-    
-    /**
-     * returns the breadcrumbs as ArrayList for use in controls with product title
-     * 
-     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
-     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
-     * @param string $stopAtPageType name of pagetype to stop at
-     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
-     *
-     * @return ArrayList 
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 09.10.2012
-     */
-    public function DropdownBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
-        return $this->BreadcrumbParts($maxDepth, $unlinked, $stopAtPageType, $showHidden);
     }
 
     /**
@@ -883,7 +751,7 @@ class PageController extends ContentController {
         if (is_null($shippingCountry) ||
             $shippingCountry->ID == 0) {
             $shippingCountry = Country::get()->filter(array(
-                'ISO2'   => substr(Translatable::get_current_locale(), 3),
+                'ISO2'   => substr(Tools::current_locale(), 3),
                 'Active' => 1,
             ))->first();
         }
@@ -911,7 +779,7 @@ class PageController extends ContentController {
      * @since 08.07.2014
      */
     public function LostPasswordLink() {
-        $link = Director::baseURL() . 'Security/lostpassword/?locale=' . Translatable::get_current_locale();
+        $link = Director::baseURL() . 'Security/lostpassword/?locale=' . Tools::current_locale();
         return $link;
     }
     

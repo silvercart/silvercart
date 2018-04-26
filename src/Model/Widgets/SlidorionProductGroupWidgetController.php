@@ -25,7 +25,7 @@ class SlidorionProductGroupWidgetController extends WidgetController {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.05.2012
      */
-    public function init() {
+    protected function init() {
         parent::init();
         Requirements::customScript(
             sprintf(

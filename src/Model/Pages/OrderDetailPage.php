@@ -17,6 +17,7 @@ use SilverStripe\Control\Controller;
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * @todo remove this page type. Use an action in OrderHolder instead.
  */
 class OrderDetailPage extends MyAccountHolder {
 

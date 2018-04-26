@@ -26,7 +26,7 @@ form.pull-left + .btn {
 [class^="icon-SilvercartPayment"]:before,
 [class*=" icon-SilvercartPayment"]:before { content: "\f0a3"; }
 .icon-groupview-fourtile {
-    background-image: url('/resources/silvercart/silvercart/client/img/groupview-fourtile.png');
+    background-image: url('/resources/vendor/silvercart/silvercart/client/img/groupview-fourtile.png');
     background-repeat: no-repeat; 
     background-size: contain;
     
@@ -38,7 +38,7 @@ form.pull-left + .btn {
     margin-right: -2px;
 }
 .active .icon-groupview-fourtile {
-    background-image: url('/resources/silvercart/silvercart/client/img/groupview-fourtile-white.png');
+    background-image: url('/resources/vendor/silvercart/silvercart/client/img/groupview-fourtile-white.png');
 }
 .navbar .nav div ul li a {
     position: relative;

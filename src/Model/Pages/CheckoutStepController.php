@@ -59,13 +59,16 @@ class CheckoutStepController extends \PageController {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2017
+     * @since 26.04.2018
      */
-    public function init() {
+    protected function init() {
         if (Config::EnableSSL()) {
             Director::forceSSL();
         }
         parent::init();
+        if (Tools::is_cms_preview()) {
+            return;
+        }
         $checkout = $this->getCheckout();
         if ($checkout->canAccess()) {
             $stepList = $checkout->getStepList();

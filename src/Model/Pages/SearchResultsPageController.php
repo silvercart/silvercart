@@ -254,7 +254,7 @@ class SearchResultsPageController extends ProductGroupPageController {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.06.2014
      */
-    public function init($skip = false) {
+    protected function init($skip = false) {
         Product::addExtendedSortableFrontendFields(
                 [
                     'relevance' => _t(SearchResultsPage::class . '.RELEVANCESORT', 'Relevance'),

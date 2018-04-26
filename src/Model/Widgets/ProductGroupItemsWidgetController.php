@@ -34,7 +34,7 @@ class ProductGroupItemsWidgetController extends WidgetController {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public function init() {
+    protected function init() {
         parent::init();
         WidgetTools::initProductSliderWidget($this);
     }

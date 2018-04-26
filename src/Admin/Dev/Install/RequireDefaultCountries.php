@@ -1,5 +1,6 @@
 <?php
 
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\CountryTranslation;
 use SilverStripe\i18n\i18n;
@@ -14,7 +15,7 @@ if (!Country::get()->filter("ISO2", "AD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AD", "AD");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AE
@@ -27,7 +28,7 @@ if (!Country::get()->filter("ISO2", "AE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AE", "AE");
     $country->Continent = "AS";
     $country->Currency  = "AED";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AF
@@ -40,7 +41,7 @@ if (!Country::get()->filter("ISO2", "AF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AF", "AF");
     $country->Continent = "AS";
     $country->Currency  = "AFN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AG
@@ -53,7 +54,7 @@ if (!Country::get()->filter("ISO2", "AG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AG", "AG");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AI
@@ -66,7 +67,7 @@ if (!Country::get()->filter("ISO2", "AI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AI", "AI");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AL
@@ -79,7 +80,7 @@ if (!Country::get()->filter("ISO2", "AL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AL", "AL");
     $country->Continent = "EU";
     $country->Currency  = "ALL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AM
@@ -92,7 +93,7 @@ if (!Country::get()->filter("ISO2", "AM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AM", "AM");
     $country->Continent = "AS";
     $country->Currency  = "AMD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AN
@@ -105,7 +106,7 @@ if (!Country::get()->filter("ISO2", "AN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AN", "AN");
     $country->Continent = "NA";
     $country->Currency  = "ANG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AO
@@ -118,7 +119,7 @@ if (!Country::get()->filter("ISO2", "AO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AO", "AO");
     $country->Continent = "AF";
     $country->Currency  = "AOA";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AQ
@@ -131,7 +132,7 @@ if (!Country::get()->filter("ISO2", "AQ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AQ", "AQ");
     $country->Continent = "AN";
     $country->Currency  = "";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AR
@@ -144,7 +145,7 @@ if (!Country::get()->filter("ISO2", "AR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AR", "AR");
     $country->Continent = "SA";
     $country->Currency  = "ARS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AS
@@ -157,7 +158,7 @@ if (!Country::get()->filter("ISO2", "AS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AS", "AS");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AT
@@ -170,7 +171,7 @@ if (!Country::get()->filter("ISO2", "AT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AT", "AT");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AU
@@ -183,7 +184,7 @@ if (!Country::get()->filter("ISO2", "AU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AU", "AU");
     $country->Continent = "OC";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AW
@@ -196,7 +197,7 @@ if (!Country::get()->filter("ISO2", "AW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AW", "AW");
     $country->Continent = "NA";
     $country->Currency  = "AWG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AX
@@ -209,7 +210,7 @@ if (!Country::get()->filter("ISO2", "AX")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AX", "AX");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country AZ
@@ -222,7 +223,7 @@ if (!Country::get()->filter("ISO2", "AZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_AZ", "AZ");
     $country->Continent = "AS";
     $country->Currency  = "AZN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BA
@@ -235,7 +236,7 @@ if (!Country::get()->filter("ISO2", "BA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BA", "BA");
     $country->Continent = "EU";
     $country->Currency  = "BAM";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BB
@@ -248,7 +249,7 @@ if (!Country::get()->filter("ISO2", "BB")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BB", "BB");
     $country->Continent = "NA";
     $country->Currency  = "BBD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BD
@@ -261,7 +262,7 @@ if (!Country::get()->filter("ISO2", "BD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BD", "BD");
     $country->Continent = "AS";
     $country->Currency  = "BDT";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BE
@@ -274,7 +275,7 @@ if (!Country::get()->filter("ISO2", "BE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BE", "BE");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BF
@@ -287,7 +288,7 @@ if (!Country::get()->filter("ISO2", "BF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BF", "BF");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BG
@@ -300,7 +301,7 @@ if (!Country::get()->filter("ISO2", "BG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BG", "BG");
     $country->Continent = "EU";
     $country->Currency  = "BGN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BH
@@ -313,7 +314,7 @@ if (!Country::get()->filter("ISO2", "BH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BH", "BH");
     $country->Continent = "AS";
     $country->Currency  = "BHD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BI
@@ -326,7 +327,7 @@ if (!Country::get()->filter("ISO2", "BI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BI", "BI");
     $country->Continent = "AF";
     $country->Currency  = "BIF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BJ
@@ -339,7 +340,7 @@ if (!Country::get()->filter("ISO2", "BJ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BJ", "BJ");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BL
@@ -352,7 +353,7 @@ if (!Country::get()->filter("ISO2", "BL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BL", "BL");
     $country->Continent = "NA";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BM
@@ -365,7 +366,7 @@ if (!Country::get()->filter("ISO2", "BM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BM", "BM");
     $country->Continent = "NA";
     $country->Currency  = "BMD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BN
@@ -378,7 +379,7 @@ if (!Country::get()->filter("ISO2", "BN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BN", "BN");
     $country->Continent = "AS";
     $country->Currency  = "BND";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BO
@@ -391,7 +392,7 @@ if (!Country::get()->filter("ISO2", "BO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BO", "BO");
     $country->Continent = "SA";
     $country->Currency  = "BOB";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BQ
@@ -404,7 +405,7 @@ if (!Country::get()->filter("ISO2", "BQ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BQ", "BQ");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BR
@@ -417,7 +418,7 @@ if (!Country::get()->filter("ISO2", "BR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BR", "BR");
     $country->Continent = "SA";
     $country->Currency  = "BRL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BS
@@ -430,7 +431,7 @@ if (!Country::get()->filter("ISO2", "BS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BS", "BS");
     $country->Continent = "NA";
     $country->Currency  = "BSD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BT
@@ -443,7 +444,7 @@ if (!Country::get()->filter("ISO2", "BT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BT", "BT");
     $country->Continent = "AS";
     $country->Currency  = "BTN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BV
@@ -456,7 +457,7 @@ if (!Country::get()->filter("ISO2", "BV")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BV", "BV");
     $country->Continent = "AN";
     $country->Currency  = "NOK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BW
@@ -469,7 +470,7 @@ if (!Country::get()->filter("ISO2", "BW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BW", "BW");
     $country->Continent = "AF";
     $country->Currency  = "BWP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BY
@@ -482,7 +483,7 @@ if (!Country::get()->filter("ISO2", "BY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BY", "BY");
     $country->Continent = "EU";
     $country->Currency  = "BYR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country BZ
@@ -495,7 +496,7 @@ if (!Country::get()->filter("ISO2", "BZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_BZ", "BZ");
     $country->Continent = "NA";
     $country->Currency  = "BZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CA
@@ -508,7 +509,7 @@ if (!Country::get()->filter("ISO2", "CA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CA", "CA");
     $country->Continent = "NA";
     $country->Currency  = "CAD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CC
@@ -521,7 +522,7 @@ if (!Country::get()->filter("ISO2", "CC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CC", "CC");
     $country->Continent = "AS";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CD
@@ -534,7 +535,7 @@ if (!Country::get()->filter("ISO2", "CD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CD", "CD");
     $country->Continent = "AF";
     $country->Currency  = "CDF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CF
@@ -547,7 +548,7 @@ if (!Country::get()->filter("ISO2", "CF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CF", "CF");
     $country->Continent = "AF";
     $country->Currency  = "XAF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CG
@@ -560,7 +561,7 @@ if (!Country::get()->filter("ISO2", "CG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CG", "CG");
     $country->Continent = "AF";
     $country->Currency  = "XAF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CH
@@ -573,7 +574,7 @@ if (!Country::get()->filter("ISO2", "CH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CH", "CH");
     $country->Continent = "EU";
     $country->Currency  = "CHF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CI
@@ -586,7 +587,7 @@ if (!Country::get()->filter("ISO2", "CI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CI", "CI");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CK
@@ -599,7 +600,7 @@ if (!Country::get()->filter("ISO2", "CK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CK", "CK");
     $country->Continent = "OC";
     $country->Currency  = "NZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CL
@@ -612,7 +613,7 @@ if (!Country::get()->filter("ISO2", "CL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CL", "CL");
     $country->Continent = "SA";
     $country->Currency  = "CLP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CM
@@ -625,7 +626,7 @@ if (!Country::get()->filter("ISO2", "CM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CM", "CM");
     $country->Continent = "AF";
     $country->Currency  = "XAF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CN
@@ -638,7 +639,7 @@ if (!Country::get()->filter("ISO2", "CN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CN", "CN");
     $country->Continent = "AS";
     $country->Currency  = "CNY";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CO
@@ -651,7 +652,7 @@ if (!Country::get()->filter("ISO2", "CO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CO", "CO");
     $country->Continent = "SA";
     $country->Currency  = "COP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CR
@@ -664,7 +665,7 @@ if (!Country::get()->filter("ISO2", "CR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CR", "CR");
     $country->Continent = "NA";
     $country->Currency  = "CRC";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CS
@@ -677,7 +678,7 @@ if (!Country::get()->filter("ISO2", "CS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CS", "CS");
     $country->Continent = "EU";
     $country->Currency  = "RSD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CU
@@ -690,7 +691,7 @@ if (!Country::get()->filter("ISO2", "CU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CU", "CU");
     $country->Continent = "NA";
     $country->Currency  = "CUP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CV
@@ -703,7 +704,7 @@ if (!Country::get()->filter("ISO2", "CV")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CV", "CV");
     $country->Continent = "AF";
     $country->Currency  = "CVE";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CW
@@ -716,7 +717,7 @@ if (!Country::get()->filter("ISO2", "CW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CW", "CW");
     $country->Continent = "NA";
     $country->Currency  = "ANG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CX
@@ -729,7 +730,7 @@ if (!Country::get()->filter("ISO2", "CX")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CX", "CX");
     $country->Continent = "AS";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CY
@@ -742,7 +743,7 @@ if (!Country::get()->filter("ISO2", "CY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CY", "CY");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country CZ
@@ -755,7 +756,7 @@ if (!Country::get()->filter("ISO2", "CZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_CZ", "CZ");
     $country->Continent = "EU";
     $country->Currency  = "CZK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country DE
@@ -768,7 +769,7 @@ if (!Country::get()->filter("ISO2", "DE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_DE", "DE");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country DJ
@@ -781,7 +782,7 @@ if (!Country::get()->filter("ISO2", "DJ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_DJ", "DJ");
     $country->Continent = "AF";
     $country->Currency  = "DJF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country DK
@@ -794,7 +795,7 @@ if (!Country::get()->filter("ISO2", "DK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_DK", "DK");
     $country->Continent = "EU";
     $country->Currency  = "DKK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country DM
@@ -807,7 +808,7 @@ if (!Country::get()->filter("ISO2", "DM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_DM", "DM");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country DO
@@ -820,7 +821,7 @@ if (!Country::get()->filter("ISO2", "DO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_DO", "DO");
     $country->Continent = "NA";
     $country->Currency  = "DOP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country DZ
@@ -833,7 +834,7 @@ if (!Country::get()->filter("ISO2", "DZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_DZ", "DZ");
     $country->Continent = "AF";
     $country->Currency  = "DZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country EC
@@ -846,7 +847,7 @@ if (!Country::get()->filter("ISO2", "EC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_EC", "EC");
     $country->Continent = "SA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country EE
@@ -859,7 +860,7 @@ if (!Country::get()->filter("ISO2", "EE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_EE", "EE");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country EG
@@ -872,7 +873,7 @@ if (!Country::get()->filter("ISO2", "EG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_EG", "EG");
     $country->Continent = "AF";
     $country->Currency  = "EGP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country EH
@@ -885,7 +886,7 @@ if (!Country::get()->filter("ISO2", "EH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_EH", "EH");
     $country->Continent = "AF";
     $country->Currency  = "MAD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ER
@@ -898,7 +899,7 @@ if (!Country::get()->filter("ISO2", "ER")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ER", "ER");
     $country->Continent = "AF";
     $country->Currency  = "ERN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ES
@@ -911,7 +912,7 @@ if (!Country::get()->filter("ISO2", "ES")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ES", "ES");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ET
@@ -924,7 +925,7 @@ if (!Country::get()->filter("ISO2", "ET")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ET", "ET");
     $country->Continent = "AF";
     $country->Currency  = "ETB";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country FI
@@ -937,7 +938,7 @@ if (!Country::get()->filter("ISO2", "FI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_FI", "FI");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country FJ
@@ -950,7 +951,7 @@ if (!Country::get()->filter("ISO2", "FJ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_FJ", "FJ");
     $country->Continent = "OC";
     $country->Currency  = "FJD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country FK
@@ -963,7 +964,7 @@ if (!Country::get()->filter("ISO2", "FK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_FK", "FK");
     $country->Continent = "SA";
     $country->Currency  = "FKP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country FM
@@ -976,7 +977,7 @@ if (!Country::get()->filter("ISO2", "FM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_FM", "FM");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country FO
@@ -989,7 +990,7 @@ if (!Country::get()->filter("ISO2", "FO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_FO", "FO");
     $country->Continent = "EU";
     $country->Currency  = "DKK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country FR
@@ -1002,7 +1003,7 @@ if (!Country::get()->filter("ISO2", "FR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_FR", "FR");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GA
@@ -1015,7 +1016,7 @@ if (!Country::get()->filter("ISO2", "GA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GA", "GA");
     $country->Continent = "AF";
     $country->Currency  = "XAF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GB
@@ -1028,7 +1029,7 @@ if (!Country::get()->filter("ISO2", "GB")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GB", "GB");
     $country->Continent = "EU";
     $country->Currency  = "GBP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GD
@@ -1041,7 +1042,7 @@ if (!Country::get()->filter("ISO2", "GD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GD", "GD");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GE
@@ -1054,7 +1055,7 @@ if (!Country::get()->filter("ISO2", "GE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GE", "GE");
     $country->Continent = "AS";
     $country->Currency  = "GEL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GF
@@ -1067,7 +1068,7 @@ if (!Country::get()->filter("ISO2", "GF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GF", "GF");
     $country->Continent = "SA";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GG
@@ -1080,7 +1081,7 @@ if (!Country::get()->filter("ISO2", "GG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GG", "GG");
     $country->Continent = "EU";
     $country->Currency  = "GBP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GH
@@ -1093,7 +1094,7 @@ if (!Country::get()->filter("ISO2", "GH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GH", "GH");
     $country->Continent = "AF";
     $country->Currency  = "GHS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GI
@@ -1106,7 +1107,7 @@ if (!Country::get()->filter("ISO2", "GI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GI", "GI");
     $country->Continent = "EU";
     $country->Currency  = "GIP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GL
@@ -1119,7 +1120,7 @@ if (!Country::get()->filter("ISO2", "GL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GL", "GL");
     $country->Continent = "NA";
     $country->Currency  = "DKK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GM
@@ -1132,7 +1133,7 @@ if (!Country::get()->filter("ISO2", "GM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GM", "GM");
     $country->Continent = "AF";
     $country->Currency  = "GMD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GN
@@ -1145,7 +1146,7 @@ if (!Country::get()->filter("ISO2", "GN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GN", "GN");
     $country->Continent = "AF";
     $country->Currency  = "GNF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GP
@@ -1158,7 +1159,7 @@ if (!Country::get()->filter("ISO2", "GP")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GP", "GP");
     $country->Continent = "NA";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GQ
@@ -1171,7 +1172,7 @@ if (!Country::get()->filter("ISO2", "GQ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GQ", "GQ");
     $country->Continent = "AF";
     $country->Currency  = "XAF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GR
@@ -1184,7 +1185,7 @@ if (!Country::get()->filter("ISO2", "GR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GR", "GR");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GS
@@ -1197,7 +1198,7 @@ if (!Country::get()->filter("ISO2", "GS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GS", "GS");
     $country->Continent = "AN";
     $country->Currency  = "GBP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GT
@@ -1210,7 +1211,7 @@ if (!Country::get()->filter("ISO2", "GT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GT", "GT");
     $country->Continent = "NA";
     $country->Currency  = "GTQ";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GU
@@ -1223,7 +1224,7 @@ if (!Country::get()->filter("ISO2", "GU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GU", "GU");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GW
@@ -1236,7 +1237,7 @@ if (!Country::get()->filter("ISO2", "GW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GW", "GW");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country GY
@@ -1249,7 +1250,7 @@ if (!Country::get()->filter("ISO2", "GY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_GY", "GY");
     $country->Continent = "SA";
     $country->Currency  = "GYD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country HK
@@ -1262,7 +1263,7 @@ if (!Country::get()->filter("ISO2", "HK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_HK", "HK");
     $country->Continent = "AS";
     $country->Currency  = "HKD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country HM
@@ -1275,7 +1276,7 @@ if (!Country::get()->filter("ISO2", "HM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_HM", "HM");
     $country->Continent = "AN";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country HN
@@ -1288,7 +1289,7 @@ if (!Country::get()->filter("ISO2", "HN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_HN", "HN");
     $country->Continent = "NA";
     $country->Currency  = "HNL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country HR
@@ -1301,7 +1302,7 @@ if (!Country::get()->filter("ISO2", "HR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_HR", "HR");
     $country->Continent = "EU";
     $country->Currency  = "HRK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country HT
@@ -1314,7 +1315,7 @@ if (!Country::get()->filter("ISO2", "HT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_HT", "HT");
     $country->Continent = "NA";
     $country->Currency  = "HTG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country HU
@@ -1327,7 +1328,7 @@ if (!Country::get()->filter("ISO2", "HU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_HU", "HU");
     $country->Continent = "EU";
     $country->Currency  = "HUF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ID
@@ -1340,7 +1341,7 @@ if (!Country::get()->filter("ISO2", "ID")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ID", "ID");
     $country->Continent = "AS";
     $country->Currency  = "IDR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IE
@@ -1353,7 +1354,7 @@ if (!Country::get()->filter("ISO2", "IE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IE", "IE");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IL
@@ -1366,7 +1367,7 @@ if (!Country::get()->filter("ISO2", "IL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IL", "IL");
     $country->Continent = "AS";
     $country->Currency  = "ILS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IM
@@ -1379,7 +1380,7 @@ if (!Country::get()->filter("ISO2", "IM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IM", "IM");
     $country->Continent = "EU";
     $country->Currency  = "GBP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IN
@@ -1392,7 +1393,7 @@ if (!Country::get()->filter("ISO2", "IN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IN", "IN");
     $country->Continent = "AS";
     $country->Currency  = "INR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IO
@@ -1405,7 +1406,7 @@ if (!Country::get()->filter("ISO2", "IO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IO", "IO");
     $country->Continent = "AS";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IQ
@@ -1418,7 +1419,7 @@ if (!Country::get()->filter("ISO2", "IQ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IQ", "IQ");
     $country->Continent = "AS";
     $country->Currency  = "IQD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IR
@@ -1431,7 +1432,7 @@ if (!Country::get()->filter("ISO2", "IR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IR", "IR");
     $country->Continent = "AS";
     $country->Currency  = "IRR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IS
@@ -1444,7 +1445,7 @@ if (!Country::get()->filter("ISO2", "IS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IS", "IS");
     $country->Continent = "EU";
     $country->Currency  = "ISK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country IT
@@ -1457,7 +1458,7 @@ if (!Country::get()->filter("ISO2", "IT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_IT", "IT");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country JE
@@ -1470,7 +1471,7 @@ if (!Country::get()->filter("ISO2", "JE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_JE", "JE");
     $country->Continent = "EU";
     $country->Currency  = "GBP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country JM
@@ -1483,7 +1484,7 @@ if (!Country::get()->filter("ISO2", "JM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_JM", "JM");
     $country->Continent = "NA";
     $country->Currency  = "JMD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country JO
@@ -1496,7 +1497,7 @@ if (!Country::get()->filter("ISO2", "JO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_JO", "JO");
     $country->Continent = "AS";
     $country->Currency  = "JOD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country JP
@@ -1509,7 +1510,7 @@ if (!Country::get()->filter("ISO2", "JP")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_JP", "JP");
     $country->Continent = "AS";
     $country->Currency  = "JPY";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KE
@@ -1522,7 +1523,7 @@ if (!Country::get()->filter("ISO2", "KE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KE", "KE");
     $country->Continent = "AF";
     $country->Currency  = "KES";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KG
@@ -1535,7 +1536,7 @@ if (!Country::get()->filter("ISO2", "KG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KG", "KG");
     $country->Continent = "AS";
     $country->Currency  = "KGS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KH
@@ -1548,7 +1549,7 @@ if (!Country::get()->filter("ISO2", "KH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KH", "KH");
     $country->Continent = "AS";
     $country->Currency  = "KHR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KI
@@ -1561,7 +1562,7 @@ if (!Country::get()->filter("ISO2", "KI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KI", "KI");
     $country->Continent = "OC";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KM
@@ -1574,7 +1575,7 @@ if (!Country::get()->filter("ISO2", "KM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KM", "KM");
     $country->Continent = "AF";
     $country->Currency  = "KMF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KN
@@ -1587,7 +1588,7 @@ if (!Country::get()->filter("ISO2", "KN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KN", "KN");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KP
@@ -1600,7 +1601,7 @@ if (!Country::get()->filter("ISO2", "KP")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KP", "KP");
     $country->Continent = "AS";
     $country->Currency  = "KPW";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KR
@@ -1613,7 +1614,7 @@ if (!Country::get()->filter("ISO2", "KR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KR", "KR");
     $country->Continent = "AS";
     $country->Currency  = "KRW";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KW
@@ -1626,7 +1627,7 @@ if (!Country::get()->filter("ISO2", "KW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KW", "KW");
     $country->Continent = "AS";
     $country->Currency  = "KWD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KY
@@ -1639,7 +1640,7 @@ if (!Country::get()->filter("ISO2", "KY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KY", "KY");
     $country->Continent = "NA";
     $country->Currency  = "KYD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country KZ
@@ -1652,7 +1653,7 @@ if (!Country::get()->filter("ISO2", "KZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_KZ", "KZ");
     $country->Continent = "AS";
     $country->Currency  = "KZT";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LA
@@ -1665,7 +1666,7 @@ if (!Country::get()->filter("ISO2", "LA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LA", "LA");
     $country->Continent = "AS";
     $country->Currency  = "LAK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LB
@@ -1678,7 +1679,7 @@ if (!Country::get()->filter("ISO2", "LB")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LB", "LB");
     $country->Continent = "AS";
     $country->Currency  = "LBP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LC
@@ -1691,7 +1692,7 @@ if (!Country::get()->filter("ISO2", "LC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LC", "LC");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LI
@@ -1704,7 +1705,7 @@ if (!Country::get()->filter("ISO2", "LI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LI", "LI");
     $country->Continent = "EU";
     $country->Currency  = "CHF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LK
@@ -1717,7 +1718,7 @@ if (!Country::get()->filter("ISO2", "LK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LK", "LK");
     $country->Continent = "AS";
     $country->Currency  = "LKR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LR
@@ -1730,7 +1731,7 @@ if (!Country::get()->filter("ISO2", "LR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LR", "LR");
     $country->Continent = "AF";
     $country->Currency  = "LRD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LS
@@ -1743,7 +1744,7 @@ if (!Country::get()->filter("ISO2", "LS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LS", "LS");
     $country->Continent = "AF";
     $country->Currency  = "LSL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LT
@@ -1756,7 +1757,7 @@ if (!Country::get()->filter("ISO2", "LT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LT", "LT");
     $country->Continent = "EU";
     $country->Currency  = "LTL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LU
@@ -1769,7 +1770,7 @@ if (!Country::get()->filter("ISO2", "LU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LU", "LU");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LV
@@ -1782,7 +1783,7 @@ if (!Country::get()->filter("ISO2", "LV")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LV", "LV");
     $country->Continent = "EU";
     $country->Currency  = "LVL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country LY
@@ -1795,7 +1796,7 @@ if (!Country::get()->filter("ISO2", "LY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_LY", "LY");
     $country->Continent = "AF";
     $country->Currency  = "LYD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MA
@@ -1808,7 +1809,7 @@ if (!Country::get()->filter("ISO2", "MA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MA", "MA");
     $country->Continent = "AF";
     $country->Currency  = "MAD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MC
@@ -1821,7 +1822,7 @@ if (!Country::get()->filter("ISO2", "MC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MC", "MC");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MD
@@ -1834,7 +1835,7 @@ if (!Country::get()->filter("ISO2", "MD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MD", "MD");
     $country->Continent = "EU";
     $country->Currency  = "MDL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ME
@@ -1847,7 +1848,7 @@ if (!Country::get()->filter("ISO2", "ME")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ME", "ME");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MF
@@ -1860,7 +1861,7 @@ if (!Country::get()->filter("ISO2", "MF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MF", "MF");
     $country->Continent = "NA";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MG
@@ -1873,7 +1874,7 @@ if (!Country::get()->filter("ISO2", "MG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MG", "MG");
     $country->Continent = "AF";
     $country->Currency  = "MGA";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MH
@@ -1886,7 +1887,7 @@ if (!Country::get()->filter("ISO2", "MH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MH", "MH");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MK
@@ -1899,7 +1900,7 @@ if (!Country::get()->filter("ISO2", "MK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MK", "MK");
     $country->Continent = "EU";
     $country->Currency  = "MKD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ML
@@ -1912,7 +1913,7 @@ if (!Country::get()->filter("ISO2", "ML")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ML", "ML");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MM
@@ -1925,7 +1926,7 @@ if (!Country::get()->filter("ISO2", "MM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MM", "MM");
     $country->Continent = "AS";
     $country->Currency  = "MMK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MN
@@ -1938,7 +1939,7 @@ if (!Country::get()->filter("ISO2", "MN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MN", "MN");
     $country->Continent = "AS";
     $country->Currency  = "MNT";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MO
@@ -1951,7 +1952,7 @@ if (!Country::get()->filter("ISO2", "MO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MO", "MO");
     $country->Continent = "AS";
     $country->Currency  = "MOP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MP
@@ -1964,7 +1965,7 @@ if (!Country::get()->filter("ISO2", "MP")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MP", "MP");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MQ
@@ -1977,7 +1978,7 @@ if (!Country::get()->filter("ISO2", "MQ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MQ", "MQ");
     $country->Continent = "NA";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MR
@@ -1990,7 +1991,7 @@ if (!Country::get()->filter("ISO2", "MR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MR", "MR");
     $country->Continent = "AF";
     $country->Currency  = "MRO";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MS
@@ -2003,7 +2004,7 @@ if (!Country::get()->filter("ISO2", "MS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MS", "MS");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MT
@@ -2016,7 +2017,7 @@ if (!Country::get()->filter("ISO2", "MT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MT", "MT");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MU
@@ -2029,7 +2030,7 @@ if (!Country::get()->filter("ISO2", "MU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MU", "MU");
     $country->Continent = "AF";
     $country->Currency  = "MUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MV
@@ -2042,7 +2043,7 @@ if (!Country::get()->filter("ISO2", "MV")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MV", "MV");
     $country->Continent = "AS";
     $country->Currency  = "MVR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MW
@@ -2055,7 +2056,7 @@ if (!Country::get()->filter("ISO2", "MW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MW", "MW");
     $country->Continent = "AF";
     $country->Currency  = "MWK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MX
@@ -2068,7 +2069,7 @@ if (!Country::get()->filter("ISO2", "MX")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MX", "MX");
     $country->Continent = "NA";
     $country->Currency  = "MXN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MY
@@ -2081,7 +2082,7 @@ if (!Country::get()->filter("ISO2", "MY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MY", "MY");
     $country->Continent = "AS";
     $country->Currency  = "MYR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country MZ
@@ -2094,7 +2095,7 @@ if (!Country::get()->filter("ISO2", "MZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_MZ", "MZ");
     $country->Continent = "AF";
     $country->Currency  = "MZN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NA
@@ -2107,7 +2108,7 @@ if (!Country::get()->filter("ISO2", "NA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NA", "NA");
     $country->Continent = "AF";
     $country->Currency  = "NAD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NC
@@ -2120,7 +2121,7 @@ if (!Country::get()->filter("ISO2", "NC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NC", "NC");
     $country->Continent = "OC";
     $country->Currency  = "XPF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NE
@@ -2133,7 +2134,7 @@ if (!Country::get()->filter("ISO2", "NE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NE", "NE");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NF
@@ -2146,7 +2147,7 @@ if (!Country::get()->filter("ISO2", "NF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NF", "NF");
     $country->Continent = "OC";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NG
@@ -2159,7 +2160,7 @@ if (!Country::get()->filter("ISO2", "NG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NG", "NG");
     $country->Continent = "AF";
     $country->Currency  = "NGN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NI
@@ -2172,7 +2173,7 @@ if (!Country::get()->filter("ISO2", "NI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NI", "NI");
     $country->Continent = "NA";
     $country->Currency  = "NIO";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NL
@@ -2185,7 +2186,7 @@ if (!Country::get()->filter("ISO2", "NL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NL", "NL");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NO
@@ -2198,7 +2199,7 @@ if (!Country::get()->filter("ISO2", "NO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NO", "NO");
     $country->Continent = "EU";
     $country->Currency  = "NOK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NP
@@ -2211,7 +2212,7 @@ if (!Country::get()->filter("ISO2", "NP")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NP", "NP");
     $country->Continent = "AS";
     $country->Currency  = "NPR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NR
@@ -2224,7 +2225,7 @@ if (!Country::get()->filter("ISO2", "NR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NR", "NR");
     $country->Continent = "OC";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NU
@@ -2237,7 +2238,7 @@ if (!Country::get()->filter("ISO2", "NU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NU", "NU");
     $country->Continent = "OC";
     $country->Currency  = "NZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country NZ
@@ -2250,7 +2251,7 @@ if (!Country::get()->filter("ISO2", "NZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_NZ", "NZ");
     $country->Continent = "OC";
     $country->Currency  = "NZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country OM
@@ -2263,7 +2264,7 @@ if (!Country::get()->filter("ISO2", "OM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_OM", "OM");
     $country->Continent = "AS";
     $country->Currency  = "OMR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PA
@@ -2276,7 +2277,7 @@ if (!Country::get()->filter("ISO2", "PA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PA", "PA");
     $country->Continent = "NA";
     $country->Currency  = "PAB";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PE
@@ -2289,7 +2290,7 @@ if (!Country::get()->filter("ISO2", "PE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PE", "PE");
     $country->Continent = "SA";
     $country->Currency  = "PEN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PF
@@ -2302,7 +2303,7 @@ if (!Country::get()->filter("ISO2", "PF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PF", "PF");
     $country->Continent = "OC";
     $country->Currency  = "XPF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PG
@@ -2315,7 +2316,7 @@ if (!Country::get()->filter("ISO2", "PG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PG", "PG");
     $country->Continent = "OC";
     $country->Currency  = "PGK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PH
@@ -2328,7 +2329,7 @@ if (!Country::get()->filter("ISO2", "PH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PH", "PH");
     $country->Continent = "AS";
     $country->Currency  = "PHP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PK
@@ -2341,7 +2342,7 @@ if (!Country::get()->filter("ISO2", "PK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PK", "PK");
     $country->Continent = "AS";
     $country->Currency  = "PKR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PL
@@ -2354,7 +2355,7 @@ if (!Country::get()->filter("ISO2", "PL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PL", "PL");
     $country->Continent = "EU";
     $country->Currency  = "PLN";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PM
@@ -2367,7 +2368,7 @@ if (!Country::get()->filter("ISO2", "PM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PM", "PM");
     $country->Continent = "NA";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PN
@@ -2380,7 +2381,7 @@ if (!Country::get()->filter("ISO2", "PN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PN", "PN");
     $country->Continent = "OC";
     $country->Currency  = "NZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PR
@@ -2393,7 +2394,7 @@ if (!Country::get()->filter("ISO2", "PR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PR", "PR");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PS
@@ -2406,7 +2407,7 @@ if (!Country::get()->filter("ISO2", "PS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PS", "PS");
     $country->Continent = "AS";
     $country->Currency  = "ILS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PT
@@ -2419,7 +2420,7 @@ if (!Country::get()->filter("ISO2", "PT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PT", "PT");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PW
@@ -2432,7 +2433,7 @@ if (!Country::get()->filter("ISO2", "PW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PW", "PW");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country PY
@@ -2445,7 +2446,7 @@ if (!Country::get()->filter("ISO2", "PY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_PY", "PY");
     $country->Continent = "SA";
     $country->Currency  = "PYG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country QA
@@ -2458,7 +2459,7 @@ if (!Country::get()->filter("ISO2", "QA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_QA", "QA");
     $country->Continent = "AS";
     $country->Currency  = "QAR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country RE
@@ -2471,7 +2472,7 @@ if (!Country::get()->filter("ISO2", "RE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_RE", "RE");
     $country->Continent = "AF";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country RO
@@ -2484,7 +2485,7 @@ if (!Country::get()->filter("ISO2", "RO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_RO", "RO");
     $country->Continent = "EU";
     $country->Currency  = "RON";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country RS
@@ -2497,7 +2498,7 @@ if (!Country::get()->filter("ISO2", "RS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_RS", "RS");
     $country->Continent = "EU";
     $country->Currency  = "RSD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country RU
@@ -2510,7 +2511,7 @@ if (!Country::get()->filter("ISO2", "RU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_RU", "RU");
     $country->Continent = "EU";
     $country->Currency  = "RUB";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country RW
@@ -2523,7 +2524,7 @@ if (!Country::get()->filter("ISO2", "RW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_RW", "RW");
     $country->Continent = "AF";
     $country->Currency  = "RWF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SA
@@ -2536,7 +2537,7 @@ if (!Country::get()->filter("ISO2", "SA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SA", "SA");
     $country->Continent = "AS";
     $country->Currency  = "SAR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SB
@@ -2549,7 +2550,7 @@ if (!Country::get()->filter("ISO2", "SB")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SB", "SB");
     $country->Continent = "OC";
     $country->Currency  = "SBD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SC
@@ -2562,7 +2563,7 @@ if (!Country::get()->filter("ISO2", "SC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SC", "SC");
     $country->Continent = "AF";
     $country->Currency  = "SCR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SD
@@ -2575,7 +2576,7 @@ if (!Country::get()->filter("ISO2", "SD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SD", "SD");
     $country->Continent = "AF";
     $country->Currency  = "SDG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SE
@@ -2588,7 +2589,7 @@ if (!Country::get()->filter("ISO2", "SE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SE", "SE");
     $country->Continent = "EU";
     $country->Currency  = "SEK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SG
@@ -2601,7 +2602,7 @@ if (!Country::get()->filter("ISO2", "SG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SG", "SG");
     $country->Continent = "AS";
     $country->Currency  = "SGD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SH
@@ -2614,7 +2615,7 @@ if (!Country::get()->filter("ISO2", "SH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SH", "SH");
     $country->Continent = "AF";
     $country->Currency  = "SHP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SI
@@ -2627,7 +2628,7 @@ if (!Country::get()->filter("ISO2", "SI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SI", "SI");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SJ
@@ -2640,7 +2641,7 @@ if (!Country::get()->filter("ISO2", "SJ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SJ", "SJ");
     $country->Continent = "EU";
     $country->Currency  = "NOK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SK
@@ -2653,7 +2654,7 @@ if (!Country::get()->filter("ISO2", "SK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SK", "SK");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SL
@@ -2666,7 +2667,7 @@ if (!Country::get()->filter("ISO2", "SL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SL", "SL");
     $country->Continent = "AF";
     $country->Currency  = "SLL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SM
@@ -2679,7 +2680,7 @@ if (!Country::get()->filter("ISO2", "SM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SM", "SM");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SN
@@ -2692,7 +2693,7 @@ if (!Country::get()->filter("ISO2", "SN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SN", "SN");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SO
@@ -2705,7 +2706,7 @@ if (!Country::get()->filter("ISO2", "SO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SO", "SO");
     $country->Continent = "AF";
     $country->Currency  = "SOS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SR
@@ -2718,7 +2719,7 @@ if (!Country::get()->filter("ISO2", "SR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SR", "SR");
     $country->Continent = "SA";
     $country->Currency  = "SRD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SS
@@ -2731,7 +2732,7 @@ if (!Country::get()->filter("ISO2", "SS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SS", "SS");
     $country->Continent = "AF";
     $country->Currency  = "SSP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ST
@@ -2744,7 +2745,7 @@ if (!Country::get()->filter("ISO2", "ST")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ST", "ST");
     $country->Continent = "AF";
     $country->Currency  = "STD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SV
@@ -2757,7 +2758,7 @@ if (!Country::get()->filter("ISO2", "SV")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SV", "SV");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SX
@@ -2770,7 +2771,7 @@ if (!Country::get()->filter("ISO2", "SX")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SX", "SX");
     $country->Continent = "NA";
     $country->Currency  = "ANG";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SY
@@ -2783,7 +2784,7 @@ if (!Country::get()->filter("ISO2", "SY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SY", "SY");
     $country->Continent = "AS";
     $country->Currency  = "SYP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country SZ
@@ -2796,7 +2797,7 @@ if (!Country::get()->filter("ISO2", "SZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_SZ", "SZ");
     $country->Continent = "AF";
     $country->Currency  = "SZL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TC
@@ -2809,7 +2810,7 @@ if (!Country::get()->filter("ISO2", "TC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TC", "TC");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TD
@@ -2822,7 +2823,7 @@ if (!Country::get()->filter("ISO2", "TD")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TD", "TD");
     $country->Continent = "AF";
     $country->Currency  = "XAF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TF
@@ -2835,7 +2836,7 @@ if (!Country::get()->filter("ISO2", "TF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TF", "TF");
     $country->Continent = "AN";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TG
@@ -2848,7 +2849,7 @@ if (!Country::get()->filter("ISO2", "TG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TG", "TG");
     $country->Continent = "AF";
     $country->Currency  = "XOF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TH
@@ -2861,7 +2862,7 @@ if (!Country::get()->filter("ISO2", "TH")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TH", "TH");
     $country->Continent = "AS";
     $country->Currency  = "THB";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TJ
@@ -2874,7 +2875,7 @@ if (!Country::get()->filter("ISO2", "TJ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TJ", "TJ");
     $country->Continent = "AS";
     $country->Currency  = "TJS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TK
@@ -2887,7 +2888,7 @@ if (!Country::get()->filter("ISO2", "TK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TK", "TK");
     $country->Continent = "OC";
     $country->Currency  = "NZD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TL
@@ -2900,7 +2901,7 @@ if (!Country::get()->filter("ISO2", "TL")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TL", "TL");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TM
@@ -2913,7 +2914,7 @@ if (!Country::get()->filter("ISO2", "TM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TM", "TM");
     $country->Continent = "AS";
     $country->Currency  = "TMT";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TN
@@ -2926,7 +2927,7 @@ if (!Country::get()->filter("ISO2", "TN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TN", "TN");
     $country->Continent = "AF";
     $country->Currency  = "TND";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TO
@@ -2939,7 +2940,7 @@ if (!Country::get()->filter("ISO2", "TO")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TO", "TO");
     $country->Continent = "OC";
     $country->Currency  = "TOP";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TR
@@ -2952,7 +2953,7 @@ if (!Country::get()->filter("ISO2", "TR")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TR", "TR");
     $country->Continent = "AS";
     $country->Currency  = "TRY";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TT
@@ -2965,7 +2966,7 @@ if (!Country::get()->filter("ISO2", "TT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TT", "TT");
     $country->Continent = "NA";
     $country->Currency  = "TTD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TV
@@ -2978,7 +2979,7 @@ if (!Country::get()->filter("ISO2", "TV")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TV", "TV");
     $country->Continent = "OC";
     $country->Currency  = "AUD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TW
@@ -2991,7 +2992,7 @@ if (!Country::get()->filter("ISO2", "TW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TW", "TW");
     $country->Continent = "AS";
     $country->Currency  = "TWD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country TZ
@@ -3004,7 +3005,7 @@ if (!Country::get()->filter("ISO2", "TZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_TZ", "TZ");
     $country->Continent = "AF";
     $country->Currency  = "TZS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country UA
@@ -3017,7 +3018,7 @@ if (!Country::get()->filter("ISO2", "UA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_UA", "UA");
     $country->Continent = "EU";
     $country->Currency  = "UAH";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country UG
@@ -3030,7 +3031,7 @@ if (!Country::get()->filter("ISO2", "UG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_UG", "UG");
     $country->Continent = "AF";
     $country->Currency  = "UGX";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country UM
@@ -3043,7 +3044,7 @@ if (!Country::get()->filter("ISO2", "UM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_UM", "UM");
     $country->Continent = "OC";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country US
@@ -3056,7 +3057,7 @@ if (!Country::get()->filter("ISO2", "US")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_US", "US");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country UY
@@ -3069,7 +3070,7 @@ if (!Country::get()->filter("ISO2", "UY")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_UY", "UY");
     $country->Continent = "SA";
     $country->Currency  = "UYU";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country UZ
@@ -3082,7 +3083,7 @@ if (!Country::get()->filter("ISO2", "UZ")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_UZ", "UZ");
     $country->Continent = "AS";
     $country->Currency  = "UZS";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VA
@@ -3095,7 +3096,7 @@ if (!Country::get()->filter("ISO2", "VA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VA", "VA");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VC
@@ -3108,7 +3109,7 @@ if (!Country::get()->filter("ISO2", "VC")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VC", "VC");
     $country->Continent = "NA";
     $country->Currency  = "XCD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VE
@@ -3121,7 +3122,7 @@ if (!Country::get()->filter("ISO2", "VE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VE", "VE");
     $country->Continent = "SA";
     $country->Currency  = "VEF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VG
@@ -3134,7 +3135,7 @@ if (!Country::get()->filter("ISO2", "VG")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VG", "VG");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VI
@@ -3147,7 +3148,7 @@ if (!Country::get()->filter("ISO2", "VI")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VI", "VI");
     $country->Continent = "NA";
     $country->Currency  = "USD";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VN
@@ -3160,7 +3161,7 @@ if (!Country::get()->filter("ISO2", "VN")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VN", "VN");
     $country->Continent = "AS";
     $country->Currency  = "VND";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country VU
@@ -3173,7 +3174,7 @@ if (!Country::get()->filter("ISO2", "VU")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_VU", "VU");
     $country->Continent = "OC";
     $country->Currency  = "VUV";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country WF
@@ -3186,7 +3187,7 @@ if (!Country::get()->filter("ISO2", "WF")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_WF", "WF");
     $country->Continent = "OC";
     $country->Currency  = "XPF";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country WS
@@ -3199,7 +3200,7 @@ if (!Country::get()->filter("ISO2", "WS")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_WS", "WS");
     $country->Continent = "OC";
     $country->Currency  = "WST";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country XK
@@ -3212,7 +3213,7 @@ if (!Country::get()->filter("ISO2", "XK")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_XK", "XK");
     $country->Continent = "EU";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country YE
@@ -3225,7 +3226,7 @@ if (!Country::get()->filter("ISO2", "YE")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_YE", "YE");
     $country->Continent = "AS";
     $country->Currency  = "YER";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country YT
@@ -3238,7 +3239,7 @@ if (!Country::get()->filter("ISO2", "YT")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_YT", "YT");
     $country->Continent = "AF";
     $country->Currency  = "EUR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ZA
@@ -3251,7 +3252,7 @@ if (!Country::get()->filter("ISO2", "ZA")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ZA", "ZA");
     $country->Continent = "AF";
     $country->Currency  = "ZAR";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ZM
@@ -3264,7 +3265,7 @@ if (!Country::get()->filter("ISO2", "ZM")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ZM", "ZM");
     $country->Continent = "AF";
     $country->Currency  = "ZMK";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 // write country ZW
@@ -3277,7 +3278,7 @@ if (!Country::get()->filter("ISO2", "ZW")->exists()) {
     $country->Title     = _t(Country::class . ".TITLE_ZW", "ZW");
     $country->Continent = "AF";
     $country->Currency  = "ZWL";
-    $country->Locale    = Translatable::get_current_locale();
+    $country->Locale    = Tools::current_locale();
     $country->write();
 }
 

@@ -31,7 +31,7 @@ class PrinterController extends PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
-    public function init() {
+    protected function init() {
         parent::init();
         $request        = $this->getRequest();
         $params         = $request->allParams();

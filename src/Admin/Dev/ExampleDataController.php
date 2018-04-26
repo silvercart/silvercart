@@ -2,11 +2,11 @@
 
 namespace SilverCart\Admin\Dev;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Admin\Dev\ExampleData;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\i18n\i18n;
-use Translatable;
 
 /**
  * Provides example data for documentation or example display purposes.
@@ -40,8 +40,8 @@ class ExampleDataController extends Controller {
      * @since 17.04.2018
      */
     public function renderemail(HTTPRequest $request) {
-        i18n::config()->update('default_locale', Translatable::get_current_locale());
-        i18n::set_locale(Translatable::get_current_locale());
+        i18n::config()->update('default_locale', Tools::current_locale());
+        i18n::set_locale(Tools::current_locale());
         $templateName = $request->param('ID');
         print ExampleData::render_example_email($templateName);
         exit();

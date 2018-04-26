@@ -250,7 +250,7 @@ class ShopEmail extends DataObject {
         $emailTemplates = self::get_email_templates();
         foreach ($emailTemplates as $templateName => $templateTitle) {
             $email = ShopEmail::get()->filter('TemplateName', $templateName)->first();
-            if (!($email instanceof ShopEmail) &&
+            if (!($email instanceof ShopEmail) ||
                 !$email->exists()) {
                 $email = new ShopEmail();
                 $email->TemplateName = $templateName;

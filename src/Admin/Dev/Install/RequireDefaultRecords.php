@@ -66,7 +66,6 @@ use SilverStripe\Security\Group;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\Widgets\Model\WidgetArea;
-use Translatable;
 use WidgetSets\Model\WidgetSet;
 
 /**
@@ -226,9 +225,9 @@ class RequireDefaultRecords {
         $locales        = array('de_DE', 'en_GB', 'en_US');
         $fallbackLocale = false;
 
-        if (!in_array(Translatable::get_current_locale(), $locales)) {
-            $locales[]      = Translatable::get_current_locale();
-            $fallbackLocale = Translatable::get_current_locale();
+        if (!in_array(Tools::current_locale(), $locales)) {
+            $locales[]      = Tools::current_locale();
+            $fallbackLocale = Tools::current_locale();
         }
 
         if ($fallbackLocale !== false) {
@@ -264,9 +263,9 @@ class RequireDefaultRecords {
         $locales        = array('de_DE', 'en_GB', 'en_US');
         $fallbackLocale = false;
 
-        if (!in_array(Translatable::get_current_locale(), $locales)) {
-            $locales[]      = Translatable::get_current_locale();
-            $fallbackLocale = Translatable::get_current_locale();
+        if (!in_array(Tools::current_locale(), $locales)) {
+            $locales[]      = Tools::current_locale();
+            $fallbackLocale = Tools::current_locale();
         }
 
         if ($fallbackLocale !== false) {
@@ -839,11 +838,12 @@ class RequireDefaultRecords {
         $pages = SiteTree::get()->filter("ParentID", $parentID);
         if ($pages->exists()) {
             foreach ($pages as $page) {
+            $translation = Tools::get_translation($page, $translationLocale);
                 if (!is_null($translationLocale) &&
-                    !$page->getTranslation($translationLocale)) {
+                    !($translation instanceof SiteTree)) {
                     Versioned::set_reading_mode('Stage.Stage');
                     $translation = $page->createTranslation($translationLocale);
-                    $translationDbFields = (array)\SilverStripe\Core\Config\Config::inst()->get(get_class($translation), 'db');
+                    $translationDbFields = (array)$translation->config()->get('db');
                     foreach ($translationDbFields as $name => $type) {
                         $isTranslatable = false;
                         foreach ($translatableFieldTypes as $translatableFieldType) {
@@ -892,7 +892,6 @@ class RequireDefaultRecords {
      */
     public function publishSiteTree($parentID = 0) {
         $translationLocale = $this->getTranslationLocale();
-        Translatable::disable_locale_filter();
         Versioned::set_reading_mode('Stage.Stage');
         $pages = SiteTree::get()->filter(array("ParentID" => $parentID, "Locale" => $translationLocale));
         if ($pages->exists()) {
@@ -1471,7 +1470,7 @@ class RequireDefaultRecords {
             );
             
             // Create folder for product images
-            $exampleDataDir = Director::baseFolder().'/assets/test-images/';
+            $exampleDataDir = Director::publicFolder() . '/assets/test-images/';
             $imageFolder = new Folder();
             $imageFolder->Name = 'test-images';
             $imageFolder->write();
@@ -1483,9 +1482,9 @@ class RequireDefaultRecords {
             $locales        = array('de_DE', 'en_GB', 'en_US');
             $fallbackLocale = false;
 
-            if (!in_array(Translatable::get_current_locale(), $locales)) {
-                $locales[]      = Translatable::get_current_locale();
-                $fallbackLocale = Translatable::get_current_locale();
+            if (!in_array(Tools::current_locale(), $locales)) {
+                $locales[]      = Tools::current_locale();
+                $fallbackLocale = Tools::current_locale();
             }
 
             // Create products
@@ -1538,15 +1537,23 @@ class RequireDefaultRecords {
                 
                 // Add product image
                 if (array_key_exists('productImage', $product)) {
+                    $filePath   = SILVERCART_IMG_PATH . DIRECTORY_SEPARATOR . 'exampledata'  . DIRECTORY_SEPARATOR . $product['productImage'];
+                    $fileHash   = sha1_file($filePath);
+                    $hashDir    = substr($fileHash, 0, 10);
+                    $targetPath = $exampleDataDir . $hashDir;
+                    if (!file_exists($targetPath)) {
+                        mkdir($targetPath);
+                    }
                     copy(
-                        SILVERCART_IMG_PATH . DIRECTORY_SEPARATOR . 'exampledata'  . DIRECTORY_SEPARATOR . $product['productImage'],
-                        $exampleDataDir.$product['productImage']
+                        $filePath,
+                        $targetPath . DIRECTORY_SEPARATOR . $product['productImage']
                     );
 
                     $productImage = new Image();
-                    $productImage->Name = $product['productImage'];
-                    $productImage->setFilename('test-images/' . $product['productImage']);
-                    $productImage->ParentID = $imageFolder->ID;
+                    $productImage->Name         = $product['productImage'];
+                    $productImage->FileFilename = 'test-images/' . $product['productImage'];
+                    $productImage->FileHash     = $fileHash;
+                    $productImage->ParentID     = $imageFolder->ID;
                     $productImage->write();
 
                     $silvercartImage = new \SilverCart\Model\Product\Image();
@@ -1803,9 +1810,9 @@ class RequireDefaultRecords {
                 $locales        = array('de_DE', 'en_GB', 'en_US');
                 $fallbackLocale = false;
 
-                if (!in_array(Translatable::get_current_locale(), $locales)) {
-                    $locales[]      = Translatable::get_current_locale();
-                    $fallbackLocale = Translatable::get_current_locale();
+                if (!in_array(Tools::current_locale(), $locales)) {
+                    $locales[]      = Tools::current_locale();
+                    $fallbackLocale = Tools::current_locale();
                 }
 
                 if ($fallbackLocale !== false) {
@@ -1847,9 +1854,9 @@ class RequireDefaultRecords {
                     $locales        = array('de_DE', 'en_GB', 'en_US');
                     $fallbackLocale = false;
 
-                    if (!in_array(Translatable::get_current_locale(), $locales)) {
-                        $locales[]      = Translatable::get_current_locale();
-                        $fallbackLocale = Translatable::get_current_locale();
+                    if (!in_array(Tools::current_locale(), $locales)) {
+                        $locales[]      = Tools::current_locale();
+                        $fallbackLocale = Tools::current_locale();
                     }
 
                     if ($fallbackLocale !== false) {
@@ -1937,9 +1944,9 @@ class RequireDefaultRecords {
                 $locales        = array('de_DE', 'en_GB', 'en_US');
                 $fallbackLocale = false;
 
-                if (!in_array(Translatable::get_current_locale(), $locales)) {
-                    $locales[]      = Translatable::get_current_locale();
-                    $fallbackLocale = Translatable::get_current_locale();
+                if (!in_array(Tools::current_locale(), $locales)) {
+                    $locales[]      = Tools::current_locale();
+                    $fallbackLocale = Tools::current_locale();
                 }
 
                 if ($fallbackLocale !== false) {
@@ -2012,9 +2019,9 @@ class RequireDefaultRecords {
                 $locales        = array('de_DE', 'en_GB', 'en_US');
                 $fallbackLocale = false;
 
-                if (!in_array(Translatable::get_current_locale(), $locales)) {
-                    $locales[]      = Translatable::get_current_locale();
-                    $fallbackLocale = Translatable::get_current_locale();
+                if (!in_array(Tools::current_locale(), $locales)) {
+                    $locales[]      = Tools::current_locale();
+                    $fallbackLocale = Tools::current_locale();
                 }
 
                 if ($fallbackLocale !== false) {

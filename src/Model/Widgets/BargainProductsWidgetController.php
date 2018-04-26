@@ -41,7 +41,7 @@ class BargainProductsWidgetController extends WidgetController {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.07.2011
      */
-    public function init() {
+    protected function init() {
         parent::init();
         WidgetTools::initProductSliderWidget($this);
     }

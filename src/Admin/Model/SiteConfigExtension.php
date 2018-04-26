@@ -4,6 +4,7 @@ namespace SilverCart\Admin\Model;
 
 use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
@@ -28,7 +29,6 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DB;
 use SilverStripe\View\ArrayData;
-use Translatable;
 
 /**
  * This class is used to add SilverCart configuration options 
@@ -291,14 +291,14 @@ class SiteConfigExtension extends DataExtension {
                     'SeoTab'                        => _t(Config::class . '.SEO', 'SEO'),
                     'SocialMediaTab'                => _t(Config::class . '.SOCIALMEDIA', 'Social Media'),
                     'TranslationsTab'               => _t(TranslationTools::class . '.TRANSLATIONS', 'Translations'),
-                    'CreateTransHeader'             => _t(Translatable::class . '.CREATE', 'Create new translation'),
-                    'CreateTransDescription'        => _t(Translatable::class . '.CREATE_TRANSLATION_DESC', 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.'),
-                    'NewTransLang'                  => _t(Translatable::class . '.NEWLANGUAGE', 'New language'),
-                    'createsitetreetranslation'     => _t(Translatable::class . '.CREATEBUTTON', 'Create'),
-                    'createsitetreetranslationDesc' => _t(Translatable::class . '.CREATEBUTTON_DESC', 'Creates a translation template for every single page of the current visible language.'),
-                    'publishsitetree'               => _t(Translatable::class . '.PUBLISHBUTTON', 'Publish all pages of this translation'),
-                    'ExistingTransHeader'           => _t(Translatable::class . '.EXISTING', 'Existing translations:'),
-                    'CurrentLocale'                 => _t(Translatable::class . '.CURRENTLOCALE', 'Current Locale'),
+                    'CreateTransHeader'             => _t(TranslationTools::class . '.CREATE', 'Create new translation'),
+                    'CreateTransDescription'        => _t(TranslationTools::class . '.CREATE_TRANSLATION_DESC', 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.'),
+                    'NewTransLang'                  => _t(TranslationTools::class . '.NEWLANGUAGE', 'New language'),
+                    'createsitetreetranslation'     => _t(TranslationTools::class . '.CREATEBUTTON', 'Create'),
+                    'createsitetreetranslationDesc' => _t(TranslationTools::class . '.CREATEBUTTON_DESC', 'Creates a translation template for every single page of the current visible language.'),
+                    'publishsitetree'               => _t(TranslationTools::class . '.PUBLISHBUTTON', 'Publish all pages of this translation'),
+                    'ExistingTransHeader'           => _t(TranslationTools::class . '.EXISTING', 'Existing translations:'),
+                    'CurrentLocale'                 => _t(TranslationTools::class . '.CURRENTLOCALE', 'Current Locale'),
 
                     'ShopLogo'                 => _t(Config::class . '.ShopLogo', 'Logo'),
                     'ShopLogoDesc'             => _t(Config::class . '.ShopLogoDesc', 'Will be displayed inside the shops head area.'),
@@ -349,9 +349,12 @@ class SiteConfigExtension extends DataExtension {
         $fields->addFieldToTab('Root.SocialMedia', $googleplusLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
         
+        // todo: restore the translatable functions.
+        /**
         $translatable = new Translatable();
         $translatable->setOwner($this->owner);
         $translatable->updateCMSFields($fields);
+        /**/
         
         $localeField    = new TextField('CurrentLocale',              $this->owner->fieldLabel('CurrentLocale'),              i18n::getData()->localeName($this->owner->Locale));
         $createButton   = new FormAction('createsitetreetranslation', $this->owner->fieldLabel('createsitetreetranslation'));
@@ -557,7 +560,7 @@ class SiteConfigExtension extends DataExtension {
      * @since 26.09.2014
      */
     public function getCMSFieldsForColorScheme(FieldList $fields) {
-        $colorSchemePath = Director::baseFolder() . '/resources/silvercart/silvercart/client/css';
+        $colorSchemePath = Director::publicFolder() . '/resources/vendor/silvercart/silvercart/client/css';
         if (is_dir($colorSchemePath)) {
 
             if ($handle = opendir($colorSchemePath)) {
@@ -664,7 +667,7 @@ class SiteConfigExtension extends DataExtension {
         if (is_null(self::$duplicate_config_locale)) {
             self::$duplicate_config_locale = $this->owner->Locale;
             $changedFields = $this->owner->getChangedFields();
-            $translations  = $this->owner->getTranslations();
+            $translations  = Tools::get_translations($this->owner);
             $dbAttributes  = array_keys(\SilverStripe\SiteConfig\SiteConfig::config()->get('db'));
             foreach ($translations as $translation) {
                 foreach ($changedFields as $changedFieldName => $changedFieldData) {

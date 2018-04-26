@@ -60,12 +60,8 @@ SilverCart\Model\Product\ProductTranslation:
 SilverCart\Model\Pages\SearchResultsPageController:
   extensions:
     - SilverCart\View\GroupView\GroupViewExtension
-SilverStripe\CMS\Model\SiteTree:
-  extensions:
-    ['Translatable']
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - Translatable
     - SilverCart\Admin\Model\SiteConfigExtension
 WidgetSets\Model\WidgetSet:
   extensions:

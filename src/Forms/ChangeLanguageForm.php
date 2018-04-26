@@ -91,7 +91,7 @@ class ChangeLanguageForm extends CustomForm {
             $language      = $languageElems[0];
         }
 
-        $translation = $this->getController()->getTranslation($language);
+        $translation = Tools::get_translation($this->getController()->data(), $language);
         if ($translation) {
             $this->getController()->redirect($translation->Link());
         } else {

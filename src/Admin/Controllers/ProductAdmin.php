@@ -79,7 +79,7 @@ class ProductAdmin extends ModelAdmin {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public function init($skipUpdateInit = false) {
+    protected function init($skipUpdateInit = false) {
         /*
          * we tweeked the backend behavior so that when you press the button 'add' on the
          * tab files the file object will be created. This was neccessary because we

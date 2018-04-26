@@ -54,7 +54,7 @@ class Task extends CliController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.05.2012
      */
-    public function init() {
+    protected function init() {
         $result = parent::init();
         
         if (array_key_exists('argv', $_SERVER)) {

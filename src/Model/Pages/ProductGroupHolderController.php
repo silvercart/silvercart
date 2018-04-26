@@ -46,7 +46,7 @@ class ProductGroupHolderController extends \PageController {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.10.2010
      */
-    public function init() {
+    protected function init() {
 
 
         // Get Products for this group

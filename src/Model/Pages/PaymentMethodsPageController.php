@@ -2,11 +2,11 @@
 
 namespace SilverCart\Model\Pages;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\MetaNavigationHolderController;
 use SilverCart\Model\Payment\PaymentMethod;
-use Translatable;
 
 /**
  * PaymentMethodsPage Controller class.
@@ -50,7 +50,7 @@ class PaymentMethodsPageController extends MetaNavigationHolderController {
         if (is_null($shippingCountry) ||
             $shippingCountry->ID == 0) {
             $shippingCountry = Country::get()->filter(array(
-                'ISO2' => substr(Translatable::get_current_locale(), 3),
+                'ISO2' => substr(Tools::current_locale(), 3),
                 'Active' => 1,
             ))->first();
         }

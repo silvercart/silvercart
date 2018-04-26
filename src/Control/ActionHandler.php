@@ -16,7 +16,6 @@ use SilverStripe\Core\Convert;
 use SilverStripe\i18n\i18n;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
-use Translatable;
 
 /**
  * Central handler for form actions.
@@ -153,9 +152,9 @@ class ActionHandler extends Controller {
         $postVars           = $request->postVars();
         if (!array_key_exists('locale', $postVars) ||
             empty($postVars['locale'])) {
-            $postVars['locale'] = Translatable::default_locale();
+            $postVars['locale'] = Tools::default_locale();
         }
-        Translatable::set_current_locale($postVars['locale']);
+        Tools::set_current_locale($postVars['locale']);
         i18n::set_locale($postVars['locale']);
         $quickSearchQuery   = trim($postVars['quickSearchQuery']);
         $searchContext      = Product::class;

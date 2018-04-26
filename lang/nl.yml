@@ -1862,16 +1862,6 @@ nl:
   SiteConfig:
     SITENAMEDEFAULT: "SilverCart"
     TAGLINEDEFAULT: "eCommerce software. Open-source. Je zult het geweldig vinden."
-  Translatable:
-    CREATE: "Create new translation"
-    CREATEBUTTON: "Create"
-    CREATEBUTTON_DESC: "Creates a translation template for every single page of the current visible language."
-    CREATE_TRANSLATION_DESC: "New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset."
-    CURRENTLOCALE: "Current Locale"
-    EXISTING: "Existing translations:"
-    NEWLANGUAGE: "New language"
-    PUBLISHBUTTON: "Publish all pages of this translation"
-    TRANSLATIONS: "Translations"
   SilverCart\Dev\Tools:
     DATE: "Date"
     DATEFORMAT: "d.m.Y"
@@ -1887,6 +1877,14 @@ nl:
     CHOOSE: "wählen"
     LANGUAGE: "Language"
   SilverCart\Model\Translation\TranslationTools:
+    CREATE: "Create new translation"
+    CREATEBUTTON: "Create"
+    CREATEBUTTON_DESC: "Creates a translation template for every single page of the current visible language."
+    CREATE_TRANSLATION_DESC: "New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset."
+    CURRENTLOCALE: "Current Locale"
+    EXISTING: "Existing translations:"
+    NEWLANGUAGE: "New language"
+    PUBLISHBUTTON: "Publish all pages of this translation"
     TRANSLATION: "Translation"
     TRANSLATIONS: "Translations"
   SilverCart\Forms\CustomForm:

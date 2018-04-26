@@ -2,11 +2,11 @@
 
 namespace SilverCart\Admin\Controllers;
 
+use SilverCart\Dev\Tools;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Extension;
 use SilverStripe\i18n\i18n;
 use SilverStripe\View\Requirements;
-use Translatable;
 
 /**
  * Decorates the default ModelAdmin to inject some custom javascript.
@@ -30,7 +30,7 @@ class ModelAdminExtension extends Extension {
      * @since 13.01.2011
      */
     public function onAfterInit() {
-        Translatable::set_current_locale(i18n::get_locale());
+        Tools::set_current_locale(i18n::get_locale());
         if (Director::is_ajax()) {
             return true;
         }

@@ -23,8 +23,8 @@
     */
 @font-face {
   font-family: "FontAwesome";
-  src: url('/resources/silvercart/silvercart/client/css/font/fontawesome-webfont.eot');
-  src: url('/resources/silvercart/silvercart/client/css/font/fontawesome-webfont.eot?#iefix') format('eot'), url('/resources/silvercart/silvercart/client/css/font/fontawesome-webfont.woff') format('woff'), url('/resources/silvercart/silvercart/client/css/font/fontawesome-webfont.ttf') format('truetype'), url('/resources/silvercart/silvercart/client/css/font/fontawesome-webfont.svg#FontAwesome') format('svg');
+  src: url('/resources/vendor/silvercart/silvercart/client/css/font/fontawesome-webfont.eot');
+  src: url('/resources/vendor/silvercart/silvercart/client/css/font/fontawesome-webfont.eot?#iefix') format('eot'), url('/resources/vendor/silvercart/silvercart/client/css/font/fontawesome-webfont.woff') format('woff'), url('/resources/vendor/silvercart/silvercart/client/css/font/fontawesome-webfont.ttf') format('truetype'), url('/resources/vendor/silvercart/silvercart/client/css/font/fontawesome-webfont.svg#FontAwesome') format('svg');
   font-weight: normal;
   font-style: normal;
 }

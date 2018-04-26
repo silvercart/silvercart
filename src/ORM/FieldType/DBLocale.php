@@ -2,11 +2,12 @@
 
 namespace SilverCart\ORM\FieldType;
 
-use LanguageDropdownField;
+use SilverCart\Dev\Tools;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\CMS\Model\SiteTree;
-use Translatable;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\i18n\i18n;
 
 /**
  * This is an extended Money Field to modify scaffolding and add some functions.
@@ -21,7 +22,7 @@ use Translatable;
 class DBLocale extends \SilverStripe\ORM\FieldType\DBLocale {
 
     /**
-     * Returns a LanguageDropdownField instance used as a default for form 
+     * Returns a locale DropdownField instance used as a default for form 
      * scaffolding.
      * 
      * @param string $title  Optional. Localized title of the generated instance
@@ -36,28 +37,14 @@ class DBLocale extends \SilverStripe\ORM\FieldType\DBLocale {
         if (is_null($title)) {
             $title = _t(Config::class . '.TRANSLATION', 'Translation');
         }
-        $instance                   = null;
-        $alreadyTranslatedLocales   = array();
-        $translatingClass           = SiteTree::class;
-        if (array_key_exists('object', $params)) {
-            $translatingClass   = $params['object']->ClassName;
-            $instance           = $params['object'];
-        }
-        if ($instance) {
-            $alreadyTranslatedLocales   = $instance->getTranslatedLocales();
-            unset($alreadyTranslatedLocales[$instance->Locale]);
-        }
-        $localeDropdown = new LanguageDropdownField(
-            $this->name,
-            $title, 
-            $alreadyTranslatedLocales,
-            $translatingClass,
-            'Locale-Native',
-            $instance
+        $localeDropdown = DropdownField::create(
+                $this->name,
+                $title,
+                i18n::getData()->getLocales()
         );
-        $currentLocale          = Translatable::get_current_locale();
+        $currentLocale          = Tools::current_locale();
         $localesWithTitle       = $localeDropdown->getSource();
-        $usedLocalesWithTitle   = Translatable::get_existing_content_languages(SiteTree::class);
+        $usedLocalesWithTitle   = Tools::content_locales()->toArray();
         $languageList           = array();
         $usedLanguageList       = array();
         foreach ($localesWithTitle as $locale => $localeTitle) {

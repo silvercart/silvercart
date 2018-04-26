@@ -9,7 +9,6 @@ use SilverCart\Model\Customer\Customer;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Extension;
 use SilverStripe\i18n\i18n;
-use Translatable;
 
 /**
  * Extension for the Security controller.
@@ -41,8 +40,8 @@ class SecurityExtension extends Extension {
     public function onBeforeInit() {
         Tools::initSession();
         
-        i18n::config()->merge('default_locale', Translatable::get_current_locale());
-        i18n::set_locale(Translatable::get_current_locale());
+        i18n::config()->merge('default_locale', Tools::current_locale());
+        i18n::set_locale(Tools::current_locale());
         
         $controllerParams   = Controller::curr()->getURLParams();
         $anonymousCustomer  = Customer::currentAnonymousCustomer();

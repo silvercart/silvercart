@@ -16,6 +16,7 @@ use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FormField;
@@ -31,8 +32,10 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Versioned\Versioned;
+use SilverStripe\View\ArrayData;
 use WidgetSets\Model\WidgetSet;
 
 /**
@@ -161,13 +164,6 @@ class ProductGroupPage extends \Page {
     protected $getCMSFieldsIsCalled = false;
     
     /**
-     * List of already requested links
-     *
-     * @var array
-     */
-    protected $links = array();
-    
-    /**
      * Optional pagination context. If not set, the return value of getProducts() will be used.
      *
      * @var PaginatedList
@@ -259,45 +255,15 @@ class ProductGroupPage extends \Page {
      * @since 03.03.2015
      */
     public function Link($action = null) {
-        $linkKey = (string) $action;
-        $linkKey .= '-' . $this->Locale;
-
-        if (!array_key_exists($linkKey, $this->links)) {
-            $returnProductLink = false;
-
-            if (Controller::curr()->hasMethod('isProductDetailView') &&
-                Controller::curr()->isProductDetailView() &&
-                Controller::curr()->data()->ID == $this->ID &&
-                Controller::curr()->data() === $this) {
-                $returnProductLink     = true;
-                $product               = Controller::curr()->getDetailViewProduct();
-                $this->links[$linkKey] = $product->Link();
-            } elseif (Controller::curr()->hasMethod('isProductDetailView') &&
-                      Controller::curr()->isProductDetailView()) {
-                $translations = $this->getTranslations();
-                if ($translations instanceof DataList &&
-                    $translations->exists()) {
-                    $translation = $translations->byID(Controller::curr()->data()->ID);
-                    if ($translation->exists()) {
-                        $product = Controller::curr()->getDetailViewProduct();
-                        if ($product instanceof Product) {
-                            $returnProductLink     = true;
-                            $productTranslation       = $product->getTranslationFor($this->Locale);
-                            if ($productTranslation instanceof ProductTranslation) {
-                                $this->links[$linkKey] = $product->buildLink($this, Tools::string2urlSegment($productTranslation->Title));
-                            } else {
-                                $this->links[$linkKey] = '';
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!$returnProductLink) {
-                $this->links[$linkKey] = parent::Link($action);
-            }
+        $controller = Controller::curr();
+        if ($controller->hasMethod('isProductDetailView') &&
+            $controller->isProductDetailView()) {
+            $product = $controller->getDetailViewProduct();
+            $link    = $product->Link($this->Locale);
+        } else {
+            $link = parent::Link($action);
         }
-        return $this->links[$linkKey];
+        return $link;
     }
     
     /**
@@ -339,14 +305,16 @@ class ProductGroupPage extends \Page {
      * itself will be the parent, so there must be two different links for one
      * controller.
      *
+     * @param string $action Action to call.
+     *
      * @return string
      * 
      * @see self::Link()
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.02.2011
      */
-    public function OriginalLink() {
-        return parent::Link(null);
+    public function OriginalLink($action = null) {
+        return parent::Link($action);
     }
     
     /**
@@ -742,7 +710,7 @@ class ProductGroupPage extends \Page {
      */
     public function getMirroredProductIDs() {
         $mirroredProductIDs         = array();
-        $translations               = $this->getTranslations();
+        $translations               = Tools::get_translations($this);
         $translationProductGroupIDs = array(
             $this->ID,
         );
@@ -854,7 +822,7 @@ class ProductGroupPage extends \Page {
             $requiredAttributes = Product::getRequiredAttributes();
             $activeProducts     = array();
             $productGroupIDs    = self::getFlatChildPageIDsForPage($this->ID);
-            $translations       = $this->getTranslations();
+            $translations       = Tools::get_translations($this);
             
             if ($translations &&
                 $translations->count() > 0) {
@@ -1375,6 +1343,51 @@ class ProductGroupPage extends \Page {
                 $liveVersion->writeToStage(Versioned::LIVE);
             }
         }
+    }
+
+    /**
+     * Returns the pages original breadcrumbs
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.07.2012
+     */
+    public function OriginalBreadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false) {
+        return parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden);
+    }
+
+    /**
+     * Adds the product title to the bradcrumbs if the current page is a product detail page.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     */
+    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) {
+        $items = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
+        if (Controller::curr()->isProductDetailView()) {
+            $title = new DBText();
+            $title->setValue(Controller::curr()->getDetailViewProduct()->Title);
+            $items->push(new ArrayData([
+                'MenuTitle' => $title,
+                'Title'     => $title,
+                'Link'      => '',
+            ]));
+        }
+        $this->extend('updateBreadcrumbParts', $items);
+        $this->extend('updateBreadcrumbItems', $items);
+        return $items;
     }
     
 }

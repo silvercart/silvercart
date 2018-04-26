@@ -285,7 +285,7 @@ class ProductImageImporter extends BuildTask {
      * @return string
      */
     public static function get_absolute_upload_folder() {
-        return Director::baseFolder() . '/assets/' . self::$relative_upload_folder;
+        return Director::publicFolder() . '/assets/' . self::$relative_upload_folder;
     }
     
     /**
@@ -294,7 +294,7 @@ class ProductImageImporter extends BuildTask {
      * @return string
      */
     public static function get_absolute_product_image_folder() {
-        return Director::baseFolder() . '/assets/Uploads/product-images';
+        return Director::publicFolder() . '/assets/Uploads/product-images';
     }
     
     /**

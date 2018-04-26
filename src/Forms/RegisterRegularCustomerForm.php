@@ -22,7 +22,6 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\PasswordField;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
-use Translatable;
 
 /**
  * Form for registration of a regular customer.
@@ -259,7 +258,7 @@ class RegisterRegularCustomerForm extends CustomForm {
             $currentUserID = $currentUser->ID;
         }
         $data['MemberID'] = $currentUserID;
-        $data['Locale']   = Translatable::get_current_locale();
+        $data['Locale']   = Tools::current_locale();
         if ($this->demandBirthdayDate()) {
             if (!empty($data['BirthdayDay']) &&
                 !empty($data['BirthdayMonth']) &&

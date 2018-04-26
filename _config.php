@@ -118,10 +118,10 @@ SiteConfigLeftAndMain::config()->set('menuSortIndex', 1);
 if (array_key_exists('Email', $_POST)) {
     $_POST['Email'] = Tools::prepareEmailAddress($_POST['Email']);
 }
-define('SILVERCART_PATH',     realpath(__DIR__));
+define('SILVERCART_PATH',        realpath(__DIR__));
 define('SILVERCART_CLIENT_PATH', SILVERCART_PATH . DIRECTORY_SEPARATOR . 'client');
-define('SILVERCART_IMG_PATH', SILVERCART_CLIENT_PATH . DIRECTORY_SEPARATOR . 'img');
-define('SILVERCART_LOG_PATH', SILVERCART_PATH . DIRECTORY_SEPARATOR . 'log');
+define('SILVERCART_IMG_PATH',    SILVERCART_CLIENT_PATH . DIRECTORY_SEPARATOR . 'img');
+define('SILVERCART_LOG_PATH',    SILVERCART_PATH . DIRECTORY_SEPARATOR . 'log');
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.

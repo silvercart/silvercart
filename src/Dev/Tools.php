@@ -11,10 +11,14 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
 use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\Security\Permission;
 use SilverStripe\View\Parsers\Transliterator;
+use TractorCow\Fluent\Model\Locale;
+use TractorCow\Fluent\State\FluentState;
 
 /**
  * Provides methods for common tasks in SilverCart.
@@ -506,6 +510,21 @@ class Tools {
     }
     
     /**
+     * Checks whether the current request is a CMS preview
+     *
+     * @return boolean 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     */
+    public static function is_cms_preview() {
+        $request      = Controller::curr()->getRequest();
+        $isCMSPreview = (bool) $request->getVar('CMSPreview');
+        $isAdmin      = Permission::check('ADMIN');
+        return $isAdmin && $isCMSPreview;
+    }
+    
+    /**
      * Prepares a given email address to use for request handling.
      * CAUTION: This is used for EVERY post requested variable named 'Email'
      * and called in _config.php
@@ -924,6 +943,122 @@ class Tools {
         // it's a kind of dirty, because this will not match every possible
         // system locale... It works for plain and utf8 locales.
         setlocale(LC_ALL, $currentLocale . '.utf8', $currentLocale . '.UTF-8', $currentLocale);
+    }
+
+    /**
+     * Returns the current locale.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function current_locale() {
+        return FluentState::singleton()->getLocale();
+    }
+
+    /**
+     * Sets the current locale.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function set_current_locale($locale) {
+        return FluentState::singleton()->setLocale($locale);
+    }
+
+    /**
+     * Returns the available content locales.
+     * 
+     * @return \SilverStripe\ORM\ArrayList
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function content_locales() {
+        return Locale::getCached();
+    }
+
+    /**
+     * Returns the default locale.
+     * 
+     * @param string|null|bool $domain If provided, the default locale for the given domain will be returned.
+     *                                 If true, then the current state domain will be used (if in domain mode).
+     * 
+     * @return Locale
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function default_locale($domain = null) {
+        return Locale::getDefault($domain);
+    }
+
+    /**
+     * Returns the translation with the given locale.
+     * 
+     * @param DataObject $original Original DataObject to get translation for
+     * @param string     $locale   Locale to get translation for
+     * 
+     * @return DataObject
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function get_translation($original, $locale) {
+        $originalLocale = Tools::current_locale();
+        Tools::set_current_locale($locale);
+        $translation = DataObject::get($original->ClassName)->byID($original->ID);
+        Tools::set_current_locale($originalLocale);
+        return $translation;
+    }
+
+    /**
+     * Returns all translations of the given record.
+     * 
+     * @param DataObject $original Original DataObject to get translations for
+     * 
+     * @return DataObject
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function get_translations($original) {
+        if ($original instanceof \SilverStripe\CMS\Controllers\ContentController) {
+            $original = $original->data();
+        }
+        $translations = [];
+        if ($original->hasMethod('Locales')) {
+            $locales = $original->Locales();
+            /* @var $locales \SilverStripe\ORM\ArrayList */
+            foreach ($locales as $locale) {
+                /* @var $locale ArrayData */
+                $translation = self::get_translation($original, $locale->Locale);
+                if ($translation instanceof DataObject &&
+                    $translation->exists()) {
+                    $translations[] = $translation;
+                }
+            }
+        }
+        return new ArrayList($translations);
+    }
+
+    /**
+     * Returns whether the translation with the given locale exists for the given record.
+     * 
+     * @param DataObject $original Original DataObject to check translation for
+     * @param string     $locale   Locale to check translation for
+     * 
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.04.2018
+     */
+    public static function has_translation($original, $locale) {
+        $translation = self::get_translation($original, $locale);
+        return $translation instanceof DataObject && $translations->exists();
     }
     
     /**

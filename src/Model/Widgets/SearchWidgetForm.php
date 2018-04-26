@@ -2,12 +2,12 @@
 
 namespace SilverCart\Model\Widgets;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Control\ActionHandler;
 use SilverCart\Forms\FormFields\TextField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
-use Translatable;
 
 /**
  * SearchWidget Form.
@@ -54,7 +54,7 @@ class SearchWidgetForm extends CustomForm {
     public function getCustomFields() {
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $fields += array(
-                HiddenField::create('locale', 'locale', Translatable::get_current_locale()),
+                HiddenField::create('locale', 'locale', Tools::current_locale()),
                 TextField::create('quickSearchQuery', $this->fieldLabel('SEARCHLABEL')),
             );
         });

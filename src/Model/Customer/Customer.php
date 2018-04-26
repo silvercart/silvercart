@@ -230,7 +230,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @since 12.06.2012
      */
     public function updateRestrictCMSFields(&$restrictFields) {
-        $dbFields = (array)Config::inst()->get(get_class($this->owner), 'db');
+        $dbFields = (array) $this->owner->config()->get('db');
         foreach ($dbFields as $fieldName => $fieldType) {
             $restrictFields[] = $fieldName;
         }

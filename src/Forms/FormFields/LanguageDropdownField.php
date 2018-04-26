@@ -2,13 +2,13 @@
 
 namespace SilverCart\Forms\FormFields;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\PageController;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\Form;
-use Translatable;
 
 /** 
  * A formfield for changing the frontends language.
@@ -48,8 +48,8 @@ class LanguageDropdownField extends DropdownField {
         parent::__construct($name, $title, $source, $value, $form, $emptyString);
         $this->setController($form->getController());
         
-        $currentLocale      = Translatable::get_current_locale();
-        $translations       = $this->getController()->getTranslations();
+        $currentLocale      = Tools::current_locale();
+        $translations       = Tools::get_translations($this->getController()->data());
         $translationSource  = [];
         $translationSource[$currentLocale] = [
             'title' => $this->getDisplayLanguage($currentLocale, $currentLocale),
@@ -133,7 +133,7 @@ class LanguageDropdownField extends DropdownField {
 
                 $link = "#";
                 if ($controller) {
-                    $translation = $controller->getTranslation($value);
+                    $translation = Tools::get_translation($controller->data(), $value);
                     if ($translation instanceof SiteTree) {
                         $link = $translation->Link();
                     }

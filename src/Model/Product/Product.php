@@ -61,7 +61,6 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
 use SilverStripe\Widgets\Model\WidgetArea;
 use WidgetSets\Model\WidgetSet;
-use Translatable;
 
 /**
  * abstract for a product.
@@ -189,7 +188,6 @@ class Product extends DataObject implements PermissionProvider {
         'MetaKeywords'                => 'Text',
         'Link'                        => 'Text',
         'AbsoluteLink'                => 'Text',
-        'ProductGroupBreadcrumbs'     => 'Text',
         'DefaultShippingFee'          => 'Text',
         'MSRPriceNice'                => 'Text',
         'BeforeProductHtmlInjections' => 'HTMLText',
@@ -350,9 +348,9 @@ class Product extends DataObject implements PermissionProvider {
     /**
      * Images to show
      *
-     * @var array
+     * @var SS_List
      */
-    protected $images = array();
+    protected $images = null;
     
     /**
      * Determines whether to ignore tax exemption or not.
@@ -367,6 +365,13 @@ class Product extends DataObject implements PermissionProvider {
      * @var Image
      */
     protected $listImage = null;
+    
+    /**
+     * List of already requested and localized i18n links.
+     *
+     * @var array
+     */
+    protected $i18nLinks = [];
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -499,22 +504,6 @@ class Product extends DataObject implements PermissionProvider {
             $this->extend('updateMetaKeywords', $metaKeywords);
         }
         return $metaKeywords;
-    }
-
-    /**
-     * Returns the breadcrumbs for the product group
-     *
-     * @param bool   $unlinked  Set to false to get linked breacrumbs (HTML)
-     * @param string $delimiter Delimiter char to seperate product groups
-     * 
-     * @return string
-     */
-    public function getProductGroupBreadcrumbs($unlinked = true, $delimiter = null) {
-        $breadcrumbs = '';
-        if ($this->ProductGroupID > 0) {
-            $breadcrumbs = $this->ProductGroup()->Breadcrumbs(20, $unlinked);
-        }
-        return $breadcrumbs;
     }
     
     /**
@@ -925,7 +914,6 @@ class Product extends DataObject implements PermissionProvider {
                 'Manufacturer'                         => Manufacturer::singleton()->singular_name(),
                 'ProductGroup'                         => ProductGroupPage::singleton()->singular_name(),
                 'ProductGroups'                        => _t(ProductGroupPage::class . '.PLURALNAME', 'product groups'),
-                'ProductGroupBreadcrumbs'              => _t(ProductGroupPage::class . '.BREADCRUMBS', 'Breadcrumbs'),
                 'MasterProduct'                        => _t(Product::class . '.MASTERPRODUCT', 'master product'),
                 'Image'                                => _t(Product::class . '.IMAGE', 'product image'),
                 'AvailabilityStatus'                   => AvailabilityStatus::singleton()->singular_name(),
@@ -1005,9 +993,6 @@ class Product extends DataObject implements PermissionProvider {
      * Config.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.08.2011
      */
     public function getCondition() {
         $condition = '';
@@ -1262,7 +1247,7 @@ class Product extends DataObject implements PermissionProvider {
         }
         
         $productTable = Tools::get_table_name(Product::class);
-        $onclause = sprintf('"SPL"."ProductID" = "%s"."ID" AND "SPL"."Locale" = \'%s\'', $productTable, Translatable::get_current_locale());
+        $onclause = sprintf('"SPL"."ProductID" = "%s"."ID" AND "SPL"."Locale" = \'%s\'', $productTable, Tools::current_locale());
         $databaseFilteredProducts = Product::get()
                 ->leftJoin(Tools::get_table_name(ProductTranslation::class), $onclause, 'SPL')
                 ->where($filter)
@@ -2155,12 +2140,12 @@ class Product extends DataObject implements PermissionProvider {
      */
     public function ProductGroup() {
         $productGroup  = null;
-        $currentLocale = Translatable::get_current_locale();
+        $currentLocale = Tools::current_locale();
         if ($this->getComponent('ProductGroup')) {
             $productGroup = $this->getComponent('ProductGroup');
             if ($productGroup->Locale != $currentLocale &&
-                $productGroup->hasTranslation($currentLocale)) {
-                $productGroup = $productGroup->getTranslation($currentLocale);
+                Tools::has_translation($productGroup, $currentLocale)) {
+                $productGroup = Tools::get_translation($productGroup, $currentLocale);
             }
         }
         return $productGroup;
@@ -2169,20 +2154,35 @@ class Product extends DataObject implements PermissionProvider {
     /**
      * Builds the product link with the given parameters.
      * 
-     * @param ViewableData $controller Base object to build the link.
-     * @param string       $urlSegment URL segment.
+     * @param ProductGroupPage $productGroup Base object to build the link
+     * @param string           $urlSegment   URL segment
      * 
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.03.2015
+     * @since 26.04.2018
      */
-    public function buildLink($controller, $urlSegment) {
+    public function buildLinkWithGroup($productGroup, $urlSegment) {
+        return $this->buildLink($productGroup->OriginalLink(), $urlSegment);
+    }
+    
+    /**
+     * Builds the product link with the given parameters.
+     * 
+     * @param string $groupLink  Link of the group to get product link for
+     * @param string $urlSegment URL segment
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     */
+    public function buildLink($groupLink, $urlSegment) {
         $link = '';
         $linkIdentifier = $this->ID;
         $this->extend('updatelinkIdentifier', $linkIdentifier);
         
-        $link = $controller->OriginalLink() . $linkIdentifier . '/' . $urlSegment;
+        $link = $groupLink . $linkIdentifier . '/' . $urlSegment;
         return $link;
     }
     
@@ -2201,35 +2201,58 @@ class Product extends DataObject implements PermissionProvider {
      * controller does not match some related product criteria (mirrored product 
      * group, translation of a mirrored product group or translation of main
      * group) the main group will be used as context.
+     * 
+     * @param string $locale Locale to get product link for
      *
      * @return string URL of $this
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 03.03.2015
+     * @since 26.04.2018
      */
-    public function Link() {
-        $link = '';
+    public function Link($locale = null) {
+        if (is_null($locale)) {
+            $locale = Tools::current_locale();
+        }
+        if (array_key_exists($locale, $this->i18nLinks)) {
+            return $this->i18nLinks[$locale];
+        }
         
-        if (Controller::curr() instanceof ProductGroupPageController &&
-            !Controller::curr() instanceof SearchResultsPageController &&
-            $this->ProductGroupMirrorPages()->find('ID', Controller::curr()->data()->ID)) {
-            $link = $this->buildLink(Controller::curr(), $this->title2urlSegment());
-        } elseif (Controller::curr() instanceof ProductGroupPageController && 
-                  Translatable::get_current_locale() != Config::DefaultLanguage()) {
-            Translatable::disable_locale_filter();
-            if ($this->ProductGroupMirrorPages()->find('ID', Controller::curr()->getTranslation(Config::DefaultLanguage())->ID)) {
-                $link = $this->buildLink(Controller::curr(), $this->title2urlSegment());
+        $controller           = Controller::curr();
+        $productGroup         = $controller->data();
+        
+        if ($controller instanceof ProductGroupPageController &&
+            !($controller instanceof SearchResultsPageController)) {
+
+            $buildLink = false;
+
+            if ($this->ProductGroupMirrorPages()->find('ID', $productGroup->ID)) {
+                $buildLink = true;
+            } elseif (Tools::current_locale() != Config::DefaultLanguage()) {
+                $productGroupTranslation = Tools::get_translation($productGroup, Config::DefaultLanguage());
+                if ($this->ProductGroupMirrorPages()->find('ID', $productGroupTranslation->ID)) {
+                    $buildLink = true;
+                }
             }
-            Translatable::enable_locale_filter();
+
+            if ($buildLink) {
+                $translation          = $this->getTranslationFor($locale);
+                $i18nURLSegment       = $this->title2urlSegment();
+                $i18nProductGroupLink = $productGroup->LocaleOriginalLink($locale);
+                if ($translation instanceof ProductTranslation) {
+                    $i18nURLSegment = Tools::string2urlSegment($translation->Title);
+                }
+                $i18nLink = $this->buildLink($i18nProductGroupLink, $i18nURLSegment);
+            }
         }
-        if (empty($link) &&
+        if (empty($i18nLink) &&
             $this->ProductGroup()) {
-            $link = $this->buildLink($this->ProductGroup(), $this->title2urlSegment());
+            $i18nLink = $this->buildLinkWithGroup($this->ProductGroup(), $this->title2urlSegment());
         }
+        $this->i18nLinks[$locale] = $i18nLink;
         
-        return $link;
+        return $i18nLink;
     }
 
     /**
@@ -2244,7 +2267,7 @@ class Product extends DataObject implements PermissionProvider {
     public function CanonicalLink() {
         $link = $this->Link();
         if ($this->ProductGroup()) {
-            $link = $this->buildLink($this->ProductGroup(), $this->title2urlSegment());
+            $link = $this->buildLinkWithGroup($this->ProductGroup(), $this->title2urlSegment());
         }
         return $link;
     }
@@ -2683,7 +2706,7 @@ class Product extends DataObject implements PermissionProvider {
         parent::onBeforeWrite();
         
         if ($this->ProductGroup()) {
-            $translations = $this->ProductGroup()->getTranslations();
+            $translations = Tools::get_translations($this->ProductGroup());
             if ($translations) {
                 foreach ($translations as $translation) {
                     if ($this->ProductGroupMirrorPages()->find('ID', $translation->ID)) {
@@ -2845,16 +2868,14 @@ class Product extends DataObject implements PermissionProvider {
      * visualitation defined in Config and returns the defined image
      * as ArrayList. As last resort boolean false is returned.
      *
-     * @param string $filter An optional sql filter statement
-     *
      * @return SS_List
      */
-    public function getImages($filter = '') {
-        if (!array_key_exists($filter, $this->images)) {
+    public function getImages() {
+        if (is_null($this->images)) {
             $images = false;
             $this->extend('overwriteImages', $images);
             if ($images == false) {
-                $images = $this->Images($filter);
+                $images = $this->Images();
                 
                 $this->extend('updateGetImages', $images);
 
@@ -2893,21 +2914,19 @@ class Product extends DataObject implements PermissionProvider {
                 }
             }
             
-            $this->images[$filter] = $images;
+            $this->images = $images;
         }
 
-        return $this->images[$filter];
+        return $this->images;
     }
 
     /**
      * Returns $this->getImages() without the first image.
      *
-     * @param string $filter An optional sql filter statement
-     *
      * @return DataList|ArrayList
      */
-    public function getThumbnails($filter = '') {
-        $images = $this->getImages($filter);
+    public function getThumbnails() {
+        $images = $this->getImages();
 
         if ($images) {
             $images->shift();
@@ -2933,16 +2952,13 @@ class Product extends DataObject implements PermissionProvider {
     /**
      * Returns the first image out of the related Images.
      * 
-     * @param string $filter Filter for the related Images
-     * 
      * @return Image
      */
-    public function getListImage($filter = '') {
+    public function getListImage() {
         if (is_null($this->listImage)) {
             $this->listImage = false;
-            $images = $this->getImages($filter);
+            $images = $this->getImages();
 
-            
             if ($images->count() > 0) {
                 $this->listImage = $images->first()->Image();
             }

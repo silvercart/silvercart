@@ -21,7 +21,8 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
-use Translatable;
+use SilverStripe\View\ArrayData;
+use TractorCow\Fluent\State\FluentState;
 
 /**
  * Standard Page.
@@ -356,8 +357,8 @@ class Page extends SiteTree {
      * @since 23.06.2017
      */
     public function MetaTags($includeTitle = true) {
-        $tags = parent::MetaTags($includeTitle);
-        $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $tags);
+        $originalTags = parent::MetaTags($includeTitle);
+        $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $originalTags);
         $tags .= '<link rel="canonical" href="' . $this->AbsoluteCanonicalLink() . '" />' . PHP_EOL;
         return $tags;
     }
@@ -385,6 +386,65 @@ class Page extends SiteTree {
     public function CanonicalLink() {
         return $this->Link();
     }
+
+    /**
+     * Alias for self::Link().
+     *
+     * @param string $action Action to call.
+     *
+     * @return string
+     * 
+     * @see self::Link()
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     */
+    public function OriginalLink($action = null) {
+        return $this->Link($action);
+    }
+
+    /**
+     * Same as \TractorCow\Fluent\Extension\FluentExtension::LocaleLink() but uses the method
+     * self::OriginalLink() instead.
+     * If the method self::OriginalLink() doesn't exists on the called page, self::LocaleLink() 
+     * will be used instead.
+     * 
+     * @param string $locale Locale to get link for
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     * @see \TractorCow\Fluent\Extension\FluentExtension::LocaleLink()
+     */
+    public function LocaleOriginalLink($locale) {
+        // Skip dataobjects that do not have the Link method
+        if (!$this->hasMethod('OriginalLink')) {
+            return $this->LocaleLink($locale);
+        }
+
+        // Return locale root url if unable to view this item in this locale
+        $defaultLink = $this->BaseURLForLocale($locale);
+        if ($this->hasMethod('canViewInLocale') && !$this->canViewInLocale($locale)) {
+            return $defaultLink;
+        }
+
+        return FluentState::singleton()->withState(function (FluentState $newState) use ($locale, $defaultLink) {
+            $newState->setLocale($locale);
+            // Non-db records fall back to internal behaviour
+            if (!$this->isInDB()) {
+                return $this->OriginalLink();
+            }
+
+            // Reload this record in the correct locale
+            $record = DataObject::get($this->ClassName)->byID($this->ID);
+            if ($record) {
+                return $record->OriginalLink();
+            } else {
+                // may not be published in this locale
+                return $defaultLink;
+            }
+        });
+    }
     
     /**
      * Returns all translated locales as a special ArrayList
@@ -392,8 +452,8 @@ class Page extends SiteTree {
      * @return ArrayList 
      */
     public function getAllTranslations() {
-        $currentLocale      = Translatable::get_current_locale();
-        $translations       = $this->getTranslations();
+        $currentLocale      = Tools::current_locale();
+        $translations       = Tools::get_translations($this);
         $translationSource  = new ArrayList();
         if ($translations) {
             $translationSource->push(new DataObject(
@@ -487,4 +547,28 @@ class Page extends SiteTree {
         $plainLink    = str_replace('/', '', $relativeLink);
         return $plainLink == RootURLController::config()->get('default_homepage_link');
     }
+
+    /**
+     * Adds the overwriteBreadcrumbs extension.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param bool   $unlinked       true, if the breadcrumbs should be displayed without links
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     * @param string $delimiter      Delimiter to use
+     *
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     */
+    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $delimiter = '&raquo;') {
+        $breadcrumbs = null;
+        $this->extend('overwriteBreadcrumbs', $breadcrumbs);
+        if (is_null($breadcrumbs)) {
+            $breadcrumbs = parent::Breadcrumbs($maxDepth, $unlinked, $stopAtPageType, $showHidden, $delimiter);
+        }
+        return $breadcrumbs;
+    }
+    
 }

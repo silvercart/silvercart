@@ -2,18 +2,16 @@
 
 namespace SilverCart\Model\Translation;
 
-use LanguageDropdownField;
 use Locale;
+use SilverCart\Dev\Tools;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
-use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Control\Director;
 use SilverStripe\Dev\Deprecation;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\HasManyList;
-use Translatable;
 
 /** 
  * Helper class to combine language object specific methods.
@@ -88,7 +86,7 @@ class TranslationTools {
     public static function get_translation($componentset, $locale = false) {
         $lang = false;
         if ($locale == false) {
-            $locale = Translatable::get_current_locale();
+            $locale = Tools::current_locale();
         }
         if ($componentset->find('Locale', $locale)) {
             $lang = $componentset->find('Locale', $locale);
@@ -186,33 +184,20 @@ class TranslationTools {
      * @param string     $translatingClass Context class of the LanguageDropdownField
      * @param string     $fieldName        Name of the LanguageDropdownField
      * 
-     * @return LanguageDropdownField 
+     * @return DropdownField 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.12.2015
      */
     public static function prepare_translation_dropdown_field($dataObj, $translatingClass = null, $fieldName = 'Locale') {
-        $instance                   = null;
-        $alreadyTranslatedLocales   = array();
-        if (is_null($translatingClass)) {
-            $translatingClass   = $dataObj->ClassName;
-            $instance           = $dataObj;
-        }
-        if ($instance) {
-            $alreadyTranslatedLocales   = $instance->getTranslatedLocales();
-            unset($alreadyTranslatedLocales[$instance->Locale]);
-        }
-        $localeDropdown = new LanguageDropdownField(
-            $fieldName, 
-            _t(Config::class . '.TRANSLATION', 'Translation'),
-            $alreadyTranslatedLocales,
-            $translatingClass,
-            'Locale-Native',
-            $instance
+        $localeDropdown = DropdownField::create(
+                $fieldName,
+                _t(Config::class . '.TRANSLATION', 'Translation'),
+                i18n::getData()->getLocales()
         );
-        $currentLocale          = Translatable::get_current_locale();
+        $currentLocale          = Tools::current_locale();
         $localesWithTitle       = $localeDropdown->getSource();
-        $usedLocalesWithTitle   = Translatable::get_existing_content_languages(SiteTree::class);
+        $usedLocalesWithTitle   = Tools::content_locales()->toArray();
         $languageList           = array();
         $usedLanguageList       = array();
         foreach ($localesWithTitle as $locale => $title) {
@@ -413,7 +398,7 @@ class TranslationTools {
      */
     public static function write_translation_object($translationObj, $mainRecord) {
         $record = array();
-        $translationDbFields = (array)\SilverStripe\Core\Config\Config::inst()->get(get_class($translationObj), 'db');
+        $translationDbFields = (array) $translationObj->config()->get('db');
         foreach ($translationDbFields as $dbFieldName => $dbFieldType) {
             if (array_key_exists($dbFieldName, $mainRecord)) {
                 $record[$dbFieldName] = $mainRecord[$dbFieldName];

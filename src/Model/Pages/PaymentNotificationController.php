@@ -36,7 +36,7 @@ class PaymentNotificationController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.09.2017
      */
-    public function init() {
+    protected function init() {
         if (Config::EnableSSL()) {
             Director::forceSSL();
         }
