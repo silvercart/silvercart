@@ -192,7 +192,7 @@ class SlidorionProductGroupWidget extends Widget {
         );
         
         $imagesUploadField = new ImageUploadField('UploadImages', $this->fieldLabel('AddImage'));
-        $imagesUploadField->setFolderName('Uploads/silvercart-images');
+        $imagesUploadField->setFolderName('assets/silvercart-images');
         $imagesUploadField->setDescription($imagesUploadDescription);
                 
         $translationsTableField = new GridField(

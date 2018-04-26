@@ -27,7 +27,7 @@ class ProductImageImporter extends BuildTask {
      *
      * @var string
      */
-    private static $relative_upload_folder = 'Uploads/unassigned-product-images';
+    private static $relative_upload_folder = 'assets/unassigned-product-images';
     
     /**
      * Name of the temporary file that determines a running import process.
@@ -116,7 +116,7 @@ class ProductImageImporter extends BuildTask {
         $targetFilename = $product->ProductNumberShop . '-' . $nameFilter->filter($product->Title) . '-' . $consecutiveNumber . '.' . $fileEnding;
         $originalFile   = self::get_absolute_upload_folder() . '/' . $filename;
         $targetFile     = self::get_absolute_product_image_folder() . '/' . $targetFilename;
-        $parentFolder   = Folder::find_or_make('Uploads/product-images');
+        $parentFolder   = Folder::find_or_make('assets/product-images');
 
         rename($originalFile, $targetFile);
 
@@ -294,7 +294,7 @@ class ProductImageImporter extends BuildTask {
      * @return string
      */
     public static function get_absolute_product_image_folder() {
-        return Director::publicFolder() . '/assets/Uploads/product-images';
+        return Director::publicFolder() . '/assets/product-images';
     }
     
     /**

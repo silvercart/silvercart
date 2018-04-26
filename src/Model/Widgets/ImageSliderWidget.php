@@ -133,7 +133,7 @@ class ImageSliderWidget extends Widget {
         }
         
         $slideImagesUploadField = new ImageUploadField('UploadslideImages', $this->fieldLabel('AddImage'));
-        $slideImagesUploadField->setFolderName('Uploads/slider-images');
+        $slideImagesUploadField->setFolderName('assets/slider-images');
         $slideImagesUploadField->setRelationClassName('ImageSliderImage');
         
         $fields->findOrMakeTab('Root.slideImages', $this->fieldLabel('slideImages'));

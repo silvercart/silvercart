@@ -1605,7 +1605,7 @@ class Product extends DataObject implements PermissionProvider {
         }
         
         $imageUploadField = new ImageUploadField('UploadImages', $this->fieldLabel('AddImage'));
-        $imageUploadField->setFolderName('Uploads/product-images');
+        $imageUploadField->setFolderName('assets/product-images');
         
         $fields->addFieldToTab('Root.Images', $imageUploadField, 'Images');
     }
@@ -1624,7 +1624,7 @@ class Product extends DataObject implements PermissionProvider {
         $fileGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
         $fileUploadField = new FileUploadField('UploadFiles', $this->fieldLabel('AddFile'));
-        $fileUploadField->setFolderName('Uploads/product-files');
+        $fileUploadField->setFolderName('assets/product-files');
         
         $fields->addFieldToTab('Root.Files', $fileUploadField, 'Files');
     }

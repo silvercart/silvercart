@@ -534,7 +534,7 @@ class ProductGroupPage extends \Page {
             $fields->addFieldToTab($tabPARAM, $manageProductsButton);
 
             $imageUploadField = new UploadField('GroupPicture', $this->fieldLabel('GroupPicture'));
-            $imageUploadField->setFolderName('Uploads/productgroup-images');
+            $imageUploadField->setFolderName('assets/productgroup-images');
             $fields->addFieldToTab('Root.Main', $imageUploadField, 'Content');
         }
         

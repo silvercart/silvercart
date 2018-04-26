@@ -1211,11 +1211,12 @@ class PaymentMethod extends DataObject {
                 $this->write();
                 $languages = array('de_DE', 'en_US', 'en_GB');
                 foreach ($languages as $language) {
+                    $reflection = new ReflectionClass($this->ClassName);
                     $filter = sprintf(
                        '"%s"."Locale" = \'%s\' AND "%sID" = \'%s\'',
                         Tools::get_table_name(PaymentMethodTranslation::class),
                         $language,
-                        get_class($this),
+                        $reflection->getShortName(),
                         $this->ID
                     );
                     $langObjClassName   = get_class($this) . 'Translation';
@@ -1492,7 +1493,7 @@ class PaymentMethod extends DataObject {
         $paymentLogosTable->getConfig()->addComponent(new GridFieldDeleteAction());
         
         $paymentLogosUploadField = new ImageUploadField('UploadPaymentLogos', $this->fieldLabel('AddPaymentLogos'));
-        $paymentLogosUploadField->setFolderName('Uploads/payment-images');
+        $paymentLogosUploadField->setFolderName('assets/payment-images');
         
         $tabLogos->setChildren(
             new FieldList(
@@ -1812,16 +1813,21 @@ class PaymentMethod extends DataObject {
      * @since 16.06.2014
      */
     public function createUploadFolder() {
-        $uploadsFolder = Folder::get()->filter('Name', 'Uploads')->first();
-
-        if (!$uploadsFolder) {
+        $assetsFolder = Folder::get()->filter('Name', 'assets')->first();
+        if (!($assetsFolder instanceof Folder)) {
+            $assetsFolder = new Folder();
+            $assetsFolder->Name = 'assets';
+            $assetsFolder->Title = 'assets';
+            $assetsFolder->write();
+        }
+        $uploadsFolder = Folder::get()->filter('Name', 'payment-images')->first();
+        if (!($uploadsFolder instanceof Folder)) {
             $uploadsFolder = new Folder();
-            $uploadsFolder->Name = 'Uploads';
-            $uploadsFolder->Title = 'Uploads';
-            $uploadsFolder->Filename = 'assets/Uploads/';
+            $uploadsFolder->Name = 'payment-images';
+            $uploadsFolder->Title = 'payment-images';
+            $uploadsFolder->ParentID = $assetsFolder->ID;
             $uploadsFolder->write();
         }
-
         $this->uploadsFolder = $uploadsFolder;
     }
 
@@ -1838,7 +1844,7 @@ class PaymentMethod extends DataObject {
      * @since 24.04.2018
      */
     public function createLogoImageObjects($paymentLogos, $paymentModuleName) {
-        Folder::find_or_make('Uploads');
+        $this->createUploadFolder();
         $paymentModule = PaymentMethod::get()->filter('ClassName', $paymentModuleName)->sort('ID', 'ASC')->first();
         if ($paymentModule instanceof PaymentMethod) {
             if (count($this->getPossiblePaymentChannels()) > 0) {
@@ -1877,12 +1883,18 @@ class PaymentMethod extends DataObject {
                     $fileContent = file_get_contents($logo);
                     $fileHash    = sha1($fileContent);
                     $hashDir     = substr($fileHash, 0, 10);
-                    $uploadsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->uploadsFolder->Filename;
-                    mkdir($uploadsPath . $hashDir);
-                    file_put_contents($uploadsPath . $hashDir . DIRECTORY_SEPARATOR . basename($logo), $fileContent);
+                    $uploadsPath = PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->uploadsFolder->Filename;
+                    $targetFile  = $uploadsPath . $hashDir . DIRECTORY_SEPARATOR . basename($logo);
+                    if (!file_exists($uploadsPath)) {
+                        mkdir($uploadsPath);
+                    }
+                    if (!file_exists($uploadsPath . $hashDir)) {
+                        mkdir($uploadsPath . $hashDir);
+                    }
+                    file_put_contents($targetFile, $fileContent);
                     $image = new \SilverStripe\Assets\Image();
-                    $image->Filename     = $this->uploadsFolder->Filename . basename($logo);
-                    $image->Hash         = sha1($fileContent);
+                    $image->FileFilename = str_replace('assets/', '', $this->uploadsFolder->Filename . basename($logo));
+                    $image->FileHash     = sha1_file($targetFile);
                     $image->Name         = basename($logo);
                     $image->Title        = basename($logo, '.png');
                     $image->ParentID     = $this->uploadsFolder->ID;
