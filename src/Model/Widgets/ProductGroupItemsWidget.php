@@ -3,13 +3,11 @@
 namespace SilverCart\Model\Widgets;
 
 use SilverCart\Admin\Model\Config;
-use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Widgets\ProductSliderWidget;
 use SilverCart\Model\Widgets\Widget;
 use SilverCart\Model\Widgets\WidgetTools;
 use SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation;
-use SilverStripe\ORM\DB;
 
 /**
  * Provides a view of items of a definable productgroup.
@@ -165,33 +163,6 @@ class ProductGroupItemsWidget extends Widget {
         $fields = WidgetTools::getCMSFieldsForProductSliderWidget($this, $fetchMethods);
         
         return $fields;
-    }
-    
-    /**
-     * Adds the database relation sort as default and returns the 
-     * Products relation.
-     * 
-     * @param string $filter MySQL filter
-     * @param string $sort   MySQL sort
-     * @param string $join   MySQL join
-     * @param string $limit  MySQL limit
-     * 
-     * @return ComponentSet
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.06.2015
-     */
-    public function Products($filter = "", $sort = "", $join = "", $limit = "") {
-        if (empty($sort)) {
-            $productTable = Tools::get_table_name(Product::class);
-            $widgetTable  = Tools::get_table_name(ProductGroupItemsWidget::class);
-            $result  = DB::query('SELECT "' . $productTable . 'ID" FROM "' . $widgetTable . '_Products" WHERE "' . $widgetTable . 'ID" = ' . $this->ID . ' ORDER BY "ID" ASC');
-            $idOrder = array_keys($result->map());
-            if (count($idOrder) > 0) {
-                $sort = 'FIELD("' . $productTable . '"."ID",' . implode(',', $idOrder) . ')';
-            }
-        }
-        return $this->getManyManyComponents('Products', $filter, $sort, $join, $limit);
     }
 
     /**
