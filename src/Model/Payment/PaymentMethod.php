@@ -2005,51 +2005,6 @@ class PaymentMethod extends DataObject {
     }
 
     /**
-     * Returns the step configuration.
-     *
-     * Should return an array with the following structure:
-     * array(
-     *     '{insert module-filesystem-name}/templates/checkout/' => array(
-     *         'prefix' => 'SilverCart\\{insert module-class-name}\\Forms\\CheckoutFormStep'
-     *     )
-     * )
-     *
-     * @return void
-     */
-    public function getStepConfiguration() {
-        Deprecation::notice(
-                '4.0',
-                'PaymentMethod::getStepConfiguration() is deprecated.'
-        );
-        $directory = 'silvercart-payment-' . strtolower($this->moduleName) . '/templates/checkout/';
-        $className = $this->ClassName;
-        /**
-         * original expression
-         * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
-         * was replaced with eval call to provide compatibility to PHP 5.2
-         */
-        $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
-        if ($has_multiple_payment_channels
-            && !empty($this->PaymentChannel)
-            && is_string($this->PaymentChannel)) {
-            
-            $directory .= $this->PaymentChannel . '/';
-            $stepModule = $this->moduleName . ucfirst($this->PaymentChannel);
-        } else {
-            $stepModule = $this->moduleName;
-        }
-        if ($this->ShowFormFieldsOnPaymentSelection) {
-            $stepModule .= 'Preceded';
-        }
-        $prefix = 'SilverCart\\' . $stepModule . '\\Forms\\CheckoutFormStep';
-        return array(
-            $directory => array(
-                'prefix' => $prefix,
-            ),
-        );
-    }
-
-    /**
      * Returns the order
      *
      * @return Order
