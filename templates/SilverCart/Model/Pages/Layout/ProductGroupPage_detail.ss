@@ -78,16 +78,14 @@
                                     <% end_with %>
                                 </small>
                             </div>
-
-                            <div class="product-rate clearfix">
-                                <% if PluggedInProductMetaData %>
-                                    <% with PluggedInProductMetaData %>
-                                        $MetaData
-                                    <% end_with %>
-                                <% end_if %>            
-                            </div>
-
+                            
+                            <span class="clearfix"></span>
                             <div class="product-info">
+                                <% if $PluggedInProductMetaData %>
+                                    <% loop $PluggedInProductMetaData %>
+                                        {$MetaData}
+                                    <% end_loop %>
+                                <% end_if %>
                                 <dl class="dl-horizontal">
                                     <% if $AvailabilityStatus %>
                                         <dt><%t SilverCart\Model\Product\AvailabilityStatus.SINGULARNAME 'Availability' %>:</dt>
