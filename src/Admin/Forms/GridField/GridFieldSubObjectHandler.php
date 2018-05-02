@@ -58,13 +58,6 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
     protected $URLHandlers = null;
     
     /**
-     * 
-     *
-     * @var bool
-     */
-    protected $addedJavascript = false;
-    
-    /**
      * Name of the sub list template
      *
      * @var string
@@ -411,10 +404,6 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
                 $content = $dropdown->Field()
                          . $action->Field()
                          . '<input type="hidden" value="' . $record->ClassName . '" name="SubObjectParentClassName' . $record->ID . '" />';
-            }
-            if (!$this->addedJavascript) {
-                $this->addedJavascript = true;
-                $content .= '<script type="text/javascript">scLoadSubObjects();</script>';
             }
             return $content;
         }
