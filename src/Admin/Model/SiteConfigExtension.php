@@ -128,8 +128,8 @@ class SiteConfigExtension extends DataExtension {
      * @var array
      */
     private static $defaults = array(
-        'SilvercartVersion'             => '3.1',
-        'SilvercartMinorVersion'        => '0',
+        'SilvercartVersion'             => '4.1',
+        'SilvercartMinorVersion'        => '1',
         'DefaultPriceType'              => 'gross',
         'productsPerPage'               => 18,
         'productGroupsPerPage'          => 6,
