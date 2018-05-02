@@ -17,7 +17,6 @@ use SilverCart\Model\Shipment\ShippingMethodTranslation;
 use SilverCart\Model\Shipment\Zone;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Control\Controller;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
@@ -215,6 +214,7 @@ class ShippingMethod extends DataObject {
                     'ShippingMethodTranslations'     => ShippingMethodTranslation::singleton()->plural_name(),
                     'DoNotShowOnShippingFeesPage'    => _t(ShippingMethod::class . '.DoNotShowOnShippingFeesPage', 'Do not show on Shipping Fees Page'),
                     'ExpectedDelivery'               => _t(ShippingMethod::class . '.ExpectedDelivery', 'Expected Delivery'),
+                    'ReadyForPickup'                 => _t(ShippingMethod::class . '.ReadyForPickup', 'Ready for pickup'),
                     'DeliveryTime'                   => _t(ShippingMethod::class . '.DeliveryTime', 'Delivery time'),
                     'DeliveryTimeMin'                => _t(ShippingMethod::class . '.DeliveryTimeMin', 'Minimum delivery time'),
                     'DeliveryTimeMinDesc'            => _t(ShippingMethod::class . '.DeliveryTimeMinDesc', 'Minimum delivery time in business days'),
@@ -566,6 +566,10 @@ class ShippingMethod extends DataObject {
      * @return string
      */
     public static function get_delivery_time_for($context, $forceDisplayInDays = false) {
+        if (is_null($context) ||
+            $context == false) {
+            return false;
+        }
         return self::get_delivery_time($context->DeliveryTimeMin, $context->DeliveryTimeMax, $context->DeliveryTimeText, $forceDisplayInDays);
     }
     
@@ -579,7 +583,7 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2014
      */
-    protected static function addSundaysToDeliveryTime($deliveryTime) {
+    public static function addSundaysToDeliveryTime($deliveryTime) {
         $currentWeekDay = date('N');
         $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
         $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
@@ -712,7 +716,8 @@ class ShippingMethod extends DataObject {
         $allowedShippingMethodsArray    = array();
         $shippingMethods                = self::getAllowedShippingMethodsBase($carrier);
 
-        if ($shippingMethods) {
+        if ($shippingMethods instanceof DataList &&
+            $shippingMethods->exists()) {
             foreach ($shippingMethods as $shippingMethod) {
                 if (!is_null($shippingAddress)) {
                     $shippingMethod->setShippingAddress($shippingAddress);

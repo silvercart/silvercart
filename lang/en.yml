@@ -894,6 +894,9 @@ en:
     CUSTOMER: "Customer"
     CUSTOMERDATA: "Customer Data"
     CUSTOMERSEMAIL: "Customers email address"
+    ExpectedDelivery: "Expected delivery"
+    ExpectedDeliveryMax: "Expected delivery maximum"
+    ExpectedDeliveryMin: "Expected delivery minimum"
     HANDLINGCOSTPAYMENT: "Payment handling costs"
     HANDLINGCOSTSHIPMENT: "Shipping handling costs"
     HASACCEPTEDREVOCATIONINSTRUCTION: "Has accepted revocation instruction"
@@ -1214,6 +1217,7 @@ en:
     PAYMENT_SUMMODIFICATIONVALUE: "Value"
     PAYMENT_SUMMODIFIERS: "Charges/Discounts"
     PAYMENT_USE_SUMMODIFICATION: "Activate"
+    PaymentChannel: "Payment Channel"
     PLURALNAME: "Payment methods"
     RESTRICTION_LABEL: "Activate only, when the following criteria are met"
     RESTRICT_BY_ORDER_QUANTITY: "The customer must have completed the following number of orders"
@@ -1646,6 +1650,7 @@ en:
     DescriptionForShippingFeesPage: "Description for Shipping Fees Page (will be used instead of \"Description\")"
     DoNotShowOnShippingFeesPage: "Do not show on Shipping Fees Page"
     ExpectedDelivery: "Expected Delivery"
+    ReadyForPickup: "Ready for pickup"
     FOR_PAYMENTMETHODS: "For payment methods"
     FOR_ZONES: "For zones"
     NO_SHIPPING_METHOD_AVAILABLE: "No shipping method available."
@@ -1718,6 +1723,7 @@ en:
     SINGULARNAME: "Translation"
   SilverCart\Model\Order\ShoppingCart:
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "The minimum order value is {amount}"
+    OnlyXLeft: "Only {quantity} left in stock. Delivery time may increase."
     PLURALNAME: "Carts"
     SINGULARNAME: "Cart"
   SilverCart\Model\Order\ShoppingCartPosition:

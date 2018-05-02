@@ -894,6 +894,9 @@ de:
     CUSTOMER: "Kunde"
     CUSTOMERDATA: "Kundendaten"
     CUSTOMERSEMAIL: "E-Mail-Adresse des Kunden"
+    ExpectedDelivery: "Erwartetes Lieferdatum"
+    ExpectedDeliveryMax: "Maximal erwartetes Lieferdatum"
+    ExpectedDeliveryMin: "Minimal erwartetes Lieferdatum"
     HANDLINGCOSTPAYMENT: "Gebühren der Bezahlart"
     HANDLINGCOSTSHIPMENT: "Gebühren der Versandart"
     HASACCEPTEDREVOCATIONINSTRUCTION: "Hat die Widerrufsbelehrung akzeptiert"
@@ -1214,6 +1217,7 @@ de:
     PAYMENT_SUMMODIFICATIONVALUE: "Wert"
     PAYMENT_SUMMODIFIERS: "Auf-/Abschläge"
     PAYMENT_USE_SUMMODIFICATION: "Aktivieren"
+    PaymentChannel: "Zahlungsart"
     PLURALNAME: "Bezahlarten"
     RESTRICTION_LABEL: "Nur für Kunden anzeigen, die die folgenden Kriterien erfüllen"
     RESTRICT_BY_ORDER_QUANTITY: "Der Kunde muss mindestens die folgende Anzahl Bestellungen durchgeführt haben"
@@ -1646,6 +1650,7 @@ de:
     DescriptionForShippingFeesPage: "Beschreibung für Versandgebührenseite (wird anstelle von \"Beschreibung\" verwendet)"
     DoNotShowOnShippingFeesPage: "Nicht auf Versandgebührenseite anzeigen"
     ExpectedDelivery: "Lieferung"
+    ReadyForPickup: "Abholbereit"
     FOR_PAYMENTMETHODS: "für Bezahlart"
     FOR_ZONES: "für Zonen"
     NO_SHIPPING_METHOD_AVAILABLE: "Keine Versandart verfügbar"
@@ -1718,6 +1723,7 @@ de:
     SINGULARNAME: "Übersetzung"
   SilverCart\Model\Order\ShoppingCart:
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "Der Mindestbestellwert beträgt {amount}"
+    OnlyXLeft: "Nur noch {quantity} auf Lager. Die Lieferzeit ist eventuell erhöht."
     PLURALNAME: "Warenkörbe"
     SINGULARNAME: "Warenkorb"
   SilverCart\Model\Order\ShoppingCartPosition:
