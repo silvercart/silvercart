@@ -36,9 +36,12 @@ class SilvercartSecurityController extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>,
      *         Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 08.07.2014
+     * @since 02.05.2018
      */
     public function onBeforeInit() {
+        if (SilvercartTools::isBackendEnvironment()) {
+            return;
+        }
         SilvercartPage_Controller::singleton()->loadJSRequirements();
         SilvercartTools::initSession();
         
