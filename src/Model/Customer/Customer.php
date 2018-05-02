@@ -15,6 +15,7 @@ use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Shipment\Zone;
 use SilverStripe\Admin\SecurityAdmin;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -600,7 +601,38 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         }
         return $isAnonymousCustomer;
     }
-
+    
+    /**
+     * Returns whether the current customer is in the given zone.
+     * 
+     * @var \SilverCart\Model\Shipment\Zone $zone Zone
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.04.2018
+     */
+    public function isInZone($zone) {
+        $isInZone = true;
+        if ($zone instanceof Zone &&
+            $zone->exists()) {
+            $isInZone = false;
+            
+            $shippingAddress = $this->owner->ShippingAddress();
+            $shippingCountry = $shippingAddress->Country();
+            if ($shippingCountry->exists()) {
+                $matchingZones = Zone::getZonesFor($shippingCountry->ID);
+                if ($matchingZones->exists()) {
+                    $foundZone = $matchingZones->byID($zone->ID);
+                    if ($foundZone instanceof Zone &&
+                        $foundZone->exists()) {
+                        $isInZone = true;
+                    }
+                }
+            }
+        }
+        return $isInZone;
+    }
 
     /**
      * Creates an anonymous customer if there's no currentMember object.
