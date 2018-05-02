@@ -1,7 +1,7 @@
  <% if $Addresses %>
 <hr>
 <div class="section-header clearfix">
-    <h2>$CurrentPage.Title</h2>
+    <h2>{$CurrentPage.Title}</h2>
 </div>
     <% loop $Addresses %>
     <div class="row-fluid">  
