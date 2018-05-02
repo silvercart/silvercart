@@ -2521,9 +2521,8 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      */
     public function getPurchaseMinDurationDays() {
         $days = 0;
-        if ($this->SilvercartAvailabilityStatus()->Code == 'not-available'
-             && !empty($this->PurchaseTimeUnit)
-             && !empty($this->PurchaseMinDuration)) {
+        if (!empty($this->PurchaseTimeUnit) &&
+            !empty($this->PurchaseMinDuration)) {
             $days = (int) $this->PurchaseMinDuration * $this->getPurchaseTimeUnitBusinessDays();
         }
         return $days;
@@ -2536,9 +2535,8 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      */
     public function getPurchaseMaxDurationDays() {
         $days = 0;
-        if ($this->SilvercartAvailabilityStatus()->Code == 'not-available'
-             && !empty($this->PurchaseTimeUnit)
-             && !empty($this->PurchaseMaxDuration)) {
+        if (!empty($this->PurchaseTimeUnit) &&
+            !empty($this->PurchaseMaxDuration)) {
             $days = (int) $this->PurchaseMaxDuration * $this->getPurchaseTimeUnitBusinessDays();
         }
         return $days;

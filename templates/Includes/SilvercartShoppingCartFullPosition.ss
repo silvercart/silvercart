@@ -1,23 +1,22 @@
 <tr>
     <td class="img">
-        <% if SilvercartProduct.getSilvercartImages %>
-            <% loop SilvercartProduct.getSilvercartImages %>
-                <% if First %>
-                    <a href="$silvercartProduct.Link" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">$Image.SetSize(92,92)</a>
-                <% end_if %>
-            <% end_loop %>
-        <% end_if %>
+<% if $SilvercartProduct.getSilvercartImages.First %>
+    <% with $SilvercartProduct.getSilvercartImages.First %>
+        <a href="{$silvercartProduct.Link}" title="<% sprintf(_t('SilvercartPage.SHOW_DETAILS_FOR','details'),$Image.Title) %>">{$Image.Pad(92,92)}</a>
+    <% end_with %>
+<% end_if %>
     </td>
     <td class="desc span4">
-        <h5><a class="highlight" href="$silvercartProduct.Link">$getTitle</a></h5>
+        <h5><a class="highlight" href="{$silvercartProduct.Link}">{$getTitle}</a></h5>
         <ul class="unstyled">
-            <li><a class="highlight" href="$silvercartProduct.Link"><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: $getProductNumberShop</a></li>
-            <% if getCartDescription %><li><small>$getCartDescription</small></li><% end_if %>
+            <li><a class="highlight" href="{$silvercartProduct.Link}"><% _t('SilvercartProduct.PRODUCTNUMBER_SHORT') %>: {$getProductNumberShop}</a></li>
+            <% if $getCartDescription %><li><small>{$getCartDescription}</small></li><% end_if %>
             <% if $addToTitle %><li><small>{$addToTitle}</small></li><% end_if %>
+            <% if $SilvercartProduct.StockQuantity < $Quantity %><li><small class="label label-info"><span class="icon icon-info-sign fa fa-info-sign"></span> <%t SilvercartShoppingCart.OnlyXLeft 'Only {quantity} left in stock. Delivery time may increase.' quantity=$SilvercartProduct.StockQuantity %></small></li><% end_if %>
         </ul>
     </td>
     <td class="sub-price text-right">
-        $getPrice(true).Nice<span class="mobile-show-sm inline">
+        {$getPrice(true).Nice}<span class="mobile-show-sm inline">
                 <br/><% _t('SilvercartProduct.PRICE_SINGLE') %></span>
         <p class="mobile-hide-sm">
             <small>{$SilvercartProduct.TaxRate}% <% _t('SilvercartProduct.VAT') %></small>
@@ -35,7 +34,7 @@
                     </div>
                 </form>
             </div>
-            <% if isQuantityIncrementableBy %>
+            <% if $isQuantityIncrementableBy %>
             <div class="pull-left input-append">{$IncrementPositionQuantityForm}</div>
             <% end_if %> 
         </div>
@@ -46,13 +45,13 @@
     </td>
 <% end_if %>
     <td class="total-price text-right">
-        $Price.Nice<br/>
+        {$Price.Nice}<br/>
         <p class="mobile-hide-sm">
             <small> {$SilvercartProduct.TaxRate}% <% _t('SilvercartProduct.VAT') %></small>
         </p>
     </td>
 <% if $CurrentPage.EditableShoppingCart %>
-    <td class="remove">$RemovePositionForm</td>
+    <td class="remove">{$RemovePositionForm}</td>
 <% end_if %>
 </tr>
 

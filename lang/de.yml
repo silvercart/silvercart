@@ -1865,6 +1865,7 @@ de:
     SINGULARNAME: "Übersetzung"
   SilvercartShoppingCart:
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "Der Mindestbestellwert beträgt %s"
+    OnlyXLeft: "Nur noch {quantity} auf Lager. Die Lieferzeit ist eventuell erhöht."
     PLURALNAME: "Warenkörbe"
     SINGULARNAME: "Warenkorb"
   SilvercartShoppingCartPosition:

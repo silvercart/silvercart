@@ -4,7 +4,7 @@
     <li class="clearfix <% if not $Content %>no-content<% end_if %>">
         <a href="{$Link}" title="{$Title}" class="highlight clearfix">
         <% if $groupPicture %>
-            <img src="{$groupPicture.SetSize(82,82).URL}" alt="{$Title}" class="img-polaroid pull-left" />
+            <img src="{$groupPicture.Pad(82,82).URL}" alt="{$Title}" class="img-polaroid pull-left" />
         <% end_if %>
             <h2>{$MenuTitle.HTML} <span class="pull-right"><span class="badge">{$ActiveSilvercartProducts.Count}</span> <i class="icon icon-caret-right"></i></span></h2>
             <% if $Content %><small>{$Content.NoHTML.LimitWordCount}</small><% end_if %>

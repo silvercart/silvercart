@@ -1865,6 +1865,7 @@ en:
     SINGULARNAME: "Translation"
   SilvercartShoppingCart:
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "The minimum order value is %s"
+    OnlyXLeft: "Only {quantity} left in stock. Delivery time may increase."
     PLURALNAME: "Carts"
     SINGULARNAME: "Cart"
   SilvercartShoppingCartPosition:

@@ -1364,8 +1364,12 @@ class SilvercartShoppingCart extends DataObject {
             $productDeliveryDaysMin = 0;
             $productDeliveryDaysMax = 0;
             foreach ($this->SilvercartShoppingCartPositions() as $position) {
-                $min = $position->SilvercartProduct()->getPurchaseMinDurationDays();
-                $max = $position->SilvercartProduct()->getPurchaseMaxDurationDays();
+                $product = $position->SilvercartProduct();
+                if ($product->StockQuantity >= $position->Quantity) {
+                    continue;
+                }
+                $min = $product->getPurchaseMinDurationDays();
+                $max = $product->getPurchaseMaxDurationDays();
                 if ($min > $productDeliveryDaysMin) {
                     $productDeliveryDaysMin = $min;
                 }
