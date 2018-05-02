@@ -31,6 +31,12 @@
                 <td class="text-left full">{$getFormattedNote}</td>
             </tr>
             <% end_if %>
+            <% if $ExpectedDelivery %>
+             <tr>
+                <td class="text-left nowrap"><strong>{$fieldLabel('ExpectedDelivery')}</strong></td>
+                <td class="text-left full">{$ExpectedDeliveryNice}</td>
+            </tr>
+            <% end_if %>
             <% if $TrackingCode %>
             <tr>
                 <td class="text-left nowrap"><strong>{$fieldLabel('Tracking')}</strong></td>

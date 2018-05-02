@@ -603,8 +603,8 @@ class ShippingMethod extends DataObject {
         $isPrepayment = false;
         if (Controller::curr() instanceof CheckoutStepController) {
             $paymentMethod = Customer::currentUser()->getCart()->getPaymentMethod();
-            if (class_exists('SilverCart\\Prepayment\\Model\\PaymentPrepayment') &&
-                $paymentMethod instanceof \SilverCart\Prepayment\Model\PaymentPrepayment &&
+            if (class_exists('SilverCart\\Prepayment\\Model\\Prepayment') &&
+                $paymentMethod instanceof \SilverCart\Prepayment\Model\Prepayment &&
                 $paymentMethod->PaymentChannel == 'prepayment') {
                 $isPrepayment = true;
             }

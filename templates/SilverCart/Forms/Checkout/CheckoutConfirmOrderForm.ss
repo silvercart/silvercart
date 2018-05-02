@@ -56,7 +56,11 @@
                     <% if $ShippingFee.CalculatedPrice %> ({$ShippingFee.CalculatedPrice.Nice})<% end_if %>
                 <% end_with %>
                 <% if $ShoppingCart.getDeliveryTime($ShippingMethod.ID) %>
+                    <% if $ShippingMethod.isPickup %>
+                    <br/><small class="delivery-time-hint">{$ShippingMethod.fieldLabel(ReadyForPickup)}:<br/>{$ShoppingCart.getDeliveryTime($ShippingMethod.ID)}</small>
+                    <% else %>
                     <br/><small class="delivery-time-hint">{$ShippingMethod.fieldLabel(ExpectedDelivery)}:<br/>{$ShoppingCart.getDeliveryTime($ShippingMethod.ID)}</small>
+                    <% end_if %>
                 <% end_if %>
                 {$AfterShippingMethodContent}
                 </p>

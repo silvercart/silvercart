@@ -10,6 +10,7 @@ use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -17,6 +18,7 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
+use SilverStripe\View\ArrayData;
 
 /**
  * abstract for shopping cart.
@@ -149,6 +151,13 @@ class ShoppingCart extends DataObject {
      * @var ArrayList
      */
     protected $registeredModulesSet = null;
+    
+    /**
+     * Delivery time data.
+     *
+     * @var ArrayData
+     */
+    protected $deliveryTimeData = null;
 
     /**
      * default constructor
@@ -1151,7 +1160,10 @@ class ShoppingCart extends DataObject {
         $handlingCostShipment = 0;
         $selectedShippingMethod = $this->getShippingMethod();
 
-        if ($selectedShippingMethod) {
+        if ($selectedShippingMethod instanceof ShippingMethod &&
+            $selectedShippingMethod->exists() &&
+            $selectedShippingMethod->getShippingFee() instanceof ShippingFee &&
+            $selectedShippingMethod->getShippingFee()->exists()) {
             $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
             $handlingCostShipmentObj = new DBMoney();
@@ -1322,56 +1334,116 @@ class ShoppingCart extends DataObject {
      * @param int  $shippingMethodID   ID of the shipping method to use for delivery
      * @param bool $forceDisplayInDays Force displaying the delivery time in days
      * 
+     * @return ArrayData
+     */
+    public function getDeliveryTimeData($shippingMethodID = 0, $forceDisplayInDays = false) {
+        if (is_null($this->deliveryTimeData)) {
+            $deliveryDaysMin  = 0;
+            $deliveryDaysMax  = 0;
+            $deliveryDaysText = '';
+            if ($shippingMethodID != 0) {
+                $shippingMethod = ShippingMethod::get()->byID($shippingMethodID);
+            } else {
+                $shippingMethod = $this->getShippingMethod();
+            }
+            if ($shippingMethod instanceof ShippingMethod &&
+                $shippingMethod->exists() &&
+                $shippingMethod->getShippingFee() instanceof ShippingFee &&
+                $shippingMethod->getShippingFee()->exists()) {
+
+
+                $deliveryDaysMin = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
+                $deliveryDaysMax = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;
+                if ($deliveryDaysMin == 0) {
+                    $deliveryDaysMin = $shippingMethod->DeliveryTimeMin;
+                }
+                if ($deliveryDaysMax == 0) {
+                    $deliveryDaysMax = $shippingMethod->DeliveryTimeMax;
+                }
+            }
+            
+            $productDeliveryDaysMin = 0;
+            $productDeliveryDaysMax = 0;
+            foreach ($this->ShoppingCartPositions() as $position) {
+                $product = $position->Product();
+                if ($product->StockQuantity >= $position->Quantity) {
+                    continue;
+                }
+                $min = $product->getPurchaseMinDurationDays();
+                $max = $product->getPurchaseMaxDurationDays();
+                if ($min > $productDeliveryDaysMin) {
+                    $productDeliveryDaysMin = $min;
+                }
+                if ($max > $productDeliveryDaysMax) {
+                    $productDeliveryDaysMax = $max;
+                }
+            }
+            
+            if ($productDeliveryDaysMin > $deliveryDaysMin) {
+                $deliveryDaysMin = $productDeliveryDaysMin;
+            }           
+            if ($productDeliveryDaysMax > $deliveryDaysMax) {
+                $deliveryDaysMax = $productDeliveryDaysMax;
+            }
+            if ($deliveryDaysMax < $productDeliveryDaysMin) {
+                $deliveryDaysMax = 0;
+            }
+            $this->deliveryTimeData = new ArrayData([
+                'Min'  => $deliveryDaysMin,
+                'Max'  => $deliveryDaysMax,
+                'Text' => $deliveryDaysText,
+            ]);
+            $this->extend('updateDeliveryTimeData', $this->deliveryTimeData);
+        }
+        return $this->deliveryTimeData;
+    }
+    
+    /**
+     * Returns the minimum delivery time as date string YYYY-MM-DD.
+     * 
+     * @param int  $shippingMethodID   ID of the shipping method to use for delivery
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
      * @return string
      */
     public function getDeliveryTime($shippingMethodID = 0, $forceDisplayInDays = false) {
-        $deliveryDaysMin  = 0;
-        $deliveryDaysMax  = 0;
-        $deliveryDaysText = '';
-        if ($shippingMethodID != 0) {
-            $shippingMethod = ShippingMethod::get()->byID($shippingMethodID);
-        } else {
-            $shippingMethod = $this->getShippingMethod();
-        }
-        if ($shippingMethod instanceof ShippingMethod &&
-            $shippingMethod->exists()) {
-            
-            $deliveryDaysMin = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
-            $deliveryDaysMax = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;
-            if ($deliveryDaysMin == 0) {
-                $deliveryDaysMin = $shippingMethod->DeliveryTimeMin;
-            }
-            if ($deliveryDaysMax == 0) {
-                $deliveryDaysMax = $shippingMethod->DeliveryTimeMax;
-            }
-        }
-        
-        $productDeliveryDaysMin = 0;
-        $productDeliveryDaysMax = 0;
-        foreach ($this->ShoppingCartPositions() as $position) {
-            $min = $position->Product()->getPurchaseMinDurationDays();
-            $max = $position->Product()->getPurchaseMaxDurationDays();
-            if ($min > $productDeliveryDaysMin) {
-                $productDeliveryDaysMin = $min;
-            }
-            if ($max > $productDeliveryDaysMax) {
-                $productDeliveryDaysMax = $max;
-            }
-        }
-        
-        if ($productDeliveryDaysMin > $deliveryDaysMin) {
-            $deliveryDaysMin = $productDeliveryDaysMin;
-        }
-        if ($productDeliveryDaysMax > $deliveryDaysMax) {
-            $deliveryDaysMax = $productDeliveryDaysMax;
-        }
-        if ($deliveryDaysMax < $productDeliveryDaysMin) {
-            $deliveryDaysMax = 0;
-        }
-        
-        $deliveryTime = ShippingMethod::get_delivery_time($deliveryDaysMin, $deliveryDaysMax, $deliveryDaysText, $forceDisplayInDays);
+        $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
+        $deliveryTime     = ShippingMethod::get_delivery_time(
+                $deliveryTimeData->Min,
+                $deliveryTimeData->Max,
+                $deliveryTimeData->Text,
+                $forceDisplayInDays
+        );
         $this->extend('updateDeliveryTime', $deliveryTime);
         return $deliveryTime;
+    }
+    
+    /**
+     * Returns the minimum delivery time as date string YYYY-MM-DD.
+     * 
+     * @param int  $shippingMethodID   ID of the shipping method to use for delivery
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public function getDeliveryTimeMin($shippingMethodID = 0, $forceDisplayInDays = false) {
+        $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
+        $deliveryTimeMin  = date('Y-m-d', time() + (ShippingMethod::addSundaysToDeliveryTime($deliveryTimeData->Min)*60*60*24));
+        return $deliveryTimeMin;
+    }
+    
+    /**
+     * Returns the maximum delivery time as date string YYYY-MM-DD.
+     * 
+     * @param int  $shippingMethodID   ID of the shipping method to use for delivery
+     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * 
+     * @return string
+     */
+    public function getDeliveryTimeMax($shippingMethodID = 0, $forceDisplayInDays = false) {
+        $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
+        $deliveryTimeMax  = date('Y-m-d', time() + (ShippingMethod::addSundaysToDeliveryTime($deliveryTimeData->Max)*60*60*24));
+        return $deliveryTimeMax;
     }
 
     /**

@@ -10,7 +10,11 @@
                     <p><i>{$description}</i></p>
                 <% end_if %>
                 <% if $CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID) %>
-                    <strong><i>$ShippingMethod.fieldLabel(ExpectedDelivery): {$CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID)}</i></strong>
+                    <% if $ShippingMethod.isPickup %>
+                    <strong><i>{$ShippingMethod.fieldLabel(ReadyForPickup)}: {$CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID)}</i></strong>
+                    <% else %>
+                    <strong><i>{$ShippingMethod.fieldLabel(ExpectedDelivery)}: {$CurrentUser.Cart.getDeliveryTime($ShippingMethod.ID)}</i></strong>
+                    <% end_if %>
                 <% end_if %>
                 </div>
             <% end_if %>

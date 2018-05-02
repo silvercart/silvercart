@@ -86,6 +86,8 @@ class Order extends DataObject implements PermissionProvider {
         'PaymentReferenceID'                => 'Text',
         'PaymentReferenceMessage'           => 'Text',
         'PaymentReferenceData'              => 'Text',
+        'ExpectedDeliveryMin'               => 'Date',
+        'ExpectedDeliveryMax'               => 'Date',
     );
 
     /**
@@ -375,6 +377,9 @@ class Order extends DataObject implements PermissionProvider {
                 'PaymentReferenceID'               => _t(Order::class . '.PaymentReferenceID', 'Payment Provider Reference Number'),
                 'PaymentReferenceMessage'          => _t(Order::class . '.PaymentReferenceMessage', 'Payment Provider Reference Message'),
                 'PaymentReferenceData'             => _t(Order::class . '.PaymentReferenceData', 'Payment Provider Reference Data'),
+                'ExpectedDelivery'                 => _t(Order::class . '.ExpectedDelivery', 'Expected Delivery'),
+                'ExpectedDeliveryMax'              => _t(Order::class . '.ExpectedDeliveryMax', 'Maximum expected Delivery'),
+                'ExpectedDeliveryMin'              => _t(Order::class . '.ExpectedDeliveryMin', 'Minimum expected Delivery'),
                 'DateFormat'                       => Tools::field_label('DateFormat'),
                 'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
                 'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
@@ -574,6 +579,33 @@ class Order extends DataObject implements PermissionProvider {
      */
     public function getCreatedNice() {
         return date('d.m.Y H:i', strtotime($this->Created)) . ' Uhr';
+    }
+    
+    /**
+     * Returns the expected delivery date (span).
+     * 
+     * @return string
+     */
+    public function getExpectedDelivery() {
+        $expectedDelivery = $this->ExpectedDeliveryMax;
+        if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
+            $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
+        }
+        return $expectedDelivery;
+    }
+    
+    /**
+     * Returns the expected delivery date (span) in a nice format.
+     * 
+     * @return string
+     */
+    public function getExpectedDeliveryNice() {
+        $expectedDelivery = $this->ExpectedDeliveryMax;
+        if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
+            $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
+            $expectedDelivery = date('d.m.Y', strtotime($this->ExpectedDeliveryMin)) . ' - ' . date('d.m.Y', strtotime($this->ExpectedDeliveryMax));
+        }
+        return $expectedDelivery;
     }
 
     /**
@@ -937,6 +969,9 @@ class Order extends DataObject implements PermissionProvider {
             $shoppingCart->setPaymentMethodID($this->PaymentMethodID);
             $shoppingCart->setShippingMethodID($this->ShippingMethodID);
             $this->MemberID = $member->ID;
+            
+            $this->ExpectedDeliveryMin = $shoppingCart->getDeliveryTimeMin();
+            $this->ExpectedDeliveryMax = $shoppingCart->getDeliveryTimeMax();
 
             $overwriteCreateFromShoppingCart = false;
             $this->extend('overwriteCreateFromShoppingCart', $overwriteCreateFromShoppingCart, $shoppingCart);
