@@ -39,7 +39,9 @@ class SilvercartSecurityController extends DataExtension {
      * @since 02.05.2018
      */
     public function onBeforeInit() {
-        if (SilvercartTools::isBackendEnvironment()) {
+        $request = $this->owner->getRequest();
+        if (SilvercartTools::isBackendEnvironment() ||
+            $request->param('Action') == 'ping') {
             return;
         }
         SilvercartPage_Controller::singleton()->loadJSRequirements();
