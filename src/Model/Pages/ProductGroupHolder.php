@@ -9,11 +9,13 @@ use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\CMS\Model\RedirectorPage;
 use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Control\Controller;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\TreeDropdownField;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\Map;
 
 /**
@@ -82,6 +84,20 @@ class ProductGroupHolder extends \Page {
      */
     protected $getCMSFieldsIsCalled = false;
     
+    /**
+     * Cache key parts for this product group
+     * 
+     * @var array 
+     */
+    protected $cacheKeyParts = null;
+    
+    /**
+     * Cache key for this product group
+     * 
+     * @var string
+     */
+    protected $cacheKey = null;
+
     /**
      * Singular name for this object
      *
@@ -405,4 +421,54 @@ class ProductGroupHolder extends \Page {
         }
         return $useOnlyDefaultGroupHolderView;
     }
+
+    /**
+     * Returns the cache key parts for this product group holder
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            
+            $lastEditedChildID = 0;
+            if ($this->Children()->Count() > 0) {
+                $this->Children()->sort('LastEdited', 'DESC');
+                $lastEditedChildID = $this->Children()->First()->ID;
+            }
+            $ctrl = Controller::curr();
+            /* @var $ctrl ProductGroupHolderController */
+            
+            $cacheKeyParts = array(
+                i18n::get_locale(),
+                $this->LastEdited,
+                $ctrl->getSqlOffsetForProductGroups(),
+                GroupViewHandler::getActiveGroupHolderView(),
+                $lastEditedChildID,
+            );
+            $this->extend('updateCacheKeyParts', $cacheKeyParts);
+            $this->cacheKeyParts = $cacheKeyParts;
+        }
+        return $this->cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group holder
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
+     */
+    public function CacheKey() {
+        if (is_null($this->cacheKey)) {
+            $cacheKey = implode('_', $this->CacheKeyParts());
+            $this->extend('updateCacheKey', $cacheKey);
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
+    }
+    
 }

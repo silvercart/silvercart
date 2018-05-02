@@ -10,7 +10,6 @@ use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Product\Manufacturer;
 use SilverCart\Model\Product\Product;
-use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\HTTPRequest;
@@ -109,20 +108,6 @@ class ProductGroupPageController extends \PageController {
      * @var array
      */
     protected $productDetailViewParams = [];
-    
-    /**
-     * Cache key parts for this product group
-     * 
-     * @var array 
-     */
-    protected $cacheKeyParts = null;
-    
-    /**
-     * Cache key for this product group
-     * 
-     * @var string
-     */
-    protected $cacheKey = null;
     
     /**
      * Current SQL offset
@@ -570,23 +555,12 @@ class ProductGroupPageController extends \PageController {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.04.2017
+     * @since 07.03.2018
      */
     public function CacheKeyParts() {
-        if (is_null($this->cacheKeyParts)) {
-            $cacheKeyParts = array(
-                $this->LastEdited,
-                $this->LastEditedForCache,
-                $this->MemberGroupCacheKey(),
-                $this->getSqlOffset(),
-                $this->getProductsPerPageSetting(),
-                GroupViewHandler::getActiveGroupView(),
-                str_replace('-', '_', Tools::string2urlSegment(Product::defaultSort())),
-            );
-            $this->extend('updateCacheKeyParts', $cacheKeyParts);
-            $this->cacheKeyParts = $cacheKeyParts;
-        }
-        return $this->cacheKeyParts;
+        $cacheKeyParts = $this->data()->CacheKeyParts();
+        $this->extend('updateCacheKeyParts', $cacheKeyParts);
+        return $cacheKeyParts;
     }
     
     /**
@@ -595,15 +569,13 @@ class ProductGroupPageController extends \PageController {
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.04.2017
+     * @since 07.03.2018
      */
     public function CacheKey() {
-        if (is_null($this->cacheKey)) {
-            $cacheKey = implode('_', $this->CacheKeyParts());
-            $this->extend('updateCacheKey', $cacheKey);
-            $this->cacheKey = $cacheKey;
-        }
-        return $this->cacheKey;
+        $cacheKey = $this->data()->CacheKey();
+        $this->extend('updateCacheKey', $cacheKey);
+        return $cacheKey;
+
     }
 
     /**

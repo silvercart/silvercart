@@ -5,10 +5,8 @@ namespace SilverCart\Model\Pages;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\ProductGroupHolder;
-use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
-use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\PaginatedList;
 
@@ -258,50 +256,32 @@ class ProductGroupHolderController extends \PageController {
     }
 
     /**
-     * Returns the cache key parts for this product group holder
-     * 
-     * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.01.2014
-     */
-    public function CacheKeyParts() {
-        if (is_null($this->cacheKeyParts)) {
-            
-            $lastEditedChildID = 0;
-            if ($this->dataRecord->Children()->Count() > 0) {
-                $this->dataRecord->Children()->sort('LastEdited', 'DESC');
-                $lastEditedChildID = $this->dataRecord->Children()->First()->ID;
-            }
-            
-            $cacheKeyParts = array(
-                i18n::get_locale(),
-                $this->dataRecord->LastEdited,
-                $this->getSqlOffsetForProductGroups(),
-                GroupViewHandler::getActiveGroupHolderView(),
-                $lastEditedChildID,
-            );
-            $this->extend('updateCacheKeyParts', $cacheKeyParts);
-            $this->cacheKeyParts = $cacheKeyParts;
-        }
-        return $this->cacheKeyParts;
-    }
-    
-    /**
-     * Returns the cache key for this product group holder
+     * Returns the cache key parts for this product group
      * 
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.01.2014
+     * @since 07.03.2018
+     */
+    public function CacheKeyParts() {
+        $cacheKeyParts = $this->data()->CacheKeyParts();
+        $this->extend('updateCacheKeyParts', $cacheKeyParts);
+        return $cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
      */
     public function CacheKey() {
-        if (is_null($this->cacheKey)) {
-            $cacheKey = implode('_', $this->CacheKeyParts());
-            $this->extend('updateCacheKey', $cacheKey);
-            $this->cacheKey = $cacheKey;
-        }
-        return $this->cacheKey;
+        $cacheKey = $this->data()->CacheKey();
+        $this->extend('updateCacheKey', $cacheKey);
+        return $cacheKey;
+
     }
     
 }

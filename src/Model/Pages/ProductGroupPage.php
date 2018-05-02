@@ -169,6 +169,20 @@ class ProductGroupPage extends \Page {
      * @var PaginatedList
      */
     protected $paginationContext = null;
+    
+    /**
+     * Cache key parts for this product group
+     * 
+     * @var array 
+     */
+    protected $cacheKeyParts = null;
+    
+    /**
+     * Cache key for this product group
+     * 
+     * @var string
+     */
+    protected $cacheKey = null;
 
     /**
      * Constructor. Extension to overwrite the groupimage's "alt"-tag with the
@@ -1388,6 +1402,51 @@ class ProductGroupPage extends \Page {
         $this->extend('updateBreadcrumbParts', $items);
         $this->extend('updateBreadcrumbItems', $items);
         return $items;
+    }
+
+    /**
+     * Returns the cache key parts for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
+     */
+    public function CacheKeyParts() {
+        if (is_null($this->cacheKeyParts)) {
+            $ctrl = Controller::curr();
+            /* @var $ctrl ProductGroupPageController */
+            $cacheKeyParts = array(
+                $this->ID,
+                $this->LastEdited,
+                $this->LastEditedForCache,
+                $this->MemberGroupCacheKey(),
+                $ctrl->getSqlOffset(),
+                $ctrl->getProductsPerPageSetting(),
+                GroupViewHandler::getActiveGroupView(),
+                str_replace('-', '_', Tools::string2urlSegment(Product::defaultSort())),
+            );
+            $this->extend('updateCacheKeyParts', $cacheKeyParts);
+            $this->cacheKeyParts = $cacheKeyParts;
+        }
+        return $this->cacheKeyParts;
+    }
+    
+    /**
+     * Returns the cache key for this product group
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.03.2018
+     */
+    public function CacheKey() {
+        if (is_null($this->cacheKey)) {
+            $cacheKey = implode('_', $this->CacheKeyParts());
+            $this->extend('updateCacheKey', $cacheKey);
+            $this->cacheKey = $cacheKey;
+        }
+        return $this->cacheKey;
     }
     
 }
