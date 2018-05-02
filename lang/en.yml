@@ -1816,6 +1816,7 @@ en:
     DescriptionForShippingFeesPage: "Description for Shipping Fees Page (will be used instead of \"Description\")"
     DoNotShowOnShippingFeesPage: "Do not show on Shipping Fees Page"
     ExpectedDelivery: "Expected Delivery"
+    ReadyForPickup: "Ready for pickup"
     FOR_PAYMENTMETHODS: "For payment methods"
     FOR_ZONES: "For zones"
     NO_SHIPPING_METHOD_AVAILABLE: "No shipping method available."

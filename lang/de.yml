@@ -1816,6 +1816,7 @@ de:
     DescriptionForShippingFeesPage: "Beschreibung für Versandgebührenseite (wird anstelle von \"Beschreibung\" verwendet)"
     DoNotShowOnShippingFeesPage: "Nicht auf Versandgebührenseite anzeigen"
     ExpectedDelivery: "Lieferung"
+    ReadyForPickup: "Abholbereit"
     FOR_PAYMENTMETHODS: "für Bezahlart"
     FOR_ZONES: "für Zonen"
     NO_SHIPPING_METHOD_AVAILABLE: "Keine Versandart verfügbar"

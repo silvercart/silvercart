@@ -181,6 +181,7 @@ class SilvercartShippingMethod extends DataObject {
                     'SilvercartShippingMethodLanguages' => _t('SilvercartConfig.TRANSLATION'),
                     'DoNotShowOnShippingFeesPage'       => _t('SilvercartShippingMethod.DoNotShowOnShippingFeesPage'),
                     'ExpectedDelivery'                  => _t('SilvercartShippingMethod.ExpectedDelivery'),
+                    'ReadyForPickup'                    => _t('SilvercartShippingMethod.ReadyForPickup'),
                     'DeliveryTime'                      => _t('SilvercartShippingMethod.DeliveryTime'),
                     'DeliveryTimeMin'                   => _t('SilvercartShippingMethod.DeliveryTimeMin'),
                     'DeliveryTimeMinDesc'               => _t('SilvercartShippingMethod.DeliveryTimeMinDesc'),
