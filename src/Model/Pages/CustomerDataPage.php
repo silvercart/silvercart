@@ -32,13 +32,6 @@ class CustomerDataPage extends MyAccountHolder {
     private static $can_be_root = false;
     
     /**
-     * allowed children on site tree
-     *
-     * @var array
-     */
-    private static $allowed_children = 'none';
-    
-    /**
      * The icon to use for this page in the storeadmin sitetree.
      *
      * @var string
