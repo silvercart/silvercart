@@ -954,7 +954,11 @@ class Tools {
      * @since 25.04.2018
      */
     public static function current_locale() {
-        return FluentState::singleton()->getLocale();
+        $locale = FluentState::singleton()->getLocale();
+        if (empty($locale)) {
+            $locale = i18n::get_locale();
+        }
+        return $locale;
     }
 
     /**
