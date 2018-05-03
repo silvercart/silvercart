@@ -1,5 +1,7 @@
 .silvercart.cms-sitename .cms-sitename__link {
     background: url("../../img/logo_small.png") no-repeat scroll left center transparent;
+    margin-left: 5px;
+    min-width: 30px;
 }
 /*CMS menu*/
 .cms-menu__list li a span.toggle-children {
