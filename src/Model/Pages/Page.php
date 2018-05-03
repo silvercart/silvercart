@@ -273,7 +273,11 @@ class Page extends SiteTree {
      * @return string
      */
     public function MemberGroupCacheKey() {
-        return i18n::get_locale() . '_' . Customer::get_group_cache_key();
+        $cacheKey = i18n::get_locale() . '_' . Customer::get_group_cache_key();
+        if (Director::isDev()) {
+            $cacheKey .= '_' . uniqid();
+        }
+        return $cacheKey;
     }
     
     /**
