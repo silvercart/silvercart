@@ -16,7 +16,6 @@ use SilverCart\Model\Order\OrderPosition;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\CheckoutStep;
 use SilverCart\Model\Pages\CheckoutStepController;
-use SilverCart\Model\Pages\FrontPageController;
 use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupHolder;
@@ -198,9 +197,8 @@ class PageController extends ContentController {
             get_class($this) != CheckoutStepController::class &&
             get_class($this) != ErrorPageController::class &&
             get_class($this) != Security::class &&
-            get_class($this) != FrontPageController::class &&
-            !get_class($this) instanceof CheckoutStepController &&
-            !get_class($this) instanceof Security &&
+            get_class($this) != CheckoutStepController::class &&
+            get_class($this) != Security::class &&
             !is_subclass_of(get_class($this), CheckoutStepController::class)
         ) {
             Checkout::clear_session();

@@ -21,7 +21,6 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
-use SilverStripe\View\ArrayData;
 use TractorCow\Fluent\State\FluentState;
 
 /**
