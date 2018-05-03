@@ -18,8 +18,8 @@
         {$ModuleHtmlInjections}
         <% if $isLive %>
             <% with $SiteConfig %>
-                {$GoogleAnalyticsTrackingCode.Raw}
-                {$PiwikTrackingCode.Raw}
+                {$GoogleAnalyticsTrackingCode.RAW}
+                {$PiwikTrackingCode.RAW}
             <% end_with %>
         <% end_if %>
         <% include SilverCart/Model/Pages/FooterCustomHtml %>

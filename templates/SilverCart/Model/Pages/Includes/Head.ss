@@ -1,5 +1,5 @@
 <% base_tag %>
-{$SiteConfig.GoogleWebmasterCode.Raw}
+{$SiteConfig.GoogleWebmasterCode.RAW}
 <meta charset="utf-8">
 <title><% if $MetaTitle %>{$MetaTitle}<% else %>{$Title}<% end_if %></title>
 {$MetaTags(false)}

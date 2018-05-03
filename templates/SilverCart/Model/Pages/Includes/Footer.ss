@@ -31,21 +31,21 @@
             <% if $ShopOpeningHours || $ShopPhone %>
             <div class="span3">
                 <% if $ShopPhone %>
-                <span class="icon icon-info-sign"></span> {$ShopPhone.Raw}<br/>
+                <span class="icon icon-info-sign"></span> {$ShopPhone.RAW}<br/>
                 <% end_if %>
                 <% if $ShopOpeningHours %>
-                <span class="icon icon-time"></span> {$ShopOpeningHours.Raw}
+                <span class="icon icon-time"></span> {$ShopOpeningHours.RAW}
                 <% end_if %>
             </div>
             <% end_if %>
             <% if $ShopAdditionalInfo %>
             <div class="span3">
-                {$ShopAdditionalInfo.Raw}
+                {$ShopAdditionalInfo.RAW}
             </div>
             <% end_if %>
             <% if $ShopAdditionalInfo2 %>
             <div class="span6">
-                {$ShopAdditionalInfo2.Raw}
+                {$ShopAdditionalInfo2.RAW}
             </div>
             <% end_if %>
         </div>
