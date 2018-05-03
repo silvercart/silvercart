@@ -3,7 +3,15 @@
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\CountryTranslation;
-use SilverStripe\i18n\i18n;
+
+$sql = 'SELECT DISTINCT Locale FROM ' . CountryTranslation::config()->get('table_name');
+$result = \SilverStripe\ORM\DB::query($sql);
+$first = $result->first();
+if ($result->numRecords() > 0) {
+    $existingLocale = $first['Locale'];
+    $targetLocale   = Tools::current_locale();
+    Country::create_translations($existingLocale, $targetLocale);
+}
 
 // write country AD
 if (!Country::get()->filter("ISO2", "AD")->exists()) {
@@ -3281,28 +3289,3 @@ if (!Country::get()->filter("ISO2", "ZW")->exists()) {
     $country->Locale    = Tools::current_locale();
     $country->write();
 }
-
-//$translatorsByPrio = i18n::get_translators();
-//foreach ($translatorsByPrio as $priority => $translators) {
-//    foreach ($translators as $name => $translator) {
-//        $adapter = $translator->getAdapter();
-//        $languages = $adapter->getList();
-//        foreach ($languages as $language) {
-//            $locale = i18n::get_locale_from_lang($language);
-//            if ($country->hasTranslation($locale)) {
-//                continue;
-//            }
-//            $data = $adapter->getMessages($language);
-//            foreach (Country::get() as $country) {
-//                $key    = 'TITLE_' . strtoupper($country->ISO2);
-//                if (array_key_exists('Country.' . $key, $data)) {
-//                    $translation = new CountryTranslation();
-//                    $translation->Locale    = $locale;
-//                    $translation->Title     = $data['Country.' . $key];
-//                    $translation->write();
-//                    $country->CountryTranslations()->add($translation);
-//                }
-//            }
-//        }
-//    }
-//}

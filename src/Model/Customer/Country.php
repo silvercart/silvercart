@@ -593,4 +593,46 @@ class Country extends DataObject {
         }
         return self::$prioritiveDropdownMap[$key];
     }
+    
+    /**
+     * Creates the default translations for the given $targetLocale dependent on
+     * the given $existingLocale.
+     * If $targetLocale is not given, Tools::current_locale() will be used as
+     * $targetLocale.
+     * 
+     * @param string $existingLocale Existing locale (e.g. en_US)
+     * @param string $targetLocale   Target locale (e.g. de_DE)
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2018
+     */
+    public static function create_translations($existingLocale, $targetLocale = null) {
+        if (is_null($targetLocale)) {
+            $targetLocale = Tools::current_locale();
+        }
+        if ($targetLocale != $existingLocale) {
+            $originalLocale = Tools::current_locale();
+            Tools::set_current_locale($existingLocale);
+            $countries = Country::get();
+            foreach ($countries as $country) {
+
+                $translation = CountryTranslation::get()->filter([
+                    'CountryID' => $country->ID,
+                    'Locale'    => $targetLocale,
+                ])->first();
+                if (!($translation instanceof CountryTranslation) ||
+                    !$translation->exists()) {
+
+                    $translation = new CountryTranslation();
+                    $translation->Locale    = $targetLocale;
+                    $translation->CountryID = $country->ID;
+                    $translation->Title     = _t(Country::class . ".TITLE_" . $country->ISO2, $country->Title);
+                    $translation->write();
+                }
+            }
+            Tools::set_current_locale($originalLocale);
+        }
+    }
 }

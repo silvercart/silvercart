@@ -746,6 +746,12 @@ class SiteConfigExtension extends DataExtension {
         $items = Country::get()->filter(array("Active" => 1));
         if ($items->count() > 0) {
             $hasActiveCountries = true;
+        } else {
+            RequireDefaultRecords::require_default_countries();
+            $items = Country::get()->filter(array("Active" => 1));
+            if ($items->count() > 0) {
+                $hasActiveCountries = true;
+            }
         }
         return array(
             'status'    => $hasActiveCountries,

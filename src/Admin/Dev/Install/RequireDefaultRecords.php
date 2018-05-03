@@ -761,16 +761,16 @@ class RequireDefaultRecords {
     public static function require_default_records() {
         self::singleton()->requireDefaultRecords();
     }
-
+    
     /**
-     * create default records.
+     * Creates the default countries.
      * 
      * @return void
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.02.2013
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.05.2018
      */
-    public function requireDefaultRecords() {
+    public static function require_default_countries() {
         if (!Country::get()->exists()) {
             require_once(__DIR__ . '/RequireDefaultCountries.php');
             list($lang,$iso) = explode('_', i18n::get_locale());
@@ -781,6 +781,18 @@ class RequireDefaultRecords {
                 $country->write();
             }
         }
+    }
+
+    /**
+     * create default records.
+     * 
+     * @return void
+     * 
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.02.2013
+     */
+    public function requireDefaultRecords() {
+        self::require_default_countries();
         // create groups
         $this->createDefaultGroups();
         // create config
