@@ -16,6 +16,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
 use SilverStripe\View\Parsers\Transliterator;
 use TractorCow\Fluent\Model\Locale;
 use TractorCow\Fluent\State\FluentState;
@@ -498,7 +499,8 @@ class Tools {
     public static function isIsolatedEnvironment() {
         if (is_null(self::$isIsolatedEnvironment)) {
             self::$isIsolatedEnvironment = false;
-            if ((array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
+            if ((Controller::curr() instanceof Security && Controller::curr()->getAction() == 'login') ||
+                (array_key_exists('url', $_REQUEST) && (strpos($_REQUEST['url'], '/Security/login') !== false || strpos($_REQUEST['url'], 'dev/build') !== false || self::isInstallationCompleted() == false)) ||
                 (array_key_exists('QUERY_STRING', $_SERVER) && (strpos($_SERVER['QUERY_STRING'], 'dev/tests') !== false || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false)) ||
                 (array_key_exists('SCRIPT_NAME', $_SERVER) && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false) ||
                 ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php' ||
