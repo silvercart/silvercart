@@ -10,6 +10,7 @@ use SilverCart\Model\Product\Product;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * abstract for a manufacturer.
@@ -58,7 +59,7 @@ class Manufacturer extends DataObject {
      * @var array
      */
     private static $casting = array(
-        'LogoThumbnail' => 'HtmlText',
+        'LogoThumbnail' => DBHTMLText::class,
         'Description'   => 'Text'
     );
     
