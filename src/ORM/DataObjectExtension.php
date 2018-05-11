@@ -298,5 +298,37 @@ class DataObjectExtension extends DataExtension {
 
         return $fs->getFieldList();
     }
+    
+    /**
+     * Scaffolds the field labels by using a simple pattern.
+     * <code>
+     * $labels = [
+     *     '<db-field-name>'                   => _t('<DataObject-full-qualified-class-name>.<db-field-name>',                   '<db-field-name>'),
+     *     '<has-one-relation-name>'           => _t('<DataObject-full-qualified-class-name>.<has-one-relation-name>',           '<has-one-relation-name>'),
+     *     '<has-many-relation-name>'          => _t('<DataObject-full-qualified-class-name>.<has-many-relation-name>',          '<has-many-relation-name>'),
+     *     '<many-many-relation-name>'         => _t('<DataObject-full-qualified-class-name>.<many-many-relation-name>',         '<many-many-relation-name>'),
+     *     '<belongs-many-many-relation-name>' => _t('<DataObject-full-qualified-class-name>.<belongs-many-many-relation-name>', '<belongs-many-many-relation-name>')
+     * ];
+     * </code>
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.05.2018
+     */
+    public function scaffoldFieldLabels() {
+        $fieldsToGetLabelsFor = array_merge(
+            array_keys($this->owner->config()->get('db')),
+            array_keys($this->owner->config()->get('has_one')),
+            array_keys($this->owner->config()->get('has_many')),
+            array_keys($this->owner->config()->get('many_many')),
+            array_keys($this->owner->config()->get('belongs_many_many'))
+        );
+        $fieldLabels = [];
+        foreach ($fieldsToGetLabelsFor as $fieldName) {
+            $fieldLabels[$fieldName] = _t(get_class($this->owner) . '.' . $fieldName, $fieldName);
+        }
+        return $fieldLabels;
+    }
 
 }
