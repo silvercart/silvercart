@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
+use DateTime;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
