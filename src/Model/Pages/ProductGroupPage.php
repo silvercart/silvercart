@@ -460,6 +460,9 @@ class ProductGroupPage extends \Page {
     public function getCMSFields() {
         $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields();
+        if ($this->isArchived()) {
+            return $fields;
+        }
         
         $useOnlydefaultGroupviewSource  = array(
             'inherit'   => $this->fieldLabel('DefaultGroupViewInherit'),
