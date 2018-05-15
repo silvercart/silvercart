@@ -1390,11 +1390,12 @@ class ProductGroupPage extends \Page {
      * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2018
+     * @since 14.05.2018
      */
     public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) {
         $items = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
-        if (Controller::curr()->isProductDetailView()) {
+        if (Controller::curr()->hasMethod('isProductDetailView') &&
+            Controller::curr()->isProductDetailView()) {
             $title = new DBText();
             $title->setValue(Controller::curr()->getDetailViewProduct()->Title);
             $items->push(new ArrayData([
