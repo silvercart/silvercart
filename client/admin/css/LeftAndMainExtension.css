@@ -15,6 +15,9 @@ input.text.silvercartmoney {
     text-align: right;
     display: inline-block;
 }
+input[type="color"] {
+    padding: 0;
+}
 
 
 

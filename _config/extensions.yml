@@ -62,6 +62,7 @@ SilverCart\Model\Pages\SearchResultsPageController:
     - SilverCart\View\GroupView\GroupViewExtension
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
+    - SilverCart\Admin\Model\CookiePolicyConfig
     - SilverCart\Admin\Model\SiteConfigExtension
 WidgetSets\Model\WidgetSet:
   extensions:

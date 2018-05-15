@@ -4,6 +4,7 @@ namespace SilverCart\Model\Pages;
 
 use Psr\SimpleCache\CacheInterface;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Admin\Model\CookiePolicyConfig;
 use SilverCart\Checkout\Checkout;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\ChangeLanguageForm;
@@ -173,6 +174,7 @@ class PageController extends ContentController {
         }
         
         $this->loadJSRequirements();
+        CookiePolicyConfig::load_requirements();
         
         $allParams = Controller::curr()->getRequest()->allParams();
         $customer  = Security::getCurrentUser();
