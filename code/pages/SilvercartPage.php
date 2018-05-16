@@ -628,6 +628,7 @@ class SilvercartPage_Controller extends ContentController {
         }
         
         $this->loadJSRequirements();
+        SilvercartCookiePolicyConfig::load_requirements();
         
         // We have to check if we are in a customised controller (that's the
         // case for all Security pages). If so, we use the registered forms of

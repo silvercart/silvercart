@@ -2036,5 +2036,29 @@ de:
     NEWLANGUAGE: "Neue Sprache"
     PUBLISHBUTTON: "Alle Seiten der aktuellen Sprache veröffentlichen"
     TRANSLATIONS: "Übersetzungen"
+  SilvercartCookiePolicyConfig:
+    CookiePolicy: 'Cookie Policy'
+    CookiePolicyConfigIsActive: 'Cookie Policy aktivieren'
+    CookiePolicyConfigPosition: 'Anzeige-Position'
+    CookiePolicyConfigPositionBannerBottom: 'Banner im unteren Bereich der Seite'
+    CookiePolicyConfigPositionBannerTop: 'Banner im oberen Bereich der Seite'
+    CookiePolicyConfigPositionBannerTopPushDown: 'Kasten im oberen Bereich der Seite (Inhalt wird nach unten verschoben)'
+    CookiePolicyConfigPositionFloatingLeft: 'Kästchen links unten'
+    CookiePolicyConfigPositionFloatingRight: 'Kästchen rechts unten'
+    CookiePolicyConfigLayout: 'Anzeige-Layout'
+    CookiePolicyConfigLayoutBlock: 'Block'
+    CookiePolicyConfigLayoutClassic: 'Classic'
+    CookiePolicyConfigLayoutEdgeless: 'Edgeless'
+    CookiePolicyConfigLayoutWire: 'Wire'
+    CookiePolicyConfigBgColor: 'Hintergrundfarbe'
+    CookiePolicyConfigTxtColor: 'Textfarbe'
+    CookiePolicyConfigBtnColor: 'Button-Farbe'
+    CookiePolicyConfigBtnTxtColor: 'Button-Text-Farbe'
+    CookiePolicyConfigMessageText: 'Text'
+    CookiePolicyConfigMessageTextDefault: 'Um unsere Webseite für Sie optimal zu gestalten und fortlaufend verbessern zu können, verwenden wir Cookies. Durch die weitere Nutzung der Webseite stimmen Sie der Verwendung von Cookies zu.'
+    CookiePolicyConfigButtonText: 'Button-Beschriftung'
+    CookiePolicyConfigButtonTextDefault: 'Verstanden!'
+    CookiePolicyConfigPolicyText: 'Text "Weitere Informationen"'
+    CookiePolicyConfigPolicyTextDefault: 'Weitere Informationen'
   Member:
     REMEMBERME: 'Login merken?'

@@ -60,7 +60,7 @@ SiteTree:
     ['Translatable']
 SiteConfig:
   extensions:
-    ['Translatable','SilvercartSiteConfig']
+    ['Translatable','SilvercartSiteConfig','SilvercartCookiePolicyConfig']
 WidgetSet:
   extensions:
     ['SilvercartWidgetSet']

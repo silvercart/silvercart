@@ -2036,3 +2036,27 @@ en:
     NEWLANGUAGE: "New language"
     PUBLISHBUTTON: "Publish all pages of this translation"
     TRANSLATIONS: "Translations"
+  SilvercartCookiePolicyConfig:
+    CookiePolicy: 'Cookie Policy'
+    CookiePolicyConfigIsActive: 'Use Cookie Policy'
+    CookiePolicyConfigPosition: 'Display Position'
+    CookiePolicyConfigPositionBannerBottom: 'Banner bottom'
+    CookiePolicyConfigPositionBannerTop: 'Banner top'
+    CookiePolicyConfigPositionBannerTopPushDown: 'Box top'
+    CookiePolicyConfigPositionFloatingLeft: 'Floating box bottom left'
+    CookiePolicyConfigPositionFloatingRight: 'Floating box bottom right'
+    CookiePolicyConfigLayout: 'Display Layout'
+    CookiePolicyConfigLayoutBlock: 'Block'
+    CookiePolicyConfigLayoutClassic: 'Classic'
+    CookiePolicyConfigLayoutEdgeless: 'Edgeless'
+    CookiePolicyConfigLayoutWire: 'Wire'
+    CookiePolicyConfigBgColor: 'Background Color'
+    CookiePolicyConfigTxtColor: 'Text Color'
+    CookiePolicyConfigBtnColor: 'Button Color'
+    CookiePolicyConfigBtnTxtColor: 'Button Text Color'
+    CookiePolicyConfigMessageText: 'Text'
+    CookiePolicyConfigMessageTextDefault: 'This website uses cookies to ensure you get the best experience on our website.'
+    CookiePolicyConfigButtonText: 'Button Text'
+    CookiePolicyConfigButtonTextDefault: 'Got it!'
+    CookiePolicyConfigPolicyText: 'Text "Learn more"'
+    CookiePolicyConfigPolicyTextDefault: 'Learn more'

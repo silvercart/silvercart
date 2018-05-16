@@ -16,6 +16,9 @@
 #contentPanel {
     z-index: 5000;
 }
+input[type="color"] {
+    padding: 0;
+}
 
 /*******************************************************************************
         model admin right part, especially forms
