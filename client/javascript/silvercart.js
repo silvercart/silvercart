@@ -57,7 +57,8 @@ $(document).ready(function(){
     
     if ($('html').attr('lang').length) {
         ss.i18n.setLocale($('html').attr('lang').replace(/-/,'_'));
-    } else if ($('body').attr('lang').length) {
+    } else if (typeof $('body').attr('lang') !== 'undefined' &&
+               $('body').attr('lang').length) {
         ss.i18n.setLocale($('body').attr('lang').replace(/-/,'_'));
     }
     
