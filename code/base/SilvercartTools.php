@@ -357,13 +357,104 @@ class SilvercartTools extends Object {
             $source = Config::inst()->get($objectName, $param);
             if (is_array($source)) {
                 foreach (array_keys($source) as $fieldname) {
-                    $fieldLabels[$fieldname]          = _t($objectName . '.' . $fieldname);
-                    $fieldLabels[$fieldname . 'Desc'] = _t($objectName . '.' . $fieldname . 'Desc');
+                    $fieldLabels[$fieldname]             = _t($objectName . '.' . $fieldname);
+                    $fieldLabels[$fieldname . 'Desc']    = _t($objectName . '.' . $fieldname . 'Desc');
+                    $fieldLabels[$fieldname . 'Default'] = _t($objectName . '.' . $fieldname . 'Default');
                 }
             }
         }
         
         return $fieldLabels;
+    }
+
+    /**
+     * Get a list of i18n field labels.
+     *
+     * @return array
+     */
+    public static function field_labels() {
+        $labels = array(
+            'DATE'         => _t('Silvercart.DATE', 'Date'),
+            'DateFormat'   => _t('Silvercart.DATEFORMAT', 'm/d/Y'),
+            'No'           => _t('Silvercart.NO', 'No'),
+            'PleaseChoose' => _t('Silvercart.PLEASECHOOSE', '--please choose--'),
+            'Priority'     => _t('Silvercart.PRIORITY', 'Priority (the higher the more important)'),
+            'To'           => _t('Silvercart.To', 'To'),
+            'Yes'          => _t('Silvercart.YES', 'Yes'),
+        );
+        self::singleton()->extend('updateFieldLabels', $labels);
+        return $labels;
+    }
+
+    /**
+     * Get a human-readable label for a single field,
+     * see {@link field_labels()} for more details.
+     *
+     * @uses field_labels()
+     * @uses FormField::name_to_label()
+     *
+     * @param string $name Name of the field
+     * 
+     * @return string Label of the field
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.10.2017
+     */
+    public static function field_label($name) {
+        $labels = self::field_labels();
+        return (isset($labels[$name])) ? $labels[$name] : FormField::name_to_label($name);
+    }
+    
+    /**
+     * Returns the i18n labels for an enum field.
+     * 
+     * @param DataObject $contextObject Context DataObject
+     * @param string     $enumFieldName Name of the enum DB field
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.05.2018
+     */
+    public static function enum_i18n_labels($contextObject, $enumFieldName) {
+        $enumValues = $contextObject->dbObject($enumFieldName)->enumValues();
+        $i18nLabels = [];
+        foreach ($enumValues as $value => $label) {
+            if (empty($label)) {
+                $i18nLabels[$value] = '';
+            } else {
+                $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . $label);
+            }
+        }
+        return $i18nLabels;
+    }
+    
+    /**
+     * Returns the field labels for the values of a enum field.
+     * 
+     * @param DataObject $contextObject Context DataObject
+     * @param string     $enumFieldName Name of the enum DB field
+     * 
+     * @return array
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.05.2018
+     */
+    public static function enum_field_labels_for($contextObject, $enumFieldName, $i18nNamespace = null) {
+        if (is_null($i18nNamespace)) {
+            $i18nNamespace = $contextObject->ClassName;
+        }
+        $enumValues = $contextObject->dbObject($enumFieldName)->enumValues();
+        $i18nLabels = [];
+        foreach ($enumValues as $value => $label) {
+            $i18nKey = $enumFieldName . $value;
+            if (empty($label)) {
+                $i18nLabels[$i18nKey] = '';
+            } else {
+                $i18nLabels[$i18nKey] = _t($i18nNamespace . '.' . $i18nKey, $i18nKey);
+            }
+        }
+        return $i18nLabels;
     }
 
     /**
