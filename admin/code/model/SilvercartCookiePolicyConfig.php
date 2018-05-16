@@ -184,8 +184,14 @@ class SilvercartCookiePolicyConfig extends DataExtension {
             'message' => $this->owner->CookiePolicyConfigMessageText,
             'dismiss' => $this->owner->CookiePolicyConfigButtonText,
             'link'    => $this->owner->CookiePolicyConfigPolicyText,
-            'href'    => SilvercartTools::PageByIdentifierCode('DataPrivacyStatementPage')->Link(),
         ];
+        $dataPrivacyPage = SilvercartTools::PageByIdentifierCode('DataPrivacyStatementPage');
+        if (!($dataPrivacyPage instanceof Page)) {
+            $dataPrivacyPage = SilvercartTools::PageByIdentifierCode('SilvercartDataPrivacyStatementPage');
+        }
+        if ($dataPrivacyPage instanceof Page) {
+            $cfg['content']['href'] = $dataPrivacyPage->Link();
+        }
         switch ($this->owner->CookiePolicyConfigPosition) {
             case 'BannerTop':
                 $cfg['position'] = 'top';
