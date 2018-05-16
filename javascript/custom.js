@@ -68,7 +68,8 @@ function cartContent() {
 // flexslider on home page
 function flexSlideShow() {
     var flexslider = $('.flexslider');
-    if (flexslider) {
+    if (flexslider.length > 0 &&
+        typeof flexslider.flexslider !== 'undefined') {
         if (typeof imageSliderBuildNavigation === 'undefined') {
             var imageSliderBuildNavigation = true;
         }
