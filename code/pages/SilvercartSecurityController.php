@@ -44,7 +44,7 @@ class SilvercartSecurityController extends DataExtension {
             $request->param('Action') == 'ping') {
             return;
         }
-        SilvercartPage_Controller::singleton()->loadJSRequirements();
+        Page_Controller::singleton()->loadJSRequirements();
         SilvercartTools::initSession();
         
         i18n::set_default_locale(Translatable::get_current_locale());
