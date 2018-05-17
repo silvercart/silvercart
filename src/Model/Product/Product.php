@@ -1707,7 +1707,7 @@ class Product extends DataObject implements PermissionProvider {
      * @param int $cutToLength Limit the length of the result to the given
      *                         number of characters.
      *
-     * @return string
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
     public function getHtmlEncodedShortDescription($cutToLength = false) {
         $output = str_replace(
@@ -2371,7 +2371,7 @@ class Product extends DataObject implements PermissionProvider {
      * 
      * @param bool $plain Set to true to get the plain JSON string without HTML tag
      * 
-     * @return string
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
     public function getMicrodata($plain = false) {
         if ($this->getPriceIsLowerThanMsr()) {
@@ -2441,7 +2441,7 @@ class Product extends DataObject implements PermissionProvider {
         if (!$plain) {
             $output = '<script type="application/ld+json">' . $output . '</script>';
         }
-        return $output;
+        return Tools::string2html($output);
     }
     
     /**
