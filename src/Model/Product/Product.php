@@ -73,6 +73,9 @@ use WidgetSets\Model\WidgetSet;
  * @license see license file in modules root directory
  */
 class Product extends DataObject implements PermissionProvider {
+    
+    const DEFAULT_IMAGE_FOLDER = 'product-images';
+    const DEFAULT_FILES_FOLDER = 'product-files';
 
     /**
      * Can contain an identifier for addToCart forms.
@@ -1605,7 +1608,7 @@ class Product extends DataObject implements PermissionProvider {
         }
         
         $imageUploadField = new ImageUploadField('UploadImages', $this->fieldLabel('AddImage'));
-        $imageUploadField->setFolderName('assets/product-images');
+        $imageUploadField->setFolderName(self::DEFAULT_IMAGE_FOLDER);
         
         $fields->addFieldToTab('Root.Images', $imageUploadField, 'Images');
     }
@@ -1624,7 +1627,7 @@ class Product extends DataObject implements PermissionProvider {
         $fileGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
         $fileUploadField = new FileUploadField('UploadFiles', $this->fieldLabel('AddFile'));
-        $fileUploadField->setFolderName('assets/product-files');
+        $fileUploadField->setFolderName(self::DEFAULT_FILES_FOLDER);
         
         $fields->addFieldToTab('Root.Files', $fileUploadField, 'Files');
     }
