@@ -35,7 +35,6 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Reports\ReportAdmin;
 use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfigLeftAndMain;
-use SilverStripe\View\Requirements;
 use WidgetSets\Admin\Controllers\WidgetSetAdmin;
 
 // Check if the page.php descends from the SilverCart\Model\Pages\Page
@@ -58,8 +57,6 @@ Product::addRequiredAttribute("Price");
 SiteTree::config()->set('create_default_pages', false);
 // Enable validation for Member
 Member::config()->set('validation_enabled', true);
-// Require i18n javascript
-Requirements::add_i18n_javascript('silvercart/silvercart:client/javascript/lang');
 // configure WidgetSet
 if (class_exists('WidgetSets\\Extensions\\WidgetSetWidgetExtension')) {
     \WidgetSets\Extensions\WidgetSetWidgetExtension::prevent_widget_creation_by_class(SilverCart\Model\Widgets\Widget::class);

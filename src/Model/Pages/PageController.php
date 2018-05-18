@@ -100,6 +100,7 @@ class PageController extends ContentController {
         Requirements::javascript('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
         Requirements::javascript('https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js');
         Requirements::javascript('silverstripe/admin:client/dist/js/i18n.js');
+        Requirements::add_i18n_javascript('silvercart/silvercart:client/javascript/lang');
         
         $jsFiles = array(
             'silvercart/silvercart:client/javascript/jquery.pixeltricks.tools.js',

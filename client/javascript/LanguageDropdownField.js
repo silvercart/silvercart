@@ -1,7 +1,7 @@
 
 (function($) {
 
-    $('.silvercart-change-language-selector li.selectable').live('click', function() {
+    $(document).on('click', '.silvercart-change-language-selector li.selectable', function() {
         $('.silvercart-change-language-selector li.first').removeClass('first').addClass('selectable');
         $(this).removeClass('selectable').addClass('first');
         $('.silvercart-change-language-selector li.selectable').hide();
@@ -16,8 +16,6 @@
                 $(this).attr('selected', true);
             }
         });
-
-        //$('.silvercart-change-language-form select option[value="' + classes[0] + '"]').attr('selected',true);
 
         $('.silvercart-change-language-form').submit();
 
