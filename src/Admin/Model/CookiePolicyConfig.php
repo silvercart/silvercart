@@ -210,16 +210,18 @@ class CookiePolicyConfig extends DataExtension {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2018
+     * @since 18.05.2018
      */
     public static function load_requirements() {
         $config = SiteConfig::current_site_config();
-        $cfg    = $config->getCookiePolicyPositionConfig();
-        $json   = json_encode($cfg);
-        $js     = 'window.addEventListener("load", function(){window.cookieconsent.initialise(' . $json . ')});';
-        Requirements::css('//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css');
-        Requirements::javascript('//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js');
-        Requirements::customScript($js, 'cookieconsent');
+        if ($config->CookiePolicyConfigIsActive) {
+            $cfg    = $config->getCookiePolicyPositionConfig();
+            $json   = json_encode($cfg);
+            $js     = 'window.addEventListener("load", function(){window.cookieconsent.initialise(' . $json . ')});';
+            Requirements::css('//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css');
+            Requirements::javascript('//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js');
+            Requirements::customScript($js, 'cookieconsent');
+        }
     }
     
 }
