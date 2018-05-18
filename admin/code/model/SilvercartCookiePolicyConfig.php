@@ -141,10 +141,11 @@ class SilvercartCookiePolicyConfig extends DataExtension {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.05.2018
+     * @since 18.05.2018
      */
     protected function checkDefaultText() {
-        if ($this->owner->CookiePolicyConfigMessageText == FormField::name_to_label('CookiePolicyConfigMessageTextDefault')) {
+        if ($this->owner->CookiePolicyConfigMessageText == FormField::name_to_label('CookiePolicyConfigMessageTextDefault') ||
+            empty($this->owner->CookiePolicyConfigMessageText)) {
             $currentLocale = i18n::get_locale();
             Translatable::disable_locale_filter();
             $configs = SiteConfig::get();
