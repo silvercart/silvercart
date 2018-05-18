@@ -2968,9 +2968,15 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 11.08.2014
+     * @since 19.05.2018
      */
     public function getSilvercartImages($filter = '') {
+        if (get_class(Controller::curr()) == 'CMSPageEditController' &&
+            Controller::curr()->getRequest()->param('Action') == 'view') {
+            // workaround to fix a readonly field bug when trying to open a
+            // product in view mode  (action 'view' of GridFieldDetailForm_ItemRequest)
+            return;
+        }
         if (!array_key_exists($filter, $this->images)) {
             $images = false;
             $this->extend('overwriteSilvercartImages', $images);
