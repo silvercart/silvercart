@@ -1225,7 +1225,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupPayment->ShowInSearch = true;
             $productGroupPayment->Sort = 1;
             $productGroupPayment->write();
-            $productGroupPayment->publish("Live", "Stage");
+            $productGroupPayment->publish("Stage", "Live");
             
             $productGroupMarketing = new SilvercartProductGroupPage();
             $productGroupMarketing->Title = _t('SilvercartTestData.PRODUCTGROUPMARKETING_TITLE');
@@ -1238,7 +1238,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupMarketing->ShowInSearch = true;
             $productGroupMarketing->Sort = 2;
             $productGroupMarketing->write();
-            $productGroupMarketing->publish("Live", "Stage");
+            $productGroupMarketing->publish("Stage", "Live");
             
             $productGroupOthers = new SilvercartProductGroupPage();
             $productGroupOthers->Title = _t('SilvercartTestData.PRODUCTGROUPOTHERS_TITLE');
@@ -1251,7 +1251,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
             $productGroupOthers->ShowInSearch = true;
             $productGroupOthers->Sort = 3;
             $productGroupOthers->write();
-            $productGroupOthers->publish("Live", "Stage");
+            $productGroupOthers->publish("Stage", "Live");
             
             // Define products
             $products = array(
