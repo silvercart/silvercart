@@ -19,15 +19,6 @@ use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Pages\ProductGroupPageController;
 use SilverCart\Model\Pages\RegistrationPage;
 use SilverCart\Model\Pages\SearchResultsPageController;
-use SilverCart\Model\Product\AvailabilityStatus;
-use SilverCart\Model\Product\File;
-use SilverCart\Model\Product\Manufacturer;
-use SilverCart\Model\Product\Image;
-use SilverCart\Model\Product\Product;
-use SilverCart\Model\Product\ProductCondition;
-use SilverCart\Model\Product\ProductTranslation;
-use SilverCart\Model\Product\QuantityUnit;
-use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\Model\Widgets\ProductGroupItemsWidget;
@@ -1742,7 +1733,7 @@ class Product extends DataObject implements PermissionProvider {
      *                                   If not given the price type will be automatically determined.
      * @param bool   $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
-     * @return DBMoney
+     * @return \SilverCart\ORM\FieldType\DBMoney
      */
     public function getPrice($priceType = '', $ignoreTaxExemption = false) {
         $cacheHash = md5($priceType);
