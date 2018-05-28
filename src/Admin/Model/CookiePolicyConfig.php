@@ -6,6 +6,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\FieldGroup;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Forms\FormFields\TextareaField;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
@@ -122,19 +123,30 @@ class CookiePolicyConfig extends DataExtension {
     public function requireDefaultRecords() {
         $config = SiteConfig::current_site_config();
         if ($config instanceof SiteConfig &&
-            $config->exists()) {
-            $defaults = $config->config()->get('defaults');
-            if (empty($config->CookiePolicyConfigMessageText)) {
-                $config->CookiePolicyConfigBgColor     = $defaults['CookiePolicyConfigBgColor'];
-                $config->CookiePolicyConfigTxtColor    = $defaults['CookiePolicyConfigTxtColor'];
-                $config->CookiePolicyConfigBtnColor    = $defaults['CookiePolicyConfigBtnColor'];
-                $config->CookiePolicyConfigBtnTxtColor = $defaults['CookiePolicyConfigBtnTxtColor'];
-                $config->CookiePolicyConfigMessageText = $this->owner->fieldLabel('CookiePolicyConfigMessageTextDefault');
-                $config->CookiePolicyConfigButtonText  = $this->owner->fieldLabel('CookiePolicyConfigButtonTextDefault');
-                $config->CookiePolicyConfigPolicyText  = $this->owner->fieldLabel('CookiePolicyConfigPolicyTextDefault');
-                $config->write();
-            }
+            $config->exists() &&
+            empty($config->CookiePolicyConfigMessageText)) {
+            
+            $this->setDefaultValuesFor($config);
         }
+    }
+    
+    /**
+     * Sets the default values for the given SiteConfig
+     * 
+     * @param SiteConfig $config SiteConfig
+     * 
+     * @return void
+     */
+    protected function setDefaultValuesFor(SiteConfig $config) {
+        $defaults = $config->config()->get('defaults');
+        $config->CookiePolicyConfigBgColor     = $defaults['CookiePolicyConfigBgColor'];
+        $config->CookiePolicyConfigTxtColor    = $defaults['CookiePolicyConfigTxtColor'];
+        $config->CookiePolicyConfigBtnColor    = $defaults['CookiePolicyConfigBtnColor'];
+        $config->CookiePolicyConfigBtnTxtColor = $defaults['CookiePolicyConfigBtnTxtColor'];
+        $config->CookiePolicyConfigMessageText = $this->owner->fieldLabel('CookiePolicyConfigMessageTextDefault');
+        $config->CookiePolicyConfigButtonText  = $this->owner->fieldLabel('CookiePolicyConfigButtonTextDefault');
+        $config->CookiePolicyConfigPolicyText  = $this->owner->fieldLabel('CookiePolicyConfigPolicyTextDefault');
+        $config->write();
     }
 
     /**
@@ -163,8 +175,14 @@ class CookiePolicyConfig extends DataExtension {
             'message' => $this->owner->CookiePolicyConfigMessageText,
             'dismiss' => $this->owner->CookiePolicyConfigButtonText,
             'link'    => $this->owner->CookiePolicyConfigPolicyText,
-            'href'    => Tools::PageByIdentifierCode('DataPrivacyStatementPage')->Link(),
         ];
+        $dataPrivacyPage = Tools::PageByIdentifierCode('DataPrivacyStatementPage');
+        if (!($dataPrivacyPage instanceof Page)) {
+            $dataPrivacyPage = Tools::PageByIdentifierCode('SilvercartDataPrivacyStatementPage');
+        }
+        if ($dataPrivacyPage instanceof Page) {
+            $cfg['content']['href'] = $dataPrivacyPage->Link();
+        }
         switch ($this->owner->CookiePolicyConfigPosition) {
             case 'BannerTop':
                 $cfg['position'] = 'top';
