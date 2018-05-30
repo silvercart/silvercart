@@ -1,18 +1,18 @@
 <tr>
     <td class="img">
-<% if $Product.getImages.first %>
-    <% with $Product.getImages.first %>
-        <a href="{$silvercartProduct.Link}" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS_FOR 'Show details for {title}' title=$Image.Title %>">{$Image.Pad(92,92)}</a>
-    <% end_with %>
-<% end_if %>
+<% with $Product %>
+    <% if $ListImage %>
+        <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS_FOR 'Show details for {title}' title=$Title %>">{$ListImage.Pad(92,92)}</a>
+    <% end_if %>
+<% end_with %>
     </td>
     <td class="desc span4">
-        <h5><a class="highlight" href="{$silvercartProduct.Link}">{$getTitle}</a></h5>
+        <h5><a class="highlight" href="{$Product.Link}">{$getTitle}</a></h5>
         <ul class="unstyled">
-            <li><a class="highlight" href="{$silvercartProduct.Link}"><%t SilverCart\Model\Product\Product.PRODUCTNUMBER_SHORT 'Item no.' %>: {$getProductNumberShop}</a></li>
+            <li><a class="highlight" href="{$Product.Link}"><%t SilverCart\Model\Product\Product.PRODUCTNUMBER_SHORT 'Item no.' %>: {$getProductNumberShop}</a></li>
             <% if $getCartDescription %><li><small>{$getCartDescription}</small></li><% end_if %>
             <% if $addToTitle %><li><small>{$addToTitle}</small></li><% end_if %>
-            <% if $Product.StockQuantity < $Quantity %><li><small class="label label-info"><span class="icon icon-info-sign fa fa-info-sign"></span> <%t SilverCart\Model\Order\ShoppingCart.OnlyXLeft 'Only {quantity} left in stock. Delivery time may increase.' quantity=$Product.StockQuantity %></small></li><% end_if %>
+            <% if $Top.SiteConfig.enableStockManagement && $Product.StockQuantity < $Quantity %><li><small class="label label-info"><span class="icon icon-info-sign fa fa-info-sign"></span> <%t SilverCart\Model\Order\ShoppingCart.OnlyXLeft 'Only {quantity} left in stock. Delivery time may increase.' quantity=$Product.StockQuantity %></small></li><% end_if %>
         </ul>
     </td>
     <td class="sub-price text-right">
@@ -23,7 +23,7 @@
         </p>
     </td>
 <% if $CurrentPage.EditableShoppingCart %>
-    <td class="text-right borderlr quantity">  
+    <td class="text-right borderlr quantity">
         <div class="btn-group">
             <div class="pull-left input-prepend input-append form-prepend">{$DecrementPositionQuantityForm}</div>
             <div class="pull-left">

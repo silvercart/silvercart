@@ -8,16 +8,16 @@
             <a data-toggle="tab" href="#downloads"><%t SilverCart\Model\Product\Product.DOWNLOADS 'Downloads' %></a>
         </li>
         <% end_if %>
-        <% if PluggedInTabs %>
-            <% loop PluggedInTabs %>
+        <% if $PluggedInTabs %>
+            <% loop $PluggedInTabs %>
         <li>
-            <a data-toggle="tab" href="#<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>">$Name</a>
+            <a data-toggle="tab" href="#<% if $TabID %>{$TabID}<% else %>pluggedInTab{$Pos}<% end_if %>">{$Name}</a>
         </li>
             <% end_loop %>
         <% end_if %>
     </ul>
     <div class="tab-content">
-        <div itemprop="description" id="productdescription" class="tab-pane active">
+        <div id="productdescription" class="tab-pane active">
             <h2 class="mobile-show-sm tab-heading"><i class="icon-caret-right"></i> <%t SilverCart\Model\Product\Product.DESCRIPTION 'Description' %></h2>
             <div class="tab-body">
                 {$HtmlEncodedLongDescription}
@@ -39,17 +39,17 @@
                         <th class="align_right"><%t SilverCart\Model\Product\File.SIZE 'Size' %></th>
                     </tr>
                     <% loop $Files %>
-                    <tr class="$EvenOdd">
+                    <tr class="{$EvenOdd}">
                         <td>
                             <div class="silvercart-file-icon">
-                                <a href="$File.Link">$FileIcon</a>
+                                <a href="{$File.Link}">{$FileIcon}</a>
                             </div>
                         </td>
                         <td>
-                            <a href="$File.Link">$Title</a>
+                            <a href="{$File.Link}">{$Title}</a>
                         </td>
-                        <td class="align_right">
-                            <a href="$File.Link">$File.Size</a>
+                        <td class="text-right">
+                            <a href="{$File.Link}">{$File.Size}</a>
                         </td>
                     </tr>
                     <% end_loop %>
@@ -57,9 +57,9 @@
             </div>
         </div>
         <% end_if %>
-        <% if PluggedInTabs %>
-            <% loop PluggedInTabs %>
-        <div id="<% if TabID %>$TabID<% else %>pluggedInTab{$Pos}<% end_if %>" class="tab-pane">
+        <% if $PluggedInTabs %>
+            <% loop $PluggedInTabs %>
+        <div id="<% if $TabID %>{$TabID}<% else %>pluggedInTab{$Pos}<% end_if %>" class="tab-pane">
             <h2 class="mobile-show-sm tab-heading"><i class="icon-caret-right"></i> {$Name}</h2>
             <div class="tab-body">
                 {$Content}

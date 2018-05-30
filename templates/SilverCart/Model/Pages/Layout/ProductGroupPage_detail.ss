@@ -1,8 +1,8 @@
 <div class="row">
-    <div class="span9" itemscope itemtype="http://schema.org/Product">
+    <div class="span9">
         <% include SilverCart/Model/Pages/BreadCrumbs %>
         <div id="sc-product-backlink" class="clearfix">
-            <% if BackLink %>
+            <% if $BackLink %>
                 <a class="btn btn-small pull-left" href="{$BackLink}#product{$getProduct.ID}">
                     <i class="icon-chevron-left"></i>
                     <%t SilverCart\Model\Pages\Page.BACK_TO 'Back to &quot;{title}&quot;' title=$BackPage.MenuTitle %>
@@ -15,38 +15,29 @@
                 <i class="icon-envelope"></i>
             </a>
         </div>
-        <% with getProduct %>
+        <% with $getProduct %>
             <div class="row">
-                $InsertWidgetArea(Content)
+                {$InsertWidgetArea(Content)}
                 {$BeforeProductHtmlInjections}
-                <meta itemprop="productID" content="{$ProductNumberShop}" />
-                <meta itemprop="url" content="{$Link}" />
                 <div class="sc-product-details clearfix">
                     <div class="span5">
                         <div class="sc-product-title">
-                            <h1 itemprop="name">$Title.HTML</h1>
+                            <h1>{$Title.HTML}</h1>
                         </div>
                         <div class="product-img-box clearfix">
                             <div class="product-img">
-                                <% if $getImages %>
-                                    <% with $getImages.first %>
-                                        <a itemprop="image" class="fancybox" href="$Image.Link" rel="silvercart-standard-product-image-group" >
-                                            <% with Image %>
-                                                <img itemprop="image" src="$Pad(372,370).URL" alt="$Title" /> 
-                                            <% end_with %>
-                                        </a>
+                                <% if $ListImage %>
+                                    <% with $ListImage %>
+                                        <a class="fancybox" href="{$Link}" rel="silvercart-standard-product-image-group"><img src="{$Pad(372,370).URL}" alt="{$Up.Title}" /></a>
                                     <% end_with %>
                                 <% end_if %>
                             </div>
-                            <div class="product-img-thumb">                  
+                            <div class="product-img-thumb">
                                 <% if $getImages %>
                                     <% loop $getImages %>
-                                        <% if First %>
-                                        <% else %>
-                                        <a itemprop="image" href="$Image.Link" class="fancybox" rel="silvercart-standard-product-image-group">
-                                            <% with Image %>
-                                             <img itemprop="image" src="$Pad(68,60).URL" alt="$Title" /> 
-                                            <% end_with %>
+                                        <% if not First %>
+                                        <a href="{$Image.Link}" class="fancybox" rel="silvercart-standard-product-image-group">
+                                            <img src="{$Image.Pad(68,60).URL}" alt="{$Title}" /> 
                                         </a>
                                         <% end_if %>
                                     <% end_loop %>
@@ -56,23 +47,19 @@
                     </div>
                     <div class="span4">
                         <div class="product-set">
-                            <div class="product-price pull-right">
-                                <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                                    <meta itemprop="price" content="{$Price.Amount}" />
-                                    <meta itemprop="priceCurrency" content="{$Price.Currency}" />
-                                    <% if PriceIsLowerThanMsr %>
-                                        <span class="strike-through">$MSRPrice.Nice</span> 
-                                    <% end_if %>
-                                    <strong class="price" id="product-price-{$ID}">$PriceNice</strong> 
-                                </span><br/>
+                            <div class="product-price pull-right text-right">
+                                <% if $PriceIsLowerThanMsr %>
+                                    <span class="strike-through">{$MSRPrice.Nice}</span> 
+                                <% end_if %>
+                                <strong class="price" id="product-price-{$ID}">{$PriceNice}</strong><br/>
                                 <small>
-                                    <% if CurrentPage.showPricesGross %>
+                                    <% if $CurrentPage.showPricesGross %>
                                         <%t SilverCart\Model\Pages\Page.INCLUDING_TAX 'incl. {amount}% VAT' amount=$TaxRate %>
-                                    <% else_if CurrentPage.showPricesNet %>
+                                    <% else_if $CurrentPage.showPricesNet %>
                                         <%t SilverCart\Model\Pages\Page.EXCLUDING_TAX 'plus VAT' %>
                                     <% end_if %>
                                     <% with $CurrentPage.PageByIdentifierCode(SilvercartShippingFeesPage) %>
-                                        <a href="$Link" title="<%t SilverCart\Model\Pages\Page.GOTO 'Go to {title} page' title=$Title.XML %>">
+                                        <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'Go to {title} page' title=$Title.XML %>">
                                             <%t SilverCart\Model\Pages\Page.PLUS_SHIPPING 'plus shipping' %><br/>
                                         </a>
                                     <% end_with %>
@@ -89,38 +76,39 @@
                                 <dl class="dl-horizontal">
                                     <% if $AvailabilityStatus %>
                                         <dt><%t SilverCart\Model\Product\AvailabilityStatus.SINGULARNAME 'Availability' %>:</dt>
-                                        <dd itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="availability">$Availability <meta itemprop="name" content="{$AvailabilityStatus.Title}" /></span></dd>
+                                        <dd>{$Availability}</dd>
                                     <% end_if %>
                                     <dt><%t SilverCart\Model\Product\Product.PRODUCTNUMBER_SHORT 'Item no.' %>:</dt>
-                                    <dd><span itemprop="model">$ProductNumberShop</span></dd>
-
-                                     <% if PackagingQuantity %>
+                                    <dd>{$ProductNumberShop}</dd>
+                                    <%-- if $Top.SiteConfig.enableStockManagement %>
+                                        <dt>{$fieldLabel(StockQuantity)}:</dt>
+                                        <dd><span>{$StockQuantity} {$QuantityUnit.Title}</span></dd>
+                                    <% end_if --%>
+                                     <% if $PackagingQuantity %>
                                         <dt><%t SilverCart\Model\Pages\ProductPage.PACKAGING_CONTENT 'Content' %>:</dt>
-                                        <dd>$PackagingQuantity $QuantityUnit.Title</dd>
+                                        <dd>{$PackagingQuantity} {$QuantityUnit.Title}</dd>
                                     <% end_if %>
 
-                                    <% if $Manufacturer %>                      
+                                    <% if $Manufacturer %>
                                         <% with $Manufacturer %>
                                         <dt>{$singular_name}:</dt>
-                                            <dd itemprop="brand" itemscope itemtype="http://schema.org/Brand">
-                                            <% if Title %>
-                                                <span itemprop="name">$Title</span>
+                                            <dd>
+                                            <% if $Title %>
+                                                {$Title}
                                             <% end_if %>
-                                            <% if logo %>
-                                                <% with logo %>
-                                                <br/><img itemprop="logo" src="$SetRatioSize(100,50).URL" alt="$Title" /> 
-                                                <% end_with %>
+                                            <% if $logo %>
+                                                <br/><img src="{$logo.SetRatioSize(100,50).URL}" alt="{$Title}" /> 
                                             <% end_if %>
                                             </dd>
-                                        <% end_with %>        
+                                        <% end_with %>
                                     <% end_if %>
                                 </dl>
                             </div>
                             <div class="product-info">
-                                <p>$HtmlEncodedShortDescription</p>
+                                <p>{$HtmlEncodedShortDescription}</p>
                             </div>
                             <div class="product-inputs pull-right">
-                            <% if isBuyableDueToStockManagementSettings %>
+                            <% if $isBuyableDueToStockManagementSettings %>
                                 {$AddToCartForm(Detail)}
                             <% else %>
                                 <%t SilverCart\Model\Pages\ProductPage.OUT_OF_STOCK 'This product is out of stock.' %>
@@ -128,22 +116,20 @@
                             </div>
                         </div>
                     </div>
-                </div>                           
+                </div>
             </div>
      
             <% include SilverCart\Model\Pages\ProductPageTabs %>
             {$AfterProductHtmlInjections}
-        <% end_with %>  
+        <% end_with %>
     </div>
 
     <aside class="span3">
-        <% with getProduct %>
-            <% with WidgetArea %>
-                <% loop WidgetControllers %>
-                    $WidgetHolder
-                <% end_loop %>
-            <% end_with %>
+        <% if $getProduct.WidgetArea.$WidgetControllers %>
+            <% loop $getProduct.WidgetArea.$WidgetControllers %>
+                {$WidgetHolder}
+            <% end_loop %>
         <% end_with %>
-        $InsertWidgetArea(Sidebar)
+        {$InsertWidgetArea(Sidebar)}
     </aside>
 </div>
