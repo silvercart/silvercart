@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverCart\Admin\Dev;
+namespace SilverCart\Admin\Dev\Tasks;
 
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
@@ -10,7 +10,7 @@ use SilverStripe\Security\Permission;
  * Provides a task to show the phpinfo() output.
  * 
  * @package SilverCart
- * @subpackage Admin_Dev
+ * @subpackage Admin_Dev_Tasks
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017

@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverCart\Admin\Dev;
+namespace SilverCart\Admin\Dev\Tasks;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Product;
@@ -15,15 +15,54 @@ use SilverStripe\Dev\BuildTask;
  * Provides a task to assign the uploaded product images.
  * 
  * @package SilverCart
- * @subpackage Admin_Dev
+ * @subpackage Admin_Dev_Tasks
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class ProductImageImporter extends BuildTask {
+class ProductImageImportTask extends BuildTask {
 
-        /**
+    /**
+     * Set a custom url segment (to follow dev/tasks/)
+     *
+     * @var string
+     */
+    private static $segment = 'sc-image-importer';
+
+    /**
+     * Shown in the overview on the {@link TaskRunner}.
+     * HTML or CLI interface. Should be short and concise, no HTML allowed.
+     * 
+     * @var string
+     */
+    protected $title = 'Import SilverCart Product Images';
+
+    /**
+     * Describe the implications the task has, and the changes it makes. Accepts 
+     * HTML formatting.
+     * 
+     * @var string
+     */
+    protected $description = 'Task to import SilverCart product images. By '
+            . 'default, images should be stored in <strong><i>/public/assets/unassigned-product-images</i></strong>.<br/>'
+            . ' The importer will run through the files and assign the images by'
+            . ' file name. The file name should be equal with the product number.<br/>'
+            . 'By default you can use the <i>"-"</i> sign to separate product number'
+            . ' and a numeric index to add multiple images to one product.<br/>'
+            . 'By adding another <i>"-"</i> behind the numeric index, you can also'
+            . ' add an optional description (e.g. used as ALT tag).<br/>'
+            . '<br/>'
+            . 'Example image file names for a product with the product number'
+            . ' <i>ABC1234D56</i>:'
+            . '<ul>'
+            . '<li>ABC1234D56.jpg</li>'
+            . '<li>ABC1234D56-1.jpg</li>'
+            . '<li>ABC1234D56-2.jpg</li>'
+            . '<li>ABC1234D56-3-Left-side-view-of-my-awesome-product.jpg</li>'
+            . '</ul>';
+
+    /**
      * Relative path to the upload folder (relative to assets).
      *
      * @var string
