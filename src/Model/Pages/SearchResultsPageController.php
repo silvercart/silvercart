@@ -31,6 +31,8 @@ use SilverStripe\ORM\PaginatedList;
  */
 class SearchResultsPageController extends ProductGroupPageController {
     
+    const SESSION_KEY_SEARCH_QUERY = 'SilverCart.SearchQuery';
+    
     /**
      * list of allowed actions
      *
@@ -661,7 +663,7 @@ class SearchResultsPageController extends ProductGroupPageController {
      */
     public function getEncodedSearchQuery() {
         return htmlentities(
-            stripslashes(Tools::Session()->get('searchQuery')),
+            stripslashes(Tools::Session()->get(static::SESSION_KEY_SEARCH_QUERY)),
             ENT_COMPAT,
             'UTF-8'
         );
@@ -673,7 +675,7 @@ class SearchResultsPageController extends ProductGroupPageController {
      * @return string
      */
     public function getSearchQuery() {
-        $searchQuery = trim(Convert::raw2sql(Tools::Session()->get('searchQuery')));
+        $searchQuery = trim(Convert::raw2sql(Tools::Session()->get(static::SESSION_KEY_SEARCH_QUERY)));
         return $searchQuery;
     }
 
@@ -771,7 +773,7 @@ class SearchResultsPageController extends ProductGroupPageController {
             $searchQuery = SearchQuery::get()->byID($searchQueryID);
             if ($searchQuery) {
                 $redirectBack = false;
-                Tools::Session()->set('searchQuery', $searchQuery->SearchQuery);
+                Tools::Session()->set(static::SESSION_KEY_SEARCH_QUERY, $searchQuery->SearchQuery);
                 Tools::saveSession();
                 $this->redirect($this->Link());
             }
