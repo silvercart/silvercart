@@ -3,6 +3,7 @@
 namespace SilverCart\Forms;
 
 use ReflectionClass;
+use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomRequiredFields;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
@@ -494,6 +495,27 @@ class CustomForm extends Form {
                 $data[$field->getName()] = false;
             }
         }
+    }
+    
+    /**
+     * Returns the rendered form fields injected by extensions.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function getRenderedUpdatedCustomFields() {
+        $renderedFields = '';
+        $this->extend('renderUpdatedCustomFields', $renderedFields);
+        return Tools::string2html($renderedFields);
+    }
+    
+    /**
+     * Returns the rendered form fields injected by extensions.
+     * Alias for $this->getRenderedUpdatedCustomFields().
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function getCustomFormSpecialFields() {
+        return $this->getRenderedUpdatedCustomFields();
     }
     
 }
