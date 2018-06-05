@@ -118,18 +118,22 @@
                     </div>
                 </div>
             </div>
-     
+            <% if $PluggedInAfterImageContent %>
+                <% loop $PluggedInAfterImageContent %>
+                    {$Content}
+                <% end_loop %>
+            <% end_if %>
             <% include SilverCart\Model\Pages\ProductPageTabs %>
             {$AfterProductHtmlInjections}
         <% end_with %>
     </div>
 
     <aside class="span3">
-        <% if $getProduct.WidgetArea.$WidgetControllers %>
-            <% loop $getProduct.WidgetArea.$WidgetControllers %>
+        <% if $getProduct.WidgetArea.WidgetControllers %>
+            <% loop $getProduct.WidgetArea.WidgetControllers %>
                 {$WidgetHolder}
             <% end_loop %>
-        <% end_with %>
+        <% end_if %>
         {$InsertWidgetArea(Sidebar)}
     </aside>
 </div>
