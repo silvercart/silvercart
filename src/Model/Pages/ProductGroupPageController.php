@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
+use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
