@@ -1,5 +1,5 @@
 <% if $EnablePackstation %>
-<script type="text/javascript">
+<script>
     $(document).ready(function(){
         initAddressForm({$FormName});
     });

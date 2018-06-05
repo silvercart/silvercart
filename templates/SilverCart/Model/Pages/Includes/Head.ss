@@ -12,7 +12,7 @@
 <% require themedCSS("client/css/customize") %>
 <% require themedCSS("client/css/silvercart") %>
 <% require themedCSS("client/css/silvercart.desktop") %>
-<script type="text/javascript">var scmfm = false;</script>
+<script>var scmfm = false;</script>
 {$RequireColorSchemeCSS}
 <% require themedCSS("client/css/flexslider") %>
 <% require themedCSS("client/css/jquery.fancybox") %>
@@ -39,8 +39,8 @@
 <link rel="shortcut icon" href="{$SiteConfig.Favicon.Link}">
 <% end_if %>
 <% if $SiteConfig.ShopLogo %>
-<style type="text/css">#main-header .siteLogo a{background-image:url('{$SiteConfig.ShopLogo.Link}')!important;}</style>
+<style>#main-header .siteLogo a{background-image:url('{$SiteConfig.ShopLogo.Link}')!important;}</style>
 <% else %>
-<style type="text/css">#main-header .siteLogo a{background-image:url('/resources/vendor/silvercart/silvercart/client/img/logo.png')!important;}</style>
+<style>#main-header .siteLogo a{background-image:url('/resources/vendor/silvercart/silvercart/client/img/logo.png')!important;}</style>
 <% end_if %>
 <% include SilverCart/Model/Pages/HeadCustomHtml %>

@@ -3,7 +3,7 @@
 <form name="SupportRevocationForm" id="SupportRevocationForm" method="post">
     <input type="hidden" name="ExistingOrder" value="" id="SupportExistingOrder">
 </form>
-<script type="text/javascript">
+<script>
 $(document).ready(function() {
     $('select[name="ExistingOrder"]').live('change', function() {
         console.log($(this).val());

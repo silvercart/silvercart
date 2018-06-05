@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-DE" lang="de-DE">
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <style type="text/css">
+        <style>
             body { font-family: Verdana; font-size:70.00%; color:#666; }
             h1 { font-size: 14px; }
             h2 { font-size: 12px; }

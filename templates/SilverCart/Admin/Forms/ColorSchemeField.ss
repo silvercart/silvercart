@@ -1,4 +1,4 @@
-<style type="text/css">
+<style>
     .colorscheme-label {
         display: block;
         cursor: pointer;

@@ -5,7 +5,7 @@
         <title>{$ShopEmailSubject}</title>
     </head>
     <body>
-        <style type="text/css">
+        <style>
             body { font-family: Verdana; font-size:70.00%; color:#666; }
             .text-right { text-align: right !important; }
             .text-left { text-align: left !important; }
