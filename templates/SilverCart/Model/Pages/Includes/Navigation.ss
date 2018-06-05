@@ -7,7 +7,7 @@
                 <% if $showHomeIconInNavigation %>
                     <% with $PageByIdentifierCode(SilvercartFrontPage) %>
                     <li <% if $isCurrent %> class="active"<% end_if %>>
-                        <a href="{$Link}" title="{$SiteConfig.Title} {$SiteConfig.Tagline}"><i class="icon-home"></i></a>
+                        <a href="{$OriginalLink}" title="{$SiteConfig.Title} {$SiteConfig.Tagline}"><i class="icon-home"></i></a>
                     </li>
                     <% end_with %>
                 <% end_if %>
@@ -15,7 +15,7 @@
                     <% loop $Children %>
                         <% if $hasProductsOrChildren %>
                     <li class="<% if $LinkOrSection == section %>active<% else %>{$LinkingMode}<% end_if %> <% if $IsRedirectedChild %>active<% end_if %>">
-                        <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>">{$MenuTitle.XML}  <% if $Children %><i class="icon-caret-down"></i><% end_if %></a>
+                        <a href="{$OriginalLink}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>">{$MenuTitle.XML}  <% if $Children %><i class="icon-caret-down"></i><% end_if %></a>
                         <% if $ClassName == 'RedirectorPage' %>
                             <% with $LinkTo %>
                                 <% include SilverCart/Model/Pages/NavigationSubmenu %>
@@ -25,7 +25,7 @@
                         <% end_if %>
                     </li>
                         <% else %>
-                    <li><a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>">{$MenuTitle.XML}</a></li>
+                    <li><a href="{$OriginalLink}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>">{$MenuTitle.XML}</a></li>
                         <% end_if %>
                     <% end_loop %>
                 <% end_with %>  
