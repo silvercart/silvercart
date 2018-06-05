@@ -127,7 +127,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
         $dropdownField = null;
         $subObjects    = $this->getSubObjects($record);
         $subObjectsMap = $subObjects->map()->toArray();
-        $reflection    = new ReflectionClass($record->ClassName);
+        $reflection    = new ReflectionClass($this->targetClassName);
         $relationName  = $reflection->getShortName() . 's';
         $parent        = $this->parentObject;
         
