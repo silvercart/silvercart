@@ -272,7 +272,8 @@ class ProductGroupPage extends \Page {
     public function Link($action = null) {
         $controller = Controller::curr();
         if ($controller->hasMethod('isProductDetailView') &&
-            $controller->isProductDetailView()) {
+            $controller->isProductDetailView() &&
+            $controller->data()->ID === $this->ID) {
             $product = $controller->getDetailViewProduct();
             $link    = $product->Link($this->Locale);
         } else {
