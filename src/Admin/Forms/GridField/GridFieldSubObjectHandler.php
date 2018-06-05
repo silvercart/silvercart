@@ -80,6 +80,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
         $this->parentObject    = $parentObject;
         $this->targetClassName = $targetClassName;
         $this->subList         = $subList;
+        $this->subListTemplate = static::class . '_sublist';
     }
     
     /**
@@ -226,7 +227,9 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
         $sublist   = $this->subList;
         $recordIDs = $gridField->getList()->map('ID','ID')->toArray();
         foreach ($recordIDs as $recordID) {
-            $list = $sublist->filter($gridField->getModelClass() . 'ID', $recordID);
+            $reflection = new ReflectionClass($gridField->getModelClass());
+            $relationID = $reflection->getShortName() . 'ID';
+            $list = $sublist->filter($relationID, $recordID);
             if ($list instanceof DataList &&
                 $list->exists()) {
                 $lists .= $list->customise(array(
@@ -397,6 +400,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
             $dropdown = $this->getDropdownField($record);
             $action   = GridField_FormAction::create($gridField, 'AddSubObject' . $record->ID, false, "addsubobject", array('RecordID' => $record->ID))
                             ->addExtraClass('add-sub-object-button')
+                            ->setTitle(_t(GridFieldSubObjectHandler::class . '.AddSubObjectColumnTitle', 'Add Sub Object'))
                             ->setAttribute('title', _t(GridFieldSubObjectHandler::class . '.AddSubObjectColumnTitle', 'Add Sub Object'))
                             ->setAttribute('data-icon', 'add')
                             ->setAttribute('data-select-target', $record->ID);
