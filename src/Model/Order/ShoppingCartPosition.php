@@ -196,24 +196,24 @@ class ShoppingCartPosition extends DataObject {
     /**
      * Returns additional tile information provided by plugins
      * 
-     * @return string
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
+     * @since 05.06.2018
      */
     public function addToTitle() {
         $addToTitle = '';
         $this->extend('addToTitle', $addToTitle);
-        return $addToTitle;
+        return Tools::string2html($addToTitle);
     }
 
     /**
      * Returns additional tile information provided by plugins
      * 
-     * @return string
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
+     * @since 05.06.2018
      */
     public function addToTitleForWidget() {
         $addToTitleForWidget = '';
@@ -221,7 +221,7 @@ class ShoppingCartPosition extends DataObject {
         if (empty($addToTitleForWidget)) {
             $addToTitleForWidget = $this->addToTitle();
         }
-        return $addToTitleForWidget;
+        return Tools::string2html($addToTitleForWidget);
     }
 
     /**
