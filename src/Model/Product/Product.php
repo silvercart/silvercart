@@ -2213,8 +2213,12 @@ class Product extends DataObject implements PermissionProvider {
             return $this->i18nLinks[$locale];
         }
         
-        $controller           = Controller::curr();
-        $productGroup         = $controller->data();
+        $controller = Controller::curr();
+        if ($controller->hasMethod('data')) {
+            $productGroup = $controller->data();
+        } else {
+            $productGroup = $this->ProductGroup();
+        }
         
         if ($controller instanceof ProductGroupPageController &&
             !($controller instanceof SearchResultsPageController)) {
