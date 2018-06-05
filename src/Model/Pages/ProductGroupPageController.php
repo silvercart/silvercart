@@ -349,14 +349,16 @@ class ProductGroupPageController extends \PageController {
      * itself will be the parent, so there must be two different links for one
      * controller.
      *
+     * @param string $action Action to call.
+     *
      * @return string
      *
      * @see self::Link()
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.02.2011
      */
-    public function OriginalLink() {
-        return $this->data()->OriginalLink();
+    public function OriginalLink($action = null) {
+        return $this->data()->OriginalLink($action);
     }
     
     /**
