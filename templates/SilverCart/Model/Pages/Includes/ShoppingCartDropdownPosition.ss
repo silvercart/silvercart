@@ -10,7 +10,7 @@
             <td class="sc-product-cart">
                 
                 <div class="sc-product-cart-description">
-                    <p><a class="highlight" href="{$Product.Link}"><strong>{$getTitle}</strong></a></h4>
+                    <p><a class="highlight" href="{$Product.Link}"><strong>{$getTitle}</strong></a></p>
                     <ul class="unstyled">
                         <li><small><%t SilverCart\Model\Product\Product.PRODUCTNUMBER_SHORT 'Item no.' %>: {$getProductNumberShop}</small></li>
                         <% if $getCartDescription %><li><small>{$getCartDescription}</small></li><% end_if %>
