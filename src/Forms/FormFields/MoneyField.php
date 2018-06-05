@@ -84,7 +84,7 @@ class MoneyField extends \SilverStripe\Forms\MoneyField {
                 $value->setCurrency($defaultCurrency);
             }
         }
-        parent::setValue($value, $data);
+        return parent::setValue($value, $data);
     }
     
     /**
@@ -150,6 +150,7 @@ class MoneyField extends \SilverStripe\Forms\MoneyField {
     public function setCurrencyIsReadonly($currencyIsReadonly) {
         $this->currencyIsReadonly = $currencyIsReadonly;
         $this->fieldCurrency      = $this->FieldCurrency($this->name);
+        return $this;
     }
     
 }
