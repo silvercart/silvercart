@@ -57,6 +57,15 @@ class ShoppingCart extends DataObject {
     private static $many_many = array(
         'Products' => Product::class,
     );
+    
+    /**
+     * has one back relation
+     *
+     * @var array
+     */
+    private static $belongs_to = array(
+        'Member' => Member::class,
+    );
 
     /**
      * DB table name
