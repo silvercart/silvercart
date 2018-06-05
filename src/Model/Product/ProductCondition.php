@@ -142,13 +142,6 @@ class ProductCondition extends DataObject {
         $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
         $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
         
-        $field = new \SilverCart\Forms\FormFields\TextField('Test', 'Test', 'Test');
-        $field->setTemplate('Test');
-        $fields->addFieldToTab('Root.Main', $field);
-        $field2 = new \SilverStripe\Forms\OptionsetField('Test2', 'Test2', ['1','2','3']);
-        $field2->setTemplate('Test');
-        $fields->addFieldToTab('Root.Main', $field2);
-        
         return $fields;
     }
     

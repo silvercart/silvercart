@@ -25,7 +25,6 @@ use SilverStripe\View\Requirements;
  * @since 22.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
- * @todo Test this. This component isn't used in SilverCart core but in modules (e.g. variant/attribute module)
  */
 class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_ActionProvider, GridField_URLHandler, GridField_ColumnProvider {
 
