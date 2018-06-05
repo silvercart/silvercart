@@ -14,6 +14,7 @@
                     <ul class="unstyled">
                         <li><small><%t SilverCart\Model\Product\Product.PRODUCTNUMBER_SHORT 'Item no.' %>: {$getProductNumberShop}</small></li>
                         <% if $getCartDescription %><li><small>{$getCartDescription}</small></li><% end_if %>
+                        <% if $addToTitleForWidget %><li><small>{$addToTitleForWidget}</small></li><% end_if %>
                     </ul>
                 </div> 
             </td>
