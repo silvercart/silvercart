@@ -67,19 +67,20 @@ class ProductGroupPageSelectorsForm extends CustomForm {
             $sortableFrontendFieldsForDropdown = array_values($sortableFrontendFields);
             asort($sortableFrontendFieldsForDropdown);
             
-            $fields += [
-                DropdownField::create('SortOrder', _t(ProductGroupPage::class . '.SORT_ORDER', 'Sort order'), $sortableFrontendFieldsForDropdown, $sortOrder),
-            ];
             $productsPerPageOptions = Config::getProductsPerPageOptions();
             if (!empty($productsPerPageOptions)) {
-                $fields += [
-                    DropdownField::create('productsPerPage', _t(ProductGroupPage::class . '.PRODUCTS_PER_PAGE', 'Products per page'), $productsPerPageOptions, $productsPerPage),
-                ];
+                $productsPerPageField = DropdownField::create('productsPerPage', _t(ProductGroupPage::class . '.PRODUCTS_PER_PAGE', 'Products per page'), $productsPerPageOptions, $productsPerPage);
             } else {
-                $fields += [
-                    HiddenField::create('productsPerPage', '', Config::getProductsPerPageOptions()),
-                ];
+                $productsPerPageField = HiddenField::create('productsPerPage', '', Config::getProductsPerPageOptions());
             }
+            
+            $fields = array_merge(
+                    $fields,
+                    [
+                        DropdownField::create('SortOrder', _t(ProductGroupPage::class . '.SORT_ORDER', 'Sort order'), $sortableFrontendFieldsForDropdown, $sortOrder),
+                        $productsPerPageField,
+                    ]
+            );
         });
         return parent::getCustomFields();
     }

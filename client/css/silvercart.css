@@ -2046,6 +2046,7 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
     .latest-blog-posts .blog-tab,
     .widget .categories,
     .widget.silvercart-product-attribute-filter-widget .silvercart-widget-content_frame,
+    .widget.bordered .widget-content,
     .widget .pro-range-slider {
         padding: 8px;
         display: block;

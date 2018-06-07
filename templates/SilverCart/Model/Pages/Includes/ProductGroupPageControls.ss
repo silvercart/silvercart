@@ -1,5 +1,4 @@
 <% if $HasMoreProductsThan(0) %>
-    <% include SilverCart/Model/Pages/ProductGroupPagination %>
     <% if $ActiveProducts && $hasMoreGroupViewsThan(1) %>      
     <div class="inline pull-right">
         <div class="btn-group">

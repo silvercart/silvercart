@@ -1,14 +1,14 @@
-<% if $Products && $Products.MoreThanOnePage %>
+<% if $getProducts && $getProducts.MoreThanOnePage %>
 <div class="pagination pagination-right">
     <% if $CurrentPage.productsOnPagesString %>
     <span class="products-on-page pull-left">{$CurrentPage.productsOnPagesString}</span>
     <% end_if %>
     <ul>
-    <% if $Products.MoreThanOnePage %>
-        <% if $Products.NotFirstPage %>
-        <li><a href="{$Products.PrevLink}#scpgpct" rel="prev" title="<%t SilverCart\Model\Pages\Page.PREV 'Prev' %>"><i class="icon icon-chevron-left"></i></a></li>      
+    <% with $getProducts %>
+        <% if $NotFirstPage %>
+        <li><a href="{$PrevLink}#scpgpct" rel="prev" title="<%t SilverCart\Model\Pages\Page.PREV 'Prev' %>"><i class="icon icon-chevron-left"></i></a></li>      
         <% end_if %>
-        <% loop $Products.PaginationSummary(4) %>
+        <% loop $PaginationSummary(4) %>
             <% if $CurrentBool %> 
         <li class="active"><a class="highlight" href="javascript:;">{$PageNum}</a></li>
             <% else_if $Link %>
@@ -18,10 +18,14 @@
             <% end_if %>
         <% end_loop %>
 
-        <% if $Products.NotLastPage %>
-        <li><a href="{$Products.NextLink}#scpgpct" rel="next" title="<%t SilverCart\Model\Pages\Page.NEXT 'Next' %>"><i class="icon icon-chevron-right"></i></a></li>
+        <% if $NotLastPage %>
+        <li><a href="{$NextLink}#scpgpct" rel="next" title="<%t SilverCart\Model\Pages\Page.NEXT 'Next' %>"><i class="icon icon-chevron-right"></i></a></li>
         <% end_if %>
-    <% end_if %>
+    <% end_with %>
     </ul>
+</div>
+<% else_if $CurrentPage.productsOnPagesString %>
+<div class="clearfix">
+    <span class="products-on-page pull-left">{$CurrentPage.productsOnPagesString}</span>
 </div>
 <% end_if %>
