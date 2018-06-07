@@ -35,10 +35,11 @@ class TextField extends \SilverStripe\Forms\TextField {
      *
      * @param string $placeholder Placeholder to set
      * 
-     * @return void
+     * @return $this
      */
     public function setPlaceholder($placeholder) {
         $this->placeholder = $placeholder;
+        return $this;
     }
 
     /**
