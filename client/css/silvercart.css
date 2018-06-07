@@ -2069,14 +2069,6 @@ WidgetProductBoxTile .sc-product-shortinfo .sc-product-title h2 {
         padding-top: 0px;
         margin-top: 5px;
     }
-    .widget.silvercart-product-attribute-filter-widget .silvercart-widget-content_frame {
-        padding-top: 40px;
-    }
-    .widget.silvercart-product-attribute-filter-widget .section-header {
-        position: absolute;
-        margin-left: 30px;
-        margin-top: 15px;
-    }
 }
 @media (max-width: 430px) {
     .silvercart-product-group-page-list-item .thumbButtons.btn-toolbar form input {
