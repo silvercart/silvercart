@@ -349,13 +349,8 @@ class AvailabilityStatus extends DataObject {
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
         if ($this->SetForNegativeStock) {
-            $statusList = AvailabilityStatus::get()
-            ->filter(array(
-                        'SetForNegativeStock' => 1,
-            ))->exclude(array(
-                        'AvailabilityStatus.ID' => $this->ID
-            ));
-            if ($statusList) {
+            $statusList = AvailabilityStatus::get()->filter(['SetForNegativeStock' => 1])->exclude(['ID' => $this->ID]);
+            if ($statusList->exists()) {
                 foreach ($statusList as $status) {
                     $status->SetForNegativeStock = false;
                     $status->write();
@@ -363,13 +358,8 @@ class AvailabilityStatus extends DataObject {
             }
         }
         if ($this->SetForPositiveStock) {
-            $statusList = AvailabilityStatus::get()
-            ->filter(array(
-                        'SetForPositiveStock' => 1,
-            ))->exclude(array(
-                        'AvailabilityStatus.ID' => $this->ID
-            ));
-            if ($statusList) {
+            $statusList = AvailabilityStatus::get()->filter(['SetForPositiveStock' => 1])->exclude(['ID' => $this->ID]);
+            if ($statusList->exists()) {
                 foreach ($statusList as $status) {
                     $status->SetForPositiveStock = false;
                     $status->write();

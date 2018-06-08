@@ -2576,6 +2576,8 @@ class Product extends DataObject implements PermissionProvider {
                 $default = AvailabilityStatus::getDefault();
                 if ($default instanceof AvailabilityStatus &&
                     $default->exists()) {
+                    $this->AvailabilityStatusID = $default->ID;
+                    $this->write();
                     $this->cachedAvailabilityStatus = $default;
                 }
             }
