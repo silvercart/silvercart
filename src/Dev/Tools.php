@@ -1079,7 +1079,7 @@ class Tools {
      * 
      * @param DataObject $original Original DataObject to get translations for
      * 
-     * @return DataObject
+     * @return ArrayList
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.04.2018
