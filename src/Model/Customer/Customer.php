@@ -99,11 +99,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @var array
      */
     private static $has_one = array(
-        'ShoppingCart'         => ShoppingCart::class,
-        'InvoiceAddress'       => Address::class,
-        'ShippingAddress'      => Address::class,
-        'CustomerConfig'       => CustomerConfig::class,
-        'ShippingAddressInUse' => Address::class,
+        'ShoppingCart'    => ShoppingCart::class,
+        'InvoiceAddress'  => Address::class,
+        'ShippingAddress' => Address::class,
+        'CustomerConfig'  => CustomerConfig::class,
     );
     
     /**
@@ -202,7 +201,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         $fields->removeByName('InvoiceAddressID');
         $fields->removeByName('ShippingAddressID');
         $fields->removeByName('CustomerConfigID');
-        $fields->removeByName('ShippingAddressInUseID');
         
         if ($this->owner->exists()) {
             //make addresses deletable in the grid field
