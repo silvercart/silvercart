@@ -588,6 +588,15 @@ class TranslatableDataObjectExtension extends DataExtension {
     }
     
     /**
+     * Returns the translations for the extended object.
+     * 
+     * @return \SilverStripe\ORM\HasManyList
+     */
+    public function getTranslations() {
+        return $this->getTranslationRelation();
+    }
+    
+    /**
      * hook
      *
      * @return void 
