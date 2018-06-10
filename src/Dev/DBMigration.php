@@ -27,11 +27,10 @@ class DBMigration {
         ),
         'Member' => array(
             'has_one' => array(
-                'SilvercartShoppingCart'         => 'ShoppingCart',
-                'SilvercartInvoiceAddress'       => 'InvoiceAddress',
-                'SilvercartShippingAddress'      => 'ShippingAddress',
-                'SilvercartCustomerConfig'       => 'CustomerConfig',
-                'SilvercartShippingAddressInUse' => 'ShippingAddressInUse',
+                'SilvercartShoppingCart'    => 'ShoppingCart',
+                'SilvercartInvoiceAddress'  => 'InvoiceAddress',
+                'SilvercartShippingAddress' => 'ShippingAddress',
+                'SilvercartCustomerConfig'  => 'CustomerConfig',
             ),
         ),
         'Order' => array(
