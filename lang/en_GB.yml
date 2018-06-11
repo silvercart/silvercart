@@ -956,16 +956,10 @@ en_GB:
     DateRangePickerTHIS_YEAR: "This year"
     DateRangePickerTODAY: "Today"
     MENUTITLE: "Orders"
-  SilverCart\Model\Pages\OrderDetailPage:
-    DEFAULT_TITLE: "Order details"
-    DEFAULT_URLSEGMENT: "order-details"
-    PLURALNAME: "Order Detail Pages"
-    SINGULARNAME: "Order Detail Page"
-    TITLE: "Order details"
-    URL_SEGMENT: "order-details"
   SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: "My orders"
     DEFAULT_URLSEGMENT: "my-orders"
+    OrderDetails: "Order details"
     PLURALNAME: "Order overview"
     SINGULARNAME: "Order overview"
     TITLE: "My orders"

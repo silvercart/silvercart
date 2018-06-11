@@ -950,16 +950,10 @@ nl:
     DateRangePickerTHIS_YEAR: "This year"
     DateRangePickerTODAY: "Today"
     MENUTITLE: "Orders"
-  SilverCart\Model\Pages\OrderDetailPage:
-    DEFAULT_TITLE: "Bestelling details"
-    DEFAULT_URLSEGMENT: "bestelling-details"
-    PLURALNAME: "Detailpagina's bestellingen"
-    SINGULARNAME: "Detailpagina bestelling"
-    TITLE: "Bestelling details"
-    URL_SEGMENT: "bestelling-details"
   SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: "Mijn bestellingen"
     DEFAULT_URLSEGMENT: "mijn-bestellingen"
+    OrderDetails: "Bestelling details"
     PLURALNAME: "Overzicht bestellingen"
     SINGULARNAME: "Overzicht bestelling"
     TITLE: "Mijn bestellingen"

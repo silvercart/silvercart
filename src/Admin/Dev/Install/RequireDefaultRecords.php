@@ -24,7 +24,6 @@ use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverCart\Model\Pages\MetaNavigationPage;
 use SilverCart\Model\Pages\MyAccountHolder;
 use SilverCart\Model\Pages\NewsletterPage;
-use SilverCart\Model\Pages\OrderDetailPage;
 use SilverCart\Model\Pages\OrderHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\PaymentNotification;
@@ -687,18 +686,6 @@ class RequireDefaultRecords {
         $orderHolder->IdentifierCode    = "SilvercartOrderHolder";
         $orderHolder->write();
         $orderHolder->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
-
-        //create an order detail page as a child of the order holder
-        $orderDetailPage                    = new OrderDetailPage();
-        $orderDetailPage->Title             = _t(OrderDetailPage::class . '.DEFAULT_TITLE', 'order details');
-        $orderDetailPage->URLSegment        = _t(OrderDetailPage::class . '.DEFAULT_URLSEGMENT', 'order-details');
-        $orderDetailPage->ShowInMenus       = false;
-        $orderDetailPage->ShowInSearch      = false;
-        $orderDetailPage->CanViewType       = "Inherit";
-        $orderDetailPage->ParentID          = $orderHolder->ID;
-        $orderDetailPage->IdentifierCode    = "SilvercartOrderDetailPage";
-        $orderDetailPage->write();
-        $orderDetailPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
         //create a silvercart address holder as a child of silvercart my account holder
         $addressHolder                  = new AddressHolder();

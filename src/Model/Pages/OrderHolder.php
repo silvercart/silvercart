@@ -4,7 +4,9 @@ namespace SilverCart\Model\Pages;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\MyAccountHolder;
-use SilverCart\Model\Pages\OrderDetailPage;
+use SilverStripe\Control\Controller;
+use SilverStripe\ORM\FieldType\DBText;
+use SilverStripe\View\ArrayData;
 
 /**
  * shows an overview of a customers orders.
@@ -31,15 +33,6 @@ class OrderHolder extends MyAccountHolder {
      * @var bool
      */
     private static $can_be_root = false;
-    
-    /**
-     * list of allowed children page types
-     *
-     * @var array
-     */
-    private static $allowed_children = array(
-        OrderDetailPage::class,
-    );
     
     /**
      * The icon to use for this page in the storeadmin sitetree.
@@ -104,4 +97,33 @@ class OrderHolder extends MyAccountHolder {
     public function getSummaryTitle() {
         return _t(MyAccountHolder::class . '.YOUR_MOST_CURRENT_ORDERS', 'Your most current orders');
     }
+    
+    /**
+     * Adds the add/edit address title to the bradcrumbs by context.
+     *
+     * @param int    $maxDepth       maximum depth level of shown pages in breadcrumbs
+     * @param string $stopAtPageType name of pagetype to stop at
+     * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.04.2018
+     */
+    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) {
+        $items = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
+        $ctrl  = Controller::curr();
+        if ($ctrl->getAction() == 'detail') {
+            $order = $ctrl->CustomersOrder();
+            $title = new DBText();
+            $title->setValue($order->Title);
+            $items->push(new ArrayData([
+                'MenuTitle' => $title,
+                'Title'     => $title,
+                'Link'      => '',
+            ]));
+        }
+        return $items;
+    }
+    
 }

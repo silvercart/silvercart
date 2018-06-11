@@ -985,16 +985,10 @@ de:
     DateRangePickerTHIS_YEAR: "Dieses Jahr"
     DateRangePickerTODAY: "Heute"
     MENUTITLE: "Bestellungen"
-  SilverCart\Model\Pages\OrderDetailPage:
-    DEFAULT_TITLE: "Bestelldetails"
-    DEFAULT_URLSEGMENT: "bestelldetails"
-    PLURALNAME: "Bestelldetailsseiten"
-    SINGULARNAME: "Bestelldetailsseite"
-    TITLE: "Bestelldetails"
-    URL_SEGMENT: "bestelldetails"
   SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: "Meine Bestellungen"
     DEFAULT_URLSEGMENT: "meine-bestellungen"
+    OrderDetails: "Bestelldetails"
     PLURALNAME: "Bestellübersichten"
     SINGULARNAME: "Bestellübersicht"
     TITLE: "Meine Bestellungen"

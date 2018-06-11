@@ -686,16 +686,10 @@ ru:
     SINGULARNAME: "адрес заказчика"
   SilverCart\Admin\Controllers\OrderAdmin:
     MENUTITLE: "заказы"
-  SilverCart\Model\Pages\OrderDetailPage:
-    DEFAULT_TITLE: "подробности заказа"
-    DEFAULT_URLSEGMENT: "подробности заказа"
-    PLURALNAME: "страница подробностей заказа"
-    SINGULARNAME: "страница подробностей заказа"
-    TITLE: "подробности заказа"
-    URL_SEGMENT: "подробности заказа"
   SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: "мои заказы"
     DEFAULT_URLSEGMENT: "мои заказы"
+    OrderDetails: "подробности заказа"
     PLURALNAME: "заказы"
     SINGULARNAME: "заказ"
     TITLE: "мои заказы"

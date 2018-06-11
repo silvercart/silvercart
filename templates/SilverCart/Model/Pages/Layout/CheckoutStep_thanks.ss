@@ -15,7 +15,7 @@
         {$PaymentConfirmationText}
         
 		<% if $CustomersOrder %>
-            <h1><%t SilverCart\Model\Pages\OrderDetailPage.TITLE 'Order Details' %></h1>
+            <h1><%t SilverCart\Model\Pages\OrderHolder.OrderDetails 'Order Details' %></h1>
             <% include SilverCart/Model/Pages/OrderDetails %>
 		<% end_if %>
         

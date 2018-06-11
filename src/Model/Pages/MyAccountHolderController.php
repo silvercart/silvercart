@@ -69,7 +69,7 @@ class MyAccountHolderController extends \PageController {
      * @since 22.02.2011
      */
     public function OrderDetailLink() {
-        return Tools::PageByIdentifierCode('SilvercartOrderDetailPage')->Link() . 'detail/';
+        return Tools::PageByIdentifierCode('SilvercartOrderHolder')->Link() . 'detail/';
     }
     
     /**

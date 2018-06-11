@@ -153,7 +153,7 @@
                 <% end_if %>
                 </td>
                 <td valign="top">
-                    <h2><%t SilverCart\Model\Pages\OrderDetailPage.TITLE 'Order details' %>:</h2>
+                    <h2><%t SilverCart\Model\Pages\OrderHolder.OrderDetails 'Order details' %>:</h2>
 
                     <table>
                         <tr>
