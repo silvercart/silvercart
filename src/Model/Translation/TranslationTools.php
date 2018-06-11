@@ -6,6 +6,7 @@ use Locale;
 use SilverCart\Dev\Tools;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
+use SilverStripe\Core\Config\Config as SilverStripeConfig;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
@@ -440,7 +441,7 @@ class TranslationTools {
                 continue;
             }
 
-            $extensions = \SilverStripe\Core\Config\Config::inst()->get($className, 'extensions');
+            $extensions = SilverStripeConfig::inst()->get($className, 'extensions');
             if (!is_null($extensions) &&
                 is_array($extensions) &&
                 in_array(TranslatableDataObjectExtension::class, $extensions)) {

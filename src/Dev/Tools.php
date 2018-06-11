@@ -10,6 +10,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
+use SilverStripe\Core\Config\Config as SilverStripeConfig;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -398,7 +399,7 @@ class Tools {
         
         $params = array('db', 'casting', 'has_one', 'has_many', 'many_many');
         foreach ($params as $param) {
-            $source = \SilverStripe\Core\Config\Config::inst()->get($objectName, $param);
+            $source = SilverStripeConfig::inst()->get($objectName, $param);
             if (is_array($source)) {
                 foreach (array_keys($source) as $fieldname) {
                     $fieldLabels[$fieldname]             = _t($objectName . '.' . $fieldname, $fieldname);
@@ -1145,6 +1146,6 @@ class Tools {
      * @return string
      */
     public static function get_table_name($class) {
-        return \SilverStripe\Core\Config\Config::inst()->get($class, 'table_name');
+        return SilverStripeConfig::inst()->get($class, 'table_name');
     }
 }
