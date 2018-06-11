@@ -196,6 +196,7 @@ en:
     ChoosePaymentMethod: "I would like to pay with {payment}"
   SilverCart\Model\Pages\CheckoutStep:
     BACK_TO_SHOPPINGCART: "Back to the shopping cart"
+    Change: "Change"
     CHOSEN_PAYMENT: "Chosen payment method"
     CHOSEN_SHIPPING: "Chosen shipping method"
     ContentStep1: "Content Step 1 - Login/Register"
@@ -216,6 +217,7 @@ en:
     PLURALNAME: "Checkout Steps"
     SINGULARNAME: "Checkout Step"
     StepContent: "Content for single steps"
+    TaxAndDutyHint: "Caution: There are additional taxes and fees for delivery to non EU countries."
     URL_SEGMENT: "checkout"
   SilverCart\Admin\Model\Config:
     ADDED_EXAMPLE_CONFIGURATION: "Added Example Configuration"

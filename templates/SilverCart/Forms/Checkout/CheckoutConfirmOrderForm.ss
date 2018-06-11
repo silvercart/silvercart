@@ -20,7 +20,7 @@
                 <% include SilverCart/Model/Pages/AddressDetailReadOnly %>
             <% end_with %>
             {$AfterInvoiceAddressContent}
-                <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <%t SilverCart\Forms\Checkout\CheckoutFormStep5.Change 'Change' %></a>
+                <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <%t SilverCart\Model\Pages\CheckoutStep.Change 'Change' %></a>
             </div>
         <% else %>
             <div class="checkout-change-area silvercart-highlighted-box well margin-bottom">
@@ -29,7 +29,7 @@
                     <% include SilverCart/Model/Pages/AddressDetailReadOnly %>
                 <% end_with %>
                 {$AfterInvoiceAddressContent}
-                <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <%t SilverCart\Forms\Checkout\CheckoutFormStep5.Change 'Change' %></a>
+                <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <%t SilverCart\Model\Pages\CheckoutStep.Change 'Change' %></a>
             </div>
             <div class="checkout-change-area silvercart-highlighted-box well margin-bottom">
                 {$BeforeShippingAddressContent}
@@ -37,7 +37,7 @@
                     <% include SilverCart/Model/Pages/AddressDetailReadOnly %>
                 <% end_with %>
                 {$AfterShippingAddressContent}
-                <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <%t SilverCart\Forms\Checkout\CheckoutFormStep5.Change 'Change' %></a>
+                <a class="btn btn-small checkout-change-button" href="{$Controller.AddressStepLink}"><i class="icon-edit"></i> <%t SilverCart\Model\Pages\CheckoutStep.Change 'Change' %></a>
             </div>
         <% end_if %>
     <% end_with %>
@@ -65,7 +65,7 @@
                 {$AfterShippingMethodContent}
                 </p>
                 <% if not $Controller.SkipShippingStep %>
-                <a class="btn checkout-change-button" href="{$Controller.ShipmentStepLink}"><i class="icon-edit"></i> <%t SilverCart\Forms\Checkout\CheckoutFormStep5.Change 'Change' %></a>
+                <a class="btn checkout-change-button" href="{$Controller.ShipmentStepLink}"><i class="icon-edit"></i> <%t SilverCart\Model\Pages\CheckoutStep.Change 'Change' %></a>
                 <% end_if %>
             </div>
             <div class="silvercart-highlighted-box well checkout-change-area margin-bottom">
@@ -79,7 +79,7 @@
                 {$AfterPaymentMethodContent}
                 </p>
                 <% if not $Controller.SkipPaymentStep %>
-                <a class="btn checkout-change-button" href="{$Controller.PaymentStepLink}"><i class="icon-edit"></i> <%t SilverCart\Forms\Checkout\CheckoutFormStep5.Change 'Change' %></a>
+                <a class="btn checkout-change-button" href="{$Controller.PaymentStepLink}"><i class="icon-edit"></i> <%t SilverCart\Model\Pages\CheckoutStep.Change 'Change' %></a>
                 <% end_if %>
             </div>
     <% end_with %>
@@ -106,7 +106,7 @@
 
             <hr>
             <% if $CurrentPage.SiteConfig.ShowTaxAndDutyHint %>
-            <p class="tax-and-duty-hint"><%t SilverCart\Forms\Checkout\CheckoutFormStep5.TaxAndDutyHint 'Caution: There are additional taxes and fees for delivery to non EU countries.' %></p>
+            <p class="tax-and-duty-hint"><%t SilverCart\Model\Pages\CheckoutStep.TaxAndDutyHint 'Caution: There are additional taxes and fees for delivery to non EU countries.' %></p>
             <hr>
             <% end_if %>
             <div class="margin-side clearfix">
