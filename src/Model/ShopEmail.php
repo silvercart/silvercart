@@ -538,6 +538,7 @@ class ShopEmail extends DataObject {
             $subject,
             $htmlContent
         );
+        $email->setFrom(Config::EmailSender(), Config::EmailSenderName());
         if (!is_null($attachments)) {
             self::attachFiles($email, $attachments);
         }

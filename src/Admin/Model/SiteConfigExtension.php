@@ -5,6 +5,7 @@ namespace SilverCart\Admin\Model;
 use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
@@ -21,7 +22,6 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\i18n\i18n;
@@ -63,6 +63,7 @@ class SiteConfigExtension extends DataExtension {
         'SilvercartMinorVersion'                => 'Varchar(16)',
         'DefaultCurrency'                       => 'Varchar(16)',
         'DefaultPriceType'                      => 'Enum("gross,net","gross")',
+        'EmailSenderName'                       => 'Varchar(255)',
         'EmailSender'                           => 'Varchar(255)',
         'GlobalEmailRecipient'                  => 'Varchar(255)',
         'DefaultMailRecipient'                  => 'Varchar(255)',
@@ -225,7 +226,10 @@ class SiteConfigExtension extends DataExtension {
                     'addToCartMaxQuantity'                  => _t(Config::class . '.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
                     'DefaultCurrency'                       => _t(Config::class . '.DEFAULTCURRENCY', 'Default currency'),
                     'DefaultPriceType'                      => _t(Config::class . '.DEFAULTPRICETYPE', 'Default price type'),
-                    'EmailSender'                           => _t(Config::class . '.EMAILSENDER', 'Email sender'),
+                    'EmailSenderName'                       => _t(Config::class . '.EmailSenderName', 'Email sender name'),
+                    'EmailSenderNameExample'                => _t(Config::class . '.EmailSenderNameExample', 'e.g. "Your Shop Name"'),
+                    'EmailSender'                           => _t(Config::class . '.EmailSender', 'Email sender address'),
+                    'EmailSenderExample'                    => _t(Config::class . '.EmailSenderExample', 'e.g. "noreply@example.com"'),
                     'GlobalEmailRecipient'                  => _t(Config::class . '.GLOBALEMAILRECIPIENT', 'Global email recipient'),
                     'enableBusinessCustomers'               => _t(Config::class . '.ENABLEBUSINESSCUSTOMERS', 'Enable business customers'),
                     'enablePackstation'                     => _t(Config::class . '.ENABLEPACKSTATION', 'Enable address input fields for PACKSTATION'),
@@ -273,7 +277,8 @@ class SiteConfigExtension extends DataExtension {
                     'DisplayWeightsInKilogram'              => _t(Config::class . '.DISPLAY_WEIGHTS_IN_KILOGRAM', 'Display weights in kilogram (kg)'),
                     'ShowTaxAndDutyHint'                    => _t(Config::class . '.ShowTaxAndDutyHint', 'Show hint for additional taxes and duty for non EU countries.'),
                     
-                    'EmailSenderRightTitle'                             => _t(Config::class . '.EMAILSENDER_INFO', 'The email sender will be the sender address of all emails sent by SilverCart.'),
+                    'EmailSenderRightTitle'                             => _t(Config::class . '.EmailSenderDesc', 'The email sender will be the sender address of all emails sent by SilverCart.'),
+                    'EmailSenderNameDesc'                               => _t(Config::class . '.EmailSenderNameDesc', 'The email sender will be the sender address of all emails sent by SilverCart.'),
                     'GlobalEmailRecipientRightTitle'                    => _t(Config::class . '.GLOBALEMAILRECIPIENT_INFO', 'The global email recipient can be set optionally. The global email recipient will get ALL emails sent by SilverCart (order notifications, contact emails, etc.). The recipients set directly at the email templates will not be replaced, but extended.'),
                     'DefaultMailRecipientRightTitle'                    => _t(Config::class . '.DEFAULT_MAIL_RECIPIENT_INFO', 'Emails which are directed to shop operator will be sent to this address.'),
                     'DefaultMailOrderNotificationRecipientRightTitle'   => _t(Config::class . '.DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO', 'Order notifications will be sent to this address (no more to Default Email Recipient).'),
@@ -401,6 +406,7 @@ class SiteConfigExtension extends DataExtension {
                 'EmailConfiguration',
                 $this->owner->fieldLabel('EmailConfiguration'),
                 array(
+                    new TextField('EmailSenderName',                        $this->owner->fieldLabel('EmailSenderName')),
                     new TextField('EmailSender',                            $this->owner->fieldLabel('EmailSender')),
                     new TextField('GlobalEmailRecipient',                   $this->owner->fieldLabel('GlobalEmailRecipient')),
                     new TextField('DefaultMailRecipient',                   $this->owner->fieldLabel('DefaultMailRecipient')),
@@ -520,6 +526,9 @@ class SiteConfigExtension extends DataExtension {
         // Modify field data
         $fields->dataFieldByName('DefaultLocale')                           ->setTitle($this->owner->fieldLabel('DefaultLocale'));
         $fields->dataFieldByName('EmailSender')                             ->setRightTitle($this->owner->fieldLabel('EmailSenderRightTitle'));
+        $fields->dataFieldByName('EmailSender')                             ->setPlaceholder($this->owner->fieldLabel('EmailSenderExample'));
+        $fields->dataFieldByName('EmailSenderName')                         ->setRightTitle($this->owner->fieldLabel('EmailSenderNameDesc'));
+        $fields->dataFieldByName('EmailSenderName')                         ->setPlaceholder($this->owner->fieldLabel('EmailSenderNameExample'));
         $fields->dataFieldByName('GlobalEmailRecipient')                    ->setRightTitle($this->owner->fieldLabel('GlobalEmailRecipientRightTitle'));
         $fields->dataFieldByName('DefaultMailRecipient')                    ->setRightTitle($this->owner->fieldLabel('DefaultMailRecipientRightTitle'));
         $fields->dataFieldByName('DefaultMailOrderNotificationRecipient')   ->setRightTitle($this->owner->fieldLabel('DefaultMailOrderNotificationRecipientRightTitle'));

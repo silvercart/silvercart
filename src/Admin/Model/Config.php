@@ -124,6 +124,7 @@ class Config {
     public static $defaultCurrencySymbol                    = null;
     public static $defaultPricetype                         = null;
     public static $emailSender                              = null;
+    public static $emailSenderName                          = null;
     public static $enableBusinessCustomers                  = null;
     public static $enablePackstation                        = null;
     public static $globalEmailRecipient                     = null;
@@ -360,6 +361,21 @@ class Config {
             self::$emailSender = self::getConfig()->EmailSender;
         }
         return iconv("UTF-8", "ISO-8859-1", self::$emailSender);
+    }
+
+    /**
+     * Returns the configured email sender.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.06.2018
+     */
+    public static function EmailSenderName() {
+        if (is_null(self::$emailSenderName)) {
+            self::$emailSenderName = self::getConfig()->EmailSenderName;
+        }
+        return self::$emailSenderName;
     }
 
     /**
