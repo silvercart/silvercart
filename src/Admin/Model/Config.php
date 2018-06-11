@@ -10,7 +10,7 @@ use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
-use SilverStripe\Control\Email;
+use SilverStripe\Control\Email\Email;
 use SilverStripe\Core\Extensible;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
@@ -686,7 +686,7 @@ class Config {
         if (is_null(self::$defaultMailRecipient)) {
             self::$defaultMailRecipient = self::getConfig()->DefaultMailRecipient;
             if (empty(self::$defaultMailRecipient)) {
-                self::$defaultMailRecipient = Config::inst()->get(Email::class, 'admin_email');
+                self::$defaultMailRecipient = Email::config()->get('admin_email');
             }
         }
         return self::$defaultMailRecipient;
