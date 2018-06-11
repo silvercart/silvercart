@@ -7,6 +7,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\Page;
+use SilverCart\Model\Pages\SearchResultsPageController;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\SearchQuery;
 use SilverStripe\Control\Controller;
@@ -162,9 +163,9 @@ class ActionHandler extends Controller {
         $searchQuery        = SearchQuery::get_by_query(trim(Convert::raw2sql($quickSearchQuery)));
         $searchQuery->Count++;
         $searchQuery->write();
-        Product::setDefaultSort('relevance');
-        Tools::Session()->set("searchQuery",     $quickSearchQuery);
-        Tools::Session()->set('searchContext',   $searchContext);
+        Product::setDefaultSort('');
+        Tools::Session()->set(SearchResultsPageController::SESSION_KEY_SEARCH_QUERY,   $quickSearchQuery);
+        Tools::Session()->set(SearchResultsPageController::SESSION_KEY_SEARCH_CONTEXT, $searchContext);
         Tools::saveSession();
         if ($doRedirect) {
             $this->redirect($searchResultsPage->RelativeLink());

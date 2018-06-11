@@ -32,6 +32,7 @@ use SilverStripe\ORM\PaginatedList;
 class SearchResultsPageController extends ProductGroupPageController {
     
     const SESSION_KEY_SEARCH_QUERY = 'SilverCart.SearchQuery';
+    const SESSION_KEY_SEARCH_CONTEXT = 'SilverCart.SearchContext';
     
     /**
      * list of allowed actions
@@ -153,7 +154,7 @@ class SearchResultsPageController extends ProductGroupPageController {
             $searchContext = Product::class;
         }
         $this->currentSearchContext = $searchContext;
-        Tools::Session()->set('searchContext', $searchContext);
+        Tools::Session()->set(static::SESSION_KEY_SEARCH_CONTEXT, $searchContext);
         Tools::saveSession();
     }
 
@@ -164,7 +165,7 @@ class SearchResultsPageController extends ProductGroupPageController {
      */
     public function getCurrentSearchContext() {
         if (is_null($this->currentSearchContext)) {
-            $this->setCurrentSearchContext(Tools::Session()->get('searchContext'));
+            $this->setCurrentSearchContext(Tools::Session()->get(static::SESSION_KEY_SEARCH_CONTEXT));
         }
         return $this->currentSearchContext;
     }
@@ -259,7 +260,7 @@ class SearchResultsPageController extends ProductGroupPageController {
     protected function init($skip = false) {
         Product::addExtendedSortableFrontendFields(
                 [
-                    'relevance' => _t(SearchResultsPage::class . '.RELEVANCESORT', 'Relevance'),
+                    '' => _t(SearchResultsPage::class . '.RELEVANCESORT', 'Relevance'),
                 ]
         );
         parent::init(true);
