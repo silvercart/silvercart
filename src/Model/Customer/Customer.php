@@ -52,37 +52,37 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
     /**
      * Comma separated string of related group names
      *
-     * @var string 
+     * @var string[]
      */
-    protected $groupNames = null;
+    protected $groupNames = [];
     
     /**
      * List of related group IDs
      *
-     * @var array
+     * @var array[]
      */
-    protected $groupIDs = null;
+    protected $groupIDs = [];
     
     /**
      * Group ID string to use as cache key part
      *
-     * @var array
+     * @var string
      */
-    protected $groupCacheKey = null;
+    protected $groupCacheKey = [];
     
     /**
      * Determines whether the customer has to pay taxes or not
      *
-     * @var bool
+     * @var bool[]
      */
-    protected $doesNotHaveToPayTaxes = null;
+    protected $doesNotHaveToPayTaxes = [];
     
     /**
      * DB attributes
      *
      * @return array
      */
-    private static $db = array(
+    private static $db = [
         'Salutation'                        => "Enum(',Herr,Frau', '')",
         'NewsletterOptInStatus'             => 'Boolean(0)',
         'NewsletterConfirmationHash'        => 'Varchar(50)',
@@ -91,58 +91,58 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
         'Birthday'                          => 'Date',
         'CustomerNumber'                    => 'Varchar(128)',
-    );
+    ];
     
     /**
      * has one attributes
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'ShoppingCart'    => ShoppingCart::class,
         'InvoiceAddress'  => Address::class,
         'ShippingAddress' => Address::class,
         'CustomerConfig'  => CustomerConfig::class,
-    );
+    ];
     
     /**
      * has many attributes
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'Addresses' => Address::class,
         'Orders'    => Order::class,
-    );
+    ];
     
     /**
      * belongs many many attributes
      *
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'PaymentMethods' => PaymentMethod::class,
-    );
+    ];
     
     /**
      * api access
      *
      * @var array
      */
-    private static $api_access = array(
-        'view' => array(
+    private static $api_access = [
+        'view' => [
             'Email'
-        )
-    );
+        ],
+    ];
     
     /**
      * casted attributes
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'GroupNames' => 'Text',
-    );
+    ];
 
     /**
      * Code of default B2C customer group
@@ -163,18 +163,18 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      *
      * @var array
      */
-    public static $valid_customer_group_codes = array(
+    public static $valid_customer_group_codes = [
         'b2c',
         'b2b',
         'administrators',
-    );
+    ];
     
     /**
      * Holds the current shopping carts for every requested Member.
      *
      * @var array
      */
-    private static $shoppingCartList = array();
+    private static $shoppingCartList = [];
 
     // ------------------------------------------------------------------------
     // Extension methods
@@ -248,7 +248,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
     public function updateFieldLabels(&$labels) {
         $labels = array_merge(
                 $labels,
-                array(
+                [
                     'Salutation'                        => _t(Customer::class . '.SALUTATION', 'salutation'),
                     'SubscribedToNewsletter'            => _t(Customer::class . '.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
                     'HasAcceptedTermsAndConditions'     => _t(Customer::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
@@ -273,7 +273,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
                     'AddressData'                       => _t(Customer::class . '.ADDRESS_DATA', 'Basic address data'),
                     'InvoiceData'                       => _t(Customer::class . '.INVOICE_DATA', 'Invoice address data'),
                     'ShippingData'                      => _t(Customer::class . '.SHIPPING_DATA', 'Shipping address data'),
-                )
+                ]
         );
     }
     
@@ -291,120 +291,118 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
     public function updateSearchableFields(&$fields) {
         $address = new Address();
         
-        $addressesCountryFilter = array(
-            'Addresses.CountryID' => array(
+        $addressesCountryFilter = [
+            'Addresses.CountryID' => [
                 'title'     => $address->fieldLabel('Country'),
                 'filter'    => ExactMatchFilter::class,
                 'field'     => new DropdownField('Addresses.CountryID', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(false, '')),
-            ),
-        );
+            ],
+        ];
         
         $fields = array_merge(
                 $fields,
-                array(
-                    'CustomerNumber' => array(
+                [
+                    'CustomerNumber' => [
                         'title'     => $this->owner->fieldLabel('CustomerNumber'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'FirstName' => array(
+                    ],
+                    'FirstName' => [
                         'title'     => $this->owner->fieldLabel('FirstName'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'Groups.ID' => array(
+                    ],
+                    'Groups.ID' => [
                         'title'     => $this->owner->fieldLabel('GroupNames'),
                         'filter'    => ExactMatchFilter::class,
-                    ),
-                    'SubscribedToNewsletter' => array(
+                    ],
+                    'SubscribedToNewsletter' => [
                         'title'     => $this->owner->fieldLabel('SubscribedToNewsletter'),
                         'filter'    => ExactMatchFilter::class,
-                    ),
-                    
-                    'Addresses.FirstName' => array(
+                    ],
+                    'Addresses.FirstName' => [
                         'title'     => $address->fieldLabel('FirstName'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'Addresses.Surname' => array(
+                    ],
+                    'Addresses.Surname' => [
                         'title'     => $address->fieldLabel('Surname'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'Addresses.Street' => array(
+                    ],
+                    'Addresses.Street' => [
                         'title'     => $address->fieldLabel('Street'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'Addresses.StreetNumber' => array(
+                    ],
+                    'Addresses.StreetNumber' => [
                         'title'     => $address->fieldLabel('StreetNumber'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'Addresses.Postcode' => array(
+                    ],
+                    'Addresses.Postcode' => [
                         'title'     => $address->fieldLabel('Postcode'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'Addresses.City' => array(
+                    ],
+                    'Addresses.City' => [
                         'title'     => $address->fieldLabel('City'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                ),
+                    ],
+                ],
                 $addressesCountryFilter,
-                array(
-                    
-                    'InvoiceAddress.FirstName' => array(
+                [
+                    'InvoiceAddress.FirstName' => [
                         'title'     => $address->fieldLabel('FirstName'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'InvoiceAddress.Surname' => array(
+                    ],
+                    'InvoiceAddress.Surname' => [
                         'title'     => $address->fieldLabel('Surname'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'InvoiceAddress.Street' => array(
+                    ],
+                    'InvoiceAddress.Street' => [
                         'title'     => $address->fieldLabel('Street'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'InvoiceAddress.StreetNumber' => array(
+                    ],
+                    'InvoiceAddress.StreetNumber' => [
                         'title'     => $address->fieldLabel('StreetNumber'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'InvoiceAddress.Postcode' => array(
+                    ],
+                    'InvoiceAddress.Postcode' => [
                         'title'     => $address->fieldLabel('Postcode'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'InvoiceAddress.City' => array(
+                    ],
+                    'InvoiceAddress.City' => [
                         'title'     => $address->fieldLabel('City'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'InvoiceAddress.Country.ID' => array(
+                    ],
+                    'InvoiceAddress.Country.ID' => [
                         'title'     => $address->fieldLabel('Country'),
                         'filter'    => ExactMatchFilter::class,
-                    ),
+                    ],
                     
-                    'ShippingAddress.FirstName' => array(
+                    'ShippingAddress.FirstName' => [
                         'title'     => $address->fieldLabel('FirstName'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'ShippingAddress.Surname' => array(
+                    ],
+                    'ShippingAddress.Surname' => [
                         'title'     => $address->fieldLabel('Surname'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'ShippingAddress.Street' => array(
+                    ],
+                    'ShippingAddress.Street' => [
                         'title'     => $address->fieldLabel('Street'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'ShippingAddress.StreetNumber' => array(
+                    ],
+                    'ShippingAddress.StreetNumber' => [
                         'title'     => $address->fieldLabel('StreetNumber'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'ShippingAddress.Postcode' => array(
+                    ],
+                    'ShippingAddress.Postcode' => [
                         'title'     => $address->fieldLabel('Postcode'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'ShippingAddress.City' => array(
+                    ],
+                    'ShippingAddress.City' => [
                         'title'     => $address->fieldLabel('City'),
                         'filter'    => PartialMatchFilter::class,
-                    ),
-                    'ShippingAddress.Country.ID' => array(
+                    ],
+                    'ShippingAddress.Country.ID' => [
                         'title'     => $address->fieldLabel('Country'),
                         'filter'    => ExactMatchFilter::class,
-                    ),
-                )
+                    ],
+                ]
         );
     }
     
@@ -420,20 +418,20 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      */
     public function updateSummaryFields(&$fields) {
         if (get_class(Controller::curr()) != SecurityAdmin::class) {
-            $fields = array(
+            $fields = [
                 'CustomerNumber'            => $this->owner->fieldLabel('CustomerNumber'),
                 'Email'                     => $this->owner->fieldLabel('Email'),
                 'ShippingAddressSummary'    => $this->owner->fieldLabel('ShippingAddress'),
                 'InvoiceAddressSummary'     => $this->owner->fieldLabel('InvoiceAddress'),
                 'GroupNames'                => $this->owner->fieldLabel('GroupNames'),
-            );
+            ];
             $this->owner->extend('overwriteSummaryFields', $fields);
         } else {
             $fields = array_merge(
-                    array(
+                    [
                         'CustomerNumber'            => $this->owner->fieldLabel('CustomerNumber'),
                         'GroupNames'                => $this->owner->fieldLabel('GroupNames'),
-                    ),
+                    ],
                     $fields
             );
         }
@@ -477,12 +475,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @return string
      */
     public function getGroupNames() {
-        if (is_null($this->groupNames)) {
+        if (!array_key_exists($this->owner->ID, $this->groupNames)) {
             $groupNamesMap      = $this->owner->Groups()->map()->toArray();
             $groupNamesAsString = implode(', ', $groupNamesMap);
-            $this->groupNames   = $groupNamesAsString;
+            $this->groupNames[$this->owner->ID] = $groupNamesAsString;
         }
-        return $this->groupNames;
+        return $this->groupNames[$this->owner->ID];
     }
     
     /**
@@ -491,10 +489,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @return string
      */
     public function getGroupIDs() {
-        if (is_null($this->groupIDs)) {
-            $this->groupIDs = $this->owner->Groups()->map('ID','ID')->toArray();
+        if (!array_key_exists($this->owner->ID, $this->groupIDs)) {
+            $this->groupIDs[$this->owner->ID] = $this->owner->Groups()->map('ID','ID')->toArray();
         }
-        return $this->groupIDs;
+        return $this->groupIDs[$this->owner->ID];
     }
     
     /**
@@ -503,7 +501,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @return string
      */
     public function getGroupCacheKey() {
-        if (is_null($this->groupCacheKey)) {
+        if (!array_key_exists($this->owner->ID, $this->groupCacheKey)) {
             $groupCodes = $this->owner->Groups()->sort('Code')->map('ID','Code')->toArray();
             foreach ($groupCodes as $groupID => $groupCode) {
                 if ($groupCode == 'administrators') {
@@ -516,13 +514,13 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
                     }
                 }
             }
-            $this->groupCacheKey = implode('_', $groupCodes);
+            $this->groupCacheKey[$this->owner->ID] = implode('_', $groupCodes);
         }
         if (Controller::curr()->getRequest()->getVar('stage') == 'Stage' &&
             Controller::curr()->canViewStage('Stage', $this->owner)) {
-            $this->groupCacheKey .= '_' . uniqid('StageRandomCacheKey');
+            $this->groupCacheKey[$this->owner->ID] .= '_' . uniqid('StageRandomCacheKey');
         }
-        return $this->groupCacheKey;
+        return $this->groupCacheKey[$this->owner->ID];
     }
     
     /**
@@ -902,37 +900,17 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * Defines which attributes of an object can be accessed via api
      * 
      * @return SearchContext
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.11.2010
      */
     public static function getRestfulSearchContext() {
-        $fields = new FieldList(
-            array(
-                new TextField(
-                    'Email'
-                )
-            )
-        );
-
-        $filters = array(
-            'Email' => new ExactMatchFilter('Email')
-        );
-
-        return new SearchContext(
-            'Member',
-            $fields,
-            $filters
-        );
+        $fields  = FieldList::create([TextField::create('Email')]);
+        $filters = ['Email' => ExactMatchFilter::create('Email')];
+        return SearchContext::create('Member', $fields, $filters);
     }
     
     /**
      * Returns the translated salutation.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.10.2011
      */
     public function getTranslatedSalutation() {
         $salutation = '';
@@ -954,9 +932,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * exist yet.
      *
      * @return CustomerConfig
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.08.2011
      */
     public function getCustomerConfig() {
         if (!$this->owner->CustomerConfigID ||
@@ -1047,25 +1022,27 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @since 03.12.2013
      */
     public function doesNotHaveToPayTaxes() {
-        if (is_null($this->doesNotHaveToPayTaxes)) {
+        if (!array_key_exists($this->owner->ID, $this->doesNotHaveToPayTaxes)) {
+            $doesNotHaveToPayTaxes = null;
             if (Controller::curr() instanceof CheckoutStepController) {
                 $checkoutData = Controller::curr()->getCheckout()->getData();
                 if (array_key_exists('Shipping_Country', $checkoutData)) {
                     $country = Country::get()->byID($checkoutData['Shipping_Country']);
                     if ($country instanceof Country) {
-                        $this->doesNotHaveToPayTaxes = (boolean) $country->IsNonTaxable;
+                        $doesNotHaveToPayTaxes = (boolean) $country->IsNonTaxable;
                     }
                 }
             }
-            if (is_null($this->doesNotHaveToPayTaxes) && 
+            if (is_null($doesNotHaveToPayTaxes) && 
                 $this->owner->ShippingAddress() instanceof Address &&
                 $this->owner->ShippingAddress()->Country()->IsNonTaxable) {
-                $this->doesNotHaveToPayTaxes = true;
-            } elseif (is_null($this->doesNotHaveToPayTaxes)) {
-                $this->doesNotHaveToPayTaxes = false;
+                $doesNotHaveToPayTaxes = true;
+            } elseif (is_null($doesNotHaveToPayTaxes)) {
+                $doesNotHaveToPayTaxes = false;
             }
+            $this->doesNotHaveToPayTaxes[$this->owner->ID] = $doesNotHaveToPayTaxes;
         }
-        return $this->doesNotHaveToPayTaxes;
+        return $this->doesNotHaveToPayTaxes[$this->owner->ID];
     }
 
     /**
@@ -1191,12 +1168,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @return array
      */
     public static function get_template_global_variables() {
-        return array(
+        return [
             'CurrentMember'   => 'currentUser',
             'CurrentCustomer' => 'currentUser',
             'currentCustomer' => 'currentUser',
             'currentUser'     => 'currentUser',
-        );
+        ];
     }
     
     /**
