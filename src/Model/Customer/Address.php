@@ -215,6 +215,43 @@ class Address extends DataObject implements PermissionProvider {
     }
     
     /**
+     * Extracts the street name and number out of a street with number string.
+     * Examples:
+     *   -----------------------------------------------------
+     *  | JTL Input       | SC Street Name | SC Street Number |
+     *   -----------------------------------------------------
+     *  | Teststreet 51   | Teststreet     | 51               |
+     *  | Teststreet51    | Teststreet     | 51               |
+     *  | Test Street51   | Teststreet     | 51               |
+     *  | Test Street 51  | Teststreet     | 51               |
+     *  | Teststreet 51a  | Teststreet     | 51a              |
+     *  | Teststreet51a   | Teststreet     | 51a              |
+     *  | Test Street51a  | Teststreet     | 51a              |
+     *  | Test Street 51a | Teststreet     | 51a              |
+     *   -----------------------------------------------------
+     * 
+     * @param string $streetNameWithNumber Street name with number string
+     * 
+     * @return string[]
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.06.2018
+     */
+    public static function extract_street_name_and_number($streetNameWithNumber) {
+        $streetParts  = [];
+        $streetName   = $streetNameWithNumber;
+        $streetNumber = '';
+        if (preg_match('/([^\d]+)\s?(.+)/i', $streetName, $streetParts)) {
+            $streetName   = $streetParts[1];
+            $streetNumber = $streetParts[2];
+        }
+        return [
+            $streetName,
+            $streetNumber,
+        ];
+    }
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
