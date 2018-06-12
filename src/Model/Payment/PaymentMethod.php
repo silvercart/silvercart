@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Payment;
 
+use Locale;
 use ReflectionClass;
 use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
@@ -543,7 +544,7 @@ class PaymentMethod extends DataObject {
 
         if (method_exists($controller, 'getAddress')) {
             // 1) Use shipping address from checkout
-            $shippingAddress   = $controller->getAddress('ShippingAddress');
+            $shippingAddress = $controller->getAddress('ShippingAddress');
         } else {
             if ($member &&
                 $member->ShippingAddressID > 0) {
@@ -552,9 +553,8 @@ class PaymentMethod extends DataObject {
                 $shippingAddress = $member->ShippingAddress();
             } else {
                 // 3) Generate shipping address with shop's default country
-                $currentShopLocale = i18n::get_lang_from_locale(i18n::get_locale());
                 $shippingAddress = new Address();
-                $shippingAddress->Country = Country::get()->filter('ISO2', strtoupper($currentShopLocale))->first();
+                $shippingAddress->Country = Country::get()->filter('ISO2', strtoupper(Locale::getRegion(i18n::get_locale())))->first();
             }
         }
 
