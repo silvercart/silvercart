@@ -24,18 +24,18 @@ class DataObjectCacheExtension extends DataExtension {
      * Determines whether self::onAfterWrite() is in progress to prevent a
      * potential endless loop.
      *
-     * @var bool
+     * @var bool[]
      */
-    protected $onAfterWriteInProgress = false;
+    protected $onAfterWriteInProgress = [];
     
     /**
      * DB attributes
      *
      * @return array
      */
-    private static $db = array(
+    private static $db = [
         'LastEditedForCache' => 'DBDatetime',
-    );
+    ];
     
     /**
      * Removes the LastEditedForCache field.
@@ -75,23 +75,23 @@ class DataObjectCacheExtension extends DataExtension {
      * Format:
      * <pre>
      * // manipulates LastEditedForCache in every change case
-     * array(
+     * [
      *     'PropertyName',
      *     'Title',
      *     'Description'
-     * );
+     * ];
      * 
      * // manipulates LastEditedForCache only when PropertyName got or had the 'ValueToMatchOrDiffer'
-     * array(
+     * [
      *     'PropertyName' => 'ValueToMatchOrDiffer',
      *     'StockQuantity' => 0
-     * );
+     * ];
      * </pre>
      * 
      * @return array
      */
     public function getCacheRelevantFields() {
-        $cacheRelevantFields = array();
+        $cacheRelevantFields = [];
         $this->owner->extend('updateCacheRelevantFields', $cacheRelevantFields);
         return $cacheRelevantFields;
     }
@@ -106,8 +106,9 @@ class DataObjectCacheExtension extends DataExtension {
      * @since 21.03.2013
      */
     public function onAfterWrite() {
-        if (!$this->onAfterWriteInProgress) {
-            $this->onAfterWriteInProgress   = true;
+        if (!array_key_exists($this->owner->ID, $this->onAfterWriteInProgress) ||
+            $this->onAfterWriteInProgress[$this->owner->ID] === false) {
+            $this->onAfterWriteInProgress[$this->owner->ID] = true;
             if ($this->owner->hasMethod('getCacheRelevantFields')) {
                 $cacheRelevantFieldIsChanged    = false;
                 $cacheRelevantFields            = $this->owner->getCacheRelevantFields();
@@ -146,7 +147,7 @@ class DataObjectCacheExtension extends DataExtension {
                     }
                 }
             }
-            $this->onAfterWriteInProgress = false;
+            $this->onAfterWriteInProgress[$this->owner->ID] = false;
         }
     }
     
