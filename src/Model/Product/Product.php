@@ -2565,7 +2565,7 @@ class Product extends DataObject implements PermissionProvider {
      * @return AvailabilityStatus
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2014
+     * @since 12.06.2018
      */
     public function AvailabilityStatus() {
         if (is_null($this->cachedAvailabilityStatus)) {
@@ -2577,7 +2577,9 @@ class Product extends DataObject implements PermissionProvider {
                 if ($default instanceof AvailabilityStatus &&
                     $default->exists()) {
                     $this->AvailabilityStatusID = $default->ID;
-                    $this->write();
+                    if ($this->exists()) {
+                        $this->write();
+                    }
                     $this->cachedAvailabilityStatus = $default;
                 }
             }
