@@ -1355,7 +1355,7 @@ class ProductGroupPage extends \Page {
         if ($latestPublished) {
             $this->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
         } else {
-            $liveVersion = Versioned::get_one_by_stage(self::$table_name, Versioned::LIVE, '"' . self::$table_name . '"."ID" = ' . $this->ID);
+            $liveVersion = Versioned::get_one_by_stage(self::class, Versioned::LIVE, '"' . self::$table_name . '"."ID" = ' . $this->ID);
             if ($liveVersion instanceof ProductGroupPage &&
                 $liveVersion->exists()) {
                 $liveVersion->LastEditedForCache = $this->LastEditedForCache;
