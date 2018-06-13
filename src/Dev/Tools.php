@@ -1148,4 +1148,34 @@ class Tools {
     public static function get_table_name($class) {
         return SilverStripeConfig::inst()->get($class, 'table_name');
     }
+    
+    /**
+     * Returns the module name of the given working directory context.
+     * If there is no working directory context given, the module name will be
+     * determined dynamically by debug_backtrace().
+     * 
+     * @param string $contextWorkingDirectory Context working directory of the calling class
+     * 
+     * @return string
+     */
+    public static function get_module_name($contextWorkingDirectory = null) {
+        if (is_null($contextWorkingDirectory)) {
+            $backtrace                = debug_backtrace();
+            $callingClassPath         = $backtrace[0]['file'];
+            $relativeCallingClassPath = str_replace(Director::baseFolder(), '', $callingClassPath);
+            $parts                    = explode(DIRECTORY_SEPARATOR, $relativeCallingClassPath);
+        } else {
+            $relativeWorkingDirectory = str_replace(Director::baseFolder(), '', $contextWorkingDirectory);
+            $parts                    = explode(DIRECTORY_SEPARATOR, $relativeWorkingDirectory);
+        }
+
+        $moduleName               = '';
+        while (count($parts) > 0 &&
+                empty($moduleName)) {
+            $moduleName = array_shift($parts);
+        }
+        
+        return $moduleName;
+    }
+    
 }
