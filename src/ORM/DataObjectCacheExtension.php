@@ -29,6 +29,20 @@ class DataObjectCacheExtension extends DataExtension {
     protected $onAfterWriteInProgress = [];
     
     /**
+     * Can be set to true by each DataObject to prevent a cache refresh.
+     *
+     * @var boolean[]
+     */
+    protected $skipCacheRefresh = [];
+    
+    /**
+     * Can be set to true by each DataObject to prevent a cache refresh.
+     *
+     * @var boolean[]
+     */
+    protected $skipExtendedCacheRefresh = [];
+    
+    /**
      * DB attributes
      *
      * @return array
@@ -36,6 +50,74 @@ class DataObjectCacheExtension extends DataExtension {
     private static $db = [
         'LastEditedForCache' => 'DBDatetime',
     ];
+    
+    /**
+     * Returns the skip cache refresh setting.
+     * 
+     * @return boolean
+     */
+    public function getSkipCacheRefresh() {
+        if (!array_key_exists($this->owner->ID, $this->skipCacheRefresh)) {
+            $this->setSkipCacheRefresh(false);
+        }
+        return $this->skipCacheRefresh[$this->owner->ID];
+    }
+
+    /**
+     * Sets the skip cache refresh setting.
+     * 
+     * @param boolean $skipCacheRefresh Skip cache refresh setting
+     * 
+     * @return $this->owner
+     */
+    public function setSkipCacheRefresh($skipCacheRefresh) {
+        $this->skipCacheRefresh[$this->owner->ID] = $skipCacheRefresh;
+        return $this->owner;
+    }
+    
+    /**
+     * Returns the skip cache refresh setting.
+     * Alias for {@link $this->getSkipCacheRefresh()}.
+     * 
+     * @return boolean
+     */
+    public function SkipCacheRefresh() {
+        return $this->getSkipCacheRefresh();
+    }
+    
+    /**
+     * Returns the skip extended cache refresh setting.
+     * 
+     * @return boolean
+     */
+    public function getSkipExtendedCacheRefresh() {
+        if (!array_key_exists($this->owner->ID, $this->skipExtendedCacheRefresh)) {
+            $this->setSkipExtendedCacheRefresh(false);
+        }
+        return $this->skipExtendedCacheRefresh[$this->owner->ID];
+    }
+
+    /**
+     * Sets the skip extended cache refresh setting.
+     * 
+     * @param boolean $skipExtendedCacheRefresh Skip extended cache refresh setting
+     * 
+     * @return $this->owner
+     */
+    public function setSkipExtendedCacheRefresh($skipExtendedCacheRefresh) {
+        $this->skipExtendedCacheRefresh[$this->owner->ID] = $skipExtendedCacheRefresh;
+        return $this->owner;
+    }
+    
+    /**
+     * Returns the skip extended cache refresh setting.
+     * Alias for {@link $this->getSkipExtendedCacheRefresh()}.
+     * 
+     * @return boolean
+     */
+    public function SkipExtendedCacheRefresh() {
+        return $this->getSkipExtendedCacheRefresh();
+    }
     
     /**
      * Removes the LastEditedForCache field.
@@ -60,10 +142,16 @@ class DataObjectCacheExtension extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.02.2013
+     * @since 14.06.2018
      */
     public function markForCacheRefresh() {
+        if ($this->SkipCacheRefresh()) {
+            return;
+        }
         $this->owner->LastEditedForCache = date('Y-m-d H:i:s');
+        if ($this->SkipExtendedCacheRefresh()) {
+            return;
+        }
         if ($this->owner->hasMethod('extendMarkForCacheRefresh')) {
             $this->owner->extendMarkForCacheRefresh();
         }
