@@ -499,7 +499,7 @@ class OrderPosition extends DataObject {
     /**
      * Returns additional tile information provided by plugins
      * 
-     * @return string
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
@@ -507,6 +507,6 @@ class OrderPosition extends DataObject {
     public function addToTitle() {
         $addToTitle = '';
         $this->extend('addToTitle', $addToTitle);
-        return $addToTitle;
+        return Tools::string2html($addToTitle);
     }
 }
