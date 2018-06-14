@@ -11,6 +11,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
 use SilverStripe\Core\Config\Config as SilverStripeConfig;
+use SilverStripe\Forms\FormField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -455,20 +456,24 @@ class Tools {
      * 
      * @param DataObject $contextObject Context DataObject
      * @param string     $enumFieldName Name of the enum DB field
+     * @param string     $emptyString   String to use for an empty value
      * 
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.05.2018
      */
-    public static function enum_i18n_labels($contextObject, $enumFieldName) {
+    public static function enum_i18n_labels($contextObject, $enumFieldName, $emptyString = '') {
         $enumValues = $contextObject->dbObject($enumFieldName)->enumValues();
         $i18nLabels = [];
         foreach ($enumValues as $value => $label) {
             if (empty($label)) {
-                $i18nLabels[$value] = '';
+                $i18nLabels[$value] = $emptyString;
             } else {
                 $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . $label);
+                if ($i18nLabels[$value] == FormField::name_to_label($enumFieldName . $label)) {
+                    $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . ucfirst($label));
+                }
             }
         }
         return $i18nLabels;
