@@ -411,7 +411,6 @@ class ShippingMethod extends DataObject {
                 method_exists(Controller::curr(), 'getShippingAddress')) {
                 $shippingAddress = Controller::curr()->getShippingAddress();
                 $this->setShippingAddress($shippingAddress);
-                Tools::Log('getShippingFee', 'CAUTION: shipping address was not preset! Fallback to current controller ' . get_class(Controller::curr()), 'ShippingMethod');
             }
             if ($shippingAddress instanceof Address) {
                 $shippingCountry = $shippingAddress->Country();
