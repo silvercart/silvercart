@@ -1155,6 +1155,18 @@ class Tools {
     }
     
     /**
+     * Returns the base DB table name for the given class.
+     * 
+     * @param string $class Class
+     * 
+     * @return string
+     */
+    public static function get_base_table_name($class) {
+        $baseClass = DataObject::getSchema()->baseDataClass($class);
+        return DataObject::getSchema()->tableName($baseClass);
+    }
+    
+    /**
      * Returns the module name of the given working directory context.
      * If there is no working directory context given, the module name will be
      * determined dynamically by debug_backtrace().
