@@ -12,6 +12,7 @@ use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DB;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
@@ -56,7 +57,6 @@ class Address extends DataObject implements PermissionProvider {
         'StreetNumber'      => 'Varchar(15)',
         'Postcode'          => 'Varchar',
         'City'              => 'Varchar(100)',
-        'PhoneAreaCode'     => 'Varchar(10)',
         'Phone'             => 'Varchar(50)',
         'Fax'               => 'Varchar(50)',
         'IsPackstation'     => 'Boolean(0)',
@@ -494,10 +494,6 @@ class Address extends DataObject implements PermissionProvider {
                 'title'  => $this->fieldLabel('City'),
                 'filter' => PartialMatchFilter::class,
             ),
-            'PhoneAreaCode' => array(
-                'title'  => $this->fieldLabel('PhoneAreaCode'),
-                'filter' => PartialMatchFilter::class,
-            ),
             'Phone' => array(
                 'title'  => $this->fieldLabel('Phone'),
                 'filter' => PartialMatchFilter::class,
@@ -568,7 +564,6 @@ class Address extends DataObject implements PermissionProvider {
                 'StreetNumber'       => _t(Address::class . '.STREETNUMBER', 'Streetnumber'),
                 'Postcode'           => _t(Address::class . '.POSTCODE', 'Postcode'),
                 'City'               => _t(Address::class . '.CITY', 'City'),
-                'PhoneAreaCode'      => _t(Address::class . '.PHONEAREACODE', 'Phone area code'),
                 'Phone'              => _t(Address::class . '.PHONE', 'Phone'),
                 'PhoneShort'         => _t(Address::class . '.PHONE_SHORT', 'Phone'),
                 'Fax'                => _t(Address::class . '.FAX', 'Fax'),
@@ -610,6 +605,36 @@ class Address extends DataObject implements PermissionProvider {
         );
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Updates phone numbers if necessary.
+     * Since the PhoneAreaCode property was removed, it has to be concatinated 
+     * to the Phone property if not done yet. The PhoneAreaCode database column
+     * will be delted.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2018
+     */
+    public function requireDefaultRecords() {
+        
+        $databaseConfig = DB::getConfig();
+        $databaseName   = $databaseConfig['database'];
+        $tableName      = self::config()->get('table_name');
+        $columnName     = 'PhoneAreaCode';
+        $query          = "SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{$databaseName}' AND TABLE_NAME = '{$tableName}' AND COLUMN_NAME = '{$columnName}'";
+        $result         = DB::query($query);
+
+        if ($result->numRecords() > 0) {
+            $updateQuery = "UPDATE {$tableName} SET Phone = CONCAT({$columnName}, CONCAT(' ', Phone)), {$columnName} = NULL WHERE {$columnName} IS NOT NULL";
+            $alterQuery  = "ALTER TABLE {$tableName} DROP COLUMN {$columnName}";
+            DB::query($updateQuery);
+            DB::query($alterQuery);
+        }
+        
+        parent::requireDefaultRecords();
     }
     
     /**
@@ -829,7 +854,6 @@ class Address extends DataObject implements PermissionProvider {
             'Postcode',
             'City',
             'Phone',
-            'PhoneAreaCode',
             'Fax',
             'CountryID',
             'TaxIdNumber',

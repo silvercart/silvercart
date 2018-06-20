@@ -43,7 +43,6 @@
         <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[Country]).FieldHolder}</div>
     </div>
     <div class="row-fluid">
-        <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[PhoneAreaCode]).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[Phone]).FieldHolder}</div>
     </div>
 
@@ -94,7 +93,6 @@
             <div class="span4">{$Fields.dataFieldByName(ShippingAddress[Country]).FieldHolder}</div>
         </div>
         <div class="row-fluid">
-            <div class="span4">{$Fields.dataFieldByName(ShippingAddress[PhoneAreaCode]).FieldHolder}</div>
             <div class="span4">{$Fields.dataFieldByName(ShippingAddress[Phone]).FieldHolder}</div>
         </div>
     </div>

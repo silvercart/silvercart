@@ -1890,6 +1890,7 @@ nl:
     DefaultSuccessMessageSend: 'Your data was successfully sent.'
   SilverCart\Forms\CustomRequiredFields:
     FieldCanNotHaveMoreDecimalPlaces: 'The field {name} can not have more than {places} decimal places.'
+    FieldExpectsValidPhoneNumber: 'The field "{name}" expects a valid phone number. (e.g "01234 56789", "+49 1234 5678-9")'
     FieldMayConsistOfNumbersOnly: 'The field "{name}" may consist of numbers only.'
     FieldMayNotBeEmpty: 'The field "{name}" may not be empty.'
     FieldMayNotHaveValue: 'The field "{name1}" may not have the same value as field "{name2}".'

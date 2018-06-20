@@ -39,7 +39,7 @@
                 {$Postcode} {$City}<br/>
                 {$Country.Title}<br/>
                 <% if $Phone %>
-                    {$fieldLabel(PhoneShort)}: {$PhoneAreaCode} {$Phone}
+                    {$fieldLabel(PhoneShort)}: {$Phone}
                 <% end_if %>  
             </div>
         </div>

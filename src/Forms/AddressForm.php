@@ -41,8 +41,10 @@ class AddressForm extends CustomForm {
         'StreetNumber',
         'Postcode',
         'City',
-        'PhoneAreaCode',
-        'Phone',
+        'Phone' => [
+            'isFilledIn'    => true,
+            'isPhoneNumber' => true,
+        ],
         'Country',
     ];
 
@@ -157,7 +159,6 @@ class AddressForm extends CustomForm {
                 TextField::create('Postcode', $address->fieldLabel('Postcode')),
                 TextField::create('City', $address->fieldLabel('City')),
                 DropdownField::create('Country', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose')))->setHasEmptyDefault(true),
-                TextField::create('PhoneAreaCode', $address->fieldLabel('PhoneAreaCode')),
                 TextField::create('Phone', $address->fieldLabel('Phone')),
                 TextField::create('Fax', $address->fieldLabel('Fax')),
             ];

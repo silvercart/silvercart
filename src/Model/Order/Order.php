@@ -800,7 +800,6 @@ class Order extends DataObject implements PermissionProvider {
         $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Postcode',             $address->fieldLabel('Postcode'),           $this->ShippingAddress()->Postcode));
         $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__City',                 $address->fieldLabel('City'),               $this->ShippingAddress()->City));
         $fields->addFieldToTab('Root.ShippingAddressTab', new DropdownField('sa__Country',          $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->ShippingAddress()->Country()->ID));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PhoneAreaCode',        $address->fieldLabel('PhoneAreaCode'),      $this->ShippingAddress()->PhoneAreaCode));
         $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Phone',                $address->fieldLabel('Phone'),              $this->ShippingAddress()->Phone));
             
         $fields->addFieldToTab('Root.InvoiceAddressTab', new LiteralField('ia__Preview',            '<p>' . Convert::raw2xml($this->getInvoiceAddressSummary(true)) . '</p>'));
@@ -817,7 +816,6 @@ class Order extends DataObject implements PermissionProvider {
         $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Postcode',              $address->fieldLabel('Postcode'),           $this->InvoiceAddress()->Postcode));
         $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__City',                  $address->fieldLabel('City'),               $this->InvoiceAddress()->City));
         $fields->addFieldToTab('Root.InvoiceAddressTab', new DropdownField('ia__Country',           $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->InvoiceAddress()->Country()->ID));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PhoneAreaCode',         $address->fieldLabel('PhoneAreaCode'),      $this->InvoiceAddress()->PhoneAreaCode));
         $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Phone',                 $address->fieldLabel('Phone'),              $this->InvoiceAddress()->Phone));
         
         //add print preview

@@ -665,6 +665,45 @@ class CustomRequiredFields extends RequiredFields {
     }
 
     /**
+     * Checks if the given value fits with the rules for a phone number.
+     *
+     * @param FormField $formField      Form field
+     * @param mixed     $value          Value to check
+     * @param boolean   $expectedResult the expected result can be true or false
+     *
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2018
+     */
+    public function isPhoneNumber(FormField $formField, $value, $expectedResult) {
+        $error                 = false;
+        $errorMessage          = '';
+        $numbersOnly           = str_replace(['(', '+', ')', '-', ' '], '', $value);
+        $valueWithoutNumbers   = preg_replace('/[0-9]*/', '', $numbersOnly);
+        $consistsOfNumbersOnly = true;
+
+        if (strlen($numbersOnly) == 0 ||
+            strlen($valueWithoutNumbers) > 0) {
+            $consistsOfNumbersOnly = false;
+        }
+        if ($consistsOfNumbersOnly !== $expectedResult) {
+            $error = true;
+            $errorMessage = _t(CustomRequiredFields::class . '.FieldExpectsValidPhoneNumber',
+                        'The field "{name}" expects a valid phone number. (e.g "01234 56789", "+49 1234 5678-9")',
+                    [
+                        'name' => strip_tags($formField->Title() ? $formField->Title() : $formField->getName()),
+                    ]
+            );
+        }
+        
+        return [
+            'error'        => $error,
+            'errorMessage' => $errorMessage,
+        ];
+    }
+
+    /**
      * Checks the validity of the field dependent of another field and a generic
      * validation method.
      *

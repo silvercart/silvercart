@@ -189,7 +189,6 @@ class ExampleData {
         $address->Postcode      = $addressData['Postcode'];
         $address->City          = $addressData['City'];
         $address->CountryID     = $addressData['CountryID'];
-        $address->PhoneAreaCode = $addressData['PhoneAreaCode'];
         $address->Phone         = $addressData['Phone'];
         $address->Fax           = $addressData['Fax'];
         $address->Email         = $addressData['Email'];
@@ -274,8 +273,7 @@ class ExampleData {
         $addressData['Postcode']      = '12345';
         $addressData['City']          = 'Example Town';
         $addressData['CountryID']     = Country::get()->sort('RAND()')->first()->ID;
-        $addressData['PhoneAreaCode'] = '01234';
-        $addressData['Phone']         = '5678-9';
+        $addressData['Phone']         = '01234 5678-9';
         $addressData['Fax']           = '01234 5678-0';
         $addressData['Email']         = 'email@example.com';
         return $addressData;

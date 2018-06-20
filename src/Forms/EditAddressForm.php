@@ -123,7 +123,6 @@ class EditAddressForm extends AddressForm {
                 $fields->dataFieldByName('StreetNumber')->setValue($address->StreetNumber);
                 $fields->dataFieldByName('Postcode')->setValue($address->Postcode);
                 $fields->dataFieldByName('City')->setValue($address->City);
-                $fields->dataFieldByName('PhoneAreaCode')->setValue($address->PhoneAreaCode);
                 $fields->dataFieldByName('Phone')->setValue($address->Phone);
                 $fields->dataFieldByName('Fax')->setValue($address->Fax);
                 $fields->dataFieldByName('Country')->setValue($address->Country()->ID);

@@ -57,7 +57,7 @@
     </tr>
     <tr>
         <td>{$fieldLabel(Phone)}</td>
-        <td><% if $Phone %>{$PhoneAreaCode} {$Phone}<% else %>---<% end_if %></td>
+        <td><% if $Phone %>{$Phone}<% else %>---<% end_if %></td>
     </tr>
     <tr>
         <td>{$fieldLabel(Fax)}</td>

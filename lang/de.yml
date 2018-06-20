@@ -1938,6 +1938,7 @@ de:
     DefaultSuccessMessageSend: 'Ihre Daten wurden gesendet.'
   SilverCart\Forms\CustomRequiredFields:
     FieldCanNotHaveMoreDecimalPlaces: 'Das Feld {name} darf maximal {places} Dezimalstellen enthalten.'
+    FieldExpectsValidPhoneNumber: 'Das Feld "{name}" erwartet eine gültige Telefonnummer. (z.B "01234 56789", "+49 1234 5678-9")'
     FieldMayConsistOfNumbersOnly: 'Das Feld "{name}" darf nur Zahlen enthalten.'
     FieldMayNotBeEmpty: 'Das Feld "{name}" darf nicht leer sein.'
     FieldMayNotHaveValue: 'Das Feld "{name1}" darf nicht den gleichen Wert wie das Feld "{name2}" haben.'

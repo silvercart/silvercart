@@ -65,13 +65,9 @@ class RegisterRegularCustomerForm extends CustomForm {
         'Postcode',
         'City',
         'Country',
-        'PhoneAreaCode' => [
-            'isFilledIn'    => true,
-            'isNumbersOnly' => true,
-        ],
         'Phone' => [
             'isFilledIn'    => true,
-            'isNumbersOnly' => true,
+            'isPhoneNumber' => true,
         ],
         'Email' => [
             'isEmailAddress' => true,
@@ -166,7 +162,6 @@ class RegisterRegularCustomerForm extends CustomForm {
                         TextField::create('Postcode', Address::singleton()->fieldLabel('Postcode'), '', 10),
                         TextField::create('City', Address::singleton()->fieldLabel('City')),
                         DropdownField::create('Country', Address::singleton()->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, _t(CheckoutFormStep2::class . '.EMPTYSTRING_COUNTRY', '--country--'))),
-                        TextField::create('PhoneAreaCode', Address::singleton()->fieldLabel('PhoneAreaCode')),
                         TextField::create('Phone', Address::singleton()->fieldLabel('Phone')),
                         TextField::create('Fax', Address::singleton()->fieldLabel('Fax')),
                         EmailField::create('Email', Address::singleton()->fieldLabel('Email')),

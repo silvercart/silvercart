@@ -35,7 +35,6 @@
         <div class="span4">{$Fields.dataFieldByName(Country).FieldHolder}</div>
     </div>
     <div class="row-fluid">
-        <div class="span4">{$Fields.dataFieldByName(PhoneAreaCode).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(Phone).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(Fax).FieldHolder}</div>
     </div>
