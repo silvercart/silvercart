@@ -2,8 +2,9 @@
 
 namespace SilverCart\Admin\Forms\GridField;
 
-use SilverCart\Dev\Tools;
 use SilverStripe\Core\Config\Config;
+use SilverCart\ORM\DataList;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter as SilverStripeGridFieldAddExistingAutocompleter;
 
 /**
  * This class is is responsible for adding objects to another object's has_many 
@@ -24,7 +25,7 @@ use SilverStripe\Core\Config\Config;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class GridFieldAddExistingAutocompleter extends \SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter {
+class GridFieldAddExistingAutocompleter extends SilverStripeGridFieldAddExistingAutocompleter {
 
     /**
      * Detect searchable fields and searchable relations
@@ -66,4 +67,21 @@ class GridFieldAddExistingAutocompleter extends \SilverStripe\Forms\GridField\Gr
         return $fields;
     }
 
+    /**
+     * Disables the linear DataList sort to support searching for Translation objects.
+     *
+     * @param \SilverStripe\Forms\GridField\GridField $gridField Grid field
+     * @param \SilverStripe\Control\HTTPRequest       $request   Request
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.06.2018
+     */
+    public function doSearch($gridField, $request) {
+        DataList::set_do_linear_sort(false);
+        $result = parent::doSearch($gridField, $request);
+        DataList::set_do_linear_sort(true);
+        return $result;
+    }
 }

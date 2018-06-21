@@ -4,3 +4,5 @@ Name: silvercart-injections
 SilverStripe\Core\Injector\Injector:
   SilverStripe\View\Requirements_Backend:
     class: SilverCart\View\Requirements_Backend
+  SilverStripe\ORM\DataList:
+    class: SilverCart\ORM\DataList
