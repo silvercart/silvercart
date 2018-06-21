@@ -202,11 +202,30 @@ class Checkout extends ViewableData {
      */
     public function CheckoutSteps() {
         $stepList = $this->getStepList();
-        $steps = new ArrayList();
+        $steps = ArrayList::create();
         foreach ($stepList as $stepName) {
             $steps->push(new $stepName($this->getController()));
         }
         return $steps;
+    }
+    
+    /**
+     * Returns the visible checkout steps to use in template.
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.06.2018
+     */
+    public function VisibleCheckoutSteps() {
+        $allSteps     = $this->CheckoutSteps();
+        $visibleSteps = ArrayList::create();
+        foreach ($allSteps as $step) {
+            if ($step->IsVisible) {
+                $visibleSteps->push($step);
+            }
+        }
+        return $visibleSteps;
     }
     
     /**
@@ -341,7 +360,7 @@ class Checkout extends ViewableData {
      */
     public static function create_from_session() {
         if (is_null(self::$session_checkout)) {
-            self::$session_checkout = new Checkout();
+            self::$session_checkout = Checkout::create();
             self::$session_checkout->initFromSession();
         }
         return self::$session_checkout;
