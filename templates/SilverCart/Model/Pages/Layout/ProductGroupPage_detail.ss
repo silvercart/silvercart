@@ -35,13 +35,13 @@
                             <div class="product-img-thumb">
                                 <% if $getImages %>
                                     <% loop $getImages %>
-                                        <% if not First %>
+                                        <% if not $First %>
                                         <a href="{$Image.Link}" class="fancybox" rel="silvercart-standard-product-image-group">
-                                            <img src="{$Image.Pad(68,60).URL}" alt="{$Title}" /> 
+                                            <img src="{$Image.Pad(68,60).URL}" alt="{$Title}" />
                                         </a>
                                         <% end_if %>
                                     <% end_loop %>
-                                <% end_if %> 
+                                <% end_if %>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         <div class="product-set">
                             <div class="product-price pull-right text-right">
                                 <% if $PriceIsLowerThanMsr %>
-                                    <span class="strike-through">{$MSRPrice.Nice}</span> 
+                                    <span class="strike-through">{$MSRPrice.Nice}</span>
                                 <% end_if %>
                                 <strong class="price" id="product-price-{$ID}">{$PriceNice}</strong><br/>
                                 <small>
@@ -65,7 +65,7 @@
                                     <% end_with %>
                                 </small>
                             </div>
-                            
+
                             <span class="clearfix"></span>
                             <div class="product-info">
                                 <% if $PluggedInProductMetaData %>
@@ -84,21 +84,15 @@
                                         <dt>{$fieldLabel(StockQuantity)}:</dt>
                                         <dd><span>{$StockQuantity} {$QuantityUnit.Title}</span></dd>
                                     <% end_if --%>
-                                     <% if $PackagingQuantity %>
+                                    <% if $PackagingQuantity %>
                                         <dt><%t SilverCart\Model\Pages\ProductPage.PACKAGING_CONTENT 'Content' %>:</dt>
                                         <dd>{$PackagingQuantity} {$QuantityUnit.Title}</dd>
                                     <% end_if %>
-
                                     <% if $Manufacturer %>
                                         <% with $Manufacturer %>
                                         <dt>{$singular_name}:</dt>
-                                            <dd>
-                                            <% if $Title %>
-                                                {$Title}
-                                            <% end_if %>
-                                            <% if $logo %>
-                                                <br/><img src="{$logo.SetRatioSize(100,50).URL}" alt="{$Title}" /> 
-                                            <% end_if %>
+                                        <dd><% if $Title %>{$Title}<% end_if %>
+                                            <% if $logo %><br/><img src="{$logo.Pad(100,50).URL}" alt="{$Title}" /><% end_if %>
                                             </dd>
                                         <% end_with %>
                                     <% end_if %>

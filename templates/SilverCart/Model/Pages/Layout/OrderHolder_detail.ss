@@ -4,7 +4,7 @@
 
     <% if $CurrentRegisteredCustomer %>
         <div class="section-header clearfix">
-           <h1>{$Title}</h1>  
+           <h1>{$Title}</h1>
         </div>
         {$Content}
         <% include SilverCart/Model/Pages/OrderDetails %>

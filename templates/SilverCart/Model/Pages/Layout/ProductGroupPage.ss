@@ -14,7 +14,7 @@
             {$RenderProductGroupHolderGroupView}
         </div>
         <% end_if %>
- 
+
         <div class="silvercart-product-group-page-control-top" id="scpgpct">
             <% include SilverCart/Model/Pages/ProductGroupPageControlsTop %>
         </div>

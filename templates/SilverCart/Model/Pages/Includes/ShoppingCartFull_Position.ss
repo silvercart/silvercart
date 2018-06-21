@@ -54,6 +54,3 @@
     <td class="remove">{$RemovePositionForm}</td>
 <% end_if %>
 </tr>
-
-
-

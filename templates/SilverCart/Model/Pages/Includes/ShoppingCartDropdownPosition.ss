@@ -8,7 +8,6 @@
                 <% end_if %>
             </td>
             <td class="sc-product-cart">
-                
                 <div class="sc-product-cart-description">
                     <p><a class="highlight" href="{$Product.Link}"><strong>{$getTitle}</strong></a></p>
                     <ul class="unstyled">
@@ -16,22 +15,10 @@
                         <% if $getCartDescription %><li><small>{$getCartDescription}</small></li><% end_if %>
                         <% if $addToTitleForWidget %><li><small>{$addToTitleForWidget}</small></li><% end_if %>
                     </ul>
-                </div> 
+                </div>
             </td>
             <td class="cart-product-setting">
-                <p>
-                    <strong>{$Price.Nice}</strong><br/>
-                    <small>({$getTypeSafeQuantity}x {$getPrice(true).Nice})</small>
-                </p>
-                {$RemovePositionForm}
-            <% loop $registeredModules %>
-                <% loop $TaxableShoppingCartPositions %>
-                    {$RemovePositionForm}
-                <% end_loop %>
-                <% loop $NonTaxableShoppingCartPositions %>
-                    {$RemovePositionForm}
-                <% end_loop %>
-            <% end_loop %>
+                <p><strong>{$Price.Nice}</strong><br/><small>({$getTypeSafeQuantity}x {$getPrice(true).Nice})</small></p>
             </td>
         </tr>
     <% end_loop %>
@@ -40,38 +27,13 @@
         <tr>
             <td class="sc-product-cart" colspan="3">
                 <% with $CurrentPage.PageByIdentifierCode(SilvercartCartPage) %>
-                <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>" class="btn btn-small">
-                    <%t SilverCart\Model\Pages\Page.CART 'cart' %>
-                </a>
+                <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>" class="btn btn-small"><%t SilverCart\Model\Pages\Page.CART 'cart' %></a>
                 <% end_with %>
                 <% with $CurrentPage.PageByIdentifierCode(SilvercartCheckoutStep) %>
-                <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>" class="btn btn-small btn-primary">
-                    <%t SilverCart\Model\Pages\Page.CHECKOUT 'checkout' %>
-                </a>
+                <a href="{$Link}" title="<%t SilverCart\Model\Pages\Page.GOTO 'go to {title} page' title=$Title.XML %>" class="btn btn-small btn-primary"><%t SilverCart\Model\Pages\Page.CHECKOUT 'checkout' %></a>
                 <% end_with %>
-                <strong class="total pull-right"><%t SilverCart\Model\Pages\Page.TOTAL 'Total' %>: {$AmountTotal.Nice}</strong> 
+                <strong class="total pull-right"><%t SilverCart\Model\Pages\Page.TOTAL 'Total' %>: {$AmountTotal.Nice}</strong>
             </td>
         </tr>
-    </tfoot> 
+    </tfoot>
 </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

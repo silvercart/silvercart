@@ -13,12 +13,12 @@
         </div>
 
         {$PaymentConfirmationText}
-        
-		<% if $CustomersOrder %>
+
+        <% if $CustomersOrder %>
             <h1><%t SilverCart\Model\Pages\OrderHolder.OrderDetails 'Order Details' %></h1>
             <% include SilverCart/Model/Pages/OrderDetails %>
-		<% end_if %>
-        
+        <% end_if %>
+
         <div class="silvercartWidgetHolder">
             {$InsertWidgetArea(Content)}
         </div>

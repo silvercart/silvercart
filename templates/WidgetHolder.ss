@@ -1,6 +1,6 @@
 <% if $isContentView %>
     <% if $Content %>
-        <% if $DoUseWidgetContainer %>  
+        <% if $DoUseWidgetContainer %>
 <div class="widget clearfix silvercart-widget-content-area {$ExtraCssClasses}<% if WidgetSet.UseAsSlider %>silvercart-widget-slider-element" rel="silvercart-widget-slider-{$WidgetSet.ID}<% end_if %>" id="widget-{$ID}">
     <div class="silvercart-widget-content-area_content">
         <% end_if %>
@@ -16,7 +16,7 @@
     <% end_if %>
     <% if $Headline %>
         <div class="section-header clearfix">
-            <h3>$Headline</h3>
+            <h3>{$Headline}</h3>
              <% if $HeadlineLink %>
             <div class="pagers"><div class="btn-toolbar"><button class="btn btn-mini"><a href="{$Link}">Know More</a></button></div></div>
             <% end_if %>

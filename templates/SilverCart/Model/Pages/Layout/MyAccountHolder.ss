@@ -6,7 +6,7 @@
             <h1>{$Title}</h1>
         </div>       
         {$Content}
-        <% if Children %>
+        <% if $Children %>
         <div id="cart-acc" class="cart-accordain">
             <% loop $Children %>
                 <% if $hasSummary %>

@@ -12,6 +12,6 @@
         <div class="span8 last">
             <%t SilverCart\Model\Pages\MyAccountHolder.REGISTER_ADVANTAGES_TEXT 'By registering you can reuse your data like invoice or delivery addresses on your next purchase.' %>
         </div>
-    </div>    
+    </div>
 </div>
 <br><br>

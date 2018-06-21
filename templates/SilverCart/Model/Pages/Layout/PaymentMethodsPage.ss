@@ -15,14 +15,12 @@
         <% if $isActive %>
         <div class="clearfix">
             <h2>{$Name}</h2>
-            <% if $showPaymentLogos %>
-                <% if $PaymentLogos %>
-                    <div class="pull-right">
-                        <% loop $PaymentLogos %>
-                            {$Image.Pad(250,70)}
-                        <% end_loop %>
-                    </div>
-                <% end_if %>
+            <% if $showPaymentLogos && $PaymentLogos.exists %>
+                <div class="pull-right">
+                    <% loop $PaymentLogos %>
+                        {$Image.Pad(250,70)}
+                    <% end_loop %>
+                </div>
             <% end_if %>
             <% if $LongPaymentDescription %>
                 <p class="pull-left">{$LongPaymentDescription}</p>

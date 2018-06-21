@@ -26,11 +26,11 @@
             <% end_loop %>
             </tbody>
         </table>
-        <% else %>
+    <% else %>
         <div class="alert alert-error">
             <p><%t SilverCart\Model\Pages\Page.NO_ORDERS 'You do not have any orders yet' %></p>
         </div>
-        <% end_if %>
+    <% end_if %>
 <% else %>
     <% include SilverCart/Model/Pages/MyAccountLoginOrRegister %>
 <% end_if %>

@@ -11,10 +11,10 @@
         <% include SilverCart/Model/Pages/MyAccountLoginOrRegister %>
     <% end_if %>
     </div>
-<aside class="span3">
-    <% if $CurrentRegisteredCustomer %>
-        {$SubNavigation}
-    <% end_if %>
-    $InsertWidgetArea(Sidebar)
-</aside>
+    <aside class="span3">
+        <% if $CurrentRegisteredCustomer %>
+            {$SubNavigation}
+        <% end_if %>
+        $InsertWidgetArea(Sidebar)
+    </aside>
 </div>

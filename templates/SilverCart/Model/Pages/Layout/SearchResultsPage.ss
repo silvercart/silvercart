@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="span9">   
+    <div class="span9">
         <h1><%t SilverCart\Model\Pages\SearchResultsPage.TITLE 'Search Results' %></h1>
         <% if $EncodedSearchQuery %>
             <p><%t SilverCart\Model\Pages\SearchResultsPage.RESULTTEXT 'Search results for query <b>&rdquo;{query}&rdquo;</b>' query=$EncodedSearchQuery %> ({$TotalSearchResults} <%t SilverCart\Model\Pages\Page.SEARCH_RESULTS 'results' %>):</p>
         <% end_if %>
 
         {$InsertWidgetArea(Content)}
-        
+
         <% if $getProducts %>
             <div class="silvercart-product-group-page-control-top">
                 <% include SilverCart/Model/Pages/ProductGroupPageControlsTop %>

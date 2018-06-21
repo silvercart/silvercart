@@ -1,8 +1,8 @@
 <div class="row">
     <div class="span9">
-        <% include SilverCart/Model/Pages/BreadCrumbs %>  
+        <% include SilverCart/Model/Pages/BreadCrumbs %>
         <div class="section-header clearfix">
-           <h1><%t SilverCart\Model\Pages\NewsletterPage.THANKS_TITLE 'Newsletter Status' %></h1>   
+           <h1><%t SilverCart\Model\Pages\NewsletterPage.THANKS_TITLE 'Newsletter Status' %></h1>
         </div>
     <% with $NewsletterForm %>
         <% if $Message %>

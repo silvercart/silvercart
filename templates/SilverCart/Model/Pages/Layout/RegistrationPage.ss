@@ -5,9 +5,9 @@
         </div>
         {$Content}
         <% if $CurrentRegisteredCustomer %>
-			<p><%t SilverCart\Model\Pages\Page.ALREADY_REGISTERED 'Hello {name}, You have already registered.' name=$CurrentMember.FirstName %></p>
+            <p><%t SilverCart\Model\Pages\Page.ALREADY_REGISTERED 'Hello {name}, You have already registered.' name=$CurrentMember.FirstName %></p>
         <% else %>
-			{$RegisterRegularCustomerForm}
+            {$RegisterRegularCustomerForm}
         <% end_if %>
     </div>
     <aside class="span3">

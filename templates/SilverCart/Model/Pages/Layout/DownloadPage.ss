@@ -6,7 +6,7 @@
         </div>
         {$Content}
         <% include SilverCart/Model/Pages/DownloadPage_Table %>
-     </div>
+    </div>
     <aside class="span3">
         {$InsertWidgetArea(Sidebar)}
     </aside>

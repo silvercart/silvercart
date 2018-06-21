@@ -2,7 +2,7 @@
     <div class="span9">
         <% include SilverCart/Model/Pages/BreadCrumbs %>
         <div class="section-header clearfix">
-            <h1>{$Title}</h1>   
+            <h1>{$Title}</h1>
         </div>
         {$Content}
         {$DownloadSearchForm}

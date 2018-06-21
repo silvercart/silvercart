@@ -6,14 +6,14 @@
             <h1>{$Title}</h1>
         </div>
         {$Content}
-        <% if $ViewableChildren %>
+    <% if $ViewableChildren %>
         <div class="silvercart-product-group-page-control-top">
             <% include SilverCart/Model/Pages/ProductGroupHolderControls %>
         </div>
-            {$RenderProductGroupHolderGroupView}
-        <% end_if %>
+        {$RenderProductGroupHolderGroupView}
+    <% end_if %>
 <% end_cached %>
-        </div>
+    </div>
     <aside class="span3">
         {$InsertWidgetArea(Sidebar)}
    </aside>
