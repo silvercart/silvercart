@@ -246,8 +246,8 @@ class SilvercartCookiePolicyConfig extends DataExtension {
             $cfg    = $config->getCookiePolicyPositionConfig();
             $json   = json_encode($cfg);
             $js     = 'window.addEventListener("load", function(){window.cookieconsent.initialise(' . $json . ')});';
-            Requirements::css('//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css');
-            Requirements::javascript('//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js');
+            Requirements::css('silvercart/gdpr/cookieconsent.min.css');
+            Requirements::javascript('silvercart/gdpr/cookieconsent.min.js');
             Requirements::customScript($js, 'cookieconsent');
         }
     }

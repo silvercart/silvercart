@@ -544,8 +544,8 @@ class SilvercartPage_Controller extends ContentController {
         }
 
         Requirements::set_write_js_to_body(true);
-        Requirements::javascript('https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
-        Requirements::javascript('https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js');
+        Requirements::javascript('silvercart/gdpr/jquery.1.9.1.min.js');
+        Requirements::javascript('silvercart/gdpr/jquery-ui.1.10.1.min.js');
         
         $jsFiles = array(
             'customhtmlform/script/jquery.pixeltricks.forms.checkFormData.js',
