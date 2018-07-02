@@ -107,6 +107,13 @@ class SiteConfigExtension extends DataExtension {
         'FacebookLink'                  => 'Text',
         'TwitterLink'                   => 'Text',
         'XingLink'                      => 'Text',
+        'InstagramLink'                 => 'Text',
+        'BloglovinLink'                 => 'Text',
+        'PinterestLink'                 => 'Text',
+        'YouTubeLink'                   => 'Text',
+        'TumblrLink'                    => 'Text',
+        'RSSLink'                       => 'Text',
+        'EmailLink'                     => 'Text',
     );
     
     /**
@@ -293,6 +300,13 @@ class SiteConfigExtension extends DataExtension {
                     'FacebookLink'                  => _t(SiteConfigExtension::class . '.FACEBOOK_LINK', 'Facebook Link'),
                     'TwitterLink'                   => _t(SiteConfigExtension::class . '.TWITTER_LINK', 'Twitter Link'),
                     'XingLink'                      => _t(SiteConfigExtension::class . '.XING_LINK', 'Xing Link'),
+                    'InstagramLink'                 => _t(SiteConfigExtension::class . '.InstagramLink', 'Instagram Link'),
+                    'BloglovinLink'                 => _t(SiteConfigExtension::class . '.BloglovinLink', 'Bloglovin Link'),
+                    'PinterestLink'                 => _t(SiteConfigExtension::class . '.PinterestLink', 'Pinterest Link'),
+                    'YouTubeLink'                   => _t(SiteConfigExtension::class . '.YouTubeLink', 'YouTube Link'),
+                    'TumblrLink'                    => _t(SiteConfigExtension::class . '.TumblrLink', 'Tumblr Link'),
+                    'RSSLink'                       => _t(SiteConfigExtension::class . '.RSSLink', 'RSS Link'),
+                    'EmailLink'                     => _t(SiteConfigExtension::class . '.EmailLink', 'Contact Email Address'),
                     'SeoTab'                        => _t(Config::class . '.SEO', 'SEO'),
                     'SocialMediaTab'                => _t(Config::class . '.SOCIALMEDIA', 'Social Media'),
                     'TranslationsTab'               => _t(TranslationTools::class . '.TRANSLATIONS', 'Translations'),
@@ -348,11 +362,25 @@ class SiteConfigExtension extends DataExtension {
         $twitterLinkField    = new TextField('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
         $googleplusLinkField = new TextField('GoogleplusLink', $this->owner->fieldLabel('GoogleplusLink'));
         $xingLinkField       = new TextField('XingLink',       $this->owner->fieldLabel('XingLink'));
+        $instagramLinkField  = new TextField('InstagramLink',       $this->owner->fieldLabel('InstagramLink'));
+        $bloglovinLinkField  = new TextField('BloglovinLink',       $this->owner->fieldLabel('BloglovinLink'));
+        $pinterestLinkField  = new TextField('PinterestLink',       $this->owner->fieldLabel('PinterestLink'));
+        $youTubeLinkField    = new TextField('YouTubeLink',       $this->owner->fieldLabel('YouTubeLink'));
+        $tumblrLinkField     = new TextField('TumblrLink',       $this->owner->fieldLabel('TumblrLink'));
+        $rssLinkField        = new TextField('RSSLink',       $this->owner->fieldLabel('RSSLink'));
+        $emailLinkField      = new TextField('EmailLink',       $this->owner->fieldLabel('EmailLink'));
         
         $fields->addFieldToTab('Root.SocialMedia', $facebookLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $googleplusLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $instagramLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $bloglovinLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $pinterestLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $youTubeLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $tumblrLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $rssLinkField);
+        $fields->addFieldToTab('Root.SocialMedia', $emailLinkField);
         
         // todo: restore the translatable functions.
         /**
