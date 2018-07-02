@@ -3,7 +3,6 @@
 namespace SilverCart\Forms\Checkout;
 
 use SilverCart\Forms\CustomForm;
-use SilverCart\Model\Pages\CheckoutStep;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
