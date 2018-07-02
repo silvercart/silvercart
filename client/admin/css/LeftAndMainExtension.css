@@ -97,11 +97,6 @@ input[type="color"] {
 .silvercart-fieldgroup .fieldgroupField select {
     
 }
-.silvercart-fieldgroup .fieldgroupField input[type="checkbox"] {
-    float: left;
-    margin: 0 4px 0 0;
-    height: 34px;
-}
 .silvercart-fieldgroup .fieldgroupField input[type="checkbox"] ~ label {
     line-height: 34px;
     white-space: nowrap;
