@@ -221,11 +221,39 @@ class Checkout extends ViewableData {
         $allSteps     = $this->CheckoutSteps();
         $visibleSteps = ArrayList::create();
         foreach ($allSteps as $step) {
-            if ($step->IsVisible) {
+            if ($step->IsVisible()) {
                 $visibleSteps->push($step);
             }
         }
         return $visibleSteps;
+    }
+    
+    /**
+     * Returns the count of visible checkout steps including the shopping cart.
+     * 
+     * @return int
+     */
+    public function getVisibleCheckoutStepWithCartCount() {
+        return $this->VisibleCheckoutSteps()->count() + 1;
+    }
+    
+    /**
+     * Returns the current step progress as a percent value (e.g. step 3 of 5
+     * results in 60[%]).
+     * If $isCartPage is set to true the current step number will be set to 1.
+     * 
+     * @param bool $isCartPage Is the current page the cart page?
+     * 
+     * @return int
+     */
+    public function getStepProgressPercentage($isCartPage = false) {
+        $currrentStepNumber = 1;
+        if (!$isCartPage) {
+            $currrentStepNumber = $this->getCurrentStep()->VisibleStepNumber();
+        }
+        $totalStepCount = $this->getVisibleCheckoutStepWithCartCount();
+        $percentage     = $currrentStepNumber / ($totalStepCount / 100);
+        return $percentage;
     }
     
     /**
