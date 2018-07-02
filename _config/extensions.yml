@@ -3,7 +3,10 @@ Name: silvercart-extensions
 ---
 SilverStripe\Forms\CheckboxSetField:
   extensions:
-    - SilverCart\Forms\FormFields\CheckboxSetFieldExtension
+    - SilverCart\Extensions\Forms\FormFields\CheckboxSetFieldExtension
+SilverStripe\Forms\FormField:
+  extensions:
+    - SilverCart\Extensions\Forms\FormFields\FormFieldExtension
 SilverStripe\ORM\DataObject:
   extensions:
     - SilverCart\ORM\DataObjectExtension

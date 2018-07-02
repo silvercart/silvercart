@@ -223,6 +223,7 @@ class CustomForm extends Form {
         $field = $this->Fields()->dataFieldByName($fieldName);
         $field->addExtraClass('error');
         $field->setMessage($errorMessage, $messageType, $messageCast);
+        $field->setValidationFailed(true);
     }
 
 
