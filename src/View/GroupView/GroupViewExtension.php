@@ -276,7 +276,8 @@ class GroupViewExtension extends DataExtension {
             $context = $this->owner;
         }
         $useOnlyDefaultGroupView = $context->UseOnlyDefaultGroupView;
-        if ($useOnlyDefaultGroupView == 'inherit') {
+        if (is_null($useOnlyDefaultGroupView) ||
+            $useOnlyDefaultGroupView == 'inherit') {
             if ($context->Parent() instanceof ProductGroupPage) {
                 $useOnlyDefaultGroupView = $this->getUseOnlyDefaultGroupViewInherited($context->Parent());
             } else if ($context->Parent() instanceof ProductGroupHolder) {
@@ -347,7 +348,8 @@ class GroupViewExtension extends DataExtension {
             $context = $this->owner;
         }
         $useOnlyDefaultGroupHolderView = $context->UseOnlyDefaultGroupHolderView;
-        if ($useOnlyDefaultGroupHolderView == 'inherit') {
+        if (is_null($useOnlyDefaultGroupHolderView) ||
+            $useOnlyDefaultGroupHolderView == 'inherit') {
             if ($context->Parent() instanceof ProductGroupPage ||
                 $context->Parent() instanceof ProductGroupHolder) {
                 $useOnlyDefaultGroupHolderView = $this->getUseOnlyDefaultGroupHolderViewInherited($context->Parent());

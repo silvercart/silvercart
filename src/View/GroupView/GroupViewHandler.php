@@ -158,16 +158,23 @@ class GroupViewHandler {
      * @return void
      */
     public static function setDefaultGroupView($defaultGroupView = null) {
-        if (is_null($defaultGroupView)
-         || !in_array($defaultGroupView, self::$groupViews)) {
-            foreach (self::$groupViews as $code => $groupView) {
-                self::$defaultGroupView = $code;
-                return;
+        if (array_key_exists($defaultGroupView, self::$groupViews)) {
+            self::$defaultGroupView = $defaultGroupView;
+        } elseif (in_array($defaultGroupView, self::$groupViews)) {
+            $tmp = array_flip(self::$groupViews);
+            self::$defaultGroupView = $tmp[$defaultGroupView];
+        } else {
+            if (is_null($defaultGroupView)
+             || !in_array($defaultGroupView, self::$groupViews)) {
+                foreach (self::$groupViews as $code => $groupView) {
+                    self::$defaultGroupView = $code;
+                    return;
+                }
+                self::addGroupView($defaultGroupView);
             }
-            self::addGroupView($defaultGroupView);
+            $tmp = array_flip(self::$groupViews);
+            self::$defaultGroupView = $tmp[$defaultGroupView];
         }
-        $tmp = array_flip(self::$groupViews);
-        self::$defaultGroupView = $tmp[$defaultGroupView];
     }
 
     /**
@@ -205,17 +212,12 @@ class GroupViewHandler {
      * @return string
      */
     public static function getDefaultGroupViewInherited() {
-        $controller = @Controller::curr();
+        $controller       = @Controller::curr();
+        $defaultGroupView = self::$defaultGroupView;
 
-        if ($controller instanceof Controller) {
-            if ($controller->hasMethod('getUseOnlyDefaultGroupViewInherited') &&
-                $controller->getUseOnlyDefaultGroupViewInherited()) {
-                $defaultGroupView = $controller->getDefaultGroupViewInherited();
-            } else {
-                $defaultGroupView = self::$defaultGroupView;
-            }
-        } else {
-            $defaultGroupView = self::$defaultGroupView;
+        if ($controller instanceof Controller &&
+            $controller->hasMethod('getDefaultGroupViewInherited')) {
+            $defaultGroupView = $controller->getDefaultGroupViewInherited();
         }
 
         return $defaultGroupView;
@@ -332,6 +334,8 @@ class GroupViewHandler {
                     } else {
                         self::setDefaultGroupView($controller->getDefaultGroupViewInherited());
                     }
+                } else {
+                    self::setDefaultGroupView(self::getDefaultGroupViewInherited());
                 }
                 self::setGroupView(self::getDefaultGroupView());
             }
