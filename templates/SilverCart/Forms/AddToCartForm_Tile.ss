@@ -1,5 +1,5 @@
 <% if $IncludeFormTag %>
-<form class="pull-left" {$AttributesHTML}>
+<form {$addExtraClass('pull-left').AttributesHTML}>
 <% end_if %>
 <% include SilverCart/Forms/CustomFormMessages %>
 <% loop $HiddenFields %>
@@ -7,7 +7,7 @@
 <% end_loop %>
     {$CustomFormSpecialFields}
     <div id="{$FormName}_productQuantity_Box" class="input-append quantity">
-    <% with $Fields.dataFieldByName(productQuantity) %>
+    <% with $Fields.dataFieldByName('productQuantity') %>
         <input id="{$ID}" class="input-nano text-right" type="text" value="{$Value}" name="{$Name}">
     <% end_with %>
     <% loop $Actions %>

@@ -20,12 +20,12 @@
             {$Fields.dataFieldByName(InvoiceAddressAsShippingAddress).FieldHolder}
         </div>
     </div>
-    <hr>
+    <hr/>
     {$CustomFormSpecialFields}
     <div class="clearfix">
-        <a href="{$CurrentPage.Link}addNewAddress" class="btn btn-small silvercart-trigger-add-address-link js-link"><i class="icon-plus"></i> <%t SilverCart\Model\Pages\AddressHolder.ADD 'Add new address' %></a>
+        <a href="{$CurrentPage.Link}addNewAddress" class="btn btn-small silvercart-trigger-add-address-link js-link"><span class="icon-plus"></span> <%t SilverCart\Model\Pages\AddressHolder.ADD 'Add new address' %></a>
     <% loop $Actions %>
-        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <span class="icon icon-caret-right"></span></button>
     <% end_loop %>
     </div>
 <% if $IncludeFormTag %>

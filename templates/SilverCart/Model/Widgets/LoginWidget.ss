@@ -1,16 +1,16 @@
-<% if CurrentMember.currentRegisteredCustomer %>
-    <% cached WidgetCacheKey %>
+<% if $CurrentMember.currentRegisteredCustomer %>
+    <% cached $WidgetCacheKey %>
     <div class="section-header clearfix">
         <h3><%t SilverCart\Model\Widgets\LoginWidget.TITLE_LOGGED_IN 'My account' %></h3>
     </div>
 
     <div class="categories silvercart-widget-content_frame">
-        <% with MyAccountPage %>
-            <% if Children %>
+        <% with $MyAccountPage %>
+            <% if $Children %>
                 <ul class="unstyled">
-                    <% loop Children %>
+                    <% loop $Children %>
                         <li>
-                            <a href="$Link">$MenuTitle</a>
+                            <a href="{$Link}">{$MenuTitle}</a>
                         </li>
                     <% end_loop %>
                 </ul>

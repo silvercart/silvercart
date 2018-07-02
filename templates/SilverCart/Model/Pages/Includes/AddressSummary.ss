@@ -1,4 +1,4 @@
-<% with CurrentMember %>
+<% with $CurrentMember %>
     <div class="row-fluid silvercart-address-equalize">
         <div class="span4">
         <% with $InvoiceAddress %>

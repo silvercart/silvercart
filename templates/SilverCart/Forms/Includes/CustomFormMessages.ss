@@ -1,5 +1,5 @@
 <% if $Message %>
-	<p id="{$FormName}_message" class="alert alert-{$MessageType} message {$MessageType}">{$Message}</p>
+    <div id="{$FormName}_message" class="alert alert-{$MessageType} message {$MessageType}">{$Message}</div>
 <% else %>
-	<p id="{$FormName}_message" class="alert alert-error message" style="display: none"></p>
+    <div id="{$FormName}_message" class="alert alert-error message" style="display: none"></div>
 <% end_if %>

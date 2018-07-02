@@ -1,5 +1,5 @@
-<% if Elements %>
-        <% if Top.useSlider %>
+<% if $Elements %>
+    <% if $Top.useSlider %>
     <ul class="sc-products-vertical vertical clearfix cycle-slideshow"
             data-cycle-fx="carousel"
             data-cycle-speed="200"
@@ -9,15 +9,14 @@
             data-cycle-prev="#widget-{$ID} .vNext"
             data-cycle-carousel-visible="{$numberOfProductsToShow}"
             data-cycle-carousel-vertical="true"
-            <% if Autoplay %>
-            <% else %>
+            <% if not $Autoplay %>
             data-cycle-timeout="0"
             <% end_if %>
             >
         <% else %>
     <ul class="sc-products-vertical vertical clearfix">
         <% end_if %>
-        <% loop Elements %>
+        <% loop $Elements %>
         <li class="span4 clearfix">
             <div class="thumbImage">
                 <% if $getImages %>
@@ -29,16 +28,15 @@
                     <a class="highlight" href="{$Link}" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS_FOR 'Show details for {title}' title=$Title %>">$Title.LimitWordCount(3)</a>
                 </div>
                 <div class="thumbPrice">
-                    <span>$PriceNice</span>
+                    <span>{$PriceNice}</span>
                 </div>
-                <% if PluggedInProductMetaData %>
-                    <% loop PluggedInProductMetaData %>
-                    $MetaData
+                <% if $PluggedInProductMetaData %>
+                    <% loop $PluggedInProductMetaData %>
+                        {$MetaData}
                     <% end_loop %>
                 <% end_if %>
             </div>
         </li>
         <% end_loop %>
     </ul>
-
 <% end_if %>

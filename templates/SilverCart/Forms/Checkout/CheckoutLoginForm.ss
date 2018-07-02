@@ -13,7 +13,7 @@
     <div class="row-fluid">
         <div class="span6">
             <% loop $Actions %>
-                <button class="btn btn-small btn-primary" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+                <button class="btn btn-small btn-primary" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <span class="icon icon-caret-right"></span></button>
             <% end_loop %>
         </div>
         <div class="span6">

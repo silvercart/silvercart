@@ -24,7 +24,7 @@
     <% end_with %>
     </div>
     <div class="clearfix">
-    <% loop Actions %>
+    <% loop $Actions %>
         <button class="btn btn-primary pull-right" id="{$ID}" title="{$Title}" value="{$Title}" name="{$Name}" type="submit">{$Title}</button>
     <% end_loop %>
     </div>

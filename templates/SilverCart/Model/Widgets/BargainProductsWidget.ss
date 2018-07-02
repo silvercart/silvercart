@@ -1,4 +1,4 @@
-<% cached WidgetCacheKey %>
+<% cached $WidgetCacheKey %>
     <div class="section-header clearfix">
         <% if FrontTitle %>
             <h3>$FrontTitle</h3>
@@ -23,7 +23,7 @@
         {$FrontContent.RAW}
     <% end_if %>
 
-    <% if Top.useSlider %>
+    <% if $Top.useSlider %>
         <div class="sc-products clearfix cycle-slideshow <% if transitionEffect = verticalSlide %>vertical<% end_if %>"
                 data-cycle-fx="<% if transitionEffect = horizontalSlide %>scrollHorz<% else_if transitionEffect = verticalSlide %>carousel<% else %>default<% end_if %>"
                 data-cycle-speed="300"

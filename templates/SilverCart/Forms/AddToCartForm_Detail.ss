@@ -1,5 +1,5 @@
 <% if $IncludeFormTag %>
-<form class="product-add-cart-detail form" {$AttributesHTML}>
+<form {$addExtraClass('product-add-cart-detail form').AttributesHTML}>
 <% end_if %>
 <% include SilverCart/Forms/CustomFormMessages %>
 <% loop $HiddenFields %>
@@ -12,7 +12,7 @@
     <% end_with %>
     <% loop $Actions %>
         <button title="{$Up.Product.Title} <%t SilverCart\Model\Product\Product.ADD_TO_CART 'add Cart' %>" class="btn btn-large btn-primary" data-placement="top" data-toggle="tooltip">
-            <i class="icon-shopping-cart"></i> <span class="full-shopping-cart-title">{$Form.SubmitButtontitle}</span><span class="short-shopping-cart-title"><%t SilverCart\Model\Pages\Page.CART 'Cart' %></span>
+            <span class="icon-shopping-cart"></span> <span class="full-shopping-cart-title">{$Form.SubmitButtontitle}</span><span class="short-shopping-cart-title"><%t SilverCart\Model\Pages\Page.CART 'Cart' %></span>
         </button>
     <% end_loop %>
     </div>

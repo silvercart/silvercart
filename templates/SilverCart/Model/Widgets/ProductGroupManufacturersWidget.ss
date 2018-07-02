@@ -1,7 +1,7 @@
 <% if $ShowWidget %>
     <% if $Manufacturers %>
         <% if $FrontTitle %>
-            <h2 <% if isFilteredByManufacturer %>class="is-filtered"<% end_if %>>{$FrontTitle}</h2>
+            <h2 <% if $isFilteredByManufacturer %>class="is-filtered"<% end_if %>>{$FrontTitle}</h2>
         <% end_if %>
         <div>
             <ul class="unstyled">

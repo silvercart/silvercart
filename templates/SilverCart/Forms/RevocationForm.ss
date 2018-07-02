@@ -6,7 +6,6 @@
 <script>
 $(document).ready(function() {
     $('select[name="ExistingOrder"]').live('change', function() {
-        console.log($(this).val());
         $('#SupportExistingOrder').val($(this).val());
         $('#SupportRevocationForm').submit();
     });

@@ -11,9 +11,7 @@
     <% end_with %>
         {$CustomFormSpecialFields}
     <% loop $Actions %>
-        <button class="btn btn-primary" name="quickSearchButton" type="submit">
-            <i class="icon-search"></i>
-        </button>
+        <button class="btn btn-primary" name="quickSearchButton" type="submit"><span class="icon-search"></span></button>
     <% end_loop %>
     </div>
 <% if $IncludeFormTag %>

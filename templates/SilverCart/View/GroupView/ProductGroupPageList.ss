@@ -27,9 +27,9 @@
                     </div>
                     <div class="sc-product-price-info">
                         <small>
-                            <% if CurrentPage.showPricesGross %>
+                            <% if $CurrentPage.showPricesGross %>
                                 <%t SilverCart\Model\Pages\Page.INCLUDING_TAX 'incl. {amount}% VAT' amount=$TaxRate %>
-                            <% else_if CurrentPage.showPricesNet %>
+                            <% else_if $CurrentPage.showPricesNet %>
                                 <%t SilverCart\Model\Pages\Page.EXCLUDING_TAX 'plus VAT' %>
                             <% end_if %>
 
@@ -39,22 +39,22 @@
                                 </a>
                             <% end_with %>
                             <% if PackagingQuantity %>
-                            | <strong><%t SilverCart\Model\Pages\ProductPage.PACKAGING_CONTENT 'Content' %>:</strong> $PackagingQuantity $QuantityUnit.Title
+                            | <strong><%t SilverCart\Model\Pages\ProductPage.PACKAGING_CONTENT 'Content' %>:</strong> {$PackagingQuantity} {$QuantityUnit.Title}
                             <% end_if %>
                         </small>
                     </div>
-                    <% if PluggedInProductMetaData %>
+                    <% if $PluggedInProductMetaData %>
                         <div>
                             <hr>
-                            <% loop PluggedInProductMetaData %>
-                                $MetaData  
-                            <% end_loop %>
+                        <% loop $PluggedInProductMetaData %>
+                            {$MetaData}
+                        <% end_loop %>
                         </div>
                     <% end_if %>
                     
-                    <% if getHtmlEncodedShortDescription %>
+                    <% if $getHtmlEncodedShortDescription %>
                     <div class="sc-product-description">
-                        <p>$getHtmlEncodedShortDescription</p>
+                        <p>{$getHtmlEncodedShortDescription}</p>
                     </div>
                     <% end_if %>
                         <div class="row-fluid">
@@ -66,16 +66,16 @@
                                 <% end_if %>   
                             </div>
                             <div class="span6">
-                                <a class="btn btn-small pull-right" data-placement="top" data-toggle="tooltip" href="$Link" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS_FOR 'Show details for {title}' title=$Title %>"><i class="icon-info-sign"></i> <%t SilverCart\Model\Pages\Page.SHOW_DETAILS 'show details' %></a>
+                                <a class="btn btn-small pull-right" data-placement="top" data-toggle="tooltip" href="{$Link}" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS_FOR 'Show details for {title}' title=$Title %>"><span class="icon-info-sign"></span> <%t SilverCart\Model\Pages\Page.SHOW_DETAILS 'show details' %></a>
                             </div>
 
                         </div>
 
-                        <% if PluggedInProductListAdditionalData %>
+                        <% if $PluggedInProductListAdditionalData %>
                             <div class="pull-left">
-                                <% with PluggedInProductListAdditionalData %>
-                                $AdditionalData
-                                <% end_with %>
+                                <% loop $PluggedInProductListAdditionalData %>
+                                    {$AdditionalData}
+                                <% end_loop %>
                             </div>
                         <% end_if %>
 

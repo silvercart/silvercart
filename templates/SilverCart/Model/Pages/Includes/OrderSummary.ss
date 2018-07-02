@@ -22,7 +22,7 @@
         </tbody>
     </table>
 <% else %>
-<div class="alert alert-error">
+<div class="alert alert-info">
     <p><%t SilverCart\Model\Pages\Page.NO_ORDERS 'You do not have any orders yet' %></p>
 </div>
 <% end_if %>

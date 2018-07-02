@@ -1,7 +1,7 @@
 <% if $ShopErrors %>
-    <div class="alert alert-error">
+    <div class="alert alert-danger alert-error">
         <a class="close" data-dismiss="alert">×</a>  
-        $ShopErrors
+        {$ShopErrors}
     </div>
 <% end_if %>
 <% if $CurrentMember.ShoppingCart.isFilled %>
@@ -13,7 +13,5 @@
         <% end_if %>
     <% end_with %>
 <% else %>
-    <div class="alert alert-error">
-        <p><br /><%t SilverCart\Model\Pages\CartPage.CART_EMPTY 'Your cart is empty' %></p>
-    </div>
+    <div class="alert alert-error"><%t SilverCart\Model\Pages\CartPage.CART_EMPTY 'Your cart is empty' %></p></div>
 <% end_if %>

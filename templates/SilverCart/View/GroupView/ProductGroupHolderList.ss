@@ -6,7 +6,7 @@
         <% if $groupPicture %>
             <img src="{$groupPicture.Pad(82,82).URL}" alt="{$Title}" class="img-polaroid pull-left" />
         <% end_if %>
-            <h2>{$MenuTitle.HTML} <span class="pull-right"><span class="badge">{$ActiveProducts.Count}</span> <i class="icon icon-caret-right"></i></span></h2>
+            <h2>{$MenuTitle.HTML} <span class="pull-right"><span class="badge">{$ActiveProducts.Count}</span> <span class="icon icon-caret-right"></span></span></h2>
             <% if $Content %><small>{$Content.NoHTML.LimitWordCount}</small><% end_if %>
         </a>
     </li>
@@ -29,9 +29,9 @@
             </div>
             <div class="span3">
             <% if $hasProductCount(1) %>
-                <a href="$Link" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGLUAR 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGLUAR 'Show {count} product' count=$ActiveProducts.Count %> <i class="icon-caret-right"></i></a>
+                <a href="{$Link}" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGLUAR 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGLUAR 'Show {count} product' count=$ActiveProducts.Count %> <span class="icon-caret-right"></span></a>
             <% else_if not $hasProductCount(0) %>
-                <a href="$Link" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL 'Show {count} product' count=$ActiveProducts.Count %> </strong><i class="icon-caret-right"></i></a>
+                <a href="{$Link}" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL 'Show {count} product' count=$ActiveProducts.Count %> </strong><span class="icon-caret-right"></span></a>
             <% end_if %>
             </div>   
         </li>         

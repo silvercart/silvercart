@@ -37,7 +37,7 @@
                                     <% else_if $TaxIdNumber || $Company %>
                                         <div class="silvercart-address-company-section">
                                             <% if $isCompanyAddress %><em><%t SilverCart\Model\Customer\Customer.BUSINESSCUSTOMER 'Business customer' %></em><br /><% end_if %>
-                                            <% if $TaxIdNumber %>{$address.fieldLabel(TaxIdNumber)}: {$TaxIdNumber}<br /><% end_if %>
+                                            <% if $TaxIdNumber %>{$address.fieldLabel('TaxIdNumber')}: {$TaxIdNumber}<br /><% end_if %>
                                             <% if $Company %>{$Company}<br /><% end_if %>
                                         </div>
                                     <% end_if %>
@@ -57,20 +57,16 @@
                                     {$Postcode} {$City}<br/>
                                     {$Country.Title}<br/>
                                     <% if $Phone %>
-                                        {$address.fieldLabel(PhoneShort)}: {$Phone}
+                                        {$address.fieldLabel('PhoneShort')}: {$Phone}
                                     <% end_if %>
                                 </div>
                             <% if $address.canEdit || $address.canDelete %>
                                 <div class="btn-group pull-right">
-                                <% if address.canEdit %>
-                                    <a class="btn btn-small edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.Link}editAddress/$ID" title="<%t SilverCart\Model\Pages\AddressHolder.EDIT 'edit' %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top">
-                                        <span class="icon-edit"></span>
-                                    </a>
+                                <% if $address.canEdit %>
+                                    <a class="btn btn-small edit32" id="silvercart-edit-shipping-address-id" href="{$CurrentPage.Link}editAddress/{$ID}" title="<%t SilverCart\Model\Pages\AddressHolder.EDIT 'edit' %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top"><span class="icon-edit"></span></a>
                                 <% end_if %>
-                                <% if isLastAddress %><% else_if address.canDelete %>
-                                    <a class="btn btn-small btn-danger delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/$ID" title="<%t SilverCart\Model\Pages\AddressHolder.DELETE 'Delete' %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top">
-                                        <span class="icon-trash"></span>
-                                    </a>
+                                <% if not $isLastAddress && $address.canDelete %>
+                                    <a class="btn btn-small btn-danger delete32" id="silvercart-delete-shipping-address-id" href="{$CurrentPage.Link}deleteAddress/{$ID}" title="<%t SilverCart\Model\Pages\AddressHolder.DELETE 'Delete' %>" data-original-title=""  data-original-title="" data-toggle="tooltip" data-placement="top"><span class="icon-trash"></span></a>
                                 <% end_if %>
                             </div>
                             <% end_if %>

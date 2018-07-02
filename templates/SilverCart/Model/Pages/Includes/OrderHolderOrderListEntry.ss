@@ -4,7 +4,7 @@
         <a class="highlight ordernumber" href="{$CurrentPage.OrderDetailLink}{$ID}"><span class="mobile-show-sm inline">#</span>{$OrderNumber}</a>
     </td>
     <td class="positions">
-        <ul class="unstyled">
+        <ul class="unstyled list-unstyled">
         <% loop $LimitedOrderPositions(2) %>
             <li><a class="highlight" href="{$CurrentPage.OrderDetailLink}{$Order.ID}">{$Title.RAW}</a></li>
         <% end_loop %>
@@ -20,6 +20,6 @@
         <a class="highlight" href="{$CurrentPage.OrderDetailLink}{$ID}">{$AmountTotal.Nice}</a>
     </td>
     <td class="detailbutton">
-        <a class="btn btn-small btn-primary" href="{$CurrentPage.OrderDetailLink}{$ID}" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS 'show details' %>"  data-toggle="tooltip" data-placement="top" data-title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS 'show details' %>"><i class="icon-eye-open"></i></a>
+        <a class="btn btn-small btn-primary" href="{$CurrentPage.OrderDetailLink}{$ID}" title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS 'show details' %>"  data-toggle="tooltip" data-placement="top" data-title="<%t SilverCart\Model\Pages\Page.SHOW_DETAILS 'show details' %>"><i class="fa fa-eye icon-eye-open"></i></a>
     </td>
 </tr>

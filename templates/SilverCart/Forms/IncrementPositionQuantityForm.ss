@@ -7,7 +7,7 @@
 <% end_loop %>
     {$CustomFormSpecialFields}
 <% loop $Actions %>
-    <button class="btn" id="{$ID}" name="{$Name}" title="{$Title}" data-placement="top" data-toggle="tooltip" type="submit"><i class="icon-plus"></i></button>
+    <button class="btn" id="{$ID}" name="{$Name}" title="{$Title}" data-placement="top" data-toggle="tooltip" type="submit"><span class="icon-plus"></span></button>
 <% end_loop %>
 <% if $IncludeFormTag %>
 </form>

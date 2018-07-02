@@ -6,10 +6,10 @@
     <ul>
     <% with $getProducts %>
         <% if $NotFirstPage %>
-        <li><a href="{$PrevLink}#scpgpct" rel="prev" title="<%t SilverCart\Model\Pages\Page.PREV 'Prev' %>"><i class="icon icon-chevron-left"></i></a></li>      
+        <li><a href="{$PrevLink}#scpgpct" rel="prev" title="<%t SilverCart\Model\Pages\Page.PREV 'Prev' %>"><i class="icon icon-chevron-left"></i></a></li>
         <% end_if %>
         <% loop $PaginationSummary(4) %>
-            <% if $CurrentBool %> 
+            <% if $CurrentBool %>
         <li class="active"><a class="highlight" href="javascript:;">{$PageNum}</a></li>
             <% else_if $Link %>
         <li><a href="{$Link}#scpgpct" title="<%t SilverCart\Model\Pages\Page.GOTO_PAGE 'go to page {count}' count=$PageNum %>">{$PageNum}</a></li>

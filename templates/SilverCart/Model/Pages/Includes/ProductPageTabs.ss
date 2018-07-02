@@ -36,21 +36,13 @@
                     <tr>
                         <th><%t SilverCart\Model\Product\File.TYPE 'Type' %></th>
                         <th><%t SilverCart\Model\Product\File.TITLE 'Display name' %></th>
-                        <th class="align_right"><%t SilverCart\Model\Product\File.SIZE 'Size' %></th>
+                        <th class="text-right"><%t SilverCart\Model\Product\File.SIZE 'Size' %></th>
                     </tr>
                     <% loop $Files %>
                     <tr class="{$EvenOdd}">
-                        <td>
-                            <div class="silvercart-file-icon">
-                                <a href="{$File.Link}">{$FileIcon}</a>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{$File.Link}">{$Title}</a>
-                        </td>
-                        <td class="text-right">
-                            <a href="{$File.Link}">{$File.Size}</a>
-                        </td>
+                        <td><div class="silvercart-file-icon"><a href="{$File.Link}">{$FileIcon}</a></div></td>
+                        <td><a href="{$File.Link}">{$Title}</a></td>
+                        <td class="text-right"><a href="{$File.Link}">{$File.Size}</a></td>
                     </tr>
                     <% end_loop %>
                 </table>

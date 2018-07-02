@@ -22,8 +22,6 @@
         <% end_loop %>
     </ul>
     <% else %>
-    <div class="alert alert-error">
-    <p><%t SilverCart\Model\Shipment\ShippingMethod.NO_SHIPPING_METHOD_AVAILABLE 'No shipping method available' %></p>
-    </div>
+    <div class="alert alert-error"><%t SilverCart\Model\Shipment\ShippingMethod.NO_SHIPPING_METHOD_AVAILABLE 'No shipping method available' %></div>
     <% end_if %>
 </div>

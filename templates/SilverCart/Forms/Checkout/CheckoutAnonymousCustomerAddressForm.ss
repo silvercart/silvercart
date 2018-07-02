@@ -21,8 +21,8 @@
         <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[IsBusinessAccount]).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[TaxIdNumber]).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[Company]).FieldHolder}</div>
-    </div>    
-    <hr>
+    </div>
+    <hr/>
 <% end_if %>
     <div class="row-fluid">
         <div class="span4">{$Fields.dataFieldByName(InvoiceAddress[Salutation]).FieldHolder}</div>
@@ -50,7 +50,6 @@
     <div class="clearfix">
         {$Fields.dataFieldByName(InvoiceAddressAsShippingAddress).FieldHolder}
     </div>
-    
     <div id="ShippingAddressFields" class="clearfix">
 <% if $EnableBusinessCustomers %>
         <div class="row-fluid">
@@ -77,15 +76,15 @@
                 <div class="span4">{$Fields.dataFieldByName(ShippingAddress[Street]).FieldHolder}</div>
                 <div class="span4">{$Fields.dataFieldByName(ShippingAddress[StreetNumber]).FieldHolder}</div>
                 <div class="span4">{$Fields.dataFieldByName(ShippingAddress[Addition]).FieldHolder}</div>
-            </div>    
+            </div>
         </div>
 <% if $EnablePackstation %>
         <div class="packstation-address-data">
             <div class="row-fluid">
                 <div class="span4">{$Fields.dataFieldByName(ShippingAddress[PostNumber]).FieldHolder}</div>
                 <div class="span4">{$Fields.dataFieldByName(ShippingAddress[Packstation]).FieldHolder}</div>
-            </div>    
-        </div>   
+            </div>
+        </div>
 <% end_if %>
         <div class="row-fluid">
             <div class="span4">{$Fields.dataFieldByName(ShippingAddress[Postcode]).FieldHolder}</div>
@@ -100,7 +99,7 @@
     <hr>
     <div class="clearfix">
 <% loop $Actions %>
-        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <i class="icon icon-caret-right"></i></button>
+        <button class="btn btn-small btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}" value="{$Value}" name="{$Name}">{$Title} <span class="icon icon-caret-right"></span></button>
 <% end_loop %>
     </div>
 <% if $IncludeFormTag %>

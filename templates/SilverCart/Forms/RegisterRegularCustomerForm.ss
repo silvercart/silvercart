@@ -44,7 +44,7 @@
         <div class="span4">{$Fields.dataFieldByName(BirthdayDay).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(BirthdayMonth).FieldHolder}</div>
         <div class="span4">{$Fields.dataFieldByName(BirthdayYear).FieldHolder}</div>
-    </div>    
+    </div>
 <% end_if %>
     <h4><%t SilverCart\Model\Pages\Page.ACCESS_CREDENTIALS 'Access Credentials' %></h4>
     <div class="row-fluid">
@@ -64,7 +64,7 @@
     </div>
     <div class="control-group">
     <% loop $Actions %>
-        <button class="btn btn-primary pull-right" id="{$ID}" title="{$Title}" name="{$Name}" type="submit">{$Title} <i class="icon icon-caret-right"></i></button>
+        <button class="btn btn-primary pull-right" id="{$ID}" title="{$Title}" name="{$Name}" type="submit">{$Title} <span class="icon icon-caret-right"></span></button>
     <% end_loop %>
     </div>
 <% if $IncludeFormTag %>

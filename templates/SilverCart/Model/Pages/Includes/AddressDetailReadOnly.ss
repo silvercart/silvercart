@@ -10,7 +10,6 @@
                 <strong><%t SilverCart\Model\Pages\AddressHolder.SHIPPINGADDRESS 'shipping address' %></strong>
             <% end_if %>
         <% end_if %>
-        
         <% if $IsPackstation %>
             <br/><em>{$fieldLabel('PackstationLabel')}</em>
         <% else_if $isCompanyAddress %>
@@ -21,11 +20,10 @@
             <br />
             <% if $TaxIdNumber || $Company %>
                 <div class="silvercart-address-company-section">
-                    <% if $TaxIdNumber %>{$fieldLabel(TaxIdNumber)}: {$TaxIdNumber}<br /><% end_if %>
+                    <% if $TaxIdNumber %>{$fieldLabel('TaxIdNumber')}: {$TaxIdNumber}<br /><% end_if %>
                     <% if $Company %>{$Company}<br /><% end_if %>
                 </div>
             <% end_if %>
-        
             <% if $FirstName || $Surname %>
                 {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname}<br/>
             <% end_if %>
@@ -41,7 +39,7 @@
             {$Postcode} {$City}<br/>
             {$Country.Title}<br/>
             <% if $Phone %>
-                {$fieldLabel(PhoneShort)}: {$Phone}
+                {$fieldLabel('PhoneShort')}: {$Phone}
             <% end_if %>
         <% else %>
         <div class="alert alert-error">
