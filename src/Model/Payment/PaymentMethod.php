@@ -474,6 +474,15 @@ class PaymentMethod extends DataObject {
             'maxAmountForActivation' => $this->fieldLabel('MaxAmountForActivation'),
         );
     }
+    
+    /**
+     * Returns the payment module name.
+     * 
+     * @return string
+     */
+    public function getModuleName() {
+        return $this->moduleName;
+    }
 
     /**
      * Returns the title of the payment method
