@@ -42,7 +42,7 @@ class PaymentNotificationController extends \PageController {
         }
         parent::init();
         if ($this->getRequest()->param('Action') == 'process') {
-            $this->process();
+            $this->process($this->getRequest());
             exit();
         }
     }
