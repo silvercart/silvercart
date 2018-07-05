@@ -27,6 +27,15 @@ class ShoppingcartWidget extends Widget {
     private static $db = array(
         'ShowOnlyWhenFilled' => 'Boolean(0)',
     );
+    
+    /**
+     * Casted attributes
+     * 
+     * @var array 
+     */
+    private static $casting = array(
+        'ShowWidget' => 'Boolean',
+    );
 
     /**
      * DB table name
@@ -114,7 +123,7 @@ class ShoppingcartWidget extends Widget {
      *         Patrick Schneider <pschneider@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function ShowWidget() {
+    public function getShowWidget() {
         $showWidget = true;
         $member = Customer::currentUser();
         if ($this->ShowOnlyWhenFilled &&
