@@ -1,6 +1,6 @@
 <div class="register">
 <% if $IncludeFormTag %>
-<form {$AttributesHTML}>
+<form {$addExtraClass('form-inline').AttributesHTML}>
 <% end_if %>
 <% include SilverCart/Forms/CustomFormMessages %>
 <% loop $HiddenFields %>

@@ -37,15 +37,6 @@ use SilverStripe\Security\Security;
 class RegisterRegularCustomerForm extends CustomForm {
     
     /**
-     * Custom extra CSS classes.
-     *
-     * @var array
-     */
-    protected $customExtraClasses = [
-        'form-inline',
-    ];
-    
-    /**
      * List of required fields.
      *
      * @var array
