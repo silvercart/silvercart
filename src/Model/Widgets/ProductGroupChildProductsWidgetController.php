@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Widgets;
 
+use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Pages\ProductGroupPageController;
 use SilverCart\Model\Widgets\WidgetController;
 use SilverStripe\Control\Controller;
@@ -42,11 +43,11 @@ class ProductGroupChildProductsWidgetController extends WidgetController {
      * @return PaginatedList
      */
     public function getElementsByProductGroup() {
-        $productGroupPage = Controller::curr();
-        if (!$productGroupPage instanceof ProductGroupPageController ||
+        $productGroupPage = Controller::curr()->data();
+        if (!$productGroupPage instanceof ProductGroupPage ||
              $productGroupPage->getProducts()->count() > 0) {
 
-            return new PaginatedList(new ArrayList());
+            return PaginatedList::create(ArrayList::create());
         }
         return $productGroupPage->getProductsFromChildren();
     }
@@ -79,6 +80,16 @@ class ProductGroupChildProductsWidgetController extends WidgetController {
 
         return $this->elements;
     }
+    
+    /**
+     * Returns the products.
+     * Alias for self::Elements().
+     * 
+     * @return PaginatedList
+     */
+    public function getProducts() {
+        return $this->Elements();
+    }
 
     /**
      * Returns the content for non slider widgets
@@ -95,14 +106,14 @@ class ProductGroupChildProductsWidgetController extends WidgetController {
         $output     = '';
 
         if ($controller instanceof ProductGroupPageController) {
-            $elements = array(
+            $elements = [
                 'Elements' => $this->Elements(),
-            );
+            ];
 
             $output = $this->customise($elements)->renderWith(
-                array(
+                [
                     $controller->getProductGroupPageTemplateName($templateBase)
-                )
+                ]
             );
         }
 

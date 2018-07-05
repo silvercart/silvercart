@@ -9,7 +9,6 @@ use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\CMS\Model\RedirectorPage;
 use SilverStripe\Control\Controller;
-use SilverStripe\Core\Convert;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;

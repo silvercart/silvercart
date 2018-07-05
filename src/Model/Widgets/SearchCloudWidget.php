@@ -23,21 +23,21 @@ class SearchCloudWidget extends Widget {
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'TagsPerCloud'  => 'Int',
         'FontSizeCount' => 'Int',
         'isContentView' => 'Boolean',
-    );
+    ];
     
     /**
      * default values for attributes
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'TagsPerCloud'  => 10,
         'FontSizeCount' => 5,
-    );
+    ];
 
     /**
      * DB table name
@@ -59,11 +59,11 @@ class SearchCloudWidget extends Widget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
-                array(
+                [
                     'TagsPerCloud'  => _t(SearchCloudWidget::class . '.TAGSPERCLOUD', 'Number of the search queries to show'),
                     'FontSizeCount' => _t(SearchCloudWidget::class . '.FONTSIZECOUNT', 'Number of different font sizes'),
                     'isContentView' => _t(ProductSliderWidget::class . '.IS_CONTENT_VIEW', 'Is Content view'),
-                )
+                ]
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -73,29 +73,29 @@ class SearchCloudWidget extends Widget {
     /**
      * Returns the most searched queries as a DataList
      *
-     * @return DataList 
+     * @return ArrayList 
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>, Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 05.06.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 05.07.2018
      */
     public function TagsForCloud() {
-        $searchTags = SearchQuery::get_most_searched($this->TagsPerCloud);
+        $searchTags = SearchQuery::get_most_searched($this->TagsPerCloud)->sort('SearchQuery');
         
         if (!$searchTags) {
             return false;
         }
         
-        $searchTags = $searchTags->sort('SearchQuery');
-        $searchTagsArrayList = new ArrayList();
+        $searchTagsArrayList = ArrayList::create();
         
         /*
          * The following block is a replacement for the call DataObjectSet::groupBy()
          * which does not exist any more
          */
-        $searchTagCounts = array();
+        $searchTagCounts = [];
         foreach ($searchTags as $item) {
-                $key = ($item->hasMethod('count')) ? $item->count() : $item->Count;
-                $searchTagCounts[$key] = $key;
+            $key = ($item->hasMethod('count')) ? $item->count() : $item->Count;
+            $searchTagCounts[$key] = $key;
         }
         $fontSizeRanges     = $this->getFontSizeRanges($searchTagCounts);
         foreach ($searchTags as $searchTag) {
@@ -123,17 +123,17 @@ class SearchCloudWidget extends Widget {
      */
     protected function getFontSizeRanges($existingTagCounts) {
         krsort($existingTagCounts);
-        $fontSizeRanges = array();
+        $fontSizeRanges = [];
         if (count($existingTagCounts) > $this->FontSizeCount) {
             $maximum = array_shift($existingTagCounts);
             $rangeSize = ceil($maximum / $this->FontSizeCount);
             $min = 1;
             $max = $rangeSize;
             for ($x = 0; $x < $this->FontSizeCount; $x++) {
-                $fontSizeRanges[] = array(
+                $fontSizeRanges[] = [
                     'Min' => $min,
                     'Max' => $max,
-                );
+                ];
                 $min = $max + 1;
                 $max = $max + $rangeSize;
             }
@@ -141,10 +141,10 @@ class SearchCloudWidget extends Widget {
                     count($existingTagCounts) < $this->FontSizeCount) {
             $existingTagCounts = array_reverse($existingTagCounts);
             foreach ($existingTagCounts as $tagCount) {
-                $fontSizeRanges[] = array(
+                $fontSizeRanges[] = [
                     'Min' => $tagCount,
                     'Max' => $tagCount,
-                );
+                ];
             }
         }
         return $fontSizeRanges;

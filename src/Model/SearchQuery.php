@@ -22,12 +22,12 @@ class SearchQuery extends DataObject {
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'SearchQuery'   => 'Varchar(255)',
         'Locale'        => \SilverCart\ORM\FieldType\DBLocale::class,
         'Count'         => 'Int',
         'Hits'          => 'Int',
-    );
+    ];
 
     /**
      * DB table name
@@ -45,10 +45,10 @@ class SearchQuery extends DataObject {
      */
     public static function get_by_query($query) {
         $searchQuery = self::get()
-                ->filter(array(
+                ->filter([
                     'SearchQuery' => $query,
                     'Locale'      => Tools::current_locale(),
-                ))
+                ])
                 ->first();
         if (!($searchQuery instanceof SearchQuery)) {
             $searchQuery = new SearchQuery();

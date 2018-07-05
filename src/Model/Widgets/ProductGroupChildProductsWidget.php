@@ -6,7 +6,6 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Widgets\Widget;
 use SilverCart\Model\Widgets\WidgetTools;
 use SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation;
-use SilverCart\ORM\DataObjectExtension;
 
 /**
  * Provides a view of items of the child product groups of the current product
