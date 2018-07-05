@@ -890,27 +890,18 @@ class ProductGroupPage extends \Page {
      * Returns the products of all children (recursively) of the current product group page.
      *
      * @return PaginatedList
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.06.2017
      */
     public function getProductsFromChildren() {
         if (Controller::curr() instanceof ProductGroupPageController &&
             Controller::curr()->data()->ID === $this->ID) {
 
-            $productGroupPage = Controller::curr();
+            $ctrl = Controller::curr();
         } else {
-            $productGroupPage = new ProductGroupPageController($this);
+            $ctrl = ProductGroupPageController::create($this);
         }
 
-        if (!($productGroupPage instanceof ProductGroupPageController) ||
-            $productGroupPage->getProducts()->count() > 0) {
-
-            return new PaginatedList(new ArrayList());
-        }
-
-        $products        = new ArrayList();
-        $pageIDsToWorkOn = $productGroupPage->getDescendantIDList();
+        $products        = ArrayList::create();
+        $pageIDsToWorkOn = $ctrl->getDescendantIDList();
         if (is_array($pageIDsToWorkOn) &&
             count($pageIDsToWorkOn) > 0) {
             $productGroupTable = Tools::get_table_name(self::class);
@@ -925,13 +916,13 @@ class ProductGroupPage extends \Page {
             $products = Product::getProducts('("' . $productTable . '"."ProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "' . $productTable . '"."ID" IN (' . $mirrored . '))');
         }
 
-        $elements = new PaginatedList($products);
-        $productGroupPage->addTotalNumberOfProducts($products->count());
-        $productGroupPage->setPaginationContext($elements);
+        $elements = PaginatedList::create($products);
+        $ctrl->addTotalNumberOfProducts($products->count());
+        $ctrl->setPaginationContext($elements);
         
-        if (method_exists($productGroupPage, 'getProductsPerPageSetting')) {
-            $elements->pageLength = $productGroupPage->getProductsPerPageSetting();
-            $elements->pageStart  = $productGroupPage->getSqlOffset();
+        if (method_exists($ctrl, 'getProductsPerPageSetting')) {
+            $elements->pageLength = $ctrl->getProductsPerPageSetting();
+            $elements->pageStart  = $ctrl->getSqlOffset();
         }
         return $elements;
     }
