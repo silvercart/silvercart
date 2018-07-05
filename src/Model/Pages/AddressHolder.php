@@ -126,8 +126,16 @@ class AddressHolder extends MyAccountHolder {
         $breadcrumbItem = '';
         if (Controller::curr()->getAction() == 'addNewAddress') {
             $breadcrumbItem = _t(AddressHolder::class . '.ADD', 'Add new address');
+            $link           = $this->Link('addNewAddress');
         } elseif (Controller::curr()->getAction() == 'edit') {
             $breadcrumbItem = _t(AddressHolder::class . '.EDIT_ADDRESS', 'Edit address');
+            $ctrl      = Controller::curr();
+            $addressID = $ctrl->getRequest()->postVar('AddressID');
+            if (is_null($addressID)) {
+                $addressID = $ctrl->getRequest()->param('ID');
+            }
+            $address = Address::get()->byID($addressID);
+            $link    = $this->Link('edit/' . $address->ID);
         }
         if (!empty($breadcrumbItem)) {
             $title = new DBText();
@@ -135,7 +143,7 @@ class AddressHolder extends MyAccountHolder {
             $items->push(new ArrayData([
                 'MenuTitle' => $title,
                 'Title'     => $title,
-                'Link'      => '',
+                'Link'      => $link,
             ]));
         }
         return $items;

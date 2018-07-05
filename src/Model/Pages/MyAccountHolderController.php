@@ -63,13 +63,15 @@ class MyAccountHolderController extends \PageController {
     /**
      * returns the link to the order detail page (without orderID)
      *
+     * @param sting $orderID OrderID
+     * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.02.2011
+     * @since 04.07.2018
      */
-    public function OrderDetailLink() {
-        return Tools::PageByIdentifierCode('SilvercartOrderHolder')->Link() . 'detail/';
+    public function OrderDetailLink($orderID = '') {
+        return Tools::PageByIdentifierCode('SilvercartOrderHolder')->Link() . 'detail/' . $orderID;
     }
     
     /**

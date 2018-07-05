@@ -94,7 +94,7 @@ class DownloadPageHolder extends \Page {
                             array(
                                 'MenuTitle' => $title,
                                 'Title'     => $title,
-                                'Link'      => '',
+                                'Link'      => $this->Link('results'),
                             )
                     )
             );

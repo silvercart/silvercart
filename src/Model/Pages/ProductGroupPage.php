@@ -1260,7 +1260,7 @@ class ProductGroupPage extends \Page {
             $items->push(new ArrayData([
                 'MenuTitle' => $title,
                 'Title'     => $title,
-                'Link'      => '',
+                'Link'      => Controller::curr()->getDetailViewProduct()->Link(),
             ]));
         }
         $this->extend('updateBreadcrumbParts', $items);

@@ -120,7 +120,7 @@ class OrderHolder extends MyAccountHolder {
             $items->push(new ArrayData([
                 'MenuTitle' => $title,
                 'Title'     => $title,
-                'Link'      => '',
+                'Link'      => $ctrl->OrderDetailLink($order->ID),
             ]));
         }
         return $items;
