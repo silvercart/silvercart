@@ -1996,7 +1996,7 @@ class Order extends DataObject implements PermissionProvider {
 
         $this->extend('updateTaxTotal', $taxRates);
 
-        return $taxRates;
+        return $taxRates->exclude('AmountRaw', 0);
     }
     
     /**
