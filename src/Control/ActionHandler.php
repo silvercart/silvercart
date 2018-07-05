@@ -161,8 +161,10 @@ class ActionHandler extends Controller {
         $searchContext      = Product::class;
         $searchResultsPage  = Tools::PageByIdentifierCode("SilvercartSearchResultsPage");
         $searchQuery        = SearchQuery::get_by_query(trim(Convert::raw2sql($quickSearchQuery)));
-        $searchQuery->Count++;
-        $searchQuery->write();
+        if (!empty($searchQuery->SearchQuery)) {
+            $searchQuery->Count++;
+            $searchQuery->write();
+        }
         Product::setDefaultSort('');
         Tools::Session()->set(SearchResultsPageController::SESSION_KEY_SEARCH_QUERY,   $quickSearchQuery);
         Tools::Session()->set(SearchResultsPageController::SESSION_KEY_SEARCH_CONTEXT, $searchContext);
