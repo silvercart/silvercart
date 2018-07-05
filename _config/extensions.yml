@@ -10,6 +10,9 @@ SilverStripe\Forms\FormField:
 SilverStripe\ORM\DataObject:
   extensions:
     - SilverCart\ORM\DataObjectExtension
+SilverStripe\ORM\FieldType\DBString:
+  extensions:
+    - SilverCart\Extensions\ORM\FieldType\DBStringExtension
 SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
     - SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest
@@ -33,7 +36,7 @@ SilverStripe\Admin\ModelAdmin:
     - SilverCart\Admin\Controllers\ModelAdminExtension
 SilverStripe\ORM\FieldType\DBMoney:
   extensions:
-    - SilverCart\ORM\FieldType\DBMoneyExtension
+    - SilverCart\Extensions\ORM\FieldType\DBMoneyExtension
 SilverStripe\Security\Security:
   extensions:
     - SilverCart\Security\SecurityExtension
