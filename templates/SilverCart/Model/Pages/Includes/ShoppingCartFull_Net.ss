@@ -131,7 +131,7 @@
     <% end_if %>
                 </tr>
                 <tr>
-                    <td colspan="2">{$payment.singular_name}:</td>
+                    <td colspan="2"><%t SilverCart\Model\Payment\PaymentMethod.SINGULARNAME 'Payment method' %>:</td>
                     <td colspan="4" class="text-right"><strong>{$payment.Name}</strong></td>
                     <td class="text-right">{$HandlingCostPayment.Nice}</td>
     <% if $CurrentPage.EditableShoppingCart %>
