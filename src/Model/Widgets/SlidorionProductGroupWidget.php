@@ -41,64 +41,65 @@ class SlidorionProductGroupWidget extends Widget {
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'widgetHeight' => 'Int',
         'speed'        => 'Int',
         'interval'     => 'Int',
         'hoverPause'   => 'Boolean',
         'autoPlay'     => 'Boolean',
         'effect'       => "Enum('fade,slideLeft,slideRight,slideUp,slideDown,overLeft,overRight,overUp,overDown', 'fade')"
-    );
+    ];
     
     /**
      * 1:1 or 1:n relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'SlidorionProductGroupWidgetTranslations' => SlidorionProductGroupWidgetTranslation::class,
-    );
+    ];
     
     /**
      * Has_many relationships.
      *
      * @var array
      */
-    private static $many_many = array(
+    private static $many_many = [
         'Images' => Image::class,
-    );
+    ];
     
     /**
      * Has_many relationships.
      *
      * @var array
      */
-    private static $many_many_extraFields = array(
-        'Images' => array(
+    private static $many_many_extraFields = [
+        'Images' => [
             'Sort' => 'Int',
-        ),
-    );
+        ],
+    ];
+    
     /**
      * Default attributes
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'widgetHeight' => 400,
         'speed'        => 500,
         'interval'     => 5000,
         'autoPlay'     => true,
-    );
+    ];
     
     /**
      * Castings.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'FrontTitle'   => 'Varchar(255)',
         'FrontContent' => 'Text',
-    );
+    ];
 
     /**
      * DB table name
@@ -134,7 +135,7 @@ class SlidorionProductGroupWidget extends Widget {
     public function fieldLabels($includerelations = true) {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
-                array(
+                [
                     'ImagesDescription' => _t(SlidorionProductGroupWidget::class . '.ImagesDescription', '<strong>Caution:</strong> Optimal dimensions to display an image are <strong><u>426x%s pixels</u></strong>.'),
                     'BasicTab'          => _t(SlidorionProductGroupWidget::class . '.CMS_BASICTABNAME', 'Basic preferences'),
                     'AdvancedTab'       => _t(SlidorionProductGroupWidget::class . '.CMS_ADVANCEDTABNAME', 'Advanced preferences'),
@@ -150,7 +151,7 @@ class SlidorionProductGroupWidget extends Widget {
                     'translations'      => _t(Config::class . '.TRANSLATIONS', 'Translations'),
                     'Images'            => Image::singleton()->plural_name(),
                     'AddImage'          => _t(ProductSliderWidget::class . '.AddImage', 'Add Image'),
-                )
+                ]
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -163,16 +164,16 @@ class SlidorionProductGroupWidget extends Widget {
      * @return FieldList
      */
     public function getCMSFields() {
-        $fields = new FieldList();
-        $rootTabSet     = new TabSet('Root');
-        $basicTab       = new Tab('Basic', $this->fieldLabel('BasicTab'));
-        $translationTab = new Tab('Translations', $this->fieldLabel('TranslationsTab'));
+        $fields         = FieldList::create();
+        $rootTabSet     = TabSet::create('Root');
+        $basicTab       = Tab::create('Basic', $this->fieldLabel('BasicTab'));
+        $translationTab = Tab::create('Translations', $this->fieldLabel('TranslationsTab'));
         
-        $titleField      = new TextField('Title',                    $this->fieldLabel('Title'));
-        $frontTitleField = new TextField('FrontTitle',               $this->fieldLabel('FrontTitle'));
-        $contentField    = new TextareaField('FrontContent',         $this->fieldLabel('FrontContent'), 10);
+        $titleField      = TextField::create('Title',                    $this->fieldLabel('Title'));
+        $frontTitleField = TextField::create('FrontTitle',               $this->fieldLabel('FrontTitle'));
+        $contentField    = TextareaField::create('FrontContent',         $this->fieldLabel('FrontContent'), 10);
         
-        $imageTable = new GridField(
+        $imageTable = GridField::create(
                 'Images',
                 $this->fieldLabel('Images'),
                 $this->Images()->sort('Sort'),
@@ -191,55 +192,35 @@ class SlidorionProductGroupWidget extends Widget {
                 $this->getSliderHeight()
         );
         
-        $imagesUploadField = new ImageUploadField('UploadImages', $this->fieldLabel('AddImage'));
+        $imagesUploadField = ImageUploadField::create('UploadImages', $this->fieldLabel('AddImage'));
         $imagesUploadField->setFolderName('assets/silvercart-images');
         $imagesUploadField->setDescription($imagesUploadDescription);
                 
-        $translationsTableField = new GridField(
+        $translationsTableField = GridField::create(
                 'SlidorionProductGroupWidgetTranslations',
                 $this->fieldLabel('translations'),
                 $this->SlidorionProductGroupWidgetTranslations(),
                 GridFieldConfig_ExclusiveRelationEditor::create()
         );
         
-        $widgetHeightField = new TextField(
-            'widgetHeight',
-            $this->fieldLabel('widgetHeight')
-        );
-        $speedField = new TextField(
-            'speed',
-            $this->fieldLabel('speed')
-        );
-        $intervalField = new TextField(
-            'interval',
-            $this->fieldLabel('interval')
-        );
-        $effectField = new DropdownField(
-            'effect',
-            $this->fieldLabel('effect'),
-            SlidorionProductGroupWidget::singleton()->dbObject('effect')->enumValues(),
-            $this->effect
-        );
-        $hoverPauseField = new CheckboxField(
-            'hoverPause',
-            $this->fieldLabel('hoverPause')
-        );
-        $autoPlayField = new CheckboxField(
-            'autoPlay',
-            $this->fieldLabel('autoPlay')
-        );
-        
+        $widgetHeightField = TextField::create('widgetHeight',   $this->fieldLabel('widgetHeight'));
+        $speedField        = TextField::create('speed',          $this->fieldLabel('speed'));
+        $intervalField     = TextField::create('interval',       $this->fieldLabel('interval'));
+        $effectField       = DropdownField::create('effect',     $this->fieldLabel('effect'), SlidorionProductGroupWidget::singleton()->dbObject('effect')->enumValues(), $this->effect);
+        $hoverPauseField   = CheckboxField::create('hoverPause', $this->fieldLabel('hoverPause'));
+        $autoPlayField     = CheckboxField::create('autoPlay',   $this->fieldLabel('autoPlay'));
+
         $advancedToggle = ToggleCompositeField::create(
                 'AdvancedToggle',
                 $this->fieldLabel('AdvancedTab'),
-                array(
+                [
                     $widgetHeightField,
                     $speedField,
                     $intervalField,
                     $effectField,
                     $hoverPauseField,
                     $autoPlayField,
-                )
+                ]
         )->setHeadingLevel(4);
         
         $basicTab->push($titleField);
@@ -389,28 +370,6 @@ class SlidorionProductGroupWidget extends Widget {
 
         return $effect;
     }
-
-    /**
-     * Returns the group picture list as HTML string.
-     *
-     * @return string
-     */
-    public function getGroupPictureList() {
-        $list = '';
-
-        foreach ($this->getImagesToDisplay() as $imageToDisplay) {
-            $list .= '<div class="silvercart-slidorion-slide" style="background: url(' . $imageToDisplay->resizedImage->getURL() . ') no-repeat center;">';
-            $list .= '<div class="silvercart-slidorion-slide-prev"><div class="arrow"><div></div></div></div>';
-            if ($imageToDisplay->Link()) {
-                $list .= '<a class="silvercart-slidorion-slide-click" href="' . $imageToDisplay->Link() . '"></a>';
-            }
-            $list .= '<div class="silvercart-slidorion-slide-next"><div class="arrow_outer"><div class="arrow"><div></div></div></div></div>';
-            $list .= $imageToDisplay->Content;
-            $list .= '</div>';
-        }
-
-        return Tools::string2html($list);
-    }
     
     /**
      * Returns the images to display
@@ -418,7 +377,7 @@ class SlidorionProductGroupWidget extends Widget {
      * @return ArrayList
      */
     public function getImagesToDisplay() {
-        $imagesToDisplay = new ArrayList();
+        $imagesToDisplay = ArrayList::create();
 
         foreach ($this->Images()->sort('Sort') as $silvercartImage) {
             if ($silvercartImage->ImageID > 0) {

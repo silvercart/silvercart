@@ -70,7 +70,7 @@ class SlidorionProductGroupWidgetController extends WidgetController {
         $slidorionHeight        = $this->getWidgetHeightValue();
         $numberOfItems          = $this->getImagesToDisplay()->count();
         $accordeonTitleHeight   = 30;
-        $correctionHeight       = 16;
+        $correctionHeight       = 2;
         $accordeonContentHeight = $slidorionHeight - $numberOfItems * $accordeonTitleHeight - $correctionHeight;
         
         Requirements::customCSS(
