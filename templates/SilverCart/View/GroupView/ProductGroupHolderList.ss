@@ -29,7 +29,7 @@
             </div>
             <div class="span3">
             <% if $hasProductCount(1) %>
-                <a href="{$Link}" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGLUAR 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGLUAR 'Show {count} product' count=$ActiveProducts.Count %> <span class="icon-caret-right"></span></a>
+                <a href="{$Link}" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_SINGULAR 'Show {count} product' count=$ActiveProducts.Count %> <span class="icon-caret-right"></span></a>
             <% else_if not $hasProductCount(0) %>
                 <a href="{$Link}" class="btn btn-primary btn-small" title="<%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL 'Show {count} product' count=$ActiveProducts.Count %>"><strong><%t SilverCart\Model\Pages\ProductGroupHolder.SHOW_PRODUCTS_WITH_COUNT_PLURAL 'Show {count} product' count=$ActiveProducts.Count %> </strong><span class="icon-caret-right"></span></a>
             <% end_if %>
