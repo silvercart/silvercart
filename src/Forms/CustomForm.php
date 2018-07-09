@@ -108,6 +108,23 @@ class CustomForm extends Form {
     }
     
     /**
+     * Adds a CSS class to the form if an error occured.
+     * 
+     * @param string $class CSS class to add
+     * 
+     * @return $this
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2018
+     */
+    public function addErrorClass($class) {
+        if ($this->getMessageType() == 'error') {
+            $this->addExtraClass($class);
+        }
+        return $this;
+    }
+    
+    /**
      * Returns the required fields.
      * 
      * @return array
@@ -273,6 +290,7 @@ class CustomForm extends Form {
             $fields->push(HiddenField::create('action_submit'));
             foreach ($this->getCustomFields() as $field) {
                 if ($fields->fieldPosition($field) === false) {
+                    $field->setForm($this);
                     $fields->push($field);
                 }
             }

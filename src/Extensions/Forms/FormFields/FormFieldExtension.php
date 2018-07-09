@@ -3,6 +3,7 @@
 namespace SilverCart\Extensions\Forms\FormFields;
 
 use SilverStripe\Core\Extension;
+use SilverStripe\Forms\Form;
 
 /** 
  * Extension for the default SilverStripe\Forms\FormField.
@@ -41,6 +42,25 @@ class FormFieldExtension extends Extension {
      */
     public function setValidationFailed($validationFailed) {
         $this->owner->validationFailed = $validationFailed;
+        return $this->owner;
+    }
+    
+    /**
+     * Adds a CSS class to the field if an error occured.
+     * 
+     * @param string $class CSS class to add
+     * 
+     * @return $this->owner
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2018
+     */
+    public function addErrorClass($class) {
+        $form = $this->owner->getForm();
+        if ($form instanceof Form &&
+            $form->getMessageType() == 'error') {
+            $this->owner->addExtraClass($class);
+        }
         return $this->owner;
     }
 
