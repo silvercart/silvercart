@@ -203,7 +203,7 @@ class RevocationForm extends CustomForm {
             $orderID = '';
         }
         if (!empty($orderID)) {
-            $order = $customer->Order()->byID($orderID);
+            $order = $customer->Orders()->byID($orderID);
         }
         return $order;
     }
