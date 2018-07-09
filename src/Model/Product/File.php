@@ -9,6 +9,8 @@ use SilverCart\Model\Product\Product;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Control\Director;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Assets\File as SilverstripeFile;
+use SilverStripe\Assets\Image as SilverstripeImage;
 
 /**
  * DataObject to handle files added to a product or sth. else.
@@ -31,9 +33,9 @@ class File extends DataObject {
      */
     private static $has_one = array(
         'Product'      => Product::class,
-        'File'         => \SilverStripe\Assets\File::class,
+        'File'         => SilverstripeFile::class,
         'DownloadPage' => DownloadPage::class,
-        'Thumbnail'    => \SilverStripe\Assets\Image::class,
+        'Thumbnail'    => SilverstripeImage::class,
     );
     
     /**
@@ -86,15 +88,19 @@ class File extends DataObject {
      *
      * @return string
      */
+    public function getFileIconURL() {
+        $fileName = $this->File()->getFilename();
+        $fileExt  = pathinfo($fileName, PATHINFO_EXTENSION);
+        return SilverstripeFile::get_icon_for_extension($fileExt);
+    }
+
+    /**
+     * Returns a HTML snippet for the related Files icon.
+     *
+     * @return string
+     */
     public function getFileIcon() {
-        $file = $this->File();
-		$ext  = strtolower($file->getExtension());
-        if (Director::fileExists(project() . "/images/app_icons/{$ext}_32.png")) {
-            $icon = project() . "/images/app_icons/{$ext}_32.png";
-        } else {
-            $icon = $this->File()->getIcon();
-        }
-        return Tools::string2html('<img src="' . $icon . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />');
+        return Tools::string2html('<img src="' . $this->getFileIconURL() . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />');
     }
     
     /**
@@ -142,7 +148,7 @@ class File extends DataObject {
                 'FileType'         => _t(File::class . '.TYPE', 'File type'),
                 'FileTranslations' => FileTranslation::singleton()->plural_name(),
                 'Product'          => Product::singleton()->singular_name(),
-                'File'             => \SilverStripe\Assets\File::singleton()->singular_name(),
+                'File'             => SilverstripeFile::singleton()->singular_name(),
                 'DownloadPage'     => DownloadPage::singleton()->singular_name(),
                 'Description'      => _t(File::class . '.DESCRIPTION', 'Description (e.g. for Slidorion textfield)'),
                 
