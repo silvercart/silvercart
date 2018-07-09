@@ -6,10 +6,12 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCart;
+use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\SearchResultsPageController;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\SearchQuery;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
@@ -39,6 +41,8 @@ class ActionHandler extends Controller {
         'addToCart',
         'doSearch',
         'doLogin',
+        'decrementPositionQuantity',
+        'incrementPositionQuantity',
     );
     
     /**
@@ -87,6 +91,83 @@ class ActionHandler extends Controller {
         }
         
         $this->redirectBack($backLink, '#product' . $productID);
+    }
+    
+    /**
+     * Decrements the shopping cart position quantity by 1.
+     * 
+     * @param HTTPRequest $request Request to check for product data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2018
+     */
+    public function decrementPositionQuantity(HTTPRequest $request) {
+        $this->extend('onBeforeDecrementPositionQuantity', $request);
+        $positionID = $request->param('ID');
+        $backLinkID = $request->param('OtherID');
+        if (is_numeric($positionID)) {
+            //check if the position belongs to this user. Malicious people could manipulate it.
+            $member   = Customer::currentUser();
+            $position = ShoppingCartPosition::get()->byID($positionID);
+            if ($position instanceof ShoppingCartPosition &&
+                $position->exists() &&
+                $position->ShoppingCartID == $member->getCart()->ID) {
+                if ($position->Quantity <= 1) {
+                    $position->delete();
+                } else {
+                    $position->Quantity--;
+                    $position->write();
+                }
+                $backLink = null;
+                if (!is_null($backLinkID)) {
+                    $backLinkPage = SiteTree::get()->byID($backLinkID);
+                    if ($backLinkPage instanceof SiteTree &&
+                        $backLinkPage->exists()) {
+                        $backLink = $backLinkPage->Link();
+                    }
+                }
+                $this->redirectBack($backLink);
+            }
+        }
+        $this->extend('onAfterDecrementPositionQuantity', $request);
+    }
+    
+    /**
+     * Increments the shopping cart position quantity by 1.
+     * 
+     * @param HTTPRequest $request Request to check for product data
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2018
+     */
+    public function incrementPositionQuantity(HTTPRequest $request) {
+        $this->extend('onBeforeIncrementPositionQuantity', $request);
+        $positionID = $request->param('ID');
+        $backLinkID = $request->param('OtherID');
+        if (is_numeric($positionID)) {
+            //check if the position belongs to this user. Malicious people could manipulate it.
+            $member   = Customer::currentUser();
+            $position = ShoppingCartPosition::get()->byID($positionID);
+            if ($position instanceof ShoppingCartPosition &&
+                $position->exists() &&
+                $position->ShoppingCartID == $member->getCart()->ID) {
+                $position->Product()->addToCart($member->getCart()->ID, 1, true);
+                $backLink = null;
+                if (!is_null($backLinkID)) {
+                    $backLinkPage = SiteTree::get()->byID($backLinkID);
+                    if ($backLinkPage instanceof SiteTree &&
+                        $backLinkPage->exists()) {
+                        $backLink = $backLinkPage->Link();
+                    }
+                }
+                $this->redirectBack($backLink);
+            }
+        }
+        $this->extend('onAfterIncrementPositionQuantity', $request);
     }
     
     /**
