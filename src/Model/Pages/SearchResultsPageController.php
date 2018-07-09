@@ -419,6 +419,9 @@ class SearchResultsPageController extends ProductGroupPageController {
                 $productTranslationTable,
                 $searchQuery// Title SOUNDEX
             );
+            if (count($searchTerms) > 1) {
+                $this->listFilters['original-soft'] = $this->getSoftSearchFilter($searchTerms);
+            }
 
             if (count(self::$registeredFilterPlugins) > 0) {
                 foreach (self::$registeredFilterPlugins as $registeredPlugin) {
@@ -436,13 +439,13 @@ class SearchResultsPageController extends ProductGroupPageController {
 
             foreach ($this->listFilters as $listFilter) {
                 if (empty($filter)) {
-                    $filter =  $listFilter;
+                    $filter = '(' . $listFilter . ')';
                 } else {
                     if (strpos(trim($listFilter), 'AND') !== 0 &&
                         strpos(trim($listFilter), 'OR') !== 0) {
-                        $listFilter = 'AND ' . $listFilter;
+                        $listFilter = 'AND (' . $listFilter . ')';
                     }
-                    $filter = '(' . $filter . ') ' . $listFilter;
+                    $filter .= ' ' . $listFilter;
                 }
             }
 
@@ -478,6 +481,44 @@ class SearchResultsPageController extends ProductGroupPageController {
         }
         
         return $this->searchResultProducts;
+    }
+    
+    /**
+     * Returns a more soft search filter to match more results.
+     * 
+     * @param array $searchTerms List of search terms (originally combined by a white space).
+     * 
+     * @return string
+     */
+    protected function getSoftSearchFilter($searchTerms) {
+        $softSearchQuery         = implode('%', $searchTerms);
+        $productTranslationTable = Tools::get_table_name(ProductTranslation::class);
+        $softSearchFilter        = sprintf('OR (
+                "%s"."Title" LIKE \'%s%%\' OR
+                "%s"."ShortDescription" LIKE \'%s%%\' OR
+                "%s"."LongDescription" LIKE \'%s%%\' OR
+                "%s"."Title" LIKE \'%%%s%%\' OR
+                "%s"."ShortDescription" LIKE \'%%%s%%\' OR
+                "%s"."LongDescription" LIKE \'%%%s%%\' OR
+                "%s"."MetaKeywords" LIKE \'%%%s%%\'
+            )',
+            $productTranslationTable, // Title [starts with]
+            $softSearchQuery,         // Title [starts with]
+            $productTranslationTable, // ShortDescription [starts with]
+            $softSearchQuery,         // ShortDescription [starts with]
+            $productTranslationTable, // LongDescription [starts with]
+            $softSearchQuery,         // LongDescription [starts with]
+            $productTranslationTable, // Title
+            $softSearchQuery,         // Title
+            $productTranslationTable, // ShortDescription
+            $softSearchQuery,         // ShortDescription
+            $productTranslationTable, // LongDescription
+            $softSearchQuery,         // LongDescription
+            $productTranslationTable, // MetaKeywords
+            $softSearchQuery          // MetaKeywords
+        );
+        $this->extend('updateSoftSearchFilter', $softSearchFilter, $searchTerms);
+        return $softSearchFilter;
     }
 
     /**
