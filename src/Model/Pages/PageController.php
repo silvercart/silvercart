@@ -84,52 +84,110 @@ class PageController extends ContentController {
     }
     
     /**
-     * On before init.
+     * Loads all PHP side SilverCart JS requirements.
+     * Additional JS files can still be loaded elsewhere.
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.10.2014
+     * @since 10.07.2018
      */
-    public function loadJSRequirements() {
+    public function RequireFullJavaScript() {
         if (Tools::isIsolatedEnvironment()) {
             return;
         }
-
+        $this->extend('onBeforeRequireFullJavaScript');
         Requirements::set_write_js_to_body(true);
         Requirements::javascript('silvercart/silvercart:client/gdpr/jquery.1.9.1.min.js');
         Requirements::javascript('silvercart/silvercart:client/gdpr/jquery-ui.1.10.1.min.js');
+        $this->RequireI18nJavaScript();
+        $this->RequireCoreJavaScript();
+        $this->RequireCookieBannerJavaScript();
+        $this->extend('onAfterRequireFullJavaScript');
+    }
+    
+    /**
+     * Loads SilverStripe framework i18n.js and registers the SilverCart i18n JS
+     * folder.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2018
+     */
+    public function RequireI18nJavaScript() {
+        if (Tools::isIsolatedEnvironment()) {
+            return;
+        }
+        $this->extend('onBeforeRequireI18nJavaScript');
+        Requirements::set_write_js_to_body(true);
         Requirements::javascript('silverstripe/admin:client/dist/js/i18n.js');
         Requirements::add_i18n_javascript('silvercart/silvercart:client/javascript/lang');
-        
-        $jsFiles = array(
-            'silvercart/silvercart:client/javascript/jquery.pixeltricks.tools.js',
-            'silvercart/silvercart:client/javascript/jquery.cookie.js',
-            'silvercart/silvercart:client/javascript/bootstrap.min.js',
-            'silvercart/silvercart:client/javascript/jquery.flexslider-min.js',
-            'silvercart/silvercart:client/javascript/jquery.cycle2.min.js',
-            'silvercart/silvercart:client/javascript/jquery.cycle2.carousel.min.js',
-            'silvercart/silvercart:client/javascript/jquery.cycle2.swipe.min.js',
-            'silvercart/silvercart:client/javascript/fancybox/jquery.fancybox.js',
-            'silvercart/silvercart:client/javascript/custom.js',
-            'silvercart/silvercart:client/javascript/silvercart.js',
-        );
+        $this->extend('onAfterRequireI18nJavaScript');
+    }
+    
+    /**
+     * Loads the SilverCart core (default) JS requirements.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2018
+     */
+    public function RequireCoreJavaScript() {
+        if (Tools::isIsolatedEnvironment()) {
+            return;
+        }
+        $jsFilesBefore = [];
+        $jsFilesWidget = [];
+        $this->extend('onBeforeRequireCoreJavaScript', $jsFilesBefore);
         if (Widget::$use_anything_slider) {
-            $jsFiles = array_merge(
-                    $jsFiles,
-                    array(
-                        'silvercart/silvercart:client/javascript/anythingslider/js/jquery.anythingslider.min.js',
-                        'silvercart/silvercart:client/javascript/anythingslider/js/jquery.anythingslider.fx.min.js',
-                        'silvercart/silvercart:client/javascript/anythingslider/js/jquery.easing.1.2.js',
-                    )
+            $jsFilesWidget = [
+                'silvercart/silvercart:client/javascript/anythingslider/js/jquery.anythingslider.min.js',
+                'silvercart/silvercart:client/javascript/anythingslider/js/jquery.anythingslider.fx.min.js',
+                'silvercart/silvercart:client/javascript/anythingslider/js/jquery.easing.1.2.js',
+            ];
+        }
+        $jsFilesCore = array_merge(
+                $jsFilesBefore,
+                [
+                    'silvercart/silvercart:client/javascript/jquery.pixeltricks.tools.js',
+                    'silvercart/silvercart:client/javascript/jquery.cookie.js',
+                    'silvercart/silvercart:client/javascript/bootstrap.min.js',
+                    'silvercart/silvercart:client/javascript/jquery.flexslider-min.js',
+                    'silvercart/silvercart:client/javascript/jquery.cycle2.min.js',
+                    'silvercart/silvercart:client/javascript/jquery.cycle2.carousel.min.js',
+                    'silvercart/silvercart:client/javascript/jquery.cycle2.swipe.min.js',
+                    'silvercart/silvercart:client/javascript/fancybox/jquery.fancybox.js',
+                    'silvercart/silvercart:client/javascript/custom.js',
+                    'silvercart/silvercart:client/javascript/silvercart.js',
+                ],
+                $jsFilesWidget
+        );
+        $this->extend('updateRequireCoreJavaScript', $jsFilesCore);
+        
+        if (count($jsFilesCore) > 0) {
+            Requirements::combine_files(
+                'sc.core.js',
+                $jsFilesCore
             );
         }
-        $this->extend('updatedJSRequirements', $jsFiles);
-        
-        Requirements::combine_files(
-            'm.js.js',
-            $jsFiles
-        );
+        $this->extend('onAfterRequireCoreJavaScript', $jsFilesCore);
+    }
+    
+    /**
+     * Loads the SilverCart cookie policy (banner) JS requirements.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2018
+     */
+    public function RequireCookieBannerJavaScript() {
+        if (Tools::isIsolatedEnvironment()) {
+            return;
+        }
+        CookiePolicyConfig::load_requirements();
     }
     
     /**
@@ -173,9 +231,6 @@ class PageController extends ContentController {
         if ($controller == $this || $controller->forceLoadOfWidgets) {
             $this->loadWidgetControllers();
         }
-        
-        $this->loadJSRequirements();
-        CookiePolicyConfig::load_requirements();
         
         $allParams = Controller::curr()->getRequest()->allParams();
         $customer  = Security::getCurrentUser();

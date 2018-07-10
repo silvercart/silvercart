@@ -18,6 +18,7 @@
 <% require themedCSS("client/css/jquery.fancybox") %>
 <% require themedCSS("client/css/jquery-ui-1.10.1.min") %>
 <% require themedCSS("client/css/slidorion.css") %>
+{$RequireFullJavaScript}
 <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
