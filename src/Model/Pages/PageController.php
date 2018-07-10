@@ -102,6 +102,7 @@ class PageController extends ContentController {
         Requirements::javascript('silvercart/silvercart:client/gdpr/jquery-ui.1.10.1.min.js');
         $this->RequireI18nJavaScript();
         $this->RequireCoreJavaScript();
+        $this->RequireExtendedJavaScript();
         $this->RequireCookieBannerJavaScript();
         $this->extend('onAfterRequireFullJavaScript');
     }
@@ -173,6 +174,31 @@ class PageController extends ContentController {
             );
         }
         $this->extend('onAfterRequireCoreJavaScript', $jsFilesCore);
+    }
+    
+    /**
+     * Loads the SilverCart extended JS requirements.
+     * Extended JS files are loaded by modules or custom project extensions
+     * using the updateRequireExtendedJavaScript hook.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.07.2018
+     */
+    public function RequireExtendedJavaScript() {
+        if (Tools::isIsolatedEnvironment()) {
+            return;
+        }
+        $jsFilesExt = [];
+        $this->extend('updateRequireExtendedJavaScript', $jsFilesExt);
+        
+        if (count($jsFilesExt) > 0) {
+            Requirements::combine_files(
+                'sc.ext.js',
+                $jsFilesExt
+            );
+        }
     }
     
     /**
