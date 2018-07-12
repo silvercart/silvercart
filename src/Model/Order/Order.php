@@ -2486,20 +2486,12 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 12.07.2018
      */
     public function recalculate() {
-        $totalAmount = 0.0;
-
-        foreach ($this->OrderPositions() as $orderPosition) {
-            $totalAmount += $orderPosition->PriceTotal->getAmount();
-        }
-
-        $this->AmountTotal->setAmount(
-            $totalAmount
-        );
-
+        $this->AmountTotal->setAmount($this->calculateAmountTotal());
         $this->write();
     }
 
