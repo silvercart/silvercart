@@ -80,7 +80,7 @@ class SearchCloudWidget extends Widget {
      * @since 05.07.2018
      */
     public function TagsForCloud() {
-        $searchTags = SearchQuery::get_most_searched($this->TagsPerCloud)->sort('SearchQuery');
+        $searchTags = SearchQuery::get_most_searched($this->TagsPerCloud);
         
         if (!$searchTags) {
             return false;
@@ -108,7 +108,7 @@ class SearchCloudWidget extends Widget {
             }
         }
         
-        return $searchTagsArrayList;
+        return $searchTagsArrayList->sort('SearchQuery');
     }
     
     
