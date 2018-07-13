@@ -63,5 +63,51 @@ class FormFieldExtension extends Extension {
         }
         return $this->owner;
     }
+    
+    /**
+     * Updates the attributes.
+     * 
+     * @param array &$attributes Attributes to update.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2018
+     */
+    public function updateAttributes(&$attributes) {
+        if (!$this->HasRequiredProperty()) {
+            if (array_key_exists('required', $attributes)) {
+                unset($attributes['required']);
+            }
+            if (array_key_exists('aria-required', $attributes)) {
+                unset($attributes['aria-required']);
+            }
+        }
+    }
+    
+    /**
+     * Returns whether this form field needs the required HTML property.
+     * 
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2018
+     */
+    public function HasRequiredProperty() {
+        $form = $this->owner->getForm();
+        if (is_object($form) &&
+            ($validator = $form->getValidator())) {
+            $validator = $form->getValidator();
+            if (is_object($validator)) {
+                if ($validator->hasMethod('fieldHasRequiredProperty')) {
+                    return $validator->fieldHasRequiredProperty($this->owner->getName());
+                } else {
+                    return $validator->fieldIsRequired($this->owner->getName());
+                }
+            }
+        }
+        return false;
+    }
 
 }

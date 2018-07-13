@@ -73,6 +73,33 @@ class CustomRequiredFields extends RequiredFields {
     public function hasRequiredCallbacks() {
         return !empty($this->requiredCallbacks);
     }
+
+    /**
+     * Returns true if the named field is "required" AND hasn't the 
+     * "isFilledInDependentOn" callback.
+     *
+     * Used by {@link FormField} to return a value for FormField::HasRequiredProperty(),
+     * to do things like show *s on the form template.
+     *
+     * @param string $fieldName
+     *
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.07.2018
+     */
+    public function fieldHasRequiredProperty($fieldName) {
+        $isRequired = isset($this->required[$fieldName]);
+        if ($isRequired &&
+            array_key_exists($fieldName, $this->requiredCallbacks)) {
+            $cb = $this->requiredCallbacks[$fieldName];
+            if (is_array($cb) &&
+                array_key_exists('isFilledInDependentOn', $cb)) {
+                $isRequired = false;
+            }
+        }
+        return $isRequired;
+    }
     
     /**
      * Validates the fields with the matching callback validation methods.
@@ -677,24 +704,26 @@ class CustomRequiredFields extends RequiredFields {
      * @since 20.06.2018
      */
     public function isPhoneNumber(FormField $formField, $value, $expectedResult) {
-        $error                 = false;
-        $errorMessage          = '';
-        $numbersOnly           = str_replace(['(', '+', ')', '-', ' '], '', $value);
-        $valueWithoutNumbers   = preg_replace('/[0-9]*/', '', $numbersOnly);
-        $consistsOfNumbersOnly = true;
+        $error        = false;
+        $errorMessage = '';
+        if (!empty($value)) {
+            $numbersOnly           = str_replace(['(', '+', ')', '-', ' '], '', $value);
+            $valueWithoutNumbers   = preg_replace('/[0-9]*/', '', $numbersOnly);
+            $consistsOfNumbersOnly = true;
 
-        if (strlen($numbersOnly) == 0 ||
-            strlen($valueWithoutNumbers) > 0) {
-            $consistsOfNumbersOnly = false;
-        }
-        if ($consistsOfNumbersOnly !== $expectedResult) {
-            $error = true;
-            $errorMessage = _t(CustomRequiredFields::class . '.FieldExpectsValidPhoneNumber',
-                        'The field "{name}" expects a valid phone number. (e.g "01234 56789", "+49 1234 5678-9")',
-                    [
-                        'name' => strip_tags($formField->Title() ? $formField->Title() : $formField->getName()),
-                    ]
-            );
+            if (strlen($numbersOnly) == 0 ||
+                strlen($valueWithoutNumbers) > 0) {
+                $consistsOfNumbersOnly = false;
+            }
+            if ($consistsOfNumbersOnly !== $expectedResult) {
+                $error = true;
+                $errorMessage = _t(CustomRequiredFields::class . '.FieldExpectsValidPhoneNumber',
+                            'The field "{name}" expects a valid phone number. (e.g "01234 56789", "+49 1234 5678-9")',
+                        [
+                            'name' => strip_tags($formField->Title() ? $formField->Title() : $formField->getName()),
+                        ]
+                );
+            }
         }
         
         return [

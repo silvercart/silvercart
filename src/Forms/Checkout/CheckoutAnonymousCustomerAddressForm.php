@@ -63,6 +63,15 @@ class CheckoutAnonymousCustomerAddressForm extends AddressForm {
                         'hasValue'  => '0'
                     ],
                 ];
+            } elseif (array_key_exists('isFilledIn', $originalFields[$key])) {
+                $originalFields['InvoiceAddress[' . $key . ']']  = $value;
+                $originalFields['ShippingAddress[' . $key . ']'] = $value;
+                $originalFields['ShippingAddress[' . $key . ']']['isFilledInDependentOn'] = [
+                    'field'     => 'InvoiceAddressAsShippingAddress',
+                    'hasValue'  => '0'
+                ];
+                unset($originalFields[$key]);
+                unset($originalFields['ShippingAddress[' . $key . ']']['isFilledIn']);
             } else {
                 $originalFields['InvoiceAddress[' . $key . ']']   = $value;
                 $originalFields['ShippingAddress[' . $key . ']'] = $value;
