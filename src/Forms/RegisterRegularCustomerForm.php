@@ -14,12 +14,15 @@ use SilverCart\Model\Newsletter\AnonymousNewsletterRecipient;
 use SilverCart\Model\Newsletter\Newsletter;
 use SilverCart\Model\Pages\CheckoutStep;
 use SilverCart\Model\Pages\Page;
+use SilverStripe\Control\Controller;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\PasswordField;
+use SilverStripe\Security\IdentityStore;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 use SilverStripe\Security\Security;
@@ -255,8 +258,7 @@ class RegisterRegularCustomerForm extends CustomForm {
         }
 
         // Create new regular customer and perform a log in
-        $customer = new Member();
-        $this->handleAnonymousCustomer($customer);
+        $customer = $this->handleAnonymousCustomer();
         $customer->castedUpdate($data);
         $customer->write();
         $customer->changePassword($data['Password']);
@@ -278,9 +280,10 @@ class RegisterRegularCustomerForm extends CustomForm {
         $this->extend('updateRegisteredAddress', $address, $data, $form);
 
         //connect the ShippingAddress and the InvoiceAddress to the customer
+        $customer->Addresses()->add($address);
+        $customer->write();
         $customer->ShippingAddressID = $address->ID;
         $customer->InvoiceAddressID  = $address->ID;
-        $customer->Addresses()->add($address);
         $customer->write();
         $this->handleNewsletterRecipient($customer);
         $this->extend('updateRegisteredCustomer', $customer, $data, $form, $data);
@@ -300,35 +303,22 @@ class RegisterRegularCustomerForm extends CustomForm {
     
     /**
      * Handles the anonymous customer object if exists.
-     * Anonymous customer will be logged out, deleted and existing shopping cart positions
-     * will be transferred to the newly registered customer.
+     * Anonymous customer will be transformed into a newly registered customer.
      * 
-     * @param Member $customer New customer
-     * 
-     * @return void
+     * @return Member
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.11.2017
+     * @since 13.07.2018
      */
-    protected function handleAnonymousCustomer(Member $customer) {
-        $anonymousCustomer = Customer::currentUser();
-        if ($anonymousCustomer instanceof Member &&
-            $anonymousCustomer->exists()) {
-            // Logout anonymous users and save their shoppingcart temporarily.
-            $anonymousCustomer->logOut();
-            // Pass shoppingcart to registered customer and delete the anonymous customer.
-            $newShoppingCart = $anonymousCustomer->getCart()->duplicate(true);
-
-            foreach ($anonymousCustomer->getCart()->ShoppingCartPositions() as $shoppingCartPosition) {
-                $newShoppingCartPosition = $shoppingCartPosition->duplicate(false);
-                $newShoppingCartPosition->ShoppingCartID = $newShoppingCart->ID;
-                $newShoppingCartPosition->write();
-                $shoppingCartPosition->transferToNewPosition($newShoppingCartPosition);
-            }
-
-            $customer->ShoppingCartID = $newShoppingCart->ID;
-            $anonymousCustomer->delete();
+    protected function handleAnonymousCustomer() {
+        $customer = Customer::currentUser();
+        if ($customer instanceof Member &&
+            $customer->exists()) {
+            $customer->Groups()->removeAll();
+        } else {
+            $customer = Member::create();
         }
+        return $customer;
     }
     
     /**

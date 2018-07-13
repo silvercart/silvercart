@@ -3,6 +3,7 @@
 namespace SilverCart\Forms;
 
 use Exception;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\FormField;
