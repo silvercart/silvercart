@@ -74,7 +74,7 @@ class ProductImageImportTask extends BuildTask {
      *
      * @var string
      */
-    private static $import_is_running_file_name = 'scpii-is-running';
+    private static $import_is_running_file_name = '.scpii-is-running';
     
     /**
      * Name of the file that determines that the script installation is
@@ -82,7 +82,7 @@ class ProductImageImportTask extends BuildTask {
      *
      * @var string
      */
-    private static $import_is_installed_file_name = 'scpii-is-installed';
+    private static $import_is_installed_file_name = '.scpii-is-installed';
     
     /**
      * Character to use to separate the prduct number and image name.
@@ -301,7 +301,7 @@ class ProductImageImportTask extends BuildTask {
      * @return string
      */
     public static function get_import_is_running_file_path() {
-        return self::get_import_source_path() . self::get_import_is_running_file_name();
+        return self::get_import_source_path() . DIRECTORY_SEPARATOR . self::get_import_is_running_file_name();
     }
     
     /**
@@ -321,7 +321,7 @@ class ProductImageImportTask extends BuildTask {
      * @return string
      */
     public static function get_import_is_installed_file_path() {
-        return self::get_import_source_path() . self::get_import_is_installed_file_name();
+        return self::get_import_source_path() . DIRECTORY_SEPARATOR . self::get_import_is_installed_file_name();
     }
     
     /**
