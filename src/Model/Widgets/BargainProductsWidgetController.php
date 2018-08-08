@@ -113,10 +113,6 @@ class BargainProductsWidgetController extends WidgetController {
             );
             
             $this->elements = $products;
-
-            foreach ($this->elements as $element) {
-                $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
-            }
         }
         return $this->elements;
     }
@@ -153,7 +149,6 @@ class BargainProductsWidgetController extends WidgetController {
             $isFirst        = true;
             if ($this->elements) {
                 foreach ($this->elements as $product) {
-                    $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                     $pageProducts[] = $product;
                     $PageProductIdx++;
 

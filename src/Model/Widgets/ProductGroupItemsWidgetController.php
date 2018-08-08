@@ -113,7 +113,6 @@ class ProductGroupItemsWidgetController extends WidgetController {
         if ($products->exists()) {
             $products = new ArrayList($products->toArray());
             foreach ($products as $product) {
-                $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
                 $pageProducts[] = $product;
                 $pageProductIdx++;
 
@@ -175,10 +174,6 @@ class ProductGroupItemsWidgetController extends WidgetController {
             }
 
             $this->elements = new ArrayList($this->elements->toArray());
-
-            foreach ($this->elements as $element) {
-                $element->addCartFormIdentifier = $this->ID.'_'.$element->ID;
-            }
         }
 
         return $this->elements;
@@ -215,17 +210,9 @@ class ProductGroupItemsWidgetController extends WidgetController {
      * Returns the manually chosen products.
      * 
      * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.02.2012
      */
     public function getElementsByProducts() {
         $products = $this->Products()->where(Product::get_frontend_sql_filter());
-        
-        foreach ($products as $product) {
-            $product->addCartFormIdentifier = $this->ID.'_'.$product->ID;
-        }
-
         return $products;
     }
 
@@ -233,9 +220,6 @@ class ProductGroupItemsWidgetController extends WidgetController {
      * Returns a number of products from the chosen productgroup.
      * 
      * @return DataList
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
      */
     public function getElementsByProductGroup() {
         $elements = new ArrayList();

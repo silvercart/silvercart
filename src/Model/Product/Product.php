@@ -69,13 +69,6 @@ class Product extends DataObject implements PermissionProvider {
     const DEFAULT_FILES_FOLDER = 'product-files';
 
     /**
-     * Can contain an identifier for addToCart forms.
-     *
-     * @var mixed null|string
-     */
-    public $addCartFormIdentifier = null;
-
-    /**
      * attributes
      *
      * @var array

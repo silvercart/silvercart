@@ -58,9 +58,9 @@ class TopsellerProductsWidgetController extends WidgetController {
 
         foreach ($sqlResult as $row) {
             $product = Product::get()->byID($row['ProductID']);
-            $product->addCartFormIdentifier = $this->ID . '_' . $product->ID;
-
-            $products[] = $product;
+            if ($product instanceof Product) {
+                $products[] = $product;
+            }
         }
 
         $result = new ArrayList($products);
