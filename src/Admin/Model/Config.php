@@ -7,14 +7,15 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\View\GroupView\GroupViewHandler;
-use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Core\Extensible;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DB;
 use SilverStripe\Security\Member;
+use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\ArrayData;
 
 /**
@@ -34,8 +35,8 @@ use SilverStripe\View\ArrayData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Config {
-    
+class Config
+{
     use Extensible;
     
     /**
@@ -44,6 +45,8 @@ class Config {
      * 
      * This array is directly used for <option> Tags:
      *  'value' => 'Title': <option value="value">Title</option>
+     * 
+     * Use the array key 0 if you want to offer an option to show all products.
      *
      * @var array
      */
@@ -52,9 +55,8 @@ class Config {
         '30' => '30',
         '60' => '60',
         '90' => '90',
-        //'0'  => 'All' // Activate this only for shops with small product counts
     );
-    
+
     /**
      * Contains the possible values for products per page selectors for
      * storefront users.
@@ -69,7 +71,7 @@ class Config {
      * @var int
      */
     public static $productsPerPageDefault = 18;
-    
+
     /**
      * Used as SQL limit number for unlimited products per page.
      *
@@ -114,54 +116,55 @@ class Config {
      * Put here all static attributes which have no db field.
      */
     public static $defaultLayoutEnabled = true;
-    public static $defaultLayoutLoaded = false;
+    public static $defaultLayoutLoaded  = false;
+
     /**
      * The configuration fields should have a static attribute to set after its
      * first call (to prevent redundant logic).
      */
-    public static $addToCartMaxQuantity                     = null;
-    public static $defaultCurrency                          = null;
-    public static $defaultCurrencySymbol                    = null;
-    public static $defaultPricetype                         = null;
-    public static $emailSender                              = null;
-    public static $emailSenderName                          = null;
-    public static $enableBusinessCustomers                  = null;
-    public static $enablePackstation                        = null;
-    public static $globalEmailRecipient                     = null;
-    public static $priceType                                = null;
-    public static $config                                   = null;
-    public static $enableSSL                                = null;
-    public static $minimumOrderValue                        = null;
-    public static $freeOfShippingCostsFrom                  = null;
-    public static $useFreeOfShippingCostsFrom               = null;
-    public static $useMinimumOrderValue                     = null;
-    public static $productsPerPage                          = null;
-    public static $silvercartVersion                        = null;
-    public static $silvercartMinorVersion                   = null;
-    public static $silvercartFullVersion                    = null;
-    public static $enableStockManagement                    = null;
-    public static $isStockManagementOverbookable            = null;
-    public static $redirectToCartAfterAddToCart             = null;
-    public static $redirectToCheckoutWhenInCart             = null;
-    public static $demandBirthdayDateOnRegistration         = null;
-    public static $useMinimumAgeToOrder                     = null;
-    public static $minimumAgeToOrder                        = null;
-    public static $useDefaultLanguageAsFallback             = null;
-    public static $forceLoadingOfDefaultLayout              = false;
-    public static $productDescriptionFieldForCart           = null;
-    public static $useProductDescriptionFieldForCart        = true;
-    public static $useStrictSearchRelevance                 = false;
-    public static $defaultMailRecipient                     = null;
-    public static $defaultMailOrderNotificationRecipient    = null;
-    public static $defaultContactMessageRecipient           = null;
-    public static $userAgentBlacklist                       = null;
-    public static $skipPaymentStepIfUnique                  = null;
-    public static $skipShippingStepIfUnique                 = null;
-    public static $invoiceAddressIsAlwaysShippingAddress    = null;
-    public static $displayWeightsInKilogram                 = null;
-    public static $showTaxAndDutyHint                       = false;
-    public static $colorScheme                              = null;
-    public static $silvercartLogo                           = null;
+    public static $addToCartMaxQuantity                  = null;
+    public static $defaultCurrency                       = null;
+    public static $defaultCurrencySymbol                 = null;
+    public static $defaultPricetype                      = null;
+    public static $emailSender                           = null;
+    public static $emailSenderName                       = null;
+    public static $enableBusinessCustomers               = null;
+    public static $enablePackstation                     = null;
+    public static $globalEmailRecipient                  = null;
+    public static $priceType                             = null;
+    public static $config                                = null;
+    public static $enableSSL                             = null;
+    public static $minimumOrderValue                     = null;
+    public static $freeOfShippingCostsFrom               = null;
+    public static $useFreeOfShippingCostsFrom            = null;
+    public static $useMinimumOrderValue                  = null;
+    public static $productsPerPage                       = null;
+    public static $silvercartVersion                     = null;
+    public static $silvercartMinorVersion                = null;
+    public static $silvercartFullVersion                 = null;
+    public static $enableStockManagement                 = null;
+    public static $isStockManagementOverbookable         = null;
+    public static $redirectToCartAfterAddToCart          = null;
+    public static $redirectToCheckoutWhenInCart          = null;
+    public static $demandBirthdayDateOnRegistration      = null;
+    public static $useMinimumAgeToOrder                  = null;
+    public static $minimumAgeToOrder                     = null;
+    public static $useDefaultLanguageAsFallback          = null;
+    public static $forceLoadingOfDefaultLayout           = false;
+    public static $productDescriptionFieldForCart        = null;
+    public static $useProductDescriptionFieldForCart     = true;
+    public static $useStrictSearchRelevance              = false;
+    public static $defaultMailRecipient                  = null;
+    public static $defaultMailOrderNotificationRecipient = null;
+    public static $defaultContactMessageRecipient        = null;
+    public static $userAgentBlacklist                    = null;
+    public static $skipPaymentStepIfUnique               = null;
+    public static $skipShippingStepIfUnique              = null;
+    public static $invoiceAddressIsAlwaysShippingAddress = null;
+    public static $displayWeightsInKilogram              = null;
+    public static $showTaxAndDutyHint                    = false;
+    public static $colorScheme                           = null;
+    public static $silvercartLogo                        = null;
 
     /**
      * This method checks the required configuration. If there is any missing
@@ -172,7 +175,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.12.2015
      */
-    public static function Check() {
+    public static function Check()
+    {
         if (is_null(self::$required_configuration_fields)) {
             return true;
         }
@@ -182,14 +186,16 @@ class Config {
         if (is_array(self::$required_configuration_fields)) {
             $config = self::getConfig();
             foreach (self::$required_configuration_fields as $requiredField) {
-                if (empty($requiredField) || is_null($requiredField)) {
+                if (empty($requiredField)
+                    || is_null($requiredField)
+                ) {
                     continue;
                 }
-                
+
                 if ($config->hasMethod('check' . $requiredField)) {
                     $method = 'check' . $requiredField;
                     $result = $config->$method();
-                    
+
                     if ($result['status'] === false) {
                         $errorMessage = $result['message'];
                         self::triggerError($errorMessage);
@@ -198,7 +204,7 @@ class Config {
                     $errorMessage = _t(Config::class . '.ERROR_MESSAGE',
                             'Required configuration for "{field}" is missing. Please <a href="{baseurl}/admin/settings/">log in</a> and choose "SilverCart Configuration -> general configuration" to edit the missing field.',
                             [
-                                'field' => _t(Config::class . '.' . strtoupper($requiredField), $requiredField),
+                                'field'   => _t(Config::class . '.' . strtoupper($requiredField), $requiredField),
                                 'baseurl' => Director::baseURL()
                             ]
                     );
@@ -217,7 +223,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public static function DefaultCurrency() {
+    public static function DefaultCurrency()
+    {
         if (is_null(self::$defaultCurrency)) {
             self::$defaultCurrency = self::getConfig()->DefaultCurrency;
             self::getConfig()->extend('updateDefaultCurrency', self::$defaultCurrency);
@@ -233,10 +240,11 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.10.2013
      */
-    public static function DefaultCurrencySymbol() {
+    public static function DefaultCurrencySymbol()
+    {
         if (is_null(self::$defaultCurrencySymbol)) {
-            
-            $zend_currency = new Zend_Currency(null, i18n::config()->get('default_locale'));
+
+            $zend_currency               = new Zend_Currency(null, i18n::config()->get('default_locale'));
             self::$defaultCurrencySymbol = $zend_currency->getSymbol(self::DefaultCurrency(), i18n::get_locale());
         }
         return self::$defaultCurrencySymbol;
@@ -250,14 +258,16 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public static function DefaultPriceType() {
-        if (is_null(self::$defaultPricetype) ||
-            empty(self::$defaultPricetype)) {
+    public static function DefaultPriceType()
+    {
+        if (is_null(self::$defaultPricetype)
+            || empty(self::$defaultPricetype)
+        ) {
             self::$defaultPricetype = self::getConfig()->DefaultPriceType;
         }
         return self::$defaultPricetype;
     }
-    
+
     /**
      * Indicates wether the birthday date should be demanded on registration.
      *
@@ -266,13 +276,14 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 12.10.2011
      */
-    public static function DemandBirthdayDateOnRegistration() {
+    public static function DemandBirthdayDateOnRegistration()
+    {
         if (is_null(self::$demandBirthdayDateOnRegistration)) {
             self::$demandBirthdayDateOnRegistration = (bool) self::getConfig()->demandBirthdayDateOnRegistration;
         }
         return self::$demandBirthdayDateOnRegistration;
     }
-    
+
     /**
      * Returns whether there is a minimum age to order.
      *
@@ -281,13 +292,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.01.2014
      */
-    public static function UseMinimumAgeToOrder() {
+    public static function UseMinimumAgeToOrder()
+    {
         if (is_null(self::$useMinimumAgeToOrder)) {
             self::$useMinimumAgeToOrder = (bool) self::getConfig()->UseMinimumAgeToOrder;
         }
         return self::$useMinimumAgeToOrder;
     }
-    
+
     /**
      * Returns the minimum age to order.
      *
@@ -296,13 +308,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.01.2014
      */
-    public static function MinimumAgeToOrder() {
+    public static function MinimumAgeToOrder()
+    {
         if (is_null(self::$minimumAgeToOrder)) {
             self::$minimumAgeToOrder = self::getConfig()->MinimumAgeToOrder;
         }
         return self::$minimumAgeToOrder;
     }
-    
+
     /**
      * Returns the minimum age to order.
      *
@@ -311,8 +324,9 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.01.2014
      */
-    public static function MinimumAgeToOrderError() {
-        $error =_t(Config::class . '.MinimumAgeToOrderError',
+    public static function MinimumAgeToOrderError()
+    {
+        $error = _t(Config::class . '.MinimumAgeToOrderError',
                 'The minimum age to order is {age} years.',
                 [
                     'age' => self::MinimumAgeToOrder(),
@@ -320,7 +334,7 @@ class Config {
         );
         return $error;
     }
-    
+
     /**
      * Checks whether the given birthdate is allowed to order.
      *
@@ -331,7 +345,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.01.2014
      */
-    public static function CheckMinimumAgeToOrder($birthdate) {
+    public static function CheckMinimumAgeToOrder($birthdate)
+    {
         $ageIsOk       = true;
         $minimumAge    = self::MinimumAgeToOrder();
         $birthdayParts = explode('-', $birthdate);
@@ -340,11 +355,11 @@ class Config {
         if (date('md') < date('md', strtotime($birthdate))) {
             $age = $age - 1;
         }
-        
+
         if ($age < $minimumAge) {
             $ageIsOk = false;
         }
-        
+
         return $ageIsOk;
     }
 
@@ -356,7 +371,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public static function EmailSender() {
+    public static function EmailSender()
+    {
         if (is_null(self::$emailSender)) {
             self::$emailSender = self::getConfig()->EmailSender;
         }
@@ -371,7 +387,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.06.2018
      */
-    public static function EmailSenderName() {
+    public static function EmailSenderName()
+    {
         if (is_null(self::$emailSenderName)) {
             self::$emailSenderName = self::getConfig()->EmailSenderName;
         }
@@ -386,13 +403,14 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.04.2011
      */
-    public static function EnableSSL() {
+    public static function EnableSSL()
+    {
         if (is_null(self::$enableSSL)) {
             self::$enableSSL = self::getConfig()->enableSSL;
         }
         return self::$enableSSL;
     }
-    
+
     /**
      * Returns if stock management is enabled
      * 
@@ -401,15 +419,14 @@ class Config {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 17.7.2011
      */
-    public static function EnableStockManagement() {
+    public static function EnableStockManagement()
+    {
         if (is_null(self::$enableStockManagement)) {
             self::$enableStockManagement = self::getConfig()->enableStockManagement;
         }
         return self::$enableStockManagement;
     }
-    
-    
-    
+
     /**
      * May a products stock quantity be below zero?
      * 
@@ -418,7 +435,8 @@ class Config {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 17.7.2011
      */
-    public static function isStockManagementOverbookable() {
+    public static function isStockManagementOverbookable()
+    {
         if (is_null(self::$isStockManagementOverbookable)) {
             self::$isStockManagementOverbookable = self::getConfig()->isStockManagementOverbookable;
         }
@@ -433,7 +451,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.06.2011
      */
-    public static function MinimumOrderValue() {
+    public static function MinimumOrderValue()
+    {
         if (is_null(self::$minimumOrderValue)) {
             self::$minimumOrderValue = self::getConfig()->minimumOrderValue;
         }
@@ -448,7 +467,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.03.2012
      */
-    public static function UseFreeOfShippingCostsFrom() {
+    public static function UseFreeOfShippingCostsFrom()
+    {
         if (is_null(self::$useFreeOfShippingCostsFrom)) {
             self::$useFreeOfShippingCostsFrom = self::getConfig()->useFreeOfShippingCostsFrom;
         }
@@ -466,19 +486,22 @@ class Config {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.07.2013
      */
-    public static function FreeOfShippingCostsFrom($shippingCountry = null) {
+    public static function FreeOfShippingCostsFrom($shippingCountry = null)
+    {
         self::$freeOfShippingCostsFrom = self::getConfig()->freeOfShippingCostsFrom;
-        if (!($shippingCountry instanceof Country) &&
-            Controller::curr()->hasMethod('getCombinedStepData')) {
-            $checkoutData       = Controller::curr()->getCombinedStepData();
+        if (!($shippingCountry instanceof Country)
+            && Controller::curr()->hasMethod('getCombinedStepData')
+        ) {
+            $checkoutData = Controller::curr()->getCombinedStepData();
             if (array_key_exists('Shipping_Country', $checkoutData)) {
-                $shippingCountryID  = $checkoutData['Shipping_Country'];
-                $shippingCountry    = Country::get()->byID($shippingCountryID);
+                $shippingCountryID = $checkoutData['Shipping_Country'];
+                $shippingCountry   = Country::get()->byID($shippingCountryID);
             }
         }
-        if ($shippingCountry &&
-            !is_null($shippingCountry->freeOfShippingCostsFrom->getAmount()) &&
-            is_numeric($shippingCountry->freeOfShippingCostsFrom->getAmount())) {
+        if ($shippingCountry
+            && !is_null($shippingCountry->freeOfShippingCostsFrom->getAmount())
+            && is_numeric($shippingCountry->freeOfShippingCostsFrom->getAmount())
+        ) {
             $shippingCountry->freeOfShippingCostsFrom->getAmount();
             self::$freeOfShippingCostsFrom = $shippingCountry->freeOfShippingCostsFrom;
         }
@@ -493,9 +516,10 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.10.2011
      */
-    public static function SilvercartVersion() {
+    public static function SilvercartVersion()
+    {
         if (is_null(self::$silvercartVersion)) {
-            $defaults = SiteConfig::config()->get('defaults');
+            $defaults                = SiteConfig::config()->get('defaults');
             self::$silvercartVersion = $defaults['SilvercartVersion'];
         }
         return self::$silvercartVersion;
@@ -509,9 +533,10 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.01.2013
      */
-    public static function SilvercartMinorVersion() {
+    public static function SilvercartMinorVersion()
+    {
         if (is_null(self::$silvercartMinorVersion)) {
-            $defaults = SiteConfig::config()->get('defaults');
+            $defaults                     = SiteConfig::config()->get('defaults');
             self::$silvercartMinorVersion = $defaults['SilvercartMinorVersion'];
         }
         return self::$silvercartMinorVersion;
@@ -525,19 +550,21 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.01.2013
      */
-    public static function SilvercartFullVersion() {
+    public static function SilvercartFullVersion()
+    {
         if (is_null(self::$silvercartFullVersion)) {
-            $version        = self::SilvercartVersion();
-            $minorVersion   = self::SilvercartMinorVersion();
+            $version                     = self::SilvercartVersion();
+            $minorVersion                = self::SilvercartMinorVersion();
             self::$silvercartFullVersion = $version;
-            if (!is_null($minorVersion) &&
-                !empty($minorVersion)) {
+            if (!is_null($minorVersion)
+                && !empty($minorVersion)
+            ) {
                 self::$silvercartFullVersion .= '.' . $minorVersion;
             }
         }
         return self::$silvercartFullVersion;
     }
-    
+
     /**
      * Returns if the minimum order value shall be used.
      *
@@ -546,7 +573,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.06.2011
      */
-    public static function UseMinimumOrderValue() {
+    public static function UseMinimumOrderValue()
+    {
         if (is_null(self::$useMinimumOrderValue)) {
             self::$useMinimumOrderValue = (bool) self::getConfig()->useMinimumOrderValue;
         }
@@ -561,7 +589,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 2013-01-04
      */
-    public static function UserAgentBlacklist() {
+    public static function UserAgentBlacklist()
+    {
         if (is_null(self::$userAgentBlacklist)) {
             self::$userAgentBlacklist = self::getConfig()->userAgentBlacklist;
         }
@@ -576,13 +605,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public static function GlobalEmailRecipient() {
+    public static function GlobalEmailRecipient()
+    {
         if (is_null(self::$globalEmailRecipient)) {
             self::$globalEmailRecipient = self::getConfig()->GlobalEmailRecipient;
         }
         return self::$globalEmailRecipient;
     }
-    
+
     /**
      * Returns the configured default setting that determines the default page
      * size for products.
@@ -592,7 +622,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.03.2011
      */
-    public static function ProductsPerPage() {
+    public static function ProductsPerPage()
+    {
         $silvercartConfig = self::getConfig();
 
         if ($silvercartConfig->hasField('productsPerPage')) {
@@ -611,7 +642,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.07.2011
      */
-    public static function ProductGroupsPerPage() {
+    public static function ProductGroupsPerPage()
+    {
         $silvercartConfig = self::getConfig();
 
         if ($silvercartConfig->hasField('productGroupsPerPage')) {
@@ -620,7 +652,7 @@ class Config {
             return false;
         }
     }
-    
+
     /**
      * returns the configurated setting for displayedPaginationPages
      * 
@@ -629,9 +661,10 @@ class Config {
      * @author Patrick Schneider <pschneider@pixeltricks.de>
      * @since 16.08.2012
      */
-    public static function DisplayedPaginationPages() {
+    public static function DisplayedPaginationPages()
+    {
         $silvercartConfig = self::getConfig();
-      
+
         if ($silvercartConfig->hasField('displayedPaginationPages')) {
             return $silvercartConfig->getField('displayedPaginationPages');
         } else {
@@ -647,7 +680,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 31.07.2012
      */
-    public static function productDescriptionFieldForCart() {
+    public static function productDescriptionFieldForCart()
+    {
         $silvercartConfig = self::getConfig();
 
         if ($silvercartConfig->hasField('productDescriptionFieldForCart')) {
@@ -665,7 +699,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 31.07.2012
      */
-    public static function useProductDescriptionFieldForCart() {
+    public static function useProductDescriptionFieldForCart()
+    {
         $silvercartConfig = self::getConfig();
 
         if ($silvercartConfig->hasField('useProductDescriptionFieldForCart')) {
@@ -674,7 +709,7 @@ class Config {
             return false;
         }
     }
-    
+
     /**
      * Returns whether to use strict search relevance or not
      * 
@@ -683,22 +718,24 @@ class Config {
      * @author Patrick Schneider <pschneider@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.10.2012
      */
-    public static function useStrictSearchRelevance() {
+    public static function useStrictSearchRelevance()
+    {
         if (is_null(self::$useStrictSearchRelevance)) {
             self::$useStrictSearchRelevance = self::getConfig()->useStrictSearchRelevance;
         }
         return self::$useStrictSearchRelevance;
     }
-    
+
     /**
      * Returns the default mail recipient
      * 
-     *@return string email address
+     * @return string email address
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.10.2012
      */
-    public static function DefaultMailRecipient() {
+    public static function DefaultMailRecipient()
+    {
         if (is_null(self::$defaultMailRecipient)) {
             self::$defaultMailRecipient = self::getConfig()->DefaultMailRecipient;
             if (empty(self::$defaultMailRecipient)) {
@@ -707,7 +744,7 @@ class Config {
         }
         return self::$defaultMailRecipient;
     }
-    
+
     /**
      * Returns the default mail order notification recipient
      * 
@@ -716,7 +753,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.10.2012
      */
-    public static function DefaultMailOrderNotificationRecipient() {
+    public static function DefaultMailOrderNotificationRecipient()
+    {
         if (is_null(self::$defaultMailOrderNotificationRecipient)) {
             self::$defaultMailOrderNotificationRecipient = self::getConfig()->DefaultMailOrderNotificationRecipient;
             if (empty(self::$defaultMailOrderNotificationRecipient)) {
@@ -725,7 +763,7 @@ class Config {
         }
         return self::$defaultMailOrderNotificationRecipient;
     }
-    
+
     /**
      * Returns the default contact message recipient
      * 
@@ -734,7 +772,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.10.2012
      */
-    public static function DefaultContactMessageRecipient() {
+    public static function DefaultContactMessageRecipient()
+    {
         if (is_null(self::$defaultContactMessageRecipient)) {
             self::$defaultContactMessageRecipient = self::getConfig()->DefaultContactMessageRecipient;
             if (empty(self::$defaultContactMessageRecipient)) {
@@ -743,7 +782,7 @@ class Config {
         }
         return self::$defaultContactMessageRecipient;
     }
-    
+
     /**
      * Returns the SkipPaymentStepIfUnique property
      * 
@@ -752,13 +791,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.03.2013
      */
-    public static function SkipPaymentStepIfUnique() {
+    public static function SkipPaymentStepIfUnique()
+    {
         if (is_null(self::$skipPaymentStepIfUnique)) {
             self::$skipPaymentStepIfUnique = self::getConfig()->SkipPaymentStepIfUnique;
         }
         return self::$skipPaymentStepIfUnique;
     }
-    
+
     /**
      * Returns the SkipShippingStepIfUnique property
      * 
@@ -767,13 +807,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.03.2013
      */
-    public static function SkipShippingStepIfUnique() {
+    public static function SkipShippingStepIfUnique()
+    {
         if (is_null(self::$skipShippingStepIfUnique)) {
             self::$skipShippingStepIfUnique = self::getConfig()->SkipShippingStepIfUnique;
         }
         return self::$skipShippingStepIfUnique;
     }
-    
+
     /**
      * Returns the InvoiceAddressIsAlwaysShippingAddress property
      * 
@@ -782,13 +823,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.07.2014
      */
-    public static function InvoiceAddressIsAlwaysShippingAddress() {
+    public static function InvoiceAddressIsAlwaysShippingAddress()
+    {
         if (is_null(self::$invoiceAddressIsAlwaysShippingAddress)) {
             self::$invoiceAddressIsAlwaysShippingAddress = self::getConfig()->InvoiceAddressIsAlwaysShippingAddress;
         }
         return self::$invoiceAddressIsAlwaysShippingAddress;
     }
-    
+
     /**
      * Returns the DisplayWeightsInKilogram property
      * 
@@ -797,13 +839,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.03.2013
      */
-    public static function DisplayWeightsInKilogram() {
+    public static function DisplayWeightsInKilogram()
+    {
         if (is_null(self::$displayWeightsInKilogram)) {
             self::$displayWeightsInKilogram = self::getConfig()->DisplayWeightsInKilogram;
         }
         return self::$displayWeightsInKilogram;
     }
-    
+
     /**
      * Returns whether to show tax and duty hint in checkout or not.
      * 
@@ -812,7 +855,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.04.2014
      */
-    public static function ShowTaxAndDutyHint() {
+    public static function ShowTaxAndDutyHint()
+    {
         if (is_null(self::$showTaxAndDutyHint)) {
             self::$showTaxAndDutyHint = self::getConfig()->ShowTaxAndDutyHint;
         }
@@ -829,16 +873,19 @@ class Config {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.04.2018
      */
-    public static function Pricetype() {
+    public static function Pricetype()
+    {
         if (is_null(self::$priceType)) {
             $member       = Customer::currentUser();
             $configObject = self::getConfig();
-            
-            if ($member instanceof Member &&
-                $member->exists()) {
+
+            if ($member instanceof Member
+                && $member->exists()
+            ) {
                 foreach ($member->Groups() as $group) {
-                    if (!empty($group->Pricetype) &&
-                        $group->Pricetype != '---') {
+                    if (!empty($group->Pricetype)
+                        && $group->Pricetype != '---'
+                    ) {
                         self::$priceType = $group->Pricetype;
                         break;
                     }
@@ -853,7 +900,7 @@ class Config {
         }
         return self::$priceType;
     }
-    
+
     /**
      * Returns the current ColorScheme.
      * 
@@ -862,13 +909,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.02.2016
      */
-    public static function ColorScheme() {
+    public static function ColorScheme()
+    {
         if (is_null(self::$colorScheme)) {
             self::$colorScheme = self::getConfig()->ColorScheme;
         }
         return self::$colorScheme;
     }
-    
+
     /**
      * Returns the current SilverCart logo.
      * 
@@ -877,7 +925,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.02.2016
      */
-    public static function ShopLogo() {
+    public static function ShopLogo()
+    {
         if (is_null(self::$silvercartLogo)) {
             self::$silvercartLogo = self::getConfig()->ShopLogo();
         }
@@ -889,9 +938,14 @@ class Config {
      *
      * @return SiteConfig
      */
-    public static function getConfig() {
+    public static function getConfig()
+    {
         if (is_null(self::$config)) {
-            self::$config = SiteConfig::current_site_config();
+            if (self::configTableExists()) {
+                self::$config = SiteConfig::current_site_config();
+            } else {
+                self::$config = SiteConfig::singleton();
+            }
             if (!self::$config) {
                 if (Tools::isIsolatedEnvironment()) {
                     return false;
@@ -904,11 +958,32 @@ class Config {
     }
 
     /**
+     * Returns whether the SiteConfig table exists.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.08.2018
+     */
+    public static function configTableExists()
+    {
+        $tables      = DB::get_schema()->tableList();
+        $tableExists = false;
+        if (is_array($tables)
+            && in_array('SiteConfig', $tables)
+        ) {
+            $tableExists = true;
+        }
+        return $tableExists;
+    }
+
+    /**
      * Returns all hidden registered menus for the storeadmin.
      * 
      * @return array
      */
-    public static function getHiddenRegisteredMenus() {
+    public static function getHiddenRegisteredMenus()
+    {
         return self::$hiddenRegisteredMenus;
     }
 
@@ -917,7 +992,8 @@ class Config {
      * 
      * @return array
      */
-    public static function getRegisteredMenus() {
+    public static function getRegisteredMenus()
+    {
         return self::$registeredMenus;
     }
 
@@ -926,7 +1002,8 @@ class Config {
      * 
      * @return array
      */
-    public static function getMenuNonCmsIdentifiers() {
+    public static function getMenuNonCmsIdentifiers()
+    {
         return self::$menuNonCmsIdentifiers;
     }
 
@@ -935,32 +1012,35 @@ class Config {
      * 
      * @return \SilverStripe\Assets\Image
      */
-    public static function getNoImage() {
+    public static function getNoImage()
+    {
         $configObject = self::getConfig();
-        
+
         return $configObject->SilvercartNoImage();
     }
-    
+
     /**
      * Returns the standard product condition.
      * 
      * @return \SilverCart\Model\Product\ProductCondition
      */
-    public static function getStandardProductCondition() {
+    public static function getStandardProductCondition()
+    {
         $configObject = self::getConfig();
-        
+
         return $configObject->StandardProductCondition();
     }
-    
+
     /**
      * Alias for RedirectToCartAfterAddToCart.
      * 
      * @return bool
      */
-    public static function getRedirectToCartAfterAddToCartAction() {
+    public static function getRedirectToCartAfterAddToCartAction()
+    {
         return self::RedirectToCartAfterAddToCart();
     }
-    
+
     /**
      * Returns whether to redirect to cart after adding a product into.
      * 
@@ -969,13 +1049,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2014
      */
-    public static function RedirectToCartAfterAddToCart() {
+    public static function RedirectToCartAfterAddToCart()
+    {
         if (is_null(self::$redirectToCartAfterAddToCart)) {
             self::$redirectToCartAfterAddToCart = self::getConfig()->redirectToCartAfterAddToCart;
         }
         return self::$redirectToCartAfterAddToCart;
     }
-    
+
     /**
      * Returns whether to redirect to checkout after going to cart.
      * 
@@ -984,7 +1065,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2014
      */
-    public static function RedirectToCheckoutWhenInCart() {
+    public static function RedirectToCheckoutWhenInCart()
+    {
         if (is_null(self::$redirectToCheckoutWhenInCart)) {
             self::$redirectToCheckoutWhenInCart = self::getConfig()->redirectToCheckoutWhenInCart;
         }
@@ -999,10 +1081,11 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    public static function getProductsPerPageDefault() {
+    public static function getProductsPerPageDefault()
+    {
         return self::$productsPerPageDefault;
-    }    
-    
+    }
+
     /**
      * used to set self::$productsPerPageOptions, set $includeAllProductsOption true if
      * 'All' should be included 
@@ -1017,7 +1100,8 @@ class Config {
      * 
      * @return void
      */
-    public static function setProductsPerPageOptions(array $productsPerPageOptions, $includeAllProductsOption = false) {
+    public static function setProductsPerPageOptions(array $productsPerPageOptions, $includeAllProductsOption = false)
+    {
         if (is_array($productsPerPageOptions)) {
             self::$productsPerPageOptions = $productsPerPageOptions;
             if ($includeAllProductsOption) {
@@ -1026,7 +1110,6 @@ class Config {
         }
     }
 
-    
     /**
      * Returns an associative array with values for products per page, e.g.
      * array(
@@ -1040,15 +1123,16 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    public static function getProductsPerPageOptions() {
-        
+    public static function getProductsPerPageOptions()
+    {
+
         if (array_key_exists('0', self::$productsPerPageOptions)) {
             self::$productsPerPageOptions['0'] = _t(Config::class . '.PRODUCTSPERPAGE_ALL', 'Show all');
         }
-        
+
         return self::$productsPerPageOptions;
     }
-    
+
     /**
      * Returns an ArrayList with values for products per page, e.g.
      * <pre>
@@ -1064,24 +1148,23 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.11.2014
      */
-    public static function getProductsPerPageOptionsForTemplate() {
+    public static function getProductsPerPageOptionsForTemplate()
+    {
         if (is_null(self::$productsPerPageOptionsForTemplate)) {
             self::$productsPerPageOptionsForTemplate = new ArrayList();
-            $options = self::getProductsPerPageOptions();
+            $options                                 = self::getProductsPerPageOptions();
             foreach ($options as $option => $value) {
                 self::$productsPerPageOptionsForTemplate->push(
-                        new ArrayData(
-                                array(
-                                    'Option' => $option,
-                                    'Value'  => $value,
-                                )
-                        )
+                        new ArrayData([
+                            'Option' => $option,
+                            'Value'  => $value,
+                        ])
                 );
             }
         }
         return self::$productsPerPageOptionsForTemplate;
     }
-    
+
     /**
      * Returns the number that is used as unlimited value for the products
      * per page setting.
@@ -1091,10 +1174,11 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.08.2011
      */
-    public static function getProductsPerPageUnlimitedNumber() {
+    public static function getProductsPerPageUnlimitedNumber()
+    {
         return self::$productsPerPageUnlimitedNumber;
     }
-    
+
     /**
      * Diplays an error rendered with SilverCart's error template.
      *
@@ -1105,26 +1189,24 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2014
      */
-    public static function triggerError($errorMessage) {
+    public static function triggerError($errorMessage)
+    {
         if (Tools::isIsolatedEnvironment()) {
             $output = $errorMessage;
         } else {
-            $elements = array(
+            $elements = [
                 'ErrorMessage' => Tools::string2html($errorMessage),
-            );
-            $output = Controller::curr()->customise($elements)->renderWith(
-                            array(
-                                'SilverCart/Model/Pages/ErrorPage',
-                                'Page'
-                            )
-            );
+            ];
+            $output   = Controller::curr()->customise($elements)->renderWith([
+                'SilverCart/Model/Pages/ErrorPage',
+                'Page',
+            ]);
         }
         print $output;
         exit();
     }
 
     // Put foreign configurations here
-
     /**
      * Disables the base layout of SilverCart. This is important if the layout
      * stands in conflict with your projects default layout.
@@ -1134,7 +1216,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public static function disableDefaultLayout() {
+    public static function disableDefaultLayout()
+    {
         self::$defaultLayoutEnabled = false;
     }
 
@@ -1146,7 +1229,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.02.2011
      */
-    public static function DefaultLayoutEnabled() {
+    public static function DefaultLayoutEnabled()
+    {
         return self::$defaultLayoutEnabled;
     }
 
@@ -1158,7 +1242,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.09.2011
      */
-    public static function DefaultLayoutLoaded() {
+    public static function DefaultLayoutLoaded()
+    {
         return self::$defaultLayoutLoaded;
     }
 
@@ -1172,7 +1257,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.09.2011
      */
-    public static function setDefaultLayoutLoaded($loaded) {
+    public static function setDefaultLayoutLoaded($loaded)
+    {
         self::$defaultLayoutLoaded = $loaded;
     }
 
@@ -1186,7 +1272,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.02.2012
      */
-    public static function setMenuNonCmsIdentifier($identifier) {
+    public static function setMenuNonCmsIdentifier($identifier)
+    {
         if (!in_array($identifier, self::$menuNonCmsIdentifiers)) {
             self::$menuNonCmsIdentifiers[] = $identifier;
         }
@@ -1200,7 +1287,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.02.2011
      */
-    public static function enableTestData() {
+    public static function enableTestData()
+    {
         RequireDefaultRecords::enableTestData();
     }
 
@@ -1214,7 +1302,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.02.2011
      */
-    public static function disableTestData() {
+    public static function disableTestData()
+    {
         RequireDefaultRecords::disableTestData();
     }
 
@@ -1228,7 +1317,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.02.2011
      */
-    public static function addGroupView($groupView) {
+    public static function addGroupView($groupView)
+    {
         GroupViewHandler::addGroupView($groupView);
     }
 
@@ -1242,7 +1332,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.02.2011
      */
-    public static function addGroupHolderView($groupHolderView) {
+    public static function addGroupHolderView($groupHolderView)
+    {
         GroupViewHandler::addGroupHolderView($groupHolderView);
     }
 
@@ -1256,7 +1347,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.02.2011
      */
-    public static function removeGroupView($groupView) {
+    public static function removeGroupView($groupView)
+    {
         GroupViewHandler::removeGroupView($groupView);
     }
 
@@ -1271,7 +1363,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.01.2012
      */
-    public static function registerMenu($code, $menuTitle) {
+    public static function registerMenu($code, $menuTitle)
+    {
         if (!in_array($menuTitle, self::$registeredMenus)) {
             self::$registeredMenus[] = array(
                 'code' => $code,
@@ -1291,7 +1384,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.01.2012
      */
-    public static function registerHiddenMenu($code) {
+    public static function registerHiddenMenu($code)
+    {
         if (!in_array($code, self::$hiddenRegisteredMenus)) {
             self::$hiddenRegisteredMenus[] = $code;
         }
@@ -1307,10 +1401,11 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.02.2011
      */
-    public static function removeGroupHolderView($groupHolderView) {
+    public static function removeGroupHolderView($groupHolderView)
+    {
         GroupViewHandler::removeGroupHolderView($groupHolderView);
     }
-    
+
     /**
      * Returns the maximum number of products that can be added to cart for one
      * product.
@@ -1320,7 +1415,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 21.11.2011
      */
-    public static function addToCartMaxQuantity() {
+    public static function addToCartMaxQuantity()
+    {
         if (is_null(self::$addToCartMaxQuantity)) {
             self::$addToCartMaxQuantity = self::getConfig()->addToCartMaxQuantity;
         }
@@ -1335,13 +1431,14 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 22.12.2011
      */
-    public static function enableBusinessCustomers() {
+    public static function enableBusinessCustomers()
+    {
         if (is_null(self::$enableBusinessCustomers)) {
             self::$enableBusinessCustomers = (bool) self::getConfig()->enableBusinessCustomers;
         }
         return self::$enableBusinessCustomers;
     }
-    
+
     /**
      * Returns wether to enable packstations or not.
      *
@@ -1350,7 +1447,8 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.10.2012
      */
-    public static function enablePackstation() {
+    public static function enablePackstation()
+    {
         if (is_null(self::$enablePackstation)) {
             self::$enablePackstation = (bool) self::getConfig()->enablePackstation;
         }
@@ -1364,7 +1462,8 @@ class Config {
      *
      * @return void
      */
-    public static function setDefaultGroupView($defaultGroupView = null) {
+    public static function setDefaultGroupView($defaultGroupView = null)
+    {
         GroupViewHandler::setDefaultGroupView($defaultGroupView);
     }
 
@@ -1375,7 +1474,8 @@ class Config {
      *
      * @return void
      */
-    public static function setDefaultGroupHolderView($defaultGroupHolderView = null) {
+    public static function setDefaultGroupHolderView($defaultGroupHolderView = null)
+    {
         GroupViewHandler::setDefaultGroupHolderView($defaultGroupHolderView);
     }
 
@@ -1390,10 +1490,11 @@ class Config {
      * @since 04.06.2012
      * @deprecated use Tools::isInstallationCompleted() instead
      */
-    public static function isInstallationCompleted() {
+    public static function isInstallationCompleted()
+    {
         return Tools::isInstallationCompleted();
     }
-    
+
     /**
      * check if a url is reachable
      * This can be used to timeout SOAP connection
@@ -1407,18 +1508,21 @@ class Config {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 28.11.2011
      */
-    public static function isValidUrl($url, $conectionTimeout = 5) { 
-        $curl = curl_init($url);  
+    public static function isValidUrl($url, $conectionTimeout = 5)
+    {
+        $curl     = curl_init($url);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $conectionTimeout);
         curl_setopt($curl, CURLOPT_TIMEOUT, 5); //The maximum number of seconds to allow cURL functions to execute.
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);  
-        curl_exec($curl);  
-        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);  
-        curl_close($curl);  
-        if ($httpcode >= 200 && $httpcode < 300) {  
-            return true;  
-        }  
-        return false; 
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($curl);
+        $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        if ($httpcode >= 200
+            && $httpcode < 300
+        ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1431,7 +1535,8 @@ class Config {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 2013-01-04
      */
-    public static function isUserAgentBlacklisted($userAgent) {
+    public static function isUserAgentBlacklisted($userAgent)
+    {
         $isBlacklisted         = false;
         $blacklistedUserAgents = explode(PHP_EOL, self::UserAgentBlacklist());
 
@@ -1454,10 +1559,11 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.04.2018
      */
-    public static function Log($context, $text, $filename = 'default') {
+    public static function Log($context, $text, $filename = 'default')
+    {
         Tools::Log($context, $text, $filename);
     }
-    
+
     /**
      * getter for the default language
      * Returns a default locale for multilingual DataObjects
@@ -1468,10 +1574,11 @@ class Config {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 04.01.2012
      */
-    public static function DefaultLanguage() {
+    public static function DefaultLanguage()
+    {
         return self::Locale();
     }
-    
+
     /**
      * Returns the configs locale
      *
@@ -1480,13 +1587,14 @@ class Config {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.03.2012
      */
-    public static function Locale() {
+    public static function Locale()
+    {
         if (self::getConfig() === false) {
             return i18n::config()->get('default_locale');
         }
         return self::getConfig()->DefaultLocale;
     }
-    
+
     /**
      * Determin wether the default language should be used for multilingual DataObjects
      * in case a translation does not exist.
@@ -1496,7 +1604,8 @@ class Config {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 04.01.2012
      */
-    public static function useDefaultLanguageAsFallback() {
+    public static function useDefaultLanguageAsFallback()
+    {
         if (is_null(self::$useDefaultLanguageAsFallback)) {
             if (!self::getConfig() === false) {
                 self::$useDefaultLanguageAsFallback = self::getConfig()->useDefaultLanguageAsFallback;
@@ -1504,4 +1613,5 @@ class Config {
         }
         return self::$useDefaultLanguageAsFallback;
     }
+
 }
