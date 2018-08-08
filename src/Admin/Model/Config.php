@@ -13,6 +13,7 @@ use SilverStripe\Control\Email\Email;
 use SilverStripe\Core\Extensible;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DatabaseAdmin;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -941,7 +942,8 @@ class Config
     public static function getConfig()
     {
         if (is_null(self::$config)) {
-            if (self::configTableExists()) {
+            if (self::configTableExists()
+                && !self::devBuildIsRunning()) {
                 self::$config = SiteConfig::current_site_config();
             } else {
                 self::$config = SiteConfig::singleton();
@@ -955,6 +957,26 @@ class Config
             }
         }
         return self::$config;
+    }
+
+    /**
+     * Returns whether dev/build is currently running.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.08.2018
+     */
+    public static function devBuildIsRunning()
+    {
+        $devBuildIsRunning = false;
+        $ctrl              = Controller::curr();
+        if ($ctrl instanceof DatabaseAdmin
+            && $ctrl->getRequest()->param('Action') === 'build'
+        ) {
+            $devBuildIsRunning = true;
+        }
+        return $devBuildIsRunning;
     }
 
     /**
