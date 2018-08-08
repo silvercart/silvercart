@@ -3,10 +3,12 @@
 namespace SilverCart\Assets;
 
 use SilverCart\Dev\Tools;
+use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\Versioned\Versioned;
 
 /**
  * Extension for SilverStripe\Assets\Image.
@@ -154,5 +156,56 @@ class ImageExtension extends DataExtension {
         }
 
         return $image;
+    }
+    
+    /**
+     * Creates a SilverStripe File using an existing file with the given
+     * $sourceFilePath on the filesystem or as an URL.
+     * $targetFolderPath is usually a subdirectory of ASSETS_PATH.
+     * If the optional parameter $targetFilename is not given, the file name of 
+     * the $sourceFilePath will be used.
+     * If the optional parameter $targetFileTitle is not given, $targetFilename 
+     * will be used without its dot seperated ending.
+     * 
+     * @param string $sourceFilePath   Absolute source file path or URL
+     * @param string $targetFolderPath Absolute target folder path (without file name)
+     * @param string $targetFilename   Optional target file name (without path)
+     * @param string $targetFileTitle  Optional target file title
+     * 
+     * @return Image
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.08.2018
+     */
+    public static function create_from_path($sourceFilePath, $targetFolderPath, $targetFilename = null, $targetFileTitle = null) {
+        if (is_null($targetFilename)) {
+            $targetFilename = basename($sourceFilePath);
+        }
+        if (is_null($targetFileTitle)) {
+            $targetFileTitle = strrev(substr(strrev($targetFilename), strpos(strrev($targetFilename), '.') + 1));
+        }
+        $fileContent    = file_get_contents($sourceFilePath);
+        $fileHash       = sha1($fileContent);
+        $hashDir        = substr($fileHash, 0, 10);
+        $hashPath       = str_replace('//', '/', $targetFolderPath . DIRECTORY_SEPARATOR . $hashDir);
+        $targetFilePath = $hashPath . DIRECTORY_SEPARATOR . $targetFilename;
+        $targetFolder   = Folder::find_or_make(str_replace(ASSETS_PATH, '', $targetFolderPath));
+        if (!file_exists($hashPath)) {
+            mkdir($hashPath, 0777, true);
+        }
+        file_put_contents($targetFilePath, $fileContent);
+        
+        $image = new Image();
+        $image->FileFilename = str_replace('assets/', '', $targetFolder->Filename . $targetFilename);
+        $image->FileHash     = sha1_file($targetFilePath);
+        $image->Name         = $targetFilename;
+        $image->Title        = $targetFileTitle;
+        $image->ParentID     = $targetFolder->ID;
+        $image->write();
+        $image->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
+        if (!file_exists($targetFilePath)) {
+            mkdir($hashPath, 0777, true);
+            file_put_contents($targetFilePath, $fileContent);
+        }
     }
 }

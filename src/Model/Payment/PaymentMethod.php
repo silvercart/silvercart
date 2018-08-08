@@ -8,6 +8,7 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Admin\Forms\ImageUploadField;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Assets\ImageExtension;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm;
 use SilverCart\Model\Customer\Address;
@@ -28,13 +29,13 @@ use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\ORM\DataObjectExtension;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\Assets\Folder;
+use SilverStripe\Assets\Image as SilverStripeImage;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
@@ -1822,19 +1823,12 @@ class PaymentMethod extends DataObject {
      * @since 16.06.2014
      */
     public function createUploadFolder() {
-        $assetsFolder = Folder::get()->filter('Name', 'assets')->first();
-        if (!($assetsFolder instanceof Folder)) {
-            $assetsFolder = new Folder();
-            $assetsFolder->Name = 'assets';
-            $assetsFolder->Title = 'assets';
-            $assetsFolder->write();
-        }
         $uploadsFolder = Folder::get()->filter('Name', 'payment-images')->first();
         if (!($uploadsFolder instanceof Folder)) {
             $uploadsFolder = new Folder();
             $uploadsFolder->Name = 'payment-images';
             $uploadsFolder->Title = 'payment-images';
-            $uploadsFolder->ParentID = $assetsFolder->ID;
+            $uploadsFolder->ParentID = 0;//$assetsFolder->ID;
             $uploadsFolder->write();
         }
         $this->uploadsFolder = $uploadsFolder;
@@ -1883,34 +1877,17 @@ class PaymentMethod extends DataObject {
     protected function addPaymentLogos($paymentModule, $paymentLogos) {
         if (!$paymentModule->PaymentLogos()->exists()) {
             foreach ($paymentLogos as $title => $logo) {
-                $image = \SilverStripe\Assets\Image::get()->filter('Name', basename($logo))->first();
+                $image = SilverStripeImage::get()->filter('Name', basename($logo))->first();
 
-                if ((!($image instanceof \SilverStripe\Assets\Image) ||
+                if ((!($image instanceof SilverStripeImage) ||
                      !$image->exists()) &&
                     file_exists($logo)) {
-
-                    $fileContent = file_get_contents($logo);
-                    $fileHash    = sha1($fileContent);
-                    $hashDir     = substr($fileHash, 0, 10);
-                    $uploadsPath = PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->uploadsFolder->Filename;
-                    $targetFile  = $uploadsPath . $hashDir . DIRECTORY_SEPARATOR . basename($logo);
-                    if (!file_exists($uploadsPath)) {
-                        mkdir($uploadsPath);
-                    }
-                    if (!file_exists($uploadsPath . $hashDir)) {
-                        mkdir($uploadsPath . $hashDir);
-                    }
-                    file_put_contents($targetFile, $fileContent);
-                    $image = new \SilverStripe\Assets\Image();
-                    $image->FileFilename = str_replace('assets/', '', $this->uploadsFolder->Filename . basename($logo));
-                    $image->FileHash     = sha1_file($targetFile);
-                    $image->Name         = basename($logo);
-                    $image->Title        = basename($logo, '.png');
-                    $image->ParentID     = $this->uploadsFolder->ID;
-                    $image->write();
+                    
+                    $uploadsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->uploadsFolder->Filename;
+                    ImageExtension::create_from_path($logo, $uploadsPath);
                 }
 
-                if ($image instanceof \SilverStripe\Assets\Image &&
+                if ($image instanceof SilverStripeImage &&
                     $image->exists()) {
                     $paymentLogo          = new Image();
                     $paymentLogo->Title   = $title;
