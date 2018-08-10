@@ -282,12 +282,13 @@ class CustomForm extends Form {
      * @return FieldList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.11.2017
+     * @since 10.08.2018
      */
-    public function Fields() {
+    public function Fields()
+    {
         $fields = parent::Fields();
         if ($fields->fieldPosition('action_submit') === false) {
-            $fields->push(HiddenField::create('action_submit'));
+            $fields->push(HiddenField::create('action_submit')->setID(uniqid('action_submit_')));
             foreach ($this->getCustomFields() as $field) {
                 if ($fields->fieldPosition($field) === false) {
                     $field->setForm($this);
