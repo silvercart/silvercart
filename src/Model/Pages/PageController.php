@@ -465,20 +465,18 @@ class PageController extends ContentController {
     public function CurrentRegisteredCustomer() {
         return Customer::currentRegisteredCustomer();
     }
-
+    
     /**
-     * This function is replacing the default SilverStripe Logout Form. This form is used to logout the customer and direct
-     * the user to the startpage
-     *
-     * @return null
-     *
-     * @author Oliver Scheer <oscheer@pixeltricks.de>
-     * @since 11.11.2010
+     * Returns the logout URL.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.08.2018
      */
-    public function logOut() {
-        Security::logout(false);
-        $frontPage = Tools::PageByIdentifierCode();
-        $this->redirect($frontPage->RelativeLink());
+    public function logoutURL()
+    {
+        return Security::logout_url();
     }
 
     /**
