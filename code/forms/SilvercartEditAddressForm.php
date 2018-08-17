@@ -54,7 +54,7 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 17.08.2018
      */
     protected function fillInFieldValues() {
         $member = SilvercartCustomer::currentUser();
@@ -67,27 +67,25 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
             );
             $this->address = SilvercartAddress::get()->filter($filter)->first();
             if ($this->address) {
-                $this->formFields['Salutation']['selectedValue']    = $this->address->Salutation;
-                $this->formFields['AcademicTitle']['value']         = $this->address->AcademicTitle;
-                $this->formFields['FirstName']['value']             = $this->address->FirstName;
-                $this->formFields['Surname']['value']               = $this->address->Surname;
-                $this->formFields['Addition']['value']              = $this->address->Addition;
-                $this->formFields['Street']['value']                = $this->address->Street;
-                $this->formFields['StreetNumber']['value']          = $this->address->StreetNumber;
-                $this->formFields['Postcode']['value']              = $this->address->Postcode;
-                $this->formFields['City']['value']                  = $this->address->City;
-                $this->formFields['PhoneAreaCode']['value']         = $this->address->PhoneAreaCode;
-                $this->formFields['Phone']['value']                 = $this->address->Phone;
-                $this->formFields['Fax']['value']                   = $this->address->Fax;
-                $this->formFields['Country']['selectedValue']       = $this->address->SilvercartCountry()->ID;
-                if (SilvercartConfig::enablePackstation()) {
-                    $this->formFields['PostNumber']['value']            = $this->address->PostNumber;
-                    $this->formFields['Packstation']['value']           = $this->address->Packstation;
-                    $this->formFields['IsPackstation']['selectedValue'] = $this->address->IsPackstation;
+                foreach (array_keys($this->address->db()) as $dbFieldName) {
+                    if (array_key_exists($dbFieldName, $this->formFields)) {
+                        if ($this->formFields[$dbFieldName]['type'] == 'DropdownField') {
+                            $this->formFields[$dbFieldName]['selectedValue'] = $this->address->{$dbFieldName};
+                        } else {
+                            $this->formFields[$dbFieldName]['value'] = $this->address->{$dbFieldName};
+                        }
+                    }
                 }
-                if (SilvercartConfig::enableBusinessCustomers()) {
-                    $this->formFields['Company']['value']     = $this->address->Company;
-                    $this->formFields['TaxIdNumber']['value'] = $this->address->TaxIdNumber;
+                if (array_key_exists('Country', $this->formFields)) {
+                    $this->formFields['Country']['selectedValue'] = $this->address->SilvercartCountry()->ID;
+                }
+                if (!SilvercartConfig::enablePackstation()) {
+                    unset($this->formFields['PostNumber']);
+                    unset($this->formFields['Packstation']);
+                }
+                if (!SilvercartConfig::enableBusinessCustomers()) {
+                    unset($this->formFields['Company']);
+                    unset($this->formFields['TaxIdNumber']);
                 }
             }
         }
