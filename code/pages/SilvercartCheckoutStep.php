@@ -384,7 +384,6 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         $this->extend('updateJoinAddressDataToCheckoutDataFields', $checkoutDataFields, $prefix, $data);
         
         if (is_array($data)) {
-            var_dump($data);
             foreach ($checkoutDataFields as $checkoutFieldName => $dataFieldName) {
                 if (isset($data[$dataFieldName])) {
                     $addressData[$checkoutFieldName] = $data[$dataFieldName];
