@@ -207,5 +207,6 @@ class ImageExtension extends DataExtension {
             mkdir($hashPath, 0777, true);
             file_put_contents($targetFilePath, $fileContent);
         }
+        return $image;
     }
 }
