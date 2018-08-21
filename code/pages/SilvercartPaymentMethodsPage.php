@@ -57,19 +57,6 @@ class SilvercartPaymentMethodsPage extends SilvercartMetaNavigationHolder {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this);
     }
-}
-
-/**
- * corresponding controller
- *
- * @package Silvercart
- * @subpackage Pages
- * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @copyright 2013 pixeltricks GmbH
- * @since 14.05.2012
- * @license see license file in modules root directory
- */
-class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
     /**
      * Returns all payment methods
@@ -107,6 +94,4 @@ class SilvercartPaymentMethodsPage_Controller extends SilvercartMetaNavigationHo
         }
         return $shippingCountry;
     }
-    
 }
-

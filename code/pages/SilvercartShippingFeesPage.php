@@ -60,19 +60,6 @@ class SilvercartShippingFeesPage extends SilvercartMetaNavigationHolder {
     public function plural_name() {
         return SilvercartTools::plural_name_for($this); 
     }
-}
-
-/**
- * corresponding controller
- *
- * @package Silvercart
- * @subpackage Pages
- * @author Roland Lehmann <rlehmann@pixeltricks.de>
- * @copyright 2013 pixeltricks GmbH
- * @since 18.11.2010
- * @license see license file in modules root directory
- */
-class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHolder_Controller {
 
     /**
      * get all carriers; for the frontend
@@ -87,4 +74,3 @@ class SilvercartShippingFeesPage_Controller extends SilvercartMetaNavigationHold
         return $carriers;
     }
 }
-
