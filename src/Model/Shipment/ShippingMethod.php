@@ -9,6 +9,7 @@ use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Pages\CheckoutStepController;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\Carrier;
@@ -16,6 +17,7 @@ use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethodTranslation;
 use SilverCart\Model\Shipment\Zone;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Assets\Image;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -37,14 +39,14 @@ use SilverStripe\Security\Group;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ShippingMethod extends DataObject {
-    
+class ShippingMethod extends DataObject
+{
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'isActive'                      => 'Boolean',
         'isPickup'                      => 'Boolean(0)',
         'priority'                      => 'Int',
@@ -52,48 +54,49 @@ class ShippingMethod extends DataObject {
         'DeliveryTimeMin'               => 'Int',
         'DeliveryTimeMax'               => 'Int',
         'DeliveryTimeText'              => 'Varchar(256)',
-    );
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $has_one = array(
-        'Carrier'   => Carrier::class,
-    );
+    private static $has_one = [
+        'Carrier' => Carrier::class,
+        'Logo'    => Image::class,
+    ];
     /**
      * Has-many relationship.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'Orders'                     => Order::class,
         'ShippingFees'               => ShippingFee::class,
         'ShippingMethodTranslations' => ShippingMethodTranslation::class,
-    );
+    ];
     /**
      * Many-many relationships.
      *
      * @var array
      */
-    private static $many_many = array(
+    private static $many_many = [
         'Zones'           => Zone::class,
         'CustomerGroups'  => Group::class,
-    );
+    ];
     /**
      * Belongs-many-many relationships.
      *
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'PaymentMethods' => PaymentMethod::class,
-    );
+    ];
     /**
      * Virtual database columns.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'AttributedCountries'               => 'Varchar(255)',
         'activatedStatus'                   => 'Varchar(255)',
         'AttributedCustomerGroups'          => 'Text',
@@ -104,43 +107,37 @@ class ShippingMethod extends DataObject {
         'DescriptionForShippingFeesPage'    => 'Text',
         'ShowOnShippingFeesPage'            => 'Boolean',
         'DeliveryTime'                      => 'Text',
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartShippingMethod';
-
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
     private static $api_access = true;
-    
     /**
      * Default sort field and direction
      *
      * @var string
      */
     private static $default_sort = "priority DESC";
-    
     /**
      * Shipping address
      *
      * @var Address
      */
     protected $shippingAddress = null;
-    
     /**
      * Shipping country
      *
      * @var Country
      */
     protected $shippingCountry = null;
-    
     /**
      * Shipping fees by weight
      *
@@ -156,29 +153,30 @@ class ShippingMethod extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2012
      */
-    public function searchableFields() {
-        $searchableFields = array(
-            'ShippingMethodTranslations.Title' => array(
-                'title' => $this->fieldLabel('Title'),
+    public function searchableFields()
+    {
+        $searchableFields = [
+            'ShippingMethodTranslations.Title' => [
+                'title'  => $this->fieldLabel('Title'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'isActive' => array(
-                'title' => $this->fieldLabel('isActive'),
+            ],
+            'isActive' => [
+                'title'  => $this->fieldLabel('isActive'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'Carrier.ID' => array(
-                'title' => $this->fieldLabel('Carrier'),
+            ],
+            'Carrier.ID' => [
+                'title'  => $this->fieldLabel('Carrier'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'Zones.ID' => array(
-                'title' => $this->fieldLabel('Zones'),
+            ],
+            'Zones.ID' => [
+                'title'  => $this->fieldLabel('Zones'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'CustomerGroups.ID' => array(
-                'title' => $this->fieldLabel('CustomerGroups'),
+            ],
+            'CustomerGroups.ID' => [
+                'title'  => $this->fieldLabel('CustomerGroups'),
                 'filter' => ExactMatchFilter::class,
-            )
-        );
+            ],
+        ];
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
@@ -194,10 +192,12 @@ class ShippingMethod extends DataObject {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2013
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true)
+    {
         return array_merge(
                 parent::fieldLabels($includerelations),
-                array(
+                Tools::field_labels_for(self::class),
+                [
                     'Title'                          => Product::singleton()->fieldLabel('Title'),
                     'Description'                    => _t(ShippingMethod::class . '.DESCRIPTION', 'Description'),
                     'DescriptionForShippingFeesPage' => _t(ShippingMethod::class . '.DescriptionForShippingFeesPage', 'Description for Shipping Fees Page (will be used instead of "Description")'),
@@ -226,8 +226,9 @@ class ShippingMethod extends DataObject {
                     'BusinessDay'                    => _t(ShippingMethod::class . '.BusinessDay', 'Business day'),
                     'BusinessDays'                   => _t(ShippingMethod::class . '.BusinessDays', 'Business days'),
                     'DeliveryTimePrepaymentHint'     => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHint', 'when cashed'),
-                    'ChooseShippingMethod'           => _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD', 'Please choose a shipping method')
-                )
+                    'ChooseShippingMethod'           => _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD', 'Please choose a shipping method'),
+                    'Logo'                           => Page::singleton()->fieldLabel('Logo'),
+                ]
         );
     }
     
@@ -239,15 +240,16 @@ class ShippingMethod extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2012
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields()
+    {
+        $summaryFields = [
             'Carrier.Title'             => $this->fieldLabel('Carrier'),
             'Title'                     => $this->fieldLabel('Title'),
             'activatedStatus'           => $this->fieldLabel('activatedStatus'),
             'AttributedZones'           => $this->fieldLabel('AttributedZones'),
             'AttributedCustomerGroups'  => $this->fieldLabel('CustomerGroups'),
             'priority'                  => $this->fieldLabel('priority'),
-        );
+        ];
         $this->extend("updateSummaryFields", $summaryFields);
         return $summaryFields;
     }
@@ -261,7 +263,8 @@ class ShippingMethod extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -275,7 +278,8 @@ class ShippingMethod extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this); 
     }
 
@@ -290,12 +294,13 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding()
+    {
+        $excludeFromScaffolding = [
             'Countries',
             'PaymentMethods',
             'Orders',
-        );
+        ];
         
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         
@@ -311,7 +316,8 @@ class ShippingMethod extends DataObject {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.06.2014
      */
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
         $fields = DataObjectExtension::getCMSFields($this, 'CarrierID', false);
         
         $fields->dataFieldByName('DeliveryTimeMin')->setDescription($this->fieldLabel('DeliveryTimeMinDesc'));
@@ -322,16 +328,16 @@ class ShippingMethod extends DataObject {
             $feeTable           = $fields->dataFieldByName('ShippingFees');
             $feesTableConfig    = $feeTable->getConfig();
             $exportButton       = new GridFieldExportButton();
-            $exportColumsArray  = array(
-                            'ID',
-                            'MaximumWeight',
-                            'UnlimitedWeight',
-                            'PriceAmount',
-                            'PriceCurrency',
-                            'ZoneID',
-                            'ShippingMethodID',
-                            'TaxID',
-                        );
+            $exportColumsArray  = [
+                'ID',
+                'MaximumWeight',
+                'UnlimitedWeight',
+                'PriceAmount',
+                'PriceCurrency',
+                'ZoneID',
+                'ShippingMethodID',
+                'TaxID',
+            ];
             $exportButton->setExportColumns($exportColumsArray);
             $feesTableConfig->addComponent($exportButton);
             $feesTableConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
@@ -351,7 +357,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return bool
      */
-    public function getShowOnShippingFeesPage() {
+    public function getShowOnShippingFeesPage()
+    {
         return !$this->DoNotShowOnShippingFeesPage;
     }
     
@@ -363,7 +370,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return $this
      */
-    public function setShippingFee($shippingFee, $weight = null) {
+    public function setShippingFee($shippingFee, $weight = null)
+    {
         $this->shippingFees[$weight] = $shippingFee;
         return $this;
     }
@@ -375,7 +383,8 @@ class ShippingMethod extends DataObject {
      *
      * @return ShippingFee
      */
-    public function getShippingFee($weight = null) {
+    public function getShippingFee($weight = null)
+    {
         if (!array_key_exists($weight, $this->shippingFees)) {
             $this->shippingFees[$weight] = $this->detectShippingFee($weight);
         }
@@ -393,12 +402,14 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.04.2018
      */
-    public function detectShippingFee($weight = null) {
+    public function detectShippingFee($weight = null)
+    {
         $fee = false;
 
         if (is_null($weight)) {
-            if (!Customer::currentUser() ||
-                !Customer::currentUser()->getCart()) {
+            if (!Customer::currentUser()
+                || !Customer::currentUser()->getCart()
+            ) {
                 return $fee;
             }
             $weight = Customer::currentUser()->getCart()->getWeightTotal();
@@ -407,8 +418,9 @@ class ShippingMethod extends DataObject {
         $shippingCountry = $this->getShippingCountry();
         if (is_null($shippingCountry)) {
             $shippingAddress = $this->getShippingAddress();
-            if (is_null($shippingAddress) &&
-                method_exists(Controller::curr(), 'getShippingAddress')) {
+            if (is_null($shippingAddress)
+                && method_exists(Controller::curr(), 'getShippingAddress')
+            ) {
                 $shippingAddress = Controller::curr()->getShippingAddress();
                 $this->setShippingAddress($shippingAddress);
             }
@@ -425,18 +437,18 @@ class ShippingMethod extends DataObject {
                 $zoneMap            = $zones->map('ID','ID');
                 $zoneIDs            = $zoneMap->toArray();
                 $zoneIDsAsString    = "'" . implode("','", $zoneIDs) . "'";
-                $filter = array(
+                $filter = [
                     "ShippingMethodID" => $this->ID,
-                );
+                ];
                 $fees = ShippingFee::get()
-                                                ->filter($filter)
-                                                ->where(
-                                                        sprintf(
-                                                                '("MaximumWeight" >= ' . $weight . ' OR "UnlimitedWeight" = 1) AND "ZoneID" IN (%s)',
-                                                                $zoneIDsAsString
-                                                        )
-                                                )
-                                                ->sort('PostPricing, PriceAmount');
+                        ->filter($filter)
+                        ->where(
+                                sprintf(
+                                        '("MaximumWeight" >= ' . $weight . ' OR "UnlimitedWeight" = 1) AND "ZoneID" IN (%s)',
+                                        $zoneIDsAsString
+                                )
+                        )
+                        ->sort('PostPricing, PriceAmount');
                 if ($fees->exists()) {
                     $fee = $fees->first();
                 }
@@ -450,7 +462,8 @@ class ShippingMethod extends DataObject {
      *
      * @return string the title in the corresponding front end language
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->getTranslationFieldValue('Description');
     }
     
@@ -459,7 +472,8 @@ class ShippingMethod extends DataObject {
      *
      * @return string the title in the corresponding front end language
      */
-    public function getDescriptionForShippingFeesPage() {
+    public function getDescriptionForShippingFeesPage()
+    {
         return $this->getTranslationFieldValue('DescriptionForShippingFeesPage');
     }
     
@@ -468,7 +482,8 @@ class ShippingMethod extends DataObject {
      *
      * @return string the title in the corresponding front end language 
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->getTranslationFieldValue('Title');
     }
 
@@ -477,7 +492,8 @@ class ShippingMethod extends DataObject {
      *
      * @return string carrier + title + fee
      */
-    public function getTitleWithCarrierAndFee() {
+    public function getTitleWithCarrierAndFee()
+    {
         if ($this->getShippingFee()) {
             return $this->getShippingFee()->getFeeWithCarrierAndShippingMethod();
         } else {
@@ -490,7 +506,8 @@ class ShippingMethod extends DataObject {
      *
      * @return false|string
      */
-    public function getTitleWithCarrier() {
+    public function getTitleWithCarrier()
+    {
         if ($this->Carrier()) {
             return $this->Carrier()->Title . " - " . $this->Title;
         }
@@ -504,7 +521,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return string
      */
-    public function getDeliveryTime($forceDisplayInDays = false) {
+    public function getDeliveryTime($forceDisplayInDays = false)
+    {
         $deliveryTime = self::get_delivery_time_for($this->getShippingFee(), $forceDisplayInDays);
         if (empty($deliveryTime)) {
             $deliveryTime = self::get_delivery_time_for($this, $forceDisplayInDays);
@@ -522,7 +540,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return string
      */
-    public static function get_delivery_time($minDays, $maxDays, $text = '', $forceDisplayInDays = false) {
+    public static function get_delivery_time($minDays, $maxDays, $text = '', $forceDisplayInDays = false)
+    {
         // override $forceDisplayInDays if set via config
         if (true === self::config()->get('always_force_display_in_days')) {
             $forceDisplayInDays = true;
@@ -532,8 +551,9 @@ class ShippingMethod extends DataObject {
         if (!empty($text)) {
             $deliveryTime = $text;
         } elseif ($minDays > 0) {
-            if (self::isInCheckoutContextWithPrepayment() ||
-                $forceDisplayInDays) {
+            if (self::isInCheckoutContextWithPrepayment()
+                || $forceDisplayInDays
+            ) {
                 $deliveryTime  = $minDays;
                 if ($maxDays > 0) {
                     $deliveryTime .= ' - ';
@@ -564,9 +584,11 @@ class ShippingMethod extends DataObject {
      * 
      * @return string
      */
-    public static function get_delivery_time_for($context, $forceDisplayInDays = false) {
-        if (is_null($context) ||
-            $context == false) {
+    public static function get_delivery_time_for($context, $forceDisplayInDays = false)
+    {
+        if (is_null($context)
+            || $context == false
+        ) {
             return false;
         }
         return self::get_delivery_time($context->DeliveryTimeMin, $context->DeliveryTimeMax, $context->DeliveryTimeText, $forceDisplayInDays);
@@ -582,7 +604,8 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2014
      */
-    public static function addSundaysToDeliveryTime($deliveryTime) {
+    public static function addSundaysToDeliveryTime($deliveryTime)
+    {
         $currentWeekDay = date('N');
         $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
         $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
@@ -598,13 +621,15 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.06.2014
      */
-    protected static function isInCheckoutContextWithPrepayment() {
+    protected static function isInCheckoutContextWithPrepayment()
+    {
         $isPrepayment = false;
         if (Controller::curr() instanceof CheckoutStepController) {
             $paymentMethod = Customer::currentUser()->getCart()->getPaymentMethod();
-            if (class_exists('SilverCart\\Prepayment\\Model\\Prepayment') &&
-                $paymentMethod instanceof \SilverCart\Prepayment\Model\Prepayment &&
-                $paymentMethod->PaymentChannel == 'prepayment') {
+            if (class_exists('SilverCart\\Prepayment\\Model\\Prepayment')
+                && $paymentMethod instanceof \SilverCart\Prepayment\Model\Prepayment
+                && $paymentMethod->PaymentChannel == 'prepayment'
+            ) {
                 $isPrepayment = true;
             }
         }
@@ -621,7 +646,8 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public function AttributedCustomerGroups($dbField = "Title") {
+    public function AttributedCustomerGroups($dbField = "Title")
+    {
         return Tools::AttributedDataObject($this->CustomerGroups(), $dbField);
     }
 
@@ -635,7 +661,8 @@ class ShippingMethod extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public function AttributedZones($dbField = "Title") {
+    public function AttributedZones($dbField = "Title")
+    {
         return Tools::AttributedDataObject($this->Zones(), $dbField);
     }
 
@@ -647,7 +674,8 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.01.2012
      */
-    public function AttributedZoneIDs() {
+    public function AttributedZoneIDs()
+    {
         return $this->AttributedZones('ID');
     }
 
@@ -661,7 +689,8 @@ class ShippingMethod extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.02.2013
      */
-    public function AttributedPaymentMethods($dbField = "Name") {
+    public function AttributedPaymentMethods($dbField = "Name")
+    {
         return Tools::AttributedDataObject($this->PaymentMethods(), $dbField);
     }
 
@@ -673,8 +702,9 @@ class ShippingMethod extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.06.2012
      */
-    public function activatedStatus() {
-        $checkboxField = new CheckboxField('isActivated' . $this->ID, 'isActived', $this->isActive);
+    public function activatedStatus()
+    {
+        $checkboxField = CheckboxField::create('isActivated' . $this->ID, 'isActived', $this->isActive);
         $checkboxField->setReadonly(true);
         $checkboxField->setDisabled(true);
         return $checkboxField;
@@ -688,7 +718,8 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public function hasFeeWithPostPricing() {
+    public function hasFeeWithPostPricing()
+    {
         $hasFeeWithPostPricing = false;
         foreach ($this->ShippingFees() as $shippingFee) {
             if ($shippingFee->PostPricing) {
@@ -710,13 +741,15 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.10.2011
      */
-    public static function getAllowedShippingMethods($carrier = null, $shippingAddress = null) {
+    public static function getAllowedShippingMethods($carrier = null, $shippingAddress = null)
+    {
         $extendableShippingMethod       = ShippingMethod::singleton();
-        $allowedShippingMethodsArray    = array();
+        $allowedShippingMethodsArray    = [];
         $shippingMethods                = self::getAllowedShippingMethodsBase($carrier);
 
-        if ($shippingMethods instanceof DataList &&
-            $shippingMethods->exists()) {
+        if ($shippingMethods instanceof DataList
+            && $shippingMethods->exists()
+        ) {
             foreach ($shippingMethods as $shippingMethod) {
                 if (!is_null($shippingAddress)) {
                     $shippingMethod->setShippingAddress($shippingAddress);
@@ -729,7 +762,7 @@ class ShippingMethod extends DataObject {
             }
         }
         
-        $allowedShippingMethods = new ArrayList($allowedShippingMethodsArray);
+        $allowedShippingMethods = ArrayList::create($allowedShippingMethodsArray);
         
         $extendableShippingMethod->extend('updateAllowedShippingMethods', $allowedShippingMethods);
         
@@ -746,7 +779,8 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public static function getAllowedShippingMethodsForOverview($carrier = null) {
+    public static function getAllowedShippingMethodsForOverview($carrier = null)
+    {
         $shippingMethods = self::getAllowedShippingMethodsBase($carrier);
         return $shippingMethods;
     }
@@ -758,7 +792,8 @@ class ShippingMethod extends DataObject {
      *
      * @return SS_List
      */
-    public static function getAllowedShippingMethodsBase($carrier = null) {
+    public static function getAllowedShippingMethodsBase($carrier = null)
+    {
         $extendedFilter = "";
         $shippingTable  = Tools::get_table_name(ShippingMethod::class);
         if (!is_null($carrier)) {
@@ -769,9 +804,10 @@ class ShippingMethod extends DataObject {
         }
         
         $customerGroups = Customer::getCustomerGroups();
-        if ($customerGroups &&
-            $customerGroups instanceof SS_List &&
-            $customerGroups->exists()) {
+        if ($customerGroups
+            && $customerGroups instanceof SS_List
+            && $customerGroups->exists()
+            ) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID')->toArray());
             $filter = sprintf(
                 '"' . $shippingTable . '"."isActive" = 1 AND ("' . $shippingTable . '_CustomerGroups"."GroupID" IN (%s) OR "' . $shippingTable . '"."ID" NOT IN (%s))%s',
@@ -811,7 +847,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return ArrayList
      */
-    public static function getAllowedShippingFeesFor(Product $product, Country $country, Group $customerGroup, $excludePickup = false) {
+    public static function getAllowedShippingFeesFor(Product $product, Country $country, Group $customerGroup, $excludePickup = false)
+    {
         $extendableShippingMethod   = ShippingMethod::singleton();
         
         $shippingTable  = Tools::get_table_name(ShippingMethod::class);
@@ -836,7 +873,7 @@ class ShippingMethod extends DataObject {
         
         $extendableShippingMethod->extend('updateAllowedShippingFeesFor', $shippingMethods, $product);
         
-        $shippingFees = new ArrayList();
+        $shippingFees = ArrayList::create();
         
         if ($shippingMethods->exists()) {
             foreach ($shippingMethods as $shippingMethod) {
@@ -862,7 +899,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return ShippingFee
      */
-    public static function getAllowedShippingFeeFor(Product $product, Country $country, Group $customerGroup, $excludePickup = false) {
+    public static function getAllowedShippingFeeFor(Product $product, Country $country, Group $customerGroup, $excludePickup = false)
+    {
         $shippingFees = self::getAllowedShippingFeesFor($product, $country, $customerGroup, $excludePickup);
         return $shippingFees->First();
     }
@@ -877,13 +915,15 @@ class ShippingMethod extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
-    public static function filterShippingMethods($shippingMethods) {
+    public static function filterShippingMethods($shippingMethods)
+    {
         $allowedShippingMethods = new ArrayList();
         $customerGroups         = Customer::getCustomerGroups();
         foreach ($shippingMethods as $shippingMethod) {
             foreach ($customerGroups as $customerGroup) {
-                if ($shippingMethod->CustomerGroups()->find('ID', $customerGroup->ID) ||
-                    $shippingMethod->CustomerGroups()->count() == 0) {
+                if ($shippingMethod->CustomerGroups()->find('ID', $customerGroup->ID)
+                    || $shippingMethod->CustomerGroups()->count() == 0
+                ) {
                     $allowedShippingMethods->push($shippingMethod);
                     break;
                 }
@@ -897,7 +937,8 @@ class ShippingMethod extends DataObject {
      *
      * @return Address 
      */
-    public function getShippingAddress() {
+    public function getShippingAddress()
+    {
         return $this->shippingAddress;
     }
 
@@ -908,7 +949,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return void
      */
-    public function setShippingAddress($shippingAddress) {
+    public function setShippingAddress($shippingAddress)
+    {
         $this->shippingAddress = $shippingAddress;
     }
     
@@ -917,7 +959,8 @@ class ShippingMethod extends DataObject {
      *
      * @return Country
      */
-    public function getShippingCountry() {
+    public function getShippingCountry()
+    {
         return $this->shippingCountry;
     }
 
@@ -928,7 +971,8 @@ class ShippingMethod extends DataObject {
      * 
      * @return void
      */
-    public function setShippingCountry($shippingCountry) {
+    public function setShippingCountry($shippingCountry)
+    {
         $this->shippingCountry = $shippingCountry;
     }
 

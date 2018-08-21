@@ -8,6 +8,7 @@ use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\Model\Shipment\CarrierTranslation;
 use SilverCart\Model\Shipment\Zone;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
@@ -22,55 +23,58 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Carrier extends DataObject {
-
+class Carrier extends DataObject
+{
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'priority' => 'Int'
-    );
-
+    ];
+    /**
+     * Has-one relations.
+     *
+     * @var array
+     */
+    private static $has_one = [
+        'Logo' => Image::class,
+    ];
     /**
      * Has-many relationship.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'ShippingMethods'     => ShippingMethod::class,
         'CarrierTranslations' => CarrierTranslation::class,
-    );
-
+    ];
     /**
      * Many to many relations
      * 
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'Zones' => Zone::class,
-    );
-
+    ];
     /**
      * Virtual database fields.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'AttributedZones'           => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)',
         'Title'                     => 'Varchar(25)',
         'FullTitle'                 => 'Varchar(60)',
-    );
-
+    ];
     /**
      * Default sort field and direction
      *
      * @var string
      */
     private static $default_sort = "priority DESC";
-
     /**
      * DB table name
      *
@@ -83,7 +87,8 @@ class Carrier extends DataObject {
      *
      * @return string 
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->getTranslationFieldValue('Title');
     }
     
@@ -92,7 +97,8 @@ class Carrier extends DataObject {
      *
      * @return string 
      */
-    public function getFullTitle() {
+    public function getFullTitle()
+    {
         return $this->getTranslationFieldValue('FullTitle');
     }
     
@@ -104,21 +110,22 @@ class Carrier extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.03.2012
      */
-    public function searchableFields() {
-        $searchableFields = array(
-            'CarrierTranslations.Title' => array(
-                'title' => $this->fieldLabel('Title'),
+    public function searchableFields()
+    {
+        $searchableFields = [
+            'CarrierTranslations.Title' => [
+                'title'  => $this->fieldLabel('Title'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Zones.ID' => array(
-                'title' => $this->fieldLabel('Zones'),
+            ],
+            'Zones.ID' => [
+                'title'  => $this->fieldLabel('Zones'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'ShippingMethods.ID' => array(
-                'title' => $this->fieldLabel('ShippingMethods'),
+            ],
+            'ShippingMethods.ID' => [
+                'title'  => $this->fieldLabel('ShippingMethods'),
                 'filter' => ExactMatchFilter::class,
-            )
-        );
+            ],
+        ];
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
@@ -126,11 +133,10 @@ class Carrier extends DataObject {
     /**
      * CMS fields
      *
-     * @param array $params Params to use
-     *
      * @return FieldList
      */
-    public function getCMSFields($params = null) {
+    public function getCMSFields()
+    {
         $fields = DataObjectExtension::getCMSFields($this);
         return $fields;
     }
@@ -145,10 +151,12 @@ class Carrier extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 5.7.2011
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true)
+    {
         return array_merge(
                 parent::fieldLabels($includerelations),
-                array(
+                Tools::field_labels_for(self::class),
+                [
                     'AttributedZones'           => _t(Country::class . '.ATTRIBUTED_ZONES', 'Attributed zones'),
                     'AttributedShippingMethods' => _t(Carrier::class . '.ATTRIBUTED_SHIPPINGMETHODS', 'Attributed shipping methods'),
                     'ShippingMethods'           => ShippingMethod::singleton()->plural_name(),
@@ -157,7 +165,8 @@ class Carrier extends DataObject {
                     'Title'                     => Page::singleton()->fieldLabel('Title'),
                     'priority'                  => Tools::field_label('Priority'),
                     'FullTitle'                 => _t(Carrier::class . '.FULL_NAME', 'Full name'),
-                )
+                    'Logo'                      => Page::singleton()->fieldLabel('Logo'),
+                ]
         );
     }
     
@@ -169,13 +178,14 @@ class Carrier extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.02.2013
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields()
+    {
+        $summaryFields = [
             'Title'                     => $this->fieldLabel('Title'),
             'AttributedZones'           => $this->fieldLabel('AttributedZones'),
             'AttributedShippingMethods' => $this->fieldLabel('AttributedShippingMethods'),
             'priority'                  => $this->fieldLabel('priority'),
-        );
+        ];
         
         $this->extend('updateSummaryFields', $summaryFields);
         
@@ -191,7 +201,8 @@ class Carrier extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -205,7 +216,8 @@ class Carrier extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this); 
     }
 
@@ -217,7 +229,8 @@ class Carrier extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public function AttributedZones() {
+    public function AttributedZones()
+    {
         return Tools::AttributedDataObject($this->Zones());
     }
 
@@ -229,7 +242,8 @@ class Carrier extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public function AttributedShippingMethods() {
+    public function AttributedShippingMethods()
+    {
         return Tools::AttributedDataObject($this->ShippingMethods());
     }
     
@@ -238,7 +252,8 @@ class Carrier extends DataObject {
      *
      * @return ShippingMethod 
      */
-    public function getAllowedShippingMethods() {
+    public function getAllowedShippingMethods()
+    {
         return ShippingMethod::getAllowedShippingMethodsForOverview($this);
     }
     
