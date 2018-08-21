@@ -28,6 +28,15 @@ class SilvercartCarrier extends DataObject {
     public static $db = array(
         'priority' => 'Int'
     );
+    
+    /**
+     * Has-one relations.
+     *
+     * @var array
+     */
+    private static $has_one = array(
+        'Logo' => 'Image',
+    );
 
     /**
      * Has-many relationship.

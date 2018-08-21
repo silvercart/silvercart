@@ -41,7 +41,8 @@ class SilvercartShippingMethod extends DataObject {
      * @var array
      */
     public static $has_one = array(
-        'SilvercartCarrier'   => 'SilvercartCarrier',
+        'SilvercartCarrier' => 'SilvercartCarrier',
+        'Logo'              => 'Image',
     );
     /**
      * Has-many relationship.
