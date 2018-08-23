@@ -8,12 +8,15 @@ use SilverCart\Model\Widgets\WidgetController;
 use SilverCart\ORM\DataObjectExtension;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Forms\CheckboxField;
-use SilverStripe\Forms\DropdownField;
-use SilverStripe\Forms\Tab;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\ToggleCompositeField;
-use SilverStripe\Forms\TreeDropdownField;
+use SilverStripe\Control\Director;
+use SilverStripe\Forms\ {
+    CheckboxField,
+    DropdownField,
+    Tab,
+    TextField,
+    ToggleCompositeField,
+    TreeDropdownField
+};
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
@@ -31,7 +34,8 @@ use SilverStripe\Security\Security;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class WidgetTools {
+class WidgetTools
+{
     
     /**
      * Returns the input fields for this widget.
@@ -40,30 +44,33 @@ class WidgetTools {
      * @param array  $fetchMethods Optional list of product fetch methods
      * 
      * @return FieldList
+     * 
+     * @deprecated since version 4.1
      */
-    public static function getCMSFieldsForProductSliderWidget(Widget $widget, $fetchMethods = array()) {
+    public static function getCMSFieldsForProductSliderWidget(Widget $widget, $fetchMethods = [])
+    {
         if (empty($fetchMethods)) {
-            $fetchMethods               = array(
+            $fetchMethods = [
                     'random'        => $widget->fieldLabel('fetchMethodRandom'),
                     'sortOrderAsc'  => $widget->fieldLabel('fetchMethodSortOrderAsc'),
                     'sortOrderDesc' => $widget->fieldLabel('fetchMethodSortOrderDesc'),
-            );
+            ];
         }
         $fields = DataObjectExtension::getCMSFields($widget, 'ExtraCssClasses', false);
         
-        $productGroupDropdown = new TreeDropdownField(
+        $productGroupDropdown = TreeDropdownField::create(
                 'ProductGroupPageID',
                 $widget->fieldLabel('ProductGroupPage'),
                 SiteTree::class
         );
         $productGroupDropdown->setTreeBaseID(Tools::PageByIdentifierCode('SilvercartProductGroupHolder')->ID);
         
-        $toggleFields = array(
+        $toggleFields = [
             $fields->dataFieldByName('numberOfProductsToShow'),
             $fields->dataFieldByName('numberOfProductsToFetch'),
             $fields->dataFieldByName('fetchMethod'),
             GroupViewHandler::getGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView),
-        );
+        ];
         
         $fields->dataFieldByName('fetchMethod')->setSource($fetchMethods);
         $fields->dataFieldByName('numberOfProductsToShow')->setDescription($widget->fieldLabel('numberOfProductsToShowInfo'));
@@ -71,10 +78,10 @@ class WidgetTools {
         
         if (is_object($fields->dataFieldByName('useSelectionMethod'))) {
             $fields->dataFieldByName('useSelectionMethod')->setSource(
-                        array(
+                        [
                             'productGroup' => $widget->fieldLabel('SelectionMethodProductGroup'),
                             'products'     => $widget->fieldLabel('SelectionMethodProducts')
-                        )
+                        ]
             );
             $toggleFields[] = $fields->dataFieldByName('useSelectionMethod');
             $productGroupDropdown->setDescription($widget->fieldLabel('ProductGroupPageDescription'));
@@ -89,9 +96,9 @@ class WidgetTools {
         $productRelationToggle = ToggleCompositeField::create(
                 'ProductRelationToggle',
                 $widget->fieldLabel('ProductRelationToggle'),
-                array(
+                [
                     $fields->dataFieldByName('Products'),
-                )
+                ]
         )->setHeadingLevel(4);
         
         $fields->removeByName('numberOfProductsToShow');
@@ -116,31 +123,34 @@ class WidgetTools {
      * @param TabList $fields Fields to add toggle to
      * 
      * @return void
+     * 
+     * @deprecated since version 4.1
      */
-    public static function getCMSFieldsSliderToggleForSliderWidget(Widget $widget, $fields) {
-        $useSlider          = new CheckboxField('useSlider',        $widget->fieldLabel('useSlider'));
-        $autoplay           = new CheckboxField('Autoplay',         $widget->fieldLabel('Autoplay'));
-        $slideDelay         = new TextField('slideDelay',           $widget->fieldLabel('slideDelay'));
-        $buildArrows        = new CheckboxField('buildArrows',      $widget->fieldLabel('buildArrows'));
-        $buildNavigation    = new CheckboxField('buildNavigation',  $widget->fieldLabel('buildNavigation'));
-        $buildStartStop     = new CheckboxField('buildStartStop',   $widget->fieldLabel('buildStartStop'));
-        $autoPlayDelayed    = new CheckboxField('autoPlayDelayed',  $widget->fieldLabel('autoPlayDelayed'));
-        $autoPlayLocked     = new CheckboxField('autoPlayLocked',   $widget->fieldLabel('autoPlayLocked'));
-        $stopAtEnd          = new CheckboxField('stopAtEnd',        $widget->fieldLabel('stopAtEnd'));
-        $transitionEffect   = new DropdownField(
+    public static function getCMSFieldsSliderToggleForSliderWidget(Widget $widget, $fields)
+    {
+        $useSlider          = CheckboxField::create('useSlider',        $widget->fieldLabel('useSlider'));
+        $autoplay           = CheckboxField::create('Autoplay',         $widget->fieldLabel('Autoplay'));
+        $slideDelay         = TextField::create('slideDelay',           $widget->fieldLabel('slideDelay'));
+        $buildArrows        = CheckboxField::create('buildArrows',      $widget->fieldLabel('buildArrows'));
+        $buildNavigation    = CheckboxField::create('buildNavigation',  $widget->fieldLabel('buildNavigation'));
+        $buildStartStop     = CheckboxField::create('buildStartStop',   $widget->fieldLabel('buildStartStop'));
+        $autoPlayDelayed    = CheckboxField::create('autoPlayDelayed',  $widget->fieldLabel('autoPlayDelayed'));
+        $autoPlayLocked     = CheckboxField::create('autoPlayLocked',   $widget->fieldLabel('autoPlayLocked'));
+        $stopAtEnd          = CheckboxField::create('stopAtEnd',        $widget->fieldLabel('stopAtEnd'));
+        $transitionEffect   = DropdownField::create(
             'transitionEffect',
             $widget->fieldLabel('transitionEffect'),
-            array(
+            [
                 'fade'              => $widget->fieldLabel('transitionEffectFade'),
                 'horizontalSlide'   => $widget->fieldLabel('transitionEffectHSlide'),
                 'verticalSlide'     => $widget->fieldLabel('transitionEffectVSlide'),
-            )
+            ]
         );
         
         $sliderToggle = ToggleCompositeField::create(
                 'Slider',
                 $widget->fieldLabel('SlideshowTab'),
-                array(
+                [
                     $useSlider,
                     $autoplay,
                     $slideDelay,
@@ -151,7 +161,7 @@ class WidgetTools {
                     $autoPlayLocked,
                     $stopAtEnd,
                     $transitionEffect,
-                )
+                ]
         )->setHeadingLevel(4);
         $fields->addFieldToTab("Root.Main", $sliderToggle);
     }
@@ -164,12 +174,12 @@ class WidgetTools {
      * 
      * @return void
      * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.03.2012
+     * @deprecated since version 4.1
      */
-    public static function getCMSFieldsRoundaboutTabForProductSliderWidget(Widget $widget, $rootTabSet) {
-        $tab        = new Tab('roundabout',                 $widget->fieldLabel('RoundaboutTab'));
-        $useSlider  = new CheckboxField('useRoundabout',    $widget->fieldLabel('useRoundabout'));
+    public static function getCMSFieldsRoundaboutTabForProductSliderWidget(Widget $widget, $rootTabSet)
+    {
+        $tab        = Tab::create('roundabout',                 $widget->fieldLabel('RoundaboutTab'));
+        $useSlider  = CheckboxField::create('useRoundabout',    $widget->fieldLabel('useRoundabout'));
         
         $tab->push($useSlider);
         $rootTabSet->push($tab);
@@ -184,11 +194,14 @@ class WidgetTools {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
+     * @deprecated since version 4.1
      */
-    public static function initProductSliderWidget(WidgetController $widget) {
-        if (Widget::$use_product_pages_for_slider &&
-            ($widget->useSlider ||
-             $widget->useRoundabout)) {
+    public static function initProductSliderWidget(WidgetController $widget)
+    {
+        if (Widget::$use_product_pages_for_slider
+            && ($widget->useSlider#
+                || $widget->useRoundabout)
+        ) {
             $widget->ProductPages();
         } else {
             $widget->Elements();
@@ -210,8 +223,10 @@ class WidgetTools {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
+     * @deprecated since version 4.1
      */
-    public static function initAnythingSliderForProductSliderWidget(WidgetController $widget) {
+    public static function initAnythingSliderForProductSliderWidget(WidgetController $widget)
+    {
         if (!Widget::$use_anything_slider) {
             return;
         }
@@ -323,8 +338,10 @@ class WidgetTools {
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
+     * @deprecated since version 4.1
      */
-    public static function initRoundaboutForProductSliderWidget(WidgetController $widget) {
+    public static function initRoundaboutForProductSliderWidget(WidgetController $widget)
+    {
         $jsID = $widget->ClassName . 'Slider' . $widget->ID;
         Requirements::customScript(
             sprintf('
@@ -389,13 +406,14 @@ class WidgetTools {
     /**
      * Returns the template to render the products with
      *
-     * @param WidgetController $widget              Widget to get template for
-     * @param string           $templateBaseContent Base name for the content widget template
-     * @param string           $templateBaseSidebar Base name for the sidebar widget template
+     * @param WidgetController|Widget $widget              Widget to get template for
+     * @param string                  $templateBaseContent Base name for the content widget template
+     * @param string                  $templateBaseSidebar Base name for the sidebar widget template
      * 
      * @return string
      */
-    public static function getGroupViewTemplateName(WidgetController $widget, $templateBaseContent = 'ProductGroupPage', $templateBaseSidebar = 'WidgetProductBox') {
+    public static function getGroupViewTemplateName($widget, $templateBaseContent = 'ProductGroupPage', $templateBaseSidebar = 'WidgetProductBox')
+    {
         if (empty($widget->GroupView)) {
             $widget->GroupView = GroupViewHandler::getDefaultGroupViewInherited();
         }
@@ -419,7 +437,8 @@ class WidgetTools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function populateFromPostDataForProductSliderWidget(WidgetController $widget, $data) {
+    public static function populateFromPostDataForProductSliderWidget(WidgetController $widget, $data)
+    {
         $widget->write();
         if (!array_key_exists('isContentView', $data)) {
             $widget->isContentView = 0;
@@ -462,9 +481,11 @@ class WidgetTools {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.03.2012
+     * @deprecated since version 4.1
      */
-    public static function fieldLabelsForProductSliderWidget(Widget $widget) {
-        return array(
+    public static function fieldLabelsForProductSliderWidget(Widget $widget)
+    {
+        return [
             'FrontTitle'                    => _t(ProductSliderWidget::class . '.FRONTTITLE', 'Headline'),
             'FrontContent'                  => _t(ProductSliderWidget::class . '.FRONTCONTENT', 'Content'),
             'numberOfProductsToShow'        => _t(ProductSliderWidget::class . '.NUMBEROFPRODUCTSTOSHOW', 'Number of products to show:'),
@@ -503,35 +524,37 @@ class WidgetTools {
             'fetchMethodRandom'             => _t($widget->ClassName() . '.FETCHMETHOD_RANDOM',         _t(ProductSliderWidget::class . '.FETCHMETHOD_RANDOM', 'Random')),
             'fetchMethodSortOrderAsc'       => _t($widget->ClassName() . '.FETCHMETHOD_SORTORDERASC',   _t(ProductSliderWidget::class . '.FETCHMETHOD_SORTORDERASC', 'Ascending')),
             'fetchMethodSortOrderDesc'      => _t($widget->ClassName() . '.FETCHMETHOD_SORTORDERDESC',  _t(ProductSliderWidget::class . '.FETCHMETHOD_SORTORDERDESC', 'Descending')),
-        );
+        ];
     }
     
     /**
      * Creates the cache key for this widget.
      * 
-     * @param WidgetController $widget Widget to get cache key for
+     * @param WidgetController|Widget $widget Widget to get cache key for
      *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public static function ProductWidgetCacheKey(WidgetController $widget) {
+    public static function ProductWidgetCacheKey($widget)
+    {
         $key = '';
-        if ($widget->Elements() instanceof SS_List &&
-            $widget->Elements()->exists()) {
+        if ($widget->Elements() instanceof SS_List
+            && $widget->Elements()->exists()) {
             $productMap = $widget->Elements()->map('ID', 'LastEditedForCache');
             if ($productMap instanceof Map) {
                 $productMap = $productMap->toArray();
             }
             if (!is_array($productMap)) {
-                $productMap = array();
+                $productMap = [];
             }
-            if ($widget->Elements()->exists() &&
-                (empty($productMap) ||
-                (count($productMap) == 1 &&
-                array_key_exists('', $productMap)))) {
-                $productMap = array();
+            if ($widget->Elements()->exists()
+                && (empty($productMap)
+                    || (count($productMap) == 1
+                        && array_key_exists('', $productMap)))
+            ) {
+                $productMap = [];
                 foreach ($widget->Elements() as $page) {
                     $productMapToAdd = $page->Elements->map('ID', 'LastEditedForCache');
                     if ($productMapToAdd instanceof Map) {
@@ -552,13 +575,17 @@ class WidgetTools {
             if ($customer instanceof Member) {
                 $groupIDs = implode('-', $customer->getGroupIDs());
             }
-            $keyParts = array(
+            $keyParts = [
                 i18n::get_locale(),
                 $productMapIDs,
                 $productMapLastEdited,
                 $widget->LastEdited,
                 $groupIDs
-            );
+            ];
+            
+            if (Director::isDev()) {
+                $keyParts[] = uniqid();
+            }
 
             $key = implode('_', $keyParts);
         }

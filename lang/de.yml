@@ -1887,6 +1887,7 @@ de:
     FRONTCONTENT: "Inhalt zur Anzeige im Shop"
     FRONTTITLE: "Titel zu Anzeige im Shop"
     SORT_ORDER_LABEL: "Sortierung"
+    UseAsSlider: "Als Slider verwenden"
   SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: "Widgets Sets verwalten"
     UseAsSlider: "Als Slider verwenden"

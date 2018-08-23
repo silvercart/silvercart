@@ -2,11 +2,14 @@
 
 namespace SilverCart\Model\Widgets;
 
+use ReflectionClass;
 use SilverCart\Model\Widgets\Widget;
-use WidgetSets\Model\WidgetSet;
-use WidgetSets\Model\WidgetSetWidget;
 use SilverCart\Model\Pages\Page;
 use SilverCart\ORM\DataObjectExtension;
+use WidgetSets\Model\ {
+    WidgetSet,
+    WidgetSetWidget
+};
 
 /**
  * Provides some basic functionality for all SilverCart widgets.
@@ -18,28 +21,32 @@ use SilverCart\ORM\DataObjectExtension;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Widget extends WidgetSetWidget {
-
+class Widget extends WidgetSetWidget
+{
     /**
      * Set whether to use the widget container divs or not.
      *
      * @var bool
      */
     public $useWidgetContainer = true;
-    
     /**
      * Set this to false to use single elements for product slider
      *
      * @var bool
      */
     public static $use_product_pages_for_slider = false;
-    
     /**
      * Set this to false to disable anything slider.
      *
      * @var bool
      */
     public static $use_anything_slider = false;
+    /**
+     * Contains a list of all registered filter plugins.
+     *
+     * @var array
+     */
+    public static $registeredFilterPlugins = [];
 
     /**
      * Field labels for display in tables.
@@ -51,7 +58,8 @@ class Widget extends WidgetSetWidget {
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 09.08.2012
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true)
+    {
         $fieldLabels = array_merge(
             parent::fieldLabels($includerelations),
             [
@@ -71,10 +79,9 @@ class Widget extends WidgetSetWidget {
      * 
      * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'ExtraCssClasses', false);
-
-        return $fields;
+    public function getCMSFields()
+    {
+        return DataObjectExtension::getCMSFields($this, 'ExtraCssClasses', false);
     }
     
     /**
@@ -82,11 +89,13 @@ class Widget extends WidgetSetWidget {
      * 
      * @return string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         $title = parent::getTitle();
-        if (empty($title) &&
-            $this->hasField('FrontTitle') &&
-            !empty($this->FrontTitle)) {
+        if (empty($title)
+            && $this->hasField('FrontTitle')
+            && !empty($this->FrontTitle)
+        ) {
             $title = $this->fieldLabel('Title') . ': ' . $this->FrontTitle;
         }
         return $title;
@@ -97,10 +106,12 @@ class Widget extends WidgetSetWidget {
      *
      * @return bool
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.02.2013
      */
-    public function DoUseWidgetContainer() {
+    public function DoUseWidgetContainer()
+    {
         return $this->useWidgetContainer;
     }
     
@@ -110,10 +121,31 @@ class Widget extends WidgetSetWidget {
      * @return WidgetSet
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.10.2013
+     * @since 22.08.2018
      */
-    public function WidgetSet() {
-        $widgetSet = WidgetSet::get()->filter('WidgetAreaID', $this->ParentID);
-        return $widgetSet;
+    public function WidgetSet()
+    {
+        return WidgetSet::get()->filter('WidgetAreaID', $this->ParentID);
+    }
+
+    /**
+     * Registers an object as a filter plugin. Before getting the result set
+     * the method 'filter' is called on the plugin. It has to return an array
+     * with filters to deploy on the query.
+     *
+     * @param Object $plugin The filter plugin object
+     *
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.08.2018
+     */
+    public static function registerFilterPlugin($plugin)
+    {
+        $reflectionClass = new ReflectionClass($plugin);
+        
+        if ($reflectionClass->hasMethod('filter')) {
+            self::$registeredFilterPlugins[] = new $plugin();
+        }
     }
 }

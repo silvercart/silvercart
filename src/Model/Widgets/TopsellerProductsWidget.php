@@ -2,7 +2,19 @@
 
 namespace SilverCart\Model\Widgets;
 
-use SilverCart\Model\Widgets\Widget;
+use SilverCart\Dev\Tools;
+use SilverCart\Model\{
+    Order\OrderPosition,
+    Product\Product,
+    Widgets\Widget,
+    Widgets\WidgetTools
+};
+use SilverStripe\ORM\ {
+    ArrayList,
+    FieldType\DBBoolean,
+    FieldType\DBInt,
+    Queries\SQLSelect
+};
 
 /**
  * Provides the a view of the topseller products.
@@ -12,30 +24,30 @@ use SilverCart\Model\Widgets\Widget;
  * @package SilverCart
  * @subpackage Model_Widgets
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 09.10.2017
- * @copyright 2017 pixeltricks GmbH
+ * @since 22.08.2018
+ * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class TopsellerProductsWidget extends Widget {
-    
+class TopsellerProductsWidget extends Widget
+{
     /**
      * Indicates the number of products that shall be shown with this widget.
      * 
      * @var int
      */
-    private static $db = array(
-        'numberOfProductsToShow' => 'Int'
-    );
-    
+    private static $db = [
+        'numberOfProductsToShow' => DBInt::class,
+        'UseAsSlider'            => DBBoolean::class,
+    ];
     /**
      * Set default values.
      * 
      * @var array
      */
-    private static $defaults = array(
-        'numberOfProductsToShow' => 5
-    );
-
+    private static $defaults = [
+        'numberOfProductsToShow' => 5,
+        'UseAsSlider'            => true,
+    ];
     /**
      * DB table name
      *
@@ -50,18 +62,79 @@ class TopsellerProductsWidget extends Widget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 22.08.2018
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true)
+    {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
-                array(
-                    'numberOfProductsToShow' => _t(TopsellerProductsWidget::class . '.STOREADMIN_FIELDLABEL', 'Number of products to show:')
-                )
+                [
+                    'numberOfProductsToShow' => _t(TopsellerProductsWidget::class . '.STOREADMIN_FIELDLABEL', 'Number of products to show:'),
+                    'UseAsSlider'            => _t(Widget::class . '.UseAsSlider', 'Use as a slider'),
+                ]
         );
 
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
+    }
+    
+    /**
+     * Returns a number of topseller products.
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.08.2018
+     */
+    public function Elements()
+    {
+        if (!$this->numberOfProductsToShow) {
+            $defaults = $this->config()->get('defaults');
+            $this->numberOfProductsToShow = $defaults['numberOfProductsToShow'];
+        }
+        
+        $orderPositionTable = Tools::get_table_name(OrderPosition::class);
+        $productTable       = Tools::get_table_name(Product::class);
+        
+        $products   = [];
+        $sqlSelect  = SQLSelect::create();
+
+        $sqlSelect->selectField('SOP.ProductID');
+        $sqlSelect->selectField('SUM(SOP.Quantity) AS OrderedQuantity');
+        $sqlSelect->addFrom($orderPositionTable . ' SOP');
+        $sqlSelect->addLeftJoin($productTable, 'SP.ID = SOP.ProductID', 'SP');
+        $sqlSelect->addWhere('SP.isActive = 1');
+        $sqlSelect->addGroupBy('SOP.ProductID');
+        $sqlSelect->addOrderBy('OrderedQuantity', 'DESC');
+        $sqlSelect->setLimit($this->numberOfProductsToShow);
+
+        $sqlResult = $sqlSelect->execute();
+
+        foreach ($sqlResult as $row) {
+            $product = Product::get()->byID($row['ProductID']);
+            if ($product instanceof Product) {
+                $products[] = $product;
+            }
+        }
+
+        $result = ArrayList::create($products);
+
+        return $result;
+    }
+    
+    /**
+     * Creates the cache key for this widget.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.08.2018
+     */
+    public function WidgetCacheKey()
+    {
+        $key = WidgetTools::ProductWidgetCacheKey($this);
+        return $key;
     }
 }

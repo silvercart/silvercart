@@ -1839,6 +1839,7 @@ nl:
     FRONTCONTENT: "Content to display in frontend"
     FRONTTITLE: "Title to display in frontend"
     SORT_ORDER_LABEL: "Sorteervolgorde"
+    UseAsSlider: "Use as a slider"
   SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: "Manage widget sets"
     UseAsSlider: "Use as a slider"
