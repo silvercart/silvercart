@@ -31,6 +31,7 @@ class AvailabilityStatus extends DataObject {
         'Code'                => 'Varchar',
         'SeoMicrodataCode'    => "Enum(',Discontinued,InStock,InStoreOnly,LimitedAvailability,OnlineOnly,OutOfStock,PreOrder,PreSale,SoldOut','')",
         'badgeColor'          => "Enum('default,success,warning,important,info,inverse','default')",
+        'badgeColor'          => "Enum('primary,secondary,success,danger,warning,info,light,dark','light')",
         'SetForPositiveStock' => 'Boolean(0)',
         'SetForNegativeStock' => 'Boolean(0)',
         'IsDefault'           => 'Boolean',
@@ -176,12 +177,14 @@ class AvailabilityStatus extends DataObject {
         $fields = DataObjectExtension::getCMSFields($this, 'Code', false);
         
         $badgeColorSource = array(
-            'default'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#999999">' . $this->Title . '</span>'),
-            'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#468847">' . $this->Title . '</span>'),
-            'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#f89406">' . $this->Title . '</span>'),
-            'important' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#b94a48">' . $this->Title . '</span>'),
-            'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#3a87ad">' . $this->Title . '</span>'),
-            'inverse'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#333333">' . $this->Title . '</span>'),
+            'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
+            'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
+            'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
+            'danger'    => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#dc3545">' . $this->Title . '</span>'),
+            'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#ffc107">' . $this->Title . '</span>'),
+            'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
+            'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
+            'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
         );
         
         $fields->removeByName('badgeColor');
@@ -395,18 +398,20 @@ class AvailabilityStatus extends DataObject {
      */
     public function getBadgeColorIndicator() {
         $badgeColorSource = array(
-            'default'   => '<span style="padding: 4px 8px; color: #fff; background-color:#999999">' . $this->Title . '</span>',
-            'success'   => '<span style="padding: 4px 8px; color: #fff; background-color:#468847">' . $this->Title . '</span>',
-            'warning'   => '<span style="padding: 4px 8px; color: #fff; background-color:#f89406">' . $this->Title . '</span>',
-            'important' => '<span style="padding: 4px 8px; color: #fff; background-color:#b94a48">' . $this->Title . '</span>',
-            'info'      => '<span style="padding: 4px 8px; color: #fff; background-color:#3a87ad">' . $this->Title . '</span>',
-            'inverse'   => '<span style="padding: 4px 8px; color: #fff; background-color:#333333">' . $this->Title . '</span>',
+            'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
+            'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
+            'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
+            'danger'    => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#dc3545">' . $this->Title . '</span>'),
+            'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#ffc107">' . $this->Title . '</span>'),
+            'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
+            'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
+            'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
         );
         if (empty($this->badgeColor) ||
             !array_key_exists($this->badgeColor, $badgeColorSource)) {
-            $this->badgeColor = 'default';
+            $this->badgeColor = 'light';
         }
-        return Tools::string2html($badgeColorSource[$this->badgeColor]);
+        return $badgeColorSource[$this->badgeColor];
     }
     
 }
