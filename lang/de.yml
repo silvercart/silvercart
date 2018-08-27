@@ -1442,6 +1442,13 @@ de:
   SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: "Warengruppen"
+    DESCRIPTION: "Dieses Widget erstellt eine Übersicht beliebiger Warengruppen (optional als Slider)."
+    TITLE: "Warengruppen"
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
   SilverCart\Model\Pages\ProductGroupPage:
     ATTRIBUTES: "Attribut"
     BREADCRUMBS: "Warengruppen-Breadcrumbs"

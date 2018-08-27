@@ -139,6 +139,9 @@ SilverCart\Model\Widgets\ProductGroupManufacturersWidgetTranslation:
 SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
   extensions:
     - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+  extensions:
+    - SilverCart\Model\Translation\TranslationExtension
 SilverCart\Model\Widgets\SlidorionProductGroupWidgetTranslation:
   extensions:
     - SilverCart\Model\Translation\TranslationExtension
@@ -212,6 +215,9 @@ SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
 SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+  extensions:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\ProductGroupWidget:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
 SilverCart\Model\Widgets\SlidorionProductGroupWidget:
