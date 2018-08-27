@@ -538,4 +538,28 @@ class CustomForm extends Form {
         return $this->getRenderedUpdatedCustomFields();
     }
     
+    /**
+     * Returns the rendered content injected by extensions to insert after the
+     * form fields right before the closing </form> tag.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function getAfterFormContent() {
+        $afterFormContent = '';
+        $this->extend('updateAfterFormContent', $afterFormContent);
+        return Tools::string2html($afterFormContent);
+    }
+    
+    /**
+     * Returns the rendered content injected by extensions to insert before the
+     * form fields right after the hidden fields and form messages.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function getBeforeFormContent() {
+        $afterFormContent = '';
+        $this->extend('updateBeforeFormContent', $afterFormContent);
+        return Tools::string2html($afterFormContent);
+    }
+    
 }
