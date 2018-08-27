@@ -128,8 +128,8 @@ class ImageSliderWidget extends Widget {
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $slideImagesTable->getConfig()->addComponent(new GridFieldDeleteAction());
-        if (class_exists('GridFieldSortableRows')) {
-            $slideImagesTable->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
+        if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
+            $slideImagesTable->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('Sort'));
         }
         
         $slideImagesUploadField = new ImageUploadField('UploadslideImages', $this->fieldLabel('AddImage'));

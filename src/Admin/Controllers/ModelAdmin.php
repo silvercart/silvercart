@@ -109,8 +109,8 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin {
     /**
      * Builds and returns the edit form.
      * 
-	 * @param int       $id     The current records ID. Won't be used for ModelAdmins.
-	 * @param FieldList $fields Fields to use. Won't be used for ModelAdmins.
+     * @param int       $id     The current records ID. Won't be used for ModelAdmins.
+     * @param FieldList $fields Fields to use. Won't be used for ModelAdmins.
      * 
      * @return Form
      */
@@ -118,9 +118,9 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin {
         $form           = parent::getEditForm($id, $fields);
         $sortable_field = $this->stat('sortable_field');
         
-        if (class_exists('GridFieldSortableRows') &&
+        if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows') &&
             !empty($sortable_field)) {
-            $this->getGridFieldConfig($form)->addComponent(new GridFieldSortableRows($sortable_field));
+            $this->getGridFieldConfig($form)->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
         }
         if (GridFieldBatchController::hasBatchActionsFor($this->modelClass)) {
             $this->getGridFieldConfig($form)->addComponent(new GridFieldBatchController($this->modelClass));
