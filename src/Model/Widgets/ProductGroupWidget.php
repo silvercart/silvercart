@@ -116,7 +116,7 @@ class ProductGroupWidget extends Widget
      */
     public function getProductGroupIDField()
     {
-        return $this->ProductGroupIDs;
+        return empty($this->ProductGroupIDs) ? ArrayList::create() : $this->ProductGroupIDs;
     }
     
     /**
