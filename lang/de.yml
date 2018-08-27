@@ -1365,6 +1365,8 @@ de:
     WEEKS: "Wochen"
     WEIGHT: "Gewicht"
     WIDGETAREA: "Widgets"
+    YEAR: "Jahr"
+    YEARS: "Jahre"
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: "Artikel"
   SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
@@ -1882,6 +1884,17 @@ de:
     SINGULARNAME: "Freitext-mit-Link-Widget"
     TITLE: "Freitext mit Link"
   SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
+    PLURALNAME: "Übersetzungen"
+    SINGULARNAME: "Übersetzung"
+  SilverCart\Model\Widgets\NewProductsWidget:
+    CMSTITLE: "Neuheiten"
+    DESCRIPTION: "Dieses Widget zeigt eine konfigurierbare Anzahl der Artikel-Neuheiten an."
+    numberOfProductsToShow: "Anzahl der Artikel, die angezeigt werden sollen"
+    ShowProductsFrom: "Zeige Artikel als Neuheit, die nicht älter als folgende Zeitspanne sind"
+    ShowProductsFromQuantity: "Anzahl der Zeiteinheiten, für die Artikel als Neuheit gelten"
+    ShowProductsFromUnit: "Zeiteinheit, für die Artikel als Neuheit gelten"
+    TITLE: "Neuheiten"
+  SilverCart\Model\Widgets\NewProductsWidgetTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
   SilverCart\Model\Widgets\TopsellerProductsWidget:

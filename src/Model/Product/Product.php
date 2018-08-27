@@ -950,6 +950,8 @@ class Product extends DataObject implements PermissionProvider {
                 'Days'                                 => _t(Product::class . '.DAYS','Days'),
                 'Weeks'                                => _t(Product::class . '.WEEKS','Weeks'),
                 'Months'                               => _t(Product::class . '.MONTHS','Months'),
+                'Year'                                 => _t(Product::class . '.YEAR','Year'),
+                'Years'                                => _t(Product::class . '.YEARS','Years'),
                 'ChangeQuantity'                       => _t(Product::class . '.CHANGE_QUANTITY_CART', 'Change quantity'),
                 'AddToCart'                            => _t(Product::class . '.ADD_TO_CART', 'Add to cart'),
                 'Quantity'                             => _t(Product::class . '.QUANTITY', 'Quantity'),

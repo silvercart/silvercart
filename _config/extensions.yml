@@ -124,6 +124,9 @@ SilverCart\Model\Widgets\ImageSliderImageTranslation:
 SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
   extensions:
     - SilverCart\Model\Translation\TranslationExtension
+SilverCart\Model\Widgets\NewProductsWidgetTranslation:
+  extensions:
+    - SilverCart\Model\Translation\TranslationExtension
 SilverCart\Model\Widgets\PageListWidgetTranslation:
   extensions:
     - SilverCart\Model\Translation\TranslationExtension
@@ -200,6 +203,9 @@ SilverCart\Model\Widgets\ImageSliderImage:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
 SilverCart\Model\Widgets\ImageSliderWidget:
+  extensions:
+    - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverCart\Model\Widgets\NewProductsWidget:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
 SilverCart\Model\Widgets\PageListWidget:

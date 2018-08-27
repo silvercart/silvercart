@@ -1365,6 +1365,8 @@ en:
     WEEKS: "weeks"
     WEIGHT: "Weight"
     WIDGETAREA: "Widgets"
+    YEAR: "year"
+    YEARS: "years"
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: "Products"
   SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
@@ -1440,6 +1442,13 @@ en:
     SHOW_ALL_LEVELS: "Show all levels"
     TITLE: "Product group navigation"
   SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: "Translations"
+    SINGULARNAME: "Translation"
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: "Product Groups"
+    DESCRIPTION: "This widget shows an overview of any product groups (optionally with slider)."
+    TITLE: "Product Groups"
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
   SilverCart\Model\Pages\ProductGroupPage:
@@ -1875,6 +1884,17 @@ en:
     SINGULARNAME: "Text-with-Link-Widget"
     TITLE: "Text with Link"
   SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
+    PLURALNAME: "Translations"
+    SINGULARNAME: "Translation"
+  SilverCart\Model\Widgets\NewProductsWidget:
+    CMSTITLE: "Recently Added Products"
+    DESCRIPTION: "This widget shows a custom number of recently added products."
+    numberOfProductsToShow: "Number of products to show"
+    ShowProductsFrom: "Show products added within the last"
+    ShowProductsFromQuantity: "Number of time units to show products in this widget"
+    ShowProductsFromUnit: "Time unit to show products in this widget"
+    TITLE: "Recently Added Products"
+  SilverCart\Model\Widgets\NewProductsWidgetTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
   SilverCart\Model\Widgets\TopsellerProductsWidget:
