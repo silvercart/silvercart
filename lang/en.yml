@@ -1054,6 +1054,8 @@ en:
     ADDRESSINFORMATION: "Address information"
     ADDRESS_DATA: "Address data"
     ADMIN_AREA: "Admin Access"
+    AllPricesInclVat: "All prices incl. VAT"
+    AllPricesExclVat: "All prices excl. VAT"
     ALREADY_REGISTERED: "Hello {name}, You have already registered."
     API_CREATE: "Can create objects via the API"
     API_DELETE: "Can delete objects via the API"

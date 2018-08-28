@@ -1054,6 +1054,8 @@ de:
     ADDRESSINFORMATION: "Adressinformationen"
     ADDRESS_DATA: "Adressdaten"
     ADMIN_AREA: "Admin Zugang"
+    AllPricesInclVat: "Alle Preise inkl. MwSt."
+    AllPricesExclVat: "Alle Preise zzgl. MwSt."
     ALREADY_REGISTERED: "Hallo {name}, Sie haben sich schon registriert."
     API_CREATE: "kann über die API Objekte erstellen"
     API_DELETE: "kann über die API Objekte löschen"
