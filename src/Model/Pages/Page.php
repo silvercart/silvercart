@@ -574,4 +574,51 @@ class Page extends SiteTree {
         return $breadcrumbs;
     }
     
+    /**
+     * Returns some additional content to insert to the header navigation right 
+     * before the translation select item is rendered.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.08.2018
+     */
+    public function HeaderNavBeforeTranslationSelectContent()
+    {
+        $content = '';
+        $this->extend('updateHeaderNavBeforeTranslationSelectContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert to the header navigation right 
+     * before the account select item is rendered.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.08.2018
+     */
+    public function HeaderNavBeforeAccountSelectContent()
+    {
+        $content = '';
+        $this->extend('updateHeaderNavBeforeAccountSelectContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert to the header navigation right 
+     * before the cart select item is rendered.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.08.2018
+     */
+    public function HeaderNavBeforeCartSelectContent()
+    {
+        $content = '';
+        $this->extend('updateHeaderNavBeforeCartSelectContent', $content);
+        return Tools::string2html($content);
+    }
 }
