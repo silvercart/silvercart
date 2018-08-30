@@ -1160,6 +1160,19 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
     public function isAdmin() {
         return Permission::check('ADMIN', 'any', $this->owner);
     }
+
+    /**
+     * Returns true if the current user is an administrator.
+     * Administrators have access to everything.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.08.2018
+     */
+    public static function is_admin() {
+        return Permission::check('ADMIN', 'any', self::currentUser());
+    }
     
     /**
      * Returns the globals to use in template.

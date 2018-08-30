@@ -1910,6 +1910,7 @@ en:
     CLASSNAME: "Class name"
     FRONTCONTENT: "Content to display in frontend"
     FRONTTITLE: "Title to display in frontend"
+    NumberOfProductsToShow: "Number of products to show"
     SORT_ORDER_LABEL: "Sort order"
     UseAsSlider: "Use as a slider"
   SilverCart\Model\Widgets\WidgetSetExtension:

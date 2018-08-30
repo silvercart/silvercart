@@ -1910,6 +1910,7 @@ de:
     CLASSNAME: "Typ"
     FRONTCONTENT: "Inhalt zur Anzeige im Shop"
     FRONTTITLE: "Titel zu Anzeige im Shop"
+    NumberOfProductsToShow: "Anzahl der Artikel, die angezeigt werden sollen"
     SORT_ORDER_LABEL: "Sortierung"
     UseAsSlider: "Als Slider verwenden"
   SilverCart\Model\Widgets\WidgetSetExtension:
