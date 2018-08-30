@@ -813,7 +813,7 @@ ru:
     ORDERS_EMAIL_INFORMATION_TEXT: "Вы скоро получите подтверждение заказа на e-mail, проверьте почту."
     ORDER_COMPLETED: "Ваш заказ завершён."
     ORDER_DATE: "дата заказа"
-    ORDER_THANKS: "благодарим за Ваш заказ"
+    ORDER_THANKS: "благодарим за Ваш заказ."
     PASSWORD: "пароль"
     PASSWORD_CASE_EMPTY: "если это поле оставить свободным, пароль не будет изменён"
     PASSWORD_CHECK: "контроль пароля"

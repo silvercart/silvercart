@@ -1136,7 +1136,7 @@ de:
     ORDERS_EMAIL_INFORMATION_TEXT: "Sie werden in Kürze eine Bestellbestätigung per E-Mail erhalten. Bitte prüfen Sie Ihren Posteingang."
     ORDER_COMPLETED: "Ihre Bestellung ist abgeschlossen."
     ORDER_DATE: "Bestelldatum"
-    ORDER_THANKS: "Vielen Dank für Ihre Bestellung"
+    ORDER_THANKS: "Vielen Dank für Ihre Bestellung."
     PASSWORD: "Passwort"
     PASSWORD_CASE_EMPTY: "Wenn Sie dieses Feld leer lassen, wird Ihr Passwort nicht geändert."
     PASSWORD_CHECK: "Passwort wiederholen"

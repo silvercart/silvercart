@@ -1256,6 +1256,7 @@ class ProductGroupPageController extends \PageController {
             }
             
             $this->setProduct($product);
+            $this->extend('onBeforeRenderProductDetailView');
             return $this->render();
         } elseif ($this->isFilteredByManufacturer()) {
             $url = str_replace($this->urlParams['Action'] . '/' . $this->urlParams['ID'], '', $_REQUEST['url']);

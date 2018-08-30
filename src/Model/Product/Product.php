@@ -1946,43 +1946,42 @@ class Product extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.06.2014
+     * @since 30.08.2018
      */
-    public function addToCart($cartID, $quantity = 1, $increment = false) {
+    public function addToCart($cartID, $quantity = 1, $increment = false)
+    {
         $addToCartAllowed = true;
+        $isNewPosition    = false;
+        $positionNotice   = null;
 
         $this->extend('updateAddToCart', $addToCartAllowed);
         
-        if ($this->IsNotBuyable ||
-            ($quantity == 0 || $cartID == 0) ||
-            !$addToCartAllowed ||
-            !$this->isBuyableDueToStockManagementSettings()) {
+        if ($this->IsNotBuyable
+            || ($quantity == 0
+                || $cartID == 0)
+            || !$addToCartAllowed
+            || !$this->isBuyableDueToStockManagementSettings()
+        ) {
             return false;
         }
 
-        $shoppingCartPosition = ShoppingCartPosition::get()->filter(array(
-            'ProductID' => $this->ID,
+        $shoppingCartPosition = ShoppingCartPosition::get()->filter([
+            'ProductID'      => $this->ID,
             'ShoppingCartID' => $cartID,
-        ))->first();
+        ])->first();
 
-        if (!($shoppingCartPosition instanceof ShoppingCartPosition) ||
-            !$shoppingCartPosition->exists()) {
-            $shoppingCartPosition = new ShoppingCartPosition();
-
-            $shoppingCartPosition->castedUpdate(
-                array(
-                    'ShoppingCartID' => $cartID,
-                    'ProductID' => $this->ID
-                )
-            );
+        if (!($shoppingCartPosition instanceof ShoppingCartPosition)
+            || !$shoppingCartPosition->exists()
+        ) {
+            $isNewPosition        = true;
+            $shoppingCartPosition = ShoppingCartPosition::create()
+                    ->castedUpdate([
+                        'ShoppingCartID' => $cartID,
+                        'ProductID'      => $this->ID,
+                    ]);
             $shoppingCartPosition->write();
-            $shoppingCartPosition = ShoppingCartPosition::get()->filter(array(
-                'ProductID' => $this->ID,
-                'ShoppingCartID' => $cartID,
-            ))->first();
         }
         
-        $positionNotice = null;
         if ($shoppingCartPosition->Quantity < $quantity) {
             $quantityToAdd = $quantity - $shoppingCartPosition->Quantity;
             if ($shoppingCartPosition->isQuantityIncrementableBy($quantityToAdd)) {
@@ -2000,15 +1999,11 @@ class Product extends DataObject implements PermissionProvider {
                     $shoppingCartPosition->Quantity = $this->StockQuantity;
                     $positionNotice = 'remaining';
                 }
-            } else {
-                $shoppingCartPosition = false;
             }
+        } elseif ($increment) {
+            $shoppingCartPosition->Quantity += $quantity;
         } else {
-            if ($increment) {
-                $shoppingCartPosition->Quantity += $quantity;
-            } else {
-                $shoppingCartPosition->Quantity = $quantity;
-            }
+            $shoppingCartPosition->Quantity = $quantity;
         }
 
         if ($shoppingCartPosition instanceof ShoppingCartPosition) {
@@ -2017,7 +2012,7 @@ class Product extends DataObject implements PermissionProvider {
                 ShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, $positionNotice);
             }
         }
-        $this->extend('onAfterAddToCart', $shoppingCartPosition);
+        $this->extend('onAfterAddToCart', $shoppingCartPosition, $isNewPosition);
 
         return $shoppingCartPosition;
     }
