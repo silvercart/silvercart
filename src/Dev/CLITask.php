@@ -90,12 +90,57 @@ trait CLITask
         return in_array(PHP_SAPI, ["cli", "cgi", "cgi-fcgi"]);
     }
     
+    /**
+     * Returns the HTML color code for the given CLI color code.
+     * 
+     * @param string $cliColor CLI color code
+     * 
+     * @return string
+     */
     public function getHTMLColor($cliColor)
     {
         $htmlColor  = "#000000";
-        $htmlColors = [];
+        $htmlColors = [
+            "30" => "#000000",
+            "31" => "red",
+            "32" => "green",
+            "33" => "yellow",
+            "34" => "blue",
+            "35" => "magenta",
+            "36" => "cyan",
+            "37" => "#ffffff",
+            "41" => "#ffffff",
+        ];
         if (array_key_exists($cliColor, $htmlColors)) {
-            
+            $htmlColor = $htmlColors[$cliColor];
+        }
+        return $htmlColor;
+    }
+    
+    /**
+     * Returns the matching HTML color code to use as background color for the
+     * given CLI color code.
+     * 
+     * @param string $cliColor CLI color code
+     * 
+     * @return string
+     */
+    public function getHTMLBgColor($cliColor)
+    {
+        $htmlColor  = "#ffffff";
+        $htmlColors = [
+            "30" => "#ffffff",
+            "31" => "#ffffff",
+            "32" => "#ffffff",
+            "33" => "#000000",
+            "34" => "#ffffff",
+            "35" => "#ffffff",
+            "36" => "#000000",
+            "37" => "#000000",
+            "41" => "red",
+        ];
+        if (array_key_exists($cliColor, $htmlColors)) {
+            $htmlColor = $htmlColors[$cliColor];
         }
         return $htmlColor;
     }
@@ -213,7 +258,7 @@ trait CLITask
             if ($this->isRunningCLI()) {
                 $output = "\t\033[{$color}m{$string}\033[0m" . PHP_EOL;
             } else {
-                $output = "<span style=\"color: {$this->getHTMLColor($color)};\">{$string}</span><br/>";
+                $output = "<span style=\"color:{$this->getHTMLColor($color)};background-color:{$this->getHTMLBgColor($color)};display:block;\">{$string}</span>";
             }
             print $output;
         }
