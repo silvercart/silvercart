@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Widgets;
 
+use SilverCart\Admin\Forms\GridField\GridFieldPublishAction;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\ORM\DataExtension;
 
@@ -32,8 +33,9 @@ class WidgetSetExtension extends DataExtension {
      * 
      * @return array
      * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 20.02.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Patrick Schneider <pschneider@pixeltricks.de>
+     * @since 31.08.2018
      */
     public function overrideGetCMSFields() {
         $fields = DataObjectExtension::getCMSFields($this->owner);
@@ -41,6 +43,11 @@ class WidgetSetExtension extends DataExtension {
             'Root.Main',
              $this->owner->scaffoldWidgetAreaFields()
         );
+        
+        $widgetsField       = $fields->dataFieldByName('Widgets');
+        $widgetsFieldConfig = $widgetsField->getConfig();
+        $widgetsFieldConfig->addComponent(new GridFieldPublishAction());
+        
         return $fields;
 
     }

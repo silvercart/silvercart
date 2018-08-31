@@ -8,8 +8,11 @@ de:
   SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DUPLICATE_DESCRIPTION: "Dupliziert dieses Objekt"
     Duplicate: "Duplizieren"
-  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DuplicatePermissionsFailure: "Duplizieren nicht erlaubt"
+  SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
+    Publish: "Veröffentlichen"
+    PublishDesc: "Veröffentlicht dieses Objekt"
+    PublishFailure: "Veröffentlichung eines nicht versionierten Objekts ist nicht möglich."
   SilverCart\Admin\Model\CookiePolicyConfig:
     CookiePolicy: 'Cookie Policy'
     CookiePolicyConfigIsActive: 'Cookie Policy aktivieren'

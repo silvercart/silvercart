@@ -8,7 +8,6 @@ en_GB:
   SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DUPLICATE_DESCRIPTION: "Duplicates this object"
     Duplicate: "Duplicate"
-  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DuplicatePermissionsFailure: "No duplicate permissions"
   SilverCart\Model\Customer\Address:
     AcademicTitle: "Academic title"

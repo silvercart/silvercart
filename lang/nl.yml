@@ -8,7 +8,6 @@ nl:
   SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DUPLICATE_DESCRIPTION: "Dupliceren dit object"
     Duplicate: "Dupliceren"
-  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DuplicatePermissionsFailure: "Dupliceren niet toegestaan"
   SilverCart\Model\Customer\Address:
     AcademicTitle: "Academische titel"
