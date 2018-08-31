@@ -6,6 +6,7 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\TextField;
+use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
@@ -22,9 +23,7 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\ToggleCompositeField;
-use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DB;
@@ -346,7 +345,6 @@ class SiteConfigExtension extends DataExtension {
         $this->getCMSFieldsIsCalled = true;
         $fields->findOrMakeTab('Root.SEO')          ->setTitle($this->owner->fieldLabel('SeoTab'));
         $fields->findOrMakeTab('Root.SocialMedia')  ->setTitle($this->owner->fieldLabel('SocialMediaTab'));
-        $fields->findOrMakeTab('Root.Translations') ->setTitle($this->owner->fieldLabel('TranslationsTab'));
         
         $googleWebmasterCodeField           = new TextField('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
         $googleAnalyticsTrackingCodeField   = new TextareaField('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
@@ -381,28 +379,6 @@ class SiteConfigExtension extends DataExtension {
         $fields->addFieldToTab('Root.SocialMedia', $tumblrLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $rssLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $emailLinkField);
-        
-        // todo: restore the translatable functions.
-        /**
-        $translatable = new Translatable();
-        $translatable->setOwner($this->owner);
-        $translatable->updateCMSFields($fields);
-        /**/
-        
-        $localeField    = new TextField('CurrentLocale',              $this->owner->fieldLabel('CurrentLocale'),              i18n::getData()->localeName($this->owner->Locale));
-        $createButton   = new FormAction('createsitetreetranslation', $this->owner->fieldLabel('createsitetreetranslation'));
-        $publishButton  = new FormAction('publishsitetree',           $this->owner->fieldLabel('publishsitetree'));
-        
-        $localeField->setReadonly(true);
-        $localeField->setDisabled(true);
-        $createButton->setRightTitle($this->owner->fieldLabel('createsitetreetranslationDesc'));
-        $createButton->addExtraClass('createTranslationButton');
-        $publishButton->addExtraClass('createTranslationButton');
-        
-        $fields->addFieldToTab('Root.Translations', $localeField,   'CreateTransHeader');
-        $fields->addFieldToTab('Root.Translations', $createButton,  'createtranslation');
-        $fields->addFieldToTab('Root.Translations', $publishButton, 'createtranslation');
-        $fields->removeByName('createtranslation');
         
         $this->getCMSFieldsForSilvercart($fields);
     }
