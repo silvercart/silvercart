@@ -521,7 +521,7 @@ class ShopEmail extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.01.2018
+     * @since 31.08.2018
      */
     public static function send_email($recipient, $subject, $content, $htmlContent, $attachments = null) {
         if (Director::isDev()) {
@@ -531,6 +531,9 @@ class ShopEmail extends DataObject {
                 $recipient = $devEmailRecipient;
                 $subject .= ' [original recipient: ' . $originalRecipient . ']';
             }
+        }
+        if (!Email::is_valid_address($recipient)) {
+            return;
         }
         $email = new Email(
             Config::EmailSender(),
