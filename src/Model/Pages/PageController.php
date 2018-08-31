@@ -229,6 +229,54 @@ class PageController extends ContentController {
             Requirements::themedCSS('client/css/color_' . Config::getConfig()->ColorScheme);
         }
     }
+    
+    /**
+     * Returns custom HTML code to place within the <head> tag, injected by
+     * extensions.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.08.2018
+     */
+    public function HeadCustomHtmlContent()
+    {
+        $headCustomHtmlContent = '';
+        $this->extend('updateHeadCustomHtmlContent', $headCustomHtmlContent);
+        return Tools::string2html($headCustomHtmlContent);
+    }
+    
+    /**
+     * Returns custom HTML code to place right after the <body> tag, injected by
+     * extensions.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.08.2018
+     */
+    public function HeaderCustomHtmlContent()
+    {
+        $headerCustomHtmlContent = '';
+        $this->extend('updateHeaderCustomHtmlContent', $headerCustomHtmlContent);
+        return Tools::string2html($headerCustomHtmlContent);
+    }
+    
+    /**
+     * Returns custom HTML code to place right before the closing </body> tag, 
+     * injected by extensions.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.08.2018
+     */
+    public function FooterCustomHtmlContent()
+    {
+        $footerCustomHtmlContent = '';
+        $this->extend('updateFooterCustomHtmlContent', $footerCustomHtmlContent);
+        return Tools::string2html($footerCustomHtmlContent);
+    }
 
     /**
      * standard page controller
