@@ -888,7 +888,7 @@ class PaymentMethod extends DataObject {
         if (!$member &&
             $forceAnonymousCustomerIfNotExist) {
             $member         = new Member();
-            $anonymousGroup = Group::get()->filter('Code', 'anonymous')->first();
+            $anonymousGroup = Group::get()->filter('Code', Customer::GROUP_CODE_ANONYMOUS)->first();
             $memberGroups   = new ArrayList();
             $memberGroups->push($anonymousGroup);
         } else {

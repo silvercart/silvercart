@@ -1123,7 +1123,7 @@ class Tools {
      */
     public static function has_translation($original, $locale) {
         $translation = self::get_translation($original, $locale);
-        return $translation instanceof DataObject && $translations->exists();
+        return $translation instanceof DataObject && $translation->exists();
     }
     
     /**

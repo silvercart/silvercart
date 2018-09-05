@@ -1861,7 +1861,7 @@ de:
     PRODUCTGROUPOTHERS_URLSEGMENT: "andere-module"
     PRODUCTGROUPPAYMENT_TITLE: "Zahlungsmodule"
     PRODUCTGROUPPAYMENT_URLSEGMENT: "zahlungsmodule"
-    PRODUCTGROUP_CONTENT: "<div class=\"silvercart-message highlighted info32\"><p><strong>Achtung:</strong></p><p>Die Module selbst sind kostenfrei. Die Preisangabe wird rein für Demo-Zwecke verwendet.</p></div>"
+    PRODUCTGROUP_CONTENT: "<div class=\"alert alert-warning\"><strong><span class=\"fa fa-info-circle\"></span> Achtung:</strong><br/>Die Module selbst sind kostenfrei. Die Preisangabe wird rein für Demo-Zwecke verwendet.</div>"
     SLIDORION_TITLE: "Vorteile von SilverCart"
     WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: "<p>Entdecken Sie die Zahlungsmodule von SilverCart.</p>"
     WIDGETSET_FRONTPAGE_CONTENT1_TITLE: "Zahlungsmodule"

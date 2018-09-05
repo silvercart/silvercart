@@ -47,7 +47,12 @@ use SilverStripe\Security\IdentityStore;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Customer extends DataExtension implements TemplateGlobalProvider {
+class Customer extends DataExtension implements TemplateGlobalProvider
+{
+    const GROUP_CODE_ADMINISTRATORS = 'administrators';
+    const GROUP_CODE_ANONYMOUS      = 'anonymous';
+    const GROUP_CODE_B2B            = 'b2b';
+    const GROUP_CODE_B2C            = 'b2c';
     
     /**
      * Comma separated string of related group names
@@ -55,28 +60,24 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @var string[]
      */
     protected $groupNames = [];
-    
     /**
      * List of related group IDs
      *
      * @var array[]
      */
     protected $groupIDs = [];
-    
     /**
      * Group ID string to use as cache key part
      *
      * @var string
      */
     protected $groupCacheKey = [];
-    
     /**
      * Determines whether the customer has to pay taxes or not
      *
      * @var bool[]
      */
     protected $doesNotHaveToPayTaxes = [];
-    
     /**
      * DB attributes
      *
@@ -92,7 +93,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         'Birthday'                          => 'Date',
         'CustomerNumber'                    => 'Varchar(128)',
     ];
-    
     /**
      * has one attributes
      *
@@ -104,7 +104,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         'ShippingAddress' => Address::class,
         'CustomerConfig'  => CustomerConfig::class,
     ];
-    
     /**
      * has many attributes
      *
@@ -114,7 +113,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         'Addresses' => Address::class,
         'Orders'    => Order::class,
     ];
-    
     /**
      * belongs many many attributes
      *
@@ -123,7 +121,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
     private static $belongs_many_many = [
         'PaymentMethods' => PaymentMethod::class,
     ];
-    
     /**
      * api access
      *
@@ -134,7 +131,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
             'Email'
         ],
     ];
-    
     /**
      * casted attributes
      *
@@ -143,32 +139,28 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
     private static $casting = [
         'GroupNames' => 'Text',
     ];
-
     /**
      * Code of default B2C customer group
      *
      * @var string
      */
-    public static $default_customer_group_code = 'b2c';
-
+    public static $default_customer_group_code = self::GROUP_CODE_B2C;
     /**
      * Code of default B2B customer group
      *
      * @var string
      */
-    public static $default_customer_group_code_b2b = 'b2b';
-
+    public static $default_customer_group_code_b2b = self::GROUP_CODE_B2B;
     /**
      * List of codes of valid customer group.
      *
      * @var array
      */
     public static $valid_customer_group_codes = [
-        'b2c',
-        'b2b',
-        'administrators',
+        self::GROUP_CODE_B2C,
+        self::GROUP_CODE_B2B,
+        self::GROUP_CODE_ADMINISTRATORS,
     ];
-    
     /**
      * Holds the current shopping carts for every requested Member.
      *
@@ -504,9 +496,9 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         if (!array_key_exists($this->owner->ID, $this->groupCacheKey)) {
             $groupCodes = $this->owner->Groups()->sort('Code')->map('ID','Code')->toArray();
             foreach ($groupCodes as $groupID => $groupCode) {
-                if ($groupCode == 'administrators') {
+                if ($groupCode == self::GROUP_CODE_ADMINISTRATORS) {
                     unset($groupCodes[$groupID]);
-                } elseif ($groupCode == 'anonymous') {
+                } elseif ($groupCode == self::GROUP_CODE_ANONYMOUS) {
                     if (!in_array(self::default_customer_group_code(), $groupCodes)) {
                         $groupCodes[$groupID] = self::default_customer_group_code();
                     } else {
@@ -571,12 +563,13 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.04.2015
      */
-    public function isRegisteredCustomer() {
+    public function isRegisteredCustomer()
+    {
         $isRegisteredCustomer = false;
-        if ($this->owner->Groups()->find('Code', self::default_customer_group_code()) ||
-            $this->owner->Groups()->find('Code', self::default_customer_group_code_b2b()) ||
-            $this->owner->Groups()->find('Code', 'administrators')) {
-
+        if ($this->owner->Groups()->find('Code', self::default_customer_group_code())
+         || $this->owner->Groups()->find('Code', self::default_customer_group_code_b2b())
+         || $this->owner->Groups()->find('Code', self::GROUP_CODE_ADMINISTRATORS)
+        ) {
             $isRegisteredCustomer = true;
         }
         return $isRegisteredCustomer;
@@ -592,7 +585,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      */
     public function isAnonymousCustomer() {
         $isAnonymousCustomer = false;
-        if ($this->owner->Groups()->find('Code', 'anonymous')) {
+        if ($this->owner->Groups()->find('Code', self::GROUP_CODE_ANONYMOUS)) {
             $isAnonymousCustomer = true;
         }
         return $isAnonymousCustomer;
@@ -647,7 +640,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
             $member->write();
             
             // Add customer to intermediate group
-            $customerGroup = Group::get()->filter('Code', 'anonymous')->first();
+            $customerGroup = Group::get()->filter('Code', self::GROUP_CODE_ANONYMOUS)->first();
             
             if ($customerGroup) {
                 $member->Groups()->add($customerGroup);
@@ -891,7 +884,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
         if ($customer) {
             $customerGroups = $customer->Groups();
         } else {
-            $customerGroups = Group::get()->filter("Code", "anonymous");
+            $customerGroups = Group::get()->filter("Code", self::GROUP_CODE_ANONYMOUS);
         }
         return $customerGroups;
     }
@@ -1090,23 +1083,26 @@ class Customer extends DataExtension implements TemplateGlobalProvider {
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 05.09.2018
      */
-    public function onAfterWrite() {
+    public function onAfterWrite()
+    {
         parent::onAfterWrite();
 
         if ($this->owner->ShoppingCartID === null) {
-            $cart = new ShoppingCart();
+            $cart = ShoppingCart::create();
             $cart->write();
             $this->owner->ShoppingCartID = $cart->ID;
             $this->owner->write();
         }
         
         // check whether to add a member to an administrative group
-        if (Customer::currentUser() &&
-            Customer::currentUser()->inGroup('administrators') &&
-            array_key_exists('Groups', $_POST)) {
+        if (Customer::currentUser()
+         && Customer::currentUser()->inGroup(self::GROUP_CODE_ADMINISTRATORS)
+         && array_key_exists('Groups', $_POST)
+        ) {
             $groups = explode(',', $_POST['Groups']);
             if (count($groups) > 0) {
                 foreach ($groups as $group) {

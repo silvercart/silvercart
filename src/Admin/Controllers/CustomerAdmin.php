@@ -3,6 +3,7 @@
 namespace SilverCart\Admin\Controllers;
 
 use SilverCart\Admin\Controllers\ModelAdmin;
+use SilverCart\Model\Customer\Customer;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Security\Member;
 
@@ -16,36 +17,32 @@ use SilverStripe\Security\Member;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class CustomerAdmin extends ModelAdmin {
-
+class CustomerAdmin extends ModelAdmin
+{
     /**
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
      */
     private static $menuCode = 'customer';
-
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
     private static $menuSortIndex = 10;
-
     /**
      * The URL segment
      *
      * @var string
      */
     private static $url_segment = 'silvercart-customers';
-
     /**
      * The menu title
      *
      * @var string
      */
     private static $menu_title = 'Customers';
-
     /**
      * Managed models
      *
@@ -63,15 +60,16 @@ class CustomerAdmin extends ModelAdmin {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.06.2014
      */
-    public function SearchForm() {
+    public function SearchForm()
+    {
         $searchForm             = parent::SearchForm();
         $fields                 = $searchForm->Fields();
         $customer               = Member::singleton();
         
-        $basicLabelField        = new HeaderField(  'BasicLabelField',          $customer->fieldLabel('BasicData'));
-        $addressLabelField      = new HeaderField(  'AddressLabelField',        $customer->fieldLabel('AddressData'));
-        $invoiceLabelField      = new HeaderField(  'InvoiceLabelField',        $customer->fieldLabel('InvoiceData'));
-        $shippingLabelField     = new HeaderField(  'ShippingLabelField',       $customer->fieldLabel('ShippingData'));
+        $basicLabelField        = HeaderField::create('BasicLabelField',    $customer->fieldLabel('BasicData'));
+        $addressLabelField      = HeaderField::create('AddressLabelField',  $customer->fieldLabel('AddressData'));
+        $invoiceLabelField      = HeaderField::create('InvoiceLabelField',  $customer->fieldLabel('InvoiceData'));
+        $shippingLabelField     = HeaderField::create('ShippingLabelField', $customer->fieldLabel('ShippingData'));
         
         $fields->insertBefore($basicLabelField,                              'q[FirstName]');
         $fields->insertBefore($fields->dataFieldByName('q[CustomerNumber]'), 'q[FirstName]');
@@ -88,10 +86,10 @@ class CustomerAdmin extends ModelAdmin {
      * 
      * @return \SilverStripe\ORM\SS_List
      */
-    public function getList() {
+    public function getList()
+    {
         /* @var $list DataList */
         $list = parent::getList();
-        return $list->where('"Member"."ID" NOT IN (SELECT "Group_Members"."MemberID" FROM "Group_Members" WHERE "Group_Members"."GroupID" = (SELECT "Group"."ID" FROM "Group" WHERE "Group"."Code" = \'anonymous\'))');
+        return $list->where('"Member"."ID" NOT IN (SELECT "Group_Members"."MemberID" FROM "Group_Members" WHERE "Group_Members"."GroupID" = (SELECT "Group"."ID" FROM "Group" WHERE "Group"."Code" = \'' . Customer::GROUP_CODE_ANONYMOUS . '\'))');
     }
-    
 }

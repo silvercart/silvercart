@@ -1240,7 +1240,7 @@ ru:
     PRODUCTGROUPOTHERS_URLSEGMENT: "другие модули"
     PRODUCTGROUPPAYMENT_TITLE: "модули оплаты"
     PRODUCTGROUPPAYMENT_URLSEGMENT: "модули оплаты"
-    PRODUCTGROUP_CONTENT: "<div class=\"silvercart-message highlighted info32\"><p><strong>Внимание:</strong></p><p>Модули бесплатны. Значения цен приведены в качестве примера.</p></div>"
+    PRODUCTGROUP_CONTENT: "<div class=\"alert alert-warning\"><strong><span class=\"fa fa-info-circle\"></span> Внимание:</strong><br/>Модули бесплатны. Значения цен приведены в качестве примера.</div>"
     WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: "<p>Определите модули оплаты SilverCart.</p>"
     WIDGETSET_FRONTPAGE_CONTENT1_TITLE: "модули оплаты"
     WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: "<p>Вы найдёте модули и для многих возможностей применения</p>"

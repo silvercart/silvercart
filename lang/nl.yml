@@ -1796,7 +1796,7 @@ nl:
     PRODUCTGROUPOTHERS_URLSEGMENT: "other-modules"
     PRODUCTGROUPPAYMENT_TITLE: "Payment Modules"
     PRODUCTGROUPPAYMENT_URLSEGMENT: "payment-modules"
-    PRODUCTGROUP_CONTENT: "<div class=\"silvercart-message highlighted info32\"><p><strong>Please note:</strong></p><p>These modules are available for free. Prices are for demo purposes only.</p></div>"
+    PRODUCTGROUP_CONTENT: "<div class=\"alert alert-warning\"><strong><span class=\"fa fa-info-circle\"></span> Please note:</strong><br/>These modules are available for free. Prices are for demo purposes only.</div>"
     SLIDORION_TITLE: "Advantages of SilverCart"
     WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: "<p>Explore all the payment modules for SilverCart!</p>"
     WIDGETSET_FRONTPAGE_CONTENT1_TITLE: "Payment Modules"

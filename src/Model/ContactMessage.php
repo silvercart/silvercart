@@ -24,14 +24,14 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ContactMessage extends DataObject {
-
+class ContactMessage extends DataObject
+{
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Salutation'    => 'Varchar(16)',
         'FirstName'     => 'Varchar(255)',
         'Surname'       => 'Varchar(128)',
@@ -42,33 +42,29 @@ class ContactMessage extends DataObject {
         'Email'         => 'Varchar(255)',
         'Phone'         => 'Varchar(255)',
         'Message'       => 'Text',
-    );
-    
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Country' => Country::class,
-    );
-
+    ];
     /**
      * Casting.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'CreatedNice' => 'Varchar',
-    );
-
+    ];
     /**
      * Default SQL sort statement.
      *
      * @var string
      */
     private static $default_sort = 'Created DESC';
-
     /**
      * DB table name
      *
@@ -85,7 +81,8 @@ class ContactMessage extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 5.7.2011
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -98,7 +95,8 @@ class ContactMessage extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 5.7.2011 
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this);
     }
 
@@ -112,10 +110,11 @@ class ContactMessage extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true)
+    {
         $fields = array_merge(
             parent::fieldLabels($includerelations),
-            array(
+            [
                 'CreatedNice'  => Tools::field_label('DATE'),
                 'Salutation'   => Address::singleton()->fieldLabel('Salutation'),
                 'FirstName'    => Member::singleton()->fieldLabel('FirstName'),
@@ -128,7 +127,7 @@ class ContactMessage extends DataObject {
                 'Country'      => Country::singleton()->singular_name(),
                 'Phone'        => Address::singleton()->fieldLabel('Phone'),
                 'Message'      => _t(ContactMessage::class . '.MESSAGE', 'message')
-            )
+            ]
         );
         
         $this->extend('updateFieldLabels', $fields, $includerelations);
@@ -144,14 +143,15 @@ class ContactMessage extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function summaryFields() {
-        $fields = array(
+    public function summaryFields()
+    {
+        $fields = [
             'CreatedNice'   => $this->fieldLabel('CreatedNice'),
             'Salutation'    => $this->fieldLabel('Salutation'),
             'FirstName'     => $this->fieldLabel('FirstName'),
             'Surname'       => $this->fieldLabel('Surname'),
             'Email'         => $this->fieldLabel('Email'),
-        );
+        ];
         
         $this->extend('updateSummaryFields', $fields);
             
@@ -163,7 +163,8 @@ class ContactMessage extends DataObject {
      *
      * @return string
      */
-    public function getCreatedNice() {
+    public function getCreatedNice()
+    {
         return date('d.m.Y - H:i', strtotime($this->Created));
     }
 
@@ -175,13 +176,16 @@ class ContactMessage extends DataObject {
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 05.09.2018
      */
-    public function canEdit($member = null) {
+    public function canEdit($member = null)
+    {
         if ($member === null) {
             $member = Customer::currentUser();
         }
-        if ($member && $member->inGroup('administrators')) {
+        if ($member
+            && $member->isAdmin()
+        ) {
             return true;
         }
         return false;
@@ -195,7 +199,8 @@ class ContactMessage extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function send() {
+    public function send()
+    {
         $this->extend('onBeforeSend');
         $fields = ['ContactMessage' => $this];
         $db     = $this->config()->get('db');
@@ -227,10 +232,12 @@ class ContactMessage extends DataObject {
      * 
      * @return string 
      */
-    public function getField($field) {
+    public function getField($field)
+    {
         $parentField = parent::getField($field);
-        if (!is_null($parentField) &&
-            $field != 'ClassName') {
+        if (!is_null($parentField)
+            && $field != 'ClassName'
+        ) {
             $parentField = stripcslashes($parentField);
         }
         return $parentField;
@@ -247,10 +254,11 @@ class ContactMessage extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding()
+    {
+        $excludeFromScaffolding = [
             'Salutation'
-        );
+        ];
 
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
 
@@ -262,12 +270,11 @@ class ContactMessage extends DataObject {
      *
      * @return FieldList the fields for the backend
      */
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
         $fields = DataObjectExtension::getCMSFields($this);
-        $salutationDropdown = new DropdownField('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
+        $salutationDropdown = DropdownField::create('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
         $fields->insertBefore($salutationDropdown, 'FirstName');
         return $fields;
     }
-   
-    
 }

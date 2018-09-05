@@ -28,6 +28,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DB;
 use SilverStripe\View\ArrayData;
+use SilverStripe\SiteConfig\SiteConfig;
 
 /**
  * This class is used to add SilverCart configuration options 
@@ -41,14 +42,14 @@ use SilverStripe\View\ArrayData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SiteConfigExtension extends DataExtension {
-    
+class SiteConfigExtension extends DataExtension
+{
     /**
      * DB attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'ShopName'         => 'Varchar(256)',
         'ShopStreet'       => 'Varchar(256)',
         'ShopStreetNumber' => 'Varchar(6)',
@@ -113,28 +114,26 @@ class SiteConfigExtension extends DataExtension {
         'TumblrLink'                    => 'Text',
         'RSSLink'                       => 'Text',
         'EmailLink'                     => 'Text',
-    );
-    
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'ShopLogo'                  => Image::class,
         'SilvercartNoImage'         => Image::class,
         'Favicon'                   => Image::class,
         'MobileTouchIcon'           => Image::class,
         'StandardProductCondition'  => ProductCondition::class,
         'ShopCountry'               => Country::class,
-    );
-    
+    ];
     /**
      * Defaults for empty fields.
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'SilvercartVersion'             => '4.1',
         'SilvercartMinorVersion'        => '1',
         'DefaultPriceType'              => 'gross',
@@ -145,15 +144,13 @@ class SiteConfigExtension extends DataExtension {
         'DefaultLocale'                 => 'de_DE',
         'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
         'ColorScheme'                   => 'blue',
-    );
-    
+    ];
     /**
      * Indicator to check whether getCMSFields is called
      *
      * @var boolean
      */
     protected $getCMSFieldsIsCalled = false;
-    
     /**
      * Will hold the Locale of the SiteConfig object to be written.
      *
@@ -172,7 +169,8 @@ class SiteConfigExtension extends DataExtension {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 09.02.2013
      */
-    public function canCreate($member = null, $context = array()) {
+    public function canCreate($member = null, $context = [])
+    {
         return false;
     }
 
@@ -186,7 +184,8 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.04.2011
      */
-    public function canDelete($member = null) {
+    public function canDelete($member = null)
+    {
         return false;
     }
 
@@ -198,7 +197,8 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.03.2012
      */
-    public function canTranslate() {
+    public function canTranslate()
+    {
         return true;
     }
     
@@ -212,10 +212,11 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.12.2015
      */
-    public function updateFieldLabels(&$labels) {
+    public function updateFieldLabels(&$labels)
+    {
         $labels = array_merge(
                 $labels,
-                array(
+                [
                     'ShopData'                              => _t(Config::class . '.ShopData', 'Shop data'),
                     'ShopName'                              => _t(Config::class . '.ShopName', 'Shop name'),
                     'ShopStreet'                            => _t(Config::class . '.ShopStreet', 'Street'),
@@ -312,8 +313,6 @@ class SiteConfigExtension extends DataExtension {
                     'CreateTransHeader'             => _t(TranslationTools::class . '.CREATE', 'Create new translation'),
                     'CreateTransDescription'        => _t(TranslationTools::class . '.CREATE_TRANSLATION_DESC', 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.'),
                     'NewTransLang'                  => _t(TranslationTools::class . '.NEWLANGUAGE', 'New language'),
-                    'createsitetreetranslation'     => _t(TranslationTools::class . '.CREATEBUTTON', 'Create'),
-                    'createsitetreetranslationDesc' => _t(TranslationTools::class . '.CREATEBUTTON_DESC', 'Creates a translation template for every single page of the current visible language.'),
                     'publishsitetree'               => _t(TranslationTools::class . '.PUBLISHBUTTON', 'Publish all pages of this translation'),
                     'ExistingTransHeader'           => _t(TranslationTools::class . '.EXISTING', 'Existing translations:'),
                     'CurrentLocale'                 => _t(TranslationTools::class . '.CURRENTLOCALE', 'Current Locale'),
@@ -327,7 +326,7 @@ class SiteConfigExtension extends DataExtension {
                     'ColorScheme'              => _t(Config::class . '.ColorScheme', 'Color scheme'),
                     'ColorSchemeTab'           => _t(Config::class . '.ColorSchemeTab', 'Color scheme'),
                     'ColorSchemeConfiguration' => _t(Config::class . '.ColorSchemeConfiguration', 'Title & color scheme'),
-                )
+                ]
         );
     }
     
@@ -341,32 +340,33 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2013
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields)
+    {
         $this->getCMSFieldsIsCalled = true;
         $fields->findOrMakeTab('Root.SEO')          ->setTitle($this->owner->fieldLabel('SeoTab'));
         $fields->findOrMakeTab('Root.SocialMedia')  ->setTitle($this->owner->fieldLabel('SocialMediaTab'));
         
-        $googleWebmasterCodeField           = new TextField('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
-        $googleAnalyticsTrackingCodeField   = new TextareaField('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
-        $googleConversionTrackingCodeField  = new TextareaField('GoogleConversionTrackingCode', $this->owner->fieldLabel('GoogleConversionTrackingCode'));
-        $piwikTrackingCodeField             = new TextareaField('PiwikTrackingCode',            $this->owner->fieldLabel('PiwikTrackingCode'));
+        $googleWebmasterCodeField          = TextField::create('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
+        $googleAnalyticsTrackingCodeField  = TextareaField::create('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
+        $googleConversionTrackingCodeField = TextareaField::create('GoogleConversionTrackingCode', $this->owner->fieldLabel('GoogleConversionTrackingCode'));
+        $piwikTrackingCodeField            = TextareaField::create('PiwikTrackingCode',            $this->owner->fieldLabel('PiwikTrackingCode'));
         
         $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
         $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $googleConversionTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
         
-        $facebookLinkField   = new TextField('FacebookLink',   $this->owner->fieldLabel('FacebookLink'));
-        $twitterLinkField    = new TextField('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
-        $googleplusLinkField = new TextField('GoogleplusLink', $this->owner->fieldLabel('GoogleplusLink'));
-        $xingLinkField       = new TextField('XingLink',       $this->owner->fieldLabel('XingLink'));
-        $instagramLinkField  = new TextField('InstagramLink',       $this->owner->fieldLabel('InstagramLink'));
-        $bloglovinLinkField  = new TextField('BloglovinLink',       $this->owner->fieldLabel('BloglovinLink'));
-        $pinterestLinkField  = new TextField('PinterestLink',       $this->owner->fieldLabel('PinterestLink'));
-        $youTubeLinkField    = new TextField('YouTubeLink',       $this->owner->fieldLabel('YouTubeLink'));
-        $tumblrLinkField     = new TextField('TumblrLink',       $this->owner->fieldLabel('TumblrLink'));
-        $rssLinkField        = new TextField('RSSLink',       $this->owner->fieldLabel('RSSLink'));
-        $emailLinkField      = new TextField('EmailLink',       $this->owner->fieldLabel('EmailLink'));
+        $facebookLinkField   = TextField::create('FacebookLink',   $this->owner->fieldLabel('FacebookLink'));
+        $twitterLinkField    = TextField::create('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
+        $googleplusLinkField = TextField::create('GoogleplusLink', $this->owner->fieldLabel('GoogleplusLink'));
+        $xingLinkField       = TextField::create('XingLink',       $this->owner->fieldLabel('XingLink'));
+        $instagramLinkField  = TextField::create('InstagramLink',  $this->owner->fieldLabel('InstagramLink'));
+        $bloglovinLinkField  = TextField::create('BloglovinLink',  $this->owner->fieldLabel('BloglovinLink'));
+        $pinterestLinkField  = TextField::create('PinterestLink',  $this->owner->fieldLabel('PinterestLink'));
+        $youTubeLinkField    = TextField::create('YouTubeLink',    $this->owner->fieldLabel('YouTubeLink'));
+        $tumblrLinkField     = TextField::create('TumblrLink',     $this->owner->fieldLabel('TumblrLink'));
+        $rssLinkField        = TextField::create('RSSLink',        $this->owner->fieldLabel('RSSLink'));
+        $emailLinkField      = TextField::create('EmailLink',      $this->owner->fieldLabel('EmailLink'));
         
         $fields->addFieldToTab('Root.SocialMedia', $facebookLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
@@ -391,125 +391,121 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.02.2013
      */
-    public function getCMSFieldsForSilvercart(FieldList $fields) {
-
+    public function getCMSFieldsForSilvercart(FieldList $fields)
+    {
         // Build general toggle group
         $generalConfigurationField = ToggleCompositeField::create(
                 'GeneralConfiguration',
                 $this->owner->fieldLabel('GeneralConfiguration'),
-                array(
+                [
                     TranslationTools::prepare_translation_dropdown_field($this->owner, SiteTree::class, 'DefaultLocale'),
-                    new CheckboxField('useDefaultLanguageAsFallback',       $this->owner->fieldLabel('useDefaultLanguageAsFallback')),
-                    new TextField('DefaultCurrency',                        $this->owner->fieldLabel('DefaultCurrency')),
-                    new DropdownField('DefaultPriceType',                   $this->owner->fieldLabel('DefaultPriceType')),
-                )
+                    CheckboxField::create('useDefaultLanguageAsFallback', $this->owner->fieldLabel('useDefaultLanguageAsFallback')),
+                    TextField::create('DefaultCurrency',                  $this->owner->fieldLabel('DefaultCurrency')),
+                    DropdownField::create('DefaultPriceType',             $this->owner->fieldLabel('DefaultPriceType')),
+                ]
         )->setHeadingLevel(4)->setStartClosed(false);
 
         // Build email toggle group
         $emailConfigurationField = ToggleCompositeField::create(
                 'EmailConfiguration',
                 $this->owner->fieldLabel('EmailConfiguration'),
-                array(
-                    new TextField('EmailSenderName',                        $this->owner->fieldLabel('EmailSenderName')),
-                    new TextField('EmailSender',                            $this->owner->fieldLabel('EmailSender')),
-                    new TextField('GlobalEmailRecipient',                   $this->owner->fieldLabel('GlobalEmailRecipient')),
-                    new TextField('DefaultMailRecipient',                   $this->owner->fieldLabel('DefaultMailRecipient')),
-                    new TextField('DefaultMailOrderNotificationRecipient',  $this->owner->fieldLabel('DefaultMailOrderNotificationRecipient')),
-                    new TextField('DefaultContactMessageRecipient',         $this->owner->fieldLabel('DefaultContactMessageRecipient'))
-                )
+                [
+                    TextField::create('EmailSenderName',                       $this->owner->fieldLabel('EmailSenderName')),
+                    TextField::create('EmailSender',                           $this->owner->fieldLabel('EmailSender')),
+                    TextField::create('GlobalEmailRecipient',                  $this->owner->fieldLabel('GlobalEmailRecipient')),
+                    TextField::create('DefaultMailRecipient',                  $this->owner->fieldLabel('DefaultMailRecipient')),
+                    TextField::create('DefaultMailOrderNotificationRecipient', $this->owner->fieldLabel('DefaultMailOrderNotificationRecipient')),
+                    TextField::create('DefaultContactMessageRecipient',        $this->owner->fieldLabel('DefaultContactMessageRecipient'))
+                ]
         )->setHeadingLevel(4);
 
         // Build customer toggle group
         $customerConfigurationField = ToggleCompositeField::create(
                 'CustomerConfiguration',
                 $this->owner->fieldLabel('CustomerConfiguration'),
-                array(
-                    new CheckboxField('enableBusinessCustomers',            $this->owner->fieldLabel('enableBusinessCustomers')),
-                    new CheckboxField('enablePackstation',                  $this->owner->fieldLabel('enablePackstation')),
-                    new CheckboxField('demandBirthdayDateOnRegistration',   $this->owner->fieldLabel('demandBirthdayDateOnRegistration')),
-                )
+                [
+                    CheckboxField::create('enableBusinessCustomers',          $this->owner->fieldLabel('enableBusinessCustomers')),
+                    CheckboxField::create('enablePackstation',                $this->owner->fieldLabel('enablePackstation')),
+                    CheckboxField::create('demandBirthdayDateOnRegistration', $this->owner->fieldLabel('demandBirthdayDateOnRegistration')),
+                ]
         )->setHeadingLevel(4);
 
         // Build product toggle group
         $productConfigurationField = ToggleCompositeField::create(
                 'ProductConfiguration',
                 $this->owner->fieldLabel('ProductConfiguration'),
-                array(
-                    new CheckboxField('enableStockManagement',              $this->owner->fieldLabel('enableStockManagement')),
-                    new CheckboxField('isStockManagementOverbookable',      $this->owner->fieldLabel('isStockManagementOverbookable')),
-                    new TextField('productsPerPage',                        $this->owner->fieldLabel('productsPerPage')),
-                    new TextField('productGroupsPerPage',                   $this->owner->fieldLabel('productGroupsPerPage')),
-                    new TextField('displayedPaginationPages',               $this->owner->fieldLabel('displayedPaginationPages')),
-                    new UploadField('SilvercartNoImage',                    $this->owner->fieldLabel('SilvercartNoImage')),
-                    new CheckboxField('useStrictSearchRelevance',           $this->owner->fieldLabel('useStrictSearchRelevance')),
-                    new DropdownField('StandardProductConditionID',         $this->owner->fieldLabel('StandardProductConditionID')),
-                )
+                [
+                    CheckboxField::create('enableStockManagement',         $this->owner->fieldLabel('enableStockManagement')),
+                    CheckboxField::create('isStockManagementOverbookable', $this->owner->fieldLabel('isStockManagementOverbookable')),
+                    TextField::create('productsPerPage',                   $this->owner->fieldLabel('productsPerPage')),
+                    TextField::create('productGroupsPerPage',              $this->owner->fieldLabel('productGroupsPerPage')),
+                    TextField::create('displayedPaginationPages',          $this->owner->fieldLabel('displayedPaginationPages')),
+                    UploadField::create('SilvercartNoImage',               $this->owner->fieldLabel('SilvercartNoImage')),
+                    CheckboxField::create('useStrictSearchRelevance',      $this->owner->fieldLabel('useStrictSearchRelevance')),
+                    DropdownField::create('StandardProductConditionID',    $this->owner->fieldLabel('StandardProductConditionID')),
+                ]
         )->setHeadingLevel(4);
 
         // Build checkout toggle group
         $checkoutConfigurationField = ToggleCompositeField::create(
                 'CheckoutConfiguration',
                 $this->owner->fieldLabel('CheckoutConfiguration'),
-                array(
-                    new CheckboxField('enableSSL',                          $this->owner->fieldLabel('enableSSL')),
-                    new CheckboxField('redirectToCartAfterAddToCart',       $this->owner->fieldLabel('redirectToCartAfterAddToCart')),
-                    new CheckboxField('redirectToCheckoutWhenInCart',       $this->owner->fieldLabel('redirectToCheckoutWhenInCart')),
-                    new CheckboxField('useProductDescriptionFieldForCart',  $this->owner->fieldLabel('useProductDescriptionFieldForCart')),
-                    new DropdownField('productDescriptionFieldForCart',     $this->owner->fieldLabel('productDescriptionFieldForCart')),
-                    new TextField('addToCartMaxQuantity',                   $this->owner->fieldLabel('addToCartMaxQuantity')),
-
-                    new CheckboxField('useMinimumOrderValue',               $this->owner->fieldLabel('useMinimumOrderValue')),
-                    new MoneyField('minimumOrderValue',           $this->owner->fieldLabel('minimumOrderValue')),
-
-                    new CheckboxField('useFreeOfShippingCostsFrom',         $this->owner->fieldLabel('useFreeOfShippingCostsFrom')),
-                    new MoneyField('freeOfShippingCostsFrom',     $this->owner->fieldLabel('freeOfShippingCostsFrom')),
-                    
-                    new CheckboxField('SkipShippingStepIfUnique',           $this->owner->fieldLabel('SkipShippingStepIfUnique')),
-                    new CheckboxField('SkipPaymentStepIfUnique',            $this->owner->fieldLabel('SkipPaymentStepIfUnique')),
-                    new CheckboxField('DisplayWeightsInKilogram',           $this->owner->fieldLabel('DisplayWeightsInKilogram')),
-                    new CheckboxField('ShowTaxAndDutyHint',                 $this->owner->fieldLabel('ShowTaxAndDutyHint')),
-                    
-                    new CheckboxField('InvoiceAddressIsAlwaysShippingAddress', $this->owner->fieldLabel('InvoiceAddressIsAlwaysShippingAddress')),
-                )
+                [
+                    CheckboxField::create('enableSSL',                             $this->owner->fieldLabel('enableSSL')),
+                    CheckboxField::create('redirectToCartAfterAddToCart',          $this->owner->fieldLabel('redirectToCartAfterAddToCart')),
+                    CheckboxField::create('redirectToCheckoutWhenInCart',          $this->owner->fieldLabel('redirectToCheckoutWhenInCart')),
+                    CheckboxField::create('useProductDescriptionFieldForCart',     $this->owner->fieldLabel('useProductDescriptionFieldForCart')),
+                    DropdownField::create('productDescriptionFieldForCart',        $this->owner->fieldLabel('productDescriptionFieldForCart')),
+                    TextField::create('addToCartMaxQuantity',                      $this->owner->fieldLabel('addToCartMaxQuantity')),
+                    CheckboxField::create('useMinimumOrderValue',                  $this->owner->fieldLabel('useMinimumOrderValue')),
+                    MoneyField::create('minimumOrderValue',                        $this->owner->fieldLabel('minimumOrderValue')),
+                    CheckboxField::create('useFreeOfShippingCostsFrom',            $this->owner->fieldLabel('useFreeOfShippingCostsFrom')),
+                    MoneyField::create('freeOfShippingCostsFrom',                  $this->owner->fieldLabel('freeOfShippingCostsFrom')),
+                    CheckboxField::create('SkipShippingStepIfUnique',              $this->owner->fieldLabel('SkipShippingStepIfUnique')),
+                    CheckboxField::create('SkipPaymentStepIfUnique',               $this->owner->fieldLabel('SkipPaymentStepIfUnique')),
+                    CheckboxField::create('DisplayWeightsInKilogram',              $this->owner->fieldLabel('DisplayWeightsInKilogram')),
+                    CheckboxField::create('ShowTaxAndDutyHint',                    $this->owner->fieldLabel('ShowTaxAndDutyHint')),
+                    CheckboxField::create('InvoiceAddressIsAlwaysShippingAddress', $this->owner->fieldLabel('InvoiceAddressIsAlwaysShippingAddress')),
+                ]
         )->setHeadingLevel(4);
 
         // Build shop data toggle group
         $shopDataConfigurationField = ToggleCompositeField::create(
                 'ShopDataConfiguration',
                 $this->owner->fieldLabel('ShopDataConfiguration'),
-                array(
-                    new TextField('ShopName',             $this->owner->fieldLabel('ShopName')),
-                    new TextField('ShopStreet',           $this->owner->fieldLabel('ShopStreet')),
-                    new TextField('ShopStreetNumber',     $this->owner->fieldLabel('ShopStreetNumber')),
-                    new TextField('ShopPostcode',         $this->owner->fieldLabel('ShopPostcode')),
-                    new TextField('ShopCity',             $this->owner->fieldLabel('ShopCity')),
-                    new DropdownField('ShopCountryID',    $this->owner->fieldLabel('ShopCountry'), Country::getPrioritiveDropdownMap()),
-                    new TextField('ShopPhone',            $this->owner->fieldLabel('ShopPhone')),
-                    new TextareaField('ShopOpeningHours', $this->owner->fieldLabel('ShopOpeningHours')),
-                    new TextareaField('ShopAdditionalInfo',  $this->owner->fieldLabel('ShopAdditionalInfo')),
-                    new TextareaField('ShopAdditionalInfo2', $this->owner->fieldLabel('ShopAdditionalInfo2')),
-                )
+                [
+                    TextField::create('ShopName',                $this->owner->fieldLabel('ShopName')),
+                    TextField::create('ShopStreet',              $this->owner->fieldLabel('ShopStreet')),
+                    TextField::create('ShopStreetNumber',        $this->owner->fieldLabel('ShopStreetNumber')),
+                    TextField::create('ShopPostcode',            $this->owner->fieldLabel('ShopPostcode')),
+                    TextField::create('ShopCity',                $this->owner->fieldLabel('ShopCity')),
+                    DropdownField::create('ShopCountryID',       $this->owner->fieldLabel('ShopCountry'), Country::getPrioritiveDropdownMap()),
+                    TextField::create('ShopPhone',               $this->owner->fieldLabel('ShopPhone')),
+                    TextareaField::create('ShopOpeningHours',    $this->owner->fieldLabel('ShopOpeningHours')),
+                    TextareaField::create('ShopAdditionalInfo',  $this->owner->fieldLabel('ShopAdditionalInfo')),
+                    TextareaField::create('ShopAdditionalInfo2', $this->owner->fieldLabel('ShopAdditionalInfo2')),
+                ]
         )->setHeadingLevel(4);
 
         // Build security toggle group
         $securityConfigurationField = ToggleCompositeField::create(
                 'SecurityConfiguration',
                 $this->owner->fieldLabel('SecurityConfiguration'),
-                array(
-                    new TextareaField('userAgentBlacklist',                 $this->owner->fieldLabel('userAgentBlacklist')),
-                )
+                [
+                    TextareaField::create('userAgentBlacklist', $this->owner->fieldLabel('userAgentBlacklist')),
+                ]
         )->setHeadingLevel(4);
 
         // Build example data toggle group
-        $addExampleDataButton   = new FormAction('add_example_data',   $this->owner->fieldLabel('addExampleData'));
-        $addExampleConfigButton = new FormAction('add_example_config', $this->owner->fieldLabel('addExampleConfig'));
+        $addExampleDataButton   = FormAction::create('add_example_data',   $this->owner->fieldLabel('addExampleData'));
+        $addExampleConfigButton = FormAction::create('add_example_config', $this->owner->fieldLabel('addExampleConfig'));
         $exampleDataField       = ToggleCompositeField::create(
                 'ExampleData',
                 $this->owner->fieldLabel('addExampleData'),
-                array(
+                [
                     $addExampleDataButton,
                     $addExampleConfigButton,
-                )
+                ]
         )->setHeadingLevel(4);
         
         $addExampleDataButton->setRightTitle($this->owner->fieldLabel('addExampleDataDesc'));
@@ -542,14 +538,14 @@ class SiteConfigExtension extends DataExtension {
         $fields->dataFieldByName('ShopAdditionalInfo2')                     ->setDescription($this->owner->fieldLabel('ShopAdditionalInfo2Desc'));
 
         // Add i18n to DefaultPriceType source
-        $i18nForDefaultPriceTypeField = array();
+        $i18nForDefaultPriceTypeField = [];
         foreach ($this->owner->dbObject('DefaultPriceType')->enumValues() as $value => $label) {
             $i18nForDefaultPriceTypeField[$value] = _t(Customer::class . '.' . strtoupper($label), $label);
         }
         $fields->dataFieldByName('DefaultPriceType')->setSource($i18nForDefaultPriceTypeField);
 
         // Add i18n to productDescriptionFieldForCart source
-        $i18nForProductDescriptionField = array();
+        $i18nForProductDescriptionField = [];
         foreach ($this->owner->dbObject('productDescriptionFieldForCart')->enumValues() as $productDescriptionField) {
             $i18nForProductDescriptionField[$productDescriptionField] = Product::singleton()->fieldLabel($productDescriptionField);
         }
@@ -572,12 +568,12 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2014
      */
-    public function getCMSFieldsForColorScheme(FieldList $fields) {
+    public function getCMSFieldsForColorScheme(FieldList $fields)
+    {
         $colorSchemePath = Director::publicFolder() . '/resources/vendor/silvercart/silvercart/client/css';
         if (is_dir($colorSchemePath)) {
-
             if ($handle = opendir($colorSchemePath)) {
-                $colorSchemes = new ArrayList();
+                $colorSchemes = ArrayList::create();
                 while (false !== ($entry = readdir($handle))) {
                     if (substr($entry, -4) != '.css') {
                         continue;
@@ -585,32 +581,29 @@ class SiteConfigExtension extends DataExtension {
                     if (substr($entry, 0, 6) != 'color_') {
                         continue;
                     }
-
-                    $colorSchemeName = substr($entry, 6, -4);
-                    $colorSchemeFile = $colorSchemePath . '/' . $entry;
-
+                    $colorSchemeName  = substr($entry, 6, -4);
+                    $colorSchemeFile  = $colorSchemePath . '/' . $entry;
                     $lines            = file($colorSchemeFile);
-                    $backgroundColors = array();
-                    $fontColors       = array();
+                    $backgroundColors = [];
+                    $fontColors       = [];
                     foreach ($lines as $line) {
-                        if (strpos(strtolower($line), 'background-color') !== false &&
-                            preg_match('/#[a-z|A-Z|0-9]{3,6}/', $line, $matches)) {
-                            $backgroundColors[$matches[0]] = new ArrayData(array('Color' => $matches[0]));
-                        } elseif (strpos(strtolower(trim($line)), 'color') === 0 &&
-                            preg_match('/#[a-z|A-Z|0-9]{3,6}/', $line, $matches)) {
-                            $fontColors[$matches[0]] = new ArrayData(array('Color' => $matches[0]));
+                        if (strpos(strtolower($line), 'background-color') !== false
+                         && preg_match('/#[a-z|A-Z|0-9]{3,6}/', $line, $matches)
+                        ) {
+                            $backgroundColors[$matches[0]] = ArrayData::create(['Color' => $matches[0]]);
+                        } elseif (strpos(strtolower(trim($line)), 'color') === 0
+                         && preg_match('/#[a-z|A-Z|0-9]{3,6}/', $line, $matches)
+                        ) {
+                            $fontColors[$matches[0]] = ArrayData::create(['Color' => $matches[0]]);
                         }
                     }
-
-                    $colorSchemes->push(new ArrayData(
-                            array(
+                    $colorSchemes->push(ArrayData::create([
                                 'Name'             => $colorSchemeName,
                                 'Title'            => _t(Config::class . '.ColorScheme_' . $colorSchemeName, ucfirst($colorSchemeName)),
-                                'BackgroundColors' => new ArrayList($backgroundColors),
-                                'FontColors'       => new ArrayList($fontColors),
+                                'BackgroundColors' => ArrayList::create($backgroundColors),
+                                'FontColors'       => ArrayList::create($fontColors),
                                 'IsActive'         => $this->owner->ColorScheme == $colorSchemeName,
-                            )
-                    ));
+                    ]));
                 }
                 closedir($handle);
             }
@@ -619,9 +612,9 @@ class SiteConfigExtension extends DataExtension {
 
             $fields->removeByName('ColorScheme');
             
-            $logoField      = new UploadField('ShopLogo',        $this->owner->fieldLabel('ShopLogo'));
-            $faviconField   = new UploadField('Favicon',         $this->owner->fieldLabel('Favicon'));
-            $touchIconField = new UploadField('MobileTouchIcon', $this->owner->fieldLabel('MobileTouchIcon'));
+            $logoField      = UploadField::create('ShopLogo',        $this->owner->fieldLabel('ShopLogo'));
+            $faviconField   = UploadField::create('Favicon',         $this->owner->fieldLabel('Favicon'));
+            $touchIconField = UploadField::create('MobileTouchIcon', $this->owner->fieldLabel('MobileTouchIcon'));
             $logoField->setDescription($this->owner->fieldLabel('ShopLogoDesc'));
             $faviconField->setDescription($this->owner->fieldLabel('FaviconDesc'));
             $touchIconField->setDescription($this->owner->fieldLabel('MobileTouchIconDesc'));
@@ -629,20 +622,18 @@ class SiteConfigExtension extends DataExtension {
             $colorSchemeConfigurationField = ToggleCompositeField::create(
                     'ColorSchemeConfiguration',
                     $this->owner->fieldLabel('ColorSchemeConfiguration'),
-                    array(
+                    [
                         $fields->dataFieldByName('Title'),
                         $fields->dataFieldByName('Tagline'),
-                        //$fields->dataFieldByName('Theme'),
                         $logoField,
                         $faviconField,
                         $touchIconField,
-                        new LiteralField('ColorScheme', $this->owner->customise(array('ColorSchemes' => $colorSchemes))->renderWith('SilverCart/Admin/Forms/ColorSchemeField'))
-                    )
+                        LiteralField::create('ColorScheme', $this->owner->customise(['ColorSchemes' => $colorSchemes])->renderWith('SilverCart/Admin/Forms/ColorSchemeField'))
+                    ]
             )->setHeadingLevel(4)->setStartClosed(true);
             
             $fields->removeByName('Title');
             $fields->removeByName('Tagline');
-            //$fields->removeByName('Theme');
             
             $fields->addFieldToTab('Root.Main', $colorSchemeConfigurationField);
         } else {
@@ -658,7 +649,8 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.02.2016
      */
-    public function onBeforeWrite() {
+    public function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         $request     = Controller::curr()->getRequest();
         $colorScheme = $request->postVar('ColorScheme');
@@ -675,13 +667,14 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.12.2015
      */
-    public function onAfterWrite() {
+    public function onAfterWrite()
+    {
         parent::onAfterWrite();
         if (is_null(self::$duplicate_config_locale)) {
             self::$duplicate_config_locale = $this->owner->Locale;
             $changedFields = $this->owner->getChangedFields();
             $translations  = Tools::get_translations($this->owner);
-            $dbAttributes  = array_keys(\SilverStripe\SiteConfig\SiteConfig::config()->get('db'));
+            $dbAttributes  = array_keys(SiteConfig::config()->get('db'));
             foreach ($translations as $translation) {
                 foreach ($changedFields as $changedFieldName => $changedFieldData) {
                     if (!in_array($changedFieldName, $dbAttributes)) {
@@ -702,12 +695,13 @@ class SiteConfigExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.12.2015
      */
-    public function requireDefaultRecords() {
+    public function requireDefaultRecords()
+    {
         RequireDefaultRecords::require_default_records();
         $result = DB::query('SHOW TABLES LIKE \'SilvercartConfig\'');
         if ($result->numRecords() > 0) {
             $config           = Config::getConfig();
-            $skipFields       = array('ID', 'ClassName', 'Created', 'LastEdited');
+            $skipFields       = ['ID', 'ClassName', 'Created', 'LastEdited'];
             $silvercartConfig = DB::query('SELECT * FROM SilvercartConfig;');
             foreach ($silvercartConfig as $row) {
                 foreach ($row as $fieldName => $fieldValue) {
@@ -731,7 +725,8 @@ class SiteConfigExtension extends DataExtension {
      * 
      * @return bool
      */
-    public function getEnableSSL() {
+    public function getEnableSSL()
+    {
         $enableSSL = $this->owner->getField('EnableSSL');
         if (!$this->getCMSFieldsIsCalled) {
             $this->owner->extend('updateEnableSSL', $enableSSL);
@@ -750,31 +745,31 @@ class SiteConfigExtension extends DataExtension {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.04.2011
      */
-    public function checkActiveCountries() {
+    public function checkActiveCountries()
+    {
         $hasActiveCountries = false;
         /*
          * We have to bypass DataObject::get_one() because it would ignore active
          * countries without a translation of the current locale
          */
-        $items = Country::get()->filter(array("Active" => 1));
+        $items = Country::get()->filter(["Active" => 1]);
         if ($items->count() > 0) {
             $hasActiveCountries = true;
         } else {
             RequireDefaultRecords::require_default_countries();
-            $items = Country::get()->filter(array("Active" => 1));
+            $items = Country::get()->filter(["Active" => 1]);
             if ($items->count() > 0) {
                 $hasActiveCountries = true;
             }
         }
-        return array(
-            'status'    => $hasActiveCountries,
-            'message'   => _t(Config::class . '.ERROR_MESSAGE_NO_ACTIVATED_COUNTRY',
+        return [
+            'status'  => $hasActiveCountries,
+            'message' => _t(Config::class . '.ERROR_MESSAGE_NO_ACTIVATED_COUNTRY',
                     'No activated country found. Please <a href="{baseURL}admin/settings/">log in</a> and choose "Handling -> Countries" to activate a country.',
                     [
                         'baseURL' => Director::baseURL(),
                     ]
             )
-        );
+        ];
     }
-    
 }
