@@ -518,9 +518,16 @@ class SilvercartPage_Controller extends ContentController {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
+     * @since 05.09.2018
      */
     public function __construct($dataRecord = null) {
+        if (isset($_REQUEST['locale'])
+         && $_REQUEST['locale'] == strtolower($_REQUEST['locale'])) {
+            $parts = explode('_', $_REQUEST['locale']);
+            if (count($parts) == 2) {
+                $_REQUEST['locale'] = strtolower($parts[0]) . '_' . strtoupper($parts[1]);
+            }
+        }
         i18n::set_default_locale(Translatable::get_current_locale());
         i18n::set_locale(Translatable::get_current_locale());
         parent::__construct($dataRecord);
