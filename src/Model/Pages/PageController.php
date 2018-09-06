@@ -263,6 +263,22 @@ class PageController extends ContentController {
     }
     
     /**
+     * Returns custom HTML code to place right before the footer (first line in
+     * Footer.ss) injected by extensions.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 31.08.2018
+     */
+    public function BeforeFooterContent()
+    {
+        $beforeFooterContent = '';
+        $this->extend('updateBeforeFooterContent', $beforeFooterContent);
+        return Tools::string2html($beforeFooterContent);
+    }
+    
+    /**
      * Returns custom HTML code to place right before the closing </body> tag, 
      * injected by extensions.
      * 
