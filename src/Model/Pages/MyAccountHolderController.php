@@ -17,8 +17,8 @@ use SilverStripe\Control\Director;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class MyAccountHolderController extends \PageController {
-
+class MyAccountHolderController extends \PageController
+{
     /**
      * statements to be called on object initialisation
      *
@@ -27,13 +27,12 @@ class MyAccountHolderController extends \PageController {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 18.11.2010
      */
-    protected function init() {
+    protected function init()
+    {
         if (Config::EnableSSL()) {
             Director::forceSSL();
         }
-        
         Tools::Session()->clear("redirect"); //if customer has been to the checkout yet this is set to direct him back to the checkout after address editing
-
         parent::init();
     }
 
@@ -46,17 +45,14 @@ class MyAccountHolderController extends \PageController {
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
-        $elements = array(
-            'SubElementsTitle'  => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
-            'SubElements'       => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
-        );
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder')
+    {
+        $elements = [
+            'SubElementsTitle' => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
+            'SubElements'      => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
+        ];
         $this->extend('updateSubNavigation', $elements);
-        $output = $this->customise($elements)->renderWith(
-            array(
-                'SilverCart/Model/Pages/Includes/SubNavigation',
-            )
-        );
+        $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
         return Tools::string2html($output);
     }
 
@@ -70,8 +66,9 @@ class MyAccountHolderController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.07.2018
      */
-    public function OrderDetailLink($orderID = '') {
-        return Tools::PageByIdentifierCode('SilvercartOrderHolder')->Link() . 'detail/' . $orderID;
+    public function OrderDetailLink($orderID = '')
+    {
+        return Tools::PageByIdentifierCode('SilvercartOrderHolder')->Link("detail/{$orderID}");
     }
     
     /**
@@ -79,9 +76,8 @@ class MyAccountHolderController extends \PageController {
      * 
      * @return LoginForm
      */
-    public function LoginForm() {
-        $form = new LoginForm($this);
-        return $form;
+    public function LoginForm()
+    {
+        return LoginForm::create($this);
     }
-    
 }
