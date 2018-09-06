@@ -575,6 +575,23 @@ class Page extends SiteTree {
     }
     
     /**
+     * Returns a list of breadcrumbs for the current page.
+     * Adds the extension hook updateBreadcrumbItems.
+     *
+     * @param int            $maxDepth       The maximum depth to traverse.
+     * @param boolean|string $stopAtPageType ClassName of a page to stop the upwards traversal.
+     * @param boolean        $showHidden     Include pages marked with the attribute ShowInMenus = 0
+     *
+     * @return ArrayList
+     */
+    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false)
+    {
+        $breadcrumbItems = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
+        $this->extend('updateBreadcrumbItems', $breadcrumbItems);
+        return $breadcrumbItems;
+    }
+    
+    /**
      * Returns some additional content to insert to the header navigation right 
      * before the translation select item is rendered.
      * 
