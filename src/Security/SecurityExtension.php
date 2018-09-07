@@ -20,14 +20,14 @@ use SilverStripe\i18n\i18n;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SecurityExtension extends Extension {
-    
+class SecurityExtension extends Extension
+{
     /**
      * IdentifierCode of the page to redirect after a new password was set.
      *
      * @var string
      */
-    public static $newPasswordBackURLIdentifierCode = 'SilvercartMyAccountHolder';
+    public static $new_password_back_url_identifierCode = 'SilvercartMyAccountHolder';
 
     /**
      * We register the common forms for Pages here.
@@ -37,14 +37,15 @@ class SecurityExtension extends Extension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.2018
      */
-    public function onBeforeInit() {
+    public function onBeforeInit()
+    {
         Tools::initSession();
         
         i18n::config()->merge('default_locale', Tools::current_locale());
         i18n::set_locale(Tools::current_locale());
         
-        $controllerParams   = Controller::curr()->getURLParams();
-        $anonymousCustomer  = Customer::currentAnonymousCustomer();
+        $controllerParams  = Controller::curr()->getURLParams();
+        $anonymousCustomer = Customer::currentAnonymousCustomer();
         
         if ($anonymousCustomer) {
             Tools::Session()->set('MemberLoginForm.force_message', true);
@@ -54,7 +55,7 @@ class SecurityExtension extends Extension {
         } else {
             Tools::Session()->set('MemberLoginForm.force_message', false);
             // used to redirect the logged in user to my-account page
-            $backURL = Tools::PageByIdentifierCodeLink(self::$newPasswordBackURLIdentifierCode);
+            $backURL = Tools::PageByIdentifierCodeLink(self::$new_password_back_url_identifierCode);
             $this->owner->extend('updateNewPasswordBackURL', $backURL);
             Tools::Session()->set('BackURL', $backURL);
             Tools::saveSession();
@@ -69,28 +70,42 @@ class SecurityExtension extends Extension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.11.2015
      */
-    public function securityTokenEnabled() {
+    public function securityTokenEnabled()
+    {
         return true;
     }
     
     /**
      * Returns the QuickSearchForm.
      * 
+     * @param string $htmlID Optional HTML ID to avoid duplicate IDs when using 
+     *                       a form multiple times.
+     * 
      * @return QuickSearchForm
      */
-    public function QuickSearchForm() {
-        $form = new QuickSearchForm($this->owner);
+    public function QuickSearchForm($htmlID = null)
+    {
+        $form = QuickSearchForm::create($this);
+        if (!is_null($htmlID)) {
+            $form->setHTMLID($htmlID);
+        }
         return $form;
     }
     
     /**
      * Returns the QuickLoginForm.
      * 
+     * @param string $htmlID Optional HTML ID to avoid duplicate IDs when using 
+     *                       a form multiple times.
+     * 
      * @return QuickLoginForm
      */
-    public function QuickLoginForm() {
-        $form = new QuickLoginForm($this->owner);
+    public function QuickLoginForm($htmlID = null)
+    {
+        $form = QuickLoginForm::create($this);
+        if (!is_null($htmlID)) {
+            $form->setHTMLID($htmlID);
+        }
         return $form;
     }
-    
 }
