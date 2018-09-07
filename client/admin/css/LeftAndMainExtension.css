@@ -218,23 +218,43 @@ input[type="color"] {
     padding: 2px 0px 8px 8px;
 }
 
-.cms-menu-list li ul.collapse li a {
-    padding: 0 10px 0 20px;
+.cms-menu__list li ul.collapse li a {
+    padding: 8px 5px 8px 8px;
+    min-height: 0px;
 }
-.cms-menu-list li ul.collapse li a .icon {
-    margin-right: 8px;
+.cms-menu__list li ul.collapse li a:hover {
+    background-color: #ffffff;
+}
+.cms-menu__list li a .menu__icon {
+    margin-top: 2px;
+}
+.cms-menu__list li ul.collapse li a .menu__icon {
+    left: 21px;
+}
+.cms-menu__list li ul.collapsed-flyout li a .menu__icon {
+    margin-top: 0px;
+    left: 4px;
+}
+.cms-menu__list li ul.collapsed-flyout li a .menu__icon.icon {
+    display: block !important;
+}
+.cms-menu__list li ul.collapse li a .text {
+    margin-left: 34px;
+}
+.cms-menu__list li ul.collapsed-flyout li a .text {
+    margin-left: 6px !important;
 }
 .cms-menu.cms-panel.cms-panel-layout.collapsed,
 .cms-menu.cms-panel.cms-panel-layout.collapsed .cms-panel-content,
-.cms-menu.cms-panel.cms-panel-layout.collapsed .cms-menu-list {
+.cms-menu.cms-panel.cms-panel-layout.collapsed .cms-menu__list {
     overflow: visible;
 }
-.cms-menu-list.collapsed li:hover ul {
+.cms-menu__list.collapsed li:hover ul {
     position: absolute;
     z-index: 50;
     display: block;
 }
-.cms-menu-list.collapsed li:hover ul li {
+.cms-menu__list.collapsed li:hover ul li {
     display: block !important;
 }
 
@@ -244,9 +264,6 @@ input[type="color"] {
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: -432px 0 !important;
-}
-.current .icon.icon-16 {
-    background-image: url("../../img/glyphicons-halflings-white.png") !important;
 }
 
 .menu__icon.font-icon-database,
@@ -424,10 +441,10 @@ input[type="color"] {
     background-position: -142px -720px;
 }
 
-.cms-menu-list li a .text {
+.cms-menu__list li a .text {
     display: inline-block;
 }
-.cms-menu-list li.current li.current a {
+.cms-menu__list li.current li.current a {
     font-weight: normal;
 }
 
