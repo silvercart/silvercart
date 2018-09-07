@@ -21,6 +21,7 @@ use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
+use SilverCart\Model\Payment\PaymentStatus;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
@@ -29,6 +30,7 @@ use SilverCart\ORM\Filters\DateRangeSearchFilter;
 use SilverCart\ORM\Filters\ExactMatchBooleanMultiFilter;
 use SilverCart\ORM\Search\SearchContext;
 use SilverCart\View\Printer\Printer;
+use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
@@ -58,14 +60,16 @@ use SilverStripe\View\ViewableData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Order extends DataObject implements PermissionProvider {
-
+class Order extends DataObject implements PermissionProvider
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
+    
     /**
      * attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'AmountTotal'                       => \SilverCart\ORM\FieldType\DBMoney::class, // value of all products
         'PriceType'                         => 'Varchar(24)',
         'HandlingCostPayment'               => \SilverCart\ORM\FieldType\DBMoney::class,
@@ -88,39 +92,39 @@ class Order extends DataObject implements PermissionProvider {
         'PaymentReferenceData'              => 'Text',
         'ExpectedDeliveryMin'               => 'Date',
         'ExpectedDeliveryMax'               => 'Date',
-    );
-
+        'PaymentDate'                       => 'Date',
+        'ShippingDate'                      => 'Date',
+    ];
     /**
      * 1:1 relations
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'ShippingAddress' => OrderShippingAddress::class,
         'InvoiceAddress'  => OrderInvoiceAddress::class,
         'PaymentMethod'   => PaymentMethod::class,
         'ShippingMethod'  => ShippingMethod::class,
         'OrderStatus'     => OrderStatus::class,
+        'PaymentStatus'   => PaymentStatus::class,
         'Member'          => Member::class,
         'ShippingFee'     => ShippingFee::class,
-    );
-
+    ];
     /**
      * 1:n relations
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'OrderPositions'  => OrderPosition::class,
         'OrderLogs'       => OrderLog::class,
-    );
-
+    ];
     /**
      * Casting.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'Created'                       => 'Date',
         'CreatedNice'                   => 'Varchar',
         'ShippingAddressSummary'        => 'Text',
@@ -131,22 +135,19 @@ class Order extends DataObject implements PermissionProvider {
         'InvoiceAddressTable'           => 'HtmlText',
         'AmountTotalNice'               => 'Varchar',
         'PriceTypeText'                 => 'Varchar(24)',
-    );
-    
-        /**
+    ];
+    /**
      * Default sort direction in tables.
      *
      * @var string
      */
     private static $default_sort = "Created DESC";
-
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartOrder';
-    
     /**
      * register extensions
      *
@@ -155,33 +156,33 @@ class Order extends DataObject implements PermissionProvider {
     private static $extensions = [
         Versioned::class . '.versioned',
     ];
-
     /**
      * Grant API access on this item.
      *
      * @var bool
-     *
-     * @since 2013-03-13
      */
     private static $api_access = true;
-
     /**
      * Prevents multiple handling of order status change.
      *
      * @var bool
      */
     protected $didHandleOrderStatusChange = false;
+    /**
+     * Prevents multiple handling of payment status change.
+     *
+     * @var bool
+     */
+    protected $didHandlePaymentStatusChange = false;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this); 
     }
     
@@ -189,12 +190,10 @@ class Order extends DataObject implements PermissionProvider {
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this); 
     }
 
@@ -203,15 +202,17 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function providePermissions() {
-        return array(
+    public function providePermissions()
+    {
+        return [
             'SILVERCART_ORDER_VIEW'   => $this->fieldLabel('SILVERCART_ORDER_VIEW'),
             'SILVERCART_ORDER_EDIT'   => $this->fieldLabel('SILVERCART_ORDER_EDIT'),
             'SILVERCART_ORDER_DELETE' => $this->fieldLabel('SILVERCART_ORDER_DELETE'),
-        );
+        ];
     }
 
     /**
@@ -224,15 +225,17 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.20118
      */
-    public function canView($member = null) {
+    public function canView($member = null)
+    {
         $canView = false;
         if (is_null($member)) {
             $member = Security::getCurrentUser();
         }
-        if (($member instanceof Member &&
-             $member->ID == $this->MemberID &&
-             !is_null($this->MemberID)) ||
-            Permission::checkMember($member, 'SILVERCART_ORDER_VIEW')) {
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         || Permission::checkMember($member, 'SILVERCART_ORDER_VIEW')
+        ) {
             $canView = true;
         }
         return $canView;
@@ -248,7 +251,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2012
      */
-    public function canCreate($member = null, $context = array()) {
+    public function canCreate($member = null, $context = [])
+    {
         return false;
     }
 
@@ -262,7 +266,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.20118
      */
-    public function canEdit($member = null) {
+    public function canEdit($member = null)
+    {
         return Permission::checkMember($member, 'SILVERCART_ORDER_EDIT');
     }
 
@@ -276,7 +281,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.20118
      */
-    public function canDelete($member = null) {
+    public function canDelete($member = null)
+    {
         return Permission::checkMember($member, 'SILVERCART_ORDER_DELETE');
     }
 
@@ -285,21 +291,24 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return array
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.04.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields()
+    {
+        $summaryFields = [
             'CreatedNice'                => $this->fieldLabel('Created'),
             'OrderNumber'                => $this->fieldLabel('OrderNumberShort'),
             'Member.CustomerNumber'      => $this->Member()->fieldLabel('CustomerNumberShort'),
             'ShippingAddressSummaryHtml' => $this->fieldLabel('ShippingAddress'),
             'InvoiceAddressSummaryHtml'  => $this->fieldLabel('InvoiceAddress'),
             'AmountTotalNice'            => $this->fieldLabel('AmountTotal'),
-            'PaymentMethod.Title'        => $this->fieldLabel('PaymentMethod'),
             'OrderStatus.Title'          => $this->fieldLabel('OrderStatus'),
+            'PaymentStatus.Title'        => $this->fieldLabel('PaymentStatus'),
+            'PaymentMethod.Title'        => $this->fieldLabel('PaymentMethod'),
             'ShippingMethod.Title'       => $this->fieldLabel('ShippingMethod'),
-        );
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
 
         return $summaryFields;
@@ -313,84 +322,88 @@ class Order extends DataObject implements PermissionProvider {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.20118
+     * @since 07.09.2018
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'ID'                               => _t(Order::class . '.ORDER_ID', 'Ordernumber'),
-                'Created'                          => Page::singleton()->fieldLabel('OrderDate'),
-                'OrderNumber'                      => _t(Order::class . '.ORDERNUMBER', 'ordernumber'),
-                'OrderNumberShort'                 => _t(Order::class . '.OrderNumberShort', 'Orderno.'),
-                'ShippingFee'                      => _t(Order::class . '.SHIPPINGRATE', 'shipping costs'),
-                'Note'                             => _t(Order::class . '.NOTE', 'Note'),
-                'YourNote'                         => _t(Order::class . '.YOUR_REMARK', 'Your note'),
-                'Member'                           => _t(Order::class . '.CUSTOMER', 'customer'),
-                'Customer'                         => _t(Order::class . '.CUSTOMER', 'customer'),
-                'CustomerData'                     => _t(Order::class . '.CUSTOMERDATA', 'Customer Data'),
-                'MemberCustomerNumber'             => Member::singleton()->fieldLabel('CustomerNumber'),
-                'MemberEmail'                      => Member::singleton()->fieldLabel('Email'),
-                'Email'                            => Address::singleton()->fieldLabel('Email'),
-                'ShippingAddress'                  => Address::singleton()->fieldLabel('ShippingAddress'),
-                'ShippingAddressFirstName'         => Address::singleton()->fieldLabel('FirstName'),
-                'ShippingAddressSurname'           => Address::singleton()->fieldLabel('Surname'),
-                'ShippingAddressCountry'           => Country::singleton()->singular_name(),
-                'InvoiceAddress'                   => Address::singleton()->fieldLabel('InvoiceAddress'),
-                'OrderStatus'                      => _t(Order::class . '.STATUS', 'order status'),
-                'AmountTotal'                      => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
-                'PriceType'                        => _t(Order::class . '.PRICETYPE', 'Price-Display-Type'),
-                'HandlingCost'                     => _t(Order::class . '.HandlingCost', 'Handling cost'),
-                'HandlingCostPayment'              => _t(Order::class . '.HANDLINGCOSTPAYMENT', 'Payment handling costs'),
-                'HandlingCostShipment'             => _t(Order::class . '.HANDLINGCOSTSHIPMENT', 'Shipping handling costs'),
-                'TaxRatePayment'                   => _t(Order::class . '.TAXRATEPAYMENT', 'Payment tax rate'),
-                'TaxRateShipment'                  => _t(Order::class . '.TAXRATESHIPMENT', 'Shipping tax rate'),
-                'TaxAmountPayment'                 => _t(Order::class . '.TAXAMOUNTPAYMENT', 'Pamyent tax amount'),
-                'TaxAmountShipment'                => _t(Order::class . '.TAXAMOUNTSHIPMENT', 'Shipping tax amountt'),
-                'WeightTotal'                      => _t(Order::class . '.WEIGHTTOTAL', 'Total weight'),
-                'CustomersEmail'                   => _t(Order::class . '.CUSTOMERSEMAIL', 'Customers email address'),
-                'PaymentMethod'                    => PaymentMethod::singleton()->singular_name(),
-                'ShippingMethod'                   => ShippingMethod::singleton()->singular_name(),
-                'HasAcceptedTermsAndConditions'    => _t(Order::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'Has accepted terms and conditions'),
-                'HasAcceptedRevocationInstruction' => _t(Order::class . '.HASACCEPTEDREVOCATIONINSTRUCTION', 'Has accepted revocation instruction'),
-                'OrderPositions'                   => OrderPosition::singleton()->plural_name(),
-                'OrderPositionsProductNumber'      => Product::singleton()->fieldLabel('ProductNumberShop'),
-                'OrderPositionData'                => _t(Order::class . '.ORDERPOSITIONDATA', 'Position Data'),
-                'OrderPositionQuantity'            => _t(Order::class . '.ORDERPOSITIONQUANTITY', 'Position Quantity'),
-                'OrderPositionIsLimit'             => _t(Order::class . '.ORDERPOSITIONISLIMIT', 'Order may not have other positions'),
-                'SearchResultsLimit'               => _t(Order::class . '.SEARCHRESULTSLIMIT', 'Limit'),
-                'BasicData'                        => _t(Order::class . '.BASICDATA', 'Basics'),
-                'MiscData'                         => _t(Order::class . '.MISCDATA', 'Others'),
-                'ShippingAddressTab'               => _t(AddressHolder::class . '.SHIPPINGADDRESS_TAB', 'Shippingaddress'),
-                'InvoiceAddressTab'                => _t(AddressHolder::class . '.INVOICEADDRESS_TAB', 'Invoiceaddress'),
-                'Print'                            => _t(Order::class . '.PRINT', 'Print order'),
-                'PrintPreview'                     => _t(Order::class . '.PRINT_PREVIEW', 'Print preview'),
-                'EmptyString'                      => Tools::field_label('PleaseChoose'),
-                'ChangeOrderStatus'                => _t(Order::class . '.BATCH_CHANGEORDERSTATUS', 'Change order status to...'),
-                'IsSeen'                           => _t(Order::class . '.IS_SEEN', 'Seen'),
-                'OrderLogs'                        => OrderLog::singleton()->plural_name(),
-                'ValueOfGoods'                     => Page::singleton()->fieldLabel('ValueOfGoods'),
-                'Tracking'                         => _t(Order::class . '.Tracking', 'Tracking'),
-                'TrackingCode'                     => _t(Order::class . '.TrackingCode', 'Tracking Code'),
-                'TrackingLink'                     => _t(Order::class . '.TrackingLink', 'Tracking Link'),
-                'TrackingLinkLabel'                => _t(Order::class . '.TrackingLinkLabel', 'Reveal where my shipment currently is'),
-                'PaymentReferenceID'               => _t(Order::class . '.PaymentReferenceID', 'Payment Provider Reference Number'),
-                'PaymentReferenceMessage'          => _t(Order::class . '.PaymentReferenceMessage', 'Payment Provider Reference Message'),
-                'PaymentReferenceData'             => _t(Order::class . '.PaymentReferenceData', 'Payment Provider Reference Data'),
-                'ExpectedDelivery'                 => _t(Order::class . '.ExpectedDelivery', 'Expected Delivery'),
-                'ExpectedDeliveryMax'              => _t(Order::class . '.ExpectedDeliveryMax', 'Maximum expected Delivery'),
-                'ExpectedDeliveryMin'              => _t(Order::class . '.ExpectedDeliveryMin', 'Minimum expected Delivery'),
-                'DateFormat'                       => Tools::field_label('DateFormat'),
-                'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
-                'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
-                'SILVERCART_ORDER_VIEW'            => _t(Order::class . '.SILVERCART_ORDER_VIEW', 'View order'),
-                'SILVERCART_ORDER_EDIT'            => _t(Order::class . '.SILVERCART_ORDER_EDIT', 'Edit order'),
-                'SILVERCART_ORDER_DELETE'          => _t(Order::class . '.SILVERCART_ORDER_DELETE', 'Delete order'),
-            )
-        );
-        $this->extend('updateFieldLabels', $fieldLabels);
-        
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true)
+    {
+        $this->beforeUpdateFieldLabels(function (&$labels) {
+            $labels = array_merge(
+                    $labels,
+                    Tools::field_labels_for(self::class),
+                    [
+                        'ID'                               => _t(Order::class . '.ORDER_ID', 'Ordernumber'),
+                        'Created'                          => Page::singleton()->fieldLabel('OrderDate'),
+                        'OrderNumber'                      => _t(Order::class . '.ORDERNUMBER', 'ordernumber'),
+                        'OrderNumberShort'                 => _t(Order::class . '.OrderNumberShort', 'Orderno.'),
+                        'ShippingFee'                      => _t(Order::class . '.SHIPPINGRATE', 'shipping costs'),
+                        'Note'                             => _t(Order::class . '.NOTE', 'Note'),
+                        'YourNote'                         => _t(Order::class . '.YOUR_REMARK', 'Your note'),
+                        'Member'                           => _t(Order::class . '.CUSTOMER', 'customer'),
+                        'Customer'                         => _t(Order::class . '.CUSTOMER', 'customer'),
+                        'CustomerData'                     => _t(Order::class . '.CUSTOMERDATA', 'Customer Data'),
+                        'MemberCustomerNumber'             => Member::singleton()->fieldLabel('CustomerNumber'),
+                        'MemberEmail'                      => Member::singleton()->fieldLabel('Email'),
+                        'Email'                            => Address::singleton()->fieldLabel('Email'),
+                        'ShippingAddress'                  => Address::singleton()->fieldLabel('ShippingAddress'),
+                        'ShippingAddressFirstName'         => Address::singleton()->fieldLabel('FirstName'),
+                        'ShippingAddressSurname'           => Address::singleton()->fieldLabel('Surname'),
+                        'ShippingAddressCountry'           => Country::singleton()->singular_name(),
+                        'ShippingAndInvoiceAddress'        => _t(Page::class . '.SHIPPING_AND_BILLING', 'Shipping and invoice address'),
+                        'InvoiceAddress'                   => Address::singleton()->fieldLabel('InvoiceAddress'),
+                        'OrderStatus'                      => _t(Order::class . '.STATUS', 'order status'),
+                        'AmountTotal'                      => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
+                        'PriceType'                        => _t(Order::class . '.PRICETYPE', 'Price-Display-Type'),
+                        'HandlingCost'                     => _t(Order::class . '.HandlingCost', 'Handling cost'),
+                        'HandlingCostPayment'              => _t(Order::class . '.HANDLINGCOSTPAYMENT', 'Payment handling costs'),
+                        'HandlingCostShipment'             => _t(Order::class . '.HANDLINGCOSTSHIPMENT', 'Shipping handling costs'),
+                        'TaxRatePayment'                   => _t(Order::class . '.TAXRATEPAYMENT', 'Payment tax rate'),
+                        'TaxRateShipment'                  => _t(Order::class . '.TAXRATESHIPMENT', 'Shipping tax rate'),
+                        'TaxAmountPayment'                 => _t(Order::class . '.TAXAMOUNTPAYMENT', 'Pamyent tax amount'),
+                        'TaxAmountShipment'                => _t(Order::class . '.TAXAMOUNTSHIPMENT', 'Shipping tax amountt'),
+                        'WeightTotal'                      => _t(Order::class . '.WEIGHTTOTAL', 'Total weight'),
+                        'CustomersEmail'                   => _t(Order::class . '.CUSTOMERSEMAIL', 'Customers email address'),
+                        'PaymentMethod'                    => PaymentMethod::singleton()->singular_name(),
+                        'ShippingMethod'                   => ShippingMethod::singleton()->singular_name(),
+                        'HasAcceptedTermsAndConditions'    => _t(Order::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'Has accepted terms and conditions'),
+                        'HasAcceptedRevocationInstruction' => _t(Order::class . '.HASACCEPTEDREVOCATIONINSTRUCTION', 'Has accepted revocation instruction'),
+                        'OrderPositions'                   => OrderPosition::singleton()->plural_name(),
+                        'OrderPositionsProductNumber'      => Product::singleton()->fieldLabel('ProductNumberShop'),
+                        'OrderPositionData'                => _t(Order::class . '.ORDERPOSITIONDATA', 'Position Data'),
+                        'OrderPositionQuantity'            => _t(Order::class . '.ORDERPOSITIONQUANTITY', 'Position Quantity'),
+                        'OrderPositionIsLimit'             => _t(Order::class . '.ORDERPOSITIONISLIMIT', 'Order may not have other positions'),
+                        'SearchResultsLimit'               => _t(Order::class . '.SEARCHRESULTSLIMIT', 'Limit'),
+                        'BasicData'                        => _t(Order::class . '.BASICDATA', 'Basics'),
+                        'MiscData'                         => _t(Order::class . '.MISCDATA', 'Others'),
+                        'ShippingAddressTab'               => _t(AddressHolder::class . '.SHIPPINGADDRESS_TAB', 'Shippingaddress'),
+                        'InvoiceAddressTab'                => _t(AddressHolder::class . '.INVOICEADDRESS_TAB', 'Invoiceaddress'),
+                        'Print'                            => _t(Order::class . '.PRINT', 'Print order'),
+                        'PrintPreview'                     => _t(Order::class . '.PRINT_PREVIEW', 'Print preview'),
+                        'EmptyString'                      => Tools::field_label('PleaseChoose'),
+                        'ChangeOrderStatus'                => _t(Order::class . '.BATCH_CHANGEORDERSTATUS', 'Change order status to...'),
+                        'ChangePaymentStatus'              => _t(Order::class . '.BATCH_CHANGEPAYMENTSTATUS', 'Change payment status to...'),
+                        'IsSeen'                           => _t(Order::class . '.IS_SEEN', 'Seen'),
+                        'OrderLogs'                        => OrderLog::singleton()->plural_name(),
+                        'ValueOfGoods'                     => Page::singleton()->fieldLabel('ValueOfGoods'),
+                        'Tracking'                         => _t(Order::class . '.Tracking', 'Tracking'),
+                        'TrackingCode'                     => _t(Order::class . '.TrackingCode', 'Tracking Code'),
+                        'TrackingLink'                     => _t(Order::class . '.TrackingLink', 'Tracking Link'),
+                        'TrackingLinkLabel'                => _t(Order::class . '.TrackingLinkLabel', 'Reveal where my shipment currently is'),
+                        'PaymentReferenceID'               => _t(Order::class . '.PaymentReferenceID', 'Payment Provider Reference Number'),
+                        'PaymentReferenceMessage'          => _t(Order::class . '.PaymentReferenceMessage', 'Payment Provider Reference Message'),
+                        'PaymentReferenceData'             => _t(Order::class . '.PaymentReferenceData', 'Payment Provider Reference Data'),
+                        'ExpectedDelivery'                 => _t(Order::class . '.ExpectedDelivery', 'Expected Delivery'),
+                        'ExpectedDeliveryMax'              => _t(Order::class . '.ExpectedDeliveryMax', 'Maximum expected Delivery'),
+                        'ExpectedDeliveryMin'              => _t(Order::class . '.ExpectedDeliveryMin', 'Minimum expected Delivery'),
+                        'DateFormat'                       => Tools::field_label('DateFormat'),
+                        'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
+                        'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
+                        'SILVERCART_ORDER_VIEW'            => _t(Order::class . '.SILVERCART_ORDER_VIEW', 'View order'),
+                        'SILVERCART_ORDER_EDIT'            => _t(Order::class . '.SILVERCART_ORDER_EDIT', 'Edit order'),
+                        'SILVERCART_ORDER_DELETE'          => _t(Order::class . '.SILVERCART_ORDER_DELETE', 'Delete order'),
+                    ]
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**
@@ -399,78 +412,84 @@ class Order extends DataObject implements PermissionProvider {
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.20118
+     * @since 07.09.2018
      */
-    public function searchableFields() {
-        $address = Address::singleton();
-        $searchableFields = array(
-            'Created' => array(
-                'title'     => $this->fieldLabel('Created'),
-                'filter'    => DateRangeSearchFilter::class,
-                'field'     => TextField::class,
-            ),
-            'OrderNumber' => array(
-                'title'     => $this->fieldLabel('OrderNumber'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'IsSeen' => array(
-                'title'     => $this->fieldLabel('IsSeen'),
-                'filter'    => ExactMatchFilter::class,
-            ),
-            'OrderStatusID' => array(
-                'title'     => $this->fieldLabel('OrderStatus'),
-                'filter'    => ExactMatchBooleanMultiFilter::class,
-                'field'     => \SilverCart\Admin\Forms\MultiDropdownField::class,
-            ),
-            'PaymentMethodID' => array(
-                'title'     => $this->fieldLabel('PaymentMethod'),
-                'filter'    => ExactMatchFilter::class,
-            ),
-            'ShippingMethodID' => array(
-                'title'     => $this->fieldLabel('ShippingMethod'),
-                'filter'    => ExactMatchFilter::class,
-            ),
-            'Member.CustomerNumber' => array(
-                'title'     => $this->fieldLabel('MemberCustomerNumber'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'Member.Email' => array(
-                'title'     => $this->fieldLabel('MemberEmail'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.FirstName' => array(
-                'title'     => $this->fieldLabel('ShippingAddressFirstName'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.Surname' => array(
-                'title'     => $this->fieldLabel('ShippingAddressSurname'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.Street' => array(
-                'title'     => $address->fieldLabel('Street'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.StreetNumber' => array(
-                'title'     => $address->fieldLabel('StreetNumber'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.Postcode' => array(
-                'title'     => $address->fieldLabel('Postcode'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.City' => array(
-                'title'     => $address->fieldLabel('City'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-            'ShippingAddress.CountryID' => array(
-                'title'     => $this->fieldLabel('ShippingAddressCountry'),
-                'filter'    => ExactMatchFilter::class,
-            ),
-            'OrderPositions.ProductNumber' => array(
-                'title'     => $this->fieldLabel('OrderPositionsProductNumber'),
-                'filter'    => PartialMatchFilter::class,
-            ),
-        );
+    public function searchableFields()
+    {
+        $address          = Address::singleton();
+        $searchableFields = [
+            'Created' => [
+                'title' => $this->fieldLabel('Created'),
+                'filter' => DateRangeSearchFilter::class,
+                'field' => TextField::class,
+            ],
+            'OrderNumber' => [
+                'title' => $this->fieldLabel('OrderNumber'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'IsSeen' => [
+                'title'  => $this->fieldLabel('IsSeen'),
+                'filter' => ExactMatchFilter::class,
+            ],
+            'OrderStatusID' => [
+                'title'  => $this->fieldLabel('OrderStatus'),
+                'filter' => ExactMatchBooleanMultiFilter::class,
+                'field'  => \SilverCart\Admin\Forms\MultiDropdownField::class,
+            ],
+            'PaymentStatusID' => [
+                'title'  => $this->fieldLabel('PaymentStatus'),
+                'filter' => ExactMatchBooleanMultiFilter::class,
+                'field'  => \SilverCart\Admin\Forms\MultiDropdownField::class,
+            ],
+            'PaymentMethodID'              => [
+                'title'  => $this->fieldLabel('PaymentMethod'),
+                'filter' => ExactMatchFilter::class,
+            ],
+            'ShippingMethodID'             => [
+                'title'  => $this->fieldLabel('ShippingMethod'),
+                'filter' => ExactMatchFilter::class,
+            ],
+            'Member.CustomerNumber'        => [
+                'title'  => $this->fieldLabel('MemberCustomerNumber'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'Member.Email'                 => [
+                'title'  => $this->fieldLabel('MemberEmail'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.FirstName'    => [
+                'title'  => $this->fieldLabel('ShippingAddressFirstName'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.Surname'      => [
+                'title'  => $this->fieldLabel('ShippingAddressSurname'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.Street'       => [
+                'title'  => $address->fieldLabel('Street'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.StreetNumber' => [
+                'title'  => $address->fieldLabel('StreetNumber'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.Postcode'     => [
+                'title'  => $address->fieldLabel('Postcode'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.City'         => [
+                'title'  => $address->fieldLabel('City'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ShippingAddress.CountryID'    => [
+                'title'  => $this->fieldLabel('ShippingAddressCountry'),
+                'filter' => ExactMatchFilter::class,
+            ],
+            'OrderPositions.ProductNumber' => [
+                'title'  => $this->fieldLabel('OrderPositionsProductNumber'),
+                'filter' => PartialMatchFilter::class,
+            ],
+        ];
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
@@ -481,7 +500,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         $title = $this->fieldLabel('OrderNumber') . ': ' . $this->OrderNumber . ' | ' . $this->fieldLabel('Created') . ': ' . date($this->fieldLabel('DateFormat'), strtotime($this->Created)) . ' | ' . $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
         $this->extend('updateTitle', $title);
         return $title;
@@ -492,8 +512,9 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return SearchContext
      */
-    public function getDefaultSearchContext() {
-        return new SearchContext(
+    public function getDefaultSearchContext()
+    {
+        return SearchContext::create(
             static::class,
             $this->scaffoldSearchFields(),
             $this->defaultSearchFilters()
@@ -515,22 +536,25 @@ class Order extends DataObject implements PermissionProvider {
      *   'restrictFields': Numeric array of a field name whitelist
      * @return FieldList
      */
-    public function scaffoldSearchFields($_params = null) {
+    public function scaffoldSearchFields($_params = null)
+    {
         $fields = parent::scaffoldSearchFields($_params);
         
-        $orderStatusField = $fields->dataFieldByName('OrderStatusID');
-        /* @var $orderStatusField \SilverCart\Admin\Forms\MultiDropdownField */
-        $orderStatusField->setSource(OrderStatus::get()->map()->toArray());
-        $orderStatusField->setEmptyString(Tools::field_label('PleaseChoose'));
+        $fields->dataFieldByName('OrderStatusID')
+                ->setSource(OrderStatus::get()->map()->toArray())
+                ->setEmptyString(Tools::field_label('PleaseChoose'));
+        $fields->dataFieldByName('PaymentStatusID')
+                ->setSource(PaymentStatus::get()->map()->toArray())
+                ->setEmptyString(Tools::field_label('PleaseChoose'));
         
         $order                 = Order::singleton();
-        $basicLabelField       = new HeaderField(  'BasicLabelField',       $order->fieldLabel('BasicData'));
-        $customerLabelField    = new HeaderField(  'CustomerLabelField',    $order->fieldLabel('CustomerData'));
-        $positionLabelField    = new HeaderField(  'PositionLabelField',    $order->fieldLabel('OrderPositionData'));
-        $miscLabelField        = new HeaderField(  'MiscLabelField',        $order->fieldLabel('MiscData'));
-        $positionQuantityField = new TextField(    'OrderPositionQuantity', $order->fieldLabel('OrderPositionQuantity'));
-        $positionIsLimitField  = new CheckboxField('OrderPositionIsLimit',  $order->fieldLabel('OrderPositionIsLimit'));
-        $limitField            = new TextField(    'SearchResultsLimit',    $order->fieldLabel('SearchResultsLimit'));
+        $basicLabelField       = HeaderField::create(  'BasicLabelField',       $order->fieldLabel('BasicData'));
+        $customerLabelField    = HeaderField::create(  'CustomerLabelField',    $order->fieldLabel('CustomerData'));
+        $positionLabelField    = HeaderField::create(  'PositionLabelField',    $order->fieldLabel('OrderPositionData'));
+        $miscLabelField        = HeaderField::create(  'MiscLabelField',        $order->fieldLabel('MiscData'));
+        $positionQuantityField = TextField::create(    'OrderPositionQuantity', $order->fieldLabel('OrderPositionQuantity'));
+        $positionIsLimitField  = CheckboxField::create('OrderPositionIsLimit',  $order->fieldLabel('OrderPositionIsLimit'));
+        $limitField            = TextField::create(    'SearchResultsLimit',    $order->fieldLabel('SearchResultsLimit'));
         
         $fields->insertBefore($basicLabelField,                   'OrderNumber');
         $fields->insertAfter($fields->dataFieldByName('Created'), 'OrderNumber');
@@ -554,7 +578,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getTrackingCode() {
+    public function getTrackingCode()
+    {
         $trackingCode = $this->getField('TrackingCode');
         $this->extend('updateTrackingCode', $trackingCode);
         return $trackingCode;
@@ -566,7 +591,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getTrackingLink() {
+    public function getTrackingLink()
+    {
         $trackingLink = $this->getField('TrackingLink');
         $this->extend('updateTrackingLink', $trackingLink);
         return $trackingLink;
@@ -577,7 +603,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getCreatedNice() {
+    public function getCreatedNice()
+    {
         return date('d.m.Y H:i', strtotime($this->Created)) . ' Uhr';
     }
     
@@ -586,7 +613,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getExpectedDelivery() {
+    public function getExpectedDelivery()
+    {
         $expectedDelivery = $this->ExpectedDeliveryMax;
         if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
             $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
@@ -599,7 +627,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getExpectedDeliveryNice() {
+    public function getExpectedDeliveryNice()
+    {
         $expectedDelivery = $this->ExpectedDeliveryMax;
         if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
             $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
@@ -615,7 +644,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getShippingAddressSummary($disableUpdate = false) {
+    public function getShippingAddressSummary($disableUpdate = false)
+    {
         $shippingAddressSummary = '';
         if (!empty($this->ShippingAddress()->Company)) {
             $shippingAddressSummary .= $this->ShippingAddress()->Company . PHP_EOL;
@@ -643,7 +673,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getShippingAddressSummaryHtml() {
+    public function getShippingAddressSummaryHtml()
+    {
         return Tools::string2html(str_replace(PHP_EOL, '<br/>', $this->ShippingAddressSummary));
     }
 
@@ -652,7 +683,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return type
      */
-    public function getShippingAddressTable() {
+    public function getShippingAddressTable()
+    {
         return $this->ShippingAddress()->renderWith('SilverCart/Email/Includes/AddressData');
     }
     
@@ -664,7 +696,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.02.2014
      */
-    public function InvoiceAddressEqualsShippingAddress() {
+    public function InvoiceAddressEqualsShippingAddress()
+    {
         $isEqual = $this->InvoiceAddress()->isEqual($this->ShippingAddress());
         return $isEqual;
     }
@@ -676,7 +709,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getInvoiceAddressSummary($disableUpdate = false) {
+    public function getInvoiceAddressSummary($disableUpdate = false)
+    {
         $invoiceAddressSummary = '';
         if (!empty($this->InvoiceAddress()->Company)) {
             $invoiceAddressSummary .= $this->InvoiceAddress()->Company . PHP_EOL;
@@ -704,7 +738,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getInvoiceAddressSummaryHtml() {
+    public function getInvoiceAddressSummaryHtml()
+    {
         return Tools::string2html(str_replace(PHP_EOL, '<br/>', $this->InvoiceAddressSummary));
     }
     
@@ -713,7 +748,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return type
      */
-    public function getInvoiceAddressTable() {
+    public function getInvoiceAddressTable()
+    {
         return $this->InvoiceAddress()->renderWith('SilverCart/Email/Includes/AddressData');
     }
 
@@ -724,28 +760,24 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return DataList
      */
-    public function getLimitedOrderPositions($numberOfPositions = 2) {
+    public function getLimitedOrderPositions($numberOfPositions = 2)
+    {
         return $this->OrderPositions()->limit($numberOfPositions);
     }
 
     /**
-     * Returns a limited number of order positions.
+     * Returns whether this order has more positions than $numberOfPositions.
      * 
      * @param int $numberOfPositions The number of positions to check for.
      *
-     * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.01.2012
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function hasMoreOrderPositionsThan($numberOfPositions = 2) {
-        $hasMorePositions = false;
-
-        if ($this->OrderPositions()->count() > $numberOfPositions) {
-            $hasMorePositions = true;
-        }
-
-        return $hasMorePositions;
+    public function hasMoreOrderPositionsThan($numberOfPositions = 2)
+    {
+        return $this->OrderPositions()->count() > $numberOfPositions;
     }
     
     /**
@@ -759,15 +791,16 @@ class Order extends DataObject implements PermissionProvider {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 05.03.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding()
+    {
+        $excludeFromScaffolding = [
             'Version',
             'IsSeen',
             'ShippingAddress',
             'InvoiceAddress',
             'ShippingFee',
             'Member'
-        );
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         return $excludeFromScaffolding;
     }
@@ -777,72 +810,137 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return FieldList the form fields for the backend
      */
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
         $this->markAsSeen();
-        $fields = DataObjectExtension::getCMSFields($this);
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if (Controller::curr()->getRequest()->getVar('orderadminmode') == 'edit') {
+                $this->setCMSFieldsEdit($fields);
+            } else {
+                $this->setCMSFieldsView($fields);
+            }
+
+            //add print preview
+            $fields->findOrMakeTab('Root.PrintPreviewTab', $this->fieldLabel('PrintPreview'));
+            $printPreviewField = LiteralField::create(
+                    'PrintPreviewField',
+                    sprintf(
+                        '<iframe width="100%%" height="100%%" border="0" src="%s" class="print-preview"></iframe>',
+                        Printer::getPrintInlineURL($this)
+                    )
+            );
+            $fields->addFieldToTab('Root.PrintPreviewTab', $printPreviewField);
+
+            if (!empty($this->PaymentReferenceID)) {
+                $fields->dataFieldByName('PaymentReferenceID')->setReadonly(true);
+                $fields->dataFieldByName('PaymentReferenceMessage')->setReadonly(true);
+            } else {
+                $fields->removeByName('PaymentReferenceID');
+                $fields->removeByName('PaymentReferenceMessage');
+            }
+            $fields->removeByName('PaymentReferenceData');
+        });
+        return DataObjectExtension::getCMSFields($this);
+    }
+    
+    /**
+     * Returns the CMS fields to view an order (readonly).
+     * 
+     * @param FieldList $fields Fields to update for view mode
+     * 
+     * @return $this
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function setCMSFieldsView($fields)
+    {
+        $fields->insertBefore('AmountTotal', $handlingGroup = FieldGroup::create('Handling'));
+        $fields->insertBefore('AmountTotal', $dateGroup = FieldGroup::create('Date'));
+        $fields->insertBefore('AmountTotal', $trackingGroup = FieldGroup::create('Tracking'));
+        $fields->insertBefore('AmountTotal', LiteralField::create('OrderPreview', $this->render()));
         
+        $handlingGroup->push($fields->dataFieldByName('OrderStatusID'));
+        $handlingGroup->push($fields->dataFieldByName('PaymentStatusID'));
+        $handlingGroup->push($fields->dataFieldByName('ShippingMethodID'));
+        $handlingGroup->push($fields->dataFieldByName('PaymentMethodID'));
+        
+        $dateGroup->push($fields->dataFieldByName('ExpectedDeliveryMin'));
+        $dateGroup->push($fields->dataFieldByName('ExpectedDeliveryMax'));
+        $dateGroup->push($fields->dataFieldByName('PaymentDate'));
+        $dateGroup->push($fields->dataFieldByName('ShippingDate'));
+        
+        $trackingGroup->push($fields->dataFieldByName('TrackingCode'));
+        $trackingGroup->push($fields->dataFieldByName('TrackingLink')->setRows(1));
+        
+        $fields->removeByName('AmountTotal');
+        $fields->removeByName('PriceType');
+        $fields->removeByName('HandlingCostPayment');
+        $fields->removeByName('HandlingCostShipment');
+        $fields->removeByName('TaxRatePayment');
+        $fields->removeByName('TaxRateShipment');
+        $fields->removeByName('TaxAmountPayment');
+        $fields->removeByName('TaxAmountShipment');
+        $fields->removeByName('Note');
+        $fields->removeByName('WeightTotal');
+        $fields->removeByName('CustomersEmail');
+        $fields->removeByName('OrderNumber');
+        $fields->removeByName('HasAcceptedTermsAndConditions');
+        $fields->removeByName('HasAcceptedRevocationInstruction');
+        $fields->removeByName('IsSeen');
+        $fields->removeByName('OrderNumber');
+        return $this;
+    }
+    
+    /**
+     * Returns the CMS fields to edit an order.
+     * 
+     * @param FieldList $fields Fields to update for edit mode
+     * 
+     * @return $this
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function setCMSFieldsEdit($fields)
+    {
         //add the shipping/invloice address fields as own tab
         $address = Address::singleton();
         $fields->findOrMakeTab('Root.ShippingAddressTab', $this->fieldLabel('ShippingAddressTab'));
         $fields->findOrMakeTab('Root.InvoiceAddressTab',  $this->fieldLabel('InvoiceAddressTab'));
-        
-        $fields->addFieldToTab('Root.ShippingAddressTab', new LiteralField('sa__Preview',           '<p>' . Convert::raw2xml($this->getShippingAddressSummary(true)) . '</p>'));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__TaxIdNumber',          $address->fieldLabel('TaxIdNumber'),        $this->ShippingAddress()->TaxIdNumber));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Company',              $address->fieldLabel('Company'),            $this->ShippingAddress()->Company));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__FirstName',            $address->fieldLabel('FirstName'),          $this->ShippingAddress()->FirstName));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Surname',              $address->fieldLabel('Surname'),            $this->ShippingAddress()->Surname));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Addition',             $address->fieldLabel('Addition'),           $this->ShippingAddress()->Addition));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Street',               $address->fieldLabel('Street'),             $this->ShippingAddress()->Street));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__StreetNumber',         $address->fieldLabel('StreetNumber'),       $this->ShippingAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new CheckboxField('sa__IsPackstation',    $address->fieldLabel('IsPackstation'),      $this->ShippingAddress()->IsPackstation));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__PostNumber',           $address->fieldLabel('PostNumber'),         $this->ShippingAddress()->PostNumber));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Packstation',          $address->fieldLabel('PackstationPlain'),   $this->ShippingAddress()->Packstation));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Postcode',             $address->fieldLabel('Postcode'),           $this->ShippingAddress()->Postcode));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__City',                 $address->fieldLabel('City'),               $this->ShippingAddress()->City));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new DropdownField('sa__Country',          $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->ShippingAddress()->Country()->ID));
-        $fields->addFieldToTab('Root.ShippingAddressTab', new TextField('sa__Phone',                $address->fieldLabel('Phone'),              $this->ShippingAddress()->Phone));
-            
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new LiteralField('ia__Preview',            '<p>' . Convert::raw2xml($this->getInvoiceAddressSummary(true)) . '</p>'));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__TaxIdNumber',           $address->fieldLabel('TaxIdNumber'),        $this->InvoiceAddress()->TaxIdNumber));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Company',               $address->fieldLabel('Company'),            $this->InvoiceAddress()->Company));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__FirstName',             $address->fieldLabel('FirstName'),          $this->InvoiceAddress()->FirstName));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Surname',               $address->fieldLabel('Surname'),            $this->InvoiceAddress()->Surname));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Addition',              $address->fieldLabel('Addition'),           $this->InvoiceAddress()->Addition));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Street',                $address->fieldLabel('Street'),             $this->InvoiceAddress()->Street));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__StreetNumber',          $address->fieldLabel('StreetNumber'),       $this->InvoiceAddress()->StreetNumber));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new CheckboxField('ia__IsPackstation',     $address->fieldLabel('IsPackstation'),      $this->InvoiceAddress()->IsPackstation));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__PostNumber',            $address->fieldLabel('PostNumber'),         $this->InvoiceAddress()->PostNumber));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Packstation',           $address->fieldLabel('PackstationPlain'),   $this->InvoiceAddress()->Packstation));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Postcode',              $address->fieldLabel('Postcode'),           $this->InvoiceAddress()->Postcode));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__City',                  $address->fieldLabel('City'),               $this->InvoiceAddress()->City));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new DropdownField('ia__Country',           $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->InvoiceAddress()->Country()->ID));
-        $fields->addFieldToTab('Root.InvoiceAddressTab', new TextField('ia__Phone',                 $address->fieldLabel('Phone'),              $this->InvoiceAddress()->Phone));
-        
-        //add print preview
-        $fields->findOrMakeTab('Root.PrintPreviewTab',    $this->fieldLabel('PrintPreview'));
-        $printPreviewField = new LiteralField(
-                'PrintPreviewField',
-                sprintf(
-                    '<iframe width="100%%" height="100%%" border="0" src="%s" class="print-preview"></iframe>',
-                    Printer::getPrintInlineURL($this)
-                )
-        );
-        $fields->addFieldToTab('Root.PrintPreviewTab', $printPreviewField);
-        
-        if (!empty($this->PaymentReferenceID)) {
-            $paymentReferenceIDField = new TextField('PaymentReferenceID_Readonly', $this->fieldLabel('PaymentReferenceID'), $this->PaymentReferenceID);
-            $paymentReferenceIDField->setReadonly(true);
-            $fields->insertAfter($paymentReferenceIDField, 'PaymentReferenceID');
-        }
-        if (empty($this->PaymentReferenceID)) {
-            $fields->removeByName('PaymentReferenceMessage');
-        } else {
-            $fields->dataFieldByName('PaymentReferenceMessage')->setReadonly(true);
-        }
-        $fields->removeByName('PaymentReferenceID');
-        $fields->removeByName('PaymentReferenceData');
-        
-        return $fields;
+
+        $fields->addFieldToTab('Root.ShippingAddressTab', LiteralField::create('sa__Preview',           '<p>' . Convert::raw2xml($this->getShippingAddressSummary(true)) . '</p>'));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__TaxIdNumber',          $address->fieldLabel('TaxIdNumber'),        $this->ShippingAddress()->TaxIdNumber));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Company',              $address->fieldLabel('Company'),            $this->ShippingAddress()->Company));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__FirstName',            $address->fieldLabel('FirstName'),          $this->ShippingAddress()->FirstName));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Surname',              $address->fieldLabel('Surname'),            $this->ShippingAddress()->Surname));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Addition',             $address->fieldLabel('Addition'),           $this->ShippingAddress()->Addition));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Street',               $address->fieldLabel('Street'),             $this->ShippingAddress()->Street));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__StreetNumber',         $address->fieldLabel('StreetNumber'),       $this->ShippingAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.ShippingAddressTab', CheckboxField::create('sa__IsPackstation',    $address->fieldLabel('IsPackstation'),      $this->ShippingAddress()->IsPackstation));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__PostNumber',           $address->fieldLabel('PostNumber'),         $this->ShippingAddress()->PostNumber));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Packstation',          $address->fieldLabel('PackstationPlain'),   $this->ShippingAddress()->Packstation));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Postcode',             $address->fieldLabel('Postcode'),           $this->ShippingAddress()->Postcode));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__City',                 $address->fieldLabel('City'),               $this->ShippingAddress()->City));
+        $fields->addFieldToTab('Root.ShippingAddressTab', DropdownField::create('sa__Country',          $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->ShippingAddress()->Country()->ID));
+        $fields->addFieldToTab('Root.ShippingAddressTab', TextField::create('sa__Phone',                $address->fieldLabel('Phone'),              $this->ShippingAddress()->Phone));
+
+        $fields->addFieldToTab('Root.InvoiceAddressTab', LiteralField::create('ia__Preview',            '<p>' . Convert::raw2xml($this->getInvoiceAddressSummary(true)) . '</p>'));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__TaxIdNumber',           $address->fieldLabel('TaxIdNumber'),        $this->InvoiceAddress()->TaxIdNumber));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Company',               $address->fieldLabel('Company'),            $this->InvoiceAddress()->Company));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__FirstName',             $address->fieldLabel('FirstName'),          $this->InvoiceAddress()->FirstName));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Surname',               $address->fieldLabel('Surname'),            $this->InvoiceAddress()->Surname));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Addition',              $address->fieldLabel('Addition'),           $this->InvoiceAddress()->Addition));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Street',                $address->fieldLabel('Street'),             $this->InvoiceAddress()->Street));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__StreetNumber',          $address->fieldLabel('StreetNumber'),       $this->InvoiceAddress()->StreetNumber));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', CheckboxField::create('ia__IsPackstation',     $address->fieldLabel('IsPackstation'),      $this->InvoiceAddress()->IsPackstation));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__PostNumber',            $address->fieldLabel('PostNumber'),         $this->InvoiceAddress()->PostNumber));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Packstation',           $address->fieldLabel('PackstationPlain'),   $this->InvoiceAddress()->Packstation));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Postcode',              $address->fieldLabel('Postcode'),           $this->InvoiceAddress()->Postcode));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__City',                  $address->fieldLabel('City'),               $this->InvoiceAddress()->City));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', DropdownField::create('ia__Country',           $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->InvoiceAddress()->Country()->ID));
+        $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Phone',                 $address->fieldLabel('Phone'),              $this->InvoiceAddress()->Phone));
+        return $this;
     }
     
     /**
@@ -850,31 +948,28 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return FieldList
      */
-    public function getQuickAccessFields() {
-        $quickAccessFields = new FieldList();
+    public function getQuickAccessFields()
+    {
+        $quickAccessFields = FieldList::create();
         
         $threeColField = '<div class="multi-col-field"><strong>%s</strong><span>%s</span><span>%s</span></div>';
         $twoColField   = '<div class="multi-col-field"><strong>%s</strong><span></span><span>%s</span></div>';
         
-        $orderNumberField   = new TextField('OrderNumber__' . $this->ID, $this->fieldLabel('OrderNumber'), $this->OrderNumber);
-        $orderStatusField   = new TextField('OrderStatus__' . $this->ID, $this->fieldLabel('OrderStatus'), $this->OrderStatus()->Title);
-        $orderPositionTable = new TableField(
+        $infoField = LiteralField::create('OrderInfo__' . $this->ID,
+                "{$this->fieldLabel('OrderNumber')}: <strong>{$this->OrderNumber}</strong>"
+                . " | {$this->fieldLabel('OrderStatus')}: <strong>{$this->OrderStatus()->Title}</strong>"
+                . " | {$this->fieldLabel('PaymentStatus')}: <strong>{$this->PaymentStatus()->Title}</strong>"
+        );
+        $orderPositionTable = TableField::create(
                 'OrderPositions__' . $this->ID,
                 $this->fieldLabel('OrderPositions'),
                 $this->OrderPositions()
         );
-        $shippingField    = new LiteralField('ShippingMethod__' . $this->ID, sprintf($threeColField, $this->fieldLabel('ShippingMethod'), $this->ShippingMethod()->TitleWithCarrier, $this->HandlingCostShipmentNice));
-        $paymentField     = new LiteralField('PaymentMethod__' . $this->ID,  sprintf($threeColField, $this->fieldLabel('PaymentMethod'),  $this->PaymentMethod()->Title,             $this->HandlingCostPaymentNice));
-        $amountTotalField = new LiteralField('AmountTotal__' . $this->ID,    sprintf($twoColField,   $this->fieldLabel('AmountTotal'),    $this->AmountTotalNice));
+        $shippingField    = LiteralField::create('ShippingMethod__' . $this->ID, sprintf($threeColField, $this->fieldLabel('ShippingMethod'), $this->ShippingMethod()->TitleWithCarrier, $this->HandlingCostShipmentNice));
+        $paymentField     = LiteralField::create('PaymentMethod__' . $this->ID,  sprintf($threeColField, $this->fieldLabel('PaymentMethod'),  $this->PaymentMethod()->Title,             $this->HandlingCostPaymentNice));
+        $amountTotalField = LiteralField::create('AmountTotal__' . $this->ID,    sprintf($twoColField,   $this->fieldLabel('AmountTotal'),    $this->AmountTotalNice));
         
-        $orderNumberField->setReadonly(true);
-        $orderStatusField->setReadonly(true);
-        
-        $mainGroup = new FieldGroup('MainGroup');
-        $mainGroup->push($orderNumberField);
-        $mainGroup->push($orderStatusField);
-        
-        $quickAccessFields->push($mainGroup);
+        $quickAccessFields->push($infoField);
         $quickAccessFields->push($orderPositionTable);
         $quickAccessFields->push($shippingField);
         $quickAccessFields->push($paymentField);
@@ -896,9 +991,10 @@ class Order extends DataObject implements PermissionProvider {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.04.2018
      */
-    public function createInvoiceAddress($addressData = array()) {
+    public function createInvoiceAddress($addressData = [])
+    {
         $this->extend('onBeforeCreateInvoiceAddress', $addressData, $this);
-        $orderInvoiceAddress    = $this->createAddress($addressData, new OrderInvoiceAddress());
+        $orderInvoiceAddress    = $this->createAddress($addressData, OrderInvoiceAddress::create());
         $this->InvoiceAddressID = $orderInvoiceAddress->ID;
         $this->write();
         $this->extend('onAfterCreateInvoiceAddress', $orderInvoiceAddress, $this);
@@ -915,9 +1011,10 @@ class Order extends DataObject implements PermissionProvider {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.04.2018
      */
-    public function createShippingAddress($addressData = array()) {
+    public function createShippingAddress($addressData = [])
+    {
         $this->extend('onBeforeCreateShippingAddress', $addressData, $this);
-        $orderShippingAddress    = $this->createAddress($addressData, new OrderShippingAddress());
+        $orderShippingAddress    = $this->createAddress($addressData, OrderShippingAddress::create());
         $this->ShippingAddressID = $orderShippingAddress->ID;
         $this->write();
         $this->extend('onAfterCreateShippingAddress', $orderShippingAddress, $this);
@@ -934,7 +1031,8 @@ class Order extends DataObject implements PermissionProvider {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.04.2018
      */
-    public function createAddress($addressData, $address) {
+    public function createAddress($addressData, $address)
+    {
         if (empty($addressData)) {
             $member      = Customer::currentUser();
             $addressData = $member->ShippingAddress()->toMap();
@@ -960,7 +1058,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.20118
      */
-    public function createFromShoppingCart() {
+    public function createFromShoppingCart()
+    {
         $member = Customer::currentUser();
         if ($member instanceof Member) {
             $shoppingCart = $member->getCart();
@@ -981,24 +1080,27 @@ class Order extends DataObject implements PermissionProvider {
 
             // VAT tax for shipping and payment fees
             $shippingMethod = ShippingMethod::get()->byID($this->ShippingMethodID);
-            if ($shippingMethod instanceof ShippingMethod &&
-                $shippingMethod->exists()) {
+            if ($shippingMethod instanceof ShippingMethod
+             && $shippingMethod->exists()
+            ) {
                 $shippingFee = $shippingMethod->getShippingFee();
-                if ($shippingFee instanceof ShippingFee &&
-                    $shippingFee->exists() &&
-                    $shippingFee->Tax()->exists()) {
+                if ($shippingFee instanceof ShippingFee
+                 && $shippingFee->exists()
+                 && $shippingFee->Tax()->exists()
+                ) {
                     $this->TaxRateShipment   = $shippingFee->getTaxRate();
                     $this->TaxAmountShipment = $shippingFee->getTaxAmount();
                 }
             }
 
             $paymentMethod = PaymentMethod::get()->byID($this->PaymentMethodID);
-            if ($paymentMethod instanceof PaymentMethod &&
-                $paymentMethod->exists()) {
+            if ($paymentMethod instanceof PaymentMethod
+             && $paymentMethod->exists()
+            ) {
                 $paymentFee = $paymentMethod->getHandlingCost();
-
-                if ($paymentFee instanceof HandlingCost &&
-                    $paymentFee->exists()) {
+                if ($paymentFee instanceof HandlingCost
+                 && $paymentFee->exists()
+                ) {
                     if ($paymentFee->Tax()->exists()) {
                         $this->TaxRatePayment   = $paymentFee->Tax()->getTaxRate();
                         $this->TaxAmountPayment = $paymentFee->getTaxAmount();
@@ -1019,9 +1121,19 @@ class Order extends DataObject implements PermissionProvider {
             $this->PriceType = $member->getPriceType();
 
             // adjust orders standard status
-            $orderStatus = OrderStatus::get()->filter('Code', $paymentMethod->getDefaultOrderStatus())->first();
-            if ($orderStatus) {
+            $orderStatus = OrderStatus::get_default();
+            if ($orderStatus instanceof OrderStatus
+             && $orderStatus->exists()) {
                 $this->OrderStatusID = $orderStatus->ID;
+            }
+            $paymentStatus = $paymentMethod->PaymentStatus();
+            if (!$paymentStatus->exists()) {
+                $paymentStatus = PaymentStatus::get_default();
+            }
+            if ($paymentStatus instanceof PaymentStatus
+             && $paymentStatus->exists()
+            ) {
+                $this->PaymentStatusID = $paymentStatus->ID;
             }
 
             // write order to have an id
@@ -1040,7 +1152,8 @@ class Order extends DataObject implements PermissionProvider {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function convertShoppingCartPositionsToOrderPositions() {
+    public function convertShoppingCartPositionsToOrderPositions()
+    {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
             return true;
         }
@@ -1057,7 +1170,7 @@ class Order extends DataObject implements PermissionProvider {
                     $product = $shoppingCartPosition->Product();
 
                     if ($product) {
-                        $orderPosition = new OrderPosition();
+                        $orderPosition = OrderPosition::create();
                         $orderPosition->objectCreated = true;
                         $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
                         $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
@@ -1097,11 +1210,11 @@ class Order extends DataObject implements PermissionProvider {
                 // Get taxable positions from registered modules
                 $registeredModules = $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartPositions',
-                    array(
+                    [
                         $member->getCart(),
                         $member,
                         true
-                    )
+                    ]
                 );
 
                 foreach ($registeredModules as $moduleName => $moduleOutput) {
@@ -1150,7 +1263,7 @@ class Order extends DataObject implements PermissionProvider {
                     $chargesAndDiscountsForProducts = $shoppingCart->ChargesAndDiscountsForProducts();
 
                     foreach ($chargesAndDiscountsForProducts as $chargeAndDiscountForProduct) {
-                        $orderPosition = new OrderPosition();
+                        $orderPosition = OrderPosition::create();
                         $orderPosition->Price->setAmount($chargeAndDiscountForProduct->Price->getAmount());
                         $orderPosition->Price->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
                         $orderPosition->PriceTotal->setAmount($chargeAndDiscountForProduct->Price->getAmount());
@@ -1179,16 +1292,16 @@ class Order extends DataObject implements PermissionProvider {
                 // Get nontaxable positions from registered modules
                 $registeredModulesNonTaxablePositions = $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartPositions',
-                    array(
+                    [
                         $member->getCart(),
                         $member,
                         false
-                    )
+                    ]
                 );
 
                 foreach ($registeredModulesNonTaxablePositions as $moduleName => $moduleOutput) {
                     foreach ($moduleOutput as $modulePosition) {
-                        $orderPosition = new OrderPosition();
+                        $orderPosition = OrderPosition::create();
                         if ($this->IsPriceTypeGross()) {
                             $orderPosition->Price->setAmount($modulePosition->Price);
                         } else {
@@ -1218,7 +1331,7 @@ class Order extends DataObject implements PermissionProvider {
                     $chargesAndDiscountsForTotal = $shoppingCart->ChargesAndDiscountsForTotal();
 
                     foreach ($chargesAndDiscountsForTotal as $chargeAndDiscountForTotal) {
-                        $orderPosition = new OrderPosition();
+                        $orderPosition = OrderPosition::create();
                         $orderPosition->Price->setAmount($chargeAndDiscountForTotal->Price->getAmount());
                         $orderPosition->Price->setCurrency($chargeAndDiscountForTotal->Price->getCurrency());
                         $orderPosition->PriceTotal->setAmount($chargeAndDiscountForTotal->Price->getAmount());
@@ -1245,11 +1358,11 @@ class Order extends DataObject implements PermissionProvider {
                 // Convert positions of registered modules
                 $member->getCart()->callMethodOnRegisteredModules(
                     'ShoppingCartConvert',
-                    array(
+                    [
                         Customer::currentUser()->getCart(),
                         Customer::currentUser(),
                         $this
-                    )
+                    ]
                 );
                 
                 $this->extend('onAfterConvertShoppingCartPositionsToOrderPositions', $shoppingCart);
@@ -1271,7 +1384,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return void
      */
-    public function setPaymentMethod($paymentMethodID) {
+    public function setPaymentMethod($paymentMethodID)
+    {
         $paymentMethod = PaymentMethod::get()->byID($paymentMethodID);
 
         if ($paymentMethod) {
@@ -1282,16 +1396,57 @@ class Order extends DataObject implements PermissionProvider {
     }
 
     /**
+     * set payment status of $this
+     *
+     * @param PaymentStatus $paymentStatus the payment status object
+     *
+     * @return bool
+     */
+    public function setPaymentStatus($paymentStatus)
+    {
+        $paymentStatusSet = false;
+        if ($paymentStatus instanceof PaymentStatus
+         && $paymentStatus->exists()
+        ) {
+            $this->PaymentStatusID = $paymentStatus->ID;
+            $this->write();
+            $paymentStatusSet = true;
+        }
+        return $paymentStatusSet;
+    }
+
+    /**
+     * set payment status of $this
+     *
+     * @param int $paymentStatusID the order status ID
+     *
+     * @return bool
+     */
+    public function setPaymentStatusByID($paymentStatusID)
+    {
+        $paymentStatusSet = false;
+        if (PaymentStatus::get()->byID($paymentStatusID)->exists()) {
+            $this->PaymentStatusID = $paymentStatusID;
+            $this->write();
+            $paymentStatusSet = true;
+        }
+        return $paymentStatusSet;
+    }
+
+    /**
      * set status of $this
      *
      * @param OrderStatus $orderStatus the order status object
      *
      * @return bool
      */
-    public function setOrderStatus($orderStatus) {
+    public function setOrderStatus($orderStatus)
+    {
         $orderStatusSet = false;
 
-        if ($orderStatus && $orderStatus->exists()) {
+        if ($orderStatus instanceof OrderStatus
+         && $orderStatus->exists()
+        ) {
             $this->OrderStatusID = $orderStatus->ID;
             $this->write();
             $orderStatusSet = true;
@@ -1307,7 +1462,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return bool
      */
-    public function setOrderStatusByID($orderStatusID) {
+    public function setOrderStatusByID($orderStatusID)
+    {
         $orderStatusSet = false;
 
         if (OrderStatus::get()->byID($orderStatusID)->exists()) {
@@ -1324,10 +1480,12 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @param string $note the customers notice
      *
-     * @return void
+     * @return $this
      */
-    public function setNote($note) {
+    public function setNote($note)
+    {
         $this->setField('Note', $note);
+        return $this;
     }
 
     /**
@@ -1335,7 +1493,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getFormattedNote() {
+    public function getFormattedNote()
+    {
         $note = str_replace(
             '\r\n',
             '<br />',
@@ -1348,27 +1507,33 @@ class Order extends DataObject implements PermissionProvider {
     /**
      * save the carts weight
      *
-     * @return void
+     * @return $this
      */
-    public function setWeight() {
+    public function setWeight()
+    {
         $member = Customer::currentUser();
-        if ($member instanceof Member &&
-            $member->getCart()->getWeightTotal()) {
+        if ($member instanceof Member
+         && $member->getCart()->getWeightTotal()
+        ) {
             $this->WeightTotal = $member->getCart()->getWeightTotal();
         }
+        return $this;
     }
 
     /**
      * set the total price for this order
      *
-     * @return void
+     * @return $this
      */
-    public function setAmountTotal() {
+    public function setAmountTotal()
+    {
         $member = Customer::currentUser();
-
-        if ($member && $member->getCart()) {
+        if ($member
+         && $member->getCart()
+        ) {
             $this->AmountTotal = $member->getCart()->getAmountTotal();
         }
+        return $this;
     }
 
     /**
@@ -1376,15 +1541,18 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @param string $email the email address of the customer
      *
-     * @return void
+     * @return $this
      */
-    public function setCustomerEmail($email = null) {
+    public function setCustomerEmail($email = null)
+    {
         $member = Customer::currentUser();
-        if ($member instanceof Member &&
-            $member->Email) {
+        if ($member instanceof Member
+         && $member->Email
+        ) {
             $email = $member->Email;
         }
         $this->CustomersEmail = $email;
+        return $this;
     }
     
     /**
@@ -1392,14 +1560,12 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @param boolean $status The status of the field
      * 
-     * @return void
+     * @return $this
      */
-    public function setHasAcceptedRevocationInstruction($status) {
-        if ($status == 1) {
-            $status = true;
-        }
-        
+    public function setHasAcceptedRevocationInstruction($status)
+    {
         $this->HasAcceptedRevocationInstruction = $status;
+        return $this;
     }
     
     /**
@@ -1407,14 +1573,12 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @param boolean $status The status of the field
      * 
-     * @return void
+     * @return $this
      */
-    public function setHasAcceptedTermsAndConditions($status) {
-        if ($status == 1) {
-            $status = true;
-        }
-        
+    public function setHasAcceptedTermsAndConditions($status)
+    {
         $this->HasAcceptedTermsAndConditions = $status;
+        return $this;
     }
 
     /**
@@ -1424,11 +1588,13 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return void
      */
-    public function setShippingMethod($shippingMethodID) {
+    public function setShippingMethod($shippingMethodID)
+    {
         $selectedShippingMethod = ShippingMethod::get()->byID($shippingMethodID);
 
-        if ($selectedShippingMethod instanceof ShippingMethod &&
-            $selectedShippingMethod->getShippingFee() instanceof ShippingFee) {
+        if ($selectedShippingMethod instanceof ShippingMethod
+         && $selectedShippingMethod->getShippingFee() instanceof ShippingFee
+        ) {
             $this->ShippingMethodID    = $selectedShippingMethod->ID;
             $this->ShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
             $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->getPriceAmount());
@@ -1441,14 +1607,15 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return float
      */
-    public function getTax() {
+    public function getTax()
+    {
         $tax = 0.0;
 
         foreach ($this->OrderPositions() as $orderPosition) {
             $tax += $orderPosition->TaxTotal;
         }
 
-        $taxObj = new DBMoney('Tax');
+        $taxObj = DBMoney::create('Tax');
         $taxObj->setAmount($tax);
         $taxObj->setCurrency(Config::DefaultCurrency());
 
@@ -1460,7 +1627,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getCurrency() {
+    public function getCurrency()
+    {
         return $this->AmountTotal->getCurrency();
     }
     
@@ -1472,20 +1640,21 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getPositionsAsString($asHtmlString = false, $withAmountTotal = false) {
+    public function getPositionsAsString($asHtmlString = false, $withAmountTotal = false)
+    {
         if ($asHtmlString) {
             $seperator = '<br/>';
         } else {
             $seperator = PHP_EOL;
         }
-        $positionsStrings = array();
+        $positionsStrings = [];
         foreach ($this->OrderPositions() as $position) {
             $positionsString = $position->getTypeSafeQuantity() . 'x #' . $position->ProductNumber . ' "' . $position->Title . '" ' . $position->getPriceTotalNice();
             $positionsStrings[] = $positionsString;
         }
         $positionsAsString = implode($seperator . '------------------------' . $seperator, $positionsStrings);
         if ($withAmountTotal) {
-            $shipmentAndPayment = new DBMoney();
+            $shipmentAndPayment = DBMoney::create();
             $shipmentAndPayment->setAmount($this->HandlingCostPayment->getAmount() + $this->HandlingCostShipment->getAmount());
             $shipmentAndPayment->setCurrency($this->HandlingCostPayment->getCurrency());
             
@@ -1502,10 +1671,11 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getPositionsPriceGross() {
+    public function getPositionsPriceGross()
+    {
         $positionsPriceGross = $this->AmountTotal->getAmount() - ($this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount());
 
-        $positionsPriceGrossObj = new DBMoney();
+        $positionsPriceGrossObj = DBMoney::create();
         $positionsPriceGrossObj->setAmount($positionsPriceGross);
         $positionsPriceGrossObj->setCurrency(Config::DefaultCurrency());
         
@@ -1517,10 +1687,11 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return DBMoney
      */
-    public function getPositionsPriceNet() {
+    public function getPositionsPriceNet()
+    {
         $priceNet = $this->getPositionsPriceGross()->getAmount() - $this->getTax(true,true,true)->getAmount();
 
-        $priceNetObj = new DBMoney();
+        $priceNetObj = DBMoney::create();
         $priceNetObj->setAmount($priceNet);
         $priceNetObj->setCurrency(Config::DefaultCurrency());
         
@@ -1532,7 +1703,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return DBMoney
      */
-    public function getPriceGross() {
+    public function getPriceGross()
+    {
         return $this->AmountTotal;
     }
     
@@ -1541,16 +1713,18 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function OrderPositionsWithoutTax() {
-        $orderPositions = new ArrayList();
+    public function OrderPositionsWithoutTax()
+    {
+        $orderPositions = ArrayList::create();
         
         foreach ($this->OrderPositions() as $orderPosition) {
-            if (!$orderPosition->isChargeOrDiscount &&
-                 $orderPosition->TaxRate == 0) {
-                
+            if (!$orderPosition->isChargeOrDiscount
+             && $orderPosition->TaxRate == 0
+            ) {
                 $orderPositions->push($orderPosition);
             }
         }
@@ -1564,11 +1738,13 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return mixed ArrayList
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.03.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function OrderIncludedInTotalPositions() {
-        $positions = new ArrayList();
+    public function OrderIncludedInTotalPositions()
+    {
+        $positions = ArrayList::create();
 
         foreach ($this->OrderPositions() as $orderPosition) {
             if ($orderPosition->isIncludedInTotal) {
@@ -1589,8 +1765,9 @@ class Order extends DataObject implements PermissionProvider {
      *         Ramon Kupper <rkupper@pixeltricks.de>
      * @since 16.11.2013
      */
-    public function OrderListPositions() {
-        $orderPositions = new ArrayList();
+    public function OrderListPositions()
+    {
+        $orderPositions = ArrayList::create();
         
         foreach ($this->OrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount) {
@@ -1608,16 +1785,17 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
     public function OrderChargePositionsTotal() {
-        $chargePositions = new ArrayList();
+        $chargePositions = ArrayList::create();
         
         foreach ($this->OrderPositions() as $orderPosition) {
-            if ($orderPosition->isChargeOrDiscount &&
-                $orderPosition->chargeOrDiscountModificationImpact == 'totalValue') {
-                
+            if ($orderPosition->isChargeOrDiscount
+             && $orderPosition->chargeOrDiscountModificationImpact == 'totalValue'
+            ) {
                 $chargePositions->push($orderPosition);
             }
         }
@@ -1631,16 +1809,18 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return ArrayList
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function OrderChargePositionsProduct() {
-        $chargePositions = new ArrayList();
+    public function OrderChargePositionsProduct()
+    {
+        $chargePositions = ArrayList::create();
         
         foreach ($this->OrderPositions() as $orderPosition) {
-            if ($orderPosition->isChargeOrDiscount &&
-                $orderPosition->chargeOrDiscountModificationImpact == 'productValue') {
-                
+            if ($orderPosition->isChargeOrDiscount
+             && $orderPosition->chargeOrDiscountModificationImpact == 'productValue'
+            ) {
                 $chargePositions->push($orderPosition);
             }
         }
@@ -1658,7 +1838,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getTaxableAmountWithoutFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxableAmountWithoutFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         $taxableAmountWithoutFees = $this->getTaxableAmountWithoutFees($includeChargesForProducts, $includeChargesForTotal);
         return str_replace('.', ',', number_format($taxableAmountWithoutFees->Amount->getAmount(), 2)) . ' ' . $this->AmountTotal->getCurrency();
     }
@@ -1674,7 +1855,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxableAmountWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         $taxableAmountWithoutFees = null;
         if ($this->IsPriceTypeGross()) {
             $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($includeChargesForProducts, $includeChargesForTotal);
@@ -1695,8 +1877,9 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
-        $priceGross = new DBMoney();
+    public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
+        $priceGross = DBMoney::create();
         $priceGross->setAmount(0);
         $priceGross->setCurrency(Config::DefaultCurrency());
         
@@ -1708,32 +1891,24 @@ class Order extends DataObject implements PermissionProvider {
         }
         
         foreach ($this->OrderPositions() as $position) {
-            if ((
-                    !$includeChargesForProducts &&
-                     $position->isChargeOrDiscount &&
-                     $position->chargeOrDiscountModificationImpact == 'productValue'
-                ) || (
-                    !$includeChargesForTotal &&
-                     $position->isChargeOrDiscount &&
-                     $position->chargeOrDiscountModificationImpact == 'totalValue'
-                )
-               ) {
+            if ((!$includeChargesForProducts
+              && $position->isChargeOrDiscount
+              && $position->chargeOrDiscountModificationImpact == 'productValue')
+             || (!$includeChargesForTotal
+              && $position->isChargeOrDiscount
+              && $position->chargeOrDiscountModificationImpact == 'totalValue')
+            ) {
                 continue;
             }
             
-            if ($position->TaxRate > 0 ||
-                $position->IsNonTaxable) {
-                $priceGross->setAmount(
-                    $priceGross->getAmount() + $position->PriceTotal->getAmount()
-                );
+            if ($position->TaxRate > 0
+             || $position->IsNonTaxable
+            ) {
+                $priceGross->setAmount($priceGross->getAmount() + $position->PriceTotal->getAmount());
             }
         }
         
-        return new DataObject(
-            array(
-                'Amount' => $priceGross
-            )
-        );
+        return DataObject::create(['Amount' => $priceGross]);
     }
 
     /**
@@ -1747,8 +1922,9 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
-        $priceNet = new DBMoney();
+    public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
+        $priceNet = DBMoney::create();
         $priceNet->setAmount(0);
         $priceNet->setCurrency(Config::DefaultCurrency());
         
@@ -1760,32 +1936,24 @@ class Order extends DataObject implements PermissionProvider {
         }
         
         foreach ($this->OrderPositions() as $position) {
-            if ((
-                    !$includeChargesForProducts &&
-                     $position->isChargeOrDiscount &&
-                     $position->chargeOrDiscountModificationImpact == 'productValue'
-                ) || (
-                    !$includeChargesForTotal &&
-                     $position->isChargeOrDiscount &&
-                     $position->chargeOrDiscountModificationImpact == 'totalValue'
-                )
-               ) {
+            if ((!$includeChargesForProducts
+              && $position->isChargeOrDiscount
+              && $position->chargeOrDiscountModificationImpact == 'productValue')
+             || (!$includeChargesForTotal
+              && $position->isChargeOrDiscount
+              && $position->chargeOrDiscountModificationImpact == 'totalValue')
+            ) {
                 continue;
             }
             
-            if ($position->TaxRate > 0 ||
-                $position->IsNonTaxable) {
-                $priceNet->setAmount(
-                    $priceNet->getAmount() + $position->PriceTotal->getAmount()
-                );
+            if ($position->TaxRate > 0
+             || $position->IsNonTaxable
+            ) {
+                $priceNet->setAmount($priceNet->getAmount() + $position->PriceTotal->getAmount());
             }
         }
         
-        return new DataObject(
-            array(
-                'Amount' => $priceNet
-            )
-        );
+        return DataObject::create(['Amount' => $priceNet]);
     }
 
     /**
@@ -1798,7 +1966,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getTaxableAmountWithFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxableAmountWithFeesNice($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         $taxableAmountWithFees = $this->getTaxableAmountWithFees($includeChargesForProducts, $includeChargesForTotal);
         return str_replace('.', ',', number_format($taxableAmountWithFees->Amount->getAmount(), 2)) . ' ' . $this->AmountTotal->getCurrency();
     }
@@ -1814,7 +1983,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxableAmountWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         $taxableAmountWithFees = 0;
         if ($this->IsPriceTypeGross()) {
             $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($includeChargesForProducts, $includeChargesForTotal);
@@ -1835,7 +2005,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxableAmountGrossWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         if ($includeChargesForTotal == 'false') {
             $includeChargesForTotal = false;
         }
@@ -1855,11 +2026,7 @@ class Order extends DataObject implements PermissionProvider {
             $this->HandlingCostShipment->getAmount()
         );
         
-        return new DataObject(
-            array(
-                'Amount' => $priceGross
-            )
-        );
+        return DataObject::create(['Amount' => $priceGross]);
     }
     
     /**
@@ -1873,7 +2040,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxableAmountNetWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         if ($includeChargesForTotal == 'false') {
             $includeChargesForTotal = false;
         }
@@ -1893,11 +2061,7 @@ class Order extends DataObject implements PermissionProvider {
             $this->HandlingCostShipment->getAmount()
         );
         
-        return new DataObject(
-            array(
-                'Amount' => $priceGross
-            )
-        );
+        return DataObject::create(['Amount' => $priceGross]);
     }
 
     /**
@@ -1911,7 +2075,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList
      */
-    public function getTaxRatesWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxRatesWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         if ($includeChargesForTotal === 'false') {
             $includeChargesForTotal = false;
         }
@@ -1919,19 +2084,16 @@ class Order extends DataObject implements PermissionProvider {
             $includeChargesForProducts = false;
         }
         
-        $taxes = new ArrayList();
+        $taxes = ArrayList::create();
         
         foreach ($this->OrderPositions() as $orderPosition) {
-            if ((
-                    !$includeChargesForProducts &&
-                     $orderPosition->isChargeOrDiscount &&
-                     $orderPosition->chargeOrDiscountModificationImpact == 'productValue'
-                ) || (
-                    !$includeChargesForTotal &&
-                     $orderPosition->isChargeOrDiscount &&
-                     $orderPosition->chargeOrDiscountModificationImpact == 'totalValue'
-                )
-               ) {
+            if ((!$includeChargesForProducts
+              && $orderPosition->isChargeOrDiscount
+              && $orderPosition->chargeOrDiscountModificationImpact == 'productValue')
+             || (!$includeChargesForTotal
+              && $orderPosition->isChargeOrDiscount
+              && $orderPosition->chargeOrDiscountModificationImpact == 'totalValue')
+            ) {
                 continue;
             }
             
@@ -1939,24 +2101,20 @@ class Order extends DataObject implements PermissionProvider {
             if ($taxRate == '') {
                 $taxRate = 0;
             }
-            if ($taxRate >= 0 &&
-                !$taxes->find('Rate', $taxRate)) {
-                
-                $taxes->push(
-                    new DataObject(
-                        array(
-                            'Rate'      => $taxRate,
-                            'AmountRaw' => 0.0,
-                        )
-                    )
-                );
+            if ($taxRate >= 0
+             && !$taxes->find('Rate', $taxRate)
+            ) {
+                $taxes->push(DataObject::create([
+                    'Rate'      => $taxRate,
+                    'AmountRaw' => 0.0,
+                ]));
             }
             $taxSection = $taxes->find('Rate', $taxRate);
             $taxSection->AmountRaw += $orderPosition->TaxTotal;
         }
 
         foreach ($taxes as $tax) {
-            $taxObj = new DBMoney();
+            $taxObj = DBMoney::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(Config::DefaultCurrency());
 
@@ -1973,12 +2131,13 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return ArrayList
      */
-    public function getTaxTotal($excludeCharges = false) {
+    public function getTaxTotal($excludeCharges = false)
+    {
         $taxRates = $this->getTaxRatesWithFees(true, false);
 
-        if (!$excludeCharges &&
-             $this->HasChargePositionsForTotal()) {
-
+        if (!$excludeCharges
+         && $this->HasChargePositionsForTotal()
+        ) {
             foreach ($this->OrderChargePositionsTotal() as $charge) {
                 $taxRate = $taxRates->find('Rate', $charge->TaxRate);
 
@@ -2006,7 +2165,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return float
      */
-    public function getTaxTotalAmount($excludeCharges = false) {
+    public function getTaxTotalAmount($excludeCharges = false)
+    {
         $amount   = 0;
         $taxRates = $this->getTaxTotal($excludeCharges);
         foreach ($taxRates as $taxRate) {
@@ -2026,7 +2186,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList
      */
-    public function getTaxRatesWithFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
+    public function getTaxRatesWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
+    {
         if ($includeChargesForTotal === 'false') {
             $includeChargesForTotal = false;
         }
@@ -2041,17 +2202,13 @@ class Order extends DataObject implements PermissionProvider {
         if ($taxRateShipment == '') {
             $taxRateShipment = 0;
         }
-        if ($taxRateShipment >= 0 &&
-            !$taxes->find('Rate', $taxRateShipment)) {
-
-            $taxes->push(
-                new DataObject(
-                    array(
-                        'Rate'      => $taxRateShipment,
-                        'AmountRaw' => 0.0,
-                    )
-                )
-            );
+        if ($taxRateShipment >= 0
+         && !$taxes->find('Rate', $taxRateShipment)
+        ) {
+            $taxes->push(DataObject::create([
+                'Rate'      => $taxRateShipment,
+                'AmountRaw' => 0.0,
+            ]));
         }
         $taxSectionShipment = $taxes->find('Rate', $taxRateShipment);
         $taxSectionShipment->AmountRaw += $this->TaxAmountShipment;
@@ -2061,26 +2218,21 @@ class Order extends DataObject implements PermissionProvider {
         if ($taxRatePayment == '') {
             $taxRatePayment = 0;
         }
-        if ($taxRatePayment >= 0 &&
-            !$taxes->find('Rate', $taxRatePayment)) {
-
-            $taxes->push(
-                new DataObject(
-                    array(
-                        'Rate'      => $taxRatePayment,
-                        'AmountRaw' => 0.0,
-                    )
-                )
-            );
+        if ($taxRatePayment >= 0
+         && !$taxes->find('Rate', $taxRatePayment)
+        ) {
+            $taxes->push(DataObject::create([
+                'Rate'      => $taxRatePayment,
+                'AmountRaw' => 0.0,
+            ]));
         }
         $taxSectionPayment = $taxes->find('Rate', $taxRatePayment);
         $taxSectionPayment->AmountRaw += $this->TaxAmountPayment;
 
         foreach ($taxes as $tax) {
-            $taxObj = new DBMoney;
+            $taxObj = DBMoney::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(Config::DefaultCurrency());
-
             $tax->Amount = $taxObj;
         }
         
@@ -2094,14 +2246,15 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return int
      */
-    public function getQuantity($productId = null) {
+    public function getQuantity($productId = null)
+    {
         $positions = $this->OrderPositions();
         $quantity = 0;
 
         foreach ($positions as $position) {
-            if ($productId === null ||
-                    $position->Product()->ID === $productId) {
-
+            if ($productId === null
+             || $position->Product()->ID === $productId
+            ) {
                 $quantity += $position->Quantity;
             }
         }
@@ -2117,7 +2270,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function OrderDetailInformation() {
+    public function OrderDetailInformation()
+    {
         $orderDetailInformation = '';
         $this->extend('updateOrderDetailInformation', $orderDetailInformation);
         return $orderDetailInformation;
@@ -2128,12 +2282,13 @@ class Order extends DataObject implements PermissionProvider {
      * HTML table.
      * 
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.01.2012
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function OrderDetailTable() {
-        $viewableData = new ViewableData();
+    public function OrderDetailTable()
+    {
+        $viewableData = ViewableData::create();
         $template     = '';
 
         if ($this->IsPriceTypeGross()) {
@@ -2151,16 +2306,18 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return boolean
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function HasChargePositionsForProduct() {
+    public function HasChargePositionsForProduct()
+    {
         $hasChargePositionsForProduct = false;
 
         foreach ($this->OrderPositions() as $orderPosition) {
-            if ($orderPosition->isChargeOrDiscount &&
-                $orderPosition->chargeOrDiscountModificationImpact == 'productValue') {
-
+            if ($orderPosition->isChargeOrDiscount
+             && $orderPosition->chargeOrDiscountModificationImpact == 'productValue'
+            ) {
                 $hasChargePositionsForProduct = true;
             }
         }
@@ -2174,16 +2331,18 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return boolean
      * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 19.12.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function HasChargePositionsForTotal() {
+    public function HasChargePositionsForTotal()
+    {
         $hasChargePositionsForTotal = false;
 
         foreach ($this->OrderPositions() as $orderPosition) {
-            if ($orderPosition->isChargeOrDiscount &&
-                $orderPosition->chargeOrDiscountModificationImpact == 'totalValue') {
-
+            if ($orderPosition->isChargeOrDiscount
+             && $orderPosition->chargeOrDiscountModificationImpact == 'totalValue'
+            ) {
                 $hasChargePositionsForTotal = true;
             }
         }
@@ -2197,15 +2356,13 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return boolean
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 20.02.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 07.09.2018
      */
-    public function HasIncludedInTotalPositions() {
-        if ($this->OrderIncludedInTotalPositions()) {
-            return true;
-        } else {
-            return false;
-        }
+    public function HasIncludedInTotalPositions()
+    {
+        return (bool) $this->OrderIncludedInTotalPositions();
     }
     
     /**
@@ -2213,7 +2370,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getPriceTypeText() {
+    public function getPriceTypeText()
+    {
         return _t(Customer::class . '.PRICETYPE_' . strtoupper($this->PriceType), $this->PriceType);
     }
 
@@ -2226,7 +2384,8 @@ class Order extends DataObject implements PermissionProvider {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function IsPriceTypeGross() {
+    public function IsPriceTypeGross()
+    {
         $isPriceTypeGross = false;
 
         if ($this->PriceType == 'gross') {
@@ -2247,7 +2406,8 @@ class Order extends DataObject implements PermissionProvider {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function IsPriceTypeNet() {
+    public function IsPriceTypeNet()
+    {
         $isPriceTypeNet = false;
 
         if ($this->PriceType == 'net') {
@@ -2270,7 +2430,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.04.2018
      */
-    public function Log($context, $text) {
+    public function Log($context, $text)
+    {
         Tools::Log($context, $text, 'order');
     }
 
@@ -2283,7 +2444,8 @@ class Order extends DataObject implements PermissionProvider {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function sendConfirmationMail() {
+    public function sendConfirmationMail()
+    {
         $this->extend('onBeforeConfirmationMail');
         $params = [
             'OrderConfirmation' => [
@@ -2335,39 +2497,20 @@ class Order extends DataObject implements PermissionProvider {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.01.2014
+     * @since 07.09.2018
      */
-    protected function onBeforeWrite() {
+    protected function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = NumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
-        if (!$this->didHandleOrderStatusChange &&
-            $this->ID > 0 && $this->isChanged('OrderStatusID')) {
-            $this->didHandleOrderStatusChange = true;
-            $this->extend('onBeforeOrderStatusChange');
-            if (method_exists($this->PaymentMethod(), 'handleOrderStatusChange')) {
-                $this->PaymentMethod()->handleOrderStatusChange($this);
-            }
-            $newOrderStatus = OrderStatus::get()->byID($this->OrderStatusID);
-            
-            if ($newOrderStatus) {
-                if ($this->AmountTotalAmount > 0) {
-                    $this->AmountTotal->setAmount($this->AmountTotalAmount);
-                    $this->AmountTotal->setCurrency($this->AmountTotalCurrency);
-                }
-                
-                $newOrderStatus->sendMailFor($this);
-            }
-            $orderStatusID = 0;
-            if (array_key_exists('OrderStatusID', $this->original)) {
-                $orderStatusID = $this->original['OrderStatusID'];
-            }
-            OrderLog::addChangedLog($this, OrderStatus::class, $orderStatusID, $this->OrderStatusID);
-        }
-        if (array_key_exists('sa__FirstName', $_POST) &&
-            $this->ShippingAddress()->ID > 0) {
+        $this->handleOrderStatusChange();
+        $this->handlePaymentStatusChange();
+        if (array_key_exists('sa__FirstName', $_POST)
+         && $this->ShippingAddress()->ID > 0
+        ) {
             foreach ($_POST as $paramName => $paramValue) {
                 if (strpos($paramName, 'sa__') === 0) {
                     $addressParamName = str_replace('sa__', '', $paramName);
@@ -2376,8 +2519,9 @@ class Order extends DataObject implements PermissionProvider {
             }
             $this->ShippingAddress()->write();
         }
-        if (array_key_exists('ia__FirstName', $_POST) &&
-            $this->InvoiceAddress()->ID > 0) {
+        if (array_key_exists('ia__FirstName', $_POST)
+         && $this->InvoiceAddress()->ID > 0
+        ) {
             foreach ($_POST as $paramName => $paramValue) {
                 if (strpos($paramName, 'ia__') === 0) {
                     $addressParamName = str_replace('ia__', '', $paramName);
@@ -2388,6 +2532,81 @@ class Order extends DataObject implements PermissionProvider {
         }
         $this->extend('updateOnBeforeWrite');
     }
+    
+    /**
+     * Handles an order status change.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function handleOrderStatusChange()
+    {
+        if (!$this->didHandleOrderStatusChange
+         && $this->exists()
+         && $this->isChanged('OrderStatusID')
+        ) {
+            $this->didHandleOrderStatusChange = true;
+            $this->extend('onBeforeOrderStatusChange');
+            if (method_exists($this->PaymentMethod(), 'handleOrderStatusChange')) {
+                $this->PaymentMethod()->handleOrderStatusChange($this);
+            }
+            $newOrderStatus = OrderStatus::get()->byID($this->OrderStatusID);
+            
+            if ($newOrderStatus) {
+                if ($newOrderStatus instanceof OrderStatus
+                 && $newOrderStatus->Code === 'shipped'
+                 && $this->ShippingDate == null) {
+                    $this->ShippingDate = date('Y-m-d');
+                }
+                if ($this->AmountTotalAmount > 0) {
+                    $this->AmountTotal->setAmount($this->AmountTotalAmount);
+                    $this->AmountTotal->setCurrency($this->AmountTotalCurrency);
+                }
+                $newOrderStatus->sendMailFor($this);
+            }
+            $orderStatusID = 0;
+            if (array_key_exists('OrderStatusID', $this->original)) {
+                $orderStatusID = $this->original['OrderStatusID'];
+            }
+            OrderLog::addChangedLog($this, OrderStatus::class, $orderStatusID, $this->OrderStatusID);
+        }
+    }
+    
+    /**
+     * Handles a payment status change.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function handlePaymentStatusChange()
+    {
+        if (!$this->didHandlePaymentStatusChange
+         && $this->exists()
+         && $this->isChanged('PaymentStatusID')
+        ) {
+            $this->didHandlePaymentStatusChange = true;
+            $this->extend('onBeforePaymentStatusChange');
+            if (method_exists($this->PaymentMethod(), 'handlePaymentStatusChange')) {
+                $this->PaymentMethod()->handlePaymentStatusChange($this);
+            }
+            $newPaymentStatus = PaymentStatus::get()->byID($this->PaymentStatusID);
+            
+            if ($newPaymentStatus instanceof PaymentStatus
+             && $newPaymentStatus->Code === 'paid'
+             && $this->PaymentDate == null) {
+                $this->PaymentDate = date('Y-m-d');
+            }
+            $paymentStatusID = 0;
+            if (array_key_exists('PaymentStatusID', $this->original)) {
+                $paymentStatusID = $this->original['PaymentStatusID'];
+            }
+            OrderLog::addChangedLog($this, PaymentStatus::class, $paymentStatusID, $this->PaymentStatusID);
+        }
+    }
 
     /**
      * hook triggered after write
@@ -2396,13 +2615,14 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.01.2014
+     * @since 07.09.2018
      */
-    protected function onAfterWrite() {
+    protected function onAfterWrite()
+    {
         parent::onAfterWrite();
-
         $this->extend('updateOnAfterWrite');
-        $this->didHandleOrderStatusChange = false;
+        $this->didHandleOrderStatusChange   = false;
+        $this->didHandlePaymentStatusChange = false;
     }
 
     /**
@@ -2412,7 +2632,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return Order
      */
-    public static function get_by_payment_reference_id($paymentReferenceID) {
+    public static function get_by_payment_reference_id($paymentReferenceID)
+    {
         return Order::get()->filter('PaymentReferenceID', $paymentReferenceID)->first();
     }
 
@@ -2425,10 +2646,12 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return Order
      */
-    public static function get_by_customer($orderID, Member $customer = null) {
+    public static function get_by_customer($orderID, Member $customer = null)
+    {
         $customerID = null;
-        if ($customer instanceof Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             $customerID = $customer->ID;
         }
         return self::get_by_customer_id($orderID, $customerID);
@@ -2443,17 +2666,18 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @return Order
      */
-    public static function get_by_customer_id($orderID, $customerID = null) {
+    public static function get_by_customer_id($orderID, $customerID = null)
+    {
         if (is_null($customerID)) {
             $customer = Security::getCurrentUser();
             if ($customer instanceof Member) {
                 $customerID = $customer->ID;
             }
         }
-        return Order::get()->filter(array(
+        return Order::get()->filter([
             'ID'       => $orderID,
             'MemberID' => $customerID,
-        ))->first();
+        ])->first();
     }
     
     /**
@@ -2464,7 +2688,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.2018
      */
-    public function calculateAmountTotal() {
+    public function calculateAmountTotal()
+    {
         $amountTotal = 0;
 
         foreach ($this->OrderPositions() as $orderPosition) {
@@ -2490,7 +2715,8 @@ class Order extends DataObject implements PermissionProvider {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 12.07.2018
      */
-    public function recalculate() {
+    public function recalculate()
+    {
         $this->AmountTotal->setAmount($this->calculateAmountTotal());
         $this->write();
     }
@@ -2503,7 +2729,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
-    public function ShippingMethod() {
+    public function ShippingMethod()
+    {
         $shippingMethod = null;
         if ($this->getComponent('ShippingMethod')) {
             $shippingMethod = $this->getComponent('ShippingMethod');
@@ -2519,7 +2746,8 @@ class Order extends DataObject implements PermissionProvider {
      * 
      * @deprecated Use property AmountTotal instead
      */
-    public function getAmountTotalNice() {
+    public function getAmountTotalNice()
+    {
         return $this->AmountTotal->Nice();
     }
 
@@ -2528,7 +2756,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getHandlingCostShipmentNice() {
+    public function getHandlingCostShipmentNice()
+    {
         return str_replace('.', ',', number_format($this->HandlingCostShipmentAmount, 2)) . ' ' . $this->HandlingCostShipmentCurrency;
     }
 
@@ -2537,7 +2766,8 @@ class Order extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getHandlingCostPaymentNice() {
+    public function getHandlingCostPaymentNice()
+    {
         return str_replace('.', ',', number_format($this->HandlingCostPaymentAmount, 2)) . ' ' . $this->HandlingCostPaymentCurrency;
     }
     
@@ -2549,7 +2779,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function markAsSeen() {
+    public function markAsSeen()
+    {
         if (!$this->IsSeen) {
             $this->IsSeen = true;
             $this->write();
@@ -2565,7 +2796,8 @@ class Order extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public function markAsNotSeen() {
+    public function markAsNotSeen()
+    {
         if ($this->IsSeen) {
             $this->IsSeen = false;
             $this->write();
@@ -2573,4 +2805,16 @@ class Order extends DataObject implements PermissionProvider {
         }
     }
     
+    /**
+     * Renders the order with the default template.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function render()
+    {
+        return $this->renderWith(Order::class);
+    }
 }

@@ -30,6 +30,10 @@
                         <td>{$fieldLabel('OrderStatus')}</td>
                         <td>{$OrderStatus.Title}</td>
                     </tr>
+                    <tr>
+                        <td>{$fieldLabel('PaymentStatus')}</td>
+                        <td>{$PaymentStatus.Title}</td>
+                    </tr>
                 <% if $Note %>
                     <tr>
                         <td>{$fieldLabel('YourNote')}</td>

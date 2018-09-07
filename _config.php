@@ -14,6 +14,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen;
@@ -63,6 +64,7 @@ if (class_exists('WidgetSets\\Extensions\\WidgetSetWidgetExtension')) {
 }
 // Register GridField batch controllers
 GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_ChangeOrderStatus::class);
+GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_ChangePaymentStatus::class);
 GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_PrintOrders::class);
 GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_MarkAsSeen::class);
 GridFieldBatchController::addBatchActionFor(Order::class, GridFieldBatchAction_MarkAsNotSeen::class);

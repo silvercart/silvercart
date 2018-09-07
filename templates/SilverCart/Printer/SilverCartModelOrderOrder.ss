@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-DE" lang="de-DE">
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>{$singular_name} $OrderNumber | $Created.Nice</title>
+        <title>{$singular_name} {$OrderNumber} | {$Created.Nice}</title>
     </head>
     <body>
 
@@ -14,7 +14,7 @@
             </colgroup>
             <tr>
                 <td valign="top">
-                <% if InvoiceAddressEqualsShippingAddress %>
+                <% if $InvoiceAddressEqualsShippingAddress %>
                     <h2><%t SilverCart\Model\Pages\Page.SHIPPING_AND_BILLING 'Shipping and invoice address' %>:</h2>
                 <% else %>
                     <h2>{$InvoiceAddress.fieldLabel('InvoiceAddress')}:</h2>
@@ -24,56 +24,56 @@
                         <% if $TaxIdNumber %>
                             <tr>
                                 <td>{$fieldLabel('TaxIdNumber')}</td>
-                                <td>$TaxIdNumber</td>
+                                <td>{$TaxIdNumber}</td>
                             </tr>
                         <% end_if %>
-                        <% if Company %>
+                        <% if $Company %>
                             <tr>
                                 <td>{$fieldLabel('Company')}</td>
-                                <td>$Company</td>
+                                <td>{$Company}</td>
                             </tr>
                         <% end_if %>
                         <tr>
                             <td>{$fieldLabel('FirstName')}</td>
-                            <td>$FirstName</td>
+                            <td>{$FirstName}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Surname')}</td>
-                            <td>$Surname</td>
+                            <td>{$Surname}</td>
                         </tr>
-                        <% if Addition %>
+                        <% if $Addition %>
                         <tr>
                             <td>{$fieldLabel('Addition')}</td>
-                            <td>$Addition</td>
+                            <td>{$Addition}</td>
                         </tr>
                         <% end_if %>
                         <tr>
                             <td>{$fieldLabel('Street')}</td>
-                            <td>$Street</td>
+                            <td>{$Street}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('StreetNumber')}</td>
-                            <td>$StreetNumber</td>
+                            <td>{$StreetNumber}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Postcode')}</td>
-                            <td>$Postcode</td>
+                            <td>{$Postcode}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('City')}</td>
-                            <td>$City</td>
+                            <td>{$City}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Phone')}</td>
-                            <td><% if Phone %>{$Phone}<% else %>---<% end_if %></td>
+                            <td><% if $Phone %>{$Phone}<% else %>---<% end_if %></td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Fax')}</td>
-                            <td>$Fax</td>
+                            <td>{$Fax}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Country')}</td>
-                            <td>$Country.Title</td>
+                            <td>{$Country.Title}</td>
                         </tr>
                     </table>
                     <% end_with %>
@@ -83,70 +83,70 @@
                     <h2><%t SilverCart\Model\Pages\Page.SHIPPING_ADDRESS 'Shipping address' %>:</h2>
                     <% with $ShippingAddress %>
                     <table>
-                        <% if TaxIdNumber %>
+                        <% if $TaxIdNumber %>
                             <tr>
                                 <td>{$fieldLabel('TaxIdNumber')}</td>
-                                <td>$TaxIdNumber</td>
+                                <td>{$TaxIdNumber}</td>
                             </tr>
                         <% end_if %>
-                        <% if Company %>
+                        <% if $Company %>
                             <tr>
                                 <td>{$fieldLabel('Company')}</td>
-                                <td>$Company</td>
+                                <td>{$Company}</td>
                             </tr>
                         <% end_if %>
                         <tr>
                             <td>{$fieldLabel('FirstName')}</td>
-                            <td>$FirstName</td>
+                            <td>{$FirstName}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Surname')}</td>
-                            <td>$Surname</td>
+                            <td>{$Surname}</td>
                         </tr>
-                        <% if Addition %>
+                        <% if $Addition %>
                         <tr>
                             <td>{$fieldLabel('Addition')}</td>
-                            <td>$Addition</td>
+                            <td>{$Addition}</td>
                         </tr>
                         <% end_if %>
                         <% if $IsPackstation %>
                         <tr>
                             <td>{$fieldLabel('PostNumberPlain')}</td>
-                            <td>$PostNumber</td>
+                            <td>{$PostNumber}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('PackstationPlain')}</td>
-                            <td>$Packstation</td>
+                            <td>{$Packstation}</td>
                         </tr>
                         <% else %>
                         <tr>
                             <td>{$fieldLabel('Street')}</td>
-                            <td>$Street</td>
+                            <td>{$Street}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('StreetNumber')}</td>
-                            <td>$StreetNumber</td>
+                            <td>{$StreetNumber}</td>
                         </tr>
                         <% end_if %>
                         <tr>
                             <td>{$fieldLabel('Postcode')}</td>
-                            <td>$Postcode</td>
+                            <td>{$Postcode}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('City')}</td>
-                            <td>$City</td>
+                            <td>{$City}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Phone')}</td>
-                            <td><% if Phone %>{$Phone}<% else %>---<% end_if %></td>
+                            <td><% if $Phone %>{$Phone}<% else %>---<% end_if %></td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Fax')}</td>
-                            <td>$Fax</td>
+                            <td>{$Fax}</td>
                         </tr>
                         <tr>
                             <td>{$fieldLabel('Country')}</td>
-                            <td>$Country.Title</td>
+                            <td>{$FormattedNote}</td>
                         </tr>
                     </table>
                     <% end_with %>
@@ -158,7 +158,7 @@
                     <table>
                         <tr>
                             <td>{$fieldLabel('Email')}</td>
-                            <td>$CustomersEmail</td>
+                            <td>{$CustomersEmail}</td>
                         </tr>
                         <tr>
                             <td><%t SilverCart\Model\Pages\Page.ORDER_DATE 'Order date' %></td>
@@ -170,12 +170,16 @@
                         </tr>
                         <tr>
                             <td>{$fieldLabel('OrderStatus')}</td>
-                            <td>$OrderStatus.Title</td>
+                            <td>{$OrderStatus.Title}</td>
+                        </tr>
+                        <tr>
+                            <td>{$fieldLabel('PaymentStatus')}</td>
+                            <td>{$PaymentStatus.Title}</td>
                         </tr>
                         <% if $Note %>
                             <tr>
                                 <td>{$fieldLabel('YourNote')}</td>
-                                <td>$FormattedNote</td>
+                                <td>{$FormattedNote}</td>
                             </tr>
                         <% end_if %>
                     </table>

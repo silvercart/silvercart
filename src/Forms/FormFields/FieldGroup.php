@@ -17,15 +17,14 @@ use SilverStripe\Forms\FormField;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class FieldGroup extends CompositeField {
-    
+class FieldGroup extends CompositeField
+{
     /**
      * Fields to manipulate
      *
      * @var FieldList
      */
     protected $fields = null;
-    
     /**
      * Markup of the field holder
      *
@@ -43,7 +42,8 @@ class FieldGroup extends CompositeField {
      * 
      * @return void
      */
-    public function __construct($name, $title = '', $fields = null, $children = []) {
+    public function __construct($name, $title = '', $fields = null, $children = [])
+    {
         parent::__construct($children);
         $this->setName($name);
         $this->setTitle($title);
@@ -60,7 +60,8 @@ class FieldGroup extends CompositeField {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.02.2013
      */
-    public function FieldHolder($properties = []) {
+    public function FieldHolder($properties = [])
+    {
         if (is_null($this->fieldHolder)) {
             $title = $this->Title();
             if (empty($title)) {
@@ -113,12 +114,14 @@ class FieldGroup extends CompositeField {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
      */
-    public function push(FormField $field, $breakBefore = false, $breakAfter = false) {
+    public function push(FormField $field, $breakBefore = false, $breakAfter = false)
+    {
         $field->BreakAfter  = $breakAfter;
         $field->BreakBefore = $breakBefore;
         parent::push($field);
         $fields = $this->getFields();
-        if (!is_null($fields)) {
+        if (!is_null($fields)
+         && !is_null($field)) {
             $fields->removeByName($field->getName());
         }
     }
@@ -133,7 +136,8 @@ class FieldGroup extends CompositeField {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
      */
-    public function pushAndBreak(FormField $field) {
+    public function pushAndBreak(FormField $field)
+    {
         $this->push($field, false, true);
     }
     
@@ -147,7 +151,8 @@ class FieldGroup extends CompositeField {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.06.2012
      */
-    public function breakAndPush(FormField $field) {
+    public function breakAndPush(FormField $field)
+    {
         $this->push($field, true);
     }
     
@@ -156,7 +161,8 @@ class FieldGroup extends CompositeField {
      *
      * @return FieldList 
      */
-    public function getFields() {
+    public function getFields()
+    {
         return $this->fields;
     }
 
@@ -167,8 +173,8 @@ class FieldGroup extends CompositeField {
      * 
      * @return void
      */
-    public function setFields($fields) {
+    public function setFields($fields)
+    {
         $this->fields = $fields;
     }
-    
 }

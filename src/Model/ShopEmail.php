@@ -448,7 +448,8 @@ class ShopEmail extends DataObject {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.06.2014
      */
-    public static function send($identifier, $to, $variables = [], $attachments = null) {
+    public static function send($identifier, $to, $variables = [], $attachments = null)
+    {
         $email = ShopEmail::get()->filter('TemplateName', $identifier)->first();
 
         if (!($email instanceof ShopEmail) ||
@@ -479,10 +480,10 @@ class ShopEmail extends DataObject {
         
         $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(new ArrayData($variables)));
         
-        self::send_email($to, $subject, $plainText, $htmlText, $attachments);
+        self::send_email($to, $subject, $htmlText, $attachments);
         
         if (Config::GlobalEmailRecipient() != '') {
-            self::send_email(Config::GlobalEmailRecipient(), $subject, $plainText, $htmlText);
+            self::send_email(Config::GlobalEmailRecipient(), $subject, $htmlText);
         }
 
         //Send the email to additional standard receipients from the n:m
@@ -497,7 +498,7 @@ class ShopEmail extends DataObject {
                 } else {
                     continue;
                 }
-                self::send_email($to, $subject, $plainText, $htmlText, $attachments);
+                self::send_email($to, $subject, $htmlText, $attachments);
             }
         }
         
@@ -505,7 +506,7 @@ class ShopEmail extends DataObject {
         ShopEmail::singleton()->extend('addAdditionalRecipients', $additionalReceipients);
         if (is_array($additionalReceipients)) {
             foreach ($additionalReceipients as $recipient) {
-                self::send_email($recipient, $subject, $plainText, $htmlText, $attachments);
+                self::send_email($recipient, $subject, $htmlText, $attachments);
             }
         }
     }
@@ -523,7 +524,8 @@ class ShopEmail extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public static function send_email($recipient, $subject, $content, $htmlContent, $attachments = null) {
+    public static function send_email($recipient, $subject, $content, $attachments = null)
+    {
         if (Director::isDev()) {
             $devEmailRecipient = self::config()->get('dev_email_recipient');
             if (!empty($devEmailRecipient)) {
@@ -535,11 +537,11 @@ class ShopEmail extends DataObject {
         if (!Email::is_valid_address($recipient)) {
             return;
         }
-        $email = new Email(
+        $email = Email::create(
             Config::EmailSender(),
             $recipient,
             $subject,
-            $htmlContent
+            $content
         );
         $email->setFrom(Config::EmailSender(), Config::EmailSenderName());
         if (!is_null($attachments)) {

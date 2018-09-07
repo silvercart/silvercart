@@ -35,6 +35,7 @@ use SilverCart\Model\Pages\RevocationFormPage;
 use SilverCart\Model\Pages\SearchResultsPage;
 use SilverCart\Model\Pages\ShippingFeesPage;
 use SilverCart\Model\Payment\PaymentMethod;
+use SilverCart\Model\Payment\PaymentStatus;
 use SilverCart\Model\Product\AvailabilityStatus;
 use SilverCart\Model\Shipment\Carrier;
 use SilverCart\Model\Shipment\CarrierTranslation;
@@ -209,20 +210,24 @@ class RequireDefaultRecords
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.10.2012
+     * @since 07.09.2018
      */
     public function createDefaultOrderStatus()
     {
-        $defaults = [
-            'new'      => ['en_US' => 'New',                 'en_GB' => 'New',                 'de_DE' => 'Neu'],
-            'canceled' => ['en_US' => 'Canceled',            'en_GB' => 'Cancelled',           'de_DE' => 'Storniert'],
-            'pending'  => ['en_US' => 'Waiting for payment', 'en_GB' => 'Waiting for payment', 'de_DE' => 'Auf Zahlungseingang wird gewartet'],
-            'paid'     => ['en_US' => 'Paid',                'en_GB' => 'Paid',                'de_DE' => 'Bezahlt'],
-            'shipped'  => ['en_US' => 'Order shipped',       'en_GB' => 'Order shipped',       'de_DE' => 'Versendet'],
-            'inwork'   => ['en_US' => 'In work',             'en_GB' => 'In work',             'de_DE' => 'In Arbeit'],
-        ];
-        $this->addCurrentLocaleEntryIfNotExists($defaults);
-        $this->createDefaultTranslatableDataObject($defaults, OrderStatus::class);
+        OrderStatus::singleton()->requireDefaultRecords();
+    }
+    
+    /**
+     * Creates the default PaymentStatus if not exists
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function createDefaultPaymentStatus()
+    {
+        PaymentStatus::singleton()->requireDefaultRecords();
     }
     
     /**
@@ -734,21 +739,14 @@ class RequireDefaultRecords
     public function requireDefaultRecords()
     {
         self::require_default_countries();
-        // create groups
         $this->createDefaultGroups();
-        // create config
         $this->createDefaultConfig();
-        // create order status
         $this->createDefaultOrderStatus();
-        // create availability status
+        $this->createDefaultPaymentStatus();
         $this->createDefaultAvailabilityStatus();
-        // create number ranges
         $this->createDefaultNumberRanges();
-        // and now the whole site tree
         $rootPage = $this->createDefaultSiteTree();
-        // rewrite error page templates
         $this->rerenderErrorPages();
-        // increase SilverCart version if necessary
         $this->increaseSilvercartVersion();
 
         $this->extend('updateDefaultRecords', $rootPage);
@@ -1753,9 +1751,9 @@ class RequireDefaultRecords
                     }
                     $paymentMethod = \SilverCart\Prepayment\Model\PaymentPrepayment::get()->first();
                     $paymentMethod->isActive = true;
-                    $orderStatusPending = OrderStatus::get()->filter('Code', 'pending')->first();
-                    if ($orderStatusPending) {
-                        $paymentMethod->orderStatus = $orderStatusPending->Code;
+                    $paymentStatusOpen = PaymentStatus::get()->filter('Code', 'open')->first();
+                    if ($paymentStatusOpen) {
+                        $paymentMethod->PaymentStatusID = $paymentStatusOpen->ID;
                     }
                     $paymentMethod->write();
                     $country->PaymentMethods()->add($paymentMethod);

@@ -16,6 +16,9 @@
     <td class="orderstatus">
         <a class="highlight" href="{$CurrentPage.OrderDetailLink}{$ID}">{$OrderStatus.Title}</a>
     </td>
+    <td class="paymentstatus">
+        <a class="highlight" href="{$CurrentPage.OrderDetailLink}{$ID}">{$PaymentStatus.Title}</a>
+    </td>
     <td class="total-price">
         <a class="highlight" href="{$CurrentPage.OrderDetailLink}{$ID}">{$AmountTotal.Nice}</a>
     </td>

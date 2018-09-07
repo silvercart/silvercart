@@ -1126,4 +1126,17 @@ class Address extends DataObject implements PermissionProvider {
         }
         return $parentField;
     }
+    
+    /**
+     * Renders the address with the default template.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.09.2018
+     */
+    public function render($headLine = null)
+    {
+        return $this->customise(['HeadLine' => $headLine])->renderWith(Address::class);
+    }
 }

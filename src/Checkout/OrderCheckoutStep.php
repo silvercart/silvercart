@@ -19,15 +19,14 @@ use SilverStripe\Security\Security;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-trait OrderCheckoutStep {
-    
+trait OrderCheckoutStep
+{
     /**
      * Order.
      *
      * @var \SilverCart\Model\Order\Order
      */
     protected $order = null;
-
     /**
      * Set this option to false to prevent sending the order confimation before finishing payment 
      * module dependent order manipulations.
@@ -41,7 +40,8 @@ trait OrderCheckoutStep {
      * 
      * @return \SilverCart\Model\Order\Order
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return $this->order;
     }
     
@@ -50,7 +50,8 @@ trait OrderCheckoutStep {
      * 
      * @return bool
      */
-    public function getSendConfirmationMail() {
+    public function getSendConfirmationMail()
+    {
         return $this->sendConfirmationMail;
     }
 
@@ -61,7 +62,8 @@ trait OrderCheckoutStep {
      * 
      * @return \SilverCart\Checkout\OrderCheckoutStep
      */
-    public function setOrder(Order $order) {
+    public function setOrder(Order $order)
+    {
         $this->order = $order;
         return $this;
     }
@@ -73,7 +75,8 @@ trait OrderCheckoutStep {
      * 
      * @return \SilverCart\Checkout\OrderCheckoutStep
      */
-    public function setSendConfirmationMail($sendConfirmationMail) {
+    public function setSendConfirmationMail($sendConfirmationMail)
+    {
         $this->sendConfirmationMail = $sendConfirmationMail;
         return $this;
     }
@@ -88,7 +91,8 @@ trait OrderCheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function initOrder($checkoutData = null) {
+    public function initOrder($checkoutData = null)
+    {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
@@ -112,10 +116,12 @@ trait OrderCheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function placeOrder($checkoutData = null) {
+    public function placeOrder($checkoutData = null)
+    {
         $order = $this->getOrder();
-        if ($order instanceof Order &&
-            $order->exists()) {
+        if ($order instanceof Order
+         && $order->exists()
+        ) {
             return $this;
         }
         if (is_null($checkoutData)) {
@@ -133,8 +139,9 @@ trait OrderCheckoutStep {
             }
             
             $anonymousCustomer = Customer::currentAnonymousCustomer();
-            if ($anonymousCustomer instanceof Member &&
-                $anonymousCustomer->exists()) {
+            if ($anonymousCustomer instanceof Member
+             && $anonymousCustomer->exists()
+            ) {
                 // add a customer number to anonymous customer when ordering
                 $anonymousCustomer->CustomerNumber = NumberRange::useReservedNumberByIdentifier('CustomerNumber');
                 $anonymousCustomer->write();
@@ -169,21 +176,21 @@ trait OrderCheckoutStep {
      * @return \SilverCart\Model\Order\Order
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.04.2018
+     * @since 07.09.2018
      */
-    public function createOrder($customerEmail, $checkoutData, $customerNote) {
-        $order = new Order();
+    public function createOrder($customerEmail, $checkoutData, $customerNote)
+    {
+        $order = Order::create();
         $this->extend('onBeforeCreateOrder', $order, $customerEmail, $checkoutData, $customerNote);
         $order->setCustomerEmail($customerEmail);
         $order->setShippingMethod($checkoutData['ShippingMethod']);
         $order->setPaymentMethod($checkoutData['PaymentMethod']);
         $order->setNote($customerNote);
         $order->setWeight();
-        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions']);
-        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction']);
+        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions'] == "1");
+        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction'] == "1");
         $order->createFromShoppingCart();
         $this->extend('onAfterCreateOrder', $order, $customerEmail, $checkoutData, $customerNote);
         return $order;
     }
-    
 }

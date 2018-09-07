@@ -124,12 +124,6 @@ var scBatchActionName               = '',
                 async   : false,
                 success : function(data) {
                     $('.grid-batch-action-callback-target').html(data);
-                    /**
-                    $('select[name=\"OrderStatus\"]').live('change', function() {
-                        var status = $('select[name=\"OrderStatus\"] option:selected').val();
-                        $('input[name=\"silvercart-batch-option-callback-data\"]').val(status);
-                    });
-                    /**/
                 }
             });
         })(jQuery);

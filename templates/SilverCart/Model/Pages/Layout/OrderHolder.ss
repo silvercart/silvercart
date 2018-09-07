@@ -12,12 +12,13 @@
                 <tr class="mobile-hide-sm">
                     <th class="text-left"><%t SilverCart\Model\Pages\Page.ORDER_DATE 'order date' %> /<br />{$CurrentMembersOrders.first.fieldLabel('OrderNumber')}</th>
                     <th class="text-left"><%t SilverCart\Model\Pages\Page.ORDERED_PRODUCTS 'ordered products' %></th>
-                    <th class="text-left"><%t SilverCart\Model\Order\OrderStatus.SINGULARNAME 'Order status' %></th>
+                    <th class="text-left"><%t SilverCart\Model\Order\OrderStatus.SINGULARNAME 'Order Status' %></th>
+                    <th class="text-left"><%t SilverCart\Model\Payment\PaymentStatus.SINGULARNAME 'Payment Status' %></th>
                     <th class="text-left">{$CurrentMembersOrders.first.fieldLabel('AmountTotal')}</th>
                     <th>&nbsp;</th>
                 </tr>
                 <tr class="mobile-show-sm">
-                    <th class="text-left" colspan="5"><%t SilverCart\Model\Pages\Page.ORDERED_PRODUCTS 'ordered products' %></th>
+                    <th class="text-left" colspan="6"><%t SilverCart\Model\Pages\Page.ORDERED_PRODUCTS 'ordered products' %></th>
                 </tr>
             </thead>
             <tbody>

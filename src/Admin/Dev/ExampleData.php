@@ -12,6 +12,7 @@ use SilverCart\Model\Order\NumberRange;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderPosition;
 use SilverCart\Model\Order\OrderStatus;
+use SilverCart\Model\Payment\PaymentStatus;
 use SilverCart\Model\Product\Tax;
 use SilverStripe\Control\Director;
 use SilverStripe\View\Requirements;
@@ -26,8 +27,8 @@ use SilverStripe\View\Requirements;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ExampleData {
-    
+class ExampleData
+{
     use \SilverStripe\Core\Extensible;
     
     /**
@@ -56,17 +57,19 @@ class ExampleData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.04.2018
      */
-    public static function get_order() {
-        $order = Order::singleton();
-        
-        $orderStatus   = array_keys(OrderStatus::get()->map()->toArray());
-        $index         = rand(0, count($orderStatus) - 1);
-        $orderStatusID = $orderStatus[$index];
-        
-        $order->CustomersEmail = 'email@example.com';
-        $order->Created        = date('Y-m-d H:i:s');
-        $order->OrderNumber    = NumberRange::getByIdentifier('OrderNumber')->ActualNumber;
-        $order->OrderStatusID  = $orderStatusID;
+    public static function get_order()
+    {
+        $order           = Order::singleton();
+        $orderStatus     = array_keys(OrderStatus::get()->map()->toArray());
+        $orderStatusID   = $orderStatus[rand(0, count($orderStatus) - 1)];
+        $paymentStatus   = array_keys(PaymentStatus::get()->map()->toArray());
+        $paymentStatusID = $orderStatus[rand(0, count($paymentStatus) - 1)];
+
+        $order->CustomersEmail               = 'email@example.com';
+        $order->Created                      = date('Y-m-d H:i:s');
+        $order->OrderNumber                  = NumberRange::getByIdentifier('OrderNumber')->ActualNumber;
+        $order->OrderStatusID                = $orderStatusID;
+        $order->PaymentStatusID              = $paymentStatusID;
         $order->HandlingCostShipmentAmount   = 4.9;
         $order->HandlingCostShipmentCurrency = Config::DefaultCurrency();
         $order->TaxRateShipment              = 19;
