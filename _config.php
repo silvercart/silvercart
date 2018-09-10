@@ -86,9 +86,9 @@ if (is_null(GroupViewHandler::getDefaultGroupHolderView())) {
     GroupViewHandler::setDefaultGroupHolderView(GroupViewList::class);
 }
 // Add product detail pages to Google Sitemap.
-if (class_exists('GoogleSitemap') &&
-    method_exists('GoogleSitemap', 'register_dataobject')) {
-    GoogleSitemap::register_dataobject(Product::class, null, '0.2');
+if (class_exists("Wilr\\GoogleSitemaps\\GoogleSitemap") &&
+    method_exists("Wilr\\GoogleSitemaps\\GoogleSitemap", "register_dataobject")) {
+    Wilr\GoogleSitemaps\GoogleSitemap::register_dataobject(Product::class, 'daily', '0.2');
 }
 // add silvercart branding if no other branding is set
 if (LeftAndMain::config()->get('application_name') == 'SilverStripe') {
