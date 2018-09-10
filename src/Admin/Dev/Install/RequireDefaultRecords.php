@@ -167,6 +167,7 @@ class RequireDefaultRecords
     {
         $config = Config::getConfig();
         if ($config instanceof SiteConfig
+         && $config->exists()
          && is_null($config->DefaultCurrency)
         ) {
             $config->DefaultCurrency = 'EUR';

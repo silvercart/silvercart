@@ -942,8 +942,7 @@ class Config
     public static function getConfig()
     {
         if (is_null(self::$config)) {
-            if (self::configTableExists()
-                && !self::devBuildIsRunning()) {
+            if (self::configTableExists()) {
                 self::$config = SiteConfig::current_site_config();
             } else {
                 self::$config = SiteConfig::singleton();
