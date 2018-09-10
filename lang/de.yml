@@ -165,6 +165,8 @@ de:
     FULL_NAME: "voller Name"
     PLURALNAME: "Frachtführer"
     SINGULARNAME: "Frachtführer"
+    TrackingLinkBase: "Tracking-Link"
+    TrackingLinkBaseDesc: "Basis-Link, der zum Abruf der Online-Sendungsverfolgung (Tracking) verwendet wird. Setzen Sie \"{TrackingCode}\" an die Stelle, an der später der Tracking-Code der Bestellung platziert werden soll. Zum Beispiel für DHL Privatkunden: \"https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode={TrackingCode}\""
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: "Frachtführer"
   SilverCart\Model\Shipment\CarrierTranslation:

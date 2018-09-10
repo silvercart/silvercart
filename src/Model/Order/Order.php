@@ -629,7 +629,7 @@ class Order extends DataObject implements PermissionProvider
      */
     public function getExpectedDeliveryNice()
     {
-        $expectedDelivery = $this->ExpectedDeliveryMax;
+        $expectedDelivery = date('d.m.Y', strtotime($this->ExpectedDeliveryMax));
         if ($this->ExpectedDeliveryMin != $this->ExpectedDeliveryMax) {
             $expectedDelivery = $this->ExpectedDeliveryMin . ' - ' . $this->ExpectedDeliveryMax;
             $expectedDelivery = date('d.m.Y', strtotime($this->ExpectedDeliveryMin)) . ' - ' . date('d.m.Y', strtotime($this->ExpectedDeliveryMax));
@@ -2274,7 +2274,23 @@ class Order extends DataObject implements PermissionProvider
     {
         $orderDetailInformation = '';
         $this->extend('updateOrderDetailInformation', $orderDetailInformation);
-        return $orderDetailInformation;
+        return Tools::string2html($orderDetailInformation);
+    }
+    
+    /**
+     * Returns plugin output to show in the order detail table right after the 
+     * OrderNumber.
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2018
+     */
+    public function OrderDetailInformationAfterOrderNumber()
+    {
+        $orderDetailInformation = '';
+        $this->extend('updateOrderDetailInformationAfterOrderNumber', $orderDetailInformation);
+        return Tools::string2html($orderDetailInformation);
     }
 
     /**
@@ -2506,6 +2522,7 @@ class Order extends DataObject implements PermissionProvider
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = NumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
+        $this->handleTrackingCodeChange();
         $this->handleOrderStatusChange();
         $this->handlePaymentStatusChange();
         if (array_key_exists('sa__FirstName', $_POST)
@@ -2531,6 +2548,26 @@ class Order extends DataObject implements PermissionProvider
             $this->InvoiceAddress()->write();
         }
         $this->extend('updateOnBeforeWrite');
+    }
+    
+    /**
+     * Handles a tracking code change.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2018
+     */
+    public function handleTrackingCodeChange()
+    {
+        if (!empty($this->TrackingCode)
+         && empty($this->TrackingLink)
+         && !empty($this->ShippingMethod()->Carrier()->TrackingLinkBase)) {
+            $this->TrackingLink = str_replace('{TrackingCode}', $this->TrackingCode, $this->ShippingMethod()->Carrier()->TrackingLinkBase);
+            if (strpos($this->TrackingLink, $this->TrackingCode) === false) {
+                $this->TrackingLink .= $this->TrackingCode;
+            }
+        }
     }
     
     /**

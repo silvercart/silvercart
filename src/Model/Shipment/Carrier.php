@@ -31,7 +31,8 @@ class Carrier extends DataObject
      * @var array
      */
     private static $db = [
-        'priority' => 'Int'
+        'priority'         => 'Int',
+        'TrackingLinkBase' => 'Text',
     ];
     /**
      * Has-one relations.
@@ -137,8 +138,10 @@ class Carrier extends DataObject
      */
     public function getCMSFields()
     {
-        $fields = DataObjectExtension::getCMSFields($this);
-        return $fields;
+        $this->beforeUpdateCMSFields(function(\SilverStripe\Forms\FieldList $fields) {
+            $fields->dataFieldByName('TrackingLinkBase')->setDescription($this->fieldLabel('TrackingLinkBaseDesc'));
+        });
+        return DataObjectExtension::getCMSFields($this);
     }
 
     /**
@@ -168,6 +171,24 @@ class Carrier extends DataObject
                     'Logo'                      => Page::singleton()->fieldLabel('Logo'),
                 ]
         );
+    }
+    
+    /**
+     * Checks whether the {TrackingCode} string was added to TrackingLinkBase
+     * (if set at all)
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.09.2018
+     */
+    protected function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        if (!empty($this->TrackingLinkBase)
+         && strpos($this->TrackingLinkBase, '{TrackingCode}') === false) {
+            $this->TrackingLinkBase .= '{TrackingCode}';
+        }
     }
     
     /**

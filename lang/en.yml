@@ -165,6 +165,8 @@ en:
     FULL_NAME: "Full name"
     PLURALNAME: "Carriers"
     SINGULARNAME: "Carrier"
+    TrackingLinkBase: "Tracking Link"
+    TrackingLinkBaseDesc: "Base link to request the online tracking of a shipment. Set \"{TrackingCode}\" to the place where the real order tracking code should be placed. For example for DHL private customers: \"https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode={TrackingCode}\""
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: "Carrier"
   SilverCart\Model\Shipment\CarrierTranslation:
