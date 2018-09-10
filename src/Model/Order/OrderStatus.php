@@ -306,23 +306,26 @@ class OrderStatus extends DataObject
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
+     * @since 10.09.2018
      */
     public function requireDefaultRecords()
     {
-        foreach (self::config()->get('default_codes') as $default) {
-            $existing = self::get()->filter('Code', $default)->first();
-            if ($existing instanceof OrderStatus
-             && $existing->exists())
-            {
-                continue;
+        $this->beforeRequireDefaultRecords(function() {
+            foreach (self::config()->get('default_codes') as $default) {
+                $existing = self::get()->filter('Code', $default)->first();
+                if ($existing instanceof OrderStatus
+                 && $existing->exists())
+                {
+                    continue;
+                }
+                $status = self::create();
+                $status->Code      = $default;
+                $status->Title     = $this->fieldLabel('DefaultStatus' . ucfirst($default));
+                $status->IsDefault = $default == 'new';
+                $status->write();
             }
-            $status = self::create();
-            $status->Code      = $default;
-            $status->Title     = $this->fieldLabel('DefaultStatus' . ucfirst($default));
-            $status->IsDefault = $default == 'new';
-            $status->write();
-        }
+        });
+        parent::requireDefaultRecords();
     }
     
     /**

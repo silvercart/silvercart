@@ -187,23 +187,26 @@ class PaymentStatus extends DataObject
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
+     * @since 10.09.2018
      */
     public function requireDefaultRecords()
     {
-        foreach (self::config()->get('default_codes') as $default) {
-            $existing = self::get()->filter('Code', $default)->first();
-            if ($existing instanceof PaymentStatus
-             && $existing->exists())
-            {
-                continue;
+        $this->beforeRequireDefaultRecords(function() {
+            foreach (self::config()->get('default_codes') as $default) {
+                $existing = self::get()->filter('Code', $default)->first();
+                if ($existing instanceof PaymentStatus
+                 && $existing->exists())
+                {
+                    continue;
+                }
+                $status = self::create();
+                $status->Code      = $default;
+                $status->Title     = $this->fieldLabel('DefaultStatus' . ucfirst($default));
+                $status->IsDefault = $default == 'open';
+                $status->write();
             }
-            $status = self::create();
-            $status->Code      = $default;
-            $status->Title     = $this->fieldLabel('DefaultStatus' . ucfirst($default));
-            $status->IsDefault = $default == 'open';
-            $status->write();
-        }
+        });
+        parent::requireDefaultRecords();
     }
     
     /**
