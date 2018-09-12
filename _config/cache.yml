@@ -1,0 +1,11 @@
+---
+Name: silvercart-cache
+After:
+  - '#corecache'
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\SimpleCache\CacheInterface.cacheblock:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: "cacheblock"
+      defaultLifetime: 86400
