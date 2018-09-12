@@ -264,6 +264,7 @@ input[type="color"] {
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: -432px 0 !important;
+    background-size: auto;
 }
 
 .menu__icon.font-icon-database,
