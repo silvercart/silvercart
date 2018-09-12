@@ -2964,6 +2964,36 @@ class Product extends DataObject implements PermissionProvider {
 
         return $this->listImage;
     }
+    
+    /**
+     * Alias for $this->ImagesForSitemap().
+     * 
+     * @return ArrayList
+     */
+    public function getImagesForSitemap()
+    {
+        return $this->ImagesForSitemap();
+    }
+    
+    /**
+     * Returns the images for the Google XML sitemap.
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2018
+     */
+    public function ImagesForSitemap()
+    {
+        $images = $this->getImages();
+        $list   = ArrayList::create();
+        
+        foreach ($images as $scImage) {
+            $list->push($scImage->Image());
+        }
+
+        return $list;
+    }
 
     /**
      * Increments or decrements the products stock quantity.
