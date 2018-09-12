@@ -739,7 +739,7 @@ class ShippingMethod extends DataObject
      * @return ArrayList
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.10.2011
+     * @since 12.09.2018
      */
     public static function getAllowedShippingMethods($carrier = null, $shippingAddress = null)
     {
@@ -747,8 +747,8 @@ class ShippingMethod extends DataObject
         $allowedShippingMethodsArray    = [];
         $shippingMethods                = self::getAllowedShippingMethodsBase($carrier);
 
-        if ($shippingMethods instanceof DataList
-            && $shippingMethods->exists()
+        if ($shippingMethods instanceof SS_List
+         && $shippingMethods->exists()
         ) {
             foreach ($shippingMethods as $shippingMethod) {
                 if (!is_null($shippingAddress)) {

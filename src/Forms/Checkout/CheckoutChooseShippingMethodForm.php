@@ -148,7 +148,7 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
             $shippingMethods = ShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
             if (!($shippingMethods instanceof ArrayList) ||
                 $shippingMethods->count() == 0) {
-                $shippingMethods = ShippingMethod::get();
+                $shippingMethods = ShippingMethod::get()->filter('isActive', true);
                 if (!($shippingMethods instanceof DataList)) {
                     $shippingMethods = new DataList();
                 }
