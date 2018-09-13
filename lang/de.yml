@@ -921,6 +921,8 @@ de:
   SilverCart\Admin\Controllers\NumberRangeAdmin:
     MENUTITLE: "Nummernkreise"
   SilverCart\Model\Order\Order:
+    AdminModeEdit: "Ansicht ändern auf Bearbeitungs-Modus"
+    AdminModeView: "Ansicht ändern auf Ansichts-Modus"
     AMOUNTGROSSTOTAL: "Gesamtbetrag brutto"
     AMOUNTTOTAL: "Gesamtbetrag"
     BASICDATA: "Grunddaten"

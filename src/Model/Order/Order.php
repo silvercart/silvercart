@@ -35,6 +35,7 @@ use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
@@ -64,6 +65,11 @@ class Order extends DataObject implements PermissionProvider
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
+    const SESSION_KEY           = 'SilverCart.Order';
+    const SESSION_KEY_EDIT_MODE = 'SilverCart.Order.EditMode';
+    const ADMIN_MODE_EDIT       = 'edit';
+    const ADMIN_MODE_VIEW       = 'view';
+
     /**
      * attributes
      *
@@ -814,22 +820,23 @@ class Order extends DataObject implements PermissionProvider
     {
         $this->markAsSeen();
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
-            if (Controller::curr()->getRequest()->getVar('orderadminmode') == 'edit') {
+            if ($this->isAdminModeEdit()) {
                 $this->setCMSFieldsEdit($fields);
             } else {
                 $this->setCMSFieldsView($fields);
             }
 
             //add print preview
-            $fields->findOrMakeTab('Root.PrintPreviewTab', $this->fieldLabel('PrintPreview'));
-            $printPreviewField = LiteralField::create(
-                    'PrintPreviewField',
-                    sprintf(
-                        '<iframe width="100%%" height="100%%" border="0" src="%s" class="print-preview"></iframe>',
-                        Printer::getPrintInlineURL($this)
-                    )
-            );
-            $fields->addFieldToTab('Root.PrintPreviewTab', $printPreviewField);
+            $tabPrint = $fields->findOrMakeTab('Root.PrintPreviewTab', $this->fieldLabel('PrintPreview'));
+            /* @var $tabPrint \SilverStripe\Forms\Tab */
+            $tabPrint->addExtraClass('h-100')
+                    ->push(LiteralField::create(
+                            'PrintPreviewField',
+                            sprintf(
+                                '<iframe width="100%%" height="100%%" border="0" src="%s" class="print-preview"></iframe>',
+                                Printer::getPrintInlineURL($this)
+                            )
+            ));
 
             if (!empty($this->PaymentReferenceID)) {
                 $fields->dataFieldByName('PaymentReferenceID')->setReadonly(true);
@@ -855,6 +862,8 @@ class Order extends DataObject implements PermissionProvider
      */
     public function setCMSFieldsView($fields)
     {
+        $fields->dataFieldByName('ShippingMethodID')->setSource(ShippingMethod::get()->map('ID', 'TitleWithCarrier')->toArray());
+        
         $fields->insertBefore('AmountTotal', $handlingGroup = FieldGroup::create('Handling'));
         $fields->insertBefore('AmountTotal', $dateGroup = FieldGroup::create('Date'));
         $fields->insertBefore('AmountTotal', $trackingGroup = FieldGroup::create('Tracking'));
@@ -941,6 +950,97 @@ class Order extends DataObject implements PermissionProvider
         $fields->addFieldToTab('Root.InvoiceAddressTab', DropdownField::create('ia__Country',           $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->InvoiceAddress()->Country()->ID));
         $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Phone',                 $address->fieldLabel('Phone'),              $this->InvoiceAddress()->Phone));
         return $this;
+    }
+    
+    /**
+     * Returns the CMS actions.
+     * 
+     * @return FieldList
+     */
+    public function getCMSActions()
+    {
+        $this->beforeUpdateCMSActions(function(FieldList $actions) {
+            if ($this->isAdminModeEdit()) {
+                $mode     = self::ADMIN_MODE_VIEW;
+                $btnTitle = _t(self::class . '.AdminModeView', 'View Order Data');
+                $btnIcon  = 'font-icon-eye';
+            } else {
+                $mode     = self::ADMIN_MODE_EDIT;
+                $btnTitle = _t(self::class . '.AdminModeEdit', 'Edit Order Data');
+                $btnIcon  = 'font-icon-edit';
+            }
+            $actions->push(
+                FormAction::create("switcheditmodeto{$mode}", $btnTitle)
+                    ->addExtraClass("btn-outline-info {$mode} {$btnIcon}")
+                    ->setUseButtonTag(true)
+            );
+        });
+        return parent::getCMSActions();
+    }
+    
+    /**
+     * Switched the admin mode to edit.
+     * 
+     * @param \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param array                                                         $data        Submitted data
+     * @param Form                                                          $form        Form
+     * 
+     * @return ViewableData
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2018
+     */
+    public function switcheditmodetoedit($itemRequest, $data, $form)
+    {
+        return $this->switcheditmode($itemRequest, self::ADMIN_MODE_EDIT);
+    }
+    
+    /**
+     * Switched the admin mode to view.
+     * 
+     * @param \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param array                                                         $data        Submitted data
+     * @param Form                                                          $form        Form
+     * 
+     * @return ViewableData
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2018
+     */
+    public function switcheditmodetoview($itemRequest, $data, $form)
+    {
+        return $this->switcheditmode($itemRequest, self::ADMIN_MODE_VIEW);
+    }
+    
+    /**
+     * Switches the admin mode to view or edit.
+     * 
+     * @param \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param string                                                        $mode        Admin mode
+     * 
+     * @return ViewableData
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2018
+     */
+    public function switcheditmode($itemRequest, $mode = self::ADMIN_MODE_VIEW)
+    {
+        if (is_null($mode)) {
+            $mode = self::ADMIN_MODE_VIEW;
+        }
+        Tools::Session()->set(self::SESSION_KEY_EDIT_MODE, $mode);
+        Tools::saveSession();
+        return $itemRequest->edit(Controller::curr()->getRequest());
+    }
+    
+    /**
+     * Returns whether the current admin mode is view or edit.
+     * 
+     * @return bool
+     */
+    public function isAdminModeEdit()
+    {
+        return Tools::Session()->get(self::SESSION_KEY_EDIT_MODE) === self::ADMIN_MODE_EDIT;
     }
     
     /**

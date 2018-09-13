@@ -921,6 +921,8 @@ en:
   SilverCart\Admin\Controllers\NumberRangeAdmin:
     MENUTITLE: "Number Ranges"
   SilverCart\Model\Order\Order:
+    AdminModeEdit: "Change Mode to Edit-Mode"
+    AdminModeView: "Change Mode to View-Mode"
     AMOUNTGROSSTOTAL: "Amount total gross"
     AMOUNTTOTAL: "Amount total"
     BASICDATA: "Basics"

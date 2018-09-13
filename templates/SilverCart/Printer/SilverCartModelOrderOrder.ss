@@ -168,6 +168,14 @@
                             <td><%t SilverCart\Model\Order\NumberRange.ORDERNUMBER 'Ordernumber' %></td>
                             <td>{$OrderNumber}</td>
                         </tr>
+                <% if $OrderDetailInformationAfterOrderNumber %>
+                    <% loop $OrderDetailInformationAfterOrderNumber %>
+                        <tr>
+                            <td>{$Title}</td>
+                            <td>{$Value}</td>
+                        </tr>
+                    <% end_loop %>
+                <% end_if %>
                         <tr>
                             <td>{$fieldLabel('OrderStatus')}</td>
                             <td>{$OrderStatus.Title}</td>
