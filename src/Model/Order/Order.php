@@ -2280,16 +2280,53 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Returns plugin output to show in the order detail table right after the 
      * OrderNumber.
+     * 
+     * <code>
+     * // adding information:
+     * public function updateOrderDetailInformationAfterOrderNumber($orderDetailInformation)
+     * {
+     *     $orderDetailInformation->push(ArrayData::create([
+     *         'Title'     => $this->owner->fieldLabel('MyCustomField'),
+     *         'Value'     => $this->owner->MyCustomField,
+     *         'Highlight' => true, // optional: true or false (default: false)
+     *         'Alignment' => 'left', // optional: 'left', 'center', 'right', 'justify' (default: 'left')
+     *     ]));
+     * }
+     * </code>
      *
-     * @return string
+     * @return ArrayList
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.09.2018
+     */
+    public function OrderDetailInformationAfterOrderNumber()
+    {
+        $orderDetailInformation = ArrayList::create();
+        $this->extend('updateOrderDetailInformationAfterOrderNumber', $orderDetailInformation);
+        foreach ($orderDetailInformation as $line) {
+            if (empty($line->Highlight)) {
+                $line->Highlight = false;
+            }
+            if (empty($line->Alignment)) {
+                $line->Alignment = 'left';
+            }
+        }
+        return $orderDetailInformation;
+    }
+    
+    /**
+     * Returns plugin output to show in the order detail table right after the 
+     * OrderNumber.
+     *
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2018
      */
-    public function OrderDetailInformationAfterOrderNumber()
+    public function OrderDetailInformationHTMLAfterOrderNumber()
     {
         $orderDetailInformation = '';
-        $this->extend('updateOrderDetailInformationAfterOrderNumber', $orderDetailInformation);
+        $this->extend('updateOrderDetailInformationHTMLAfterOrderNumber', $orderDetailInformation);
         return Tools::string2html($orderDetailInformation);
     }
 
