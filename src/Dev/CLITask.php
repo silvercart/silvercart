@@ -56,23 +56,29 @@ trait CLITask
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.08.2018
+     * @since 13.09.2018
      */
     protected function initArgs() {
-        if (array_key_exists('argv', $_SERVER)) {
-            $args = $_SERVER['argv'];
-            if (is_array($args)) {
-                array_shift($args);
-                array_shift($args);
-                foreach ($args as $arg) {
-                    if (strpos($arg, '=') !== false) {
-                        list($name, $value) = explode('=', $arg);
-                    } else {
-                        $name = $arg;
-                        $value = true;
+        if ($this->isRunningCLI()) {
+            if (array_key_exists('argv', $_SERVER)) {
+                $args = $_SERVER['argv'];
+                if (is_array($args)) {
+                    array_shift($args);
+                    array_shift($args);
+                    foreach ($args as $arg) {
+                        if (strpos($arg, '=') !== false) {
+                            list($name, $value) = explode('=', $arg);
+                        } else {
+                            $name = $arg;
+                            $value = true;
+                        }
+                        $this->setCliArg($name, $value);
                     }
-                    $this->setCliArg($name, $value);
                 }
+            }
+        } else {
+            foreach ($_GET as $name => $value) {
+                $this->setCliArg($name, $value);
             }
         }
     }
