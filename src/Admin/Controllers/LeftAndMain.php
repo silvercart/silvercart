@@ -15,8 +15,8 @@ use SilverCart\Dev\Tools;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class LeftAndMain extends \SilverStripe\Admin\LeftAndMain {
-
+class LeftAndMain extends \SilverStripe\Admin\LeftAndMain
+{
     /**
      * The URL segment
      *
@@ -28,18 +28,47 @@ class LeftAndMain extends \SilverStripe\Admin\LeftAndMain {
      * Provides hook for decorators, so that they can overwrite css
      * and other definitions.
      * 
-     * @param bool $skipUpdateInit Set to true to skip the parents updateInit extension
-     * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.02.2013
+     * @since 14.09.2018
      */
-    protected function init($skipUpdateInit = false) {
+    protected function init()
+    {
         parent::init();
-        if (!$skipUpdateInit) {
-            $this->extend('updateInit');
-        }
+        $this->extend('updateInit');
+    }
+    
+    /**
+     * Allows user code to hook into ModelAdmin::init() prior to updateInit 
+     * being called on extensions.
+     *
+     * @param callable $callback The callback to execute
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.09.2018
+     */
+    protected function beforeUpdateInit($callback)
+    {
+        $this->beforeExtending('updateInit', $callback);
+    }
+    
+    /**
+     * Allows user code to hook into ModelAdmin::getEditForm() prior to 
+     * updateEditForm being called on extensions.
+     *
+     * @param callable $callback The callback to execute
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 14.09.2018
+     */
+    protected function beforeUpdateEditForm($callback)
+    {
+        $this->beforeExtending('updateEditForm', $callback);
     }
 
     /**
@@ -50,7 +79,8 @@ class LeftAndMain extends \SilverStripe\Admin\LeftAndMain {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.02.2013
      */
-    public function SectionTitle() {
+    public function SectionTitle()
+    {
         $sectionTitle = parent::SectionTitle();
         if (class_exists($this->modelClass)) {
             $sectionTitle = Tools::singular_name_for(singleton($this->modelClass));
@@ -68,12 +98,11 @@ class LeftAndMain extends \SilverStripe\Admin\LeftAndMain {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.10.2017
      */
-    public function canView($member = null) {
-        if (get_class($this) == LeftAndMain::class) {
+    public function canView($member = null)
+    {
+        if (get_class($this) === LeftAndMain::class) {
             return false;
         }
         return parent::canView($member);
     }
-    
 }
-
