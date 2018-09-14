@@ -5,14 +5,20 @@
 .QuickAccess {
     display:                    none;
     text-indent:                0 !important;
+    border:                     none;
+    box-shadow:                 none;
+    background-color:           transparent;
 }
 .QuickAccess .arrow {
-    border-right-color:         #FFFFFF;
-    border-width:               10px 10px 10px 0;
-    margin-top:                 -15px;
-    margin-left:                17px;
     position:                   absolute;
     z-index:                    1011;
+}
+.QuickAccess .arrow:before {
+    border-right-color:         rgba(0, 0, 0, 0.25);
+    position:                   absolute;
+    bottom:                     -19px;
+    left:                       0px;
+    z-index:                    -2;
 }
 .QuickAccess .arrow:after {
     border-color:               transparent;
@@ -23,10 +29,10 @@
     width:                      0;
     content:                    "";
     z-index:                    -1;
-    border-right-color:         rgba(0, 0, 0, 0.25);
+    border-right-color:         rgba(255, 255, 255, 1);
     border-width:               11px 11px 11px 0;
-    bottom:                     -34px;
-    left:                       -5px;
+    bottom:                     -19px;
+    left:                       12px;
 }
 .QuickAccessContent {
     background:                 #fff;
