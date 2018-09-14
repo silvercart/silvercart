@@ -2,7 +2,6 @@
 
 namespace SilverCart\Model\Pages;
 
-use Psr\SimpleCache\CacheInterface;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Admin\Model\CookiePolicyConfig;
 use SilverCart\Checkout\Checkout;
@@ -13,7 +12,6 @@ use SilverCart\Forms\QuickSearchForm;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
-use SilverCart\Model\Order\OrderPosition;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\CheckoutStep;
 use SilverCart\Model\Pages\CheckoutStepController;
@@ -21,7 +19,6 @@ use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Payment\PaymentMethod;
-use SilverCart\Model\Product\Product;
 use SilverCart\Model\Widgets\Widget;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Controllers\ModelAsController;
@@ -32,10 +29,9 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\ErrorPage\ErrorPageController;
 use SilverStripe\i18n\i18n;
+use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\DB;
-use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
@@ -348,6 +344,13 @@ class PageController extends ContentController
         // check the SilverCart configuration
         if (!Tools::isIsolatedEnvironment()) {
             Config::Check();
+        }
+        
+        if (array_key_exists('flushi18n', $this->getRequest()->getVars())
+         && $customer instanceof Member
+         && $customer->isAdmin()
+        ) {
+            FlushInvalidatedResource::flush();
         }
 
         // Delete checkout session data if user is not in the checkout process.
