@@ -897,10 +897,10 @@ de:
     DoExport: 'Als CSV exportieren'
     ExportContext: 'Export-Kontext'
     ExportAll: 'Adressen aller Kunden exportieren'
-    ExportAllNewsletterRecipients: 'Adressen aller Newsletter-Empfäner exportieren'
-    ExportAllNewsletterRecipientsWithAccount: 'Adressen aller Newsletter-Empfäner mit Kundenkonto exportieren'
-    ExportAllNewsletterRecipientsWithoutAccount: 'Adressen aller Newsletter-Empfäner ohne Kundenkonto exportieren'
-    ExportAllNonNewsletterRecipients: 'Adressen aller nicht-Newsletter-Empfäner exportieren'
+    ExportAllNewsletterRecipients: 'Adressen aller Newsletter-Empfänger exportieren'
+    ExportAllNewsletterRecipientsWithAccount: 'Adressen aller Newsletter-Empfänger mit Kundenkonto exportieren'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Adressen aller Newsletter-Empfänger ohne Kundenkonto exportieren'
+    ExportAllNonNewsletterRecipients: 'Adressen aller nicht-Newsletter-Empfänger exportieren'
     MENUTITLE: "Newsletter-Empfänger"
   SilverCart\Model\Order\NumberRange:
     ACTUAL: "Aktuell"
