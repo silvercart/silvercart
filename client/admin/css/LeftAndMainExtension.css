@@ -254,7 +254,8 @@ input[type="color"] {
     z-index: 50;
     display: block;
 }
-.cms-menu__list.collapsed li:hover ul li {
+.cms-menu__list.collapsed > li:hover ul,
+.cms-menu__list.collapsed > li:hover ul li {
     display: block !important;
 }
 
