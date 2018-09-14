@@ -148,7 +148,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
                 $this->getGridFieldConfig($form)->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
             }
             if (GridFieldBatchController::hasBatchActionsFor($this->modelClass)) {
-                $this->getGridFieldConfig($form)->addComponent(new GridFieldBatchController($this->modelClass));
+                $this->getGridFieldConfig($form)->addComponent(new GridFieldBatchController($this->modelClass, 'buttons-before-left'));
             }
             if (singleton($this->modelClass)->hasMethod('getQuickAccessFields')) {
                 $this->getGridFieldConfig($form)->addComponent(new GridFieldQuickAccessController());

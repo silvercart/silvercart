@@ -25,49 +25,44 @@ use SilverStripe\View\SSViewer;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class GridFieldBatchController implements GridField_HTMLProvider, GridField_ActionProvider, GridField_URLHandler, GridField_ColumnProvider {
-
+class GridFieldBatchController implements GridField_HTMLProvider, GridField_ActionProvider, GridField_URLHandler, GridField_ColumnProvider
+{
     /**
      * Batch actions for the given class name
      *
      * @var string
      */
     protected $targetBatchActions = null;
-    
     /**
      * Batch action objects for the given class name
      *
      * @var string
      */
     protected $targetBatchActionObjects = null;
-
     /**
      * Fragment to write the batch actions to
      *
      * @var string
      */
     protected $targetFragment;
-
     /**
      * Class name to add actions for
      *
      * @var string
      */
     protected $targetClassName;
-
     /**
      * URL handlers
      *
      * @var array
      */
     protected $URLHandlers = null;
-
     /**
      * Mapping of all batch actions in relation to a DataObject
      *
      * @var array
      */
-    public static $batchActions = array();
+    public static $batchActions = [];
 
     /**
      * Sets the defaults.
@@ -80,9 +75,10 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public function __construct($targetClassName, $targetFragment = "before") {
-        $this->targetClassName  = $targetClassName;
-        $this->targetFragment   = $targetFragment;
+    public function __construct($targetClassName, $targetFragment = "before")
+    {
+        $this->targetClassName = $targetClassName;
+        $this->targetFragment  = $targetFragment;
     }
     
     /**
@@ -90,7 +86,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return string
      */
-    public function getTargetFragment() {
+    public function getTargetFragment()
+    {
         return $this->targetFragment;
     }
 
@@ -101,7 +98,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return void
      */
-    public function setTargetFragment($targetFragment) {
+    public function setTargetFragment($targetFragment)
+    {
         $this->targetFragment = $targetFragment;
     }
     
@@ -110,7 +108,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return string
      */
-    public function getTargetClassName() {
+    public function getTargetClassName()
+    {
         return $this->targetClassName;
     }
 
@@ -121,7 +120,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return void
      */
-    public function setTargetClassName($targetClassName) {
+    public function setTargetClassName($targetClassName)
+    {
         $this->targetClassName = $targetClassName;
     }
     
@@ -130,7 +130,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array
      */
-    public function getTargetBatchActions() {
+    public function getTargetBatchActions()
+    {
         if (is_null($this->targetBatchActions)) {
             $this->targetBatchActions = self::getBatchActionsFor($this->getTargetClassName());
         }
@@ -142,9 +143,10 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array
      */
-    public function getTargetBatchActionObjects() {
+    public function getTargetBatchActionObjects()
+    {
         if (is_null($this->targetBatchActionObjects)) {
-            $this->targetBatchActionObjects = array();
+            $this->targetBatchActionObjects = [];
             $targetBatchActions = $this->getTargetBatchActions();
             foreach ($targetBatchActions as $targetBatchAction) {
                 $this->targetBatchActionObjects[$targetBatchAction] = new $targetBatchAction();
@@ -158,7 +160,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return string
      */
-    public function getDropdownName() {
+    public function getDropdownName()
+    {
         return 'GridFieldBatchControllerDropdown_' . $this->getTargetClassName();
     }
     
@@ -169,7 +172,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return string
      */
-    public function getCheckboxName($withBrackets = true) {
+    public function getCheckboxName($withBrackets = true)
+    {
         $brackets = '';
         if ($withBrackets) {
             $brackets = '[]';
@@ -188,35 +192,36 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array
      */
-    public function getHTMLFragments($gridField) {
+    public function getHTMLFragments($gridField)
+    {
         Requirements::css('silvercart/silvercart:client/admin/css/GridFieldBatchController.css');
         Requirements::javascript('silvercart/silvercart:client/admin/javascript/GridFieldBatchController.js');
-        $source = array(
+        $source = [
             '' => 'Bitte wählen',
-        );
+        ];
         $targetBatchActionObjects = $this->getTargetBatchActionObjects();
         foreach ($targetBatchActionObjects as $targetBatchAction => $targetBatchActionObject) {
             $reflection = new ReflectionClass($targetBatchAction);
             $source[$reflection->getShortName()] = $targetBatchActionObject->getTitle();
             $targetBatchActionObject->RequireJavascript();
         }
-        $dropdown = new DropdownField($this->getDropdownName(), $this->getDropdownName(), $source);
+        $dropdown = DropdownField::create($this->getDropdownName(), $this->getDropdownName(), $source);
         $dropdown->addExtraClass('grid-batch-action-selector');
         
-        $button = new GridField_FormAction(
+        $button = GridField_FormAction::create(
                 $gridField, 'execute_batch_action', _t(static::class . '.EXECUTE', 'Execute'), 'handleBatchAction', null
         );
         $button->setAttribute('data-icon', 'navigation');
-        $button->addExtraClass('gridfield-button-batch');
+        $button->addExtraClass('gridfield-button-batch btn btn-outline-secondary font-icon-edit-list');
         
-        $forTemplate = new ArrayData(array());
+        $forTemplate = ArrayData::create([]);
         $forTemplate->Dropdown = $dropdown;
         $forTemplate->Button   = $button;
         
         $template = SSViewer::get_templates_by_class($this, '', __CLASS__);
-        return array(
+        return [
             $this->targetFragment => $forTemplate->renderWith($template),
-        );
+        ];
     }
     
     /***************************************************************************
@@ -230,11 +235,12 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array 
      */
-    public function getActions($gridField) {
-        return array(
+    public function getActions($gridField)
+    {
+        return [
             'handleBatchAction'     => 'handleBatchAction',
             'handleBatchCallback'   => 'handleBatchCallback',
-        );
+        ];
     }
 
     /**
@@ -250,7 +256,8 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public function handleAction(GridField $gridField, $actionName, $arguments, $data) {
+    public function handleAction(GridField $gridField, $actionName, $arguments, $data)
+    {
         if ($actionName == 'handlebatchaction') {
             $targetBatchAction = 'SilverCart\\Admin\\Forms\\GridField\\' . $data[$this->getDropdownName()];
             if (class_exists($targetBatchAction)) {
@@ -272,11 +279,13 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public static function handleBatchCallback($targetClassName, HTTPRequest $request) {
-        $result             = '';
-        $targetBatchAction  = $request->postVar('scBatchAction');
-        if (self::hasBatchActionFor($targetClassName, $targetBatchAction) &&
-            class_exists($targetBatchAction)) {
+    public static function handleBatchCallback($targetClassName, HTTPRequest $request)
+    {
+        $result            = '';
+        $targetBatchAction = $request->postVar('scBatchAction');
+        if (self::hasBatchActionFor($targetClassName, $targetBatchAction)
+         && class_exists($targetBatchAction)
+        ) {
             $object = new $targetBatchAction();
             $result = $object->getCallbackFormFields();
         }
@@ -295,10 +304,11 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array
      */
-    public function getURLHandlers($gridField) {
+    public function getURLHandlers($gridField)
+    {
         if (is_null($this->URLHandlers)) {
-            $this->URLHandlers  = array();
-            $batchActions       = $this->getTargetBatchActions();
+            $this->URLHandlers = [];
+            $batchActions      = $this->getTargetBatchActions();
             foreach ($batchActions as $batchAction) {
                 $this->URLHandlers[$batchAction] = $batchAction;
             }
@@ -322,11 +332,12 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public function augmentColumns($gridField, &$columns) {
+    public function augmentColumns($gridField, &$columns)
+    {
         $columns = array_merge(
-                array(
+                [
                     $this->getCheckboxName(),
-                ),
+                ],
                 $columns
         );
     }
@@ -338,10 +349,11 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array 
      */
-    public function getColumnsHandled($gridField) {
-        return array(
+    public function getColumnsHandled($gridField)
+    {
+        return [
             $this->getCheckboxName(),
-        );
+        ];
     }
 
     /**
@@ -353,8 +365,9 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return string HTML for the column. Return NULL to skip.
      */
-    public function getColumnContent($gridField, $record, $columnName) {
-        if ($columnName == $this->getCheckboxName()) {
+    public function getColumnContent($gridField, $record, $columnName)
+    {
+        if ($columnName === $this->getCheckboxName()) {
             return '<input type="checkbox" name="' . $this->getCheckboxName() . '" value="' . $record->ID . '" />';
         }
     }
@@ -368,8 +381,9 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array
      */
-    public function getColumnAttributes($gridField, $record, $columnName) {
-        return array('class' => 'col-batch-action-selector action');
+    public function getColumnAttributes($gridField, $record, $columnName)
+    {
+        return ['class' => 'col-batch-action-selector action'];
     }
 
     /**
@@ -381,15 +395,16 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array Map of arbitrary metadata identifiers to their values.
      */
-    public function getColumnMetadata($gridField, $columnName) {
+    public function getColumnMetadata($gridField, $columnName)
+    {
         $title = sprintf(
                 '<span class="icon icon-24 white icon-checked col-batch-action-header check-all" title="%s"> </span> | <span class="icon icon-24 white icon-not-checked col-batch-action-header uncheck-all" title="%s"> </span>',
                 _t(static::class . '.MARK_ALL', 'Mark all'),
                 _t(static::class . '.UNMARK_ALL', 'Unmark all')
         );
-        return array(
+        return [
             'title' => $title,
-        );
+        ];
     }
     
     /***************************************************************************
@@ -407,9 +422,10 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.03.2013
      */
-    public static function addBatchActionFor($className, $actionClassName) {
+    public static function addBatchActionFor($className, $actionClassName)
+    {
         if (!array_key_exists($className, self::$batchActions)) {
-            self::$batchActions[$className] = array();
+            self::$batchActions[$className] = [];
         }
         if (!in_array($actionClassName, self::$batchActions[$className])) {
             self::$batchActions[$className][] = $actionClassName;
@@ -426,10 +442,12 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.03.2013
      */
-    public static function hasBatchActionsFor($className) {
+    public static function hasBatchActionsFor($className)
+    {
         $hasBatchActions = false;
-        if (array_key_exists($className, self::$batchActions) &&
-                count(self::$batchActions[$className]) > 0) {
+        if (array_key_exists($className, self::$batchActions)
+         && count(self::$batchActions[$className]) > 0
+        ) {
             $hasBatchActions = true;
         }
         return $hasBatchActions;
@@ -447,11 +465,13 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public static function hasBatchActionFor($className, $batchActionName) {
+    public static function hasBatchActionFor($className, $batchActionName)
+    {
         $hasBatchAction = false;
-        if (array_key_exists($className, self::$batchActions) &&
-            count(self::$batchActions[$className]) > 0 &&
-            in_array($batchActionName, self::$batchActions[$className])) {
+        if (array_key_exists($className, self::$batchActions)
+         && count(self::$batchActions[$className]) > 0
+         && in_array($batchActionName, self::$batchActions[$className])
+        ) {
             $hasBatchAction = true;
         }
         return $hasBatchAction;
@@ -464,12 +484,12 @@ class GridFieldBatchController implements GridField_HTMLProvider, GridField_Acti
      * 
      * @return array
      */
-    public static function getBatchActionsFor($className) {
-        $batchAction = array();
+    public static function getBatchActionsFor($className)
+    {
+        $batchAction = [];
         if (self::hasBatchActionsFor($className)) {
             $batchAction = self::$batchActions[$className];
         }
         return $batchAction;
     }
-
 }

@@ -2,7 +2,8 @@
 .grid-batch-action-button {
     position: relative;
     display: inline-block;
-    margin-bottom: 16px !important;
+    border-left: 1px solid #ced5e1;
+    border-right: 1px solid #ced5e1;
 }
 .grid-batch-action-callback-target {
     display: inline-block;
@@ -20,4 +21,8 @@
     background-position: center;
     background-repeat: no-repeat;
     display: none;
+}
+
+.grid-batch-action-button .field .chosen-container-single .chosen-single {
+    height: 32px;
 }
