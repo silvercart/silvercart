@@ -79,11 +79,11 @@ class SilvercartEditAddressForm extends SilvercartAddressForm {
                 if (array_key_exists('Country', $this->formFields)) {
                     $this->formFields['Country']['selectedValue'] = $this->address->SilvercartCountry()->ID;
                 }
-                if (!SilvercartConfig::enablePackstation()) {
+                if (!$this->EnablePackstation()) {
                     unset($this->formFields['PostNumber']);
                     unset($this->formFields['Packstation']);
                 }
-                if (!SilvercartConfig::enableBusinessCustomers()) {
+                if (!$this->EnableBusinessCustomers()) {
                     unset($this->formFields['Company']);
                     unset($this->formFields['TaxIdNumber']);
                 }
