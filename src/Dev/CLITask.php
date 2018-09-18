@@ -2,8 +2,10 @@
 
 namespace SilverCart\Dev;
 
+use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Dev\DebugTools;
+use SilverCart\Model\ShopEmail;
 use SilverStripe\Control\Director;
 use ZipArchive;
 
@@ -35,6 +37,10 @@ trait CLITask
     public static $CLI_COLOR_CHANGE_MAGENTA = "\033[35m";
     public static $CLI_COLOR_CHANGE_CYAN    = "\033[36m";
     public static $CLI_COLOR_CHANGE_WHITE   = "\033[37m";
+    
+    public static $CLI_EMAIL_INFO_TYPE_INFO    = 'info';
+    public static $CLI_EMAIL_INFO_TYPE_ERROR   = 'error';
+    public static $CLI_EMAIL_INFO_TYPE_WARNING = 'warning';
 
     /**
      * Optional log file name.
@@ -66,6 +72,12 @@ trait CLITask
      * @var string
      */
     protected $tmpFolder = null;
+    /**
+     * List of infos to send by email.
+     *
+     * @var array
+     */
+    protected $emailInfos = [];
     
     /**
      * Initializes the given arguments.
@@ -716,5 +728,96 @@ trait CLITask
         $processState = null;
         exec("ps $PID", $processState);
         return count($processState) >= 2;
+    }
+
+    /**
+     * Adds an information to send by email after the task is done.
+     * 
+     * @param string $info Info to send
+     * @param string $type Type of info
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2018
+     */
+    public function addEmailInfo($info, $type = null)
+    {
+        if (is_null($type)) {
+            $type = self::$CLI_EMAIL_INFO_TYPE_INFO;
+        }
+        if (!array_key_exists($type, $this->emailInfos)) {
+            $this->emailInfos[$type] = [];
+        }
+        $this->emailInfos[$type][] = $info;
+    }
+
+    /**
+     * Adds an error message to send by email after the task is done.
+     * 
+     * @param string $error Error to send
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2018
+     */
+    public function addEmailError($error)
+    {
+        $this->addEmailInfo($error, self::$CLI_EMAIL_INFO_TYPE_ERROR);
+    }
+
+    /**
+     * Adds an warning message to send by email after the task is done.
+     * 
+     * @param string $warning Warning to send
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.09.2018
+     */
+    public function addEmailWarning($warning)
+    {
+        $this->addEmailInfo($warning, self::$CLI_EMAIL_INFO_TYPE_WARNING);
+    }
+    
+    /**
+     * Send the information email to the given $recipient.
+     * If no $recipient is given, Config::DefaultMailRecipient() will be used as
+     * default.
+     * 
+     * @param string $recipient Email recipient
+     * 
+     * @return void
+     */
+    public function sendEmail($recipient = null)
+    {
+        if (empty($this->emailInfos)) {
+            return;
+        }
+        if (is_null($recipient)) {
+            $recipient = Config::DefaultMailRecipient();
+        }
+        $class = self::class;
+        $lines = [
+            "Hey there!",
+            "",
+            "It's me, {$class}.",
+            "I just finished my work and figured I should inform you about the following messages.",
+            "",
+        ];
+        foreach ($this->emailInfos as $type => $messages) {
+            $lines[] = "Messages of type {$type}:";
+            foreach ($messages as $message) {
+                $lines[] = " • {$message}";
+            }
+            $lines[] = "";
+        }
+        $lines[] = "Sincerely yours,";
+        $lines[] = "Your SilverCart Ecommerce System";
+        $subject = "SilverCart CLI task information";
+        $content = implode("<br/>" . PHP_EOL, $lines);
+        ShopEmail::send_email($recipient, $subject, $content);
     }
 }
