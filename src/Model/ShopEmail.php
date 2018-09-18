@@ -452,13 +452,15 @@ class ShopEmail extends DataObject {
     {
         $email = ShopEmail::get()->filter('TemplateName', $identifier)->first();
 
-        if (!($email instanceof ShopEmail) ||
-            !$email->exists()) {
+        if (!($email instanceof ShopEmail)
+         || !$email->exists()
+        ) {
             return false;
         }
         $rawSubject = trim($email->Subject);
-        if (is_null($rawSubject) ||
-            empty($rawSubject)) {
+        if (is_null($rawSubject)
+         || empty($rawSubject)
+        ) {
             return false;
         }
         if (!is_array($variables)) {
@@ -491,9 +493,13 @@ class ShopEmail extends DataObject {
         //Email address is validated.
         if ($email->AdditionalReceipients()->exists()) {
             foreach ($email->AdditionalReceipients() as $additionalReceipient) {
-                if ($additionalReceipient->getEmailAddressWithName() && Email::validEmailAddress($additionalReceipient->Email)) {
+                if ($additionalReceipient->getEmailAddressWithName()
+                 && Email::is_valid_address($additionalReceipient->Email)
+                ) {
                     $to = $additionalReceipient->getEmailAddressWithName();
-                } elseif ($additionalReceipient->getEmailAddress() && Email::validEmailAddress($additionalReceipient->Email)) {
+                } elseif ($additionalReceipient->getEmailAddress()
+                 && Email::is_valid_address($additionalReceipient->Email)
+                ) {
                     $to = $additionalReceipient->getEmailAddress();
                 } else {
                     continue;
