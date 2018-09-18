@@ -1,9 +1,9 @@
 <div class="clearfix justify-content-center w-100 d-lg-flex">
 <% if $InvoiceAddressEqualsShippingAddress %>
+    {$ShippingAddress.render($fieldLabel('ShippingAndInvoiceAddress'))}
+<% else %>
     {$ShippingAddress.render($fieldLabel('ShippingAddress'))}
     {$InvoiceAddress.render($fieldLabel('InvoiceAddress'))}
-<% else %>
-    {$ShippingAddress.render($fieldLabel('ShippingAndInvoiceAddress'))}
 <% end_if %>
     <div class="d-inline-block bg-white text-secondary font-italic font-weight-light letter-spacing-1 px-3 py-2 mx-0 mx-md-1 my-1 border w-lg-auto w-100">
         <strong class="font-big-4"><%t SilverCart\Model\Pages\OrderHolder.OrderDetails 'Order details' %></strong><br/>
