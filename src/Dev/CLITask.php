@@ -19,6 +19,23 @@ use ZipArchive;
  */
 trait CLITask
 {
+    public static $CLI_COLOR_BLACK          = "30";
+    public static $CLI_COLOR_RED            = "31";
+    public static $CLI_COLOR_GREEN          = "32";
+    public static $CLI_COLOR_YELLOW         = "33";
+    public static $CLI_COLOR_BLUE           = "34";
+    public static $CLI_COLOR_MAGENTA        = "35";
+    public static $CLI_COLOR_CYAN           = "36";
+    public static $CLI_COLOR_WHITE          = "37";
+    public static $CLI_COLOR_CHANGE_BLACK   = "\033[30m";
+    public static $CLI_COLOR_CHANGE_RED     = "\033[31m";
+    public static $CLI_COLOR_CHANGE_GREEN   = "\033[32m";
+    public static $CLI_COLOR_CHANGE_YELLOW  = "\033[33m";
+    public static $CLI_COLOR_CHANGE_BLUE    = "\033[34m";
+    public static $CLI_COLOR_CHANGE_MAGENTA = "\033[35m";
+    public static $CLI_COLOR_CHANGE_CYAN    = "\033[36m";
+    public static $CLI_COLOR_CHANGE_WHITE   = "\033[37m";
+
     /**
      * Optional log file name.
      *
