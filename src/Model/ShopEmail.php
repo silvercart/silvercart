@@ -496,7 +496,7 @@ class ShopEmail extends DataObject {
                 if ($additionalReceipient->getEmailAddressWithName()
                  && Email::is_valid_address($additionalReceipient->Email)
                 ) {
-                    $to = $additionalReceipient->getEmailAddressWithName();
+                    $to = [$additionalReceipient->Email => $additionalReceipient->Name];
                 } elseif ($additionalReceipient->getEmailAddress()
                  && Email::is_valid_address($additionalReceipient->Email)
                 ) {
@@ -535,12 +535,22 @@ class ShopEmail extends DataObject {
         if (Director::isDev()) {
             $devEmailRecipient = self::config()->get('dev_email_recipient');
             if (!empty($devEmailRecipient)) {
-                $originalRecipient = $recipient;
-                $recipient = $devEmailRecipient;
-                $subject .= ' [original recipient: ' . $originalRecipient . ']';
+                $originalRecipient       = $recipient;
+                $originalRecipientString = "";
+                $recipient               = $devEmailRecipient;
+                if (is_array($originalRecipient)) {
+                    foreach ($originalRecipient as $emailAddress => $name) {
+                        $originalRecipientString .= " \"{$name} <{$emailAddress}>\"";
+                    }
+                } else {
+                    $originalRecipientString = " {$originalRecipient}";
+                }
+                $subject = "{$subject} [original recipient:{$originalRecipientString}]";
             }
         }
-        if (!Email::is_valid_address($recipient)) {
+        if (!is_array($recipient)
+         && !Email::is_valid_address($recipient)
+        ) {
             return;
         }
         $email = Email::create(
