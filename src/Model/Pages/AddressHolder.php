@@ -19,22 +19,22 @@ use SilverStripe\View\ArrayData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class AddressHolder extends MyAccountHolder {
-
+class AddressHolder extends MyAccountHolder
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
+    
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartAddressHolder';
-    
     /**
      * Indicates whether this page type can be root
      *
      * @var bool
      */
     private static $can_be_root = false;
-    
     /**
      * The icon to use for this page in the storeadmin sitetree.
      *
@@ -46,27 +46,48 @@ class AddressHolder extends MyAccountHolder {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this); 
+    }
+    
+    /**
+     * Returns the field labels.
+     * 
+     * @param bool $includerelations Include relations?
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.09.2018
+     */
+    public function fieldLabels($includerelations = true)
+    {
+        $this->beforeUpdateFieldLabels(function(&$labels) {
+            $labels = array_merge(
+                    $labels,
+                    Tools::field_labels_for(self::class),
+                    [
+                        'AddNewAddress'        => _t(AddressHolder::class . '.ADD', 'Add new address'),
+                        'EditAddress'          => _t(AddressHolder::class . '.EDIT_ADDRESS', 'Edit address'),
+                        'YourCurrentAddresses' => _t(MyAccountHolder::class . '.YOUR_CURRENT_ADDRESSES', 'Your current invoice and delivery address'),
+                    ]
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**
@@ -77,7 +98,8 @@ class AddressHolder extends MyAccountHolder {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.04.2013
      */
-    public function hasSummary() {
+    public function hasSummary()
+    {
         return true;
     }
     
@@ -86,7 +108,8 @@ class AddressHolder extends MyAccountHolder {
      * 
      * @return string
      */
-    public function getSummary() {
+    public function getSummary()
+    {
         return $this->renderWith('SilverCart/Model/Pages/Includes/AddressSummary');
     }
     
@@ -95,8 +118,9 @@ class AddressHolder extends MyAccountHolder {
      * 
      * @return string
      */
-    public function getSummaryTitle() {
-        return _t(MyAccountHolder::class . '.YOUR_CURRENT_ADDRESSES', 'Your current invoice and delivery address');
+    public function getSummaryTitle()
+    {
+        return $this->fieldLabel('YourCurrentAddresses');
     }
 
     /**
@@ -105,7 +129,8 @@ class AddressHolder extends MyAccountHolder {
      *
      * @return string
      */
-    public function getSection() {
+    public function getSection()
+    {
         return Address::class;
     }
     
@@ -117,18 +142,16 @@ class AddressHolder extends MyAccountHolder {
      * @param bool   $showHidden     true, if hidden pages should be displayed in breadcrumbs
      * 
      * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2018
      */
-    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) {
+    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false)
+    {
         $items = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
         $breadcrumbItem = '';
         if (Controller::curr()->getAction() == 'addNewAddress') {
-            $breadcrumbItem = _t(AddressHolder::class . '.ADD', 'Add new address');
+            $breadcrumbItem = $this->fieldLabel('AddNewAddress');
             $link           = $this->Link('addNewAddress');
         } elseif (Controller::curr()->getAction() == 'edit') {
-            $breadcrumbItem = _t(AddressHolder::class . '.EDIT_ADDRESS', 'Edit address');
+            $breadcrumbItem = $this->fieldLabel('EditAddress');
             $ctrl      = Controller::curr();
             $addressID = $ctrl->getRequest()->postVar('AddressID');
             if (is_null($addressID)) {
@@ -138,9 +161,9 @@ class AddressHolder extends MyAccountHolder {
             $link    = $this->Link('edit/' . $address->ID);
         }
         if (!empty($breadcrumbItem)) {
-            $title = new DBText();
+            $title = DBText::create();
             $title->setValue($breadcrumbItem);
-            $items->push(new ArrayData([
+            $items->push(ArrayData::create([
                 'MenuTitle' => $title,
                 'Title'     => $title,
                 'Link'      => $link,
@@ -148,5 +171,4 @@ class AddressHolder extends MyAccountHolder {
         }
         return $items;
     }
-
 }
