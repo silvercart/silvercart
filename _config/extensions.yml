@@ -50,6 +50,9 @@ SilverCart\Model\Product\Product:
   extensions:
     - SilverCart\ORM\DataObjectCacheExtension
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
+SilverStripe\ErrorPage\ErrorPageController:
+  extensions:
+    - SilverCart\Extensions\Pages\ErrorPageControllerExtension
 SilverCart\Model\Pages\ProductGroupHolderController:
   extensions:
     - SilverCart\View\GroupView\GroupViewExtension
