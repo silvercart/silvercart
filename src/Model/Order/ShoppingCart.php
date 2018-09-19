@@ -562,6 +562,7 @@ class ShoppingCart extends DataObject {
             if ($position instanceof ShoppingCartPosition) {
                 $position->delete();
                 $error = false;
+                $member->getCart()->extend('onAfterRemoveFromCart', $data);
             }
         }
 
