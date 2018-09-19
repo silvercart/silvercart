@@ -32,9 +32,13 @@ class ErrorPageControllerExtension extends Extension
     public function onAfterInit()
     {
         if ($this->owner->data()->ErrorCode === "404"
-         && array_key_exists('url', $_GET)
+         && array_key_exists('REQUEST_URI', $_SERVER)
         ) {
-            $urlParts = explode('/', $_GET['url']);
+            $url = $_SERVER['REQUEST_URI'];
+            if (strpos($url, "?") !== false) {
+                $url = substr($url, 0, strpos($url, "?"));
+            }
+            $urlParts = explode('/', $url);
             array_pop($urlParts);
             $productID = array_pop($urlParts);
             if (is_numeric($productID)) {
