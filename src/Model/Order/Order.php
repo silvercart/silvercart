@@ -2944,6 +2944,18 @@ class Order extends DataObject implements PermissionProvider
     {
         return str_replace('.', ',', number_format($this->HandlingCostPaymentAmount, 2)) . ' ' . $this->HandlingCostPaymentCurrency;
     }
+
+    /**
+     * returns the orders total amount as string incl. currency.
+     *
+     * @return DBMoney
+     */
+    public function getHandlingCost()
+    {
+        $amount   = $this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount();
+        $currency = $this->HandlingCostShipment->Currency;
+        return DBMoney::create()->setAmount($amount)->setCurrency($currency);
+    }
     
     /**
      * Marks the order as seen
