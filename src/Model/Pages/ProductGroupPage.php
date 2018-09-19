@@ -49,44 +49,41 @@ use WidgetSets\Model\WidgetSet;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ProductGroupPage extends \Page {
-
+class ProductGroupPage extends \Page
+{
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartProductGroupPage';
-
     /**
      * Set allowed children for this page.
      *
      * @var array
      */
-    private static $allowed_children = array(
+    private static $allowed_children = [
         ProductGroupPage::class,
-    );
-
+    ];
     /**
-     * ???.
+     * Controls whether a page can be in the root of the site tree.
+     * Note: Value might be cached, see {@link $allowed_chilren}.
      *
      * @var boolean
      */
     private static $can_be_root = false;
-    
     /**
      * The icon for this page type in the backend sitetree.
      * 
      * @var string
      */
     private static $icon = "silvercart/silvercart:client/img/page_icons/product_group-file.gif";
-
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'productsPerPage'               => 'Int',
         'productGroupsPerPage'          => 'Int',
         'useContentFromParent'          => 'Boolean(0)',
@@ -96,51 +93,52 @@ class ProductGroupPage extends \Page {
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DoNotShowProducts'             => 'Boolean(0)',
         'LastEditedForCache'            => 'DBDatetime',
-    );
-
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'GroupPicture' => Image::class,
-    );
-
+    ];
     /**
      * Has-many relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'Products' => Product::class,
-    );
-
+    ];
     /**
      * Belongs-many-many relationships.
      *
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'MirrorProducts' => Product::class,
-    );
-
+    ];
     /**
      * Casting
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
+        'BreadcrumbTitle'       => 'Text',
         'ProductsOnPagesString' => 'HTMLText',
-    );
-
+    ];
+    /**
+     * Delimiter character(s) to use as product group breadcrumb title separation.
+     *
+     * @var string
+     */
+    private static $breadcrumb_title_delimiter = ' > ';
     /**
      * Saves the result from $this->getProducts()
      *
      * @var array
      */
-    protected $cachedProducts = array();
-
+    protected $cachedProducts = [];
     /**
      * Contains all manufacturers of the products contained in this product
      * group page.
@@ -148,36 +146,31 @@ class ProductGroupPage extends \Page {
      * @var boolean
      */
     protected $manufacturers = null;
-    
     /**
      * Contains the number of all active Products for this page for
      * caching purposes.
      *
      * @var array
      */
-    protected static $activeProducts = array();
-    
+    protected static $activeProducts = [];
     /**
      * Indicator to check whether getCMSFields is called
      *
      * @var boolean
      */
     protected $getCMSFieldsIsCalled = false;
-    
     /**
      * Optional pagination context. If not set, the return value of getProducts() will be used.
      *
      * @var PaginatedList
      */
     protected $paginationContext = null;
-    
     /**
      * Cache key parts for this product group
      * 
      * @var array 
      */
     protected $cacheKeyParts = null;
-    
     /**
      * Cache key for this product group
      * 
@@ -197,7 +190,8 @@ class ProductGroupPage extends \Page {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.02.2011
      */
-    public function  __construct($record = null, $isSingleton = false) {
+    public function  __construct($record = null, $isSingleton = false)
+    {
         parent::__construct($record, $isSingleton);
         $this->drawCMSFields = true;
 
@@ -211,11 +205,9 @@ class ProductGroupPage extends \Page {
      * the class name will be returned.
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.05.2012
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -224,11 +216,9 @@ class ProductGroupPage extends \Page {
      * the class name will be returned.
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.05.2012
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this);
     }
     
@@ -245,8 +235,11 @@ class ProductGroupPage extends \Page {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 29.6.2011
      */
-    public function LinkingMode() {
-        if (Tools::Session()->get("SilverCart.ProductGroupPageID") && Controller::curr() instanceof ProductGroupPageController) {
+    public function LinkingMode()
+    {
+        if (Tools::Session()->get("SilverCart.ProductGroupPageID")
+         && Controller::curr() instanceof ProductGroupPageController
+        ) {
             if ($this->ID == Tools::Session()->get("SilverCart.ProductGroupPageID")) {
                 return 'current';
             }
@@ -269,11 +262,13 @@ class ProductGroupPage extends \Page {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.03.2015
      */
-    public function Link($action = null) {
+    public function Link($action = null)
+    {
         $controller = Controller::curr();
-        if ($controller->hasMethod('isProductDetailView') &&
-            $controller->isProductDetailView() &&
-            $controller->data()->ID === $this->ID) {
+        if ($controller->hasMethod('isProductDetailView')
+         && $controller->isProductDetailView()
+         && $controller->data()->ID === $this->ID
+        ) {
             $product = $controller->getDetailViewProduct();
             $link    = $product->Link($this->Locale);
         } else {
@@ -291,18 +286,21 @@ class ProductGroupPage extends \Page {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.06.2017
      */
-    public function CanonicalLink() {
+    public function CanonicalLink()
+    {
         $link = parent::CanonicalLink();
-        if (!(Controller::curr()->hasMethod('isProductDetailView') &&
-              Controller::curr()->isProductDetailView())) {
+        if (!(Controller::curr()->hasMethod('isProductDetailView')
+           && Controller::curr()->isProductDetailView())
+        ) {
             if (array_key_exists('start', $_GET)) {
                 $char = '?';
                 if (strpos($link, $char) !== false) {
                     $char = '&';
                 }
-                if (strpos($link, '?start=') === false &&
-                    strpos($link, '&start=') === false &&
-                    (int) $_GET['start'] > 0) {
+                if (strpos($link, '?start=') === false
+                 && strpos($link, '&start=') === false
+                 && (int) $_GET['start'] > 0
+                ) {
                     $link .= $char . 'start=' . $_GET['start'];
                 }
             }
@@ -329,7 +327,8 @@ class ProductGroupPage extends \Page {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.02.2011
      */
-    public function OriginalLink($action = null) {
+    public function OriginalLink($action = null)
+    {
         return parent::Link($action);
     }
     
@@ -341,7 +340,8 @@ class ProductGroupPage extends \Page {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.05.2014
      */
-    public function BackLink() {
+    public function BackLink()
+    {
         if (Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL')) {
             $url = Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL');
         } elseif (Controller::curr()->getRequest()->getHeader('Referer')) {
@@ -349,8 +349,9 @@ class ProductGroupPage extends \Page {
         } else {
             $url = $this->OriginalLink();
         }
-        if (!$this->isInternalUrl($url) ||
-            Director::makeRelative($url) == Director::makeRelative($this->Link())) {
+        if (!$this->isInternalUrl($url)
+         || Director::makeRelative($url) == Director::makeRelative($this->Link())
+        ) {
             $url = $this->OriginalLink();
         }
         return $url;
@@ -364,7 +365,8 @@ class ProductGroupPage extends \Page {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.05.2012
      */
-    public function BackPage() {
+    public function BackPage()
+    {
         $url            = $this->BackLink();
         $relativeUrl    = Director::makeRelative($url);
         if (strpos($relativeUrl, '?') !== false) {
@@ -997,21 +999,26 @@ class ProductGroupPage extends \Page {
      * will be returned
      * 
      * @return string
-     * 
-     * @author Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 06.11.2014
      */
-    public function getMetaTitle() {
+    public function getMetaTitle()
+    {
         $metaTitle = $this->getField('MetaTitle');
-        if (!$this->getCMSFieldsIsCalled &&
-            !Tools::isBackendEnvironment()) {
+        if (!$this->getCMSFieldsIsCalled
+         && !Tools::isBackendEnvironment()
+        ) {
             if (empty($metaTitle)) {
-                if (Controller::curr() instanceof ProductGroupPageController &&
-                    Controller::curr()->isProductDetailView()) {
+                if (Controller::curr() instanceof ProductGroupPageController
+                 && Controller::curr()->isProductDetailView()
+                ) {
                     $product = Controller::curr()->getDetailViewProduct();
-                    $metaTitle = $product->MetaTitle;
+                    $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
+                        'title' => $product->MetaTitle,
+                    ]);
                 } else {
-                    $metaTitle = $this->Title;
+                    $buyTitle  = _t(self::class . '.BuyTitle', 'Buy {title}', [
+                        'title' => $this->BreadcrumbTitle,
+                    ]);
+                    $metaTitle = "{$this->Title} | {$buyTitle}";
                 }
             }
             $this->extend('updateMetaTitle', $metaTitle);
@@ -1130,6 +1137,29 @@ class ProductGroupPage extends \Page {
         }
 
         return $context;
+    }
+    
+    /**
+     * Returns the title including the parent product group titles.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.09.2018
+     */
+    public function getBreadcrumbTitle()
+    {
+        $group = $this->owner;
+        $ctrl  = Controller::curr();
+        /* @var $group \SilverCart\Model\Pages\ProductGroupPage */
+        /* @var $ctrl \SilverCart\Model\Pages\ProductGroupPageController */
+        $items = $group->getBreadcrumbItems(20, ProductGroupHolder::class);
+        $map   = $items->map('ID', 'Title')->toArray();
+        if ($ctrl->hasMethod('isProductDetailView')
+         && $ctrl->isProductDetailView()) {
+            array_pop($map);
+        }
+        return implode($group->config()->get('breadcrumb_title_delimiter'), $map);
     }
     
     /**

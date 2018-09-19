@@ -1138,6 +1138,7 @@ en:
     MARCH: "March"
     MAY: "May"
     MESSAGE: "Message"
+    MetaTitleAt: "at {shopTitle}"
     MONTH: "Month"
     MYACCOUNT: "My account"
     NAME: "Name"
@@ -1494,6 +1495,7 @@ en:
   SilverCart\Model\Pages\ProductGroupPage:
     ATTRIBUTES: "Attributes"
     BREADCRUMBS: "Product Group Breadcrumbs"
+    BuyTitle: "Buy {title}"
     DEFAULTGROUPHOLDERVIEW: "Default product group view"
     DEFAULTGROUPVIEW: "Default product list view"
     DEFAULTGROUPVIEW_DEFAULT: "Use view from parent pages"
