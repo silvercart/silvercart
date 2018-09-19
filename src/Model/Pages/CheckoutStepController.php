@@ -219,7 +219,7 @@ class CheckoutStepController extends \PageController {
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.04.2018
+     * @since 19.09.2018
      */
     public function thanks(HTTPRequest $request) {
         $checkout     = $this->getCheckout();
@@ -230,6 +230,7 @@ class CheckoutStepController extends \PageController {
             $order         = Order::get()->byID($checkoutData['Order']);
             /* @var $paymentMethod PaymentMethod */
             /* @var $order Order */
+            $this->extend('onBeforeRenderThanks', $order, $paymentMethod, $checkoutData);
             return $this->customise([
                 'PaymentConfirmationText' => $paymentMethod->processConfirmationText($order, $checkoutData),
                 'CustomersOrder'          => $order,
