@@ -584,7 +584,7 @@ class SearchResultsPageController extends ProductGroupPageController {
      * @param bool   $disableLimit     only defined because it exists on parent::getProducts to avoid strict notice
      * @param bool   $force            only defined because it exists on parent::getProducts to avoid strict notice
      *
-     * @return DataList
+     * @return PaginatedList
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) {
         if (is_null($this->searchResultProducts) || $force) {
@@ -696,6 +696,15 @@ class SearchResultsPageController extends ProductGroupPageController {
         }
         
         return false;
+    }
+
+    /**
+     * returns the search query out of the session.
+     *
+     * @return string
+     */
+    public function getPlainSearchQuery() {
+        return Tools::Session()->get(static::SESSION_KEY_SEARCH_QUERY);
     }
 
     /**

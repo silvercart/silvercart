@@ -3,7 +3,9 @@
 namespace SilverCart\Model\Pages;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupPage;
+use SilverStripe\Control\Controller;
 
 /**
  * page type to display search results.
@@ -111,5 +113,38 @@ class SearchResultsPage extends ProductGroupPage {
         $fields->removeByName('UseOnlyDefaultGroupHolderView');
 
         return $fields;
+    }
+    
+    /**
+     * Returns the meta title. If not set, the meta-title of the 
+     * single product in detail view or the title of the SiteTree object 
+     * will be returned
+     * 
+     * @return string
+     */
+    public function getMetaTitle()
+    {
+        $metaTitle = $this->getField('MetaTitle');
+        if (!$this->getCMSFieldsIsCalled
+         && !Tools::isBackendEnvironment()
+        ) {
+            if (empty($metaTitle)) {
+                $ctrl = Controller::curr();
+                if ($ctrl instanceof SearchResultsPageController) {
+                    $searchTitle  = _t(self::class . '.SearchTitle', 'Search results for "{title}"', [
+                        'title' => $ctrl->getPlainSearchQuery(),
+                    ]);
+                    if ($ctrl->HasMorePagesThan(1)) {
+                        $searchTitle .= ', ' . _t(Page::class . '.PageXofY', 'Page {x} of {y}', [
+                            'x' => $ctrl->getProducts()->CurrentPage(),
+                            'y' => $ctrl->getProducts()->Pages()->count(),
+                        ]);
+                    }
+                    $metaTitle = "{$this->Title} | {$searchTitle}";
+                }
+            }
+            $this->extend('updateMetaTitle', $metaTitle);
+        }
+        return $metaTitle;
     }
 }
