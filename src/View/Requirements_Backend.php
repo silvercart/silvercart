@@ -84,7 +84,7 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     public function includeInHTML($content)
     {
-        //$this->forceCombineFiles();
+        $this->forceCombineFiles();
         if (func_num_args() > 1) {
             Deprecation::notice(
                 '5.0',
@@ -333,7 +333,12 @@ MESSAGE
     }
     
     /**
+     * Combines all CSS and JS files.
      * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.09.2018
      */
     protected function forceCombineFiles()
     {
