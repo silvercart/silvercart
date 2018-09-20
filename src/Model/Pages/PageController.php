@@ -167,10 +167,9 @@ class PageController extends ContentController
         $this->extend('updateRequireCoreJavaScript', $jsFilesCore);
         
         if (count($jsFilesCore) > 0) {
-            Requirements::combine_files(
-                'sc.core.js',
-                $jsFilesCore
-            );
+            foreach ($jsFilesCore as $file) {
+                Requirements::javascript($file);
+            }
         }
         $this->extend('onAfterRequireCoreJavaScript', $jsFilesCore);
     }
@@ -194,10 +193,9 @@ class PageController extends ContentController
         $this->extend('updateRequireExtendedJavaScript', $jsFilesExt);
         
         if (count($jsFilesExt) > 0) {
-            Requirements::combine_files(
-                'sc.ext.js',
-                $jsFilesExt
-            );
+            foreach ($jsFilesExt as $file) {
+                Requirements::javascript($file);
+            }
         }
     }
     
@@ -351,6 +349,12 @@ class PageController extends ContentController
          && $customer->isAdmin()
         ) {
             FlushInvalidatedResource::flush();
+        }
+        if (array_key_exists('flushrequirements', $this->getRequest()->getVars())
+         && $customer instanceof Member
+         && $customer->isAdmin()
+        ) {
+            Requirements::flush();
         }
 
         // Delete checkout session data if user is not in the checkout process.

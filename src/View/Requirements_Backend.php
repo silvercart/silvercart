@@ -2,8 +2,12 @@
 
 namespace SilverCart\View;
 
-use SilverStripe\Core\Manifest\ModuleResourceLoader;
+use SilverCart\View\Requirements_Minifier;
+use SilverStripe\Assets\File;
 use SilverStripe\Dev\Deprecation;
+use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Manifest\ModuleResourceLoader;
 use SilverStripe\View\HTML;
 use SilverStripe\View\Requirements_Backend as SilverStripeRequirements_Backend;
 
@@ -25,6 +29,36 @@ use SilverStripe\View\Requirements_Backend as SilverStripeRequirements_Backend;
  */
 class Requirements_Backend extends SilverStripeRequirements_Backend
 {
+    /**
+     * Use the injected minification service to minify any javascript file passed to {@link combine_files()}.
+     *
+     * @var bool
+     */
+    protected $minifyCombinedFiles = true;
+    /**
+     * Whether or not file headers should be written when combining files
+     *
+     * @var boolean
+     */
+    protected $writeHeaderComment = false;
+    
+    /**
+     * Sets the default minifier.
+     * 
+     * @return $this
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.09.2018
+     */
+    public function __construct()
+    {
+        if (Director::isDev()) {
+            $this->setMinifyCombinedFiles(false);
+            $this->setWriteHeaderComment(true);
+        }
+        $this->setMinifier(Requirements_Minifier::create());
+    }
+    
     /**
      * -------------------------------------------------------------------------
      * -------------------------------------------------------------------------
@@ -50,6 +84,7 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     public function includeInHTML($content)
     {
+        //$this->forceCombineFiles();
         if (func_num_args() > 1) {
             Deprecation::notice(
                 '5.0',
@@ -202,11 +237,13 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      * @since 09.05.2018
      * @see parent::combineFiles()
      */
-    public function combineFiles($combinedFileName, $files, $options = array()) {
+    public function combineFiles($combinedFileName, $files, $options = [])
+    {
         parent::combineFiles($combinedFileName, $files, $options);
         foreach ($this->combinedFiles as $combinedFileName => $combinedFileProperties) {
-            if (array_key_exists('files', $combinedFileProperties) &&
-                is_array($combinedFileProperties['files'])) {
+            if (array_key_exists('files', $combinedFileProperties)
+             && is_array($combinedFileProperties['files'])
+            ) {
                 foreach ($combinedFileProperties['files'] as $index => $file) {
                     $realFile = ModuleResourceLoader::singleton()->resolvePath($file);
                     $this->combinedFiles[$combinedFileName]['files'][$index] = $realFile;
@@ -214,5 +251,151 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
             }
         }
     }
+
+    /**
+     * Given a set of files, combine them (as necessary) and return the url
+     *
+     * @param string $combinedFile Filename for this combined file
+     * @param array $fileList List of files to combine
+     * @param string $type Either 'js' or 'css'
+     * @return string|null URL to this resource, if there are files to combine
+     * @throws Exception
+     */
+    protected function getCombinedFileURL($combinedFile, $fileList, $type)
+    {
+        // Skip empty lists
+        if (empty($fileList)) {
+            return null;
+        }
+
+        // Generate path (Filename)
+        $hashQuerystring = Config::inst()->get(static::class, 'combine_hash_querystring');
+        if (!$hashQuerystring) {
+            $combinedFile = $this->hashedCombinedFilename($combinedFile, $fileList);
+        }
+        $combinedFileID = File::join_paths($this->getCombinedFilesFolder(), $combinedFile);
+
+        // Send file combination request to the backend, with an optional callback to perform regeneration
+        $minify = $this->getMinifyCombinedFiles();
+        if ($minify && !$this->minifier) {
+            throw new Exception(
+                sprintf(
+                    <<<MESSAGE
+Cannot minify files without a minification service defined.
+Set %s::minifyCombinedFiles to false, or inject a %s service on
+%s.properties.minifier
+MESSAGE
+                    ,
+                    __CLASS__,
+                    Requirements_Minifier::class,
+                    __CLASS__
+                )
+            );
+        }
+
+        $combinedURL = $this
+            ->getAssetHandler()
+            ->getContentURL(
+                $combinedFileID,
+                function () use ($fileList, $minify, $type, $combinedFile) {
+                    // Physically combine all file content
+                    $combinedData = '';
+                    foreach ($fileList as $file) {
+                        $filePath = Director::getAbsFile($file);
+                        if (!file_exists($filePath)) {
+                            throw new InvalidArgumentException("Combined file {$file} does not exist");
+                        }
+                        $fileContent = file_get_contents($filePath);
+                        // Use configured minifier
+                        if ($minify) {
+                            $fileContent = $this->minifier->minify($fileContent, $type, $file);
+                        }
+
+                        if ($this->writeHeaderComment) {
+                            // Write a header comment for each file for easier identification and debugging.
+                            $combinedData .= "/****** FILE: $file *****/\n";
+                        }
+                        $combinedData .= $fileContent . "\n";
+                    }
+                    return $this->minifier->minify($combinedData, $type, $combinedFile);
+                }
+            );
+
+        // If the name isn't hashed, we will need to append the querystring m= parameter instead
+        // Since url won't be automatically suffixed, add it in here
+        if ($hashQuerystring && $this->getSuffixRequirements()) {
+            $hash = $this->hashOfFiles($fileList);
+            $q = stripos($combinedURL, '?') === false ? '?' : '&';
+            $combinedURL .= "{$q}m={$hash}";
+        }
+
+        return $combinedURL;
+    }
     
+    /**
+     * 
+     */
+    protected function forceCombineFiles()
+    {
+        $jsFilesToCombine = [];
+        foreach ($this->getJavascript() as $file => $attributes) {
+            $jsAttributes = [];
+            $keyParts     = [];
+            if (isset($attributes['type'])) {
+                if (is_null($attributes['type'])) {
+                    $keyParts[] = 'default';
+                } else {
+                    $jsAttributes['type'] = $attributes['type'];
+                    $keyParts[]           = $jsAttributes['type'];
+                }
+            }
+            if (!empty($attributes['async'])) {
+                $jsAttributes['async'] = $attributes['async'];
+                if ($jsAttributes['async']) {
+                    $keyParts[] = $jsAttributes['async'];
+                }
+            }
+            if (!empty($attributes['defer'])) {
+                $jsAttributes['defer'] = $attributes['defer'];
+                if ($jsAttributes['defer']) {
+                    $keyParts[] = $jsAttributes['defer'];
+                }
+            }
+            
+            $key = implode(' ', $keyParts);
+            if (!array_key_exists($key, $jsFilesToCombine)) {
+                $jsFilesToCombine[$key] = [
+                    'files'      => [],
+                    'attributes' => $jsAttributes,
+                ];
+            }
+            $jsFilesToCombine[$key]['files'][] = $file;
+        }
+        foreach ($jsFilesToCombine as $jsFiles) {
+            $files      = $jsFiles['files'];
+            $attributes = $jsFiles['attributes'];
+            $fileName   = sha1(implode('--', $files)) . ".js";
+            $this->combineFiles($fileName, $files, $attributes);
+        }
+        
+        $cssFilesToCombine = [];
+        foreach ($this->getCSS() as $file => $params) {
+            $media = "default";
+            if (!empty($params['media'])) {
+                $media = $params['media'];
+            }
+            if (!array_key_exists($media, $cssFilesToCombine)) {
+                $cssFilesToCombine[$media] = [];
+            }
+            $cssFilesToCombine[$media][] = $file;
+        }
+        foreach ($cssFilesToCombine as $media => $files) {
+            $fileName = sha1(implode('--', $files)) . ".css";
+            $options  = [];
+            if ($media !== "default") {
+                $options['media'] = $media;
+            }
+            $this->combineFiles($fileName, $files, $options);
+        }
+    }
 }
