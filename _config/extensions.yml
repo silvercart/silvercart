@@ -1,6 +1,9 @@
 ---
 Name: silvercart-extensions
 ---
+SilverStripe\Control\Controller:
+  extensions:
+    - SilverCart\Extensions\Control\MinifiedHTTPResponseExtension
 SilverStripe\Forms\CheckboxSetField:
   extensions:
     - SilverCart\Extensions\Forms\FormFields\CheckboxSetFieldExtension
