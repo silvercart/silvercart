@@ -317,7 +317,10 @@ MESSAGE
                         }
                         $combinedData .= $fileContent . "\n";
                     }
-                    return $this->minifier->minify($combinedData, $type, $combinedFile);
+                    if ($type === "css") {
+                        $combinedData = $this->minifier->minify($combinedData, $type, $combinedFile);
+                    }
+                    return $combinedData;
                 }
             );
 
@@ -342,8 +345,18 @@ MESSAGE
      */
     protected function forceCombineFiles()
     {
+        $existingFiles = [];
+        foreach ($this->combinedFiles as $existingCombinedFilename => $combinedItem) {
+            $existingFiles = array_merge(
+                    $existingFiles,
+                    $combinedItem['files']
+            );
+        }
         $jsFilesToCombine = [];
         foreach ($this->getJavascript() as $file => $attributes) {
+            if (in_array($file, $existingFiles)) {
+                continue;
+            }
             $jsAttributes = [];
             $keyParts     = [];
             if (isset($attributes['type'])) {
@@ -385,6 +398,9 @@ MESSAGE
         
         $cssFilesToCombine = [];
         foreach ($this->getCSS() as $file => $params) {
+            if (in_array($file, $existingFiles)) {
+                continue;
+            }
             $media = "default";
             if (!empty($params['media'])) {
                 $media = $params['media'];
