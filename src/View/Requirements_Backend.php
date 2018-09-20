@@ -38,6 +38,12 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     private static $force_combine_files = false;
     /**
+     * Determines whether to force CSS/JS file combination.
+     *
+     * @var bool
+     */
+    private static $force_combine_files_async = true;
+    /**
      * Use the injected minification service to minify any javascript file passed to {@link combine_files()}.
      *
      * @var bool
@@ -376,6 +382,9 @@ MESSAGE
                     $jsAttributes['type'] = $attributes['type'];
                     $keyParts[]           = $jsAttributes['type'];
                 }
+            }
+            if (self::config()->get('force_combine_files_async')) {
+                $attributes['async'] = true;
             }
             if (!empty($attributes['async'])) {
                 $jsAttributes['async'] = $attributes['async'];
