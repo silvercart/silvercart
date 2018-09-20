@@ -39,6 +39,9 @@ class Requirements_Minifier implements SilverStripeRequirements_Minifier
             } elseif ($type === "js") {
                 $minifier = new \MatthiasMullie\Minify\JS($content);
                 $content  = $minifier->minify();
+                if (strpos(strrev($content), ';') !== 0) {
+                    $content .= ";";
+                }
             }
         }
         return $content;
