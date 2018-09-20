@@ -29,6 +29,14 @@ use SilverStripe\View\Requirements_Backend as SilverStripeRequirements_Backend;
  */
 class Requirements_Backend extends SilverStripeRequirements_Backend
 {
+    use \SilverStripe\Core\Config\Configurable;
+    
+    /**
+     * Determines whether to force CSS/JS file combination.
+     *
+     * @var bool
+     */
+    private static $force_combine_files = false;
     /**
      * Use the injected minification service to minify any javascript file passed to {@link combine_files()}.
      *
@@ -84,7 +92,9 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     public function includeInHTML($content)
     {
-        $this->forceCombineFiles();
+        if (self::config()->get('force_combine_files')) {
+            $this->forceCombineFiles();
+        }
         if (func_num_args() > 1) {
             Deprecation::notice(
                 '5.0',

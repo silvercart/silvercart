@@ -20,6 +20,7 @@ use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Widgets\Widget;
+use SilverCart\View\Requirements_Backend;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\CMS\Model\SiteTree;
@@ -315,6 +316,7 @@ class PageController extends ContentController
             parent::init();
             return true;
         }
+        Requirements_Backend::config()->set('force_combine_files', true);
         
         Tools::initSession();
         $controller = Controller::curr();
