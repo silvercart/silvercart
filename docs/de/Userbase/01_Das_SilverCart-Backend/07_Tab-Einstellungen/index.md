@@ -32,17 +32,17 @@ Der Google Webmaster Tools Code kann nun von Google ausgelesen werden.
 Google Analytics ist ein Dienst von Google mit dem Sie den Datenverkehr Ihrer Website analysieren können. Dabei werden unter anderem die Herkunft der Besucher, die Verweildauer sowie die Nutzung durch Suchmachinen analysiert.
 Wenn Sie Google Analytics nutzen möchten, tragen Sie den Tracking Code in das Textfeld ein und speichern Sie die Änderung.
 
-Da die Informationen bei Google und damit ausserhalb der eigenen Kontrolle gespeichert werden, sehen viele Datenschützer den Dienst als problematisch an. Eine Alternative hierzu ist die Analysesoftware piwik.
+Da die Informationen bei Google und damit ausserhalb der eigenen Kontrolle gespeichert werden, sehen viele Datenschützer den Dienst als problematisch an. Eine Alternative hierzu ist die Analysesoftware Matomo.
 
 #####Google Conversion Tracking Code
 Im Rahmen von Google Analytics können Sie die Conversionsrate im E-Commerce messen. Hierzu benötigt Google Informationen über erfolgreiche Kaufabschlüsse. Diese werden über den Google Conversion Tracking Code an Google übermittelt.
 
 Kopieren Sie den Google Conversion Tracking Code in das Textfeld ein und speichern Sie die Änderung.
 
-#####Piwik Tracking Code
-Piwik ist ein Open-Source-Programm für Webanalytic und eine echte Alternative zu Google Analytics. Piwik hat den Vorteil, dass die erhobenen Daten nicht bei einem Fremdanbieter gespeichert werden.
+#####Matomo (formaly Piwik) Tracking Code
+Matomo ist ein Open-Source-Programm für Webanalytic und eine echte Alternative zu Google Analytics. Matomo hat den Vorteil, dass die erhobenen Daten nicht bei einem Fremdanbieter gespeichert werden.
 
-Wenn Sie Piwik nutzen möchten, tragen Sie den Piwik Tracking Code in das Textfeld ein und vergessen Sie nicht die Änderung zu speichern.
+Wenn Sie Matomo nutzen möchten, tragen Sie den Matomo Tracking Code in das Textfeld ein und vergessen Sie nicht die Änderung zu speichern.
 
 ### SocialMedia
 

@@ -12,6 +12,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductCondition;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverCart\ORM\Connect\DBMigration;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverCart\Forms\FormFields\MoneyField;
@@ -102,7 +103,7 @@ class SiteConfigExtension extends DataExtension
         'GoogleAnalyticsTrackingCode'   => 'Text',
         'GoogleConversionTrackingCode'  => 'Text',
         'GoogleWebmasterCode'           => 'Text',
-        'PiwikTrackingCode'             => 'Text',
+        'MatomoTrackingCode'            => 'Text',
         'GoogleplusLink'                => 'Text',
         'FacebookLink'                  => 'Text',
         'TwitterLink'                   => 'Text',
@@ -216,6 +217,7 @@ class SiteConfigExtension extends DataExtension
     {
         $labels = array_merge(
                 $labels,
+                Tools::field_labels_for(self::class),
                 [
                     'ShopData'                              => _t(Config::class . '.ShopData', 'Shop data'),
                     'ShopName'                              => _t(Config::class . '.ShopName', 'Shop name'),
@@ -295,7 +297,7 @@ class SiteConfigExtension extends DataExtension
                     'GoogleAnalyticsTrackingCode'   => _t(SiteConfigExtension::class . '.GOOGLE_ANALYTICS_TRACKING_CODE', 'Google Analytics Tracking Code'),
                     'GoogleConversionTrackingCode'  => _t(SiteConfigExtension::class . '.GOOGLE_CONVERSION_TRACKING_CODE', 'Google Conversion Tracking Code'),
                     'GoogleWebmasterCode'           => _t(SiteConfigExtension::class . '.GOOGLE_WEBMASTER_CODE', 'Google Webmaster Tools Code'),
-                    'PiwikTrackingCode'             => _t(SiteConfigExtension::class . '.PIWIK_TRACKING_CODE', 'Piwik Tracking Code'),
+                    'MatomoTrackingCode'            => _t(SiteConfigExtension::class . '.MatomoTrackingCode', 'Matomo Tracking Code'),
                     'GoogleplusLink'                => _t(SiteConfigExtension::class . '.GoogleplusLink', 'Google Plus Link'),
                     'FacebookLink'                  => _t(SiteConfigExtension::class . '.FACEBOOK_LINK', 'Facebook Link'),
                     'TwitterLink'                   => _t(SiteConfigExtension::class . '.TWITTER_LINK', 'Twitter Link'),
@@ -349,12 +351,12 @@ class SiteConfigExtension extends DataExtension
         $googleWebmasterCodeField          = TextField::create('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
         $googleAnalyticsTrackingCodeField  = TextareaField::create('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
         $googleConversionTrackingCodeField = TextareaField::create('GoogleConversionTrackingCode', $this->owner->fieldLabel('GoogleConversionTrackingCode'));
-        $piwikTrackingCodeField            = TextareaField::create('PiwikTrackingCode',            $this->owner->fieldLabel('PiwikTrackingCode'));
+        $matomoTrackingCodeField           = TextareaField::create('MatomoTrackingCode',           $this->owner->fieldLabel('MatomoTrackingCode'))->setDescription($this->owner->fieldLabel('MatomoTrackingCodeDesc'));
         
         $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
         $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
         $fields->addFieldToTab('Root.SEO', $googleConversionTrackingCodeField);
-        $fields->addFieldToTab('Root.SEO', $piwikTrackingCodeField);
+        $fields->addFieldToTab('Root.SEO', $matomoTrackingCodeField);
         
         $facebookLinkField   = TextField::create('FacebookLink',   $this->owner->fieldLabel('FacebookLink'));
         $twitterLinkField    = TextField::create('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
@@ -688,6 +690,23 @@ class SiteConfigExtension extends DataExtension
     }
     
     /**
+     * Will be called right after $this->owner->requireTable().
+     * If not happened yet, the DB table column PiwikTrackingCode will be
+     * renamed to MatomoTrackingCode.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function augmentDatabase()
+    {
+        DBMigration::rename_fields($this->owner, [
+            'PiwikTrackingCode' => 'MatomoTrackingCode',
+        ]);
+    }
+    
+    /**
      * Restores the config parameters out of the old SilvercartConfig object.
      * 
      * @return void
@@ -771,5 +790,18 @@ class SiteConfigExtension extends DataExtension
                     ]
             )
         ];
+    }
+    
+    /**
+     * Returns the Matomo tracking code.
+     * Adds the possibility to update the Matomo tracking code by extension.
+     * 
+     * @return string
+     */
+    public function getMatomoTrackingCode()
+    {
+        $matomoTrackingCode = $this->owner->getField('MatomoTrackingCode');
+        $this->owner->extend('updateMatomoTrackingCode', $matomoTrackingCode);
+        return $matomoTrackingCode;
     }
 }

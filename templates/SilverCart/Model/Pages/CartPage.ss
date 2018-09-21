@@ -19,7 +19,7 @@
         <% if $isLive %>
             <% with $SiteConfig %>
                 {$GoogleAnalyticsTrackingCode.RAW}
-                {$PiwikTrackingCode.RAW}
+                {$MatomoTrackingCode.RAW}
             <% end_with %>
         <% end_if %>
         <% include SilverCart/Model/Pages/FooterCustomHtml %>
