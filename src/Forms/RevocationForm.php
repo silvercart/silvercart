@@ -29,8 +29,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class RevocationForm extends CustomForm {
-    
+class RevocationForm extends CustomForm
+{
     /**
      * Custom extra CSS classes.
      *
@@ -40,7 +40,6 @@ class RevocationForm extends CustomForm {
         'form-horizontal',
         'grouped',
     ];
-    
     /**
      * Don't enable Security token for this type of form because we'll run
      * into caching problems when using it.
@@ -48,7 +47,6 @@ class RevocationForm extends CustomForm {
      * @var boolean
      */
     protected $securityTokenEnabled = false;
-    
     /**
      * List of required fields.
      *
@@ -65,13 +63,13 @@ class RevocationForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields()
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $email              = '';
             $orderDate          = '';
             $orderNumber        = '';
             $orderPositions     = '';
-            $orderID            = '';
             $existingOrderField = null;
             $address            = Address::singleton();
             $customer           = Customer::currentRegisteredCustomer();
@@ -82,11 +80,11 @@ class RevocationForm extends CustomForm {
                 $existingOrderField = DropdownField::create('ExistingOrder', $this->fieldLabel('OrderHistory'), $customer->Orders()->map('ID', 'Title', ' '));
                 $existingOrderField->setHasEmptyDefault(true);
                 
-                if ($contextOrder instanceof Order &&
-                    $contextOrder->exists() &&
-                    $contextOrder->MemberID == $customer->ID) {
-
-                    $existingOrderField->setValue($orderID);
+                if ($contextOrder instanceof Order
+                 && $contextOrder->exists()
+                 && $contextOrder->MemberID == $customer->ID
+                ) {
+                    $existingOrderField->setValue($contextOrder->ID);
                     $address        = $contextOrder->InvoiceAddress();
                     $orderDate      = date(_t(Tools::class . '.DATEFORMAT', 'm/d/Y'), strtotime($contextOrder->Created));
                     $orderNumber    = $contextOrder->OrderNumber;
@@ -122,7 +120,8 @@ class RevocationForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions()
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', Page::singleton()->fieldLabel('Submit'))
@@ -143,7 +142,8 @@ class RevocationForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form)
+    {
         $data['RevocationOrderData'] = str_replace('\r\n', "\n", $data['RevocationOrderData']);
 
         $config    = Config::getConfig();
@@ -191,7 +191,8 @@ class RevocationForm extends CustomForm {
      * 
      * @return Order
      */
-    protected function getOrderByRequest() {
+    protected function getOrderByRequest()
+    {
         $order    = null;
         $customer = Customer::currentRegisteredCustomer();
         $request  = $this->getRequest();
@@ -213,7 +214,8 @@ class RevocationForm extends CustomForm {
      * 
      * @return string
      */
-    public function getCurrentDate() {
+    public function getCurrentDate()
+    {
         return date(_t(Tools::class . '.DATEFORMAT', 'm/d/Y'));
     }
     
@@ -222,8 +224,8 @@ class RevocationForm extends CustomForm {
      * 
      * @return Member
      */
-    public function getCustomer() {
+    public function getCustomer()
+    {
         return Customer::currentRegisteredCustomer();
     }
-    
 }
