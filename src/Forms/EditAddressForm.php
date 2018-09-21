@@ -8,6 +8,7 @@ use SilverCart\Forms\CustomForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Pages\AddressHolder;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\Validator;
@@ -24,15 +25,14 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class EditAddressForm extends AddressForm {
-
+class EditAddressForm extends AddressForm
+{
     /**
      * Contains the address object
      *
      * @var Address
      */
     protected $address;
-    
     /**
      * Determines if the field values are already filled with the context address data.
      *
@@ -45,7 +45,8 @@ class EditAddressForm extends AddressForm {
      * 
      * @param Address $address Address
      */
-    public function setAddress(Address $address) {
+    public function setAddress(Address $address)
+    {
         if ($address->canEdit()) {
             $this->address = $address;
         }
@@ -56,7 +57,8 @@ class EditAddressForm extends AddressForm {
      * 
      * @return Address
      */
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
     
@@ -75,7 +77,8 @@ class EditAddressForm extends AddressForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    public function __construct(Address $address, RequestHandler $controller = null, $name = self::DEFAULT_NAME, FieldList $fields = null, FieldList $actions = null, Validator $validator = null) {
+    public function __construct(Address $address, RequestHandler $controller = null, $name = self::DEFAULT_NAME, FieldList $fields = null, FieldList $actions = null, Validator $validator = null)
+    {
         $this->setAddress($address);
         parent::__construct($controller, $name, $fields, $actions, $validator);
     }
@@ -85,7 +88,8 @@ class EditAddressForm extends AddressForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields()
+    {
         return array_merge(
             parent::getCustomFields(),
             [
@@ -102,7 +106,8 @@ class EditAddressForm extends AddressForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function Fields() {
+    public function Fields()
+    {
         $fields = parent::Fields();
         
         if (!$this->filledFieldValues) {
@@ -110,10 +115,10 @@ class EditAddressForm extends AddressForm {
             $member  = Customer::currentUser();
             $address = $this->getAddress();
 
-            if ($address instanceof Address &&
-                $address->exists() &&
-                $address->canEdit($member)) {
-
+            if ($address instanceof Address
+             && $address->exists()
+             && $address->canEdit($member)
+            ) {
                 $fields->dataFieldByName('Salutation')->setValue($address->Salutation);
                 $fields->dataFieldByName('AcademicTitle')->setValue($address->AcademicTitle);
                 $fields->dataFieldByName('FirstName')->setValue($address->FirstName);
@@ -137,7 +142,6 @@ class EditAddressForm extends AddressForm {
                 }
             }
         }
-        
         return $fields;
     }
 
@@ -153,17 +157,19 @@ class EditAddressForm extends AddressForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form)
+    {
         $member  = Customer::currentUser();
         $address = $this->getAddress();
-        if ($member instanceof Member &&
-            $address instanceof Address &&
-            $address->canEdit($member)) {
-
+        if ($member instanceof Member
+         && $address instanceof Address
+         && $address->canEdit($member)
+        ) {
             $address->castedUpdate($data);
             $country = Country::get()->byID($data['Country']);
-            if ($country instanceof Country &&
-                $country->exists()) {
+            if ($country instanceof Country
+             && $country->exists()
+            ) {
                 $address->CountryID = $country->ID;
             }
             $address->write();

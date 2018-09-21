@@ -26,8 +26,8 @@ use SilverStripe\Forms\OptionsetField;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class AddressForm extends CustomForm {
-    
+class AddressForm extends CustomForm
+{
     /**
      * List of required fields.
      *
@@ -53,7 +53,8 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    public function getRequiredFields() {
+    public function getRequiredFields()
+    {
         $originalFields    = parent::getRequiredFields();
         $packstationFields = $this->getRequiredPackstationFields($originalFields);
         $requiredFields = array_merge(
@@ -70,7 +71,8 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getRequiredBusinessFields() {
+    protected function getRequiredBusinessFields()
+    {
         $requiredBusinessFields = [];
         if ($this->EnableBusinessCustomers()) {
             $requiredBusinessFields = [
@@ -98,9 +100,10 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getRequiredPackstationFields(&$originalFields) {
+    protected function getRequiredPackstationFields(&$originalFields)
+    {
         $requiredPackstationFields = [];
-        if ($this->EnableBusinessCustomers()) {
+        if ($this->EnablePackstation()) {
             $streetKey = array_search('Street', $originalFields);
             if (array_key_exists($streetKey, $originalFields)) {
                 unset($originalFields[$streetKey]);
@@ -145,7 +148,8 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields()
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $address = Address::singleton();
             $formFields = [
@@ -177,7 +181,8 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getBusinessFields() {
+    protected function getBusinessFields()
+    {
         $businessFields = [];
         if ($this->EnableBusinessCustomers()) {
             $address = Address::singleton();
@@ -195,16 +200,17 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getPackstationFields() {
+    protected function getPackstationFields()
+    {
         $packstationFields = [];
-        if ($this->EnableBusinessCustomers()) {
+        if ($this->EnablePackstation()) {
             $address = Address::singleton();
             $isPackstationSource = [
                 '0' => $address->fieldLabel('UseAbsoluteAddress'),
                 '1' => $address->fieldLabel('UsePackstation'),
             ];
             $packstationFields = [
-                OptionsetField::create('IsPackstation', $address->fieldLabel('AddressType'), $isPackstationSource),
+                OptionsetField::create('IsPackstation', $address->fieldLabel('AddressType'), $isPackstationSource, '0'),
                 TextField::create('PostNumber', $address->fieldLabel('PostNumber')),
                 TextField::create('Packstation', $address->fieldLabel('Packstation')),
             ];
@@ -221,7 +227,8 @@ class AddressForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions()
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', Page::singleton()->fieldLabel('Save'))
@@ -240,12 +247,14 @@ class AddressForm extends CustomForm {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 14.04.2015
      */
-    public function EnableBusinessCustomers() {
+    public function EnableBusinessCustomers()
+    {
         $enableBusinessCustomers = false;
         $customer                = $this->getCustomer();
-        if (Config::enableBusinessCustomers() ||
-            ($customer instanceof Member &&
-             $customer->isB2BCustomer())) {
+        if (Config::enableBusinessCustomers()
+         || ($customer instanceof Member
+          && $customer->isB2BCustomer())
+        ) {
             $enableBusinessCustomers = true;
         }
         return $enableBusinessCustomers;
@@ -259,7 +268,8 @@ class AddressForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.10.2012
      */
-    public function EnablePackstation() {
+    public function EnablePackstation()
+    {
         return Config::enablePackstation();
     }
     
@@ -268,7 +278,8 @@ class AddressForm extends CustomForm {
      * 
      * @return Member
      */
-    public function getCustomer() {
+    public function getCustomer()
+    {
         return Customer::currentUser();
     }
     
@@ -282,7 +293,8 @@ class AddressForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function fieldLabel($fieldName) {
+    public function fieldLabel($fieldName)
+    {
         $fieldLabel = parent::fieldLabel($fieldName);
         if ($fieldLabel == $fieldName) {
             $fieldLabel = Address::singleton()->fieldLabel($fieldName);
@@ -290,4 +302,21 @@ class AddressForm extends CustomForm {
         return $fieldLabel;
     }
     
+    /**
+     * Returns the extra CSS classes as a string.
+     * Adds the CSS class 'sc-address-form-with-packstation' if packstations are
+     * enabled.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function extraClass()
+    {
+        if ($this->EnablePackstation()) {
+            $this->addExtraClass('sc-address-form-with-packstation');
+        }
+        return parent::extraClass();
+    }
 }

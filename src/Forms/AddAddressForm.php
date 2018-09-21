@@ -7,6 +7,7 @@ use SilverCart\Forms\AddressForm;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
+use SilverCart\Model\Pages\AddressHolder;
 use SilverStripe\Security\Member;
 
 /** 
@@ -19,8 +20,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class AddAddressForm extends AddressForm {
-    
+class AddAddressForm extends AddressForm
+{
     /**
      * Custom extra CSS classes.
      *
@@ -41,17 +42,19 @@ class AddAddressForm extends AddressForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form)
+    {
         $member = $this->getCustomer();
-        if ($member instanceof Member &&
-            $member->exists()) {            
+        if ($member instanceof Member
+         && $member->exists()
+        ) {
             $country = Country::get()->byID($data['Country']);
             if ($country) {
                 $data['CountryID'] = $country->ID;
             }
             $data['MemberID'] = $member->ID;
             
-            $address = new Address();
+            $address = Address::create();
             $address->write();
             $address->update($data);
             $address->write();
@@ -64,5 +67,4 @@ class AddAddressForm extends AddressForm {
             $this->getController()->setSuccessMessage(_t(AddressHolder::class . '.ADDED_ADDRESS_SUCCESS', 'Your address was successfully saved.'));
         }
     }
-    
 }
