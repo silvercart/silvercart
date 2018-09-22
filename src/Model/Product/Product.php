@@ -63,8 +63,8 @@ use WidgetSets\Model\WidgetSet;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Product extends DataObject implements PermissionProvider {
-    
+class Product extends DataObject implements PermissionProvider
+{
     const DEFAULT_IMAGE_FOLDER = 'product-images';
     const DEFAULT_FILES_FOLDER = 'product-files';
 
@@ -73,7 +73,7 @@ class Product extends DataObject implements PermissionProvider {
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'isActive'                    => 'Boolean(1)',
         'ProductNumberShop'           => 'Varchar(50)',
         'ProductNumberManufacturer'   => 'Varchar(50)',
@@ -95,14 +95,13 @@ class Product extends DataObject implements PermissionProvider {
         'SalesBanDate'                => 'DBDatetime',
         'ExcludeFromPaymentDiscounts' => 'Boolean(0)',
         'IsNotBuyable'                => 'Boolean(0)',
-    );
-
+    ];
     /**
      * 1:n relations
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Tax'                => Tax::class,
         'Manufacturer'       => Manufacturer::class,
         'ProductGroup'       => ProductGroupPage::class,
@@ -111,59 +110,54 @@ class Product extends DataObject implements PermissionProvider {
         'ProductCondition'   => ProductCondition::class,
         'QuantityUnit'       => QuantityUnit::class,
         'WidgetArea'         => WidgetArea::class,
-    );
-
+    ];
     /**
      * n:m relations
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'ProductTranslations'   => ProductTranslation::class,
         'Images'                => Image::class,
         'Files'                 => File::class,
         'ShoppingCartPositions' => ShoppingCartPosition::class,
-    );
-
+    ];
     /**
      * Belongs-many-many relations.
      *
      * @var array
      */
-    private static $many_many = array(
+    private static $many_many = [
         'ProductGroupMirrorPages' => ProductGroupPage::class,
-    );
-
+    ];
     /**
      * m:n relations
      *
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'ShoppingCarts'            => ShoppingCart::class,
         'ProductGroupItemsWidgets' => ProductGroupItemsWidget::class,
-    );
-    
+    ];
     /**
      * Adds database indexes
      * 
      * @var array 
      */
-    private static $indexes = array(
+    private static $indexes = [
         'isActive'          => '("isActive")',
         'PriceGrossAmount'  => '("PriceGrossAmount")',
         'PriceNetAmount'    => '("PriceNetAmount")',
         'MSRPriceAmount'    => '("MSRPriceAmount")',
         'ProductNumberShop' => '("ProductNumberShop")',
         'EANCode'           => '("EANCode")',
-    );
-
+    ];
     /**
      * Casting.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'isActiveString'              => 'Varchar(8)',
         'ProductMirrorGroupIDs'       => 'Text',
         'PriceIsLowerThanMsr'         => 'Boolean',
@@ -179,57 +173,49 @@ class Product extends DataObject implements PermissionProvider {
         'MSRPriceNice'                => 'Text',
         'BeforeProductHtmlInjections' => 'HTMLText',
         'AfterProductHtmlInjections'  => 'HTMLText',
-    );
-
+    ];
     /**
      * The default sorting.
      *
      * @var string
      */
     private static $default_sort = 'ProductNumberShop';
-
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartProduct';
-
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
     private static $api_access = true;
-
     /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
      */
-    protected static $requiredAttributes = array();
-
+    protected static $requiredAttributes = [];
     /**
      * Blacklist of attributes that may not be set as required attributes.
      *
      * @var array
      */
-    protected static $blacklistedRequiredAttributes = array();
-    
+    protected static $blacklistedRequiredAttributes = [];
     /**
      * Temporary extended sortable frontend fields
      *
      * @var array
      */
-    protected static $extendedSortableFrontendFields = array();
-
+    protected static $extendedSortableFrontendFields = [];
     /**
      * Contains hashes for caching.
      *
      * @var array
      */
-    protected $cacheHashes = array();
-
+    protected $cacheHashes = [];
     /**
      * The final price object (dependent on customer class and custom extensions
      * like rebates @see $this->getPrice())
@@ -237,21 +223,18 @@ class Product extends DataObject implements PermissionProvider {
      * @var Money
      */
     protected $price = null;
-    
     /**
      * All added product tabs via module
      * 
      * @var ArrayList 
      */
     protected $pluggedInTabs = null;
-    
     /**
      * All added product additional information via module
      * 
      * @var ArrayList 
      */
     protected $pluggedInProductListAdditionalData = null;
-    
     /**
      * All added product additional information to display between Images and 
      * Content.
@@ -259,42 +242,36 @@ class Product extends DataObject implements PermissionProvider {
      * @var ArrayList 
      */
     protected $pluggedInAfterImageContent = null;
-    
     /**
      * All added product information via module
      * 
      * @var ArrayList 
      */
     protected $pluggedInProductMetaData = null;
-    
     /**
      * Marker to check whether the CMS fields are called or not
      *
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
-    
     /**
      * Default sort string to use for products
      *
      * @var string
      */
     protected static $scDefaultSort = null;
-    
     /**
      * The sortable fields that can be used in frontend
      *
      * @var array
      */
     protected static $sortableFrontendFields = null;
-    
     /**
      * Determines whether the stock quantity is overbookable or not
      *
      * @var bool 
      */
     protected $isStockQuantityOverbookable = null;
-    
     /**
      * Cached Tax object. The related tax object will be stored in
      * this property after its first call.
@@ -302,7 +279,6 @@ class Product extends DataObject implements PermissionProvider {
      * @var Tax
      */
     protected $cachedTax = null;
-    
     /**
      * Cached AvailabilityStatus object. The related status object 
      * will be stored in this property after its first call.
@@ -310,49 +286,42 @@ class Product extends DataObject implements PermissionProvider {
      * @var AvailabilityStatus
      */
     protected $cachedAvailabilityStatus = null;
-    
     /**
      * The position of the product in cart.
      *
      * @var array
      */
-    protected $positionInCart = array();
-    
+    protected $positionInCart = [];
     /**
      * The quantity of the product in cart.
      *
      * @var array
      */
-    protected $quantityInCart = array();
-    
+    protected $quantityInCart = [];
     /**
      * The quantity of the product in cart as a human readable string.
      *
      * @var string
      */
-    protected $quantityInCartString = array();
-    
+    protected $quantityInCartString = [];
     /**
      * Images to show
      *
      * @var SS_List
      */
     protected $images = null;
-    
     /**
      * Determines whether to ignore tax exemption or not.
      *
      * @var bool 
      */
     protected $ignoreTaxExemption = false;
-    
     /**
      * The first image out of the related Images.
      *
      * @var Image
      */
     protected $listImage = null;
-    
     /**
      * List of already requested and localized i18n links.
      *
@@ -3244,9 +3213,10 @@ class Product extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList  
      */
-    public function getPluggedInTabs() {
+    public function getPluggedInTabs()
+    {
         if (is_null($this->pluggedInTabs)) {
-            $this->pluggedInTabs = new ArrayList();
+            $this->pluggedInTabs = ArrayList::create();
             $this->extend('addPluggedInTab', $this->pluggedInTabs);
         }
         return $this->pluggedInTabs;
@@ -3257,9 +3227,10 @@ class Product extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList 
      */
-    public function getPluggedInProductMetaData() {
+    public function getPluggedInProductMetaData()
+    {
         if (is_null($this->pluggedInProductMetaData)) {
-            $this->pluggedInProductMetaData = new ArrayList();
+            $this->pluggedInProductMetaData = ArrayList::create();
             $this->extend('addPluggedInProductMetaData', $this->pluggedInProductMetaData);
         }
         return $this->pluggedInProductMetaData;
@@ -3270,9 +3241,10 @@ class Product extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList 
      */
-    public function getPluggedInProductListAdditionalData() {
+    public function getPluggedInProductListAdditionalData()
+    {
         if (is_null($this->pluggedInProductListAdditionalData)) {
-            $this->pluggedInProductListAdditionalData = new ArrayList();
+            $this->pluggedInProductListAdditionalData = ArrayList::create();
             $this->extend('addPluggedInProductListAdditionalData', $this->pluggedInProductListAdditionalData);
         }
         return $this->pluggedInProductListAdditionalData;
@@ -3283,9 +3255,10 @@ class Product extends DataObject implements PermissionProvider {
      * 
      * @return ArrayList 
      */
-    public function getPluggedInAfterImageContent() {
+    public function getPluggedInAfterImageContent()
+    {
         if (is_null($this->pluggedInAfterImageContent)) {
-            $this->pluggedInAfterImageContent = new ArrayList();
+            $this->pluggedInAfterImageContent = ArrayList::create();
             $this->extend('addPluggedInAfterImageContent', $this->pluggedInAfterImageContent);
         }
         return $this->pluggedInAfterImageContent;
@@ -3301,10 +3274,26 @@ class Product extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function AddToCartForm($viewContext = '') {
-        $form = new AddToCartForm($this, Controller::curr());
+    public function AddToCartForm($viewContext = '')
+    {
+        $form = AddToCartForm::create($this, Controller::curr());
         $form->setViewContext($viewContext);
         return $form;
     }
     
+    /**
+     * Returns some additional content to insert right after the out of stock 
+     * notification is rendered.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function AfterOutOfStockNotificationContent()
+    {
+        $content = '';
+        $this->extend('updateAfterOutOfStockNotificationContent', $content);
+        return Tools::string2html($content);
+    }
 }
