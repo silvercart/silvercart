@@ -383,7 +383,8 @@ MESSAGE
                     $keyParts[]           = $jsAttributes['type'];
                 }
             }
-            if (self::config()->get('force_combine_files_async')) {
+            if (Director::isLive()
+             && self::config()->get('force_combine_files_async')) {
                 $attributes['async'] = true;
             }
             if (!empty($attributes['async'])) {
