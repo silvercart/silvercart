@@ -227,6 +227,10 @@ class ShippingMethod extends DataObject
                     'BusinessDays'                   => _t(ShippingMethod::class . '.BusinessDays', 'Business days'),
                     'DeliveryTimePrepaymentHint'     => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHint', 'when cashed'),
                     'ChooseShippingMethod'           => _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD', 'Please choose a shipping method'),
+                    'ExpectedDeliveryTime'           => _t(ShippingMethod::class . '.ExpectedDeliveryTime', 'Expected delivery time'),
+                    'SameDay'                        => _t(ShippingMethod::class . '.SameDay', 'Same day'),
+                    'SuppliedCountries'              => _t(ShippingMethod::class . '.SuppliedCountries', 'Supplied countries'),
+                    'Price'                          => Product::singleton()->fieldLabel('Price'),
                     'Logo'                           => Page::singleton()->fieldLabel('Logo'),
                 ]
         );
@@ -360,6 +364,21 @@ class ShippingMethod extends DataObject
     public function getShowOnShippingFeesPage()
     {
         return !$this->DoNotShowOnShippingFeesPage;
+    }
+    
+    /**
+     * Sets the shipping fee by ID and weight.
+     * 
+     * @param int   $shippingFeeID Shipping fee ID
+     * @param float $weight        Weight
+     * 
+     * @return $this
+     */
+    public function setShippingFeeByID($shippingFeeID, $weight = null)
+    {
+        $shippingFee = ShippingFee::get()->byID($shippingFeeID);
+        $this->setShippingFee($shippingFee, $weight);
+        return $this;
     }
     
     /**
@@ -550,16 +569,23 @@ class ShippingMethod extends DataObject
         $deliveryTime = '';
         if (!empty($text)) {
             $deliveryTime = $text;
-        } elseif ($minDays > 0) {
+        } elseif ($minDays > 0
+               || $maxDays > 0
+        ) {
             if (self::isInCheckoutContextWithPrepayment()
                 || $forceDisplayInDays
             ) {
-                $deliveryTime  = $minDays;
-                if ($maxDays > 0) {
+                $deliveryTime = $minDays;
+                if ($minDays == 0) {
+                    $deliveryTime = static::singleton()->fieldLabel('SameDay');
+                }
+                if ($maxDays > $minDays) {
                     $deliveryTime .= ' - ';
                     $deliveryTime .= $maxDays;
                 }
-                if ($deliveryTime === '1') {
+                if ($deliveryTime === '1'
+                 || $maxDays === '1'
+                ) {
                     $deliveryTime .= ' ' . static::singleton()->fieldLabel('BusinessDay');
                 } else {
                     $deliveryTime .= ' ' . static::singleton()->fieldLabel('BusinessDays');
