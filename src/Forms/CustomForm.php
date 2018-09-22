@@ -21,20 +21,18 @@ use SilverStripe\Forms\Validator;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CustomForm extends Form {
-
+class CustomForm extends Form
+{
     /**
      * Default form Name property
      */
     const DEFAULT_NAME = 'CustomForm';
-
     /**
      * Custom extra CSS classes.
      *
      * @var array
      */
     protected $customExtraClasses = [];
-    
     /**
      * Don't enable Security token for this type of form because we'll run
      * into caching problems when using it.
@@ -42,7 +40,6 @@ class CustomForm extends Form {
      * @var boolean
      */
     protected $securityTokenEnabled = true;
-    
     /**
      * List of required fields.
      *
@@ -64,7 +61,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    public function __construct(RequestHandler $controller = null, $name = self::DEFAULT_NAME, FieldList $fields = null, FieldList $actions = null, Validator $validator = null) {
+    public function __construct(RequestHandler $controller = null, $name = self::DEFAULT_NAME, FieldList $fields = null, FieldList $actions = null, Validator $validator = null)
+    {
         if (!is_null($controller)) {
             $this->setController($controller);
         }
@@ -94,7 +92,7 @@ class CustomForm extends Form {
                         ];
                     }
                 }
-                $validator = new CustomRequiredFields($requiredFieldNames);
+                $validator = CustomRequiredFields::create($requiredFieldNames);
                 $validator->setRequiredCallbacks($requiredCallbacks);
             }
         }
@@ -117,7 +115,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.07.2018
      */
-    public function addErrorClass($class) {
+    public function addErrorClass($class)
+    {
         if ($this->getMessageType() == 'error') {
             $this->addExtraClass($class);
         }
@@ -129,7 +128,8 @@ class CustomForm extends Form {
      * 
      * @return array
      */
-    public function getRequiredFields() {
+    public function getRequiredFields()
+    {
         $requiredFields = self::config()->get('requiredFields');
         $this->extend('updateRequiredFields', $requiredFields);
         return $requiredFields;
@@ -143,7 +143,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function clearFormState() {
+    public function clearFormState()
+    {
         $this
             ->getSession()
             ->clear("FormInfo.{$this->FormName()}.successMessage");
@@ -161,7 +162,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    public function loadMessagesFrom($result) {
+    public function loadMessagesFrom($result)
+    {
         $messages = [];
         // Set message on either a field or the parent form
         foreach ($result->getMessages() as $message) {
@@ -189,7 +191,8 @@ class CustomForm extends Form {
      * 
      * @return void
      */
-    public function setErrorMessage($message) {
+    public function setErrorMessage($message)
+    {
         $this->sessionMessage($message, 'error');
     }
     
@@ -200,7 +203,8 @@ class CustomForm extends Form {
      * 
      * @return void
      */
-    public function setSuccessMessage($message) {
+    public function setSuccessMessage($message)
+    {
         $this->sessionMessage($message, 'success');
     }
     
@@ -209,7 +213,8 @@ class CustomForm extends Form {
      * 
      * @return void
      */
-    public function setDefaultSuccessMessage() {
+    public function setDefaultSuccessMessage()
+    {
         $this->setSuccessMessage(_t(CustomForm::class . '.DefaultSuccessMessageSave', 'Your data was successfully saved.'));
     }
     
@@ -218,7 +223,8 @@ class CustomForm extends Form {
      * 
      * @return void
      */
-    public function setDefaultSuccessMessageSent() {
+    public function setDefaultSuccessMessageSent()
+    {
         $this->setSuccessMessage(_t(CustomForm::class . '.DefaultSuccessMessageSend', 'Your data was successfully sent.'));
     }
     
@@ -235,7 +241,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    protected function markFieldValidationError($fieldName, $errorMessage, $messageType, $messageCast) {
+    protected function markFieldValidationError($fieldName, $errorMessage, $messageType, $messageCast)
+    {
         $messageType .= ' error';
         $field = $this->Fields()->dataFieldByName($fieldName);
         $field->addExtraClass('error');
@@ -251,7 +258,8 @@ class CustomForm extends Form {
      * 
      * @return void
      */
-    public function setTemplateBySuffix($suffix) {
+    public function setTemplateBySuffix($suffix)
+    {
         if (empty($suffix)) {
             return;
         }
@@ -272,7 +280,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    protected function beforeUpdateFields($callback) {
+    protected function beforeUpdateFields($callback)
+    {
         $this->beforeExtending('updateFields', $callback);
     }
 
@@ -311,7 +320,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    protected function beforeUpdateActions($callback) {
+    protected function beforeUpdateActions($callback)
+    {
         $this->beforeExtending('updateActions', $callback);
     }
     
@@ -323,7 +333,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    public function Actions() {
+    public function Actions()
+    {
         $actions = parent::Actions();
         foreach ($this->getCustomActions() as $action) {
             if ($actions->fieldPosition($action) === false) {
@@ -345,7 +356,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    protected function beforeUpdateCustomFields($callback) {
+    protected function beforeUpdateCustomFields($callback)
+    {
         $this->beforeExtending('updateCustomFields', $callback);
     }
     
@@ -354,7 +366,8 @@ class CustomForm extends Form {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields()
+    {
         $fields = [];
         $this->extend('updateCustomFields', $fields);
         return $fields;
@@ -371,7 +384,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.11.2017
      */
-    protected function beforeUpdateCustomActions($callback) {
+    protected function beforeUpdateCustomActions($callback)
+    {
         $this->beforeExtending('updateCustomActions', $callback);
     }
     
@@ -380,7 +394,8 @@ class CustomForm extends Form {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions()
+    {
         $actions = [];
         $this->extend('updateCustomActions', $actions);
         return $actions;
@@ -397,7 +412,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    protected function beforeOnBeforeSubmit($callback) {
+    protected function beforeOnBeforeSubmit($callback)
+    {
         $this->beforeExtending('onBeforeSubmit', $callback);
     }
 
@@ -412,7 +428,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    protected function beforeOnAfterSubmit($callback) {
+    protected function beforeOnAfterSubmit($callback)
+    {
         $this->beforeExtending('onAfterSubmit', $callback);
     }
     
@@ -427,7 +444,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function submit($data, CustomForm $form) {
+    public function submit($data, CustomForm $form)
+    {
         $this->prepareSubmittedData($data);
         $this->extend('onBeforeSubmit', $data, $form);
         $this->doSubmit($data, $form);
@@ -445,7 +463,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form)
+    {
         
     }
 
@@ -460,7 +479,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    protected function beforeUpdateFieldLabels($callback) {
+    protected function beforeUpdateFieldLabels($callback)
+    {
         $this->beforeExtending('updateFieldLabels', $callback);
     }
 
@@ -472,7 +492,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    public function fieldLabels() {
+    public function fieldLabels()
+    {
         $fieldLabels = [];
         $this->extend('updateFieldLabels', $fieldLabels);
         return $fieldLabels;
@@ -482,17 +503,23 @@ class CustomForm extends Form {
      * Returns the field label for the given field name.
      * 
      * @param string $fieldName Name to get label for
+     * @param array  $params    i18n variables to use
      * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.11.2017
+     * @since 21.09.2018
      */
-    public function fieldLabel($fieldName) {
+    public function fieldLabel($fieldName, $params = [])
+    {
         $fieldLabel  = $fieldName;
         $fieldLabels = $this->fieldLabels();
-        if (!array_key_exists($fieldName, $fieldLabels)) {
+        if (!empty($params)) {
+            $fieldLabel = _t(static::class . '.' . $fieldName, _t(self::class . '.' . $fieldName, $fieldName, $params), $params);
+        } elseif (!array_key_exists($fieldName, $fieldLabels)) {
             $fieldLabel = _t(static::class . '.' . $fieldName, _t(self::class . '.' . $fieldName, $fieldName));
+        } else {
+            $fieldLabel = $fieldLabels[$fieldName];
         }
         return $fieldLabel;
     }
@@ -508,7 +535,8 @@ class CustomForm extends Form {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.04.2018
      */
-    public function prepareSubmittedData(&$data) {
+    public function prepareSubmittedData(&$data)
+    {
         foreach ($this->Fields() as $field) {
             /* @var $field \SilverStripe\Forms\FormField */
             if (!array_key_exists($field->getName(), $data)) {
@@ -522,7 +550,8 @@ class CustomForm extends Form {
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getRenderedUpdatedCustomFields() {
+    public function getRenderedUpdatedCustomFields()
+    {
         $renderedFields = '';
         $this->extend('renderUpdatedCustomFields', $renderedFields);
         return Tools::string2html($renderedFields);
@@ -534,7 +563,8 @@ class CustomForm extends Form {
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getCustomFormSpecialFields() {
+    public function getCustomFormSpecialFields()
+    {
         return $this->getRenderedUpdatedCustomFields();
     }
     
@@ -544,7 +574,8 @@ class CustomForm extends Form {
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getAfterFormContent() {
+    public function getAfterFormContent()
+    {
         $afterFormContent = '';
         $this->extend('updateAfterFormContent', $afterFormContent);
         return Tools::string2html($afterFormContent);
@@ -556,10 +587,10 @@ class CustomForm extends Form {
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getBeforeFormContent() {
+    public function getBeforeFormContent()
+    {
         $afterFormContent = '';
         $this->extend('updateBeforeFormContent', $afterFormContent);
         return Tools::string2html($afterFormContent);
     }
-    
 }
