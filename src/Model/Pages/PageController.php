@@ -347,14 +347,16 @@ class PageController extends ContentController
         }
         
         if (array_key_exists('flushi18n', $this->getRequest()->getVars())
-         && $customer instanceof Member
-         && $customer->isAdmin()
+         && (Director::isDev()
+          || ($customer instanceof Member
+           && $customer->isAdmin()))
         ) {
             FlushInvalidatedResource::flush();
         }
         if (array_key_exists('flushrequirements', $this->getRequest()->getVars())
-         && $customer instanceof Member
-         && $customer->isAdmin()
+         && (Director::isDev()
+          || ($customer instanceof Member
+           && $customer->isAdmin()))
         ) {
             Requirements::flush();
         }
