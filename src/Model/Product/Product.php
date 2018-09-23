@@ -2687,6 +2687,10 @@ class Product extends DataObject implements PermissionProvider
         if (array_key_exists('StockQuantity', $this->original)) {
             $stockQuantityBefore = $this->original['StockQuantity'];
             $this->checkForAvailabilityStatusChange($stockQuantityBefore, false);
+            if ($stockQuantityBefore != $this->StockQuantity) {
+                $stockQuantity = $this->StockQuantity;
+                $this->extend('onAfterUpdateStockQuantity', $stockQuantityBefore, $stockQuantity);
+            }
         }
         
         if (!$this->isActive) {
