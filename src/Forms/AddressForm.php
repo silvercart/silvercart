@@ -287,15 +287,16 @@ class AddressForm extends CustomForm
      * Returns an Address field label for the given name if no field label found.
      * 
      * @param string $fieldName Field name
+     * @param array  $params    i18n variables to use
      * 
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function fieldLabel($fieldName)
+    public function fieldLabel($fieldName, $params = [])
     {
-        $fieldLabel = parent::fieldLabel($fieldName);
+        $fieldLabel = parent::fieldLabel($fieldName, $params);
         if ($fieldLabel == $fieldName) {
             $fieldLabel = Address::singleton()->fieldLabel($fieldName);
         }
