@@ -391,7 +391,7 @@ class ShippingMethod extends DataObject
      */
     public function setShippingFee($shippingFee, $weight = null)
     {
-        $this->shippingFees[$weight] = $shippingFee;
+        $this->shippingFees[(string) $weight] = $shippingFee;
         return $this;
     }
     
@@ -404,10 +404,10 @@ class ShippingMethod extends DataObject
      */
     public function getShippingFee($weight = null)
     {
-        if (!array_key_exists($weight, $this->shippingFees)) {
-            $this->shippingFees[$weight] = $this->detectShippingFee($weight);
+        if (!array_key_exists((string) $weight, $this->shippingFees)) {
+            $this->shippingFees[(string) $weight] = $this->detectShippingFee($weight);
         }
-        return $this->shippingFees[$weight];
+        return $this->shippingFees[(string) $weight];
     }
     
     /**
@@ -777,6 +777,7 @@ class ShippingMethod extends DataObject
          && $shippingMethods->exists()
         ) {
             foreach ($shippingMethods as $shippingMethod) {
+                /* @var $shippingMethod ShippingMethod */
                 if (!is_null($shippingAddress)) {
                     $shippingMethod->setShippingAddress($shippingAddress);
                 }

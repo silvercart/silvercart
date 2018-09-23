@@ -1714,6 +1714,7 @@ en:
   SilverCart\Model\Shipment\ShippingMethod:
     BusinessDay: "Business day"
     BusinessDays: "Business days"
+    ChooseAnotherCountry: "Choose another country"
     CHOOSE_DATAOBJECT_TO_IMPORT: "What do you want to import?"
     CHOOSE_SHIPPING_METHOD: "Please choose a shipping method"
     CHOOSE_SHIPPING_METHOD_TO: "Please choose a shipping method for the delivery to \"{country}\""
@@ -1809,6 +1810,7 @@ en:
     OnlyXLeft: "Only {quantity} left in stock. Delivery time may increase."
     PLURALNAME: "Carts"
     SINGULARNAME: "Cart"
+    ShippingTo: "Shipping to {country} for <strong>{price}</strong> by {shippingmethod}."
   SilverCart\Model\Order\ShoppingCartPosition:
     MAX_QUANTITY_REACHED_MESSAGE: "The maximum quantity of products for this position has been reached."
     PLURALNAME: "Cart positions"

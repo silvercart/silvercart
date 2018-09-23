@@ -4,6 +4,8 @@ namespace SilverCart\Model\Order;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Customer\Address;
+use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Payment\HandlingCost;
@@ -12,12 +14,15 @@ use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
+use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\ArrayData;
 
 /**
@@ -30,7 +35,10 @@ use SilverStripe\View\ArrayData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ShoppingCart extends DataObject {
+class ShoppingCart extends DataObject
+{
+    const SESSION_KEY                  = 'SilverCart.ShoppingCart';
+    const SESSION_KEY_SHIPPING_COUNTRY = 'SilverCart.ShoppingCart.ShippingCountryID';
 
     /**
      * Contains all registered modules that get called when the shoppingcart
@@ -38,70 +46,67 @@ class ShoppingCart extends DataObject {
      *
      * @var array
      */
-    public static $registeredModules = array();
-
+    public static $registeredModules = [];
     /**
      * 1:n relations
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'ShoppingCartPositions' => ShoppingCartPosition::class,
-    );
-    
+    ];
     /**
      * defines n:m relations
      *
      * @var array configure relations
      */
-    private static $many_many = array(
+    private static $many_many = [
         'Products' => Product::class,
-    );
-    
+    ];
     /**
      * has one back relation
      *
      * @var array
      */
-    private static $belongs_to = array(
+    private static $belongs_to = [
         'Member' => Member::class,
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartShoppingCart';
-
     /**
      * Indicates wether the registered modules should be loaded.
      *
      * @var boolean
      */
     public static $loadModules = true;
-
     /**
      * Indicates wether the registered modules should be loaded.
      *
      * @var boolean
      */
     public static $createForms = true;
-
     /**
      * Contains the ID of the payment method the customer has chosen.
      *
      * @var Int
      */
     protected $paymentMethodID;
-
     /**
      * Contains the ID of the shipping method the customer has chosen.
      *
      * @var Int
      */
     protected $shippingMethodID;
-
+    /**
+     * Shipping country context to show fees for.
+     *
+     * @var Int
+     */
+    protected $shippingCountry;
     /**
      * Contains the calculated charges and discounts for product values for
      * caching purposes.
@@ -109,7 +114,6 @@ class ShoppingCart extends DataObject {
      * @var DataObject
      */
     protected $chargesAndDiscountsForProducts = null;
-    
     /**
      * Contains the calculated charges and discounts for the shopping cart
      * total for caching purposes.
@@ -117,28 +121,24 @@ class ShoppingCart extends DataObject {
      * @var DataObject
      */
     protected $chargesAndDiscountsForTotal = null;
-
     /**
      * Contains hashes for caching.
      * 
      * @var array
      */
-    protected $cacheHashes = array();
-    
+    protected $cacheHashes = [];
     /**
      * List of already calculated tax amounts
      *
      * @var array
      */
-    protected $taxTotalList = array();
-    
+    protected $taxTotalList = [];
     /**
      * List of already calculated tax rates with fees
      *
      * @var ArrayList
      */
     protected $taxRatesWithFees = null;
-
     /**
      * Marker to check whether the cart position cleaning is in progress or not.
      * This is used to prevent an endless recursion loop.
@@ -146,21 +146,18 @@ class ShoppingCart extends DataObject {
      * @var bool
      */
     public static $cartCleaningInProgress = false;
-    
     /**
      * Marker to check whether the cart position cleaning is finished or not.
      *
      * @var bool
      */
     public static $cartCleaningFinished = false;
-
     /**
      * Set of registered modules.
      *
      * @var ArrayList
      */
     protected $registeredModulesSet = null;
-    
     /**
      * Delivery time data.
      *
@@ -1258,6 +1255,104 @@ class ShoppingCart extends DataObject {
             $shippingMethod = ShippingMethod::get()->byID($this->ShippingMethodID);
         }
         return $shippingMethod;
+    }
+    
+    /**
+     * Returns the cheapest shipping method for the current cart context.
+     * 
+     * @param Country $country Optional country context.
+     * 
+     * @return ShippingMethod
+     */
+    public function getCheapestShippingMethod(Country $country = null)
+    {
+        $this->setShippingCountry($country);
+        $address = Address::create();
+        $address->CountryID = $this->getShippingCountry()->ID;
+        $allowed         = ShippingMethod::getAllowedShippingMethods(null, $address);
+        $cheapest        = null;
+        $weight          = $this->getWeightTotal();
+        $excludeIsPickup = false;
+        if ($allowed->filter('isPickup', true)->count() < $allowed->count()) {
+            $excludeIsPickup = true;
+        }
+        /* @var $cheapest ShippingMethod */
+        foreach ($allowed as $shippingMethod) {
+            /* @var $shippingMethod ShippingMethod */
+            if ($shippingMethod->isPickup
+             && $excludeIsPickup
+            ) {
+                continue;
+            }
+            $shippingFee = $shippingMethod->getShippingFee($weight);
+            /* @var $shippingFee ShippingMethod */
+            if (is_null($cheapest)
+             || $cheapest->getShippingFee($weight)->getPriceAmount() > $shippingFee->getPriceAmount()
+            ) {
+                $cheapest = $shippingMethod;
+            }
+        }
+        return $cheapest;
+    }
+    
+    /**
+     * Returns a DropdownField to choose a shipping country.
+     * 
+     * @return DropdownField
+     */
+    public function getShippingCountryDropdown()
+    {
+        return DropdownField::create('ShippingCountryID', 'Shipping Country', Country::getPrioritiveDropdownMap(), $this->getShippingCountry()->ID);
+    }
+    
+    /**
+     * Sets the shipping country.
+     * If no country is given, the HTTP POST request will be checked for a 
+     * transmitted country ID.
+     * 
+     * @param Country $country Country
+     * 
+     * @return $this
+     */
+    public function setShippingCountry(Country $country = null)
+    {
+        $this->shippingCountry = $country;
+        if ($country instanceof Country) {
+            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY, $country->ID);
+            Tools::saveSession();
+        } elseif (array_key_exists('ShippingCountryID', $_POST)) {
+            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY, $_POST['ShippingCountryID']);
+            Tools::saveSession();
+        }
+        return $this;
+    }
+    
+    /**
+     * Returns the shipping country context.
+     * 
+     * @return Country
+     */
+    public function getShippingCountry()
+    {
+        $country = $this->shippingCountry;
+        if (is_null($country)) {
+            $countryID = (int) Tools::Session()->get(self::SESSION_KEY_SHIPPING_COUNTRY);
+            $country   = Country::get()->byID($countryID);
+        }
+        if (!($country instanceof Country)
+         || !$country->exists()) {
+            $countryCode = substr(i18n::get_locale(), 3);
+            $country     = Country::get()->filter('ISO2', $countryCode)->first();
+        }
+        if (!($country instanceof Country)
+         || !$country->exists()) {
+            $country = SiteConfig::current_site_config()->ShopCountry();
+        }
+        if (!($country instanceof Country)
+         || !$country->exists()) {
+            $country     = Country::get()->filter('Active', true)->first();
+        }
+        return $country;
     }
     
     /**
