@@ -1007,18 +1007,27 @@ class ProductGroupPage extends \Page
          && !Tools::isBackendEnvironment()
         ) {
             if (empty($metaTitle)) {
-                if (Controller::curr() instanceof ProductGroupPageController
-                 && Controller::curr()->isProductDetailView()
+                $ctrl = Controller::curr();
+                if ($ctrl instanceof ProductGroupPageController
+                 && $ctrl->isProductDetailView()
                 ) {
-                    $product = Controller::curr()->getDetailViewProduct();
+                    $product = $ctrl->getDetailViewProduct();
                     $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
                         'title' => $product->MetaTitle,
                     ]);
                 } else {
+                    $pageXofY  = "";
                     $buyTitle  = _t(self::class . '.BuyTitle', 'Buy {title}', [
                         'title' => $this->BreadcrumbTitle,
                     ]);
-                    $metaTitle = "{$this->Title} | {$buyTitle}";
+                    if ($ctrl->HasMorePagesThan(1)) {
+                        $pageXofY = _t(Page::class . '.PageXofY', 'Page {x} of {y}', [
+                            'x' => $ctrl->getProducts()->CurrentPage(),
+                            'y' => $ctrl->getProducts()->Pages()->count(),
+                        ]);
+                        $pageXofY = "({$pageXofY}) ";
+                    }
+                    $metaTitle = "{$this->Title} {$pageXofY}| {$buyTitle}";
                 }
             }
             $this->extend('updateMetaTitle', $metaTitle);
