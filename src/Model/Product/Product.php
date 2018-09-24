@@ -3244,7 +3244,10 @@ class Product extends DataObject implements PermissionProvider
      */
     public function HasDeliveryTime()
     {
-        $deliveryTime = $this->getDeliveryTime();
+        $deliveryTime = null;
+        if ($this->isBuyableDueToStockManagementSettings()) {
+            $deliveryTime = $this->getDeliveryTime();
+        }
         return !empty($deliveryTime);
     }
     
@@ -3255,7 +3258,8 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getDeliveryTime()
     {
-        if (is_null($this->deliveryTime)) {
+        if (is_null($this->deliveryTime)
+         && $this->isBuyableDueToStockManagementSettings()) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3277,7 +3281,8 @@ class Product extends DataObject implements PermissionProvider
      */
     public function EarliestDeliveryDate()
     {
-        if (is_null($this->earliestDeliveryDate)) {
+        if (is_null($this->earliestDeliveryDate)
+         && $this->isBuyableDueToStockManagementSettings()) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3299,7 +3304,8 @@ class Product extends DataObject implements PermissionProvider
      */
     public function LatestDeliveryDate()
     {
-        if (is_null($this->latestDeliveryDate)) {
+        if (is_null($this->latestDeliveryDate)
+         && $this->isBuyableDueToStockManagementSettings()) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3321,7 +3327,8 @@ class Product extends DataObject implements PermissionProvider
      */
     public function FullDeliveryDate()
     {
-        if (is_null($this->fullDeliveryDate)) {
+        if (is_null($this->fullDeliveryDate)
+         && $this->isBuyableDueToStockManagementSettings()) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3343,7 +3350,8 @@ class Product extends DataObject implements PermissionProvider
      */
     public function DeliveryForFreeIsPossible()
     {
-        if (is_null($this->deliveryForFreeIsPossible)) {
+        if (is_null($this->deliveryForFreeIsPossible)
+         && $this->isBuyableDueToStockManagementSettings()) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $this->deliveryForFreeIsPossible = ($shippingFee->getPriceAmount() == 0 || $shippingFee->FreeOfShippingCostsFrom($this->getDefaultShippingCountry())->getAmount() > 0) && !$shippingFee->freeOfShippingCostsDisabled;
