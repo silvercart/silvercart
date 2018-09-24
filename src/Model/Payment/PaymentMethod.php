@@ -1475,7 +1475,7 @@ class PaymentMethod extends DataObject
         $tabBasicFieldList->push(DropdownField::create(
                     'PaymentStatusID',
                     $this->fieldLabel('PaymentStatus'),
-                    PaymentStatus::get()->map('Code', 'Title')->toArray()
+                    PaymentStatus::get()->map('ID', 'Title')->toArray()
                 )
                 ->setDescription($this->fieldLabel('PaymentStatusDesc'))
                 ->setEmptyString(Tools::field_label('PleaseChoose'))
