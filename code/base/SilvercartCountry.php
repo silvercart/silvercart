@@ -330,7 +330,9 @@ class SilvercartCountry extends DataObject {
         $fields = SilvercartDataObject::getCMSFields($this);
         
         $paymentMethodsTable = $fields->dataFieldByName('SilvercartPaymentMethods');
-        $paymentMethodsTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
+        if ($paymentMethodsTable instanceof FormField) {
+            $paymentMethodsTable->setConfig(SilvercartGridFieldConfig_RelationEditor::create());
+        }
         
         $languageFields = SilvercartLanguageHelper::prepareCMSFields($this->getLanguageClassName());
         foreach ($languageFields as $languageField) {
