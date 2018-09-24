@@ -536,17 +536,72 @@ class ShippingMethod extends DataObject
     /**
      * Returns the delivery time as string.
      * 
-     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * @param bool   $forceDisplayInDays Force displaying the delivery time in days
+     * @param double $weight             Weight of the stuff to ship
      * 
      * @return string
      */
-    public function getDeliveryTime($forceDisplayInDays = false)
+    public function getDeliveryTime($forceDisplayInDays = false, $weight = null)
     {
-        $deliveryTime = self::get_delivery_time_for($this->getShippingFee(), $forceDisplayInDays);
+        $deliveryTime = self::get_delivery_time_for($this->getShippingFee($weight), $forceDisplayInDays);
         if (empty($deliveryTime)) {
             $deliveryTime = self::get_delivery_time_for($this, $forceDisplayInDays);
         }
         return $deliveryTime;
+    }
+    
+    /**
+     * Returns the delivery time min as a date string.
+     * 
+     * @param double $weight        Weight of the stuff to ship
+     * @param bool   $fullMonthName Set to true to show the full month name
+     * @param bool   $forceYear     Set to true to force showing the year
+     * @param bool   $withWeekDay   Set to true to show the name of the week day
+     * 
+     * @return string
+     */
+    public function getDeliveryTimeMinDate($weight = null, $fullMonthName = true, $forceYear = false, $withWeekDay = true)
+    {
+        $deliveryTimeMinDate = null;
+        $deliveryTimeMin     = (int) $this->getShippingFee($weight)->DeliveryTimeMin;
+        $deliveryTimeMax     = (int) $this->getShippingFee($weight)->DeliveryTimeMax;
+        if ($deliveryTimeMin === 0
+         && $deliveryTimeMax === 0) {
+            $deliveryTimeMin = (int) $this->DeliveryTimeMin;
+            $deliveryTimeMax = (int) $this->DeliveryTimeMax;
+        }
+        if ($deliveryTimeMax > 0) {
+            $deliveryTimeMinDate = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (self::addSundaysToDeliveryTime($deliveryTimeMin)*60*60*24)), $fullMonthName, $forceYear, $withWeekDay);
+        }
+        return $deliveryTimeMinDate;
+    }
+    
+    /**
+     * Returns the delivery time max as a date string.
+     * 
+     * @param double $weight        Weight of the stuff to ship
+     * @param bool   $fullMonthName Set to true to show the full month name
+     * @param bool   $forceYear     Set to true to force showing the year
+     * @param bool   $withWeekDay   Set to true to show the name of the week day
+     * 
+     * @return string
+     */
+    public function getDeliveryTimeMaxDate($weight = null, $fullMonthName = true, $forceYear = false, $withWeekDay = true)
+    {
+        $deliveryTimeMaxDate = null;
+        $deliveryTimeMin     = (int) $this->getShippingFee($weight)->DeliveryTimeMin;
+        $deliveryTimeMax     = (int) $this->getShippingFee($weight)->DeliveryTimeMax;
+        if ($deliveryTimeMax === 0) {
+            $deliveryTimeMin = (int) $this->DeliveryTimeMin;
+            $deliveryTimeMax = (int) $this->DeliveryTimeMax;
+        }
+        if ($deliveryTimeMax === 0) {
+            $deliveryTimeMax = $deliveryTimeMin;
+        }
+        if ($deliveryTimeMax > 0) {
+            $deliveryTimeMaxDate = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (self::addSundaysToDeliveryTime($deliveryTimeMax)*60*60*24)), $fullMonthName, $forceYear, $withWeekDay);
+        }
+        return $deliveryTimeMaxDate;
     }
     
     /**
@@ -887,12 +942,12 @@ class ShippingMethod extends DataObject
         $filter = sprintf(
             '"' . $shippingTable . '"."isActive" = 1 AND ("' . $shippingTable . '_CustomerGroups"."GroupID" IN (%s) OR "' . $shippingTable . '"."ID" NOT IN (%s))%s',
             $customerGroup->ID,
-            'SELECT "' . $shippingTable . '_CustomerGroups"."ShippingMethodID" FROM "' . $shippingTable . '_CustomerGroups"',
+            'SELECT "' . $shippingTable . '_CustomerGroups"."' . $shippingTable . 'ID" FROM "' . $shippingTable . '_CustomerGroups"',
             $addToFilter
         );
          
         $joinTable      =  $shippingTable . '_CustomerGroups';
-        $joinOnClause   = '"' . $shippingTable . 'CustomerGroups"."ShippingMethodID" = "' . $shippingTable . '"."ID"';
+        $joinOnClause   = '"' . $shippingTable . '_CustomerGroups"."' . $shippingTable . 'ID" = "' . $shippingTable . '"."ID"';
 
         $shippingMethods = ShippingMethod::get()
                 ->leftJoin($joinTable, $joinOnClause)
