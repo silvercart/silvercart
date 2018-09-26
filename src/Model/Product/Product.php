@@ -43,6 +43,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
 use SilverStripe\ORM\Search\SearchContext;
@@ -988,6 +989,7 @@ class Product extends DataObject implements PermissionProvider
                     'AddToCart'                            => _t(Product::class . '.ADD_TO_CART', 'Add to cart'),
                     'Quantity'                             => _t(Product::class . '.QUANTITY', 'Quantity'),
                     'Delivery'                             => _t(Product::class . '.Delivery', 'Delivery'),
+                    'DeliveryForFree'                      => _t(Product::class . '.DeliveryForFree', 'Free shipping'),
                     'DeliveryForFreeIsPossible'            => _t(Product::class . '.DeliveryForFreeIsPossible', 'Delivery for free is possible'),
                     'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
                     'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
@@ -2033,7 +2035,8 @@ class Product extends DataObject implements PermissionProvider
                     $shoppingCartPosition->Quantity = $quantity;
                 }
             } elseif ($this->StockQuantity > 0) {
-                if ($shoppingCartPosition->Quantity + $this->StockQuantity > Config::addToCartMaxQuantity()) {
+                if (Config::addToCartMaxQuantity() < $this->StockQuantity
+                 && $shoppingCartPosition->Quantity + $quantityToAdd > Config::addToCartMaxQuantity()) {
                     $shoppingCartPosition->Quantity = Config::addToCartMaxQuantity();
                     $positionNotice = 'maxQuantityReached';
                 } else {
@@ -2075,6 +2078,43 @@ class Product extends DataObject implements PermissionProvider
         }
         $this->extend('updateIsInCart', $isInCart);
         return $isInCart;
+    }
+    
+    /**
+     * Returns whether there is a cart notice for this product.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2018
+     */
+    public function hasCartNotice()
+    {
+        $hasNotice = false;
+        $position  = $this->getPositionInCart();
+        if ($position instanceof ShoppingCartPosition
+         && $position->exists()
+        ) {
+            $hasNotice = $position->hasNotice();
+        }
+        return $hasNotice;
+    }
+    
+    /**
+     * returns a string with notices. Notices are seperated by <br />
+     * 
+     * @return DBHTMLText
+     */
+    public function getCartNotices()
+    {
+        $notices  = DBHTMLText::create();
+        $position = $this->getPositionInCart();
+        if ($position instanceof ShoppingCartPosition
+         && $position->exists()
+        ) {
+            $notices = $position->getShoppingCartPositionNotices();
+        }
+        return $notices;
     }
     
     /**
@@ -3147,18 +3187,13 @@ class Product extends DataObject implements PermissionProvider
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 26.09.2018
      */
     public function isBuyableDueToStockManagementSettings() {
-        //is the product already in the cart?
-        $cartPositionQuantity = 0;
-        if (Customer::currentUser() && Customer::currentUser()->getCart()) {
-            $cartPositionQuantity = Customer::currentUser()->getCart()->getQuantity($this->ID);
-        }
         if (Config::EnableStockManagement()) {
-            if (!$this->isStockQuantityOverbookable() &&
-                ($this->StockQuantity - $cartPositionQuantity) <= 0) {
-
+            if (!$this->isStockQuantityOverbookable()
+             && $this->StockQuantity <= 0
+            ) {
                 return false;
             }
 
@@ -3166,10 +3201,10 @@ class Product extends DataObject implements PermissionProvider
                 $curDate        = new DateTime();
                 $expirationDate = new DateTime(strftime($this->StockQuantityExpirationDate));
 
-                if ( $this->isStockQuantityOverbookable() &&
-                    ($this->StockQuantity - $cartPositionQuantity) <= 0 &&
-                     $expirationDate < $curDate) {
-
+                if ($this->isStockQuantityOverbookable()
+                 && $this->StockQuantity <= 0
+                 && $expirationDate < $curDate
+                ) {
                     return false;
                 }
             }
