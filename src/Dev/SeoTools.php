@@ -133,7 +133,7 @@ class SeoTools extends Tools
      */
     public static function trimMetaDescription($metaDescription)
     {
-        $metaDescription = trim(str_replace(PHP_EOL, " ", strip_tags(htmlspecialchars_decode($metaDescription))));
+        $metaDescription = preg_replace('/\s+/', ' ', trim(str_replace(PHP_EOL, " ", strip_tags(htmlspecialchars_decode($metaDescription)))));
         if (strlen($metaDescription) >= self::$metaDescriptionMaxLength) {
             $metaDescription    = wordwrap($metaDescription, self::$metaDescriptionMaxLength);
             $metaDescription    = trim(substr($metaDescription, 0, strpos($metaDescription, "\n")));
