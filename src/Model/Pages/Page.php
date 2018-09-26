@@ -22,6 +22,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
+use SilverStripe\View\ArrayData;
 use TractorCow\Fluent\State\FluentState;
 
 /**
@@ -34,34 +35,33 @@ use TractorCow\Fluent\State\FluentState;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Page extends SiteTree {
+class Page extends SiteTree
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
 
     /**
      * extends statics
      * 
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'UseAsRootForMainNavigation' => 'Boolean(0)',
         'IdentifierCode'             => 'Varchar(50)',
-    );
-
+    ];
     /**
      * Define indexes.
      *
      * @var array
      */
-    private static $indexes = array(
+    private static $indexes = [
         'IdentifierCode' => '("IdentifierCode")'
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartPage';
-    
     /**
      * Indicator to check whether getCMSFields is called
      *
@@ -73,26 +73,21 @@ class Page extends SiteTree {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this); 
     }
 
@@ -100,36 +95,30 @@ class Page extends SiteTree {
      * Always enable translations for this page.
      *
      * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.11.2012
      */
-    public function canTranslate() {
+    public function canTranslate()
+    {
         return true;
     }
 
     /**
      * Define editing fields for the storeadmin.
      *
-     * @return FieldList all related CMS fields
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Jiri Ripa <jripa@pixeltricks.de>
-     * @since 06.10.2014
+     * @return FieldList
      */
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
+        $this->beforeUpdateCMSFields(function($fields) {
+            if (Permission::check('ADMIN')) {
+                $fields->addFieldToTab('Root.Main', TextField::create('IdentifierCode', 'IdentifierCode'));
+                $fields->dataFieldByName('IdentifierCode')->setRightTitle($this->fieldLabel('DoNotEdit'));
+            } else {
+                $fields->addFieldToTab('Root.Main', HiddenField::create('IdentifierCode', 'IdentifierCode'));
+            }
+            $fields->addFieldToTab('Root.Main', CheckboxField::create('UseAsRootForMainNavigation', $this->fieldLabel('UseAsRootForMainNavigation')));
+        });
         $this->getCMSFieldsIsCalled = true;
-        $fields = parent::getCMSFields();
-
-        if (Permission::check('ADMIN')) {
-            $fields->addFieldToTab('Root.Main', new TextField('IdentifierCode', 'IdentifierCode'));
-            $fields->dataFieldByName('IdentifierCode')->setRightTitle($this->fieldLabel('DoNotEdit'));
-        } else {
-            $fields->addFieldToTab('Root.Main', new HiddenField('IdentifierCode', 'IdentifierCode'));
-        }
-        $fields->addFieldToTab('Root.Main', new CheckboxField('UseAsRootForMainNavigation', $this->fieldLabel('UseAsRootForMainNavigation')));
-        
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**
@@ -139,65 +128,66 @@ class Page extends SiteTree {
      *
      * @return array
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 06.10.2014
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2018
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'InvoiceAddress'             => _t(Page::class . '.BILLING_ADDRESS', 'Invoice address'),
-                    'OrderDate'                  => _t(Page::class . '.ORDER_DATE', 'Order date'),
-                    'Title'                      => _t(Page::class . '.TITLE', 'Title'),
-                    'Logo'                       => _t(Page::class . '.LOGO', 'Logo'),
-                    'Login'                      => _t(Page::class . '.LOGIN', 'Login'),
-                    'EmailAddress'               => _t(Page::class . '.EMAIL_ADDRESS', 'Email address'),
-                    'Password'                   => _t(Page::class . '.PASSWORD', 'Password'),
-                    'PasswordCheck'              => _t(Page::class . '.PASSWORD_CHECK', 'Password check'),
-                    'ShippingAddress'            => _t(Page::class . '.SHIPPING_ADDRESS', 'Shipping address'),
-                    'UseAsRootForMainNavigation' => _t(Page::class . '.UseAsRootForMainNavigation', 'Use children of this page as main navigation menu'),
-                    'ValueOfGoods'               => _t(Page::class . '.VALUE_OF_GOODS', 'Value of goods'),
-                    'APICreate'                  => _t(Page::class . '.API_CREATE', 'Can create objects via the API'),
-                    'APIDelete'                  => _t(Page::class . '.API_DELETE', 'Can delete objects via the API'),
-                    'APIEdit'                    => _t(Page::class . '.API_EDIT', 'Can edit objects via the API'),
-                    'APIView'                    => _t(Page::class . '.API_VIEW', 'Can read objects via the API'),
-                    'CredentialsWrong'           => _t(Page::class . '.CREDENTIALS_WRONG', 'Your credentials are incorrect.'),
-                    'EmailAlreadyRegisterd'      => _t(Page::class . '.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered'),
-                    'EmailNotFound'              => _t(Page::class . '.EMAIL_NOT_FOUND', 'This Email address could not be found.'),
-                    'EmailWrong'                 => _t(Page::class . '.USER_NOT_EXISTING', 'This user does not exist.'),
-                    'PasswordWrong'              => _t(Page::class . '.PASSWORD_WRONG', 'This user does not exist.'),
-                    'Save'                       => _t(Page::class . '.SAVE', 'save'),
-                    'Submit'                     => _t(Page::class . '.SUBMIT', 'Submit'),
-                    'YourRemarks'                => _t(Page::class . '.YOUR_REMARKS', 'Your remarks'),
-                    'Message'                    => _t(Page::class . '.MESSAGE', 'message'),
-                    'SubmitMessage'              => _t(Page::class . '.SUBMIT_MESSAGE', 'submit message'),
-                    'DecreaseQuantity'           => _t(Page::class . '.DECREMENT_POSITION', 'Decrease quantity'),
-                    'IncreaseQuantity'           => _t(Page::class . '.INCREMENT_POSITION', 'Increase quantity'),
-                    'Birthday'                   => _t(Page::class . '.BIRTHDAY', 'Birthday'),
-                    'Day'                        => _t(Page::class . '.DAY', 'Day'),
-                    'Month'                      => _t(Page::class . '.MONTH', 'Month'),
-                    'Year'                       => _t(Page::class . '.YEAR', 'Year'),
-                    'January'                    => _t(Page::class . '.JANUARY', 'January'),
-                    'February'                   => _t(Page::class . '.FEBRUARY', 'February'),
-                    'March'                      => _t(Page::class . '.MARCH', 'March'),
-                    'April'                      => _t(Page::class . '.APRIL', 'April'),
-                    'May'                        => _t(Page::class . '.MAY', 'May'),
-                    'June'                       => _t(Page::class . '.JUNE', 'June'),
-                    'July'                       => _t(Page::class . '.JULY', 'July'),
-                    'August'                     => _t(Page::class . '.AUGUST', 'August'),
-                    'September'                  => _t(Page::class . '.SEPTEMBER', 'September'),
-                    'October'                    => _t(Page::class . '.OCTOBER', 'October'),
-                    'November'                   => _t(Page::class . '.NOVEMBER', 'November'),
-                    'December'                   => _t(Page::class . '.DECEMBER', 'December'),
-                    'RemoveFromCart'             => _t(Page::class . '.REMOVE_FROM_CART', 'Remove'),
-                    'PreviousPage'               => _t(Page::class . '.BACK_TO_DEFAULT', 'previous page'),
-                    'DoNotEdit'                  => _t(Page::class . '.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!'),
-                )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true)
+    {
+        $this->beforeUpdateFieldLabels(function(&$labels) {
+            $labels = array_merge(
+                    $labels,
+                    Tools::field_labels_for(self::class),
+                    [
+                        'InvoiceAddress'             => _t(Page::class . '.BILLING_ADDRESS', 'Invoice address'),
+                        'OrderDate'                  => _t(Page::class . '.ORDER_DATE', 'Order date'),
+                        'Title'                      => _t(Page::class . '.TITLE', 'Title'),
+                        'Logo'                       => _t(Page::class . '.LOGO', 'Logo'),
+                        'Login'                      => _t(Page::class . '.LOGIN', 'Login'),
+                        'EmailAddress'               => _t(Page::class . '.EMAIL_ADDRESS', 'Email address'),
+                        'Password'                   => _t(Page::class . '.PASSWORD', 'Password'),
+                        'PasswordCheck'              => _t(Page::class . '.PASSWORD_CHECK', 'Password check'),
+                        'ShippingAddress'            => _t(Page::class . '.SHIPPING_ADDRESS', 'Shipping address'),
+                        'UseAsRootForMainNavigation' => _t(Page::class . '.UseAsRootForMainNavigation', 'Use children of this page as main navigation menu'),
+                        'ValueOfGoods'               => _t(Page::class . '.VALUE_OF_GOODS', 'Value of goods'),
+                        'APICreate'                  => _t(Page::class . '.API_CREATE', 'Can create objects via the API'),
+                        'APIDelete'                  => _t(Page::class . '.API_DELETE', 'Can delete objects via the API'),
+                        'APIEdit'                    => _t(Page::class . '.API_EDIT', 'Can edit objects via the API'),
+                        'APIView'                    => _t(Page::class . '.API_VIEW', 'Can read objects via the API'),
+                        'CredentialsWrong'           => _t(Page::class . '.CREDENTIALS_WRONG', 'Your credentials are incorrect.'),
+                        'EmailAlreadyRegisterd'      => _t(Page::class . '.EMAIL_ALREADY_REGISTERED', 'This Email address is already registered'),
+                        'EmailNotFound'              => _t(Page::class . '.EMAIL_NOT_FOUND', 'This Email address could not be found.'),
+                        'EmailWrong'                 => _t(Page::class . '.USER_NOT_EXISTING', 'This user does not exist.'),
+                        'PasswordWrong'              => _t(Page::class . '.PASSWORD_WRONG', 'This user does not exist.'),
+                        'Save'                       => _t(Page::class . '.SAVE', 'save'),
+                        'Submit'                     => _t(Page::class . '.SUBMIT', 'Submit'),
+                        'YourRemarks'                => _t(Page::class . '.YOUR_REMARKS', 'Your remarks'),
+                        'Message'                    => _t(Page::class . '.MESSAGE', 'message'),
+                        'SubmitMessage'              => _t(Page::class . '.SUBMIT_MESSAGE', 'submit message'),
+                        'DecreaseQuantity'           => _t(Page::class . '.DECREMENT_POSITION', 'Decrease quantity'),
+                        'IncreaseQuantity'           => _t(Page::class . '.INCREMENT_POSITION', 'Increase quantity'),
+                        'Birthday'                   => _t(Page::class . '.BIRTHDAY', 'Birthday'),
+                        'Day'                        => _t(Page::class . '.DAY', 'Day'),
+                        'Month'                      => _t(Page::class . '.MONTH', 'Month'),
+                        'Year'                       => _t(Page::class . '.YEAR', 'Year'),
+                        'January'                    => _t(Page::class . '.JANUARY', 'January'),
+                        'February'                   => _t(Page::class . '.FEBRUARY', 'February'),
+                        'March'                      => _t(Page::class . '.MARCH', 'March'),
+                        'April'                      => _t(Page::class . '.APRIL', 'April'),
+                        'May'                        => _t(Page::class . '.MAY', 'May'),
+                        'June'                       => _t(Page::class . '.JUNE', 'June'),
+                        'July'                       => _t(Page::class . '.JULY', 'July'),
+                        'August'                     => _t(Page::class . '.AUGUST', 'August'),
+                        'September'                  => _t(Page::class . '.SEPTEMBER', 'September'),
+                        'October'                    => _t(Page::class . '.OCTOBER', 'October'),
+                        'November'                   => _t(Page::class . '.NOVEMBER', 'November'),
+                        'December'                   => _t(Page::class . '.DECEMBER', 'December'),
+                        'RemoveFromCart'             => _t(Page::class . '.REMOVE_FROM_CART', 'Remove'),
+                        'PreviousPage'               => _t(Page::class . '.BACK_TO_DEFAULT', 'previous page'),
+                        'DoNotEdit'                  => _t(Page::class . '.DO_NOT_EDIT', 'Do not edit this field unless you know exectly what you are doing!'),
+                    ]
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**
@@ -208,13 +198,15 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.10.2014
      */
-    protected function onBeforeWrite() {
+    protected function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         
         $request = Controller::curr()->getRequest();
         /* @var $request HTTPRequest */
-        if ($request->postVar('ID') == $this->ID &&
-            $request->postVar('UseAsRootForMainNavigation') == '1') {
+        if ($request->postVar('ID') == $this->ID
+         && $request->postVar('UseAsRootForMainNavigation') == '1'
+        ) {
             $this->UseAsRootForMainNavigation = true;
         }
         
@@ -238,7 +230,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.10.2014
      */
-    public function MainNavigationRootPage() {
+    public function MainNavigationRootPage()
+    {
         $mainNavigationRootPage = Page::get()->filter('UseAsRootForMainNavigation', true)->first();
         if (is_null($mainNavigationRootPage)) {
             $mainNavigationRootPage = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
@@ -257,13 +250,14 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.10.2014
      */
-    public function MainNavigationCacheKey() {
-        $cacheKeyParts = array(
+    public function MainNavigationCacheKey()
+    {
+        $cacheKeyParts = [
             'Navigation',
             $this->ID,
             i18n::get_locale(),
             $this->MainNavigationRootPage()->stageChildren(false)->max('LastEdited'),
-        );
+        ];
         $this->extend('updateMainNavigationCacheKeyParts', $cacheKeyParts);
         return implode('_', $cacheKeyParts);
     }
@@ -273,7 +267,8 @@ class Page extends SiteTree {
      *
      * @return string
      */
-    public function MemberGroupCacheKey() {
+    public function MemberGroupCacheKey()
+    {
         $cacheKey = i18n::get_locale() . '_' . Customer::get_group_cache_key();
         if (Director::isDev()) {
             $cacheKey .= '_' . uniqid();
@@ -289,7 +284,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.10.2014
      */
-    public function hasProductsOrChildren() {
+    public function hasProductsOrChildren()
+    {
         return true;
     }
     
@@ -302,7 +298,8 @@ class Page extends SiteTree {
      * @author Sascha koehler <skoehler@pixeltricks.de>
      * @since 27.06.2011
      */
-    public function SilvercartNoImage() {
+    public function SilvercartNoImage()
+    {
         $noImageObj = Config::getNoImage();
         
         if ($noImageObj) {
@@ -318,7 +315,8 @@ class Page extends SiteTree {
      *
      * @return string
      */
-    public function getSection() {
+    public function getSection()
+    {
         return Address::class;
     }
 
@@ -329,15 +327,16 @@ class Page extends SiteTree {
      *
      * @return string a html string ready to be directly used in a template
      */
-    public function getTreeTitle() {
+    public function getTreeTitle()
+    {
         $flags = $this->getStatusFlags();
         $treeTitle = sprintf(
             "<span class=\"jstree-pageicon\"></span>%s",
-            Convert::raw2xml(str_replace(array("\n","\r"),"",$this->MenuTitle))
+            Convert::raw2xml(str_replace(["\n","\r"],"",$this->MenuTitle))
         );
         foreach ($flags as $class => $data) {
             if (is_string($data)) {
-                $data = array('text' => $data);
+                $data = ['text' => $data];
             }
             $treeTitle .= sprintf(
                 "<span class=\"badge %s\"%s>%s</span>",
@@ -360,7 +359,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.06.2017
      */
-    public function MetaTags($includeTitle = true) {
+    public function MetaTags($includeTitle = true)
+    {
         $originalTags = parent::MetaTags($includeTitle);
         $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $originalTags);
         $tags .= '<link rel="canonical" href="' . $this->AbsoluteCanonicalLink() . '" />' . PHP_EOL;
@@ -375,7 +375,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.06.2017
      */
-    public function AbsoluteCanonicalLink() {
+    public function AbsoluteCanonicalLink()
+    {
         return Director::absoluteURL($this->CanonicalLink());
     }
     
@@ -387,7 +388,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.06.2017
      */
-    public function CanonicalLink() {
+    public function CanonicalLink()
+    {
         return $this->Link();
     }
 
@@ -402,7 +404,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2018
      */
-    public function OriginalLink($action = null) {
+    public function OriginalLink($action = null)
+    {
         return $this->Link($action);
     }
 
@@ -420,7 +423,8 @@ class Page extends SiteTree {
      * @since 26.04.2018
      * @see \TractorCow\Fluent\Extension\FluentExtension::LocaleLink()
      */
-    public function LocaleOriginalLink($locale) {
+    public function LocaleOriginalLink($locale)
+    {
         // Skip dataobjects that do not have the Link method
         if (!$this->hasMethod('OriginalLink')) {
             return $this->LocaleLink($locale);
@@ -428,7 +432,9 @@ class Page extends SiteTree {
 
         // Return locale root url if unable to view this item in this locale
         $defaultLink = $this->BaseURLForLocale($locale);
-        if ($this->hasMethod('canViewInLocale') && !$this->canViewInLocale($locale)) {
+        if ($this->hasMethod('canViewInLocale')
+         && !$this->canViewInLocale($locale)
+        ) {
             return $defaultLink;
         }
 
@@ -455,30 +461,27 @@ class Page extends SiteTree {
      *
      * @return ArrayList 
      */
-    public function getAllTranslations() {
+    public function getAllTranslations()
+    {
         $currentLocale      = Tools::current_locale();
         $translations       = Tools::get_translations($this);
-        $translationSource  = new ArrayList();
+        $translationSource  = ArrayList::create();
         if ($translations) {
-            $translationSource->push(new DataObject(
-                array(
-                    'Name'          => TranslationTools::get_translation_name($currentLocale, $currentLocale),
-                    'NativeName'    => TranslationTools::get_translation_name($currentLocale, $currentLocale),
-                    'Code'          => $this->getIso2($currentLocale),
-                    'RFC1766'       => i18n::convert_rfc1766($currentLocale),
-                    'Link'          => $this->Link(),
-                )
-            ));
+            $translationSource->push(ArrayData::create([
+                'Name'       => TranslationTools::get_translation_name($currentLocale, $currentLocale),
+                'NativeName' => TranslationTools::get_translation_name($currentLocale, $currentLocale),
+                'Code'       => $this->getIso2($currentLocale),
+                'RFC1766'    => i18n::convert_rfc1766($currentLocale),
+                'Link'       => $this->Link(),
+            ]));
             foreach ($translations as $translation) {
-                $translationSource->push(new DataObject(
-                    array(
-                        'Name'          => TranslationTools::get_translation_name($translation->Locale, $currentLocale),
-                        'NativeName'    => TranslationTools::get_translation_name($translation->Locale, $translation->Locale),
-                        'Code'          => $this->getIso2($translation->Locale),
-                        'RFC1766'       => i18n::convert_rfc1766($translation->Locale),
-                        'Link'          => $translation->Link(),
-                    )
-                ));
+                $translationSource->push(ArrayData::create([
+                    'Name'       => TranslationTools::get_translation_name($translation->Locale, $currentLocale),
+                    'NativeName' => TranslationTools::get_translation_name($translation->Locale, $translation->Locale),
+                    'Code'       => $this->getIso2($translation->Locale),
+                    'RFC1766'    => i18n::convert_rfc1766($translation->Locale),
+                    'Link'       => $translation->Link(),
+                ]));
             }
         }
         return $translationSource;
@@ -491,7 +494,8 @@ class Page extends SiteTree {
      * 
      * @return string
      */
-    public function getIso2($locale) {
+    public function getIso2($locale)
+    {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
     }
@@ -501,7 +505,8 @@ class Page extends SiteTree {
      * 
      * @return string
      */
-    public function getContent() {
+    public function getContent()
+    {
         $content = $this->getField('Content');
         if (!$this->getCMSFieldsIsCalled) {
             $this->extend('updateContent', $content);
@@ -514,7 +519,8 @@ class Page extends SiteTree {
      * 
      * @return string
      */
-    public function getMetaDescription() {
+    public function getMetaDescription()
+    {
         $metaDescription = $this->getField('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaDescription)) {
@@ -535,7 +541,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.07.2017
      */
-    public function String2urlSegment($string) {
+    public function String2urlSegment($string)
+    {
         return Tools::string2urlSegment($string);
     }
     
@@ -546,7 +553,8 @@ class Page extends SiteTree {
      * 
      * @return bool
      */
-    public function isStartPage($link = '') {
+    public function isStartPage($link = '')
+    {
         if (empty($link)) {
             $link = $this->Link();
         }
@@ -569,7 +577,8 @@ class Page extends SiteTree {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2018
      */
-    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $delimiter = '&raquo;') {
+    public function Breadcrumbs($maxDepth = 20, $unlinked = false, $stopAtPageType = false, $showHidden = false, $delimiter = '&raquo;')
+    {
         $breadcrumbs = null;
         $this->extend('overwriteBreadcrumbs', $breadcrumbs);
         if (is_null($breadcrumbs)) {

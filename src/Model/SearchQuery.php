@@ -15,8 +15,8 @@ use SilverStripe\ORM\DataObject;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SearchQuery extends DataObject {
-    
+class SearchQuery extends DataObject
+{
     /**
      * ORM attributes
      *
@@ -28,7 +28,6 @@ class SearchQuery extends DataObject {
         'Count'         => 'Int',
         'Hits'          => 'Int',
     ];
-
     /**
      * DB table name
      *
@@ -43,7 +42,8 @@ class SearchQuery extends DataObject {
      * 
      * @return SearchQuery 
      */
-    public static function get_by_query($query) {
+    public static function get_by_query($query)
+    {
         $searchQuery = self::get()
                 ->filter([
                     'SearchQuery' => $query,
@@ -51,11 +51,28 @@ class SearchQuery extends DataObject {
                 ])
                 ->first();
         if (!($searchQuery instanceof SearchQuery)) {
-            $searchQuery = new SearchQuery();
+            $searchQuery = SearchQuery::create();
             $searchQuery->Locale        = Tools::current_locale();
             $searchQuery->SearchQuery   = $query;
             $searchQuery->Count         = 0;
             $searchQuery->Hits          = 0;
+        }
+        return $searchQuery;
+    }
+    
+    /**
+     * Updates the SearchQuery with the given query. Creates one, if not exists.
+     *
+     * @param string $query Query to get SearchQuery for
+     * 
+     * @return SearchQuery
+     */
+    public static function update_by_query($query)
+    {
+        $searchQuery = self::get_by_query($query);
+        if (!empty($searchQuery->SearchQuery)) {
+            $searchQuery->Count++;
+            $searchQuery->write();
         }
         return $searchQuery;
     }
@@ -67,7 +84,8 @@ class SearchQuery extends DataObject {
      * 
      * @return ArrayList 
      */
-    public static function get_most_searched($limit) {
+    public static function get_most_searched($limit)
+    {
         $searchQueries = self::get()
                 ->filter('Locale', Tools::current_locale())
                 ->exclude('SearchQuery', '')
@@ -82,11 +100,11 @@ class SearchQuery extends DataObject {
      * @return string 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @since 26.09.2018
      */
-    public function Link() {
-        $searchResultsLink  = Tools::PageByIdentifierCodeLink('SilvercartSearchResultsPage');
-        return $searchResultsLink . 'SearchByQuery/' . $this->ID;
+    public function Link()
+    {
+        return Tools::PageByIdentifierCode('SilvercartSearchResultsPage')->QueryLink($this->SearchQuery);
+        return Tools::PageByIdentifierCode('SilvercartSearchResultsPage')->PlainLink("SearchByQuery/{$this->ID}");
     }
 }
-

@@ -8,7 +8,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
-use SilverCart\Model\Pages\SearchResultsPageController;
+use SilverCart\Model\Pages\SearchResultsPage;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\SearchQuery;
 use SilverStripe\CMS\Model\SiteTree;
@@ -30,20 +30,20 @@ use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ActionHandler extends Controller {
-    
+class ActionHandler extends Controller
+{
     /**
      * Allowed actions
      *
      * @var array
      */
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'addToCart',
         'doSearch',
         'doLogin',
         'decrementPositionQuantity',
         'incrementPositionQuantity',
-    );
+    ];
     
     /**
      * Action to add a product to cart.
@@ -55,7 +55,8 @@ class ActionHandler extends Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.03.2013
      */
-    public function addToCart(HTTPRequest $request) {
+    public function addToCart(HTTPRequest $request)
+    {
         $isValidRequest = false;
         $backLink       = null;
         $postVars       = $request->postVars();
@@ -63,10 +64,12 @@ class ActionHandler extends Controller {
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
         
-        if (is_null($productID) ||
-            is_null($quantity)) {
-            if (array_key_exists('productID',       $postVars) &&
-                array_key_exists('productQuantity', $postVars)) {
+        if (is_null($productID)
+         || is_null($quantity)
+        ) {
+            if (array_key_exists('productID',       $postVars)
+             && array_key_exists('productQuantity', $postVars)
+            ) {
                 $isValidRequest = true;
                 $productID      = $postVars['productID'];
                 $quantity       = $postVars['productQuantity'];
@@ -103,7 +106,8 @@ class ActionHandler extends Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.07.2018
      */
-    public function decrementPositionQuantity(HTTPRequest $request) {
+    public function decrementPositionQuantity(HTTPRequest $request)
+    {
         $this->extend('onBeforeDecrementPositionQuantity', $request);
         $positionID = $request->param('ID');
         $backLinkID = $request->param('OtherID');
@@ -111,9 +115,10 @@ class ActionHandler extends Controller {
             //check if the position belongs to this user. Malicious people could manipulate it.
             $member   = Customer::currentUser();
             $position = ShoppingCartPosition::get()->byID($positionID);
-            if ($position instanceof ShoppingCartPosition &&
-                $position->exists() &&
-                $position->ShoppingCartID == $member->getCart()->ID) {
+            if ($position instanceof ShoppingCartPosition
+             && $position->exists()
+             && $position->ShoppingCartID == $member->getCart()->ID
+            ) {
                 if ($position->Quantity <= 1) {
                     $position->delete();
                 } else {
@@ -123,8 +128,9 @@ class ActionHandler extends Controller {
                 $backLink = null;
                 if (!is_null($backLinkID)) {
                     $backLinkPage = SiteTree::get()->byID($backLinkID);
-                    if ($backLinkPage instanceof SiteTree &&
-                        $backLinkPage->exists()) {
+                    if ($backLinkPage instanceof SiteTree
+                     && $backLinkPage->exists()
+                    ) {
                         $backLink = $backLinkPage->Link();
                     }
                 }
@@ -144,7 +150,8 @@ class ActionHandler extends Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.07.2018
      */
-    public function incrementPositionQuantity(HTTPRequest $request) {
+    public function incrementPositionQuantity(HTTPRequest $request)
+    {
         $this->extend('onBeforeIncrementPositionQuantity', $request);
         $positionID = $request->param('ID');
         $backLinkID = $request->param('OtherID');
@@ -152,15 +159,17 @@ class ActionHandler extends Controller {
             //check if the position belongs to this user. Malicious people could manipulate it.
             $member   = Customer::currentUser();
             $position = ShoppingCartPosition::get()->byID($positionID);
-            if ($position instanceof ShoppingCartPosition &&
-                $position->exists() &&
-                $position->ShoppingCartID == $member->getCart()->ID) {
+            if ($position instanceof ShoppingCartPosition
+             && $position->exists()
+             && $position->ShoppingCartID == $member->getCart()->ID
+            ) {
                 $position->Product()->addToCart($member->getCart()->ID, 1, true);
                 $backLink = null;
                 if (!is_null($backLinkID)) {
                     $backLinkPage = SiteTree::get()->byID($backLinkID);
-                    if ($backLinkPage instanceof SiteTree &&
-                        $backLinkPage->exists()) {
+                    if ($backLinkPage instanceof SiteTree
+                     && $backLinkPage->exists()
+                    ) {
                         $backLink = $backLinkPage->Link();
                     }
                 }
@@ -181,12 +190,15 @@ class ActionHandler extends Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.03.2013
      */
-    public function redirectBack($backLink = null, $anchor = '') {
+    public function redirectBack($backLink = null, $anchor = '')
+    {
         $postVars = $this->getRequest()->postVars();
-        if (is_null($backLink) &&
-            array_key_exists('backLink', $postVars)) {
-            if (array_key_exists('HTTP_REFERER', $_SERVER) &&
-                array_key_exists('backLink', $postVars)) {
+        if (is_null($backLink)
+         && array_key_exists('backLink', $postVars)
+        ) {
+            if (array_key_exists('HTTP_REFERER', $_SERVER)
+             && array_key_exists('backLink', $postVars)
+            ) {
                 // add potential HTTP GET params to back link
                 $referer                    = $_SERVER['HTTP_REFERER'];
                 $relativeReferer            = '/' . Director::makeRelative($referer);
@@ -198,9 +210,10 @@ class ActionHandler extends Controller {
                     $relativeUrlEncodedBackLink .= '/' . str_replace('+', '%20', urlencode($urlPart));
                 }
 
-                if ((strpos($relativeReferer, $relativeBackLink) === 0 ||
-                     strpos($relativeReferer, $relativeUrlEncodedBackLink) === 0) &&
-                    strpos($relativeReferer, '?') > 0) {
+                if ((strpos($relativeReferer, $relativeBackLink) === 0
+                  || strpos($relativeReferer, $relativeUrlEncodedBackLink) === 0)
+                 && strpos($relativeReferer, '?') > 0
+                ) {
                     $refererParts           = explode('?', $relativeReferer);
                     $paramPart              = $refererParts[1];
                     $postVars['backLink']   = $backLink . '?' . $paramPart;
@@ -230,26 +243,23 @@ class ActionHandler extends Controller {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.06.2014
      */
-    public function doSearch(HTTPRequest $request, $doRedirect = true) {
+    public function doSearch(HTTPRequest $request, $doRedirect = true)
+    {
         $postVars           = $request->postVars();
-        if (!array_key_exists('locale', $postVars) ||
-            empty($postVars['locale'])) {
+        if (!array_key_exists('locale', $postVars)
+         || empty($postVars['locale'])
+        ) {
             $postVars['locale'] = Tools::default_locale();
         }
         Tools::set_current_locale($postVars['locale']);
         i18n::set_locale($postVars['locale']);
-        $quickSearchQuery   = trim($postVars['quickSearchQuery']);
-        $searchContext      = Product::class;
-        $searchResultsPage  = Tools::PageByIdentifierCode("SilvercartSearchResultsPage");
-        $searchQuery        = SearchQuery::get_by_query(trim(Convert::raw2sql($quickSearchQuery)));
-        if (!empty($searchQuery->SearchQuery)) {
-            $searchQuery->Count++;
-            $searchQuery->write();
-        }
+        $searchQuery       = trim($postVars['quickSearchQuery']);
+        $searchContext     = Product::class;
+        $searchResultsPage = Tools::PageByIdentifierCode("SilvercartSearchResultsPage");
+        SearchQuery::update_by_query(trim(Convert::raw2sql($searchQuery)));
         Product::setDefaultSort('');
-        Tools::Session()->set(SearchResultsPageController::SESSION_KEY_SEARCH_QUERY,   $quickSearchQuery);
-        Tools::Session()->set(SearchResultsPageController::SESSION_KEY_SEARCH_CONTEXT, $searchContext);
-        Tools::saveSession();
+        SearchResultsPage::setCurrentSearchQuery($searchQuery);
+        SearchResultsPage::setCurrentSearchContext($searchContext);
         if ($doRedirect) {
             $this->redirect($searchResultsPage->RelativeLink());
         }
@@ -268,8 +278,9 @@ class ActionHandler extends Controller {
     public function doLogin(HTTPRequest $request) {
         $postVars   = $request->postVars();
         $rememberMe = false;
-        if (array_key_exists('emailaddress', $postVars) &&
-            array_key_exists('password', $postVars)) {
+        if (array_key_exists('emailaddress', $postVars)
+         && array_key_exists('password', $postVars)
+        ) {
             $emailAddress = $postVars['emailaddress'];
             $password     = $postVars['password'];
         } else {
@@ -281,18 +292,20 @@ class ActionHandler extends Controller {
         }
         $member = Member::get()->filter('Email', $emailAddress)->first();
 
-        if ($member instanceof Member &&
-            $member->exists()) {
+        if ($member instanceof Member
+         && $member->exists()
+        ) {
             $authenticator = new MemberAuthenticator();
-            $loginData = array(
+            $loginData = [
                 'Email'    => $emailAddress,
                 'Password' => $password,
                 'Remember' => $rememberMe,
-            );
+            ];
             $customer = $authenticator->authenticate($loginData, $this->getRequest(), $result);
 
-            if ($customer instanceof Member &&
-                $customer->exists()) {
+            if ($customer instanceof Member
+             && $customer->exists()
+            ) {
                 //transfer cart positions from an anonymous user to the one logging in
                 $anonymousCustomer = Customer::currentAnonymousCustomer();
                 if ($anonymousCustomer) {
@@ -304,7 +317,6 @@ class ActionHandler extends Controller {
                             }
                         }
                         //add anonymous positions to the registered user
-
                         foreach ($anonymousCustomer->getCart()->ShoppingCartPositions() as $position) {
                             $customer->getCart()->ShoppingCartPositions()->add($position);
                         }
@@ -314,18 +326,18 @@ class ActionHandler extends Controller {
                 
                 $authenticator->getLoginHandler($postVars['redirect_to'])->performLogin($customer, $loginData, $this->getRequest());
             } else {
-                $messages = array(
-                    'Authentication' => array(
+                $messages = [
+                    'Authentication' => [
                         Page::singleton()->fieldLabel('CredentialsWrong'),
-                    )
-                );
+                    ]
+                ];
             }
         } else {
-            $messages = array(
-                'Authentication' => array(
+            $messages = [
+                'Authentication' => [
                     Page::singleton()->fieldLabel('CredentialsWrong'),
-                )
-            );
+                ]
+            ];
         }
         $this->redirectBack($postVars['redirect_to']);
     }
