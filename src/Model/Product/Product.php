@@ -850,41 +850,28 @@ class Product extends DataObject implements PermissionProvider
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.11.2012
+     * @since 26.09.2018
      */
-    public function sortableFrontendFields() {
+    public function sortableFrontendFields()
+    {
         if (is_null(self::$sortableFrontendFields)) {
             $productTable     = Tools::get_table_name(Product::class);
             $translationTable = Tools::get_table_name(ProductTranslation::class);
-            $sortableFrontendFields = array(
-                $translationTable . '.Title ASC'  => $this->fieldLabel('TitleAsc'),
-                $translationTable . '.Title DESC' => $this->fieldLabel('TitleDesc'),
-            );
-            if (Config::Pricetype() == 'gross') {
-                $sortableFrontendFields = array_merge(
-                        $sortableFrontendFields,
-                        array(
-                            $productTable . '.PriceGrossAmount ASC'  => $this->fieldLabel('PriceAmountAsc'),
-                            $productTable . '.PriceGrossAmount DESC' => $this->fieldLabel('PriceAmountDesc'),
-                        )
-                );
-            } else {
-                $sortableFrontendFields = array_merge(
-                        $sortableFrontendFields,
-                        array(
-                            $productTable . '.PriceNetAmount ASC'    => $this->fieldLabel('PriceAmountAsc'),
-                            $productTable . '.PriceNetAmount DESC'   => $this->fieldLabel('PriceAmountDesc'),
-                        )
-                );
-            }
+            $priceType        = ucfirst(strtolower(Config::Pricetype()));
 
-            $allSortableFrontendFields = array_merge(
-                    $sortableFrontendFields,
+            $sortableFrontendFields = array_merge(
+                    [
+                        "{$productTable}.Created DESC"                 => $this->fieldLabel('NewestArrivals'),
+                        "{$translationTable}.Title ASC"                => $this->fieldLabel('TitleAsc'),
+                        "{$translationTable}.Title DESC"               => $this->fieldLabel('TitleDesc'),
+                        "{$productTable}.Price{$priceType}Amount ASC"  => $this->fieldLabel('PriceAmountAsc'),
+                        "{$productTable}.Price{$priceType}Amount DESC" => $this->fieldLabel('PriceAmountDesc'),
+                    ],
                     self::$extendedSortableFrontendFields
             );
 
-            $this->extend('updateSortableFrontentFields', $allSortableFrontendFields);
-            self::$sortableFrontendFields = $allSortableFrontendFields;
+            $this->extend('updateSortableFrontentFields', $sortableFrontendFields);
+            self::$sortableFrontendFields = $sortableFrontendFields;
         }
         return self::$sortableFrontendFields;
     }
@@ -1003,6 +990,7 @@ class Product extends DataObject implements PermissionProvider
                     'Delivery'                             => _t(Product::class . '.Delivery', 'Delivery'),
                     'DeliveryForFreeIsPossible'            => _t(Product::class . '.DeliveryForFreeIsPossible', 'Delivery for free is possible'),
                     'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
+                    'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
                 )
             );
         });
@@ -1062,19 +1050,25 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@œÄixeltricks.de>
-     * @since 30.08.2013
+     * @author Sebastian Diel <sdiel@œÄixeltricks.de>,
+     *         Sascha Koehler <skoehler@pixeltricks.de>
+     * @since 26.09.2018
      */
-    public static function defaultSort() {
+    public static function defaultSort()
+    {
         if (is_null(self::$scDefaultSort)) {
             $sort                   = Tools::Session()->get('SilvercartProduct.defaultSort');
             $sortableFrontendFields = Product::singleton()->sortableFrontendFields();
-            if (is_null($sort) ||
-                $sort === false ||
-                !is_string($sort) ||
-                !array_key_exists($sort, $sortableFrontendFields)) {
+            if (is_null($sort)
+             || $sort === false
+             || !is_string($sort)
+             || !array_key_exists($sort, $sortableFrontendFields)
+            ) {
                 $sort = Product::config()->get('default_sort');
+                if (!array_key_exists($sort, $sortableFrontendFields)) {
+                    $sortKeys = array_keys($sortableFrontendFields);
+                    $sort     = array_shift($sortKeys);
+                }
                 self::setDefaultSort($sort);
                 Product::config()->set('default_sort', '');
             } else {
