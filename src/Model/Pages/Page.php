@@ -4,6 +4,7 @@ namespace SilverCart\Model\Pages;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Dev\SeoTools;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Translation\TranslationTools;
@@ -516,6 +517,9 @@ class Page extends SiteTree {
     public function getMetaDescription() {
         $metaDescription = $this->getField('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
+            if (empty($metaDescription)) {
+                $metaDescription = SeoTools::defaultMetaDescriptionFor($this);
+            }
             $this->extend('updateMetaDescription', $metaDescription);
         }
         return $metaDescription;

@@ -14,42 +14,54 @@ use SilverCart\Dev\Tools;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SeoTools extends Tools {
-    
+class SeoTools extends Tools
+{
     /**
      * Max legth of meta description
      *
      * @var int
      */
-    public static $metaDescriptionMaxLength = 200;
-    
+    public static $metaDescriptionMaxLength = 156;
     /**
      * Connector char for meta description parts
      *
      * @var string
      */
     public static $metaDescriptionConnector = '-';
-
     /**
      * List of words to extend to the keywords
      *
      * @var array
      */
-    public static $metaKeywordExtensions = array();
-
+    public static $metaKeywordExtensions = [];
     /**
      * List of words to remove out of keywords
      *
      * @var array
      */
-    public static $metaKeywordRemovements = array(
+    public static $metaKeywordRemovements = [
         'und',
         'and',
         'für',
         'for',
         'mit',
         'with',
-    );
+    ];
+    
+    /**
+     * Returns a default meta title for the given page.
+     * 
+     * @param \SilverCart\Model\Pages\Page $page Page to get default meta title for
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 26.09.2018
+     */
+    public static function defaultMetaDescriptionFor($page)
+    {
+        return self::trimMetaDescription(self::string2html($page->Content)->Plain());
+    }
     
     /**
      * Extracts a meta description out of the given string
@@ -61,13 +73,14 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function extractMetaDescription($string) {
+    public static function extractMetaDescription($string)
+    {
         $metaDescription    = $string;
         $metaDescription    = html_entity_decode($metaDescription, ENT_COMPAT, 'UTF-8');
         $metaDescription    = strip_tags($metaDescription);
         $metaDescription    = str_replace('"', '', $metaDescription);
         $lines              = explode(PHP_EOL, $metaDescription);
-        $cleanedLines       = array();
+        $cleanedLines       = [];
         foreach ($lines as $line) {
             $line = trim($line);
             if (!empty($line)) {
@@ -93,9 +106,10 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function extractMetaDescriptionOutOfArray($array) {
-        $metaDescription        = '';
-        $metaDescriptionParts   = array();
+    public static function extractMetaDescriptionOutOfArray($array)
+    {
+        $metaDescription      = '';
+        $metaDescriptionParts = [];
         foreach ($array as $string) {
             if (mb_strlen($metaDescription) >= self::$metaDescriptionMaxLength) {
                 break;
@@ -115,9 +129,11 @@ class SeoTools extends Tools {
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
+     * @since 26.09.2018
      */
-    public static function trimMetaDescription($metaDescription) {
+    public static function trimMetaDescription($metaDescription)
+    {
+        $metaDescription = trim(str_replace(PHP_EOL, "", strip_tags(htmlspecialchars_decode($metaDescription))));
         if (strlen($metaDescription) >= self::$metaDescriptionMaxLength) {
             $metaDescription    = wordwrap($metaDescription, self::$metaDescriptionMaxLength);
             $metaDescription    = trim(substr($metaDescription, 0, strpos($metaDescription, "\n")));
@@ -125,6 +141,7 @@ class SeoTools extends Tools {
             if (strpos($metaDescriptionRev, ',') === 0) {
                 $metaDescription = strrev(substr($metaDescriptionRev, 1));
             }
+            $metaDescription .= '...';
         }
         return $metaDescription;
     }
@@ -140,7 +157,8 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function extractMetaKeywords($string) {
+    public static function extractMetaKeywords($string)
+    {
         $metaKeywords = preg_replace('#[^a-z0-9]#i', ',', $string);
         foreach (self::$metaKeywordRemovements as $removement) {
             $removement = ',' . $removement . ',';
@@ -169,7 +187,8 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function extractMetaKeywordsAsArray($string) {
+    public static function extractMetaKeywordsAsArray($string)
+    {
         $extractedMetaKeywords = self::extractMetaKeywords($string);
         return explode(',', $extractedMetaKeywords);
     }
@@ -184,7 +203,8 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function addMetaKeywordExtension($metaKeywordExtension) {
+    public static function addMetaKeywordExtension($metaKeywordExtension)
+    {
         if (!in_array($metaKeywordExtension, self::$metaKeywordExtensions)) {
             self::$metaKeywordExtensions[] = $metaKeywordExtension;
         }
@@ -200,7 +220,8 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function addMetaKeywordExtensions($metaKeywordExtensions) {
+    public static function addMetaKeywordExtensions($metaKeywordExtensions)
+    {
         foreach ($metaKeywordExtensions as $metaKeywordExtension) {
             self::addMetaKeywordExtension($metaKeywordExtension);
         }
@@ -216,7 +237,8 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function addMetaKeywordRemovement($metaKeywordRemovement) {
+    public static function addMetaKeywordRemovement($metaKeywordRemovement)
+    {
         if (!in_array($metaKeywordRemovement, self::$metaKeywordRemovements)) {
             self::$metaKeywordRemovements[] = $metaKeywordRemovement;
         }
@@ -232,7 +254,8 @@ class SeoTools extends Tools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public static function addMetaKeywordRemovements($metaKeywordRemovements) {
+    public static function addMetaKeywordRemovements($metaKeywordRemovements)
+    {
         foreach ($metaKeywordRemovements as $metaKeywordRemovement) {
             self::addMetaKeywordRemovement($metaKeywordRemovement);
         }
