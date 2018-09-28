@@ -99,10 +99,10 @@ class CustomForm extends Form
         foreach ($this->customExtraClasses as $extraClass) {
             $this->addExtraClass($extraClass);
         }
+        parent::__construct($controller, $name, $fields, $actions, $validator);
         if (!$this->securityTokenEnabled) {
             $this->disableSecurityToken();
         }
-        parent::__construct($controller, $name, $fields, $actions, $validator);
     }
     
     /**
