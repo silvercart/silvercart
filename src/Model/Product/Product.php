@@ -204,6 +204,21 @@ class Product extends DataObject implements PermissionProvider
      */
     private static $stock_quantity_is_low_max = 2;
     /**
+     * Default time unit for new products.
+     * default: month
+     *
+     * @var string
+     */
+    private static $new_product_default_unit = 'month';
+    /**
+     * Default time unit quantity for new products.
+     * default: 2
+     * default with unit: 2 month
+     *
+     * @var string
+     */
+    private static $new_product_default_unit_quantity = '2';
+    /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
@@ -1264,9 +1279,9 @@ class Product extends DataObject implements PermissionProvider
      * @param array   $joins       left join data as multi dimensional array
      * @param integer $limit       DataObject limit
      *
-     * @return SS_List
+     * @return DataList
      */
-    public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null) {
+    public static function getProductsList($whereClause = "", $sort = null, $joins = null, $limit = null) {
         $filter = self::get_frontend_sql_filter();
 
         if ($whereClause != "") {
@@ -1302,6 +1317,39 @@ class Product extends DataObject implements PermissionProvider
             }
             $databaseFilteredProducts = $databaseFilteredProducts->limit($limit, $offset);
         }
+        return $databaseFilteredProducts;
+    }
+
+    /**
+     * Getter similar to DataObject::get(); returns a SS_List of products filtered by the requirements in self::getRequiredAttributes();
+     * If an product is free of charge, it can have no price. This is for giveaways and gifts.
+     *
+     * Expected format of $joins:
+     * <pre>
+     * array(
+     *      array(
+     *          'table' => 'JoinTableName_1',
+     *          'on'    => 'JoinTableOnClause_1',
+     *          'alias' => 'JoinTableAlias_1',
+     *      ),
+     *      array(
+     *          'table' => 'JoinTableName_2',
+     *          'on'    => 'JoinTableOnClause_2',
+     *          'alias' => 'JoinTableAlias_2',
+     *      ),
+     *      ...
+     * )
+     * </pre>
+     * 
+     * @param string  $whereClause to be inserted into the sql where clause
+     * @param string  $sort        string with sort clause
+     * @param array   $joins       left join data as multi dimensional array
+     * @param integer $limit       DataObject limit
+     *
+     * @return SS_List
+     */
+    public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null) {
+        $databaseFilteredProducts = self::getProductsList($whereClause, $sort, $joins, $limit);
         if (Controller::curr()->hasMethod('getProductsPerPageSetting') &&
             $databaseFilteredProducts) {
             $databaseFilteredProducts = new PaginatedList($databaseFilteredProducts, $_GET);
@@ -3211,6 +3259,16 @@ class Product extends DataObject implements PermissionProvider
         }
         return true;
     }
+    
+    /**
+     * Returns the default time difference for new products.
+     * 
+     * @return string
+     */
+    public static function getIsNewProductDefaultTimeDifference()
+    {
+        return self::config()->get('new_product_default_unit_quantity') . " " . self::config()->get('new_product_default_unit');
+    }
 
     /**
      * Returns if a product is new dependent on its creation date (Created) and the given
@@ -3222,10 +3280,14 @@ class Product extends DataObject implements PermissionProvider
      *
      * @author Jiri Ripa <jripa@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.06.2017
+     * @since 29.09.2018
      */
-    public function isNewProduct($timeDifference = '+2 month') {
-        if ($timeDifference == '+2 month') {
+    public function isNewProduct($timeDifference = null) {
+        $defaultTimeDifference = "+{$this->getIsNewProductDefaultTimeDifference()}";
+        if (is_null($timeDifference)) {
+            $timeDifference = $defaultTimeDifference;
+        }
+        if ($timeDifference == $defaultTimeDifference) {
             $this->extend('updateIsNewProductTimeDifference', $timeDifference);
         }
         $isNew = false;

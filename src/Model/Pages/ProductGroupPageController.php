@@ -124,6 +124,7 @@ class ProductGroupPageController extends \PageController {
      */
     private static $allowed_actions = [
         'detail',
+        'newproducts',
         'chsffopt',
         'chpppopt',
         'ProductGroupPageSelectorsForm',

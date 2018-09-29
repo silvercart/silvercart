@@ -620,6 +620,22 @@ class Page extends SiteTree
     }
     
     /**
+     * Allows user code to hook into DataObject::getBreadcrumbItems prior to 
+     * updateBreadcrumbItems being called on extensions
+     *
+     * @param callable $callback The callback to execute
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.09.2018
+     */
+    public function beforeUpdateBreadcrumbItems($callback)
+    {
+        $this->beforeExtending('updateBreadcrumbItems', $callback);
+    }
+    
+    /**
      * Returns a list of breadcrumbs for the current page.
      * Adds the extension hook updateBreadcrumbItems.
      *
