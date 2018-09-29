@@ -467,6 +467,7 @@ class Page extends SiteTree
         $currentLocale      = Tools::current_locale();
         $translations       = Tools::get_translations($this);
         $translationSource  = ArrayList::create();
+        $currentItem        = null;
         if ($translations) {
             foreach ($translations as $translation) {
                 $isCurrent = $translation->Locale === $currentLocale;
