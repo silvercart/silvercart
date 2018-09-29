@@ -225,7 +225,7 @@ class CheckoutStep extends ViewableData {
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.11.2017
+     * @since 29.09.2018
      */
     public function IsPreviousStepCompleted() {
         $completed = false;
@@ -233,13 +233,28 @@ class CheckoutStep extends ViewableData {
         $stepList  = $checkout->getStepList();
         $index     = array_search(get_class($this), $stepList);
         if (is_int($index)) {
-            $previousIndex    = $index - 1;
-            $previousStepName = $stepList[$previousIndex];
-            if ($checkout->isCompletedStep($previousStepName)) {
-                $completed = true;
+            $previousIndex = $index - 1;
+            if (array_key_exists($previousIndex, $stepList)) {
+                $previousStepName = $stepList[$previousIndex];
+                if ($checkout->isCompletedStep($previousStepName)) {
+                    $completed = true;
+                }
             }
         }
         return $completed;
+    }
+    
+    /**
+     * Returns whether this step is accessible.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.09.2018
+     */
+    public function IsAccessible()
+    {
+        return ($this->IsCurrentStep() && !$this->getCheckout()->CurrentPageIsCartPage()) || $this->IsCompleted() || $this->IsPreviousStepCompleted();
     }
     
     /**
