@@ -94,13 +94,11 @@
             </div>
         </div>
         <div class="span8">
-            <div id="silvercart-checkout-privacy-check" class="well small-well margin-bottom">
-                {$Fields.dataFieldByName(HasAcceptedTermsAndConditions).FieldHolder}
-                {$Fields.dataFieldByName(HasAcceptedRevocationInstruction).FieldHolder}
-                <% if $ShowNewsletterCheckbox %>
-                    {$Fields.dataFieldByName(SubscribedToNewsletter).FieldHolder}
-                <% end_if %>
+            <% if $ShowNewsletterCheckbox %>
+            <div class="well small-well margin-bottom">
+                {$Fields.dataFieldByName(SubscribedToNewsletter).FieldHolder}
             </div>
+            <% end_if %>
 
             {$Controller.Checkout.CurrentStep.ShoppingCartFull}
 
@@ -114,6 +112,7 @@
                 <button class="btn btn-primary btn-large btn-block-sm pull-right action" type="submit" title="{$Title}" name="{$Name}" id="{$ID}">{$Title} <span class="icon icon-caret-right"></span></button>
             <% end_loop %>
             </div>
+            <p>{$AcceptTermsAndConditionsText}</p>
         </div>
     </div>
 <% if $IncludeFormTag %>

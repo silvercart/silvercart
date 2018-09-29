@@ -176,7 +176,7 @@ trait OrderCheckoutStep
      * @return \SilverCart\Model\Order\Order
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
+     * @since 29.09.2018
      */
     public function createOrder($customerEmail, $checkoutData, $customerNote)
     {
@@ -187,8 +187,8 @@ trait OrderCheckoutStep
         $order->setPaymentMethod($checkoutData['PaymentMethod']);
         $order->setNote($customerNote);
         $order->setWeight();
-        $order->setHasAcceptedTermsAndConditions($checkoutData['HasAcceptedTermsAndConditions'] == "1");
-        $order->setHasAcceptedRevocationInstruction($checkoutData['HasAcceptedRevocationInstruction'] == "1");
+        $order->setHasAcceptedTermsAndConditions(true);
+        $order->setHasAcceptedRevocationInstruction(true);
         $order->createFromShoppingCart();
         $this->extend('onAfterCreateOrder', $order, $customerEmail, $checkoutData, $customerNote);
         return $order;

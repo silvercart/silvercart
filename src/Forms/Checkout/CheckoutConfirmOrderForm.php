@@ -23,8 +23,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutConfirmOrderForm extends CustomForm {
-    
+class CheckoutConfirmOrderForm extends CustomForm
+{
     /**
      * Custom extra CSS classes.
      *
@@ -33,43 +33,18 @@ class CheckoutConfirmOrderForm extends CustomForm {
     protected $customExtraClasses = [
         'form-horizontal',
     ];
-    
-    /**
-     * List of required fields.
-     *
-     * @var array
-     */
-    private static $requiredFields = [
-        'HasAcceptedTermsAndConditions',
-        'HasAcceptedRevocationInstruction',
-    ];
 
     /**
      * Returns the static form fields.
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields()
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            
-            $termsAndConditions = _t(CheckoutStep::class . '.I_ACCEPT_TERMS',
-                    'I accept the <a href="{link}" target="blank">terms and conditions</a>.',
-                    [
-                        'link' => Tools::PageByIdentifierCodeLink('TermsOfServicePage')
-                    ]
-            );
-            $revocationInstruction = _t(CheckoutStep::class . '.I_ACCEPT_REVOCATION',
-                    'I accept the <a href="{link}" target="blank">revocation instructions</a>.',
-                    [
-                        'link' => Tools::PageByIdentifierCodeLink('SilvercartRevocationInstructionPage'),
-                    ]
-            );
-            
             $fields += [
                 $notesField = TextareaField::create('Note', ''),
-                new CheckboxField('HasAcceptedTermsAndConditions', Tools::string2html($termsAndConditions)),
-                new CheckboxField('HasAcceptedRevocationInstruction', Tools::string2html($revocationInstruction)),
-                new CheckboxField('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter')),
+                CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter')),
             ];
             
             $notesField->setPlaceholder(Page::singleton()->fieldLabel('YourRemarks') . '...');
@@ -82,7 +57,8 @@ class CheckoutConfirmOrderForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions()
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $submitButtonTitle = CheckoutStep::singleton()->fieldLabel('OrderNow');
             $checkout          = $this->getController()->getCheckout();
@@ -114,17 +90,16 @@ class CheckoutConfirmOrderForm extends CustomForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.11.2017
+     * @since 29.09.2018
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form)
+    {
         if (!array_key_exists('SubscribedToNewsletter', $data)) {
             $data['SubscribedToNewsletter'] = false;
         }
         $checkout = $this->getController()->getCheckout();
         /* @var $checkout \SilverCart\Checkout\Checkout */
         $checkout->addDataValue('Note', $data['Note']);
-        $checkout->addDataValue('HasAcceptedTermsAndConditions', $data['HasAcceptedTermsAndConditions']);
-        $checkout->addDataValue('HasAcceptedRevocationInstruction', $data['HasAcceptedRevocationInstruction']);
         $checkout->addDataValue('SubscribedToNewsletter', $data['SubscribedToNewsletter']);
         
         $currentStep = $checkout->getCurrentStep();
@@ -142,14 +117,31 @@ class CheckoutConfirmOrderForm extends CustomForm {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function ShowNewsletterCheckbox() {
+    public function ShowNewsletterCheckbox()
+    {
         $customer = Customer::currentRegisteredCustomer();
-        if ($customer instanceof Member &&
-            $customer->SubscribedToNewsletter == 1) {
+        if ($customer instanceof Member
+         && $customer->SubscribedToNewsletter == 1
+        ) {
             return false;
         }
         return true;
     }
     
+    /**
+     * Returns the "accept terms and conditions" text.
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function getAcceptTermsAndConditionsText()
+    {
+        return Tools::string2html(_t(CheckoutStep::class . '.AcceptTermsAndConditionsText',
+                    'With your order you agree with our <a class="text-primary font-weight-bold" href="{termsAndConditionsLink}" target="blank">terms and conditions</a>. Please read and take note of our <a class="text-primary font-weight-bold" href="{privacyLink}" target="blank">data privacy statement</a> and <a class="text-primary font-weight-bold" href="{revocationLink}" target="blank">revocation instructions</a>',
+                    [
+                        'termsAndConditionsLink' => Tools::PageByIdentifierCodeLink('TermsOfServicePage'),
+                        'privacyLink'            => Tools::PageByIdentifierCodeLink('DataPrivacyStatementPage'),
+                        'revocationLink'         => Tools::PageByIdentifierCodeLink('SilvercartRevocationInstructionPage'),
+                    ]
+        ));
+    }
 }
-
