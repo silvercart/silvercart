@@ -2700,11 +2700,42 @@ class Order extends DataObject implements PermissionProvider
         if (!empty($this->TrackingCode)
          && empty($this->TrackingLink)
          && !empty($this->ShippingMethod()->Carrier()->TrackingLinkBase)) {
+            $this->extend('onBeforeTrackingCodeChange');
             $this->TrackingLink = str_replace('{TrackingCode}', $this->TrackingCode, $this->ShippingMethod()->Carrier()->TrackingLinkBase);
             if (strpos($this->TrackingLink, $this->TrackingCode) === false) {
                 $this->TrackingLink .= $this->TrackingCode;
             }
+            if (!$this->isChanged('OrderStatusID')
+             && $this->OrderStatus()->Code === 'shipped') {
+                $this->sendTrackingInformationEmail();
+            }
+            $this->extend('onAfterTrackingCodeChange');
         }
+    }
+    
+    /**
+     * Sends a tracking information email to the customer.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.09.2018
+     */
+    public function sendTrackingInformationEmail()
+    {
+        ShopEmail::send(
+            'OrderTrackingNotification',
+            $this->CustomersEmail,
+            [
+                'Order'             => $this,
+                'OrderNumber'       => $this->OrderNumber,
+                'CustomersEmail'    => $this->CustomersEmail,
+                'FirstName'         => $this->InvoiceAddress()->FirstName,
+                'Surname'           => $this->InvoiceAddress()->Surname,
+                'Salutation'        => $this->InvoiceAddress()->Salutation,
+                'SalutationText'    => $this->InvoiceAddress()->SalutationText,
+            ]
+        );
     }
     
     /**

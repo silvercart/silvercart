@@ -1654,7 +1654,6 @@ nl:
     ADDITIONALS_RECEIPIENTS: "extra ontvangers"
     EMAILTEXT: "Bericht"
     HELLO: "Hallo"
-    IDENTIFIER: "Identificatie"
     ORDER_ARRIVED: "We hebben net uw bestelling ontvangen, hartelijk dank."
     ORDER_SHIPPED_MESSAGE: "Uw bestelling is net verzonden."
     ORDER_SHIPPED_NOTIFICATION: "Shipment notification"

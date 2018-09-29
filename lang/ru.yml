@@ -1171,7 +1171,6 @@ ru:
     ADDITIONALS_RECEIPIENTS: "дополнительный получатель"
     EMAILTEXT: "сообщение"
     HELLO: "привет"
-    IDENTIFIER: "идентификатор"
     NEW_ORDER_PLACED: "новый заказ сделан"
     ORDER_ARRIVED: "Мы плочили Ваш заказ, спасибо."
     ORDER_ARRIVED_EMAIL_SUBJECT: "Ваш заказ в нащем магазине"

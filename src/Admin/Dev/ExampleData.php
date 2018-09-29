@@ -63,7 +63,7 @@ class ExampleData
         $orderStatus     = array_keys(OrderStatus::get()->map()->toArray());
         $orderStatusID   = $orderStatus[rand(0, count($orderStatus) - 1)];
         $paymentStatus   = array_keys(PaymentStatus::get()->map()->toArray());
-        $paymentStatusID = $orderStatus[rand(0, count($paymentStatus) - 1)];
+        $paymentStatusID = $paymentStatus[rand(0, count($paymentStatus) - 1)];
 
         $order->CustomersEmail               = 'email@example.com';
         $order->Created                      = date('Y-m-d H:i:s');
@@ -79,6 +79,8 @@ class ExampleData
         $order->TaxRatePayment               = 19;
         $order->TaxAmountPayment             = 0;
         $order->PriceType                    = Customer::currentUser()->getPriceType();
+        $order->TrackingCode                 = "ABCD-EFGH-0987-1234";
+        $order->TrackingLink                 = Director::absoluteURL('shipment/track/ABCD-EFGH-0987-1234');
         
         self::get_address($order->ShippingAddress());
         self::get_address($order->InvoiceAddress());
@@ -291,6 +293,7 @@ class ExampleData
      */
     public static function get_email_example_data($templateName) {
         switch ($templateName) {
+            case 'OrderTrackingNotification':
             case 'OrderShippedNotification':
             case 'OrderNotification':
             case 'OrderConfirmation':

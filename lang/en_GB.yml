@@ -1657,7 +1657,6 @@ en_GB:
     ADDITIONALS_RECEIPIENTS: "Additional recipients"
     EMAILTEXT: "Message"
     HELLO: "Hello"
-    IDENTIFIER: "Identifier"
     ORDER_ARRIVED: "We just received your order, many thanks."
     ORDER_SHIPPED_MESSAGE: "Your order has just been sent."
     ORDER_SHIPPED_NOTIFICATION: "Shipment notification"

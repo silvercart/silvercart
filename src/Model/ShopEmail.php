@@ -39,7 +39,6 @@ class ShopEmail extends DataObject {
      */
     private static $db = [
         'TemplateName' => 'Varchar',
-        'Identifier'   => 'Varchar(255)',
     ];
 
     /**
@@ -182,7 +181,6 @@ class ShopEmail extends DataObject {
             parent::fieldLabels($includerelations),
             [
                 'TemplateName'          => _t(ShopEmail::class . '.TemplateName', 'Template Name'),
-                'Identifier'            => _t(ShopEmail::class . '.IDENTIFIER', 'Identifier'),
                 'Subject'               => _t(ShopEmail::class . '.SUBJECT', 'Subject'),
                 'AdditionalReceipients' => _t(ShopEmail::class . '.ADDITIONALS_RECEIPIENTS', 'Additional recipients'),
                 'AdditionalRecipients'  => _t(ShopEmail::class . '.ADDITIONALS_RECEIPIENTS', 'Additional recipients'),
@@ -221,7 +219,7 @@ class ShopEmail extends DataObject {
      * @return FieldList
      */
     public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'Identifier', true);
+        $fields = DataObjectExtension::getCMSFields($this, 'TemplateName', true);
         
         $fields->removeByName('TemplateName');
         $templateNames     = self::get_email_templates();
