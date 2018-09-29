@@ -23,6 +23,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
+use TractorCow\Fluent\Extension\FluentDirectorExtension;
 use TractorCow\Fluent\State\FluentState;
 
 /**
@@ -467,22 +468,39 @@ class Page extends SiteTree
         $translations       = Tools::get_translations($this);
         $translationSource  = ArrayList::create();
         if ($translations) {
-            $translationSource->push(ArrayData::create([
-                'Name'       => TranslationTools::get_translation_name($currentLocale, $currentLocale),
-                'NativeName' => TranslationTools::get_translation_name($currentLocale, $currentLocale),
-                'Code'       => $this->getIso2($currentLocale),
-                'RFC1766'    => i18n::convert_rfc1766($currentLocale),
-                'Link'       => $this->Link(),
-            ]));
             foreach ($translations as $translation) {
-                $translationSource->push(ArrayData::create([
-                    'Name'       => TranslationTools::get_translation_name($translation->Locale, $currentLocale),
-                    'NativeName' => TranslationTools::get_translation_name($translation->Locale, $translation->Locale),
-                    'Code'       => $this->getIso2($translation->Locale),
-                    'RFC1766'    => i18n::convert_rfc1766($translation->Locale),
-                    'Link'       => $translation->Link(),
-                ]));
+                $isCurrent = $translation->Locale === $currentLocale;
+                $item      = ArrayData::create([
+                    'Language'       => TranslationTools::get_display_language($translation->Locale, $currentLocale),
+                    'NativeLanguage' => TranslationTools::get_display_language($translation->Locale, $translation->Locale),
+                    'Name'           => TranslationTools::get_translation_name($translation->Locale, $currentLocale),
+                    'NativeName'     => TranslationTools::get_translation_name($translation->Locale, $translation->Locale),
+                    'Code'           => $this->getIso2($translation->Locale),
+                    'LangCode'       => $this->getLangCode($translation->Locale),
+                    'RFC1766'        => i18n::convert_rfc1766($translation->Locale),
+                    'Link'           => $translation->LocaleLink($translation->Locale) . '?' . FluentDirectorExtension::config()->get('query_param') . '=' . urlencode($translation->Locale),
+                    'IsCurrent'      => $isCurrent,
+                ]);
+                if ($isCurrent) {
+                    $currentItem = $item;
+                } else {
+                    $translationSource->push($item);
+                }
             }
+            if (!is_null($currentItem)) {
+                $translationSource->unshift($currentItem);
+            }
+            $translationSource->unshift(ArrayData::create([
+                'Language'       => TranslationTools::get_display_language($currentLocale, $currentLocale),
+                'NativeLanguage' => TranslationTools::get_display_language($currentLocale, $currentLocale),
+                'Name'           => TranslationTools::get_translation_name($currentLocale, $currentLocale),
+                'NativeName'     => TranslationTools::get_translation_name($currentLocale, $currentLocale),
+                'Code'           => $this->getIso2($currentLocale),
+                'LangCode'       => $this->getLangCode($currentLocale),
+                'RFC1766'        => i18n::convert_rfc1766($currentLocale),
+                'Link'           => $this->Link(),
+                'IsCurrent'      => true,
+            ]));
         }
         return $translationSource;
     }
@@ -498,6 +516,19 @@ class Page extends SiteTree
     {
         $parts = explode('_', $locale);
         return strtolower($parts[1]);
+    }
+    
+    /**
+     * Returns the ISO2 for the given locale
+     *
+     * @param string $locale Locale
+     * 
+     * @return string
+     */
+    public function getLangCode($locale)
+    {
+        $parts = explode('_', $locale);
+        return strtolower($parts[0]);
     }
     
     /**
