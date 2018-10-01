@@ -2706,6 +2706,7 @@ class Order extends DataObject implements PermissionProvider
                 $this->TrackingLink .= $this->TrackingCode;
             }
             if (!$this->isChanged('OrderStatusID')
+             && $this->isChanged('TrackingCode')
              && $this->OrderStatus()->Code === 'shipped') {
                 $this->sendTrackingInformationEmail();
             }
