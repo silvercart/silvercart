@@ -1635,24 +1635,22 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @return FieldList
      */
     public function getCMSFields() {
+        $this->beforeUpdateCMSFields(function($fields) {
+            $fields->removeByName('SilvercartProductGroupItemsWidgets');
+            $fields->removeByName('SilvercartMasterProductID');
+
+            $this->getFieldsForMain($fields);
+            $this->getFieldsForPrices($fields);
+            $this->getFieldsForProductGroups($fields);
+            $this->getFieldsForSeo($fields);
+            if ($this->exists()) {
+                $this->getFieldsForWidgets($fields);
+                $this->getFieldsForImages($fields);
+                $this->getFieldsForFiles($fields);
+            }
+        });
         $this->getCMSFieldsIsCalled = true;
-        $fields = SilvercartDataObject::getCMSFields($this, 'isActive');
-        
-        $fields->removeByName('SilvercartProductGroupItemsWidgets');
-        $fields->removeByName('SilvercartMasterProductID');
-        
-        $this->getFieldsForMain($fields);
-        $this->getFieldsForPrices($fields);
-        $this->getFieldsForProductGroups($fields);
-        $this->getFieldsForSeo($fields);
-        if ($this->exists()) {
-            $this->getFieldsForWidgets($fields);
-            $this->getFieldsForImages($fields);
-            $this->getFieldsForFiles($fields);
-        }
-        
-        $this->extend('updateCMSFields', $fields);
-        return $fields;
+        return SilvercartDataObject::getCMSFields($this, 'isActive');
     }
 
     /**
