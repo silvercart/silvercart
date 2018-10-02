@@ -19,8 +19,8 @@
  * @copyright 2015 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SilvercartDownloadSearchForm extends CustomHtmlForm {
-    
+class SilvercartDownloadSearchForm extends CustomHtmlForm
+{
     /**
      * Don't enable Security token for this type of form because we'll run
      * into caching problems when using it.
@@ -28,7 +28,6 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      * @var boolean
      */
     protected $securityTokenEnabled = false;
-
     /**
      * Set to true to exclude this form from caching.
      *
@@ -44,10 +43,10 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2013
      */
-    public function preferences() {
+    public function preferences()
+    {
         $this->preferences['submitButtonTitle']         = _t('SilvercartDownloadSearchForm.submitButtonTitle');
         $this->preferences['doJsValidationScrolling']   = false;
-
         parent::preferences();
     }
     
@@ -58,8 +57,8 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      *
      * @return array
      */
-    public function getFormFields($withUpdate = true) {
-        parent::getFormFields(false);
+    public function getFormFields($withUpdate = true)
+    {
         if (!array_key_exists('SearchQuery', $this->formFields)) {
             $this->formFields['SearchQuery'] = array(
                 'type'              => 'SilvercartTextField',
@@ -70,11 +69,8 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
                     'isFilledIn'    => true,
                 ),
             );
-            if ($withUpdate) {
-                $this->extend('updateFormFields', $this->formFields);
-            }
         }
-        return $this->formFields;
+        return parent::getFormFields($withUpdate);
     }
 
     /**
@@ -89,12 +85,12 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.06.2014
      */
-    protected function submitSuccess($data, $form, $formData) {
+    protected function submitSuccess($data, $form, $formData)
+    {
         $children    = $this->Controller()->AllChildren();
         $childrenIDs = $children->map('ID', 'ID');
         $searchQuery = $formData['SearchQuery'];
         $searchTerms = explode(' ', $searchQuery);
-        
         
         $searchFilter = sprintf(
                 '"SilvercartFileLanguage"."Title" LIKE \'%%%s%%\' OR "SilvercartFileLanguage"."Description" LIKE \'%%%s%%\'',
@@ -115,7 +111,7 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
             $filter = sprintf(
                     '(%s) AND "SilvercartFile"."SilvercartDownloadPageID" IN (%s)',
                     $searchFilter,
-                    implode(',', $childrenIDs)
+                    implode(',', $childrenIDs->toArray())
             );
         } else {
             $filter = $searchFilter;
@@ -139,9 +135,10 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      * 
      * @return DataList
      */
-    public static function get_current_results() {
+    public static function get_current_results()
+    {
         $currentResultMap = Session::get('SilvercartDownloadSearchForm.current_results');
-        $downloads        = false;
+        $downloads        = ArrayList::create();
         /* @var $currentResultMap SS_Map */
         if (!is_null($currentResultMap) &&
             $currentResultMap->count() > 0) {
@@ -155,7 +152,8 @@ class SilvercartDownloadSearchForm extends CustomHtmlForm {
      * 
      * @return string
      */
-    public static function get_current_query() {
+    public static function get_current_query()
+    {
         $currentQuery = Session::get('SilvercartDownloadSearchForm.current_query');
         return $currentQuery;
     }
