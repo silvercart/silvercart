@@ -241,7 +241,7 @@ class ActionHandler extends Controller
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.06.2014
+     * @since 02.10.2018
      */
     public function doSearch(HTTPRequest $request, $doRedirect = true)
     {
@@ -249,7 +249,8 @@ class ActionHandler extends Controller
         if (!array_key_exists('locale', $postVars)
          || empty($postVars['locale'])
         ) {
-            $postVars['locale'] = Tools::default_locale();
+            $defaultLocale      = Tools::default_locale();
+            $postVars['locale'] = $defaultLocale->getLocale();
         }
         Tools::set_current_locale($postVars['locale']);
         i18n::set_locale($postVars['locale']);

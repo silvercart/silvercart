@@ -1072,7 +1072,7 @@ class Tools
     /**
      * Returns the current locale.
      * 
-     * @return void
+     * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.04.2018
@@ -1088,6 +1088,8 @@ class Tools
 
     /**
      * Sets the current locale.
+     * 
+     * @param string $locale Locale to set
      * 
      * @return void
      *
