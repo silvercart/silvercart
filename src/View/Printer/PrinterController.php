@@ -21,17 +21,18 @@ use SilverStripe\ORM\DataObject;
  * @since 19.04.2012
  * @license see license file in modules root directory
  */
-class PrinterController extends PageController {
-
+class PrinterController extends PageController
+{
     /**
      * Executes the print controllers logic
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.04.2012
+     * @since 06.10.2018
      */
-    protected function init() {
+    protected function init()
+    {
         parent::init();
         $request        = $this->getRequest();
         $params         = $request->allParams();
@@ -48,17 +49,15 @@ class PrinterController extends PageController {
             $this->redirect(Director::baseURL());
         } else {
             $dataObject = DataObject::get_by_id($dataObjectName, $dataObjectID);
-            if ($dataObject &&
-                $dataObject->canView()) {
+            if ($dataObject
+             && $dataObject->canView()
+            ) {
                 if ($dataObject->hasMethod('printDataObject')) {
                     print $dataObject->printDataObject();
+                } elseif (strpos($request->getURL(), 'silvercart-print-inline') === false) {
+                    print Printer::getPrintOutput($dataObject);
                 } else {
-                    if (strpos($request->getVar('url'), 'silvercart-print-inline') === false) {
-                        $output = Printer::getPrintOutput($dataObject);
-                    } else {
-                        $output = Printer::getPrintInlineOutput($dataObject);
-                    }
-                    print $output;
+                    print Printer::getPrintInlineOutput($dataObject);
                 }
                 exit();
             } else {
@@ -66,5 +65,4 @@ class PrinterController extends PageController {
             }
         }
     }
-    
 }
