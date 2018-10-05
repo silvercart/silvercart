@@ -140,6 +140,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         'GroupNames' => 'Text',
     ];
     /**
+     * Default sort.
+     *
+     * @var string
+     */
+    private static $default_sort = "CustomerNumber DESC";
+    /**
      * Code of default B2C customer group
      *
      * @var string
