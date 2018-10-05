@@ -4,7 +4,9 @@ namespace SilverCart\Model\Widgets;
 
 use SilverCart\Admin\Forms\GridField\GridFieldPublishAction;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\FieldType\DBBoolean;
 
 /**
  * Extension for WidgetSets\Model\WidgetSet.
@@ -16,16 +18,16 @@ use SilverStripe\ORM\DataExtension;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class WidgetSetExtension extends DataExtension {
-    
+class WidgetSetExtension extends DataExtension
+{
     /**
      * Attributes
      *
      * @var array
      */
-    private static $db = array(
-        'UseAsSlider' => 'Boolean',
-    );
+    private static $db = [
+        'UseAsSlider' => DBBoolean::class,
+    ];
 
     /**
      * used to override the WidgetSet::getCMSFields to use the
@@ -35,21 +37,23 @@ class WidgetSetExtension extends DataExtension {
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 31.08.2018
+     * @since 06.10.2018
      */
-    public function overrideGetCMSFields() {
+    public function overrideGetCMSFields()
+    {
         $fields = DataObjectExtension::getCMSFields($this->owner);
         $fields->addFieldsToTab(
             'Root.Main',
              $this->owner->scaffoldWidgetAreaFields()
         );
         
-        $widgetsField       = $fields->dataFieldByName('Widgets');
-        $widgetsFieldConfig = $widgetsField->getConfig();
-        $widgetsFieldConfig->addComponent(new GridFieldPublishAction());
+        $widgetsField = $fields->dataFieldByName('Widgets');
+        if ($widgetsField instanceof GridField) {
+            $widgetsFieldConfig = $widgetsField->getConfig();
+            $widgetsFieldConfig->addComponent(new GridFieldPublishAction());
+        }
         
         return $fields;
-
     }
     
     /**
@@ -60,10 +64,9 @@ class WidgetSetExtension extends DataExtension {
      * @author Patrick Schneider <pschneider@pixeltricks.de>
      * @since 20.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludedFields = array(
-            'WidgetArea'
-        );
+    public function excludeFromScaffolding()
+    {
+        $excludedFields = ['WidgetArea'];
         return $excludedFields;
     }
     
@@ -77,13 +80,14 @@ class WidgetSetExtension extends DataExtension {
      * @author Patrick Schneider <pschneider@pixeltricks.de>
      * @since 20.02.2013
      */
-    public function updateFieldLabels(&$fieldLabels) {
+    public function updateFieldLabels(&$fieldLabels)
+    {
         $fieldLabels = array_merge(
                 $fieldLabels,
-                array(
+                [
                     'UseAsSlider'      => _t(WidgetSetExtension::class . '.UseAsSlider', 'Use as a slider'),
                     'ManageWidgetSets' => _t(WidgetSetExtension::class . '.MANAGE_WIDGETS_BUTTON', 'Manage widget sets'),
-                )
+                ]
         );
     }
 }
