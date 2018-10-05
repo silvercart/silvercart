@@ -14,15 +14,12 @@ use SilverCart\Model\Newsletter\AnonymousNewsletterRecipient;
 use SilverCart\Model\Newsletter\Newsletter;
 use SilverCart\Model\Pages\CheckoutStep;
 use SilverCart\Model\Pages\Page;
-use SilverStripe\Control\Controller;
-use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\PasswordField;
-use SilverStripe\Security\IdentityStore;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 use SilverStripe\Security\Security;
@@ -37,8 +34,8 @@ use SilverStripe\Security\Security;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class RegisterRegularCustomerForm extends CustomForm {
-    
+class RegisterRegularCustomerForm extends CustomForm
+{
     /**
      * List of required fields.
      *
@@ -59,10 +56,6 @@ class RegisterRegularCustomerForm extends CustomForm {
         'Postcode',
         'City',
         'Country',
-        'Phone' => [
-            'isFilledIn'    => true,
-            'isPhoneNumber' => true,
-        ],
         'Email' => [
             'isEmailAddress' => true,
             'isFilledIn'     => true,
@@ -81,7 +74,6 @@ class RegisterRegularCustomerForm extends CustomForm {
             'mustEqual' => 'Password',
         ],
     ];
-    
     /**
      * Optional backlink to overwrite the default redirection after a successful submission.
      *
@@ -94,7 +86,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    public function getRequiredFields() {
+    public function getRequiredFields()
+    {
         if ($this->demandBirthdayDate()) {
             $requiredFields = self::config()->get('requiredFields');
             $requiredFields += [
@@ -139,7 +132,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields()
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $fields = array_merge(
                     $fields,
@@ -176,7 +170,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getBirthdayFields() {
+    protected function getBirthdayFields()
+    {
         $birthdayFields = [];
         if ($this->demandBirthdayDate()) {
             $birthdayDays = [
@@ -200,7 +195,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getBusinessFields() {
+    protected function getBusinessFields()
+    {
         $businessFields = [];
         if ($this->EnableBusinessCustomers()) {
             $businessFields = [
@@ -217,7 +213,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions()
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', Page::singleton()->fieldLabel('Submit'))
@@ -236,32 +233,33 @@ class RegisterRegularCustomerForm extends CustomForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.11.2017
+     * @since 05.10.2018
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form)
+    {
         // Aggregate Data and set defaults
         $currentUserID = 0;
         $currentUser   = Security::getCurrentUser();
-        if ($currentUser instanceof Member &&
-            $currentUser->exists()) {
-            
+        if ($currentUser instanceof Member
+         && $currentUser->exists()
+        ) {
             $currentUserID = $currentUser->ID;
         }
         $data['MemberID'] = $currentUserID;
         $data['Locale']   = Tools::current_locale();
-        if ($this->demandBirthdayDate()) {
-            if (!empty($data['BirthdayDay']) &&
-                !empty($data['BirthdayMonth']) &&
-                !empty($data['BirthdayYear'])) {
-                $data['Birthday'] = $data['BirthdayYear'] . '-' . $data['BirthdayMonth'] . '-' . $data['BirthdayDay'];
-            }
+        if ($this->demandBirthdayDate()
+         && !empty($data['BirthdayDay'])
+         && !empty($data['BirthdayMonth'])
+         && !empty($data['BirthdayYear'])
+        ) {
+            $data['Birthday'] = $data['BirthdayYear'] . '-' . $data['BirthdayMonth'] . '-' . $data['BirthdayDay'];
         }
 
         // Create new regular customer and perform a log in
-        $customer = $this->handleAnonymousCustomer();
-        $customer->castedUpdate($data);
+        $customer = $this->handleAnonymousCustomer()->castedUpdate($data);
         $customer->write();
         $customer->changePassword($data['Password']);
+        Member::password_validator()->checkHistoricalPasswords(0);
 
         $customerGroup = $this->getTargetCustomerGroup($data);
         if ($customerGroup) {
@@ -269,9 +267,7 @@ class RegisterRegularCustomerForm extends CustomForm {
         }
 
         // Create ShippingAddress for customer and populate it with registration data
-        $address = new Address();
-        $address->castedUpdate($data);
-
+        $address = Address::create()->castedUpdate($data);
         $country = Country::get()->byID((int) $data['Country']);
         if ($country) {
             $address->CountryID = $country->ID;
@@ -281,7 +277,6 @@ class RegisterRegularCustomerForm extends CustomForm {
 
         //connect the ShippingAddress and the InvoiceAddress to the customer
         $customer->Addresses()->add($address);
-        $customer->write();
         $customer->ShippingAddressID = $address->ID;
         $customer->InvoiceAddressID  = $address->ID;
         $customer->write();
@@ -289,11 +284,13 @@ class RegisterRegularCustomerForm extends CustomForm {
         $this->extend('updateRegisteredCustomer', $customer, $data, $form, $data);
 
         $redirectTo = $this->getController()->Link('welcome');
-        if (array_key_exists('redirect', $data) &&
-            !empty($data['redirect'])) {
+        if (array_key_exists('redirect', $data)
+         && !empty($data['redirect'])
+        ) {
             $redirectTo = $data['redirect'];
-        } elseif (array_key_exists('backlink', $data) &&
-            !empty($data['backlink'])) {
+        } elseif (array_key_exists('backlink', $data)
+               && !empty($data['backlink'])
+        ) {
             $redirectTo = $data['backlink'];
         }
         $authenticator = new MemberAuthenticator();
@@ -310,10 +307,12 @@ class RegisterRegularCustomerForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2018
      */
-    protected function handleAnonymousCustomer() {
+    protected function handleAnonymousCustomer()
+    {
         $customer = Customer::currentUser();
-        if ($customer instanceof Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             $customer->Groups()->removeAll();
         } else {
             $customer = Member::create();
@@ -331,7 +330,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    protected function handleNewsletterRecipient(Member $customer) {
+    protected function handleNewsletterRecipient(Member $customer)
+    {
         // Remove from the anonymous newsletter recipients list
         if (AnonymousNewsletterRecipient::doesExist($customer->Email)) {
             $recipient = AnonymousNewsletterRecipient::getByEmailAddress($customer->Email);
@@ -343,9 +343,9 @@ class RegisterRegularCustomerForm extends CustomForm {
             AnonymousNewsletterRecipient::removeByEmailAddress($customer->Email);
         }
         
-        if ( $customer->SubscribedToNewsletter &&
-            !$customer->NewsletterOptInStatus) {
-            
+        if ( $customer->SubscribedToNewsletter
+         && !$customer->NewsletterOptInStatus
+        ) {
             Newsletter::subscribeRegisteredCustomer($customer);
         }
     }
@@ -355,11 +355,9 @@ class RegisterRegularCustomerForm extends CustomForm {
      * should be shown.
      *
      * @return boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.12.2011
      */
-    public function EnableBusinessCustomers() {
+    public function EnableBusinessCustomers()
+    {
         return Config::enableBusinessCustomers();
     }
     
@@ -367,11 +365,9 @@ class RegisterRegularCustomerForm extends CustomForm {
      * Indicates wether the birthday date has to be entered.
      *
      * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.10.2011
      */
-    public function demandBirthdayDate() {
+    public function demandBirthdayDate()
+    {
         return Config::demandBirthdayDateOnRegistration();
     }
     
@@ -379,11 +375,9 @@ class RegisterRegularCustomerForm extends CustomForm {
      * Returns whether there is a minimum age to order.
      *
      * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.01.2014
      */
-    public function UseMinimumAgeToOrder() {
+    public function UseMinimumAgeToOrder()
+    {
         return Config::UseMinimumAgeToOrder();
     }
     
@@ -391,11 +385,9 @@ class RegisterRegularCustomerForm extends CustomForm {
      * Returns the minimum age to order.
      *
      * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.01.2014
      */
-    public function MinimumAgeToOrder() {
+    public function MinimumAgeToOrder()
+    {
         return Config::MinimumAgeToOrder();
     }
     
@@ -406,9 +398,11 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return Group
      */
-    public function getTargetCustomerGroup($data) {
-        if (array_key_exists('IsBusinessAccount', $data) &&
-            $data['IsBusinessAccount'] == '1') {
+    public function getTargetCustomerGroup($data)
+    {
+        if (array_key_exists('IsBusinessAccount', $data)
+         && $data['IsBusinessAccount'] == '1'
+        ) {
             $customerGroup = Customer::default_customer_group_b2b();
         } else {
             $customerGroup = Customer::default_customer_group();
@@ -421,7 +415,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return string
      */
-    public function getBackLink() {
+    public function getBackLink()
+    {
         return $this->backLink;
     }
 
@@ -432,8 +427,8 @@ class RegisterRegularCustomerForm extends CustomForm {
      * 
      * @return void
      */
-    public function setBackLink($backLink) {
+    public function setBackLink($backLink)
+    {
         $this->backLink = $backLink;
     }
-    
 }
