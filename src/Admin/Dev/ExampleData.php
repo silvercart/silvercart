@@ -13,8 +13,10 @@ use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderPosition;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Payment\PaymentStatus;
+use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\Tax;
 use SilverStripe\Control\Director;
+use SilverStripe\Security\Member;
 use SilverStripe\View\Requirements;
 
 /**
@@ -131,6 +133,44 @@ class ExampleData
     }
     
     /**
+     * Returns an example product.
+     * 
+     * @return Product
+     */
+    public static function get_product() {
+        $product = Product::singleton();
+        $product->isActive                    = true;
+        $product->ProductNumberShop           = 'SKU-0123-ABC-45';
+        $product->EANCode                     = '0123456789012';
+        $product->StockQuantity               = 15;
+        $product->PriceGrossAmount            = 9.95;
+        $product->PriceGrossCurrency          = 'EUR';
+        $product->PriceNetAmount              = 6.95;
+        $product->PriceNetCurrency            = 'EUR';
+        $product->MSRPriceAmount              = 12.95;
+        $product->MSRPriceCurrency            = 'EUR';
+        $productTranslation                   = $product->getTranslation(true);
+        $productTranslation->Title            = 'Example Product';
+        $productTranslation->ShortDescription = 'Lorem Ipsum Dolor Sit Amet.';
+        $productTranslation->LongDescription  = '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>'
+                . '<p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.</p>';
+        return $product;
+    }
+    
+    /**
+     * Returns an example member.
+     * 
+     * @return Member
+     */
+    public static function get_member() {
+        $member = Member::singleton();
+        $member->FirstName = 'John';
+        $member->Surname   = 'Doe';
+        $member->Email     = 'email@example.com';
+        return $member;
+    }
+    
+    /**
      * Adds an example shipping method to the given order.
      * 
      * @param Order $order Order
@@ -232,9 +272,8 @@ class ExampleData
      * @return string
      */
     public static function get_text() {
-        return 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.'
-                . PHP_EOL
-                . PHP_EOL
+        return 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.<br/>' . PHP_EOL
+                . '<br/>' . PHP_EOL
                 . 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.';
     }
 
