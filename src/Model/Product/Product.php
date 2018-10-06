@@ -1163,39 +1163,39 @@ class Product extends DataObject implements PermissionProvider
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.01.2013
+     * @since 06.10.2018
      */
-    public static function buildRequiredAttributesFilter() {
-        $filter             = null;
-        $requiredAttributes = self::getRequiredAttributes();
-        $pricetype          = Config::Pricetype();
-        $exclude            = array();
-        
+    public static function buildRequiredAttributesFilter()
+    {
+        $filter               = null;
+        $pricetype            = Config::Pricetype();
+        $exclude              = [];
+        $requiredAttributes   = self::getRequiredAttributes();
         $requiredAttributes[] = 'isActive';
 
-        if (!empty($requiredAttributes)) {
-            foreach ($requiredAttributes as $requiredAttribute) {
-                //find out if we are dealing with a real attribute or a multilingual field
-                if (array_key_exists($requiredAttribute, Product::config()->get('db')) || $requiredAttribute == "Price") {
-                    if ($requiredAttribute == "Price") {
-                        // Gross price as default if not defined
-                        if ($pricetype == "net") {
-                            $exclude['PriceNetAmount'] = 0;
-                        } else {
-                            $exclude['PriceGrossAmount'] = 0;
-                        }
+        foreach ($requiredAttributes as $requiredAttribute) {
+            //find out if we are dealing with a real attribute or a multilingual field
+            if (array_key_exists($requiredAttribute, Product::config()->get('db'))
+             || $requiredAttribute == "Price"
+            ) {
+                if ($requiredAttribute == "Price") {
+                    // Gross price as default if not defined
+                    if ($pricetype == "net") {
+                        $exclude['PriceNetAmount'] = 0;
                     } else {
-                        $exclude[$requiredAttribute] = '';
+                        $exclude['PriceGrossAmount'] = 0;
                     }
                 } else {
-                    // if its a multilingual attribute it comes from a relational class
                     $exclude[$requiredAttribute] = '';
                 }
-                
+            } else {
+                // if its a multilingual attribute it comes from a relational class
+                $exclude[$requiredAttribute] = '';
             }
+
         }
 
-        $SQL_Statements = array();
+        $SQL_Statements = [];
         foreach ($exclude as $fieldName => $value) {
             if ($fieldName == 'ID') {
                 $fieldName = sprintf('"%s"."ID"', DataObject::getSchema()->baseDataClass(Product::class));
@@ -1209,6 +1209,8 @@ class Product extends DataObject implements PermissionProvider
                 $SQL_Statements[] = ($fieldName . ' != \'' . Convert::raw2sql($value) . '\'');
             }
         }
+        $SQL_Statements[] = "(LaunchDate IS NULL OR LaunchDate < NOW())";
+        $SQL_Statements[] = "(SalesBanDate IS NULL OR SalesBanDate > NOW())";
 
         if (count($SQL_Statements) > 0) {
             $filter = implode(" AND ", $SQL_Statements);
