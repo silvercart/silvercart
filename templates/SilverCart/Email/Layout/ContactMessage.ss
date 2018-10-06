@@ -24,4 +24,4 @@
 </table>
 
 <h2><%t SilverCart\Model\ShopEmail.EMAILTEXT 'Message' %></h2>
-<p>{$Message}</p>
+<p>{$Message.RAW}</p>
