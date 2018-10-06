@@ -4,7 +4,7 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <title>{$ShopEmailSubject}</title>
     </head>
-    <body>
+    <body style="background-color: #f0f0f0;">
         <style>
             body { font-family: Verdana; font-size:70.00%; color:#666; }
             .text-right { text-align: right !important; }
@@ -12,7 +12,7 @@
             h1 { font-size: 14px; }
             h2 { font-size: 12px; }
             body, table td { font-size: 10px; }
-            table { width: auto; border-collapse:collapse; margin-bottom:0.5em; border-top:0px; border-bottom:0px; }
+            table { width: 100%; border-collapse:collapse; margin-bottom:0.5em; border-top:0px; border-bottom:0px; }
             table caption { font-variant:small-caps; }
             table.full { width:100%; }
             table.fixed { table-layout:fixed; }
@@ -27,7 +27,11 @@
 
             tfoot td {border-top: 1px #666 solid; }
         </style>
-        <div style="width: 95%; max-width: 800px; margin: 0px auto;">
+        <div style="width: 95%; max-width: 800px; margin: 0px auto; padding: 12px; background-color: #fff; box-shadow: 0 1px 3px #888;">
+            <a href="{$BaseHref}" title="{$SiteConfig.Title} - {$SiteConfig.Tagline}">
+                <img src="<% if $SiteConfig.ShopLogo %>{$SiteConfig.ShopLogo.ScaleHeight(70).Link}<% else %>{$BaseHref}resources/vendor/silvercart/silvercart/client/img/logo.png<% end_if %>" alt="{$SiteConfig.Title}">
+            </a>
+            <hr/>
             {$Layout}
         </div>
     </body>
