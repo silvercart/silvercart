@@ -945,6 +945,8 @@ class Product extends DataObject implements PermissionProvider
                     'LaunchDateInfo'                       => _t(Product::class . '.LaunchDateInfo', 'Launch Date Info'),
                     'SalesBanDate'                         => _t(Product::class . '.SalesBanDate', 'Sale Ban Date'),
                     'SalesBanDateInfo'                     => _t(Product::class . '.SalesBanDateInfo', 'Sale Ban Date Info'),
+                    'PreorderNow'                          => _t(Product::class . '.PreorderNow', 'Pre-order now'),
+                    'PreorderToday'                        => _t(Product::class . '.PreorderToday', 'Pre-order this product today'),
                     'Tax'                                  => Tax::singleton()->singular_name(),
                     'Manufacturer'                         => Manufacturer::singleton()->singular_name(),
                     'ProductGroup'                         => ProductGroupPage::singleton()->singular_name(),
@@ -3331,6 +3333,38 @@ class Product extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns whether this product has a release date.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.10.2018
+     */
+    public function HasReleaseDate()
+    {
+        $hasReleaseDate = !is_null($this->ReleaseDate);
+        if ($hasReleaseDate
+         && strtotime($this->ReleaseDate) < time()
+        ) {
+            $hasReleaseDate = false;
+        }
+        return $hasReleaseDate;
+    }
+    
+    /**
+     * Returns the products full release date string.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 24.09.2018
+     */
+    public function FullReleaseDate()
+    {
+        return Tools::getDateNice($this->ReleaseDate, true, true);
+    }
+    
+    /**
      * Returns whether this product has a delivery time.
      * 
      * @return bool
@@ -3338,7 +3372,9 @@ class Product extends DataObject implements PermissionProvider
     public function HasDeliveryTime()
     {
         $deliveryTime = null;
-        if ($this->isBuyableDueToStockManagementSettings()) {
+        if (!$this->HasReleaseDate()
+         && $this->isBuyableDueToStockManagementSettings()
+        ) {
             $deliveryTime = $this->getDeliveryTime();
         }
         return !empty($deliveryTime);

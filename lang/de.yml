@@ -1,4 +1,6 @@
 de:
+  SilverCart:
+    Until: "bis"
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     EXECUTE: "Ausführen"
     MARK_ALL: "Alle markieren"
@@ -1368,6 +1370,9 @@ de:
     PACKAGING_QUANTITY: "Verkaufsmenge"
     PACKAGING_UNIT: "Verpackungseinheit"
     PLURALNAME: "Artikel"
+    PreorderInfo: "Dieser Artikel erscheint erst am {releasedate}. Bitte beachten Sie, dass dieser Artikel nicht vor dem Erscheinungsdatum versandt werden kann."
+    PreorderNow: "Jetzt vorbestellen"
+    PreorderToday: "Diesen Artikel heute vorbestellen"
     PRICE: "Preis"
     PRICE_AMOUNT_ASC: "Preis aufsteigend"
     PRICE_AMOUNT_DESC: "Preis absteigend"
@@ -1406,6 +1411,7 @@ de:
     SalesBanDate: "Anzeige bis"
     SalesBanDateInfo: "<strong>Optional</strong> - Nur setzen, wenn die Dauer des Verkaufs begrenzt ist."
     StockIsLowOrderNow: "Bald ausverkauft- jetzt bestellen"
+    ThisProductWillBeReleasedOn: "Dieser Artikel wird am {releasedate} erscheinen"
     TITLE: "Artikel"
     TITLE_ASC: "Bezeichnung aufsteigend"
     TITLE_DESC: "Bezeichnung absteigend"
@@ -1736,6 +1742,7 @@ de:
     DeliveryTimeMin: "Minimale Lieferzeit"
     DeliveryTimeMinDesc: "Minimale Lieferzeit in Werktagen"
     DeliveryTimePrepaymentHint: "nach Zahlungseingang"
+    DeliveryTimePrepaymentHintReleaseDate: "bei rechtzeitigem Zahlungseingang"
     DeliveryTimeText: "Eigener Text für die Angabe der Lieferzeit"
     DeliveryTimeTextDesc: "Wird anstelle von \"Minimale Lieferzeit\" und \"Maximale Lieferzeit\" angezeigt."
     DescriptionForShippingFeesPage: "Beschreibung für Versandgebührenseite (wird anstelle von \"Beschreibung\" verwendet)"
@@ -1820,10 +1827,16 @@ de:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
   SilverCart\Model\Order\ShoppingCart:
+    DifferentReleaseDateHint1: "Ihr Warenkorb beinhaltet Artikel mit unterschiedlichem Erscheinungsdatum."
+    DifferentReleaseDateHint2: "Bitte beachten Sie, dass sich der Versand von bereits verfügbaren Artikeln ggf. bis zum Erscheinungsdatum noch nicht verfügbarer Artikel verzögert."
+    DifferentReleaseDateHint3: "Wenn Sie wünschen, dass die von Ihnen bestellten Artikel versandt werden, sobald diese versandfertig sind, bestellen Sie diese in einem separaten Auftrag."
+    DifferentReleaseDateHint4: "Vielen Dank für Ihr Verständnis."
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "Der Mindestbestellwert beträgt {amount}"
     OnlyXLeft: "Nur noch {quantity} auf Lager. Die Lieferzeit ist eventuell erhöht."
+    PickupDateDeferredDueToReleasDate: "Noch nicht erschienene Artikel sind frühestens ab ihrem Erscheinungsdatum abholbereit."
     PLURALNAME: "Warenkörbe"
     SINGULARNAME: "Warenkorb"
+    ShippingDateDeferredDueToReleasDate: "Das Versanddatum wird auf Grund der noch nicht verfügbaren Artikel verzögert."
     ShippingTo: "Versand nach {country} für <strong>{price}</strong> via {shippingmethod}."
   SilverCart\Model\Order\ShoppingCartPosition:
     MAX_QUANTITY_REACHED_MESSAGE: "Die maximale Anzahl an Artikeln für diese Position wurde erreicht."

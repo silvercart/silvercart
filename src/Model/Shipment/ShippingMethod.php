@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Shipment;
 
 use SilverCart\Admin\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverCart\Dev\DateTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
@@ -226,6 +227,7 @@ class ShippingMethod extends DataObject
                     'BusinessDay'                    => _t(ShippingMethod::class . '.BusinessDay', 'Business day'),
                     'BusinessDays'                   => _t(ShippingMethod::class . '.BusinessDays', 'Business days'),
                     'DeliveryTimePrepaymentHint'     => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHint', 'when cashed'),
+                    'DeliveryTimePrepaymentHintReleaseDate' => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHintReleaseDate', 'when cashed in time'),
                     'ChooseShippingMethod'           => _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD', 'Please choose a shipping method'),
                     'ExpectedDeliveryTime'           => _t(ShippingMethod::class . '.ExpectedDeliveryTime', 'Expected delivery time'),
                     'SameDay'                        => _t(ShippingMethod::class . '.SameDay', 'Same day'),
@@ -571,7 +573,7 @@ class ShippingMethod extends DataObject
             $deliveryTimeMax = (int) $this->DeliveryTimeMax;
         }
         if ($deliveryTimeMax > 0) {
-            $deliveryTimeMinDate = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (self::addSundaysToDeliveryTime($deliveryTimeMin)*60*60*24)), $fullMonthName, $forceYear, $withWeekDay);
+            $deliveryTimeMinDate = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (DateTools::addSundaysToBusinessDays($deliveryTimeMin)*60*60*24)), $fullMonthName, $forceYear, $withWeekDay);
         }
         return $deliveryTimeMinDate;
     }
@@ -599,7 +601,7 @@ class ShippingMethod extends DataObject
             $deliveryTimeMax = $deliveryTimeMin;
         }
         if ($deliveryTimeMax > 0) {
-            $deliveryTimeMaxDate = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (self::addSundaysToDeliveryTime($deliveryTimeMax)*60*60*24)), $fullMonthName, $forceYear, $withWeekDay);
+            $deliveryTimeMaxDate = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (DateTools::addSundaysToBusinessDays($deliveryTimeMax)*60*60*24)), $fullMonthName, $forceYear, $withWeekDay);
         }
         return $deliveryTimeMaxDate;
     }
@@ -627,8 +629,10 @@ class ShippingMethod extends DataObject
         } elseif ($minDays > 0
                || $maxDays > 0
         ) {
-            if (self::isInCheckoutContextWithPrepayment()
-                || $forceDisplayInDays
+            if ((self::isInCheckoutContextWithPrepayment()
+              && !(self::isInCheckoutContextWithReleaseDate()
+               && $minDays > 3))
+             || $forceDisplayInDays
             ) {
                 $deliveryTime = $minDays;
                 if ($minDays == 0) {
@@ -647,10 +651,15 @@ class ShippingMethod extends DataObject
                 }
                 $deliveryTime .= ' ' . static::singleton()->fieldLabel('DeliveryTimePrepaymentHint');
             } else {
-                $deliveryTime  = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (self::addSundaysToDeliveryTime($minDays)*60*60*24)), true, true, true);
-                if ($maxDays > 0) {
+                $deliveryTime  = Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (DateTools::addSundaysToBusinessDays($minDays)*60*60*24)), true, true, true);
+                if ($maxDays > 0
+                 && $maxDays > $minDays
+                ) {
                     $deliveryTime .= ' - ';
-                    $deliveryTime .= Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (self::addSundaysToDeliveryTime($maxDays)*60*60*24)), true, true, true);
+                    $deliveryTime .= Tools::getDateNice(date(static::singleton()->fieldLabel('DateFormat'), time() + (DateTools::addSundaysToBusinessDays($maxDays)*60*60*24)), true, true, true);
+                }
+                if (self::isInCheckoutContextWithPrepayment()) {
+                    $deliveryTime .= ' ' . static::singleton()->fieldLabel('DeliveryTimePrepaymentHintReleaseDate');
                 }
             }
         }
@@ -676,24 +685,6 @@ class ShippingMethod extends DataObject
     }
     
     /**
-     * Adds the sundays to the delivery time.
-     * 
-     * @param int $deliveryTime Delivery time in days
-     * 
-     * @return int
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2014
-     */
-    public static function addSundaysToDeliveryTime($deliveryTime)
-    {
-        $currentWeekDay = date('N');
-        $sundaysPlain   = floor(($deliveryTime + $currentWeekDay) / 7);
-        $sundaysTotal   = floor(($deliveryTime + $currentWeekDay + $sundaysPlain) / 7);
-        return $deliveryTime + $sundaysTotal;
-    }
-    
-    /**
      * Returns whether the current application context is in checkout with 
      * prepayment as payment method.
      * 
@@ -715,6 +706,24 @@ class ShippingMethod extends DataObject
             }
         }
         return $isPrepayment;
+    }
+    
+    /**
+     * Returns whether the current application context is in checkout while 
+     * having a product with a release date in shopping cart.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.10.2018
+     */
+    protected static function isInCheckoutContextWithReleaseDate()
+    {
+        $hasReleaseDateInCheckout = false;
+        if (Controller::curr() instanceof CheckoutStepController) {
+            $hasReleaseDateInCheckout = Customer::currentUser()->getCart()->HasProductWithReleaseDates();
+        }
+        return $hasReleaseDateInCheckout;
     }
 
     /**

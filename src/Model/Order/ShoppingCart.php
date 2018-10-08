@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Order;
 
 use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\DateTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
@@ -358,6 +359,57 @@ class ShoppingCart extends DataObject
         $numberOfPositions = (int) $this->getQuantity();
 
         return (int) $positions === $numberOfPositions;
+    }
+    
+    /**
+     * Returns whether this shopping cart has products with different release 
+     * dates.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.10.2018
+     */
+    public function HasProductsWithDifferentReleaseDates()
+    {
+        $hasDifferentReleaseDates = false;
+        if ($this->ShoppingCartPositions()->count() > 1) {
+            $releaseDates = [];
+            foreach ($this->ShoppingCartPositions() as $position) {
+                $product = $position->Product();
+                if ($product->HasReleaseDate()) {
+                    $releaseDates[] = date('Y-m-d', strtotime($product->ReleaseDate));
+                } else {
+                    $releaseDates[] = date('Y-m-d');
+                }
+                $hasDifferentReleaseDates = count(array_unique($releaseDates)) > 1;
+            }
+        }
+        return $hasDifferentReleaseDates;
+    }
+    
+    /**
+     * Returns whether this shopping cart has at least one product with a release 
+     * date.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.10.2018
+     */
+    public function HasProductWithReleaseDates()
+    {
+        $hasReleaseDate = false;
+        if ($this->ShoppingCartPositions()->count() > 1) {
+            foreach ($this->ShoppingCartPositions() as $position) {
+                $product = $position->Product();
+                if ($product->HasReleaseDate()) {
+                    $hasReleaseDate = true;
+                    break;
+                }
+            }
+        }
+        return $hasReleaseDate;
     }
     
     /**
@@ -1470,17 +1522,27 @@ class ShoppingCart extends DataObject
             $productDeliveryDaysMin = 0;
             $productDeliveryDaysMax = 0;
             foreach ($this->ShoppingCartPositions() as $position) {
+                /* @var $position ShoppingCartPosition */
+                /* @var $product Product */
                 $product = $position->Product();
-                if ($product->StockQuantity >= $position->Quantity) {
-                    continue;
+                if ($product->StockQuantity < $position->Quantity) {
+                    $min = $product->getPurchaseMinDurationDays();
+                    $max = $product->getPurchaseMaxDurationDays();
+                    if ($min > $productDeliveryDaysMin) {
+                        $productDeliveryDaysMin = $min;
+                    }
+                    if ($max > $productDeliveryDaysMax) {
+                        $productDeliveryDaysMax = $max;
+                    }
                 }
-                $min = $product->getPurchaseMinDurationDays();
-                $max = $product->getPurchaseMaxDurationDays();
-                if ($min > $productDeliveryDaysMin) {
-                    $productDeliveryDaysMin = $min;
-                }
-                if ($max > $productDeliveryDaysMax) {
-                    $productDeliveryDaysMax = $max;
+                if ($product->HasReleaseDate()) {
+                    $businessDays = DateTools::getBusinessDaysUntil($product->ReleaseDate);
+                    if ($businessDays > $productDeliveryDaysMin) {
+                        $productDeliveryDaysMin = $businessDays;
+                    }
+                    if ($businessDays > $productDeliveryDaysMax) {
+                        $productDeliveryDaysMax = $businessDays;
+                    }
                 }
             }
             
@@ -1533,7 +1595,7 @@ class ShoppingCart extends DataObject
      */
     public function getDeliveryTimeMin($shippingMethodID = 0, $forceDisplayInDays = false) {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
-        $deliveryTimeMin  = date('Y-m-d', time() + (ShippingMethod::addSundaysToDeliveryTime($deliveryTimeData->Min)*60*60*24));
+        $deliveryTimeMin  = date('Y-m-d', time() + (DateTools::addSundaysToBusinessDays($deliveryTimeData->Min)*60*60*24));
         return $deliveryTimeMin;
     }
     
@@ -1547,7 +1609,7 @@ class ShoppingCart extends DataObject
      */
     public function getDeliveryTimeMax($shippingMethodID = 0, $forceDisplayInDays = false) {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
-        $deliveryTimeMax  = date('Y-m-d', time() + (ShippingMethod::addSundaysToDeliveryTime($deliveryTimeData->Max)*60*60*24));
+        $deliveryTimeMax  = date('Y-m-d', time() + (DateTools::addSundaysToBusinessDays($deliveryTimeData->Max)*60*60*24));
         return $deliveryTimeMax;
     }
 

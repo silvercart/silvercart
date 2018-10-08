@@ -1,4 +1,6 @@
 en:
+  SilverCart:
+    Until: "until"
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     EXECUTE: "Execute"
     MARK_ALL: "Mark all"
@@ -1368,6 +1370,9 @@ en:
     PACKAGING_QUANTITY: "purchase quantity"
     PACKAGING_UNIT: "packaging unit"
     PLURALNAME: "Products"
+    PreorderInfo: "This product will be released on {releasedate}. Please be aware that this product can't be shipped before its release date."
+    PreorderNow: "Pre-order now"
+    PreorderToday: "Pre-order this product today"
     PRICE: "Price"
     PRICE_AMOUNT_ASC: "Price ascending"
     PRICE_AMOUNT_DESC: "Price descending"
@@ -1406,6 +1411,7 @@ en:
     SalesBanDate: "Sales ban date"
     SalesBanDateInfo: "<strong>Optional</strong> - Set this if there is a sales ban date."
     StockIsLowOrderNow: "Sold out soon - order now"
+    ThisProductWillBeReleasedOn: "This product will be released on {releasedate}"
     TITLE: "Product"
     TITLE_ASC: "Title ascending"
     TITLE_DESC: "Title descending"
@@ -1736,6 +1742,7 @@ en:
     DeliveryTimeMin: "Minimum delivery time"
     DeliveryTimeMinDesc: "Minimum delivery time in business days"
     DeliveryTimePrepaymentHint: "when cashed"
+    DeliveryTimePrepaymentHintReleaseDate: "when cashed in time"
     DeliveryTimeText: "Own text for delivery time"
     DeliveryTimeTextDesc: "Will be used instead of \"Minimum delivery time\" and \"Maximum delivery time\"."
     DescriptionForShippingFeesPage: "Description for Shipping Fees Page (will be used instead of \"Description\")"
@@ -1820,10 +1827,16 @@ en:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
   SilverCart\Model\Order\ShoppingCart:
+    DifferentReleaseDateHint1: "Your shopping cart contains products with different release dates."
+    DifferentReleaseDateHint2: "Please be aware that the shipping date for already available products will be deferred due to the release date of the not yet available products."
+    DifferentReleaseDateHint3: "If you want to get all of your products as soon as they each is available for shipment, please place them into diferent orders."
+    DifferentReleaseDateHint4: "Thank you for your understanding."
     ERROR_MINIMUMORDERVALUE_NOT_REACHED: "The minimum order value is {amount}"
     OnlyXLeft: "Only {quantity} left in stock. Delivery time may increase."
+    PickupDateDeferredDueToReleasDate: "Not yet released products won't be ready for pickup before their release date."
     PLURALNAME: "Carts"
     SINGULARNAME: "Cart"
+    ShippingDateDeferredDueToReleasDate: "The shipping date will be deferred due to the release date of not yet available products."
     ShippingTo: "Shipping to {country} for <strong>{price}</strong> by {shippingmethod}."
   SilverCart\Model\Order\ShoppingCartPosition:
     MAX_QUANTITY_REACHED_MESSAGE: "The maximum quantity of products for this position has been reached."

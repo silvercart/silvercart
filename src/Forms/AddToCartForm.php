@@ -142,7 +142,9 @@ class AddToCartForm extends CustomForm {
      */
     protected function getSubmitButtonTitle() {
         $product = $this->getProduct();
-        if ($product->isInCart()) {
+        if ($product->HasReleaseDate()) {
+            $submitButtonTitle = $product->fieldLabel('PreorderNow');
+        } elseif ($product->isInCart()) {
             $submitButtonTitle = $product->fieldLabel('ChangeQuantity');
         } else {
             $submitButtonTitle = $product->fieldLabel('AddToCart');
