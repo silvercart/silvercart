@@ -534,6 +534,20 @@ trait CLITask
     }
     
     /**
+     * Returns a padded X of Y string.
+     * 
+     * @param int $x X (current index)
+     * @param int $y Y (total quantity)
+     * 
+     * @return string
+     */
+    public function getXofY($x, $y)
+    {
+        $padded = str_pad($x, strlen($y), " ", STR_PAD_LEFT);
+        return "{$padded}/{$y}";
+    }
+    
+    /**
      * Returns an array with all filepaths of the given file types in the given
      * directory.
      *
