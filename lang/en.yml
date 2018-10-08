@@ -1370,6 +1370,7 @@ en:
     PACKAGING_QUANTITY: "purchase quantity"
     PACKAGING_UNIT: "packaging unit"
     PLURALNAME: "Products"
+    Preorderable: "pre-orderable"
     PreorderInfo: "This product will be released on {releasedate}. Please be aware that this product can't be shipped before its release date."
     PreorderNow: "Pre-order now"
     PreorderToday: "Pre-order this product today"

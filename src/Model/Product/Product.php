@@ -945,6 +945,7 @@ class Product extends DataObject implements PermissionProvider
                     'LaunchDateInfo'                       => _t(Product::class . '.LaunchDateInfo', 'Launch Date Info'),
                     'SalesBanDate'                         => _t(Product::class . '.SalesBanDate', 'Sale Ban Date'),
                     'SalesBanDateInfo'                     => _t(Product::class . '.SalesBanDateInfo', 'Sale Ban Date Info'),
+                    'Preorderable'                         => _t(Product::class . '.Preorderable', 'pre-orderable'),
                     'PreorderNow'                          => _t(Product::class . '.PreorderNow', 'Pre-order now'),
                     'PreorderToday'                        => _t(Product::class . '.PreorderToday', 'Pre-order this product today'),
                     'Tax'                                  => Tax::singleton()->singular_name(),

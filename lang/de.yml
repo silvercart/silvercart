@@ -1370,6 +1370,7 @@ de:
     PACKAGING_QUANTITY: "Verkaufsmenge"
     PACKAGING_UNIT: "Verpackungseinheit"
     PLURALNAME: "Artikel"
+    Preorderable: "vorbestellbar"
     PreorderInfo: "Dieser Artikel erscheint erst am {releasedate}. Bitte beachten Sie, dass dieser Artikel nicht vor dem Erscheinungsdatum versandt werden kann."
     PreorderNow: "Jetzt vorbestellen"
     PreorderToday: "Diesen Artikel heute vorbestellen"
