@@ -33,6 +33,7 @@
             </a>
             <hr/>
             {$Layout}
+            <% include SilverCart\Email\Footer %>
         </div>
     </body>
 </html>
