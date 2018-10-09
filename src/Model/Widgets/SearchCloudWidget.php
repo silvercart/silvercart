@@ -16,7 +16,9 @@ use SilverStripe\ORM\ArrayList;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SearchCloudWidget extends Widget {
+class SearchCloudWidget extends Widget
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     
     /**
      * attributes
@@ -28,7 +30,6 @@ class SearchCloudWidget extends Widget {
         'FontSizeCount' => 'Int',
         'isContentView' => 'Boolean',
     ];
-    
     /**
      * default values for attributes
      *
@@ -38,7 +39,6 @@ class SearchCloudWidget extends Widget {
         'TagsPerCloud'  => 10,
         'FontSizeCount' => 5,
     ];
-
     /**
      * DB table name
      *
@@ -53,21 +53,23 @@ class SearchCloudWidget extends Widget {
      *
      * @return array
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.09.2012
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),
-                [
-                    'TagsPerCloud'  => _t(SearchCloudWidget::class . '.TAGSPERCLOUD', 'Number of the search queries to show'),
-                    'FontSizeCount' => _t(SearchCloudWidget::class . '.FONTSIZECOUNT', 'Number of different font sizes'),
-                    'isContentView' => _t(ProductSliderWidget::class . '.IS_CONTENT_VIEW', 'Is Content view'),
-                ]
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true)
+    {
+        $this->beforeUpdateFieldLabels(function(&$labels) {
+            $labels = array_merge(
+                    $labels,
+                    [
+                        'TagsPerCloud'  => _t(SearchCloudWidget::class . '.TAGSPERCLOUD', 'Number of the search queries to show'),
+                        'FontSizeCount' => _t(SearchCloudWidget::class . '.FONTSIZECOUNT', 'Number of different font sizes'),
+                        'isContentView' => _t(ProductSliderWidget::class . '.IS_CONTENT_VIEW', 'Is Content view'),
+                    ]
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**
@@ -79,15 +81,13 @@ class SearchCloudWidget extends Widget {
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 05.07.2018
      */
-    public function TagsForCloud() {
+    public function getTagsForCloud()
+    {
         $searchTags = SearchQuery::get_most_searched($this->TagsPerCloud);
-        
         if (!$searchTags) {
             return false;
         }
-        
         $searchTagsArrayList = ArrayList::create();
-        
         /*
          * The following block is a replacement for the call DataObjectSet::groupBy()
          * which does not exist any more
@@ -100,8 +100,9 @@ class SearchCloudWidget extends Widget {
         $fontSizeRanges     = $this->getFontSizeRanges($searchTagCounts);
         foreach ($searchTags as $searchTag) {
             foreach ($fontSizeRanges as $fontSize => $fontSizeRange) {
-                if ($searchTag->Count >= $fontSizeRange['Min'] &&
-                    $searchTag->Count <= $fontSizeRange['Max']) {
+                if ($searchTag->Count >= $fontSizeRange['Min']
+                 && $searchTag->Count <= $fontSizeRange['Max']
+                ) {
                     $searchTag->FontSize = $fontSize;
                     $searchTagsArrayList->push($searchTag);
                 }
@@ -121,7 +122,8 @@ class SearchCloudWidget extends Widget {
      * 
      * @return array
      */
-    protected function getFontSizeRanges($existingTagCounts) {
+    protected function getFontSizeRanges($existingTagCounts)
+    {
         krsort($existingTagCounts);
         $fontSizeRanges = [];
         if (count($existingTagCounts) > $this->FontSizeCount) {
@@ -137,8 +139,9 @@ class SearchCloudWidget extends Widget {
                 $min = $max + 1;
                 $max = $max + $rangeSize;
             }
-        } elseif (count($existingTagCounts) == $this->FontSizeCount ||
-                    count($existingTagCounts) < $this->FontSizeCount) {
+        } elseif (count($existingTagCounts) == $this->FontSizeCount
+               || count($existingTagCounts) < $this->FontSizeCount
+        ) {
             $existingTagCounts = array_reverse($existingTagCounts);
             foreach ($existingTagCounts as $tagCount) {
                 $fontSizeRanges[] = [
