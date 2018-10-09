@@ -2620,13 +2620,15 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getAvailability($baseCssClass = 'label', $additionalCssClasses = '') {
+    public function getAvailability($baseCssClass = 'label', $additionalCssClasses = '')
+    {
         $output = null;
         if ($this->AvailabilityStatus()) {
             if ($this->AvailabilityStatus()->Code == 'not-available'
              && !empty($this->PurchaseTimeUnit)
              && (!empty($this->PurchaseMinDuration)
-              || !empty($this->PurchaseMaxDuration))) {
+              || !empty($this->PurchaseMaxDuration))
+            ) {
                 $class = 'available-in ' . $baseCssClass . ' ' . $baseCssClass . '-warning';
                 if (empty($this->PurchaseMinDuration)) {
                     $title = _t(AvailabilityStatus::class . '.STATUS_AVAILABLE_IN',
@@ -2654,6 +2656,9 @@ class Product extends DataObject implements PermissionProvider
                             ]
                     );
                 }
+            } elseif ($this->HasReleaseDate()) {
+                $class = "{$this->AvailabilityStatus()->Code} {$baseCssClass} {$baseCssClass}-{$this->AvailabilityStatus()->config()->get('badge_color_preorder')}";
+                $title = $this->fieldLabel('Preorderable');
             } else {
                 $class = $this->AvailabilityStatus()->Code . ' ' . $baseCssClass . ' ' . $baseCssClass . '-'.$this->AvailabilityStatus()->badgeColor;
                 $title = $this->AvailabilityStatus()->Title;

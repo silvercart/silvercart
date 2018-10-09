@@ -20,29 +20,29 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class AvailabilityStatus extends DataObject {
-
+class AvailabilityStatus extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
+    
     /**
      * attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Code'                => 'Varchar',
         'SeoMicrodataCode'    => "Enum(',Discontinued,InStock,InStoreOnly,LimitedAvailability,OnlineOnly,OutOfStock,PreOrder,PreSale,SoldOut','')",
-        'badgeColor'          => "Enum('default,success,warning,important,info,inverse','default')",
         'badgeColor'          => "Enum('primary,secondary,success,danger,warning,info,light,dark','light')",
         'SetForPositiveStock' => 'Boolean(0)',
         'SetForNegativeStock' => 'Boolean(0)',
         'IsDefault'           => 'Boolean',
-    );
-    
+    ];
     /**
      * field casting
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'Title'                   => 'Text',
         'AdditionalText'          => 'Text',
         'MicrodataCode'           => 'Text',
@@ -50,39 +50,41 @@ class AvailabilityStatus extends DataObject {
         'SetForNegativeStockNice' => 'Text',
         'BadgeColorIndicator'     => 'HTMLText',
         'IsDefaultString'         => 'Text',
-    );
-    
+    ];
     /**
      * 1:n relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'AvailabilityStatusTranslations' => AvailabilityStatusTranslation::class,
-    );
-    
+    ];
     /**
      * Default DB attribute values.
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'badgeColor' => "default",
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartAvailabilityStatus';
-    
+    /**
+     * DB table name
+     *
+     * @var string
+     */
+    private static $badge_color_preorder = 'primary';
     /**
      * List of default microdata codes.
      *
      * @var array
      */
-    public static $default_microdata_codes = array(
+    public static $default_microdata_codes = [
         'available'           => 'InStock',
         'not-available'       => 'OutOfStock',
         'Discontinued'        => 'Discontinued',
@@ -94,17 +96,15 @@ class AvailabilityStatus extends DataObject {
         'PreOrder'            => 'PreOrder',
         'PreSale'             => 'PreSale',
         'SoldOut'             => 'SoldOut',
-    );
+    ];
 
     /**
      * Returns the translated singular name of the object.
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -112,11 +112,9 @@ class AvailabilityStatus extends DataObject {
      * Returns the translated plural name of the object.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this);
     }
 
@@ -127,45 +125,45 @@ class AvailabilityStatus extends DataObject {
      *
      * @return array
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 03.07.2014
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.10.2018
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'badgeColor'                            => OrderStatus::singleton()->fieldLabel('BadgeColor'),
-                'Code'                                  => OrderStatus::singleton()->fieldLabel('Code'),
-                'Title'                                 => $this->singular_name(),
-                'SeoMicrodataCode'                      => _t(AvailabilityStatus::class . '.SeoMicrodataCode', 'SEO microdata code'),
-                'SeoMicrodataCodeDescription'           => _t(AvailabilityStatus::class . '.SeoMicrodataCodeDescription', 'Set up one of these values to increase the SEO visibility.'),
-                'SeoMicrodataCodeDiscontinued'          => _t(AvailabilityStatus::class . '.SeoMicrodataCodeDiscontinued', 'Discontinued'),
-                'SeoMicrodataCodeInStock'               => _t(AvailabilityStatus::class . '.SeoMicrodataCodeInStock', 'In stock'),
-                'SeoMicrodataCodeInStoreOnly'           => _t(AvailabilityStatus::class . '.SeoMicrodataCodeInStoreOnly', 'In store only'),
-                'SeoMicrodataCodeLimitedAvailability'   => _t(AvailabilityStatus::class . '.SeoMicrodataCodeLimitedAvailability', 'Limited availability'),
-                'SeoMicrodataCodeOnlineOnly'            => _t(AvailabilityStatus::class . '.SeoMicrodataCodeOnlineOnly', 'Online only'),
-                'SeoMicrodataCodeOutOfStock'            => _t(AvailabilityStatus::class . '.SeoMicrodataCodeOutOfStock', 'Out of stock'),
-                'SeoMicrodataCodePreOrder'              => _t(AvailabilityStatus::class . '.SeoMicrodataCodePreOrder', 'Preorder'),
-                'SeoMicrodataCodePreSale'               => _t(AvailabilityStatus::class . '.SeoMicrodataCodePreSale', 'Presale'),
-                'SeoMicrodataCodeSoldOut'               => _t(AvailabilityStatus::class . '.SeoMicrodataCodeSoldOut', 'Soldout'),
-                'AdditionalText'                        => _t(AvailabilityStatus::class . '.ADDITIONALTEXT', 'Additional text'),
-                'SetForPositiveStock'                   => _t(AvailabilityStatus::class . '.SetForPositiveStock', 'Assign automatically when a products stock changes from 0 to > 0.'),
-                'SetForPositiveStockDesc'               => _t(AvailabilityStatus::class . '.SetForPositiveStockDesc', ' '),
-                'SetForPositiveStockShort'              => _t(AvailabilityStatus::class . '.SetForPositiveStockShort', 'Auto. < 1'),
-                'SetForNegativeStock'                   => _t(AvailabilityStatus::class . '.SetForNegativeStock', 'Assign automatically when a products stock changes from > 0 to 0.'),
-                'SetForNegativeStockDesc'               => _t(AvailabilityStatus::class . '.SetForNegativeStockDesc', ' '),
-                'SetForNegativeStockShort'              => _t(AvailabilityStatus::class . '.SetForNegativeStockShort', 'Auto. < 1'),
-                'AvailabilityStatusTranslation'         => AvailabilityStatusTranslation::singleton()->singular_name(),
-                'AvailabilityStatusTranslations'        => AvailabilityStatusTranslation::singleton()->plural_name(),
-                'IsDefault'                             => _t(AvailabilityStatus::class . '.ISDEFAULT', 'Is default'),
-                'Yes'                                   => Tools::field_label('Yes'),
-                'No'                                    => Tools::field_label('No'),
-            )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true)
+    {
+        $this->beforeUpdateFieldLabels(function(&$labels) {
+            $labels = array_merge(
+                $labels,
+                [
+                    'badgeColor'                            => OrderStatus::singleton()->fieldLabel('BadgeColor'),
+                    'Code'                                  => OrderStatus::singleton()->fieldLabel('Code'),
+                    'Title'                                 => $this->singular_name(),
+                    'SeoMicrodataCode'                      => _t(AvailabilityStatus::class . '.SeoMicrodataCode', 'SEO microdata code'),
+                    'SeoMicrodataCodeDescription'           => _t(AvailabilityStatus::class . '.SeoMicrodataCodeDescription', 'Set up one of these values to increase the SEO visibility.'),
+                    'SeoMicrodataCodeDiscontinued'          => _t(AvailabilityStatus::class . '.SeoMicrodataCodeDiscontinued', 'Discontinued'),
+                    'SeoMicrodataCodeInStock'               => _t(AvailabilityStatus::class . '.SeoMicrodataCodeInStock', 'In stock'),
+                    'SeoMicrodataCodeInStoreOnly'           => _t(AvailabilityStatus::class . '.SeoMicrodataCodeInStoreOnly', 'In store only'),
+                    'SeoMicrodataCodeLimitedAvailability'   => _t(AvailabilityStatus::class . '.SeoMicrodataCodeLimitedAvailability', 'Limited availability'),
+                    'SeoMicrodataCodeOnlineOnly'            => _t(AvailabilityStatus::class . '.SeoMicrodataCodeOnlineOnly', 'Online only'),
+                    'SeoMicrodataCodeOutOfStock'            => _t(AvailabilityStatus::class . '.SeoMicrodataCodeOutOfStock', 'Out of stock'),
+                    'SeoMicrodataCodePreOrder'              => _t(AvailabilityStatus::class . '.SeoMicrodataCodePreOrder', 'Preorder'),
+                    'SeoMicrodataCodePreSale'               => _t(AvailabilityStatus::class . '.SeoMicrodataCodePreSale', 'Presale'),
+                    'SeoMicrodataCodeSoldOut'               => _t(AvailabilityStatus::class . '.SeoMicrodataCodeSoldOut', 'Soldout'),
+                    'AdditionalText'                        => _t(AvailabilityStatus::class . '.ADDITIONALTEXT', 'Additional text'),
+                    'SetForPositiveStock'                   => _t(AvailabilityStatus::class . '.SetForPositiveStock', 'Assign automatically when a products stock changes from 0 to > 0.'),
+                    'SetForPositiveStockDesc'               => _t(AvailabilityStatus::class . '.SetForPositiveStockDesc', ' '),
+                    'SetForPositiveStockShort'              => _t(AvailabilityStatus::class . '.SetForPositiveStockShort', 'Auto. < 1'),
+                    'SetForNegativeStock'                   => _t(AvailabilityStatus::class . '.SetForNegativeStock', 'Assign automatically when a products stock changes from > 0 to 0.'),
+                    'SetForNegativeStockDesc'               => _t(AvailabilityStatus::class . '.SetForNegativeStockDesc', ' '),
+                    'SetForNegativeStockShort'              => _t(AvailabilityStatus::class . '.SetForNegativeStockShort', 'Auto. < 1'),
+                    'AvailabilityStatusTranslation'         => AvailabilityStatusTranslation::singleton()->singular_name(),
+                    'AvailabilityStatusTranslations'        => AvailabilityStatusTranslation::singleton()->plural_name(),
+                    'IsDefault'                             => _t(AvailabilityStatus::class . '.ISDEFAULT', 'Is default'),
+                    'Yes'                                   => Tools::field_label('Yes'),
+                    'No'                                    => Tools::field_label('No'),
+                ]
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**
@@ -173,39 +171,39 @@ class AvailabilityStatus extends DataObject {
      *
      * @return FieldList the fields for the backend
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'Code', false);
-        
-        $badgeColorSource = array(
-            'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
-            'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
-            'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
-            'danger'    => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#dc3545">' . $this->Title . '</span>'),
-            'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#ffc107">' . $this->Title . '</span>'),
-            'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
-            'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
-            'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
-        );
-        
-        $fields->removeByName('badgeColor');
-        $fields->addFieldToTab(
-                'Root.Main',
-                new OptionsetField('badgeColor', $this->fieldLabel('badgeColor'), $badgeColorSource)
-        );
-        
-        $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
-        $i18nSource = array();
-        foreach ($enumValues as $value => $label) {
-            if (empty($label)) {
-                $i18nSource[$value] = '';
-            } else {
-                $i18nSource[$value] = $this->fieldLabel('SeoMicrodataCode' . $label);
-            }
-        }
-        $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
-        $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
+    public function getCMSFields()
+    {
+        $this->beforeUpdateCMSFields(function($fields) {
+            $badgeColorSource = [
+                'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
+                'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
+                'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
+                'danger'    => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#dc3545">' . $this->Title . '</span>'),
+                'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#ffc107">' . $this->Title . '</span>'),
+                'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
+                'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
+                'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
+            ];
 
-        return $fields;
+            $fields->removeByName('badgeColor');
+            $fields->addFieldToTab(
+                    'Root.Main',
+                    OptionsetField::create('badgeColor', $this->fieldLabel('badgeColor'), $badgeColorSource)
+            );
+
+            $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
+            $i18nSource = [];
+            foreach ($enumValues as $value => $label) {
+                if (empty($label)) {
+                    $i18nSource[$value] = '';
+                } else {
+                    $i18nSource[$value] = $this->fieldLabel('SeoMicrodataCode' . $label);
+                }
+            }
+            $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
+            $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
+        });
+        return DataObjectExtension::getCMSFields($this, 'Code', false);
     }
 
     /**
@@ -216,16 +214,16 @@ class AvailabilityStatus extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.07.2014
      */
-    public function summaryFields() {
-        $summaryFields = array(
-            'BadgeColorIndicator' => $this->fieldLabel('badgeColor'),
-            'Title' => $this->fieldLabel('Title'),
-            'Code'  => $this->fieldLabel('Code'),
+    public function summaryFields()
+    {
+        $summaryFields = [
+            'BadgeColorIndicator'     => $this->fieldLabel('badgeColor'),
+            'Title'                   => $this->fieldLabel('Title'),
+            'Code'                    => $this->fieldLabel('Code'),
             'SetForNegativeStockNice' => $this->fieldLabel('SetForNegativeStockShort'),
             'SetForPositiveStockNice' => $this->fieldLabel('SetForPositiveStockShort'),
-            'IsDefaultString'   => $this->fieldLabel('IsDefault'),
-        );
-
+            'IsDefaultString'         => $this->fieldLabel('IsDefault'),
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -238,17 +236,18 @@ class AvailabilityStatus extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2012
      */
-    public function searchableFields() {
-        $searchableFields = array(
-            'AvailabilityStatusTranslations.Title' => array(
-                'title' => $this->fieldLabel('Title'),
+    public function searchableFields()
+    {
+        $searchableFields = [
+            'AvailabilityStatusTranslations.Title' => [
+                'title'  => $this->fieldLabel('Title'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Code' => array(
-                'title' => $this->fieldLabel('Code'),
+            ],
+            'Code' => [
+                'title'  => $this->fieldLabel('Code'),
                 'filter' => PartialMatchFilter::class,
-            ),
-        );
+            ],
+        ];
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
@@ -259,7 +258,8 @@ class AvailabilityStatus extends DataObject {
      *
      * @return string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->getTranslationFieldValue('Title');
     }
     
@@ -268,10 +268,12 @@ class AvailabilityStatus extends DataObject {
      *
      * @return string
      */
-    public function getMicrodataCode() {
+    public function getMicrodataCode()
+    {
         $microDataCode = $this->SeoMicrodataCode;
-        if (empty($microDataCode) &&
-            array_key_exists($this->Code, self::$default_microdata_codes)) {
+        if (empty($microDataCode)
+         && array_key_exists($this->Code, self::$default_microdata_codes)
+        ) {
             $microDataCode = self::$default_microdata_codes[$this->Code];
         }
         if (!empty($microDataCode)) {
@@ -285,7 +287,8 @@ class AvailabilityStatus extends DataObject {
      *
      * @return string
      */
-    public function getAdditionalText() {
+    public function getAdditionalText()
+    {
         return $this->getTranslationFieldValue('AdditionalText');
     }
 
@@ -294,7 +297,8 @@ class AvailabilityStatus extends DataObject {
      *
      * @return string
      */
-    public function getSetForPositiveStockNice() {
+    public function getSetForPositiveStockNice()
+    {
         return $this->SetForPositiveStock ? $this->fieldLabel('Yes') : '';
     }
 
@@ -303,7 +307,8 @@ class AvailabilityStatus extends DataObject {
      *
      * @return string
      */
-    public function getSetForNegativeStockNice() {
+    public function getSetForNegativeStockNice()
+    {
         return $this->SetForNegativeStock ? $this->fieldLabel('Yes') : '';
     }
 
@@ -312,7 +317,8 @@ class AvailabilityStatus extends DataObject {
      *
      * @return string
      */
-    public function getIsDefaultString() {
+    public function getIsDefaultString()
+    {
         $IsDefaultString = $this->fieldLabel('No');
         if ($this->IsDefault) {
             $IsDefaultString = $this->fieldLabel('Yes');
@@ -326,7 +332,8 @@ class AvailabilityStatus extends DataObject {
      * 
      * @return AvailabilityStatus
      */
-    public static function get_negative_status() {
+    public static function get_negative_status()
+    {
         return AvailabilityStatus::get()->filter('SetForNegativeStock', '1')->first();
     }
     
@@ -336,7 +343,8 @@ class AvailabilityStatus extends DataObject {
      * 
      * @return AvailabilityStatus
      */
-    public static function get_positive_status() {
+    public static function get_positive_status()
+    {
         return AvailabilityStatus::get()->filter('SetForPositiveStock', '1')->first();
     }
     
@@ -349,7 +357,8 @@ class AvailabilityStatus extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.07.2014
      */
-    protected function onBeforeWrite() {
+    protected function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         if ($this->SetForNegativeStock) {
             $statusList = AvailabilityStatus::get()->filter(['SetForNegativeStock' => 1])->exclude(['ID' => $this->ID]);
@@ -374,8 +383,9 @@ class AvailabilityStatus extends DataObject {
         if (!$defaultStatus) {
             $defaultStatus = $this;
             $this->IsDefault = true;
-        } elseif ($this->IsDefault &&
-                  $defaultStatus->ID != $this->ID) {
+        } elseif ($this->IsDefault
+               && $defaultStatus->ID != $this->ID
+        ) {
             $defaultStatus->IsDefault = false;
             $defaultStatus->write();
         }
@@ -386,7 +396,8 @@ class AvailabilityStatus extends DataObject {
      * 
      * @return Tax
      */
-    public static function getDefault() {
+    public static function getDefault()
+    {
         return AvailabilityStatus::get()->filter('IsDefault', true)->first();
     }
     
@@ -396,8 +407,9 @@ class AvailabilityStatus extends DataObject {
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getBadgeColorIndicator() {
-        $badgeColorSource = array(
+    public function getBadgeColorIndicator()
+    {
+        $badgeColorSource = [
             'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
             'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
             'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
@@ -406,12 +418,12 @@ class AvailabilityStatus extends DataObject {
             'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
             'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
             'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
-        );
-        if (empty($this->badgeColor) ||
-            !array_key_exists($this->badgeColor, $badgeColorSource)) {
+        ];
+        if (empty($this->badgeColor)
+         || !array_key_exists($this->badgeColor, $badgeColorSource)
+        ) {
             $this->badgeColor = 'light';
         }
         return $badgeColorSource[$this->badgeColor];
     }
-    
 }
