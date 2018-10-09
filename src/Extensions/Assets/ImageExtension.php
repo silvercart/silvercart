@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverCart\Assets;
+namespace SilverCart\Extensions\Assets;
 
 use SilverCart\Dev\Tools;
 use SilverStripe\Assets\Folder;
@@ -20,16 +20,38 @@ use SilverStripe\Versioned\Versioned;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ImageExtension extends DataExtension {
+class ImageExtension extends DataExtension
+{
+    const IMAGETYPE_ENDING = [
+        IMAGETYPE_BMP      => "bmp",
+        IMAGETYPE_GIF      => "gif",
+        IMAGETYPE_ICO      => "ico",
+        IMAGETYPE_IFF      => "",
+        IMAGETYPE_JB2      => "",
+        IMAGETYPE_JP2      => "",
+        IMAGETYPE_JPC      => "",
+        IMAGETYPE_JPEG     => "jpg",
+        IMAGETYPE_JPEG2000 => "jpg",
+        IMAGETYPE_JPX      => "",
+        IMAGETYPE_PNG      => "png",
+        IMAGETYPE_PSD      => "psd",
+        IMAGETYPE_SWC      => "",
+        IMAGETYPE_SWF      => "swf",
+        IMAGETYPE_TIFF_II  => "tiff",
+        IMAGETYPE_TIFF_MM  => "tiff",
+        IMAGETYPE_UNKNOWN  => "",
+        IMAGETYPE_WBMP     => "",
+        IMAGETYPE_XBM      => "",
+    ];
     
     /**
      * attribute casting
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'ImageThumbnail' => 'HTMLText',
-    );
+    ];
     
     /**
      * Add additional summary fields.
@@ -42,15 +64,16 @@ class ImageExtension extends DataExtension {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.12.2015
      */
-    public function updateSummaryFields(&$fields) {
+    public function updateSummaryFields(&$fields)
+    {
         if (array_key_exists('ImagePreview', $fields)) {
             return;
         }
         $fields = array_merge(
             $fields,
-            array(
+            [
                 'ImageThumbnail' => 'ImageThumbnail',
-            )
+            ]
         );
     }
     
@@ -65,7 +88,8 @@ class ImageExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.05.2017
      */
-    public function ImageThumbnail($width = 50, $height = 50) {
+    public function ImageThumbnail($width = 50, $height = 50)
+    {
         $image = $this->owner->Pad($width, $height);
         /* @var $image \SilverStripe\Assets\Storage\DBFile */
         if (!is_null($image)) {
@@ -74,28 +98,29 @@ class ImageExtension extends DataExtension {
         return $image;
     }
 
-	/**
-	 * Return an XHTML img tag for this Image,
-	 * or NULL if the image file doesn't exist on the filesystem.
-	 *
-	 * @return string
-	 */
-	public function getTagWithPreview($image, $originalImage = null) {
+    /**
+     * Return an XHTML img tag for this Image,
+     * or NULL if the image file doesn't exist on the filesystem.
+     *
+     * @return string
+     */
+    public function getTagWithPreview($image, $originalImage = null)
+    {
         if (is_null($originalImage)) {
             $originalImage = $this->owner;
         }
-		if ($image->exists()) {
+        if ($image->exists()) {
             $originalUrl = $originalImage->getURL();
-			$url   = $image->getURL();
-			$title = ($image->Title) ? $image->Title : $image->Filename;
-			if ($image->Title) {
-				$title = Convert::raw2att($image->Title);
-			} elseif (preg_match("/([^\/]*)\.[a-zA-Z0-9]{1,6}$/", $title, $matches)) {
+            $url         = $image->getURL();
+            $title       = ($image->Title) ? $image->Title : $image->Filename;
+            if ($image->Title) {
+                $title = Convert::raw2att($image->Title);
+            } elseif (preg_match("/([^\/]*)\.[a-zA-Z0-9]{1,6}$/", $title, $matches)) {
                 $title = Convert::raw2att($matches[1]);
-			}
-			return "<img src=\"$url\" alt=\"$title\" data-img-src=\"$originalUrl\" class=\"hover-image-preview\" />";
-		}
-	}
+            }
+            return "<img src=\"{$url}\" alt=\"{$title}\" data-img-src=\"{$originalUrl}\" class=\"hover-image-preview\" />";
+        }
+    }
 
     /**
      * Returns a resized version of the image if the image is bigger
@@ -107,7 +132,8 @@ class ImageExtension extends DataExtension {
      *
      * @return Image
      */
-    public function PadMax($width, $height) {
+    public function PadMax($width, $height)
+    {
         $orientation = $this->owner->getOrientation();
         $image       = false;
 
@@ -117,21 +143,19 @@ class ImageExtension extends DataExtension {
             } else {
                 $image = $this->owner->Pad($width, $height);
             }
-        } else if ($orientation == Image_Backend::ORIENTATION_PORTRAIT) {
+        } elseif ($orientation == Image_Backend::ORIENTATION_PORTRAIT) {
             if ($this->owner->getHeight() <= $height) {
                 $image = $this->owner->getTag();
             } else {
                 $image = $this->owner->Pad($width, $height);
             }
+        } elseif ($this->owner->getWidth()  <= $width
+               && $this->owner->getHeight() <= $height
+        ) {
+            $image = $this->owner->getTag();
         } else {
-            if ($this->owner->getWidth()  <= $width &&
-                $this->owner->getHeight() <= $height) {
-                $image = $this->owner->getTag();
-            } else {
-                $image = $this->owner->Pad($width, $height);
-            }
+            $image = $this->owner->Pad($width, $height);
         }
-
         return $image;
     }
     
@@ -145,16 +169,16 @@ class ImageExtension extends DataExtension {
      *
      * @return Image
      */
-    public function PadIfBigger($width, $height) {
+    public function PadIfBigger($width, $height)
+    {
         $image = false;
-
-        if ($this->owner->getWidth()  <= $width &&
-            $this->owner->getHeight() <= $height) {
+        if ($this->owner->getWidth()  <= $width
+         && $this->owner->getHeight() <= $height
+        ) {
             $image = $this->owner->getTag();
         } else {
             $image = $this->owner->Pad($width, $height);
         }
-
         return $image;
     }
     
@@ -177,7 +201,8 @@ class ImageExtension extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.08.2018
      */
-    public static function create_from_path($sourceFilePath, $targetFolderPath, $targetFilename = null, $targetFileTitle = null) {
+    public static function create_from_path($sourceFilePath, $targetFolderPath, $targetFilename = null, $targetFileTitle = null)
+    {
         if (is_null($targetFilename)) {
             $targetFilename = basename($sourceFilePath);
         }
@@ -208,5 +233,45 @@ class ImageExtension extends DataExtension {
             file_put_contents($targetFilePath, $fileContent);
         }
         return $image;
+    }
+    
+    /**
+     * Returns the file ending for the given PHP image type.
+     * 
+     * @param int $type PHP image type
+     * 
+     * @return string
+     */
+    public static function getEndingForType($type)
+    {
+        $ending = '';
+        if (array_key_exists($type, self::IMAGETYPE_ENDING)) {
+            $ending = self::IMAGETYPE_ENDING[$type];
+        }
+        return $ending;
+    }
+    
+    /**
+     * Returns the file ending for the given filepath.
+     * 
+     * @param string $path Image filepath
+     * 
+     * @return string
+     */
+    public static function getEndingForFilepath($path)
+    {
+        return self::getEndingForType(exif_imagetype($path));
+    }
+    
+    /**
+     * Returns the file ending for the given Image.
+     * 
+     * @param Image $file Image file
+     * 
+     * @return string
+     */
+    public static function getEndingForFile($file)
+    {
+        return self::getEndingForType(exif_imagetype($file->getAbsoluteURL()));
     }
 }

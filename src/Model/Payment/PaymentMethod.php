@@ -8,7 +8,7 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Admin\Forms\ImageUploadField;
 use SilverCart\Admin\Model\Config;
-use SilverCart\Assets\ImageExtension;
+use SilverCart\Extensions\Assets\ImageExtension;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm;
 use SilverCart\Model\Customer\Address;
