@@ -140,6 +140,12 @@ class ProductGroupPage extends \Page
      */
     private static $show_new_products = true;
     /**
+     * Determines whether to show pre-orderable products on a product group page or not.
+     *
+     * @var boolean
+     */
+    private static $show_preorderable_products = true;
+    /**
      * Saves the result from $this->getProducts()
      *
      * @var array
@@ -451,7 +457,9 @@ class ProductGroupPage extends \Page
                 'DoNotShowProducts'             => _t(ProductGroupPage::class . '.DONOTSHOWPRODUCTS', 'do <strong>not</strong> show products of this group'),
                 'DisplaySettings'               => _t(ProductGroupPage::class . '.DisplaySettings', 'Display Settings'),
                 'NewProducts'                   => _t(ProductGroupPage::class . '.NewProducts', 'New Products'),
-                'NewProductsLinkTitle'          => _t(ProductGroupPage::class . '.NewProductsLinkTitle', 'Show all new Products'),
+                'NewProductsLinkTitle'          => _t(ProductGroupPage::class . '.NewProductsLinkTitle', 'Show all new products'),
+                'PreorderableProducts'          => _t(ProductGroupPage::class . '.PreorderableProducts', 'Pre-Orders'),
+                'PreorderableProductsLinkTitle' => _t(ProductGroupPage::class . '.PreorderableProductsLinkTitle', 'Show all pre-orders'),
                 'GroupPicture'                  => _t(ProductGroupPage::class . '.GROUP_PICTURE', 'Group picture'),
                 'ManageProductsButton'          => _t(ProductGroupPage::class . '.MANAGE_PRODUCTS_BUTTON', 'Manage products'),
                 'Yes'                           => Tools::field_label('Yes'),
@@ -1035,9 +1043,7 @@ class ProductGroupPage extends \Page
         if (!is_null($limit)) {
             $products = $products->limit($limit);
         }
-        
         return $products;
-        
     }
     
     /**
@@ -1074,6 +1080,60 @@ class ProductGroupPage extends \Page
             $showNewProducts = false;
         }
         return $showNewProducts;
+    }
+    
+    /**
+     * Returns all pre-orderable products of this group and all children.
+     * 
+     * @param int $limit Optional limit
+     * 
+     * @return DataList
+     */
+    public function getPreorderableProducts($limit = null)
+    {
+        $products = $this->getProductsInherited()
+                ->where('"' . Product::config()->get('table_name') . '"."ReleaseDate" > NOW()')
+                ->sort('"' . Product::config()->get('table_name') . '"."ReleaseDate"', 'ASC');
+        if (!is_null($limit)) {
+            $products = $products->limit($limit);
+        }
+        return $products;
+    }
+    
+    /**
+     * Returns the pre-orderable products in an ArrayData format to use in a template.
+     * 
+     * @param int $limit Optional limit
+     * 
+     * @return ArrayData
+     */
+    public function getPreorderableProductsForTemplate($limit = null)
+    {
+        return ArrayData::create([
+            "Title"                         => _t(self::class . ".PreorderableProductsIn", "Pre-Orders in {productgroup}", ['productgroup' => $this->Title]),
+            "Elements"                      => $this->getPreorderableProducts($limit),
+            "ID"                            => "{$this->ID}-preorders",
+            "PreorderableProductsLink"      => $this->Link('preorders'),
+            "PreorderableProductsLinkTitle" => $this->fieldLabel('PreorderableProductsLinkTitle'),
+        ]);
+    }
+    
+    /**
+     * Returns whether to show new products or not.
+     * 
+     * @return boolean
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.10.2018
+     */
+    public function ShowPreorderableProducts()
+    {
+        $showPreorderableProducts = $this->config()->get('show_preorderable_products');
+        if ($showPreorderableProducts
+         && !$this->getPreorderableProducts()->exists()) {
+            $showPreorderableProducts = false;
+        }
+        return $showPreorderableProducts;
     }
     
     /**
@@ -1443,6 +1503,14 @@ class ProductGroupPage extends \Page
                     'Title'     => $title,
                     'Link'      => $ctrl->Link('newproducts'),
                 ]));
+            } elseif ($ctrl->getAction() === 'preorders') {
+                $title = DBText::create();
+                $title->setValue($this->fieldLabel('PreorderableProducts'));
+                $items->push(ArrayData::create([
+                    'MenuTitle' => $title,
+                    'Title'     => $title,
+                    'Link'      => $ctrl->Link('preorders'),
+                ]));
             }
         });
         $items = parent::getBreadcrumbItems($maxDepth, $stopAtPageType, $showHidden);
@@ -1511,5 +1579,15 @@ class ProductGroupPage extends \Page
         $content = '';
         $this->extend('updateBeforeInsertWidgetAreaContent', $content);
         return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns whether this is a ProductGroupPage, so true..
+     * 
+     * @return boolean
+     */
+    public function IsProductGroupPage()
+    {
+        return true;
     }
 }
