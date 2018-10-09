@@ -395,12 +395,12 @@ class ShoppingCart extends DataObject
      * @return boolean
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.10.2018
+     * @since 09.10.2018
      */
     public function HasProductWithReleaseDates()
     {
         $hasReleaseDate = false;
-        if ($this->ShoppingCartPositions()->count() > 1) {
+        if ($this->ShoppingCartPositions()->exists()) {
             foreach ($this->ShoppingCartPositions() as $position) {
                 $product = $position->Product();
                 if ($product->HasReleaseDate()) {
