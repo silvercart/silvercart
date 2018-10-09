@@ -1582,6 +1582,22 @@ class ProductGroupPage extends \Page
     }
     
     /**
+     * Returns custom navigation items to render after the default navigation in
+     * the product group sidebar.
+     * 
+     * @return ArrayList
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.10.2018
+     */
+    public function ExtendedDynamicProductGroupNavigationItems()
+    {
+        $items = ArrayList::create();
+        $this->extend('updateDynamicProductGroupNavigationItems', $items);
+        return $items;
+    }
+    
+    /**
      * Returns whether this is a ProductGroupPage, so true..
      * 
      * @return boolean
