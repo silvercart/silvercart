@@ -146,6 +146,12 @@ class ProductGroupPage extends \Page
      */
     private static $show_preorderable_products = true;
     /**
+     * Determines whether to show products of all product group child pages or not.
+     *
+     * @var boolean
+     */
+    private static $load_products_from_children = true;
+    /**
      * Saves the result from $this->getProducts()
      *
      * @var array

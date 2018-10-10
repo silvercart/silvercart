@@ -515,6 +515,12 @@ class ProductGroupPageController extends \PageController {
                         $mirroredProductIdList
                     );
                 }
+                if ($this->data()->config()->get('load_products_from_children')) {
+                    $childrenFilter = $this->getProductsFromChildrenFilter();
+                    if (!empty($childrenFilter)) {
+                        $this->listFilters['original'] = "({$this->listFilters['original']} OR {$childrenFilter})";
+                    }
+                }
                 
                 if (count(self::$registeredFilterPlugins) > 0) {
                     foreach (self::$registeredFilterPlugins as $registeredPlugin) {
@@ -539,10 +545,13 @@ class ProductGroupPageController extends \PageController {
                     $this->extend('updateGetProductsSort', $sort);
                 }
                 
-                $groupProducts = Product::getProducts($filter, $sort);
-                $this->extend('onAfterGetProducts', $groupProducts);
-                $this->groupProducts[$hashKey] = $groupProducts;
-                $this->totalNumberOfProducts   = $groupProducts->count();
+                $groupProducts = Product::getProductsList($filter, $sort);
+                
+                $paginatedProducts = PaginatedList::create($groupProducts, $_GET);
+                $paginatedProducts->setPageLength($this->getProductsPerPageSetting());
+                $this->extend('onAfterGetProducts', $paginatedProducts);
+                $this->groupProducts[$hashKey] = $paginatedProducts;
+                $this->totalNumberOfProducts   = $paginatedProducts->count();
             }
 
             // Inject additional methods into the ArrayList
