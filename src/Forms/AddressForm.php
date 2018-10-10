@@ -41,10 +41,6 @@ class AddressForm extends CustomForm
         'StreetNumber',
         'Postcode',
         'City',
-        'Phone' => [
-            'isFilledIn'    => true,
-            'isPhoneNumber' => true,
-        ],
         'Country',
     ];
 
