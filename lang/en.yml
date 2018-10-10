@@ -1,5 +1,9 @@
 en:
   SilverCart:
+    Buy1: "Buy {title}"
+    Buy2: "Buy {title1} {title2}"
+    Go: "Go"
+    go: "go"
     Until: "until"
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     EXECUTE: "Execute"

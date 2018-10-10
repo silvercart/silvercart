@@ -1,5 +1,9 @@
 de:
   SilverCart:
+    Buy1: "{title} kaufen"
+    Buy2: "{title1} {title2} kaufen"
+    Go: "Los"
+    go: "los"
     Until: "bis"
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     EXECUTE: "Ausführen"
