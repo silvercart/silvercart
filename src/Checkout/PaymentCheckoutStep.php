@@ -17,8 +17,8 @@ use SilverStripe\Security\Security;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-trait PaymentCheckoutStep {
-    
+trait PaymentCheckoutStep
+{
     /**
      * Chosen payment method.
      *
@@ -31,7 +31,8 @@ trait PaymentCheckoutStep {
      * 
      * @return \SilverCart\Model\Payment\PaymentMethod
      */
-    public function getPaymentMethod() {
+    public function getPaymentMethod()
+    {
         return $this->paymentMethod;
     }
 
@@ -42,7 +43,8 @@ trait PaymentCheckoutStep {
      * 
      * @return \SilverCart\Checkout\PaymentCheckoutStep
      */
-    public function setPaymentMethod(PaymentMethod $paymentMethod) {
+    public function setPaymentMethod(PaymentMethod $paymentMethod)
+    {
         $this->paymentMethod = $paymentMethod;
         return $this;
     }
@@ -57,7 +59,8 @@ trait PaymentCheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function initPaymentMethod($checkoutData = null) {
+    public function initPaymentMethod($checkoutData = null)
+    {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
@@ -79,4 +82,16 @@ trait PaymentCheckoutStep {
         return $this;
     }
     
+    /**
+     * Resets the payment specific progress information.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.10.2018
+     */
+    public function resetPaymentProgress()
+    {
+        $this->getPaymentMethod()->resetProgress();
+    }
 }

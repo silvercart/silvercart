@@ -2317,6 +2317,7 @@ class PaymentMethod extends DataObject
      **     - processAfterOrder                                                                   ** 
      **     - processNotification                                                                 ** 
      **     - processConfirmationText                                                             ** 
+     **     - resetProgress                                                                       ** 
      **                                                                                           ** 
      ***********************************************************************************************
      **********************************************************************************************/
@@ -2490,6 +2491,20 @@ class PaymentMethod extends DataObject
      * @since 13.04.2018
      */
     public function processConfirmationText(Order $order, array $checkoutData)
+    {
+        
+    }
+    
+    /**
+     * Resets the payment progress (usually hold in session).
+     * To be implemented for each complex payment method.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.10.2018
+     */
+    public function resetProgress()
     {
         
     }

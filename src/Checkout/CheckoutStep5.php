@@ -18,8 +18,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStep5 extends CheckoutStep {
-    
+class CheckoutStep5 extends CheckoutStep
+{
     use PaymentCheckoutStep;
     use ShippingCheckoutStep;
     use AddressCheckoutStep;
@@ -41,11 +41,13 @@ class CheckoutStep5 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.04.2018
      */
-    public function init() {
+    public function init()
+    {
         $checkoutData = $this->getCheckout()->getData();
         $this->initPaymentMethod($checkoutData);
         $this->initShippingMethod($checkoutData);
         $this->initAddressData($checkoutData);
+        $this->resetPaymentProgress();
     }
     
     /**
@@ -56,8 +58,9 @@ class CheckoutStep5 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function CheckoutConfirmOrderForm() {
-        $form = new CheckoutConfirmOrderForm($this->getController());
+    public function CheckoutConfirmOrderForm()
+    {
+        $form = CheckoutConfirmOrderForm::create($this->getController());
         return $form;
     }
 
@@ -66,10 +69,12 @@ class CheckoutStep5 extends CheckoutStep {
      * 
      * @return \SilverCart\Model\Order\ShoppingCart
      */
-    public function getShoppingCart() {
+    public function getShoppingCart()
+    {
         $customer = Customer::currentUser();
-        if ($customer instanceof Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             return $customer->getCart();
         }
     }
@@ -81,12 +86,13 @@ class CheckoutStep5 extends CheckoutStep {
      * 
      * @return string
      */
-    public function getShoppingCartFull() {
+    public function getShoppingCartFull()
+    {
         $customer = Customer::currentUser();
-        if ($customer instanceof Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             return $this->getShoppingCart()->renderWith('SilverCart/Model/Pages/Includes/ShoppingCartFull');
         }
     }
-    
 }
