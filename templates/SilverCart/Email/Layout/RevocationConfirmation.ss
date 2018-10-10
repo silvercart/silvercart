@@ -21,8 +21,8 @@
 </i></strong><br/>
 <br/>
 <%t SilverCart\Forms\RevocationForm.RevocationOrderData 'I/We hereby revoke the concluded contract for buying the following goods / the performance of the following services' %>:<br/>
-<strong><i>{$RevocationOrderData}</i></strong><br/>
+<strong><i>{$RevocationOrderData.RAW}</i></strong>
 </p>
-<br/><br/>
+<br/>
 <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
 <p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>

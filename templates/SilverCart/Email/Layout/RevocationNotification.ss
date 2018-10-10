@@ -20,5 +20,5 @@
 </i></strong><br/>
 <br/>
 <%t SilverCart\Forms\RevocationForm.RevocationOrderData 'I/We hereby revoke the concluded contract for buying the following goods / the performance of the following services' %>:<br/>
-<strong><i>{$RevocationOrderData}</i></strong><br/>
+<strong><i>{$RevocationOrderData.RAW}</i></strong>
 </p>

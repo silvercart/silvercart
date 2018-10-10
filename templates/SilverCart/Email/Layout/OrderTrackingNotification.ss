@@ -26,7 +26,7 @@
         <% if $TrackingLink %>
     <tr>
         <td>{$fieldLabel('TrackingLink')}</td>
-        <td style="font-weight: bold;">{$TrackingLink}</td>
+        <td style="word-break: break-all;">{$TrackingLink}</td>
     </tr>
     <tr>
         <td>&nbsp;</td>
@@ -37,7 +37,11 @@
     <% end_if %>
 
     <h2><%t SilverCart\Model\Pages\Page.ORDERED_PRODUCTS 'Ordered products' %>:</h2>
-    {$OrderDetailTable}
+    <% if $IsPriceTypeGross %>
+        <% include SilverCart\Email\OrderDetailTableGross %>
+    <% else %>
+        <% include SilverCart\Email\OrderDetailTableNet %>
+    <% end_if %>
 <% end_with %>
 
 <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>

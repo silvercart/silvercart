@@ -466,6 +466,8 @@ class ShopEmail extends DataObject {
         }
         
         Requirements::clear();
+        $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(new ArrayData($variables)));
+        $variables['ShopEmailSubject'] = $subject;
         $htmlText = $email->customise($variables)->renderWith(['SilverCart/Email/' . $identifier, 'SilverCart/Email/ShopEmail']);
         if (SSViewer::hasTemplate(['SilverCart/Email/Layout/' . $identifier . 'Plain'])) {
             $plainText = $email->customise($variables)->renderWith(['SilverCart/Email/' . $identifier . 'Plain', 'SilverCart/Email/ShopEmailPlain']);
@@ -477,8 +479,6 @@ class ShopEmail extends DataObject {
         if (empty($plainText)) {
             $plainText = strip_tags($htmlText);
         }
-        
-        $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(new ArrayData($variables)));
         
         self::send_email($to, $subject, $htmlText, $attachments);
         
