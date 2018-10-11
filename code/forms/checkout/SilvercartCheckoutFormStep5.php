@@ -18,21 +18,26 @@
  * @since 03.01.2011
  * @license see license file in modules root directory
  */
-class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit {
-
+class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit
+{
     /**
      * A list of custom output to add to the content area.
      *
      * @var array
      */
     public static $customOutput = array();
-
     /**
      * Don't cache this form.
      *
      * @var bool
      */
     protected $excludeFromCache = true;
+    /**
+     * Enables the newsletter option.
+     *
+     * @var boolean
+     */
+    private static $enable_newsletter_option = true;
 
     /**
      * Returns the Cache Key for the current step
@@ -431,12 +436,19 @@ class SilvercartCheckoutFormStep5 extends SilvercartCheckoutFormStepPaymentInit 
      * 
      * @return boolean answer 
      * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.7.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 11.10.2018
      */
-    public function showNewsletterCheckbox() {
+    public function showNewsletterCheckbox()
+    {
+        $this->config()->get('enable_newsletter_option');
         $customer = SilvercartCustomer::currentRegisteredCustomer();
-        if ($customer && $customer->SubscribedToNewsletter == 1) {
+        if (!$this->config()->get('enable_newsletter_option')
+         || ($customer instanceof Member
+          && $customer->exists()
+          && $customer->SubscribedToNewsletter == 1)
+        ) {
             return false;
         }
         return true;
