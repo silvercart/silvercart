@@ -1515,6 +1515,43 @@ class ProductGroupPageController extends \PageController {
     }
 
     /**
+     * Checks whether the product list filtered by any filter plugin or by
+     * manufacturer.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2018
+     */
+    public function isFiltered() {
+        return $this->isFilteredByPlugin() || $this->isFilteredByManufacturer();
+    }
+
+    /**
+     * Checks whether the product list is filtered by any filter plugin.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2018
+     */
+    public function isFilteredByPlugin() {
+        $isFilteredByPlugin = false;
+        if (count(self::$registeredFilterPlugins) > 0) {
+            foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                $pluginFilters = $registeredPlugin->filter();
+                if (is_array($pluginFilters)
+                 && !empty($pluginFilters)
+                ) {
+                    $isFilteredByPlugin = true;
+                    break;
+                }
+            }
+        }
+        return $isFilteredByPlugin;
+    }
+
+    /**
      * Checks whether the product list should be filtered by manufacturer.
      *
      * @return bool
