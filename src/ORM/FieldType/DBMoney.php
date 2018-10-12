@@ -2,6 +2,7 @@
 
 namespace SilverCart\ORM\FieldType;
 
+use NumberFormatter;
 use SilverCart\Forms\FormFields\MoneyField;
 
 /**
@@ -14,8 +15,8 @@ use SilverCart\Forms\FormFields\MoneyField;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney {
-
+class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney
+{
     /**
      * Similiar to {@link DataObject::$db},
      * holds an array of composite field names.
@@ -24,17 +25,18 @@ class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney {
      * 
      * @param array
      */
-    private static $composite_db = array(
+    private static $composite_db = [
         "Currency" => "Varchar(3)",
-        "Amount" => 'Decimal(19,4)'
-    );
+        "Amount"   => 'Decimal(19,4)'
+    ];
     
     /**
      * Returns the amount.
      * 
      * @return float
      */
-    public function getAmount() {
+    public function getAmount()
+    {
         $amount = parent::getAmount();
         $this->extend('updateAmount', $amount);
         return $amount;
@@ -45,7 +47,8 @@ class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney {
      * 
      * @return string
      */
-    public function getCurrency() {
+    public function getCurrency()
+    {
         $currency = parent::getCurrency();
         $this->extend('updateCurrency', $currency);
         return $currency;
@@ -54,16 +57,20 @@ class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney {
     /**
      * Returns the amount formatted.
      *
-     * @param array $options The options
-     *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
+     * @since 12.10.2018
      */
-    public function NiceAmount($options = array()) {
-        $options['display'] = Zend_Currency::NO_SYMBOL;
-        return $this->Nice($options);
+    public function NiceAmount()
+    {
+        if (!$this->exists()) {
+            return null;
+        }
+        $amount    = $this->getAmount();
+        $locale    = $this->getLocale();
+        $formatter = NumberFormatter::create($locale, NumberFormatter::DECIMAL);
+        return $formatter->format($amount);
     }
 
     /**
@@ -80,9 +87,9 @@ class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.10.2017
      */
-    public function scaffoldFormField($title = null, $params = null) {
+    public function scaffoldFormField($title = null, $params = null)
+    {
         return MoneyField::create($this->getName(), $title)
             ->setLocale($this->getLocale());
     }
-
 }

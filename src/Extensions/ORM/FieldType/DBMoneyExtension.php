@@ -14,21 +14,24 @@ use SilverStripe\Core\Extension;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DBMoneyExtension extends Extension {
-
+class DBMoneyExtension extends Extension
+{
     /**
      * Returns the amount formatted.
      *
-     * @param array $options The options
-     *
      * @return string
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2018
      */
-    public function NiceAmount($options = array()) {
-        $options['display'] = Zend_Currency::NO_SYMBOL;
-        return $this->owner->Nice($options);
+    public function NiceAmount()
+    {
+        if (!$this->owner->exists()) {
+            return null;
+        }
+        $amount    = $this->owner->getAmount();
+        $locale    = $this->owner->getLocale();
+        $formatter = NumberFormatter::create($locale, NumberFormatter::DECIMAL);
+        return $formatter->format($amount);
     }
-
 }
