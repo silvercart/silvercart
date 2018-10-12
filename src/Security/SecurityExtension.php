@@ -60,6 +60,16 @@ class SecurityExtension extends Extension
             Tools::Session()->set('BackURL', $backURL);
             Tools::saveSession();
         }
+        
+        $request = $this->owner->getRequest();
+        $action  = $request->param('Action');
+        if ($action === 'login') {
+            $backURL = $request->getVar('BackURL');
+            if (strpos($backURL, 'admin') !== 0
+             && strpos($backURL, '/admin') !== 0) {
+                $this->owner->redirect($backURL);
+            }
+        }
     }
     
     /**
