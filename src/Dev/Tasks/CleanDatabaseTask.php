@@ -2,8 +2,11 @@
 
 namespace SilverCart\Dev\Tasks;
 
-use SilverStripe\Dev\BuildTask;
+use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Product\AvailabilityStatus;
+use SilverCart\Model\Product\Product;
+use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Group;
 
@@ -63,6 +66,8 @@ class CleanDatabaseTask extends BuildTask
         $this->deleteAnonymousCustomers();
         $this->printInfo("");
         $this->deleteDeadManyManyRelations();
+        $this->printInfo("");
+        $this->updateAvailabilityByStock();
         $this->printInfo("");
     }
     
@@ -126,5 +131,49 @@ class CleanDatabaseTask extends BuildTask
         DB::query($deleteQuery);
         $total = $result->first()['Total'];
         $this->printInfo("\t• Deleted a total of {$total} dead {$baseObjectName}->{$relationName} relations.");
+    }
+    
+    /**
+     * Updates the availability status of products with a stock of <= 0 if
+     * stock management is enabled, the products stock is not overbookable and
+     * the products availability status is not the status with the 
+     * 'SetForNegativeStock' property.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 12.10.2018
+     */
+    protected function updateAvailabilityByStock()
+    {
+        if (Config::EnableStockManagement()) {
+            $status = AvailabilityStatus::get()->filter('SetForNegativeStock', true)->first();
+            if ($status instanceof AvailabilityStatus) {
+                $ccc = self::$CLI_COLOR_CHANGE_CYAN;
+                $ccg = self::$CLI_COLOR_CHANGE_GREEN;
+                $ccr = self::$CLI_COLOR_CHANGE_RED;
+                $ccy = self::$CLI_COLOR_CHANGE_YELLOW;
+                $this->printInfo("Updating availability status for products with a stock <= 0 to \"{$ccg}{$status->Title}{$ccy}\"...");
+                $products = Product::get()
+                        ->exclude("AvailabilityStatusID", $status->ID)
+                        ->where("StockQuantity <= 0");
+                $currentIndex      = 0;
+                $totalProductCount = $products->count();
+                $this->printInfo(" • Found {$totalProductCount} matching products.");
+                foreach ($products as $product) {
+                    /* @var $product Product */
+                    $currentIndex++;
+                    if ($product->isStockQuantityOverbookable()) {
+                        $this->printInfo("\t [{$this->getXofY($currentIndex, $totalProductCount)}] Product #{$product->ID} [SKU#{$product->ProductNumberShop}] is overbookable, skip.", self::$CLI_COLOR_MAGENTA);
+                        continue;
+                    }
+                    $this->printInfo("\t [{$ccc}{$this->getXofY($currentIndex, $totalProductCount)}{$ccy}] Updating product #{$product->ID} [SKU#{$product->ProductNumberShop}] with a stock of {$ccr}{$product->StockQuantity}{$ccy}.");
+                    $product->AvailabilityStatusID = $status->ID;
+                    $product->write();
+                }
+            } else {
+                $this->printInfo("No availability status for products with a stock <= 0 found...", self::$CLI_COLOR_RED);
+            }
+        }
     }
 }
