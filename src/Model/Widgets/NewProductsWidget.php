@@ -159,6 +159,7 @@ class NewProductsWidget extends Widget
         $minCreated     = date('Y-m-d H:i:s', $modifiedDate);
         $products       = Product::get()
                 ->where('"' . Product::config()->get('table_name') . '"."Created" > \'' . $minCreated . '\'')
+                ->where('"' . Product::config()->get('table_name') . '"."ProductGroupID" > 0')
                 ->limit($this->numberOfProductsToShow)
                 ->sort('"' . Product::config()->get('table_name') . '"."Created"', 'DESC');
         
