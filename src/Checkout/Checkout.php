@@ -400,11 +400,14 @@ class Checkout extends ViewableData {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2017
+     * @since 15.10.2018
      */
     public static function clear_session() {
-        Tools::Session()->set(self::SESSION_KEY, null);
-        Tools::saveSession();
+        $sessionData = Tools::Session()->get(self::SESSION_KEY);
+        if (!is_null($sessionData)) {
+            Tools::Session()->set(self::SESSION_KEY, null);
+            Tools::saveSession();
+        }
     }
     
     /**
