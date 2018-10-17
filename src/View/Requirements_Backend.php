@@ -439,4 +439,83 @@ MESSAGE
             $this->combineFiles($fileName, $files, $options);
         }
     }
+
+    /**
+     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------
+     * 
+     * <b>EDIT:</b><br/>
+     * LD+JSON scripts (<i><script type="application/ld+json"></i>) will be 
+     * ignored.
+     * 
+     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------
+     * Given a block of HTML, insert the given scripts inside the <body></body>
+     *
+     * @param string $jsRequirements String containing one or more javascript <script /> tags
+     * @param string $content        HTML body
+     * 
+     * @return string Merged HTML
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2018
+     */
+    protected function insertScriptsIntoBody($jsRequirements, $content)
+    {
+        // If your template already has script tags in the body, then we try to put our script
+        // tags just before those. Otherwise, we put it at the bottom.
+        $scriptTagPosition = $this->findScriptTagPosition($content);
+
+        $commentTags = array();
+        $canWriteToBody = ($scriptTagPosition !== false)
+            &&
+            // Check that the script tag is not inside a html comment tag
+            !(
+                preg_match('/.*(?|(<!--)|(-->))/U', $content, $commentTags, 0, $scriptTagPosition)
+                &&
+                $commentTags[1] == '-->'
+            );
+
+        if ($canWriteToBody) {
+            // Insert content before existing script tags
+            $content = substr($content, 0, $scriptTagPosition)
+                . $jsRequirements
+                . substr($content, $scriptTagPosition);
+        } else {
+            // Insert content at bottom of page otherwise
+            $content = $this->insertScriptsAtBottom($jsRequirements, $content);
+        }
+
+        return $content;
+    }
+    
+    /**
+     * Returns the position of a <script> tag. LD+JSON is ignored.
+     * 
+     * @param string $content Content to check
+     * 
+     * @return int
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.10.2018
+     */
+    public function findScriptTagPosition($content)
+    {
+        $ldJson = '<script type="application/ld+json">';
+        // If your template already has script tags in the body, then we try to put our script
+        // tags just before those. Otherwise, we put it at the bottom.
+        $bodyTagPosition   = stripos($content, '<body');
+        $scriptTagPosition = stripos($content, '<script', $bodyTagPosition);
+        $ldJsonTagPosition = stripos($content, $ldJson, $bodyTagPosition);
+        if ($scriptTagPosition !== false
+         && $scriptTagPosition === $ldJsonTagPosition) {
+            $subPosition = $this->findScriptTagPosition(substr($content, $scriptTagPosition + strlen($ldJson)));
+            if ($subPosition === false) {
+                $scriptTagPosition = false;
+            } else {
+                $scriptTagPosition += $subPosition + strlen($ldJson);
+            }
+        }
+        return $scriptTagPosition;
+    }
 }
