@@ -369,6 +369,19 @@ class Page extends SiteTree
     }
     
     /**
+     * Takes a relativelink and returns an absolute link.
+     * Meant to use in a template.
+     * 
+     * @param string $link Relative link
+     * 
+     * @return string
+     */
+    public function MakeAbsoluteLink($link)
+    {
+        return Director::absoluteURL($link);
+    }
+    
+    /**
      * Returns the absolute canonical link.
      * 
      * @return string
