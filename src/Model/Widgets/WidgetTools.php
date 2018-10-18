@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Widgets;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Widgets\Widget;
 use SilverCart\Model\Widgets\WidgetController;
 use SilverCart\ORM\DataObjectExtension;
@@ -20,9 +21,7 @@ use SilverStripe\Forms\ {
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
-use SilverStripe\Security\Member;
 use SilverStripe\View\Requirements;
-use SilverStripe\Security\Security;
 
 /**
  * Provides methods for common widget tasks in SilverCart.
@@ -535,13 +534,14 @@ class WidgetTools
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 18.10.2018
      */
     public static function ProductWidgetCacheKey($widget)
     {
         $key = '';
         if ($widget->Elements() instanceof SS_List
-            && $widget->Elements()->exists()) {
+            && $widget->Elements()->exists()
+        ) {
             $productMap = $widget->Elements()->map('ID', 'LastEditedForCache');
             if ($productMap instanceof Map) {
                 $productMap = $productMap->toArray();
@@ -569,18 +569,13 @@ class WidgetTools
             $productMapIDs        = implode('_', array_keys($productMap));
             sort($productMap);
             $productMapLastEdited = array_pop($productMap);
-            $groupIDs             = '';
-            $customer             = Security::getCurrentUser();
-
-            if ($customer instanceof Member) {
-                $groupIDs = implode('-', $customer->getGroupIDs());
-            }
+            
             $keyParts = [
                 i18n::get_locale(),
                 $productMapIDs,
                 $productMapLastEdited,
                 $widget->LastEdited,
-                $groupIDs
+                Customer::get_group_cache_key()
             ];
             
             if (Director::isDev()) {
