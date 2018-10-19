@@ -23,6 +23,7 @@ use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\Model\Widgets\ProductGroupItemsWidget;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Assets\Folder;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -1908,6 +1909,48 @@ class Product extends DataObject implements PermissionProvider
             'Manufacturer.Title' => new PartialMatchFilter('Manufacturer.Title')
         );
         return new SearchContext(get_class($this), $fields, $filters);
+    }
+    
+    /**
+     * Creates the upload folder for Product images if it doesn't exist.
+     *
+     * @return Folder
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.10.2018
+     */
+    public static function getImageUploadFolder()
+    {
+        $uploadsFolder = Folder::get()->filter('Name', self::DEFAULT_IMAGE_FOLDER)->first();
+        if (!($uploadsFolder instanceof Folder)) {
+            $uploadsFolder = Folder::create();
+            $uploadsFolder->Name = self::DEFAULT_IMAGE_FOLDER;
+            $uploadsFolder->Title = self::DEFAULT_IMAGE_FOLDER;
+            $uploadsFolder->ParentID = 0;
+            $uploadsFolder->write();
+        }
+        return $uploadsFolder;
+    }
+    
+    /**
+     * Creates the upload folder for Product files if it doesn't exist.
+     *
+     * @return Folder
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.10.2018
+     */
+    public static function getFileUploadFolder()
+    {
+        $uploadsFolder = Folder::get()->filter('Name', self::DEFAULT_FILES_FOLDER)->first();
+        if (!($uploadsFolder instanceof Folder)) {
+            $uploadsFolder = Folder::create();
+            $uploadsFolder->Name = self::DEFAULT_FILES_FOLDER;
+            $uploadsFolder->Title = self::DEFAULT_FILES_FOLDER;
+            $uploadsFolder->ParentID = 0;
+            $uploadsFolder->write();
+        }
+        return $uploadsFolder;
     }
 
     /**
