@@ -412,7 +412,7 @@ class SearchResultsPageController extends ProductGroupPageController
                         "%s"."ShortDescription" LIKE \'%%%s%%\' OR
                         "%s"."LongDescription" LIKE \'%%%s%%\'
                     ) OR
-                   "%s"."MetaKeywords" LIKE \'%%%s%%\' OR
+                   "%s"."Keywords" LIKE \'%%%s%%\' OR
                    "%s"."ProductNumberShop" LIKE \'%%%s%%\' OR
                    "%s"."EANCode" LIKE \'%%%s%%\' OR
                     STRCMP(
@@ -435,8 +435,8 @@ class SearchResultsPageController extends ProductGroupPageController
                 $searchQuery,
                 $productTranslationTable,
                 $searchQuery,
-                $productTranslationTable,
-                $searchQuery,// MetaKeywords
+                $productTable,
+                $searchQuery,// Keywords
                 $productTable,
                 $searchQuery,// ProductNumberShop
                 $productTable,
@@ -525,6 +525,7 @@ class SearchResultsPageController extends ProductGroupPageController
     protected function getSoftSearchFilter($searchTerms)
     {
         $softSearchQuery         = implode('%', $searchTerms);
+        $productTable            = Tools::get_table_name(Product::class);
         $productTranslationTable = Tools::get_table_name(ProductTranslation::class);
         $softSearchFilter        = sprintf('OR (
                 "%s"."Title" LIKE \'%s%%\' OR
@@ -533,7 +534,7 @@ class SearchResultsPageController extends ProductGroupPageController
                 "%s"."Title" LIKE \'%%%s%%\' OR
                 "%s"."ShortDescription" LIKE \'%%%s%%\' OR
                 "%s"."LongDescription" LIKE \'%%%s%%\' OR
-                "%s"."MetaKeywords" LIKE \'%%%s%%\'
+                "%s"."Keywords" LIKE \'%%%s%%\'
             )',
             $productTranslationTable, // Title [starts with]
             $softSearchQuery,         // Title [starts with]
@@ -547,8 +548,8 @@ class SearchResultsPageController extends ProductGroupPageController
             $softSearchQuery,         // ShortDescription
             $productTranslationTable, // LongDescription
             $softSearchQuery,         // LongDescription
-            $productTranslationTable, // MetaKeywords
-            $softSearchQuery          // MetaKeywords
+            $productTable,            // Keywords
+            $softSearchQuery          // Keywords
         );
         $this->extend('updateSoftSearchFilter', $softSearchFilter, $searchTerms);
         return $softSearchFilter;

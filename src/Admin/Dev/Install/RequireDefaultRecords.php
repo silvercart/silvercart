@@ -917,7 +917,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'The world' . "'" . 's most loved way to pay and get paid.',
                         'LongDescription'  => 'PayPal works behind the scenes to help protect you and your customers. Your customers will love the speed of PayPal streamlined checkout experience. And you will love the sales boost PayPal can deliver. PayPal is ideal for selling overseas. You can accept payments in 22 currencies from 190 countries and markets worldwide. Source: www.paypal.com',
                         'MetaDescription'  => 'The world' . "'" . 's most loved way to pay and get paid.',
-                        'MetaKeywords'     => 'SilverCart, modules, PayPal, payment',
                         'MetaTitle'        => 'Paypal'
                     ],
                     'en_GB' => [
@@ -925,7 +924,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'The world' . "'" . 's most loved way to pay and get paid.',
                         'LongDescription'  => 'PayPal works behind the scenes to help protect you and your customers. Your customers will love the speed of PayPal streamlined checkout experience. And you will love the sales boost PayPal can deliver. PayPal is ideal for selling overseas. You can accept payments in 22 currencies from 190 countries and markets worldwide. Source: www.paypal.com',
                         'MetaDescription'  => 'The world' . "'" . 's most loved way to pay and get paid.',
-                        'MetaKeywords'     => 'SilverCart, modules, PayPal, payment',
                         'MetaTitle'        => 'Paypal'
                     ],
                     'de_DE' => [
@@ -933,7 +931,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'PayPal ist sicherererer. Für Daten, für Einkäufe - Für alles',
                         'LongDescription'  => 'PayPal für Ihren Shop Sie haben einen Online-Shop und fragen sich, warum Sie PayPal anbieten sollen? Ganz einfach: Ihre Kunden bezahlen mit nur zwei Klicks. Sie schließen den Kauf zufrieden ab, kommen gerne wieder - und Sie steigern Ihren Umsatz! Das kann PayPal für Sie tun – und mehr!',
                         'MetaDescription'  => 'PayPal ist sicherererer. Für Daten, für Einkäufe - Für alles',
-                        'MetaKeywords'     => 'SilverCart, Modul, PayPal, Zahlart',
                         'MetaTitle'        => 'Paypal'
                     ],
                     'PriceGrossAmount'          => 9.99,
@@ -957,7 +954,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'iPayment is one of the largest providers of credit and debit card-based payment processing services in the country, processing more than $30 billion in credit and debit card volume annually.',
                         'LongDescription'  => '<p>Receive best in class service no matter what size your business is, with iPayment. We’re committed to making your business more successful by delivering credit and debit card-based payment processing services that are customized to suit your needs.</p><ul><li>Major credit cards: MasterCard®, Visa®, American Express®, Discover® and JCB®</li><li>PIN-secured and signature debit cards</li><li>Gift and loyalty cards</li><li>Petroleum services</li><li>Paper and electronic check services</li><li>Cash advance funding program</li></ul><p><small>Source: www.ipaymentinc.com/</small></p>',
                         'MetaDescription'  => 'iPayment is one of the largest providers of credit and debit card-based payment processing services in the country, processing more than $30 billion in credit and debit card volume annually.',
-                        'MetaKeywords'     => 'SilverCart, modules, iPayment, payment',
                         'MetaTitle'        => 'iPayment'
                     ],
                     'en_GB' => [
@@ -965,7 +961,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'iPayment is one of the largest providers of credit and debit card-based payment processing services in the country, processing more than $30 billion in credit and debit card volume annually.',
                         'LongDescription'  => '<p>Receive best in class service no matter what size your business is, with iPayment. We’re committed to making your business more successful by delivering credit and debit card-based payment processing services that are customized to suit your needs.</p><ul><li>Major credit cards: MasterCard®, Visa®, American Express®, Discover® and JCB®</li><li>PIN-secured and signature debit cards</li><li>Gift and loyalty cards</li><li>Petroleum services</li><li>Paper and electronic check services</li><li>Cash advance funding program</li></ul><p><small>Source: www.ipaymentinc.com/</small></p>',
                         'MetaDescription'  => 'iPayment is one of the largest providers of credit and debit card-based payment processing services in the country, processing more than $30 billion in credit and debit card volume annually.',
-                        'MetaKeywords'     => 'SilverCart, modules, iPayment, payment',
                         'MetaTitle'        => 'iPayment'
                     ],
                     'de_DE' => [
@@ -973,7 +968,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'iPayment unterstützt Ihren Geschäftserfolg im Internet, indem es Ihren Kunden die sichere Bezahlung per Kreditkarte, internetbasiertem elektronischen Lastschriftverfahren und weiteren Zahlungsmedien ermöglicht.',
                         'LongDescription'  => 'ipayment unterstützt Ihren Geschäftserfolg im Internet, indem es Ihren Kunden die sichere Bezahlung per Kreditkarte, internetbasiertem elektronischen Lastschriftverfahren und weiteren Zahlungsmedien ermöglicht. Je nach genutztem Zahlungsanbieter können Sie Ihren Kunden über ipayment die Bezahlung mit folgenden Zahlungsmedien anbieten: Visa MasterCard Maestro American Express JCB Diners Club Visa Electron Solo Internetbasiertes Elektronisches Lastschriftverfahren (ELV) paysafecard Das Unternehmen, über das Sie Ihre Onlinezahlungen abwickeln möchten, können Sie dabei selbst auswählen - ipayment verfügt über Schnittstellen zu den wichtigsten Zahlungsanbietern. Sie schließen den Akzeptanzvertrag mit dem Anbieter Ihrer Wahl - ipayment sorgt für die reibungslose und sichere Abwicklung! Dazu nimmt ipayment die Zahlungsvorgänge direkt aus Ihrem System auf und verarbeitet sie im Hochleistungsrechenzentrum von 1&1 in Karlsruhe. Selbstverständlich erfüllt ipayment dabei die Zertifizierungsanforderungen gemäß dem PCI DSS (Payment Card Industry Data Security Standard). ',
                         'MetaDescription'  => 'iPayment unterstützt Ihren Geschäftserfolg im Internet, indem es Ihren Kunden die sichere Bezahlung per Kreditkarte, internetbasiertem elektronischen Lastschriftverfahren und weiteren Zahlungsmedien ermöglicht.',
-                        'MetaKeywords'     => 'SilverCart, Module, iPayment, Zahlart',
                         'MetaTitle'        => 'iPayment'
                     ],
                     'PriceGrossAmount'          => 18.99,
@@ -997,7 +991,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Saferpay has set the standard for e-payment solutions in German-speaking Europe.',
                         'LongDescription'  => '<h3>Saferpay e-payment solutions for professionals and beginners</h3><p>Saferpay integrates all popular payment means in your Web shop through a single interface. This makes it easy to make adaptations and upgrades. What’s more, Saferpay enables the secure online processing of written and phone orders.</p><h3>More payment means – more turnover!</h3><p>Boost your turnover by offering a variety of payment means! With Saferpay you can offer your customers all popular payment means through a single interface, flexibly, easily & securely! You can accept all popular credit cards and debit cards with Saferpay and can activate new payment means at any time or deactivate existing ones and thus can flexibly react to your e-commerce requirements.</p><h3>More profit with security!</h3><p>SIX Card Solutions offers you comprehensive solutions from a single source to handle cashless, electronic payment processing as a merchant in e-commerce or in the phone/mail-order business as securely and conveniently as possible. The e-payment solution supports all current security standards. Increase confidence among your customers!</p>',
                         'MetaDescription'  => 'Saferpay has set the standard for e-payment solutions in German-speaking Europe.',
-                        'MetaKeywords'     => 'SilverCart, modules, Saferpay, payment',
                         'MetaTitle'        => 'Saferpay'
                     ],
                     'en_GB' => [
@@ -1005,7 +998,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Saferpay has set the standard for e-payment solutions in German-speaking Europe.',
                         'LongDescription'  => '<h3>Saferpay e-payment solutions for professionals and beginners</h3><p>Saferpay integrates all popular payment means in your Web shop through a single interface. This makes it easy to make adaptations and upgrades. What’s more, Saferpay enables the secure online processing of written and phone orders.</p><h3>More payment means – more turnover!</h3><p>Boost your turnover by offering a variety of payment means! With Saferpay you can offer your customers all popular payment means through a single interface, flexibly, easily & securely! You can accept all popular credit cards and debit cards with Saferpay and can activate new payment means at any time or deactivate existing ones and thus can flexibly react to your e-commerce requirements.</p><h3>More profit with security!</h3><p>SIX Card Solutions offers you comprehensive solutions from a single source to handle cashless, electronic payment processing as a merchant in e-commerce or in the phone/mail-order business as securely and conveniently as possible. The e-payment solution supports all current security standards. Increase confidence among your customers!</p>',
                         'MetaDescription'  => 'Saferpay has set the standard for e-payment solutions in German-speaking Europe.',
-                        'MetaKeywords'     => 'SilverCart, modules, Saferpay, payment',
                         'MetaTitle'        => 'Saferpay'
                     ],
                     'de_DE' => [
@@ -1013,7 +1005,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet."',
                         'LongDescription'  => '<h3>Saferpay E-Payment-Lösungen für Profis und Einsteiger</h3><p>Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet." Dank Saferpay müssen sich Online-Händler wie Karteninhaber über die Sicherheit beim Einkaufen im Internet keine Sorgen mehr machen. Händler kennen und schätzen das sichere Bezahlen im Internet über Saferpay weltweit.</p><p>Saferpay integriert alle gängigen Zahlungsmittel in Ihren Webshop - über eine einzige Schnittstelle. Dadurch sind Anpassungen und Erweiterungen problemlos umsetzbar. Darüber hinaus ermöglicht Saferpay die sichere Onlineabwicklung von schriftlichen und telefonischen Bestellungen.</p><h3>Mehr Zahlungsmittel – mehr Umsatz!</h3><p>Steigern Sie Ihren Umsatz durch das Angebot einer Vielzahl an Zahlungsmitteln! Mit Saferpay bieten Sie Ihren Kunden alle gängigen Zahlungsmittel über eine einzige Schnittstelle – flexibel, einfach & sicher! Mit Saferpay können Sie alle gängigen Kreditkarten und Debitkarten akzeptieren. Sie können jederzeit neue Zahlungsmittel aufschalten oder bestehende wieder abschalten und somit flexibel auf die Bedürfnisse im E-Commerce reagieren.</p><h3>Mit Sicherheit mehr Gewinn!</h3><p>Um die bargeldlose, elektronische Zahlungsabwicklung für Sie als Händler im E-Commerce oder Phone-/Mail-Order Business so sicher und bequem wie möglich zu machen, bietet die SIX Card Solutions Ihnen als Händler Komplettlösungen aus einer Hand. Die E-Payment-Lösung unterstützt alle heutigen Sicherheitsstandards. Stärken Sie das Vertrauen Ihrer Kunden !</p>',
                         'MetaDescription'  => 'Saferpay hat im deutschsprachigen Europa den Standard für E-Payment-Lösungen gesetzt und steht damit als Synonym für "sicheres Bezahlen im Internet."',
-                        'MetaKeywords'     => 'SilverCart, Module, Saferpay, Zahlart',
                         'MetaTitle'        => 'Saferpay'
                     ],
                     'PriceGrossAmount'          => 36.99,
@@ -1037,7 +1028,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic.',
                         'LongDescription'  => 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic. This module provides beside prepayment also payment via invoice.',
                         'MetaDescription'  => 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic.',
-                        'MetaKeywords'     => 'SilverCart, modules, Prepayment, payment',
                         'MetaTitle'        => 'Prepayment'
                     ],
                     'en_GB' => [
@@ -1045,7 +1035,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic.',
                         'LongDescription'  => 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic. This module provides beside prepayment also payment via invoice.',
                         'MetaDescription'  => 'Flexible payment system for all payment systems which don' . "'" . 't need any automated logic.',
-                        'MetaKeywords'     => 'SilverCart, modules, Prepayment, payment',
                         'MetaTitle'        => 'Prepayment'
                     ],
                     'de_DE' => [
@@ -1053,7 +1042,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern.',
                         'LongDescription'  => 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern. Dieses Modul bietet neben der Vorkasse auch Rechnung als Zahlungsart.',
                         'MetaDescription'  => 'Flexibles Zahlungs-Modul für alle Zahlungsarten, die keine automatisierte Logik erfordern.',
-                        'MetaKeywords'     => 'SilverCart, Module, Prepayment, Zahlart',
                         'MetaTitle'        => 'Vorkasse'
                     ],
                     'PriceGrossAmount'          => 27.99,
@@ -1077,7 +1065,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Cross selling is a practice of suggesting related products or services to a customer who is considering buying something.',
                         'LongDescription'  => 'It is a practice of suggesting related products or services to a customer who is considering buying something. Encourage established customers to buy different but related products. Getting a computer buyer to purchase a printer, for example. Source: www.procopytips.com',
                         'MetaDescription'  => 'Cross selling is a practice of suggesting related products or services to a customer who is considering buying something.',
-                        'MetaKeywords'     => 'SilverCart, module, Cross selling, marketing',
                         'MetaTitle'        => 'Cross selling'
                     ],
                     'en_GB' => [
@@ -1085,7 +1072,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Cross selling is a practice of suggesting related products or services to a customer who is considering buying something.',
                         'LongDescription'  => 'It is a practice of suggesting related products or services to a customer who is considering buying something. Encourage established customers to buy different but related products. Getting a computer buyer to purchase a printer, for example. Source: www.procopytips.com',
                         'MetaDescription'  => 'Cross selling is a practice of suggesting related products or services to a customer who is considering buying something.',
-                        'MetaKeywords'     => 'SilverCart, module, Cross selling, marketing',
                         'MetaTitle'        => 'Cross selling'
                     ],
                     'de_DE' => [
@@ -1093,7 +1079,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Kreuzverkauf bezeichnet im Marketing den Verkauf von sich ergänzenden Produkten oder Dienstleistungen.',
                         'LongDescription'  => 'Verkaufs- bzw. Marketinginstrument, bei dem Informationen über bereits existierende Kunden oder über bekanntes Konsumentenverhalten genutzt wird, um zusätzliche Käufe anderer Produkte zu begünstigen. Quelle: www.desig-n.de ',
                         'MetaDescription'  => 'Kreuzverkauf bezeichnet im Marketing den Verkauf von sich ergänzenden Produkten oder Dienstleistungen.',
-                        'MetaKeywords'     => 'SilverCart, Modul, Cross-Selling, Marketing',
                         'MetaTitle'        => 'Cross-Selling'
                     ],
                     'PriceGrossAmount'          => 12.99,
@@ -1117,7 +1102,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Increase sales with eKomi’s trusted independent customer review system!',
                         'LongDescription'  => 'eKomi – The Feedback Company, helps companies through their web-based social SaaS technology with authentic and valuable reviews from customers and helps increasing the customer satisfaction and sales. Generate valuable customer reviews with eKomi' . "'" . 's intelligent, easy to install software and increase sales, trust and customer loyalty. <small>Source: www.ekomi.co.uk</small>',
                         'MetaDescription'  => 'Increase sales with eKomi’s trusted independent customer review system!',
-                        'MetaKeywords'     => 'SilverCart, module, Ekomi, marketing',
                         'MetaTitle'        => 'eKomi'
                     ],
                     'en_GB' => [
@@ -1125,7 +1109,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Increase sales with eKomi’s trusted independent customer review system!',
                         'LongDescription'  => 'eKomi – The Feedback Company, helps companies through their web-based social SaaS technology with authentic and valuable reviews from customers and helps increasing the customer satisfaction and sales. Generate valuable customer reviews with eKomi' . "'" . 's intelligent, easy to install software and increase sales, trust and customer loyalty. <small>Source: www.ekomi.co.uk</small>',
                         'MetaDescription'  => 'Increase sales with eKomi’s trusted independent customer review system!',
-                        'MetaKeywords'     => 'SilverCart, module, Ekomi, marketing',
                         'MetaTitle'        => 'eKomi'
                     ],
                     'de_DE' => [
@@ -1133,7 +1116,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Mehr Umsatz und Vertrauen durch unabhängige Kunden- und Produktbewertungen!',
                         'LongDescription'  => 'Beginnen Sie noch heute, durch intelligente Kundenbefragung authentisches und wertvolles Kundenfeedback zu gewinnen und damit Ihre Kundenzufriedenheit und Ihren Umsatz zu steigern. ',
                         'MetaDescription'  => 'Mehr Umsatz und Vertrauen durch unabhängige Kunden- und Produktbewertungen!',
-                        'MetaKeywords'     => 'SilverCart, Modul, Ekomi, Marketing',
                         'MetaTitle'        => 'eKomi'
                     ],
                     'Title'                     => _t(RequireDefaultRecords::class . '.PRODUCTMARKETINGEKOMI_TITLE', 'eKomi'),
@@ -1149,7 +1131,6 @@ class RequireDefaultRecords
                     'LongDescription'           => _t(RequireDefaultRecords::class . '.PRODUCTMARKETINGEKOMI_LONGDESC', 'eKomi – The Feedback Company, helps companies through their web-based social SaaS technology with authentic and valuable reviews from customers and helps increasing the customer satisfaction and sales. Generate valuable customer reviews with eKomi' . "'" . 's intelligent, easy to install software and increase sales, trust and customer loyalty. <small>Source: www.ekomi.co.uk</small>'),
                     'MetaDescription'           => _t(RequireDefaultRecords::class . '.PRODUCTMARKETINGEKOMI_SHORTDESC', 'Increase sales with eKomi’s trusted independent customer review system!'),
                     'MetaTitle'                 => _t(RequireDefaultRecords::class . '.PRODUCTMARKETINGEKOMI_TITLE', 'eKomi'),
-                    'MetaKeywords'              => _t(RequireDefaultRecords::class . '.PRODUCTMARKETINGEKOMI_KEYWORDS', 'SilverCart, module, Ekomi, marketing'),
                     'Weight'                    => 345,
                     'StockQuantity'             => 146,
                     'ProductNumberShop'         => '10007',
@@ -1163,7 +1144,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Make your online shop more secure! Try the Protected Shops quality rating system to boost your sales!',
                         'LongDescription'  => 'In the online business you will be confronted with unmanageable specifications which can be very expensive if you breach the conditions. Protected Shops offers a quality rating system to boost your sales. 67% of customers trust in a indepented shop ratings. Use the Vote connect interface of Protected Shops to integrate the quality rating system provided by Protected Shops into SilverCart.',
                         'MetaDescription'  => 'Make your online shop more secure! Try the Protected Shops quality rating system to boost your sales!',
-                        'MetaKeywords'     => 'SilverCart, modules, ProtectedShops, marketing',
                         'MetaTitle'        => 'Protected Shops'
                     ],
                     'en_GB' => [
@@ -1171,7 +1151,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Make your online shop more secure! Try the Protected Shops quality rating system to boost your sales!',
                         'LongDescription'  => 'In the online business you will be confronted with unmanageable specifications which can be very expensive if you breach the conditions. Protected Shops offers a quality rating system to boost your sales. 67% of customers trust in a indepented shop ratings. Use the Vote connect interface of Protected Shops to integrate the quality rating system provided by Protected Shops into SilverCart.',
                         'MetaDescription'  => 'Make your online shop more secure! Try the Protected Shops quality rating system to boost your sales!',
-                        'MetaKeywords'     => 'SilverCart, modules, ProtectedShops, marketing',
                         'MetaTitle'        => 'Protected Shops'
                     ],
                     'de_DE' => [
@@ -1179,7 +1158,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Machen Sie Ihr Online-Business sicherer! Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. ',
                         'LongDescription'  => 'Wer im Internet handelt, ist mit einer unüberschaubaren Menge rechtlicher Vorgaben konfrontiert, die bei Nichteinhaltung zu einem teuren Unterfangen werden können. Gerade von Konkurrenten, die ihren Mitbewerb durch teuere Abmahnungen zu schädigen versuchen, geht für Ihr Unternehmen eine große Gefahr aus. Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. 67% der Online Käufer vertrauen auf Online-Konsumentenbewertungen (Quelle: www.nielsen.com vom 24.07.2009). Mit unserer Vote Connect Schnittstelle integrieren Sie das Protected Shops Kundenbewertungssystem in Ihren Shop. ',
                         'MetaDescription'  => 'Machen Sie Ihr Online-Business sicherer! Wer im Internet handelt, kann seinen Umsatz durch das Protected Shops Bewertungssystem steigern. ',
-                        'MetaKeywords'     => 'SilverCart, Module, ProtectedShops, Marketing',
                         'MetaTitle'        => 'Protected Shops'
                     ],
                     'PriceGrossAmount'          => 49.99,
@@ -1203,7 +1181,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Packet interface for the shipping provider DHL (EasyLog)',
                         'LongDescription'  => 'Packet interface for the shipping provider DHL. Interface to export ordernumbers into Easylog and import tracking numbers back into SilverCart.',
                         'MetaDescription'  => 'Packet interface for the shipping provider DHL (EasyLog)',
-                        'MetaKeywords'     => 'SilverCart, modules, shipping, DHL',
                         'MetaTitle'        => 'DHL'
                     ],
                     'en_GB' => [
@@ -1211,7 +1188,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Packet interface for the shipping provider DHL (EasyLog)',
                         'LongDescription'  => 'Packet interface for the shipping provider DHL. Interface to export ordernumbers into Easylog and import tracking numbers back into SilverCart.',
                         'MetaDescription'  => 'Packet interface for the shipping provider DHL (EasyLog)',
-                        'MetaKeywords'     => 'SilverCart, modules, shipping, DHL',
                         'MetaTitle'        => 'DHL'
                     ],
                     'de_DE' => [
@@ -1219,7 +1195,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Paketschnittstelle zum Versandanbieter DHL (Easylog)',
                         'LongDescription'  => 'Paketschnittstelle zum Versandanbieter DHL für den Export von Bestellungen nach Easylog und den Import von Sendungsnachverfolgungsnummern in SilverCart.',
                         'MetaDescription'  => 'Paketschnittstelle zum Versandanbieter DHL (Easylog)',
-                        'MetaKeywords'     => 'SilverCart, Module, Versand, DHL',
                         'MetaTitle'        => 'DHL'
                     ],
                     'PriceGrossAmount'          => 27.99,
@@ -1243,7 +1218,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Automatically generate PDF invoices',
                         'LongDescription'  => 'Automatically generated purchase order as PDF file.',
                         'MetaDescription'  => 'Automatically generate PDF invoices',
-                        'MetaKeywords'     => 'SilverCart, modules, PDF invoice',
                         'MetaTitle'        => 'PDF Invoice'
                     ],
                     'en_GB' => [
@@ -1251,7 +1225,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Automatically generate PDF invoices',
                         'LongDescription'  => 'Automatically generated purchase order as PDF file.',
                         'MetaDescription'  => 'Automatically generate PDF invoices',
-                        'MetaKeywords'     => 'SilverCart, modules, PDF invoice',
                         'MetaTitle'        => 'PDF Invoice'
                     ],
                     'de_DE' => [
@@ -1259,7 +1232,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Automatische Generierung von PDF-Rechnungen',
                         'LongDescription'  => 'Erstellt automatisiert PDF-Rechnungen bei Bestellungen.',
                         'MetaDescription'  => 'Automatische Generierung von PDF-Rechnungen',
-                        'MetaKeywords'     => 'SilverCart, Module, PDF-Rechnung',
                         'MetaTitle'        => 'PDF-Rechnung'
                     ],
                     'PriceGrossAmount'          => 18.99,
@@ -1283,7 +1255,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Create various vouchers with percentage or absolute price discount plus coupons for products.',
                         'LongDescription'  => 'Create various vouchers with percentage or absolute price discount plus coupons for products.',
                         'MetaDescription'  => 'Create various vouchers with percentage or absolute price discount plus coupons for products.',
-                        'MetaKeywords'     => 'SilverCart, modules, vouchers',
                         'MetaTitle'        => 'Vouchers'
                     ],
                     'en_GB' => [
@@ -1291,7 +1262,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Create various vouchers with percentage or absolute price discount plus coupons for products.',
                         'LongDescription'  => 'Create various vouchers with percentage or absolute price discount plus coupons for products.',
                         'MetaDescription'  => 'Create various vouchers with percentage or absolute price discount plus coupons for products.',
-                        'MetaKeywords'     => 'SilverCart, modules, vouchers',
                         'MetaTitle'        => 'Vouchers'
                     ],
                     'de_DE' => [
@@ -1299,7 +1269,6 @@ class RequireDefaultRecords
                         'ShortDescription' => 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.',
                         'LongDescription'  => 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.',
                         'MetaDescription'  => 'Gutscheinerstellung mit prozentualem oder absolutem Rabatt sowie Warengutscheinen.',
-                        'MetaKeywords'     => 'SilverCart, Module, Gutscheine',
                         'MetaTitle'        => 'Gutscheine'
                     ],
                     'PriceGrossAmount'          => 32.99,

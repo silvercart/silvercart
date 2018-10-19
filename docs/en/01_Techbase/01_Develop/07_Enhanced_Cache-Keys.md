@@ -80,7 +80,6 @@ Same will be done to ProductTranslation:
 	        'LongDescription',
 	        'MetaDescription',
 	        'MetaTitle',
-	        'MetaKeywords',
 	    );
 	    $this->extend('updateCacheRelevantFields', $cacheRelevantFields);
 	    return $cacheRelevantFields;

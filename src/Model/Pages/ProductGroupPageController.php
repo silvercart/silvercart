@@ -1471,9 +1471,7 @@ class ProductGroupPageController extends \PageController {
         $canonicalTag = '';
         if ($this->isProductDetailView()) {
             $product = $this->getDetailViewProduct();
-            $this->MetaKeywords                 = $product->MetaKeywords;
             $this->MetaDescription              = $product->MetaDescription;
-            $this->dataRecord->MetaKeywords     = $product->MetaKeywords;
             $this->dataRecord->MetaDescription  = $product->MetaDescription;
                     
             if ($product->IsMirroredView()) {

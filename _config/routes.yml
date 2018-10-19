@@ -24,3 +24,12 @@ After:
 SilverStripe\Control\Director:
   rules:
     'example-data//$Action/$ID/$OtherID': SilverCart\Admin\Dev\ExampleDataController
+---
+Name: silvercart_task_routes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
+---
+SilverStripe\Control\Director:
+  rules:
+    'silvercart/tasks/assign-product-keywords': SilverCart\Dev\Tasks\AssignProductKeywordsTask
