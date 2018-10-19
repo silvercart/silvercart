@@ -1071,7 +1071,7 @@ class ProductGroupPageController extends \PageController {
             }
         }
         
-        return $content;
+        return $content->setProcessShortcodes(true);
     }
     
     /**
