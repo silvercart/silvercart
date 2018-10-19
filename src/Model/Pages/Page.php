@@ -712,4 +712,66 @@ class Page extends SiteTree
         $this->extend('updateHeaderNavBeforeCartSelectContent', $content);
         return Tools::string2html($content);
     }
+
+    /**
+     * Replace a "[searchresults_link,id=n,q=s,c=m]" shortcode with a link to 
+     * the search results page with the corresponding ID.
+     *
+     * @param array           $arguments Arguments
+     * @param string          $content   Content
+     * @param ShortcodeParser $parser    Parser
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.10.2018
+     */
+    public static function link_shortcode_handler($arguments, $content = null, $parser = null)
+    {
+        if (!isset($arguments['id'])
+         || !is_numeric($arguments['id'])
+        ) {
+            return null;
+        }
+        if (!isset($arguments['q'])
+         && !isset($arguments['c'])
+        ) {
+            return null;
+        }
+
+        /** @var SiteTree $page */
+        if (!($page = DataObject::get_by_id(self::class, $arguments['id']))         // Get the current page by ID.
+         && !($page = Versioned::get_latest_version(self::class, $arguments['id'])) // Attempt link to old version.
+        ) {
+            return null; // There were no suitable matches at all.
+        }
+
+        /* @var $page SiteTree */
+        if ($page->hasMethod('PlainLink')) {
+            $link = $page->PlainLink();
+        } else {
+            $link = $page->Link();
+        }
+        if (strpos($link, '?') === false) {
+            $link = "{$link}?";
+        } else {
+            $link = "{$link}&";
+        }
+        if (isset($arguments['q'])
+         && isset($arguments['c'])
+        ) {
+            $link = "{$link}q={$arguments['q']}&c={$arguments['c']}";
+        } elseif (isset($arguments['q'])) {
+            $link = "{$link}q={$arguments['q']}";
+        } elseif (isset($arguments['c'])) {
+            $link = "{$link}c={$arguments['c']}";
+        }
+        $link = Convert::raw2att($link);
+
+        if ($content) {
+            return sprintf('<a href="%s">%s</a>', $link, $parser->parse($content));
+        } else {
+            return $link;
+        }
+    }
 }

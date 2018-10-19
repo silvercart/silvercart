@@ -24,6 +24,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\Order;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Product\Product;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverCart\View\GroupView\GroupViewList;
@@ -36,6 +37,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Reports\ReportAdmin;
 use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfigLeftAndMain;
+use SilverStripe\View\Parsers\ShortcodeParser;
 use WidgetSets\Admin\Controllers\WidgetSetAdmin;
 
 // Check if the page.php descends from the SilverCart\Model\Pages\Page
@@ -113,6 +115,10 @@ WidgetSetAdmin::config()->set('menuSortIndex', 20);
 ReportAdmin::config()->set('menuSortIndex', 30);
 SiteConfigLeftAndMain::config()->set('menuCode', 'config');
 SiteConfigLeftAndMain::config()->set('menuSortIndex', 1);
+ShortcodeParser::get('default')->register(
+    'searchresults_link',
+    array(Page::class, 'link_shortcode_handler')
+);
 // prepare a posted email address
 if (array_key_exists('Email', $_POST)) {
     $_POST['Email'] = Tools::prepareEmailAddress($_POST['Email']);
