@@ -18,6 +18,8 @@ use SilverStripe\Core\Convert;
 use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\Versioned\Versioned;
+use SilverStripe\View\ArrayData;
 
 /**
  * SearchResultsPage Controller class.
@@ -272,9 +274,16 @@ class SearchResultsPageController extends ProductGroupPageController
         $getQuery     = $this->getRequest()->getVar('q');
         $sessionQuery = SearchResultsPage::getCurrentSearchQuery();
         if (!empty($getQuery)
-         && $getQuery != $sessionQuery) {
+         && $getQuery != $sessionQuery
+        ) {
             SearchQuery::update_by_query(trim(Convert::raw2sql($getQuery)));
             SearchResultsPage::setCurrentSearchQuery($getQuery);
+        }
+        
+        $getCategory     = $this->getRequest()->getVar('c');
+        $sessionCategory = SearchResultsPage::getCurrentSearchCategory();
+        if ($getCategory != $sessionCategory) {
+            SearchResultsPage::setCurrentSearchCategory($getCategory);
         }
        
         $this->searchObjectHandler();
@@ -298,18 +307,20 @@ class SearchResultsPageController extends ProductGroupPageController
     }
 
     /**
-     * Returns the cache key parts for this product group
+     * Returns the cache key parts for the current search context query and
+     * category.
      * 
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.11.2012
+     * @since 19.10.2018
      */
     public function CacheKeyParts()
     {
         if (is_null($this->cacheKeyParts)) {
             parent::CacheKeyParts();
             $this->cacheKeyParts[] = sha1($this->getSearchQuery()) . md5($this->getSearchQuery());
+            $this->cacheKeyParts[] = $this->getSearchCategoryID();
         }
         return $this->cacheKeyParts;
     }
@@ -380,6 +391,7 @@ class SearchResultsPageController extends ProductGroupPageController
 
         $SQL_start                  = $this->getSqlOffset();
         $searchQuery                = $this->getSearchQuery();
+        $searchCategory             = $this->getSearchCategory();
         $searchTerms                = explode(' ', $searchQuery);
         $filter                     = '';
         $useExtensionResults        = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
@@ -461,6 +473,12 @@ class SearchResultsPageController extends ProductGroupPageController
                     }
                     $filter .= " {$listFilter}";
                 }
+            }
+            
+            if ($searchCategory instanceof ProductGroupPage) {
+                $categoryIDs    = $searchCategory->getFlatChildPageIDsForPage($searchCategory->ID);
+                $categoryIDList = implode(",", $categoryIDs);
+                $filter = "({$filter}) AND {$productTable}.ProductGroupID IN ({$categoryIDList})";
             }
 
             if (Product::defaultSort() == 'relevance') {
@@ -756,8 +774,28 @@ class SearchResultsPageController extends ProductGroupPageController
         $searchQuery = trim(Convert::raw2sql(SearchResultsPage::getCurrentSearchQuery()));
         return $searchQuery;
     }
+    
+    /**
+     * Returns the search category ID
+     * 
+     * @return int
+     */
+    public function getSearchCategoryID()
+    {
+        return (int) SearchResultsPage::getCurrentSearchCategory();
+    }
+    
+    /**
+     * Returns the search category
+     * 
+     * @return ProductGroupPage
+     */
+    public function getSearchCategory()
+    {
+        return ProductGroupPage::get()->byID($this->getSearchCategoryID());
+    }
 
-        /**
+    /**
      * Returns the total number of search results.
      *
      * @return int
@@ -874,5 +912,72 @@ class SearchResultsPageController extends ProductGroupPageController
     {
         $form = ProductGroupPageSelectorsForm::create($this);
         return $form;
+    }
+    
+    /**
+     * Returns a tree of search context product groups.
+     * 
+     * @return ArrayList
+     */
+    public function getProductGroups()
+    {
+        $productGroups = ArrayList::create();
+        $products      = $this->getProducts();
+        $ids           = array_keys($products->map()->toArray());
+        if (strpos($this->data()->Link(), '?') === false) {
+            $linkBase = "{$this->data()->Link()}?";
+        } else {
+            $linkBase = "{$this->data()->Link()}&";
+        }
+        if (count($ids) > 0) {
+            $idList            = implode(',', $ids);
+            $productTableName  = Product::config()->get('table_name');
+            $siteTreeTableName = $this->stageTable("SiteTree", Versioned::get_stage());
+            $productGroupPages = ProductGroupPage::get()
+                    ->where("{$siteTreeTableName}.ID IN (SELECT ProductGroupID FROM {$productTableName} AS P WHERE P.ID IN ({$idList}))");
+            foreach ($productGroupPages as $productGroupPage) {
+                /* @var $productGroupPage ProductGroupPage */
+                $rootProductGroup = $productGroupPage;
+                $groups           = [$rootProductGroup];
+                while ($rootProductGroup->Parent() instanceof ProductGroupPage) {
+                    $rootProductGroup = $rootProductGroup->Parent();
+                    $groups[] = $rootProductGroup;
+                }
+                $existing = $productGroups->find('ID', $rootProductGroup->ID);
+                if (is_null($existing)) {
+                    $existing = ArrayData::create([
+                        'ID'        => $rootProductGroup->ID,
+                        'Sort'      => $rootProductGroup->Sort,
+                        'Title'     => $rootProductGroup->Title,
+                        'MenuTitle' => $rootProductGroup->Title,
+                        'Link'      => "{$linkBase}c={$rootProductGroup->ID}",
+                        'Children'  => ArrayList::create(),
+                    ]);
+                    $productGroups->push($existing);
+                }
+                $groups = array_reverse($groups);
+                array_shift($groups);
+                if (count($groups) > 0) {
+                    $currentGroup = $existing;
+                    foreach ($groups as $group) {
+                        $existingChild = $currentGroup->Children->find('ID', $group->ID);
+                        if (is_null($existingChild)) {
+                            $existingChild = ArrayData::create([
+                                'ID'        => $group->ID,
+                                'Sort'      => $group->Sort,
+                                'Title'     => $group->Title,
+                                'MenuTitle' => $group->Title,
+                                'Link'      => "{$linkBase}c={$group->ID}",
+                                'Children'  => ArrayList::create(),
+                            ]);
+                            $currentGroup->Children->push($existingChild);
+                            $currentGroup->Children->sort("Sort");
+                        }
+                        $currentGroup = $existingChild;
+                    }
+                }
+            }
+        }
+        return $productGroups->sort("Sort");
     }
 }

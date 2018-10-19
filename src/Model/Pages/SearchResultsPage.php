@@ -20,8 +20,9 @@ use SilverStripe\Control\Director;
  */
 class SearchResultsPage extends ProductGroupPage
 {
-    const SESSION_KEY_SEARCH_QUERY = 'SilverCart.SearchQuery';
-    const SESSION_KEY_SEARCH_CONTEXT = 'SilverCart.SearchContext';
+    const SESSION_KEY_SEARCH_QUERY    = 'SilverCart.SearchQuery';
+    const SESSION_KEY_SEARCH_CATEGORY = 'SilverCart.SearchCategory';
+    const SESSION_KEY_SEARCH_CONTEXT  = 'SilverCart.SearchContext';
 
     /**
      * DB table name
@@ -128,9 +129,14 @@ class SearchResultsPage extends ProductGroupPage
             if (empty($metaTitle)) {
                 $ctrl = Controller::curr();
                 if ($ctrl instanceof SearchResultsPageController) {
-                    $searchTitle  = _t(self::class . '.SearchTitle', 'Search results for "{title}"', [
+                    $searchTitle  = _t(self::class . '.SearchTitle', '{count} search results for "{title}"', [
+                        'count' => $ctrl->TotalSearchResults(),
                         'title' => $ctrl->getPlainSearchQuery(),
                     ]);
+                    $searchCategory = $ctrl->getSearchCategory();
+                    if ($searchCategory instanceof ProductGroupPage) {
+                        $searchTitle = "{$searchTitle} ({$searchCategory->Title})";
+                    }
                     if ($ctrl->HasMorePagesThan(1)) {
                         $searchTitle .= ', ' . _t(Page::class . '.PageXofY', 'Page {x} of {y}', [
                             'x' => $ctrl->getProducts()->CurrentPage(),
@@ -233,6 +239,29 @@ class SearchResultsPage extends ProductGroupPage
     public static function setCurrentSearchQuery($searchQuery)
     {
         Tools::Session()->set(self::SESSION_KEY_SEARCH_QUERY, $searchQuery);
+        Tools::saveSession();
+    }
+    
+    /**
+     * Returns the current search category out of the session store.
+     * 
+     * @return string
+     */
+    public static function getCurrentSearchCategory()
+    {
+        return trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_CATEGORY));
+    }
+    
+    /**
+     * Sets the current search category.
+     * 
+     * @param string $searchCategory Search category.
+     * 
+     * @return void
+     */
+    public static function setCurrentSearchCategory($searchCategory)
+    {
+        Tools::Session()->set(self::SESSION_KEY_SEARCH_CATEGORY, $searchCategory);
         Tools::saveSession();
     }
     
