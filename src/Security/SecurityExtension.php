@@ -6,6 +6,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\QuickLoginForm;
 use SilverCart\Forms\QuickSearchForm;
 use SilverCart\Model\Customer\Customer;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Extension;
 use SilverStripe\i18n\i18n;
@@ -65,9 +66,16 @@ class SecurityExtension extends Extension
         $action  = $request->param('Action');
         if ($action === 'login') {
             $backURL = $request->getVar('BackURL');
-            if (strpos($backURL, 'admin') !== 0
-             && strpos($backURL, '/admin') !== 0) {
-                $this->owner->redirect($backURL);
+            if (!empty($backURL)) {
+                $rootPages = SiteTree::get()->filter('ParentID', 0);
+                foreach ($rootPages as $page) {
+                    if (strpos($backURL, $page->URLSegment) === 0
+                     || strpos($backURL, "/{$page->URLSegment}") === 0
+                    ) {
+                        $this->owner->redirect($backURL);
+                        break;
+                    }
+                }
             }
         }
     }
