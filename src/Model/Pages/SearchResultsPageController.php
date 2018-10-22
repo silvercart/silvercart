@@ -307,25 +307,6 @@ class SearchResultsPageController extends ProductGroupPageController
     }
 
     /**
-     * Returns the cache key parts for the current search context query and
-     * category.
-     * 
-     * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.10.2018
-     */
-    public function CacheKeyParts()
-    {
-        if (is_null($this->cacheKeyParts)) {
-            parent::CacheKeyParts();
-            $this->cacheKeyParts[] = sha1($this->getSearchQuery()) . md5($this->getSearchQuery());
-            $this->cacheKeyParts[] = $this->getSearchCategoryID();
-        }
-        return $this->cacheKeyParts;
-    }
-
-    /**
      * Search object handler
      *
      * @return void

@@ -218,6 +218,27 @@ class SearchResultsPage extends ProductGroupPage
         }
         return $queryLink;
     }
+
+    /**
+     * Returns the cache key parts for the current search context query and
+     * category.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 22.10.2018
+     */
+    public function CacheKeyParts()
+    {
+        if (is_null($this->cacheKeyParts)) {
+            $ctrl = Controller::curr();
+            /* @var $ctrl SearchResultsPageController */
+            parent::CacheKeyParts();
+            $this->cacheKeyParts[] = sha1($ctrl->getSearchQuery()) . md5($ctrl->getSearchQuery());
+            $this->cacheKeyParts[] = self::getCurrentSearchCategory();
+        }
+        return $this->cacheKeyParts;
+    }
     
     /**
      * Returns the current search query out of the session store.
