@@ -833,5 +833,6 @@ trait CLITask
         $subject = "SilverCart CLI task information";
         $content = implode("<br/>" . PHP_EOL, $lines);
         ShopEmail::send_email($recipient, $subject, $content);
+        $this->emailInfos = [];
     }
 }
