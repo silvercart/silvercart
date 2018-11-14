@@ -19,8 +19,15 @@
  * @since 09.02.2011
  * @license see license file in modules root directory
  */
-class SilvercartRemovePositionForm extends CustomHtmlForm {
-
+class SilvercartRemovePositionForm extends CustomHtmlForm
+{
+    
+    /**
+     * Context shopping cart position.
+     *
+     * @var SilvercartShoppingCartPosition
+     */
+    protected $position = null;
     /**
      * form settings, mainly submit button´s name
      *
@@ -34,6 +41,26 @@ class SilvercartRemovePositionForm extends CustomHtmlForm {
         'submitButtonTitle' => 'remove',
         'doJsValidationScrolling' => false
     );
+    
+    /**
+     * creates a form object with a free configurable markup
+     *
+     * @param ContentController $controller  the calling controller instance
+     * @param array             $params      optional parameters
+     * @param array             $preferences optional preferences
+     * @param bool              $barebone    defines if a form should only be instanciated or be used too
+     *
+     * @return CustomHtmlForm
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.11.2018
+     */
+    public function __construct($controller, $params = null, $preferences = null, $barebone = false)
+    {
+        $position = SilvercartShoppingCartPosition::get()->byID($params['positionID']);
+        $this->setPosition($position);
+        parent::__construct($controller, $params, $preferences, $barebone);
+    }
     
     /**
      * Alternative method to define form fields.
@@ -104,5 +131,26 @@ class SilvercartRemovePositionForm extends CustomHtmlForm {
         }
     }
 
+    /**
+     * Returns the context shopping cart position.
+     * 
+     * @return SilvercartShoppingCartPosition
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Sets the context shopping cart position.
+     * 
+     * @param SilvercartShoppingCartPosition $position
+     * 
+     * @return void
+     */
+    public function setPosition(SilvercartShoppingCartPosition $position)
+    {
+        $this->position = $position;
+    }
 }
 
