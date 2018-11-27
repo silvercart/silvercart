@@ -282,6 +282,40 @@ class SilvercartShoppingCartPosition extends DataObject {
     }
 
     /**
+     * Returns the formatted (Nice) summed price.
+     *
+     * @return string
+     */
+    public function getPriceNice() {
+        $priceNice = '';
+        $price     = $this->getPrice();
+
+        if ($price) {
+            $priceNice = $price->Nice();
+        }
+        $this->extend('updatePriceNice', $priceNice);
+
+        return $priceNice;
+    }
+
+    /**
+     * Returns the formatted (Nice) single price.
+     *
+     * @return string
+     */
+    public function getSinglePriceNice() {
+        $priceNice = '';
+        $price     = $this->getPrice(true);
+
+        if ($price) {
+            $priceNice = $price->Nice();
+        }
+        $this->extend('updateSinglePriceNice', $priceNice);
+
+        return $priceNice;
+    }
+
+    /**
      * Returns the shop product number
      *
      * @return string

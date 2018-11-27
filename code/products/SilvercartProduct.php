@@ -1561,6 +1561,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $pricesGroup->push($fields->dataFieldByName('PurchasePrice'));
         $pricesGroup->push($fields->dataFieldByName('SilvercartTaxID'));
         
+        $this->extend('updateFieldsForPrices', $pricesGroup, $fields);
         $fields->insertAfter($pricesGroup, 'ProductNumberGroup');
     }
 

@@ -814,6 +814,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
+        $this->extend('updateTaxableAmountGrossWithoutModules', $amount);
 
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -840,6 +841,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
+        $this->extend('updateTaxableAmountNetWithoutModules', $amount);
 
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -948,6 +950,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
+        $this->extend('updateTaxableAmountGrossWithoutFeesAndCharges', $amount);
 
         $amountObj->setAmount($amount);
 
@@ -1007,6 +1010,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
+        $this->extend('updateTaxableAmountNetWithoutFeesAndCharges', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
 
@@ -1036,7 +1040,7 @@ class SilvercartShoppingCart extends DataObject {
      *
      * @param boolean $excludeCharges Indicates wether to exlude charges and discounts
      *
-     * @return Money a price amount
+     * @return ArrayList
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.11.2012
@@ -1492,6 +1496,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForTotal('gross')->Price->getAmount();
         }
         
+        $this->extend('updateAmountTotalGross', $amount);
         $amountObj = new Money;
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -1518,6 +1523,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $tax->Amount->getAmount();
         }
 
+        $this->extend('updateAmountTotalNet', $amount);
         $amountObj->setAmount($amount);
 
         return $amountObj;
@@ -1856,23 +1862,26 @@ class SilvercartShoppingCart extends DataObject {
         );
 
         // products
-        foreach ($positions as $position) {
-            $taxRate            = $position->SilvercartProduct()->getTaxRate();
-            $originalTaxRate    = $position->SilvercartProduct()->getTaxRate(true);
+        $this->extend('overwritePositionTaxRates', $taxes, $positions);
+        if ($taxes->count() === 0) {
+            foreach ($positions as $position) {
+                $taxRate            = $position->SilvercartProduct()->getTaxRate();
+                $originalTaxRate    = $position->SilvercartProduct()->getTaxRate(true);
 
-            if (!$taxes->find('Rate', $taxRate)) {
-                $taxes->push(
-                    new DataObject(
-                        array(
-                            'Rate'          => $taxRate,
-                            'OriginalRate'  => $originalTaxRate,
-                            'AmountRaw'     => (float) 0.0,
+                if (!$taxes->find('Rate', $taxRate)) {
+                    $taxes->push(
+                        new DataObject(
+                            array(
+                                'Rate'          => $taxRate,
+                                'OriginalRate'  => $originalTaxRate,
+                                'AmountRaw'     => (float) 0.0,
+                            )
                         )
-                    )
-                );
+                    );
+                }
+                $taxSection = $taxes->find('Rate', $taxRate);
+                $taxSection->AmountRaw += $position->getTaxAmount();
             }
-            $taxSection = $taxes->find('Rate', $taxRate);
-            $taxSection->AmountRaw += $position->getTaxAmount();
         }
 
         // Registered Modules
