@@ -1214,16 +1214,17 @@ class SilvercartShoppingCart extends DataObject {
      * Returns the shipping method title.
      *
      * @return string
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.1.2011
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>,
+     *         Roland Lehmann <rlehmann@pixeltricks.de>
+     * @since 29.11.2018
      */
     public function CarrierAndShippingMethodTitle() {
         $title = '';
         $selectedShippingMethod = $this->getShippingMethod();
 
         if ($selectedShippingMethod) {
-            $title = $selectedShippingMethod->SilvercartCarrier()->Title . ' - ' . $selectedShippingMethod->Title;
+            $title = $selectedShippingMethod->getTitleWithCarrier();
         }
 
         return $title;

@@ -416,26 +416,26 @@ class SilvercartShippingMethod extends DataObject {
      * @return string carrier + title + fee
      */
     public function getTitleWithCarrierAndFee() {
+        $title = false;
         if ($this->getShippingFee()) {
-            return $this->getShippingFee()->getFeeWithCarrierAndShippingMethod();
-        } else {
-            return false;
+            $title = $this->getShippingFee()->getFeeWithCarrierAndShippingMethod();
         }
+        $this->extend('updateTitleWithCarrierAndFee', $title);
+        return $title;
     }
     
     /**
      * pseudo attribute
      *
      * @return false|string
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.10.2011
      */
     public function getTitleWithCarrier() {
+        $title = false;
         if ($this->SilvercartCarrier()) {
-            return $this->SilvercartCarrier()->Title . " - " . $this->Title;
+            $title = $this->SilvercartCarrier()->Title . " - " . $this->Title;
         }
-        return false;
+        $this->extend('updateTitleWithCarrier', $title);
+        return $title;
     }
     
     /**

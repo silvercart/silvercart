@@ -414,10 +414,11 @@ class SilvercartShippingFee extends DataObject {
      * @since 04.04.2012
      */
     public function getFeeWithCarrierAndShippingMethod() {
+        $title = false;
         if ($this->SilvercartShippingMethod()) {
             $carrier = "";
-            if ($this->SilvercartShippingMethod()->SilvercartCarrier()) {
-                $carrier = $this->SilvercartShippingMethod()->SilvercartCarrier()->Title;
+            if ($this->SilvercartShippingMethod()->SilvercartCarrier()->exists()) {
+                $carrier = "{$this->SilvercartShippingMethod()->SilvercartCarrier()->Title} - ";
             }
             $shippingMethod            = $this->SilvercartShippingMethod()->Title;
             $shippingFeeAmountAsString = $this->PriceFormatted();
@@ -426,9 +427,10 @@ class SilvercartShippingFee extends DataObject {
             } else {
                 $shippingFeeAmountAsString = '+ ' . $this->PriceFormatted();
             }
-            return $carrier . ' - ' . $shippingMethod . ' (' . $shippingFeeAmountAsString . ')';
+            $title = "{$carrier}{$shippingMethod} ({$shippingFeeAmountAsString})";
         }
-        return false;
+        $this->extend('updateFeeWithCarrierAndShippingMethod', $title);
+        return $title;
     }
     
     /**
