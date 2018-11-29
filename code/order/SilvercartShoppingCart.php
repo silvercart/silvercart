@@ -137,9 +137,9 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * Delivery time data.
      *
-     * @var ArrayData
+     * @var array
      */
-    protected $deliveryTimeData = null;
+    protected $deliveryTimeData = [];
 
     /**
      * default constructor
@@ -1342,7 +1342,9 @@ class SilvercartShoppingCart extends DataObject {
      * @return ArrayData
      */
     public function getDeliveryTimeData($shippingMethodID = 0, $forceDisplayInDays = false) {
-        if (is_null($this->deliveryTimeData)) {
+        $forceDisplayInDaysString = $forceDisplayInDays ? "1" : "0";
+        $deliveryTimeDataArrayKey = "{$shippingMethodID}-{$forceDisplayInDaysString}";
+        if (!array_key_exists($deliveryTimeDataArrayKey, $this->deliveryTimeData)) {
             $deliveryDaysMin  = 0;
             $deliveryDaysMax  = 0;
             $deliveryDaysText = '';
@@ -1392,13 +1394,13 @@ class SilvercartShoppingCart extends DataObject {
             if ($deliveryDaysMax < $productDeliveryDaysMin) {
                 $deliveryDaysMax = 0;
             }
-            $this->deliveryTimeData = new ArrayData([
+            $this->deliveryTimeData[$deliveryTimeDataArrayKey] = ArrayData::create([
                 'Min'  => $deliveryDaysMin,
                 'Max'  => $deliveryDaysMax,
                 'Text' => $deliveryDaysText,
             ]);
         }
-        return $this->deliveryTimeData;
+        return $this->deliveryTimeData[$deliveryTimeDataArrayKey];
     }
     
     /**
