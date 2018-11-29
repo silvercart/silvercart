@@ -660,7 +660,7 @@ class SilvercartShippingMethod extends DataObject {
         $allowedShippingMethodsArray    = array();
         $shippingMethods                = self::getAllowedShippingMethodsBase($carrier);
 
-        if ($shippingMethods instanceof DataList &&
+        if ($shippingMethods instanceof SS_List &&
             $shippingMethods->exists()) {
             foreach ($shippingMethods as $shippingMethod) {
                 if (!is_null($shippingAddress)) {
@@ -743,6 +743,7 @@ class SilvercartShippingMethod extends DataObject {
             $shippingMethods = SilvercartShippingMethod::get()
                     ->where($filter);
         }
+        SilvercartShippingMethod::singleton()->extend('updateAllowedShippingMethodsBase', $shippingMethods, $carrier);
         
         return $shippingMethods;
     }
