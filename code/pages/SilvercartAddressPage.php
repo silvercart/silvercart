@@ -81,9 +81,9 @@ class SilvercartAddressPage extends SilvercartMyAccountHolder {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.03.2014
      */
-    public function Link() {
+    public function Link($action = null) {
         $controller = Controller::curr();
-        $link       = parent::Link();
+        $link       = parent::Link($action);
 
         if ($controller instanceof SilvercartAddressPage_Controller) {
             $link .= 'edit/' . $controller->getAddressID();

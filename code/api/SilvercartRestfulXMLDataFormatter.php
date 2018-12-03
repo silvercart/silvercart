@@ -98,7 +98,7 @@ class SilvercartRestfulXMLDataFormatter extends SilvercartXMLDataFormatter {
                         $this->setRelationDepth($relationDepth - 1);
 
                         $originalCustomAddFields = $this->getCustomAddFields();
-                        $customAddFields = Object::get_static($relObj->ClassName, 'custom_add_export_fields');
+                        $customAddFields = Config::inst()->get($relObj->ClassName, 'custom_add_export_fields');
                         $this->setCustomAddFields((array) $customAddFields);
                         $xml .= $this->convertDataObjectWithoutHeader($relObj, $fields);
                         $this->setCustomAddFields($originalCustomAddFields);

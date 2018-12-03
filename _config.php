@@ -62,7 +62,7 @@ SilvercartPlugin::registerPluginProvider('SilvercartShoppingCart',              
 SilvercartPlugin::registerPluginProvider('SilvercartShoppingCartPosition',          'SilvercartShoppingCartPositionPluginProvider');
 
 // use custom classes
-Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
+SS_Object::useCustomClass('Member_ForgotPasswordEmail', 'SilvercartCustomer_ForgotPasswordEmail');
 
 // configure WidgetSet
 WidgetSetWidgetExtension::preventWidgetCreationByClass('SilvercartWidget');

@@ -18,7 +18,7 @@
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SilvercartFormValidation extends Object {
+class SilvercartFormValidation extends SS_Object {
     /**
      * used as Form callback: Does the entered Email already exist?
      *

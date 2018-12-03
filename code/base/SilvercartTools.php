@@ -19,7 +19,7 @@
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SilvercartTools extends Object {
+class SilvercartTools extends SS_Object {
     
     /**
      * The base url segment
@@ -147,7 +147,7 @@ class SilvercartTools extends Object {
         if (class_exists('SS_Transliterator')) {
             $transliteratorClass = 'SS_Transliterator';
         }
-        $string     = Object::create($transliteratorClass)->toASCII($string);
+        $string     = SS_Object::create($transliteratorClass)->toASCII($string);
         $string     = str_replace('&amp;','-and-',$string);
         $string     = str_replace('&','-and-',$string);
         $string     = preg_replace('/[^A-Za-z0-9]+/','-',$string);

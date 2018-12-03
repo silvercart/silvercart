@@ -19,7 +19,7 @@
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
-class SilvercartPlugin extends Object {
+class SilvercartPlugin extends SS_Object {
     
     /**
      * The object that called this plugin

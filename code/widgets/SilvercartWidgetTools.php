@@ -18,7 +18,7 @@
  * @since 28.03.2012
  * @license see license file in modules root directory
  */
-class SilvercartWidgetTools extends Object {
+class SilvercartWidgetTools extends SS_Object {
     
     /**
      * Returns the slider tab input fields for this widget.

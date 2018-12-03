@@ -110,7 +110,7 @@ class SilvercartFormScaffolder extends FormScaffolder {
                     } else {
                         $config = SilvercartGridFieldConfig_RelationEditor::create();
                     }
-                    $grid = Object::create(
+                    $grid = SS_Object::create(
                             $fieldClass,
                             $relationship,
                             $this->obj->fieldLabel($relationship),
@@ -137,7 +137,7 @@ class SilvercartFormScaffolder extends FormScaffolder {
                     }
 
                     $fieldClass = (isset($this->fieldClasses[$relationship])) ? $this->fieldClasses[$relationship] : 'GridField';
-                    $grid = Object::create($fieldClass, $relationship, $this->obj->fieldLabel($relationship), $this->obj->$relationship(), SilvercartGridFieldConfig_RelationEditor::create()
+                    $grid = SS_Object::create($fieldClass, $relationship, $this->obj->fieldLabel($relationship), $this->obj->$relationship(), SilvercartGridFieldConfig_RelationEditor::create()
                     );
                     if ($this->tabbed) {
                         $fields->addFieldToTab("Root.$relationship", $grid);

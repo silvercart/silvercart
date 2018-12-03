@@ -87,9 +87,9 @@ class SilvercartOrderDetailPage extends SilvercartMyAccountHolder {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 04.03.2014
      */
-    public function Link() {
+    public function Link($action = null) {
         $controller = Controller::curr();
-        $link       = parent::Link();
+        $link       = parent::Link($action);
 
         if ($controller instanceof SilvercartOrderDetailPage_Controller) {
             $link .= 'detail' . $controller->getOrderID();

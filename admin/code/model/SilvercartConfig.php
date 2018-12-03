@@ -25,7 +25,7 @@
  * @since 23.02.2011
  * @license see license file in modules root directory
  */
-class SilvercartConfig extends Object {
+class SilvercartConfig extends SS_Object {
     
     /**
      * Contains the possible values for products per page selectors for
