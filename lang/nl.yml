@@ -1194,6 +1194,7 @@ nl:
     GOTO_PAGE: "Go to page %s "
     HEADERPICTURE: "Header foto"
     HELLO: "Hello"
+    INCL_TAX: "incl. BTW"
     INCLUDED_VAT: "inclusief BTW"
     INCLUDING_TAX: "incl. %s%% BTW"
     INCREMENT_POSITION: "Increase quantity"
