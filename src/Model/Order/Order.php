@@ -1347,7 +1347,7 @@ class Order extends DataObject implements PermissionProvider
                         $orderPosition->TaxRate             = $modulePosition->TaxRate;
                         $orderPosition->ProductDescription  = $modulePosition->LongDescription;
                         $orderPosition->Quantity            = $modulePosition->Quantity;
-                        $orderPosition->Title               = $modulePosition->Name;
+                        $orderPosition->Title               = (string) $modulePosition->Name;
                         if ($modulePosition->isChargeOrDiscount) {
                             $orderPosition->isChargeOrDiscount                  = true;
                             $orderPosition->chargeOrDiscountModificationImpact  = $modulePosition->chargeOrDiscountModificationImpact;
@@ -1382,7 +1382,7 @@ class Order extends DataObject implements PermissionProvider
                         $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
                         $orderPosition->Quantity            = 1;
                         $orderPosition->ProductNumber       = $chargeAndDiscountForProduct->sumModificationProductNumber;
-                        $orderPosition->Title               = $chargeAndDiscountForProduct->Name;
+                        $orderPosition->Title               = (string) $chargeAndDiscountForProduct->Name;
                         $orderPosition->OrderID             = $this->ID;
                         $orderPosition->write();
                         unset($orderPosition);
@@ -1448,7 +1448,7 @@ class Order extends DataObject implements PermissionProvider
                         $orderPosition->ProductDescription  = $chargeAndDiscountForTotal->Name;
                         $orderPosition->Quantity            = 1;
                         $orderPosition->ProductNumber       = $chargeAndDiscountForTotal->sumModificationProductNumber;
-                        $orderPosition->Title               = $chargeAndDiscountForTotal->Name;
+                        $orderPosition->Title               = (string) $chargeAndDiscountForTotal->Name;
                         $orderPosition->OrderID             = $this->ID;
                         $orderPosition->write();
                         unset($orderPosition);
