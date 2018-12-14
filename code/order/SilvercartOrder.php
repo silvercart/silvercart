@@ -1422,7 +1422,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
             $tax += $orderPosition->TaxTotal;
         }
 
-        $taxObj = new Money('Tax');
+        $taxObj = Money::create('Tax');
         $taxObj->setAmount($tax);
         $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1459,7 +1459,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
         $positionsAsString = implode($seperator . '------------------------' . $seperator, $positionsStrings);
         if ($withAmountTotal) {
-            $shipmentAndPayment = new Money();
+            $shipmentAndPayment = Money::create();
             $shipmentAndPayment->setAmount($this->HandlingCostPayment->getAmount() + $this->HandlingCostShipment->getAmount());
             $shipmentAndPayment->setCurrency($this->HandlingCostPayment->getCurrency());
             
@@ -1479,7 +1479,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getPositionsPriceGross() {
         $positionsPriceGross = $this->AmountTotal->getAmount() - ($this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount());
 
-        $positionsPriceGrossObj = new Money();
+        $positionsPriceGrossObj = Money::create();
         $positionsPriceGrossObj->setAmount($positionsPriceGross);
         $positionsPriceGrossObj->setCurrency(SilvercartConfig::DefaultCurrency());
         
@@ -1494,7 +1494,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getPositionsPriceNet() {
         $priceNet = $this->getPositionsPriceGross()->getAmount() - $this->getTax(true,true,true)->getAmount();
 
-        $priceNetObj = new Money();
+        $priceNetObj = Money::create();
         $priceNetObj->setAmount($priceNet);
         $priceNetObj->setCurrency(SilvercartConfig::DefaultCurrency());
         
@@ -1684,7 +1684,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return Money
      */
     public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
-        $priceGross = new Money();
+        $priceGross = Money::create();
         $priceGross->setAmount(0);
         $priceGross->setCurrency(SilvercartConfig::DefaultCurrency());
         
@@ -1736,7 +1736,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      * @return Money
      */
     public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false) {
-        $priceNet = new Money();
+        $priceNet = Money::create();
         $priceNet->setAmount(0);
         $priceNet->setCurrency(SilvercartConfig::DefaultCurrency());
         
@@ -1953,7 +1953,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         }
 
         foreach ($taxes as $tax) {
-            $taxObj = new Money;
+            $taxObj = Money::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -2077,7 +2077,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         $taxSection->AmountRaw += $this->TaxAmountPayment;
 
         foreach ($taxes as $tax) {
-            $taxObj = new Money;
+            $taxObj = Money::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -2505,7 +2505,7 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
     public function getAmountNet() {
         user_error('SilvercartOrder::getAmountNet() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
         $amountNet = $this->AmountGrossTotal->getAmount() - $this->Tax->getAmount();
-        $amountNetObj = new Money();
+        $amountNetObj = Money::create();
         $amountNetObj->setAmount($amountNet);
         $amountNetObj->setCurrency(SilvercartConfig::DefaultCurrency());
 

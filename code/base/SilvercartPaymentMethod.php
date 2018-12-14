@@ -506,7 +506,7 @@ class SilvercartPaymentMethod extends DataObject {
                 $handlingCostToUse->SilvercartPaymentMethod = $this;
                 $handlingCostToUse->SilvercartTax           = $silvercartTax;
                 $handlingCostToUse->SilvercartTaxID         = $silvercartTax->ID;
-                $handlingCostToUse->amount                  = new Money();
+                $handlingCostToUse->amount                  = Money::create();
                 $handlingCostToUse->amount->setAmount(0);
                 $handlingCostToUse->amount->setCurrency(SilvercartConfig::DefaultCurrency());
             }
@@ -529,7 +529,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 13.03.2014
      */
     public function getChargesAndDiscountsForProducts(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
-        $handlingCosts = new Money;
+        $handlingCosts = Money::create();
         $handlingCosts->setAmount(0);
         $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -634,7 +634,7 @@ class SilvercartPaymentMethod extends DataObject {
      * @since 16.11.2013
      */
     public function getChargesAndDiscountsForTotal(SilvercartShoppingCart $silvercartShoppingCart, $priceType = false) {
-        $handlingCosts = new Money;
+        $handlingCosts = Money::create();
         $handlingCosts->setAmount(0);
         $handlingCosts->setCurrency(SilvercartConfig::DefaultCurrency());
 

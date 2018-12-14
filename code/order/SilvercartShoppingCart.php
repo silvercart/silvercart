@@ -637,7 +637,7 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
         
-        $amountTotalObj = new Money;
+        $amountTotalObj = Money::create();
         $amountTotalObj->setAmount($amountTotal);
         $amountTotalObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -679,7 +679,7 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
 
-        $amountTotalObj = new Money;
+        $amountTotalObj = Money::create();
         $amountTotalObj->setAmount($amountTotal);
         $amountTotalObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -733,7 +733,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount += $this->ChargesAndDiscountsForProducts()->Price->getAmount();
         }
         
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -768,7 +768,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount = 0;
         }
 
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -807,7 +807,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 17.10.2012
      */
     public function getTaxableAmountGrossWithoutModules() {
-        $amountObj = new Money();
+        $amountObj = Money::create();
         $amount    = 0;
 
         $modulePositions = $this->getTaxableShoppingcartPositions(array(), array(), false);
@@ -834,7 +834,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 17.10.2012
      */
     public function getTaxableAmountNetWithoutModules() {
-        $amountObj = new Money();
+        $amountObj = Money::create();
         $amount    = 0;
 
         $modulePositions = $this->getTaxableShoppingcartPositions(array(), array(), false);
@@ -942,7 +942,7 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = new Money();
+        $amountObj = Money::create();
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
         $amount    = 0;
 
@@ -1003,7 +1003,7 @@ class SilvercartShoppingCart extends DataObject {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = new Money();
+        $amountObj = Money::create();
         $amount    = 0;
 
         $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, true);
@@ -1119,7 +1119,7 @@ class SilvercartShoppingCart extends DataObject {
             }
         }
 
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1140,7 +1140,7 @@ class SilvercartShoppingCart extends DataObject {
         if ($paymentMethodObj) {
             $handlingCostPaymentObj = $paymentMethodObj->getHandlingCost();
         } else {
-            $paymentDefaultCost = new Money();
+            $paymentDefaultCost = Money::create();
             $paymentDefaultCost->setAmount(0);
             $paymentDefaultCost->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1170,7 +1170,7 @@ class SilvercartShoppingCart extends DataObject {
             $selectedShippingMethod->getShippingFee()->exists()) {
             $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
-            $handlingCostShipmentObj = new Money();
+            $handlingCostShipmentObj = Money::create();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
             $handlingCostShipmentObj->setCurrency(SilvercartConfig::DefaultCurrency());
         }
@@ -1277,7 +1277,7 @@ class SilvercartShoppingCart extends DataObject {
      * @since 09.06.2011
      */
     public function MinimumOrderValue() {
-        $minimumOrderValue = new Money();
+        $minimumOrderValue = Money::create();
 
         if (SilvercartConfig::UseMinimumOrderValue() &&
             SilvercartConfig::MinimumOrderValue()) {
@@ -1500,7 +1500,7 @@ class SilvercartShoppingCart extends DataObject {
         }
         
         $this->extend('updateAmountTotalGross', $amount);
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1558,7 +1558,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount = round($amount, 2);
         }
 
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1591,7 +1591,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount = round($amount, 2);
         }
         
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1639,7 +1639,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount = round($amount, 2);
         }       
 
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1665,7 +1665,7 @@ class SilvercartShoppingCart extends DataObject {
             $amount = round($amount, 2);
         }
 
-        $amountObj = new Money;
+        $amountObj = Money::create();
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1716,7 +1716,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         foreach ($taxes as $tax) {
-            $taxObj = new Money;
+            $taxObj = Money::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1791,7 +1791,7 @@ class SilvercartShoppingCart extends DataObject {
             }
 
             foreach ($taxes as $tax) {
-                $taxObj = new Money;
+                $taxObj = Money::create();
                 $taxObj->setAmount(round($tax->AmountRaw, 2));
                 $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1830,7 +1830,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         foreach ($taxes as $tax) {
-            $taxObj = new Money;
+            $taxObj = Money::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 
@@ -1910,7 +1910,7 @@ class SilvercartShoppingCart extends DataObject {
         }
 
         foreach ($taxes as $tax) {
-            $taxObj = new Money;
+            $taxObj = Money::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(SilvercartConfig::DefaultCurrency());
 

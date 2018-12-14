@@ -298,7 +298,7 @@ class SilvercartShippingFee extends DataObject {
         if ($this->PostPricing) {
             $priceFormatted = '---';
         } else {
-            $priceObj = new Money();
+            $priceObj = Money::create();
             $priceObj->setAmount($this->getPriceAmount(false, $amount, $country));
             $priceObj->setCurrency($this->getPriceCurrency());
 
@@ -322,7 +322,7 @@ class SilvercartShippingFee extends DataObject {
         if ($this->PostPricing) {
             $priceFormatted = '---';
         } else {
-            $priceObj = new Money();
+            $priceObj = Money::create();
             $priceObj->setAmount($this->getPriceAmount($plain));
             $priceObj->setCurrency($this->getPriceCurrency());
 
@@ -442,7 +442,7 @@ class SilvercartShippingFee extends DataObject {
      * @since 13.03.2012
      */
     public function getCalculatedPrice() {
-        $priceObj = new Money();
+        $priceObj = Money::create();
         $priceObj->setAmount($this->getPriceAmount());
         $priceObj->setCurrency($this->getPriceCurrency());
 
@@ -538,7 +538,7 @@ class SilvercartShippingFee extends DataObject {
      * @since 17.10.2012
      */
     public function FreeOfShippingCostsFrom($country) {
-        $freeOfShippingCostsFrom = new Money();
+        $freeOfShippingCostsFrom = Money::create();
         if ($this->UseFreeOfShippingCostsFrom()) {
             if ($this->freeOfShippingCostsFrom->getAmount() > 0) {
                 $freeOfShippingCostsFrom = $this->freeOfShippingCostsFrom;

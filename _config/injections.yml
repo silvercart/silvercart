@@ -4,3 +4,5 @@ Name: silvercart-injections
 Injector:
   MemberLoginForm:
     class: SilvercartMemberLoginForm
+  Money:
+    class: SilvercartMoney

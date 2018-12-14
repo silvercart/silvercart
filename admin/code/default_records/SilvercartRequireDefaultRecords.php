@@ -2223,7 +2223,7 @@ class SilvercartRequireDefaultRecords extends DataObject {
                     $shippingFee = new SilvercartShippingFee();
                     $shippingFee->MaximumWeight = '100000';
                     $shippingFee->UnlimitedWeight = true;
-                    $shippingFee->Price = new Money();
+                    $shippingFee->Price = Money::create();
                     $shippingFee->Price->setAmount('3.9');
                     $shippingFee->Price->setCurrency('EUR');
                 }

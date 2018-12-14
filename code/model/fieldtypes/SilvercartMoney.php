@@ -51,6 +51,9 @@ class SilvercartMoney extends Money implements CompositeDBField {
      */
     public function getCurrency() {
         $currency = parent::getCurrency();
+        if (empty($currency)) {
+            $currency = SilvercartConfig::DefaultCurrency();
+        }
         $this->extend('updateCurrency', $currency);
         return $currency;
     }

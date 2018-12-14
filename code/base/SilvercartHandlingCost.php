@@ -198,7 +198,7 @@ class SilvercartHandlingCost extends DataObject {
      * @since 31.01.2011
      */
     public function PriceFormatted() {
-        $priceObj = new Money();
+        $priceObj = Money::create();
         $priceObj->setAmount($this->getPriceAmount());
         $priceObj->setCurrency($this->price->getCurrency());
 
