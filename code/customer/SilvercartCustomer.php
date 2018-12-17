@@ -1299,6 +1299,9 @@ class SilvercartCustomer_Validator extends DataExtension {
         $valid = true;
         $groups = $data['DirectGroups'];
         if (!empty($groups)) {
+            if (is_array($groups)) {
+                $groups = implode(',', $groups);
+            }
             $groupObjects = Group::get()->where(sprintf('"Group"."ID" IN (%s)', $groups));
             $pricetypes   = array();
             foreach ($groupObjects as $group) {
