@@ -163,7 +163,11 @@ class SilvercartSlidorionProductGroupWidget extends SilvercartWidget {
         $imageTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
         $imageTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $imageTable->getConfig()->addComponent(new GridFieldDeleteAction());
-        $imageTable->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
+        if (class_exists('GridFieldOrderableRows')) {
+            $imageTable->getConfig()->addComponent(new GridFieldOrderableRows('Sort'));
+        } elseif (class_exists('GridFieldSortableRows')) {
+            $imageTable->getConfig()->addComponent(new GridFieldSortableRows('Sort'));
+        }
         
         $imagesUploadDescription = sprintf(
                 $this->fieldLabel('SilvercartImagesDescription'),

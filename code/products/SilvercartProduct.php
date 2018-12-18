@@ -1601,7 +1601,9 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $imageGridField->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $imageGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
-        if (class_exists('GridFieldSortableRows')) {
+        if (class_exists('GridFieldOrderableRows')) {
+            $imageGridField->getConfig()->addComponent(new GridFieldOrderableRows('SortOrder'));
+        } elseif (class_exists('GridFieldSortableRows')) {
             $imageGridField->getConfig()->addComponent(new GridFieldSortableRows('SortOrder'));
         }
         

@@ -116,8 +116,13 @@ class SilvercartModelAdmin extends ModelAdmin {
                 ->addComponent(new GridFieldEditButton())
                 ->addComponent(new GridFieldDeleteAction());
         
-        if (class_exists('GridFieldSortableRows') &&
-            !empty($sortable_field)) {
+        if (class_exists('GridFieldOrderableRows')
+         && !empty($sortable_field)
+        ) {
+            $this->getGridFieldConfig($form)->addComponent(new GridFieldOrderableRows($sortable_field));
+        } elseif (class_exists('GridFieldSortableRows')
+         && !empty($sortable_field)
+        ) {
             $this->getGridFieldConfig($form)->addComponent(new GridFieldSortableRows($sortable_field));
         }
         if (SilvercartGridFieldBatchController::hasBatchActionsFor($this->sanitiseClassName($this->modelClass))) {
