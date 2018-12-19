@@ -632,6 +632,9 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     public function providePermissions() {
         $permissions = array(
             'SILVERCART_PRODUCT_CREATE' => _t('SilvercartProduct.SILVERCART_PRODUCT_CREATE'),
+            'SILVERCART_PRODUCT_VIEW'   => _t('SilvercartProduct.SILVERCART_PRODUCT_VIEW'),
+            'SILVERCART_PRODUCT_EDIT'   => _t('SilvercartProduct.SILVERCART_PRODUCT_EDIT'),
+            'SILVERCART_PRODUCT_DELETE' => _t('SilvercartProduct.SILVERCART_PRODUCT_DELETE')
         );
         $this->extend('updatePermissions', $permissions);
         return $permissions;
@@ -664,14 +667,7 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @since 15.11.2014
      */
     public function canEdit($member = null) {
-        $can = false;
-        if (is_null($member)) {
-            $member = SilvercartCustomer::currentUser();
-        }
-        if ($member instanceof Member &&
-            (Permission::checkMember($member, 'ADMIN'))) {
-            $can = true;
-        }
+        $can = Permission::checkMember($member, 'SILVERCART_PRODUCT_EDIT');
         $this->extend('updateCanEdit', $member, $can);
         return $can;
     }
@@ -687,17 +683,34 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
      * @since 20.02.2013
      */
     public function canView($member = null) {
-        $canView = parent::canView($member);
-        if (!$canView &&
-            $this->isActive) {
-            $canView = true;
+        $can = Permission::checkMember($member, 'SILVERCART_PRODUCT_VIEW');
+        if (!$can
+         && $this->isActive
+        ) {
+            $can = true;
         }
-        if (!SilvercartTools::isBackendEnvironment()) {
-            if (!$this->isActive) {
-                $canView = false;
-            }
+        if (!SilvercartTools::isBackendEnvironment()
+         && !$this->isActive
+        ) {
+            $can = false;
         }
-        return $canView;
+        return $can;
+    }
+    
+    /**
+     * Checks whether the given member can delete a product.
+     * 
+     * @param Member $member Member to check
+     *
+     * @return false 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.12.2018
+     */
+    public function canDelete($member = null) {
+        $can = Permission::checkMember($member, 'SILVERCART_PRODUCT_DELETE');
+        $this->extend('updateCanDelete', $member, $can);
+        return $can;
     }
 
     /**
@@ -1650,6 +1663,9 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
                 $this->getFieldsForWidgets($fields);
                 $this->getFieldsForImages($fields);
                 $this->getFieldsForFiles($fields);
+            }
+            if (!$this->canEdit()) {
+                $fields->removeByName('SilvercartImages');
             }
         });
         $this->getCMSFieldsIsCalled = true;
