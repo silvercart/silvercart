@@ -587,7 +587,9 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
         $address = $this->getAddress('Shipping');
         if ($address === false) {
             $customer = SilvercartCustomer::currentRegisteredCustomer();
-            $address  = $customer->SilvercartShippingAddress();
+            if ($customer instanceof Member) {
+                $address = $customer->SilvercartShippingAddress();
+            }
         }
         return $address;
     }
