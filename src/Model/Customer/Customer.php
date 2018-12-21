@@ -266,6 +266,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
                     'GroupNames'                        => _t(Customer::class . '.TYPE', 'type'),
                     'AddressCountry'                    => Country::singleton()->singular_name(),
                     'IsBusinessAccount'                 => _t(Customer::class . '.ISBUSINESSACCOUNT', 'Is business account'),
+                    'AnonymousCustomer'                 => _t(self::class . '.ANONYMOUSCUSTOMER', 'Anonymous Customer'),
                     
                     'BasicData'                         => _t(Customer::class . '.BASIC_DATA', 'Basics'),
                     'AddressData'                       => _t(Customer::class . '.ADDRESS_DATA', 'Basic address data'),
@@ -555,6 +556,36 @@ class Customer extends DataExtension implements TemplateGlobalProvider
             $anonymousName .= ' ' . ucfirst(substr(trim($this->owner->Surname), 0, 1)) . '.';
         }
         return $anonymousName;
+    }
+    
+    /**
+     * Returns the customer's full name with salutation.
+     * 
+     * @return string
+     */
+    public function getNameWithSalutation() : string
+    {
+        $name = '---';
+        if ($this->owner->exists()) {
+            $name = "{$this->owner->SalutationText} {$this->owner->FirstName} {$this->owner->Surname}";
+        }
+        $this->owner->extend('updateNameWithSalutation', $name);
+        return $name;
+    }
+    
+    /**
+     * Returns the customer's full name with salutation.
+     * 
+     * @return string
+     */
+    public function getSummaryTitle() : string
+    {
+        $title = $this->owner->fieldLabel('AnonymousCustomer');
+        if ($this->owner->exists()) {
+            $title = "{$this->owner->NameWithSalutation} [{$this->owner->CustomerNumber}]";
+        }
+        $this->owner->extend('updateSummaryTitle', $title);
+        return $title;
     }
     
     // ------------------------------------------------------------------------
