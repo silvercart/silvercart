@@ -26,7 +26,6 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
-use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
@@ -431,7 +430,8 @@ class ProductGroupPage extends \Page
     public function isInternalUrl($url) {
         $isInternalUrl  = false;
         if (Director::is_absolute_url($url) &&
-            strpos($url, $_SERVER['SERVER_NAME'])) {
+            strpos($url, $_SERVER['SERVER_NAME'])
+        ) {
             $isInternalUrl  = true;
         }
         return $isInternalUrl;
@@ -482,125 +482,104 @@ class ProductGroupPage extends \Page
      *
      * @return FieldList Fields of the CMS
      */
-    public function getCMSFields() {
+    public function getCMSFields()
+    {
+        $this->beforeUpdateCMSFields(function($fields) {
+            if ($this->isArchived()) {
+                return;
+            }
+
+            $useOnlydefaultGroupviewSource  = [
+                'inherit' => $this->fieldLabel('DefaultGroupViewInherit'),
+                'yes'     => $this->fieldLabel('Yes'),
+                'no'      => $this->fieldLabel('No'),
+            ];
+
+            $useContentField                    = CheckboxField::create('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
+            $doNotShowProductsField             = CheckboxField::create('DoNotShowProducts',        Tools::string2html($this->fieldLabel('DoNotShowProducts')));
+            $productsPerPageField               = TextField::create('productsPerPage',              $this->fieldLabel('productsPerPage'));
+            $defaultGroupViewField              = GroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, $this->fieldLabel('DefaultGroupViewInherit'));
+            $useOnlyDefaultGroupViewField       = DropdownField::create('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
+            $productGroupsPerPageField          = TextField::create('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
+            $defaultGroupHolderViewField        = GroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupViewInherit'));
+            $useOnlyDefaultGroupHolderViewField = DropdownField::create('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
+            $fieldGroup                         = FieldGroup::create('FieldGroup', '', $fields);
+
+            $productsPerPageField->setRightTitle($this->fieldLabel('ProductsPerPageHint'));
+            $productGroupsPerPageField->setRightTitle($this->fieldLabel('ProductsPerPageHint'));
+
+            $fieldGroup->push(          $useContentField);
+            $fieldGroup->breakAndPush(  $doNotShowProductsField);
+            $fieldGroup->breakAndPush(  $productsPerPageField);
+            $fieldGroup->breakAndPush(  $defaultGroupViewField);
+            $fieldGroup->push(          $useOnlyDefaultGroupViewField);
+            $fieldGroup->breakAndPush(  $productGroupsPerPageField);
+            $fieldGroup->breakAndPush(  $defaultGroupHolderViewField);
+            $fieldGroup->push(          $useOnlyDefaultGroupHolderViewField);
+
+            $displaySettingsToggle = ToggleCompositeField::create(
+                    'DisplaySettingsToggle',
+                    $this->fieldLabel('DisplaySettings'),
+                    [
+                        $fieldGroup,
+                    ]
+            )->setHeadingLevel(4)->setStartClosed(true);
+            $fields->insertAfter($displaySettingsToggle, 'Content');
+
+            $mirroredProductIdList  = '';
+            $mirroredProductIDs     = $this->getMirroredProductIDs();
+
+            foreach ($mirroredProductIDs as $mirroredProductID) {
+                $mirroredProductIdList .= "'{$mirroredProductID}',";
+            }
+
+            $filter = "ProductGroupID = {$this->ID}";
+            if (!empty($mirroredProductIdList)) {
+                $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
+                $tableName             = Product::config()->get('table_name');
+                $filter                = "{$filter} OR {$tableName}.ID IN ({$mirroredProductIdList})";
+            }
+
+            if ($this->drawCMSFields()) {
+                $config = GridFieldConfig_RecordViewer::create(100);
+                $productsTableField = GridField::create(
+                    'Products',
+                    $this->fieldLabel('Products'),
+                    Product::get()->filter('ProductGroupID', $this->ID),
+                    $config
+                );
+                $tabPARAM = "Root." . _t(Product::class . '.TITLE', 'product');
+                $fields->addFieldToTab($tabPARAM, $productsTableField);
+
+                $productAdminLink     = Director::baseURL().'admin/silvercart-products';
+                $manageProductsButton = LiteralField::create(
+                    'ManageProductsButton',
+                    "<a href=\"{$productAdminLink}\">{$this->fieldLabel('ManageProductsButton')}</a>"
+                );
+                $fields->addFieldToTab($tabPARAM, $manageProductsButton);
+
+                $imageUploadField = UploadField::create('GroupPicture', $this->fieldLabel('GroupPicture'));
+                $imageUploadField->setFolderName('assets/productgroup-images');
+                $fields->addFieldToTab('Root.Main', $imageUploadField, 'Content');
+            }
+
+            $widgetSetContent = $fields->fieldByName('Root.Widgets.WidgetSetContent');
+            if ($widgetSetContent) {
+                $widgetSetAdminLink  = Director::baseURL().'admin/silvercart-widget-sets';
+                $manageWidgetsLabel  = WidgetSet::singleton()->fieldLabel('ManageWidgetSets');
+                $manageWidgetsButton = LiteralField::create(
+                    'ManageWidgetsButton',
+                    "<a href=\"{$widgetSetAdminLink}\">{$manageWidgetsLabel}</a>"
+                );
+                $fields->insertAfter($manageWidgetsButton, 'WidgetSetContent');
+            }
+
+            if ($fields->dataFieldByName('LastEditedForCache') instanceof FormField) {
+                $fields->removeByName('LastEditedForCache');
+            }
+        });
         $this->getCMSFieldsIsCalled = true;
-        $fields = parent::getCMSFields();
-        if ($this->isArchived()) {
-            return $fields;
-        }
-        
-        $useOnlydefaultGroupviewSource  = array(
-            'inherit'   => $this->fieldLabel('DefaultGroupViewInherit'),
-            'yes'       => $this->fieldLabel('Yes'),
-            'no'        => $this->fieldLabel('No'),
-        );
-        
-        $useContentField                    = new CheckboxField('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
-        $doNotShowProductsField             = new CheckboxField('DoNotShowProducts',        Tools::string2html($this->fieldLabel('DoNotShowProducts')));
-        $productsPerPageField               = new TextField('productsPerPage',              $this->fieldLabel('productsPerPage'));
-        $defaultGroupViewField              = GroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, $this->fieldLabel('DefaultGroupViewInherit'));
-        $useOnlyDefaultGroupViewField       = new DropdownField('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
-        $productGroupsPerPageField          = new TextField('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
-        $defaultGroupHolderViewField        = GroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupViewInherit'));
-        $useOnlyDefaultGroupHolderViewField = new DropdownField('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
-        $fieldGroup                         = new FieldGroup('FieldGroup', '', $fields);
-        
-        $productsPerPageField->setRightTitle($this->fieldLabel('ProductsPerPageHint'));
-        $productGroupsPerPageField->setRightTitle($this->fieldLabel('ProductsPerPageHint'));
-        
-        $fieldGroup->push(          $useContentField);
-        $fieldGroup->breakAndPush(  $doNotShowProductsField);
-        $fieldGroup->breakAndPush(  $productsPerPageField);
-        $fieldGroup->breakAndPush(  $defaultGroupViewField);
-        $fieldGroup->push(          $useOnlyDefaultGroupViewField);
-        $fieldGroup->breakAndPush(  $productGroupsPerPageField);
-        $fieldGroup->breakAndPush(  $defaultGroupHolderViewField);
-        $fieldGroup->push(          $useOnlyDefaultGroupHolderViewField);
-        
-        $displaySettingsToggle = ToggleCompositeField::create(
-                'DisplaySettingsToggle',
-                $this->fieldLabel('DisplaySettings'),
-                array(
-                    $fieldGroup,
-                )
-        )->setHeadingLevel(4)->setStartClosed(true);
-        $fields->insertAfter($displaySettingsToggle, 'Content');
-
-        $mirroredProductIdList  = '';
-        $mirroredProductIDs     = $this->getMirroredProductIDs();
-
-        foreach ($mirroredProductIDs as $mirroredProductID) {
-            $mirroredProductIdList .= sprintf(
-                "'%s',",
-                $mirroredProductID
-            );
-        }
-
-        if (!empty($mirroredProductIdList)) {
-            $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
-
-            $filter = sprintf(
-                "ProductGroupID = %d OR
-                 \"%s\".\"ID\" IN (%s)",
-                $this->ID,
-                Tools::get_table_name(Product::class),
-                $mirroredProductIdList
-            );
-        } else {
-            $filter = sprintf(
-                "ProductGroupID = %d",
-                $this->ID
-            );
-        }
-
-        if ($this->drawCMSFields()) {
-            
-            $config = GridFieldConfig_RecordViewer::create(100);
-            $productsTableField = new GridField(
-                'Products',
-                $this->fieldLabel('Products'),
-                Product::get()->filter(array('ProductGroupID' => $this->ID)),
-                $config
-            );
-            $tabPARAM = "Root." . _t(Product::class . '.TITLE', 'product');
-            $fields->addFieldToTab($tabPARAM, $productsTableField);
-
-            $productAdminLink     = Director::baseURL().'admin/silvercart-products';
-            $manageProductsButton = new LiteralField(
-                'ManageProductsButton',
-                sprintf(
-                    "<a href=\"%s\">%s</a>",
-                    $productAdminLink,
-                    $this->fieldLabel('ManageProductsButton')
-                )
-            );
-            $fields->addFieldToTab($tabPARAM, $manageProductsButton);
-
-            $imageUploadField = new UploadField('GroupPicture', $this->fieldLabel('GroupPicture'));
-            $imageUploadField->setFolderName('assets/productgroup-images');
-            $fields->addFieldToTab('Root.Main', $imageUploadField, 'Content');
-        }
-        
-        $widgetSetContent = $fields->fieldByName('Root.Widgets.WidgetSetContent');
-        if ($widgetSetContent) {
-            $widgetSetAdminLink  = Director::baseURL().'admin/silvercart-widget-sets';
-            $manageWidgetsButton = new LiteralField(
-                'ManageWidgetsButton',
-                sprintf(
-                    "<a href=\"%s\">%s</a>",
-                    $widgetSetAdminLink,
-                    WidgetSet::singleton()->fieldLabel('ManageWidgetSets')
-                )
-            );
-            $fields->insertAfter($manageWidgetsButton, 'WidgetSetContent');
-        }
-        
-        if ($fields->dataFieldByName('LastEditedForCache') instanceof FormField) {
-            $fields->removeByName('LastEditedForCache');
-        }
-
-        $this->extend('extendCMSFields', $fields);
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**
@@ -609,37 +588,33 @@ class ProductGroupPage extends \Page
      *
      * @return array
      */
-    public function getMirroredProductIDs() {
-        $mirroredProductIDs         = array();
+    public function getMirroredProductIDs()
+    {
+        $mirroredProductIDs         = [];
         $translations               = Tools::get_translations($this);
-        $translationProductGroupIDs = array(
+        $translationProductGroupIDs = [
             $this->ID,
-        );
+        ];
 
-        if ($translations &&
-            $translations->count() > 0) {
+        if ($translations
+         && $translations->exists()
+        ) {
             foreach ($translations as $translation) {
                 $translationProductGroupIDs[] = $translation->ID;
             }
         }
         $translationProductGroupIDList  = implode(',', $translationProductGroupIDs);
 
-        $productTable = Tools::get_table_name(Product::class);
-        $sqlQuery = new SQLSelect();
-        $sqlQuery->setSelect('P_PGMP.' . $productTable . 'ID');
-        $sqlQuery->addFrom($productTable . '_ProductGroupMirrorPages P_PGMP');
-        $sqlQuery->addWhere(array(
-                sprintf(
-                    "P_PGMP.%sID IN (%s)",
-                    Tools::get_table_name(self::class),
-                    $translationProductGroupIDList
-                )
-            )
-        );
+        $productTable = Product::config()->get('table_name');
+        $groupTable   = self::config()->get('table_name');
+        $sqlQuery = SQLSelect::create();
+        $sqlQuery->setSelect("P_PGMP.{$productTable}ID");
+        $sqlQuery->addFrom("{$productTable}_ProductGroupMirrorPages P_PGMP");
+        $sqlQuery->addWhere(["P_PGMP.{$groupTable}ID IN ({$translationProductGroupIDList})"]);
         $result = $sqlQuery->execute();
 
         foreach ($result as $row) {
-            $mirroredProductIDs[] = $row[$productTable . 'ID'];
+            $mirroredProductIDs[] = $row["{$productTable}ID"];
         }
         
         return $mirroredProductIDs;
@@ -653,7 +628,8 @@ class ProductGroupPage extends \Page
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.03.2011
      */
-    public function drawCMSFields() {
+    public function drawCMSFields()
+    {
         $drawCMSFields   = true;
         $updateCMSFields = $this->extend('updateDrawCMSFields', $drawCMSFields);
 
@@ -672,10 +648,11 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.02.2011
      */
-    public function hasProductsOrChildren() {
+    public function hasProductsOrChildren()
+    {
         if ($this->ActiveProducts()->Count > 0
-         || count($this->Children()) > 0) {
-
+         || count($this->Children()) > 0
+        ) {
             return true;
         }
         return false;
@@ -691,11 +668,9 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.02.2011
      */
-    public function hasProductCount($count) {
-        if ($this->ActiveProducts()->Count == $count) {
-            return true;
-        }
-        return false;
+    public function hasProductCount($count) : bool
+    {
+        return $this->ActiveProducts()->Count == $count;
     }
 
     /**
@@ -705,28 +680,31 @@ class ProductGroupPage extends \Page
      *
      * @return array
      */
-    public static function getFlatChildPageIDsForPage($pageId) {
+    public static function getFlatChildPageIDsForPage($pageId)
+    {
         return Tools::getFlatChildPageIDsForPage($pageId);
     }
     
     /**
      * Returns the active products for this page.
      *
-     * @return DataObject
+     * @return ArrayData
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.07.2015
      */
-    public function ActiveProducts() {
+    public function ActiveProducts() : ArrayData
+    {
         if (!array_key_exists($this->ID, self::$activeProducts)) {
             $requiredAttributes = Product::getRequiredAttributes();
-            $activeProducts     = array();
+            $activeProducts     = [];
             $productGroupIDs    = self::getFlatChildPageIDsForPage($this->ID);
             $translations       = Tools::get_translations($this);
             
-            if ($translations &&
-                $translations->count() > 0) {
+            if ($translations
+             && $translations->exists()
+            ) {
                 foreach ($translations as $translation) {
                     $productGroupIDs = array_merge(
                             $productGroupIDs,
@@ -735,68 +713,43 @@ class ProductGroupPage extends \Page
                 }
             }
             
-            $filter = array(
-                '',
-            );
+            $filter = [''];
 
             if (!empty($requiredAttributes)) {
                 foreach ($requiredAttributes as $requiredAttribute) {
                     //find out if we are dealing with a real attribute or a multilingual field
-                    if (array_key_exists($requiredAttribute, Product::config()->get('db')) || $requiredAttribute == "Price") {
+                    if (array_key_exists($requiredAttribute, Product::config()->get('db'))
+                     || $requiredAttribute == "Price"
+                    ) {
                         if ($requiredAttribute == "Price") {
                             // Gross price as default if not defined
                             if (Config::Pricetype() == "net") {
-                                $filter[] = sprintf('("PriceNetAmount" != 0.0)');
+                                $filter[] = '("PriceNetAmount" != 0.0)';
                             } else {
-                                $filter[] = sprintf('("PriceGrossAmount" != 0.0)');
+                                $filter[] = '("PriceGrossAmount" != 0.0)';
                             }
                         } else {
-                            $filter[] = sprintf('"%s" != \'\'', $requiredAttribute);
+                            $filter[] = "{$requiredAttribute} != ''";
                         }
                     } else {
                         // if its a multilingual attribute it comes from a relational class
-                        $filter[] = sprintf("%s.%s != ''", Tools::get_table_name(ProductTranslation::class), $requiredAttribute);
+                        $translationTableName = Tools::get_table_name(ProductTranslation::class);
+                        $filter[] = "{$translationTableName}.{$requiredAttribute} != ''";
                     }
 
                 }
             }
             if (count($filter) == 1) {
-                $filter = array();
+                $filter = [];
             }
-            $productTable = Tools::get_table_name(Product::class);
-            $productGroupTable = Tools::get_table_name(ProductGroupPage::class);
-            $filterString = sprintf(
-                    "isActive = 1
-                     AND (ProductGroupID IN (%s)
-                         OR ID IN (
-                            SELECT
-                                %sID
-                            FROM
-                                %s_ProductGroupMirrorPages
-                            WHERE
-                                %sID IN (%s)))
-                     %s",
-                    implode(',', $productGroupIDs),
-                    $productTable,
-                    $productTable,
-                    $productGroupTable,
-                    implode(',', $productGroupIDs),
-                    implode(' AND ', $filter)
-            );
+            $productTable       = Tools::get_table_name(Product::class);
+            $productGroupTable  = Tools::get_table_name(ProductGroupPage::class);
+            $filterList         = implode(' AND ', $filter);
+            $productGroupIDList = implode(',', $productGroupIDs);
+            $mirrorQuery        = "SELECT {$productTable}ID FROM {$productTable}_ProductGroupMirrorPages WHERE {$productGroupTable}ID IN ({$productGroupIDList})";
+            $filterString       = "isActive = 1 AND (ProductGroupID IN ({$productGroupIDList}) OR ID IN ($mirrorQuery)) {$filterList}";
             $this->extend('updateActiveProductsFilter', $filterString);
-            
-            $records = DB::query(
-                sprintf(
-                    "SELECT
-                        ID
-                     FROM
-                        %s
-                     WHERE
-                        %s",
-                    Tools::get_table_name(Product::class),
-                    $filterString
-                )
-            );
+            $records            = DB::query("SELECT ID FROM {$productTable} WHERE {$filterString}");
             
             foreach ($records as $record) {
                 $activeProducts[] = $record['ID'];
@@ -805,10 +758,11 @@ class ProductGroupPage extends \Page
             self::$activeProducts[$this->ID] = $activeProducts;
         }
         
-        $result = new DataObject();
-        $result->ID = count(self::$activeProducts[$this->ID]);
-        $result->Count = count(self::$activeProducts[$this->ID]);
-        $result->IDs = self::$activeProducts[$this->ID];
+        $result = ArrayData::create([
+            'ID'    => count(self::$activeProducts[$this->ID]),
+            'Count' => count(self::$activeProducts[$this->ID]),
+            'IDs'   => self::$activeProducts[$this->ID],
+        ]);
         
         return $result;
     }
@@ -817,24 +771,19 @@ class ProductGroupPage extends \Page
      * Returns all Manufacturers of the groups products.
      *
      * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2011
      */
-    public function getManufacturers() {
+    public function getManufacturers() : ArrayList
+    {
         if (is_null($this->manufacturers)) {
-            $registeredManufacturers = array();
-            $manufacturers = array();
-
+            $manufacturers = [];
             foreach ($this->getProducts() as $product) {
-                if ($product->Manufacturer()) {
-                    if (in_array($product->Manufacturer()->Title, $registeredManufacturers) == false) {
-                        $registeredManufacturers[] = $product->Manufacturer()->Title;
-                        $manufacturers[] = $product->Manufacturer();
-                    }
+                if ($product->Manufacturer()->exists()
+                 && !in_array($product->Manufacturer()->Title, $manufacturers)
+                ) {
+                    $manufacturers[] = $product->Manufacturer();
                 }
             }
-            $this->manufacturers = new ArrayList($manufacturers);
+            $this->manufacturers = ArrayList::create($manufacturers);
         }
         return $this->manufacturers;
     }
@@ -847,39 +796,22 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.03.2011
      */
-    public function isActive() {
+    public function isActive() : bool
+    {
         return Controller::curr()->Link() == $this->Link();
     }
     
     /**
      * Returns whether the current view is the first page of the product list or not
      *
-     * @return boolean 
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.09.2018
      */
-    public function isFirstPage()
+    public function isFirstPage() : bool
     {
-        return $this->getContextController()->isFirstPage();
-    }
-    
-    /**
-     * Returns a sorted list of children of this node.
-     *
-     * @param string $sortField The field used for sorting
-     * @param string $sortDir   The sort direction ('ASC' or 'DESC')
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.05.2011
-     * 
-     * @return ArrayList child pages
-     */
-    public function OrderedChildren($sortField = 'Title', $sortDir = 'ASC') {
-        $children = $this->Children();
-        $children->sort($sortField, $sortDir);
-        
-        return $children;
+        return (bool) $this->getContextController()->isFirstPage();
     }
     
     /**
@@ -887,7 +819,7 @@ class ProductGroupPage extends \Page
      * 
      * @return ProductGroupPageController
      */
-    public function getContextController()
+    public function getContextController() : ProductGroupPageController
     {
         $ctrl = Controller::curr();
         if (!$ctrl instanceof ProductGroupPageController
@@ -937,7 +869,7 @@ class ProductGroupPage extends \Page
      *
      * @return PaginatedList
      */
-    public function getProductsFromChildren()
+    public function getProductsFromChildren() : PaginatedList
     {
         $ctrl     = $this->getContextController();
         $products = $this->getProductsFromChildrenList();
@@ -974,21 +906,16 @@ class ProductGroupPage extends \Page
      */
     public function getProductsFromChildrenFilter()
     {
-        $filter          = '';
+        $filter          = "";
         $pageIDsToWorkOn = $this->getContextController()->getDescendantIDList();
         if (is_array($pageIDsToWorkOn)
          && count($pageIDsToWorkOn) > 0
         ) {
-            $productGroupTable = Tools::get_table_name(self::class);
-            $productTable = Tools::get_table_name(Product::class);
-            if (Config::DefaultLanguage() != i18n::get_locale()) {
-                $translationGroupQuery = 'SELECT "STTG"."TranslationGroupID" FROM "SiteTree_translationgroups" AS "STTG" WHERE "STTG"."OriginalID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
-                $translationIDsQuery   = 'SELECT "STTG2"."OriginalID" FROM "SiteTree_translationgroups" AS "STTG2" WHERE "STTG2"."TranslationGroupID" IN (' . $translationGroupQuery . ')';
-                $mirrored              = 'SELECT "PGMP"."' . $productTable . 'ID" FROM ' . $productTable . '_ProductGroupMirrorPages AS "PGMP" WHERE "PGMP"."' . $productGroupTable . 'ID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "PGMP"."ProductGroupPageID" IN (' . $translationIDsQuery . ')';
-            } else {
-                $mirrored = 'SELECT "PGMP"."' . $productTable . 'ID" FROM ' . $productTable . '_ProductGroupMirrorPages AS "PGMP" WHERE "PGMP"."' . $productGroupTable . 'ID" IN (' . implode(',', $pageIDsToWorkOn) . ')';
-            }
-            $filter = '"' . $productTable . '"."ProductGroupID" IN (' . implode(',', $pageIDsToWorkOn) . ') OR "' . $productTable . '"."ID" IN (' . $mirrored . ')';
+            $productGroupTable   = Tools::get_table_name(self::class);
+            $productTable        = Tools::get_table_name(Product::class);
+            $pageIDsToWorkOnList = implode(',', $pageIDsToWorkOn);
+            $mirrored            = "SELECT PGMP.{$productTable}ID FROM {$productTable}_ProductGroupMirrorPages AS PGMP WHERE PGMP.{$productGroupTable}ID IN ({$pageIDsToWorkOnList})";
+            $filter              = "{$productTable}.ProductGroupID IN ({$pageIDsToWorkOnList}) OR {$productTable}.ID IN ({$mirrored})";
         }
         return $filter;
     }
@@ -1043,9 +970,10 @@ class ProductGroupPage extends \Page
         $date->modify($timeDifference);
         $modifiedDate   = $date->getTimestamp();
         $minCreated     = date('Y-m-d H:i:s', $modifiedDate);
+        $tableName      = Product::config()->get('table_name');
         $products       = $this->getProductsInherited()
-                ->where('"' . Product::config()->get('table_name') . '"."Created" > \'' . $minCreated . '\'')
-                ->sort('"' . Product::config()->get('table_name') . '"."Created"', 'DESC');
+                ->where("\"{$tableName}\".Created > '{$minCreated}'")
+                ->sort("\"{$tableName}\".Created", "DESC");
         if (!is_null($limit)) {
             $products = $products->limit($limit);
         }
@@ -1073,19 +1001,20 @@ class ProductGroupPage extends \Page
     /**
      * Returns whether to show new products or not.
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.09.2018
      */
-    public function ShowNewProducts()
+    public function ShowNewProducts() : bool
     {
         $showNewProducts = $this->config()->get('show_new_products');
         if ($showNewProducts
-         && !$this->getNewProducts()->exists()) {
+         && !$this->getNewProducts()->exists()
+        ) {
             $showNewProducts = false;
         }
-        return $showNewProducts;
+        return (bool) $showNewProducts;
     }
     
     /**
@@ -1097,9 +1026,10 @@ class ProductGroupPage extends \Page
      */
     public function getPreorderableProducts($limit = null)
     {
-        $products = $this->getProductsInherited()
-                ->where('"' . Product::config()->get('table_name') . '"."ReleaseDate" > NOW()')
-                ->sort('"' . Product::config()->get('table_name') . '"."ReleaseDate"', 'ASC');
+        $tableName = Product::config()->get('table_name');
+        $products  = $this->getProductsInherited()
+                ->where("\"{$tableName}\".ReleaseDate > NOW()")
+                ->sort("\"{$tableName}\".ReleaseDate", "ASC");
         if (!is_null($limit)) {
             $products = $products->limit($limit);
         }
@@ -1113,7 +1043,7 @@ class ProductGroupPage extends \Page
      * 
      * @return ArrayData
      */
-    public function getPreorderableProductsForTemplate($limit = null)
+    public function getPreorderableProductsForTemplate($limit = null) : ArrayData
     {
         return ArrayData::create([
             "Title"                         => _t(self::class . ".PreorderableProductsIn", "Pre-Orders in {productgroup}", ['productgroup' => $this->Title]),
@@ -1127,19 +1057,20 @@ class ProductGroupPage extends \Page
     /**
      * Returns whether to show new products or not.
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.10.2018
      */
-    public function ShowPreorderableProducts()
+    public function ShowPreorderableProducts() : bool
     {
         $showPreorderableProducts = $this->config()->get('show_preorderable_products');
         if ($showPreorderableProducts
-         && !$this->getPreorderableProducts()->exists()) {
+         && !$this->getPreorderableProducts()->exists()
+        ) {
             $showPreorderableProducts = false;
         }
-        return $showPreorderableProducts;
+        return (bool) $showPreorderableProducts;
     }
     
     /**
@@ -1369,7 +1300,8 @@ class ProductGroupPage extends \Page
         $items = $group->getBreadcrumbItems(20, ProductGroupHolder::class);
         $map   = $items->map('ID', 'Title')->toArray();
         if ($ctrl->hasMethod('isProductDetailView')
-         && $ctrl->isProductDetailView()) {
+         && $ctrl->isProductDetailView()
+        ) {
             array_pop($map);
         }
         return implode($group->config()->get('breadcrumb_title_delimiter'), $map);
@@ -1527,12 +1459,12 @@ class ProductGroupPage extends \Page
     /**
      * Returns the cache key parts for this product group
      * 
-     * @return string
+     * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2018
      */
-    public function CacheKeyParts()
+    public function CacheKeyParts() : array
     {
         if (is_null($this->cacheKeyParts)) {
             $ctrl = Controller::curr();
@@ -1561,7 +1493,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2018
      */
-    public function CacheKey()
+    public function CacheKey() : string
     {
         if (is_null($this->cacheKey)) {
             $cacheKey = implode('_', $this->CacheKeyParts());
@@ -1596,7 +1528,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.10.2018
      */
-    public function ExtendedDynamicProductGroupNavigationItems()
+    public function ExtendedDynamicProductGroupNavigationItems() : ArrayList
     {
         $items = ArrayList::create();
         $this->extend('updateDynamicProductGroupNavigationItems', $items);
@@ -1606,9 +1538,9 @@ class ProductGroupPage extends \Page
     /**
      * Returns whether this is a ProductGroupPage, so true..
      * 
-     * @return boolean
+     * @return bool
      */
-    public function IsProductGroupPage()
+    public function IsProductGroupPage() :  bool
     {
         return true;
     }

@@ -7,6 +7,7 @@ use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
+use SilverStripe\Forms\FieldList;
 
 /**
  * page type to display search results.
@@ -57,7 +58,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -68,7 +69,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this); 
     }
@@ -83,7 +84,7 @@ class SearchResultsPage extends ProductGroupPage
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         $this->beforeUpdateFieldLabels(function(&$labels) {
             $labels = array_merge(
@@ -101,7 +102,7 @@ class SearchResultsPage extends ProductGroupPage
      *
      * @return FieldList Fields of the CMS
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function($fields) {
             $fields->removeByName('useContentFromParent');
@@ -120,7 +121,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return string
      */
-    public function getMetaTitle()
+    public function getMetaTitle() : string
     {
         $metaTitle = $this->getField('MetaTitle');
         if (!$this->getCMSFieldsIsCalled
@@ -162,7 +163,7 @@ class SearchResultsPage extends ProductGroupPage
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function RelativeLink($action = null)
+    public function RelativeLink($action = null) : string
     {
         $relativeLink = parent::RelativeLink($action);
         $query = self::getCurrentSearchQuery();
@@ -187,7 +188,7 @@ class SearchResultsPage extends ProductGroupPage
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function PlainLink($action = null)
+    public function PlainLink($action = null) : string
     {
         $relativeLink = parent::RelativeLink($action);
         $plainLink    = Controller::join_links(Director::baseURL(), $relativeLink);
@@ -205,7 +206,7 @@ class SearchResultsPage extends ProductGroupPage
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function QueryLink($searchQuery)
+    public function QueryLink($searchQuery) : string
     {
         $queryLink = $this->PlainLink();
         if (!empty($searchQuery)) {
@@ -223,12 +224,12 @@ class SearchResultsPage extends ProductGroupPage
      * Returns the cache key parts for the current search context query and
      * category.
      * 
-     * @return string
+     * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.10.2018
      */
-    public function CacheKeyParts()
+    public function CacheKeyParts() : array
     {
         if (is_null($this->cacheKeyParts)) {
             $ctrl = Controller::curr();
@@ -245,7 +246,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return string
      */
-    public static function getCurrentSearchQuery()
+    public static function getCurrentSearchQuery() : string
     {
         return trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_QUERY));
     }
@@ -257,7 +258,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return void
      */
-    public static function setCurrentSearchQuery($searchQuery)
+    public static function setCurrentSearchQuery($searchQuery) : void
     {
         Tools::Session()->set(self::SESSION_KEY_SEARCH_QUERY, $searchQuery);
         Tools::saveSession();
@@ -268,7 +269,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return string
      */
-    public static function getCurrentSearchCategory()
+    public static function getCurrentSearchCategory() : string
     {
         return trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_CATEGORY));
     }
@@ -280,7 +281,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return void
      */
-    public static function setCurrentSearchCategory($searchCategory)
+    public static function setCurrentSearchCategory($searchCategory) : void
     {
         Tools::Session()->set(self::SESSION_KEY_SEARCH_CATEGORY, $searchCategory);
         Tools::saveSession();
@@ -291,7 +292,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return string
      */
-    public static function getCurrentSearchContext()
+    public static function getCurrentSearchContext() : string
     {
         return trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_CONTEXT));
     }
@@ -303,7 +304,7 @@ class SearchResultsPage extends ProductGroupPage
      * 
      * @return void
      */
-    public static function setCurrentSearchContext($searchContext)
+    public static function setCurrentSearchContext($searchContext) : void
     {
         Tools::Session()->set(self::SESSION_KEY_SEARCH_CONTEXT, $searchContext);
         Tools::saveSession();
