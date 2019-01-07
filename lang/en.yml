@@ -1216,6 +1216,7 @@ en:
     GOTO_PAGE: "Go to page %s "
     HEADERPICTURE: "Header picture"
     HELLO: "Hello"
+    INCL_TAX: "incl. VAT"
     INCLUDED_VAT: "included VAT"
     INCLUDING_TAX: "incl. %s%% VAT"
     INCREMENT_POSITION: "Increase quantity"
