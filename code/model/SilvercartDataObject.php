@@ -83,18 +83,22 @@ class SilvercartDataObject extends DataExtension {
      * Checks whether the current visited page is a child of the context
      * RedirectionPage.
      * 
-     * @return boolean
+     * @param bool $section Respect whether the context page is in the currently active section
+     * 
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.10.2014
+     * @since 07.01.2019
      */
-    public function IsRedirectedChild() {
+    public function IsRedirectedChild($section = true)
+    {
         $isRedirectedChild = false;
-        if ($this->owner instanceof RedirectorPage &&
-            Controller::curr()->hasMethod('data')) {
+        if ($this->owner instanceof RedirectorPage
+         && Controller::curr()->hasMethod('data')
+        ) {
             if ($this->owner->LinkToID == Controller::curr()->data()->ID) {
                 $isRedirectedChild = true;
-            } else {
+            } elseif ($section) {
                 $parentStack = Controller::curr()->data()->parentStack();
                 foreach ($parentStack as $parent) {
                     if ($this->owner->LinkToID == $parent->ID) {
