@@ -774,12 +774,9 @@ class SilvercartPaymentMethod extends DataObject {
      * @param Boolean                $forceAnonymousCustomerIfNotExist When true, an anonymous customer will be created when no customer exists
      * 
      * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.11.2018
      */
-    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false) {
+    public static function getAllowedPaymentMethodsFor($shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist = false)
+    {
         if (!$shippingCountry) {
             return [];
         }
@@ -789,15 +786,18 @@ class SilvercartPaymentMethod extends DataObject {
         $allowedPaymentMethods   = [];
         $allActivePaymentMethods = SilvercartPaymentMethod::get()->filter('isActive', true);
         foreach ($allActivePaymentMethods as $activePaymentMethod) {
-            if ($activePaymentMethod->SilvercartCountries()->count() === 0) {
+            if ($activePaymentMethod->SilvercartCountries()->count() === 0
+             || $activePaymentMethod->SilvercartCountries()->byID($shippingCountry->ID)
+            ) {
                 $paymentMethods->push($activePaymentMethod);
             }
         }
-        if (!$member &&
-            $forceAnonymousCustomerIfNotExist) {
-            $member         = new Member();
+        if (!$member
+         && $forceAnonymousCustomerIfNotExist
+        ) {
+            $member         = Member::create();
             $anonymousGroup = Group::get()->filter('Code', 'anonymous')->first();
-            $memberGroups   = new ArrayList();
+            $memberGroups   = ArrayList::create();
             $memberGroups->push($anonymousGroup);
         } else {
             $memberGroups = $member->Groups();
@@ -805,9 +805,9 @@ class SilvercartPaymentMethod extends DataObject {
         
         $shippingMethodID = null;
         if (Controller::curr() instanceof SilvercartCheckoutStep_Controller) {
-            $checkoutData       = Controller::curr()->getCombinedStepData();
+            $checkoutData = Controller::curr()->getCombinedStepData();
             if (array_key_exists('ShippingMethod', $checkoutData)) {
-                $shippingMethodID   = $checkoutData['ShippingMethod'];
+                $shippingMethodID = $checkoutData['ShippingMethod'];
             }
         }
         
@@ -836,9 +836,10 @@ class SilvercartPaymentMethod extends DataObject {
                 // ------------------------------------------------------------
                 // Shipping method check
                 // ------------------------------------------------------------
-                if (!is_null($shippingMethodID) &&
-                    $paymentMethod->SilvercartShippingMethods()->exists() &&
-                    !$paymentMethod->SilvercartShippingMethods()->find('ID', $shippingMethodID)) {
+                if (!is_null($shippingMethodID)
+                 && $paymentMethod->SilvercartShippingMethods()->exists()
+                 && !$paymentMethod->SilvercartShippingMethods()->find('ID', $shippingMethodID)
+                ) {
                     $assumePaymentMethod    = false;
                     $doAccessChecks         = false;
                 }
