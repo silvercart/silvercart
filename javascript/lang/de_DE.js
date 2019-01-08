@@ -14,6 +14,8 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
         'SilvercartGridFieldBatchController.BATCH_FAILED':      'Aktion fehlgeschlagen!',
         'SilvercartGridFieldBatchController.NO_ENTRY_SELECTED': 'Keine Objekte ausgewählt! Bitte wählen Sie mindestens ein Objekt aus der Liste aus.',
         'SilvercartGridFieldBatchController.NO_ACTION_SELECTED':'Keine Aktion ausgewählt! Bitte wählen Sie eine Aktion aus der Liste aus.',
+        'SilvercartProduct.ADD_TO_CART':                        'In den Warenkorb',
+        'SilvercartProduct.CHANGE_QUANTITY_CART':               'Menge ändern',
         
         'TABLEFIELD.DELETECONFIRMMESSAGE':                      'Sind Sie sicher, dass Sie diesen Eintrag löschen wollen?'
     });

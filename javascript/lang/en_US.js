@@ -14,6 +14,8 @@ if(typeof(ss) == 'undefined' || typeof(ss.i18n) == 'undefined') {
         'SilvercartGridFieldBatchController.BATCH_FAILED':      'Batch action failed!',
         'SilvercartGridFieldBatchController.NO_ENTRY_SELECTED': 'No objects selected! Please select at least one object entry.',
         'SilvercartGridFieldBatchController.NO_ACTION_SELECTED':'No action selected! Please select an action to execute.',
+        'SilvercartProduct.ADD_TO_CART':                        'Add to cart',
+        'SilvercartProduct.CHANGE_QUANTITY_CART':               'Change quantity',
         
         'TABLEFIELD.DELETECONFIRMMESSAGE':                      'Are you sure you want to delete this entry?'
     });

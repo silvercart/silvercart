@@ -18,18 +18,67 @@
  * @copyright 2013 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class SilvercartActionHandler extends DataExtension {
-    
+class SilvercartActionHandler extends DataExtension
+{
     /**
      * Allowed actions
      *
      * @var array
      */
-    public static $allowed_actions = array(
+    public static $allowed_actions = [
         'addToCart',
         'doSearch',
         'doLogin',
-    );
+    ];
+    
+    /**
+     * Loads the theme set in SiteConfig on before init.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.01.2019
+     */
+    public function onBeforeInit()
+    {
+        $config = SiteConfig::current_site_config();
+        if ($config instanceof SiteConfig
+         && $config->Theme
+        ) {
+            Config::inst()->update('SSViewer', 'theme', $config->Theme);
+        }
+    }
+
+    /**
+     * returns a single page by IdentifierCode
+     * used to retrieve links dynamically
+     *
+     * @param string $identifierCode the classes name
+     * 
+     * @return SiteTree | false a single object of the site tree; without param the SilvercartFrontPage will be returned
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.01.2019
+     */
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage")
+    {
+        return SilvercartTools::PageByIdentifierCode($identifierCode);
+    }
+
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.01.2019
+     */
+    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage")
+    {
+        return SilvercartTools::PageByIdentifierCodeLink($identifierCode);
+    }
     
     /**
      * Action to add a product to cart.
@@ -39,20 +88,24 @@ class SilvercartActionHandler extends DataExtension {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.03.2013
+     * @since 08.01.2019
      */
-    public function addToCart(SS_HTTPRequest $request) {
+    public function addToCart(SS_HTTPRequest $request)
+    {
         $isValidRequest = false;
         $backLink       = null;
         $postVars       = $request->postVars();
+        $isAjax         = $request->postVar('isAjax');
         $params         = $request->allParams();
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
         
-        if (is_null($productID) ||
-            is_null($quantity)) {
-            if (array_key_exists('productID',       $postVars) &&
-                array_key_exists('productQuantity', $postVars)) {
+        if (is_null($productID)
+         || is_null($quantity)
+        ) {
+            if (array_key_exists('productID',       $postVars)
+             && array_key_exists('productQuantity', $postVars)
+            ) {
                 $isValidRequest = true;
                 $productID      = $postVars['productID'];
                 $quantity       = $postVars['productQuantity'];
@@ -76,7 +129,33 @@ class SilvercartActionHandler extends DataExtension {
             }
         }
         
-        $this->redirectBack($backLink, '#product' . $productID);
+        if ($isAjax) {
+            $product              = SilvercartProduct::get()->byID($productID);
+            $totalCartQuantity    = 0;
+            $quantityInCartString = '';
+            $htmlDropdown         = '';
+            $htmlModal            = '';
+            if ($product instanceof SilvercartProduct) {
+                $member               = SilvercartCustomer::currentUser();
+                $totalCartQuantity    = $member->getCart()->getQuantity();
+                $quantityInCartString = $product->getQuantityInCartString();
+                $htmlDropdown         = (string) $this->owner->renderWith('SilvercartShoppingCartDropdown');
+                $htmlModal            = (string) $this->owner->renderWith('SilvercartShoppingCartAjaxResponse', [
+                    'Product'  => $product,
+                    'Quantity' => $quantity,
+                ]);
+            }
+            $json = [
+                'TotalCartQuantity'    => $totalCartQuantity,
+                'QuantityInCartString' => $quantityInCartString,
+                'HTMLDropdown'         => $htmlDropdown,
+                'HTMLModal'            => $htmlModal,
+            ];
+            print json_encode($json);
+            exit();
+        } else {
+            $this->redirectBack($backLink, '#product' . $productID);
+        }
     }
     
     /**

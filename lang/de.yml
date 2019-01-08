@@ -43,6 +43,8 @@ de:
     PAGE: "Seite"
     PRINT: "Drucken"
     PRIORITY: "Priorität (Je höher desto wichtiger)"
+    ProductAddedToCart: "Der Artikel wurde Ihrem Warenkorb hinzugefügt."
+    ProductRemovedFromCart: "Der Artikel wurde aus Ihrem Warenkorb entfernt."
     SEC: "Sekunde"
     SECS: "Sekunden"
     SEO: "SEO"
