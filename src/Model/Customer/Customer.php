@@ -838,6 +838,24 @@ class Customer extends DataExtension implements TemplateGlobalProvider
     public static function currentUser() {
         return Security::getCurrentUser();
     }
+
+    /**
+     * Returns the currently logged in user's ID.
+     * 
+     * @return int
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.01.2019
+     */
+    public static function currentUserID() : int
+    {
+        $memberID = 0;
+        $member   = self::currentUser();
+        if ($member instanceof Member) {
+            $memberID = $member->ID;
+        }
+        return $memberID;
+    }
     
     /**
      * Returns a customers purchased products
