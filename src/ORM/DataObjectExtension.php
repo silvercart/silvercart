@@ -256,6 +256,16 @@ class DataObjectExtension extends DataExtension {
                 }
             }
         }
+        if ($dataObject->hasMethod('LinkTracking')
+         && !$dataObject->LinkTracking()->exists()
+        ) {
+            $tabbedFields->removeByName('LinkTracking');
+        }
+        if ($dataObject->hasMethod('FileTracking')
+         && !$dataObject->FileTracking()->exists()
+        ) {
+            $tabbedFields->removeByName('FileTracking');
+        }
 
         $dataObject->extend('updateCMSFields', $tabbedFields);
 
