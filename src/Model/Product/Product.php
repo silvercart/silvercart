@@ -24,7 +24,9 @@ use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\Model\Widgets\ProductGroupItemsWidget;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\FieldType\DBMoney;
 use SilverStripe\Assets\Folder;
+use SilverStripe\Assets\Image as SilverStripeImage;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -87,10 +89,10 @@ class Product extends DataObject implements PermissionProvider
         'ProductNumberShop'           => 'Varchar(50)',
         'ProductNumberManufacturer'   => 'Varchar(50)',
         'EANCode'                     => 'Varchar(13)',
-        'PriceGross'                  => \SilverCart\ORM\FieldType\DBMoney::class, //price taxes including
-        'PriceNet'                    => \SilverCart\ORM\FieldType\DBMoney::class, //price taxes excluded
-        'MSRPrice'                    => \SilverCart\ORM\FieldType\DBMoney::class, //manufacturers recommended price
-        'PurchasePrice'               => \SilverCart\ORM\FieldType\DBMoney::class, //the price the shop owner bought the product for
+        'PriceGross'                  => DBMoney::class, //price taxes including
+        'PriceNet'                    => DBMoney::class, //price taxes excluded
+        'MSRPrice'                    => DBMoney::class, //manufacturers recommended price
+        'PurchasePrice'               => DBMoney::class, //the price the shop owner bought the product for
         'PurchaseMinDuration'         => 'Int',
         'PurchaseMaxDuration'         => 'Int',
         'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
@@ -430,12 +432,10 @@ class Product extends DataObject implements PermissionProvider
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      *
-     * @return string The objects singular name
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -443,21 +443,20 @@ class Product extends DataObject implements PermissionProvider
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      *
-     * @return string the objects plural name
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return Tools::plural_name_for($this);
     }
 
     /**
      * getter for the Title, looks for set translation
      * 
-     * @return string The Title from the translation object or an empty string
+     * @return string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         $title = $this->getTranslationFieldValue('Title');
         if (!$this->getCMSFieldsIsCalled) {
             $this->extend('updateTitle', $title);
@@ -470,13 +469,13 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @param bool $includeHtml include html tags or remove them from description
      * 
-     * @return string The ShortDescription from the translation object or an empty string
+     * @return string
      */
-    public function getShortDescription($includeHtml = true) {
+    public function getShortDescription($includeHtml = true)
+    {
         $shortDescription = $this->getTranslationFieldValue('ShortDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (!$includeHtml) {
-                // decode
                 $shortDescription = utf8_encode(html_entity_decode(strip_tags($shortDescription)));
             }
             $this->extend('updateShortDescription', $shortDescription);
@@ -489,13 +488,13 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @param bool $includeHtml include html tags or remove them from description
      * 
-     * @return string The LongDescription from the translation object or an empty string
+     * @return string
      */
-    public function getLongDescription($includeHtml = true) {
+    public function getLongDescription($includeHtml = true)
+    {
         $longDescription = $this->getTranslationFieldValue('LongDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (!$includeHtml) {
-                // decode
                 $longDescription = utf8_encode(html_entity_decode(strip_tags($longDescription)));
             }
             $this->extend('updateLongDescription', $longDescription);
@@ -509,16 +508,15 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getMetaDescription() {
+    public function getMetaDescription()
+    {
         $metaDescription = $this->getTranslationFieldValue('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaDescription)) {
-                $metaDescription = SeoTools::extractMetaDescriptionOutOfArray(
-                        array(
-                            $this->getTitle(),
-                            $this->getLongDescription(),
-                        )
-                );
+                $metaDescription = SeoTools::extractMetaDescriptionOutOfArray([
+                    $this->getTitle(),
+                    $this->getLongDescription(),
+                ]);
             }
             $this->extend('updateMetaDescription', $metaDescription);
         }
@@ -531,7 +529,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getMetaTitle() {
+    public function getMetaTitle()
+    {
         $metaTitle = $this->getTranslationFieldValue('MetaTitle');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaTitle)) {
@@ -552,7 +551,8 @@ class Product extends DataObject implements PermissionProvider
         $country  = null;
         $customer = Customer::currentRegisteredCustomer();
         if ($customer instanceof Member
-         && $customer->exists()) {
+         && $customer->exists()
+        ) {
             $country = $customer->ShippingAddress()->Country();
         }
         if (is_null($country)) {
@@ -579,7 +579,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ShippingFee 
      */
-    public function getDefaultShippingFee(Country $country = null, $customerGroup = null) {
+    public function getDefaultShippingFee(Country $country = null, $customerGroup = null)
+    {
         $shippingFee = '';
         if (is_null($country)) {
             $country = $this->getDefaultShippingCountry();
@@ -587,7 +588,8 @@ class Product extends DataObject implements PermissionProvider
         if (is_null($customerGroup)) {
             $customer = Customer::currentRegisteredCustomer();
             if ($customer instanceof Member
-             && $customer->exists()) {
+             && $customer->exists()
+            ) {
                 $customerGroup = $customer->Groups()->first();
             }
         }
@@ -605,7 +607,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return Money
      */
-    public function getMSRPrice() {
+    public function getMSRPrice()
+    {
         $msrPrice = $this->getField('MSRPrice');
         if (!$this->getCMSFieldsIsCalled) {
             $this->extend('updateMSRPrice', $msrPrice);
@@ -618,7 +621,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getMSRPriceNice() {
+    public function getMSRPriceNice()
+    {
         return $this->MSRPrice->Nice();
     }
     
@@ -627,7 +631,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getBeforeProductHtmlInjections() {
+    public function getBeforeProductHtmlInjections()
+    {
         $beforeProductHtmlInjections = '';
         $this->extend('updateBeforeProductHtmlInjections', $beforeProductHtmlInjections);
         return $beforeProductHtmlInjections;
@@ -638,7 +643,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getAfterProductHtmlInjections() {
+    public function getAfterProductHtmlInjections()
+    {
         $afterProductHtmlInjections = '';
         $this->extend('updateAfterProductHtmlInjections', $afterProductHtmlInjections);
         return $afterProductHtmlInjections;
@@ -647,19 +653,11 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns if the MSR price is greater than 0
      *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.11.2012
+     * @return bool
      */
-    public function hasMSRPrice() {
-        $hasMsrPrice = false;
-
-        if ($this->MSRPrice->getAmount() > 0) {
-            $hasMsrPrice = true;
-        }
-
-        return $hasMsrPrice;
+    public function hasMSRPrice() : bool
+    {
+        return $this->MSRPrice->getAmount() > 0;
     }
     
     /**
@@ -670,24 +668,26 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.06.2017
      */
-    public function hasPortraitOrientationImage() {
+    public function hasPortraitOrientationImage() : bool
+    {
         $hasPortraitOrientationImage = false;
         $image = $this->getImages()->first();
-        if ($image instanceof Image &&
-            $image->Image()->exists()) {
-            
+        if ($image instanceof Image
+         && $image->Image()->exists()
+        ) {
             $imageFile = $image->Image();
             $maxRatio  = 2.5;
 
-            if ($imageFile->getWidth() > 0 &&
-                $imageFile->getHeight() > 0) {
-                
+            if ($imageFile->getWidth() > 0
+             && $imageFile->getHeight() > 0
+            ) {
                 $orientation = $imageFile->getOrientation();
                 $ratio       = $imageFile->getWidth() / $imageFile->getHeight();
 
-                if ($orientation == \SilverStripe\Assets\Image_Backend::ORIENTATION_LANDSCAPE &&
-                    ($ratio <= $maxRatio ||
-                     $imageFile->getWidth() < 400)) {
+                if ($orientation == \SilverStripe\Assets\Image_Backend::ORIENTATION_LANDSCAPE
+                 && ($ratio <= $maxRatio
+                  || $imageFile->getWidth() < 400)
+                ) {
                     $hasPortraitOrientationImage = true;
                 } elseif ($orientation == \SilverStripe\Assets\Image_Backend::ORIENTATION_PORTRAIT) {
                     $hasPortraitOrientationImage = true;
@@ -703,12 +703,13 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns whether the first image of this product has a landscape orientation.
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.06.2017
      */
-    public function hasLandscapeOrientationImage() {
+    public function hasLandscapeOrientationImage() : bool
+    {
         return !$this->hasPortraitOrientationImage();
     }
 
@@ -718,15 +719,13 @@ class Product extends DataObject implements PermissionProvider
      *   'VIEW_SITE' => 'View the site',
      * );
      * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.09.2014
+     * @return array
      */
-    public function providePermissions() {
-        $permissions = array(
+    public function providePermissions() : array
+    {
+        $permissions = [
             'SILVERCART_PRODUCT_CREATE' => _t(Product::class . '.SILVERCART_PRODUCT_CREATE', 'Can create products'),
-        );
+        ];
         $this->extend('updatePermissions', $permissions);
         return $permissions;
     }
@@ -736,12 +735,13 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @param Member $member Member to check
      *
-     * @return false 
+     * @return bool 
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.09.2014
      */
-    public function canCreate($member = null, $context = array()) {
+    public function canCreate($member = null, $context = []) : bool
+    {
         $can = Permission::checkMember($member, 'SILVERCART_PRODUCT_CREATE');
         $this->extend('updateCanCreate', $member, $can);
         return $can;
@@ -752,18 +752,20 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @param Member $member Member to check
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function canEdit($member = null) {
+    public function canEdit($member = null) : bool
+    {
         $can = false;
         if (is_null($member)) {
             $member = Customer::currentUser();
         }
-        if ($member instanceof Member &&
-            (Permission::checkMember($member, 'ADMIN'))) {
+        if ($member instanceof Member
+         && (Permission::checkMember($member, 'ADMIN'))
+        ) {
             $can = true;
         }
         $this->extend('updateCanEdit', $member, $can);
@@ -777,19 +779,22 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return bool
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.02.2013
      */
-    public function canView($member = null) {
+    public function canView($member = null) : bool
+    {
         $canView = parent::canView($member);
-        if (!$canView &&
-            $this->isActive) {
+        if (!$canView
+         && $this->isActive
+        ) {
             $canView = true;
         }
-        if (!Tools::isBackendEnvironment()) {
-            if (!$this->isActive) {
-                $canView = false;
-            }
+        if (!Tools::isBackendEnvironment()
+         && !$this->isActive
+        ) {
+            $canView = false;
         }
         return $canView;
     }
@@ -798,12 +803,10 @@ class Product extends DataObject implements PermissionProvider
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields()
+    {
+        $summaryFields = [
             'ListImageThumbnail'       => $this->fieldLabel(''),
             'ProductNumberShop'        => $this->fieldLabel('ProductNumberShop'),
             'Title'                    => $this->singular_name(),
@@ -813,8 +816,7 @@ class Product extends DataObject implements PermissionProvider
             'isActiveString'           => $this->fieldLabel('isActive'),
             'PriceGross'               => $this->fieldLabel('PriceGross'),
             'PriceNet'                 => $this->fieldLabel('PriceNet'),
-        );
-
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -823,53 +825,50 @@ class Product extends DataObject implements PermissionProvider
      * Searchable fields
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2012
      */
     public function searchableFields() {
-        $searchableFields = array(
-            'ProductNumberShop' => array(
+        $searchableFields = [
+            'ProductNumberShop' => [
                 'title'     => $this->fieldLabel('ProductNumberShop'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'ProductTranslations.Title' => array(
+            ],
+            'ProductTranslations.Title' => [
                 'title'     => $this->fieldLabel('Title'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'ProductTranslations.ShortDescription' => array(
+            ],
+            'ProductTranslations.ShortDescription' => [
                 'title'     => $this->fieldLabel('ShortDescription'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'ProductTranslations.LongDescription' => array(
+            ],
+            'ProductTranslations.LongDescription' => [
                 'title'     => $this->fieldLabel('LongDescription'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'Manufacturer.Title' => array(
+            ],
+            'Manufacturer.Title' => [
                 'title'     => $this->fieldLabel('Manufacturer'),
                 'filter'    => PartialMatchFilter::class,
-             ),
-            'ProductNumberManufacturer' => array(
+             ],
+            'ProductNumberManufacturer' => [
                 'title'     => $this->fieldLabel('ProductNumberManufacturer'),
                 'filter'    => PartialMatchFilter::class,
-             ),
-            'isActive' => array(
+             ],
+            'isActive' => [
                 'title'     => $this->fieldLabel('isActive'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-            'ProductGroup.ID' => array(
+            ],
+            'ProductGroup.ID' => [
                 'title'     => $this->fieldLabel('ProductGroup'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-            'ProductGroupMirrorPages.ID' => array(
+            ],
+            'ProductGroupMirrorPages.ID' => [
                 'title'     => $this->fieldLabel('ProductGroupMirrorPages'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-            'AvailabilityStatus.ID' => array(
+            ],
+            'AvailabilityStatus.ID' => [
                 'title'     => $this->fieldLabel('AvailabilityStatus'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-        );
+            ],
+        ];
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
@@ -884,7 +883,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.09.2012
      */
-    public static function addExtendedSortableFrontendFields($extendedSortableFrontendFields) {
+    public static function addExtendedSortableFrontendFields($extendedSortableFrontendFields) : void
+    {
         foreach ($extendedSortableFrontendFields as $sortField => $sortLabel) {
             self::$extendedSortableFrontendFields[$sortField] = $sortLabel;
         }
@@ -898,7 +898,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function sortableFrontendFields()
+    public function sortableFrontendFields() : array
     {
         if (is_null(self::$sortableFrontendFields)) {
             $productTable     = Tools::get_table_name(Product::class);
@@ -928,10 +928,6 @@ class Product extends DataObject implements PermissionProvider
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.09.2018
      */
     public function fieldLabels($includerelations = true)
     {
@@ -939,7 +935,7 @@ class Product extends DataObject implements PermissionProvider
             $labels = array_merge(
                 $labels,
                 Tools::field_labels_for(self::class),
-                array(
+                [
                     'Title'                                => _t(Product::class . '.COLUMN_TITLE', 'Title'),
                     'LongDescription'                      => _t(Product::class . '.DESCRIPTION', 'Description'),
                     'ShortDescription'                     => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),
@@ -1041,7 +1037,7 @@ class Product extends DataObject implements PermissionProvider
                     'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
                     'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
                     'StockItemEntries'                     => StockItemEntry::singleton()->plural_name(),
-                )
+                ]
             );
         });
         return parent::fieldLabels($includerelations);
@@ -1053,7 +1049,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getisActiveString() {
+    public function getisActiveString() : string
+    {
         $isActiveString = $this->fieldLabel('No');
         if ($this->isActive) {
             $isActiveString = $this->fieldLabel('Yes');
@@ -1068,17 +1065,14 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getCondition() {
+    public function getCondition() : string
+    {
         $condition = '';
-
         if ($this->ProductConditionID > 0) {
             $condition = $this->ProductCondition()->Title;
-        } else {
-            if (Config::getStandardProductCondition()) {
-                $condition = Config::getStandardProductCondition()->Title;
-            }
+        } elseif (Config::getStandardProductCondition()) {
+            $condition = Config::getStandardProductCondition()->Title;
         }
-
         return $condition;
     }
 
@@ -1087,11 +1081,10 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getDefaultSort() {
+    public function getDefaultSort() : string
+    {
         $sort = self::defaultSort();
-
         $this->extend('updateGetDefaultSort', $sort);
-
         return $sort;
     }
 
@@ -1104,7 +1097,7 @@ class Product extends DataObject implements PermissionProvider
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.09.2018
      */
-    public static function defaultSort()
+    public static function defaultSort() : string
     {
         if (is_null(self::$scDefaultSort)) {
             $sort                   = Tools::Session()->get('SilvercartProduct.defaultSort');
@@ -1136,7 +1129,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public static function setDefaultSort($defaultSort) {
+    public static function setDefaultSort($defaultSort) : void
+    {
         Tools::Session()->set('SilvercartProduct.defaultSort', $defaultSort);
         Tools::saveSession();
     }
@@ -1154,21 +1148,18 @@ class Product extends DataObject implements PermissionProvider
      * @param string $containerClass Container class
      * 
      * @return DataList
-     * 
-     * @author Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 19.08.2014
      */
-    public static function get($callerClass = Product::class, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = DataList::class) {
+    public static function get($callerClass = Product::class, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = DataList::class)
+    {
         $products = parent::get($callerClass, $filter, $sort, $join, $limit, $containerClass);
-        
-        if (!Tools::isBackendEnvironment() &&
-            !Tools::isIsolatedEnvironment()) {
+        if (!Tools::isBackendEnvironment()
+         && !Tools::isIsolatedEnvironment()
+        ) {
             $requiredAttributesFilter = self::buildRequiredAttributesFilter();
             if (!is_null($requiredAttributesFilter)) {
                 $products = $products->where($requiredAttributesFilter);
             }
         }
-        
         return $products;
     }
     
@@ -1179,7 +1170,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return Product
      */
-    public static function get_by_product_number($productNumber) {
+    public static function get_by_product_number($productNumber) : Product
+    {
         $product = self::get()
                 ->filter('ProductNumberShop', $productNumber)
                 ->first();
@@ -1198,7 +1190,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.10.2018
      */
-    public static function buildRequiredAttributesFilter()
+    public static function buildRequiredAttributesFilter() : string
     {
         $filter               = null;
         $pricetype            = Config::Pricetype();
@@ -1257,7 +1249,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public static function get_frontend_sql_filter() {
+    public static function get_frontend_sql_filter() : string
+    {
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = Config::Pricetype();
         $filter             = "";
@@ -1265,20 +1258,23 @@ class Product extends DataObject implements PermissionProvider
         if (!empty($requiredAttributes)) {
             foreach ($requiredAttributes as $requiredAttribute) {
                 //find out if we are dealing with a real attribute or a multilingual field
-                if (array_key_exists($requiredAttribute, Product::config()->get('db')) || $requiredAttribute == "Price") {
+                if (array_key_exists($requiredAttribute, Product::config()->get('db'))
+                 || $requiredAttribute == "Price"
+                ) {
                     if ($requiredAttribute == "Price") {
                         // Gross price as default if not defined
                         if ($pricetype == "net") {
-                            $filter .= sprintf("(PriceNetAmount != 0.0) AND ");
+                            $filter .= "(PriceNetAmount != 0.0) AND ";
                         } else {
-                            $filter .= sprintf("(PriceGrossAmount != 0.0) AND ");
+                            $filter .= "(PriceGrossAmount != 0.0) AND ";
                         }
                     } else {
-                        $filter .= sprintf("%s != '' AND ", $requiredAttribute);
+                        $filter .= "{$requiredAttribute} != '' AND ";
                     }
                 } else {
                     // if its a multilingual attribute it comes from a relational class
-                    $filter .= sprintf("%s.%s != '' AND ", Tools::get_table_name(ProductTranslation::class), $requiredAttribute);
+                    $tableName = Tools::get_table_name(ProductTranslation::class);
+                    $filter   .= "{$tableName}.{$requiredAttribute} != '' AND ";
                 }
                 
             }
@@ -1316,7 +1312,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return DataList
      */
-    public static function getProductsList($whereClause = "", $sort = null, $joins = null, $limit = null) {
+    public static function getProductsList($whereClause = "", $sort = null, $joins = null, $limit = null)
+    {
         $filter = self::get_frontend_sql_filter();
 
         if ($whereClause != "") {
@@ -1334,8 +1331,9 @@ class Product extends DataObject implements PermissionProvider
                 ->leftJoin(Tools::get_table_name(ProductTranslation::class), $onclause, 'SPL')
                 ->where($filter)
                 ->sort($sort);
-        if (!is_null($joins) &&
-            is_array($joins)) {
+        if (!is_null($joins)
+         && is_array($joins)
+        ) {
             foreach ($joins as $joinData) {
                 $table    = $alias = $joinData['table'];
                 $onClause = $joinData['on'];
@@ -1383,14 +1381,15 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return SS_List
      */
-    public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null) {
+    public static function getProducts($whereClause = "", $sort = null, $joins = null, $limit = null)
+    {
         $databaseFilteredProducts = self::getProductsList($whereClause, $sort, $joins, $limit);
-        if (Controller::curr()->hasMethod('getProductsPerPageSetting') &&
-            $databaseFilteredProducts) {
-            $databaseFilteredProducts = new PaginatedList($databaseFilteredProducts, $_GET);
+        if (Controller::curr()->hasMethod('getProductsPerPageSetting')
+         && $databaseFilteredProducts
+        ) {
+            $databaseFilteredProducts = PaginatedList::create($databaseFilteredProducts, $_GET);
             $databaseFilteredProducts->setPageLength(Controller::curr()->getProductsPerPageSetting());
         }
-
         return $databaseFilteredProducts;
     }
 
@@ -1424,7 +1423,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return PaginatedList
      */
-    public static function getPaginatedProducts($whereClause = "", $sort = null, $joins = null, $limit = null, $request = null, $pageLength = null) {
+    public static function getPaginatedProducts($whereClause = "", $sort = null, $joins = null, $limit = null, $request = null, $pageLength = null)
+    {
         $paginatedProducts = null;
         if (is_null($request)) {
             $request = $_GET;
@@ -1433,12 +1433,13 @@ class Product extends DataObject implements PermissionProvider
             $pageLength = Config::ProductsPerPage();
         }
         $products = self::getProducts($whereClause, $sort, $joins, $limit);
-        if ($products instanceof SS_List &&
-            $products->exists()) {
+        if ($products instanceof SS_List
+         && $products->exists()
+        ) {
             if ($products instanceof PaginatedList) {
                 $paginatedProducts = $products;
             } else {
-                $paginatedProducts = new PaginatedList($products, $request);
+                $paginatedProducts = PaginatedList::create($products, $request);
             }
             $paginatedProducts->setPageLength($pageLength);
         }
@@ -1456,10 +1457,11 @@ class Product extends DataObject implements PermissionProvider
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.12.2013
      */
-    public function scaffoldFormFields($params = null) {
-        $params = array(
+    public function scaffoldFormFields($params = null) : FieldList
+    {
+        $params = [
             'tabbed' => true,
-            'restrictFields' => array(
+            'restrictFields' => [
                 'Title',
                 'ShortDescription',
                 'LongDescription',
@@ -1490,14 +1492,12 @@ class Product extends DataObject implements PermissionProvider
                 'PackagingQuantity',
                 'ExcludeFromPaymentDiscounts',
                 'IsNotBuyable',
-            ),
-            'includeRelations' => array(
+            ],
+            'includeRelations' => [
                 'has_many'  => true,
-            ),
-        );
-
+            ],
+        ];
         $this->extend('updateScaffoldFormFields', $params);
-
         return DataObjectExtension::scaffoldFormFields($this, $params);
     }
 
@@ -1508,10 +1508,11 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForProductGroups($fields) {
+    public function getFieldsForProductGroups($fields) : void
+    {
         $productGroupHolder = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
 
-        $silvercartProductGroupDropdown = new TreeDropdownField(
+        $silvercartProductGroupDropdown = TreeDropdownField::create(
                 'ProductGroupID',
                 $this->fieldLabel('ProductGroup'),
                 SiteTree::class
@@ -1525,7 +1526,7 @@ class Product extends DataObject implements PermissionProvider
         $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolderID);
         
         if ($this->exists()) {
-            $productGroupMirrorPagesField   = new TreeMultiselectField(
+            $productGroupMirrorPagesField = TreeMultiselectField::create(
                     'ProductGroupMirrorPages',
                     $this->fieldLabel('ProductGroupMirrorPages'),
                     SiteTree::class
@@ -1547,7 +1548,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForWidgets($fields) {
+    public function getFieldsForWidgets($fields) : void
+    {
         $widgetAreaFields = WidgetSet::scaffold_widget_area_fields_for($this);
         $fields->addFieldsToTab('Root.Widgets', $widgetAreaFields);
     }
@@ -1559,39 +1561,40 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForMain($fields) {
+    public function getFieldsForMain($fields) : void
+    {
         $fields->dataFieldByName('StockQuantityOverbookable')->setTitle($this->fieldLabel('StockQuantityOverbookableShort'));
         $fields->dataFieldByName('StockQuantityExpirationDate')->addExtraClass("date");
         $fields->dataFieldByName('StockQuantityExpirationDate')->config()->set('showcalendar', true);
         $fields->dataFieldByName('StockQuantityExpirationDate')->FieldHolder();
-        $purchaseTimeUnitSource = array(
+        $purchaseTimeUnitSource = [
             'Days'      => $this->fieldLabel('Days'),
             'Weeks'     => $this->fieldLabel('Weeks'),
             'Months'    => $this->fieldLabel('Months'),
-        );
+        ];
         $fields->dataFieldByName('PurchaseTimeUnit')->setSource($purchaseTimeUnitSource);
         
-        $productNumberGroup = new FieldGroup('ProductNumberGroup', '', $fields);
+        $productNumberGroup = FieldGroup::create('ProductNumberGroup', '', $fields);
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberShop'));
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
         $productNumberGroup->push($fields->dataFieldByName('EANCode'));
         $baseDataToggle = ToggleCompositeField::create(
                 'ProductBaseDataToggle',
                 $this->fieldLabel('BasicData'),
-                array(
+                [
                     $fields->dataFieldByName('isActive'),
                     $fields->dataFieldByName('IsNotBuyable'),
                     $productNumberGroup,
-                )
+                ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->removeByName('isActive');
         $fields->removeByName('IsNotBuyable');
         $fields->insertBefore($baseDataToggle, 'Title');
         if ($this->exists()) {
-            $fields->insertAfter(new CheckboxField('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
+            $fields->insertAfter(CheckboxField::create('RefreshCache', $this->fieldLabel('RefreshCache')), 'isActive');
         }
 
-        $availabilityGroup  = new FieldGroup('AvailabilityGroup', '', $fields);
+        $availabilityGroup  = FieldGroup::create('AvailabilityGroup', '', $fields);
         $availabilityGroup->push(           $fields->dataFieldByName('AvailabilityStatusID'));
         $availabilityGroup->breakAndPush(   $fields->dataFieldByName('PurchaseMinDuration'));
         $availabilityGroup->push(           $fields->dataFieldByName('PurchaseMaxDuration'));
@@ -1602,43 +1605,43 @@ class Product extends DataObject implements PermissionProvider
         $availabilityGroupToggle = ToggleCompositeField::create(
                 'AvailabilityGroupToggle',
                 $this->fieldLabel('AvailabilityStatus'),
-                array(
+                [
                     $availabilityGroup,
-                )
+                ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->insertAfter($availabilityGroupToggle, 'ProductBaseDataToggle');
         
         $descriptionToggle = ToggleCompositeField::create(
                 'ProductDescriptionToggle',
                 $this->fieldLabel('LongDescription'),
-                array(
+                [
                     $fields->dataFieldByName('Title'),
                     $fields->dataFieldByName('ShortDescription'),
                     $fields->dataFieldByName('LongDescription'),
-                )
+                ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->removeByName('Title');
         $fields->removeByName('ShortDescription');
         $fields->removeByName('LongDescription');
         $fields->insertAfter($descriptionToggle, 'AvailabilityGroupToggle');
         
-        $timeGroup = new FieldGroup('TimeGroup', '', $fields);
+        $timeGroup = FieldGroup::create('TimeGroup', '', $fields);
         $timeGroup->push(        $fields->dataFieldByName('ReleaseDate'));
-        $timeGroup->pushAndBreak(new LiteralField('ReleaseDateInfo', '<br/><br/>' . $this->fieldLabel('ReleaseDateInfo')));
+        $timeGroup->pushAndBreak(LiteralField::create('ReleaseDateInfo', '<br/><br/>' . $this->fieldLabel('ReleaseDateInfo')));
         $timeGroup->push(        $fields->dataFieldByName('LaunchDate'));
-        $timeGroup->pushAndBreak(new LiteralField('LaunchDateInfo', '<br/><br/>' . $this->fieldLabel('LaunchDateInfo')));
+        $timeGroup->pushAndBreak(LiteralField::create('LaunchDateInfo', '<br/><br/>' . $this->fieldLabel('LaunchDateInfo')));
         $timeGroup->push(        $fields->dataFieldByName('SalesBanDate'));
-        $timeGroup->pushAndBreak(new LiteralField('SalesBanDateInfo', '<br/><br/>' . $this->fieldLabel('SalesBanDateInfo')));
+        $timeGroup->pushAndBreak(LiteralField::create('SalesBanDateInfo', '<br/><br/>' . $this->fieldLabel('SalesBanDateInfo')));
         $timeGroupToggle = ToggleCompositeField::create(
                 'TimeGroupToggle',
                 $this->fieldLabel('TimeGroup'),
-                array(
+                [
                     $timeGroup,
-                )
+                ]
         )->setHeadingLevel(4)->setStartClosed(true);
         $fields->insertAfter($timeGroupToggle, 'ProductDescriptionToggle');
         
-        $miscGroup = new FieldGroup('MiscGroup', '', $fields);
+        $miscGroup = FieldGroup::create('MiscGroup', '', $fields);
         $manufactuerField = $fields->dataFieldByName('ManufacturerID');
         if (!is_null($manufactuerField)) {
             $miscGroup->pushAndBreak($manufactuerField);
@@ -1651,9 +1654,9 @@ class Product extends DataObject implements PermissionProvider
         $miscGroupToggle = ToggleCompositeField::create(
                 'AvailabilityGroupToggle',
                 $this->fieldLabel('MiscGroup'),
-                array(
+                [
                     $miscGroup,
-                )
+                ]
         )->setHeadingLevel(4)->setStartClosed(true);
         $fields->insertAfter($miscGroupToggle, 'TimeGroupToggle');
     }
@@ -1681,10 +1684,11 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForPrices($fields) {
+    public function getFieldsForPrices($fields) : void
+    {
         Tax::presetDropdownWithDefault($fields->dataFieldByName('TaxID'), $this);
         
-        $pricesGroup  = new FieldGroup('PricesGroup', '', $fields);
+        $pricesGroup = FieldGroup::create('PricesGroup', '', $fields);
         $pricesGroup->push($fields->dataFieldByName('PriceGross'));
         $pricesGroup->push($fields->dataFieldByName('PriceNet'));
         $pricesGroup->push($fields->dataFieldByName('MSRPrice'));
@@ -1701,14 +1705,15 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForSeo($fields) {
+    public function getFieldsForSeo($fields) : void
+    {
         $seoToggle = ToggleCompositeField::create(
                 'SEOToggle',
                 $this->fieldLabel('SEO'),
-                array(
+                [
                     $fields->dataFieldByName('MetaTitle'),
                     $fields->dataFieldByName('MetaDescription'),
-                )
+                ]
         )->setHeadingLevel(4)->setStartClosed(true);
         $fields->removeByName('MetaTitle');
         $fields->removeByName('MetaDescription');
@@ -1722,7 +1727,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForImages($fields) {
+    public function getFieldsForImages($fields) : void
+    {
         $imageGridField = $fields->dataFieldByName('Images');
         $imageGridField->getConfig()->removeComponentsByType(GridFieldAddNewButton::class);
         $imageGridField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
@@ -1732,7 +1738,7 @@ class Product extends DataObject implements PermissionProvider
             $imageGridField->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('SortOrder'));
         }
         
-        $imageUploadField = new ImageUploadField('UploadImages', $this->fieldLabel('AddImage'));
+        $imageUploadField = ImageUploadField::create('UploadImages', $this->fieldLabel('AddImage'));
         $imageUploadField->setFolderName(self::DEFAULT_IMAGE_FOLDER);
         
         $fields->addFieldToTab('Root.Images', $imageUploadField, 'Images');
@@ -1745,13 +1751,14 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public function getFieldsForFiles($fields) {
+    public function getFieldsForFiles($fields): void
+    {
         $fileGridField = $fields->dataFieldByName('Files');
         $fileGridField->getConfig()->removeComponentsByType(GridFieldAddNewButton::class);
         $fileGridField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
         $fileGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
-        $fileUploadField = new FileUploadField('UploadFiles', $this->fieldLabel('AddFile'));
+        $fileUploadField = FileUploadField::create('UploadFiles', $this->fieldLabel('AddFile'));
         $fileUploadField->setFolderName(self::DEFAULT_FILES_FOLDER);
         
         $fields->addFieldToTab('Root.Files', $fileUploadField, 'Files');
@@ -1788,9 +1795,10 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns an HTML encoded long description, preserving HTML tags.
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getHtmlEncodedLongDescription() {
+    public function getHtmlEncodedLongDescription() : DBHTMLText
+    {
         $output = str_replace(
             array(
                 '&lt;',
@@ -1817,13 +1825,14 @@ class Product extends DataObject implements PermissionProvider
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 11.03.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding() : array
+    {
+        $excludeFromScaffolding = [
             'ShoppingCartPositions',
             'WidgetArea',
             'ShoppingCarts',
             'Orders',
-        );
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         return $excludeFromScaffolding;
     }
@@ -1836,7 +1845,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getHtmlEncodedShortDescription($cutToLength = false) {
+    public function getHtmlEncodedShortDescription($cutToLength = false) : DBHTMLText
+    {
         $output = str_replace(
             array(
                 '&lt;',
@@ -1869,9 +1879,10 @@ class Product extends DataObject implements PermissionProvider
      *                                   If not given the price type will be automatically determined.
      * @param bool   $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
-     * @return \SilverCart\ORM\FieldType\DBMoney
+     * @return DBMoney
      */
-    public function getPrice($priceType = '', $ignoreTaxExemption = false) {
+    public function getPrice($priceType = '', $ignoreTaxExemption = false) : DBMoney
+    {
         $cacheHash = md5($priceType);
         $cacheKey = 'getPrice_' . $cacheHash . '_' . $ignoreTaxExemption ? '1' : '0';
 
@@ -1892,11 +1903,12 @@ class Product extends DataObject implements PermissionProvider
         }
         
         $member = Customer::currentUser();
-        if (!$ignoreTaxExemption &&
-            !$this->ignoreTaxExemption &&
-            $member instanceof Member &&
-            $member->doesNotHaveToPayTaxes() &&
-            $priceType != "net") {
+        if (!$ignoreTaxExemption
+         && !$this->ignoreTaxExemption
+         && $member instanceof Member
+         && $member->doesNotHaveToPayTaxes()
+         && $priceType != "net"
+        ) {
             $this->ignoreTaxExemption = true;
             $price->setAmount($price->getAmount() - $this->getTaxAmount());
             $this->ignoreTaxExemption = false;
@@ -1920,7 +1932,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getPriceNice() {
+    public function getPriceNice() : string
+    {
         $priceNice = '';
         $price     = $this->getPrice();
 
@@ -1937,22 +1950,21 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return SearchContext
      */
-    public function getCustomSearchContext() {
-        $fields = $this->scaffoldSearchFields(
-            array(
-                'restrictFields' => array(
-                    'Title',
-                    'LongDescription',
-                    'Manufacturer.Title'
-                )
-            )
-        );
-        $filters = array(
-            'Title' => new PartialMatchFilter('Title'),
-            'LongDescription' => new ExactMatchFilter('LongDescription'),
-            'Manufacturer.Title' => new PartialMatchFilter('Manufacturer.Title')
-        );
-        return new SearchContext(get_class($this), $fields, $filters);
+    public function getCustomSearchContext() : SearchContext
+    {
+        $fields = $this->scaffoldSearchFields([
+            'restrictFields' => [
+                'Title',
+                'LongDescription',
+                'Manufacturer.Title',
+            ]
+        ]);
+        $filters = [
+            'Title'              => PartialMatchFilter::create('Title'),
+            'LongDescription'    => ExactMatchFilter::create('LongDescription'),
+            'Manufacturer.Title' => PartialMatchFilter::create('Manufacturer.Title'),
+        ];
+        return SearchContext::create(get_class($this), $fields, $filters);
     }
     
     /**
@@ -1963,7 +1975,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.10.2018
      */
-    public static function getImageUploadFolder()
+    public static function getImageUploadFolder() : Folder
     {
         $uploadsFolder = Folder::get()->filter('Name', self::DEFAULT_IMAGE_FOLDER)->first();
         if (!($uploadsFolder instanceof Folder)) {
@@ -1984,7 +1996,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.10.2018
      */
-    public static function getFileUploadFolder()
+    public static function getFileUploadFolder() : Folder
     {
         $uploadsFolder = Folder::get()->filter('Name', self::DEFAULT_FILES_FOLDER)->first();
         if (!($uploadsFolder instanceof Folder)) {
@@ -2005,7 +2017,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return PaginatedList
      */
-    public static function getRandomProducts($amount = 4, $masterProduct = true) {
+    public static function getRandomProducts($amount = 4, $masterProduct = true)
+    {
         if ($masterProduct) {
             return self::get()->filter('MasterProductID', 0)->sort('RAND()')->limit($amount);
         } else {
@@ -2016,9 +2029,10 @@ class Product extends DataObject implements PermissionProvider
     /**
      * get all required attributes as an array.
      *
-     * @return array the attributes required to display an product in the frontend
+     * @return array
      */
-    public static function getRequiredAttributes() {
+    public static function getRequiredAttributes() : array
+    {
         return self::$requiredAttributes;
     }
 
@@ -2029,7 +2043,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return void
      */
-    public static function setRequiredAttributes($concatinatedAttributesString) {
+    public static function setRequiredAttributes(string $concatinatedAttributesString) : void
+    {
         $requiredAttributesArray = explode(",", str_replace(" ", "", $concatinatedAttributesString));
         foreach ($requiredAttributesArray as $attribute) {
             self::addRequiredAttribute($attribute);
@@ -2046,9 +2061,11 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.12.2012
      */
-    public static function addRequiredAttribute($attribute) {
-        if (!in_array($attribute, self::$blacklistedRequiredAttributes) &&
-            !in_array($attribute, self::$requiredAttributes)) {
+    public static function addRequiredAttribute(string $attribute) : void
+    {
+        if (!in_array($attribute, self::$blacklistedRequiredAttributes)
+         && !in_array($attribute, self::$requiredAttributes)
+        ) {
             self::$requiredAttributes[] = $attribute;
         }
     }
@@ -2063,7 +2080,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function blacklistRequiredAttribute($attributeName) {
+    public static function blacklistRequiredAttribute($attributeName) : void
+    {
         if (!in_array($attributeName, self::$blacklistedRequiredAttributes)) {
             self::$blacklistedRequiredAttributes[] = $attributeName;
         }
@@ -2079,7 +2097,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.03.2012
      */
-    public static function removeRequiredAttribute($attributeName) {
+    public static function removeRequiredAttribute($attributeName) : void
+    {
         if (in_array($attributeName, self::$requiredAttributes)) {
             self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes, 0));
         }
@@ -2093,8 +2112,9 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.01.2013
      */
-    public static function resetRequiredAttributes() {
-        self::$requiredAttributes = array();
+    public static function resetRequiredAttributes() : void
+    {
+        self::$requiredAttributes = [];
     }
 
     /**
@@ -2105,7 +2125,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
-    private function title2urlSegment() {
+    private function title2urlSegment() : string
+    {
         return Tools::string2urlSegment($this->Title);
     }
 
@@ -2131,7 +2152,7 @@ class Product extends DataObject implements PermissionProvider
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 30.08.2018
      */
-    public function addToCart($cartID, $quantity = 1, $increment = false)
+    public function addToCart($cartID, $quantity = 1, $increment = false) : ?ShoppingCartPosition
     {
         $addToCartAllowed = true;
         $isNewPosition    = false;
@@ -2140,10 +2161,10 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAddToCart', $addToCartAllowed);
         
         if ($this->IsNotBuyable
-            || ($quantity == 0
-                || $cartID == 0)
-            || !$addToCartAllowed
-            || !$this->isBuyableDueToStockManagementSettings()
+         || ($quantity == 0
+          || $cartID == 0)
+         || !$addToCartAllowed
+         || !$this->isBuyableDueToStockManagementSettings()
         ) {
             return false;
         }
@@ -2154,7 +2175,7 @@ class Product extends DataObject implements PermissionProvider
         ])->first();
 
         if (!($shoppingCartPosition instanceof ShoppingCartPosition)
-            || !$shoppingCartPosition->exists()
+         || !$shoppingCartPosition->exists()
         ) {
             $isNewPosition        = true;
             $shoppingCartPosition = ShoppingCartPosition::create()
@@ -2176,7 +2197,8 @@ class Product extends DataObject implements PermissionProvider
                 }
             } elseif ($this->StockQuantity > 0) {
                 if (Config::addToCartMaxQuantity() < $this->StockQuantity
-                 && $shoppingCartPosition->Quantity + $quantityToAdd > Config::addToCartMaxQuantity()) {
+                 && $shoppingCartPosition->Quantity + $quantityToAdd > Config::addToCartMaxQuantity()
+                ) {
                     $shoppingCartPosition->Quantity = Config::addToCartMaxQuantity();
                     $positionNotice = 'maxQuantityReached';
                 } else {
@@ -2206,12 +2228,13 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @param int $cartID Cart ID to check positions for
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.03.2013
      */
-    public function isInCart($cartID = null) {
+    public function isInCart($cartID = null) : bool
+    {
         $isInCart = false;
         if ($this->getPositionInCart($cartID) instanceof ShoppingCartPosition) {
             $isInCart = true;
@@ -2228,7 +2251,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function hasCartNotice()
+    public function hasCartNotice() : bool
     {
         $hasNotice = false;
         $position  = $this->getPositionInCart();
@@ -2264,7 +2287,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ShoppingCartPosition
      */
-    public function getPositionInCart($cartID = null) {
+    public function getPositionInCart($cartID = null) : ?ShoppingCartPosition
+    {
         if (is_null($cartID) &&
             Customer::currentUser() instanceof Member) {
             $cartID = Customer::currentUser()->getCart()->ID;
@@ -2286,7 +2310,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return float
      */
-    public function getQuantityInCart($cartID = null) {
+    public function getQuantityInCart($cartID = null) : float
+    {
         if (!array_key_exists($cartID, $this->quantityInCart)) {
             $quantityInCart = 0;
             $position       = $this->getPositionInCart($cartID);
@@ -2309,11 +2334,9 @@ class Product extends DataObject implements PermissionProvider
      * @param int $cartID Cart ID to check positions for
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
      */
-    public function getQuantityInCartString($cartID = null) {
+    public function getQuantityInCartString($cartID = null) : string
+    {
         if (is_null($cartID) &&
             Customer::currentUser() instanceof Member) {
             $cartID = Customer::currentUser()->getCart()->ID;
@@ -2343,7 +2366,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.12.2015
      */
-    public function ProductGroup() {
+    public function ProductGroup() : ?ProductGroupPage
+    {
         $productGroup  = null;
         $currentLocale = Tools::current_locale();
         if ($this->getComponent('ProductGroup')) {
@@ -2367,7 +2391,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2018
      */
-    public function buildLinkWithGroup($productGroup, $urlSegment) {
+    public function buildLinkWithGroup($productGroup, $urlSegment) : string
+    {
         return $this->buildLink($productGroup->OriginalLink(), $urlSegment);
     }
     
@@ -2382,13 +2407,11 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2018
      */
-    public function buildLink($groupLink, $urlSegment) {
-        $link = '';
+    public function buildLink($groupLink, $urlSegment) : string
+    {
         $linkIdentifier = $this->ID;
         $this->extend('updatelinkIdentifier', $linkIdentifier);
-        
-        $link = $groupLink . $linkIdentifier . '/' . $urlSegment;
-        return $link;
+        return "{$groupLink}{$linkIdentifier}/{$urlSegment}";
     }
     
     /**
@@ -2396,7 +2419,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getLink() {
+    public function getLink() : string
+    {
         return $this->Link();
     }
 
@@ -2416,7 +2440,8 @@ class Product extends DataObject implements PermissionProvider
      *         Ramon Kupper <rkupper@pixeltricks.de>
      * @since 26.04.2018
      */
-    public function Link($locale = null) {
+    public function Link($locale = null) : string
+    {
         if (is_null($locale)) {
             $locale = Tools::current_locale();
         }
@@ -2431,11 +2456,10 @@ class Product extends DataObject implements PermissionProvider
             $productGroup = $this->ProductGroup();
         }
         
-        if ($controller instanceof ProductGroupPageController &&
-            !($controller instanceof SearchResultsPageController)) {
-
+        if ($controller instanceof ProductGroupPageController
+         && !($controller instanceof SearchResultsPageController)
+        ) {
             $buildLink = false;
-
             if ($this->ProductGroupMirrorPages()->find('ID', $productGroup->ID)) {
                 $buildLink = true;
             } elseif (Tools::current_locale() != Config::DefaultLanguage()) {
@@ -2455,8 +2479,9 @@ class Product extends DataObject implements PermissionProvider
                 $i18nLink = $this->buildLink($i18nProductGroupLink, $i18nURLSegment);
             }
         }
-        if (empty($i18nLink) &&
-            $this->ProductGroup()) {
+        if (empty($i18nLink)
+         && $this->ProductGroup()
+        ) {
             $i18nLink = $this->buildLinkWithGroup($this->ProductGroup(), $this->title2urlSegment());
         }
         $this->i18nLinks[$locale] = $i18nLink;
@@ -2473,7 +2498,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.06.2017
      */
-    public function CanonicalLink() {
+    public function CanonicalLink() : string
+    {
         $link = $this->Link();
         if ($this->ProductGroup()) {
             $link = $this->buildLinkWithGroup($this->ProductGroup(), $this->title2urlSegment());
@@ -2486,7 +2512,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getAbsoluteLink() {
+    public function getAbsoluteLink() : string
+    {
         return $this->AbsoluteLink();
     }
 
@@ -2497,7 +2524,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 6.6.2011
      */
-    public function AbsoluteLink() {
+    public function AbsoluteLink() : string
+    {
         return Director::absoluteURL($this->Link());
     }
     
@@ -2509,27 +2537,28 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.05.2012
      */
-    public function ProductQuestionLink() {
-        return Tools::PageByIdentifierCodeLink('SilvercartContactFormPage') . 'productQuestion/' . $this->ID;
+    public function ProductQuestionLink() : string
+    {
+        return Tools::PageByIdentifierCodeLink('SilvercartContactFormPage') . "productQuestion/{$this->ID}";
     }
     
     /**
      * Returns whether the current view is a mirrored product detail view
      *
-     * @return boolean 
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2012
      */
-    public function IsMirroredView() {
+    public function IsMirroredView() : bool
+    {
         $isMirroredView = true;
-
-        if (Controller::curr() instanceof ProductGroupPageController &&
-            !Controller::curr() instanceof SearchResultsPageController &&
-            $this->ProductGroupID == Controller::curr()->data()->ID) {
+        if (Controller::curr() instanceof ProductGroupPageController
+         && !Controller::curr() instanceof SearchResultsPageController
+         && $this->ProductGroupID == Controller::curr()->data()->ID
+        ) {
             $isMirroredView = false;
         }
-        
         return $isMirroredView;
     }
 
@@ -2538,7 +2567,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return float
      */
-    public function getTaxAmount() {
+    public function getTaxAmount() : float
+    {
         $showPricesGross = false;
         $member          = Customer::currentUser();
 
@@ -2548,12 +2578,10 @@ class Product extends DataObject implements PermissionProvider
             }
         } else {
             $defaultPriceType = Config::DefaultPriceType();
-
             if ($defaultPriceType == 'gross') {
                 $showPricesGross = true;
             }
         }
-
         if ($showPricesGross) {
             $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->getTaxRate()) * 100);
         } else {
@@ -2568,7 +2596,8 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getTaxAmountNice() {
+    public function getTaxAmountNice() : string
+    {
         return str_replace('.', ',', number_format($this->getTaxAmount(),2)) . ' ' . $this->Price->getSymbol();
     }
     
@@ -2577,22 +2606,23 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @param bool $plain Set to true to get the plain JSON string without HTML tag
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
-    public function getMicrodata($plain = false) {
+    public function getMicrodata($plain = false) : DBHTMLText
+    {
         if ($this->getPriceIsLowerThanMsr()) {
-            $offers = array(
+            $offers = [
                 '@type'         => 'AggregateOffer',
                 'highPrice'     => number_format($this->MSRPrice->getAmount(), 2, '.', ''),
                 'lowPrice'      => number_format($this->getPrice()->getAmount(), 2, '.', ''),
                 'priceCurrency' => $this->getPrice()->getCurrency(),
-            );
+            ];
         } else {
-            $offers = array(
+            $offers = [
                 '@type'         => 'Offer',
                 'price'         => number_format($this->getPrice()->getAmount(), 2, '.', ''),
                 'priceCurrency' => $this->getPrice()->getCurrency(),
-            );
+            ];
         }
         if ($this->AvailabilityStatus()->exists()) {
             $offers['availability'] = $this->AvailabilityStatus()->MicrodataCode;
@@ -2608,7 +2638,7 @@ class Product extends DataObject implements PermissionProvider
             $imageURL = $listImage->getAbsoluteURL();
         }
         
-        $jsonData = array(
+        $jsonData = [
             '@context'    => 'http://schema.org',
             '@type'       => 'Product',
             'sku'         => $this->ProductNumberShop,
@@ -2618,19 +2648,20 @@ class Product extends DataObject implements PermissionProvider
             'url'         => $this->AbsoluteLink(),
             'image'       => $imageURL,
             'offers'      => $offers,
-        );
+        ];
         
         if ($this->EANCode) {
             $jsonData["gtin"] = $this->EANCode;
         }
         
         $manufacturer = $this->Manufacturer();
-        if ($manufacturer instanceof Manufacturer &&
-            $manufacturer->exists()) {
-            $manufacturerData = array(
+        if ($manufacturer instanceof Manufacturer
+         && $manufacturer->exists()
+        ) {
+            $manufacturerData = [
                 '@type' => 'Thing',
                 'name'  => $manufacturer->Title,
-            );
+            ];
             if ($manufacturer->Logo()->exists()) {
                 $manufacturerData["logo"] = $manufacturer->Logo()->getAbsoluteURL();
             }
@@ -2645,7 +2676,7 @@ class Product extends DataObject implements PermissionProvider
             $output = json_encode($jsonData);
         }
         if (!$plain) {
-            $output = '<script type="application/ld+json">' . $output . '</script>';
+            $output = "<script type=\"application/ld+json\">{$output}</script>";
         }
         return Tools::string2html($output);
     }
@@ -2655,10 +2686,12 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return int
      */
-    public function getPurchaseMinDurationDays() {
+    public function getPurchaseMinDurationDays() : int
+    {
         $days = 0;
-        if (!empty($this->PurchaseTimeUnit) &&
-            !empty($this->PurchaseMinDuration)) {
+        if (!empty($this->PurchaseTimeUnit)
+         && !empty($this->PurchaseMinDuration)
+        ) {
             $days = (int) $this->PurchaseMinDuration * $this->getPurchaseTimeUnitBusinessDays();
         }
         return $days;
@@ -2669,10 +2702,12 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return int
      */
-    public function getPurchaseMaxDurationDays() {
+    public function getPurchaseMaxDurationDays() : int
+    {
         $days = 0;
-        if (!empty($this->PurchaseTimeUnit) &&
-            !empty($this->PurchaseMaxDuration)) {
+        if (!empty($this->PurchaseTimeUnit)
+         && !empty($this->PurchaseMaxDuration)
+        ) {
             $days = (int) $this->PurchaseMaxDuration * $this->getPurchaseTimeUnitBusinessDays();
         }
         return $days;
@@ -2683,7 +2718,8 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return int
      */
-    public function getPurchaseTimeUnitBusinessDays() {
+    public function getPurchaseTimeUnitBusinessDays() : int
+    {
         switch ($this->PurchaseTimeUnit) {
             case 'Months':
                 $timeUnitDays = 24;
@@ -2716,7 +2752,7 @@ class Product extends DataObject implements PermissionProvider
              && (!empty($this->PurchaseMinDuration)
               || !empty($this->PurchaseMaxDuration))
             ) {
-                $class = 'available-in ' . $baseCssClass . ' ' . $baseCssClass . '-warning';
+                $class = "available-in {$baseCssClass} {$baseCssClass}-warning";
                 if (empty($this->PurchaseMinDuration)) {
                     $title = _t(AvailabilityStatus::class . '.STATUS_AVAILABLE_IN',
                             'available in {duration} {timeunit}',
@@ -2747,13 +2783,13 @@ class Product extends DataObject implements PermissionProvider
                 $class = "{$this->AvailabilityStatus()->Code} {$baseCssClass} {$baseCssClass}-{$this->AvailabilityStatus()->config()->get('badge_color_preorder')}";
                 $title = $this->fieldLabel('Preorderable');
             } else {
-                $class = $this->AvailabilityStatus()->Code . ' ' . $baseCssClass . ' ' . $baseCssClass . '-'.$this->AvailabilityStatus()->badgeColor;
+                $class = "{$this->AvailabilityStatus()->Code} {$baseCssClass} {$baseCssClass}-{$this->AvailabilityStatus()->badgeColor}";
                 $title = $this->AvailabilityStatus()->Title;
             }
-            $output = $this->customise(new ArrayData(array(
-                'AvailabilityCSSClasses' => $class . ' ' . $additionalCssClasses,
+            $output = $this->customise(ArrayData::create([
+                'AvailabilityCSSClasses' => "{$class} {$additionalCssClasses}",
                 'Title'                  => $title,
-            )))->renderWith(SSViewer::get_templates_by_class(static::class, '_Availability'));
+            ]))->renderWith(SSViewer::get_templates_by_class(static::class, '_Availability'));
         }
         return $output;
     }
@@ -2770,7 +2806,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.06.2017
      */
-    public function Availability($baseCssClass = 'label', $additionalCssClasses = '') {
+    public function Availability($baseCssClass = 'label', $additionalCssClasses = '') : string
+    {
         return $this->getAvailability($baseCssClass, $additionalCssClasses);
     }
 
@@ -2783,15 +2820,18 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2018
      */
-    public function AvailabilityStatus() {
+    public function AvailabilityStatus() : AvailabilityStatus
+    {
         if (is_null($this->cachedAvailabilityStatus)) {
             $this->cachedAvailabilityStatus = $this->getComponent('AvailabilityStatus');
             $this->extend('updateAvailabilityStatus', $this->cachedAvailabilityStatus);
-            if (!$this->cachedAvailabilityStatus instanceof AvailabilityStatus ||
-                !$this->cachedAvailabilityStatus->exists()) {
+            if (!$this->cachedAvailabilityStatus instanceof AvailabilityStatus
+             || !$this->cachedAvailabilityStatus->exists()
+            ) {
                 $default = AvailabilityStatus::getDefault();
-                if ($default instanceof AvailabilityStatus &&
-                    $default->exists()) {
+                if ($default instanceof AvailabilityStatus
+                 && $default->exists()
+                ) {
                     $this->AvailabilityStatusID = $default->ID;
                     if ($this->exists()) {
                         $this->write();
@@ -2807,18 +2847,17 @@ class Product extends DataObject implements PermissionProvider
      * Indicates wether the availability information should be shown. If
      * there's no status attributed we don't want to show it.
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.08.2011
      */
-    public function showAvailability() {
+    public function showAvailability() : bool
+    {
         $showAvailability = false;
-
         if ($this->AvailabilityStatusID > 0) {
             $showAvailability = true;
         }
-
         return $showAvailability;
     }
 
@@ -2830,13 +2869,9 @@ class Product extends DataObject implements PermissionProvider
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 19.3.2011
      */
-    public function showPricesGross() {
-        $pricetype = Config::Pricetype();
-        if ($pricetype == "gross") {
-            return true;
-        } else {
-            return false;
-        }
+    public function showPricesGross() : bool
+    {
+        return Config::Pricetype() == "gross";
     }
 
     /**
@@ -2851,7 +2886,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.07.2013
      */
-    public function getTaxRate($ignoreTaxExemption = false) {
+    public function getTaxRate($ignoreTaxExemption = false)
+    {
         if ($this->ignoreTaxExemption) {
             $ignoreTaxExemption = $this->ignoreTaxExemption;
         }
@@ -2867,7 +2903,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.01.2013
      */
-    public function Tax() {
+    public function Tax() : Tax
+    {
         if (is_null($this->cachedTax)) {
             $this->cachedTax = $this->getComponent('Tax');
             $this->extend('updateTax', $this->cachedTax);
@@ -2884,7 +2921,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.03.2014
      */
-    public function WidgetArea() {
+    public function WidgetArea() : WidgetArea
+    {
         $widgetArea = $this->addWidgetAreaIfNotExists($this->getComponent('WidgetArea'));
         return $widgetArea;
     }
@@ -2899,7 +2937,8 @@ class Product extends DataObject implements PermissionProvider
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.06.2013
      */
-    public function onBeforeDelete() {
+    public function onBeforeDelete()
+    {
         parent::onBeforeDelete();
         if ($this->WidgetArea()->exists()) {
             foreach ($this->WidgetArea()->Widgets() as $widget) {
@@ -2926,7 +2965,8 @@ class Product extends DataObject implements PermissionProvider
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 04.02.2016
      */
-    public function onBeforeWrite() {
+    public function onBeforeWrite()
+    {
         parent::onBeforeWrite();
         
         if ($this->ProductGroup()) {
@@ -2973,36 +3013,42 @@ class Product extends DataObject implements PermissionProvider
         
         if ($this->TaxID == 0) {
             $defaultTaxRate = Tax::getDefault();
-            if ($defaultTaxRate instanceof Tax &&
-                $defaultTaxRate->exists()) {
+            if ($defaultTaxRate instanceof Tax
+             && $defaultTaxRate->exists()
+            ) {
                 $this->TaxID = $defaultTaxRate->ID;
             }
         }
         
         $priceGrossCurrency = $this->PriceGross->getCurrency();
-        if (is_null($this->PriceGrossCurrency) &&
-            is_null($priceGrossCurrency)) {
+        if (is_null($this->PriceGrossCurrency)
+         && is_null($priceGrossCurrency)
+        ) {
             $this->PriceGrossCurrency = Config::DefaultCurrency();
         }
         $priceNetCurrency = $this->PriceNet->getCurrency();
-        if (is_null($this->PriceNetCurrency) &&
-            is_null($priceNetCurrency)) {
+        if (is_null($this->PriceNetCurrency)
+         && is_null($priceNetCurrency)
+        ) {
             $this->PriceNetCurrency = Config::DefaultCurrency();
         }
         $MSRPriceCurrency = $this->MSRPrice->getCurrency();
-        if (is_null($this->MSRPriceCurrency) &&
-            is_null($MSRPriceCurrency)) {
+        if (is_null($this->MSRPriceCurrency)
+         && is_null($MSRPriceCurrency)
+        ) {
             $this->MSRPriceCurrency = Config::DefaultCurrency();
         }
         $purchasePriceCurrency = $this->PurchasePrice->getCurrency();
-        if (is_null($this->PurchasePriceCurrency) &&
-            is_null($purchasePriceCurrency)) {
+        if (is_null($this->PurchasePriceCurrency)
+         && is_null($purchasePriceCurrency)
+        ) {
             $this->PurchasePriceCurrency = Config::DefaultCurrency();
         }
         
-        if (array_key_exists('RefreshCache', $_POST) &&
-            ($_POST['RefreshCache'] == '1' ||
-             $_POST['RefreshCache'] == 'on')) {
+        if (array_key_exists('RefreshCache', $_POST)
+         && ($_POST['RefreshCache'] == '1'
+          || $_POST['RefreshCache'] == 'on')
+        ) {
             $this->markForCacheRefresh();
         }
         $this->assignKeywords();
@@ -3011,12 +3057,12 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Assigns matching keywords from $this->config()->get('keyword_map').
      * 
-     * @return void
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.10.2018
      */
-    public function assignKeywords()
+    public function assignKeywords() : bool
     {
         $assigned = false;
         $map      = $this->config()->get('keyword_map');
@@ -3043,27 +3089,14 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.10.2017
      */
-    public function extendMarkForCacheRefresh() {
+    public function extendMarkForCacheRefresh() : void
+    {
         if ($this->ProductGroup()->exists()) {
             $this->ProductGroup()->updateLastEditedForCache();
         }
         foreach ($this->ProductGroupMirrorPages() as $productGroup) {
             $productGroup->updateLastEditedForCache();
         }
-    }
-
-    /**
-     * We make this method extendable here.
-     *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
-     */
-    public function onAfterDelete() {
-        parent::onAfterDelete();
-
-        $this->extend('updateOnAfterDelete');
     }
 
     /**
@@ -3074,9 +3107,9 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.02.2016
      */
-    public function onAfterWrite() {
+    public function onAfterWrite()
+    {
         parent::onAfterWrite();
-        
         $this->addWidgetAreaIfNotExists();
     }
     
@@ -3090,13 +3123,14 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.03.2014
      */
-    public function addWidgetAreaIfNotExists($widgetArea = null) {
-        if ($this->WidgetAreaID == 0 ||
-            ($widgetArea instanceof WidgetArea &&
-             !$widgetArea->exists())) {
-            $widgetArea = new WidgetArea();
+    public function addWidgetAreaIfNotExists($widgetArea = null) : WidgetArea
+    {
+        if ($this->WidgetAreaID == 0
+         || ($widgetArea instanceof WidgetArea
+          && !$widgetArea->exists())
+        ) {
+            $widgetArea = WidgetArea::create();
             $widgetArea->write();
-            
             $this->WidgetAreaID = $widgetArea->ID;
             $this->write();
         }
@@ -3108,8 +3142,9 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return array
      */
-    public function getCacheRelevantFields() {
-        $cacheRelevantFields = array(
+    public function getCacheRelevantFields() : array
+    {
+        $cacheRelevantFields = [
             'isActive',
             'ProductNumberShop',
             'ProductNumberManufacturer',
@@ -3128,7 +3163,7 @@ class Product extends DataObject implements PermissionProvider
             'AvailabilityStatusID',
             'ProductConditionID',
             'QuantityUnitID',
-        );
+        ];
         $this->extend('updateCacheRelevantFields', $cacheRelevantFields);
         return $cacheRelevantFields;
     }
@@ -3141,23 +3176,21 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return SS_List
      */
-    public function getImages() {
+    public function getImages()
+    {
         if (is_null($this->images)) {
             $images = false;
             $this->extend('overwriteImages', $images);
             if ($images == false) {
                 $images = $this->Images();
-                
                 $this->extend('updateGetImages', $images);
-
                 if ($images->count() > 0) {
-                    $existingImages = new ArrayList();
+                    $existingImages = ArrayList::create();
                     foreach ($images as $image) {
                         if (!$image->Image()->exists()) {
                             $noImageObj = Config::getNoImage();
-
                             if ($noImageObj) {
-                                $image = new Image();
+                                $image = Image::create();
                                 $image->ImageID   = $noImageObj->ID;
                                 $image->ProductID = $this->ID;
                             }
@@ -3167,27 +3200,25 @@ class Product extends DataObject implements PermissionProvider
                     $images = $existingImages;
                 }
             }
-            if (!($images instanceof ArrayList) ||
-                $images->count() == 0) {
-               
+            if (!($images instanceof ArrayList)
+             || $images->count() == 0
+            ) {
                 $noImageObj = Config::getNoImage();
                 if ($noImageObj->exists()) {
                     $image = Image::get()->filter('ImageID', $noImageObj->ID)->first();
-                    if (!($image instanceof Image) ||
-                        !$image->exists()) {
-                        
-                        $image = new Image();
+                    if (!($image instanceof Image)
+                     || !$image->exists()
+                    ) {
+                        $image = Image::create();
                         $image->ImageID = $noImageObj->ID;
                         $image->write();
                     }
-                    $images = new ArrayList();
+                    $images = ArrayList::create();
                     $images->push($image);
                 }
             }
-            
             $this->images = $images;
         }
-
         return $this->images;
     }
 
@@ -3196,22 +3227,22 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return DataList|ArrayList
      */
-    public function getThumbnails() {
+    public function getThumbnails()
+    {
         $images = $this->getImages();
-
         if ($images) {
             $images->shift();
         }
-        
         return $images;
     }
     
     /**
      * Returns the list image as a thumbnail Image.
      * 
-     * @return Image
+     * @return SilverStripeImage
      */
-    public function getListImageThumbnail() {
+    public function getListImageThumbnail() : SilverStripeImage
+    {
         $thumb = false;
         $file = $this->getListImage();
         if (is_object($file)) {
@@ -3223,18 +3254,17 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns the first image out of the related Images.
      * 
-     * @return Image
+     * @return SilverStripeImage
      */
-    public function getListImage() {
+    public function getListImage() : SilverStripeImage
+    {
         if (is_null($this->listImage)) {
             $this->listImage = false;
             $images = $this->getImages();
-
             if ($images->count() > 0) {
                 $this->listImage = $images->first()->Image();
             }
         }
-
         return $this->listImage;
     }
     
@@ -3243,7 +3273,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ArrayList
      */
-    public function getImagesForSitemap()
+    public function getImagesForSitemap() : ArrayList
     {
         return $this->ImagesForSitemap();
     }
@@ -3256,15 +3286,13 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.09.2018
      */
-    public function ImagesForSitemap()
+    public function ImagesForSitemap() : ArrayList
     {
         $images = $this->getImages();
         $list   = ArrayList::create();
-        
         foreach ($images as $scImage) {
             $list->push($scImage->Image());
         }
-
         return $list;
     }
 
@@ -3351,20 +3379,20 @@ class Product extends DataObject implements PermissionProvider
      * the config object is choosen.
      * If stock management is deactivated true will be returned.
      *
-     * @return boolean is the product overbookable?
+     * @return bool
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.11.2012
      */
-    public function isStockQuantityOverbookable() {
+    public function isStockQuantityOverbookable() : bool
+    {
         if (is_null($this->isStockQuantityOverbookable)) {
             $overbookable = true;
-            if (Config::EnableStockManagement()) {
-                if (!Config::isStockManagementOverbookable() &&
-                    !$this->StockQuantityOverbookable) {
-
-                    $overbookable = false;
-                }
+            if (Config::EnableStockManagement()
+             && !Config::isStockManagementOverbookable()
+             && !$this->StockQuantityOverbookable
+            ) {
+                $overbookable = false;
             }
             $this->isStockQuantityOverbookable = $overbookable;
         }
@@ -3384,7 +3412,8 @@ class Product extends DataObject implements PermissionProvider
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function isBuyableDueToStockManagementSettings() {
+    public function isBuyableDueToStockManagementSettings() : bool
+    {
         if (Config::EnableStockManagement()) {
             if (!$this->isStockQuantityOverbookable()
              && $this->StockQuantity <= 0
@@ -3412,7 +3441,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public static function getIsNewProductDefaultTimeDifference()
+    public static function getIsNewProductDefaultTimeDifference() : string
     {
         return self::config()->get('new_product_default_unit_quantity') . " " . self::config()->get('new_product_default_unit');
     }
@@ -3429,7 +3458,8 @@ class Product extends DataObject implements PermissionProvider
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.09.2018
      */
-    public function isNewProduct($timeDifference = null) {
+    public function isNewProduct($timeDifference = null) : bool
+    {
         $defaultTimeDifference = "+{$this->getIsNewProductDefaultTimeDifference()}";
         if (is_null($timeDifference)) {
             $timeDifference = $defaultTimeDifference;
@@ -3454,12 +3484,12 @@ class Product extends DataObject implements PermissionProvider
      * Returns whether the stock quantity is low.
      * @see self::$stock_quantity_is_low_max
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function StockQuantityIsLow()
+    public function StockQuantityIsLow() : bool
     {
         $stockQuantityIsLow = false;
         if (Config::EnableStockManagement()) {
@@ -3478,12 +3508,12 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns whether this product has a release date.
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.10.2018
      */
-    public function HasReleaseDate()
+    public function HasReleaseDate() : bool
     {
         $hasReleaseDate = !is_null($this->ReleaseDate);
         if ($hasReleaseDate
@@ -3502,7 +3532,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function FullReleaseDate()
+    public function FullReleaseDate() : string
     {
         return Tools::getDateNice($this->ReleaseDate, true, true);
     }
@@ -3512,7 +3542,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return bool
      */
-    public function HasDeliveryTime()
+    public function HasDeliveryTime() : bool
     {
         $deliveryTime = null;
         if (!$this->HasReleaseDate()
@@ -3528,10 +3558,11 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getDeliveryTime()
+    public function getDeliveryTime() : string
     {
         if (is_null($this->deliveryTime)
-         && $this->isBuyableDueToStockManagementSettings()) {
+         && $this->isBuyableDueToStockManagementSettings()
+        ) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3551,10 +3582,11 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function EarliestDeliveryDate()
+    public function EarliestDeliveryDate() : string
     {
         if (is_null($this->earliestDeliveryDate)
-         && $this->isBuyableDueToStockManagementSettings()) {
+         && $this->isBuyableDueToStockManagementSettings()
+        ) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3574,10 +3606,11 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function LatestDeliveryDate()
+    public function LatestDeliveryDate() : string
     {
         if (is_null($this->latestDeliveryDate)
-         && $this->isBuyableDueToStockManagementSettings()) {
+         && $this->isBuyableDueToStockManagementSettings()
+        ) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3597,10 +3630,11 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function FullDeliveryDate()
+    public function FullDeliveryDate() : string
     {
         if (is_null($this->fullDeliveryDate)
-         && $this->isBuyableDueToStockManagementSettings()) {
+         && $this->isBuyableDueToStockManagementSettings()
+        ) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3615,18 +3649,22 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns whether a delivery for free is possible for this product.
      * 
-     * @return string
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function DeliveryForFreeIsPossible()
+    public function DeliveryForFreeIsPossible() : bool
     {
         if (is_null($this->deliveryForFreeIsPossible)
-         && $this->isBuyableDueToStockManagementSettings()) {
+         && $this->isBuyableDueToStockManagementSettings()
+        ) {
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
-                $this->deliveryForFreeIsPossible = ($shippingFee->getPriceAmount() == 0 || $shippingFee->FreeOfShippingCostsFrom($this->getDefaultShippingCountry())->getAmount() > 0) && !$shippingFee->freeOfShippingCostsDisabled;
+                $this->deliveryForFreeIsPossible = (
+                        $shippingFee->getPriceAmount() == 0
+                      || $shippingFee->FreeOfShippingCostsFrom($this->getDefaultShippingCountry())->getAmount() > 0)
+                     && !$shippingFee->freeOfShippingCostsDisabled;
             }
         }
         return $this->deliveryForFreeIsPossible;
@@ -3640,7 +3678,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
-    public function DeliveryForFreeIsPossibleInfo()
+    public function DeliveryForFreeIsPossibleInfo() : string
     {
         $info = '';
         if ($this->DeliveryForFreeIsPossible()) {
@@ -3650,7 +3688,8 @@ class Product extends DataObject implements PermissionProvider
                     // for free anyway
                     $info = $this->fieldLabel('DeliveryForFree');
                 } elseif (!$shippingFee->freeOfShippingCostsDisabled
-                       && $shippingFee->FreeOfShippingCostsFrom($this->getDefaultShippingCountry())->getAmount() > 0) {
+                       && $shippingFee->FreeOfShippingCostsFrom($this->getDefaultShippingCountry())->getAmount() > 0
+                ) {
                     // for free starting from
                     $info = _t(ShippingMethod::class . ".NoShippingCostFrom", "No shipping cost for orders with a minimum order value of {amount}.", [
                         'amount' => $shippingFee->FreeOfShippingCostsFrom($this->getDefaultShippingCountry())->Nice(),
@@ -3673,9 +3712,11 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.06.2014
      */
-    protected function checkForAvailabilityStatusChange($stockQuantityBefore, $doWrite = true) {
-        if ($this->StockQuantity <= 0 &&
-            $stockQuantityBefore > 0) {
+    protected function checkForAvailabilityStatusChange($stockQuantityBefore, $doWrite = true) : void
+    {
+        if ($this->StockQuantity <= 0
+         && $stockQuantityBefore > 0
+        ) {
             // check for automatic negative availability status and set it.
             $newStatus = AvailabilityStatus::get_negative_status();
             if ($newStatus instanceof AvailabilityStatus) {
@@ -3684,8 +3725,9 @@ class Product extends DataObject implements PermissionProvider
                     $this->write();
                 }
             }
-        } elseif ($this->StockQuantity > 0 &&
-            $stockQuantityBefore <= 0) {
+        } elseif ($this->StockQuantity > 0
+               && $stockQuantityBefore <= 0
+        ) {
             // check for automatic positive availability status and set it.
             $newStatus = AvailabilityStatus::get_positive_status();
             if ($newStatus instanceof AvailabilityStatus) {
@@ -3706,8 +3748,9 @@ class Product extends DataObject implements PermissionProvider
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 24.08.2011
      */
-    public function getProductMirrorGroupIDs() {
-        $idListArray = array();
+    public function getProductMirrorGroupIDs() : string
+    {
+        $idListArray = [];
         $idList      = '';
 
         if ($this->ProductGroupMirrorPages()) {
@@ -3727,9 +3770,10 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Checks whether price is lower than MSR
      *
-     * @return boolean 
+     * @return bool
      */
-    public function getPriceIsLowerThanMsr() {
+    public function getPriceIsLowerThanMsr() : bool
+    {
         $priceIsLowerThanMsr    = false;
         $price                  = $this->getPrice();
         $msr                    = $this->MSRPrice;
@@ -3744,7 +3788,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ArrayList  
      */
-    public function getPluggedInTabs()
+    public function getPluggedInTabs() : ArrayList
     {
         if (is_null($this->pluggedInTabs)) {
             $this->pluggedInTabs = ArrayList::create();
@@ -3758,7 +3802,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ArrayList 
      */
-    public function getPluggedInProductMetaData()
+    public function getPluggedInProductMetaData() : ArrayList
     {
         if (is_null($this->pluggedInProductMetaData)) {
             $this->pluggedInProductMetaData = ArrayList::create();
@@ -3772,7 +3816,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ArrayList 
      */
-    public function getPluggedInProductListAdditionalData()
+    public function getPluggedInProductListAdditionalData() : ArrayList
     {
         if (is_null($this->pluggedInProductListAdditionalData)) {
             $this->pluggedInProductListAdditionalData = ArrayList::create();
@@ -3786,7 +3830,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ArrayList 
      */
-    public function getPluggedInAfterImageContent()
+    public function getPluggedInAfterImageContent() : ArrayList
     {
         if (is_null($this->pluggedInAfterImageContent)) {
             $this->pluggedInAfterImageContent = ArrayList::create();
@@ -3805,7 +3849,7 @@ class Product extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function AddToCartForm($viewContext = '')
+    public function AddToCartForm($viewContext = '') : ?AddToCartForm
     {
         $form = AddToCartForm::create($this, Controller::curr());
         $form->setViewContext($viewContext);
@@ -3816,12 +3860,12 @@ class Product extends DataObject implements PermissionProvider
      * Returns some additional content to insert right after the out of stock 
      * notification is rendered.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.09.2018
      */
-    public function AfterOutOfStockNotificationContent()
+    public function AfterOutOfStockNotificationContent() : DBHTMLText
     {
         $content = '';
         $this->extend('updateAfterOutOfStockNotificationContent', $content);
