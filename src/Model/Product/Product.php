@@ -12,6 +12,7 @@ use SilverCart\Forms\AddToCartForm;
 use SilverCart\Forms\FormFields\FieldGroup;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
@@ -31,6 +32,7 @@ use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\Forms\TreeMultiselectField;
@@ -126,6 +128,7 @@ class Product extends DataObject implements PermissionProvider
      */
     private static $has_many = [
         'ProductTranslations'   => ProductTranslation::class,
+        'StockItemEntries'      => StockItemEntry::class,
         'Images'                => Image::class,
         'Files'                 => File::class,
         'ShoppingCartPositions' => ShoppingCartPosition::class,
@@ -402,7 +405,26 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var string
      */
-    protected $dfullDeliveryDate = null;
+    protected $fullDeliveryDate = null;
+    /**
+     * Set to true to prevent the creation of a stock item entry when changing the
+     * product's stock quantity directly.
+     *
+     * @var bool
+     */
+    protected $updateStockQuantity = false;
+    /**
+     * The origin for a stock quantity update.
+     *
+     * @var int
+     */
+    protected $updateStockQuantityOrigin = StockItemEntry::ORIGIN_CODE_UNDEFINED;
+    /**
+     * The reason for a stock quantity update.
+     *
+     * @var string
+     */
+    protected $updateStockQuantityReason = '';
 
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1018,6 +1040,7 @@ class Product extends DataObject implements PermissionProvider
                     'DeliveryForFreeIsPossible'            => _t(Product::class . '.DeliveryForFreeIsPossible', 'Delivery for free is possible'),
                     'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
                     'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
+                    'StockItemEntries'                     => StockItemEntry::singleton()->plural_name(),
                 )
             );
         });
@@ -1636,6 +1659,22 @@ class Product extends DataObject implements PermissionProvider
     }
 
     /**
+     * Adds or modifies the fields for the stock item entries tab
+     *
+     * @param FieldList $fields FieldList to add fields to
+     * 
+     * @return void
+     */
+    public function getFieldsForStock($fields) : void
+    {
+        $gf = $fields->dataFieldByName('StockItemEntries');
+        /* @var $gf \SilverStripe\Forms\GridField\GridField */
+        $gf->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+        $gf->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+        $fields->addFieldToTab('Root.StockItemEntries', ReadonlyField::create('StockQuantityRO', $this->fieldLabel('StockQuantity'), $this->StockQuantity), 'StockItemEntries');
+    }
+
+    /**
      * Adds or modifies the fields for the Prices tab
      *
      * @param FieldList $fields FieldList to add fields to
@@ -1723,26 +1762,27 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return FieldList
      */
-    public function getCMSFields() {
-        $this->getCMSFieldsIsCalled = true;
-        $fields = DataObjectExtension::getCMSFields($this, 'isActive');
-        
-        $fields->removeByName('ProductGroupItemsWidgets');
-        $fields->removeByName('MasterProductID');
-        $fields->removeByName('Keywords');
-        
-        $this->getFieldsForMain($fields);
-        $this->getFieldsForPrices($fields);
-        $this->getFieldsForProductGroups($fields);
-        $this->getFieldsForSeo($fields);
-        if ($this->exists()) {
-            $this->getFieldsForWidgets($fields);
-            $this->getFieldsForImages($fields);
-            $this->getFieldsForFiles($fields);
-        }
-        
-        $this->extend('updateCMSFields', $fields);
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $this->getCMSFieldsIsCalled = true;
+
+            $fields->removeByName('ProductGroupItemsWidgets');
+            $fields->removeByName('MasterProductID');
+            $fields->removeByName('Keywords');
+
+            $this->getFieldsForMain($fields);
+            $this->getFieldsForStock($fields);
+            $this->getFieldsForPrices($fields);
+            $this->getFieldsForProductGroups($fields);
+            $this->getFieldsForSeo($fields);
+            if ($this->exists()) {
+                $this->getFieldsForWidgets($fields);
+                $this->getFieldsForImages($fields);
+                $this->getFieldsForFiles($fields);
+            }
+        });
+        return DataObjectExtension::getCMSFields($this, 'isActive');
     }
 
     /**
@@ -2907,6 +2947,21 @@ class Product extends DataObject implements PermissionProvider
             if ($stockQuantityBefore != $this->StockQuantity) {
                 $stockQuantity = $this->StockQuantity;
                 $this->extend('onAfterUpdateStockQuantity', $stockQuantityBefore, $stockQuantity);
+                if (!$this->getUpdateStockQuantity()) {
+                    $this->setUpdateStockQuantity(true);
+                    $originCode = $this->getUpdateStockQuantityOrigin();
+                    $member     = null;
+                    $reason     = $this->getUpdateStockQuantityReason();
+                    if (array_key_exists('StockQuantity', $_POST)) {
+                        $originCode = StockItemEntry::ORIGIN_CODE_USER_INPUT;
+                        $member     = Customer::currentUser();
+                    } elseif (!$this->exists()
+                           && $originCode === StockItemEntry::ORIGIN_CODE_UNDEFINED
+                    ) {
+                        $originCode = StockItemEntry::ORIGIN_CODE_NEW_PRODUCT;
+                    }
+                    StockItemEntry::add($this, $stockQuantity - $stockQuantityBefore, $originCode, $reason, $member);
+                }
             }
         }
         
@@ -3217,70 +3272,77 @@ class Product extends DataObject implements PermissionProvider
      * Increments or decrements the products stock quantity.
      * By default the quantity will be incremented.
      *
-     * @param int  $quantity  The amount to subtract from the current stock quantity
-     * @param bool $increment Set to false to decrement quantity.
+     * @param int    $quantity  The amount to subtract from the current stock quantity
+     * @param bool   $increment Set to false to decrement quantity.
+     * @param string $reason    Reason to change the stock quantity.
+     * @param int    $origin    Origin which changes the stock quantity.
+     * @param Order  $order     Order context
      *
-     * @return void
+     * @return $this
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2014
+     * @since 16.01.2019
      */
-    public function changeStockQuantityBy($quantity, $increment = true) {
+    public function changeStockQuantityBy($quantity, bool $increment = true, string $reason = '', int $origin = StockItemEntry::ORIGIN_CODE_UNDEFINED, Order $order = null) : Product
+    {
+        $quantityEntry = $quantity * -1;
+        $operator      = '-';
         if ($increment) {
-            $operator = '+';
-        } else {
-            $operator = '-';
+            $quantityEntry = $quantity;
+            $operator      = '+';
         }
         $produtcTable = Tools::get_table_name(Product::class);
-        DB::query("LOCK TABLES " . $produtcTable . " WRITE");
-        DB::query(
-                sprintf(
-                        "UPDATE " . $produtcTable . " SET StockQuantity=StockQuantity%s%s WHERE ID = '%s'",
-                        $operator,
-                        $quantity,
-                        $this->ID
-                )
-        );
-        $results = DB::query(
-                sprintf(
-                        "SELECT StockQuantity FROM " . $produtcTable . " WHERE ID = '%s'",
-                        $this->ID
-                )
-        );
+        DB::query("LOCK TABLES {$produtcTable} WRITE");
+        DB::query("UPDATE {$produtcTable} SET StockQuantity = (StockQuantity {$operator} {$quantity}) WHERE ID = '{$this->ID}'");
+        $results = DB::query("SELECT StockQuantity FROM {$produtcTable} WHERE ID = '{$this->ID}'");
         DB::query("UNLOCK TABLES");
         
-        $firstRow = $results->first();
-        $stockQuantityBefore = $this->StockQuantity;
-        $this->StockQuantity = $firstRow['StockQuantity'];
+        $firstRow                        = $results->first();
+        $stockQuantityBefore             = $this->StockQuantity;
+        $stockQuantity                   = $firstRow['StockQuantity'];
+        $this->StockQuantity             = $stockQuantity;
+        $this->original['StockQuantity'] = $stockQuantity;
+
+        StockItemEntry::add($this, $quantityEntry, $origin, $reason, null, $order);
         $this->checkForAvailabilityStatusChange($stockQuantityBefore);
+        $this->extend('onAfterUpdateStockQuantity', $stockQuantityBefore, $stockQuantity);
+        return $this;
     }
 
     /**
      * decrements the products stock quantity of this product
      *
-     * @param integer $quantity the amount to subtract from the current stock quantity
+     * @param int    $quantity the amount to subtract from the current stock quantity
+     * @param string $reason    Reason to change the stock quantity.
+     * @param int    $origin    Origin which changes the stock quantity.
+     * @param Order  $order     Order context
      *
-     * @return void
+     * @return $this
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2014
+     * @since 16.01.2019
      */
-    public function decrementStockQuantity($quantity) {
-        $this->changeStockQuantityBy($quantity, false);
+    public function decrementStockQuantity($quantity, string $reason = '', int $origin = StockItemEntry::ORIGIN_CODE_UNDEFINED, Order $order = null) : Product
+    {
+        return $this->changeStockQuantityBy($quantity, false, $reason, $origin, $order);
     }
 
     /**
      * increments the products stock quantity of this product
      *
-     * @param integer $quantity the amount to add to the current stock quantity
+     * @param int    $quantity the amount to add to the current stock quantity
+     * @param string $reason    Reason to change the stock quantity.
+     * @param int    $origin    Origin which changes the stock quantity.
+     * @param Order  $order     Order context
      *
-     * @return void
+     * @return $this
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.05.2014
+     * @since 16.01.2019
      */
-    public function incrementStockQuantity($quantity) {
-        $this->changeStockQuantityBy($quantity);
+    public function incrementStockQuantity($quantity, string $reason = '', int $origin = StockItemEntry::ORIGIN_CODE_UNDEFINED, Order $order = null) : Product
+    {
+        return $this->changeStockQuantityBy($quantity, true, $reason, $origin, $order);
     }
 
     /**
@@ -3764,5 +3826,76 @@ class Product extends DataObject implements PermissionProvider
         $content = '';
         $this->extend('updateAfterOutOfStockNotificationContent', $content);
         return Tools::string2html($content);
+    }
+    
+    /**
+     * Sets whether to update the stock quantity without creating a new stock item 
+     * entry.
+     * 
+     * @param bool $update Update or not?
+     * 
+     * @return $this
+     */
+    public function setUpdateStockQuantity(bool $update) : Product
+    {
+        $this->updateStockQuantity = $update;
+        return $this;
+    }
+    
+    /**
+     * Returns whether to update the stock quantity without creating a new stock 
+     * item entry.
+     * 
+     * @return bool
+     */
+    public function getUpdateStockQuantity() : bool
+    {
+        return $this->updateStockQuantity;
+    }
+    
+    /**
+     * Sets the origin for a stock qunatity update.
+     * 
+     * @param string $origin Origin for a stock quantity update
+     * 
+     * @return $this
+     */
+    public function setUpdateStockQuantityOrigin(int $origin) : Product
+    {
+        $this->updateStockQuantityOrigin = $origin;
+        return $this;
+    }
+    
+    /**
+     * Returns the origin for a stock qunatity update.
+     * 
+     * @return string
+     */
+    public function getUpdateStockQuantityOrigin() : int
+    {
+        return $this->updateStockQuantityOrigin;
+    }
+    
+    /**
+     * Sets the reason for a stock qunatity update.
+     * 
+     * @param string $reason Reason for a stock quantity update
+     * 
+     * @return $this
+     */
+    public function setUpdateStockQuantityReason(string $reason) : Product
+    {
+        $this->updateStockQuantityReason = $reason;
+        return $this;
+    }
+    
+    /**
+     * Returns the reason for a stock qunatity update.
+     * 
+     * @return string
+     */
+    public function getUpdateStockQuantityReason() : string
+    {
+        return $this->updateStockQuantityReason;
     }
 }

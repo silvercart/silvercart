@@ -1648,6 +1648,25 @@ en:
   SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
+  SilverCart\Model\Product\StockItemEntry:
+    PLURALNAME: "Stock Item Entries"
+    SINGULARNAME: "Stock Item Entry"
+    Created: "Date"
+    Quantity: "Quantity"
+    QuantityDesc: "Quantity to add or remove from the current stock (e.g. \"2\"/\"-2\")."
+    QuantityRightTitle: "Quantity can't be changed after saving. To correct a stock item entry please add a new entry with a proper reason."
+    Reason: "Reason"
+    ReasonDesc: "Short explanation why the stock has changed (e.g. \"order XYZ canceled\", \"order XYZ return\", \"goods inwards\")."
+    OriginCode: "Origin-Code"
+    Origin: "Origin"
+    Origin-1: "added initial inventory"
+    Origin0: "general system input (automatically)"
+    Origin1: "added new product"
+    Origin2: "direct user input"
+    Origin3: "order was placed"
+    Origin4: "order was changed"
+    Origin5: "order was canceled"
+    Origin6: "API import from another system"
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "Search"
   SilverCart\Model\Pages\RegistrationPage:

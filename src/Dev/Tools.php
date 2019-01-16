@@ -427,9 +427,10 @@ class Tools
             }
             if (is_array($source)) {
                 foreach (array_keys($source) as $fieldname) {
-                    $fieldLabels[$fieldname]            = _t("{$objectName}.{$fieldname}", $fieldname);
-                    $fieldLabels["{$fieldname}Desc"]    = _t("{$objectName}.{$fieldname}Desc", "{$fieldname} description");
-                    $fieldLabels["{$fieldname}Default"] = _t("{$objectName}.{$fieldname}Default", "{$fieldname} default");
+                    $fieldLabels[$fieldname]               = _t("{$objectName}.{$fieldname}", $fieldname);
+                    $fieldLabels["{$fieldname}Desc"]       = _t("{$objectName}.{$fieldname}Desc", "{$fieldname} description");
+                    $fieldLabels["{$fieldname}Default"]    = _t("{$objectName}.{$fieldname}Default", "{$fieldname} default");
+                    $fieldLabels["{$fieldname}RightTitle"] = _t("{$objectName}.{$fieldname}RightTitle", "{$fieldname} right title");
                 }
             }
         }

@@ -23,6 +23,7 @@ use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Payment\PaymentStatus;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Product\StockItemEntry;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\ORM\DataObjectExtension;
@@ -1297,7 +1298,8 @@ class Order extends DataObject implements PermissionProvider
                         }
                         // decrement stock quantity of the product
                         if (Config::EnableStockManagement()) {
-                            $product->decrementStockQuantity($shoppingCartPosition->Quantity);
+                            $reason = "{$this->fieldLabel('OrderNumber')}: {$this->OrderNumber} [#{$this->ID}]";
+                            $product->decrementStockQuantity($shoppingCartPosition->Quantity, $reason, StockItemEntry::ORIGIN_CODE_ORDER_PLACED, $this);
                         }
 
                         $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);

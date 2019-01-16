@@ -1648,6 +1648,25 @@ de:
   SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: "Übersetzungen"
     SINGULARNAME: "Übersetzung"
+  SilverCart\Model\Product\StockItemEntry:
+    PLURALNAME: "Lagerbuchungen"
+    SINGULARNAME: "Lagerbuchung"
+    Created: "Datum"
+    Quantity: "Menge"
+    QuantityDesc: "Menge, die dem Bestand addiert oder subtrahiert werden soll (z.B. \"2\"/\"-2\")."
+    QuantityRightTitle: "Menge kann nach dem Speichern nicht mehr verändert werden. Um eine Lagerbuchung zu korrigieren, fügen Sie bitte eine neue Buchung mit einem entsprechenden Hinweis hinzu."
+    Reason: "Grund"
+    ReasonDesc: "Kurze Beschreibung, warum der Bestand verändert wird (z.B. \"Bestellung XYZ storniert\", \"Bestellung XYZ Retoure\", \"Wareneingang\")."
+    OriginCode: "Ursprung-Kodierung"
+    Origin: "Ursprung"
+    Origin-1: "Übernahme Anfangsbestand"
+    Origin0: "Nicht weiter definierte System-Eingabe"
+    Origin1: "Artikel wurde neu angelegt"
+    Origin2: "Direkte Benutzereingabe"
+    Origin3: "Bestellung wurde aufgegeben"
+    Origin4: "Bestellung wurde verändert"
+    Origin5: "Bestellung wurde storniert"
+    Origin6: "Import über Fremdsystem"
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "Suchen"
   SilverCart\Model\Pages\RegistrationPage:
