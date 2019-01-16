@@ -19,7 +19,5 @@
 <% end_with %>
 <% end_with %>
 <% else %>
-<!--div class="alert alert-error"-->
-    <p><br />&nbsp;&nbsp;&nbsp;&nbsp;<% _t('SilvercartCartPage.CART_EMPTY', 'Your cart is empty') %></p>
-<!--/div-->
+<div class="alert mb-0"><%t SilvercartCartPage.CART_EMPTY 'Your cart is empty' %></div>
 <% end_if %>
