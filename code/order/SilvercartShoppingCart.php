@@ -814,7 +814,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
-        $this->extend('updateTaxableAmountGrossWithoutModules', $amount);
+        $this->extend('updateTaxableAmountGrossWithoutModules', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -841,7 +841,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
-        $this->extend('updateTaxableAmountNetWithoutModules', $amount);
+        $this->extend('updateTaxableAmountNetWithoutModules', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(SilvercartConfig::DefaultCurrency());
@@ -950,7 +950,7 @@ class SilvercartShoppingCart extends DataObject {
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
-        $this->extend('updateTaxableAmountGrossWithoutFeesAndCharges', $amount);
+        $this->extend('updateTaxableAmountGrossWithoutFeesAndCharges', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
 
