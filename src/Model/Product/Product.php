@@ -3121,7 +3121,7 @@ class Product extends DataObject implements PermissionProvider
      * @return WidgetArea
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.03.2014
+     * @since 17.01.2019
      */
     public function addWidgetAreaIfNotExists($widgetArea = null) : WidgetArea
     {
@@ -3133,6 +3133,9 @@ class Product extends DataObject implements PermissionProvider
             $widgetArea->write();
             $this->WidgetAreaID = $widgetArea->ID;
             $this->write();
+        }
+        if (is_null($widgetArea)) {
+            $widgetArea = $this->getComponent('WidgetArea');
         }
         return $widgetArea;
     }
@@ -3239,12 +3242,12 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns the list image as a thumbnail Image.
      * 
-     * @return SilverStripeImage
+     * @return DBHTMLText
      */
-    public function getListImageThumbnail() : SilverStripeImage
+    public function getListImageThumbnail() : DBHTMLText
     {
-        $thumb = false;
-        $file = $this->getListImage();
+        $thumb = DBHTMLText::create();
+        $file  = $this->getListImage();
         if (is_object($file)) {
             $thumb = $file->ImageThumbnail(60,30);
         }
