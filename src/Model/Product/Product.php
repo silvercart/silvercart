@@ -3561,11 +3561,12 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getDeliveryTime() : string
+    public function getDeliveryTime() : ?string
     {
         if (is_null($this->deliveryTime)
          && $this->isBuyableDueToStockManagementSettings()
         ) {
+            $this->deliveryTime = '';
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3583,13 +3584,14 @@ class Product extends DataObject implements PermissionProvider
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.09.2018
+     * @since 23.01.2019
      */
-    public function EarliestDeliveryDate() : string
+    public function EarliestDeliveryDate() : ?string
     {
         if (is_null($this->earliestDeliveryDate)
          && $this->isBuyableDueToStockManagementSettings()
         ) {
+            $this->earliestDeliveryDate = '';
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3607,13 +3609,14 @@ class Product extends DataObject implements PermissionProvider
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.09.2018
+     * @since 23.01.2019
      */
-    public function LatestDeliveryDate() : string
+    public function LatestDeliveryDate() : ?string
     {
         if (is_null($this->latestDeliveryDate)
          && $this->isBuyableDueToStockManagementSettings()
         ) {
+            $this->latestDeliveryDate = '';
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3631,13 +3634,14 @@ class Product extends DataObject implements PermissionProvider
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.09.2018
+     * @since 23.01.2019
      */
-    public function FullDeliveryDate() : string
+    public function FullDeliveryDate() : ?string
     {
         if (is_null($this->fullDeliveryDate)
          && $this->isBuyableDueToStockManagementSettings()
         ) {
+            $this->fullDeliveryDate = '';
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $shippingMethod = $shippingFee->ShippingMethod();
@@ -3655,13 +3659,14 @@ class Product extends DataObject implements PermissionProvider
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.09.2018
+     * @since 23.01.2019
      */
-    public function DeliveryForFreeIsPossible() : bool
+    public function DeliveryForFreeIsPossible() : ?bool
     {
         if (is_null($this->deliveryForFreeIsPossible)
          && $this->isBuyableDueToStockManagementSettings()
         ) {
+            $this->deliveryForFreeIsPossible = false;
             $shippingFee = $this->getDefaultShippingFee();
             if ($shippingFee instanceof ShippingFee) {
                 $this->deliveryForFreeIsPossible = (
