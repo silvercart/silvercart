@@ -93,22 +93,23 @@ class StockItemEntry extends DataObject
     /**
      * Adds a new stock item entry to the database.
      * 
-     * @param Product $product    Related product
-     * @param int     $quantity   Quantity to add
-     * @param int     $originCode Origin code
-     * @param string  $reason     Reason
-     * @param Member  $member     Related member
-     * @param Order   $order      Related order
+     * @param Product $product           Related product
+     * @param int     $quantity          Quantity to add
+     * @param int     $originCode        Origin code
+     * @param string  $reason            Reason
+     * @param Member  $member            Related member
+     * @param Order   $order             Related order
+     * @param bool    $skipProductUpdate Skip product update or not?
      * 
      * @return StockItemEntry
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.01.2019
+     * @since 23.01.2019
      */
-    public static function add(Product $product, int $quantity, int $originCode = 0, string $reason = '', Member $member = null, Order $order = null) : StockItemEntry
+    public static function add(Product $product, int $quantity, int $originCode = 0, string $reason = '', Member $member = null, Order $order = null, bool $skipProductUpdate = false) : StockItemEntry
     {
         $entry = self::create();
-        $entry->setSkipProductUpdate(true);
+        $entry->setSkipProductUpdate($skipProductUpdate);
         $entry->Quantity   = $quantity;
         $entry->OriginCode = $originCode;
         $entry->Reason     = $reason;
@@ -239,7 +240,9 @@ class StockItemEntry extends DataObject
             return;
         }
         $tableName = Product::config()->get('table_name');
+        DB::query("LOCK TABLES {$tableName} WRITE");
         DB::query("UPDATE {$tableName} SET StockQuantity = StockQuantity + {$this->Quantity} WHERE ID = {$this->ProductID}");
+        DB::query("UNLOCK TABLES");
     }
     
     /**

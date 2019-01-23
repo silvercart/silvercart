@@ -3000,7 +3000,7 @@ class Product extends DataObject implements PermissionProvider
                     ) {
                         $originCode = StockItemEntry::ORIGIN_CODE_NEW_PRODUCT;
                     }
-                    StockItemEntry::add($this, $stockQuantity - $stockQuantityBefore, $originCode, $reason, $member);
+                    StockItemEntry::add($this, $stockQuantity - $stockQuantityBefore, $originCode, $reason, $member, null, true);
                 }
             }
         }
@@ -3334,7 +3334,7 @@ class Product extends DataObject implements PermissionProvider
         $this->StockQuantity             = $stockQuantity;
         $this->original['StockQuantity'] = $stockQuantity;
 
-        StockItemEntry::add($this, $quantityEntry, $origin, $reason, null, $order);
+        StockItemEntry::add($this, $quantityEntry, $origin, $reason, null, $order, true);
         $this->checkForAvailabilityStatusChange($stockQuantityBefore);
         $this->extend('onAfterUpdateStockQuantity', $stockQuantityBefore, $stockQuantity);
         return $this;
