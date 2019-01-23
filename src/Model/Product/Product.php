@@ -2741,11 +2741,11 @@ class Product extends DataObject implements PermissionProvider
      * @param string $baseCssClass         Base CSS class to use to render the badge (default: label)
      * @param string $additionalCssClasses Additional CSS classes to use to render the badge.
      * 
-     * @return string
+     * @return DBHTMLText
      */
-    public function getAvailability($baseCssClass = 'label', $additionalCssClasses = '')
+    public function getAvailability($baseCssClass = 'label', $additionalCssClasses = '') : DBHTMLText
     {
-        $output = null;
+        $output = DBHTMLText::create();
         if ($this->AvailabilityStatus()) {
             if ($this->AvailabilityStatus()->Code == 'not-available'
              && !empty($this->PurchaseTimeUnit)
@@ -2801,12 +2801,12 @@ class Product extends DataObject implements PermissionProvider
      * @param string $baseCssClass         Base CSS class to use to render the badge (default: label)
      * @param string $additionalCssClasses Additional CSS classes to use to render the badge.
      * 
-     * @return string
+     * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.06.2017
+     * @since 23.01.2019
      */
-    public function Availability($baseCssClass = 'label', $additionalCssClasses = '') : string
+    public function Availability($baseCssClass = 'label', $additionalCssClasses = '') : DBHTMLText
     {
         return $this->getAvailability($baseCssClass, $additionalCssClasses);
     }
