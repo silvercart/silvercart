@@ -33,6 +33,7 @@ use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
@@ -615,26 +616,40 @@ class PageController extends ContentController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder')
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
     {
         $output = '';
         $this->extend('updateSubNavigation', $output);
         if (empty($output)) {
-            $items            = [];
-            $productGroupPage = Tools::PageByIdentifierCode($identifierCode);
-
-            if ($productGroupPage) {
-                foreach ($productGroupPage->Children() as $child) {
-                    if ($child->hasmethod('hasProductsOrChildren')
-                     && $child->hasProductsOrChildren()
-                    ) {
-                        $items[] = $child;
-                    }
+            $isInformationPage = false;
+            $page = $this->data();
+            do {
+                if ($page instanceof MetaNavigationHolder) {
+                    $isInformationPage = true;
+                } else {
+                    $page = $page->Parent();
                 }
-                $elements = [
-                    'SubElements' => ArrayList::create($items),
-                ];
-                $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
+            } while ($page->Parent()->exists()
+                  && !$isInformationPage);
+            if ($isInformationPage) {
+                $output = (string) ModelAsController::controller_for($page)->getSubNavigation();
+            } else {
+                $items            = [];
+                $productGroupPage = Tools::PageByIdentifierCode($identifierCode);
+
+                if ($productGroupPage) {
+                    foreach ($productGroupPage->Children() as $child) {
+                        if ($child->hasmethod('hasProductsOrChildren')
+                         && $child->hasProductsOrChildren()
+                        ) {
+                            $items[] = $child;
+                        }
+                    }
+                    $elements = [
+                        'SubElements' => ArrayList::create($items),
+                    ];
+                    $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
+                }
             }
         }
         return Tools::string2html($output);
