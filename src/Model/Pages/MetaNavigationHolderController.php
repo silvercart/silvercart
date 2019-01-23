@@ -5,6 +5,7 @@ namespace SilverCart\Model\Pages;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * MetaNavigationHolder Controller class.
@@ -16,8 +17,8 @@ use SilverStripe\ORM\DataList;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class MetaNavigationHolderController extends \PageController {
-
+class MetaNavigationHolderController extends \PageController
+{
     /**
      * Uses the children of MetaNavigationHolder to render a subnavigation
      * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
@@ -27,7 +28,8 @@ class MetaNavigationHolderController extends \PageController {
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    {
         $root   = $this->dataRecord;
         $output = '';
         if ($root->ClassName != MetaNavigationHolder::class) {
@@ -40,31 +42,28 @@ class MetaNavigationHolderController extends \PageController {
             }
         }
         if (!is_null($root)) {
-            $elements = array(
+            $elements = [
                 'SubElementsTitle'  => $root->MenuTitle,
                 'SubElements'       => $root->Children(),
-            );
-            $output = $this->customise($elements)->renderWith(
-                array(
-                    'SilverCart/Model/Pages/Includes/SubNavigation',
-                )
-            );
+            ];
+            $output = $this->customise($elements)->renderWith([
+                'SilverCart/Model/Pages/Includes/SubNavigation',
+            ]);
             $sisters = MetaNavigationHolder::get();
             if ($sisters instanceof DataList) {
                 foreach ($sisters as $sister) {
-                    if ($sister->ID == $root->ID ||
-                        $sister->Parent() instanceof MetaNavigationHolder) {
+                    if ($sister->ID == $root->ID
+                     || $sister->Parent() instanceof MetaNavigationHolder
+                    ) {
                         continue;
                     }
-                    $elements = array(
+                    $elements = [
                         'SubElementsTitle'  => $sister->MenuTitle,
                         'SubElements'       => $sister->Children(),
-                    );
-                    $output .= $this->customise($elements)->renderWith(
-                        array(
-                            'SilverCart/Model/Pages/Includes/SubNavigation',
-                        )
-                    );
+                    ];
+                    $output .= $this->customise($elements)->renderWith([
+                        'SilverCart/Model/Pages/Includes/SubNavigation',
+                    ]);
                 }
             }
         }

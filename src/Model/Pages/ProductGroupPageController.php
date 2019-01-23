@@ -16,6 +16,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
@@ -291,9 +292,10 @@ class ProductGroupPageController extends \PageController {
      * @param string $identifierCode param only added because it exists on parent::getSubNavigation
      *                               to avoid strict notice
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') {
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    {
         $cachekey = 'SilverCart_Model_Pages_Includes_SubNavigation'.$this->ID;
         $cache    = Injector::inst()->get(CacheInterface::class . '.ProductGroupPageController_getSubNavigation');
         $result   = $cache->get($cachekey);
@@ -306,14 +308,12 @@ class ProductGroupPageController extends \PageController {
             $extendedOutput = $this->extend('getSubNavigation', $menuElements);
         
             if (empty ($extendedOutput)) {
-                $elements = array(
+                $elements = [
                     'SubElements' => $menuElements,
-                );
-                $output = $this->customise($elements)->renderWith(
-                    array(
-                        'SilverCart/Model/Pages/Includes/SubNavigation',
-                    )
-                );
+                ];
+                $output = $this->customise($elements)->renderWith([
+                    'SilverCart/Model/Pages/Includes/SubNavigation',
+                ]);
             } else {
                 $output = $extendedOutput[0];
             }

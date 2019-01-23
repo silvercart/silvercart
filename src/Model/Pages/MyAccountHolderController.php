@@ -6,6 +6,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\LoginForm;
 use SilverStripe\Control\Director;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * MyAccountHolder Controller class.
@@ -45,7 +46,7 @@ class MyAccountHolderController extends \PageController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder')
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
     {
         $elements = [
             'SubElementsTitle' => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
