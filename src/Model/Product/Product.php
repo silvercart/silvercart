@@ -534,7 +534,7 @@ class Product extends DataObject implements PermissionProvider
         $metaTitle = $this->getTranslationFieldValue('MetaTitle');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaTitle)) {
-                $metaTitle = Convert::raw2att($this->getTitle());
+                $metaTitle = $this->getTitle();
             }
             $this->extend('updateMetaTitle', $metaTitle);
         }
