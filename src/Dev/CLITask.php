@@ -43,17 +43,17 @@ trait CLITask
     public static $CLI_EMAIL_INFO_TYPE_WARNING = 'warning';
 
     /**
-     * Optional log file name.
-     *
-     * @var string
-     */
-    private static $log_file_name = null;
-    /**
      * Default CLI arguments
      *
      * @var array
      */
     public static $cli_args = [];
+    /**
+     * Optional log file name.
+     *
+     * @var string
+     */
+    protected static $log_file_name = null;
     /**
      * List of occured errors
      *
