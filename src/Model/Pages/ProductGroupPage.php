@@ -1370,25 +1370,26 @@ class ProductGroupPage extends \Page
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.10.2017
+     * @since 25.01.2019
      */
-    public function updateLastEditedForCache($newDate = null)
+    public function updateLastEditedForCache($newDate = null) : void
     {
         if (is_null($newDate)) {
             $newDate = date('Y-m-d H:i:s');
         }
-        $latestPublished = $this->latestPublished();
-        $this->LastEditedForCache = $newDate;
-        $this->write();
-        if ($latestPublished) {
-            $this->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
+        $stage       = Versioned::LIVE;
+        $tableName   = "{$this->config()->get('table_name')}_{$stage}";
+        $liveVersion = Versioned::get_one_by_stage(self::class, $stage, "{$tableName}.ID = {$this->ID}");
+        if ($liveVersion instanceof ProductGroupPage
+         && $liveVersion->exists()
+        ) {
+            $liveVersion->LastEditedForCache = $newDate;
+            $liveVersion->setNextWriteWithoutVersion(true);
+            $liveVersion->writeToStage(Versioned::LIVE);
         } else {
-            $liveVersion = Versioned::get_one_by_stage(self::class, Versioned::LIVE, '"' . self::$table_name . '"."ID" = ' . $this->ID);
-            if ($liveVersion instanceof ProductGroupPage &&
-                $liveVersion->exists()) {
-                $liveVersion->LastEditedForCache = $this->LastEditedForCache;
-                $liveVersion->writeToStage(Versioned::LIVE);
-            }
+            $this->LastEditedForCache = $newDate;
+            $this->setNextWriteWithoutVersion(true);
+            $this->write();
         }
     }
 
