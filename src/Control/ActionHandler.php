@@ -15,6 +15,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Convert;
 use SilverStripe\i18n\i18n;
 use SilverStripe\Security\Member;
@@ -55,7 +56,7 @@ class ActionHandler extends Controller
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.03.2013
      */
-    public function addToCart(HTTPRequest $request)
+    public function addToCart(HTTPRequest $request) : void
     {
         $isValidRequest = false;
         $backLink       = null;
@@ -104,39 +105,12 @@ class ActionHandler extends Controller
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.07.2018
+     * @since 25.01.2019
      */
-    public function decrementPositionQuantity(HTTPRequest $request)
+    public function decrementPositionQuantity(HTTPRequest $request) : void
     {
         $this->extend('onBeforeDecrementPositionQuantity', $request);
-        $positionID = $request->param('ID');
-        $backLinkID = $request->param('OtherID');
-        if (is_numeric($positionID)) {
-            //check if the position belongs to this user. Malicious people could manipulate it.
-            $member   = Customer::currentUser();
-            $position = ShoppingCartPosition::get()->byID($positionID);
-            if ($position instanceof ShoppingCartPosition
-             && $position->exists()
-             && $position->ShoppingCartID == $member->getCart()->ID
-            ) {
-                if ($position->Quantity <= 1) {
-                    $position->delete();
-                } else {
-                    $position->Quantity--;
-                    $position->write();
-                }
-                $backLink = null;
-                if (!is_null($backLinkID)) {
-                    $backLinkPage = SiteTree::get()->byID($backLinkID);
-                    if ($backLinkPage instanceof SiteTree
-                     && $backLinkPage->exists()
-                    ) {
-                        $backLink = $backLinkPage->Link();
-                    }
-                }
-                $this->redirectBack($backLink);
-            }
-        }
+        $this->changePositionQuantity($request, false);
         $this->extend('onAfterDecrementPositionQuantity', $request);
     }
     
@@ -148,22 +122,52 @@ class ActionHandler extends Controller
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.07.2018
+     * @since 25.01.2019
      */
-    public function incrementPositionQuantity(HTTPRequest $request)
+    public function incrementPositionQuantity(HTTPRequest $request) : void
     {
         $this->extend('onBeforeIncrementPositionQuantity', $request);
+        $this->changePositionQuantity($request, true);
+        $this->extend('onAfterIncrementPositionQuantity', $request);
+    }
+    
+    /**
+     * Decrements the shopping cart position quantity by 1.
+     * 
+     * @param HTTPRequest $request   Request to check for product data
+     * @param bool        $increment Set to true to increment the position's 
+     *                               quantity by 1, set to fals to decrement the 
+     *                               position's quantity by 1
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.01.2019
+     */
+    public function changePositionQuantity(HTTPRequest $request, bool $increment = true) : void
+    {
         $positionID = $request->param('ID');
         $backLinkID = $request->param('OtherID');
         if (is_numeric($positionID)) {
             //check if the position belongs to this user. Malicious people could manipulate it.
             $member   = Customer::currentUser();
             $position = ShoppingCartPosition::get()->byID($positionID);
-            if ($position instanceof ShoppingCartPosition
+            if ($member instanceof Member
+             && $member->exists()
+             && $position instanceof ShoppingCartPosition
              && $position->exists()
              && $position->ShoppingCartID == $member->getCart()->ID
             ) {
-                $position->Product()->addToCart($member->getCart()->ID, 1, true);
+                if ($increment) {
+                    $position->Product()->addToCart($member->getCart()->ID, 1, true);
+                } else {
+                    if ($position->Quantity <= 1) {
+                        $position->delete();
+                    } else {
+                        $position->Quantity--;
+                        $position->write();
+                    }
+                }
                 $backLink = null;
                 if (!is_null($backLinkID)) {
                     $backLinkPage = SiteTree::get()->byID($backLinkID);
@@ -176,7 +180,6 @@ class ActionHandler extends Controller
                 $this->redirectBack($backLink);
             }
         }
-        $this->extend('onAfterIncrementPositionQuantity', $request);
     }
     
     /**
@@ -185,12 +188,12 @@ class ActionHandler extends Controller
      * @param string $backLink Back link to redirect to
      * @param string $anchor   Optional anchor to scroll to after redirect
      * 
-     * @return void
+     * @return HTTPResponse
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.03.2013
      */
-    public function redirectBack($backLink = null, $anchor = '')
+    public function redirectBack(string $backLink = null, string $anchor = '') : HTTPResponse
     {
         $postVars = $this->getRequest()->postVars();
         if (is_null($backLink)
@@ -236,14 +239,14 @@ class ActionHandler extends Controller
      * Action to execute a search query
      * 
      * @param HTTPRequest $request    Request to check for product data
-     * @param bool           $doRedirect Redirect after setting search settings?
+     * @param bool        $doRedirect Redirect after setting search settings?
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.10.2018
      */
-    public function doSearch(HTTPRequest $request, $doRedirect = true)
+    public function doSearch(HTTPRequest $request, bool $doRedirect = true) : void
     {
         $postVars           = $request->postVars();
         if (!array_key_exists('locale', $postVars)
@@ -276,7 +279,8 @@ class ActionHandler extends Controller
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.06.2014
      */
-    public function doLogin(HTTPRequest $request) {
+    public function doLogin(HTTPRequest $request) : void
+    {
         $postVars   = $request->postVars();
         $rememberMe = false;
         if (array_key_exists('emailaddress', $postVars)
