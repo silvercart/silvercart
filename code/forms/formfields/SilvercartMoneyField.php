@@ -78,7 +78,8 @@ class SilvercartMoneyField extends MoneyField {
      * 
      * @return void
      */
-    public function setValue($val) {
+    public function setValue($val)
+    {
         $defaultCurrency = SilvercartConfig::DefaultCurrency();
 
         if (is_array($val)) {
@@ -86,8 +87,10 @@ class SilvercartMoneyField extends MoneyField {
                 $val['Currency'] = $defaultCurrency;
             }
         } elseif ($val instanceof Money) {
-            if ($val->getCurrency() != $defaultCurrency &&
-                $this->getCurrencyIsReadonly()) {
+            $currency = $val->getCurrency();
+            if (empty($currency)
+             && $this->getCurrencyIsReadonly()
+            ) {
                 $val->setCurrency($defaultCurrency);
             }
         }
