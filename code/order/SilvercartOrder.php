@@ -49,10 +49,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
         'PaymentReferenceData'              => 'Text',
         'ExpectedDeliveryMin'               => 'Date',
         'ExpectedDeliveryMax'               => 'Date',
-        /**
-         * @deprecated
-         */
-        'AmountGrossTotal'                  => 'SilvercartMoney', // value of all products + transaction fee
     );
 
     /**
@@ -311,7 +307,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
                 'SilvercartOrderStatus'                 => _t('SilvercartOrder.STATUS', 'order status'),
                 'AmountTotal'                           => _t('SilvercartOrder.AMOUNTTOTAL'),
                 'PriceType'                             => _t('SilvercartOrder.PRICETYPE'),
-                'AmountGrossTotal'                      => _t('SilvercartOrder.AMOUNTGROSSTOTAL'),
                 'HandlingCost'                          => _t('SilvercartOrder.HandlingCost'),
                 'HandlingCostPayment'                   => _t('SilvercartOrder.HANDLINGCOSTPAYMENT'),
                 'HandlingCostShipment'                  => _t('SilvercartOrder.HANDLINGCOSTSHIPMENT'),
@@ -2493,47 +2488,6 @@ class SilvercartOrder extends DataObject implements PermissionProvider {
      */
     public function getHandlingCostPaymentNice() {
         return str_replace('.', ',', number_format($this->HandlingCostPaymentAmount, 2)) . ' ' . $this->HandlingCostPaymentCurrency;
-    }
-
-    /**
-     * returns carts net value including all editional costs
-     *
-     * @return Money amount
-     * 
-     * @deprecated Use property AmountTotal instead
-     */
-    public function getAmountNet() {
-        user_error('SilvercartOrder::getAmountNet() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
-        $amountNet = $this->AmountGrossTotal->getAmount() - $this->Tax->getAmount();
-        $amountNetObj = Money::create();
-        $amountNetObj->setAmount($amountNet);
-        $amountNetObj->setCurrency(SilvercartConfig::DefaultCurrency());
-
-        return $amountNetObj;
-    }
-
-    /**
-     * returns carts gross value including all editional costs
-     *
-     * @return Money
-     * 
-     * @deprecated Use property AmountTotal instead
-     */
-    public function getAmountGross() {
-        user_error('SilvercartOrder::getAmountGross() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
-        return $this->AmountGrossTotal;
-    }
-
-    /**
-     * returns the orders total amount as string incl. currency.
-     *
-     * @return string
-     * 
-     * @deprecated Use property AmountTotal instead
-     */
-    public function getAmountGrossTotalNice() {
-        user_error('SilvercartOrder::getAmountGrossTotalNice() is marked as deprecated! Use property AmountTotal instead.', E_USER_ERROR);
-        return $this->getAmountTotalNice();
     }
     
     /**
