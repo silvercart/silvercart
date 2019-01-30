@@ -46,15 +46,14 @@
         <% if $isShippingAddress %>
             <span class="silvercart-message"><strong><%t SilvercartAddressHolder.DEFAULT_SHIPPING 'This is your shipping address' %></strong></span>
         <% end_if %>
-            
-        <% if not $isInvoiceAddress && $Member.SilvercartInvoiceAddress.canEdit %>
+        <% if $canEdit %>
+            <% if not $isInvoiceAddress && $Member.SilvercartInvoiceAddress.canEdit %>
             <a href="{$CurrentPage.Link}setInvoiceAddress/$ID" class="btn btn-small"><%t SilvercartAddressHolder.SET_AS 'Set as' %> <%t SilvercartAddressHolder.INVOICEADDRESS 'invoice address' %></a>
-        <% end_if %>
-
-        <% if not $isShippingAddress %>
+            <% end_if %>
+            <% if not $isShippingAddress %>
             <br/><br/><a href="{$CurrentPage.Link}setShippingAddress/$ID" class="btn btn-small"><%t SilvercartAddressHolder.SET_AS 'Set as' %> <%t SilvercartAddressHolder.SHIPPINGADDRESS 'shipping address' %></a>
+            <% end_if %>
         <% end_if %>
-            
         <% if $canEdit || $canDelete %>
             <div class="btn-group pull-right">
             <% if $canEdit %>

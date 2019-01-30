@@ -19,8 +19,8 @@
  * @license see license file in modules root directory
  * @since 22.10.2010
  */
-class SilvercartAddress extends DataObject implements PermissionProvider {
-    
+class SilvercartAddress extends DataObject implements PermissionProvider
+{
     /**
      * Attributes.
      *
@@ -45,7 +45,6 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
         'Fax'               => 'VarChar(50)',
         'IsPackstation'     => 'Boolean(0)',
     );
-    
     /**
      * Has-one relationships.
      *
@@ -55,7 +54,6 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
         'Member'            => 'Member',
         'SilvercartCountry' => 'SilvercartCountry'
     );
-    
     /**
      * Has-one relationships.
      *
@@ -70,7 +68,6 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
         'SilvercartCountryISON' => 'Text',
         'SilvercartCountryFIPS' => 'Text',
     );
-    
     /**
      * Defaults for attributes.
      *
@@ -79,7 +76,6 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
     private static $defaults = array(
         'IsPackstation' => '0',
     );
-    
     /**
      * Custom Add Export fields to export by XML
      *
@@ -91,56 +87,48 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
         'SilvercartCountryISON',
         'SilvercartCountryFIPS',
     );
-
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
     private static $api_access = true;
-    
     /**
      * Set this to true to make the invoice address readonly for customers.
      *
      * @var bool
      */
     private static $invoice_address_is_readonly = false;
-
     /**
      * Property to indicate whether this is an anonymous address
      *
      * @var bool
      */
     protected $isAnonymous = false;
-    
     /**
      * Property to indicate whether this is an anonymous shipping address
      *
      * @var bool
      */
     protected $isAnonymousShippingAddress = false;
-    
     /**
      * Property to indicate whether this is an anonymous invoice address
      *
      * @var bool
      */
     protected $isAnonymousInvoiceAddress = false;
-    
     /**
      * Determines whether the current search context is restful.
      *
      * @var bool
      */
     protected $isRestfulContext = false;
-    
     /**
      * Marks the address as shipping address in order context.
      *
      * @var bool
      */
     protected $isOrderShippingAddress = null;
-    
     /**
      * Marks the address as invoice address in order context.
      *
@@ -155,7 +143,8 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * 
      * @return void
      */
-    public static function set_invoice_address_is_readonly($invoice_address_is_readonly) {
+    public static function set_invoice_address_is_readonly($invoice_address_is_readonly)
+    {
         self::$invoice_address_is_readonly = $invoice_address_is_readonly;
     }
     
@@ -164,7 +153,8 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public static function get_invoice_address_is_readonly() {
+    public static function get_invoice_address_is_readonly()
+    {
         return self::$invoice_address_is_readonly;
     }
     
@@ -173,7 +163,8 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public static function invoice_address_is_readonly() {
+    public static function invoice_address_is_readonly()
+    {
         return self::get_invoice_address_is_readonly();
     }
     
@@ -181,12 +172,10 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return SilvercartTools::singular_name_for($this);
     }
 
@@ -195,12 +184,10 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return SilvercartTools::plural_name_for($this); 
     }
 
@@ -212,16 +199,18 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2013
      */
-    public function providePermissions() {
+    public function providePermissions()
+    {
         return array(
             'SILVERCART_ADDRESS_VIEW'   => _t('SilvercartAddress.SILVERCART_ADDRESS_VIEW'),
+            'SILVERCART_ADDRESS_CREATE' => _t('SilvercartAddress.SILVERCART_ADDRESS_CREATE'),
             'SILVERCART_ADDRESS_EDIT'   => _t('SilvercartAddress.SILVERCART_ADDRESS_EDIT'),
             'SILVERCART_ADDRESS_DELETE' => _t('SilvercartAddress.SILVERCART_ADDRESS_DELETE')
         );
     }
 
     /**
-     * Indicates wether the current user can view this object.
+     * Indicates whether the current user can view this object.
      * 
      * @param Member $member Member to check permission for.
      *
@@ -230,24 +219,64 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2013
      */
-    public function canView($member = null) {
-        $canView = false;
-        if ((Member::currentUserID() == $this->MemberID &&
-             !is_null($this->MemberID)) ||
-            Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')) {
-            $canView = true;
+    public function canView($member = null)
+    {
+        if (is_null($member)) {
+            $member = SilvercartCustomer::currentUser();
         }
-		$results = $this->extend('canView', $member);
-		if ($results && is_array($results)) {
-            if(!min($results)) {
-                $canView = false;
-            }
+        $can = false;
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         || Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')
+        ) {
+            $can = true;
         }
-        return $canView;
+        $results = $this->extend('canView', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
+        }
+        return $can;
     }
 
     /**
-     * Indicates wether the current user can edit this object.
+     * Indicates whether the current user can create this object.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.01.2019
+     */
+    public function canCreate($member = null)
+    {
+        if (is_null($member)) {
+            $member = SilvercartCustomer::currentUser();
+        }
+        $can = false;
+        if ($member instanceof Member
+         && $member->isValidCustomer()) {
+            $can = true;
+        }
+        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_CREATE')) {
+            $can = true;
+        }
+        $results = $this->extend('canCreate', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
+        }
+        return $can;
+    }
+
+    /**
+     * Indicates whether the current user can edit this object.
      * 
      * @param Member $member Member to check permission for.
      *
@@ -256,28 +285,35 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.11.2016
      */
-    public function canEdit($member = null) {
-        $canEdit = false;
-        if ((Member::currentUserID() == $this->MemberID &&
-             !is_null($this->MemberID)) &&
-            !($this->isInvoiceAddress() &&
-              self::invoice_address_is_readonly())) {
-            $canEdit = true;
+    public function canEdit($member = null)
+    {
+        if (is_null($member)) {
+            $member = SilvercartCustomer::currentUser();
+        }
+        $can = false;
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         && !($this->isInvoiceAddress()
+          && self::invoice_address_is_readonly())
+        ) {
+            $can = true;
         }
         if (Permission::checkMember($member, 'SILVERCART_ADDRESS_EDIT')) {
-            $canEdit = true;
+            $can = true;
         }
-		$results = $this->extend('canEdit', $member);
-		if ($results && is_array($results)) {
-            if(!min($results)) {
-                $canEdit = false;
-            }
+        $results = $this->extend('canEdit', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
         }
-        return $canEdit;
+        return $can;
     }
 
     /**
-     * Indicates wether the current user can delete this object.
+     * Indicates whether the current user can delete this object.
      * 
      * @param Member $member Member to check permission for.
      *
@@ -286,47 +322,54 @@ class SilvercartAddress extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.11.2016
      */
-    public function canDelete($member = null) {
-        $canDelete = false;
-        if ((Member::currentUserID() == $this->MemberID &&
-             !is_null($this->MemberID)) &&
-            !($this->isInvoiceAddress() &&
-              self::invoice_address_is_readonly())) {
-            $canDelete = true;
+    public function canDelete($member = null)
+    {
+        if (is_null($member)) {
+            $member = SilvercartCustomer::currentUser();
+        }
+        $can = false;
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         && !($this->isInvoiceAddress()
+          && self::invoice_address_is_readonly())
+        ) {
+            $can = true;
         }
         if (Permission::checkMember($member, 'SILVERCART_ADDRESS_DELETE')) {
-            $canDelete = true;
+            $can = true;
         }
-		$results = $this->extend('canDelete', $member);
-		if ($results && is_array($results)) {
-            if(!min($results)) {
-                $canDelete = false;
-            }
+        $results = $this->extend('canDelete', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
         }
-        return $canDelete;
+        return $can;
     }
     
     /**
      * CMS fields for this object
      * 
-     * @param array $params Scaffolding parameters
-     * 
      * @return FieldList
      */
-    public function getCMSFields($params = null) {
-        $fields = SilvercartDataObject::getCMSFields($this);
-        if ($fields->dataFieldByName('SilvercartCountryID')) {
-            $countryDropdown = new DropdownField(
-                    'SilvercartCountryID',
-                    $this->fieldLabel('Country'),
-                    SilvercartCountry::getPrioritiveDropdownMap());
-            $fields->replaceField('SilvercartCountryID', $countryDropdown);
-        }
-        $fields->dataFieldByName('Salutation')->setSource(array(
-            'Herr' => _t('SilvercartAddress.MISTER'),
-            'Frau' => _t('SilvercartAddress.MISSES')
-        ));
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function($fields) {
+            if ($fields->dataFieldByName('SilvercartCountryID')) {
+                $countryDropdown = DropdownField::create(
+                        'SilvercartCountryID',
+                        $this->fieldLabel('Country'),
+                        SilvercartCountry::getPrioritiveDropdownMap());
+                $fields->replaceField('SilvercartCountryID', $countryDropdown);
+            }
+            $fields->dataFieldByName('Salutation')->setSource(array(
+                'Herr' => _t('SilvercartAddress.MISTER'),
+                'Frau' => _t('SilvercartAddress.MISSES')
+            ));
+        });
+        return SilvercartDataObject::getCMSFields($this);
     }
     
     /**

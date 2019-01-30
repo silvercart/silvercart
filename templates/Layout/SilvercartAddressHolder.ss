@@ -37,11 +37,13 @@
                     <% include SilvercartAddressDetail %>
                 </div>
             <% end_with %>
+            <% if $CurrentRegisteredCustomer.SilvercartInvoiceAddress.canCreate %>
             <hr />
             <div class="hidden-form" id="silvercart-add-address-form">
                 $insertCustomHtmlForm(SilvercartAddAddressForm)
             </div>
             <a class="btn btn-small" href="{$Link}addNewAddress" id="silvercart-add-address-link"><% _t('SilvercartAddressHolder.ADD','Add new address') %></a>
+            <% end_if %>
         <% else %>
             <% include SilvercartMyAccountLoginOrRegister %>
         <% end_if %>

@@ -97,6 +97,7 @@ de:
     POSTNUMBER_PLAIN: "PostNummer"
     SALUTATION: "Anrede"
     SILVERCART_ADDRESS_DELETE: "Adresse löschen"
+    SILVERCART_ADDRESS_CREATE: "Adresse erstellen"
     SILVERCART_ADDRESS_EDIT: "Adresse bearbeiten"
     SILVERCART_ADDRESS_VIEW: "Adresse anschauen"
     SINGULARNAME: "Adresse"
