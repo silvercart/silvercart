@@ -278,6 +278,10 @@ foreach ($cacheDirectories as $cacheName => $cacheDirectory) {
 }
 SS_Cache::set_cache_lifetime('aggregate', $cachelifetime);
 
+$titleFormat = Member::config()->title_format;
+if (is_null($titleFormat)) {
+    Member::set_title_columns(Member::singleton()->getTitleFormatColumns(), ' ');
+}
 /*
  * DO NOT ENABLE THE CREATION OF TEST DATA IN DEV MODE HERE!
  * THIS SHOULD BE PROJECT SPECIFIC.

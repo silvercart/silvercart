@@ -566,6 +566,24 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
     // ------------------------------------------------------------------------
     
     /**
+     * Returns the Member title format columns to set in SilverCart's _config.php 
+     * if no title format is set by any YAML configuration yet.
+     * 
+     * @return array
+     */
+    public function getTitleFormatColumns()
+    {
+        $titleFormatColumns = [
+            'CustomerNumber',
+            'Salutation',
+            'FirstName',
+            'Surname',
+        ];
+        $this->owner->extend('updateTitleFormatColumns', $titleFormatColumns);
+        return $titleFormatColumns;
+    }
+    
+    /**
      * Returns whether the current customer is a registered one.
      * 
      * @return boolean
