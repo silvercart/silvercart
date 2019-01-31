@@ -442,29 +442,71 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
     /**
      * return the orders shipping address as complete string.
      *
-     * @return string
+     * @return HTMLText
      */
-    public function getShippingAddressSummary() {
+    public function getShippingAddressSummary()
+    {
         $shippingAddressSummary = '';
         $shippingAddressSummary .= $this->owner->SilvercartShippingAddress()->FirstName . ' ' . $this->owner->SilvercartShippingAddress()->Surname . "<br/>" . PHP_EOL;
         $shippingAddressSummary .= $this->owner->SilvercartShippingAddress()->Street . ' ' . $this->owner->SilvercartShippingAddress()->StreetNumber . "<br/>" . PHP_EOL;
         $shippingAddressSummary .= $this->owner->SilvercartShippingAddress()->Addition == '' ? '' : $this->owner->SilvercartShippingAddress()->Addition . "<br/>" . PHP_EOL;
         $shippingAddressSummary .= strtoupper($this->owner->SilvercartShippingAddress()->SilvercartCountry()->ISO2) . '-' . $this->owner->SilvercartShippingAddress()->Postcode . ' ' . $this->owner->SilvercartShippingAddress()->City . "<br/>" . PHP_EOL;
-        return $shippingAddressSummary;
+        $html = HTMLText::create();
+        $html->setValue($shippingAddressSummary);
+        return $html;
     }
 
     /**
      * return the orders invoice address as complete string.
      *
-     * @return string
+     * @return HTMLText
      */
-    public function getInvoiceAddressSummary() {
+    public function getInvoiceAddressSummary()
+    {
         $invoiceAddressSummary = '';
         $invoiceAddressSummary .= $this->owner->SilvercartInvoiceAddress()->FirstName . ' ' . $this->owner->SilvercartInvoiceAddress()->Surname . "<br/>" . PHP_EOL;
         $invoiceAddressSummary .= $this->owner->SilvercartInvoiceAddress()->Street . ' ' . $this->owner->SilvercartInvoiceAddress()->StreetNumber . "<br/>" . PHP_EOL;
         $invoiceAddressSummary .= $this->owner->SilvercartInvoiceAddress()->Addition == '' ? '' : $this->owner->SilvercartInvoiceAddress()->Addition . "<br/>" . PHP_EOL;
         $invoiceAddressSummary .= strtoupper($this->owner->SilvercartInvoiceAddress()->SilvercartCountry()->ISO2) . '-' . $this->owner->SilvercartInvoiceAddress()->Postcode . ' ' . $this->owner->SilvercartInvoiceAddress()->City . "<br/>" . PHP_EOL;
-        return $invoiceAddressSummary;
+        $html = HTMLText::create();
+        $html->setValue($invoiceAddressSummary);
+        return $html;
+    }
+    
+    /**
+     * Returns the related SilverCart addresses.
+     * 
+     * @return HasManyList
+     */
+    public function SilvercartAddresses()
+    {
+        $addresses = $this->owner->getComponents('SilvercartAddresses');
+        $this->owner->extend('updateSilvercartAddresses', $addresses);
+        return $addresses;
+    }
+    
+    /**
+     * Returns the related SilverCart invoice address.
+     * 
+     * @return SilvercartAddress
+     */
+    public function SilvercartInvoiceAddress()
+    {
+        $address = $this->owner->getComponent('SilvercartInvoiceAddress');
+        $this->owner->extend('updateSilvercartInvoiceAddress', $address);
+        return $address;
+    }
+    
+    /**
+     * Returns the related SilverCart shipping address.
+     * 
+     * @return SilvercartAddress
+     */
+    public function SilvercartShippingAddress()
+    {
+        $address = $this->owner->getComponent('SilvercartShippingAddress');
+        $this->owner->extend('updateSilvercartShippingAddress', $address);
+        return $address;
     }
     
     // ------------------------------------------------------------------------
