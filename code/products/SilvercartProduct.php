@@ -712,6 +712,58 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
         $this->extend('updateCanDelete', $member, $can);
         return $can;
     }
+    
+    /**
+     * Checks whether the given member can view this product's price.
+     * 
+     * @param Member $member Member to check
+     *
+     * @return false 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.01.2019
+     */
+    public function canViewPrice(Member $member = null)
+    {
+        if (is_null($member)) {
+            $member = SilvercartCustomer::currentUser();
+        }
+        $can     = true;
+        $results = $this->extend('canViewPrice', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
+        }
+        return $can;
+    }
+    
+    /**
+     * Checks whether the given member can buy this product.
+     * 
+     * @param Member $member Member to check
+     *
+     * @return false 
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 30.01.2019
+     */
+    public function canBuy(Member $member = null)
+    {
+        if (is_null($member)) {
+            $member = SilvercartCustomer::currentUser();
+        }
+        $can     = true;
+        $results = $this->extend('canBuy', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
+        }
+        return $can;
+    }
 
     /**
      * Summaryfields for display in tables.
