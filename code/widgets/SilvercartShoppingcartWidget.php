@@ -120,11 +120,14 @@ class SilvercartShoppingcartWidget extends SilvercartWidget {
      */
     public function ShowWidget() {
         $showWidget = true;
-        $member = SilvercartCustomer::currentUser();
-        if ($this->ShowOnlyWhenFilled &&
-            (!$member ||
-             $member->SilvercartShoppingCartID == 0 ||
-             !$member->getCart()->isFilled())) {
+        $member     = SilvercartCustomer::currentUser();
+        $cartPage   = SilvercartCartPage::get()->first();
+        if (!$cartPage->canView($member)
+         || ($this->ShowOnlyWhenFilled
+          && (!$member
+           || $member->SilvercartShoppingCartID == 0
+           || !$member->getCart()->isFilled()))
+        ) {
             $showWidget = false;
         }
         return $showWidget;

@@ -40,7 +40,7 @@
                 <% end_if %>
             <% end_if %>
 
-            <% if not $EditableShoppingCart %>
+            <% if not $EditableShoppingCart && $PageByIdentifierCode('SilvercartCartPage').canView %>
                     <div class="btn-group cart-preview pull-right">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="icon-shopping-cart"></i> <% if $CurrentMember %><% with $CurrentMember %>{$SilvercartShoppingCart.getQuantity}<% end_with %><% else %>0<% end_if %> <% _t('SilvercartProduct.PLURALNAME') %>
