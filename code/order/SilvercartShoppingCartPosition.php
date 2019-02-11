@@ -274,7 +274,7 @@ class SilvercartShoppingCartPosition extends DataObject {
             $priceObj = Money::create();
             $priceObj->setAmount($price);
             $priceObj->setCurrency(SilvercartConfig::DefaultCurrency());
-            $this->extend('updatePrice', $priceObj);
+            $this->extend('updatePrice', $priceObj, $forSingleProduct);
             $this->prices[$priceKey] = $priceObj;
         }
 
