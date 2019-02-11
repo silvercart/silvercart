@@ -264,7 +264,7 @@ class ShoppingCartPosition extends DataObject
             $priceObj = DBMoney::create();
             $priceObj->setAmount($price);
             $priceObj->setCurrency(Config::DefaultCurrency());
-            $this->extend('updatePrice', $priceObj);
+            $this->extend('updatePrice', $priceObj, $forSingleProduct);
             $this->prices[$priceKey] = $priceObj;
         }
 
