@@ -1149,7 +1149,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return DataList
      */
-    public static function get($callerClass = Product::class, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = DataList::class)
+    public static function get($callerClass = Product::class, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = DataList::class) : DataList
     {
         $products = parent::get($callerClass, $filter, $sort, $join, $limit, $containerClass);
         if (!Tools::isBackendEnvironment()
@@ -1160,6 +1160,7 @@ class Product extends DataObject implements PermissionProvider
                 $products = $products->where($requiredAttributesFilter);
             }
         }
+        self::singleton()->extend('onAfterGet', $products);
         return $products;
     }
     
