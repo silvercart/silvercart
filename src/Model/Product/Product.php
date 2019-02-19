@@ -3376,6 +3376,22 @@ class Product extends DataObject implements PermissionProvider
     {
         return $this->changeStockQuantityBy($quantity, true, $reason, $origin, $order);
     }
+    
+    /**
+     * Calculates and returns the stock quantity by related item entries.
+     * 
+     * @return int
+     */
+    public function getStockQuantityByItemEntries() : int
+    {
+        $stock   = 0;
+        $entries = $this->StockItemEntries();
+        foreach ($entries as $entry)
+        {
+            $stock += $entry->Quantity;
+        }
+        return $stock;
+    }
 
     /**
      * Is this products stock quantity overbookable?
