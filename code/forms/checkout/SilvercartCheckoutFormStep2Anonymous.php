@@ -270,8 +270,8 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.01.2014
      */
-    public function submit($data, $form) {
-
+    public function submit($data, $form = null)
+    {
         // Disable the check instructions if the shipping address shall be
         // the same as the invoice address.
         if ($data['InvoiceAddressAsShippingAddress'] == '1') {
@@ -291,11 +291,9 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
 
         $formData = $data->postVars();
         if ($this->UseMinimumAgeToOrder()) {
-            
             $formData['Birthday'] = $formData['BirthdayYear'] . '-' .
                                     $formData['BirthdayMonth'] . '-' .
                                     $formData['BirthdayDay'];
-            
             if (!SilvercartConfig::CheckMinimumAgeToOrder($formData['Birthday'])) {
                 $this->errorMessages['BirthdayDay'] = array(
                     'message'     => SilvercartConfig::MinimumAgeToOrderError(),
@@ -322,7 +320,7 @@ class SilvercartCheckoutFormStep2Anonymous extends SilvercartAddressForm {
                 return $this->submitFailure($data, $form);
             }
         }
-        parent::submit($data, $form);
+        return parent::submit($data, $form);
     }
 
     /**

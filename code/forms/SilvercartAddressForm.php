@@ -280,7 +280,8 @@ class SilvercartAddressForm extends CustomHtmlForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.10.2012
      */
-    public function submit($data, $form) {
+    public function submit($data, $form = null)
+    {
         $formData = $this->getFormData($data);
         if (array_key_exists('IsPackstation', $formData)) {
             if ($formData['IsPackstation'] == '0') {
@@ -299,7 +300,6 @@ class SilvercartAddressForm extends CustomHtmlForm {
                 $this->deactivateValidationFor('Shipping_StreetNumber');
             }
         }
-
         return parent::submit($data, $form);
     }
 

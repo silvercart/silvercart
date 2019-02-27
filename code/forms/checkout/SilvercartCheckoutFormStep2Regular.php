@@ -184,14 +184,14 @@ class SilvercartCheckoutFormStep2Regular extends CustomHtmlFormStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.07.2011
      */
-    public function submit($data, $form) {
+    public function submit($data, $form = null)
+    {
         // Disable the check instructions if the shipping address shall be
         // the same as the invoice address.
         if ($data['InvoiceAddressAsShippingAddress'] == '1') {
             $this->deactivateValidationFor('ShippingAddress');
         }
-
-        parent::submit($data, $form);
+        return parent::submit($data, $form);
     }
 
     /**
