@@ -450,15 +450,18 @@ class SilvercartShoppingCart extends DataObject {
     /**
      * adds a product to the cart
      *
-     * @param array $formData the sended form data
+     * @param array $formData  the sended form data
+     * @param bool  $increment Set to true to increment the quantity instead of 
+     *                         setting it absolutely
      *
      * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
+     * @since 27.02.2019
      */
-    public static function addProduct($formData) {
+    public static function addProduct($formData, $increment = false)
+    {
         $error  = true;
         $member = SilvercartCustomer::currentUser();
         
@@ -470,19 +473,19 @@ class SilvercartShoppingCart extends DataObject {
         
         if ($overwriteAddProduct) {
             $error = false;
-        } else {
-            if ($formData['productID'] && $formData['productQuantity']) {
-                $cart = $member->getCart();
-                if ($cart) {
-                    $product = DataObject::get_by_id('SilvercartProduct', $formData['productID'], 'Created');
-                    if ($product) {
-                        $formData['productQuantity'] = str_replace(',', '.', $formData['productQuantity']);
-                        $quantity                    = (float) $formData['productQuantity'];
+        } elseif ($formData['productID']
+               && $formData['productQuantity']
+        ) {
+            $cart = $member->getCart();
+            if ($cart) {
+                $product = SilvercartProduct::get()->byID($formData['productID']);
+                if ($product) {
+                    $formData['productQuantity'] = str_replace(',', '.', $formData['productQuantity']);
+                    $quantity                    = (float) $formData['productQuantity'];
 
-                        if ($quantity > 0) {
-                            $product->addToCart($cart->ID, $quantity);
-                            $error = false;
-                        }
+                    if ($quantity > 0) {
+                        $product->addToCart($cart->ID, $quantity, $increment);
+                        $error = false;
                     }
                 }
             }
