@@ -2,7 +2,7 @@
 
 namespace SilverCart\ORM;
 
-use Config as SilverStripeConfig;
+use SilverStripe\Core\Config\Config as SilverStripeConfig;
 
 /**
  * Trait to add extende Extensible features to a DataObject.
