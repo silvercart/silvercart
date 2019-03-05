@@ -377,7 +377,9 @@ class SearchResultsPageController extends ProductGroupPageController
         $filter                     = '';
         $useExtensionResults        = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
 
-        if (empty($useExtensionResults)) {
+        if (empty($searchQuery)) {
+            $searchResultProducts = PaginatedList::create(ArrayList::create());
+        } elseif (empty($useExtensionResults)) {
             $productTable = Tools::get_table_name(Product::class);
             $productTranslationTable = Tools::get_table_name(ProductTranslation::class);
             $this->listFilters['original'] = sprintf('
