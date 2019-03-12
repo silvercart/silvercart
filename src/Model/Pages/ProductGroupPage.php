@@ -590,6 +590,9 @@ class ProductGroupPage extends \Page
      */
     public function getMirroredProductIDs()
     {
+        if (static::class !== self::class) {
+            return [];
+        }
         $mirroredProductIDs         = [];
         $translations               = Tools::get_translations($this);
         $translationProductGroupIDs = [
