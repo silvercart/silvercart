@@ -1671,11 +1671,13 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getFieldsForStock($fields) : void
     {
-        $gf = $fields->dataFieldByName('StockItemEntries');
-        /* @var $gf \SilverStripe\Forms\GridField\GridField */
-        $gf->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
-        $gf->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
-        $fields->addFieldToTab('Root.StockItemEntries', ReadonlyField::create('StockQuantityRO', $this->fieldLabel('StockQuantity'), $this->StockQuantity), 'StockItemEntries');
+        if ($this->exists()) {
+            $gf = $fields->dataFieldByName('StockItemEntries');
+            /* @var $gf \SilverStripe\Forms\GridField\GridField */
+            $gf->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+            $gf->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+            $fields->addFieldToTab('Root.StockItemEntries', ReadonlyField::create('StockQuantityRO', $this->fieldLabel('StockQuantity'), $this->StockQuantity), 'StockItemEntries');
+        }
     }
 
     /**
@@ -1696,6 +1698,7 @@ class Product extends DataObject implements PermissionProvider
         $pricesGroup->push($fields->dataFieldByName('PurchasePrice'));
         $pricesGroup->push($fields->dataFieldByName('TaxID'));
         
+        $this->extend('updateFieldsForPrices', $pricesGroup, $fields);
         $fields->insertAfter($pricesGroup, 'ProductNumberGroup');
     }
 
@@ -1931,9 +1934,9 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns the formatted (Nice) price.
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getPriceNice() : string
+    public function getPriceNice() : DBHTMLText
     {
         $priceNice = '';
         $price     = $this->getPrice();
@@ -1943,7 +1946,7 @@ class Product extends DataObject implements PermissionProvider
         }
         $this->extend('updatePriceNice', $priceNice);
 
-        return $priceNice;
+        return Tools::string2html($priceNice);
     }
 
     /**
@@ -3260,10 +3263,10 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return SilverStripeImage
      */
-    public function getListImage() : SilverStripeImage
+    public function getListImage() : ?SilverStripeImage
     {
         if (is_null($this->listImage)) {
-            $this->listImage = false;
+            $this->listImage = null;
             $images = $this->getImages();
             if ($images->count() > 0) {
                 $this->listImage = $images->first()->Image();
