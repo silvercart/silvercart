@@ -82,10 +82,10 @@ GroupViewHandler::addGroupHolderView(GroupViewList::class);
 GroupViewHandler::addGroupHolderView(GroupViewTile::class);
 // set default group view if not done in project yet
 if (is_null(GroupViewHandler::getDefaultGroupView())) {
-    GroupViewHandler::setDefaultGroupView(GroupViewList::class);
+    GroupViewHandler::setDefaultGroupView(GroupViewTile::class);
 }
 if (is_null(GroupViewHandler::getDefaultGroupHolderView())) {
-    GroupViewHandler::setDefaultGroupHolderView(GroupViewList::class);
+    GroupViewHandler::setDefaultGroupHolderView(GroupViewTile::class);
 }
 // Add product detail pages to Google Sitemap.
 if (class_exists("Wilr\\GoogleSitemaps\\GoogleSitemap") &&
