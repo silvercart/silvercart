@@ -18,8 +18,8 @@ use SilverCart\Model\Shipment\ShippingMethod;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStep3 extends CheckoutStep {
-    
+class CheckoutStep3 extends CheckoutStep
+{
     /**
      * List of allowed actions.
      *
@@ -28,7 +28,6 @@ class CheckoutStep3 extends CheckoutStep {
     private static $allowed_actions = [
         'CheckoutChooseShippingMethodForm',
     ];
-    
     /**
      * Determines whether to skip this step or not.
      *
@@ -44,9 +43,9 @@ class CheckoutStep3 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function CheckoutChooseShippingMethodForm() {
-        $form = new CheckoutChooseShippingMethodForm($this->getController());
-        return $form;
+    public function CheckoutChooseShippingMethodForm() : CheckoutChooseShippingMethodForm
+    {
+        return CheckoutChooseShippingMethodForm::create($this->getController());
     }
 
     /**
@@ -57,11 +56,13 @@ class CheckoutStep3 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.03.2013
      */
-    public function SkipShippingStep() {
+    public function SkipShippingStep() : bool
+    {
         if (is_null($this->skipShippingStep)) {
             $shippingMethods = ShippingMethod::getAllowedShippingMethods(null, $this->getController()->getShippingAddress());
-            if (Config::SkipShippingStepIfUnique() &&
-                $shippingMethods->count() == 1) {
+            if (Config::SkipShippingStepIfUnique()
+             && $shippingMethods->count() == 1
+            ) {
                 $this->skipShippingStep = true;
             } else {
                 $this->skipShippingStep = false;
@@ -70,4 +71,19 @@ class CheckoutStep3 extends CheckoutStep {
         return $this->skipShippingStep;
     }
     
+    /**
+     * Returns the rendered step summary.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2019
+     */
+    public function StepSummary() : DBHTMLText
+    {
+        return $this->customise([
+            'InvoiceAddress'  => $this->getController()->getInvoiceAddress(),
+            'ShippingAddress' => $this->getController()->getShippingAddress(),
+        ])->renderWith(self::class . '_Summary');
+    }
 }

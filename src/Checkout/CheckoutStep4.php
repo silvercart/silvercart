@@ -10,6 +10,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 
 /**
@@ -23,8 +24,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStep4 extends CheckoutStep {
-    
+class CheckoutStep4 extends CheckoutStep
+{
     /**
      * List of allowed actions.
      *
@@ -33,21 +34,18 @@ class CheckoutStep4 extends CheckoutStep {
     private static $allowed_actions = [
         'CheckoutChoosePaymentMethodForm',
     ];
-    
     /**
      * List of allowed payment methods
      *
      * @var ArrayList 
      */
     protected $allowedPaymentMethods = null;
-    
     /**
      * List of active payment methods
      *
      * @var DataList 
      */
     protected $activePaymentMethods = null;
-    
     /**
      * Determines whether to skip this step or not.
      *
@@ -63,13 +61,15 @@ class CheckoutStep4 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function CheckoutChoosePaymentMethodForm() {
+    public function CheckoutChoosePaymentMethodForm() : ?CheckoutChoosePaymentMethodForm
+    {
         $form = null;
         $paymentMethodID = $this->getController()->getRequest()->postVar('PaymentMethod');
         if (is_numeric($paymentMethodID)) {
             $paymentMethod = PaymentMethod::get()->byID($paymentMethodID);
-            if ($paymentMethod instanceof PaymentMethod &&
-                $paymentMethod->exists()) {
+            if ($paymentMethod instanceof PaymentMethod
+             && $paymentMethod->exists()
+            ) {
                 $form = $paymentMethod->CheckoutChoosePaymentMethodForm();
             }
         }
@@ -79,11 +79,12 @@ class CheckoutStep4 extends CheckoutStep {
     /**
      * Returns the allowed payment methods.
      *
-     * @return ArrayList|Boolean
+     * @return ArrayList
      */
-    public function getAllowedPaymentMethods() {
+    public function getAllowedPaymentMethods() : ArrayList
+    {
         if (is_null($this->allowedPaymentMethods)) {
-            $allowedPaymentMethods = new ArrayList();
+            $allowedPaymentMethods = ArrayList::create();
             $shippingAddressData   = $this->getCheckout()->getDataValue('ShippingAddress');
             if (array_key_exists('CountryID', $shippingAddressData) &&
                 Customer::currentUser() instanceof Member &&
@@ -92,7 +93,7 @@ class CheckoutStep4 extends CheckoutStep {
                 if ($shippingCountry instanceof Country) {
                     $allowedPaymentMethods = PaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Customer::currentUser()->getCart());
                     if (!($allowedPaymentMethods instanceof ArrayList)) {
-                        $allowedPaymentMethods = new ArrayList();
+                        $allowedPaymentMethods = ArrayList::create();
                     }
                 }
             }
@@ -104,24 +105,27 @@ class CheckoutStep4 extends CheckoutStep {
     /**
      * Sets the allowed payment methods.
      *
-     * @param \SilverStripe\ORM\SS_List $allowedPaymentMethods Allowed payment method
+     * @param SS_List $allowedPaymentMethods Allowed payment method
      * 
-     * @return void
+     * @return CheckoutStep4
      */
-    public function setAllowedPaymentMethods($allowedPaymentMethods) {
+    public function setAllowedPaymentMethods(SS_List $allowedPaymentMethods) : CheckoutStep4
+    {
         $this->allowedPaymentMethods = $allowedPaymentMethods;
+        return $this;
     }
     
     /**
      * Returns the active payment methods.
      *
-     * @return DataList|ArrayList
+     * @return SS_List
      */
-    public function getActivePaymentMethods() {
+    public function getActivePaymentMethods() : SS_List
+    {
         if (is_null($this->activePaymentMethods)) {
             $activePaymentMethods  = PaymentMethod::getActivePaymentMethods();
             if (!($activePaymentMethods instanceof DataList)) {
-                $activePaymentMethods = new ArrayList();
+                $activePaymentMethods = ArrayList::create();
             }
             $this->setActivePaymentMethods($activePaymentMethods);
         }
@@ -131,12 +135,14 @@ class CheckoutStep4 extends CheckoutStep {
     /**
      * Sets the active payment methods.
      *
-     * @param DataList $activePaymentMethods Active payment method
+     * @param SS_List $activePaymentMethods Active payment method
      * 
-     * @return void
+     * @return CheckoutStep4
      */
-    public function setActivePaymentMethods($activePaymentMethods) {
+    public function setActivePaymentMethods(SS_List $activePaymentMethods) : CheckoutStep4
+    {
         $this->activePaymentMethods = $activePaymentMethods;
+        return $this;
     }
 
     /**
@@ -147,18 +153,34 @@ class CheckoutStep4 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.11.2017
      */
-    public function SkipPaymentStep() {
+    public function SkipPaymentStep() : bool
+    {
         if (is_null($this->skipPaymentStep)) {
             $this->skipPaymentStep = false;
-            if ((Config::SkipPaymentStepIfUnique() &&
-                 $this->getAllowedPaymentMethods()->count() == 1) ||
-                (Config::SkipPaymentStepIfUnique() &&
-                 $this->getActivePaymentMethods()->count() == 1)) {
-                
+            if ((Config::SkipPaymentStepIfUnique()
+              && $this->getAllowedPaymentMethods()->count() == 1)
+             || (Config::SkipPaymentStepIfUnique()
+              && $this->getActivePaymentMethods()->count() == 1)
+            ) {
                 $this->skipPaymentStep = true;
             }
         }
         return $this->skipPaymentStep;
     }
     
+    /**
+     * Returns the rendered step summary.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2019
+     */
+    public function StepSummary() : DBHTMLText
+    {
+        return $this->customise([
+            'InvoiceAddress'  => $this->getController()->getInvoiceAddress(),
+            'ShippingAddress' => $this->getController()->getShippingAddress(),
+        ])->renderWith(self::class . '_Summary');
+    }
 }

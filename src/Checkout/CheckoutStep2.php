@@ -21,8 +21,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStep2 extends CheckoutStep {
-    
+class CheckoutStep2 extends CheckoutStep
+{
     /**
      * List of allowed actions.
      *
@@ -41,11 +41,13 @@ class CheckoutStep2 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.07.2011
      */
-    public function IsCustomerLoggedIn() {
+    public function IsCustomerLoggedIn() : bool
+    {
         $isLoggedIn = false;
         $registeredCustomer = Customer::currentRegisteredCustomer();
-        if ($registeredCustomer instanceof Member &&
-            $registeredCustomer->exists()) {
+        if ($registeredCustomer instanceof Member
+         && $registeredCustomer->exists()
+        ) {
             $isLoggedIn = true;
         }
         return $isLoggedIn;
@@ -59,9 +61,9 @@ class CheckoutStep2 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function AddAddressForm() {
-        $form = new AddAddressForm($this->getController());
-        return $form;
+    public function AddAddressForm() : AddAddressForm
+    {
+        return AddAddressForm::create($this->getController());
     }
     
     /**
@@ -72,9 +74,9 @@ class CheckoutStep2 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function CheckoutRegularCustomerAddressForm() {
-        $form = new CheckoutRegularCustomerAddressForm($this->getController());
-        return $form;
+    public function CheckoutRegularCustomerAddressForm() : CheckoutRegularCustomerAddressForm
+    {
+        return CheckoutRegularCustomerAddressForm::create($this->getController());
     }
     
     /**
@@ -85,9 +87,9 @@ class CheckoutStep2 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function CheckoutAnonymousCustomerAddressForm() {
-        $form = new CheckoutAnonymousCustomerAddressForm($this->getController());
-        return $form;
+    public function CheckoutAnonymousCustomerAddressForm() : CheckoutAnonymousCustomerAddressForm
+    {
+        return CheckoutAnonymousCustomerAddressForm::create($this->getController());
     }
     
     /**
@@ -98,8 +100,24 @@ class CheckoutStep2 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function IsAnonymousCheckout() {
+    public function IsAnonymousCheckout() : bool
+    {
         return $this->getCheckout()->getDataValue('IsAnonymousCheckout') === true;
     }
     
+    /**
+     * Returns the rendered step summary.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 13.03.2019
+     */
+    public function StepSummary() : DBHTMLText
+    {
+        return $this->customise([
+            'InvoiceAddress'  => $this->getController()->getInvoiceAddress(),
+            'ShippingAddress' => $this->getController()->getShippingAddress(),
+        ])->renderWith(self::class . '_Summary');
+    }
 }
