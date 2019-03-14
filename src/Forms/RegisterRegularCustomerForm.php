@@ -281,7 +281,7 @@ class RegisterRegularCustomerForm extends CustomForm
         $customer->InvoiceAddressID  = $address->ID;
         $customer->write();
         $this->handleNewsletterRecipient($customer);
-        $this->extend('updateRegisteredCustomer', $customer, $data, $form, $data);
+        $this->extend('updateRegisteredCustomer', $customer, $data, $form);
 
         $redirectTo = $this->getController()->Link('welcome');
         if (array_key_exists('redirect', $data)
