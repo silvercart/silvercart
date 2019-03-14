@@ -4,6 +4,8 @@ namespace SilverCart\Extensions\Forms\FormFields;
 
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormField;
+use SilverStripe\View\SSViewer;
 
 /** 
  * Extension for the default SilverStripe\Forms\FormField.
@@ -15,8 +17,8 @@ use SilverStripe\Forms\Form;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class FormFieldExtension extends Extension {
-    
+class FormFieldExtension extends Extension
+{
     /**
      * Determines whether the field validation failed.
      *
@@ -29,7 +31,8 @@ class FormFieldExtension extends Extension {
      * 
      * @return bool
      */
-    public function getValidationFailed() {
+    public function getValidationFailed() : bool
+    {
         return $this->owner->validationFailed;
     }
 
@@ -38,9 +41,10 @@ class FormFieldExtension extends Extension {
      * 
      * @param bool $validationFailed Validation failed?
      * 
-     * @return $this->owner
+     * @return FormField
      */
-    public function setValidationFailed($validationFailed) {
+    public function setValidationFailed(bool $validationFailed) : FormField
+    {
         $this->owner->validationFailed = $validationFailed;
         return $this->owner;
     }
@@ -50,15 +54,17 @@ class FormFieldExtension extends Extension {
      * 
      * @param string $class CSS class to add
      * 
-     * @return $this->owner
+     * @return FormField
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.07.2018
      */
-    public function addErrorClass($class) {
+    public function addErrorClass(string $class) : FormField
+    {
         $form = $this->owner->getForm();
-        if ($form instanceof Form &&
-            $form->getMessageType() == 'error') {
+        if ($form instanceof Form
+         && $form->getMessageType() == 'error'
+        ) {
             $this->owner->addExtraClass($class);
         }
         return $this->owner;
@@ -74,7 +80,8 @@ class FormFieldExtension extends Extension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2018
      */
-    public function updateAttributes(&$attributes) {
+    public function updateAttributes(&$attributes) : void
+    {
         if (!$this->HasRequiredProperty()) {
             if (array_key_exists('required', $attributes)) {
                 unset($attributes['required']);
@@ -94,20 +101,80 @@ class FormFieldExtension extends Extension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2018
      */
-    public function HasRequiredProperty() {
+    public function HasRequiredProperty() : bool
+    {
+        $has  = false;
         $form = $this->owner->getForm();
-        if (is_object($form) &&
-            ($validator = $form->getValidator())) {
+        /* @var $form Form */
+        if (is_object($form)
+         && ($validator = $form->getValidator())
+        ) {
             $validator = $form->getValidator();
             if (is_object($validator)) {
                 if ($validator->hasMethod('fieldHasRequiredProperty')) {
-                    return $validator->fieldHasRequiredProperty($this->owner->getName());
+                    $has = (bool) $validator->fieldHasRequiredProperty($this->owner->getName());
                 } else {
-                    return $validator->fieldIsRequired($this->owner->getName());
+                    $has = (bool) $validator->fieldIsRequired($this->owner->getName());
                 }
             }
         }
-        return false;
+        return $has;
+    }
+    
+    /**
+     * Generate an array of class name strings to use for rendering this form field into HTML.
+     *
+     * @param string $customTemplate
+     * @param string $customTemplateSuffix
+     *
+     * @return array
+     */
+    protected function _templates(string $customTemplate = null, string $customTemplateSuffix = null) : array
+    {
+        $templates = SSViewer::get_templates_by_class(get_class($this->owner), $customTemplateSuffix);
+        // Prefer any custom template
+        if ($customTemplate) {
+            // Prioritise direct template
+            array_unshift($templates, $customTemplate);
+        }
+        return $templates;
     }
 
+    /**
+     * Returns an array of templates matching with the given $suffix to use for 
+     * rendering.
+     * 
+     * @param string $suffix Template suffix
+     *
+     * @return array
+     */
+    public function getCustomFieldTemplates(string $suffix)
+    {
+        if (strpos($suffix, '_') !== 0) {
+            $suffix = "_{$suffix}";
+        }
+        return $this->_templates(null, $suffix);
+    }
+
+    /**
+     * Returns a "field holder" for this field.
+     *
+     * Forms are constructed by concatenating a number of these field holders.
+     *
+     * The default field holder is a label and a form field inside a div.
+     *
+     * @see FieldHolder.ss
+     *
+     * @param array $properties
+     *
+     * @return DBHTMLText
+     */
+    public function CustomFieldHolder(string $suffix, $properties = [])
+    {
+        $context = $this->owner;
+        if (count($properties)) {
+            $context = $context->customise($properties);
+        }
+        return $context->renderWith($this->getCustomFieldTemplates($suffix));
+    }
 }
