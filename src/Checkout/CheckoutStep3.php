@@ -6,6 +6,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Checkout\CheckoutStep;
 use SilverCart\Forms\Checkout\CheckoutChooseShippingMethodForm;
 use SilverCart\Model\Shipment\ShippingMethod;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Checkout step 3.

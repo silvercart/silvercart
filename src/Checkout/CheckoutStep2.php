@@ -7,6 +7,7 @@ use SilverCart\Forms\AddAddressForm;
 use SilverCart\Forms\Checkout\CheckoutAnonymousCustomerAddressForm;
 use SilverCart\Forms\Checkout\CheckoutRegularCustomerAddressForm;
 use SilverCart\Model\Customer\Customer;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 
 /**

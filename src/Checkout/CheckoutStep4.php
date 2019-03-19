@@ -10,6 +10,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 
