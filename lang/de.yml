@@ -2,8 +2,11 @@ de:
   SilverCart:
     Buy1: "{title} kaufen"
     Buy2: "{title1} {title2} kaufen"
+    Change: "Ändern"
     Go: "Los"
     go: "los"
+    NextPage: "Nächste Seite"
+    PrevPage: "Vorherige Seite"
     Until: "bis"
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     EXECUTE: "Ausführen"
