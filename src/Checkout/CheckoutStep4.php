@@ -55,6 +55,24 @@ class CheckoutStep4 extends CheckoutStep
     protected $skipPaymentStep = null;
     
     /**
+     * Custom checkout step processor.
+     * Will be called for invisible steps.
+     * 
+     * @return void
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.03.2019
+     */
+    public function process() {
+        if (!$this->IsVisible()) {
+            $paymentMethod = $this->getAllowedPaymentMethods()->first();
+            if ($paymentMethod instanceof PaymentMethod) {
+                $this->getCheckout()->addDataValue('PaymentMethod', $paymentMethod->ID);
+            }
+        }
+    }
+    
+    /**
      * Returns the CheckoutChoosePaymentMethodForm.
      * 
      * @return CheckoutChoosePaymentMethodForm
@@ -86,10 +104,11 @@ class CheckoutStep4 extends CheckoutStep
     {
         if (is_null($this->allowedPaymentMethods)) {
             $allowedPaymentMethods = ArrayList::create();
-            $shippingAddressData   = $this->getCheckout()->getDataValue('ShippingAddress');
-            if (array_key_exists('CountryID', $shippingAddressData) &&
-                Customer::currentUser() instanceof Member &&
-                is_numeric($shippingAddressData['CountryID'])) {
+            $shippingAddressData   = (array) $this->getCheckout()->getDataValue('ShippingAddress');
+            if (array_key_exists('CountryID', $shippingAddressData)
+             && Customer::currentUser() instanceof Member
+             && is_numeric($shippingAddressData['CountryID'])
+            ) {
                 $shippingCountry = Country::get()->byID($shippingAddressData['CountryID']);
                 if ($shippingCountry instanceof Country) {
                     $allowedPaymentMethods = PaymentMethod::getAllowedPaymentMethodsFor($shippingCountry, Customer::currentUser()->getCart());
@@ -144,6 +163,20 @@ class CheckoutStep4 extends CheckoutStep
     {
         $this->activePaymentMethods = $activePaymentMethods;
         return $this;
+    }
+    
+    /**
+     * Returns whether this step is visible.
+     * 
+     * @return bool
+     */
+    public function IsVisible() : bool
+    {
+        $isVisible = parent::IsVisible();
+        if ($this->SkipPaymentStep()) {
+            $isVisible = false;
+        }
+        return $isVisible;
     }
 
     /**
