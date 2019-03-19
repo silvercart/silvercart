@@ -628,8 +628,9 @@ class ShoppingCart extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function addToEditableShoppingCartTable() {
-        $addToCartTable = new ArrayList();
+    public function addToEditableShoppingCartTable() : ArrayList
+    {
+        $addToCartTable = ArrayList::create();
         $this->extend('addToEditableShoppingCartTable', $addToCartTable);
         return $addToCartTable;
     }
