@@ -4,13 +4,13 @@ namespace SilverCart\Forms;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Forms\CustomForm;
-use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\Product\Product;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\Validator;
 
 class AddToCartForm extends CustomForm {
@@ -73,7 +73,7 @@ class AddToCartForm extends CustomForm {
             $fields += [
                 HiddenField::create('backLink',  'backLink',  $this->getBackLink()),
                 HiddenField::create('productID', 'productID', $product->ID),
-                TextField::create('productQuantity', $product->fieldLabel('Quantity'), $quantity, $this->getQuantityMaxLength())
+                NumericField::create('productQuantity', $product->fieldLabel('Quantity'), $quantity, $this->getQuantityMaxLength())
             ];
         });
         return parent::getCustomFields();
