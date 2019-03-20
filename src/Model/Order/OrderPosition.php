@@ -8,6 +8,7 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnit;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBMoney;
 
 /**
  * The OrderPosition object.
@@ -245,6 +246,16 @@ class OrderPosition extends DataObject
     public function getPriceTotalNice()
     {
         return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
+    }
+    
+    /**
+     * Returns the tax total value as a money object.
+     * 
+     * @return DBMoney
+     */
+    public function getTaxTotalMoney() : DBMoney
+    {
+        return DBMoney::create()->setAmount($this->TaxTotal)->setCurrency($this->PriceTotal->getCurrency());
     }
 
     /**
