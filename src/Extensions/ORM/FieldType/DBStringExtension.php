@@ -52,4 +52,16 @@ class DBStringExtension extends Extension {
         return $result;
     }
 
+    /**
+     * Returns the raw value without any HTML tags.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.03.2019
+     */
+    public function StripTags() : string
+    {
+        return strip_tags($this->owner->RAW());
+    }
 }
