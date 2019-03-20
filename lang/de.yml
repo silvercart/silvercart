@@ -7,6 +7,8 @@ de:
     go: "los"
     NextPage: "Nächste Seite"
     PrevPage: "Vorherige Seite"
+    ProductAddedToCart: "Der Artikel wurde Ihrem Warenkorb hinzugefügt."
+    ProductRemovedFromCart: "Der Artikel wurde aus Ihrem Warenkorb entfernt."
     Until: "bis"
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
     EXECUTE: "Ausführen"
@@ -2089,3 +2091,8 @@ de:
     FieldMustHaveValue: 'Bitte geben Sie den gleichen Wert ein wie im Feld "{name}".'
     FieldMustNotBeEmail: "Bitte geben Sie hier keine Email Adresse an."
     FieldMustNotContainSpecialSigns: 'Das Feld "{name}" darf nur Buchstaben, Zahlen und die Zeichen "@" und "." enthalten.'
+  SilverCart\Forms\FormFields\TextCheckboxGroupField:
+    Displayed: "Wird angezeigt"
+    NotDisplayed: "Wird nicht angezeigt"
+    ShowTitleLabel: "Wird angezeigt"
+    TitleLabel: "Titel (angezeigt, wenn ausgewählt)"
