@@ -1139,4 +1139,56 @@ class Address extends DataObject implements PermissionProvider {
     {
         return $this->customise(['HeadLine' => $headLine])->renderWith(Address::class);
     }
+    
+    /**
+     * Returns the delete link.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2019
+     */
+    public function DeleteLink() : string
+    {
+        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("deleteAddress/{$this->ID}");
+    }
+    
+    /**
+     * Returns the edit link.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2019
+     */
+    public function EditLink() : string
+    {
+        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("edit/{$this->ID}");
+    }
+    
+    /**
+     * Returns the link to set this address as default invoice address.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2019
+     */
+    public function SetAsInvoiceAddressLink() : string
+    {
+        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("setInvoiceAddress/{$this->ID}");
+    }
+    
+    /**
+     * Returns the link to set this address as default shipping address.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2019
+     */
+    public function SetAsShippingAddressLink() : string
+    {
+        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("setShippingAddress/{$this->ID}");
+    }
 }
