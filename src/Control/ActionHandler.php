@@ -2,6 +2,7 @@
 
 namespace SilverCart\Control;
 
+use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
@@ -45,6 +46,37 @@ class ActionHandler extends Controller
         'decrementPositionQuantity',
         'incrementPositionQuantity',
     ];
+
+    /**
+     * returns a single page by IdentifierCode
+     * used to retrieve links dynamically
+     *
+     * @param string $identifierCode the classes name
+     * 
+     * @return Page|null
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2019
+     */
+    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") : ?Page
+    {
+        return Tools::PageByIdentifierCode($identifierCode);
+    }
+
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 20.03.2019
+     */
+    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") : string
+    {
+        return Tools::PageByIdentifierCodeLink($identifierCode);
+    }
     
     /**
      * Action to add a product to cart.
@@ -61,6 +93,7 @@ class ActionHandler extends Controller
         $isValidRequest = false;
         $backLink       = null;
         $postVars       = $request->postVars();
+        $isAjax         = $request->postVar('isAjax');
         $params         = $request->allParams();
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
@@ -94,7 +127,35 @@ class ActionHandler extends Controller
             }
         }
         
-        $this->redirectBack($backLink, '#product' . $productID);
+        if ($isAjax) {
+            $product              = Product::get()->byID($productID);
+            $totalCartQuantity    = 0;
+            $quantityInCartString = '';
+            $htmlDropdown         = '';
+            $htmlModal            = '';
+            if ($product instanceof Product) {
+                $member               = Customer::currentUser();
+                $totalCartQuantity    = $member->getCart()->getQuantity();
+                $quantityInCartString = $product->getQuantityInCartString();
+                $pageReflection       = new ReflectionClass(Page::class);
+                $cartReflection       = new ReflectionClass(ShoppingCart::class);
+                $htmlDropdown         = (string) $this->renderWith("{$pageReflection->getNamespaceName()}\\Includes\\ShoppingCartDropdown");
+                $htmlModal            = (string) $this->renderWith(ShoppingCart::class . "_AjaxResponse", [
+                    'Product'  => $product,
+                    'Quantity' => $quantity,
+                ]);
+            }
+            $json = [
+                'TotalCartQuantity'    => $totalCartQuantity,
+                'QuantityInCartString' => $quantityInCartString,
+                'HTMLDropdown'         => $htmlDropdown,
+                'HTMLModal'            => $htmlModal,
+            ];
+            print json_encode($json);
+            exit();
+        } else {
+            $this->redirectBack($backLink, '#product' . $productID);
+        }
     }
     
     /**
