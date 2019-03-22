@@ -73,10 +73,10 @@ class CookiePolicyConfig extends DataExtension {
         $layoutSrc   = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigLayout');
         
         $colorGroup = new FieldGroup('ColorGroup', '', $fields);
-        $colorGroup->push(FormField::create('CookiePolicyConfigBgColor', $this->owner->fieldLabel('CookiePolicyConfigBgColor'))->setInputType('color'));
-        $colorGroup->push(FormField::create('CookiePolicyConfigTxtColor', $this->owner->fieldLabel('CookiePolicyConfigTxtColor'))->setInputType('color'));
-        $colorGroup->push(FormField::create('CookiePolicyConfigBtnColor', $this->owner->fieldLabel('CookiePolicyConfigBtnColor'))->setInputType('color'));
-        $colorGroup->push(FormField::create('CookiePolicyConfigBtnTxtColor', $this->owner->fieldLabel('CookiePolicyConfigBtnTxtColor'))->setInputType('color'));
+        $colorGroup->push(TextField::create('CookiePolicyConfigBgColor', $this->owner->fieldLabel('CookiePolicyConfigBgColor'))->setInputType('color'));
+        $colorGroup->push(TextField::create('CookiePolicyConfigTxtColor', $this->owner->fieldLabel('CookiePolicyConfigTxtColor'))->setInputType('color'));
+        $colorGroup->push(TextField::create('CookiePolicyConfigBtnColor', $this->owner->fieldLabel('CookiePolicyConfigBtnColor'))->setInputType('color'));
+        $colorGroup->push(TextField::create('CookiePolicyConfigBtnTxtColor', $this->owner->fieldLabel('CookiePolicyConfigBtnTxtColor'))->setInputType('color'));
         
         $cookyPolicyTab = $fields->findOrMakeTab('Root.CookiePolicy', $this->owner->fieldLabel('CookiePolicy'));
         $cookyPolicyTab->push(CheckboxField::create('CookiePolicyConfigIsActive', $this->owner->fieldLabel('CookiePolicyConfigIsActive')));
