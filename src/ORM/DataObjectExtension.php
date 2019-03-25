@@ -53,21 +53,23 @@ class DataObjectExtension extends DataExtension {
      * Checks whether the current visited page is a child of the context
      * RedirectionPage.
      * 
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.10.2014
      */
-    public function IsRedirectedChild() {
+    public function IsRedirectedChild() : bool
+    {
         $isRedirectedChild = false;
-        if ($this->owner instanceof RedirectorPage &&
-            Controller::curr()->hasMethod('data')) {
+        if ($this->owner instanceof RedirectorPage
+         && Controller::curr()->hasMethod('data')
+        ) {
             if ($this->owner->LinkToID == Controller::curr()->data()->ID) {
                 $isRedirectedChild = true;
             } else {
-                $parentStack = Controller::curr()->data()->parentStack();
-                foreach ($parentStack as $parent) {
-                    if ($this->owner->LinkToID == $parent->ID) {
+                $ancestors = Controller::curr()->data()->getAncestors();
+                foreach ($ancestors as $ancestor) {
+                    if ($this->owner->LinkToID == $ancestor->ID) {
                         $isRedirectedChild = true;
                         break;
                     }
