@@ -466,6 +466,9 @@ class ShopEmail extends DataObject {
         }
         
         Requirements::clear();
+        $frontendThemes = SSViewer::config()->themes;
+        $adminThemes    = SSViewer::get_themes();
+        SSViewer::set_themes($frontendThemes);
         $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(new ArrayData($variables)));
         $variables['ShopEmailSubject'] = $subject;
         $htmlText = $email->customise($variables)->renderWith(['SilverCart/Email/' . $identifier, 'SilverCart/Email/ShopEmail']);
@@ -474,6 +477,7 @@ class ShopEmail extends DataObject {
         } else {
             $plainText = strip_tags($htmlText);
         }
+        SSViewer::set_themes($adminThemes);
         Requirements::restore();
         
         if (empty($plainText)) {
