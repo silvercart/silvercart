@@ -15,7 +15,7 @@ de:
     MARK_ALL: "Alle markieren"
     UNMARK_ALL: "Markierung aufheben"
   SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest:
-    SendChangePasswordEmail: "E-Mail zur passwortänderung senden"
+    SendChangePasswordEmail: "E-Mail zur Passwortänderung senden"
   SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
     DUPLICATE_DESCRIPTION: "Dupliziert dieses Objekt"
     Duplicate: "Duplizieren"
