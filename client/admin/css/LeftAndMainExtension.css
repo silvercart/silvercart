@@ -265,6 +265,12 @@ input[type="color"] {
 .cms-menu__list.collapsed > li:hover ul li {
     display: block !important;
 }
+.cms-menu__list.collapsed .child-flyout-indicator {
+    display: none;
+}
+.cms-menu__list.collapsed-flyout {
+    display: none !important;
+}
 
 .icon.icon-16 {
     background-color: transparent;
