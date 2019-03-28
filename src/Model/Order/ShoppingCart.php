@@ -878,14 +878,16 @@ class ShoppingCart extends DataObject
      *
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutModules() {
-        $amountObj = new DBMoney();
+    public function getTaxableAmountGrossWithoutModules() : DBMoney
+    {
+        $amountObj = DBMoney::create();
         $amount    = 0;
 
-        $modulePositions = $this->getTaxableShoppingcartPositions(array(), array(), false);
+        $modulePositions = $this->getTaxableShoppingcartPositions([], [], false);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
+        $this->extend('updateTaxableAmountGrossWithoutModules', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(Config::DefaultCurrency());
@@ -900,14 +902,16 @@ class ShoppingCart extends DataObject
      *
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutModules() {
-        $amountObj = new DBMoney();
+    public function getTaxableAmountNetWithoutModules() : DBMoney
+    {
+        $amountObj = DBMoney::create();
         $amount    = 0;
 
-        $modulePositions = $this->getTaxableShoppingcartPositions(array(), array(), false);
+        $modulePositions = $this->getTaxableShoppingcartPositions([], [], false);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
+        $this->extend('updateTaxableAmountNetWithoutModules', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(Config::DefaultCurrency());
@@ -926,14 +930,14 @@ class ShoppingCart extends DataObject
      *
      * @return ArrayList
      */
-    public function getTaxableShoppingcartPositions($excludeModules = array(), $excludeShoppingCartPosition = false, $includeModules = true) {
-        $cartPositions = new ArrayList();
-
+    public function getTaxableShoppingcartPositions($excludeModules = array(), $excludeShoppingCartPosition = false, $includeModules = true) : ArrayList
+    {
+        $cartPositions = ArrayList::create();
         if (!is_array($excludeModules)) {
-            $excludeModules = array($excludeModules);
+            $excludeModules = [$excludeModules];
         }
         if (!is_array($excludeShoppingCartPosition)) {
-            $excludeShoppingCartPosition = array($excludeShoppingCartPosition);
+            $excludeShoppingCartPosition = [$excludeShoppingCartPosition];
         }
 
         $cacheHash = md5(
@@ -954,20 +958,20 @@ class ShoppingCart extends DataObject
         if ($includeModules) {
             $registeredModules = $this->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
-                array(
+                [
                     $this,
                     Customer::currentUser(),
                     true,
                     $excludeShoppingCartPosition,
                     false
-                ),
+                ],
                 $excludeModules,
                 $excludeShoppingCartPosition
             );
 
             // Registered Modules
             if ($registeredModules) {
-                foreach ($registeredModules as $moduleName => $modulePositions) {
+                foreach ($registeredModules as $modulePositions) {
                     foreach ($modulePositions as $modulePosition) {
                         $cartPositions->push($modulePosition);
                     }
@@ -990,12 +994,13 @@ class ShoppingCart extends DataObject
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
+    public function getTaxableAmountGrossWithoutFeesAndCharges($excludeModules = [], $excludeShoppingCartPosition = false) : DBMoney
+    {
         if (!is_array($excludeModules)) {
-            $excludeModules = array($excludeModules);
+            $excludeModules = [$excludeModules];
         }
         if (!is_array($excludeShoppingCartPosition)) {
-            $excludeShoppingCartPosition = array($excludeShoppingCartPosition);
+            $excludeShoppingCartPosition = [$excludeShoppingCartPosition];
         }
 
         $cacheHash = md5(
@@ -1008,7 +1013,7 @@ class ShoppingCart extends DataObject
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = new DBMoney();
+        $amountObj = DBMoney::create();
         $amountObj->setCurrency(Config::DefaultCurrency());
         $amount    = 0;
 
@@ -1016,6 +1021,7 @@ class ShoppingCart extends DataObject
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
+        $this->extend('updateTaxableAmountGrossWithoutFeesAndCharges', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
 
@@ -1032,7 +1038,8 @@ class ShoppingCart extends DataObject
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) {
+    public function getTaxableAmountGrossWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) : DBMoney
+    {
         $excludeModules = self::$registeredModules;
         return $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
     }
@@ -1047,12 +1054,13 @@ class ShoppingCart extends DataObject
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
+    public function getTaxableAmountNetWithoutFeesAndCharges($excludeModules = [], $excludeShoppingCartPosition = false) : DBMoney
+    {
         if (!is_array($excludeModules)) {
-            $excludeModules = array($excludeModules);
+            $excludeModules = [$excludeModules];
         }
         if (!is_array($excludeShoppingCartPosition)) {
-            $excludeShoppingCartPosition = array($excludeShoppingCartPosition);
+            $excludeShoppingCartPosition = [$excludeShoppingCartPosition];
         }
 
         $cacheHash = md5(
@@ -1065,13 +1073,14 @@ class ShoppingCart extends DataObject
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = new DBMoney();
+        $amountObj = DBMoney::create();
         $amount    = 0;
 
         $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, true);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
+        $this->extend('updateTaxableAmountNetWithoutFeesAndCharges', $amount, $modulePositions);
 
         $amountObj->setAmount($amount);
 
@@ -1088,7 +1097,8 @@ class ShoppingCart extends DataObject
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) {
+    public function getTaxableAmountNetWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) : DBMoney
+    {
         $excludeModules = self::$registeredModules;
         return $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
     }
@@ -2001,56 +2011,48 @@ class ShoppingCart extends DataObject
      *
      * @return ArrayList
      */
-    public function getTaxRatesWithoutFeesAndCharges($excludeModules = array(), $excludeShoppingCartPosition = false) {
+    public function getTaxRatesWithoutFeesAndCharges($excludeModules = [], $excludeShoppingCartPosition = false) : ArrayList
+    {
         $positions          = $this->ShoppingCartPositions();
-        $taxes              = new ArrayList();
+        $taxes              = ArrayList::create();
         $registeredModules  = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
-            array(
+            [
                 Customer::currentUser()->getCart(),
                 Customer::currentUser(),
                 true
-            ),
+            ],
             $excludeModules,
             $excludeShoppingCartPosition
         );
 
         // products
+        $this->extend('overwritePositionTaxRates', $taxes, $positions);
         foreach ($positions as $position) {
-            $taxRate            = $position->Product()->getTaxRate();
-            $originalTaxRate    = $position->Product()->getTaxRate(true);
-
+            $taxRate         = $position->Product()->getTaxRate();
+            $originalTaxRate = $position->Product()->getTaxRate(true);
             if (!$taxes->find('Rate', $taxRate)) {
-                $taxes->push(
-                    new DataObject(
-                        array(
-                            'Rate'          => $taxRate,
-                            'OriginalRate'  => $originalTaxRate,
-                            'AmountRaw'     => (float) 0.0,
-                        )
-                    )
-                );
+                $taxes->push(ArrayData::create([
+                        'Rate'         => $taxRate,
+                        'OriginalRate' => $originalTaxRate,
+                        'AmountRaw'    => (float) 0.0,
+                ]));
             }
             $taxSection = $taxes->find('Rate', $taxRate);
             $taxSection->AmountRaw += $position->getTaxAmount();
         }
 
         // Registered Modules
-        foreach ($registeredModules as $moduleName => $moduleOutput) {
+        foreach ($registeredModules as $moduleOutput) {
             foreach ($moduleOutput as $modulePosition) {
                 $taxRate = $modulePosition->TaxRate;
                 if (!$taxes->find('Rate', $taxRate)) {
-                    $taxes->push(
-                        new DataObject(
-                            array(
-                                'Rate'          => $taxRate,
-                                'OriginalRate'  => $taxRate,
-                                'AmountRaw'     => (float) 0.0,
-                            )
-                        )
-                    );
+                    $taxes->push(ArrayData::create([
+                        'Rate'         => $taxRate,
+                        'OriginalRate' => $taxRate,
+                        'AmountRaw'    => (float) 0.0,
+                    ]));
                 }
-
                 $taxSection = $taxes->find('Rate', $taxRate);
                 $taxAmount = $modulePosition->TaxAmount;
                 $taxSection->AmountRaw = round($taxSection->AmountRaw + $taxAmount, 4);
@@ -2058,10 +2060,9 @@ class ShoppingCart extends DataObject
         }
 
         foreach ($taxes as $tax) {
-            $taxObj = new DBMoney;
+            $taxObj = DBMoney::create();
             $taxObj->setAmount($tax->AmountRaw);
             $taxObj->setCurrency(Config::DefaultCurrency());
-
             $tax->Amount = $taxObj;
         }
 
