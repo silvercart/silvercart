@@ -2098,13 +2098,14 @@ class Product extends DataObject implements PermissionProvider
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.03.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 02.04.2019
      */
     public static function removeRequiredAttribute($attributeName) : void
     {
         if (in_array($attributeName, self::$requiredAttributes)) {
-            self::$requiredAttributes = array_diff($attributeName, array_slice(self::$requiredAttributes, 0));
+            $key = array_search($attributeName, self::$requiredAttributes);
+            unset(self::$requiredAttributes[$key]);
         }
     }
 
