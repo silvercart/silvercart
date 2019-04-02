@@ -10,6 +10,12 @@ SilverStripe\Forms\CheckboxSetField:
 SilverStripe\Forms\FormField:
   extensions:
     - SilverCart\Extensions\Forms\FormFields\FormFieldExtension
+SilverStripe\ORM\ArrayList:
+    extensions:
+        - SilverCart\Extensions\ORM\SS_ListExtension
+SilverStripe\ORM\DataList:
+    extensions:
+        - SilverCart\Extensions\ORM\SS_ListExtension
 SilverStripe\ORM\DataObject:
   extensions:
     - SilverCart\ORM\DataObjectExtension
