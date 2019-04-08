@@ -1942,7 +1942,7 @@ class Product extends DataObject implements PermissionProvider
         $price     = $this->getPrice();
 
         if ($price) {
-            $priceNice = $price->Nice();
+            $priceNice = $this->renderWith(self::class . '_PriceNice');
         }
         $this->extend('updatePriceNice', $priceNice);
 
@@ -2159,19 +2159,20 @@ class Product extends DataObject implements PermissionProvider
      */
     public function addToCart($cartID, $quantity = 1, $increment = false) : ?ShoppingCartPosition
     {
-        $addToCartAllowed = true;
-        $isNewPosition    = false;
-        $positionNotice   = null;
+        $addToCartAllowed     = true;
+        $isNewPosition        = false;
+        $positionNotice       = null;
+        $shoppingCartPosition = null;
 
-        $this->extend('updateAddToCart', $addToCartAllowed);
+        $this->extend('updateAddToCart', $cartID, $quantity, $increment, $addToCartAllowed, $shoppingCartPosition);
         
         if ($this->IsNotBuyable
-         || ($quantity == 0
-          || $cartID == 0)
+         || $quantity == 0
+         || $cartID == 0
          || !$addToCartAllowed
          || !$this->isBuyableDueToStockManagementSettings()
         ) {
-            return false;
+            return $shoppingCartPosition;
         }
 
         $shoppingCartPosition = ShoppingCartPosition::get()->filter([
@@ -3898,6 +3899,70 @@ class Product extends DataObject implements PermissionProvider
     {
         $content = '';
         $this->extend('updateAfterOutOfStockNotificationContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert right after the nice price is 
+     * rendered.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function AfterPriceNiceContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterPriceNiceContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert right after the add to cart AJAX 
+     * response default product content.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2018
+     */
+    public function AfterShoppingCartAjaxResponseContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterShoppingCartAjaxResponseContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert right before the nice price is 
+     * rendered.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function BeforePriceNiceContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforePriceNiceContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert right before the add to cart AJAX 
+     * response default product content.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.04.2018
+     */
+    public function BeforeShoppingCartAjaxResponseContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforeShoppingCartAjaxResponseContent', $content);
         return Tools::string2html($content);
     }
     

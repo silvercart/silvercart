@@ -1,0 +1,1 @@
+{$BeforePriceNiceContent}{$Price.Nice}{$AfterPriceNiceContent}
