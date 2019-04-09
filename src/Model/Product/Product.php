@@ -2245,7 +2245,7 @@ class Product extends DataObject implements PermissionProvider
         if ($this->getPositionInCart($cartID) instanceof ShoppingCartPosition) {
             $isInCart = true;
         }
-        $this->extend('updateIsInCart', $isInCart);
+        $this->extend('updateIsInCart', $isInCart, $cartID);
         return $isInCart;
     }
     
