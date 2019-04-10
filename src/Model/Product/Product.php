@@ -2293,17 +2293,18 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return ShoppingCartPosition
      */
-    public function getPositionInCart($cartID = null) : ?ShoppingCartPosition
+    public function getPositionInCart(int $cartID = null) : ?ShoppingCartPosition
     {
-        if (is_null($cartID) &&
-            Customer::currentUser() instanceof Member) {
+        if (is_null($cartID)
+         && Customer::currentUser() instanceof Member
+        ) {
             $cartID = Customer::currentUser()->getCart()->ID;
         }
         if (!array_key_exists($cartID, $this->positionInCart)) {
-            $this->positionInCart[$cartID] = ShoppingCartPosition::get()->filter(array(
-                'ProductID' => $this->ID,
+            $this->positionInCart[$cartID] = ShoppingCartPosition::get()->filter([
+                'ProductID'      => $this->ID,
                 'ShoppingCartID' => $cartID,
-            ))->first();
+            ])->first();
             $this->extend('updatePositionInCart', $this->positionInCart[$cartID]);
         }
         return $this->positionInCart[$cartID];
@@ -3963,6 +3964,22 @@ class Product extends DataObject implements PermissionProvider
     {
         $content = '';
         $this->extend('updateBeforeShoppingCartAjaxResponseContent', $content);
+        return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns optional content to insert instead of the original the add to cart
+     * AJAX response default product content.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 10.04.2018
+     */
+    public function OverwriteShoppingCartAjaxResponseContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateOverwriteShoppingCartAjaxResponseContent', $content);
         return Tools::string2html($content);
     }
     

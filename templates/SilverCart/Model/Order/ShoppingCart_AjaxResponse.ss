@@ -12,7 +12,11 @@
             <div class="modal-body">
             <% with $Product %>
                 {$BeforeShoppingCartAjaxResponseContent}
-                <% include SilverCart\Model\Order\ShoppingCart_AjaxResponse_Position %>
+                <% if $OverwriteShoppingCartAjaxResponseContent %>
+                    {$OverwriteShoppingCartAjaxResponseContent}
+                <% else %>
+                    <% include SilverCart\Model\Order\ShoppingCart_AjaxResponse_Position %>
+                <% end_if %>
                 {$AfterShoppingCartAjaxResponseContent}
             <% end_with %>
             </div>
