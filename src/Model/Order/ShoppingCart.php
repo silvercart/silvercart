@@ -608,6 +608,11 @@ class ShoppingCart extends DataObject
         } elseif ($member instanceof Member) {
             $cart       = $member->getCart();
             $position   = $cart->ShoppingCartPositions()->filter('ProductID', $data['productID'])->first();
+            $product    = Product::get()->byID($data['productID']);
+            if ($product instanceof Product) {
+                $cartID = $cart->ID;
+                $product->extend('updateRemoveFromCart', $cartID);
+            }
             if ($position instanceof ShoppingCartPosition) {
                 $position->delete();
                 $error = false;
