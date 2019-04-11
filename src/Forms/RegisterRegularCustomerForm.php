@@ -80,6 +80,12 @@ class RegisterRegularCustomerForm extends CustomForm
      * @var string
      */
     protected $backLink = '';
+    /**
+     * Holds the registered Member.
+     *
+     * @var Member
+     */
+    protected $customer = '';
 
     /**
      * Returns the required fields.
@@ -259,6 +265,7 @@ class RegisterRegularCustomerForm extends CustomForm
         $customer = $this->handleAnonymousCustomer()->castedUpdate($data);
         $customer->write();
         $customer->changePassword($data['Password']);
+        $this->setCustomer($customer);
         Member::password_validator()->checkHistoricalPasswords(0);
 
         $customerGroup = $this->getTargetCustomerGroup($data);
@@ -415,9 +422,19 @@ class RegisterRegularCustomerForm extends CustomForm
      * 
      * @return string
      */
-    public function getBackLink()
+    public function getBackLink() : string
     {
         return $this->backLink;
+    }
+    
+    /**
+     * Returns the customer or NULL.
+     * 
+     * @return Member|null
+     */
+    public function getCustomer() : ?Member
+    {
+        return $this->customer;
     }
 
     /**
@@ -427,8 +444,22 @@ class RegisterRegularCustomerForm extends CustomForm
      * 
      * @return void
      */
-    public function setBackLink($backLink)
+    public function setBackLink($backLink) : RegisterRegularCustomerForm
     {
         $this->backLink = $backLink;
+        return $this;
+    }
+    
+    /**
+     * Sets the customer.
+     * 
+     * @param Member $customer Customer
+     * 
+     * @return \SilverCart\Forms\RegisterRegularCustomerForm
+     */
+    public function setCustomer(Member $customer) : RegisterRegularCustomerForm
+    {
+        $this->customer = $customer;
+        return $this;
     }
 }
