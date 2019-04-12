@@ -150,13 +150,13 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      *
      * @var string
      */
-    public static $default_customer_group_code = self::GROUP_CODE_B2C;
+    private static $default_customer_group_code = self::GROUP_CODE_B2C;
     /**
      * Code of default B2B customer group
      *
      * @var string
      */
-    public static $default_customer_group_code_b2b = self::GROUP_CODE_B2B;
+    private static $default_customer_group_code_b2b = self::GROUP_CODE_B2B;
     /**
      * List of codes of valid customer group.
      *
@@ -726,7 +726,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      * @since 08.04.2014
      */
     public static function default_customer_group_code() {
-        return self::$default_customer_group_code;
+        return Member::config()->default_customer_group_code;
     }
     
     /**
@@ -738,7 +738,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      * @since 08.04.2014
      */
     public static function default_customer_group_code_b2b() {
-        return self::$default_customer_group_code_b2b;
+        return Member::config()->default_customer_group_code_b2b;
     }
     
     /**
