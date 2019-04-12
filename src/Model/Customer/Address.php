@@ -46,7 +46,7 @@ class Address extends DataObject implements PermissionProvider {
     private static $db = array(
         'TaxIdNumber'       => 'Varchar(30)',
         'Company'           => 'Varchar(255)',
-        'Salutation'        => 'Enum("Herr,Frau","Herr")',
+        'Salutation'        => 'Enum(",Herr,Frau","")',
         'AcademicTitle'     => 'Varchar(50)',
         'FirstName'         => 'Varchar(50)',
         'Surname'           => 'Varchar(50)',
