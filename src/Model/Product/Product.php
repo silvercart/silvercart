@@ -2388,6 +2388,32 @@ class Product extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns whether this product is in the given group.
+     * 
+     * @param ProductGroupPage $group Group to check.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.04.2019
+     */
+    public function isInGroup(ProductGroupPage $group) : bool
+    {
+        $is = false;
+        $groupToCrawl = $this->ProductGroup();
+        do {
+            if ($groupToCrawl->ID == $group->ID) {
+                $is = true;
+            } else {
+                $groupToCrawl = $groupToCrawl->Parent();
+            }
+        } while ($groupToCrawl->exists()
+              && $groupToCrawl instanceof ProductGroupPage
+              && !$is);
+        return $is;
+    }
+    
+    /**
      * Builds the product link with the given parameters.
      * 
      * @param ProductGroupPage $productGroup Base object to build the link
