@@ -177,67 +177,51 @@ class ShoppingCart extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function __construct($record = null, $isSingleton = false) {
+    public function __construct($record = null, $isSingleton = false)
+    {
         parent::__construct($record, $isSingleton);
         if ($this->ID > 0) {
-            if (!Tools::isIsolatedEnvironment() &&
-                !Tools::isBackendEnvironment()) {
-
-                if (!self::$cartCleaningFinished && 
-                    !self::$cartCleaningInProgress) {
+            if (!Tools::isIsolatedEnvironment()
+             && !Tools::isBackendEnvironment()
+            ) {
+                if (!self::$cartCleaningFinished
+                 && !self::$cartCleaningInProgress
+                ) {
                     self::$cartCleaningInProgress = true;
-
                     $this->cleanUp();
                 }
-
                 $this->ShippingMethodID = 0;
-                $this->PaymentMethodID = 0;
-
-                $currentUser = Security::getCurrentUser();
-                if ($currentUser instanceof Member &&
-                    self::$loadModules) {
-
-                    $this->callMethodOnRegisteredModules(
-                        'performShoppingCartConditionsCheck',
-                        array(
-                            $this,
-                            $currentUser
-                        )
-                    );
-
-                    $this->callMethodOnRegisteredModules(
-                        'ShoppingCartInit',
-                        array($this)
-                    );
+                $this->PaymentMethodID  = 0;
+                $currentUser            = Security::getCurrentUser();
+                if ($currentUser instanceof Member
+                 && self::$loadModules
+                ) {
+                    $this->callMethodOnRegisteredModules('performShoppingCartConditionsCheck', [
+                        $this,
+                        $currentUser,
+                    ]);
+                    $this->callMethodOnRegisteredModules('ShoppingCartInit', [$this]);
                 }
             }
         }
     }
 
     /**
-     * Deletes all shopping cart positions without a product association.
+     * Deletes all shopping cart positions without a product association or with a
+     * quantity of 0.
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 30.11.2012
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.04.2019
      */
-    protected function cleanUp() {
-        $positionTable = Tools::get_table_name(ShoppingCartPosition::class);
-        $positionIds   = DB::query(
-            sprintf(
-                "SELECT ID FROM %s WHERE
-                    %s.ShoppingCartID = %d AND
-                    ProductID = 0",
-                $positionTable,
-                $positionTable,
-                $this->ID
-            )
-        );
-
-        if ($positionIds) {
-            foreach ($positionIds as $positionId) {
-                $position = ShoppingCartPosition::get()->byID($positionId);
+    protected function cleanUp() : void
+    {
+        $positionTable = ShoppingCartPosition::config()->table_name;
+        $positionIDs   = DB::query("SELECT ID FROM {$positionTable} WHERE {$positionTable}.ShoppingCartID = {$this->ID} AND (ProductID = 0 OR Quantity = 0)");
+        if ($positionIDs->numRecords() > 0) {
+            foreach ($positionIDs as $positionID) {
+                $position = ShoppingCartPosition::get()->byID($positionID);
                 $position->delete();
             }
         }
