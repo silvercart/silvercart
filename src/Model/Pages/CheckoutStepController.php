@@ -45,6 +45,12 @@ class CheckoutStepController extends \PageController {
         'AddAddressForm',
         'EditAddressForm',
     ];
+    /**
+     * Allowed thanks actions.
+     *
+     * @var array
+     */
+    private static $allowed_thanks_actions = [];
 
     /**
      * Checkout.
@@ -82,7 +88,9 @@ class CheckoutStepController extends \PageController {
             if (empty($action)) {
                 $this->redirect($this->Link('step/' . $currentStepNumber));
             }
-        } elseif ($this->getRequest()->param('Action') != 'thanks') {
+        } elseif ($this->getRequest()->param('Action') != 'thanks'
+               && !in_array($this->getRequest()->param('Action'), $this->config()->allowed_thanks_actions)
+        ) {
             $cartPage = Tools::PageByIdentifierCode('SilvercartCartPage');
             $this->redirect($cartPage->Link());
         }
