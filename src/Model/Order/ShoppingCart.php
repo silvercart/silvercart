@@ -1185,24 +1185,25 @@ class ShoppingCart extends DataObject
      *
      * @return DBMoney
      *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.01.2013
+     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 18.04.2019
      */
-    public function HandlingCostPayment() {
+    public function HandlingCostPayment() : DBMoney
+    {
         $paymentMethod = $this->getPaymentMethod();
-
-        if ($paymentMethod instanceof PaymentMethod &&
-            $paymentMethod->exists()) {
+        if ($paymentMethod instanceof PaymentMethod
+         && $paymentMethod->exists()
+         && $paymentMethod->getHandlingCost() instanceof HandlingCost
+        ) {
             $handlingCostPayment = $paymentMethod->getHandlingCost();
         } else {
-            $paymentDefaultCost = new DBMoney();
+            $paymentDefaultCost = DBMoney::create();
             $paymentDefaultCost->setAmount(0);
             $paymentDefaultCost->setCurrency(Config::DefaultCurrency());
-
-            $handlingCostPayment = new HandlingCost();
+            $handlingCostPayment = HandlingCost::create();
             $handlingCostPayment->amount = $paymentDefaultCost;
         }
-
         return $handlingCostPayment->amount;
     }
 
