@@ -356,9 +356,11 @@ class ActionHandler extends Controller
         if (array_key_exists('Remember', $postVars)) {
             $rememberMe = $postVars['Remember'];
         }
-        $member = Member::get()->filter('Email', $emailAddress)->first();
-
-        if ($member instanceof Member
+        $member   = Member::get()->filter('Email', $emailAddress)->first();
+        $canLogin = true;
+        $this->extend('updateCanLogin', $canLogin, $member);
+        if ($canLogin
+         && $member instanceof Member
          && $member->exists()
         ) {
             $authenticator = new MemberAuthenticator();
