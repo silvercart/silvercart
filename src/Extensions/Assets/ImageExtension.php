@@ -78,6 +78,19 @@ class ImageExtension extends DataExtension
     }
     
     /**
+     * Will publish the related file right after uploading.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 29.04.2019
+     */
+    public function onAfterUpload() : void
+    {
+        $this->owner->publishFile();
+    }
+    
+    /**
      * Returns the nicely formatted Price of the product.
      * 
      * @param int $width  width
