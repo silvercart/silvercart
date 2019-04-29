@@ -1555,7 +1555,7 @@ de:
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronNotInstalledDescription: |
         Die Installation des Artikelbild-Imports wurde noch nicht vollständig abgeschlossen.
-        Bitte fügen Sie das dafür notwendige Programm (`sake ProductImageImporter/doImport`) zu den Zeitgesteuerten Aufgaben Ihres Servers hinzu.
+        Bitte fügen Sie das dafür notwendige Programm (`sake dev/tasks/sc-image-importer`) zu den Zeitgesteuerten Aufgaben Ihres Servers hinzu.
         Wenden Sie sich für weitere Details an Ihren Shop-Betreuer.
     CronNotInstalledTitle: "Achtung"
     CronIsRunningDescription: "Der Artikelbild-Import wird in diesem Moment durchgeführt."

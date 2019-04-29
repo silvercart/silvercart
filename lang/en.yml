@@ -1555,7 +1555,7 @@ en:
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronNotInstalledDescription: |
         The installation of the product image import is not finished yet.
-        Please add the required program (`sake ProductImageImporter/doImport`) to your server systems cronjobs.
+        Please add the required program (`sake dev/tasks/sc-image-importer`) to your server systems cronjobs.
         Ask your system provider for further support.
     CronNotInstalledTitle: "Caution"
     CronIsRunningDescription: "The product image import is currently running."

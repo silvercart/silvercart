@@ -3,7 +3,7 @@
 namespace SilverCart\Admin\Controllers;
 
 use SilverCart\Admin\Controllers\LeftAndMain;
-use SilverCart\Admin\Dev\ProductImageImporter;
+use SilverCart\Admin\Dev\Tasks\ProductImageImportTask;
 use SilverCart\Admin\Forms\AlertDangerField;
 use SilverCart\Admin\Forms\AlertInfoField;
 use SilverCart\Admin\Forms\AlertSuccessField;
@@ -23,29 +23,26 @@ use SilverStripe\Forms\Form;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class ProductImageAdmin extends LeftAndMain {
-
+class ProductImageAdmin extends LeftAndMain
+{
     /**
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
      */
     private static $menuCode = 'products';
-
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
     private static $menuSortIndex = 11;
-
     /**
      * The URL segment
      *
      * @var string
      */
     private static $url_segment = 'silvercart-product-images';
-
     /**
      * The menu title
      *
@@ -61,35 +58,36 @@ class ProductImageAdmin extends LeftAndMain {
      * 
      * @return Form
      */
-    public function getEditForm($id = null, $fields = null) {
-        $fields  = new FieldList();
-        $actions = new FieldList();
+    public function getEditForm($id = null, $fields = null) : Form
+    {
+        $fields  = FieldList::create();
+        $actions = FieldList::create();
         
         $desc = _t(ProductImageAdmin::class . '.Description', 'Description');
         
-        $descriptionField = new AlertInfoField('ProductImagesDescription', $desc);
-        $uploadField      = new UploadField('ProductImages', _t(ProductImageAdmin::class . '.UploadProductImages', 'Upload product images'));
-        $uploadField->setFolderName(ProductImageImporter::get_relative_upload_folder());
+        $descriptionField = AlertInfoField::create('ProductImagesDescription', $desc);
+        $uploadField      = UploadField::create('ProductImages', _t(ProductImageAdmin::class . '.UploadProductImages', 'Upload product images'));
+        $uploadField->setFolderName(ProductImageImportTask::get_relative_upload_folder());
         
         $fields->push($uploadField);
         $fields->push($descriptionField);
         
-        if (!ProductImageImporter::is_installed()) {
+        if (!ProductImageImportTask::is_installed()) {
             $cronTitle = _t(ProductImageAdmin::class . '.CronNotInstalledTitle', 'Caution') . ':';
             $cron = _t(ProductImageAdmin::class . '.CronNotInstalledDescription', 'The installation of the product image import is not finished yet.');
-            $cronjobInfoField = new AlertDangerField('ProductImagesCronjobInfo', $cron, $cronTitle);
+            $cronjobInfoField = AlertDangerField::create('ProductImagesCronjobInfo', $cron, $cronTitle);
             $fields->insertAfter('ProductImages', $cronjobInfoField);
-        } elseif (ProductImageImporter::is_running()) {
+        } elseif (ProductImageImportTask::is_running()) {
             $cronTitle = _t(ProductImageAdmin::class . '.CronIsRunningTitle', 'Caution') . ':';
             $cron = _t(ProductImageAdmin::class . '.CronIsRunningDescription', 'The product image import is currently running.');
-            $cronjobInfoField = new AlertSuccessField('ProductImagesCronjobInfo', $cron, $cronTitle);
+            $cronjobInfoField = AlertSuccessField::create('ProductImagesCronjobInfo', $cron, $cronTitle);
             $fields->insertAfter('ProductImages', $cronjobInfoField);
         }
         
         $uploadedFiles     = $this->getUploadedFiles();
         if (count($uploadedFiles) > 0) {
             $uploadedFilesInfo = PHP_EOL . implode(PHP_EOL, $uploadedFiles);
-            $fileInfoField = new AlertWarningField('ProductImagesFileInfo', $uploadedFilesInfo, _t(ProductImageAdmin::class . '.FileInfoTitle', 'The following product images are not handled yet:'));
+            $fileInfoField = AlertWarningField::create('ProductImagesFileInfo', $uploadedFilesInfo, _t(ProductImageAdmin::class . '.FileInfoTitle', 'The following product images are not handled yet:'));
             $fields->insertAfter('ProductImages', $fileInfoField);
         }
         
@@ -115,17 +113,18 @@ class ProductImageAdmin extends LeftAndMain {
      * 
      * @return array
      */
-    protected function getUploadedFiles() {
-        $files  = array();
-        $ignore = array(
+    protected function getUploadedFiles() : array
+    {
+        $files  = [];
+        $ignore = [
             '.',
             '..',
             '_resampled',
-            ProductImageImporter::get_import_is_installed_file_name(),
-            ProductImageImporter::get_import_is_running_file_name(),
-        );
-        $dir = ProductImageImporter::get_absolute_upload_folder();
-        Folder::find_or_make(ProductImageImporter::get_relative_upload_folder());
+            ProductImageImportTask::get_import_is_installed_file_name(),
+            ProductImageImportTask::get_import_is_running_file_name(),
+        ];
+        $dir = ProductImageImportTask::get_absolute_upload_folder();
+        Folder::find_or_make(ProductImageImportTask::get_relative_upload_folder());
         if (is_dir($dir)) {
             if ($handle = opendir($dir)) {
                 while (false !== ($entry = readdir($handle))) {

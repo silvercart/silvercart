@@ -2,8 +2,8 @@
 
 namespace SilverCart\Admin\Dev\Tasks;
 
-use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Product\Image as SilverCartImage;
 use SilverStripe\Assets\FileNameFilter;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
@@ -21,15 +21,15 @@ use SilverStripe\Dev\BuildTask;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class ProductImageImportTask extends BuildTask {
-
+class ProductImageImportTask extends BuildTask
+{
+    use \SilverCart\Dev\CLITask;
     /**
      * Set a custom url segment (to follow dev/tasks/)
      *
      * @var string
      */
     private static $segment = 'sc-image-importer';
-
     /**
      * Shown in the overview on the {@link TaskRunner}.
      * HTML or CLI interface. Should be short and concise, no HTML allowed.
@@ -37,7 +37,6 @@ class ProductImageImportTask extends BuildTask {
      * @var string
      */
     protected $title = 'Import SilverCart Product Images';
-
     /**
      * Describe the implications the task has, and the changes it makes. Accepts 
      * HTML formatting.
@@ -68,14 +67,12 @@ class ProductImageImportTask extends BuildTask {
      * @var string
      */
     private static $relative_upload_folder = 'unassigned-product-images';
-    
     /**
      * Name of the temporary file that determines a running import process.
      *
      * @var string
      */
     private static $import_is_running_file_name = '.scpii-is-running';
-    
     /**
      * Name of the file that determines that the script installation is
      * completed.
@@ -83,7 +80,6 @@ class ProductImageImportTask extends BuildTask {
      * @var string
      */
     private static $import_is_installed_file_name = '.scpii-is-installed';
-    
     /**
      * Character to use to separate the prduct number and image name.
      *
@@ -98,19 +94,21 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return void
      */
-    public function run($request) {
+    public function run($request) : void
+    {
+        self::$log_file_name = 'ProductImageImportTask';
         if (self::is_running()) {
             return;
         }
         $this->markAsInstalled();
         $this->markAsRunning();
         
-        $uploadedFiles = $this->getUploadedFiles();
+        $importedImagesCount = 0;
+        $found               = [];
+        $notFound            = [];
+        $uploadedFiles       = $this->getUploadedFiles();
         if (count($uploadedFiles) > 0) {
             $imageData = [];
-            $found     = [];
-            $notFound  = [];
-            $importedImagesCount = 0;
             foreach ($uploadedFiles as $uploadedFile) {
                 $consecutiveNumber = 1;
                 $nameWithoutEnding = strrev(substr(strrev($uploadedFile), strpos(strrev($uploadedFile), '.') + 1));
@@ -129,18 +127,19 @@ class ProductImageImportTask extends BuildTask {
                 }
                 
                 if (!array_key_exists($productnumber, $imageData)) {
-                    $imageData[$productnumber] = array();
+                    $imageData[$productnumber] = [];
                 }
-                $imageData[$productnumber][$consecutiveNumber] = array(
+                $imageData[$productnumber][$consecutiveNumber] = [
                     'filename'    => $uploadedFile,
                     'description' => $description,
-                );
+                ];
             }
             
             foreach ($imageData as $productnumber => $data) {
                 $product = Product::get_by_product_number($productnumber);
-                if ($product instanceof Product &&
-                    $product->exists()) {
+                if ($product instanceof Product
+                 && $product->exists()
+                ) {
                     $found[] = $productnumber;
                     $this->deleteExistingImages($product);
                     ksort($data);
@@ -154,14 +153,12 @@ class ProductImageImportTask extends BuildTask {
             }
         }
 
-        Tools::Log('INFO', 'imported ' . $importedImagesCount . ' images for ' . count($found) . ' products.', 'ProductImageImporter');
-        Tools::Log('INFO', 'did not find ' . count($notFound) . ' products.', 'ProductImageImporter');
-        Tools::Log('INFO', '- product numbers: ' . implode(', ', $notFound), 'ProductImageImporter');
-        Tools::Log('INFO', '', 'ProductImageImporter');
-        Tools::Log('INFO', '', 'ProductImageImporter');
-        Tools::Log('INFO', '', 'ProductImageImporter');
+        $this->Log('INFO', 'imported ' . $importedImagesCount . ' images for ' . count($found) . ' products.');
+        $this->Log('INFO', 'did not find ' . count($notFound) . ' products.');
+        $this->Log('INFO', '- product numbers: ' . implode(', ', $notFound));
+        $this->Log('INFO', '');
+        $this->Log('INFO', '');
 
-        
         $this->unmarkAsRunning();
     }
     
@@ -173,7 +170,8 @@ class ProductImageImportTask extends BuildTask {
      * @param string  $description       Description
      * @param int     $consecutiveNumber Consecutive number
      */
-    protected function addNewImage(Product $product, $filename, $description, $consecutiveNumber) {
+    protected function addNewImage(Product $product, string $filename, string $description, int $consecutiveNumber) : void
+    {
         $fileEnding     = strrev(substr(strrev($filename), 0, strpos(strrev($filename), '.')));
 		$nameFilter     = FileNameFilter::create();
         $targetFilename = $product->ProductNumberShop . '-' . $nameFilter->filter($product->Title) . '-' . $consecutiveNumber . '.' . $fileEnding;
@@ -183,12 +181,12 @@ class ProductImageImportTask extends BuildTask {
 
         rename($originalFile, $targetFile);
 
-        $image = new Image();
+        $image = Image::create();
         $image->Name     = basename($targetFilename);
         $image->ParentID = $parentFolder->ID;
         $image->write();
         
-        $silvercartImage = new \SilverCart\Model\Product\Image();
+        $silvercartImage = SilverCartImage::create();
         $silvercartImage->ImageID = $image->ID;
         $silvercartImage->Title   = $description;
         $silvercartImage->write();
@@ -206,7 +204,8 @@ class ProductImageImportTask extends BuildTask {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.07.2016
      */
-    protected function deleteExistingImages(Product $product) {
+    protected function deleteExistingImages(Product $product) : void
+    {
         foreach ($product->Images() as $existingImage) {
             /* @var $existingImage SilverCart\Model\Product\Image */
             $existingImage->delete();
@@ -218,16 +217,20 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return array
      */
-    protected function getUploadedFiles() {
-        $files  = array();
-        $ignore = array(
+    protected function getUploadedFiles() : array
+    {
+        $files  = [];
+        $ignore = [
             '.',
             '..',
             '_resampled',
             self::get_import_is_installed_file_name(),
             self::get_import_is_running_file_name(),
-        );
+        ];
         $dir = self::get_absolute_upload_folder();
+        if (!is_dir($dir)) {
+            mkdir($dir);
+        }
         if ($handle = opendir($dir)) {
             while (false !== ($entry = readdir($handle))) {
                 if (in_array($entry, $ignore)) {
@@ -249,7 +252,8 @@ class ProductImageImportTask extends BuildTask {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.07.2016
      */
-    protected function markAsInstalled() {
+    protected function markAsInstalled() : void
+    {
         file_put_contents(self::get_import_is_installed_file_path(), '1');
     }
     
@@ -261,7 +265,8 @@ class ProductImageImportTask extends BuildTask {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.07.2016
      */
-    protected function markAsRunning() {
+    protected function markAsRunning() : void
+    {
         file_put_contents(self::get_import_is_running_file_path(), '1');
     }
     
@@ -273,7 +278,8 @@ class ProductImageImportTask extends BuildTask {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.07.2016
      */
-    protected function unmarkAsRunning() {
+    protected function unmarkAsRunning() : void
+    {
         unlink(self::get_import_is_running_file_path());
     }
 
@@ -282,7 +288,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_import_source_path() {
+    public static function get_import_source_path() : string
+    {
         return Director::baseFolder();
     }
     
@@ -291,7 +298,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_import_is_running_file_name() {
+    public static function get_import_is_running_file_name() : string
+    {
         return self::$import_is_running_file_name;
     }
     
@@ -300,7 +308,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_import_is_running_file_path() {
+    public static function get_import_is_running_file_path() : string
+    {
         return self::get_import_source_path() . DIRECTORY_SEPARATOR . self::get_import_is_running_file_name();
     }
     
@@ -310,7 +319,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_import_is_installed_file_name() {
+    public static function get_import_is_installed_file_name() : string
+    {
         return self::$import_is_installed_file_name;
     }
     
@@ -320,7 +330,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_import_is_installed_file_path() {
+    public static function get_import_is_installed_file_path() : string
+    {
         return self::get_import_source_path() . DIRECTORY_SEPARATOR . self::get_import_is_installed_file_name();
     }
     
@@ -329,7 +340,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return bool
      */
-    public static function is_installed() {
+    public static function is_installed() : bool
+    {
         return file_exists(self::get_import_is_installed_file_path());
     }
     
@@ -338,7 +350,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return bool
      */
-    public static function is_running() {
+    public static function is_running() : bool
+    {
         return file_exists(self::get_import_is_running_file_path());
     }
     
@@ -347,7 +360,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_absolute_upload_folder() {
+    public static function get_absolute_upload_folder() : string
+    {
         return Director::publicFolder() . '/assets/' . self::$relative_upload_folder;
     }
     
@@ -356,7 +370,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_absolute_product_image_folder() {
+    public static function get_absolute_product_image_folder() : string
+    {
         return Director::publicFolder() . '/assets/' . Product::DEFAULT_IMAGE_FOLDER;
     }
     
@@ -365,7 +380,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_relative_upload_folder() {
+    public static function get_relative_upload_folder() : string
+    {
         return self::$relative_upload_folder;
     }
     
@@ -376,7 +392,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return void
      */
-    public static function set_relative_upload_folder($relative_upload_folder) {
+    public static function set_relative_upload_folder($relative_upload_folder) : void
+    {
         self::$relative_upload_folder = $relative_upload_folder;
     }
     
@@ -385,7 +402,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return string
      */
-    public static function get_image_name_separator() {
+    public static function get_image_name_separator() : string
+    {
         return self::$image_name_separator;
     }
     
@@ -396,8 +414,8 @@ class ProductImageImportTask extends BuildTask {
      * 
      * @return void
      */
-    public static function set_image_name_separator($image_name_separator) {
+    public static function set_image_name_separator($image_name_separator) : void
+    {
         self::$image_name_separator = $image_name_separator;
     }
-
 }
