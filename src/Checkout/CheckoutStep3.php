@@ -114,7 +114,11 @@ class CheckoutStep3 extends CheckoutStep
      */
     public function getShippingAddress() : ?Address
     {
-        $shippingAddress = $this->getController()->getShippingAddress();
+        $shippingAddress = false;
+        $ctrl            = $this->getController();
+        if ($ctrl->hasMethod('getShippingAddress')) {
+            $shippingAddress = $ctrl->getShippingAddress();
+        }
         if ($shippingAddress === false) {
             $shippingAddress = null;
             $customer        = Customer::currentRegisteredCustomer();
