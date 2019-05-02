@@ -83,11 +83,11 @@ class ImageExtension extends DataExtension
      * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.04.2019
+     * @since 02.05.2019
      */
     public function onAfterUpload() : void
     {
-        $this->owner->publishFile();
+        $this->owner->publishRecursive();
     }
     
     /**
