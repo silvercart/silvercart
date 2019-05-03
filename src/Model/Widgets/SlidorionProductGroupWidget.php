@@ -183,7 +183,9 @@ class SlidorionProductGroupWidget extends Widget {
         $imageTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
         $imageTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $imageTable->getConfig()->addComponent(new GridFieldDeleteAction());
-        if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
+        if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
+            $imageTable->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('Sort'));
+        } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
             $imageTable->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('Sort'));
         }
         

@@ -1738,7 +1738,9 @@ class Product extends DataObject implements PermissionProvider
         $imageGridField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
         $imageGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
-        if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
+        if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
+            $imageGridField->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('SortOrder'));
+        } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
             $imageGridField->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('SortOrder'));
         }
         

@@ -128,7 +128,9 @@ class ImageSliderWidget extends Widget {
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddNewButton');
         $slideImagesTable->getConfig()->removeComponentsByType('GridFieldAddExistingAutocompleter');
         $slideImagesTable->getConfig()->addComponent(new GridFieldDeleteAction());
-        if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
+        if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
+            $slideImagesTable->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('Sort'));
+        } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
             $slideImagesTable->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('Sort'));
         }
         

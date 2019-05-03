@@ -350,7 +350,9 @@ class ShippingMethod extends DataObject
             $feesTableConfig->removeComponentsByType(GridFieldDeleteAction::class);
             $feesTableConfig->addComponent(new GridFieldDeleteAction());
             
-            if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
+            if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
+                $feesTableConfig->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('priority'));
+            } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
                 $feesTableConfig->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('priority'));
             }
         }

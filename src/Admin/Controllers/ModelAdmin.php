@@ -142,7 +142,11 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
     {
         $this->beforeUpdateEditForm(function(\SilverStripe\Forms\Form $form) {
             $sortable_field = $this->stat('sortable_field');
-            if (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')
+            if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')
+             && !empty($sortable_field)
+            ) {
+                $this->getGridFieldConfig($form)->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows($sortable_field));
+            } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')
              && !empty($sortable_field)
             ) {
                 $this->getGridFieldConfig($form)->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
