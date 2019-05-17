@@ -19,48 +19,44 @@ use SilverStripe\ORM\DataObject;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
-    
+class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
+{
     /**
      * DB attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Context'   => 'Varchar(64)',
         'Action'    => 'Enum("Created,Changed,MarkedAsSeen","Changed")',
         'SourceID'  => 'Int',
         'TargetID'  => 'Int',
-    );
-    
+    ];
     /**
      * has one relations
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Order' => Order::class,
-    );
-    
+    ];
     /**
      * Casted attributes
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'ContextNice'       => 'Text',
         'ContextMessage'    => 'Text',
         'SourceTitle'       => 'Text',
         'TargetTitle'       => 'Text',
-    );
-    
+    ];
     /**
      * Default sort field and direction
      *
      * @var string
      */
     private static $default_sort = 'Created DESC';
-
     /**
      * DB table name
      *
@@ -76,19 +72,21 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * @param int    $sourceID ID of the source
      * @param int    $targetID ID of the target
      * 
-     * @return void
+     * @return OrderLog
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public static function addChangedLog($order, $context, $sourceID, $targetID) {
-        $orderLog = new OrderLog();
+    public static function addChangedLog(Order $order, string $context, int $sourceID, int $targetID) : OrderLog
+    {
+        $orderLog = OrderLog::create();
         $orderLog->Context  = $context;
         $orderLog->SourceID = $sourceID;
         $orderLog->TargetID = $targetID;
         $orderLog->OrderID  = $order->ID;
         $orderLog->setChangedAction();
         $orderLog->write();
+        return $orderLog;
     }
     
     /**
@@ -97,17 +95,19 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * @param Order  $order   Order to add log for
      * @param string $context Context object
      * 
-     * @return void
+     * @return OrderLog
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public static function addMarkedAsSeenLog($order, $context) {
-        $orderLog = new OrderLog();
+    public static function addMarkedAsSeenLog(Order $order, string $context) : OrderLog
+    {
+        $orderLog = OrderLog::create();
         $orderLog->Context = $context;
         $orderLog->OrderID = $order->ID;
         $orderLog->setMarkedAsSeenAction();
         $orderLog->write();
+        return $orderLog;
     }
     
     /**
@@ -116,17 +116,19 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * @param Order  $order   Order to add log for
      * @param string $context Context object
      * 
-     * @return void
+     * @return OrderLog
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2012
      */
-    public static function addMarkedAsNotSeenLog($order, $context) {
-        $orderLog = new OrderLog();
+    public static function addMarkedAsNotSeenLog(Order $order, string $context) : OrderLog
+    {
+        $orderLog = OrderLog::create();
         $orderLog->Context = $context;
         $orderLog->OrderID = $order->ID;
         $orderLog->setMarkedAsNotSeenAction();
         $orderLog->write();
+        return $orderLog;
     }
     
     /**
@@ -135,53 +137,63 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * @param Order  $order   Order to add log for
      * @param string $context Context object
      * 
-     * @return void
+     * @return OrderLog
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public static function addCreatedLog($order, $context) {
-        $orderLog = new OrderLog();
+    public static function addCreatedLog(Order $order, string $context) : OrderLog
+    {
+        $orderLog = OrderLog::create();
         $orderLog->Context = $context;
         $orderLog->OrderID = $order->ID;
         $orderLog->setCreatedAction();
         $orderLog->write();
+        return $orderLog;
     }
 
     /**
      * Sets the action to Changed.
      * 
-     * @return void
+     * @return OrderLog
      */
-    public function setChangedAction() {
+    public function setChangedAction() : OrderLog
+    {
         $this->Action = 'Changed';
+        return $this;
     }
     
     /**
      * Sets the action to Created.
      * 
-     * @return void
+     * @return OrderLog
      */
-    public function setCreatedAction() {
+    public function setCreatedAction() : OrderLog
+    {
         $this->Action = 'Created';
+        return $this;
     }
     
     /**
      * Sets the action to MarkedAsSeen.
      * 
-     * @return void
+     * @return OrderLog
      */
-    public function setMarkedAsSeenAction() {
+    public function setMarkedAsSeenAction() : OrderLog
+    {
         $this->Action = 'MarkedAsSeen';
+        return $this;
     }
     
     /**
      * Sets the action to MarkedAsSeen.
      * 
-     * @return void
+     * @return OrderLog
      */
-    public function setMarkedAsNotSeenAction() {
+    public function setMarkedAsNotSeenAction() : OrderLog
+    {
         $this->Action = 'MarkedAsNotSeen';
+        return $this;
     }
 
     /**
@@ -192,8 +204,13 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function getContextNice() {
-        return Tools::singular_name_for(singleton($this->Context));
+    public function getContextNice() : string
+    {
+        $nice = '---';
+        if ($this->exists()) {
+            $nice = Tools::singular_name_for(singleton($this->Context));
+        }
+        return $nice;
     }
     
     /**
@@ -201,7 +218,8 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * 
      * @return string
      */
-    public function getContextMessage() {
+    public function getContextMessage() : string
+    {
         $message = '';
         switch ($this->Action) {
             case 'Created':
@@ -237,11 +255,15 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * 
      * @return string
      */
-    public function getSourceTitle() {
-        $sourceTitle    = '#' . $this->SourceID;
-        $sourceObject   = DataObject::get_by_id($this->Context, $this->SourceID);
-        if ($sourceObject) {
-            $sourceTitle = $sourceObject->Title;
+    public function getSourceTitle() : string
+    {
+        $sourceTitle = '---';
+        if ($this->exists()) {
+            $sourceTitle  = "#{$this->SourceID}";
+            $sourceObject = DataObject::get_by_id($this->Context, $this->SourceID);
+            if ($sourceObject instanceof DataObject) {
+                $sourceTitle = $sourceObject->Title;
+            }
         }
         return $sourceTitle;
     }
@@ -251,11 +273,15 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * 
      * @return string
      */
-    public function getTargetTitle() {
-        $targetTitle    = '#' . $this->TargetID;
-        $targetObject   = DataObject::get_by_id($this->Context, $this->TargetID);
-        if ($targetObject) {
-            $targetTitle = $targetObject->Title;
+    public function getTargetTitle() : string
+    {
+        $targetTitle = '---';
+        if ($this->exists()) {
+            $targetTitle  = "#{$this->TargetID}";
+            $targetObject = DataObject::get_by_id($this->Context, $this->TargetID);
+            if ($targetObject instanceof DataObject) {
+                $targetTitle = $targetObject->Title;
+            }
         }
         return $targetTitle;
     }
@@ -270,16 +296,17 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true) : array
+    {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
-                array(
+                [
                     'Context'         => _t(OrderLog::class . '.CONTEXT', 'Context'),
                     'Created'         => _t(OrderLog::class . '.CREATED', 'Date/Time'),
                     'Message'         => _t(OrderLog::class . '.MESSAGE', 'Action'),
                     'MarkedAsSeen'    => _t(OrderLog::class . '.MESSAGE_MARKEDASSEEN', 'Marked as seen'),
                     'MarkedAsNotSeen' => _t(OrderLog::class . '.MESSAGE_MARKEDASNOTSEEN', 'Marked as not seen'),
-                )
+                ]
         );
         
         $this->extend('updateFieldLabels', $fieldLabels);
@@ -290,12 +317,13 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface {
     /**
      * Summary fields
      * 
-     * @return void
+     * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function summaryFields() {
+    public function summaryFields() : array
+    {
         $summaryFields = array(
             'Created'           => $this->fieldLabel('Created'),
             'ContextNice'       => $this->fieldLabel('Context'),
