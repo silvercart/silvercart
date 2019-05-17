@@ -266,6 +266,21 @@ class ShopEmail extends DataObject {
             $orderStatus->ShopEmails()->add($shippingEmail);
         }
     }
+    
+    /**
+     * Returns the page with the given $identifierCode.
+     * 
+     * @param string $identifierCode Identifier code
+     * 
+     * @return \Page|null
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 17.05.2019
+     */
+    public function PageByIdentifierCode(string $identifierCode) : ?\Page
+    {
+        return Tools::PageByIdentifierCode($identifierCode);
+    }
 
     /**
      * Returns the available email template names.
@@ -345,36 +360,47 @@ class ShopEmail extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.04.2018
+     * @since 17.05.2019
      */
     public static function scan_email_templates() {
         self::$email_templates = [];
         
-        $currentDirParts = explode('/', __DIR__);
+        $emailTemplatesPaths = [];
+        $emailDirParts       = [
+            'templates',
+            'SilverCart',
+            'Email',
+            'Layout',
+        ];
+        $currentDirParts     = explode('/', __DIR__);
         array_pop($currentDirParts);
         array_pop($currentDirParts);
         $templateDirParts = array_merge(
                 $currentDirParts,
-                [
-                    'templates',
-                    'SilverCart',
-                    'Email',
-                    'Layout',
-                ]
+                $emailDirParts
         );
-        $emailTemplatesPath = implode('/', $templateDirParts);
-        if (is_dir($emailTemplatesPath)) {
-            $handle = opendir($emailTemplatesPath);
-            while (false !== ($entry = readdir($handle))) {
-                if (substr($entry, -3) != '.ss') {
-                    continue;
-                }
-
-                $templateName = substr($entry, 0, -3);
-                //$templateNames[$templateName] = _t(static::class . '.TemplateName_' . $templateName, ucfirst($templateName));
-                self::$email_templates[$templateName] = self::get_template_name_title($templateName);
+        $emailTemplatesPaths[] = implode(DIRECTORY_SEPARATOR, $templateDirParts);
+        $frontendThemes = SSViewer::config()->themes;
+        foreach ($frontendThemes as $theme) {
+            $path = THEMES_PATH . DIRECTORY_SEPARATOR . $theme;
+            if (is_dir($path)) {
+                $emailTemplatesPaths[] = $path . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $emailDirParts);
             }
-            closedir($handle);
+        }
+        foreach ($emailTemplatesPaths as $emailTemplatesPath) {
+            if (is_dir($emailTemplatesPath)) {
+                $handle = opendir($emailTemplatesPath);
+                while (false !== ($entry = readdir($handle))) {
+                    if (substr($entry, -3) != '.ss') {
+                        continue;
+                    }
+
+                    $templateName = substr($entry, 0, -3);
+                    //$templateNames[$templateName] = _t(static::class . '.TemplateName_' . $templateName, ucfirst($templateName));
+                    self::$email_templates[$templateName] = self::get_template_name_title($templateName);
+                }
+                closedir($handle);
+            }
         }
         asort(self::$email_templates);
     }
@@ -446,7 +472,7 @@ class ShopEmail extends DataObject {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.06.2014
      */
-    public static function send($identifier, $to, $variables = [], $attachments = null)
+    public static function send($identifier, $to, $variables = [], $attachments = null) : bool
     {
         $email = ShopEmail::get()->filter('TemplateName', $identifier)->first();
 
@@ -484,7 +510,7 @@ class ShopEmail extends DataObject {
             $plainText = strip_tags($htmlText);
         }
         
-        self::send_email($to, $subject, $htmlText, $attachments);
+        $result = self::send_email($to, $subject, $htmlText, $attachments);
         
         if (Config::GlobalEmailRecipient() != '') {
             self::send_email(Config::GlobalEmailRecipient(), $subject, $htmlText);
@@ -517,6 +543,7 @@ class ShopEmail extends DataObject {
                 self::send_email($recipient, $subject, $htmlText, $attachments);
             }
         }
+        return $result;
     }
     
     /**
@@ -527,12 +554,12 @@ class ShopEmail extends DataObject {
      * @param string $content     Content
      * @param array  $attachments Attachments
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public static function send_email($recipient, $subject, $content, $attachments = null)
+    public static function send_email($recipient, $subject, $content, $attachments = null) : bool
     {
         if (Director::isDev()) {
             $devEmailRecipient = self::config()->get('dev_email_recipient');
@@ -553,7 +580,7 @@ class ShopEmail extends DataObject {
         if (!is_array($recipient)
          && !Email::is_valid_address($recipient)
         ) {
-            return;
+            return false;
         }
         $email = Email::create(
             Config::EmailSender(),
@@ -565,7 +592,7 @@ class ShopEmail extends DataObject {
         if (!is_null($attachments)) {
             self::attachFiles($email, $attachments);
         }
-        $email->send();
+        return $email->send();
     }
     
     /**
