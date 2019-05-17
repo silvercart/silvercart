@@ -94,15 +94,21 @@ trait ExtensibleDataObject
     /**
      * Returns the default field labels for this DataObject.
      * 
+     * @var string $objectName Optional context object name
+     * 
      * @return array
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.02.2018
      */
-    protected function scaffoldFieldLabels() : array
+    protected function scaffoldFieldLabels(string $objectName = '') : array
     {
-        $objectName = self::class;
-        if (empty($this->defaultFieldLabels)) {
+        if (empty($objectName)) {
+            $objectName = self::class;
+        }
+        if (!array_key_exists($objectName, $this->defaultFieldLabels)
+         || empty($this->defaultFieldLabels[$objectName])
+        ) {
             $fieldLabels = [];
             $params      = ['db', 'casting', 'has_one', 'has_many', 'many_many', 'belongs_many_many'];
             foreach ($params as $param) {
@@ -136,8 +142,8 @@ trait ExtensibleDataObject
                     }
                 }
             }
-            $this->defaultFieldLabels = $fieldLabels;
+            $this->defaultFieldLabels[$objectName] = $fieldLabels;
         }
-        return $this->defaultFieldLabels;
+        return $this->defaultFieldLabels[$objectName];
     }
 }
