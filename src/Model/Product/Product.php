@@ -471,7 +471,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getShortDescription($includeHtml = true)
+    public function getShortDescription(bool $includeHtml = true) : ?string
     {
         $shortDescription = $this->getTranslationFieldValue('ShortDescription');
         if (!$this->getCMSFieldsIsCalled) {
@@ -490,7 +490,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getLongDescription($includeHtml = true)
+    public function getLongDescription(bool $includeHtml = true) : ?string
     {
         $longDescription = $this->getTranslationFieldValue('LongDescription');
         if (!$this->getCMSFieldsIsCalled) {
@@ -931,116 +931,109 @@ class Product extends DataObject implements PermissionProvider
      */
     public function fieldLabels($includerelations = true)
     {
-        $this->beforeUpdateFieldLabels(function(&$labels) {
-            $labels = array_merge(
-                $labels,
-                Tools::field_labels_for(self::class),
-                [
-                    'Title'                                => _t(Product::class . '.COLUMN_TITLE', 'Title'),
-                    'LongDescription'                      => _t(Product::class . '.DESCRIPTION', 'Description'),
-                    'ShortDescription'                     => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),
-                    'manufacturer.Title'                   => Manufacturer::singleton()->singular_name(),
-                    'PurchasePrice'                        => _t(Product::class . '.PURCHASEPRICE', 'purchase price'),
-                    'PurchasePriceAmount'                  => _t(Product::class . '.PURCHASEPRICE', 'purchase price'),
-                    'PurchasePriceCurrency'                => _t(Product::class . '.PURCHASEPRICE_CURRENCY', 'purchase currency'),
-                    'MSRPrice'                             => _t(Product::class . '.MSRP', 'MSR price'),
-                    'MSRPriceAmount'                       => _t(Product::class . '.MSRP', 'MSR price'),
-                    'MSRPriceCurrency'                     => _t(Product::class . '.MSRP_CURRENCY', 'MSR currency'),
-                    'Price'                                => _t(Product::class . '.PRICE', 'price'),
-                    'PriceGross'                           => _t(Product::class . '.PRICE_GROSS', 'price (gross)'),
-                    'PriceGrossAmount'                     => _t(Product::class . '.PRICE_GROSS', 'price (gross)'),
-                    'PriceGrossCurrency'                   => _t(Product::class . '.PRICE_GROSS_CURRENCY', 'currency (gross)'),
-                    'PriceNet'                             => _t(Product::class . '.PRICE_NET', 'price (net)'),
-                    'PriceNetAmount'                       => _t(Product::class . '.PRICE_NET', 'price (net)'),
-                    'PriceNetCurrency'                     => _t(Product::class . '.PRICE_NET_CURRENCY', 'currency (net)'),
-                    'MetaDescription'                      => _t(Product::class . '.METADESCRIPTION', 'meta description'),
-                    'Weight'                               => _t(Product::class . '.WEIGHT', 'weight'),
-                    'MetaTitle'                            => _t(Product::class . '.METATITLE', 'meta title'),
-                    'PackagingContent'                     => _t(ProductPage::class . '.PACKAGING_CONTENT', 'Content'),
-                    'ProductNumberShop'                    => _t(Product::class . '.PRODUCTNUMBER', 'Item number'),
-                    'ProductNumberShort'                   => _t(Product::class . '.PRODUCTNUMBER_SHORT', 'Item no.'),
-                    'ProductNumberManufacturer'            => _t(Product::class . '.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
-                    'EANCode'                              => _t(Product::class . '.EAN', 'EAN'),
-                    'BasicData'                            => _t(Product::class . '.BasicData', 'Basic data'),
-                    'MiscGroup'                            => _t(RegistrationPage::class . '.OTHERITEMS', 'Miscellaneous'),
-                    'TimeGroup'                            => _t(Product::class . '.TimeGroup', 'Time Control'),
-                    'ReleaseDate'                          => _t(Product::class . '.ReleaseDate', 'Release Date'),
-                    'ReleaseDateInfo'                      => _t(Product::class . '.ReleaseDateInfo', 'Release Date Info'),
-                    'LaunchDate'                           => _t(Product::class . '.LaunchDate', 'Launch Date'),
-                    'LaunchDateInfo'                       => _t(Product::class . '.LaunchDateInfo', 'Launch Date Info'),
-                    'SalesBanDate'                         => _t(Product::class . '.SalesBanDate', 'Sale Ban Date'),
-                    'SalesBanDateInfo'                     => _t(Product::class . '.SalesBanDateInfo', 'Sale Ban Date Info'),
-                    'Preorderable'                         => _t(Product::class . '.Preorderable', 'pre-orderable'),
-                    'PreorderNow'                          => _t(Product::class . '.PreorderNow', 'Pre-order now'),
-                    'PreorderToday'                        => _t(Product::class . '.PreorderToday', 'Pre-order this product today'),
-                    'Tax'                                  => Tax::singleton()->singular_name(),
-                    'Manufacturer'                         => Manufacturer::singleton()->singular_name(),
-                    'ProductGroup'                         => ProductGroupPage::singleton()->singular_name(),
-                    'ProductGroups'                        => _t(ProductGroupPage::class . '.PLURALNAME', 'product groups'),
-                    'MasterProduct'                        => _t(Product::class . '.MASTERPRODUCT', 'master product'),
-                    'Image'                                => _t(Product::class . '.IMAGE', 'product image'),
-                    'AvailabilityStatus'                   => AvailabilityStatus::singleton()->singular_name(),
-                    'PurchaseMinDuration'                  => _t(Product::class . '.PURCHASE_MIN_DURATION', 'Min. purchase duration'),
-                    'PurchaseMaxDuration'                  => _t(Product::class . '.PURCHASE_MAX_DURATION', 'Max. purchase duration'),
-                    'PurchaseTimeUnit'                     => _t(Product::class . '.PURCHASE_TIME_UNIT', 'Purchase time unit'),
-                    'Files'                                => File::singleton()->plural_name(),
-                    'Images'                               => Image::singleton()->plural_name(),
-                    'File'                                 => File::singleton()->singular_name(),
-                    'Image'                                => Image::singleton()->singular_name(),
-                    'ShoppingCartPositions'                => _t(ShoppingCartPosition::class . '.PLURALNAME', 'Cart positions'),
-                    'ShoppingCarts'                        => _t(ShoppingCart::class . '.PLURALNAME', 'Carts'),
-                    'Orders'                               => _t(Order::class . '.PLURALNAME', 'Orders'),
-                    'ProductGroupMirrorPages'              => _t(Product::class . '.MirrorPage_PLURALNAME', 'Mirror-Productgroups'),
-                    'QuantityUnit'                         => _t(Product::class . '.AMOUNT_UNIT', 'amount Unit'),
-                    'isActive'                             => _t(Product::class . '.IS_ACTIVE', 'is active'),
-                    'StockQuantity'                        => _t(Product::class . '.STOCKQUANTITY', 'stock quantity'),
-                    'StockQuantityOverbookable'            => _t(Product::class . '.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?'),
-                    'StockQuantityOverbookableShort'       => _t(Product::class . '.STOCK_QUANTITY_SHORT', 'Is overbookable?'),
-                    'StockQuantityExpirationDate'          => _t(Product::class . '.STOCK_QUANTITY_EXPIRATION_DATE', 'Date from which on the stock quantity is no more overbookable'),
-                    'PackagingQuantity'                    => _t(Product::class . '.PACKAGING_QUANTITY', 'purchase quantity'),
-                    'ID'                                   => 'ID',
-                    'ProductTranslations'                  => _t(Config::class . '.TRANSLATIONS', 'Translations'),
-                    'ProductGroupItemsWidgets'             => _t(ProductGroupItemsWidget::class . '.CMS_PRODUCTGROUPTABNAME', 'Product Group'),
-                    'WidgetArea'                           => _t(Product::class . '.WIDGETAREA', 'Widgets'),
-                    'Prices'                               => _t(Product::class . '.PRICES', 'Prices'),
-                    'SEO'                                  => _t(Config::class . '.SEO', 'SEO'),
-                    'ProductCondition'                     => ProductCondition::singleton()->singular_name(),
-                    'TitleAsc'                             => _t(Product::class . '.TITLE_ASC', 'Title ascending'),
-                    'TitleDesc'                            => _t(Product::class . '.TITLE_DESC', 'Title descending'),
-                    'PriceAmountAsc'                       => _t(Product::class . '.PRICE_AMOUNT_ASC', 'Price ascending'),
-                    'PriceAmountDesc'                      => _t(Product::class . '.PRICE_AMOUNT_DESC', 'Price descending'),
-                    'DefaultShippingFee'                   => ShippingFee::singleton()->singular_name(),
-                    'RefreshCache'                         => _t(Product::class . '.RefreshCache', 'Refresh cache of this product on after write'),
-                    'ExcludeFromPaymentDiscounts'          => _t(Product::class . '.ExcludeFromPaymentDiscounts', 'This product is excluded from payment discounts.'),
-                    'AddImage'                             => _t(Product::class . '.AddImage', 'Add Image'),
-                    'AddFile'                              => _t(Product::class . '.AddFile', 'Add File'),
-                    'IsNotBuyable'                         => _t(Product::class . '.IsNotBuyable', 'Is not buyable'),
-                    'ProductTranslations.Title'            => _t(Product::class . '.COLUMN_TITLE', 'Title'),
-                    'ProductTranslations.ShortDescription' => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),
-                    'ProductTranslations.LongDescription'  => _t(Product::class . '.DESCRIPTION', 'Description'),
-                    'Manufacturer.Title'                   => _t(Product::class . '.COLUMN_TITLE', 'Title'),
-                    'ProductGroupMirrorPages.ID'           => _t(Product::class . '.PLURALNAME', 'Mirror-Productgroups'),
-                    'AvailabilityStatus.ID'                => AvailabilityStatus::singleton()->singular_name(),
-                    'Yes'                                  => Tools::field_label('Yes'),
-                    'No'                                   => Tools::field_label('No'),
-                    'Days'                                 => _t(Product::class . '.DAYS','Days'),
-                    'Weeks'                                => _t(Product::class . '.WEEKS','Weeks'),
-                    'Months'                               => _t(Product::class . '.MONTHS','Months'),
-                    'Year'                                 => _t(Product::class . '.YEAR','Year'),
-                    'Years'                                => _t(Product::class . '.YEARS','Years'),
-                    'ChangeQuantity'                       => _t(Product::class . '.CHANGE_QUANTITY_CART', 'Change quantity'),
-                    'AddToCart'                            => _t(Product::class . '.ADD_TO_CART', 'Add to cart'),
-                    'Quantity'                             => _t(Product::class . '.QUANTITY', 'Quantity'),
-                    'Delivery'                             => _t(Product::class . '.Delivery', 'Delivery'),
-                    'DeliveryForFree'                      => _t(Product::class . '.DeliveryForFree', 'Free shipping'),
-                    'DeliveryForFreeIsPossible'            => _t(Product::class . '.DeliveryForFreeIsPossible', 'Delivery for free is possible'),
-                    'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
-                    'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
-                    'StockItemEntries'                     => StockItemEntry::singleton()->plural_name(),
-                ]
-            );
-        });
-        return parent::fieldLabels($includerelations);
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'                                => _t(Product::class . '.COLUMN_TITLE', 'Title'),
+            'LongDescription'                      => _t(Product::class . '.DESCRIPTION', 'Description'),
+            'ShortDescription'                     => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),
+            'manufacturer.Title'                   => Manufacturer::singleton()->singular_name(),
+            'PurchasePrice'                        => _t(Product::class . '.PURCHASEPRICE', 'purchase price'),
+            'PurchasePriceAmount'                  => _t(Product::class . '.PURCHASEPRICE', 'purchase price'),
+            'PurchasePriceCurrency'                => _t(Product::class . '.PURCHASEPRICE_CURRENCY', 'purchase currency'),
+            'MSRPrice'                             => _t(Product::class . '.MSRP', 'MSR price'),
+            'MSRPriceAmount'                       => _t(Product::class . '.MSRP', 'MSR price'),
+            'MSRPriceCurrency'                     => _t(Product::class . '.MSRP_CURRENCY', 'MSR currency'),
+            'Price'                                => _t(Product::class . '.PRICE', 'price'),
+            'PriceGross'                           => _t(Product::class . '.PRICE_GROSS', 'price (gross)'),
+            'PriceGrossAmount'                     => _t(Product::class . '.PRICE_GROSS', 'price (gross)'),
+            'PriceGrossCurrency'                   => _t(Product::class . '.PRICE_GROSS_CURRENCY', 'currency (gross)'),
+            'PriceNet'                             => _t(Product::class . '.PRICE_NET', 'price (net)'),
+            'PriceNetAmount'                       => _t(Product::class . '.PRICE_NET', 'price (net)'),
+            'PriceNetCurrency'                     => _t(Product::class . '.PRICE_NET_CURRENCY', 'currency (net)'),
+            'MetaDescription'                      => _t(Product::class . '.METADESCRIPTION', 'meta description'),
+            'Weight'                               => _t(Product::class . '.WEIGHT', 'weight'),
+            'MetaTitle'                            => _t(Product::class . '.METATITLE', 'meta title'),
+            'PackagingContent'                     => _t(ProductPage::class . '.PACKAGING_CONTENT', 'Content'),
+            'ProductNumberShop'                    => _t(Product::class . '.PRODUCTNUMBER', 'Item number'),
+            'ProductNumberShort'                   => _t(Product::class . '.PRODUCTNUMBER_SHORT', 'Item no.'),
+            'ProductNumberManufacturer'            => _t(Product::class . '.PRODUCTNUMBER_MANUFACTURER', 'product number (manufacturer)'),
+            'EANCode'                              => _t(Product::class . '.EAN', 'EAN'),
+            'BasicData'                            => _t(Product::class . '.BasicData', 'Basic data'),
+            'MiscGroup'                            => _t(RegistrationPage::class . '.OTHERITEMS', 'Miscellaneous'),
+            'TimeGroup'                            => _t(Product::class . '.TimeGroup', 'Time Control'),
+            'ReleaseDate'                          => _t(Product::class . '.ReleaseDate', 'Release Date'),
+            'ReleaseDateInfo'                      => _t(Product::class . '.ReleaseDateInfo', 'Release Date Info'),
+            'LaunchDate'                           => _t(Product::class . '.LaunchDate', 'Launch Date'),
+            'LaunchDateInfo'                       => _t(Product::class . '.LaunchDateInfo', 'Launch Date Info'),
+            'SalesBanDate'                         => _t(Product::class . '.SalesBanDate', 'Sale Ban Date'),
+            'SalesBanDateInfo'                     => _t(Product::class . '.SalesBanDateInfo', 'Sale Ban Date Info'),
+            'Preorderable'                         => _t(Product::class . '.Preorderable', 'pre-orderable'),
+            'PreorderNow'                          => _t(Product::class . '.PreorderNow', 'Pre-order now'),
+            'PreorderToday'                        => _t(Product::class . '.PreorderToday', 'Pre-order this product today'),
+            'Tax'                                  => Tax::singleton()->singular_name(),
+            'Manufacturer'                         => Manufacturer::singleton()->singular_name(),
+            'ProductGroup'                         => ProductGroupPage::singleton()->singular_name(),
+            'ProductGroups'                        => _t(ProductGroupPage::class . '.PLURALNAME', 'product groups'),
+            'MasterProduct'                        => _t(Product::class . '.MASTERPRODUCT', 'master product'),
+            'Image'                                => _t(Product::class . '.IMAGE', 'product image'),
+            'AvailabilityStatus'                   => AvailabilityStatus::singleton()->singular_name(),
+            'PurchaseMinDuration'                  => _t(Product::class . '.PURCHASE_MIN_DURATION', 'Min. purchase duration'),
+            'PurchaseMaxDuration'                  => _t(Product::class . '.PURCHASE_MAX_DURATION', 'Max. purchase duration'),
+            'PurchaseTimeUnit'                     => _t(Product::class . '.PURCHASE_TIME_UNIT', 'Purchase time unit'),
+            'Files'                                => File::singleton()->plural_name(),
+            'Images'                               => Image::singleton()->plural_name(),
+            'File'                                 => File::singleton()->singular_name(),
+            'Image'                                => Image::singleton()->singular_name(),
+            'ShoppingCartPositions'                => _t(ShoppingCartPosition::class . '.PLURALNAME', 'Cart positions'),
+            'ShoppingCarts'                        => _t(ShoppingCart::class . '.PLURALNAME', 'Carts'),
+            'Orders'                               => _t(Order::class . '.PLURALNAME', 'Orders'),
+            'ProductGroupMirrorPages'              => _t(Product::class . '.MirrorPage_PLURALNAME', 'Mirror-Productgroups'),
+            'QuantityUnit'                         => _t(Product::class . '.AMOUNT_UNIT', 'amount Unit'),
+            'isActive'                             => _t(Product::class . '.IS_ACTIVE', 'is active'),
+            'StockQuantity'                        => _t(Product::class . '.STOCKQUANTITY', 'stock quantity'),
+            'StockQuantityOverbookable'            => _t(Product::class . '.STOCK_QUANTITY', 'Is the stock quantity of this product overbookable?'),
+            'StockQuantityOverbookableShort'       => _t(Product::class . '.STOCK_QUANTITY_SHORT', 'Is overbookable?'),
+            'StockQuantityExpirationDate'          => _t(Product::class . '.STOCK_QUANTITY_EXPIRATION_DATE', 'Date from which on the stock quantity is no more overbookable'),
+            'PackagingQuantity'                    => _t(Product::class . '.PACKAGING_QUANTITY', 'purchase quantity'),
+            'ID'                                   => 'ID',
+            'ProductTranslations'                  => _t(Config::class . '.TRANSLATIONS', 'Translations'),
+            'ProductGroupItemsWidgets'             => _t(ProductGroupItemsWidget::class . '.CMS_PRODUCTGROUPTABNAME', 'Product Group'),
+            'WidgetArea'                           => _t(Product::class . '.WIDGETAREA', 'Widgets'),
+            'Prices'                               => _t(Product::class . '.PRICES', 'Prices'),
+            'SEO'                                  => _t(Config::class . '.SEO', 'SEO'),
+            'ProductCondition'                     => ProductCondition::singleton()->singular_name(),
+            'TitleAsc'                             => _t(Product::class . '.TITLE_ASC', 'Title ascending'),
+            'TitleDesc'                            => _t(Product::class . '.TITLE_DESC', 'Title descending'),
+            'PriceAmountAsc'                       => _t(Product::class . '.PRICE_AMOUNT_ASC', 'Price ascending'),
+            'PriceAmountDesc'                      => _t(Product::class . '.PRICE_AMOUNT_DESC', 'Price descending'),
+            'DefaultShippingFee'                   => ShippingFee::singleton()->singular_name(),
+            'RefreshCache'                         => _t(Product::class . '.RefreshCache', 'Refresh cache of this product on after write'),
+            'ExcludeFromPaymentDiscounts'          => _t(Product::class . '.ExcludeFromPaymentDiscounts', 'This product is excluded from payment discounts.'),
+            'AddImage'                             => _t(Product::class . '.AddImage', 'Add Image'),
+            'AddFile'                              => _t(Product::class . '.AddFile', 'Add File'),
+            'IsNotBuyable'                         => _t(Product::class . '.IsNotBuyable', 'Is not buyable'),
+            'ProductTranslations.Title'            => _t(Product::class . '.COLUMN_TITLE', 'Title'),
+            'ProductTranslations.ShortDescription' => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),
+            'ProductTranslations.LongDescription'  => _t(Product::class . '.DESCRIPTION', 'Description'),
+            'Manufacturer.Title'                   => _t(Product::class . '.COLUMN_TITLE', 'Title'),
+            'ProductGroupMirrorPages.ID'           => _t(Product::class . '.PLURALNAME', 'Mirror-Productgroups'),
+            'AvailabilityStatus.ID'                => AvailabilityStatus::singleton()->singular_name(),
+            'Yes'                                  => Tools::field_label('Yes'),
+            'No'                                   => Tools::field_label('No'),
+            'Days'                                 => _t(Product::class . '.DAYS','Days'),
+            'Weeks'                                => _t(Product::class . '.WEEKS','Weeks'),
+            'Months'                               => _t(Product::class . '.MONTHS','Months'),
+            'Year'                                 => _t(Product::class . '.YEAR','Year'),
+            'Years'                                => _t(Product::class . '.YEARS','Years'),
+            'ChangeQuantity'                       => _t(Product::class . '.CHANGE_QUANTITY_CART', 'Change quantity'),
+            'AddToCart'                            => _t(Product::class . '.ADD_TO_CART', 'Add to cart'),
+            'Quantity'                             => _t(Product::class . '.QUANTITY', 'Quantity'),
+            'Delivery'                             => _t(Product::class . '.Delivery', 'Delivery'),
+            'DeliveryForFree'                      => _t(Product::class . '.DeliveryForFree', 'Free shipping'),
+            'DeliveryForFreeIsPossible'            => _t(Product::class . '.DeliveryForFreeIsPossible', 'Delivery for free is possible'),
+            'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
+            'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
+            'StockItemEntries'                     => StockItemEntry::singleton()->plural_name(),
+        ]);
     }
 
     /**
@@ -1777,13 +1770,11 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getCMSFields() : FieldList
     {
+        $this->getCMSFieldsIsCalled = true;
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
-            $this->getCMSFieldsIsCalled = true;
-
             $fields->removeByName('ProductGroupItemsWidgets');
             $fields->removeByName('MasterProductID');
             $fields->removeByName('Keywords');
-
             $this->getFieldsForMain($fields);
             $this->getFieldsForStock($fields);
             $this->getFieldsForPrices($fields);
@@ -3357,10 +3348,10 @@ class Product extends DataObject implements PermissionProvider
             $quantityEntry = $quantity;
             $operator      = '+';
         }
-        $produtcTable = Tools::get_table_name(Product::class);
-        DB::query("LOCK TABLES {$produtcTable} WRITE");
-        DB::query("UPDATE {$produtcTable} SET StockQuantity = (StockQuantity {$operator} {$quantity}) WHERE ID = '{$this->ID}'");
-        $results = DB::query("SELECT StockQuantity FROM {$produtcTable} WHERE ID = '{$this->ID}'");
+        $productTable = $this->config()->table_name;
+        DB::query("LOCK TABLES {$productTable} WRITE");
+        DB::query("UPDATE {$productTable} SET StockQuantity = (StockQuantity {$operator} {$quantity}) WHERE ID = '{$this->ID}'");
+        $results = DB::query("SELECT StockQuantity FROM {$productTable} WHERE ID = '{$this->ID}'");
         DB::query("UNLOCK TABLES");
         
         $firstRow                        = $results->first();
