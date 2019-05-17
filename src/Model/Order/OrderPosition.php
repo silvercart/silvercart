@@ -23,7 +23,6 @@ use SilverStripe\ORM\FieldType\DBMoney;
 class OrderPosition extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-    
     /**
      * Indicates whether changes and creations of order positions should
      * be logged or not.
@@ -107,36 +106,27 @@ class OrderPosition extends DataObject
     /**
      * Field labels for display in tables.
      *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * @param bool $includerelations A boolean value to indicate if the labels returned include relation fields
      * 
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.10.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
-        $this->beforeUpdateFieldLabels(function(&$labels) {
-            $labels = array_merge(
-                $labels,
-                [
-                    'Product'                            => Product::singleton()->singular_name(),
-                    'Price'                              => _t(OrderPosition::class . '.PRICE', 'Price'),
-                    'PriceTotal'                         => _t(OrderPosition::class . '.PRICETOTAL', 'Price total'),
-                    'isChargeOrDiscount'                 => _t(OrderPosition::class . '.ISCHARGEORDISCOUNT', 'Is charge or discount'),
-                    'Tax'                                => _t(OrderPosition::class . '.TAX', 'Vat'),
-                    'TaxTotal'                           => _t(OrderPosition::class . '.TAXTOTAL', 'Vat total'),
-                    'TaxRate'                            => _t(OrderPosition::class . '.TAXRATE', 'Vat rate'),
-                    'ProductDescription'                 => _t(OrderPosition::class . '.PRODUCTDESCRIPTION', 'Description'),
-                    'Quantity'                           => _t(OrderPosition::class . '.QUANTITY', 'Quantity'),
-                    'Title'                              => _t(OrderPosition::class . '.TITLE', 'Title'),
-                    'ProductNumber'                      => _t(OrderPosition::class . '.PRODUCTNUMBER', 'Product no.'),
-                    'chargeOrDiscountModificationImpact' => _t(OrderPosition::class . '.CHARGEORDISCOUNTMODIFICATIONIMPACT', 'Charge/Discount Type'),
-                    'numberOfDecimalPlaces'              => QuantityUnit::singleton()->fieldLabel('numberOfDecimalPlaces'),
-                    ]
-            );
-        });
-        return parent::fieldLabels($includerelations);
+        return $this->defaultFieldLabels($includerelations, [
+            'Product'                            => Product::singleton()->singular_name(),
+            'Price'                              => _t(OrderPosition::class . '.PRICE', 'Price'),
+            'PriceTotal'                         => _t(OrderPosition::class . '.PRICETOTAL', 'Price total'),
+            'isChargeOrDiscount'                 => _t(OrderPosition::class . '.ISCHARGEORDISCOUNT', 'Is charge or discount'),
+            'Tax'                                => _t(OrderPosition::class . '.TAX', 'Vat'),
+            'TaxTotal'                           => _t(OrderPosition::class . '.TAXTOTAL', 'Vat total'),
+            'TaxRate'                            => _t(OrderPosition::class . '.TAXRATE', 'Vat rate'),
+            'ProductDescription'                 => _t(OrderPosition::class . '.PRODUCTDESCRIPTION', 'Description'),
+            'Quantity'                           => _t(OrderPosition::class . '.QUANTITY', 'Quantity'),
+            'Title'                              => _t(OrderPosition::class . '.TITLE', 'Title'),
+            'ProductNumber'                      => _t(OrderPosition::class . '.PRODUCTNUMBER', 'Product no.'),
+            'chargeOrDiscountModificationImpact' => _t(OrderPosition::class . '.CHARGEORDISCOUNTMODIFICATIONIMPACT', 'Charge/Discount Type'),
+            'numberOfDecimalPlaces'              => QuantityUnit::singleton()->fieldLabel('numberOfDecimalPlaces'),
+        ]);
     }
 
     /**
