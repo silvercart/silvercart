@@ -58,15 +58,24 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
                 !$registeredCustomer->exists()) {
                 return;
             }
-            
-            if ($registeredCustomer->InvoiceAddress()->ID > 0) {
-                $invoiceAddressFieldValue = [
-                    $registeredCustomer->InvoiceAddress()->ID => $registeredCustomer->InvoiceAddress()->ID
-                ];
-            } else {
-                $invoiceAddressFieldValue = $registeredCustomer->Addresses()->map()->toArray();
+            $invoiceAddressFieldValue = [];
+            $this->extend('overwriteInvoiceAddressFieldValue', $invoiceAddressFieldValue, $registeredCustomer);
+            if (empty($invoiceAddressFieldValue)) {
+                if ($registeredCustomer->InvoiceAddress()->ID > 0) {
+                    $invoiceAddressFieldValue = [
+                        $registeredCustomer->InvoiceAddress()->ID => $registeredCustomer->InvoiceAddress()->ID
+                    ];
+                } else {
+                    $invoiceAddressFieldValue = $registeredCustomer->Addresses()->map()->toArray();
+                }
+                $this->extend('updateInvoiceAddressFieldValue', $invoiceAddressFieldValue, $registeredCustomer);
             }
-            $shippingAddressFieldValue         = $registeredCustomer->Addresses()->map()->toArray();
+            $shippingAddressFieldValue = [];
+            $this->extend('overwriteShippingAddressFieldValue', $shippingAddressFieldValue, $registeredCustomer);
+            if (empty($shippingAddressFieldValue)) {
+                $shippingAddressFieldValue = $registeredCustomer->Addresses()->map()->toArray();
+                $this->extend('updateShippingAddressFieldValue', $shippingAddressFieldValue, $registeredCustomer);
+            }
             $invoiceAddressFieldSelectedValue  = $registeredCustomer->InvoiceAddress()->ID;
             $shippingAddressFieldSelectedValue = $registeredCustomer->ShippingAddress()->ID;
             if ($this->InvoiceAddressIsAlwaysShippingAddress()) {
