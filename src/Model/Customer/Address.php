@@ -11,8 +11,10 @@ use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
@@ -33,17 +35,17 @@ use SilverStripe\Security\PermissionProvider;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Address extends DataObject implements PermissionProvider {
-    
+class Address extends DataObject implements PermissionProvider
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     const TYPE_INVOICE  = 'Invoice';
     const TYPE_SHIPPING = 'Shipping';
-    
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'TaxIdNumber'       => 'Varchar(30)',
         'Company'           => 'Varchar(255)',
         'Salutation'        => 'Enum(",Herr,Frau","")',
@@ -60,24 +62,22 @@ class Address extends DataObject implements PermissionProvider {
         'Phone'             => 'Varchar(50)',
         'Fax'               => 'Varchar(50)',
         'IsPackstation'     => 'Boolean(0)',
-    );
-    
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Member'  => Member::class,
         'Country' => Country::class,
-    );
-    
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'FullName'       => 'Text',
         'SalutationText' => 'Varchar',
         'Summary'        => 'Text',
@@ -85,99 +85,86 @@ class Address extends DataObject implements PermissionProvider {
         'CountryISO3'    => 'Text',
         'CountryISON'    => 'Text',
         'CountryFIPS'    => 'Text',
-    );
-    
+    ];
     /**
      * Defaults for attributes.
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'IsPackstation' => '0',
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartAddress';
-    
     /**
      * Custom Add Export fields to export by XML
      *
      * @var array
      */
-    public static $custom_add_export_fields = array(
+    public static $custom_add_export_fields = [
         'CountryISO2',
         'CountryISO3',
         'CountryISON',
         'CountryFIPS',
-    );
-
+    ];
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
     private static $api_access = true;
-    
     /**
      * Set this to true to make the invoice address readonly for customers.
      *
      * @var bool
      */
     private static $invoice_address_is_readonly = false;
-
     /**
      * Property to indicate whether this is an anonymous address
      *
      * @var bool
      */
     protected $isAnonymous = false;
-    
     /**
      * Property to indicate whether this is an anonymous shipping address
      *
      * @var bool
      */
     protected $isAnonymousShippingAddress = false;
-    
     /**
      * Property to indicate whether this is an anonymous invoice address
      *
      * @var bool
      */
     protected $isAnonymousInvoiceAddress = false;
-    
     /**
      * Determines whether the current search context is restful.
      *
      * @var bool
      */
     protected $isRestfulContext = false;
-
     /**
      * Marks the address as shipping address in checkout context.
      *
      * @var bool
      */
     protected $isCheckoutShippingAddress = false;
-    
     /**
      * Marks the address as invoice address in checkout context.
      *
      * @var bool
      */
     protected $isCheckoutInvoiceAddress = false;
-
     /**
      * Marks the address as shipping address in order context.
      *
      * @var bool
      */
     protected $isOrderShippingAddress = null;
-    
     /**
      * Marks the address as invoice address in order context.
      *
@@ -192,7 +179,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return void
      */
-    public static function set_invoice_address_is_readonly($invoice_address_is_readonly) {
+    public static function set_invoice_address_is_readonly(bool $invoice_address_is_readonly) : void
+    {
         self::$invoice_address_is_readonly = $invoice_address_is_readonly;
     }
     
@@ -201,7 +189,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public static function get_invoice_address_is_readonly() {
+    public static function get_invoice_address_is_readonly() : bool
+    {
         return self::$invoice_address_is_readonly;
     }
     
@@ -210,7 +199,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public static function invoice_address_is_readonly() {
+    public static function invoice_address_is_readonly() : bool
+    {
         return self::get_invoice_address_is_readonly();
     }
     
@@ -237,7 +227,8 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2018
      */
-    public static function extract_street_name_and_number($streetNameWithNumber) {
+    public static function extract_street_name_and_number(string $streetNameWithNumber) : array
+    {
         $streetParts  = [];
         $streetName   = $streetNameWithNumber;
         $streetNumber = '';
@@ -255,26 +246,21 @@ class Address extends DataObject implements PermissionProvider {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
     }
 
@@ -286,12 +272,13 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2013
      */
-    public function providePermissions() {
-        return array(
+    public function providePermissions() : array
+    {
+        return [
             'SILVERCART_ADDRESS_VIEW'   => $this->fieldLabel('SILVERCART_ADDRESS_VIEW'),
             'SILVERCART_ADDRESS_EDIT'   => $this->fieldLabel('SILVERCART_ADDRESS_EDIT'),
             'SILVERCART_ADDRESS_DELETE' => $this->fieldLabel('SILVERCART_ADDRESS_DELETE')
-        );
+        ];
     }
 
     /**
@@ -299,24 +286,28 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @param Member $member Member to check permission for.
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2013
      */
-    public function canView($member = null) {
+    public function canView($member = null) : bool
+    {
         $canView = false;
         if (is_null($member)) {
             $member = Security::getCurrentUser();
         }
-        if (($member instanceof Member &&
-             $member->ID == $this->MemberID &&
-             !is_null($this->MemberID)) ||
-            Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')) {
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         || Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')
+        ) {
             $canView = true;
         }
-		$results = $this->extend('canView', $member);
-		if ($results && is_array($results)) {
+        $results = $this->extend('canView', $member);
+        if ($results
+         && is_array($results)
+        ) {
             if(!min($results)) {
                 $canView = false;
             }
@@ -334,23 +325,27 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.11.2016
      */
-    public function canEdit($member = null) {
+    public function canEdit($member = null) : bool
+    {
         $canEdit = false;
         if (is_null($member)) {
             $member = Security::getCurrentUser();
         }
-        if (($member instanceof Member &&
-             $member->ID == $this->MemberID &&
-             !is_null($this->MemberID)) &&
-            !($this->isInvoiceAddress() &&
-              self::invoice_address_is_readonly())) {
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         && !($this->isInvoiceAddress()
+           && self::invoice_address_is_readonly())
+        ) {
             $canEdit = true;
         }
         if (Permission::checkMember($member, 'SILVERCART_ADDRESS_EDIT')) {
             $canEdit = true;
         }
-		$results = $this->extend('canEdit', $member);
-		if ($results && is_array($results)) {
+        $results = $this->extend('canEdit', $member);
+        if ($results
+         && is_array($results)
+        ) {
             if(!min($results)) {
                 $canEdit = false;
             }
@@ -368,28 +363,95 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.11.2016
      */
-    public function canDelete($member = null) {
+    public function canDelete($member = null) : bool
+    {
         $canDelete = false;
         if (is_null($member)) {
             $member = Security::getCurrentUser();
         }
-        if (($member instanceof Member &&
-             $member->ID == $this->MemberID &&
-             !is_null($this->MemberID)) &&
-            !($this->isInvoiceAddress() &&
-              self::invoice_address_is_readonly())) {
+        if (($member instanceof Member
+          && $member->ID == $this->MemberID
+          && !is_null($this->MemberID))
+         && !($this->isInvoiceAddress()
+           && self::invoice_address_is_readonly())
+        ) {
             $canDelete = true;
         }
         if (Permission::checkMember($member, 'SILVERCART_ADDRESS_DELETE')) {
             $canDelete = true;
         }
-		$results = $this->extend('canDelete', $member);
-		if ($results && is_array($results)) {
+        $results = $this->extend('canDelete', $member);
+        if ($results
+         && is_array($results)
+        ) {
             if(!min($results)) {
                 $canDelete = false;
             }
         }
         return $canDelete;
+    }
+
+    /**
+     * Indicates wether the current user can set this address as default shipping
+     * address.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.05.2019
+     */
+    public function canSetAsDefaultInvoiceAddress($member = null) : bool
+    {
+        if (is_null($member)) {
+            $member = $this->Member();
+        }
+        $can = false;
+        if ($member->InvoiceAddressID !== $this->ID
+         && ($member->InvoiceAddress()->canEdit()
+          || !$member->InvoiceAddress()->exists())
+        ) {
+            $can = true;
+        }
+        $results = $this->extend('canSetAsDefaultInvoiceAddress', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
+        }
+        return $can;
+    }
+
+    /**
+     * Indicates wether the current user can set this address as default shipping
+     * address.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.05.2019
+     */
+    public function canSetAsDefaultShippingAddress($member = null) : bool
+    {
+        if (is_null($member)) {
+            $member = $this->Member();
+        }
+        $can = false;
+        if ($member->ShippingAddressID !== $this->ID) {
+            $can = true;
+        }
+        $results = $this->extend('canSetAsDefaultShippingAddress', $member);
+        if ($results
+         && is_array($results)
+         && !min($results)
+        ) {
+            $can = false;
+        }
+        return $can;
     }
     
     /**
@@ -399,17 +461,19 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return FieldList
      */
-    public function getCMSFields($params = null) {
-        $fields = DataObjectExtension::getCMSFields($this);
-        if ($fields->dataFieldByName('CountryID')) {
-            $countryDropdown = new DropdownField(
-                    'CountryID',
-                    $this->fieldLabel('Country'),
-                    Country::getPrioritiveDropdownMap());
-            $fields->replaceField('CountryID', $countryDropdown);
-        }
-        $fields->dataFieldByName('Salutation')->setSource(Tools::getSalutationMap());
-        return $fields;
+    public function getCMSFields($params = null) : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if ($fields->dataFieldByName('CountryID')) {
+                $countryDropdown = DropdownField::create(
+                        'CountryID',
+                        $this->fieldLabel('Country'),
+                        Country::getPrioritiveDropdownMap());
+                $fields->replaceField('CountryID', $countryDropdown);
+            }
+            $fields->dataFieldByName('Salutation')->setSource(Tools::getSalutationMap());
+        });
+        return DataObjectExtension::getCMSFields($this);
     }
     
     /**
@@ -420,14 +484,15 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2012
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields() : array
+    {
+        $summaryFields = [
                 'Street'       => $this->fieldLabel('Street'),
                 'StreetNumber' => $this->fieldLabel('StreetNumber'),
                 'Postcode'     => $this->fieldLabel('Postcode'),
                 'City'         => $this->fieldLabel('City'),
                 'Country.ISO2' => $this->fieldLabel('Country'),
-        );
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -440,98 +505,97 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2013
      */
-    public function searchableFields() {
-        $fields = array(
-            'TaxIdNumber' => array(
+    public function searchableFields() : array
+    {
+        $fields = [
+            'TaxIdNumber' => [
                 'title'  => $this->fieldLabel('TaxIdNumber'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Company' => array(
+            ],
+            'Company' => [
                 'title'  => $this->fieldLabel('Company'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Salutation' => array(
+            ],
+            'Salutation' => [
                 'title'  => $this->fieldLabel('Salutation'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'AcademicTitle' => array(
+            ],
+            'AcademicTitle' => [
                 'title'  => $this->fieldLabel('AcademicTitle'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'FirstName' => array(
+            ],
+            'FirstName' => [
                 'title'  => $this->fieldLabel('FirstName'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Surname' => array(
+            ],
+            'Surname' => [
                 'title'  => $this->fieldLabel('Surname'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Addition' => array(
+            ],
+            'Addition' => [
                 'title'  => $this->fieldLabel('Addition'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'PostNumber' => array(
+            ],
+            'PostNumber' => [
                 'title'  => $this->fieldLabel('PostNumber'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Packstation' => array(
+            ],
+            'Packstation' => [
                 'title'  => $this->fieldLabel('Packstation'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Street'            => array(
+            ],
+            'Street' => [
                 'title'  => $this->fieldLabel('Street'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'StreetNumber' => array(
+            ],
+            'StreetNumber' => [
                 'title'  => $this->fieldLabel('StreetNumber'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Postcode' => array(
+            ],
+            'Postcode' => [
                 'title'  => $this->fieldLabel('Postcode'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'City' => array(
+            ],
+            'City' => [
                 'title'  => $this->fieldLabel('City'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Phone' => array(
+            ],
+            'Phone' => [
                 'title'  => $this->fieldLabel('Phone'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'Fax' => array(
+            ],
+            'Fax' => [
                 'title'  => $this->fieldLabel('Fax'),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'IsPackstation' => array(
+            ],
+            'IsPackstation' => [
                 'title'  => $this->fieldLabel('IsPackstation'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'Member.ID' => array(
+            ],
+            'Member.ID' => [
                 'title'  => $this->fieldLabel('Member'),
                 'filter' => ExactMatchFilter::class,
-            ),
-            'Country.ID' => array(
+            ],
+            'Country.ID' => [
                 'title'  => $this->fieldLabel('Country'),
                 'filter' => ExactMatchFilter::class,
-            ),
-        );
-        
+            ],
+        ];
         if ($this->isRestfulContext) {
             $fields = array_merge(
                     $fields,
-                    array(
-                        'LastEdited' => array(
+                    [
+                        'LastEdited' => [
                             'title'  => $this->fieldLabel('LastEdited'),
                             'filter' => GreaterThanFilter::class,
-                        ),
-                        'ID'        => array(
+                        ],
+                        'ID'        => [
                             'title'  => $this->fieldLabel('ID'),
                             'filter' => ExactMatchFilter::class,
-                        ),
-                    )
+                        ],
+                    ]
             );
         }
-        
         return $fields;
     }
 
@@ -541,7 +605,8 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @return SearchContext
      */
-    public function getRestfulSearchContext() {
+    public function getRestfulSearchContext() : SearchContext
+    {
         $this->isRestfulContext = true;
         return $this->getDefaultSearchContext();
     }
@@ -556,55 +621,51 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2012
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'Street'             => _t(Address::class . '.STREET', 'Street'),
-                'StreetNumber'       => _t(Address::class . '.STREETNUMBER', 'Streetnumber'),
-                'Postcode'           => _t(Address::class . '.POSTCODE', 'Postcode'),
-                'City'               => _t(Address::class . '.CITY', 'City'),
-                'Phone'              => _t(Address::class . '.PHONE', 'Phone'),
-                'PhoneShort'         => _t(Address::class . '.PHONE_SHORT', 'Phone'),
-                'Fax'                => _t(Address::class . '.FAX', 'Fax'),
-                'Country'            => Country::singleton()->singular_name(),
-                'Addition'           => _t(Address::class . '.ADDITION', 'Addition'),
-                'PostNumber'         => _t(Address::class . '.POSTNUMBER', 'Your PostNumber'),
-                'PostNumberPlain'    => _t(Address::class . '.POSTNUMBER_PLAIN', 'PostNumber'),
-                'Packstation'        => _t(Address::class . '.PACKSTATION', 'Packstation (e.g. "Packstation 105")'),
-                'PackstationPlain'   => _t(Address::class . '.PACKSTATION_PLAIN', 'Packstation'),
-                'Salutation'         => _t(Address::class . '.SALUTATION', 'Salutation'),
-                'AcademicTitle'      => _t(Address::class . '.AcademicTitle', 'Academic title'),
-                'FirstName'          => _t(Address::class . '.FIRSTNAME', 'Firstname'),
-                'Surname'            => _t(Address::class . '.SURNAME', 'Surname'),
-                'TaxIdNumber'        => _t(Address::class . '.TAXIDNUMBER', 'Tax ID number'),
-                'Company'            => _t(Address::class . '.COMPANY', 'Company'),
-                'IsBusinessAccount'  => _t(Address::class . '.ISBUSINESSACCOUNT', 'Is business address'),
-                'Name'               => _t(Address::class . '.NAME', 'Name'),
-                'UsePackstation'     => _t(Address::class . '.USE_PACKSTATION', 'This is a PACKSTATION address'),
-                'UseAbsoluteAddress' => _t(Address::class . '.USE_ABSOLUTEADDRESS', 'This is an absolute address'),
-                'IsPackstation'      => _t(Address::class . '.IS_PACKSTATION', 'Address is PACKSTATION'),
-                'AddressType'        => _t(Address::class . '.ADDRESSTYPE', 'Type of address'),
-                'Member'             => _t(Order::class .  '.CUSTOMER', 'Customer'),
-                'PackstationLabel'   => _t(Address::class . '.PACKSTATION_LABEL', 'PACKSTATION'),
-                'NoAddressAvailable' => _t(Address::class . '.NO_ADDRESS_AVAILABLE', 'No address available'),
-                'Email'              => _t(Address::class . '.EMAIL', 'Email address'),
-                'EmailCheck'         => _t(Address::class . '.EMAIL_CHECK', 'Email address check'),
-                'EditAddress'        => _t(Address::class . '.EDITADDRESS', 'Edit address'),
-                'Mister'             => _t(Address::class . '.MISTER', 'Mister'),
-                'Misses'             => _t(Address::class . '.MISSES', 'Misses'),
-                'InvoiceAddress'     => _t(Address::class . '.InvoiceAddress', 'Invoice address'),
-                'InvoiceAddresses'   => _t(Address::class . '.InvoiceAddresses', 'Invoice addresses'),
-                'ShippingAddress'    => _t(Address::class . '.ShippingAddress', 'Shipping address'),
-                'ShippingAddresses'  => _t(Address::class . '.ShippingAddresses', 'Shipping addresses'),
-                'InvoiceAddressAsShippingAddress' => _t(Address::class . '.InvoiceAddressAsShippingAddress', 'Use invoice address as shipping address'),
-                'SILVERCART_ADDRESS_VIEW'   => _t(Address::class . '.SILVERCART_ADDRESS_VIEW', 'View address'),
-                'SILVERCART_ADDRESS_EDIT'   => _t(Address::class . '.SILVERCART_ADDRESS_EDIT', 'Edit address'),
-                'SILVERCART_ADDRESS_DELETE' => _t(Address::class . '.SILVERCART_ADDRESS_DELETE', 'Delete address'),
-            )
-        );
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Street'             => _t(Address::class . '.STREET', 'Street'),
+            'StreetNumber'       => _t(Address::class . '.STREETNUMBER', 'Streetnumber'),
+            'Postcode'           => _t(Address::class . '.POSTCODE', 'Postcode'),
+            'City'               => _t(Address::class . '.CITY', 'City'),
+            'Phone'              => _t(Address::class . '.PHONE', 'Phone'),
+            'PhoneShort'         => _t(Address::class . '.PHONE_SHORT', 'Phone'),
+            'Fax'                => _t(Address::class . '.FAX', 'Fax'),
+            'Country'            => Country::singleton()->singular_name(),
+            'Addition'           => _t(Address::class . '.ADDITION', 'Addition'),
+            'PostNumber'         => _t(Address::class . '.POSTNUMBER', 'Your PostNumber'),
+            'PostNumberPlain'    => _t(Address::class . '.POSTNUMBER_PLAIN', 'PostNumber'),
+            'Packstation'        => _t(Address::class . '.PACKSTATION', 'Packstation (e.g. "Packstation 105")'),
+            'PackstationPlain'   => _t(Address::class . '.PACKSTATION_PLAIN', 'Packstation'),
+            'Salutation'         => _t(Address::class . '.SALUTATION', 'Salutation'),
+            'AcademicTitle'      => _t(Address::class . '.AcademicTitle', 'Academic title'),
+            'FirstName'          => _t(Address::class . '.FIRSTNAME', 'Firstname'),
+            'Surname'            => _t(Address::class . '.SURNAME', 'Surname'),
+            'TaxIdNumber'        => _t(Address::class . '.TAXIDNUMBER', 'Tax ID number'),
+            'Company'            => _t(Address::class . '.COMPANY', 'Company'),
+            'IsBusinessAccount'  => _t(Address::class . '.ISBUSINESSACCOUNT', 'Is business address'),
+            'Name'               => _t(Address::class . '.NAME', 'Name'),
+            'UsePackstation'     => _t(Address::class . '.USE_PACKSTATION', 'This is a PACKSTATION address'),
+            'UseAbsoluteAddress' => _t(Address::class . '.USE_ABSOLUTEADDRESS', 'This is an absolute address'),
+            'IsPackstation'      => _t(Address::class . '.IS_PACKSTATION', 'Address is PACKSTATION'),
+            'AddressType'        => _t(Address::class . '.ADDRESSTYPE', 'Type of address'),
+            'Member'             => _t(Order::class .  '.CUSTOMER', 'Customer'),
+            'PackstationLabel'   => _t(Address::class . '.PACKSTATION_LABEL', 'PACKSTATION'),
+            'NoAddressAvailable' => _t(Address::class . '.NO_ADDRESS_AVAILABLE', 'No address available'),
+            'Email'              => _t(Address::class . '.EMAIL', 'Email address'),
+            'EmailCheck'         => _t(Address::class . '.EMAIL_CHECK', 'Email address check'),
+            'EditAddress'        => _t(Address::class . '.EDITADDRESS', 'Edit address'),
+            'Mister'             => _t(Address::class . '.MISTER', 'Mister'),
+            'Misses'             => _t(Address::class . '.MISSES', 'Misses'),
+            'InvoiceAddress'     => _t(Address::class . '.InvoiceAddress', 'Invoice address'),
+            'InvoiceAddresses'   => _t(Address::class . '.InvoiceAddresses', 'Invoice addresses'),
+            'ShippingAddress'    => _t(Address::class . '.ShippingAddress', 'Shipping address'),
+            'ShippingAddresses'  => _t(Address::class . '.ShippingAddresses', 'Shipping addresses'),
+            'InvoiceAddressAsShippingAddress' => _t(Address::class . '.InvoiceAddressAsShippingAddress', 'Use invoice address as shipping address'),
+            'SILVERCART_ADDRESS_VIEW'   => _t(Address::class . '.SILVERCART_ADDRESS_VIEW', 'View address'),
+            'SILVERCART_ADDRESS_EDIT'   => _t(Address::class . '.SILVERCART_ADDRESS_EDIT', 'Edit address'),
+            'SILVERCART_ADDRESS_DELETE' => _t(Address::class . '.SILVERCART_ADDRESS_DELETE', 'Delete address'),
+        ]);
     }
     
     /**
@@ -618,22 +679,20 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2018
      */
-    public function requireDefaultRecords() {
-        
+    public function requireDefaultRecords() : void
+    {
         $databaseConfig = DB::getConfig();
         $databaseName   = $databaseConfig['database'];
-        $tableName      = self::config()->get('table_name');
+        $tableName      = $this->config()->table_name;
         $columnName     = 'PhoneAreaCode';
         $query          = "SELECT * FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '{$databaseName}' AND TABLE_NAME = '{$tableName}' AND COLUMN_NAME = '{$columnName}'";
         $result         = DB::query($query);
-
         if ($result->numRecords() > 0) {
             $updateQuery = "UPDATE {$tableName} SET Phone = CONCAT({$columnName}, CONCAT(' ', Phone)), {$columnName} = NULL WHERE {$columnName} IS NOT NULL";
             $alterQuery  = "ALTER TABLE {$tableName} DROP COLUMN {$columnName}";
             DB::query($updateQuery);
             DB::query($alterQuery);
         }
-        
         parent::requireDefaultRecords();
     }
     
@@ -645,7 +704,8 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.10.2012
      */
-    protected function onBeforeWrite() {
+    protected function onBeforeWrite() : void
+    {
         parent::onBeforeWrite();
         if ($this->IsPackstation) {
             $this->Street       = '';
@@ -661,7 +721,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getTitle() {
+    public function getTitle() : string
+    {
         $title = $this->singular_name();
         $this->extend('updateTitle', $title);
         return $title;
@@ -672,7 +733,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getSummary() {
+    public function getSummary() : string
+    {
         $summary = '';
         if (!empty($this->Company)) {
             $summary .= $this->Company . ', ';
@@ -701,19 +763,20 @@ class Address extends DataObject implements PermissionProvider {
      * Indicates wether this address is set as a standard address for shipping
      * or invoicing.
      *
-     * @return boolean
+     * @return bool
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
+     * @author Sascha Koehler <skoehler@pixeltricks.de>,
+     *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2012
      */
-    public function hasAddressData() {
+    public function hasAddressData() : bool
+    {
         $hasAddressData = false;
-        
-        if ($this->ID > 0 ||
-            $this->isAnonymous()) {
+        if ($this->ID > 0
+         || $this->isAnonymous()
+        ) {
             $hasAddressData = true;
         }
-        
         return $hasAddressData;
     }
 
@@ -725,8 +788,9 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2012
      */
-    public function isAnonymous() {
-        return $this->isAnonymous;
+    public function isAnonymous() : bool
+    {
+        return (bool) $this->isAnonymous;
     }
 
     /**
@@ -737,8 +801,9 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2012
      */
-    public function isAnonymousShippingAddress() {
-        return $this->isAnonymousShippingAddress;
+    public function isAnonymousShippingAddress() : bool
+    {
+        return (bool) $this->isAnonymousShippingAddress;
     }
 
     /**
@@ -749,8 +814,9 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2012
      */
-    public function isAnonymousInvoiceAddress() {
-        return $this->isAnonymousInvoiceAddress;
+    public function isAnonymousInvoiceAddress() : bool
+    {
+        return (bool) $this->isAnonymousInvoiceAddress;
     }
     
     /**
@@ -758,10 +824,12 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @param bool $isAnonymous Anonymous?
      *
-     * @return void
+     * @return $this
      */
-    public function setIsAnonymous($isAnonymous) {
+    public function setIsAnonymous(bool $isAnonymous) : Address
+    {
         $this->isAnonymous = $isAnonymous;
+        return $this;
     }
     
     /**
@@ -769,11 +837,13 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @param bool $isAnonymousShippingAddress Anonymous?
      *
-     * @return void
+     * @return $this
      */
-    public function setIsAnonymousShippingAddress($isAnonymousShippingAddress) {
+    public function setIsAnonymousShippingAddress(bool $isAnonymousShippingAddress) : Address
+    {
         $this->isAnonymousShippingAddress = $isAnonymousShippingAddress;
         $this->setIsAnonymous($isAnonymousShippingAddress);
+        return $this;
     }
     
     /**
@@ -781,52 +851,52 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @param bool $isAnonymousInvoiceAddress Anonymous?
      *
-     * @return void
+     * @return $this
      */
-    public function setIsAnonymousInvoiceAddress($isAnonymousInvoiceAddress) {
+    public function setIsAnonymousInvoiceAddress(bool $isAnonymousInvoiceAddress) : Address
+    {
         $this->isAnonymousInvoiceAddress = $isAnonymousInvoiceAddress;
         $this->setIsAnonymous($isAnonymousInvoiceAddress);
+        return $this;
     }
 
     /**
      * Indicates wether this address is the address of a company. The fields
      * "Company" and "TaxIdNumber" must be filled in to conform that.
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 21.12.2011
      */
-    public function isCompanyAddress() {
+    public function isCompanyAddress() : bool
+    {
         $isCompanyAddress = false;
-        
-        if (!empty($this->TaxIdNumber) &&
-            !empty($this->Company)) {
-            
+        if (!empty($this->TaxIdNumber)
+         && !empty($this->Company)
+        ) {
             $isCompanyAddress = true;
         }
-        
         return $isCompanyAddress;
     }
 
     /**
      * Indicates wether this is the last address of the customer.
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function isLastAddress() {
+    public function isLastAddress() : bool
+    {
         $isLastAddress = false;
-
-        if (Customer::currentUser() &&
-            Customer::currentUser()->Addresses()->count() < 2) {
-
+        if (Customer::currentUser()
+         && Customer::currentUser()->Addresses()->count() < 2
+        ) {
             $isLastAddress = true;
         }
-
         return $isLastAddress;
     }
     
@@ -835,15 +905,15 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @param Address $address Address to check equality for.
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.01.2014
      */
-    public function isEqual(Address $address) {
-        $isEqual = true;
-        
-        $propertiesToCheck = array(
+    public function isEqual(Address $address) : bool
+    {
+        $isEqual           = true;
+        $propertiesToCheck = [
             'Salutation',
             'AcademicTitle',
             'FirstName',
@@ -861,18 +931,15 @@ class Address extends DataObject implements PermissionProvider {
             'PostNumber',
             'Packstation',
             'IsPackstation',
-        );
+        ];
         $this->extend('updateIsEqualPropertiesToCheck', $propertiesToCheck);
-        
         foreach ($propertiesToCheck as $property) {
             if ($this->{$property} != $address->{$property}) {
                 $isEqual = false;
                 break;
             }
         }
-        
         $this->extend('updateIsEqual', $address, $isEqual);
-        
         return $isEqual;
     }
 
@@ -881,8 +948,9 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return string
      */
-    public function getFullName() {
-        return $this->FirstName . ' ' . $this->Surname;
+    public function getFullName() : string
+    {
+        return "{$this->FirstName} {$this->Surname}";
     }
 
     /**
@@ -890,7 +958,8 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getSalutationText() {
+    public function getSalutationText() : string
+    {
         return Tools::getSalutationText($this->Salutation);
     }
     
@@ -899,7 +968,8 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getCountryISO2() {
+    public function getCountryISO2() : string
+    {
         $countryISO2 = '';
         if ($this->CountryID > 0) {
             $countryISO2 = $this->Country()->ISO2;
@@ -912,7 +982,8 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getCountryISO3() {
+    public function getCountryISO3() : string
+    {
         $countryISO3 = '';
         if ($this->CountryID > 0) {
             $countryISO3 = $this->Country()->ISO3;
@@ -925,7 +996,8 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getCountryISON() {
+    public function getCountryISON() : string
+    {
         $countryISON = '';
         if ($this->CountryID > 0) {
             $countryISON = $this->Country()->ISON;
@@ -938,7 +1010,8 @@ class Address extends DataObject implements PermissionProvider {
      *
      * @return string
      */
-    public function getCountryFIPS() {
+    public function getCountryFIPS() : string
+    {
         $countryFIPS = '';
         if ($this->CountryID > 0) {
             $countryFIPS = $this->Country()->FIPS;
@@ -954,17 +1027,19 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.12.2017
      */
-    public function isInvoiceAddress() {
+    public function isInvoiceAddress() : bool
+    {
         $isOrderInvoiceAddress = $this->getIsOrderInvoiceAddress();
         if (!is_null($isOrderInvoiceAddress)) {
             return $isOrderInvoiceAddress;
         }
         $isInvoiceAddress = false;
         $currentCustomer  = Customer::currentUser();
-        if (($currentCustomer instanceof Member &&
-             $this->ID == $currentCustomer->InvoiceAddressID) ||
-            $this->ID == $this->Member()->InvoiceAddressID ||
-            $this->isAnonymousInvoiceAddress()) {
+        if (($currentCustomer instanceof Member
+          && $this->ID == $currentCustomer->InvoiceAddressID)
+         || $this->ID == $this->Member()->InvoiceAddressID
+         || $this->isAnonymousInvoiceAddress()
+        ) {
             $isInvoiceAddress = true;
         }
         if (!$isInvoiceAddress) {
@@ -982,24 +1057,27 @@ class Address extends DataObject implements PermissionProvider {
      *         Ramon Kupper <rkupper@pixeltricks.de>
      * @since 15.12.2017
      */
-    public function isShippingAddress() {
+    public function isShippingAddress() : bool
+    {
         $isOrderShippingAddress = $this->getIsOrderShippingAddress();
         if (!is_null($isOrderShippingAddress)) {
             return $isOrderShippingAddress;
         }
         $isShippingAddress = false;
         $currentCustomer   = Customer::currentUser();
-        if (($currentCustomer instanceof Member &&
-             $this->ID == $currentCustomer->ShippingAddressID) ||
-            $this->ID == $this->Member()->ShippingAddressID ||
-            $this->isAnonymousShippingAddress()) {
+        if (($currentCustomer instanceof Member
+          && $this->ID == $currentCustomer->ShippingAddressID)
+         || $this->ID == $this->Member()->ShippingAddressID
+         || $this->isAnonymousShippingAddress()
+        ) {
             $isShippingAddress = true;
-        } else if (Controller::curr() instanceof CheckoutStepController) {
+        } elseif (Controller::curr() instanceof CheckoutStepController) {
             $checkoutData = Controller::curr()->getCheckout()->getData();
-            if (array_key_exists('ShippingAddress', $checkoutData) && 
-                is_numeric($this->ID) &&
-                $this->ID > 0 &&
-                $this->ID === $checkoutData['ShippingAddress']) {
+            if (array_key_exists('ShippingAddress', $checkoutData)
+             && is_numeric($this->ID)
+             && $this->ID > 0
+             && $this->ID === $checkoutData['ShippingAddress']
+            ) {
                 $isShippingAddress = true; 
             }
         }
@@ -1013,21 +1091,10 @@ class Address extends DataObject implements PermissionProvider {
      * Indicates if this is both an invoice and shipping address.
      *
      * @return bool
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 16.11.2013
      */
-    public function isInvoiceAndShippingAddress() {
-        $isInvoiceAndShippingAddress = false;
-        
-        if ($this->isInvoiceAddress() &&
-            $this->isShippingAddress()) {
-
-            $isInvoiceAndShippingAddress = true;
-        }
-        
-        return $isInvoiceAndShippingAddress;
+    public function isInvoiceAndShippingAddress() : bool
+    {
+        return $this->isInvoiceAddress() && $this->isShippingAddress();
     }
     
     /**
@@ -1035,7 +1102,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public function getIsCheckoutShippingAddress() {
+    public function getIsCheckoutShippingAddress() : bool
+    {
         return $this->isCheckoutShippingAddress;
     }
    
@@ -1044,7 +1112,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public function getIsCheckoutInvoiceAddress() {
+    public function getIsCheckoutInvoiceAddress() : bool
+    {
         return $this->isCheckoutInvoiceAddress;
     }
     
@@ -1053,7 +1122,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public function getIsOrderShippingAddress() {
+    public function getIsOrderShippingAddress() : bool
+    {
         return $this->isOrderShippingAddress;
     }
    
@@ -1062,7 +1132,8 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return bool
      */
-    public function getIsOrderInvoiceAddress() {
+    public function getIsOrderInvoiceAddress() : bool
+    {
         return $this->isOrderInvoiceAddress;
     }
 
@@ -1071,10 +1142,12 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @param bool $isCheckoutShippingAddress Is shipping address?
      * 
-     * @return void
+     * @return $this
      */
-    public function setIsCheckoutShippingAddress($isCheckoutShippingAddress) {
+    public function setIsCheckoutShippingAddress(bool $isCheckoutShippingAddress) : Address
+    {
         $this->isCheckoutShippingAddress = $isCheckoutShippingAddress;
+        return $this;
     }
 
     /**
@@ -1082,10 +1155,12 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @param bool $isCheckoutInvoiceAddress Is invoice address?
      * 
-     * @return void
+     * @return $this
      */
-    public function setIsCheckoutInvoiceAddress($isCheckoutInvoiceAddress) {
+    public function setIsCheckoutInvoiceAddress(bool $isCheckoutInvoiceAddress) : Address
+    {
         $this->isCheckoutInvoiceAddress = $isCheckoutInvoiceAddress;
+        return $this;
     }
 
     /**
@@ -1093,10 +1168,12 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @param bool $isOrderShippingAddress Is shipping address?
      * 
-     * @return void
+     * @return $this
      */
-    public function setIsOrderShippingAddress($isOrderShippingAddress) {
+    public function setIsOrderShippingAddress(bool $isOrderShippingAddress) : Address
+    {
         $this->isOrderShippingAddress = $isOrderShippingAddress;
+        return $this;
     }
 
     /**
@@ -1104,13 +1181,14 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @param bool $isOrderInvoiceAddress Is invoice address?
      * 
-     * @return void
+     * @return $this
      */
-    public function setIsOrderInvoiceAddress($isOrderInvoiceAddress) {
+    public function setIsOrderInvoiceAddress(bool $isOrderInvoiceAddress) : Address
+    {
         $this->isOrderInvoiceAddress = $isOrderInvoiceAddress;
+        return $this;
     }
     
-   
     /**
      * returns field value for given fieldname with stripped slashes
      *
@@ -1118,10 +1196,12 @@ class Address extends DataObject implements PermissionProvider {
      * 
      * @return string 
      */
-    public function getField($field) {
+    public function getField($field)
+    {
         $parentField = parent::getField($field);
-        if (!is_null($parentField) &&
-            $field != 'ClassName') {
+        if (!is_null($parentField)
+         && $field != 'ClassName'
+        ) {
             $parentField = stripcslashes($parentField);
         }
         return $parentField;
@@ -1135,7 +1215,7 @@ class Address extends DataObject implements PermissionProvider {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function render($headLine = null)
+    public function render($headLine = null) : DBHTMLText
     {
         return $this->customise(['HeadLine' => $headLine])->renderWith(Address::class);
     }

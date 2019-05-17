@@ -16,16 +16,16 @@ use SilverCart\Model\Order\Order;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class OrderAddress extends Address {
-
+class OrderAddress extends Address
+{
     /**
      * 1:1 back relations
      *
      * @var array
      */
-    private static $belongs_to = array(
+    private static $belongs_to = [
         'Order' => Order::class,
-    );
+    ];
 
     /**
      * Returns the translated singular name of the object.
@@ -35,7 +35,8 @@ class OrderAddress extends Address {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -47,8 +48,8 @@ class OrderAddress extends Address {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);  
     }
-    
 }

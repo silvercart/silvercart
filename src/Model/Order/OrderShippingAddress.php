@@ -16,8 +16,8 @@ use SilverCart\Model\Order\OrderAddress;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class OrderShippingAddress extends OrderAddress {
-    
+class OrderShippingAddress extends OrderAddress
+{
     /**
      * API access is allowed for this object
      *
@@ -33,7 +33,8 @@ class OrderShippingAddress extends OrderAddress {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -45,7 +46,8 @@ class OrderShippingAddress extends OrderAddress {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);  
     }
 
@@ -54,12 +56,13 @@ class OrderShippingAddress extends OrderAddress {
      * 
      * @param Member $member current member
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function canView($member = null) {
+    public function canView($member = null) : bool
+    {
         return $this->Order()->canView($member);
     }
 
@@ -68,12 +71,13 @@ class OrderShippingAddress extends OrderAddress {
      * 
      * @param Member $member current member
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function canEdit($member = null) {
+    public function canEdit($member = null) : bool
+    {
         return $this->Order()->canEdit($member);
     }
 
@@ -82,25 +86,26 @@ class OrderShippingAddress extends OrderAddress {
      * 
      * @param Member $member current member
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function canDelete($member = null) {
+    public function canDelete($member = null) : bool
+    {
         return $this->Order()->canDelete($member);
     }
     
     /**
      * Indicates that this is the shipping address.
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 13.07.2012
      */
-    public function isShippingAddress() {
+    public function isShippingAddress() : bool
+    {
         return true;
     }
 }
-
