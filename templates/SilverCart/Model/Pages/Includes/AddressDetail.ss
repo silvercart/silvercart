@@ -52,10 +52,10 @@
                 <strong><%t SilverCart\Model\Pages\AddressHolder.DEFAULT_SHIPPING 'This is your shipping address' %></strong>
             </span>
             <% end_if %>
-            <% if not $isInvoiceAddress && $Member.InvoiceAddress.canEdit %>
+            <% if $canSetAsDefaultInvoiceAddress %>
                 <a href="{$CurrentPage.Link}setInvoiceAddress/{$ID}" class="btn btn-small"><%t SilverCart\Model\Pages\AddressHolder.SET_AS 'Set as' %> <%t SilverCart\Model\Pages\AddressHolder.INVOICEADDRESS 'invoice address' %></a>
             <% end_if %>
-            <% if not $isShippingAddress %>
+            <% if $canSetAsDefaultShippingAddress %>
             <br/><br/><a href="{$CurrentPage.Link}setShippingAddress/{$ID}" class="btn btn-small"><%t SilverCart\Model\Pages\AddressHolder.SET_AS 'Set as' %> <%t SilverCart\Model\Pages\AddressHolder.SHIPPINGADDRESS 'shipping address' %></a>
             <% end_if %>
             <% if $canEdit || $canDelete %>
