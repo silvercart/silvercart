@@ -162,13 +162,13 @@ class Address extends DataObject implements PermissionProvider
     /**
      * Marks the address as shipping address in order context.
      *
-     * @var bool
+     * @var bool|null
      */
     protected $isOrderShippingAddress = null;
     /**
      * Marks the address as invoice address in order context.
      *
-     * @var bool
+     * @var bool|null
      */
     protected $isOrderInvoiceAddress = null;
 
@@ -1120,9 +1120,9 @@ class Address extends DataObject implements PermissionProvider
     /**
      * Returns if this address is the current shipping address in order context.
      * 
-     * @return bool
+     * @return bool|null
      */
-    public function getIsOrderShippingAddress() : bool
+    public function getIsOrderShippingAddress() : ?bool
     {
         return $this->isOrderShippingAddress;
     }
@@ -1130,9 +1130,9 @@ class Address extends DataObject implements PermissionProvider
     /**
      * Returns if this address is the current invoice address in order context.
      * 
-     * @return bool
+     * @return bool|null
      */
-    public function getIsOrderInvoiceAddress() : bool
+    public function getIsOrderInvoiceAddress() : ?bool
     {
         return $this->isOrderInvoiceAddress;
     }
