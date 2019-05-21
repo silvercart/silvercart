@@ -847,6 +847,7 @@ class Order extends DataObject implements PermissionProvider
                 $fields->removeByName('PaymentReferenceMessage');
             }
             $fields->removeByName('PaymentReferenceData');
+            $fields->removeByName('OrderLogs');
         });
         return DataObjectExtension::getCMSFields($this);
     }
@@ -1484,17 +1485,24 @@ class Order extends DataObject implements PermissionProvider
      *
      * @param int $paymentMethodID id of payment method
      *
-     * @return void
+     * @return Order
      */
-    public function setPaymentMethod($paymentMethodID)
+    public function setPaymentMethod(int $paymentMethodID) : Order
     {
         $paymentMethod = PaymentMethod::get()->byID($paymentMethodID);
-
-        if ($paymentMethod) {
+        if ($paymentMethod instanceof PaymentMethod) {
             $this->PaymentMethodID = $paymentMethod->ID;
-            $this->HandlingCostPayment->setAmount($paymentMethod->getHandlingCost()->amount->getAmount());
-            $this->HandlingCostPayment->setCurrency(Config::DefaultCurrency());
+            $paymentFee            = $paymentMethod->getHandlingCost();
+            if ($paymentFee instanceof HandlingCost
+             && $paymentFee->exists()
+            ) {
+                $this->TaxRatePayment   = $paymentFee->Tax()->getTaxRate();
+                $this->TaxAmountPayment = $paymentFee->getTaxAmount();
+                $this->HandlingCostPayment->setAmount($paymentFee->amount->getAmount());
+                $this->HandlingCostPayment->setCurrency($paymentFee->amount->getCurrency());
+            }
         }
+        return $this;
     }
 
     /**
@@ -1533,6 +1541,29 @@ class Order extends DataObject implements PermissionProvider
             $paymentStatusSet = true;
         }
         return $paymentStatusSet;
+    }
+    
+    /**
+     * Sets the payment status by the given $paymentStatusID. If there is no 
+     * existing payment status, the default payment status will be set.
+     * 
+     * @param int $paymentStatusID Payment status ID
+     * 
+     * @return \SilverCart\Model\Order\Order
+     */
+    public function setPaymentStatusByIDOrDefault(int $paymentStatusID = 0) : Order
+    {
+        $paymentStatus = PaymentStatus::get()->byID($paymentStatusID);
+        if (!($paymentStatus instanceof PaymentStatus)
+         || !$paymentStatus->exists()) {
+            $paymentStatus = PaymentStatus::get_default();
+        }
+        if ($paymentStatus instanceof PaymentStatus
+         && $paymentStatus->exists()
+        ) {
+            $this->PaymentStatusID = $paymentStatus->ID;
+        }
+        return $this;
     }
 
     /**
@@ -1575,6 +1606,30 @@ class Order extends DataObject implements PermissionProvider
         }
 
         return $orderStatusSet;
+    }
+    
+    /**
+     * Sets the order status by the given $orderStatusID. If there is no existing 
+     * order status, the default order status will be set.
+     * 
+     * @param int $orderStatusID Order status ID
+     * 
+     * @return \SilverCart\Model\Order\Order
+     */
+    public function setOrderStatusByIDOrDefault(int $orderStatusID = 0) : Order
+    {
+        $orderStatus = OrderStatus::get()->byID($orderStatusID);
+        if (!($orderStatus instanceof OrderStatus)
+         || !$orderStatus->exists()
+        ) {
+            $orderStatus = OrderStatus::get_default();
+        }
+        if ($orderStatus instanceof OrderStatus
+         && $orderStatus->exists()
+        ) {
+            $this->OrderStatusID = $orderStatus->ID;
+        }
+        return $this;
     }
 
     /**
@@ -1688,20 +1743,23 @@ class Order extends DataObject implements PermissionProvider
      *
      * @param int $shippingMethodID the ID of the shipping method
      *
-     * @return void
+     * @return Order
      */
-    public function setShippingMethod($shippingMethodID)
+    public function setShippingMethod(int $shippingMethodID) : Order
     {
         $selectedShippingMethod = ShippingMethod::get()->byID($shippingMethodID);
-
         if ($selectedShippingMethod instanceof ShippingMethod
          && $selectedShippingMethod->getShippingFee() instanceof ShippingFee
         ) {
+            $shippingFee = $selectedShippingMethod->getShippingFee();
             $this->ShippingMethodID    = $selectedShippingMethod->ID;
-            $this->ShippingFeeID       = $selectedShippingMethod->getShippingFee()->ID;
-            $this->HandlingCostShipment->setAmount($selectedShippingMethod->getShippingFee()->getPriceAmount());
+            $this->ShippingFeeID       = $shippingFee->ID;
+            $this->TaxRateShipment     = $shippingFee->getTaxRate();
+            $this->TaxAmountShipment   = $shippingFee->getTaxAmount();
+            $this->HandlingCostShipment->setAmount($shippingFee->getPriceAmount());
             $this->HandlingCostShipment->setCurrency(Config::DefaultCurrency());
         }
+        return $this;
     }
 
     /**
