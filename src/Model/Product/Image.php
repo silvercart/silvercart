@@ -11,7 +11,9 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Widgets\ImageSliderImage;
 use SilverCart\Model\Widgets\SlidorionProductGroupWidget;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Assets\Image as SilverStripeImage;
 use SilverStripe\Control\Controller;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
@@ -27,72 +29,66 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Image extends DataObject {
-    
+class Image extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * DB properties
      *
      * @var array
      */
-    private static $db = array(
-        'ProductNumberToReference'  => 'Varchar(128)',
-        'SortOrder'                 => 'Int',
-    );
-
+    private static $db = [
+        'ProductNumberToReference' => 'Varchar(128)',
+        'SortOrder'                => 'Int',
+    ];
     /**
      * Has one relations
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Product'       => Product::class,
         'PaymentMethod' => PaymentMethod::class,
-        'Image'         => \SilverStripe\Assets\Image::class,
-    );
-    
+        'Image'         => SilverStripeImage::class,
+    ];
     /**
      * 1:n relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'ImageTranslations' => ImageTranslation::class
-    );
-    
+    ];
     /**
      * Belongs many many relations.
      *
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'SlidorionProductGroupWidgets' => SlidorionProductGroupWidget::class,
-    );
-    
+    ];
     /**
      * Default sort field and direction.
      *
      * @var string
      */
     private static $default_sort = 'SortOrder ASC';
-
     /**
      * Casted properties
      *
      * @var array
      */
-    private static $casting = array(
-        'Title'          => 'Varchar',
-        'Content'        => 'HTMLText',
-        'Description'    => 'HTMLText',
-    );
-
+    private static $casting = [
+        'Title'       => 'Varchar',
+        'Content'     => 'HTMLText',
+        'Description' => 'HTMLText',
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartImage';
-    
     /**
      * Link
      *
@@ -111,7 +107,8 @@ class Image extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2012
      */
-    public function __construct($record = null, $isSingleton = false) {
+    public function __construct($record = null, $isSingleton = false)
+    {
         parent::__construct($record, $isSingleton);
         if ($this->Image()->exists()) {
             $this->Image()->Title = $this->Title;
@@ -123,7 +120,8 @@ class Image extends DataObject {
      * 
      * @return string The Title from the translation object or an empty string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         $title = $this->getTranslationFieldValue('Title');
         if ($this->Product()->ID &&
             empty($title)) {
@@ -137,7 +135,8 @@ class Image extends DataObject {
      * 
      * @return string The content from the translation object or an empty string
      */
-    public function getContent() {
+    public function getContent()
+    {
         return $this->getTranslationFieldValue('Content');
     }
     
@@ -146,7 +145,8 @@ class Image extends DataObject {
      * 
      * @return string The description from the translation object or an empty string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->getTranslationFieldValue('Description');
     }
     
@@ -154,12 +154,10 @@ class Image extends DataObject {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -167,36 +165,34 @@ class Image extends DataObject {
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);
     }
     
     /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldList the fields for the backend
+     * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this);
-        $fields->removeByName('ProductID');
-        $fields->removeByName('PaymentMethodID');
-        
-        $controller = Controller::curr();
-        if ($controller instanceof ProductAdmin ||
-            $controller instanceof PaymentMethodAdmin) {
-            $fields->removeByName('Content');
-            $fields->removeByName('Description');
-        }
-        $fields->removeByName('SlidorionProductGroupWidgets');
-        
-        $fields->addFieldToTab('Root.Main', new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference')));
-        
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->removeByName('ProductID');
+            $fields->removeByName('PaymentMethodID');
+            $controller = Controller::curr();
+            if ($controller instanceof ProductAdmin
+             || $controller instanceof PaymentMethodAdmin
+            ) {
+                $fields->removeByName('Content');
+                $fields->removeByName('Description');
+            }
+            $fields->removeByName('SlidorionProductGroupWidgets');
+            $fields->addFieldToTab('Root.Main', TextField::create('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference')));
+        });
+        return DataObjectExtension::getCMSFields($this);
     }
 
     /**
@@ -205,46 +201,35 @@ class Image extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2011
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'ImageTranslations'            => ImageTranslation::singleton()->plural_name(),
-                'PaymentMethod'                => PaymentMethod::singleton()->singular_name(),
-                'Product'                      => Product::singleton()->singular_name(),
-                'Thumbnail'                    => _t(Image::class . '.THUMBNAIL', 'Preview'),
-                'Title'                        => _t(Image::class . '.TITLE', 'Display name'),
-                'Content'                      => _t(Image::class . '.CONTENT', 'Text content'),
-                'Description'                  => _t(Image::class . '.DESCRIPTION', 'Description (e.g. for Slidorion textfield)'),
-                'SortOrder'                    => _t(Image::class . '.SORTORDER', 'Sort order'),
-                'Image'                        => \SilverStripe\Assets\Image::singleton()->singular_name(),
-                'ProductNumberToReference'     => _t(ImageSliderImage::class . '.ProductNumberToReference', 'Productnumber of the product to link to'),
-                'ProductNumberToReferenceInfo' => _t(ImageSliderImage::class . '.ProductNumberToReferenceInfo', 'Will be used instead the page.'),
-            )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'ImageTranslations'            => ImageTranslation::singleton()->plural_name(),
+            'PaymentMethod'                => PaymentMethod::singleton()->singular_name(),
+            'Product'                      => Product::singleton()->singular_name(),
+            'Thumbnail'                    => _t(Image::class . '.THUMBNAIL', 'Preview'),
+            'Title'                        => _t(Image::class . '.TITLE', 'Display name'),
+            'Content'                      => _t(Image::class . '.CONTENT', 'Text content'),
+            'Description'                  => _t(Image::class . '.DESCRIPTION', 'Description (e.g. for Slidorion textfield)'),
+            'SortOrder'                    => _t(Image::class . '.SORTORDER', 'Sort order'),
+            'Image'                        => SilverStripeImage::singleton()->singular_name(),
+            'ProductNumberToReference'     => _t(ImageSliderImage::class . '.ProductNumberToReference', 'Productnumber of the product to link to'),
+            'ProductNumberToReferenceInfo' => _t(ImageSliderImage::class . '.ProductNumberToReferenceInfo', 'Will be used instead the page.'),
+        ]);
     }
 
     /**
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.05.2012
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields() : array
+    {
+        $summaryFields = [
             'Image.ImageThumbnail' => $this->fieldLabel('Thumbnail'),
             'Title'                => $this->fieldLabel('Title')
-        );
-
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -253,17 +238,15 @@ class Image extends DataObject {
      * Searchable fields definition
      *
      * @return array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.05.2012
      */
-    public function searchableFields() {
-        $searchableFields = array(
-            'ImageTranslations.Title' => array(
+    public function searchableFields() : array
+    {
+        $searchableFields = [
+            'ImageTranslations.Title' => [
                 'title'  => $this->fieldLabel('Title'),
                 'filter' => PartialMatchFilter::class,
-            )
-        );
+            ]
+        ];
             
         return $searchableFields;
     }
@@ -273,8 +256,9 @@ class Image extends DataObject {
      *
      * @return string
      */
-    public function getFileIcon() {
-        return '<img src="' . $this->Image()->Icon() . '" alt="' . $this->Image()->FileType . '" title="' . $this->Image()->Title . '" />';
+    public function getFileIcon() : string
+    {
+        return "<img src=\"{$this->Image()->Icon()}\" alt=\"{$this->Image()->FileType}\" title=\"{$this->Image()->Title}\" />";
     }
     
     /**
@@ -282,9 +266,10 @@ class Image extends DataObject {
      *
      * @return string
      */
-    public function getProductLink() {
+    public function getProductLink() : string
+    {
         $link = "";
-        if ($this->ProductID) {
+        if ($this->Product()->exists()) {
             $link = $this->Product()->Link();
         }
         return $link;
@@ -299,29 +284,30 @@ class Image extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 14.07.2012
      */
-    public function isEmptyObject() {
+    public function isEmptyObject() : bool
+    {
         $result = false;
-        if ($this->ImageID == 0 &&
-            $this->isEmptyMultilingualAttributes()) {
+        if (!$this->Image()->exists()
+         && $this->isEmptyMultilingualAttributes()
+        ) {
             $result = true;
         }
         return $result;
     }
     
     /**
-     * hook
+     * Deletes the related SilverStripe Image before deleting $this.
      *
      * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.07.2012
      */
-    public function onBeforeDelete() {
+    public function onBeforeDelete() : void
+    {
         parent::onBeforeDelete();
         $image = $this->Image();
-
-        if ($image &&
-            $image->ID > 0) {
+        if ($image instanceof SilverStripeImage
+         && $image->exists()
+        ) {
+            $image->deleteFile();
             $image->delete();
         }
     }
@@ -334,10 +320,12 @@ class Image extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.03.2013
      */
-    protected function onBeforeWrite() {
+    protected function onBeforeWrite() : void
+    {
         parent::onBeforeWrite();
-        if ($this->Product()->exists() &&
-            empty($this->Title)) {
+        if ($this->Product()->exists()
+         && empty($this->Title)
+        ) {
             $this->Title = $this->Product()->Title;
         }
     }
@@ -345,14 +333,15 @@ class Image extends DataObject {
     /**
      * Returns the link.
      *
-     * @return mixed SiteTree|boolean false
+     * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.06.2014
      */
-    public function Link() {
+    public function Link() : string
+    {
         if (is_null($this->link)) {
-            $this->link = false;
+            $this->link = "";
             if (!empty($this->ProductNumberToReference)) {
                 $product = Product::get()->filter('ProductNumberShop', $this->ProductNumberToReference)->first();
                 if ($product instanceof Product) {
@@ -360,8 +349,6 @@ class Image extends DataObject {
                 }
             }
         }
-        
         return $this->link;
     }
-    
 }

@@ -107,6 +107,7 @@ class ProductImageImportTask extends BuildTask
         $found               = [];
         $notFound            = [];
         $uploadedFiles       = $this->getUploadedFiles();
+        $folder              = Folder::find_or_make($this->config()->relative_upload_folder);
         if (count($uploadedFiles) > 0) {
             $imageData = [];
             foreach ($uploadedFiles as $uploadedFile) {
@@ -114,7 +115,12 @@ class ProductImageImportTask extends BuildTask
                 $nameWithoutEnding = strrev(substr(strrev($uploadedFile), strpos(strrev($uploadedFile), '.') + 1));
                 $description       = '';
                 $separator         = self::get_image_name_separator();
-                
+                $file = $folder->myChildren()->filter('FileHash:StartsWith', $nameWithoutEnding)->first();
+                if ($file instanceof Image
+                 && $file->exists()
+                ) {
+                    $nameWithoutEnding = $file->Title;
+                }
                 if (strpos($nameWithoutEnding, $separator) !== false) {
                     $parts = explode($separator, $nameWithoutEnding);
                     $productnumber     = array_shift($parts);
@@ -132,6 +138,7 @@ class ProductImageImportTask extends BuildTask
                 $imageData[$productnumber][$consecutiveNumber] = [
                     'filename'    => $uploadedFile,
                     'description' => $description,
+                    'file'        => $file,
                 ];
             }
             
@@ -145,7 +152,7 @@ class ProductImageImportTask extends BuildTask
                     ksort($data);
                     foreach ($data as $consecutiveNumber => $imageInfo) {
                         $importedImagesCount++;
-                        $this->addNewImage($product, $imageInfo['filename'], $imageInfo['description'], $consecutiveNumber);
+                        $this->addNewImage($product, $imageInfo['filename'], $imageInfo['description'], $consecutiveNumber, $imageInfo['file']);
                     }
                 } else {
                     $notFound[] = $productnumber;
@@ -170,21 +177,31 @@ class ProductImageImportTask extends BuildTask
      * @param string  $description       Description
      * @param int     $consecutiveNumber Consecutive number
      */
-    protected function addNewImage(Product $product, string $filename, string $description, int $consecutiveNumber) : void
+    protected function addNewImage(Product $product, string $filename, string $description, int $consecutiveNumber, Image $file = null) : void
     {
-        $fileEnding     = strrev(substr(strrev($filename), 0, strpos(strrev($filename), '.')));
-		$nameFilter     = FileNameFilter::create();
-        $targetFilename = $product->ProductNumberShop . '-' . $nameFilter->filter($product->Title) . '-' . $consecutiveNumber . '.' . $fileEnding;
-        $originalFile   = self::get_absolute_upload_folder() . '/' . $filename;
-        $targetFile     = self::get_absolute_product_image_folder() . '/' . $targetFilename;
-        $parentFolder   = Folder::find_or_make(Product::DEFAULT_IMAGE_FOLDER);
+        $nameFilter     = FileNameFilter::create();
+        $targetFilename = "{$product->ProductNumberShop}-{$nameFilter->filter($product->Title)}-{$consecutiveNumber}.";
+        if ($file instanceof Image
+         && $file->exists()
+        ) {
+            $image           = $file;
+            $fileEnding      = strrev(substr(strrev($image->Name), 0, strpos(strrev($image->Name), '.')));
+            $targetFilename .= $fileEnding;
+        } else {
+            $fileEnding      = strrev(substr(strrev($filename), 0, strpos(strrev($filename), '.')));
+            $targetFilename .= $fileEnding;
+            $originalFile    = self::get_absolute_upload_folder() . "/{$filename}";
+            $targetFile      = self::get_absolute_product_image_folder() . "/{$targetFilename}";
 
-        rename($originalFile, $targetFile);
-
-        $image = Image::create();
-        $image->Name     = basename($targetFilename);
+            rename($originalFile, $targetFile);
+            
+            $image       = Image::create();
+        }
+        $parentFolder    = Folder::find_or_make(Product::DEFAULT_IMAGE_FOLDER);
+        $image->Name     = $targetFilename;
         $image->ParentID = $parentFolder->ID;
         $image->write();
+        $image->publishRecursive();
         
         $silvercartImage = SilverCartImage::create();
         $silvercartImage->ImageID = $image->ID;

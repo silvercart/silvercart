@@ -123,13 +123,17 @@ class ProductImageAdmin extends LeftAndMain
             ProductImageImportTask::get_import_is_installed_file_name(),
             ProductImageImportTask::get_import_is_running_file_name(),
         ];
-        $dir = ProductImageImportTask::get_absolute_upload_folder();
-        Folder::find_or_make(ProductImageImportTask::get_relative_upload_folder());
+        $dir    = ProductImageImportTask::get_absolute_upload_folder();
+        $folder = Folder::find_or_make(ProductImageImportTask::get_relative_upload_folder());
         if (is_dir($dir)) {
             if ($handle = opendir($dir)) {
                 while (false !== ($entry = readdir($handle))) {
                     if (in_array($entry, $ignore)) {
                         continue;
+                    }
+                    $file = $folder->myChildren()->filter('FileHash:StartsWith', $entry)->first();
+                    if ($file->exists()) {
+                        $entry = $file->Name;
                     }
                     $files[] = $entry;
                 }
