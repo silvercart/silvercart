@@ -877,6 +877,26 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         
         return $purchasedProducts;
     }
+    
+    /**
+     * Returns this customer's total purchased quantity of the given $product.
+     * 
+     * @return float
+     */
+    public function getPurchasedProductQuantity(Product $product) : float
+    {
+        $orders   = $this->owner->Orders();
+        $quantity = 0;
+        foreach ($orders as $order) {
+            $positions = $order->OrderPositions();
+            foreach ($positions as $position) {
+                if ($position->Product()->ID === $product->ID) {
+                    $quantity += $position->Quantity;
+                }
+            }
+        }
+        return $quantity;
+    }
 
     /**
      * Returns whether the given product is already purchased by customer or not
