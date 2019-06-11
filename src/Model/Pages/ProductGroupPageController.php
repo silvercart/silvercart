@@ -13,6 +13,7 @@ use SilverCart\Model\Product\Manufacturer;
 use SilverCart\Model\Product\Product;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\ArrayList;
@@ -1262,7 +1263,9 @@ class ProductGroupPageController extends \PageController {
                 }
             }
             
-            if ($calledLink != $productLink) {
+            if ($calledLink != $productLink
+             && Director::baseURL() . substr($calledLink, 1) != $productLink
+            ) {
                 Tools::redirectPermanentlyTo($productLink);
             }
             
