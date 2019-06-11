@@ -5,6 +5,7 @@ namespace SilverCart\Forms;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\Pages\Page;
+use SilverStripe\Control\Director;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\PasswordField;
@@ -57,8 +58,13 @@ class LoginForm extends CustomForm {
      */
     public function getCustomFields() {
         $this->beforeUpdateCustomFields(function (array &$fields) {
+            $baseURL    = Director::baseURL();
+            $requestURL = $_SERVER['REQUEST_URI'];
+            if (strpos($requestURL, $baseURL) !== 0) {
+                $requestURL = $baseURL . substr($requestURL, 1);
+            }
             $fields += [
-                HiddenField::create('redirect_to', '', $_SERVER['REQUEST_URI']),
+                HiddenField::create('redirect_to', '', $requestURL),
                 TextField::create('emailaddress', Page::singleton()->fieldLabel('EmailAddress')),
                 PasswordField::create('password', Page::singleton()->fieldLabel('Password')),
             ];
