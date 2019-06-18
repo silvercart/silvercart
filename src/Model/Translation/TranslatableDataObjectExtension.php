@@ -6,12 +6,13 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\Core\ClassInfo;
-use SilverStripe\Dev\Deprecation;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\Queries\SQLSelect;
+use SilverStripe\Versioned\ReadingMode;
+use SilverStripe\Versioned\Versioned;
 use ReflectionClass;
 
 /** 
@@ -55,6 +56,13 @@ class TranslatableDataObjectExtension extends DataExtension
 //        if (!$query->isJoinedTo($this->getTranslationTableName()) &&
 //            !$query->getDelete()) {
             $silvercartDefaultLocale = Config::Locale();
+            if ($this->owner->hasExtension(Versioned::class)) {
+                $stage = $dataQuery->getQueryParam('Versioned.stage');
+                ReadingMode::validateStage($stage);
+                if ($stage === Versioned::LIVE) {
+                    $baseTableName = "{$baseTableName}_Live";
+                }
+            }
             $query->addLeftJoin(
                     $translationTableName,
                     "({$baseTableName}.ID = {$translationTableName}.{$relationFieldName})"
