@@ -27,6 +27,13 @@ use SilverStripe\Security\Member;
 class ContactMessage extends DataObject
 {
     /**
+     * Configuration parameter to determine whether to send an acknowledgement of
+     * receipt to the customer or not.
+     *
+     * @var bool
+     */
+    private static $send_acknowledgement_of_receipt = true;
+    /**
      * Attributes.
      *
      * @var array
@@ -222,6 +229,13 @@ class ContactMessage extends DataObject
             Config::DefaultContactMessageRecipient(),
             $fields
         );
+        if ($this->config()->send_acknowledgement_of_receipt) {
+            ShopEmail::send(
+                'ContactMessageAcknowledgement',
+                $this->Email,
+                $fields
+            );
+        }
         $this->extend('onAfterSend');
     }
     

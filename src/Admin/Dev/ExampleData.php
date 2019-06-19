@@ -346,6 +346,7 @@ class ExampleData
                 ];
                 break;
             case 'ContactMessage':
+            case 'ContactMessageAcknowledgement':
                 $contactMessage = static::get_contact_message();
                 $data  = [
                     'Salutation'     => $contactMessage->Salutation,
