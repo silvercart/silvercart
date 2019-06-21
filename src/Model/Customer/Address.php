@@ -753,8 +753,7 @@ class Address extends DataObject implements PermissionProvider
         } else {
             $summary .= $this->Street . ' ' . $this->StreetNumber . ', ';
         }
-        $summary .= $this->Postcode . ' ' . $this->City . ', ';
-        $summary .= $this->Postcode . ' ' . $this->City . ', ';
+        $summary .= $this->Postcode . ' ' . $this->City;
         $this->extend('updateSummary', $summary);
         return $summary;
     }
