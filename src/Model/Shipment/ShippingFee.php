@@ -13,6 +13,7 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\Model\Shipment\Zone;
+use SilverStripe\Control\Controller;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataObject;
@@ -164,6 +165,7 @@ class ShippingFee extends DataObject
                 Tools::field_labels_for(self::class),
                 [
                     'UnlimitedWeight'               => _t(ShippingFee::class . '.UNLIMITED_WEIGHT_LABEL', 'Unlimited Maximum Weight'),
+                    'Unlimited'                     => _t(ShippingFee::class . '.UNLIMITED_WEIGHT', 'unlimited'),
                     'Price'                         => _t(ShippingFee::class . '.COSTS', 'Costs'),
                     'Zone'                          => ShippingMethod::singleton()->fieldLabel('ForZones'),
                     'Zone.Title'                    => ShippingMethod::singleton()->fieldLabel('ForZones'),

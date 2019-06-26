@@ -42,6 +42,7 @@ use SilverStripe\Security\Group;
  */
 class ShippingMethod extends DataObject
 {
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Attributes.
      *
@@ -195,47 +196,43 @@ class ShippingMethod extends DataObject
      */
     public function fieldLabels($includerelations = true)
     {
-        return array_merge(
-                parent::fieldLabels($includerelations),
-                Tools::field_labels_for(self::class),
-                [
-                    'Title'                          => Product::singleton()->fieldLabel('Title'),
-                    'Description'                    => _t(ShippingMethod::class . '.DESCRIPTION', 'Description'),
-                    'DescriptionForShippingFeesPage' => _t(ShippingMethod::class . '.DescriptionForShippingFeesPage', 'Description for Shipping Fees Page (will be used instead of "Description")'),
-                    'activatedStatus'                => PaymentMethod::singleton()->fieldLabel('isActive'),
-                    'priority'                       => Tools::field_label('Priority'),
-                    'AttributedZones'                => _t(ShippingMethod::class . '.FOR_ZONES', 'for zones'),
-                    'ForZones'                       => _t(ShippingMethod::class . '.FOR_ZONES', 'for zones'),
-                    'isActive'                       => PaymentMethod::singleton()->fieldLabel('isActive'),
-                    'isPickup'                       => _t(ShippingMethod::class . '.isPickup', 'Is pickup (no active shipping, customer needs to pickup himself)'),
-                    'Carrier'                        => Carrier::singleton()->singular_name(),
-                    'ShippingFees'                   => ShippingFee::singleton()->plural_name(),
-                    'Zones'                          => Zone::singleton()->plural_name(),
-                    'CustomerGroups'                 => Group::singleton()->plural_name(),
-                    'ShippingMethodTranslations'     => ShippingMethodTranslation::singleton()->plural_name(),
-                    'DoNotShowOnShippingFeesPage'    => _t(ShippingMethod::class . '.DoNotShowOnShippingFeesPage', 'Do not show on Shipping Fees Page'),
-                    'ExpectedDelivery'               => _t(ShippingMethod::class . '.ExpectedDelivery', 'Expected Delivery'),
-                    'ReadyForPickup'                 => _t(ShippingMethod::class . '.ReadyForPickup', 'Ready for pickup'),
-                    'DeliveryTime'                   => _t(ShippingMethod::class . '.DeliveryTime', 'Delivery time'),
-                    'DeliveryTimeMin'                => _t(ShippingMethod::class . '.DeliveryTimeMin', 'Minimum delivery time'),
-                    'DeliveryTimeMinDesc'            => _t(ShippingMethod::class . '.DeliveryTimeMinDesc', 'Minimum delivery time in business days'),
-                    'DeliveryTimeMax'                => _t(ShippingMethod::class . '.DeliveryTimeMax', 'Maximum delivery time'),
-                    'DeliveryTimeMaxDesc'            => _t(ShippingMethod::class . '.DeliveryTimeMaxDesc', 'Maximum delivery time in business days'),
-                    'DeliveryTimeText'               => _t(ShippingMethod::class . '.DeliveryTimeText', 'Own text for delivery time'),
-                    'DeliveryTimeTextDesc'           => _t(ShippingMethod::class . '.DeliveryTimeTextDesc', 'Will be used instead of "Minimum delivery time" and "Maximum delivery time".'),
-                    'DateFormat'                     => _t(Tools::class . '.DATEFORMAT', 'm/d/Y'),
-                    'BusinessDay'                    => _t(ShippingMethod::class . '.BusinessDay', 'Business day'),
-                    'BusinessDays'                   => _t(ShippingMethod::class . '.BusinessDays', 'Business days'),
-                    'DeliveryTimePrepaymentHint'     => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHint', 'when cashed'),
-                    'DeliveryTimePrepaymentHintReleaseDate' => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHintReleaseDate', 'when cashed in time'),
-                    'ChooseShippingMethod'           => _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD', 'Please choose a shipping method'),
-                    'ExpectedDeliveryTime'           => _t(ShippingMethod::class . '.ExpectedDeliveryTime', 'Expected delivery time'),
-                    'SameDay'                        => _t(ShippingMethod::class . '.SameDay', 'Same day'),
-                    'SuppliedCountries'              => _t(ShippingMethod::class . '.SuppliedCountries', 'Supplied countries'),
-                    'Price'                          => Product::singleton()->fieldLabel('Price'),
-                    'Logo'                           => Page::singleton()->fieldLabel('Logo'),
-                ]
-        );
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'                          => Product::singleton()->fieldLabel('Title'),
+            'Description'                    => _t(ShippingMethod::class . '.DESCRIPTION', 'Description'),
+            'DescriptionForShippingFeesPage' => _t(ShippingMethod::class . '.DescriptionForShippingFeesPage', 'Description for Shipping Fees Page (will be used instead of "Description")'),
+            'activatedStatus'                => PaymentMethod::singleton()->fieldLabel('isActive'),
+            'priority'                       => Tools::field_label('Priority'),
+            'AttributedZones'                => _t(ShippingMethod::class . '.FOR_ZONES', 'for zones'),
+            'ForZones'                       => _t(ShippingMethod::class . '.FOR_ZONES', 'for zones'),
+            'isActive'                       => PaymentMethod::singleton()->fieldLabel('isActive'),
+            'isPickup'                       => _t(ShippingMethod::class . '.isPickup', 'Is pickup (no active shipping, customer needs to pickup himself)'),
+            'Carrier'                        => Carrier::singleton()->singular_name(),
+            'ShippingFees'                   => ShippingFee::singleton()->plural_name(),
+            'Zones'                          => Zone::singleton()->plural_name(),
+            'CustomerGroups'                 => Group::singleton()->plural_name(),
+            'ShippingMethodTranslations'     => ShippingMethodTranslation::singleton()->plural_name(),
+            'DoNotShowOnShippingFeesPage'    => _t(ShippingMethod::class . '.DoNotShowOnShippingFeesPage', 'Do not show on Shipping Fees Page'),
+            'ExpectedDelivery'               => _t(ShippingMethod::class . '.ExpectedDelivery', 'Expected Delivery'),
+            'ReadyForPickup'                 => _t(ShippingMethod::class . '.ReadyForPickup', 'Ready for pickup'),
+            'DeliveryTime'                   => _t(ShippingMethod::class . '.DeliveryTime', 'Delivery time'),
+            'DeliveryTimeMin'                => _t(ShippingMethod::class . '.DeliveryTimeMin', 'Minimum delivery time'),
+            'DeliveryTimeMinDesc'            => _t(ShippingMethod::class . '.DeliveryTimeMinDesc', 'Minimum delivery time in business days'),
+            'DeliveryTimeMax'                => _t(ShippingMethod::class . '.DeliveryTimeMax', 'Maximum delivery time'),
+            'DeliveryTimeMaxDesc'            => _t(ShippingMethod::class . '.DeliveryTimeMaxDesc', 'Maximum delivery time in business days'),
+            'DeliveryTimeText'               => _t(ShippingMethod::class . '.DeliveryTimeText', 'Own text for delivery time'),
+            'DeliveryTimeTextDesc'           => _t(ShippingMethod::class . '.DeliveryTimeTextDesc', 'Will be used instead of "Minimum delivery time" and "Maximum delivery time".'),
+            'DateFormat'                     => _t(Tools::class . '.DATEFORMAT', 'm/d/Y'),
+            'BusinessDay'                    => _t(ShippingMethod::class . '.BusinessDay', 'Business day'),
+            'BusinessDays'                   => _t(ShippingMethod::class . '.BusinessDays', 'Business days'),
+            'DeliveryTimePrepaymentHint'     => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHint', 'when cashed'),
+            'DeliveryTimePrepaymentHintReleaseDate' => _t(ShippingMethod::class . '.DeliveryTimePrepaymentHintReleaseDate', 'when cashed in time'),
+            'ChooseShippingMethod'           => _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD', 'Please choose a shipping method'),
+            'ExpectedDeliveryTime'           => _t(ShippingMethod::class . '.ExpectedDeliveryTime', 'Expected delivery time'),
+            'SameDay'                        => _t(ShippingMethod::class . '.SameDay', 'Same day'),
+            'SuppliedCountries'              => _t(ShippingMethod::class . '.SuppliedCountries', 'Supplied countries'),
+            'Price'                          => Product::singleton()->fieldLabel('Price'),
+            'Logo'                           => Page::singleton()->fieldLabel('Logo'),
+        ]);
     }
     
     /**
