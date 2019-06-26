@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Pages;
 
 use DateTime;
+use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
@@ -25,7 +26,6 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
@@ -541,7 +541,7 @@ class ProductGroupPage extends \Page
             }
 
             if ($this->drawCMSFields()) {
-                $config = GridFieldConfig_RecordViewer::create(100);
+                $config = GridFieldConfig_RelationEditor::create(100);
                 $productsTableField = GridField::create(
                     'Products',
                     $this->fieldLabel('Products'),
