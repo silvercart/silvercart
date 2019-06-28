@@ -46,6 +46,12 @@ class CustomForm extends Form
      * @var array
      */
     private static $requiredFields = [];
+    /**
+     * Required field marker.
+     *
+     * @var string
+     */
+    private static $required_field_marker = '*';
 
     /**
      * Create a new form, with the given fields an action buttons.
@@ -594,5 +600,15 @@ class CustomForm extends Form
         $afterFormContent = '';
         $this->extend('updateBeforeFormContent', $afterFormContent);
         return Tools::string2html($afterFormContent);
+    }
+    
+    /**
+     * Returns the required field marker.
+     * 
+     * @return string
+     */
+    public function getRequiredFieldMarker() : string
+    {
+        return $this->config()->required_field_marker;
     }
 }
