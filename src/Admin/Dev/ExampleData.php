@@ -432,7 +432,9 @@ class ExampleData
         $emailTemplatePreview = '';
         if (!empty($emailExampleData)) {
             Requirements::clear();
-            $emailTemplatePreview = ShopEmail::singleton()
+            $email                = ShopEmail::singleton();
+            $email->TemplateName  = $templateName;
+            $emailTemplatePreview = $email
                     ->customise($emailExampleData)
                     ->renderWith(['SilverCart/Email/' . $templateName, 'SilverCart/Email/ShopEmail']);
             Requirements::restore();
