@@ -21,14 +21,14 @@ use SilverStripe\Control\HTTPRequest;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class AddressHolderController extends MyAccountHolderController {
-
+class AddressHolderController extends MyAccountHolderController
+{
     /**
      * List of allowed actions
      *
      * @var array
      */
-    private static $allowed_actions = array (
+    private static $allowed_actions = [
         'AddAddressForm',
         'EditAddressForm',
         'deleteAddress',
@@ -36,8 +36,7 @@ class AddressHolderController extends MyAccountHolderController {
         'setShippingAddress',
         'addNewAddress',
         'edit',
-    );
-
+    ];
     /**
      * ID of the requested address
      *
@@ -53,9 +52,9 @@ class AddressHolderController extends MyAccountHolderController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function AddAddressForm() {
-        $form = new AddAddressForm($this);
-        return $form;
+    public function AddAddressForm()
+    {
+        return AddAddressForm::create($this);
     }
     
     /**
@@ -66,7 +65,8 @@ class AddressHolderController extends MyAccountHolderController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function EditAddressForm() {
+    public function EditAddressForm()
+    {
         $addressID = $this->getRequest()->postVar('AddressID');
         if (is_null($addressID)) {
             $addressID = $this->getRequest()->param('ID');
@@ -79,8 +79,23 @@ class AddressHolderController extends MyAccountHolderController {
             !$address->exists()) {
             return;
         }
-        $form = new EditAddressForm($address, $this);
+        $form = EditAddressForm::create($address, $this);
         return $form;
+    }
+    
+    /**
+     * Action to add a new address.
+     * 
+     * @param HTTPRequest $request Request
+     * 
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function addNewAddress(HTTPRequest $request)
+    {
+        if (!Address::singleton()->canCreate()) {
+            $this->redirect($this->data()->Link());
+        }
+        return $this->render();
     }
     
     /**
@@ -95,12 +110,12 @@ class AddressHolderController extends MyAccountHolderController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function deleteAddress(HTTPRequest $request, $context = '') {
+    public function deleteAddress(HTTPRequest $request, string $context = '')
+    {
         $params = $request->allParams();
-        
-        if ( array_key_exists('ID', $params) &&
-            !empty ($params['ID'])) {
-
+        if (array_key_exists('ID', $params)
+         && !empty ($params['ID'])
+        ) {
             $addressID          = (int) $params['ID'];
             $member             = Customer::currentUser();
             $membersAddresses   = $member->Addresses();
@@ -109,9 +124,10 @@ class AddressHolderController extends MyAccountHolderController {
             if ($membersAddresses->count() == 1) {
                 // address can't be deleted because it's the only one
                 $this->setErrorMessage(_t(AddressHolder::class . '.ADDRESS_CANT_BE_DELETED', "Sorry, but you can't delete your only address."));
-            } elseif ($membersAddress instanceof Address &&
-                      $membersAddress->exists() &&
-                      $membersAddress->canDelete()) {
+            } elseif ($membersAddress instanceof Address
+                   && $membersAddress->exists()
+                   && $membersAddress->canDelete()
+            ) {
                 // Address contains to logged in user - delete it
                 if ($member->InvoiceAddress()->ID == $addressID) {
                     // set shipping address as users invoice address
@@ -142,7 +158,8 @@ class AddressHolderController extends MyAccountHolderController {
      *
      * @return int
      */
-    public function getAddressID() {
+    public function getAddressID()
+    {
         return $this->addressID;
     }
 
@@ -153,7 +170,8 @@ class AddressHolderController extends MyAccountHolderController {
      *
      * @return void
      */
-    public function setAddressID($addressID) {
+    public function setAddressID($addressID)
+    {
         $this->addressID = $addressID;
     }
     
@@ -164,7 +182,8 @@ class AddressHolderController extends MyAccountHolderController {
      *
      * @return void
      */
-    public function setInvoiceAddress(HTTPRequest $request) {
+    public function setInvoiceAddress(HTTPRequest $request)
+    {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
          && !empty ($params['ID'])) {
@@ -192,14 +211,18 @@ class AddressHolderController extends MyAccountHolderController {
      *
      * @return void
      */
-    public function setShippingAddress(HTTPRequest $request) {
+    public function setShippingAddress(HTTPRequest $request)
+    {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
-         && !empty ($params['ID'])) {
+         && !empty ($params['ID'])
+        ) {
             $addressID          = (int) $params['ID'];
             $membersAddresses   = Customer::currentUser()->Addresses();
             $membersAddress     = $membersAddresses->find('ID', $addressID);
-            if ($membersAddress instanceof Address && $membersAddress->exists()) {
+            if ($membersAddress instanceof Address
+             && $membersAddress->exists()
+            ) {
                 // Address contains to logged in user - set as invoice address
                 $member = Customer::currentUser();
                 $member->ShippingAddressID = $addressID;
@@ -218,7 +241,8 @@ class AddressHolderController extends MyAccountHolderController {
      *
      * @return string
      */
-    public function getErrorMessage() {
+    public function getErrorMessage()
+    {
         $errorMessage = Tools::Session()->get('SilvercartAddressHolder.errorMessage');
         Tools::Session()->clear('SilvercartAddressHolder.errorMessage');
         Tools::saveSession();
@@ -232,7 +256,8 @@ class AddressHolderController extends MyAccountHolderController {
      * 
      * @return void
      */
-    public function setErrorMessage($errorMessage) {
+    public function setErrorMessage($errorMessage)
+    {
         Tools::Session()->set('SilvercartAddressHolder.errorMessage', $errorMessage);
         Tools::saveSession();
     }
@@ -242,7 +267,8 @@ class AddressHolderController extends MyAccountHolderController {
      *
      * @return string
      */
-    public function getSuccessMessage() {
+    public function getSuccessMessage()
+    {
         $successMessage = Tools::Session()->get('SilvercartAddressHolder.successMessage');
         Tools::Session()->clear('SilvercartAddressHolder.successMessage');
         Tools::saveSession();
@@ -256,9 +282,9 @@ class AddressHolderController extends MyAccountHolderController {
      * 
      * @return void
      */
-    public function setSuccessMessage($successMessage) {
+    public function setSuccessMessage($successMessage)
+    {
         Tools::Session()->set('SilvercartAddressHolder.successMessage', $successMessage);
         Tools::saveSession();
     }
-
 }

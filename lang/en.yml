@@ -83,6 +83,7 @@ en:
     SALUTATION: "Salutation"
     ShippingAddresses: "Shipping addresses"
     ShippingAddress: "Shipping address"
+    SILVERCART_ADDRESS_CREATE: "Create address"
     SILVERCART_ADDRESS_DELETE: "Delete address"
     SILVERCART_ADDRESS_EDIT: "Edit address"
     SILVERCART_ADDRESS_VIEW: "View address"

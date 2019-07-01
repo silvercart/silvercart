@@ -277,6 +277,7 @@ class Address extends DataObject implements PermissionProvider
         return [
             'SILVERCART_ADDRESS_VIEW'   => $this->fieldLabel('SILVERCART_ADDRESS_VIEW'),
             'SILVERCART_ADDRESS_EDIT'   => $this->fieldLabel('SILVERCART_ADDRESS_EDIT'),
+            'SILVERCART_ADDRESS_CREATE' => $this->fieldLabel('SILVERCART_ADDRESS_CREATE'),
             'SILVERCART_ADDRESS_DELETE' => $this->fieldLabel('SILVERCART_ADDRESS_DELETE')
         ];
     }
@@ -351,6 +352,37 @@ class Address extends DataObject implements PermissionProvider
             }
         }
         return $canEdit;
+    }
+
+    /**
+     * Indicates wether the current user can create this object.
+     * 
+     * @param Member $member  Member to check permission for.
+     * @param array  $context Context
+     *
+     * @return bool
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 01.07.2019
+     */
+    public function canCreate($member = null, $context = []) : bool
+    {
+        $can = false;
+        if (is_null($member)) {
+            $member = Security::getCurrentUser();
+        }
+        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_CREATE')) {
+            $can = true;
+        }
+        $results = $this->extend('canCreate', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
     }
 
     /**
@@ -664,6 +696,7 @@ class Address extends DataObject implements PermissionProvider
             'InvoiceAddressAsShippingAddress' => _t(Address::class . '.InvoiceAddressAsShippingAddress', 'Use invoice address as shipping address'),
             'SILVERCART_ADDRESS_VIEW'   => _t(Address::class . '.SILVERCART_ADDRESS_VIEW', 'View address'),
             'SILVERCART_ADDRESS_EDIT'   => _t(Address::class . '.SILVERCART_ADDRESS_EDIT', 'Edit address'),
+            'SILVERCART_ADDRESS_CREATE' => _t(Address::class . '.SILVERCART_ADDRESS_CREATE', 'Create address'),
             'SILVERCART_ADDRESS_DELETE' => _t(Address::class . '.SILVERCART_ADDRESS_DELETE', 'Delete address'),
         ]);
     }
