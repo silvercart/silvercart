@@ -5,7 +5,6 @@ namespace SilverCart\Forms;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
-use SilverCart\Forms\Checkout\CheckoutFormStep2;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
@@ -155,7 +154,7 @@ class RegisterRegularCustomerForm extends CustomForm
                         TextField::create('StreetNumber', Address::singleton()->fieldLabel('StreetNumber'), '', 10),
                         TextField::create('Postcode', Address::singleton()->fieldLabel('Postcode'), '', 10),
                         TextField::create('City', Address::singleton()->fieldLabel('City')),
-                        DropdownField::create('Country', Address::singleton()->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, _t(CheckoutFormStep2::class . '.EMPTYSTRING_COUNTRY', '--country--'))),
+                        DropdownField::create('Country', Address::singleton()->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose'))),
                         TextField::create('Phone', Address::singleton()->fieldLabel('Phone')),
                         TextField::create('Fax', Address::singleton()->fieldLabel('Fax')),
                         EmailField::create('Email', Address::singleton()->fieldLabel('Email')),
@@ -314,7 +313,7 @@ class RegisterRegularCustomerForm extends CustomForm
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2018
      */
-    protected function handleAnonymousCustomer()
+    public function handleAnonymousCustomer()
     {
         $customer = Customer::currentUser();
         if ($customer instanceof Member
@@ -337,7 +336,7 @@ class RegisterRegularCustomerForm extends CustomForm
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    protected function handleNewsletterRecipient(Member $customer)
+    public function handleNewsletterRecipient(Member $customer)
     {
         // Remove from the anonymous newsletter recipients list
         if (AnonymousNewsletterRecipient::doesExist($customer->Email)) {
