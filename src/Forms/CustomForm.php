@@ -454,9 +454,13 @@ class CustomForm extends Form
      */
     public function submit($data, CustomForm $form)
     {
+        $overwritten = false;
         $this->prepareSubmittedData($data);
         $this->extend('onBeforeSubmit', $data, $form);
-        $this->doSubmit($data, $form);
+        $this->extend('overwriteDoSubmit', $data, $form, $overwritten);
+        if (!$overwritten) {
+            $this->doSubmit($data, $form);
+        }
         $this->extend('onAfterSubmit', $data, $form);
     }
     
