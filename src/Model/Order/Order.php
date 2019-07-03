@@ -42,6 +42,7 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
@@ -2488,6 +2489,22 @@ class Order extends DataObject implements PermissionProvider
         $orderDetailInformation = '';
         $this->extend('updateOrderDetailInformationHTMLAfterOrderNumber', $orderDetailInformation);
         return Tools::string2html($orderDetailInformation);
+    }
+    
+    /**
+     * Returns output to show in the order confirmation email right after the 
+     * order detail table.
+     *
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2019
+     */
+    public function AfterOrderDetailTableEmailContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterOrderDetailTableEmailContent', $content);
+        return Tools::string2html($content);
     }
 
     /**
