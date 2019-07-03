@@ -606,7 +606,8 @@ class ShopEmail extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.08.2011
      */
-    protected static function attachFiles(Email $email, $attachments) {
+    protected static function attachFiles(Email $email, $attachments) : void
+    {
         if (!is_null($attachments)) {
             if (is_array($attachments)) {
                 foreach ($attachments as $attachment) {
@@ -619,10 +620,10 @@ class ShopEmail extends DataObject {
                         $attachedFilename   = basename($attachment);
                         $mimetype           = null;
                     }
-                    $email->attachFile($filename, $attachedFilename, $mimetype);
+                    $email->addAttachment($filename, $attachedFilename, $mimetype);
                 }
             } else {
-                $email->attachFile($attachments, basename($attachments));
+                $email->addAttachment($attachments, basename($attachments));
             }
         }
     }
