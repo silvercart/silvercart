@@ -90,7 +90,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         'SubscribedToNewsletter'            => 'Boolean(0)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
-        'RegistrationOptInConfirmationHash' => 'Varchar(77)',
+        'RegistrationOptInConfirmationHash' => 'Varchar(128)',
         'RegistrationOptInConfirmed'        => 'Boolean(0)',
         'Birthday'                          => 'Date',
         'CustomerNumber'                    => 'Varchar(128)',
