@@ -1533,9 +1533,6 @@ nl:
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "Zoeken"
   SilverCart\Model\Pages\RegistrationPage:
-    ACTIVATION_MAIL_SUBJECT: "Actievatie email onderwerp"
-    ACTIVATION_MAIL_TAB: "Activatie email"
-    ACTIVATION_MAIL_TEXT: "Activatie email tekst"
     CONFIRMATION_TEXT: "<h1>Volledige registratie</h1><p>Bevestig de activering of kopiëer de link naar uw browser.</p><p><a href=\"$ConfirmationLink\">Bevestig de registratie</a></p><p>In het geval dat u zich niet hebt geregistreerd, kunt u deze mail. negeren</p><p>Uw webwinkel team</p>"
     CUSTOMER_SALUTATION: "Geachte klant,"
     DEFAULT_TITLE: "Registratie"
@@ -1550,7 +1547,6 @@ nl:
     THANKS: "Hartelijk dank voor uw registratie."
     TITLE: "Registratie"
     URL_SEGMENT: "registratie"
-    WelcomeContent: "Content of the welcome page"
     YOUR_REGISTRATION: "Uw registratie"
   SilverCart\Forms\RevocationForm:
     AddressOfConsumer: "Address of the customer"

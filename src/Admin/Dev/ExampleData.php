@@ -167,6 +167,7 @@ class ExampleData
         $member->FirstName = 'John';
         $member->Surname   = 'Doe';
         $member->Email     = 'email@example.com';
+        $member->RegistrationOptInConfirmationHash = $member->createOptInConfirmationHash();
         return $member;
     }
     
@@ -367,6 +368,17 @@ class ExampleData
             case 'NewsletterOptInConfirmation':
                 $data  = [
                     'ConfirmationLink' => '#',
+                ];
+                break;
+            case 'RegistrationOptIn':
+            case 'RegistrationOptInConfirmation':
+            case 'RegistrationOptInNotification':
+                $customer = Customer::currentRegisteredCustomer();
+                if (!$customer) {
+                    $customer = static::get_member();
+                }
+                $data  = [
+                    'Customer' => $customer,
                 ];
                 break;
             case 'RevocationConfirmation':

@@ -287,6 +287,7 @@ class RegisterRegularCustomerForm extends CustomForm
         $customer->InvoiceAddressID  = $address->ID;
         $customer->write();
         $this->handleNewsletterRecipient($customer);
+        $this->handleOptIn($customer);
         $this->extend('updateRegisteredCustomer', $customer, $data, $form);
 
         $redirectTo = $this->getController()->Link('welcome');
@@ -302,6 +303,21 @@ class RegisterRegularCustomerForm extends CustomForm
         $authenticator = new MemberAuthenticator();
         $authenticator->getLoginHandler($redirectTo)->performLogin($customer, ['Remember' => false], $this->getRequest());
         $this->getController()->redirect($redirectTo);
+    }
+    
+    /**
+     * Handles the opt in part.
+     * 
+     * @param Member $customer Customer
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2019
+     */
+    public function handleOptIn(Member $customer) : void
+    {
+        $customer->sendRegistrationOptInEmail();
     }
     
     /**

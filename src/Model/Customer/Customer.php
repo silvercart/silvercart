@@ -90,6 +90,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         'SubscribedToNewsletter'            => 'Boolean(0)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
         'HasAcceptedRevocationInstruction'  => 'Boolean(0)',
+        'RegistrationOptInConfirmationHash' => 'Varchar(77)',
+        'RegistrationOptInConfirmed'        => 'Boolean(0)',
         'Birthday'                          => 'Date',
         'CustomerNumber'                    => 'Varchar(128)',
     ];
@@ -195,6 +197,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         
         $fields->removeByName('NewsletterOptInStatus');
         $fields->removeByName('NewsletterConfirmationHash');
+        $fields->removeByName('RegistrationOptInConfirmationHash');
         $fields->removeByName('ShoppingCartID');
         $fields->removeByName('InvoiceAddressID');
         $fields->removeByName('ShippingAddressID');
@@ -251,6 +254,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider
                     'SubscribedToNewsletter'            => _t(Customer::class . '.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
                     'HasAcceptedTermsAndConditions'     => _t(Customer::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),
                     'HasAcceptedRevocationInstruction'  => _t(Customer::class . '.HASACCEPTEDREVOCATIONINSTRUCTION', 'has accepted revocation instruction'),
+                    'RegistrationOptInConfirmationHash' => _t(Customer::class . '.RegistrationOptInConfirmationHash', 'Registration Opt-In Confirmation Hash'),
+                    'RegistrationOptInConfirmed'        => _t(Customer::class . '.RegistrationOptInConfirmed', 'Registration Opt-In Confirmed'),
                     'Birthday'                          => _t(Customer::class . '.BIRTHDAY', 'birthday'),
                     'ClassName'                         => _t(Customer::class . '.TYPE', 'type'),
                     'CustomerNumber'                    => _t(Customer::class . '.CUSTOMERNUMBER', 'Customernumber'),
@@ -1140,16 +1145,20 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      *
      * @return void
      *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.10.2011
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2019
      */
     public function onBeforeWrite() {
         parent::onBeforeWrite();
-        
-        if (!self::currentAnonymousCustomer()) {
-            if (empty($this->owner->CustomerNumber)) {
-                $this->owner->CustomerNumber = NumberRange::useReservedNumberByIdentifier('CustomerNumber');
-            }
+        if (!self::currentAnonymousCustomer()
+         && empty($this->owner->CustomerNumber)
+        ) {
+            $this->owner->CustomerNumber = NumberRange::useReservedNumberByIdentifier('CustomerNumber');
+        }
+        if ($this->owner->exists()
+         && empty($this->owner->RegistrationOptInConfirmationHash)
+        ) {
+            $this->owner->RegistrationOptInConfirmationHash = $this->createOptInConfirmationHash();
         }
     }
     
@@ -1308,5 +1317,78 @@ class Customer extends DataExtension implements TemplateGlobalProvider
             $shopEmailChangePasswordEmail->Subject      = _t(ShopEmail::class . '.CHANGE_PASSWORD_SUBJECT', 'Change your password');
             $shopEmailChangePasswordEmail->write();
         }
+    }
+    
+    /**
+     * Creates a registration opt-in confirmation hash.
+     * 
+     * @return string
+     *
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2019
+     */
+    public function createOptInConfirmationHash() : string
+    {
+        $time     = time();
+        $rand     = rand();
+        $hashBase = "{$time}-{$rand}-{$this->owner->ID}";
+        $hash     = md5($hashBase) . sha1($hashBase) . uniqid();
+        return $hash;
+    }
+    
+    /**
+     * Returns the registration opt-in confirmation link.
+     * 
+     * @return string
+     */
+    public function getRegistrationOptInConfirmationLink() : string
+    {
+        return Director::absoluteURL(Tools::PageByIdentifierCode("SilvercartRegistrationPage")->Link('optin')) . DIRECTORY_SEPARATOR . urlencode($this->owner->RegistrationOptInConfirmationHash);
+    }
+    
+    /**
+     * Sends the registration opt in email.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 03.07.2019
+     */
+    public function sendRegistrationOptInEmail() : void
+    {
+        if (!$this->owner->RegistrationOptInConfirmed) {
+            ShopEmail::send('RegistrationOptIn', $this->owner->Email, [
+                'Customer' => $this->owner,
+            ]);
+        }
+    }
+    
+    /**
+     * Confirms the registration opt-in by the given $hash.
+     * 
+     * @param string $hash Hash to confirm
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2019
+     */
+    public function confirmRegistrationOptIn(string $hash) : bool
+    {
+        $confirmed = false;
+        if ($this->owner->RegistrationOptInConfirmed) {
+            $confirmed = true;
+        } elseif ($hash === $this->owner->RegistrationOptInConfirmationHash) {
+            $confirmed = true;
+            $this->owner->RegistrationOptInConfirmed = true;
+            $this->owner->write();
+            ShopEmail::send('RegistrationOptInConfirmation', $this->owner->Email, [
+                'Customer' => $this->owner,
+            ]);
+            ShopEmail::send('RegistrationOptInNotification', Config::DefaultMailOrderNotificationRecipient(), [
+                'Customer' => $this->owner,
+            ]);
+        }
+        return $confirmed;
     }
 }

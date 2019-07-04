@@ -1094,9 +1094,6 @@ ru:
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "искать"
   SilverCart\Model\Pages\RegistrationPage:
-    ACTIVATION_MAIL_SUBJECT: "тема сообщения об активации"
-    ACTIVATION_MAIL_TAB: "сообщение об активации"
-    ACTIVATION_MAIL_TEXT: "сообщение об активации"
     CONFIRMATION_TEXT: "<h1>Заверщить регистрацию</h1><p>Нажмите на ссылку регистрации или скопируюте её в адресную строку браузера.</p><p><a href=\"$ConfirmationLink\">Подтвердить регистрацию</a></p><p>Если Вы не производили регисттацию просто проигнорируйте это сообщение.</p><p>Администрация сайта</p>"
     CUSTOMER_SALUTATION: "Глубокоуважаемый клиент"
     DEFAULT_TITLE: "Страница для регистрации"
@@ -1111,7 +1108,6 @@ ru:
     THANKS: "Благодарим за регистрацию."
     TITLE: "страница регистрации"
     URL_SEGMENT: "зарегистрировать "
-    WelcomeContent: "Content of the welcome page"
     YOUR_REGISTRATION: "ваша регистрация"
   SilverCart\Model\Pages\SearchResultsPage:
     DEFAULT_TITLE: "резултаты поиска"

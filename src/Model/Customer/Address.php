@@ -1303,4 +1303,17 @@ class Address extends DataObject implements PermissionProvider
     {
         return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("setShippingAddress/{$this->ID}");
     }
+
+    /**
+     * Returns the rendered address to use in emails.
+     * 
+     * @return DBHTMLText|null
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2019
+     */
+    public function forEmail() : ?DBHTMLText
+    {
+        return $this->renderWith('SilverCart/Email/Includes/AddressData');
+    }
 }

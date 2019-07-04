@@ -341,6 +341,19 @@ class PageController extends ContentController
             Tools::Session()->set('loggedInAs', 0);
             Tools::saveSession();
         }
+        $registeredCustomer = Customer::currentRegisteredCustomer();
+        if ($registeredCustomer instanceof Member
+         && $registeredCustomer->exists()
+         && !$registeredCustomer->RegistrationOptInConfirmed
+         && !($this instanceof RegistrationPageController)
+        ) {
+            $registrationPage = RegistrationPage::get()->first();
+            if ($registrationPage instanceof RegistrationPage
+             && $registrationPage->exists()
+            ) {
+                $this->redirect($registrationPage->Link('optinpending'));
+            }
+        }
 
         // check the SilverCart configuration
         if (!Tools::isIsolatedEnvironment()) {

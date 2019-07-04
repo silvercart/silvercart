@@ -1536,9 +1536,6 @@ en_GB:
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: "Search"
   SilverCart\Model\Pages\RegistrationPage:
-    ACTIVATION_MAIL_SUBJECT: "Activation mail subject"
-    ACTIVATION_MAIL_TAB: "Activation Mail"
-    ACTIVATION_MAIL_TEXT: "Activation mail text"
     CONFIRMATION_TEXT: "<h1>Complete registration</h1><p>Please confirm your activation or copy the link to your Browser.</p><p><a href=\"$ConfirmationLink\">Confirm registration</a></p><p>In case You did not register please ignore this mail.</p><p>Your shop team</p>"
     CUSTOMER_SALUTATION: "Dear customer,"
     DEFAULT_TITLE: "Registration page"
@@ -1553,7 +1550,6 @@ en_GB:
     THANKS: "Many thanks for your registration"
     TITLE: "Registration page"
     URL_SEGMENT: "registration"
-    WelcomeContent: "Content of the welcome page"
     YOUR_REGISTRATION: "Your registration"
   SilverCart\Forms\RevocationForm:
     AddressOfConsumer: "Address of the customer"

@@ -421,7 +421,6 @@ class RequireDefaultRecords
             $registrationPage->ParentID             = $rootPage->ID;
             $registrationPage->IdentifierCode       = "SilvercartRegistrationPage";
             $registrationPage->InheritFromParent    = false;
-            $registrationPage->WelcomeContent       = _t(RegistrationPage::class . '.DEFAULT_WELCOME_CONTENT', ' ');
             $registrationPage->write();
             $registrationPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
