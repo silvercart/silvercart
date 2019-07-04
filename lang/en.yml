@@ -1723,6 +1723,8 @@ en:
     TITLE: "Registration page"
     URL_SEGMENT: "registration"
     YOUR_REGISTRATION: "Your registration"
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: "Create a password for your login. Your password needs at least {minlength} characters and contain at least 1 capital letter, 1 small letter and 1 number."
   SilverCart\Forms\RevocationForm:
     AddressOfConsumer: "Address of the customer"
     Data: "Data"

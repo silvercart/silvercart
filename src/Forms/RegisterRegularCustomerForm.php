@@ -65,9 +65,7 @@ class RegisterRegularCustomerForm extends CustomForm
             'mustEqual'  => 'Email',
         ],
         'Password' => [
-            'isFilledIn'    => true,
-            'hasMinLength'  => 6,
-            'mustNotEqual'  => 'Email',
+            'isValidPassword' => true,
         ],
         'PasswordCheck' => [
             'mustEqual' => 'Password',
@@ -140,6 +138,21 @@ class RegisterRegularCustomerForm extends CustomForm
     public function getCustomFields()
     {
         $this->beforeUpdateCustomFields(function (array &$fields) {
+            $passwordField      = PasswordField::create('Password', Page::singleton()->fieldLabel('Password'));
+            $passwordCheckField = PasswordField::create('PasswordCheck', Page::singleton()->fieldLabel('PasswordCheck'));
+            $passwordPattern    = CustomRequiredFields::config()->password_pattern;
+            $passwordMinlength  = CustomRequiredFields::config()->password_minlength;
+            if (!empty($passwordPattern)) {
+                $passwordField->setAttribute('pattern', $passwordPattern);
+                $passwordCheckField->setAttribute('pattern', $passwordPattern);
+            }
+            if (!empty($passwordMinlength)) {
+                $passwordField->setAttribute('minlength', $passwordMinlength);
+                $passwordCheckField->setAttribute('minlength', $passwordMinlength);
+                $passwordField->setDescription(_t(self::class . '.PasswordHint', 'Create a password for your login. Your password needs at least {minlength} characters and contain at least 1 capital letter, 1 small letter and 1 number.', [
+                    'minlength' => $passwordMinlength,
+                ]));
+            }
             $fields = array_merge(
                     $fields,
                     $this->getBirthdayFields(),
@@ -159,8 +172,8 @@ class RegisterRegularCustomerForm extends CustomForm
                         TextField::create('Fax', Address::singleton()->fieldLabel('Fax')),
                         EmailField::create('Email', Address::singleton()->fieldLabel('Email')),
                         EmailField::create('EmailCheck', Address::singleton()->fieldLabel('EmailCheck')),
-                        PasswordField::create('Password', Page::singleton()->fieldLabel('Password')),
-                        PasswordField::create('PasswordCheck', Page::singleton()->fieldLabel('PasswordCheck')),
+                        $passwordField,
+                        $passwordCheckField,
                         $newsletterField = CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter')),
                         HiddenField::create('backlink', 'backlink', $this->getBackLink()),
                     ]

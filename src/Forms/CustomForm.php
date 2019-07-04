@@ -89,7 +89,7 @@ class CustomForm extends Form
                 $requiredFieldNames = [];
                 foreach ($requiredFields as $key => $value) {
                     if (is_array($value)) {
-                        if (in_array('isFilledIn', $value)) {
+                        if (array_key_exists('isFilledIn', $value)) {
                             $requiredFieldNames[] = $key;
                         }
                         $requiredCallbacks[$key] = $value;

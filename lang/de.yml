@@ -1723,6 +1723,8 @@ de:
     TITLE: "Registrierungsseite"
     URL_SEGMENT: "registrieren"
     YOUR_REGISTRATION: "Ihre Registrierung"
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: "Erstellen Sie ein Passwort für Ihren Webshop Login. Das Passwort muss mindestens {minlength} Zeichen haben. Darunter muss mindestens 1 Großbuchstabe, 1 Kleinbuchstabe, sowie 1 Ziffer enthalten sein."
   SilverCart\Forms\RevocationForm:
     AddressOfConsumer: "Anschrift des/der Verbraucher(s)"
     Data: "Daten"

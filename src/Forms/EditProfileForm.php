@@ -6,6 +6,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Forms\FormFields\TextField;
+use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Newsletter\Newsletter;
@@ -61,7 +62,7 @@ class EditProfileForm extends CustomForm {
             'hasMinLength' => 3,
         ],
         'Password' => [
-            'hasMinLength' => 6,
+            'isValidPassword' => true,
         ],
         'PasswordCheck' => [
             'mustEqual' => 'Password',
@@ -135,13 +136,28 @@ class EditProfileForm extends CustomForm {
                 }
             }
             
+            $passwordField      = PasswordField::create('Password', $page->fieldLabel('Password'));
+            $passwordCheckField = PasswordField::create('PasswordCheck', $page->fieldLabel('PasswordCheck'));
+            $passwordPattern    = CustomRequiredFields::config()->password_pattern;
+            $passwordMinlength  = CustomRequiredFields::config()->password_minlength;
+            if (!empty($passwordPattern)) {
+                $passwordField->setAttribute('pattern', $passwordPattern);
+                $passwordCheckField->setAttribute('pattern', $passwordPattern);
+            }
+            if (!empty($passwordMinlength)) {
+                $passwordField->setAttribute('minlength', $passwordMinlength);
+                $passwordCheckField->setAttribute('minlength', $passwordMinlength);
+                $passwordField->setDescription(_t(RegisterRegularCustomerForm::class . '.PasswordHint', 'Create a password for your login. Your password needs at least {minlength} characters and contain at least 1 capital letter, 1 small letter and 1 number.', [
+                    'minlength' => $passwordMinlength,
+                ]));
+            }
             $fields += [
                 DropdownField::create('Salutation', $address->fieldLabel('Salutation'), Tools::getSalutationMap(), $salutationValue),
                 TextField::create('FirstName', $address->fieldLabel('FirstName'), $firstNameValue),
                 TextField::create('Surname', $address->fieldLabel('Surname'), $surnameValue),
                 EmailField::create('Email', $address->fieldLabel('Email'), $emailValue),
-                PasswordField::create('Password', $page->fieldLabel('Password')),
-                PasswordField::create('PasswordCheck', $page->fieldLabel('PasswordCheck')),
+                $passwordField,
+                $passwordCheckField,
                 $newsletterField = CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter'), $subscribedToNewsletterValue),
             ];
             if (!$member->SubscribedToNewsletter ||

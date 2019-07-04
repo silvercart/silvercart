@@ -22,8 +22,20 @@ use SilverStripe\Security\Security;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CustomRequiredFields extends RequiredFields {
-    
+class CustomRequiredFields extends RequiredFields
+{
+    /**
+     * Password validation pattern.
+     *
+     * @var string
+     */
+    private static $password_pattern   = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,}$';
+    /**
+     * Password min length.
+     *
+     * @var int
+     */
+    private static $password_minlength = 8;
     /**
      * List of required fields with callbacks.
      *
@@ -36,7 +48,8 @@ class CustomRequiredFields extends RequiredFields {
      * 
      * @return array
      */
-    public function getRequiredCallbacks() {
+    public function getRequiredCallbacks() : array
+    {
         return $this->requiredCallbacks;
     }
 
@@ -47,8 +60,10 @@ class CustomRequiredFields extends RequiredFields {
      * 
      * @return void
      */
-    public function setRequiredCallbacks($requiredCallbacks) {
+    public function setRequiredCallbacks(array $requiredCallbacks) : CustomRequiredFields
+    {
         $this->requiredCallbacks = $requiredCallbacks;
+        return $this;
     }
 
     /**
@@ -62,8 +77,10 @@ class CustomRequiredFields extends RequiredFields {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    public function addRequiredCallback($fieldName, $callbackName) {
+    public function addRequiredCallback(string $fieldName, string $callbackName) : CustomRequiredFields
+    {
         $this->requiredCallbacks[$fieldName] = $callbackName;
+        return $this;
     }
 
     /**
@@ -71,7 +88,8 @@ class CustomRequiredFields extends RequiredFields {
      * 
      * @return bool
      */
-    public function hasRequiredCallbacks() {
+    public function hasRequiredCallbacks() : bool
+    {
         return !empty($this->requiredCallbacks);
     }
 
@@ -84,18 +102,21 @@ class CustomRequiredFields extends RequiredFields {
      *
      * @param string $fieldName
      *
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2018
      */
-    public function fieldHasRequiredProperty($fieldName) {
+    public function fieldHasRequiredProperty($fieldName) : bool
+    {
         $isRequired = isset($this->required[$fieldName]);
-        if ($isRequired &&
-            array_key_exists($fieldName, $this->requiredCallbacks)) {
+        if ($isRequired
+         && array_key_exists($fieldName, $this->requiredCallbacks)
+        ) {
             $cb = $this->requiredCallbacks[$fieldName];
-            if (is_array($cb) &&
-                array_key_exists('isFilledInDependentOn', $cb)) {
+            if (is_array($cb)
+             && array_key_exists('isFilledInDependentOn', $cb)
+            ) {
                 $isRequired = false;
             }
         }
@@ -538,6 +559,50 @@ class CustomRequiredFields extends RequiredFields {
         return [
             'error'        => $error,
             'errorMessage' => $errorMessage
+        ];
+    }
+    
+    /**
+     * Checks if the given value is a valid password.
+     * 
+     * @param FormField $formField      Form field
+     * @param string    $value          Value to check
+     * @param bool      $expectedResult The expected result
+     * 
+     * @return array
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.07.2019
+     */
+    public function isValidPassword(FormField $formField, string $value, bool $expectedResult) : array
+    {
+        $error         = false;
+        $errorMessages = [];
+        if (!empty($value)) {
+            if (mb_strlen($value) < $this->config()->password_minlength) {
+                $error           = true;
+                $errorMessages[] = _t(CustomRequiredFields::class . '.FieldMustHaveMinChars',
+                        'Enter at least {count} characters.',
+                        [
+                            'count' => $this->config()->password_minlength,
+                        ]
+                );
+            }
+            if (preg_match("@{$this->config()->password_pattern}@", $value) !== 1) {
+                $error           = true;
+                $errorMessages[] = _t(RegisterRegularCustomerForm::class . '.PasswordHint', 'Create a password for your login. Your password needs at least {minlength} characters and contain at least 1 capital letter, 1 small letter and 1 number.', [
+                    'minlength' => $this->config()->password_minlength,
+                ]);
+            }
+        }
+        if ($expectedResult === false
+         && $error === true
+        ) {
+            $error = false;
+        }
+        return [
+            'error'        => $error,
+            'errorMessage' => implode(' ', $errorMessages),
         ];
     }
 
