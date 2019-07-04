@@ -1357,6 +1357,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider
     public function sendRegistrationOptInEmail() : void
     {
         if (!$this->owner->RegistrationOptInConfirmed) {
+            if (empty($this->owner->RegistrationOptInConfirmationHash)) {
+                $this->owner->RegistrationOptInConfirmationHash = $this->createOptInConfirmationHash();
+                $this->owner->write();
+            }
             ShopEmail::send('RegistrationOptIn', $this->owner->Email, [
                 'Customer' => $this->owner,
             ]);
