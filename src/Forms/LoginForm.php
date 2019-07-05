@@ -65,6 +65,7 @@ class LoginForm extends CustomForm {
             }
             $fields += [
                 HiddenField::create('redirect_to', '', $requestURL),
+                HiddenField::create('cn', '', static::class),
                 TextField::create('emailaddress', Page::singleton()->fieldLabel('EmailAddress')),
                 PasswordField::create('password', Page::singleton()->fieldLabel('Password')),
             ];

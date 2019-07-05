@@ -5,6 +5,7 @@ namespace SilverCart\Control;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Forms\LoginForm;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPosition;
@@ -356,6 +357,12 @@ class ActionHandler extends Controller
         if (array_key_exists('Remember', $postVars)) {
             $rememberMe = $postVars['Remember'];
         }
+        $formClassName = $request->postVar('cn');
+        if (class_exists($formClassName)) {
+            $loginForm = singleton($formClassName);
+        } else {
+            $loginForm = LoginForm::singleton();
+        }
         $member   = Member::get()->filter('Email', $emailAddress)->first();
         $canLogin = true;
         $this->extend('updateCanLogin', $canLogin, $member);
@@ -394,18 +401,10 @@ class ActionHandler extends Controller
                 
                 $authenticator->getLoginHandler($postVars['redirect_to'])->performLogin($customer, $loginData, $this->getRequest());
             } else {
-                $messages = [
-                    'Authentication' => [
-                        Page::singleton()->fieldLabel('CredentialsWrong'),
-                    ]
-                ];
+                $loginForm->setErrorMessage(Page::singleton()->fieldLabel('CredentialsWrong'));
             }
         } else {
-            $messages = [
-                'Authentication' => [
-                    Page::singleton()->fieldLabel('CredentialsWrong'),
-                ]
-            ];
+            $loginForm->setErrorMessage(Page::singleton()->fieldLabel('CredentialsWrong'));
         }
         $this->redirectBack($postVars['redirect_to']);
     }
