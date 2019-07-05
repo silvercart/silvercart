@@ -348,6 +348,7 @@ de:
     ShopCity: "Ort"
     ShopCountry: "Land"
     ShopData: "Betreiber-Daten"
+    ShopEmail: "E-Mail-Adresse"
     ShopName: "Shop-Name"
     ShopOpeningHours: "Öffnungszeiten"
     ShopPhone: "Telefon"

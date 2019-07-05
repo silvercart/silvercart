@@ -348,6 +348,7 @@ en:
     ShopCity: "City"
     ShopCountry: "Country"
     ShopData: "Shop data"
+    ShopEmail: "Email address"
     ShopName: "Shop name"
     ShopOpeningHours: "Opening hours"
     ShopPhone: "Phone"
