@@ -1712,7 +1712,7 @@ de:
     OptInMessageLogin: "Bitte melden Sie sich an, um Ihre E-Mail-Adresse zu bestätigen."
     OptInTitle: "Bestätigen Sie Ihre E-Mail-Adresse"
     OptInWelcomeMessage: "Herzlichen Glückwunsch! Ihre Registrierung in unserem Shop war erfolgreich!"
-    OptInWelcomeMessage2: "Um Ihr Kundenkonto zu aktivieren, bitte bestätigen Sie Ihre E-Mail-Adresse indem Sie den Bestätigungslink besuchen, den Sie per E-Mail erhalten haben."
+    OptInWelcomeMessage2: "Um Ihr Kundenkonto zu aktivieren, bestätigen Sie bitte Ihre E-Mail-Adresse indem Sie den Bestätigungslink besuchen, den Sie per E-Mail erhalten haben."
     OptInWelcomeMessage3: "Der Bestätigungslink wurde an <strong>{email}</strong> gesendet. Bitte prüfen Sie Ihren Posteingang."
     OptInWelcomeTitle: "Bestätigen Sie Ihre E-Mail-Adresse"
     OTHERITEMS: "Sonstiges"
