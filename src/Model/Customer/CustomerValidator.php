@@ -42,16 +42,17 @@ class CustomerValidator extends Extension
      * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 03.09.2014
+     * @since 08.07.2019
      */
     public function updatePHP(array $data, $form) : bool
     {
         $valid = true;
         $groups = $data['DirectGroups'];
-        if (is_array($groups)
-         && !empty($groups)
-        ) {
-            $groupObjects = Group::get()->where(sprintf('"Group"."ID" IN (%s)', $groups));
+        if (!empty($groups)) {
+            if (is_array($groups)) {
+                $groups = implode(',', $groups);
+            }
+            $groupObjects = Group::get()->where("\"Group\".\"ID\" IN ({$groups})");
             $pricetypes   = [];
             foreach ($groupObjects as $group) {
                 if (!empty($group->Pricetype)
