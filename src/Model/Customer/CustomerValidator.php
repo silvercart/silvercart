@@ -16,8 +16,8 @@ use SilverStripe\Security\Group;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CustomerValidator extends Extension {
-    
+class CustomerValidator extends Extension
+{
     /**
      * Return TRUE if a method exists on this object
      *
@@ -28,7 +28,8 @@ class CustomerValidator extends Extension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public function hasMethod($method) {
+    public function hasMethod(string $method) : bool
+    {
         return method_exists($this, $method);
     }
     
@@ -38,24 +39,27 @@ class CustomerValidator extends Extension {
      * @param array $data Data to validate
      * @param Form  $form Form
      * 
-     * @return boolean 
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>, Ramon Kupper <rkupper@pixeltricks.de>
      * @since 03.09.2014
      */
-    public function updatePHP($data, $form) {
+    public function updatePHP(array $data, $form) : bool
+    {
         $valid = true;
         $groups = $data['DirectGroups'];
-        if (!empty($groups)) {
+        if (is_array($groups)
+         && !empty($groups)
+        ) {
             $groupObjects = Group::get()->where(sprintf('"Group"."ID" IN (%s)', $groups));
-            $pricetypes   = array();
+            $pricetypes   = [];
             foreach ($groupObjects as $group) {
-                if (!empty($group->Pricetype) &&
-                    $group->Pricetype != '---') {
+                if (!empty($group->Pricetype)
+                 && $group->Pricetype != '---'
+                ) {
                     $pricetypes[$group->Pricetype] = true;
                 }
             }
-
             if (count($pricetypes) > 1) {
                 $form->getValidator()->validationError(
                         'Groups',
@@ -67,5 +71,4 @@ class CustomerValidator extends Extension {
         }
         return $valid;
     }
-
 }
