@@ -27,7 +27,7 @@ class DateTools extends Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.10.2018
      */
-    public static function addSundaysToBusinessDays($businessDays)
+    public static function addSundaysToBusinessDays($businessDays) : int
     {
         $currentWeekDay = date('N');
         $sundaysPlain   = floor(($businessDays + $currentWeekDay) / 7);
@@ -45,7 +45,7 @@ class DateTools extends Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.10.2018
      */
-    public static function getBusinessDaysUntil($date)
+    public static function getBusinessDaysUntil($date) : int
     {
         $businessDays   = 0;
         $now            = time();
@@ -60,5 +60,33 @@ class DateTools extends Tools
             }
         }
         return $businessDays;
+    }
+    
+    /**
+     * Returns the total amount of days until the given amount of $businessDays is
+     * reached.
+     * 
+     * @param int $businessDays Amount of business days to get total days for
+     * 
+     * @return int
+     */
+    public static function getTotalDayCountFor(int $businessDays) : int
+    {
+        $totalDays = $businessDays;
+        if ($totalDays > 0) {
+            $addedBusinessDays = 0;
+            $time              = time();
+            do {
+                if (date('N', $time) == 6
+                 || date('N', $time) == 7
+                ) {
+                    $totalDays++;
+                } else {
+                    $addedBusinessDays++;
+                }
+                $time += 24*60*60;
+            } while ($addedBusinessDays < $totalDays);
+        }
+        return $totalDays;
     }
 }
