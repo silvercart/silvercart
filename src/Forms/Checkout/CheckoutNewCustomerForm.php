@@ -2,8 +2,10 @@
 
 namespace SilverCart\Forms\Checkout;
 
+use SilverCart\Checkout\Checkout;
 use SilverCart\Forms\CustomForm;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\OptionsetField;
 use SilverCart\Model\Pages\CheckoutStep;
 
@@ -17,8 +19,8 @@ use SilverCart\Model\Pages\CheckoutStep;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutNewCustomerForm extends CustomForm {
-    
+class CheckoutNewCustomerForm extends CustomForm
+{
     /**
      * List of required fields.
      *
@@ -33,19 +35,25 @@ class CheckoutNewCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields() : array
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            $options = [
-                '1' => $this->fieldLabel('ProceedWithRegistration'),
-                '2' => $this->fieldLabel('ProceedWithoutRegistration'),
-            ];
-            $value = null;
-            if ($this->getController()->getCheckout()->getDataValue('IsAnonymousCheckout') === true) {
-                $value = '2';
+            if (Checkout::config()->allow_anonymous_checkout) {
+                $options = [
+                    '1' => $this->fieldLabel('ProceedWithRegistration'),
+                    '2' => $this->fieldLabel('ProceedWithoutRegistration'),
+                ];
+                $value = null;
+                if ($this->getController()->getCheckout()->getDataValue('IsAnonymousCheckout') === true) {
+                    $value = '2';
+                }
+                $field = OptionsetField::create('AnonymousOptions', '', $options, $value);
+            } else {
+                $field = HiddenField::create('AnonymousOptions', '', '1');
             }
-            $fields += [
-                OptionsetField::create('AnonymousOptions', '', $options, $value),
-            ];
+            $fields = array_merge($fields, [
+                $field,
+            ]);
         });
         return parent::getCustomFields();
     }
@@ -55,7 +63,8 @@ class CheckoutNewCustomerForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions() : array
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', CheckoutStep::singleton()->fieldLabel('Forward'))
@@ -74,9 +83,13 @@ class CheckoutNewCustomerForm extends CustomForm {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2017
+     * @since 08.07.2019
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form) : void
+    {
+        if (!Checkout::config()->allow_anonymous_checkout) {
+            $data['AnonymousOptions'] = '1';
+        }
         switch ($data['AnonymousOptions']) {
             case '2':
                 // Checkout without registration
@@ -96,5 +109,4 @@ class CheckoutNewCustomerForm extends CustomForm {
                 $this->getController()->redirectBack();
         }
     }
-    
 }

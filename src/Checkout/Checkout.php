@@ -25,71 +25,69 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Checkout extends ViewableData {
-    
+class Checkout extends ViewableData
+{
     /**
      * Session key
      * 
      * @var string
      */
     const SESSION_KEY = 'SilverCart.CheckoutData';
-    
     /**
      * Session key
      * 
      * @var string
      */
     const FINALIZED_SESSION_KEY = 'SilverCart.FinalizedCheckoutData';
-
     /**
      * Determines whether to show the shopping cart in checkout step navigation.
      *
      * @var bool
      */
     private static $show_cart_in_checkout_navigation = true;
-
+    /**
+     * Determines whether to allow an anonymous checkout (without customer 
+     * registration).
+     *
+     * @var bool
+     */
+    private static $allow_anonymous_checkout = true;
     /**
      * Checkout from session.
      *
      * @var Checkout
      */
     private static $session_checkout = null;
-    
     /**
      * Step list.
      *
      * @var array
      */
     protected $stepList = [];
-    
     /**
      * List of completed steps.
      *
      * @var array
      */
     protected $completedSteps = [];
-
     /**
      * Checkout data.
      *
      * @var array
      */
     protected $data = [];
-    
     /**
      * Current checkout step.
      *
      * @var CheckoutStep
      */
     protected $currentStep = null;
-    
     /**
      * Current checkout step.
      *
      * @var string
      */
     protected $currentStepName = null;
-    
     /**
      * Controller.
      *
@@ -107,7 +105,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function __construct(Controller $controller = null) {
+    public function __construct(Controller $controller = null)
+    {
         parent::__construct();
         if (is_null($controller)) {
             $controller = Controller::curr();
@@ -120,7 +119,8 @@ class Checkout extends ViewableData {
      * 
      * @return array
      */
-    public function getDefaultStepList() {
+    public function getDefaultStepList() : array
+    {
         $defaultStepList = [
             CheckoutStep1::class,
             CheckoutStep2::class,
@@ -138,7 +138,8 @@ class Checkout extends ViewableData {
      * 
      * @return array
      */
-    public function getStepList() {
+    public function getStepList() : array
+    {
         if (empty($this->stepList)) {
             $stepList = $this->getDefaultStepList();
             $this->stepList = $stepList;
@@ -154,8 +155,9 @@ class Checkout extends ViewableData {
      * 
      * @return $this
      */
-    public function setStepList($stepList) {
-        $this->stepList = $stepList;
+    public function setStepList(array $stepList = null) : Checkout
+    {
+        $this->stepList = (array) $stepList;
         return $this;
     }
     
@@ -164,12 +166,13 @@ class Checkout extends ViewableData {
      * 
      * @param string $step Step name
      * 
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function stepExists($step) {
+    public function stepExists(string $step) : bool
+    {
         $stepExists = false;
         $stepList   = $this->getStepList();
         if (in_array($step, $stepList)) {
@@ -186,7 +189,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.04.2018
      */
-    public function nextStepExists() {
+    public function nextStepExists() :bool
+    {
         $currentStep = $this->getCurrentStep();
         $nextStep    = $this->getStepByIndex($currentStep->StepNumber());
         return !is_null($nextStep);
@@ -200,9 +204,10 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function CheckoutSteps() {
+    public function CheckoutSteps() : ArrayList
+    {
         $stepList = $this->getStepList();
-        $steps = ArrayList::create();
+        $steps    = ArrayList::create();
         foreach ($stepList as $stepName) {
             $steps->push(new $stepName($this->getController()));
         }
@@ -217,7 +222,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.06.2018
      */
-    public function VisibleCheckoutSteps() {
+    public function VisibleCheckoutSteps() : ArrayList
+    {
         $allSteps     = $this->CheckoutSteps();
         $visibleSteps = ArrayList::create();
         foreach ($allSteps as $step) {
@@ -233,7 +239,8 @@ class Checkout extends ViewableData {
      * 
      * @return int
      */
-    public function getVisibleCheckoutStepWithCartCount() {
+    public function getVisibleCheckoutStepWithCartCount() : int
+    {
         return $this->VisibleCheckoutSteps()->count() + 1;
     }
     
@@ -244,9 +251,10 @@ class Checkout extends ViewableData {
      * 
      * @param bool $isCartPage Is the current page the cart page?
      * 
-     * @return int
+     * @return float
      */
-    public function getStepProgressPercentage($isCartPage = false) {
+    public function getStepProgressPercentage(bool $isCartPage = false) : float
+    {
         $currrentStepNumber = 1;
         if (!$isCartPage) {
             $currrentStepNumber = $this->getCurrentStep()->VisibleStepNumber();
@@ -259,26 +267,28 @@ class Checkout extends ViewableData {
     /**
      * Returns the current checkout step to use in template.
      * 
-     * @return \SilverCart\Checkout\CheckoutStep
+     * @return CheckoutStep
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function getCurrentStep() {
+    public function getCurrentStep() : CheckoutStep
+    {
         return $this->CurrentStep();
     }
 
     /**
      * Returns the current checkout step to use in template.
      * 
-     * @return \SilverCart\Checkout\CheckoutStep
+     * @return CheckoutStep
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function CurrentStep() {
+    public function CurrentStep() : CheckoutStep
+    {
         if (is_null($this->currentStep)) {
-            $currentStepName = $this->getCurrentStepName();
+            $currentStepName   = $this->getCurrentStepName();
             $this->currentStep = new $currentStepName($this->getController());
         }
         return $this->currentStep;
@@ -294,7 +304,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function setCurrentStep($currentStep) {
+    public function setCurrentStep(CheckoutStep $currentStep) : Checkout
+    {
         $this->currentStep = $currentStep;
         return $this;
     }
@@ -304,16 +315,18 @@ class Checkout extends ViewableData {
      * 
      * @param string $currentStepName Optional current step name
      * 
-     * @return void
+     * @return Checkout
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.04.2018
      */
-    public function resetCurrentStep($currentStepName = null) {
+    public function resetCurrentStep(string $currentStepName = null) : Checkout
+    {
         $this->currentStep = null;
         if (!is_null($currentStepName)) {
             $this->setCurrentStepName($currentStepName);
         }
+        return $this;
     }
     
     /**
@@ -321,12 +334,13 @@ class Checkout extends ViewableData {
      * 
      * @param int $index Index
      * 
-     * @return \SilverCart\Checkout\CheckoutStep
+     * @return string|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function getStepNameByIndex($index) {
+    public function getStepNameByIndex(int $index) : ?string
+    {
         $stepName = null;
         $stepList = $this->getStepList();
         if (array_key_exists($index, $stepList)) {
@@ -340,12 +354,13 @@ class Checkout extends ViewableData {
      * 
      * @param int $index Index
      * 
-     * @return \SilverCart\Checkout\CheckoutStep
+     * @return CheckoutStep|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function getStepByIndex($index) {
+    public function getStepByIndex($index) : ?CheckoutStep
+    {
         $stepName = $this->getStepNameByIndex($index);
         $step     = null;
         if (!is_null($stepName)) {
@@ -362,8 +377,22 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function ShowCartInCheckoutNavigation() {
-        return $this->config()->get('show_cart_in_checkout_navigation');
+    public function ShowCartInCheckoutNavigation() : bool
+    {
+        return $this->config()->show_cart_in_checkout_navigation;
+    }
+    
+    /**
+     * Returns whether to allow an anonymous checkout or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 08.07.2019
+     */
+    public function AllowAnonymousCheckout() : bool
+    {
+        return $this->config()->allow_anonymous_checkout;
     }
     
     /**
@@ -374,7 +403,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function CurrentPageIsCartPage() {
+    public function CurrentPageIsCartPage() : bool
+    {
         return Controller::curr() instanceof CartPageController;
     }
     
@@ -386,7 +416,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public static function create_from_session() {
+    public static function create_from_session() : Checkout
+    {
         if (is_null(self::$session_checkout)) {
             self::$session_checkout = Checkout::create();
             self::$session_checkout->initFromSession();
@@ -402,7 +433,8 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.10.2018
      */
-    public static function clear_session() {
+    public static function clear_session() : void
+    {
         $sessionData = Tools::Session()->get(self::SESSION_KEY);
         if (!is_null($sessionData)) {
             Tools::Session()->set(self::SESSION_KEY, null);
@@ -415,12 +447,13 @@ class Checkout extends ViewableData {
      * 
      * @param Member $member Member to check access for
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function canAccess(Member $member = null) {
+    public function canAccess(Member $member = null) : bool
+    {
         $canAccess = false;
         if (is_null($member)) {
             $member = Customer::currentUser();
@@ -440,12 +473,13 @@ class Checkout extends ViewableData {
     /**
      * Initializes the checkout from session.
      * 
-     * @return void
+     * @return Checkout
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function initFromSession() {
+    public function initFromSession() : Checkout
+    {
         $currentStepList = Tools::Session()->get(self::SESSION_KEY . '.CurrentStepList');
         $completedSteps  = Tools::Session()->get(self::SESSION_KEY . '.CompletedSteps');
         $currentStepName = Tools::Session()->get(self::SESSION_KEY . '.CurrentStepName');
@@ -461,6 +495,7 @@ class Checkout extends ViewableData {
         $this->setCompletedSteps($completedSteps);
         $this->setCurrentStepName($currentStepName);
         $this->setData($sessionData);
+        return $this;
     }
     
     /**
@@ -471,12 +506,14 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function saveInSession() {
+    public function saveInSession() : Checkout
+    {
         Tools::Session()->set(self::SESSION_KEY . '.CurrentStepList', $this->getStepList());
         Tools::Session()->set(self::SESSION_KEY . '.CompletedSteps', $this->getCompletedSteps());
         Tools::Session()->set(self::SESSION_KEY . '.CurrentStepName', $this->getCurrentStepName());
         Tools::Session()->set(self::SESSION_KEY . '.Data', $this->getData());
         Tools::saveSession();
+        return $this;
     }
     
     /**
@@ -487,11 +524,13 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    public function finalize() {
+    public function finalize() : Checkout
+    {
         Tools::Session()->set(self::FINALIZED_SESSION_KEY, Tools::Session()->get(self::SESSION_KEY));
         Tools::saveSession();
         static::clear_session();
         $this->clearData();
+        return $this;
     }
     
     /**
@@ -501,7 +540,8 @@ class Checkout extends ViewableData {
      * 
      * @return array
      */
-    public function getFinalizedData() {
+    public function getFinalizedData() : ?array
+    {
         return Tools::Session()->get(self::FINALIZED_SESSION_KEY . '.Data');
     }
     
@@ -510,15 +550,17 @@ class Checkout extends ViewableData {
      * 
      * @param array $data Data to add
      * 
-     * @return void
+     * @return Checkout
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function addData($data) {
+    public function addData($data) : Checkout
+    {
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
         }
+        return $this;
     }
     
     /**
@@ -527,13 +569,15 @@ class Checkout extends ViewableData {
      * @param string $key   Checkout data key
      * @param string $value Checkout data value
      * 
-     * @return void
+     * @return Checkout
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function addDataValue($key, $value) {
+    public function addDataValue($key, $value) : Checkout
+    {
         $this->data[$key] = $value;
+        return $this;
     }
     
     /**
@@ -544,8 +588,10 @@ class Checkout extends ViewableData {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function clearData() {
+    public function clearData() : Checkout
+    {
         $this->setData([]);
+        return $this;
     }
     
     /**
@@ -553,7 +599,8 @@ class Checkout extends ViewableData {
      * 
      * @return array
      */
-    public function getData() {
+    public function getData() : array
+    {
         return $this->data;
     }
     
@@ -562,12 +609,13 @@ class Checkout extends ViewableData {
      * 
      * @param string $key Checkout data key
      * 
-     * @return void
+     * @return mixed
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function getDataValue($key) {
+    public function getDataValue($key)
+    {
         $value = null;
         if (array_key_exists($key, $this->data)) {
             $value = $this->data[$key];
@@ -580,10 +628,12 @@ class Checkout extends ViewableData {
      * 
      * @param array $data Data to set
      * 
-     * @return void
+     * @return Checkout
      */
-    public function setData($data) {
+    public function setData(array $data = null) : Checkout
+    {
         $this->data = $data;
+        return $this;
     }
     
     /**
@@ -591,7 +641,8 @@ class Checkout extends ViewableData {
      * 
      * @return string
      */
-    public function getCurrentStepName() {
+    public function getCurrentStepName() : string
+    {
         return $this->currentStepName;
     }
 
@@ -602,8 +653,10 @@ class Checkout extends ViewableData {
      * 
      * @return void
      */
-    public function setCurrentStepName($currentStepName) {
+    public function setCurrentStepName(string $currentStepName) : Checkout
+    {
         $this->currentStepName = $currentStepName;
+        return $this;
     }
 
     /**
@@ -611,9 +664,10 @@ class Checkout extends ViewableData {
      * 
      * @param CheckoutStep $step Current step name
      * 
-     * @return void
+     * @return bool
      */
-    public function isCurrentStep(CheckoutStep $step) {
+    public function isCurrentStep(CheckoutStep $step) : bool
+    {
         $isCurrentStep = false;
         if (get_class($step) == $this->getCurrentStepName()) {
             $isCurrentStep = true;
@@ -626,7 +680,8 @@ class Checkout extends ViewableData {
      * 
      * @return array
      */
-    public function getCompletedSteps() {
+    public function getCompletedSteps() : array
+    {
         return $this->completedSteps;
     }
     
@@ -635,13 +690,15 @@ class Checkout extends ViewableData {
      * 
      * @param array $completedSteps List of completed steps
      * 
-     * @return void
+     * @return Checkout
      */
-    public function setCompletedSteps($completedSteps) {
+    public function setCompletedSteps(array $completedSteps = null) : Checkout
+    {
         if (!is_array($completedSteps)) {
             $completedSteps = [];
         }
-        $this->completedSteps = $completedSteps;
+        $this->completedSteps = (array) $completedSteps;
+        return $this;
     }
     
     /**
@@ -649,16 +706,18 @@ class Checkout extends ViewableData {
      * 
      * @param CheckoutStep $step Step to add
      * 
-     * @return void
+     * @return Checkout
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function addCompletedStep(CheckoutStep $step) {
+    public function addCompletedStep(CheckoutStep $step) : Checkout
+    {
         $stepList  = $this->getStepList();
         $stepName  = get_class($step);
         $stepIndex = array_search($stepName, $stepList);
         $this->completedSteps[$stepIndex] = $stepName;
+        return $this;
     }
     
     /**
@@ -666,12 +725,13 @@ class Checkout extends ViewableData {
      * 
      * @param CheckoutStep $step Step instance or name
      * 
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function isCompletedStep($step) {
+    public function isCompletedStep($step) : bool
+    {
         $stepName = $step;
         if ($stepName instanceof CheckoutStep) {
             $stepName = get_class($stepName);
@@ -689,13 +749,15 @@ class Checkout extends ViewableData {
     /**
      * Redirects to the current step.
      * 
-     * @return void
+     * @return Checkout
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function redirectToCurrentStep() {
+    public function redirectToCurrentStep() : Checkout
+    {
         $this->getController()->redirect($this->getController()->Link('step/' . $this->getCurrentStep()->StepNumber()));
+        return $this;
     }
     
     /**
@@ -703,7 +765,8 @@ class Checkout extends ViewableData {
      * 
      * @return Controller
      */
-    public function getController() {
+    public function getController() : Controller
+    {
         return $this->controller;
     }
 
@@ -714,16 +777,24 @@ class Checkout extends ViewableData {
      * 
      * @return void
      */
-    public function setController(Controller $controller) {
+    public function setController(Controller $controller) : Checkout
+    {
         $this->controller = $controller;
+        return $this;
     }
     
-    public function initStep() {
+    /**
+     * Initializes the current checkout step.
+     * 
+     * @return \SilverCart\Checkout\Checkout
+     */
+    public function initStep() : Checkout
+    {
         $shoppingCart = Customer::currentUser()->getCart();
         /* @var $shoppingCart \SilverCart\Model\Order\ShoppingCart */
         $shoppingCart->setShippingMethodID($this->getDataValue('ShippingMethod'));
         $shoppingCart->setPaymentMethodID($this->getDataValue('PaymentMethod'));
         $this->getCurrentStep()->init();
+        return $this;
     }
-    
 }
