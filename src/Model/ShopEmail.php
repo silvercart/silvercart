@@ -604,7 +604,7 @@ class ShopEmail extends DataObject {
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.08.2011
+     * @since 08.07.2019
      */
     protected static function attachFiles(Email $email, $attachments) : void
     {
@@ -612,18 +612,23 @@ class ShopEmail extends DataObject {
             if (is_array($attachments)) {
                 foreach ($attachments as $attachment) {
                     if (is_array($attachment)) {
-                        $filename           = $attachment['filename'];
+                        $filename           = str_replace('//', '/', $attachment['filename']);
                         $attachedFilename   = array_key_exists('attachedFilename', $attachment) ? $attachment['attachedFilename'] : basename($filename);
                         $mimetype           = array_key_exists('mimetype', $attachment) ? $attachment['mimetype'] : null;
                     } else {
-                        $filename           = $attachment;
+                        $filename           = str_replace('//', '/', $attachment);
                         $attachedFilename   = basename($attachment);
                         $mimetype           = null;
                     }
-                    $email->addAttachment($filename, $attachedFilename, $mimetype);
+                    if (file_exists($filename)) {
+                        $email->addAttachment($filename, $attachedFilename, $mimetype);
+                    }
                 }
             } else {
-                $email->addAttachment($attachments, basename($attachments));
+                $filename = str_replace('//', '/', $attachments);
+                if (file_exists($filename)) {
+                    $email->addAttachment($filename, basename($filename));
+                }
             }
         }
     }
