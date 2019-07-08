@@ -407,7 +407,9 @@ class ActionHandler extends Controller
             $loginForm->setErrorMessage(Page::singleton()->fieldLabel('CredentialsWrong'));
         }
         $redirectedTo = $this->redirectedTo();
-        if (is_null($redirectedTo)) {
+        if (is_null($redirectedTo)
+         || $redirectedTo === false
+        ) {
             $this->redirectBack($postVars['redirect_to']);
         }
     }
