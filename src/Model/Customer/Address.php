@@ -1316,4 +1316,17 @@ class Address extends DataObject implements PermissionProvider
     {
         return $this->renderWith('SilverCart/Email/Includes/AddressData');
     }
+
+    /**
+     * Returns the rendered address to use in shop owner emails.
+     * 
+     * @return DBHTMLText|null
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2019
+     */
+    public function forShopOwnerEmail() : ?DBHTMLText
+    {
+        return $this->renderWith('SilverCart/Email/Includes/AddressData_ShopOwner');
+    }
 }
