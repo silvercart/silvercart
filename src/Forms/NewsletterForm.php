@@ -75,15 +75,14 @@ class NewsletterForm extends CustomForm {
      */
     public function getCustomFields() {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            $address = Address::singleton();
             $member  = Customer::currentRegisteredCustomer();
             $newsletterActionSource = [
                 '1' => $this->fieldLabel('ACTIONFIELD_SUBSCRIBE'),
                 '2' => $this->fieldLabel('ACTIONFIELD_UNSUBSCRIBE')
             ];
-            if ($member instanceof Member &&
-                $member->exists()) {
-                
+            if ($member instanceof Member
+             && $member->exists()
+            ) {
                 if ($member->SubscribedToNewsletter) {
                     array_shift($newsletterActionSource);
                     $newsletterActionTitle = Newsletter::singleton()->fieldLabel('YouAreSubscribed') . ' - ' . $this->fieldLabel('ACTIONFIELD_TITLE');
@@ -91,20 +90,20 @@ class NewsletterForm extends CustomForm {
                     array_pop($newsletterActionSource);
                     $newsletterActionTitle = Newsletter::singleton()->fieldLabel('YouAreUnsubscribed') . ' - ' . $this->fieldLabel('ACTIONFIELD_TITLE');
                 }
-                
                 $fields += [
-                    ReadonlyField::create('Salutation', $address->fieldLabel('Salutation'), $member->SalutationText),
-                    ReadonlyField::create('FirstName', $address->fieldLabel('FirstName'), $member->FirstName),
-                    ReadonlyField::create('Surname', $address->fieldLabel('Surname'), $member->Surname),
-                    ReadonlyField::create('Email', $address->fieldLabel('Email'), $member->Email),
+                    ReadonlyField::create('Salutation', $member->fieldLabel('Salutation'), $member->SalutationText),
+                    ReadonlyField::create('FirstName', $member->fieldLabel('FirstName'), $member->FirstName),
+                    ReadonlyField::create('Surname', $member->fieldLabel('Surname'), $member->Surname),
+                    ReadonlyField::create('Email', $member->fieldLabel('EmailAddress'), $member->Email),
                     OptionsetField::create('NewsletterAction', $newsletterActionTitle, $newsletterActionSource),
                 ];
             } else {
+                $member  = Member::singleton();
                 $fields += [
-                    DropdownField::create('Salutation', $address->fieldLabel('Salutation'), Tools::getSalutationMap()),
-                    TextField::create('FirstName', $address->fieldLabel('FirstName')),
-                    TextField::create('Surname', $address->fieldLabel('Surname')),
-                    EmailField::create('Email', $address->fieldLabel('Email')),
+                    DropdownField::create('Salutation', $member->fieldLabel('Salutation'), Tools::getSalutationMap()),
+                    TextField::create('FirstName', $member->fieldLabel('FirstName')),
+                    TextField::create('Surname', $member->fieldLabel('Surname')),
+                    EmailField::create('Email', $member->fieldLabel('EmailAddress')),
                     OptionsetField::create('NewsletterAction', $this->fieldLabel('ACTIONFIELD_TITLE'), $newsletterActionSource),
                 ];
             }

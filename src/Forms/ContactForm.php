@@ -130,10 +130,10 @@ class ContactForm extends CustomForm {
             $fields = array_merge(
                     $fields,
                     [
-                        DropdownField::create('Salutation', $address->fieldLabel('Salutation'), Tools::getSalutationMap(), $member->Salutation),
-                        TextField::create('FirstName', $address->fieldLabel('FirstName'), $member->FirstName),
-                        TextField::create('Surname', $address->fieldLabel('Surname'), $member->Surname),
-                        EmailField::create('Email', $address->fieldLabel('Email'), $member->Email),
+                        DropdownField::create('Salutation', $member->fieldLabel('Salutation'), Tools::getSalutationMap(), $member->Salutation),
+                        TextField::create('FirstName', $member->fieldLabel('FirstName'), $member->FirstName),
+                        TextField::create('Surname', $member->fieldLabel('Surname'), $member->Surname),
+                        EmailField::create('Email', $member->fieldLabel('EmailAddress'), $member->Email),
                         TextareaField::create('Message', Page::singleton()->fieldLabel('Message')),
                         TextField::create('Street', $address->fieldLabel('Street'), $address->Street),
                         TextField::create('StreetNumber', $address->fieldLabel('StreetNumber'), $address->StreetNumber),

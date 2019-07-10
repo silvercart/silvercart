@@ -103,9 +103,7 @@ class EditProfileForm extends CustomForm {
      */
     public function getCustomFields() {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            
             $member  = Customer::currentUser();
-            $address = Address::singleton();
             $page    = Page::singleton();
             
             $birthdayDaySource   = ['' => Tools::field_label('PleaseChoose'), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' => '12', '13' => '13', '14' => '14', '15' => '15', '16' => '16', '17' => '17', '18' => '18', '19' => '19', '20' => '20', '21' => '21', '22' => 22, '23' => 23, '24' => '24', '25' => '25', '26' => '26', '27' => '27', '28' => '28', '29' => '29', '30' => '30', '31' => '31'];
@@ -119,8 +117,9 @@ class EditProfileForm extends CustomForm {
             $birthdayYearValue           = '';
             $emailValue                  = '';
 
-            if ($member instanceof Member &&
-                $member->exists()) {
+            if ($member instanceof Member
+             && $member->exists()
+            ) {
                 $salutationValue             = $member->Salutation;
                 $firstNameValue              = stripcslashes($member->FirstName);
                 $surnameValue                = stripcslashes($member->Surname);
@@ -134,6 +133,8 @@ class EditProfileForm extends CustomForm {
                 if ($member->Email) {
                     $emailValue = stripcslashes($member->Email);
                 }
+            } elseif (!($member instanceof Member)) {
+                $member = Member::singleton();
             }
             
             $passwordField      = PasswordField::create('Password', $page->fieldLabel('Password'));
@@ -152,16 +153,17 @@ class EditProfileForm extends CustomForm {
                 ]));
             }
             $fields += [
-                DropdownField::create('Salutation', $address->fieldLabel('Salutation'), Tools::getSalutationMap(), $salutationValue),
-                TextField::create('FirstName', $address->fieldLabel('FirstName'), $firstNameValue),
-                TextField::create('Surname', $address->fieldLabel('Surname'), $surnameValue),
-                EmailField::create('Email', $address->fieldLabel('Email'), $emailValue),
+                DropdownField::create('Salutation', $member->fieldLabel('Salutation'), Tools::getSalutationMap(), $salutationValue),
+                TextField::create('FirstName', $member->fieldLabel('FirstName'), $firstNameValue),
+                TextField::create('Surname', $member->fieldLabel('Surname'), $surnameValue),
+                EmailField::create('Email', $member->fieldLabel('EmailAddress'), $emailValue),
                 $passwordField,
                 $passwordCheckField,
                 $newsletterField = CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter'), $subscribedToNewsletterValue),
             ];
-            if (!$member->SubscribedToNewsletter ||
-                !$member->NewsletterOptInStatus) {
+            if (!$member->SubscribedToNewsletter
+             || !$member->NewsletterOptInStatus
+            ) {
                 $newsletterField->setDescription(Newsletter::singleton()->fieldLabel('OptInNotFinished'));
             }
             if ($this->demandBirthdayDate()) {
