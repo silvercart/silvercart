@@ -30,7 +30,7 @@ use SilverStripe\View\Requirements_Backend as SilverStripeRequirements_Backend;
 class Requirements_Backend extends SilverStripeRequirements_Backend
 {
     use \SilverStripe\Core\Config\Configurable;
-    
+    use \SilverStripe\Core\Extensible;
     /**
      * Determines whether to force CSS/JS file combination.
      *
@@ -266,6 +266,19 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
                 }
             }
         }
+    }
+    
+    /**
+     * Do the heavy lifting involved in combining the combined files.
+     * Adding extension hooks to execute code  before and/or after processing.
+     * 
+     * @return void
+     */
+    public function processCombinedFiles() : void
+    {
+        $this->extend('onBeforeProcessCombinedFiles');
+        parent::processCombinedFiles();
+        $this->extend('onAfterProcessCombinedFiles');
     }
 
     /**
