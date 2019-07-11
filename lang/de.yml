@@ -682,6 +682,7 @@ de:
     BASIC_DATA: "Allgemein"
     BIRTHDAY: "Geburtstag"
     BUSINESSCUSTOMER: "Geschäftskunde"
+    Customer: "Kunde"
     CUSTOMERNUMBER: "Kundennummer"
     CUSTOMERNUMBER_SHORT: "Kunden-Nr."
     ERROR_MULTIPLE_PRICETYPES: "Kundengruppen mit unterschiedlichen Preistypen sind nicht zulässig!"

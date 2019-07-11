@@ -250,6 +250,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         $labels = array_merge(
                 $labels,
                 [
+                    'Customer'                          => _t(Customer::class . '.Customer', 'Customer'),
                     'Salutation'                        => _t(Customer::class . '.SALUTATION', 'salutation'),
                     'SubscribedToNewsletter'            => _t(Customer::class . '.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
                     'HasAcceptedTermsAndConditions'     => _t(Customer::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'has accepted terms and conditions'),

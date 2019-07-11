@@ -682,6 +682,7 @@ en:
     BASIC_DATA: "Basics"
     BIRTHDAY: "Birthday"
     BUSINESSCUSTOMER: "Business customer"
+    Customer: "Customer"
     CUSTOMERNUMBER: "Customer number"
     CUSTOMERNUMBER_SHORT: "Customer-No."
     ERROR_MULTIPLE_PRICETYPES: "Customer groups with different pricetypes are invalid!"

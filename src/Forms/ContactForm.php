@@ -28,8 +28,8 @@ use SilverStripe\Security\Member;
  * @license see license file in modules root directory
  * @todo Implement spam check
  */
-class ContactForm extends CustomForm {
-
+class ContactForm extends CustomForm
+{
     /**
      * Spam check parameter for equal firstname and surname.
      * Contact messages with an equal firstname and surname will be ignored.
@@ -37,7 +37,6 @@ class ContactForm extends CustomForm {
      * @var bool
      */
     private static $spam_check_firstname_surname_enabled = true;
-    
     /**
      * Custom extra CSS classes.
      *
@@ -47,7 +46,6 @@ class ContactForm extends CustomForm {
         'form-horizontal',
         'grouped',
     ];
-    
     /**
      * Don't enable Security token for this type of form because we'll run
      * into caching problems when using it.
@@ -55,7 +53,6 @@ class ContactForm extends CustomForm {
      * @var boolean
      */
     protected $securityTokenEnabled = false;
-    
     /**
      * List of required fields.
      *
@@ -83,30 +80,35 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    public function getRequiredFields() {
+    public function getRequiredFields() : array
+    {
         $requiredFields = self::config()->get('requiredFields');
-        if ($this->EnableStreet() &&
-            $this->StreetIsRequired()) {
+        if ($this->EnableStreet()
+         && $this->StreetIsRequired()
+        ) {
             $requiredFields += [
                 'Street',
                 'StreetNumber',
             ];
         }
-        if ($this->EnableCity() &&
-            $this->CityIsRequired()) {
+        if ($this->EnableCity()
+         && $this->CityIsRequired()
+        ) {
             $requiredFields += [
                 'Postcode',
                 'City',
             ];
         }
-        if ($this->EnableCountry() &&
-            $this->CountryIsRequired()) {
+        if ($this->EnableCountry()
+         && $this->CountryIsRequired()
+        ) {
             $requiredFields += [
                 'CountryID',
             ];
         }
-        if ($this->EnablePhoneNumber() &&
-            $this->PhoneNumberIsRequired()) {
+        if ($this->EnablePhoneNumber()
+         && $this->PhoneNumberIsRequired()
+        ) {
             $requiredFields += [
                 'Phone',
             ];
@@ -120,7 +122,8 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields() : array
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $address = Address::singleton();
             $member  = Customer::currentUser();
@@ -154,7 +157,8 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getCityFields() {
+    protected function getCityFields() : array
+    {
         $cityFields = [];
         if ($this->EnableCity()) {
             $address = Address::singleton();
@@ -171,7 +175,8 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getCountryFields() {
+    protected function getCountryFields() : array
+    {
         $countryFields = [];
         if ($this->EnableCity()) {
             $address = Address::singleton();
@@ -187,7 +192,8 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getPhoneFields() {
+    protected function getPhoneFields() : array
+    {
         $phoneFields = [];
         if ($this->EnableCity()) {
             $address = Address::singleton();
@@ -203,7 +209,8 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    protected function getStreetFields() {
+    protected function getStreetFields() : array
+    {
         $streetFields = [];
         if ($this->EnableStreet()) {
             $address = Address::singleton();
@@ -220,7 +227,8 @@ class ContactForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions() : array
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', Page::singleton()->fieldLabel('SubmitMessage'))
@@ -241,7 +249,8 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form) : void
+    {
         if (self::$spam_check_firstname_surname_enabled) {
             $firstName = trim($data['FirstName']);
             $surname   = trim($data['Surname']);
@@ -251,10 +260,14 @@ class ContactForm extends CustomForm {
                 return;
             }
         }
-
+        $customer = Customer::currentRegisteredCustomer();
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
+            $data['MemberID'] = $customer->ID;
+        }
         $data['Message'] = str_replace('\r\n', "\n", $data['Message']);
-
-        $contactMessage = new ContactMessage();
+        $contactMessage  = ContactMessage::create();
         $contactMessage->update($data);
         $contactMessage->write();
         $contactMessage->send();
@@ -270,7 +283,8 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.11.2015
      */
-    public static function enable_spam_check_firstname_surname() {
+    public static function enable_spam_check_firstname_surname() : void
+    {
         self::$spam_check_firstname_surname_enabled = true;
     }
     
@@ -282,7 +296,8 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.11.2015
      */
-    public static function disable_spam_check_firstname_surname() {
+    public static function disable_spam_check_firstname_surname() : void
+    {
         self::$spam_check_firstname_surname_enabled = false;
     }
     
@@ -294,10 +309,10 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.04.2015
      */
-    protected function ContactPage() {
-        $contactPage = $this->getController();
-        /* @var $contactPage \ContentController */
-        if ($contactPage->data()->IdentifierCode != 'SilvercartContactFormPage') {
+    protected function ContactPage() : ContactFormPage
+    {
+        $contactPage = $this->getController()->data();
+        if ($contactPage->IdentifierCode != 'SilvercartContactFormPage') {
             $contactPage = Tools::PageByIdentifierCode('SilvercartContactFormPage');
         }
         return $contactPage;
@@ -311,8 +326,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.08.2014
      */
-    public function EnableStreet() {
-        return $this->ContactPage()->EnableStreet;
+    public function EnableStreet() : bool
+    {
+        return (bool) $this->ContactPage()->EnableStreet;
     }
 
     /**
@@ -323,8 +339,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.08.2014
      */
-    public function StreetIsRequired() {
-        return $this->ContactPage()->StreetIsRequired;
+    public function StreetIsRequired() : bool
+    {
+        return (bool) $this->ContactPage()->StreetIsRequired;
     }
     
     /**
@@ -335,8 +352,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.08.2014
      */
-    public function EnableCity() {
-        return $this->ContactPage()->EnableCity;
+    public function EnableCity() : bool
+    {
+        return (bool) $this->ContactPage()->EnableCity;
     }
 
     /**
@@ -347,8 +365,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.08.2014
      */
-    public function CityIsRequired() {
-        return $this->ContactPage()->CityIsRequired;
+    public function CityIsRequired() : bool
+    {
+        return (bool) $this->ContactPage()->CityIsRequired;
     }
     
     /**
@@ -359,8 +378,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.08.2014
      */
-    public function EnableCountry() {
-        return $this->ContactPage()->EnableCountry;
+    public function EnableCountry() : bool
+    {
+        return (bool) $this->ContactPage()->EnableCountry;
     }
 
     /**
@@ -371,8 +391,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.08.2014
      */
-    public function CountryIsRequired() {
-        return $this->ContactPage()->CountryIsRequired;
+    public function CountryIsRequired() : bool
+    {
+        return (bool) $this->ContactPage()->CountryIsRequired;
     }
     
     /**
@@ -383,8 +404,9 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2014
      */
-    public function EnablePhoneNumber() {
-        return $this->ContactPage()->EnablePhoneNumber;
+    public function EnablePhoneNumber() : bool
+    {
+        return (bool) $this->ContactPage()->EnablePhoneNumber;
     }
 
     /**
@@ -395,7 +417,8 @@ class ContactForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.06.2014
      */
-    public function PhoneNumberIsRequired() {
-        return $this->ContactPage()->PhoneNumberIsRequired;
+    public function PhoneNumberIsRequired() : bool
+    {
+        return (bool) $this->ContactPage()->PhoneNumberIsRequired;
     }
 }

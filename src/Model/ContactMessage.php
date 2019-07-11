@@ -26,6 +26,7 @@ use SilverStripe\Security\Member;
  */
 class ContactMessage extends DataObject
 {
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Configuration parameter to determine whether to send an acknowledgement of
      * receipt to the customer or not.
@@ -57,6 +58,7 @@ class ContactMessage extends DataObject
      */
     private static $has_one = [
         'Country' => Country::class,
+        'Member'  => Member::class,
     ];
     /**
      * Casting.
@@ -80,29 +82,21 @@ class ContactMessage extends DataObject
     private static $table_name = 'SilvercartContactMessage';
     
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011
+     * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
     
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 5.7.2011 
+     * @return string 
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }
@@ -113,44 +107,32 @@ class ContactMessage extends DataObject
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
-        $fields = array_merge(
-            parent::fieldLabels($includerelations),
-            [
-                'CreatedNice'  => Tools::field_label('DATE'),
-                'Salutation'   => Address::singleton()->fieldLabel('Salutation'),
-                'FirstName'    => Member::singleton()->fieldLabel('FirstName'),
-                'Surname'      => Member::singleton()->fieldLabel('Surname'),
-                'Email'        => Member::singleton()->fieldLabel('Email'),
-                'Street'       => Address::singleton()->fieldLabel('Street'),
-                'StreetNumber' => Address::singleton()->fieldLabel('StreetNumber'),
-                'Postcode'     => Address::singleton()->fieldLabel('Postcode'),
-                'City'         => Address::singleton()->fieldLabel('City'),
-                'Country'      => Country::singleton()->singular_name(),
-                'Phone'        => Address::singleton()->fieldLabel('Phone'),
-                'Message'      => _t(ContactMessage::class . '.MESSAGE', 'message')
-            ]
-        );
-        
-        $this->extend('updateFieldLabels', $fields, $includerelations);
-        
-        return $fields;
+        return $this->defaultFieldLabels($includerelations, [
+            'CreatedNice'  => Tools::field_label('DATE'),
+            'Salutation'   => Address::singleton()->fieldLabel('Salutation'),
+            'FirstName'    => Member::singleton()->fieldLabel('FirstName'),
+            'Surname'      => Member::singleton()->fieldLabel('Surname'),
+            'Email'        => Member::singleton()->fieldLabel('Email'),
+            'Street'       => Address::singleton()->fieldLabel('Street'),
+            'StreetNumber' => Address::singleton()->fieldLabel('StreetNumber'),
+            'Postcode'     => Address::singleton()->fieldLabel('Postcode'),
+            'City'         => Address::singleton()->fieldLabel('City'),
+            'Country'      => Country::singleton()->singular_name(),
+            'Phone'        => Address::singleton()->fieldLabel('Phone'),
+            'Message'      => _t(ContactMessage::class . '.MESSAGE', 'message'),
+            'Member'       => Member::singleton()->fieldLabel('Customer'),
+        ]);
     }
 
     /**
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $fields = [
             'CreatedNice'   => $this->fieldLabel('CreatedNice'),
@@ -170,7 +152,7 @@ class ContactMessage extends DataObject
      *
      * @return string
      */
-    public function getCreatedNice()
+    public function getCreatedNice() : string
     {
         return date('d.m.Y - H:i', strtotime($this->Created));
     }
@@ -185,13 +167,13 @@ class ContactMessage extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.09.2018
      */
-    public function canEdit($member = null)
+    public function canEdit($member = null) : bool
     {
         if ($member === null) {
             $member = Customer::currentUser();
         }
         if ($member
-            && $member->isAdmin()
+         && $member->isAdmin()
         ) {
             return true;
         }
@@ -206,7 +188,7 @@ class ContactMessage extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function send()
+    public function send() : void
     {
         $this->extend('onBeforeSend');
         $fields = ['ContactMessage' => $this];
@@ -244,13 +226,13 @@ class ContactMessage extends DataObject
      *
      * @param string $field fieldname
      * 
-     * @return string 
+     * @return string|null
      */
-    public function getField($field)
+    public function getField($field) : ?string
     {
         $parentField = parent::getField($field);
         if (!is_null($parentField)
-            && $field != 'ClassName'
+         && $field != 'ClassName'
         ) {
             $parentField = stripcslashes($parentField);
         }
@@ -268,14 +250,12 @@ class ContactMessage extends DataObject
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2013
      */
-    public function excludeFromScaffolding()
+    public function excludeFromScaffolding() : array
     {
         $excludeFromScaffolding = [
             'Salutation'
         ];
-
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
-
         return $excludeFromScaffolding;
     }
     
@@ -284,11 +264,12 @@ class ContactMessage extends DataObject
      *
      * @return FieldList the fields for the backend
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
-        $fields = DataObjectExtension::getCMSFields($this);
-        $salutationDropdown = DropdownField::create('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
-        $fields->insertBefore($salutationDropdown, 'FirstName');
-        return $fields;
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $salutationDropdown = DropdownField::create('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
+            $fields->insertBefore($salutationDropdown, 'FirstName');
+        });
+        return DataObjectExtension::getCMSFields($this);
     }
 }
