@@ -48,7 +48,8 @@ class CheckoutStep3 extends CheckoutStep
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.03.2019
      */
-    public function process() {
+    public function process() : void
+    {
         if (!$this->IsVisible()) {
             $shippingMethod = ShippingMethod::getAllowedShippingMethods(null, $this->getController()->getShippingAddress())->first();
             if ($shippingMethod instanceof ShippingMethod) {

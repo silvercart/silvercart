@@ -756,7 +756,9 @@ class Checkout extends ViewableData
      */
     public function redirectToCurrentStep() : Checkout
     {
-        $this->getController()->redirect($this->getController()->Link('step/' . $this->getCurrentStep()->StepNumber()));
+        if (!$this->getController()->redirectedTo()) {
+            $this->getController()->redirect($this->getController()->Link('step/' . $this->getCurrentStep()->StepNumber()));
+        }
         return $this;
     }
     

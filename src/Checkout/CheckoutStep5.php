@@ -5,6 +5,8 @@ namespace SilverCart\Checkout;
 use SilverCart\Checkout\CheckoutStep;
 use SilverCart\Forms\Checkout\CheckoutConfirmOrderForm;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Order\ShoppingCart;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 
 /**
@@ -23,7 +25,6 @@ class CheckoutStep5 extends CheckoutStep
     use PaymentCheckoutStep;
     use ShippingCheckoutStep;
     use AddressCheckoutStep;
-    
     /**
      * List of allowed actions.
      *
@@ -41,7 +42,7 @@ class CheckoutStep5 extends CheckoutStep
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.04.2018
      */
-    public function init()
+    public function init() : void
     {
         $checkoutData = $this->getCheckout()->getData();
         $this->initPaymentMethod($checkoutData);
@@ -58,18 +59,17 @@ class CheckoutStep5 extends CheckoutStep
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.11.2017
      */
-    public function CheckoutConfirmOrderForm()
+    public function CheckoutConfirmOrderForm() : CheckoutConfirmOrderForm
     {
-        $form = CheckoutConfirmOrderForm::create($this->getController());
-        return $form;
+        return CheckoutConfirmOrderForm::create($this->getController());
     }
 
     /**
      * Returns the current shopping cart.
      * 
-     * @return \SilverCart\Model\Order\ShoppingCart
+     * @return ShoppingCart|null
      */
-    public function getShoppingCart()
+    public function getShoppingCart() : ?ShoppingCart
     {
         $customer = Customer::currentUser();
         if ($customer instanceof Member
@@ -84,9 +84,9 @@ class CheckoutStep5 extends CheckoutStep
      * it in the *.ss file it would have been rendered twice and our logic would
      * not work propery.
      * 
-     * @return string
+     * @return DBHTMLText|null
      */
-    public function getShoppingCartFull()
+    public function getShoppingCartFull() : ?DBHTMLText
     {
         $customer = Customer::currentUser();
         if ($customer instanceof Member

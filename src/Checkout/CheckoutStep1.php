@@ -21,8 +21,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStep1 extends CheckoutStep {
-    
+class CheckoutStep1 extends CheckoutStep
+{
     /**
      * List of allowed actions.
      *
@@ -44,7 +44,8 @@ class CheckoutStep1 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function __construct(Controller $controller) {
+    public function __construct(Controller $controller)
+    {
         parent::__construct($controller);
         $registeredCustomer = Customer::currentRegisteredCustomer();
         if ($registeredCustomer instanceof Member &&
@@ -62,7 +63,8 @@ class CheckoutStep1 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function process() {
+    public function process() : void
+    {
         $registeredCustomer = Customer::currentRegisteredCustomer();
         if ($registeredCustomer instanceof Member &&
             $registeredCustomer->exists()) {
@@ -78,9 +80,9 @@ class CheckoutStep1 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function CheckoutLoginForm() {
-        $form = new CheckoutLoginForm($this->getController());
-        return $form;
+    public function CheckoutLoginForm() : CheckoutLoginForm
+    {
+        return CheckoutLoginForm::create($this->getController());
     }
     
     /**
@@ -91,9 +93,9 @@ class CheckoutStep1 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function CheckoutNewCustomerForm() {
-        $form = new CheckoutNewCustomerForm($this->getController());
-        return $form;
+    public function CheckoutNewCustomerForm() : CheckoutNewCustomerForm
+    {
+        return CheckoutNewCustomerForm::create($this->getController());
     }
     
     /**
@@ -104,8 +106,9 @@ class CheckoutStep1 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.11.2017
      */
-    public function RegisterRegularCustomerForm() {
-        $form = new RegisterRegularCustomerForm($this->getController());
+    public function RegisterRegularCustomerForm() : RegisterRegularCustomerForm
+    {
+        $form = RegisterRegularCustomerForm::create($this->getController());
         $form->setBackLink($this->getController()->Link());
         return $form;
     }
@@ -118,8 +121,8 @@ class CheckoutStep1 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function ShowRegistrationForm() {
+    public function ShowRegistrationForm() : bool
+    {
         return $this->getCheckout()->getDataValue('ShowRegistrationForm') === true;
     }
-    
 }

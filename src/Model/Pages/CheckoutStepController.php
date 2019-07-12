@@ -85,11 +85,14 @@ class CheckoutStepController extends \PageController {
             }
             $currentStepNumber = array_search($stepName, $stepList) + 1;
             $action            = $this->getRequest()->param('Action');
-            if (empty($action)) {
+            if (empty($action)
+             && !$this->redirectedTo()
+            ) {
                 $this->redirect($this->Link('step/' . $currentStepNumber));
             }
         } elseif ($this->getRequest()->param('Action') != 'thanks'
                && !in_array($this->getRequest()->param('Action'), $this->config()->allowed_thanks_actions)
+               && !$this->redirectedTo()
         ) {
             $cartPage = Tools::PageByIdentifierCode('SilvercartCartPage');
             $this->redirect($cartPage->Link());
@@ -191,7 +194,9 @@ class CheckoutStepController extends \PageController {
         $checkout   = $this->getCheckout();
         $stepList   = $checkout->getStepList();
         if (!array_key_exists($stepNumber, $stepList)) {
-            $this->redirect($this->Link('step/1'));
+            if (!$this->redirectedTo()) {
+                $this->redirect($this->Link('step/1'));
+            }
             return;
         }
         $currentStepName = $stepList[$stepNumber];
@@ -208,14 +213,18 @@ class CheckoutStepController extends \PageController {
                 $currentStep->process();
                 $currentStep->complete();
                 if ($checkout->nextStepExists()) {
-                    $this->redirect($this->Link('step/' . $nextStepIndex));
+                    if (!$this->redirectedTo()) {
+                        $this->redirect($this->Link('step/' . $nextStepIndex));
+                    }
                 } else {
                     return $this->render();
                 }
             }
         } else {
             $previousStepIndex = $stepNumber;
-            $this->redirect($this->Link('step/' . $previousStepIndex));
+            if (!$this->redirectedTo()) {
+                $this->redirect($this->Link('step/' . $previousStepIndex));
+            }
         }
     }
     
@@ -232,8 +241,9 @@ class CheckoutStepController extends \PageController {
     public function thanks(HTTPRequest $request) {
         $checkout     = $this->getCheckout();
         $checkoutData = $checkout->getFinalizedData();
-        if (!empty($checkoutData) &&
-            array_key_exists('Order', $checkoutData)) {
+        if (!empty($checkoutData)
+         && array_key_exists('Order', $checkoutData)
+        ) {
             $paymentMethod = PaymentMethod::get()->byID($checkoutData['PaymentMethod']);
             $order         = Order::get()->byID($checkoutData['Order']);
             /* @var $paymentMethod PaymentMethod */
@@ -244,7 +254,9 @@ class CheckoutStepController extends \PageController {
                 'CustomersOrder'          => $order,
             ])->render();
         }
-        $this->redirect($this->Link());
+        if (!$this->redirectedTo()) {
+            $this->redirect($this->Link());
+        }
     }
     
     /**

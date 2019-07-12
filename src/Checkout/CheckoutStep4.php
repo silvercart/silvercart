@@ -63,7 +63,8 @@ class CheckoutStep4 extends CheckoutStep
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.03.2019
      */
-    public function process() {
+    public function process() : void
+    {
         if (!$this->IsVisible()) {
             $paymentMethod = $this->getAllowedPaymentMethods()->first();
             if ($paymentMethod instanceof PaymentMethod) {

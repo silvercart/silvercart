@@ -4,6 +4,7 @@ namespace SilverCart\Checkout;
 
 use SilverCart\Checkout\CheckoutStep;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Order\ShoppingCart;
 use SilverStripe\Security\Member;
 
 /**
@@ -17,13 +18,12 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStep6 extends CheckoutStep {
-    
+class CheckoutStep6 extends CheckoutStep
+{
     use PaymentCheckoutStep;
     use ShippingCheckoutStep;
     use AddressCheckoutStep;
     use OrderCheckoutStep;
-
     /**
      * Is this step visible?
      * (default: true)
@@ -40,7 +40,8 @@ class CheckoutStep6 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function init() {
+    public function init() : void
+    {
         $checkoutData = $this->getCheckout()->getData();
         $this->initPaymentMethod($checkoutData);
         $this->initShippingMethod($checkoutData);
@@ -57,7 +58,8 @@ class CheckoutStep6 extends CheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.04.2018
      */
-    public function process() {
+    public function process() : void
+    {
         $checkoutData = $this->getCheckout()->getData();
         $payment = $this->getPaymentMethod();
         $payment->doProcessBeforePaymentProvider($checkoutData);
@@ -67,22 +69,24 @@ class CheckoutStep6 extends CheckoutStep {
             $this->placeOrder($checkoutData);
             $payment->doProcessAfterOrder($this->getOrder(), $checkoutData);
             $this->getCheckout()->finalize();
-            $this->getController()->redirect($this->getController()->Link('thanks'));
+            if (!$this->getController()->redirectedTo()) {
+                $this->getController()->redirect($this->getController()->Link('thanks'));
+            }
         }
     }
 
     /**
      * Returns the current shopping cart.
      * 
-     * @return \SilverCart\Model\Order\ShoppingCart
+     * @return ShoppingCart
      */
-    public function getShoppingCart() {
+    public function getShoppingCart() : ?ShoppingCart
+    {
         $customer = Customer::currentUser();
-        if ($customer instanceof Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             return $customer->getCart();
         }
     }
-    
-    
 }
