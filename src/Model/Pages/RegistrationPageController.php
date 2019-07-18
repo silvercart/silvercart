@@ -96,11 +96,21 @@ class RegistrationPageController extends PageController
              && $customer->exists()
             ) {
                 if ($customer->RegistrationOptInConfirmed) {
-                    $this->redirect($this->PageByIdentifierCodeLink('SilvercartMyAccountHolder'));
+                    if (RegistrationPage::getIsInCheckout()) {
+                        $link = $this->PageByIdentifierCodeLink('SilvercartCheckoutStep');
+                    } else {
+                        $link = $this->PageByIdentifierCodeLink('SilvercartMyAccountHolder');
+                    }
+                    $this->redirect($link);
                 } elseif (!$customer->confirmRegistrationOptIn($hash)) {
                     $this->redirect($this->data()->Link('optinfailed'));
                 }
             }
+        }
+        if (RegistrationPage::getIsInCheckout()
+         && !$this->redirectedTo()
+        ) {
+            $this->redirect($this->PageByIdentifierCode('SilvercartCheckoutStep')->Link('welcome'));
         }
         return $this->render();
     }

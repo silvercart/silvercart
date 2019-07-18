@@ -42,6 +42,7 @@ class CheckoutStepController extends \PageController {
         'deleteAddress',
         'step',
         'thanks',
+        'welcome',
         'AddAddressForm',
         'EditAddressForm',
     ];

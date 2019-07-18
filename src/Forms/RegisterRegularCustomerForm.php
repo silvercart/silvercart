@@ -13,6 +13,7 @@ use SilverCart\Model\Newsletter\AnonymousNewsletterRecipient;
 use SilverCart\Model\Newsletter\Newsletter;
 use SilverCart\Model\Pages\CheckoutStep;
 use SilverCart\Model\Pages\Page;
+use SilverCart\Model\Pages\RegistrationPage;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\EmailField;
@@ -488,6 +489,31 @@ class RegisterRegularCustomerForm extends CustomForm
     public function setCustomer(Member $customer) : RegisterRegularCustomerForm
     {
         $this->customer = $customer;
+        return $this;
+    }
+    
+    /**
+     * Returns whether the customer is in checkout process while going through the
+     * registration process.
+     * 
+     * @return bool
+     */
+    public function getIsInCheckout() : bool
+    {
+        return (bool) RegistrationPage::getIsInCheckout();
+    }
+    
+    /**
+     * Sets whether the customer is in checkout process while going through the
+     * registration process.
+     * 
+     * @param bool $is Customer is in checkout?
+     * 
+     * @return RegisterRegularCustomerForm
+     */
+    public function setIsInCheckout(bool $is) : RegisterRegularCustomerForm
+    {
+        RegistrationPage::setIsInCheckout($is);
         return $this;
     }
 }

@@ -110,6 +110,7 @@ class CheckoutStep1 extends CheckoutStep
     {
         $form = RegisterRegularCustomerForm::create($this->getController());
         $form->setBackLink($this->getController()->Link());
+        $form->setIsInCheckout(true);
         return $form;
     }
     

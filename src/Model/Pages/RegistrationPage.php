@@ -18,6 +18,8 @@ use SilverCart\Dev\Tools;
  */
 class RegistrationPage extends Page
 {
+    const SESSION_KEY                = 'SilverCart.RegistrationPage';
+    const SESSION_KEY_IS_IN_CHECKOUT = self::SESSION_KEY . '.IsInCheckout';
     /**
      * DB table name
      *
@@ -31,6 +33,31 @@ class RegistrationPage extends Page
      */
     private static $icon = "silvercart/silvercart:client/img/page_icons/metanavigation_page-file.gif";
     
+    /**
+     * Returns whether the customer is in checkout process while going through the
+     * registration process.
+     * 
+     * @return bool
+     */
+    public static function getIsInCheckout() : bool
+    {
+        return (bool) Tools::Session()->get(self::SESSION_KEY_IS_IN_CHECKOUT);
+    }
+    
+    /**
+     * Sets whether the customer is in checkout process while going through the
+     * registration process.
+     * 
+     * @param bool $is Customer is in checkout?
+     * 
+     * @return void
+     */
+    public static function setIsInCheckout(bool $is) : void
+    {
+        Tools::Session()->set(self::SESSION_KEY_IS_IN_CHECKOUT, $is);
+        Tools::saveSession();
+    }
+
     /**
      * Returns the translated singular name.
      * 

@@ -382,8 +382,7 @@ class PageController extends ContentController
          && get_class($this) != CheckoutStepController::class
          && get_class($this) != ErrorPageController::class
          && get_class($this) != Security::class
-         && get_class($this) != CheckoutStepController::class
-         && get_class($this) != Security::class
+         && get_class($this) != RegistrationPageController::class
          && !is_subclass_of(get_class($this), CheckoutStepController::class)
         ) {
             Checkout::clear_session();
