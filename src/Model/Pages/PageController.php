@@ -359,7 +359,9 @@ class PageController extends ContentController
         if (!Tools::isIsolatedEnvironment()) {
             Config::Check();
         }
-        
+        if (Director::isDev()) {
+            $this->getResponse()->addHeader('X-Robots-Tag', Page::config()->robots_tag_noindex);
+        }
         if (array_key_exists('flushi18n', $this->getRequest()->getVars())
          && (Director::isDev()
           || ($customer instanceof Member

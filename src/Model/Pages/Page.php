@@ -23,6 +23,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
 use SilverStripe\View\ArrayData;
+use SilverStripe\View\HTML;
 use TractorCow\Fluent\Extension\FluentDirectorExtension;
 use TractorCow\Fluent\State\FluentState;
 
@@ -39,7 +40,18 @@ use TractorCow\Fluent\State\FluentState;
 class Page extends SiteTree
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-
+    /**
+     * The robots tag content for dev mode or sensible content.
+     *
+     * @var string
+     */
+    private static $robots_tag_noindex = 'noindex, nofollow';
+    /**
+     * The robots tag content for common content in live mode.
+     *
+     * @var string
+     */
+    private static $robots_tag_index = 'index, follow';
     /**
      * extends statics
      * 
@@ -69,6 +81,20 @@ class Page extends SiteTree
      * @var boolean
      */
     protected $getCMSFieldsIsCalled = false;
+    
+    /**
+     * Returns the robots tag depending on the current environment mode.
+     * 
+     * @return string
+     */
+    public static function getRobotsTag() : string
+    {
+        $robotsTag = self::config()->robots_tag_noindex;
+        if (Director::isLive()) {
+            $robotsTag = self::config()->robots_tag_index;
+        }
+        return $robotsTag;
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -363,8 +389,15 @@ class Page extends SiteTree
     public function MetaTags($includeTitle = true)
     {
         $originalTags = parent::MetaTags($includeTitle);
-        $tags = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $originalTags);
-        $tags .= '<link rel="canonical" href="' . $this->AbsoluteCanonicalLink() . '" />' . PHP_EOL;
+        $tags         = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $originalTags);
+        $tags        .= HTML::createTag('link', [
+            'rel'  => 'canonical',
+            'href' => $this->AbsoluteCanonicalLink(),
+        ]) . PHP_EOL;
+        $tags        .= HTML::createTag('meta', [
+            'name'    => 'robots',
+            'content' => self::getRobotsTag(),
+        ]) . PHP_EOL;
         return $tags;
     }
     
