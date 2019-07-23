@@ -8,7 +8,6 @@
 <table>
     <tr><td>{$fieldLabel('CustomerNumber')}:</td><td style="font-weight: bold;">{$CustomerNumber}</td></tr>
     <tr><td>{$fieldLabel('Salutation')}:</td><td><% if $Salutation %>{$Salutation}<% else %>---<% end_if %></td></tr>
-    <tr><td>{$fieldLabel('AcademicTitle')}:</td><td><% if $AcademicTitle %>{$AcademicTitle}<% else %>---<% end_if %></td></tr>
     <tr><td>{$fieldLabel('FirstName')}:</td><td><% if $FirstName %>{$FirstName}<% else %>---<% end_if %></td></tr>
     <tr><td>{$fieldLabel('Surname')}:</td><td><% if $Surname %>{$Surname}<% else %>---<% end_if %></td></tr>
     <tr><td>{$fieldLabel('EmailAddress')}:</td><td><% if $Email %>{$Email}<% else %>---<% end_if %></td></tr>
@@ -23,6 +22,7 @@
         {$ShippingAddress.forEmail}
     </div>
 </div>
+<hr/>
 <a style="display: inline-block; padding: 8px 12px 8px 12px;margin: 22px 0px 22px 0px;background-color: #94c11c;color: #ffffff;font-weight: bold;" href="{$PageByIdentifierCode('SilvercartMyAccountHolder').Link}"><%t SilverCart\Model\Pages\RegistrationPage.OptInGoToMyAccount 'Go to my account' %> &raquo;</a><br/>
 <br/>
 <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>

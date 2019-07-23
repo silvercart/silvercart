@@ -5,7 +5,6 @@
     <tr><td>{$fieldLabel('CustomerNumber')}:</td><td style="font-weight: bold;">{$CustomerNumber}</td></tr>
     <tr><td>{$fieldLabel('ShopID')}:</td><td style="font-weight: bold;">{$ID}</td></tr>
     <tr><td>{$fieldLabel('Salutation')}:</td><td><% if $Salutation %>{$Salutation}<% else %>---<% end_if %></td></tr>
-    <tr><td>{$fieldLabel('AcademicTitle')}:</td><td><% if $AcademicTitle %>{$AcademicTitle}<% else %>---<% end_if %></td></tr>
     <tr><td>{$fieldLabel('FirstName')}:</td><td><% if $FirstName %>{$FirstName}<% else %>---<% end_if %></td></tr>
     <tr><td>{$fieldLabel('Surname')}:</td><td><% if $Surname %>{$Surname}<% else %>---<% end_if %></td></tr>
     <tr><td>{$fieldLabel('EmailAddress')}:</td><td><% if $Email %>{$Email}<% else %>---<% end_if %></td></tr>
