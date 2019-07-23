@@ -240,9 +240,7 @@ class StockItemEntry extends DataObject
             return;
         }
         $tableName = Product::config()->get('table_name');
-        DB::query("LOCK TABLES {$tableName} WRITE");
-        DB::query("UPDATE {$tableName} SET StockQuantity = StockQuantity + {$this->Quantity} WHERE ID = {$this->ProductID}");
-        DB::query("UNLOCK TABLES");
+        DB::query("BEGIN;UPDATE {$tableName} SET StockQuantity = StockQuantity + {$this->Quantity} WHERE ID = {$this->ProductID};COMMIT;");
     }
     
     /**
