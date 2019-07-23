@@ -848,6 +848,28 @@ class PageController extends ContentController
     }
     
     /**
+     * Returns the year range starting from the given year to the current year.
+     * Example:
+     * $year = 2019, current year is 2020
+     * -> '2019-2020'
+     * $year = 2020, current year is 2020
+     * -> '2020'
+     * 
+     * @param int $year Year
+     * 
+     * @return string
+     */
+    public function getYearRangeFrom(int $year) : string
+    {
+        $range = $year;
+        $currentYear = (int) date('Y');
+        if ($year < $currentYear) {
+            $range = "{$year}-{$currentYear}";
+        }
+        return $range;
+    }
+    
+    /**
      * Returns the link to lost password form dependent on the current locale.
      * 
      * @return string
