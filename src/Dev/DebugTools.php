@@ -104,8 +104,13 @@ class DebugTools {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public static function varExport($var) {
-        self::printString(var_export($var, true));
+    public static function varExport($var, bool $withPreTag = false) : void
+    {
+        $string = var_export($var, true);
+        if ($withPreTag) {
+            $string = "<pre>{$string}</pre>";
+        }
+        self::printString($string);
     }
 
     /**
