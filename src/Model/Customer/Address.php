@@ -1240,6 +1240,36 @@ class Address extends DataObject implements PermissionProvider
     }
     
     /**
+     * Executes an extension hook to add some HTML content after rendering the 
+     * default address content.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.07.2019
+     */
+    public function AfterAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateAfterAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
+     * Executes an extension hook to add some HTML content before rendering the 
+     * default address content.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 25.07.2019
+     */
+    public function BeforeAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateBeforeAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
      * Renders the address with the default template.
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
