@@ -1975,7 +1975,7 @@ class SilvercartPaymentMethod extends DataObject {
      */
     public function getStepConfiguration() {
         $directory        = '';
-		$modules          = SS_ClassLoader::instance()->getManifest()->getModules();
+        $modules          = SS_ClassLoader::instance()->getManifest()->getModules();
         $directoryPattern = Director::baseFolder() . "/silvercart[_|-]payment[_|-]" . strtolower($this->moduleName);
         foreach ($modules as $module) {
             if (preg_match("@" . $directoryPattern . "@", $module) > 0) {

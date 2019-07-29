@@ -396,7 +396,7 @@ class SilvercartCheckoutStep_Controller extends CustomHtmlFormStepPage_Controlle
             unset($data['ClassName']);
             unset($data['MemberID']);
             unset($data['RecordClassName']);
-            if (count($data > 0)) {
+            if (count($data) > 0) {
                 foreach ($data as $dataFieldName => $dataFieldValue) {
                     if (!array_key_exists($prefix . '_' . $dataFieldName, $addressData)) {
                         $addressData[$prefix . '_' . $dataFieldName] = $dataFieldValue;
