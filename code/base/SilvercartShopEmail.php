@@ -18,8 +18,14 @@
  * @since 03.12.2010
  * @license see license file in modules root directory
  */
-class SilvercartShopEmail extends DataObject {
-    
+class SilvercartShopEmail extends DataObject
+{
+    /**
+     * Set this to true to disable sending emails
+     *
+     * @var bool
+     */
+    private static $disable_send_mail = false;
     /**
      * n:1 relations
      * 
@@ -299,7 +305,11 @@ class SilvercartShopEmail extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.01.2018
      */
-    public static function send_email($recipient, $subject, $content, $attachments = null) {
+    public static function send_email($recipient, $subject, $content, $attachments = null)
+    {
+        if (self::config()->disable_send_mail) {
+            return;
+        }
         if (Director::isDev()) {
             $devEmailRecipient = self::config()->get('dev_email_recipient');
             if (!empty($devEmailRecipient)) {
