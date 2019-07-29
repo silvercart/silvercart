@@ -1968,17 +1968,15 @@ class SilvercartPaymentMethod extends DataObject {
      *     )
      * )
      *
-     * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.04.2011
+     * @return array
      */
-    public function getStepConfiguration() {
+    public function getStepConfiguration()
+    {
         $directory        = '';
         $modules          = SS_ClassLoader::instance()->getManifest()->getModules();
-        $directoryPattern = Director::baseFolder() . "/silvercart[_|-]payment[_|-]" . strtolower($this->moduleName);
+        $directoryPattern = preg_quote(Director::baseFolder()) . "/silvercart[_|-]payment[_|-]" . strtolower($this->moduleName);
         foreach ($modules as $module) {
-            if (preg_match("@" . $directoryPattern . "@", $module) > 0) {
+            if (preg_match("@{$directoryPattern}@", $module) > 0) {
                 $directory = str_replace(Director::baseFolder() . '/', '', $module) . '/templates/checkout/';
                 break;
             }
@@ -1991,10 +1989,10 @@ class SilvercartPaymentMethod extends DataObject {
          */
         $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
         if ($has_multiple_payment_channels
-            && !empty($this->PaymentChannel)
-            && is_string($this->PaymentChannel)) {
-            
-            $directory .= $this->PaymentChannel . '/';
+         && !empty($this->PaymentChannel)
+         && is_string($this->PaymentChannel)
+        ) {
+            $directory .= "{$this->PaymentChannel}/";
             $stepModule = $this->moduleName . ucfirst($this->PaymentChannel);
         } else {
             $stepModule = $this->moduleName;
@@ -2002,12 +2000,12 @@ class SilvercartPaymentMethod extends DataObject {
         if ($this->ShowFormFieldsOnPaymentSelection) {
             $stepModule .= 'Preceded';
         }
-        $prefix = 'SilvercartPayment' . $stepModule . 'CheckoutFormStep';
-        return array(
-            $directory => array(
+        $prefix = "SilvercartPayment{$stepModule}CheckoutFormStep";
+        return [
+            $directory => [
                 'prefix' => $prefix,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
