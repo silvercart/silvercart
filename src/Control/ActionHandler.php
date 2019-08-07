@@ -10,6 +10,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
+use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Pages\SearchResultsPage;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\SearchQuery;
@@ -20,6 +21,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Convert;
 use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 
@@ -46,6 +48,7 @@ class ActionHandler extends Controller
         'doLogin',
         'decrementPositionQuantity',
         'incrementPositionQuantity',
+        'loadSubNavigation',
     ];
 
     /**
@@ -412,5 +415,24 @@ class ActionHandler extends Controller
         ) {
             $this->redirectBack($postVars['redirect_to']);
         }
+    }
+    
+    /**
+     * Renders the main menu sub navigation for the given product group (by URL ID).
+     * 
+     * @param HTTPRequest $request Request
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 07.08.2019
+     */
+    public function loadSubNavigation(HTTPRequest $request) : DBHTMLText
+    {
+        $productGroupID = (int) $request->param('ID');
+        $productGroup   = ProductGroupPage::get()->byID($productGroupID);
+        return $this->renderWith(self::class . '_loadSubNavigation', [
+            'ProductGroup' => $productGroup,
+        ]);
     }
 }
