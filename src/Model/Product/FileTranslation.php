@@ -15,28 +15,32 @@ use SilverStripe\ORM\DataObject;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Title       Title
+ * @property string $Description Description
+ * 
+ * @method File File() Returns the related File.
  */
-class FileTranslation extends DataObject {
-    
+class FileTranslation extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Title'       => 'Varchar',
         'Description' => 'HTMLText'
-    );
-    
+    ];
     /**
      * 1:1 or 1:n relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'File' => File::class
-    );
-
+    ];
     /**
      * DB table name
      *
@@ -45,29 +49,22 @@ class FileTranslation extends DataObject {
     private static $table_name = 'SilvercartFileTranslation';
     
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
-
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
     }
     
@@ -77,20 +74,13 @@ class FileTranslation extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.11.2012
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),             array(
-                    'Title'       => _t(Product::class . '.COLUMN_TITLE', 'Title'),
-                    'Description' => _t(File::class . '.DESCRIPTION', 'Description'),
-                    'File'        => File::singleton()->singular_name(),
-                )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'       => _t(Product::class . '.COLUMN_TITLE', 'Title'),
+            'Description' => _t(File::class . '.DESCRIPTION', 'Description'),
+            'File'        => File::singleton()->singular_name(),
+        ]);
     }
 }

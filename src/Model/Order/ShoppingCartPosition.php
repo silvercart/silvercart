@@ -13,6 +13,7 @@ use SilverCart\Model\Product\Product;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDecimal;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 
 /**
@@ -24,11 +25,15 @@ use SilverStripe\ORM\FieldType\DBMoney;
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property float $Quantity Quantity
+ * 
+ * @method Product      Product()      Returns the related Product.
+ * @method ShoppingCart ShoppingCart() Returns the related ShoppingCart.
  */
 class ShoppingCartPosition extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-    
     /**
      * attributes
      *
@@ -113,7 +118,7 @@ class ShoppingCartPosition extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -123,7 +128,7 @@ class ShoppingCartPosition extends DataObject
      *
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }
@@ -138,20 +143,14 @@ class ShoppingCartPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
-        $this->beforeUpdateFieldLabels(function(&$labels) {
-            $labels = array_merge(
-                    $labels,
-                    [
-                        'MaxQuantityReached'     => _t(ShoppingCartPosition::class . '.MAX_QUANTITY_REACHED_MESSAGE', 'The maximum quantity of products for this position has been reached.'),
-                        'QuantityAdded'          => _t(ShoppingCartPosition::class . '.QUANTITY_ADDED_MESSAGE', 'The product(s) were added to your cart.'),
-                        'QuantityAdjusted'       => _t(ShoppingCartPosition::class . '.QUANTITY_ADJUSTED_MESSAGE', 'The quantity of this position was adjusted to the currently available stock quantity.'),
-                        'RemainingQuantityAdded' => _t(ShoppingCartPosition::class . '.REMAINING_QUANTITY_ADDED_MESSAGE', 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'),
-                    ]
-            );
-        });
-        return parent::fieldLabels($includerelations);
+        return $this->defaultFieldLabels($includerelations, [
+            'MaxQuantityReached'     => _t(ShoppingCartPosition::class . '.MAX_QUANTITY_REACHED_MESSAGE', 'The maximum quantity of products for this position has been reached.'),
+            'QuantityAdded'          => _t(ShoppingCartPosition::class . '.QUANTITY_ADDED_MESSAGE', 'The product(s) were added to your cart.'),
+            'QuantityAdjusted'       => _t(ShoppingCartPosition::class . '.QUANTITY_ADJUSTED_MESSAGE', 'The quantity of this position was adjusted to the currently available stock quantity.'),
+            'RemainingQuantityAdded' => _t(ShoppingCartPosition::class . '.REMAINING_QUANTITY_ADDED_MESSAGE', 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'),
+        ]);
     }
 
     /**
@@ -159,14 +158,14 @@ class ShoppingCartPosition extends DataObject
      * 
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         if (is_null($this->pluggedInTitle)) {
             $title = $this->Product()->Title;
             $this->extend('updateTitle', $title);
             $this->pluggedInTitle = $title;
         }
-        return $this->pluggedInTitle;
+        return (string) $this->pluggedInTitle;
     }
 
     /**
@@ -174,7 +173,7 @@ class ShoppingCartPosition extends DataObject
      * 
      * @return string
      */
-    public function getTitleForWidget()
+    public function getTitleForWidget() : string
     {
         $titleForWidget = $this->getTitle();
         if (strlen($titleForWidget) > 60) {
@@ -188,7 +187,7 @@ class ShoppingCartPosition extends DataObject
      * 
      * @return ShoppingCart
      */
-    public function getCart()
+    public function getCart() : ShoppingCart
     {
         return $this->ShoppingCart();
     }
@@ -196,12 +195,12 @@ class ShoppingCartPosition extends DataObject
     /**
      * Returns additional tile information provided by plugins
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2018
      */
-    public function addToTitle()
+    public function addToTitle() : DBHTMLText
     {
         $addToTitle = '';
         $this->extend('addToTitle', $addToTitle);
@@ -211,12 +210,12 @@ class ShoppingCartPosition extends DataObject
     /**
      * Returns additional tile information provided by plugins
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2018
      */
-    public function addToTitleForWidget()
+    public function addToTitleForWidget() : DBHTMLText
     {
         $addToTitleForWidget = '';
         $this->extend('addToTitleForWidget', $addToTitleForWidget);
@@ -229,29 +228,25 @@ class ShoppingCartPosition extends DataObject
     /**
      * price sum of this position
      *
-     * @param boolean $forSingleProduct Indicates wether the price for the total
+     * @param bool   $forSingleProduct Indicates wether the price for the total
      *                                  quantity of products should be returned
      *                                  or for one product only.
-     * @param boolean $priceType        'gross' or 'net'. If undefined it'll be automatically chosen.
+     * @param string $priceType        'gross' or 'net'. If undefined it'll be automatically chosen.
      * 
      * @return DBMoney
      */
-    public function getPrice($forSingleProduct = false, $priceType = false)
+    public function getPrice(bool $forSingleProduct = false, string $priceType = null) : DBMoney
     {
         $priceKey = (string) $forSingleProduct . '-' . (string) $priceType;
-
         if (!array_key_exists($priceKey, $this->prices)) {
             $overwrittenPrice = null;
             $this->extend('overwriteGetPrice', $overwrittenPrice, $forSingleProduct, $priceType);
-
             if (!is_null($overwrittenPrice)) {
                 return $overwrittenPrice;
             }
-
             $product = $this->Product();
             $price   = 0;
-
-            if ($product
+            if ($product instanceof Product
              && $product->getPrice($priceType)->getAmount()
             ) {
                 if ($forSingleProduct) {
@@ -260,14 +255,12 @@ class ShoppingCartPosition extends DataObject
                     $price = $product->getPrice($priceType)->getAmount() * $this->Quantity;
                 }
             }
-
             $priceObj = DBMoney::create();
             $priceObj->setAmount($price);
             $priceObj->setCurrency(Config::DefaultCurrency());
             $this->extend('updatePrice', $priceObj, $forSingleProduct);
             $this->prices[$priceKey] = $priceObj;
         }
-
         return $this->prices[$priceKey];
     }
 
@@ -276,7 +269,7 @@ class ShoppingCartPosition extends DataObject
      *
      * @return string
      */
-    public function getProductNumberShop()
+    public function getProductNumberShop() : string
     {
         $productNumber = $this->Product()->ProductNumberShop;
         $this->extend('overwriteGetProductNumberShop', $productNumber);
@@ -292,10 +285,9 @@ class ShoppingCartPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function IncrementPositionQuantityForm()
+    public function IncrementPositionQuantityForm() : IncrementPositionQuantityForm
     {
-        $form = new IncrementPositionQuantityForm($this, Controller::curr());
-        return $form;
+        return IncrementPositionQuantityForm::create($this, Controller::curr());
     }
 
     /**
@@ -306,10 +298,9 @@ class ShoppingCartPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function DecrementPositionQuantityForm()
+    public function DecrementPositionQuantityForm() : DecrementPositionQuantityForm
     {
-        $form = new DecrementPositionQuantityForm($this, Controller::curr());
-        return $form;
+        return DecrementPositionQuantityForm::create($this, Controller::curr());
     }
 
     /**
@@ -320,10 +311,9 @@ class ShoppingCartPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function RemovePositionForm()
+    public function RemovePositionForm() : RemovePositionForm
     {
-        $form = new RemovePositionForm($this, Controller::curr());
-        return $form;
+        return RemovePositionForm::create($this, Controller::curr());
     }
 
     /**
@@ -331,7 +321,7 @@ class ShoppingCartPosition extends DataObject
      *
      * @return IncrementPositionQuantityForm
      */
-    public function getIncrementPositionQuantityForm()
+    public function getIncrementPositionQuantityForm() : IncrementPositionQuantityForm
     {
         return $this->IncrementPositionQuantityForm();
     }
@@ -341,7 +331,7 @@ class ShoppingCartPosition extends DataObject
      *
      * @return DecrementPositionQuantityForm
      */
-    public function getDecrementPositionQuantityForm()
+    public function getDecrementPositionQuantityForm() : DecrementPositionQuantityForm
     {
         return $this->DecrementPositionQuantityForm();
     }
@@ -351,7 +341,7 @@ class ShoppingCartPosition extends DataObject
      *
      * @return RemovePositionForm
      */
-    public function getRemovePositionForm()
+    public function getRemovePositionForm() : RemovePositionForm
     {
         return $this->RemovePositionForm();
     }
@@ -368,7 +358,7 @@ class ShoppingCartPosition extends DataObject
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function isQuantityIncrementableBy($quantity = 1)
+    public function isQuantityIncrementableBy($quantity = 1) : bool
     {
         if (!array_key_exists((int) $quantity, $this->isQuantityIncrementableByList)) {
             $isQuantityIncrementableBy = true;
@@ -391,9 +381,9 @@ class ShoppingCartPosition extends DataObject
     /**
      * returns a string with notices. Notices are seperated by <br />
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
-    public function getShoppingCartPositionNotices()
+    public function getShoppingCartPositionNotices() : DBHTMLText
     {
         $text    = "";
         $notices = Tools::Session()->get("position".$this->ID);
@@ -411,7 +401,7 @@ class ShoppingCartPosition extends DataObject
      *
      * @return string
      */
-    public function getCartDescription()
+    public function getCartDescription() : string
     {
         if (!Config::useProductDescriptionFieldForCart()) {
             $description = '';
@@ -423,13 +413,13 @@ class ShoppingCartPosition extends DataObject
             }
         }
 
-        return $description;
+        return (string) $description;
     }
 
     /**
      * Returns the quantity according to the Product quantity type setting.
      *
-     * @return mixed
+     * @return float|int
      */
     public function getTypeSafeQuantity()
     {
@@ -451,7 +441,7 @@ class ShoppingCartPosition extends DataObject
      * 
      * @return float
      */
-    public function getTaxAmount($forSingleProduct = false)
+    public function getTaxAmount($forSingleProduct = false) : float
     {
         if (Config::PriceType() == 'gross') {
             $taxRate = $this->getPrice($forSingleProduct)->getAmount() -
@@ -475,7 +465,7 @@ class ShoppingCartPosition extends DataObject
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.11.2012
      */
-    public function adjustQuantityToStockQuantity()
+    public function adjustQuantityToStockQuantity() : void
     {
         if (!Tools::isIsolatedEnvironment()) {
             if (Config::EnableStockManagement()
@@ -498,7 +488,7 @@ class ShoppingCartPosition extends DataObject
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 19.7.2011
      */
-    public function hasNotice()
+    public function hasNotice() : bool
     {
         if (Tools::Session()->get("position".$this->ID)) {
             return true;
@@ -510,14 +500,10 @@ class ShoppingCartPosition extends DataObject
      * We make this method extendable here.
      *
      * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
      */
-    public function onAfterDelete()
+    public function onAfterDelete() : void
     {
         parent::onAfterDelete();
-        
         $this->extend('updateOnAfterDelete');
     }
     
@@ -525,18 +511,12 @@ class ShoppingCartPosition extends DataObject
      * We make this method extendable here.
      *
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
      */
-    public function onBeforeDelete()
+    public function onBeforeDelete() : void
     {
         parent::onBeforeDelete();
-        
         $this->getCart()->LastEdited = $this->LastEdited;
         $this->getCart()->write();
-        
         $this->extend('updateOnBeforeDelete');
     }
     
@@ -544,18 +524,12 @@ class ShoppingCartPosition extends DataObject
      * We make this method extendable here.
      *
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.06.2014
      */
-    public function onAfterWrite()
+    public function onAfterWrite() : void
     {
         parent::onAfterWrite();
-        
         $this->getCart()->LastEdited = $this->LastEdited;
         $this->getCart()->write();
-        
         $this->extend('updateOnAfterWrite');
     }
     
@@ -563,14 +537,10 @@ class ShoppingCartPosition extends DataObject
      * We make this method extendable here.
      *
      * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 17.11.2011
      */
-    public function onBeforeWrite()
+    public function onBeforeWrite() : void
     {
         parent::onBeforeWrite();
-        
         $this->extend('updateOnBeforeWrite');
     }
 
@@ -585,7 +555,7 @@ class ShoppingCartPosition extends DataObject
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 14.03.2012
      */
-    public function transferToNewPosition($newShoppingCartPosition)
+    public function transferToNewPosition($newShoppingCartPosition) : void
     {
         $this->extend('updateTransferToNewPosition', $newShoppingCartPosition);
     }

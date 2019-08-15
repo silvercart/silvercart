@@ -16,28 +16,32 @@ use SilverStripe\ORM\DataObject;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Title     Title (current locale context)
+ * @property string $FullTitle Full Title (current locale context)
+ * 
+ * @method Carrier Carrier() Returns the related Carrier.
  */
-class CarrierTranslation extends DataObject {
-    
+class CarrierTranslation extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Title'     => 'Varchar(25)',
         'FullTitle' => 'Varchar(60)'
-    );
-    
+    ];
     /**
      * 1:1 or 1:n relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Carrier' => Carrier::class,
-    );
-
+    ];
     /**
      * DB table name
      *
@@ -46,29 +50,23 @@ class CarrierTranslation extends DataObject {
     private static $table_name = 'SilvercartCarrierTranslation';
     
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.09.2017
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
 
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.09.2017
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
     }
     
@@ -78,21 +76,13 @@ class CarrierTranslation extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.09.2017
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'Title'     => Product::singleton()->fieldLabel('Title'),
-                    'FullTitle' => Carrier::singleton()->fieldLabel('FullTitle'),
-                    'Carrier'   => Carrier::singleton()->singular_name(),
-                )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        $this->defaultFieldLabels($includerelations, [
+            'Title'     => Product::singleton()->fieldLabel('Title'),
+            'FullTitle' => Carrier::singleton()->fieldLabel('FullTitle'),
+            'Carrier'   => Carrier::singleton()->singular_name(),
+        ]);
     }
 }

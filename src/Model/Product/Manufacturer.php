@@ -8,9 +8,14 @@ use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Product\ManufacturerTranslation;
 use SilverCart\Model\Product\Product;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Assets\Image as SilverStripeImage;
+use SilverStripe\Assets\Storage\DBFile;
 use SilverStripe\Control\Controller;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * abstract for a manufacturer.
@@ -21,48 +26,59 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $ManufacturerNumber Manufacturer Number
+ * @property string $Title              Title
+ * @property string $URL                URL
+ * @property string $URLSegment         URLSegment
+ * 
+ * @property string $Description Description (current locale context)
+ * 
+ * @method SilverStripeImage logo() Returns the related logo.
+ * 
+ * @method HasManyList Products()                 Returns a list of related Products.
+ * @method HasManyList ManufacturerTranslations() Returns a list of translations for this Manufacturer.
  */
-class Manufacturer extends DataObject {
-
+class Manufacturer extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Attributes
      *
      * @var array
      */
-    private static $db = array(
-        'ManufacturerNumber'    => 'Varchar',
-        'Title'                 => 'Varchar',
-        'URL'                   => 'Varchar',
-        'URLSegment'            => 'Varchar'
-    );
+    private static $db = [
+        'ManufacturerNumber' => 'Varchar',
+        'Title'              => 'Varchar',
+        'URL'                => 'Varchar',
+        'URLSegment'         => 'Varchar'
+    ];
     /**
      * Has-one relationships.
      *
      * @var array
      */
-    private static $has_one = array(
-        'logo' => \SilverStripe\Assets\Image::class,
-    );
+    private static $has_one = [
+        'logo' => SilverStripeImage::class,
+    ];
     /**
      * Has-many relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'Products'                 => Product::class,
         'ManufacturerTranslations' => ManufacturerTranslation::class,
-    );
-    
+    ];
     /**
      * Casted attributes
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'LogoThumbnail' => DBHTMLText::class,
         'Description'   => 'Text'
-    );
-    
+    ];
     /**
      * Default sort and direction.
      *
@@ -76,78 +92,60 @@ class Manufacturer extends DataObject {
      * @var string
      */
     private static $table_name = 'SilvercartManufacturer';
-
+    
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
-
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
     }
     
     /**
-     * Returns the field labels.
+     * Field labels for display in tables.
      *
-     * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.12.2013
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'ManufacturerNumber'       => _t(Manufacturer::class . '.ManufacturerNumber', 'Manufacturer Number'),
-                    'Title'                    => Page::singleton()->fieldLabel('Title'),
-                    'Description'              => _t(Manufacturer::class . '.Description', 'Description'),
-                    'URL'                      => 'URL',
-                    'logo'                     => Page::singleton()->fieldLabel('Logo'),
-                    'LogoThumbnail'            => Page::singleton()->fieldLabel('Logo'),
-                    'Products'                 => Product::singleton()->plural_name(),
-                    'ManufacturerTranslations' => ManufacturerTranslation::singleton()->plural_name(),
-                )
-        );
-        
-        $this->extend('updateFieldLabels', $fieldLabels);
-        
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'ManufacturerNumber'       => _t(Manufacturer::class . '.ManufacturerNumber', 'Manufacturer Number'),
+            'Title'                    => Page::singleton()->fieldLabel('Title'),
+            'Description'              => _t(Manufacturer::class . '.Description', 'Description'),
+            'URL'                      => 'URL',
+            'logo'                     => Page::singleton()->fieldLabel('Logo'),
+            'LogoThumbnail'            => Page::singleton()->fieldLabel('Logo'),
+            'Products'                 => Product::singleton()->plural_name(),
+            'ManufacturerTranslations' => ManufacturerTranslation::singleton()->plural_name(),
+        ]);
     }
 
     /**
      * Get the default summary fields for this object.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.02.2011
      */
-    public function  summaryFields() {
-        $summaryFields = array(
+    public function summaryFields() : array
+    {
+        $summaryFields = [
             'LogoThumbnail' => $this->fieldLabel('logo'),
             'Title'         => $this->fieldLabel('Title'),
             'URL'           => $this->fieldLabel('URL'),
-        );
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -160,24 +158,26 @@ class Manufacturer extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding() : array
+    {
+        $excludeFromScaffolding = [
             'URLSegment'
-        );
-        
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
-        
         return $excludeFromScaffolding;
     }
+    
     /**
      * Replaces the ProductGroupID DropDownField with a GroupedDropDownField.
      *
      * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'URL', true);
-        $fields->removeByName('URLSegment');
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->removeByName('URLSegment');
+        });
+        return DataObjectExtension::getCMSFields($this, 'URL', true);
     }
 
     /**
@@ -185,7 +185,8 @@ class Manufacturer extends DataObject {
      *
      * @return string The description from the translation object or an empty string
      */
-    public function getDescription() {
+    public function getDescription() : ?string
+    {
         return $this->getTranslationFieldValue('Description');
     }
     
@@ -194,7 +195,8 @@ class Manufacturer extends DataObject {
      * 
      * @return string
      */
-    public static function get_filter_action() {
+    public static function get_filter_action() : string
+    {
         return _t(ProductGroupPage::class . '.MANUFACTURER_LINK', 'manufacturer');
     }
 
@@ -207,7 +209,8 @@ class Manufacturer extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2011
      */
-    public function Link() {
+    public function Link() : string
+    {
         return Controller::curr()->Link() . self::get_filter_action() . '/' . $this->URLSegment;
     }
 
@@ -220,7 +223,8 @@ class Manufacturer extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.03.2011
      */
-    public function LinkingMode() {
+    public function LinkingMode() : string
+    {
         if ($_SERVER['REQUEST_URI'] == $this->Link()) {
             return 'current';
         }
@@ -234,8 +238,9 @@ class Manufacturer extends DataObject {
      *
      * @return Manufacturer
      */
-    public static function getByUrlSegment($urlSegment) {
-        return self::get()->filter(array('URLSegment' => $urlSegment))->first();
+    public static function getByUrlSegment($urlSegment) : ?Manufacturer
+    {
+        return self::get()->filter(['URLSegment' => $urlSegment])->first();
     }
 
     /**
@@ -246,7 +251,8 @@ class Manufacturer extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.03.2011
      */
-    public function onBeforeWrite() {
+    public function onBeforeWrite() : void
+    {
         parent::onBeforeWrite();
         if (empty ($this->Title)) {
             return;
@@ -262,7 +268,8 @@ class Manufacturer extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.03.2011
      */
-    public function title2urlSegment() {
+    public function title2urlSegment() : string
+    {
         return Tools::string2urlSegment($this->Title);
     }
     
@@ -271,17 +278,18 @@ class Manufacturer extends DataObject {
      *
      * @return string
      */
-    public function getLogoThumbnail() {
+    public function getLogoThumbnail() : ?DBFile
+    {
         return $this->logo()->Pad(200,25);
     }
     
     /**
      * Returns the related products.
      * 
-     * @return DataObjectSet
+     * @return DataList
      */
-    public function getProducts() {
-        $products = Product::getProducts("ManufacturerID = " . $this->ID);
-        return $products;
+    public function getProducts() : DataList
+    {
+        return Product::getProducts("ManufacturerID = {$this->ID}");
     }
 }

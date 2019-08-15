@@ -6,8 +6,10 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductConditionTranslation;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * Definition for the condition of a product.
@@ -18,80 +20,81 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Code             Code
+ * @property string $SeoMicrodataCode SEO Microdata Code
+ * 
+ * @property string $Title Title (current locale context)
+ * 
+ * @method HasManyList Products()                     Returns a list of related Products.
+ * @method HasManyList ProductConditionTranslations() Returns a list of translations for this ProductCondition.
  */
-class ProductCondition extends DataObject {
-
+class ProductCondition extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Code'             => 'Varchar',
         'SeoMicrodataCode' => "Enum(',NewCondition,UsedCondition,DamagedCondition,RefurbishedCondition','')",
-    );
-    
+    ];
     /**
      * n:m relations
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'Products'                     => Product::class,
         'ProductConditionTranslations' => ProductConditionTranslation::class,
-    );
-    
+    ];
     /**
      * cast attribute class types to other SS types
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'Title'         => 'Varchar(255)',
         'MicrodataCode' => 'Text',
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartProductCondition';
-    
     /**
      * List of default microdata codes.
      *
      * @var array
      */
-    private static $default_microdata_codes = array(
+    private static $default_microdata_codes = [
         'new'         => 'NewCondition',
         'used'        => 'UsedCondition',
         'damaged'     => 'DamagedCondition',
         'refurbished' => 'RefurbishedCondition',
-    );
-
+    ];
+    
     /**
-     * Returns the translated singular name of the object.
+     * Returns the translated singular name.
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
     /**
-     * Returns the translated plural name of the object.
-     *
+     * Returns the translated plural name.
+     * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
-    public function plural_name() {
-        return Tools::plural_name_for($this);
+    public function plural_name() : string
+    {
+        return Tools::plural_name_for($this); 
     }
     
     /**
@@ -99,7 +102,8 @@ class ProductCondition extends DataObject {
      *
      * @return string
      */
-    public function getTitle() {
+    public function getTitle() : string
+    {
         return $this->getTranslationFieldValue('Title');
     }
     
@@ -114,10 +118,11 @@ class ProductCondition extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding() : array
+    {
+        $excludeFromScaffolding = [
             'Products'
-        );
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         return $excludeFromScaffolding;
     }
@@ -127,22 +132,22 @@ class ProductCondition extends DataObject {
      *
      * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'Code', false);
-        
-        $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
-        $i18nSource = array();
-        foreach ($enumValues as $value => $label) {
-            if (empty($label)) {
-                $i18nSource[$value] = '';
-            } else {
-                $i18nSource[$value] = $this->fieldLabel('SeoMicrodataCode' . $label);
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
+            $i18nSource = [];
+            foreach ($enumValues as $value => $label) {
+                if (empty($label)) {
+                    $i18nSource[$value] = '';
+                } else {
+                    $i18nSource[$value] = $this->fieldLabel('SeoMicrodataCode' . $label);
+                }
             }
-        }
-        $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
-        $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
-        
-        return $fields;
+            $fields->dataFieldByName('SeoMicrodataCode')->setSource($i18nSource);
+            $fields->dataFieldByName('SeoMicrodataCode')->setDescription($this->fieldLabel('SeoMicrodataCodeDescription'));
+        });
+        return DataObjectExtension::getCMSFields($this, 'Code', false);
     }
     
     /**
@@ -151,14 +156,13 @@ class ProductCondition extends DataObject {
      *
      * @return string
      */
-    public static function getDropdownFieldOptionSet() {
-        $productConditionMap    = array();
-        $productConditions      = ProductCondition::get();
-        
+    public static function getDropdownFieldOptionSet() : string
+    {
+        $productConditionMap = [];
+        $productConditions   = ProductCondition::get();
         if ($productConditions->exists()) {
             $productConditionMap = $productConditions->map('ID', 'Title')->toArray();
         }
-        
         return $productConditionMap;
     }
     
@@ -168,50 +172,39 @@ class ProductCondition extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.02.2018
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'Title'                                => _t(ProductCondition::class . '.TITLE', 'Condition'),
-                'Products'                             => _t(Product::class . '.PLURALNAME', 'Products'),
-                'ProductConditionTranslations'         => _t(ProductConditionTranslation::class . '.PLURALNAME', 'Translations'),
-                'DefaultDamaged'                       => _t(ProductCondition::class . '.DefaultDamaged', 'Damaged'),
-                'DefaultNew'                           => _t(ProductCondition::class . '.DefaultNew', 'New'),
-                'DefaultRefurbished'                   => _t(ProductCondition::class . '.DefaultRefurbished', 'Refurbished'),
-                'DefaultUsed'                          => _t(ProductCondition::class . '.DefaultUsed', 'Used'),
-                'SeoMicrodataCode'                     => _t(ProductCondition::class . '.SeoMicrodataCode', 'SEO microdata code'),
-                'SeoMicrodataCodeDescription'          => _t(ProductCondition::class . '.SeoMicrodataCodeDescription', 'Set up one of these values to increase the SEO visibility.'),
-                'SeoMicrodataCodeDamagedCondition'     => _t(ProductCondition::class . '.SeoMicrodataCodeDamaged', 'Damaged'),
-                'SeoMicrodataCodeNewCondition'         => _t(ProductCondition::class . '.SeoMicrodataCodeNew', 'New'),
-                'SeoMicrodataCodeRefurbishedCondition' => _t(ProductCondition::class . '.SeoMicrodataCodeRefurbished', 'Refurbished'),
-                'SeoMicrodataCodeUsedCondition'        => _t(ProductCondition::class . '.SeoMicrodataCodeUsed', 'Used'),
-            )
-        );
-        
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'                                => _t(ProductCondition::class . '.TITLE', 'Condition'),
+            'Products'                             => _t(Product::class . '.PLURALNAME', 'Products'),
+            'ProductConditionTranslations'         => _t(ProductConditionTranslation::class . '.PLURALNAME', 'Translations'),
+            'DefaultDamaged'                       => _t(ProductCondition::class . '.DefaultDamaged', 'Damaged'),
+            'DefaultNew'                           => _t(ProductCondition::class . '.DefaultNew', 'New'),
+            'DefaultRefurbished'                   => _t(ProductCondition::class . '.DefaultRefurbished', 'Refurbished'),
+            'DefaultUsed'                          => _t(ProductCondition::class . '.DefaultUsed', 'Used'),
+            'SeoMicrodataCode'                     => _t(ProductCondition::class . '.SeoMicrodataCode', 'SEO microdata code'),
+            'SeoMicrodataCodeDescription'          => _t(ProductCondition::class . '.SeoMicrodataCodeDescription', 'Set up one of these values to increase the SEO visibility.'),
+            'SeoMicrodataCodeDamagedCondition'     => _t(ProductCondition::class . '.SeoMicrodataCodeDamaged', 'Damaged'),
+            'SeoMicrodataCodeNewCondition'         => _t(ProductCondition::class . '.SeoMicrodataCodeNew', 'New'),
+            'SeoMicrodataCodeRefurbishedCondition' => _t(ProductCondition::class . '.SeoMicrodataCodeRefurbished', 'Refurbished'),
+            'SeoMicrodataCodeUsedCondition'        => _t(ProductCondition::class . '.SeoMicrodataCodeUsed', 'Used'),
+        ]);
     }
     
     /**
      * Defines the form fields for the search in ModelAdmin
      * 
-     * @return array seach fields definition
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
+     * @return array
      */
-    public function searchableFields() {
-        $searchableFields = array(
-            'ProductConditionTranslations.Title' => array(
+    public function searchableFields() : array
+    {
+        $searchableFields = [
+            'ProductConditionTranslations.Title' => [
                 'title' => $this->fieldLabel('Title'),
                 'filter' => PartialMatchFilter::class,
-            ),
-        );
+            ],
+        ];
         $this->extend('updateSearchableFields', $searchableFields);
         return $searchableFields;
     }
@@ -220,15 +213,12 @@ class ProductCondition extends DataObject {
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 10.03.2011
      */
-    public function summaryFields() {
-        $summaryFields = array(
-            'Title'             => $this->fieldLabel('Title'),
-        );
-        
+    public function summaryFields() : array
+    {
+        $summaryFields = [
+            'Title' => $this->fieldLabel('Title'),
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -237,16 +227,15 @@ class ProductCondition extends DataObject {
      * Default records for product conditions.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2018
      */
-    public function requireDefaultRecords() {
+    public function requireDefaultRecords() : void
+    {
         foreach (self::$default_microdata_codes as $code => $microdataCode) {
             $condition = ProductCondition::get()->filter('Code', $code)->first();
-            if (is_null($condition) ||
-                !$condition->exists()) {
-                $condition = new ProductCondition();
+            if (is_null($condition)
+             || !$condition->exists()
+            ) {
+                $condition = ProductCondition::create();
                 $condition->Code             = $code;
                 $condition->SeoMicrodataCode = $microdataCode;
                 $condition->Title            = $this->fieldLabel('Default' . ucfirst($code));
@@ -260,14 +249,16 @@ class ProductCondition extends DataObject {
      *
      * @return string
      */
-    public function getMicrodataCode() {
+    public function getMicrodataCode() : string
+    {
         $microDataCode = $this->SeoMicrodataCode;
-        if (empty($microDataCode) &&
-            array_key_exists($this->Title, self::$default_microdata_codes)) {
+        if (empty($microDataCode)
+         && array_key_exists($this->Title, self::$default_microdata_codes)
+        ) {
             $microDataCode = self::$default_microdata_codes[$this->Code];
         }
         if (!empty($microDataCode)) {
-            $microDataCode = 'http://schema.org/' . $microDataCode;
+            $microDataCode =  "http://schema.org/{$microDataCode}";
         }
         return $microDataCode;
     }

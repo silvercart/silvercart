@@ -13,12 +13,15 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\Model\Shipment\Zone;
+use SilverCart\ORM\FieldType\DBMoney as SilverCartDBMoney;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\LessThanFilter;
+use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\Search\SearchContext;
 
 /**
@@ -31,11 +34,36 @@ use SilverStripe\ORM\Search\SearchContext;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property float             $MaximumWeight               Maximum Weight
+ * @property bool              $UnlimitedWeight             Fee has unlimited weight?
+ * @property SilverCartDBMoney $Price                       Price
+ * @property bool              $PostPricing                 Fee has post pricing?
+ * @property bool              $freeOfShippingCostsDisabled Fee is never for free?
+ * @property SilverCartDBMoney $freeOfShippingCostsFrom     Cart total price for free shipping costs.
+ * @property int               $priority                    Priority
+ * @property int               $DeliveryTimeMin             Minimum delivery time
+ * @property int               $DeliveryTimeMax             Maximum delivery time
+ * @property string            $DeliveryTimeText            Delivery time text
+ * 
+ * @property string $PriceFormatted                Price formatted
+ * @property string $PriceFormattedPlain           Price formatted plain
+ * @property string $AttributedShippingMethods     Attributed shipping methods
+ * @property string $MaximumWeightLimitedOrNot     Maximum weight or unlimited text
+ * @property string $PriceAmount                   Price amount
+ * @property string $PriceCurrency                 Price currency
+ * @property string $MaximumWeightNice             Maximum weight with unit
+ * @property string $MaximumWeightUnitAbbreviation Maximum weight unit abbreviation
+ * 
+ * @method Zone           Zone()           Returns the related Zone.
+ * @method ShippingMethod ShippingMethod() Returns the related ShippingMethod.
+ * @method Tax            Tax()            Returns the related Tax.
+ * 
+ * @method HasManyList Orders() Returns a list of related Orders.
  */
 class ShippingFee extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-    
     /**
      * Attributes.
      *
@@ -44,10 +72,10 @@ class ShippingFee extends DataObject
     private static $db = [
         'MaximumWeight'                 => 'Float',
         'UnlimitedWeight'               => 'Boolean',
-        'Price'                         => \SilverCart\ORM\FieldType\DBMoney::class,
+        'Price'                         => SilverCartDBMoney::class,
         'PostPricing'                   => 'Boolean',
         'freeOfShippingCostsDisabled'   => 'Boolean',
-        'freeOfShippingCostsFrom'       => \SilverCart\ORM\FieldType\DBMoney::class,
+        'freeOfShippingCostsFrom'       => SilverCartDBMoney::class,
         'priority'                      => 'Int',
         'DeliveryTimeMin'               => 'Int',
         'DeliveryTimeMax'               => 'Int',
@@ -77,14 +105,14 @@ class ShippingFee extends DataObject
      * @var array
      */
     private static $casting = [
-        'PriceFormatted'                    => 'Varchar(20)',
-        'PriceFormattedPlain'               => 'Varchar(20)',
-        'AttributedShippingMethods'         => 'Varchar(255)',
-        'MaximumWeightLimitedOrNot'         => 'Varchar(255)',
-        'PriceAmount'                       => 'Varchar(255)',
-        'PriceCurrency'                     => 'Varchar(255)',
-        'MaximumWeightNice'                 => 'Varchar(255)',
-        'getMaximumWeightUnitAbreviation'   => 'Varchar(2)',
+        'PriceFormatted'                => 'Varchar(20)',
+        'PriceFormattedPlain'           => 'Varchar(20)',
+        'AttributedShippingMethods'     => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
+        'PriceAmount'                   => 'Varchar(255)',
+        'PriceCurrency'                 => 'Varchar(255)',
+        'MaximumWeightNice'             => 'Varchar(255)',
+        'MaximumWeightUnitAbbreviation' => 'Varchar(2)',
     ];
     /**
      * Default sort field and direction
@@ -110,7 +138,7 @@ class ShippingFee extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -120,7 +148,7 @@ class ShippingFee extends DataObject
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }
@@ -133,7 +161,7 @@ class ShippingFee extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.02.2013
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $summaryFields = [
             'Zone.Title'                => $this->fieldLabel('Zone'),
@@ -142,9 +170,7 @@ class ShippingFee extends DataObject
             'PriceFormattedPlain'       => $this->fieldLabel('Price'),
             'priority'                  => $this->fieldLabel('priority'),
         ];
-        
         $this->extend('updateSummaryFields', $summaryFields);
-        
         return $summaryFields;
     }
 
@@ -154,43 +180,36 @@ class ShippingFee extends DataObject
      * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
-        return array_merge(
-                parent::fieldLabels($includerelations),
-                Tools::field_labels_for(self::class),
-                [
-                    'UnlimitedWeight'               => _t(ShippingFee::class . '.UNLIMITED_WEIGHT_LABEL', 'Unlimited Maximum Weight'),
-                    'Unlimited'                     => _t(ShippingFee::class . '.UNLIMITED_WEIGHT', 'unlimited'),
-                    'Price'                         => _t(ShippingFee::class . '.COSTS', 'Costs'),
-                    'Zone'                          => ShippingMethod::singleton()->fieldLabel('ForZones'),
-                    'Zone.Title'                    => ShippingMethod::singleton()->fieldLabel('ForZones'),
-                    'ZoneWithDescription'           => _t(ShippingFee::class . '.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
-                    'AttributedShippingMethods'     => _t(ShippingFee::class . '.ATTRIBUTED_SHIPPINGMETHOD', 'Attributed shipping method'),
-                    'Tax'                           => Tax::singleton()->singular_name(),
-                    'PostPricing'                   => _t(ShippingFee::class . '.POST_PRICING', 'Pricing after order'),
-                    'PostPricingInfo'               => _t(ShippingFee::class . '.POST_PRICING_INFO', 'Manual calculation of shipping fees after order.'),
-                    'Orders'                        => Order::singleton()->plural_name(),
-                    'EmptyString'                   => _t(ShippingFee::class . '.EMPTYSTRING_CHOOSEZONE', '--choose zone--'),
-                    'freeOfShippingCostsDisabled'   => _t(ShippingFee::class . '.FREEOFSHIPPINGCOSTSDISABLED', 'Disable free shipping for this fee'),
-                    'freeOfShippingCostsFrom'       => _t(ShippingFee::class . '.FREEOFSHIPPINGCOSTSFROM', 'Free of shipping costs from (overwrites country specific and global configuration)'),
-                    'FreeFrom'                      => _t(ShippingFee::class . '.FreeFrom', 'free from'),
-                    'ShippingMethod'                => ShippingMethod::singleton()->singular_name(),
-                    'priority'                      => Tools::field_label('Priority'),
-                    'DeliveryTime'                  => ShippingMethod::singleton()->fieldLabel('DeliveryTime'),
-                    'DeliveryTimeMin'               => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMin'),
-                    'DeliveryTimeMinDesc'           => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMinDesc'),
-                    'DeliveryTimeMax'               => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMax'),
-                    'DeliveryTimeMaxDesc'           => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMaxDesc'),
-                    'DeliveryTimeText'              => ShippingMethod::singleton()->fieldLabel('DeliveryTimeText'),
-                    'DeliveryTimeTextDesc'          => ShippingMethod::singleton()->fieldLabel('DeliveryTimeTextDesc'),
-                    'DeliveryTimeHint'              => _t(ShippingFee::class . '.DeliveryTimeHint', 'Optional delivery time. Overwrites the shipping methods values.'),
-                ]
-        );
+        return $this->defaultFieldLabels($includerelations, [
+            'UnlimitedWeight'               => _t(ShippingFee::class . '.UNLIMITED_WEIGHT_LABEL', 'Unlimited Maximum Weight'),
+            'Unlimited'                     => _t(ShippingFee::class . '.UNLIMITED_WEIGHT', 'unlimited'),
+            'Price'                         => _t(ShippingFee::class . '.COSTS', 'Costs'),
+            'Zone'                          => ShippingMethod::singleton()->fieldLabel('ForZones'),
+            'Zone.Title'                    => ShippingMethod::singleton()->fieldLabel('ForZones'),
+            'ZoneWithDescription'           => _t(ShippingFee::class . '.ZONE_WITH_DESCRIPTION', 'zone (only carrier\'s zones available)'),
+            'AttributedShippingMethods'     => _t(ShippingFee::class . '.ATTRIBUTED_SHIPPINGMETHOD', 'Attributed shipping method'),
+            'Tax'                           => Tax::singleton()->singular_name(),
+            'PostPricing'                   => _t(ShippingFee::class . '.POST_PRICING', 'Pricing after order'),
+            'PostPricingInfo'               => _t(ShippingFee::class . '.POST_PRICING_INFO', 'Manual calculation of shipping fees after order.'),
+            'Orders'                        => Order::singleton()->plural_name(),
+            'EmptyString'                   => _t(ShippingFee::class . '.EMPTYSTRING_CHOOSEZONE', '--choose zone--'),
+            'freeOfShippingCostsDisabled'   => _t(ShippingFee::class . '.FREEOFSHIPPINGCOSTSDISABLED', 'Disable free shipping for this fee'),
+            'freeOfShippingCostsFrom'       => _t(ShippingFee::class . '.FREEOFSHIPPINGCOSTSFROM', 'Free of shipping costs from (overwrites country specific and global configuration)'),
+            'FreeFrom'                      => _t(ShippingFee::class . '.FreeFrom', 'free from'),
+            'ShippingMethod'                => ShippingMethod::singleton()->singular_name(),
+            'priority'                      => Tools::field_label('Priority'),
+            'DeliveryTime'                  => ShippingMethod::singleton()->fieldLabel('DeliveryTime'),
+            'DeliveryTimeMin'               => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMin'),
+            'DeliveryTimeMinDesc'           => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMinDesc'),
+            'DeliveryTimeMax'               => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMax'),
+            'DeliveryTimeMaxDesc'           => ShippingMethod::singleton()->fieldLabel('DeliveryTimeMaxDesc'),
+            'DeliveryTimeText'              => ShippingMethod::singleton()->fieldLabel('DeliveryTimeText'),
+            'DeliveryTimeTextDesc'          => ShippingMethod::singleton()->fieldLabel('DeliveryTimeTextDesc'),
+            'DeliveryTimeHint'              => _t(ShippingFee::class . '.DeliveryTimeHint', 'Optional delivery time. Overwrites the shipping methods values.'),
+        ]);
     }
 
         /**
@@ -198,9 +217,9 @@ class ShippingFee extends DataObject
      *
      * @return string
      */
-    public function getMaximumWeightLimitedOrNot()
+    public function getMaximumWeightLimitedOrNot() : string
     {
-        $maximumWeightLimitedOrNot = $this->MaximumWeight;
+        $maximumWeightLimitedOrNot = (string) $this->MaximumWeight;
         if ($this->UnlimitedWeight) {
             $maximumWeightLimitedOrNot = $this->fieldLabel('UnlimitedWeight');
         }
@@ -214,7 +233,7 @@ class ShippingFee extends DataObject
      *
      * @return SearchContext
      */
-    public function getDefaultSearchContext()
+    public function getDefaultSearchContext() : SearchContext
     {
         $fields  = $this->scaffoldSearchFields();
         $filters = [
@@ -232,7 +251,7 @@ class ShippingFee extends DataObject
      *
      * @return FieldList
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
         $this->getCMSFieldsIsCalled = true;
         $this->beforeUpdateCMSFields(function($fields) {
@@ -279,7 +298,7 @@ class ShippingFee extends DataObject
             if ($this->ShippingMethod()->exists()) {
                 $parentDeliveryTime = ShippingMethod::get_delivery_time_for($this->ShippingMethod(), true);
                 if (!empty($parentDeliveryTime)) {
-                    $parentDeliveryTime = '<br/>(' . $parentDeliveryTime . ')';
+                    $parentDeliveryTime = "<br/>({$parentDeliveryTime})";
                 }
             }
 
@@ -304,7 +323,7 @@ class ShippingFee extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.07.2013
      */
-    public function PriceFormattedForDetailViewProduct()
+    public function PriceFormattedForDetailViewProduct() : string
     {
         $country = null;
         $amount  = null;
@@ -314,11 +333,9 @@ class ShippingFee extends DataObject
                 $amount = $product->getPrice()->getAmount();
             }
         }
-        
         if ($this->Zone()->Countries()->count() === 1) {
             $country = $this->Zone()->Countries()->first();
         }
-        
         $priceFormatted = '';
         if ($this->PostPricing) {
             $priceFormatted = '---';
@@ -326,7 +343,6 @@ class ShippingFee extends DataObject
             $priceObj = DBMoney::create();
             $priceObj->setAmount($this->getPriceAmount(false, $amount, $country));
             $priceObj->setCurrency($this->getPriceCurrency());
-
             $priceFormatted = $priceObj->Nice();
         }
         return $priceFormatted;
@@ -342,7 +358,7 @@ class ShippingFee extends DataObject
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2012
      */
-    public function PriceFormatted($plain = false)
+    public function PriceFormatted(bool $plain = false) : string
     {
         $priceFormatted = '';
         if ($this->PostPricing) {
@@ -351,7 +367,6 @@ class ShippingFee extends DataObject
             $priceObj = DBMoney::create();
             $priceObj->setAmount($this->getPriceAmount($plain));
             $priceObj->setCurrency($this->getPriceCurrency());
-
             $priceFormatted = $priceObj->Nice();
         }
         return $priceFormatted;
@@ -362,7 +377,17 @@ class ShippingFee extends DataObject
      *
      * @return string
      */
-    public function getPriceFormattedPlain()
+    public function getPriceFormatted() : string
+    {
+        return $this->PriceFormatted(false);
+    }
+
+    /**
+     * Returns the Price formatted by locale.
+     *
+     * @return string
+     */
+    public function getPriceFormattedPlain() : string
     {
         return $this->PriceFormatted(true);
     }
@@ -375,7 +400,7 @@ class ShippingFee extends DataObject
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public function AttributedShippingMethods()
+    public function AttributedShippingMethods() : string
     {
         return Tools::AttributedDataObject($this->ShippingMethod());
     }
@@ -401,7 +426,7 @@ class ShippingFee extends DataObject
      *
      * @return float
      */
-    public function getTaxAmount($price = null)
+    public function getTaxAmount($price = null) : float
     {
         if (is_null($price)) {
             $price = $this->Price->getAmount();
@@ -420,7 +445,6 @@ class ShippingFee extends DataObject
                 $taxAmount = 0.0;
             }
         }
-
         return $taxAmount;
     }
     
@@ -441,9 +465,9 @@ class ShippingFee extends DataObject
             if ($this->PostPricing) {
                 $shippingFeeAmountAsString = $this->fieldLabel('PostPricing');
             } else {
-                $shippingFeeAmountAsString = '+ ' . $this->PriceFormatted();
+                $shippingFeeAmountAsString = "+ {$this->PriceFormatted()}";
             }
-            return $carrier . ' - ' . $shippingMethod . ' (' . $shippingFeeAmountAsString . ')';
+            return "{$carrier} - {$shippingMethod} ({$shippingFeeAmountAsString})";
         }
         return false;
     }
@@ -453,21 +477,20 @@ class ShippingFee extends DataObject
      * 
      * @return DBMoney
      */
-    public function getCalculatedPrice()
+    public function getCalculatedPrice() : DBMoney
     {
         $priceObj = DBMoney::create();
         $priceObj->setAmount($this->getPriceAmount());
         $priceObj->setCurrency($this->getPriceCurrency());
-
         return $priceObj;
     }
     
     /**
      * Returns the price.
      * 
-     * @return Money
+     * @return DBMoney
      */
-    public function getPrice()
+    public function getPrice() : DBMoney
     {
         $price = $this->getField('Price');
         if (!$this->getCMSFieldsIsCalled) {
@@ -485,7 +508,7 @@ class ShippingFee extends DataObject
      *
      * @return float
      */
-    public function getPriceAmount($plain = false, $amountToGetFeeFor = null, $countryToGetFeeFor = null)
+    public function getPriceAmount(bool $plain = false, float $amountToGetFeeFor = null, Country $countryToGetFeeFor = null) : float
     {
         $price = (float) $this->Price->getAmount();
 
@@ -526,12 +549,12 @@ class ShippingFee extends DataObject
     /**
      * Returns whether to use free shipping costs or not
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function UseFreeOfShippingCostsFrom()
+    public function UseFreeOfShippingCostsFrom() : bool
     {
         $useFreeOfShippingCostsFrom = false;
         if (!$this->freeOfShippingCostsDisabled
@@ -547,12 +570,12 @@ class ShippingFee extends DataObject
      * 
      * @param Country $country Country to get free of shipping costs from value
      * 
-     * @return Money
+     * @return DBMoney
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 22.09.2018
      */
-    public function FreeOfShippingCostsFrom(Country $country = null)
+    public function FreeOfShippingCostsFrom(Country $country = null) : DBMoney
     {
         if (is_null($country)) {
             $country = $this->Zone()->Countries()->first();
@@ -574,12 +597,12 @@ class ShippingFee extends DataObject
      * @param float   $amount  Amount to get free of shipping info
      * @param Country $country Country to get free of shipping info
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function ShippingIsFree($amount, $country)
+    public function ShippingIsFree(float $amount, Country $country = null) : bool
     {
         $shippingIsFree = false;
         if ($this->UseFreeOfShippingCostsFrom()
@@ -596,9 +619,9 @@ class ShippingFee extends DataObject
      *
      * @return string
      */
-    public function getPriceCurrency()
+    public function getPriceCurrency() : string
     {
-        return $this->Price->getCurrency();
+        return (string) $this->Price->getCurrency();
     }
     
     /**
@@ -607,7 +630,7 @@ class ShippingFee extends DataObject
      * 
      * @return string
      */
-    public function getMaximumWeightNice()
+    public function getMaximumWeightNice() : string
     {
         $maximumWeightInGram = $this->MaximumWeight;
         if (Config::DisplayWeightsInKilogram()
@@ -624,16 +647,28 @@ class ShippingFee extends DataObject
     /**
      * Returns the maximum weights unit abreviation in context of
      * Config::DisplayWeightsInKilogram().
+     * Typo alias for $this->getMaximumWeightUnitAbbreviation().
      * 
      * @return string
      */
-    public function getMaximumWeightUnitAbreviation()
+    public function getMaximumWeightUnitAbreviation() : string
     {
-        $maximumWeightUnitAbreviation = 'g';
+        return $this->getMaximumWeightUnitAbbreviation();
+    }
+    
+    /**
+     * Returns the maximum weights unit abreviation in context of
+     * Config::DisplayWeightsInKilogram().
+     * 
+     * @return string
+     */
+    public function getMaximumWeightUnitAbbreviation() : string
+    {
+        $maximumWeightUnitAbbreviation = 'g';
         if (Config::DisplayWeightsInKilogram()) {
-            $maximumWeightUnitAbreviation = 'kg';
+            $maximumWeightUnitAbbreviation = 'kg';
         }
-        return $maximumWeightUnitAbreviation;
+        return $maximumWeightUnitAbbreviation;
     }
     
     /**
@@ -643,7 +678,7 @@ class ShippingFee extends DataObject
      * 
      * @return string
      */
-    public function getDeliveryTime($forceDisplayInDays = false)
+    public function getDeliveryTime($forceDisplayInDays = false) : string
     {
         return ShippingMethod::get_delivery_time_for($this, $forceDisplayInDays);
     }
@@ -653,7 +688,7 @@ class ShippingFee extends DataObject
      * 
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         $weight = $this->fieldLabel('UnlimitedWeight');
         $zone   = "";

@@ -48,6 +48,8 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
@@ -71,6 +73,53 @@ use WidgetSets\Model\WidgetSet;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property bool       $isActive                    Is this product active?
+ * @property string     $ProductNumberShop Product   Number Shop
+ * @property string     $ProductNumberManufacturer   Product Number Manufacturer
+ * @property string     $EANCode                     EAN Code
+ * @property DBMoney    $PriceGross                  Price Gross
+ * @property DBMoney    $PriceNet                    Price Net
+ * @property DBMoney    $MSRPrice                    MSR Price
+ * @property DBMoney    $PurchasePrice               Purchase Price
+ * @property int        $PurchaseMinDuration         Purchase Min Duration
+ * @property int        $PurchaseMaxDuration         Purchase Max Duration
+ * @property string     $PurchaseTimeUnit            Purchase Time Unit
+ * @property int        $StockQuantity               Stock Quantity
+ * @property bool       $StockQuantityOverbookable   Is Stock Quantity Overbookable?
+ * @property DBDate     $StockQuantityExpirationDate Stock Quantity Expiration Date
+ * @property int        $PackagingQuantity Packaging Quantity
+ * @property float      $Weight                      Weight
+ * @property DBDatetime $ReleaseDate                 Release Date
+ * @property DBDatetime $LaunchDate                  Launch Date
+ * @property DBDatetime $SalesBanDate                Sales Ban Date
+ * @property bool       $ExcludeFromPaymentDiscounts Exclude From Payment Discounts
+ * @property bool       $IsNotBuyable                Is Not Buyable
+ * @property DBText     $Keywords                    Keywords
+ *
+ * @property int $TaxID                Tax ID
+ * @property int $ManufacturerID       Manufacturer ID
+ * @property int $ProductGroupID       Product Group ID
+ * @property int $MasterProductID      Master Product ID
+ * @property int $AvailabilityStatusID Availability Status ID
+ * @property int $ProductConditionID   Product Condition ID
+ * @property int $QuantityUnitID       Quantity Unit ID
+ * @property int $WidgetAreaID         Widget Area ID
+ *
+ * @method Manufacturer       Manufacturer()       Return Manufacturer
+ * @method Product            MasterProduct()      Return Master Product
+ * @method ProductCondition   ProductCondition()   Return Product Condition
+ * @method QuantityUnit       QuantityUnit()       Return Quantity Unit
+ * 
+ * @method HasManyList ProductTranslations()   List of Product Translations
+ * @method HasManyList StockItemEntries()      List of Stock Item Entries
+ * @method HasManyList Images()                List of Images
+ * @method HasManyList Files()                 List of Files
+ * @method HasManyList ShoppingCartPositions() List of Shopping Cart Positions
+ * 
+ * @method ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
+ * @method ManyManyList ShoppingCarts()            List of Shopping Carts
+ * @method ManyManyList ProductGroupItemsWidgets() List of Product Group Items Widgets
  */
 class Product extends DataObject implements PermissionProvider
 {
@@ -98,12 +147,12 @@ class Product extends DataObject implements PermissionProvider
         'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
         'StockQuantity'               => 'Int',
         'StockQuantityOverbookable'   => 'Boolean(0)',
-        'StockQuantityExpirationDate' => 'Date',
+        'StockQuantityExpirationDate' => DBDate::class,
         'PackagingQuantity'           => 'Int',
         'Weight'                      => 'Float', //unit is gramm
-        'ReleaseDate'                 => 'DBDatetime',
-        'LaunchDate'                  => 'DBDatetime',
-        'SalesBanDate'                => 'DBDatetime',
+        'ReleaseDate'                 => DBDatetime::class,
+        'LaunchDate'                  => DBDatetime::class,
+        'SalesBanDate'                => DBDatetime::class,
         'ExcludeFromPaymentDiscounts' => 'Boolean(0)',
         'IsNotBuyable'                => 'Boolean(0)',
         'Keywords'                    => DBText::class,
@@ -1797,14 +1846,8 @@ class Product extends DataObject implements PermissionProvider
     public function getHtmlEncodedLongDescription() : DBHTMLText
     {
         $output = str_replace(
-            array(
-                '&lt;',
-                '&gt;'
-            ),
-            array(
-                '<',
-                '>'
-            ),
+            ['&lt;', '&gt;'],
+            ['<',    '>'],
             htmlentities($this->LongDescription, ENT_NOQUOTES, 'UTF-8', false)
         );
 
@@ -1845,14 +1888,8 @@ class Product extends DataObject implements PermissionProvider
     public function getHtmlEncodedShortDescription($cutToLength = false) : DBHTMLText
     {
         $output = str_replace(
-            array(
-                '&lt;',
-                '&gt;'
-            ),
-            array(
-                '<',
-                '>'
-            ),
+            ['&lt;', '&gt;', PHP_EOL, "\n"],
+            ['<',    '>',    '<br/>', '<br/>'],
             htmlentities($this->ShortDescription, ENT_NOQUOTES, 'UTF-8', false)
         );
 

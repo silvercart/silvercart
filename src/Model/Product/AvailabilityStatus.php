@@ -9,6 +9,7 @@ use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Forms\OptionsetField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * Abstract for an availibility status.
@@ -19,6 +20,18 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Code                Status code
+ * @property string $SeoMicrodataCode    SEO Microdata Code
+ * @property string $badgeColor          Badge Color
+ * @property bool   $SetForPositiveStock Set this status for a produt if the stock changes from <= 0 to > 0?
+ * @property bool   $SetForNegativeStock Set this status for a produt if the stock changes from > 0 to <= 0?
+ * @property bool   $IsDefault           Is Default?
+ * 
+ * @property string $Title          Title (current locale context)
+ * @property string $AdditionalText Additional Text (current locale context)
+ * 
+ * @method HasManyList AvailabilityStatusTranslations() Returns a list of translations for this status.
  */
 class AvailabilityStatus extends DataObject
 {

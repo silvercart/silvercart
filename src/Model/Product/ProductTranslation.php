@@ -5,6 +5,7 @@ namespace SilverCart\Model\Product;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Product;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -16,11 +17,18 @@ use SilverStripe\ORM\DataObject;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Title            Title
+ * @property string $ShortDescription Short Description
+ * @property string $LongDescription  Long Description
+ * @property string $MetaDescription  Meta Description
+ * @property string $MetaTitle        Meta Title
+ * 
+ * @method Product Product() Returns the related Product.
  */
 class ProductTranslation extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-    
     /**
      * Attributes.
      *
@@ -54,11 +62,10 @@ class ProductTranslation extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
@@ -66,7 +73,7 @@ class ProductTranslation extends DataObject
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this); 
     }
@@ -82,7 +89,7 @@ class ProductTranslation extends DataObject
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 27.02.2013
      */
-    public function excludeFromScaffolding()
+    public function excludeFromScaffolding() : array
     {
         $excludeFromScaffolding = [
             'Product'
@@ -96,10 +103,9 @@ class ProductTranslation extends DataObject
      *
      * @return FieldList the fields for the backend
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
-        $fields = DataObjectExtension::getCMSFields($this);
-        return $fields;
+        return DataObjectExtension::getCMSFields($this);
     }
     
     /**
@@ -108,12 +114,8 @@ class ProductTranslation extends DataObject
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.10.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         $this->beforeUpdateFieldLabels(function(&$labels) {
             $labels = array_merge(
@@ -134,12 +136,9 @@ class ProductTranslation extends DataObject
     /**
      * columns for table overview
      *
-     * @return array $summaryFields 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
+     * @return array
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $summaryFields = [
             'Title' => $this->fieldLabel('Title'),
@@ -153,7 +152,7 @@ class ProductTranslation extends DataObject
      * 
      * @return array
      */
-    public function getCacheRelevantFields()
+    public function getCacheRelevantFields() : array
     {
         $cacheRelevantFields = [
             'Title',

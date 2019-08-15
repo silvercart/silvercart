@@ -12,6 +12,8 @@ use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
 
 /**
  * abstract for a shipping carrier.
@@ -22,6 +24,19 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property int    $priority         Priority
+ * @property string $TrackingLinkBase Tracking link base
+ * 
+ * @property string $Title     Title (current locale context)
+ * @property string $FullTitle Full Title (current locale context)
+ * 
+ * @method Image Logo() Returns the related Logo.
+ * 
+ * @method HasManyList ShippingMethods()     Returns a list of related ShippingMethods.
+ * @method HasManyList CarrierTranslations() Returns a list of related CarrierTranslations.
+ * 
+ * @method ManyManyList Zones() Returns a list of related Zones.
  */
 class Carrier extends DataObject
 {

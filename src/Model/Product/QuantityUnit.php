@@ -3,10 +3,12 @@
 namespace SilverCart\Model\Product;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnitTranslation;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * Abstract for QuantityUnit.
@@ -17,37 +19,44 @@ use SilverStripe\ORM\DataObject;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property int $numberOfDecimalPlaces Number of decimal places
+ * 
+ * @property string $Title        Title (current locale context)
+ * @property string $Abbreviation Abbreviation (current locale context)
+ * 
+ * @method HasManyList Products()                 Returns a list of related Products.
+ * @method HasManyList QuantityUnitTranslations() Returns a list of translations for this QuantityUnit.
  */
-class QuantityUnit extends DataObject {
-
+class QuantityUnit extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'numberOfDecimalPlaces' => 'Int'
-    );
-
+    ];
     /**
      * cast field types to other SS data types
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'Title'          => 'Text',
         'Abbreviation'   => 'Text'
-    );
-    
+    ];
     /**
      * 1:n relations
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
+        'Products'                 => Product::class,
         'QuantityUnitTranslations' => QuantityUnitTranslation::class,
-    );
-
+    ];
     /**
      * DB table name
      *
@@ -91,69 +100,57 @@ class QuantityUnit extends DataObject {
         
         return $fields;
     }
-
+    
     /**
-     * Returns the translated singular name of the object.
+     * Returns the translated singular name.
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
     /**
-     * Returns the translated plural name of the object.
-     *
+     * Returns the translated plural name.
+     * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.06.2012
      */
-    public function plural_name() {
-        return Tools::plural_name_for($this);
+    public function plural_name() : string
+    {
+        return Tools::plural_name_for($this); 
     }
-
+    
     /**
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 29.03.2011
      */
-    public function summaryFields() {
-        return array_merge(
-            parent::summaryFields(),
-            array(
-                'Title'             => $this->fieldLabel('Title'),
-                'Abbreviation'      => $this->fieldLabel('Abbreviation'),
-            )
-        );
+    public function summaryFields() : array
+    {
+        $summaryFields = [
+            'Title'        => $this->fieldLabel('Title'),
+            'Abbreviation' => $this->fieldLabel('Abbreviation'),
+        ];
+        $this->extend('updateSummaryFields', $summaryFields);
+        return $summaryFields;
     }
-
+    
     /**
      * Field labels for display in tables.
-     * 
-     * @param bool $includerelations config option
+     *
+     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Ramon Kupper <rkupper@pixeltricks.de>
-     * @since 29.03.2011
      */
-    public function fieldLabels($includerelations = true) {
-        return array_merge(
-            parent::fieldLabels(),
-            array(
-                'Title'                      => _t(QuantityUnit::class . '.NAME', 'Name'),
-                'Abbreviation'               => _t(QuantityUnit::class . '.ABBREVIATION', 'Abbreviation'),
-                'QuantityUnitTranslations'   => QuantityUnitTranslation::singleton()->plural_name(),
-                'numberOfDecimalPlaces'      => _t(QuantityUnit::class . '.NUMBER_OF_DECIMAL_PLACES', 'Number of decimal places'),
-                'ExplanationToDecimalPlaces' => _t(QuantityUnit::class . '.EXPLANATION_TO_DECIMAL_PLACES', 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.'),
-            )
-        );
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'                      => _t(QuantityUnit::class . '.NAME', 'Name'),
+            'Abbreviation'               => _t(QuantityUnit::class . '.ABBREVIATION', 'Abbreviation'),
+            'QuantityUnitTranslations'   => QuantityUnitTranslation::singleton()->plural_name(),
+            'numberOfDecimalPlaces'      => _t(QuantityUnit::class . '.NUMBER_OF_DECIMAL_PLACES', 'Number of decimal places'),
+            'ExplanationToDecimalPlaces' => _t(QuantityUnit::class . '.EXPLANATION_TO_DECIMAL_PLACES', 'Leave empty or set to 0 to use no decimal places. This setting is used e.g. for add to cart forms.'),
+        ]);
     }
 }

@@ -7,10 +7,12 @@ use SilverCart\Model\Pages\DownloadPage;
 use SilverCart\Model\Product\FileTranslation;
 use SilverCart\Model\Product\Product;
 use SilverCart\ORM\DataObjectExtension;
-use SilverStripe\Control\Director;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\File as SilverstripeFile;
 use SilverStripe\Assets\Image as SilverstripeImage;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * DataObject to handle files added to a product or sth. else.
@@ -23,40 +25,49 @@ use SilverStripe\Assets\Image as SilverstripeImage;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Title       Title (current locale context)
+ * @property string $Description Description (current locale context)
+ * 
+ * @method Product           Product()      Returns the related product.
+ * @method SilverstripeFile  File()         Returns the related file.
+ * @method DownloadPage      DownloadPage() Returns the related DownloadPage.
+ * @method SilverstripeImage Thumbnail()    Returns the related thumbnail.
+ * 
+ * @method HasManyList FileTranslations() Returns a list of translations for this file.
  */
-class File extends DataObject {
-
+class File extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * 1:1 or 1:n relationships.
      *
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Product'      => Product::class,
         'File'         => SilverstripeFile::class,
         'DownloadPage' => DownloadPage::class,
         'Thumbnail'    => SilverstripeImage::class,
-    );
-    
+    ];
     /**
      * Castings
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'Title'             => 'Varchar',
         'Description'       => 'HTMLText',
         'FileIcon'          => 'HTMLText',
-    );
-    
+    ];
     /**
      * 1:n relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'FileTranslations' => FileTranslation::class,
-    );
+    ];
 
     /**
      * DB table name
@@ -70,7 +81,8 @@ class File extends DataObject {
      * 
      * @return string The Title from the translation object or an empty string
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->getTranslationFieldValue('Title');
     }
     
@@ -79,7 +91,8 @@ class File extends DataObject {
      * 
      * @return string The description from the translation object or an empty string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->getTranslationFieldValue('Description');
     }
 
@@ -88,7 +101,8 @@ class File extends DataObject {
      *
      * @return string
      */
-    public function getFileIconURL() {
+    public function getFileIconURL() : ?string
+    {
         $fileName = $this->File()->getFilename();
         $fileExt  = pathinfo($fileName, PATHINFO_EXTENSION);
         return SilverstripeFile::get_icon_for_extension($fileExt);
@@ -97,35 +111,30 @@ class File extends DataObject {
     /**
      * Returns a HTML snippet for the related Files icon.
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getFileIcon() {
-        return Tools::string2html('<img src="' . $this->getFileIconURL() . '" alt="' . $this->File()->FileType . '" title="' . $this->File()->Title . '" />');
+    public function getFileIcon() : DBHTMLText
+    {
+        return Tools::string2html("<img src=\"{$this->getFileIconURL()}\" alt=\"{$this->File()->FileType}\" title=\"{$this->File()->Title}\" />");
     }
     
     /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated singular name.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
+     * Returns the translated plural name.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);
     }
 
@@ -135,46 +144,33 @@ class File extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.03.2011
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'Title'            => _t(File::class . '.TITLE', 'Display name'),
-                'FileIcon'         => _t(File::class . '.FILEICON', 'File icon'),
-                'FileType'         => _t(File::class . '.TYPE', 'File type'),
-                'FileTranslations' => FileTranslation::singleton()->plural_name(),
-                'Product'          => Product::singleton()->singular_name(),
-                'File'             => SilverstripeFile::singleton()->singular_name(),
-                'DownloadPage'     => DownloadPage::singleton()->singular_name(),
-                'Description'      => _t(File::class . '.DESCRIPTION', 'Description (e.g. for Slidorion textfield)'),
-                
-            )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'            => _t(File::class . '.TITLE', 'Display name'),
+            'FileIcon'         => _t(File::class . '.FILEICON', 'File icon'),
+            'FileType'         => _t(File::class . '.TYPE', 'File type'),
+            'FileTranslations' => FileTranslation::singleton()->plural_name(),
+            'Product'          => Product::singleton()->singular_name(),
+            'File'             => SilverstripeFile::singleton()->singular_name(),
+            'DownloadPage'     => DownloadPage::singleton()->singular_name(),
+            'Description'      => _t(File::class . '.DESCRIPTION', 'Description (e.g. for Slidorion textfield)'),
+        ]);
     }
     
     /**
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.06.2012
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields() : array
+    {
+        $summaryFields = [
             'FileIcon'      => $this->fieldLabel('FileIcon'),
             'File.FileType' => $this->fieldLabel('FileType'),
             'Title'         => $this->fieldLabel('Title'),
-        );
-
-
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -184,40 +180,42 @@ class File extends DataObject {
      *
      * @return FieldList the fields for the backend
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this);
-        $fields->removeByName('ProductID');
-        $fields->removeByName('DownloadPageID');
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->removeByName('ProductID');
+            $fields->removeByName('DownloadPageID');
+        });
+        return DataObjectExtension::getCMSFields($this);
     }
     
     /**
      * Was the object just accidently written?
      * object without attribute or file appended
      *
-     * @return bool $result
+     * @return bool
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 14.07.2012
      */
-    public function isEmptyObject() {
+    public function isEmptyObject() : bool
+    {
         $result = false;
-        if ($this->FileID == 0 &&
-            $this->isEmptyMultilingualAttributes()) {
+        if ($this->FileID == 0
+         && $this->isEmptyMultilingualAttributes()
+        ) {
             $result = true;
         }
         return $result;
     }
     
     /**
-     * hook
+     * Deletes the related file before deleting this object.
      *
      * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.03.2013
      */
-    public function onBeforeDelete() {
+    public function onBeforeDelete() : void
+    {
         parent::onBeforeDelete();
         if ($this->File()->exists()) {
             $this->File()->delete();
@@ -225,17 +223,16 @@ class File extends DataObject {
     }
     
     /**
-     * On before write hook.
+     * Sets the related file's title as title if no custom title is set before 
+     * writing.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.03.2013
      */
     protected function onBeforeWrite() {
         parent::onBeforeWrite();
-        if ($this->File()->exists() &&
-            empty($this->Title)) {
+        if ($this->File()->exists()
+         && empty($this->Title)
+        ) {
             $this->Title = $this->File()->Title;
         }
     }

@@ -26,6 +26,18 @@ use SilverStripe\Security\Member;
  * @since 10.01.2019
  * @copyright 2019 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property int    $Quantity   Quantity
+ * @property string $Reason     Reason
+ * @property int    $OriginCode Origin Code
+ * 
+ * @property string $MemberName       Member Name
+ * @property string $Origin           Human readable Origin
+ * @property string $QuantityWithSign Quantity with + or - sign
+ * 
+ * @method Product Product() Returns the related Product.
+ * @method Member  Member()  Returns the related Member.
+ * @method Order   Order()   Returns the related Order.
  */
 class StockItemEntry extends DataObject
 {
@@ -39,7 +51,6 @@ class StockItemEntry extends DataObject
     const ORIGIN_CODE_ORDER_UPDATE = 4;
     const ORIGIN_CODE_ORDER_CANCEL = 5;
     const ORIGIN_CODE_API_IMPORT   = 6;
-    
     /**
      * DB table name.
      *

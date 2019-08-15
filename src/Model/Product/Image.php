@@ -17,6 +17,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
 
 /**
  * DataObject to handle images added to a product or sth. else.
@@ -28,6 +29,19 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $ProductNumberToReference Product number of the product to reference to
+ * @property int    $SortOrder                Sort order
+ * 
+ * @property string $Title       Title (current locale context)
+ * @property string $Content     Content (current locale context)
+ * @property string $Description Description (current locale context)
+ * 
+ * @method Product           Product()       Returns the related Product.
+ * @method PaymentMethod     PaymentMethod() Returns the related Payment Method.
+ * @method SilverStripeImage Image()         Returns the related SilverStripe Image.
+ * 
+ * @method HasManyList ImageTranslations() Returns a list of translations for this image.
  */
 class Image extends DataObject
 {

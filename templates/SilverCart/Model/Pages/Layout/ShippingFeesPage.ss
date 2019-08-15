@@ -30,7 +30,7 @@
                 </caption>
                 <thead>
                     <tr>
-                        <th class="text-left col-20"><%t SilverCart\Model\Product\Product.WEIGHT 'Weight' %> ({$ShippingFees.first.MaximumWeightUnitAbreviation})</th>
+                        <th class="text-left col-20"><%t SilverCart\Model\Product\Product.WEIGHT 'Weight' %> ({$ShippingFees.first.MaximumWeightUnitAbbreviation})</th>
                         <th class="text-left col-65"><%t SilverCart\Model\Shipment\Zone.SINGULARNAME 'Zone' %></th>
                         <th class="text-right"><%t SilverCart\Model\Product\Product.PRICE 'Price' %></th>
                     </tr>
