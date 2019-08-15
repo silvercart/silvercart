@@ -1596,7 +1596,7 @@ class ShoppingCart extends DataObject
      */
     public function getDeliveryTimeMin($shippingMethodID = 0, $forceDisplayInDays = false) {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
-        $deliveryTimeMin  = date('Y-m-d', time() + (DateTools::addSundaysToBusinessDays($deliveryTimeData->Min)*60*60*24));
+        $deliveryTimeMin  = date('Y-m-d', time() + (DateTools::addOffDaysToBusinessDays($deliveryTimeData->Min, ShippingMethod::config()->include_saturdays_in_delivery_time)*60*60*24));
         return $deliveryTimeMin;
     }
     
@@ -1610,7 +1610,7 @@ class ShoppingCart extends DataObject
      */
     public function getDeliveryTimeMax($shippingMethodID = 0, $forceDisplayInDays = false) {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
-        $deliveryTimeMax  = date('Y-m-d', time() + (DateTools::addSundaysToBusinessDays($deliveryTimeData->Max)*60*60*24));
+        $deliveryTimeMax  = date('Y-m-d', time() + (DateTools::addOffDaysToBusinessDays($deliveryTimeData->Max, ShippingMethod::config()->include_saturdays_in_delivery_time)*60*60*24));
         return $deliveryTimeMax;
     }
 
