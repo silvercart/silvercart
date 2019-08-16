@@ -36,7 +36,6 @@ class DateTools extends Tools
         if (!$includingSaturdays) {
             $weekdays = ceil((strtotime("{$businessDays} weekdays") - time()) / (24*60*60));
             $days     = self::addOffDaysTo($weekdays, $includingSaturdays);
-            var_dump($days - $weekdays);
         } else {
             $days = self::getTotalDaysForBusinessDays($days, $includingSaturdays);
         }
