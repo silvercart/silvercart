@@ -3,7 +3,9 @@
 namespace SilverCart\Model\Pages;
 
 use SilverCart\Forms\DownloadSearchForm;
+use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * DownloadPageHolder Controller class.
@@ -15,17 +17,17 @@ use SilverStripe\Control\HTTPRequest;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DownloadPageHolderController extends \PageController {
-    
+class DownloadPageHolderController extends \PageController
+{
     /**
      * Allowed actions
      * 
      * @var array
      */
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'DownloadSearchForm',
         'results',
-    );
+    ];
 
     /**
      * Returns the DownloadSearchForm.
@@ -35,9 +37,9 @@ class DownloadPageHolderController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function DownloadSearchForm() {
-        $form = new DownloadSearchForm($this);
-        return $form;
+    public function DownloadSearchForm() : DownloadSearchForm
+    {
+        return DownloadSearchForm::create($this);
     }
     
     /**
@@ -50,7 +52,8 @@ class DownloadPageHolderController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2013
      */
-    public function results(HTTPRequest $request) {
+    public function results(HTTPRequest $request)
+    {
         $results = DownloadSearchForm::get_current_results();
         if (is_null($results)) {
             $this->redirect($this->Link());
@@ -64,7 +67,8 @@ class DownloadPageHolderController extends \PageController {
      * 
      * @return \SilverStripe\ORM\DataList
      */
-    public function getFiles() {
+    public function getFiles()
+    {
         return $this->getSearchResults();
     }
     
@@ -73,7 +77,8 @@ class DownloadPageHolderController extends \PageController {
      * 
      * @return \SilverStripe\ORM\DataList
      */
-    public function getSearchResults() {
+    public function getSearchResults()
+    {
         return DownloadSearchForm::get_current_results();
     }
     
@@ -82,7 +87,8 @@ class DownloadPageHolderController extends \PageController {
      * 
      * @return int
      */
-    public function getSearchResultsCount() {
+    public function getSearchResultsCount() : int
+    {
         $results = $this->getSearchResults();
         if (!$results) {
             $count = 0;
@@ -97,8 +103,36 @@ class DownloadPageHolderController extends \PageController {
      * 
      * @return string
      */
-    public function getSearchQuery() {
-        return DownloadSearchForm::get_current_query();
+    public function getSearchQuery() : string
+    {
+        return (string) DownloadSearchForm::get_current_query();
     }
     
+    /**
+     * Uses the children of MetaNavigationHolder to render a subnavigation
+     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
+     * 
+     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
+     *                               to avoid strict notice
+     *
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     */
+    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    {
+        $subNavigation = null;
+        $parent        = $this->data()->Parent();
+        while (is_null($subNavigation)
+             && $parent->exists()
+        ) {
+            if ($parent instanceof MyAccountHolder) {
+                $ctrl          = ModelAsController::controller_for($parent);
+                $subNavigation = $ctrl->getSubNavigation($identifierCode);
+            }
+            $parent = $parent->Parent();
+        }
+        if (is_null($subNavigation)) {
+            $subNavigation = parent::getSubNavigation($identifierCode);
+        }
+        return $subNavigation;
+    }
 }

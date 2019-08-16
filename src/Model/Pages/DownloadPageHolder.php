@@ -19,45 +19,40 @@ use SilverStripe\View\ArrayData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DownloadPageHolder extends \Page {
-
+class DownloadPageHolder extends \Page
+{
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartDownloadPageHolder';
-    
     /**
      * allowed child pages in site tree
      *
      * @var array
      */
-    private static $allowed_children = array(
+    private static $allowed_children = [
         DownloadPage::class,
-    );
+    ];
     
     /**
      * returns the singular name
      * 
-     * @return string 
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 12.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
     /**
      * returns the plural name
      * 
-     * @return string 
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 12.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);
     }
     
@@ -70,37 +65,37 @@ class DownloadPageHolder extends \Page {
      *
      * @return ArrayList
     */
-    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) {
-        $page = $this;
-        $pages = array();
-
+    public function getBreadcrumbItems($maxDepth = 20, $stopAtPageType = false, $showHidden = false) : ArrayList
+    {
+        $page  = $this;
+        $pages = [];
         while ($page
             && $page->exists()
-            && (!$maxDepth || count($pages) < $maxDepth)
-            && (!$stopAtPageType || $page->ClassName != $stopAtPageType)
+            && (!$maxDepth
+             || count($pages) < $maxDepth)
+            && (!$stopAtPageType
+             || $page->ClassName != $stopAtPageType)
         ) {
-            if ($showHidden || $page->ShowInMenus || ($page->ID == $this->ID)) {
+            if ($showHidden
+             || $page->ShowInMenus
+             || ($page->ID == $this->ID)
+            ) {
                 $pages[] = $page;
             }
-
             $page = $page->Parent();
         }
         if (Controller::curr()->getAction() == 'results') {
-            $title = new DBText();
-            $title->setValue(_t(DownloadPageHolder::class . '.SearchResults', 'Search Results'));
+            $title = DBText::create()
+                    ->setValue(_t(DownloadPageHolder::class . '.SearchResults', 'Search Results'));
             array_unshift(
                     $pages,
-                    new ArrayData(
-                            array(
-                                'MenuTitle' => $title,
-                                'Title'     => $title,
-                                'Link'      => $this->Link('results'),
-                            )
-                    )
+                    ArrayData::create([
+                        'MenuTitle' => $title,
+                        'Title'     => $title,
+                        'Link'      => $this->Link('results'),
+                    ])
             );
         }
-
-        return new ArrayList(array_reverse($pages));
+        return ArrayList::create(array_reverse($pages));
     }
-    
 }
