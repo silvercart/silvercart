@@ -201,17 +201,11 @@ class PaymentMethod extends DataObject
      */
     protected $errorList = [];
     /**
-     * Indicates whether a payment module has multiple payment channels or not.
-     *
-     * @var bool
-     */
-    public static $has_multiple_payment_channels = false;
-    /**
      * A list of possible payment channels.
      *
      * @var array
      */
-    public static $possible_payment_channels = [];
+    private static $possible_payment_channels = [];
     /**
      * Contains the module name for display in the admin backend
      *
@@ -1173,14 +1167,7 @@ class PaymentMethod extends DataObject
         if ($this->moduleName !== '') {
 
             $className = $this->ClassName;
-            /**
-             * original expression
-             * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
-             * was replaced with eval call to provide compatibility to PHP 5.2
-             */
-            $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
-
-            if ($has_multiple_payment_channels) {
+            if ($this->hasMultiplePaymentChannels()) {
                 $paymentModule = new $className();
                 foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
                     if (!DataObject::get($className)->filter('PaymentChannel', $channel)->exists()) {
@@ -2125,28 +2112,31 @@ class PaymentMethod extends DataObject
      * @return array
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 31.03.2011
+     * @since 19.08.2019
      */
-    public function getPossiblePaymentChannels()
+    public function getPossiblePaymentChannels() : array
     {
         $possiblePaymentChannels = [];
-        $className = $this->ClassName;
-        /**
-         * original expression
-         * $has_multiple_payment_channels = $className::$has_multiple_payment_channels;
-         * was replaced with eval call to provide compatibility to PHP 5.2
-         */
-        $has_multiple_payment_channels = eval('return ' . $className . '::$has_multiple_payment_channels;');
-        $possible_payment_channels     = eval('return ' . $className . '::$possible_payment_channels;');
-        if ($has_multiple_payment_channels == false
-         || count($possible_payment_channels) == 0
-        ) {
+        if (!$this->hasMultiplePaymentChannels()) {
             return [];
         }
-        foreach ($possible_payment_channels as $key => $value) {
-            $possiblePaymentChannels[$key] = _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($key), $value);
+        foreach ($this->config()->possible_payment_channels as $key => $value) {
+            $possiblePaymentChannels[$key] = _t(static::class . '.PAYMENT_CHANNEL_' . strtoupper($key), $value);
         }
         return $possiblePaymentChannels;
+    }
+    
+    /**
+     * Returns whether this payment method has more than one channel.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.08.2019
+     */
+    public function hasMultiplePaymentChannels() : bool
+    {
+        return count($this->config()->possible_payment_channels) > 0;
     }
 
     /**
@@ -2327,12 +2317,12 @@ class PaymentMethod extends DataObject
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.04.2018
      */
-    public function canProcessBeforePaymentProvider(array $checkoutData)
+    public function canProcessBeforePaymentProvider(array $checkoutData) : bool
     {
         return false;
     }
@@ -2342,12 +2332,12 @@ class PaymentMethod extends DataObject
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.04.2018
      */
-    public function canProcessAfterPaymentProvider(array $checkoutData)
+    public function canProcessAfterPaymentProvider(array $checkoutData) : bool
     {
         return false;
     }
@@ -2357,12 +2347,12 @@ class PaymentMethod extends DataObject
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.04.2018
      */
-    public function canProcessBeforeOrder(array $checkoutData)
+    public function canProcessBeforeOrder(array $checkoutData) : bool
     {
         return false;
     }
@@ -2372,12 +2362,12 @@ class PaymentMethod extends DataObject
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.04.2018
      */
-    public function canProcessAfterOrder(Order $order, array $checkoutData)
+    public function canProcessAfterOrder(Order $order, array $checkoutData) : bool
     {
         return $this->canPlaceOrder($checkoutData) && $order instanceof Order && $order->exists();
     }
@@ -2388,12 +2378,12 @@ class PaymentMethod extends DataObject
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return void
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.04.2018
      */
-    public function canPlaceOrder(array $checkoutData)
+    public function canPlaceOrder(array $checkoutData) : bool
     {
         return false;
     }
@@ -2408,7 +2398,7 @@ class PaymentMethod extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    protected function processBeforeOrder(array $checkoutData)
+    protected function processBeforeOrder(array $checkoutData) : void
     {
         
     }
@@ -2424,7 +2414,7 @@ class PaymentMethod extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    protected function processAfterOrder(Order $order, array $checkoutData)
+    protected function processAfterOrder(Order $order, array $checkoutData) : void
     {
         
     }
@@ -2440,7 +2430,7 @@ class PaymentMethod extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    protected function processBeforePaymentProvider(array $checkoutData)
+    protected function processBeforePaymentProvider(array $checkoutData) : void
     {
         
     }
@@ -2456,7 +2446,7 @@ class PaymentMethod extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    protected function processAfterPaymentProvider(array $checkoutData)
+    protected function processAfterPaymentProvider(array $checkoutData) : void
     {
         
     }
@@ -2490,9 +2480,9 @@ class PaymentMethod extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.04.2018
      */
-    public function processConfirmationText(Order $order, array $checkoutData)
+    public function processConfirmationText(Order $order, array $checkoutData) : string
     {
-        
+        return '';
     }
     
     /**
@@ -2504,7 +2494,7 @@ class PaymentMethod extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.10.2018
      */
-    public function resetProgress()
+    public function resetProgress() : void
     {
         
     }

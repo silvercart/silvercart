@@ -147,15 +147,6 @@ Payment steps are actually CustomHtmlForm steps, so every step is a class/templa
 		protected $moduleName = 'MyCustomName';
 		
 		/**
-		 * Indicates whether a payment module has multiple payment channels or not.
-		 *
-		 * @var bool
-		 *
-		 * @author {author}
-		 * @since {since}     */
-		public static $has_multiple_payment_channels = false;
-		
-		/**
 		 * A list of possible payment channels.
 		 *
 		 * @var array
@@ -163,7 +154,7 @@ Payment steps are actually CustomHtmlForm steps, so every step is a class/templa
 		 * @author {author}
 		 * @since {since}
 		 */
-		public static $possible_payment_channels = array();
+		private static $possible_payment_channels = [];
 		
 		/**
 		 * returns CMS fields
