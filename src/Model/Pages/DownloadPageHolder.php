@@ -22,6 +22,12 @@ use SilverStripe\View\ArrayData;
 class DownloadPageHolder extends \Page
 {
     /**
+     * Configuration property to enable the download search.
+     *
+     * @var bool
+     */
+    private static $enable_download_search = true;
+    /**
      * DB table name
      *
      * @var string
@@ -97,5 +103,18 @@ class DownloadPageHolder extends \Page
             );
         }
         return ArrayList::create(array_reverse($pages));
+    }
+    
+    /**
+     * Returns whether to enable the download search or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.08.2019
+     */
+    public function EnableDownloadSearch() : bool
+    {
+        return (bool) $this->config()->enable_download_search;
     }
 }

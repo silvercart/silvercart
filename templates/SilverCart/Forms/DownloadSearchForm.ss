@@ -1,10 +1,11 @@
-<% if $IncludeFormTag %>
+<% if $EnableDownloadSearch %>
+    <% if $IncludeFormTag %>
 <form {$AttributesHTML}>
-<% end_if %>
-<% include SilverCart/Forms/CustomFormMessages %>
-<% loop $HiddenFields %>
-    {$Field}
-<% end_loop %>
+    <% end_if %>
+    <% include SilverCart/Forms/CustomFormMessages %>
+    <% loop $HiddenFields %>
+        {$Field}
+    <% end_loop %>
     {$CustomFormSpecialFields}
     <div id="{$FormName}_SearchQuery_Box" class="input-append">
     <% with $Fields.dataFieldByName(SearchQuery) %>
@@ -14,6 +15,7 @@
         <button title="{$Title}" class="btn btn-primary" data-placement="top" data-toggle="tooltip"><i class="icon-search"></i> {$Title}</button> 
     <% end_loop %>
     </div>
-<% if $IncludeFormTag %>
+    <% if $IncludeFormTag %>
 </form>
+    <% end_if %>
 <% end_if %>

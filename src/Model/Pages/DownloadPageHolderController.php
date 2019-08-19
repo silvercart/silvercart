@@ -135,4 +135,17 @@ class DownloadPageHolderController extends \PageController
         }
         return $subNavigation;
     }
+    
+    /**
+     * Returns whether to enable the download search or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.08.2019
+     */
+    public function EnableDownloadSearch() : bool
+    {
+        return $this->data()->EnableDownloadSearch();
+    }
 }

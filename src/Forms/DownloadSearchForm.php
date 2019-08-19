@@ -159,4 +159,17 @@ class DownloadSearchForm extends CustomForm {
         $currentQuery = Tools::Session()->get('SilvercartDownloadSearchForm.current_query');
         return $currentQuery;
     }
+    
+    /**
+     * Returns whether to enable the download search or not.
+     * 
+     * @return bool
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 19.08.2019
+     */
+    public function EnableDownloadSearch() : bool
+    {
+        return $this->getController()->EnableDownloadSearch();
+    }
 }
