@@ -27,6 +27,7 @@ use SilverCart\Model\Product\StockItemEntry;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\FieldType\DBMoney as SilverCartDBMoney;
 use SilverCart\ORM\Filters\DateRangeSearchFilter;
 use SilverCart\ORM\Filters\ExactMatchBooleanMultiFilter;
 use SilverCart\ORM\Search\SearchContext;
@@ -62,6 +63,43 @@ use SilverStripe\View\ViewableData;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property SilverCartDBMoney $AmountTotal                      Total Amount
+ * @property string            $PriceType                        Price Type
+ * @property SilverCartDBMoney $HandlingCostPayment              Handling Cost Payment
+ * @property SilverCartDBMoney $HandlingCostShipment             Handling Cost Shipment
+ * @property int               $TaxRatePayment                   Tax Rate Payment
+ * @property int               $TaxRateShipment                  Tax Rate Shipment
+ * @property float             $TaxAmountPayment                 Tax Amount Payment
+ * @property float             $TaxAmountShipment                Tax Amount Shipment
+ * @property string            $Note                             Note
+ * @property float             $WeightTotal                      Weight Total
+ * @property string            $CustomersEmail                   Customers Email
+ * @property string            $OrderNumber                      Order Number
+ * @property bool              $HasAcceptedTermsAndConditions    Has Accepted Terms And Conditions
+ * @property bool              $HasAcceptedRevocationInstruction Has Accepted Revocation Instruction
+ * @property bool              $IsSeen                           Is Seen Status
+ * @property string            $TrackingCode                     Tracking Code
+ * @property string            $TrackingLink                     Tracking Link
+ * @property string            $PaymentReferenceID               Payment Reference ID
+ * @property string            $PaymentReferenceMessage          Payment Reference Message
+ * @property string            $PaymentReferenceData             Payment Reference Data
+ * @property string            $ExpectedDeliveryMin              Minimum Expected Delivery Date
+ * @property string            $ExpectedDeliveryMax              Maximum Expected Delivery Date
+ * @property string            $PaymentDate                      Payment Date
+ * @property string            $ShippingDate                     Shipping Date
+ * 
+ * @method OrderShippingAddress ShippingAddress() Returns the related ShippingAddress.
+ * @method OrderInvoiceAddress  InvoiceAddress()  Returns the related InvoiceAddress.
+ * @method PaymentMethod        PaymentMethod()   Returns the related PaymentMethod.
+ * @method ShippingMethod       ShippingMethod()  Returns the related ShippingMethod.
+ * @method OrderStatus          OrderStatus()     Returns the related OrderStatus.
+ * @method PaymentStatus        PaymentStatus()   Returns the related PaymentStatus.
+ * @method Member               Member()          Returns the related Member.
+ * @method ShippingFee          ShippingFee()     Returns the related ShippingFee.
+ * 
+ * @method \SilverStripe\ORM\HasManyList OrderPositions() Returns the related OrderPositions.
+ * @method \SilverStripe\ORM\HasManyList OrderLogs()      Returns the related OrderLogs.
  */
 class Order extends DataObject implements PermissionProvider
 {
@@ -78,10 +116,10 @@ class Order extends DataObject implements PermissionProvider
      * @var array
      */
     private static $db = [
-        'AmountTotal'                       => \SilverCart\ORM\FieldType\DBMoney::class, // value of all products
+        'AmountTotal'                       => SilverCartDBMoney::class, // value of all products
         'PriceType'                         => 'Varchar(24)',
-        'HandlingCostPayment'               => \SilverCart\ORM\FieldType\DBMoney::class,
-        'HandlingCostShipment'              => \SilverCart\ORM\FieldType\DBMoney::class,
+        'HandlingCostPayment'               => SilverCartDBMoney::class,
+        'HandlingCostShipment'              => SilverCartDBMoney::class,
         'TaxRatePayment'                    => 'Int',
         'TaxRateShipment'                   => 'Int',
         'TaxAmountPayment'                  => 'Float',
@@ -189,7 +227,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this); 
     }
@@ -200,7 +238,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this); 
     }
@@ -209,12 +247,8 @@ class Order extends DataObject implements PermissionProvider
      * Set permissions.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function providePermissions()
+    public function providePermissions() : array
     {
         return [
             'SILVERCART_ORDER_VIEW'   => $this->fieldLabel('SILVERCART_ORDER_VIEW'),
@@ -228,12 +262,9 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param Member $member declated to be compatible with parent
      *
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.20118
+     * @return bool
      */
-    public function canView($member = null)
+    public function canView($member = null) : bool
     {
         $canView = false;
         if (is_null($member)) {
@@ -254,12 +285,9 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param Member $member Member to check permission for
      *
-     * @return false 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.02.2012
+     * @return false
      */
-    public function canCreate($member = null, $context = [])
+    public function canCreate($member = null, $context = []) : bool
     {
         return false;
     }
@@ -269,12 +297,9 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param Member $member declated to be compatible with parent
      *
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.20118
+     * @return bool
      */
-    public function canEdit($member = null)
+    public function canEdit($member = null) : bool
     {
         return Permission::checkMember($member, 'SILVERCART_ORDER_EDIT');
     }
@@ -284,12 +309,9 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param Member $member declated to be compatible with parent
      *
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.20118
+     * @return bool
      */
-    public function canDelete($member = null)
+    public function canDelete($member = null) : bool
     {
         return Permission::checkMember($member, 'SILVERCART_ORDER_DELETE');
     }
@@ -298,12 +320,8 @@ class Order extends DataObject implements PermissionProvider
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $summaryFields = [
             'CreatedNice'                => $this->fieldLabel('Created'),
@@ -328,101 +346,88 @@ class Order extends DataObject implements PermissionProvider
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      * 
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
-        $this->beforeUpdateFieldLabels(function (&$labels) {
-            $labels = array_merge(
-                    $labels,
-                    Tools::field_labels_for(self::class),
-                    [
-                        'ID'                               => _t(Order::class . '.ORDER_ID', 'Ordernumber'),
-                        'Created'                          => Page::singleton()->fieldLabel('OrderDate'),
-                        'OrderNumber'                      => _t(Order::class . '.ORDERNUMBER', 'ordernumber'),
-                        'OrderNumberShort'                 => _t(Order::class . '.OrderNumberShort', 'Orderno.'),
-                        'ShippingFee'                      => _t(Order::class . '.SHIPPINGRATE', 'shipping costs'),
-                        'Note'                             => _t(Order::class . '.NOTE', 'Note'),
-                        'YourNote'                         => _t(Order::class . '.YOUR_REMARK', 'Your note'),
-                        'Member'                           => _t(Order::class . '.CUSTOMER', 'customer'),
-                        'Customer'                         => _t(Order::class . '.CUSTOMER', 'customer'),
-                        'CustomerData'                     => _t(Order::class . '.CUSTOMERDATA', 'Customer Data'),
-                        'MemberCustomerNumber'             => Member::singleton()->fieldLabel('CustomerNumber'),
-                        'MemberEmail'                      => Member::singleton()->fieldLabel('Email'),
-                        'Email'                            => Address::singleton()->fieldLabel('Email'),
-                        'ShippingAddress'                  => Address::singleton()->fieldLabel('ShippingAddress'),
-                        'ShippingAddressFirstName'         => Address::singleton()->fieldLabel('FirstName'),
-                        'ShippingAddressSurname'           => Address::singleton()->fieldLabel('Surname'),
-                        'ShippingAddressCountry'           => Country::singleton()->singular_name(),
-                        'ShippingAndInvoiceAddress'        => _t(Page::class . '.SHIPPING_AND_BILLING', 'Shipping and invoice address'),
-                        'InvoiceAddress'                   => Address::singleton()->fieldLabel('InvoiceAddress'),
-                        'OrderStatus'                      => _t(Order::class . '.STATUS', 'order status'),
-                        'AmountTotal'                      => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
-                        'PriceType'                        => _t(Order::class . '.PRICETYPE', 'Price-Display-Type'),
-                        'HandlingCost'                     => _t(Order::class . '.HandlingCost', 'Handling cost'),
-                        'HandlingCostPayment'              => _t(Order::class . '.HANDLINGCOSTPAYMENT', 'Payment handling costs'),
-                        'HandlingCostShipment'             => _t(Order::class . '.HANDLINGCOSTSHIPMENT', 'Shipping handling costs'),
-                        'TaxRatePayment'                   => _t(Order::class . '.TAXRATEPAYMENT', 'Payment tax rate'),
-                        'TaxRateShipment'                  => _t(Order::class . '.TAXRATESHIPMENT', 'Shipping tax rate'),
-                        'TaxAmountPayment'                 => _t(Order::class . '.TAXAMOUNTPAYMENT', 'Pamyent tax amount'),
-                        'TaxAmountShipment'                => _t(Order::class . '.TAXAMOUNTSHIPMENT', 'Shipping tax amountt'),
-                        'WeightTotal'                      => _t(Order::class . '.WEIGHTTOTAL', 'Total weight'),
-                        'CustomersEmail'                   => _t(Order::class . '.CUSTOMERSEMAIL', 'Customers email address'),
-                        'PaymentMethod'                    => PaymentMethod::singleton()->singular_name(),
-                        'ShippingMethod'                   => ShippingMethod::singleton()->singular_name(),
-                        'HasAcceptedTermsAndConditions'    => _t(Order::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'Has accepted terms and conditions'),
-                        'HasAcceptedRevocationInstruction' => _t(Order::class . '.HASACCEPTEDREVOCATIONINSTRUCTION', 'Has accepted revocation instruction'),
-                        'OrderPositions'                   => OrderPosition::singleton()->plural_name(),
-                        'OrderPositionsProductNumber'      => Product::singleton()->fieldLabel('ProductNumberShop'),
-                        'OrderPositionData'                => _t(Order::class . '.ORDERPOSITIONDATA', 'Position Data'),
-                        'OrderPositionQuantity'            => _t(Order::class . '.ORDERPOSITIONQUANTITY', 'Position Quantity'),
-                        'OrderPositionIsLimit'             => _t(Order::class . '.ORDERPOSITIONISLIMIT', 'Order may not have other positions'),
-                        'SearchResultsLimit'               => _t(Order::class . '.SEARCHRESULTSLIMIT', 'Limit'),
-                        'BasicData'                        => _t(Order::class . '.BASICDATA', 'Basics'),
-                        'MiscData'                         => _t(Order::class . '.MISCDATA', 'Others'),
-                        'ShippingAddressTab'               => _t(AddressHolder::class . '.SHIPPINGADDRESS_TAB', 'Shippingaddress'),
-                        'InvoiceAddressTab'                => _t(AddressHolder::class . '.INVOICEADDRESS_TAB', 'Invoiceaddress'),
-                        'Print'                            => _t(Order::class . '.PRINT', 'Print order'),
-                        'PrintPreview'                     => _t(Order::class . '.PRINT_PREVIEW', 'Print preview'),
-                        'EmptyString'                      => Tools::field_label('PleaseChoose'),
-                        'ChangeOrderStatus'                => _t(Order::class . '.BATCH_CHANGEORDERSTATUS', 'Change order status to...'),
-                        'ChangePaymentStatus'              => _t(Order::class . '.BATCH_CHANGEPAYMENTSTATUS', 'Change payment status to...'),
-                        'IsSeen'                           => _t(Order::class . '.IS_SEEN', 'Seen'),
-                        'OrderLogs'                        => OrderLog::singleton()->plural_name(),
-                        'ValueOfGoods'                     => Page::singleton()->fieldLabel('ValueOfGoods'),
-                        'Tracking'                         => _t(Order::class . '.Tracking', 'Tracking'),
-                        'TrackingCode'                     => _t(Order::class . '.TrackingCode', 'Tracking Code'),
-                        'TrackingLink'                     => _t(Order::class . '.TrackingLink', 'Tracking Link'),
-                        'TrackingLinkLabel'                => _t(Order::class . '.TrackingLinkLabel', 'Reveal where my shipment currently is'),
-                        'PaymentReferenceID'               => _t(Order::class . '.PaymentReferenceID', 'Payment Provider Reference Number'),
-                        'PaymentReferenceMessage'          => _t(Order::class . '.PaymentReferenceMessage', 'Payment Provider Reference Message'),
-                        'PaymentReferenceData'             => _t(Order::class . '.PaymentReferenceData', 'Payment Provider Reference Data'),
-                        'ExpectedDelivery'                 => _t(Order::class . '.ExpectedDelivery', 'Expected Delivery'),
-                        'ExpectedDeliveryMax'              => _t(Order::class . '.ExpectedDeliveryMax', 'Maximum expected Delivery'),
-                        'ExpectedDeliveryMin'              => _t(Order::class . '.ExpectedDeliveryMin', 'Minimum expected Delivery'),
-                        'DateFormat'                       => Tools::field_label('DateFormat'),
-                        'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
-                        'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
-                        'SILVERCART_ORDER_VIEW'            => _t(Order::class . '.SILVERCART_ORDER_VIEW', 'View order'),
-                        'SILVERCART_ORDER_EDIT'            => _t(Order::class . '.SILVERCART_ORDER_EDIT', 'Edit order'),
-                        'SILVERCART_ORDER_DELETE'          => _t(Order::class . '.SILVERCART_ORDER_DELETE', 'Delete order'),
-                    ]
-            );
-        });
-        return parent::fieldLabels($includerelations);
+        return $this->defaultFieldLabels($includerelations, [
+            'ID'                               => _t(Order::class . '.ORDER_ID', 'Ordernumber'),
+            'Created'                          => Page::singleton()->fieldLabel('OrderDate'),
+            'OrderNumber'                      => _t(Order::class . '.ORDERNUMBER', 'ordernumber'),
+            'OrderNumberShort'                 => _t(Order::class . '.OrderNumberShort', 'Orderno.'),
+            'ShippingFee'                      => _t(Order::class . '.SHIPPINGRATE', 'shipping costs'),
+            'Note'                             => _t(Order::class . '.NOTE', 'Note'),
+            'YourNote'                         => _t(Order::class . '.YOUR_REMARK', 'Your note'),
+            'Member'                           => _t(Order::class . '.CUSTOMER', 'customer'),
+            'Customer'                         => _t(Order::class . '.CUSTOMER', 'customer'),
+            'CustomerData'                     => _t(Order::class . '.CUSTOMERDATA', 'Customer Data'),
+            'MemberCustomerNumber'             => Member::singleton()->fieldLabel('CustomerNumber'),
+            'MemberEmail'                      => Member::singleton()->fieldLabel('Email'),
+            'Email'                            => Address::singleton()->fieldLabel('Email'),
+            'ShippingAddress'                  => Address::singleton()->fieldLabel('ShippingAddress'),
+            'ShippingAddressFirstName'         => Address::singleton()->fieldLabel('FirstName'),
+            'ShippingAddressSurname'           => Address::singleton()->fieldLabel('Surname'),
+            'ShippingAddressCountry'           => Country::singleton()->singular_name(),
+            'ShippingAndInvoiceAddress'        => _t(Page::class . '.SHIPPING_AND_BILLING', 'Shipping and invoice address'),
+            'InvoiceAddress'                   => Address::singleton()->fieldLabel('InvoiceAddress'),
+            'OrderStatus'                      => _t(Order::class . '.STATUS', 'order status'),
+            'AmountTotal'                      => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
+            'PriceType'                        => _t(Order::class . '.PRICETYPE', 'Price-Display-Type'),
+            'HandlingCost'                     => _t(Order::class . '.HandlingCost', 'Handling cost'),
+            'HandlingCostPayment'              => _t(Order::class . '.HANDLINGCOSTPAYMENT', 'Payment handling costs'),
+            'HandlingCostShipment'             => _t(Order::class . '.HANDLINGCOSTSHIPMENT', 'Shipping handling costs'),
+            'TaxRatePayment'                   => _t(Order::class . '.TAXRATEPAYMENT', 'Payment tax rate'),
+            'TaxRateShipment'                  => _t(Order::class . '.TAXRATESHIPMENT', 'Shipping tax rate'),
+            'TaxAmountPayment'                 => _t(Order::class . '.TAXAMOUNTPAYMENT', 'Pamyent tax amount'),
+            'TaxAmountShipment'                => _t(Order::class . '.TAXAMOUNTSHIPMENT', 'Shipping tax amountt'),
+            'WeightTotal'                      => _t(Order::class . '.WEIGHTTOTAL', 'Total weight'),
+            'CustomersEmail'                   => _t(Order::class . '.CUSTOMERSEMAIL', 'Customers email address'),
+            'PaymentMethod'                    => PaymentMethod::singleton()->singular_name(),
+            'ShippingMethod'                   => ShippingMethod::singleton()->singular_name(),
+            'HasAcceptedTermsAndConditions'    => _t(Order::class . '.HASACCEPTEDTERMSANDCONDITIONS', 'Has accepted terms and conditions'),
+            'HasAcceptedRevocationInstruction' => _t(Order::class . '.HASACCEPTEDREVOCATIONINSTRUCTION', 'Has accepted revocation instruction'),
+            'OrderPositions'                   => OrderPosition::singleton()->plural_name(),
+            'OrderPositionsProductNumber'      => Product::singleton()->fieldLabel('ProductNumberShop'),
+            'OrderPositionData'                => _t(Order::class . '.ORDERPOSITIONDATA', 'Position Data'),
+            'OrderPositionQuantity'            => _t(Order::class . '.ORDERPOSITIONQUANTITY', 'Position Quantity'),
+            'OrderPositionIsLimit'             => _t(Order::class . '.ORDERPOSITIONISLIMIT', 'Order may not have other positions'),
+            'SearchResultsLimit'               => _t(Order::class . '.SEARCHRESULTSLIMIT', 'Limit'),
+            'BasicData'                        => _t(Order::class . '.BASICDATA', 'Basics'),
+            'MiscData'                         => _t(Order::class . '.MISCDATA', 'Others'),
+            'ShippingAddressTab'               => _t(AddressHolder::class . '.SHIPPINGADDRESS_TAB', 'Shippingaddress'),
+            'InvoiceAddressTab'                => _t(AddressHolder::class . '.INVOICEADDRESS_TAB', 'Invoiceaddress'),
+            'Print'                            => _t(Order::class . '.PRINT', 'Print order'),
+            'PrintPreview'                     => _t(Order::class . '.PRINT_PREVIEW', 'Print preview'),
+            'EmptyString'                      => Tools::field_label('PleaseChoose'),
+            'ChangeOrderStatus'                => _t(Order::class . '.BATCH_CHANGEORDERSTATUS', 'Change order status to...'),
+            'ChangePaymentStatus'              => _t(Order::class . '.BATCH_CHANGEPAYMENTSTATUS', 'Change payment status to...'),
+            'IsSeen'                           => _t(Order::class . '.IS_SEEN', 'Seen'),
+            'OrderLogs'                        => OrderLog::singleton()->plural_name(),
+            'ValueOfGoods'                     => Page::singleton()->fieldLabel('ValueOfGoods'),
+            'Tracking'                         => _t(Order::class . '.Tracking', 'Tracking'),
+            'TrackingCode'                     => _t(Order::class . '.TrackingCode', 'Tracking Code'),
+            'TrackingLink'                     => _t(Order::class . '.TrackingLink', 'Tracking Link'),
+            'TrackingLinkLabel'                => _t(Order::class . '.TrackingLinkLabel', 'Reveal where my shipment currently is'),
+            'PaymentReferenceID'               => _t(Order::class . '.PaymentReferenceID', 'Payment Provider Reference Number'),
+            'PaymentReferenceMessage'          => _t(Order::class . '.PaymentReferenceMessage', 'Payment Provider Reference Message'),
+            'PaymentReferenceData'             => _t(Order::class . '.PaymentReferenceData', 'Payment Provider Reference Data'),
+            'ExpectedDelivery'                 => _t(Order::class . '.ExpectedDelivery', 'Expected Delivery'),
+            'ExpectedDeliveryMax'              => _t(Order::class . '.ExpectedDeliveryMax', 'Maximum expected Delivery'),
+            'ExpectedDeliveryMin'              => _t(Order::class . '.ExpectedDeliveryMin', 'Minimum expected Delivery'),
+            'DateFormat'                       => Tools::field_label('DateFormat'),
+            'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
+            'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
+            'SILVERCART_ORDER_VIEW'            => _t(Order::class . '.SILVERCART_ORDER_VIEW', 'View order'),
+            'SILVERCART_ORDER_EDIT'            => _t(Order::class . '.SILVERCART_ORDER_EDIT', 'Edit order'),
+            'SILVERCART_ORDER_DELETE'          => _t(Order::class . '.SILVERCART_ORDER_DELETE', 'Delete order'),
+        ]);
     }
     
     /**
      * Searchable fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function searchableFields()
+    public function searchableFields() : array
     {
         $address          = Address::singleton();
         $searchableFields = [
