@@ -1153,88 +1153,78 @@ class PaymentMethod extends DataObject
      * writes a payment method to the db in case none does exist yet
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
      */
-    public function requireDefaultRecords()
+    public function requireDefaultRecords() : void
     {
-        parent::requireDefaultRecords();
-
         $this->createUploadFolder();
-
         // not a base class
         if ($this->moduleName !== '') {
-
-            $className = $this->ClassName;
             if ($this->hasMultiplePaymentChannels()) {
-                $paymentModule = new $className();
+                $paymentModule = static::create();
                 foreach ($paymentModule->getPossiblePaymentChannels() as $channel => $name) {
-                    if (!DataObject::get($className)->filter('PaymentChannel', $channel)->exists()) {
-                        $paymentMethod = new $className();
+                    if (!static::get()->filter('PaymentChannel', $channel)->exists()) {
+                        $paymentMethod = static::create();
                         $paymentMethod->isActive       = 0;
                         $paymentMethod->PaymentChannel = $channel;
                         $paymentMethod->write();
-                        $languages = ['de_DE', 'en_US', 'en_GB'];
-
-                        if (!in_array(Tools::current_locale(), $languages)) {
-                            $languages[] = Tools::current_locale();
-                        }
-                        $languageClassName = $this->ClassName . 'Translation';
-                        foreach ($languages as $language) {
-                            $reflection = new ReflectionClass($this->ClassName);
-                            $relationField = $reflection->getShortName() . 'ID';
-                            $table  = Tools::get_table_name(PaymentMethodTranslation::class);
-                            $filter = sprintf('"' . $table . '"."Locale" = \'%s\' AND "%s" = \'%s\'', $language, $relationField, $paymentMethod->ID);
-                            $langObj = DataObject::get_one($languageClassName, $filter);
-                            if (!$langObj) {
-                                $langObj = new $languageClassName();
-                                $langObj->Locale = $language;
-                            }
-                            $langObj->Name = $name;
-                            $langObj->{$relationField} = $paymentMethod->ID;
-                            $langObj->write();
-                        }
+                        $this->addTranslationsTo($paymentMethod, $name);
                     }
                 }
-            } elseif (!DataObject::get_one($className)) {
+            } elseif (!static::get()->exists()) {
                 // entry does not exist yet
                 //prepayment's default record gets activated if test data is enabled
-                if ($this->moduleName == "Prepayment" && RequireDefaultRecords::isEnabledTestData()) {
+                if ($this->moduleName == "Prepayment"
+                 && RequireDefaultRecords::isEnabledTestData()
+                ) {
                     $this->isActive = 1;
                     //As we do not know if the country is instanciated yet we do write this relation in the country class too.
                     $germany = Country::get()->filter('ISO2', 'DE')->first();
-                    if ($germany) {
+                    if ($germany instanceof Country) {
                         $this->Countries()->add($germany);
                     }
                 } else {
                     $this->isActive = 0;
                 }
-                $this->Name     = _t($className . '.NAME',  $this->moduleName);
-                $this->Title    = _t($className . '.TITLE', $this->moduleName);
+                $this->Name  = _t(static::class . '.NAME',  $this->moduleName);
+                $this->Title = _t(static::class . '.TITLE', $this->moduleName);
                 $this->write();
-                $languages = ['de_DE', 'en_US', 'en_GB'];
-                foreach ($languages as $language) {
-                    $reflection = new ReflectionClass($this->ClassName);
-                    $filter = sprintf(
-                       '"%s"."Locale" = \'%s\' AND "%sID" = \'%s\'',
-                        Tools::get_table_name(PaymentMethodTranslation::class),
-                        $language,
-                        $reflection->getShortName(),
-                        $this->ID
-                    );
-                    $langObjClassName   = get_class($this) . 'Translation';
-                    $langObjClassNameId = $langObjClassName.'ID';
-                    $langObj = DataObject::get_one($langObjClassName, $filter);
-                    if (!$langObj) {
-                        $langObj = new $langObjClassName();
-                        $langObj->Locale = $language;
-                    }
-                    $langObj->Name = $this->moduleName;
-                    $langObj->setField($langObjClassNameId, $this->ID);
-                    $langObj->write();
-                }
+                $this->addTranslationsTo($this, $this->moduleName);
             }
+        }
+        parent::requireDefaultRecords();
+    }
+    
+    /**
+     * Adds the default translations to the given $paymentMethod.
+     * 
+     * @param PaymentMethod $paymentMethod Payment method
+     * @param string        $moduleName    Module name
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.08.2019
+     */
+    protected function addTranslationsTo(PaymentMethod $paymentMethod, string $moduleName)
+    {
+        $locales = ['de_DE', 'en_US', 'en_GB'];
+        if (!in_array(Tools::current_locale(), $locales)) {
+            $locales[] = Tools::current_locale();
+        }
+        $translationClassName = static::class . 'Translation';
+        foreach ($locales as $locale) {
+            $reflection    = new ReflectionClass(static::class);
+            $relationField = "{$reflection->getShortName()}ID";
+            $table         = PaymentMethodTranslation::config()->table_name;
+            $filter        = "{$table}.Locale = '{$locale}' AND {$relationField} = '{$paymentMethod->ID}'";
+            $translation   = DataObject::get($translationClassName)->where($filter)->first();
+            if (!($translation instanceof DataObject)) {
+                $translation = Injector::inst()->create($translationClassName);
+                $translation->Locale = $locale;
+            }
+            $translation->Name             = $moduleName;
+            $translation->{$relationField} = $paymentMethod->ID;
+            $translation->write();
         }
     }
     
