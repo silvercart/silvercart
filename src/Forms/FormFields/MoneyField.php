@@ -2,10 +2,12 @@
 
 namespace SilverCart\Forms\FormFields;
 
+use NumberFormatter;
 use SilverCart\Admin\Model\Config;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\View\Requirements;
+use SilverStripe\Forms\MoneyField as SilverStripeMoneyField;
 
 /** 
  * A formfield for editing Money values.
@@ -17,8 +19,8 @@ use SilverStripe\View\Requirements;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class MoneyField extends \SilverStripe\Forms\MoneyField {
-    
+class MoneyField extends SilverStripeMoneyField
+{
     /**
      * Determines whether the currency is a readonly property.
      *
@@ -145,12 +147,22 @@ class MoneyField extends \SilverStripe\Forms\MoneyField {
      * 
      * @param bool $currencyIsReadonly Currency is readonly?
      * 
-     * @return void
+     * @return MoneyField
      */
-    public function setCurrencyIsReadonly($currencyIsReadonly) {
+    public function setCurrencyIsReadonly(bool $currencyIsReadonly) : MoneyField
+    {
         $this->currencyIsReadonly = $currencyIsReadonly;
-        $this->fieldCurrency      = $this->FieldCurrency($this->name);
+        $this->buildCurrencyField();
         return $this;
     }
     
+    /**
+     * Returns the currency symbol.
+     * 
+     * @return string
+     */
+    public function CurrencySymbol() : string
+    {
+        return $this->getDBMoney()->getFormatter()->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
+    }
 }
