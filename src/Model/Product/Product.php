@@ -3385,19 +3385,10 @@ class Product extends DataObject implements PermissionProvider
             $quantityEntry = $quantity;
             $operator      = '+';
         }
-        $productTable = $this->config()->table_name;
-        DB::query("LOCK TABLES {$productTable} WRITE");
-        DB::query("UPDATE {$productTable} SET StockQuantity = (StockQuantity {$operator} {$quantity}) WHERE ID = '{$this->ID}'");
-        $results = DB::query("SELECT StockQuantity FROM {$productTable} WHERE ID = '{$this->ID}'");
-        DB::query("UNLOCK TABLES");
-        
-        $firstRow                        = $results->first();
-        $stockQuantityBefore             = $this->StockQuantity;
-        $stockQuantity                   = $firstRow['StockQuantity'];
-        $this->StockQuantity             = $stockQuantity;
-        $this->original['StockQuantity'] = $stockQuantity;
-
-        StockItemEntry::add($this, $quantityEntry, $origin, $reason, null, $order, true);
+        $stockQuantityBefore  = $this->StockQuantity;
+        $this->StockQuantity += $quantityEntry;
+        $stockQuantity        = $this->StockQuantity;
+        StockItemEntry::add($this, $quantityEntry, $origin, $reason, null, $order, false);
         $this->checkForAvailabilityStatusChange($stockQuantityBefore);
         $this->extend('onAfterUpdateStockQuantity', $stockQuantityBefore, $stockQuantity);
         return $this;
