@@ -606,8 +606,9 @@ class Tools
                || strpos($_SERVER['QUERY_STRING'], 'dev/build') !== false))
              || (array_key_exists('SCRIPT_NAME', $_SERVER)
               && strpos($_SERVER['SCRIPT_NAME'], 'install.php') !== false)
-             || ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR.'/cli-script.php'
-              || $_SERVER['SCRIPT_NAME'] === '/' . FRAMEWORK_DIR.'/cli-script.php')
+             || ($_SERVER['SCRIPT_NAME'] === FRAMEWORK_DIR . '/cli-script.php'
+              || $_SERVER['SCRIPT_NAME'] === '/' . FRAMEWORK_DIR . '/cli-script.php'
+              || $_SERVER['SCRIPT_NAME'] === FRAMEWORK_PATH . '/cli-script.php')
             ) {
                 self::$isIsolatedEnvironment = true;
             }
