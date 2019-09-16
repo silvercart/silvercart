@@ -462,6 +462,7 @@ class CustomForm extends Form
             $this->doSubmit($data, $form);
         }
         $this->extend('onAfterSubmit', $data, $form);
+        return $this->getController()->render();
     }
     
     /**

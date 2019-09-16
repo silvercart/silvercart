@@ -1,0 +1,2 @@
+<script src="https://www.google.com/recaptcha/api.js?hl={$Form.Controller.ContentLocale}"></script>
+<div class="clearfix"><div class="g-recaptcha float-right" data-sitekey="{$RecaptchaSiteKey}"></div></div>

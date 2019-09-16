@@ -2136,6 +2136,8 @@ de:
     FieldMustHaveValue: 'Bitte geben Sie den gleichen Wert ein wie im Feld "{name}".'
     FieldMustNotBeEmail: "Bitte geben Sie hier keine Email Adresse an."
     FieldMustNotContainSpecialSigns: 'Das Feld "{name}" darf nur Buchstaben, Zahlen und die Zeichen "@" und "." enthalten.'
+  SilverCart\Forms\FormFields\GoogleRecaptchaField:
+    Verify: "Bitte bestätigen Sie, dass Sie kein Roboter sind."
   SilverCart\Forms\FormFields\TextCheckboxGroupField:
     Displayed: "Wird angezeigt"
     NotDisplayed: "Wird nicht angezeigt"

@@ -4,6 +4,7 @@ namespace SilverCart\Forms;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
+use SilverCart\Forms\FormFields\GoogleRecaptchaField;
 use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\ContactMessage;
@@ -26,7 +27,6 @@ use SilverStripe\Security\Member;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
- * @todo Implement spam check
  */
 class ContactForm extends CustomForm
 {
@@ -146,7 +146,8 @@ class ContactForm extends CustomForm
                     $this->getStreetFields(),
                     $this->getCityFields(),
                     $this->getCountryFields(),
-                    $this->getPhoneFields()
+                    $this->getPhoneFields(),
+                    $this->getGoogleRecaptchaFields()
             );
         });
         return parent::getCustomFields();
@@ -223,6 +224,20 @@ class ContactForm extends CustomForm
     }
     
     /**
+     * Returns the Google reCAPTCHA related form fields.
+     * 
+     * @return array
+     */
+    protected function getGoogleRecaptchaFields() : array
+    {
+        $fields = [];
+        if ($this->EnableGoogleRecaptcha()) {
+            $fields[] = GoogleRecaptchaField::create('GoogleRecaptcha', $this->fieldLabel('GoogleRecaptcha'));
+        }
+        return $fields;
+    }
+    
+    /**
      * Returns the static form fields.
      * 
      * @return array
@@ -257,6 +272,14 @@ class ContactForm extends CustomForm
             if ($firstName == $surname) {
                 // Very high spam risk. Do not accept and do not notify with message.
                 $this->getController()->redirect($this->getController()->Link('thanks'));
+                return;
+            }
+        }
+        if ($this->EnableGoogleRecaptcha()) {
+            $verified = GoogleRecaptchaField::verifyRequest();
+            if (!$verified) {
+                $this->setErrorMessage(_t(GoogleRecaptchaField::class . '.Verify', 'Please verify that you are not a robot.'));
+                $this->setSessionData($this->getData());
                 return;
             }
         }
@@ -420,5 +443,16 @@ class ContactForm extends CustomForm
     public function PhoneNumberIsRequired() : bool
     {
         return (bool) $this->ContactPage()->PhoneNumberIsRequired;
+    }
+    
+    /**
+     * Returns whether Google reCAPTCHA is enabled or not.
+     * 
+     * @return bool
+     */
+    public function EnableGoogleRecaptcha() : bool
+    {
+        return !empty(GoogleRecaptchaField::config()->recaptcha_secret)
+            && !empty(GoogleRecaptchaField::config()->recaptcha_site_key);
     }
 }
