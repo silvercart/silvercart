@@ -23,11 +23,28 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Code      Status code
+ * @property bool   $IsDefault Determines whether this status is the default status
+ * 
+ * @property string $IsDefaultString Human readable string to display the default status
+ * @property string $Title           Status title
+ * 
+ * @method \SilverStripe\ORM\HasManyList Orders()                  Returns the related orders.
+ * @method \SilverStripe\ORM\HasManyList OrderStatusTranslations() Returns the related translations.
+ * 
+ * @method \SilverStripe\ORM\ManyManyList ShopEmails()                Returns the related shop emails.
+ * @method \SilverStripe\ORM\ManyManyList PaymentMethodRestrictions() Returns the related PaymentMethodRestrictions.
  */
 class OrderStatus extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
+    const STATUS_CODE_NEW        = 'new';
+    const STATUS_CODE_CANCELED   = 'canceled';
+    const STATUS_CODE_COMPLETED  = 'completed';
+    const STATUS_CODE_INPROGRESS = 'inprogress';
+    const STATUS_CODE_SHIPPED    = 'shipped';
     /**
      * Returns the default OrderStatus.
      * 
@@ -35,7 +52,8 @@ class OrderStatus extends DataObject
      * 
      * @return OrderStatus
      */
-    public static function get_default($withFallback = true) {
+    public static function get_default(bool $withFallback = true) : ?OrderStatus
+    {
         $default = self::get()->filter('IsDefault', true)->first();
         if ($withFallback
          && (!($default instanceof OrderStatus)
@@ -114,11 +132,11 @@ class OrderStatus extends DataObject
      * @var array 
      */
     private static $default_codes = [
-        'new',
-        'canceled',
-        'completed',
-        'inprogress',
-        'shipped',
+        self::STATUS_CODE_NEW,
+        self::STATUS_CODE_CANCELED,
+        self::STATUS_CODE_COMPLETED,
+        self::STATUS_CODE_INPROGRESS,
+        self::STATUS_CODE_SHIPPED,
     ];
 
     /**
@@ -127,7 +145,7 @@ class OrderStatus extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -138,7 +156,7 @@ class OrderStatus extends DataObject
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }  
@@ -149,9 +167,9 @@ class OrderStatus extends DataObject
      *
      * @return string 
      */
-    public function getTitle()
+    public function getTitle() : string
     {
-        return $this->getTranslationFieldValue('Title');
+        return (string) $this->getTranslationFieldValue('Title');
     }
 
     /**
@@ -160,36 +178,26 @@ class OrderStatus extends DataObject
      * @param bool $includerelations include relations?
      * 
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
-        $this->beforeUpdateFieldLabels(function (&$labels) {
-            $labels = array_merge(
-                    $labels,
-                    Tools::field_labels_for(self::class),
-                    [
-                        'Title'                         => Page::singleton()->fieldLabel('Title'),
-                        'BadgeColor'                    => _t(OrderStatus::class . '.BADGECOLOR', 'Color code'),
-                        'Code'                          => _t(OrderStatus::class . '.CODE', 'Code'),
-                        'Orders'                        => Order::singleton()->plural_name(),
-                        'PaymentMethodRestrictions'     => PaymentMethod::singleton()->plural_name(),
-                        'OrderStatusTranslations'       => OrderStatusTranslation::singleton()->plural_name(),
-                        'ShopEmailsTab'                 => _t(OrderStatus::class . '.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE', 'Attributed emails'),
-                        'ShopEmailLabelField'           => _t(OrderStatus::class . '.ATTRIBUTED_SHOPEMAILS_LABEL_DESC', 'The following checked emails get sent when this order status is set for an order:'),
-                        'ShopEmails'                    => _t(ShopEmail::class . '.PLURALNAME', 'Shop Emails'),
-                        'OrderStatusTranslations.Title' => Page::singleton()->fieldLabel('Title'),
-                        'DefaultStatusNew'              => _t(self::class . '.DefaultStatusNew', 'New'),
-                        'DefaultStatusCanceled'         => _t(self::class . '.DefaultStatusCanceled', 'Canceled'),
-                        'DefaultStatusCompleted'        => _t(self::class . '.DefaultStatusCompleted', 'Completed'),
-                        'DefaultStatusInprogress'       => _t(self::class . '.DefaultStatusInprogress', 'In Progress'),
-                        'DefaultStatusShipped'          => _t(self::class . '.DefaultStatusShipped', 'Shipped'),
-                    ]
-            );
-        });
-        return parent::fieldLabels($includerelations);
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'                         => Page::singleton()->fieldLabel('Title'),
+            'BadgeColor'                    => _t(OrderStatus::class . '.BADGECOLOR', 'Color code'),
+            'Code'                          => _t(OrderStatus::class . '.CODE', 'Code'),
+            'Orders'                        => Order::singleton()->plural_name(),
+            'PaymentMethodRestrictions'     => PaymentMethod::singleton()->plural_name(),
+            'OrderStatusTranslations'       => OrderStatusTranslation::singleton()->plural_name(),
+            'ShopEmailsTab'                 => _t(OrderStatus::class . '.ATTRIBUTED_SHOPEMAILS_LABEL_TITLE', 'Attributed emails'),
+            'ShopEmailLabelField'           => _t(OrderStatus::class . '.ATTRIBUTED_SHOPEMAILS_LABEL_DESC', 'The following checked emails get sent when this order status is set for an order:'),
+            'ShopEmails'                    => _t(ShopEmail::class . '.PLURALNAME', 'Shop Emails'),
+            'OrderStatusTranslations.Title' => Page::singleton()->fieldLabel('Title'),
+            'DefaultStatusNew'              => _t(self::class . '.DefaultStatusNew', 'New'),
+            'DefaultStatusCanceled'         => _t(self::class . '.DefaultStatusCanceled', 'Canceled'),
+            'DefaultStatusCompleted'        => _t(self::class . '.DefaultStatusCompleted', 'Completed'),
+            'DefaultStatusInprogress'       => _t(self::class . '.DefaultStatusInprogress', 'In Progress'),
+            'DefaultStatusShipped'          => _t(self::class . '.DefaultStatusShipped', 'Shipped'),
+        ]);
     }
     
     /**
@@ -199,11 +207,8 @@ class OrderStatus extends DataObject
      * This is a performance friendly way to exclude fields.
      * 
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.02.2013
      */
-    public function excludeFromScaffolding()
+    public function excludeFromScaffolding() : array
     {
         $excludeFromScaffolding = [
             'Orders'
@@ -217,7 +222,7 @@ class OrderStatus extends DataObject
      *
      * @return FieldList all CMS fields related
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             $shopEmailLabelField = LiteralField::create(
@@ -240,7 +245,7 @@ class OrderStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    protected function onBeforeWrite()
+    protected function onBeforeWrite() : void
     {
         parent::onBeforeWrite();
         $defaultStatus = self::get_default(false);
@@ -265,10 +270,9 @@ class OrderStatus extends DataObject
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 27.10.2011
      */
-    public function sendMailFor(Order $order)
+    public function sendMailFor(Order $order) : void
     {
         $shopEmails = $this->ShopEmails();
-        
         if ($shopEmails) {
             foreach ($shopEmails as $shopEmail) {
                 ShopEmail::send(
@@ -286,7 +290,6 @@ class OrderStatus extends DataObject
                 );
             }
         }
-        
         $this->extend('updateSendMailFor', $order);
     }
 
@@ -295,7 +298,7 @@ class OrderStatus extends DataObject
      *
      * @return DataList
      */
-    public static function getStatusList()
+    public static function getStatusList() : \SilverStripe\ORM\DataList
     {
         return OrderStatus::get();
     }
@@ -308,7 +311,7 @@ class OrderStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2018
      */
-    public function requireDefaultRecords()
+    public function requireDefaultRecords() : void
     {
         $this->beforeRequireDefaultRecords(function() {
             foreach (self::config()->get('default_codes') as $default) {
@@ -332,12 +335,8 @@ class OrderStatus extends DataObject
      * Summaryfields for display in tables.
      *
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $summaryFields = [
             'Code'            => $this->fieldLabel('Code'),
@@ -352,11 +351,8 @@ class OrderStatus extends DataObject
      * Searchable fields.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function  searchableFields()
+    public function  searchableFields() : array
     {
         return [
             'OrderStatusTranslations.Title' => [
@@ -375,7 +371,7 @@ class OrderStatus extends DataObject
      *
      * @return string
      */
-    public function getIsDefaultString()
+    public function getIsDefaultString() : string
     {
         return $this->IsDefault ? Tools::field_label('Yes') : Tools::field_label('No');
     }

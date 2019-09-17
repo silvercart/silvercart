@@ -89,10 +89,18 @@ use SilverStripe\View\ViewableData;
  * @property string            $PaymentDate                      Payment Date
  * @property string            $ShippingDate                     Shipping Date
  * 
+ * @property int $ShippingAddressID The ID of the related ShippingAddress.
+ * @property int $InvoiceAddressID  The ID of the related InvoiceAddress.
+ * @property int $PaymentMethodID   The ID of the related PaymentMethod.
+ * @property int $ShippingMethodID  The ID of the related ShippingMethod.
+ * @property int $OrderStatusID     The ID of the related OrderStatus.
+ * @property int $PaymentStatusID   The ID of the related PaymentStatus.
+ * @property int $MemberID          The ID of the related Member.
+ * @property int $ShippingFeeID     The ID of the related ShippingFee.
+ * 
  * @method OrderShippingAddress ShippingAddress() Returns the related ShippingAddress.
  * @method OrderInvoiceAddress  InvoiceAddress()  Returns the related InvoiceAddress.
  * @method PaymentMethod        PaymentMethod()   Returns the related PaymentMethod.
- * @method ShippingMethod       ShippingMethod()  Returns the related ShippingMethod.
  * @method OrderStatus          OrderStatus()     Returns the related OrderStatus.
  * @method PaymentStatus        PaymentStatus()   Returns the related PaymentStatus.
  * @method Member               Member()          Returns the related Member.
@@ -3017,7 +3025,7 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
-    public function ShippingMethod()
+    public function ShippingMethod() : ?ShippingMethod
     {
         $shippingMethod = null;
         if ($this->getComponent('ShippingMethod')) {
