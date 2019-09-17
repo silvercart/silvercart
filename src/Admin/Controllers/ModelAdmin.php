@@ -49,7 +49,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
     /**
      * GridField of the edit form
      *
-     * @var GridField
+     * @var \SilverStripe\Forms\GridField\GridField
      */
     protected $gridField = null;
     /**
@@ -202,7 +202,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @param Form $form The edit form to get GridField for
      * 
-     * @return GridField
+     * @return \SilverStripe\Forms\GridField\GridField
      */
     public function getGridField($form)
     {
