@@ -79,7 +79,7 @@ class CarrierTranslation extends DataObject
      */
     public function fieldLabels($includerelations = true) : array
     {
-        $this->defaultFieldLabels($includerelations, [
+        return $this->defaultFieldLabels($includerelations, [
             'Title'     => Product::singleton()->fieldLabel('Title'),
             'FullTitle' => Carrier::singleton()->fieldLabel('FullTitle'),
             'Carrier'   => Carrier::singleton()->singular_name(),
