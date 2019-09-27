@@ -7,6 +7,7 @@ use SilverStripe\Dev\BuildTask;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
 
 class LocaleToolsTask extends BuildTask
@@ -97,6 +98,8 @@ class LocaleToolsTask extends BuildTask
     {
         $source = $request->postVar('SourceLocale');
         $target = $request->postVar('TargetLocale');
+        i18n::config()->merge('default_locale', $source);
+        i18n::set_locale($source);
         if (empty($source)
          || empty($target)
         ) {
