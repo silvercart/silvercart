@@ -7,6 +7,7 @@ use SilverCart\Admin\Model\CookiePolicyConfig;
 use SilverCart\Checkout\Checkout;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\ChangeLanguageForm;
+use SilverCart\Forms\LoginForm;
 use SilverCart\Forms\QuickLoginForm;
 use SilverCart\Forms\QuickSearchForm;
 use SilverCart\Model\Customer\Country;
@@ -968,5 +969,15 @@ class PageController extends ContentController
             $form->setHTMLID($htmlID);
         }
         return $form;
+    }
+    
+    /**
+     * Returns the LoginForm.
+     * 
+     * @return LoginForm
+     */
+    public function LoginForm()
+    {
+        return LoginForm::create($this);
     }
 }
