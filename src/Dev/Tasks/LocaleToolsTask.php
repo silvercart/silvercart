@@ -2,6 +2,7 @@
 
 namespace SilverCart\Dev\Tasks;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Control\HTTPRequest;
@@ -98,6 +99,7 @@ class LocaleToolsTask extends BuildTask
     {
         $source = $request->postVar('SourceLocale');
         $target = $request->postVar('TargetLocale');
+        Tools::set_current_locale($source);
         i18n::config()->merge('default_locale', $source);
         i18n::set_locale($source);
         if (empty($source)
