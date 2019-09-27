@@ -2,6 +2,7 @@
 
 namespace SilverCart\Dev;
 
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 
@@ -58,6 +59,46 @@ trait ExtendedBuildTask
             $this->printMessage("Action {$action} is not allowed on this task.");
             exit();
         }
+    }
+    
+    /**
+     * Returns the link with the given $action of this task.
+     * 
+     * @param string $action Action
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.05.2019
+     */
+    public function Link(string $action = '') : string
+    {
+        $relativeURL = Controller::curr()->getRequest()->getURL();
+        $absoluteURL = Director::absoluteURL($relativeURL);
+        if (!empty($action)) {
+            $absoluteURL .= DIRECTORY_SEPARATOR . $action;
+        }
+        return $absoluteURL;
+    }
+    
+    /**
+     * Returns the link with the given $action of this task.
+     * 
+     * @param string $action Action
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.05.2019
+     */
+    public function BaseLink(string $action = '') : string
+    {
+        $relativeURL = "dev/tasks/{$this->config()->segment}";
+        $absoluteURL = Director::absoluteURL($relativeURL);
+        if (!empty($action)) {
+            $absoluteURL .= DIRECTORY_SEPARATOR . $action;
+        }
+        return $absoluteURL;
     }
     
     /**
