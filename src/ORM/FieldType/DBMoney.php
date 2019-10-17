@@ -3,6 +3,7 @@
 namespace SilverCart\ORM\FieldType;
 
 use NumberFormatter;
+use SilverCart\Admin\Model\Config;
 use SilverCart\Forms\FormFields\MoneyField;
 
 /**
@@ -50,6 +51,9 @@ class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney
     public function getCurrency()
     {
         $currency = parent::getCurrency();
+        if (empty($currency)) {
+            $currency = Config::DefaultCurrency();
+        }
         $this->extend('updateCurrency', $currency);
         return $currency;
     }
@@ -70,6 +74,8 @@ class DBMoney extends \SilverStripe\ORM\FieldType\DBMoney
         $amount    = $this->getAmount();
         $locale    = $this->getLocale();
         $formatter = NumberFormatter::create($locale, NumberFormatter::DECIMAL);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
         return $formatter->format($amount);
     }
 
