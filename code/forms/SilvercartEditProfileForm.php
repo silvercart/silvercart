@@ -97,7 +97,7 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
             'type' => 'PasswordField',
             'title' => 'Passwort',
             'checkRequirements' => array(
-                    'hasMinLength' => 6
+                    'hasMinLength' => 8
             )
         ),
         'PasswordCheck' => array(
@@ -251,6 +251,22 @@ class SilvercartEditProfileForm extends CustomHtmlForm {
         unset($registrationData['PasswordCheck']);
         if (empty($registrationData['Password'])) {
             unset($registrationData['Password']);
+        } else {
+            $validator = Member::password_validator();
+            if ($validator instanceof PasswordValidator) {
+                $result = $validator->validate($registrationData['Password'], $member);
+                if (!$result->valid()) {
+                    $this->errorMessages['Password'] = array(
+                        'message'      => $result->message(),
+                        'fieldname'    => _t('SilvercartPage.PASSWORD'),
+                        'Password' => array(
+                            'message' => $result->message(),
+                        )
+                    );
+                    $this->setSubmitSuccess(false);
+                    return $this->submitFailure($data, $form);
+                }
+            }
         }
 
         // birthday

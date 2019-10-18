@@ -269,7 +269,7 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
                     'title'             => _t('SilvercartPage.PASSWORD'),
                     'checkRequirements' => array(
                         'isFilledIn'    => true,
-                        'hasMinLength'  => 6,
+                        'hasMinLength'  => 8,
                         'mustNotEqual'  => 'Email',
                     )
                 ),
@@ -439,7 +439,22 @@ class SilvercartRegisterRegularCustomerForm extends CustomHtmlForm {
         }
 
         // Create new regular customer and perform a log in
-        $customer = new Member();
+        $customer  = new Member();
+        $validator = Member::password_validator();
+        if ($validator instanceof PasswordValidator) {
+            $result = $validator->validate($formData['Password'], $customer);
+            if (!$result->valid()) {
+                $this->errorMessages['Password'] = array(
+                    'message'      => $result->message(),
+                    'fieldname'    => _t('SilvercartPage.PASSWORD'),
+                    'Password' => array(
+                        'message' => $result->message(),
+                    )
+                );
+                $this->setSubmitSuccess(false);
+                return $this->submitFailure($data, $form);
+            }
+        }
 
         // Pass shoppingcart to registered customer and delete the anonymous
         // customer.
