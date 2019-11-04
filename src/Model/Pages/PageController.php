@@ -602,7 +602,7 @@ class PageController extends ContentController
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage")
+    public static function PageByIdentifierCode($identifierCode = Page::IDENTIFIER_FRONT_PAGE)
     {
         return Tools::PageByIdentifierCode($identifierCode);
     }
@@ -617,7 +617,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage")
+    public static function PageByIdentifierCodeLink($identifierCode = Page::IDENTIFIER_FRONT_PAGE)
     {
         return Tools::PageByIdentifierCodeLink($identifierCode);
     }
@@ -631,7 +631,7 @@ class PageController extends ContentController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    public function getSubNavigation($identifierCode = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $output = '';
         $this->extend('updateSubNavigation', $output);

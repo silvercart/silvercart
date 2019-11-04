@@ -9,6 +9,7 @@ use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\MyAccountHolderController;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\HTTPRequest;
 
 /**
@@ -149,7 +150,7 @@ class AddressHolderController extends MyAccountHolderController
         if (!empty($context)) {
             $this->redirectBack();
         } else {
-            $this->redirect(Tools::PageByIdentifierCodeLink('SilvercartAddressHolder'));
+            $this->redirect(Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_ADDRESS_HOLDER));
         }
     }
 

@@ -322,7 +322,7 @@ class Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.07.2016
      */
-    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage", $force = false)
+    public static function PageByIdentifierCode($identifierCode = Page::IDENTIFIER_FRONT_PAGE, $force = false)
     {
         if (!array_key_exists($identifierCode, self::$pagesByIdentifierCode)
          || $force
@@ -343,7 +343,7 @@ class Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.07.2016
      */
-    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage", $force = false)
+    public static function PageByIdentifierCodeLink($identifierCode = Page::IDENTIFIER_FRONT_PAGE, $force = false)
     {
         $page = self::PageByIdentifierCode($identifierCode, $force);
         if ($page === false

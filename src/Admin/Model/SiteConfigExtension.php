@@ -796,6 +796,130 @@ class SiteConfigExtension extends DataExtension
     }
     
     /**
+     * Returns the updated field value for the given $fieldName.
+     * 
+     * @return string|null
+     */
+    public function getUpdatedField(string $fieldName) : ?string
+    {
+        $value = $this->owner->getField($fieldName);
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->owner->extend("update{$fieldName}", $value);
+        }
+        return $value;
+    }
+    
+    /**
+     * Returns the ShopName.
+     * 
+     * @return string|null
+     */
+    public function getShopName() : ?string
+    {
+        return $this->getUpdatedField('ShopName');
+    }
+    
+    /**
+     * Returns the ShopStreet.
+     * 
+     * @return string|null
+     */
+    public function getShopStreet() : ?string
+    {
+        return $this->getUpdatedField('ShopStreet');
+    }
+    
+    /**
+     * Returns the ShopStreetNumber.
+     * 
+     * @return string|null
+     */
+    public function getShopStreetNumber() : ?string
+    {
+        return $this->getUpdatedField('ShopStreetNumber');
+    }
+    
+    /**
+     * Returns the ShopPostcode.
+     * 
+     * @return string|null
+     */
+    public function getShopPostcode() : ?string
+    {
+        return $this->getUpdatedField('ShopPostcode');
+    }
+    
+    /**
+     * Returns the ShopCity.
+     * 
+     * @return string|null
+     */
+    public function getShopCity() : ?string
+    {
+        return $this->getUpdatedField('ShopCity');
+    }
+    
+    /**
+     * Returns the ShopPhone.
+     * 
+     * @return string|null
+     */
+    public function getShopPhone() : ?string
+    {
+        return $this->getUpdatedField('ShopPhone');
+    }
+    
+    /**
+     * Returns the ShopEmail.
+     * 
+     * @return string|null
+     */
+    public function getShopEmail() : ?string
+    {
+        return $this->getUpdatedField('ShopEmail');
+    }
+    
+    /**
+     * Returns the ShopOpeningHours.
+     * 
+     * @return string|null
+     */
+    public function getShopOpeningHours() : ?string
+    {
+        return $this->getUpdatedField('ShopOpeningHours');
+    }
+    
+    /**
+     * Returns the ShopAdditionalInfo.
+     * 
+     * @return string|null
+     */
+    public function getShopAdditionalInfo() : ?string
+    {
+        return $this->getUpdatedField('ShopAdditionalInfo');
+    }
+    
+    /**
+     * Returns the ShopAdditionalInfo2.
+     * 
+     * @return string|null
+     */
+    public function getShopAdditionalInfo2() : ?string
+    {
+        return $this->getUpdatedField('ShopAdditionalInfo2');
+    }
+    
+    /**
+     * Returns the DefaultContactMessageRecipient.
+     * 
+     * @return string|null
+     */
+    public function getDefaultContactMessageRecipient() : ?string
+    {
+        return $this->getUpdatedField('DefaultContactMessageRecipient');
+    }
+    
+    /**
      * Returns the Matomo tracking code.
      * Adds the possibility to update the Matomo tracking code by extension.
      * 

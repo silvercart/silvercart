@@ -8,6 +8,7 @@ use SilverCart\Forms\CustomForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Pages\AddressHolder;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\Security\Member;
 
 /** 
@@ -59,7 +60,7 @@ class AddAddressForm extends AddressForm
             $address->update($data);
             $address->write();
             
-            $redirectTo = Tools::PageByIdentifierCode("SilvercartAddressHolder")->Link();
+            $redirectTo = Tools::PageByIdentifierCode(Page::IDENTIFIER_ADDRESS_HOLDER)->Link();
             if (!empty($data['redirect'])) {
                 $redirectTo = $data['redirect'];
             }

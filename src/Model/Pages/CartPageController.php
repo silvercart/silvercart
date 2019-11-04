@@ -11,6 +11,7 @@ Use SilverCart\Forms\RemovePositionForm;
 use SilverCart\Forms\Checkout\CheckoutFormStep2;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\Control\HTTPRequest;
 
@@ -63,7 +64,7 @@ class CartPageController extends \PageController {
             Customer::currentUser()->getCart()->ShoppingCartPositions()->count() > 0 &&
             Config::RedirectToCheckoutWhenInCart()) {
             
-            $this->redirect(Tools::PageByIdentifierCode('SilvercartCheckoutStep')->Link());
+            $this->redirect(Tools::PageByIdentifierCode(Page::IDENTIFIER_CHECKOUT_PAGE)->Link());
         }
     }
 
@@ -95,7 +96,7 @@ class CartPageController extends \PageController {
      * @return CheckoutFormStep2
      */
     public function getCheckoutContext() {
-        $checkoutStepPage = Tools::PageByIdentifierCode('SilvercartCheckoutStep');
+        $checkoutStepPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CHECKOUT_PAGE);
         $checkoutStepPageController = ModelAsController::controller_for($checkoutStepPage);
         $checkoutStepPageController->handleRequest($this->getRequest());
         return new CheckoutFormStep2($checkoutStepPageController);

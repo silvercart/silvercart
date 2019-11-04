@@ -9,6 +9,7 @@ use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Pages\AddressHolder;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\Validator;
@@ -174,7 +175,7 @@ class EditAddressForm extends AddressForm
             }
             $address->write();
             
-            $redirectTo = Tools::PageByIdentifierCode("SilvercartAddressHolder")->Link();
+            $redirectTo = Tools::PageByIdentifierCode(Page::IDENTIFIER_ADDRESS_HOLDER)->Link();
             if (!empty($data['redirect'])) {
                 $redirectTo = $data['redirect'];
             }

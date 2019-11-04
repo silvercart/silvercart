@@ -6,6 +6,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\QuickLoginForm;
 use SilverCart\Forms\QuickSearchForm;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Extension;
@@ -28,7 +29,7 @@ class SecurityExtension extends Extension
      *
      * @var string
      */
-    public static $new_password_back_url_identifierCode = 'SilvercartMyAccountHolder';
+    public static $new_password_back_url_identifierCode = Page::IDENTIFIER_MY_ACCOUNT_HOLDER;
 
     /**
      * We register the common forms for Pages here.

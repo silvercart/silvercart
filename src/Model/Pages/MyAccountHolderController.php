@@ -5,6 +5,7 @@ namespace SilverCart\Model\Pages;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\LoginForm;
+use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\Director;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
@@ -46,11 +47,11 @@ class MyAccountHolderController extends \PageController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    public function getSubNavigation($identifierCode = Page::IDENTIFIER_MY_ACCOUNT_HOLDER) : DBHTMLText
     {
         $elements = [
-            'SubElementsTitle' => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->MenuTitle,
-            'SubElements'      => Tools::PageByIdentifierCode('SilvercartMyAccountHolder')->Children(),
+            'SubElementsTitle' => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->MenuTitle,
+            'SubElements'      => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Children(),
         ];
         $this->extend('updateSubNavigation', $elements);
         $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
@@ -69,7 +70,7 @@ class MyAccountHolderController extends \PageController
      */
     public function OrderDetailLink($orderID = '')
     {
-        return Tools::PageByIdentifierCode('SilvercartOrderHolder')->Link("detail/{$orderID}");
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_ORDER_HOLDER)->Link("detail/{$orderID}");
     }
     
     /**

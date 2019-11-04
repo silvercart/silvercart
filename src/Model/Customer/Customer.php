@@ -1344,7 +1344,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      */
     public function getRegistrationOptInConfirmationLink() : string
     {
-        return Director::absoluteURL(Tools::PageByIdentifierCode("SilvercartRegistrationPage")->Link('optin')) . DIRECTORY_SEPARATOR . urlencode($this->owner->RegistrationOptInConfirmationHash);
+        return Director::absoluteURL(Tools::PageByIdentifierCode(Page::IDENTIFIER_REGISTRATION_PAGE)->Link('optin')) . DIRECTORY_SEPARATOR . urlencode($this->owner->RegistrationOptInConfirmationHash);
     }
     
     /**

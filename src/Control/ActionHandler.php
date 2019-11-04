@@ -62,7 +62,7 @@ class ActionHandler extends Controller
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.03.2019
      */
-    public static function PageByIdentifierCode($identifierCode = "SilvercartFrontPage") : ?Page
+    public static function PageByIdentifierCode($identifierCode = Page::IDENTIFIER_FRONT_PAGE) : ?Page
     {
         return Tools::PageByIdentifierCode($identifierCode);
     }
@@ -77,7 +77,7 @@ class ActionHandler extends Controller
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.03.2019
      */
-    public static function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage") : string
+    public static function PageByIdentifierCodeLink($identifierCode = Page::IDENTIFIER_FRONT_PAGE) : string
     {
         return Tools::PageByIdentifierCodeLink($identifierCode);
     }
@@ -127,7 +127,7 @@ class ActionHandler extends Controller
             }
             
             if (Config::getRedirectToCartAfterAddToCartAction()) {
-                $backLink = Tools::PageByIdentifierCodeLink('SilvercartCartPage');
+                $backLink = Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_CART_PAGE);
             }
         }
         
@@ -324,7 +324,7 @@ class ActionHandler extends Controller
         i18n::set_locale($postVars['locale']);
         $searchQuery       = trim($postVars['quickSearchQuery']);
         $searchContext     = Product::class;
-        $searchResultsPage = Tools::PageByIdentifierCode("SilvercartSearchResultsPage");
+        $searchResultsPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_SEARCH_RESULTS_PAGE);
         SearchQuery::update_by_query(trim(Convert::raw2sql($searchQuery)));
         Product::setDefaultSort('');
         SearchResultsPage::setCurrentSearchQuery($searchQuery);

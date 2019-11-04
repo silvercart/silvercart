@@ -335,8 +335,8 @@ class ContactForm extends CustomForm
     protected function ContactPage() : ContactFormPage
     {
         $contactPage = $this->getController()->data();
-        if ($contactPage->IdentifierCode != 'SilvercartContactFormPage') {
-            $contactPage = Tools::PageByIdentifierCode('SilvercartContactFormPage');
+        if ($contactPage->IdentifierCode != Page::IDENTIFIER_CONTACT_FORM_PAGE) {
+            $contactPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CONTACT_FORM_PAGE);
         }
         return $contactPage;
     }

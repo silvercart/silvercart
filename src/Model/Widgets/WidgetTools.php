@@ -4,6 +4,7 @@ namespace SilverCart\Model\Widgets;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Widgets\Widget;
 use SilverCart\Model\Widgets\WidgetController;
 use SilverCart\ORM\DataObjectExtension;
@@ -62,7 +63,7 @@ class WidgetTools
                 $widget->fieldLabel('ProductGroupPage'),
                 SiteTree::class
         );
-        $productGroupDropdown->setTreeBaseID(Tools::PageByIdentifierCode('SilvercartProductGroupHolder')->ID);
+        $productGroupDropdown->setTreeBaseID(Tools::PageByIdentifierCode(Page::IDENTIFIER_PRODUCT_GROUP_HOLDER)->ID);
         
         $toggleFields = [
             $fields->dataFieldByName('numberOfProductsToShow'),

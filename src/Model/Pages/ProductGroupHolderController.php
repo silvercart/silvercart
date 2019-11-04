@@ -4,6 +4,7 @@ namespace SilverCart\Model\Pages;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
@@ -79,7 +80,7 @@ class ProductGroupHolderController extends \PageController {
         
         if (is_null($parent)) {
             $productGroups['']  = '';
-            $parent             = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $parent             = Tools::PageByIdentifierCode(SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER);
         }
         
         if ($parent) {
@@ -118,7 +119,7 @@ class ProductGroupHolderController extends \PageController {
         
         if (is_null($parent)) {
             $productGroups['']  = '';
-            $parent = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $parent = Tools::PageByIdentifierCode(SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER);
             $productGroups[$parent->ID] = $parent->Title;
         }
         $children = $parent->Children();

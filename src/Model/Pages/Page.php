@@ -36,10 +36,38 @@ use TractorCow\Fluent\State\FluentState;
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property bool   $UseAsRootForMainNavigation Determines whether to use this page as root page for the main navigation
+ * @property string $IdentifierCode             Page identifier code
  */
 class Page extends SiteTree
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    
+    const IDENTIFIER_ADDRESS_HOLDER              = 'SilvercartAddressHolder';
+    const IDENTIFIER_CART_PAGE                   = 'SilvercartCartPage';
+    const IDENTIFIER_CHECKOUT_PAGE               = 'SilvercartCheckoutStep';
+    const IDENTIFIER_CONTACT_FORM_PAGE           = 'SilvercartContactFormPage';
+    const IDENTIFIER_CUSTOMER_DATA_PAGE          = 'SilvercartCustomerDataPage';
+    const IDENTIFIER_DATA_PRIVACY_PAGE           = 'DataPrivacyStatementPage';
+    const IDENTIFIER_FRONT_PAGE                  = 'SilvercartFrontPage';
+    const IDENTIFIER_IMPRINT_PAGE                = 'ImprintPage';
+    const IDENTIFIER_META_ABOUT_HOLDER           = 'SilvercartMetaNavigationHolderAbout';
+    const IDENTIFIER_META_LEGAL_HOLDER           = 'SilvercartMetaNavigationHolderLegal';
+    const IDENTIFIER_META_SERVICE_HOLDER         = 'SilvercartMetaNavigationHolderService';
+    const IDENTIFIER_META_SHOP_HOLDER            = 'SilvercartMetaNavigationHolderShop';
+    const IDENTIFIER_MY_ACCOUNT_HOLDER           = 'SilvercartMyAccountHolder';
+    const IDENTIFIER_NEWSLETTER_PAGE             = 'SilvercartNewsletterPage';
+    const IDENTIFIER_ORDER_HOLDER                = 'SilvercartOrderHolder';
+    const IDENTIFIER_PAYMENT_METHODS_PAGE        = 'SilvercartPaymentMethodsPage';
+    const IDENTIFIER_PRODUCT_GROUP_HOLDER        = 'SilvercartProductGroupHolder';
+    const IDENTIFIER_REGISTRATION_PAGE           = 'SilvercartRegistrationPage';
+    const IDENTIFIER_REVOCATION_FORM_PAGE        = 'SilvercartRevocationFormPage';
+    const IDENTIFIER_REVOCATION_INSTRUCTION_PAGE = 'SilvercartRevocationInstructionPage';
+    const IDENTIFIER_SEARCH_RESULTS_PAGE         = 'SilvercartSearchResultsPage';
+    const IDENTIFIER_SHIPPING_FEES_PAGE          = 'SilvercartShippingFeesPage';
+    const IDENTIFIER_TERMS_OF_SERVICE_PAGE       = 'TermsOfServicePage';
+    
     /**
      * The robots tag content for dev mode or sensible content.
      *
@@ -261,7 +289,7 @@ class Page extends SiteTree
     {
         $mainNavigationRootPage = Page::get()->filter('UseAsRootForMainNavigation', true)->first();
         if (is_null($mainNavigationRootPage)) {
-            $mainNavigationRootPage = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $mainNavigationRootPage = Tools::PageByIdentifierCode(self::IDENTIFIER_PRODUCT_GROUP_HOLDER);
             $table = Tools::get_table_name(Page::class);
             DB::query('UPDATE ' . $table . ' SET UseAsRootForMainNavigation = 1 WHERE ID = ' . $mainNavigationRootPage->ID);
             DB::query('UPDATE ' . $table . '_Live SET UseAsRootForMainNavigation = 1 WHERE ID = ' . $mainNavigationRootPage->ID);

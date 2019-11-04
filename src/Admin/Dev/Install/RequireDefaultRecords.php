@@ -353,11 +353,11 @@ class RequireDefaultRecords
      */
     public function createDefaultSiteTree()
     {
-        $rootPage = Page::get()->filter('IdentifierCode', 'SilvercartCartPage')->first();
+        $rootPage = Page::get()->filter('IdentifierCode', Page::IDENTIFIER_FRONT_PAGE)->first();
         if (!$rootPage) {
             //create a silvercart front page (parent of all other SilverCart pages)
             $rootPage                 = FrontPage::create();
-            $rootPage->IdentifierCode = 'SilvercartFrontPage';
+            $rootPage->IdentifierCode = Page::IDENTIFIER_FRONT_PAGE;
             $rootPage->Title          = 'SilverCart';
             $rootPage->URLSegment     = SiteTree::get_by_link('home') ? 'shop' : 'home';
             $rootPage->ShowInMenus    = false;
@@ -372,7 +372,7 @@ class RequireDefaultRecords
             $productGroupHolder->Title                      = _t(ProductGroupHolder::class . '.DEFAULT_TITLE', 'Products');
             $productGroupHolder->URLSegment                 = _t(ProductGroupHolder::class . '.DEFAULT_URLSEGMENT', 'products');
             $productGroupHolder->ParentID                   = $rootPage->ID;
-            $productGroupHolder->IdentifierCode             = 'SilvercartProductGroupHolder';
+            $productGroupHolder->IdentifierCode             = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER;
             $productGroupHolder->InheritFromParent          = false;
             $productGroupHolder->UseAsRootForMainNavigation = true;
             $productGroupHolder->write();
@@ -383,7 +383,7 @@ class RequireDefaultRecords
             $cartPage->Title             = _t(CartPage::class . '.DEFAULT_TITLE', 'Cart');
             $cartPage->URLSegment        = _t(CartPage::class . '.DEFAULT_URLSEGMENT', 'cart');
             $cartPage->ShowInSearch      = false;
-            $cartPage->IdentifierCode    = "SilvercartCartPage";
+            $cartPage->IdentifierCode    = Page::IDENTIFIER_CART_PAGE;
             $cartPage->ParentID          = $rootPage->ID;
             $cartPage->InheritFromParent = false;
             $cartPage->write();
@@ -395,7 +395,7 @@ class RequireDefaultRecords
             $checkoutStep->URLSegment           = _t(CheckoutStep::class . '.DEFAULT_URLSEGMENT', 'checkout');
             $checkoutStep->ShowInSearch         = false;
             $checkoutStep->ParentID             = $rootPage->ID;
-            $checkoutStep->IdentifierCode       = "SilvercartCheckoutStep";
+            $checkoutStep->IdentifierCode       = Page::IDENTIFIER_CHECKOUT_PAGE;
             $checkoutStep->InheritFromParent    = false;
             $checkoutStep->write();
             $checkoutStep->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -419,7 +419,7 @@ class RequireDefaultRecords
             $registrationPage->ShowInMenus          = false;
             $registrationPage->ShowInSearch         = false;
             $registrationPage->ParentID             = $rootPage->ID;
-            $registrationPage->IdentifierCode       = "SilvercartRegistrationPage";
+            $registrationPage->IdentifierCode       = Page::IDENTIFIER_REGISTRATION_PAGE;
             $registrationPage->InheritFromParent    = false;
             $registrationPage->write();
             $registrationPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -431,7 +431,7 @@ class RequireDefaultRecords
             $searchResultsPage->ShowInMenus         = false;
             $searchResultsPage->ShowInSearch        = false;
             $searchResultsPage->ParentID            = $rootPage->ID;
-            $searchResultsPage->IdentifierCode      = "SilvercartSearchResultsPage";
+            $searchResultsPage->IdentifierCode      = Page::IDENTIFIER_SEARCH_RESULTS_PAGE;
             $searchResultsPage->InheritFromParent   = false;
             $searchResultsPage->write();
             $searchResultsPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -457,7 +457,7 @@ class RequireDefaultRecords
         $legalNavigationHolder->Title             = _t(MetaNavigationHolder::class . '.DEFAULT_TITLE_LEGAL', 'Legal');
         $legalNavigationHolder->URLSegment        = _t(MetaNavigationHolder::class . '.DEFAULT_URLSEGMENT_LEGAL', 'legal');
         $legalNavigationHolder->ShowInMenus       = false;
-        $legalNavigationHolder->IdentifierCode    = "SilvercartMetaNavigationHolderLegal";
+        $legalNavigationHolder->IdentifierCode    = Page::IDENTIFIER_META_LEGAL_HOLDER;
         $legalNavigationHolder->ParentID          = $rootPage->ID;
         $legalNavigationHolder->InheritFromParent = false;
         $legalNavigationHolder->write();
@@ -467,7 +467,7 @@ class RequireDefaultRecords
         $serviceNavigationHolder->Title             = _t(MetaNavigationHolder::class . '.DEFAULT_TITLE_SERVICE', 'Service');
         $serviceNavigationHolder->URLSegment        = _t(MetaNavigationHolder::class . '.DEFAULT_URLSEGMENT_SERVICE', 'service');
         $serviceNavigationHolder->ShowInMenus       = false;
-        $serviceNavigationHolder->IdentifierCode    = "SilvercartMetaNavigationHolderService";
+        $serviceNavigationHolder->IdentifierCode    = Page::IDENTIFIER_META_SERVICE_HOLDER;
         $serviceNavigationHolder->ParentID          = $rootPage->ID;
         $serviceNavigationHolder->InheritFromParent = false;
         $serviceNavigationHolder->write();
@@ -477,7 +477,7 @@ class RequireDefaultRecords
         $aboutNavigationHolder->Title             = _t(MetaNavigationHolder::class . '.DEFAULT_TITLE_ABOUT', 'About us');
         $aboutNavigationHolder->URLSegment        = _t(MetaNavigationHolder::class . '.DEFAULT_URLSEGMENT_ABOUT', 'about-us');
         $aboutNavigationHolder->ShowInMenus       = false;
-        $aboutNavigationHolder->IdentifierCode    = "SilvercartMetaNavigationHolderAbout";
+        $aboutNavigationHolder->IdentifierCode    = Page::IDENTIFIER_META_ABOUT_HOLDER;
         $aboutNavigationHolder->ParentID          = $rootPage->ID;
         $aboutNavigationHolder->InheritFromParent = false;
         $aboutNavigationHolder->write();
@@ -487,7 +487,7 @@ class RequireDefaultRecords
         $shopNavigationHolder->Title             = _t(MetaNavigationHolder::class . '.DEFAULT_TITLE_SHOP', 'Shopsystem');
         $shopNavigationHolder->URLSegment        = _t(MetaNavigationHolder::class . '.DEFAULT_URLSEGMENT_SHOP', 'shop-system');
         $shopNavigationHolder->ShowInMenus       = false;
-        $shopNavigationHolder->IdentifierCode    = "SilvercartMetaNavigationHolderShop";
+        $shopNavigationHolder->IdentifierCode    = Page::IDENTIFIER_META_SHOP_HOLDER;
         $shopNavigationHolder->ParentID          = $rootPage->ID;
         $shopNavigationHolder->InheritFromParent = false;
         $shopNavigationHolder->write();
@@ -498,7 +498,7 @@ class RequireDefaultRecords
         $termsOfServicePage->Title          = _t(MetaNavigationPage::class . '.DEFAULT_TITLE_TERMS', 'terms of service');
         $termsOfServicePage->URLSegment     = _t(MetaNavigationPage::class . '.DEFAULT_URLSEGMENT_TERMS', 'terms-of-service');
         $termsOfServicePage->ParentID       = $legalNavigationHolder->ID;
-        $termsOfServicePage->IdentifierCode = "TermsOfServicePage";
+        $termsOfServicePage->IdentifierCode = Page::IDENTIFIER_TERMS_OF_SERVICE_PAGE;
         $termsOfServicePage->write();
         $termsOfServicePage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
@@ -508,14 +508,14 @@ class RequireDefaultRecords
         $revocationInstructionPage->Title           = _t(MetaNavigationPage::class . '.DEFAULT_TITLE_REVOCATION', 'revocation instruction');
         $revocationInstructionPage->URLSegment      = _t(MetaNavigationPage::class . '.DEFAULT_URLSEGMENT_REVOCATION', 'revocation-instruction');
         $revocationInstructionPage->ParentID        = $legalNavigationHolder->ID;
-        $revocationInstructionPage->IdentifierCode  = "SilvercartRevocationInstructionPage";
+        $revocationInstructionPage->IdentifierCode  = Page::IDENTIFIER_REVOCATION_INSTRUCTION_PAGE;
         $revocationInstructionPage->write();
         $revocationInstructionPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
         $revocationPage                 = RevocationFormPage::create();
         $revocationPage->Title          = _t(RevocationFormPage::class . '.DEFAULT_TITLE', 'Revocation');
         $revocationPage->URLSegment     = _t(RevocationFormPage::class . '.DEFAULT_URLSEGMENT', 'Revocation');
-        $revocationPage->IdentifierCode = "SilvercartRevocationFormPage";
+        $revocationPage->IdentifierCode = Page::IDENTIFIER_REVOCATION_FORM_PAGE;
         $revocationPage->ParentID       = $legalNavigationHolder->ID;
         $revocationPage->write();
         $revocationPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -523,7 +523,7 @@ class RequireDefaultRecords
         $dataPrivacyStatementPage                 = MetaNavigationPage::create();
         $dataPrivacyStatementPage->Title          = _t(MetaNavigationPage::class . '.DEFAULT_TITLE_PRIVACY', 'Data privacy statement');
         $dataPrivacyStatementPage->URLSegment     = _t(MetaNavigationPage::class . '.DEFAULT_URLSEGMENT_PRIVACY', 'data-privacy-statement');
-        $dataPrivacyStatementPage->IdentifierCode = "DataPrivacyStatementPage";
+        $dataPrivacyStatementPage->IdentifierCode = Page::IDENTIFIER_DATA_PRIVACY_PAGE;
         $dataPrivacyStatementPage->ParentID       = $legalNavigationHolder->ID;
         $dataPrivacyStatementPage->write();
         $dataPrivacyStatementPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -535,7 +535,7 @@ class RequireDefaultRecords
         $paymentMethodsPage->Title          = _t(PaymentMethodsPage::class . '.DEFAULT_TITLE', 'Payment methods');
         $paymentMethodsPage->URLSegment     = _t(PaymentMethodsPage::class . '.DEFAULT_URLSEGMENT', 'payment-methods');
         $paymentMethodsPage->ParentID       = $serviceNavigationHolder->ID;
-        $paymentMethodsPage->IdentifierCode = "SilvercartPaymentMethodsPage";
+        $paymentMethodsPage->IdentifierCode = Page::IDENTIFIER_PAYMENT_METHODS_PAGE;
         $paymentMethodsPage->write();
         $paymentMethodsPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
@@ -543,7 +543,7 @@ class RequireDefaultRecords
         $shippingFeesPage->Title          = _t(ShippingFeesPage::class . '.DEFAULT_TITLE', 'shipping fees');
         $shippingFeesPage->URLSegment     = _t(ShippingFeesPage::class . '.DEFAULT_URLSEGMENT', 'shipping-fees');
         $shippingFeesPage->ParentID       = $serviceNavigationHolder->ID;
-        $shippingFeesPage->IdentifierCode = "SilvercartShippingFeesPage";
+        $shippingFeesPage->IdentifierCode = Page::IDENTIFIER_SHIPPING_FEES_PAGE;
         $shippingFeesPage->write();
         $shippingFeesPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
@@ -551,7 +551,7 @@ class RequireDefaultRecords
         $newsletterPage->Title          = _t(NewsletterPage::class . '.DEFAULT_TITLE', 'Newsletter');
         $newsletterPage->URLSegment     = _t(NewsletterPage::class . '.DEFAULT_URLSEGMENT', 'newsletter');
         $newsletterPage->ParentID       = $serviceNavigationHolder->ID;
-        $newsletterPage->IdentifierCode = "SilvercartNewsletterPage";
+        $newsletterPage->IdentifierCode = Page::IDENTIFIER_NEWSLETTER_PAGE;
         $newsletterPage->OptInPageTitle             = NewsletterPage::singleton()->fieldLabel('DefaultOptInPageTitle');
         $newsletterPage->ConfirmationFailureMessage = NewsletterPage::singleton()->fieldLabel('DefaultConfirmationFailureMessage');
         $newsletterPage->ConfirmationSuccessMessage = NewsletterPage::singleton()->fieldLabel('DefaultConfirmationSuccessMessage');
@@ -564,7 +564,7 @@ class RequireDefaultRecords
         $imprintPage->Title          = _t(MetaNavigationPage::class . '.DEFAULT_TITLE_IMPRINT', 'imprint');
         $imprintPage->URLSegment     = _t(MetaNavigationPage::class . '.DEFAULT_URLSEGMENT_IMPRINT', 'imprint');
         $imprintPage->ParentID       = $aboutNavigationHolder->ID;
-        $imprintPage->IdentifierCode = "ImprintPage";
+        $imprintPage->IdentifierCode = Page::IDENTIFIER_IMPRINT_PAGE;
         $imprintPage->write();
         $imprintPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
         
@@ -572,7 +572,7 @@ class RequireDefaultRecords
         $contactPage->Title           = _t(ContactFormPage::class . '.DEFAULT_TITLE', 'contact');
         $contactPage->ResponseContent = _t(ContactFormPage::class . '.DEFAULT_RESPONSE_CONTENT', 'Many thanks for Your message. Your request will be answered as soon as possible.');
         $contactPage->URLSegment      = _t(ContactFormPage::class . '.DEFAULT_URLSEGMENT', 'contact');
-        $contactPage->IdentifierCode  = "SilvercartContactFormPage";
+        $contactPage->IdentifierCode  = Page::IDENTIFIER_CONTACT_FORM_PAGE;
         $contactPage->ParentID        = $aboutNavigationHolder->ID;
         $contactPage->write();
         $contactPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -614,7 +614,7 @@ class RequireDefaultRecords
         $myAccountHolder->URLSegment        = _t(MyAccountHolder::class . '.DEFAULT_URLSEGMENT', 'my-account');
         $myAccountHolder->ShowInSearch      = false;
         $myAccountHolder->ParentID          = $parentPage->ID;
-        $myAccountHolder->IdentifierCode    = "SilvercartMyAccountHolder";
+        $myAccountHolder->IdentifierCode    = Page::IDENTIFIER_MY_ACCOUNT_HOLDER;
         $myAccountHolder->InheritFromParent = false;
         $myAccountHolder->write();
         $myAccountHolder->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
@@ -626,7 +626,7 @@ class RequireDefaultRecords
         $dataPage->ShowInSearch     = false;
         $dataPage->CanViewType      = "Inherit";
         $dataPage->ParentID         = $myAccountHolder->ID;
-        $dataPage->IdentifierCode   = "SilvercartCustomerDataPage";
+        $dataPage->IdentifierCode   = Page::IDENTIFIER_CUSTOMER_DATA_PAGE;
         $dataPage->write();
         $dataPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
@@ -637,7 +637,7 @@ class RequireDefaultRecords
         $orderHolder->ShowInSearch      = false;
         $orderHolder->CanViewType       = "Inherit";
         $orderHolder->ParentID          = $myAccountHolder->ID;
-        $orderHolder->IdentifierCode    = "SilvercartOrderHolder";
+        $orderHolder->IdentifierCode    = Page::IDENTIFIER_ORDER_HOLDER;
         $orderHolder->write();
         $orderHolder->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
 
@@ -648,7 +648,7 @@ class RequireDefaultRecords
         $addressHolder->ShowInSearch    = false;
         $addressHolder->CanViewType     = "Inherit";
         $addressHolder->ParentID        = $myAccountHolder->ID;
-        $addressHolder->IdentifierCode  = "SilvercartAddressHolder";
+        $addressHolder->IdentifierCode  = Page::IDENTIFIER_ADDRESS_HOLDER;
         $addressHolder->write();
         $addressHolder->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
     }
@@ -1408,14 +1408,14 @@ class RequireDefaultRecords
             $widgetSetProductGroupPagesSidebar->write();
             
             // Attribute widget sets to pages
-            $frontPage = Tools::PageByIdentifierCode('SilvercartFrontPage');
+            $frontPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_FRONT_PAGE);
             
             if ($frontPage) {
                 $frontPage->WidgetSetContent()->add($widgetSetFrontPageContent);
                 $frontPage->WidgetSetSidebar()->add($widgetSetFrontPageSidebar);
             }
             
-            $productGroupHolderPage = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
+            $productGroupHolderPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_PRODUCT_GROUP_HOLDER);
             
             if ($productGroupHolderPage) {
                 $productGroupHolderPage->WidgetSetSidebar()->add($widgetSetProductGroupPagesSidebar);

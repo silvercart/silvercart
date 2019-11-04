@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Pages;
 
 use SilverCart\Forms\DownloadSearchForm;
+use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -117,7 +118,7 @@ class DownloadPageHolderController extends \PageController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    public function getSubNavigation($identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $subNavigation = null;
         $parent        = $this->data()->Parent();

@@ -4,6 +4,7 @@ namespace SilverCart\Model\Pages;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\MetaNavigationHolder;
+use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
@@ -28,7 +29,7 @@ class MetaNavigationHolderController extends \PageController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    public function getSubNavigation($identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $root   = $this->dataRecord;
         $output = '';

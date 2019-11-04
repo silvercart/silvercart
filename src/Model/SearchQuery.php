@@ -3,6 +3,8 @@
 namespace SilverCart\Model;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Pages\Page;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -42,7 +44,7 @@ class SearchQuery extends DataObject
      * 
      * @return SearchQuery 
      */
-    public static function get_by_query($query)
+    public static function get_by_query($query) : SearchQuery
     {
         $searchQuery = self::get()
                 ->filter([
@@ -67,7 +69,7 @@ class SearchQuery extends DataObject
      * 
      * @return SearchQuery
      */
-    public static function update_by_query($query)
+    public static function update_by_query($query) : SearchQuery
     {
         $searchQuery = self::get_by_query($query);
         if (!empty($searchQuery->SearchQuery)) {
@@ -82,9 +84,9 @@ class SearchQuery extends DataObject
      *
      * @param int $limit Limit for the queries
      * 
-     * @return ArrayList 
+     * @return DataList 
      */
-    public static function get_most_searched($limit)
+    public static function get_most_searched($limit) : DataList
     {
         $searchQueries = self::get()
                 ->filter('Locale', Tools::current_locale())
@@ -102,9 +104,8 @@ class SearchQuery extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
-    public function Link()
+    public function Link() : string
     {
-        return Tools::PageByIdentifierCode('SilvercartSearchResultsPage')->QueryLink($this->SearchQuery);
-        return Tools::PageByIdentifierCode('SilvercartSearchResultsPage')->PlainLink("SearchByQuery/{$this->ID}");
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_SEARCH_RESULTS_PAGE)->QueryLink($this->SearchQuery);
     }
 }

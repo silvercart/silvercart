@@ -8,6 +8,7 @@ use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Pages\CheckoutStepController;
+use SilverCart\Model\Pages\Page;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\DropdownField;
@@ -1292,7 +1293,7 @@ class Address extends DataObject implements PermissionProvider
      */
     public function DeleteLink() : string
     {
-        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("deleteAddress/{$this->ID}");
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_ADDRESS_HOLDER)->Link("deleteAddress/{$this->ID}");
     }
     
     /**
@@ -1305,7 +1306,7 @@ class Address extends DataObject implements PermissionProvider
      */
     public function EditLink() : string
     {
-        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("edit/{$this->ID}");
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_ADDRESS_HOLDER)->Link("edit/{$this->ID}");
     }
     
     /**
@@ -1318,7 +1319,7 @@ class Address extends DataObject implements PermissionProvider
      */
     public function SetAsInvoiceAddressLink() : string
     {
-        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("setInvoiceAddress/{$this->ID}");
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_ADDRESS_HOLDER)->Link("setInvoiceAddress/{$this->ID}");
     }
     
     /**
@@ -1331,7 +1332,7 @@ class Address extends DataObject implements PermissionProvider
      */
     public function SetAsShippingAddressLink() : string
     {
-        return Tools::PageByIdentifierCode('SilvercartAddressHolder')->Link("setShippingAddress/{$this->ID}");
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_ADDRESS_HOLDER)->Link("setShippingAddress/{$this->ID}");
     }
 
     /**

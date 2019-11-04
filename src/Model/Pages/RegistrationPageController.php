@@ -6,6 +6,7 @@ use PageController;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Forms\LoginForm;
 use SilverCart\Forms\RegisterRegularCustomerForm;
+use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -97,9 +98,9 @@ class RegistrationPageController extends PageController
             ) {
                 if ($customer->RegistrationOptInConfirmed) {
                     if (RegistrationPage::getIsInCheckout()) {
-                        $link = $this->PageByIdentifierCodeLink('SilvercartCheckoutStep');
+                        $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_CHECKOUT_PAGE);
                     } else {
-                        $link = $this->PageByIdentifierCodeLink('SilvercartMyAccountHolder');
+                        $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER);
                     }
                     $this->redirect($link);
                 } elseif (!$customer->confirmRegistrationOptIn($hash)) {
@@ -110,7 +111,7 @@ class RegistrationPageController extends PageController
         if (RegistrationPage::getIsInCheckout()
          && !$this->redirectedTo()
         ) {
-            $this->redirect($this->PageByIdentifierCode('SilvercartCheckoutStep')->Link('welcome'));
+            $this->redirect($this->PageByIdentifierCode(SilverCartPage::IDENTIFIER_CHECKOUT_PAGE)->Link('welcome'));
         }
         return $this->render();
     }
@@ -130,7 +131,7 @@ class RegistrationPageController extends PageController
         $customer = Security::getCurrentUser();
         if ($customer instanceof Member) {
             if ($customer->RegistrationOptInConfirmed) {
-                $this->redirect($this->PageByIdentifierCodeLink('SilvercartMyAccountHolder'));
+                $this->redirect($this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER));
             } else {
                 $customer->sendRegistrationOptInEmail();
             }
@@ -199,7 +200,7 @@ class RegistrationPageController extends PageController
         if ($customer instanceof Member
          && $customer->RegistrationOptInConfirmed
         ) {
-            $this->redirect($this->PageByIdentifierCodeLink('SilvercartMyAccountHolder'));
+            $this->redirect($this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER));
         }
         return $this->render();
     }

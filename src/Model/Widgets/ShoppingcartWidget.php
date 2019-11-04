@@ -4,6 +4,7 @@ namespace SilverCart\Model\Widgets;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Widgets\Widget;
 use SilverStripe\i18n\i18n;
 
@@ -75,7 +76,7 @@ class ShoppingcartWidget extends Widget {
      * @since 20.06.2011
      */
     public function CheckOutLink() {
-        return Tools::PageByIdentifierCode('SilvercartCheckoutStep')->Link();
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_CHECKOUT_PAGE)->Link();
     }
     
     /**

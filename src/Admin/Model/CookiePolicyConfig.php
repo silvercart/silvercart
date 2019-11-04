@@ -10,7 +10,6 @@ use SilverCart\Model\Pages\Page;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\Requirements;
@@ -176,9 +175,9 @@ class CookiePolicyConfig extends DataExtension {
             'dismiss' => $this->owner->CookiePolicyConfigButtonText,
             'link'    => $this->owner->CookiePolicyConfigPolicyText,
         ];
-        $dataPrivacyPage = Tools::PageByIdentifierCode('DataPrivacyStatementPage');
+        $dataPrivacyPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_DATA_PRIVACY_PAGE);
         if (!($dataPrivacyPage instanceof Page)) {
-            $dataPrivacyPage = Tools::PageByIdentifierCode('SilvercartDataPrivacyStatementPage');
+            $dataPrivacyPage = Tools::PageByIdentifierCode('Silvercart' . Page::IDENTIFIER_DATA_PRIVACY_PAGE);
         }
         if ($dataPrivacyPage instanceof Page) {
             $cfg['content']['href'] = $dataPrivacyPage->Link();

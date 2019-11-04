@@ -4,6 +4,7 @@ namespace SilverCart\Model\Newsletter;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Newsletter\AnonymousNewsletterRecipient;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\ShopEmail;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Convert;
@@ -239,7 +240,7 @@ class Newsletter {
                 'FirstName'         => $firstName,
                 'Surname'           => $surName,
                 'Email'             => $email,
-                'ConfirmationLink'  => Director::absoluteURL(Tools::PageByIdentifierCode("SilvercartNewsletterPage")->Link('optin')).'?h='.urlencode($confirmationHash)
+                'ConfirmationLink'  => Director::absoluteURL(Tools::PageByIdentifierCode(Page::IDENTIFIER_NEWSLETTER_PAGE)->Link('optin')).'?h='.urlencode($confirmationHash)
             )
         );
     }

@@ -14,6 +14,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\AddressHolderController;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
@@ -95,7 +96,7 @@ class CheckoutStepController extends \PageController {
                && !in_array($this->getRequest()->param('Action'), $this->config()->allowed_thanks_actions)
                && !$this->redirectedTo()
         ) {
-            $cartPage = Tools::PageByIdentifierCode('SilvercartCartPage');
+            $cartPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CART_PAGE);
             $this->redirect($cartPage->Link());
         }
     }

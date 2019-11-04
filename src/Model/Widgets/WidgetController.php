@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Widgets;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Pages\Page;
 use WidgetSets\Controllers\WidgetSetWidgetController;
 
 /**
@@ -27,7 +28,7 @@ class WidgetController extends WidgetSetWidgetController
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.02.2013
      */
-    public function PageByIdentifierCode($identifierCode = "SilvercartFrontPage")
+    public function PageByIdentifierCode($identifierCode = Page::IDENTIFIER_FRONT_PAGE)
     {
         return Tools::PageByIdentifierCode($identifierCode);
     }
@@ -42,7 +43,7 @@ class WidgetController extends WidgetSetWidgetController
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.02.2013
      */
-    public function PageByIdentifierCodeLink($identifierCode = "SilvercartFrontPage")
+    public function PageByIdentifierCodeLink($identifierCode = Page::IDENTIFIER_FRONT_PAGE)
     {
         return Tools::PageByIdentifierCodeLink($identifierCode);
     }

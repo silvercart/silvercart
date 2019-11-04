@@ -6,7 +6,6 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\Pages\Page;
-use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Newsletter\Newsletter;
 use SilverStripe\Forms\DropdownField;
@@ -218,7 +217,7 @@ class NewsletterForm extends CustomForm {
                     'There\'s already a registered customer with the email address "{email}". Please log in first and proceed then with the newsletter preferences: <a href="{link}">Go to the login page</a>.',
                     [
                         'email' => $data['Email'],
-                        'link' => '/Security/Login/?BackURL=' . Tools::PageByIdentifierCode('SilvercartNewsletterPage')->Link()
+                        'link' => '/Security/Login/?BackURL=' . Tools::PageByIdentifierCode(Page::IDENTIFIER_NEWSLETTER_PAGE)->Link()
                     ]
                 )
             );

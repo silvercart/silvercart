@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Widgets;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Widgets\LoginWidgetForm;
 use SilverCart\Model\Widgets\WidgetController;
 use SilverStripe\i18n\i18n;
@@ -30,7 +31,7 @@ class LoginWidgetController extends WidgetController {
      * @since 26.05.2011
      */
     public function MyAccountPage() {
-        return Tools::PageByIdentifierCode('SilvercartMyAccountHolder');
+        return Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER);
     }
     
     /**

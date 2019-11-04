@@ -16,6 +16,7 @@ use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Pages\ProductGroupPageController;
 use SilverCart\Model\Pages\RegistrationPage;
@@ -1553,7 +1554,7 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getFieldsForProductGroups($fields) : void
     {
-        $productGroupHolder = Tools::PageByIdentifierCode('SilvercartProductGroupHolder');
+        $productGroupHolder = Tools::PageByIdentifierCode(Page::IDENTIFIER_PRODUCT_GROUP_HOLDER);
 
         $silvercartProductGroupDropdown = TreeDropdownField::create(
                 'ProductGroupID',
@@ -2602,7 +2603,7 @@ class Product extends DataObject implements PermissionProvider
      */
     public function ProductQuestionLink() : string
     {
-        return Tools::PageByIdentifierCodeLink('SilvercartContactFormPage') . "productQuestion/{$this->ID}";
+        return Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_CONTACT_FORM_PAGE) . "productQuestion/{$this->ID}";
     }
     
     /**

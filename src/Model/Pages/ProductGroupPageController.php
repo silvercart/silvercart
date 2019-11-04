@@ -7,6 +7,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Forms\ProductGroupPageSelectorsForm;
+use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Product\Manufacturer;
@@ -295,7 +296,7 @@ class ProductGroupPageController extends \PageController {
      *
      * @return DBHTMLText
      */
-    public function getSubNavigation($identifierCode = 'SilvercartProductGroupHolder') : DBHTMLText
+    public function getSubNavigation($identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $cachekey = 'SilverCart_Model_Pages_Includes_SubNavigation'.$this->ID;
         $cache    = Injector::inst()->get(CacheInterface::class . '.ProductGroupPageController_getSubNavigation');
