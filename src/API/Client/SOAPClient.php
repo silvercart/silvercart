@@ -2,7 +2,7 @@
 
 namespace SilverCart\API\Client;
 
-use SoapClient;
+use SoapClient as PHPSoapClient;
 
 /**
  * Main handler for SOAP client calls.
@@ -26,7 +26,7 @@ class SOAPClient extends Client
     /**
      * SOAP clients.
      *
-     * @var SoapClient[] 
+     * @var PHPSoapClient[] 
      */
     private $soapClients = [];
 
@@ -43,9 +43,9 @@ class SOAPClient extends Client
      * 
      * @param string $url URL to WSDL.
      * 
-     * @return SoapClient
+     * @return PHPSoapClient
      */
-    public function getSoapClient(string $url = null) : SoapClient
+    public function getSoapClient(string $url = null) : PHPSoapClient
     {
         if (is_null($url)) {
             $url = $this->getAPIURL();
@@ -75,7 +75,7 @@ class SOAPClient extends Client
                 ]);
                 $options['stream_context'] = $context;
             }
-            $this->soapClients[$url] = new SoapClient("{$url}?wsdl", $options);
+            $this->soapClients[$url] = new PHPSoapClient("{$url}?wsdl", $options);
         }
         return $this->soapClients[$url];
     }
@@ -83,11 +83,11 @@ class SOAPClient extends Client
     /**
      * Sets the SOAP client.
      * 
-     * @param SoapClient $soapClient SOAP client
+     * @param PHPSoapClient $soapClient SOAP client
      * 
      * @return Client
      */
-    public function setSoapClient(SoapClient $soapClient) : Client
+    public function setSoapClient(PHPSoapClient $soapClient) : Client
     {
         $this->soapClient = $soapClient;
         return $this;
@@ -133,16 +133,16 @@ class SOAPClient extends Client
     /**
      * Triggers an error.
      * 
-     * @param string     $message    Error message
-     * @param string     $code       Error code
-     * @param SoapClient $soapClient SOAP Client
+     * @param string        $message    Error message
+     * @param string        $code       Error code
+     * @param PHPSoapClient $soapClient SOAP Client
      * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 02.12.2014
      */
-    protected function triggerError(string $message, string $code, SoapClient $soapClient = null) : void
+    protected function triggerError(string $message, string $code, PHPSoapClient $soapClient = null) : void
     {
         $this->log("An error occurred!", 'ERROR');
         $this->log("Code: {$code}", 'ERROR');
