@@ -860,6 +860,20 @@ class SiteConfigExtension extends DataExtension
     }
     
     /**
+     * Returns the ShopCountry with extension support.
+     * 
+     * @return Country
+     */
+    public function getShopCountry() : Country
+    {
+        $value = $this->owner->getComponent('ShopCountry');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->owner->extend("updateShopCountry", $value);
+        }
+        return $value;
+    }
+    
+    /**
      * Returns the ShopPhone.
      * 
      * @return string|null

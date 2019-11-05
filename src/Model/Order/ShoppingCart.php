@@ -1399,7 +1399,7 @@ class ShoppingCart extends DataObject
         }
         if (!($country instanceof Country)
          || !$country->exists()) {
-            $country = SiteConfig::current_site_config()->ShopCountry();
+            $country = SiteConfig::current_site_config()->getShopCountry();
         }
         if (!($country instanceof Country)
          || !$country->exists()) {

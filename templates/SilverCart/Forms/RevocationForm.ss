@@ -29,7 +29,7 @@ $(document).ready(function() {
             <strong>{$ShopName}</strong><br/>
             {$ShopStreet} {$ShopStreetNumber}<br/>
             {$ShopPostcode} {$ShopCity}<br/>
-            {$ShopCountry.Title}<br/>
+            {$getShopCountry.Title}<br/>
         </i>
     <% end_with %>
     </p>

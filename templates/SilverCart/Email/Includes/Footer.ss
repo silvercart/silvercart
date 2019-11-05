@@ -5,7 +5,7 @@
         <strong>{$ShopName}</strong><br/>
         {$ShopStreet} {$ShopStreetNumber}<br/>
         {$ShopPostcode} {$ShopCity}<br/>
-        {$ShopCountry.Title}<br/>
+        {$getShopCountry.Title}<br/>
         <% if $ShopPhone || $EmailLink %>
             <% if $ShopPhone %>
         <i>Tel.: {$ShopPhone}</i><br/>

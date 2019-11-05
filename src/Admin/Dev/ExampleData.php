@@ -405,7 +405,7 @@ class ExampleData
                     'ShopStreetNumber'    => $config->ShopStreetNumber,
                     'ShopPostcode'        => $config->ShopPostcode,
                     'ShopCity'            => $config->ShopCity,
-                    'ShopCountry'         => $config->ShopCountry(),
+                    'ShopCountry'         => $config->getShopCountry(),
                 ];
                 break;
             case 'ChangePassword':

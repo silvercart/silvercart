@@ -606,7 +606,7 @@ class Product extends DataObject implements PermissionProvider
             $country = $customer->ShippingAddress()->Country();
         }
         if (is_null($country)) {
-            $country = SiteConfig::current_site_config()->ShopCountry();
+            $country = SiteConfig::current_site_config()->getShopCountry();
             if (is_null($country)) {
                 $countryCode = substr(i18n::get_locale(), 3);
                 $country     = Country::get()->filter([

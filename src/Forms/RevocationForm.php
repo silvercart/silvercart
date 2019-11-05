@@ -168,7 +168,7 @@ class RevocationForm extends CustomForm
             'ShopStreetNumber'    => $config->ShopStreetNumber,
             'ShopPostcode'        => $config->ShopPostcode,
             'ShopCity'            => $config->ShopCity,
-            'ShopCountry'         => $config->ShopCountry(),
+            'ShopCountry'         => $config->getShopCountry(),
         ];
         
         ShopEmail::send(
