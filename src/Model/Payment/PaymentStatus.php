@@ -16,10 +16,22 @@ use SilverStripe\ORM\DataObject;
  * @since 07.09.2018
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Code      Status code
+ * @property bool   $IsDefault Status is default?
+ * 
+ * @property string $IsDefaultString self::$IsDefault as a human readable string
+ * @property string $Title           Status title
+ * 
+ * @method \SilverStripe\ORM\HasManyList Orders()                    Returns the related orders.
+ * @method \SilverStripe\ORM\HasManyList PaymentStatusTranslations() Returns the related translations.
  */
 class PaymentStatus extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    
+    const STATUS_CODE_OPEN = 'open';
+    const STATUS_CODE_PAID = 'paid';
     
     /**
      * Returns the default PaymentStatus.
@@ -28,7 +40,8 @@ class PaymentStatus extends DataObject
      * 
      * @return PaymentStatus
      */
-    public static function get_default($withFallback = true) {
+    public static function get_default($withFallback = true) : PaymentStatus
+    {
         $default = self::get()->filter('IsDefault', true)->first();
         if ($withFallback
          && (!($default instanceof PaymentStatus)
@@ -38,6 +51,18 @@ class PaymentStatus extends DataObject
             $default->write();
         }
         return $default;
+    }
+    
+    /**
+     * Returns the payment status with the given $code.
+     * 
+     * @param string $code Code to get status for
+     * 
+     * @return PaymentStatus|null
+     */
+    public static function get_by_code(string $code) : ?PaymentStatus
+    {
+        return self::get()->filter('Code', $code)->first();
     }
     
     /**
@@ -91,8 +116,8 @@ class PaymentStatus extends DataObject
      * @var array 
      */
     private static $default_codes = [
-        'open',
-        'paid',
+        self::STATUS_CODE_OPEN,
+        self::STATUS_CODE_PAID,
     ];
 
     /**
@@ -101,7 +126,7 @@ class PaymentStatus extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -112,7 +137,7 @@ class PaymentStatus extends DataObject
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }
@@ -127,7 +152,7 @@ class PaymentStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         $this->beforeUpdateFieldLabels(function (&$labels) {
             $labels = array_merge(
@@ -150,7 +175,8 @@ class PaymentStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function getCMSFields() {
+    public function getCMSFields() : FieldList
+    {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             if (in_array($this->Code, self::config()->get('default_codes'))) {
                 $fields->dataFieldByName('Code')->setReadonly(true);
@@ -167,7 +193,7 @@ class PaymentStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    protected function onBeforeWrite()
+    protected function onBeforeWrite() : void
     {
         parent::onBeforeWrite();
         $defaultStatus = self::get_default(false);
@@ -189,7 +215,7 @@ class PaymentStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2018
      */
-    public function requireDefaultRecords()
+    public function requireDefaultRecords() : void
     {
         $this->beforeRequireDefaultRecords(function() {
             foreach (self::config()->get('default_codes') as $default) {
@@ -202,7 +228,7 @@ class PaymentStatus extends DataObject
                 $status = self::create();
                 $status->Code      = $default;
                 $status->Title     = $this->fieldLabel('DefaultStatus' . ucfirst($default));
-                $status->IsDefault = $default == 'open';
+                $status->IsDefault = $default == self::STATUS_CODE_OPEN;
                 $status->write();
             }
         });
@@ -217,7 +243,8 @@ class PaymentStatus extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function summaryFields() {
+    public function summaryFields() : array
+    {
         $summaryFields = [
             'Code'            => $this->fieldLabel('Code'),
             'Title'           => $this->fieldLabel('Title'),
@@ -232,7 +259,7 @@ class PaymentStatus extends DataObject
      *
      * @return string
      */
-    public function getIsDefaultString()
+    public function getIsDefaultString() : string
     {
         return $this->IsDefault ? Tools::field_label('Yes') : Tools::field_label('No');
     }
@@ -243,8 +270,8 @@ class PaymentStatus extends DataObject
      *
      * @return string 
      */
-    public function getTitle()
+    public function getTitle() : string
     {
-        return $this->getTranslationFieldValue('Title');
+        return (string) $this->getTranslationFieldValue('Title');
     }
 }
