@@ -236,22 +236,24 @@ class CURLClient extends Client
         $headers      = $this->getHeaders();
         $diffJSON     = array_diff($headers, self::HEADERS_JSON_CONTENT);
         $diffXML      = array_diff($headers, self::HEADERS_XML_CONTENT);
-        if (empty($diffJSON)) {
-            $data = json_decode($response);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $isError      = true;
-                $errorMessage = "Error: Response format couldn't be parsed as JSON.";
-                $errorCode    = 'JSON-0001';
-            } elseif (is_object($data)
-                   && property_exists($data, 'error')
-                   && property_exists($data, 'message')
-            ) {
-                $isError      = true;
-                $errorMessage = $data->message;
-                $errorCode    = $data->error;
+        if (!empty($response)) {
+            if (empty($diffJSON)) {
+                $data = json_decode($response);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    $isError      = true;
+                    $errorMessage = "Error: Response format couldn't be parsed as JSON.";
+                    $errorCode    = 'JSON-0001';
+                } elseif (is_object($data)
+                       && property_exists($data, 'error')
+                       && property_exists($data, 'message')
+                ) {
+                    $isError      = true;
+                    $errorMessage = $data->message;
+                    $errorCode    = $data->error;
+                }
+            } elseif (empty($diffXML)) {
+                $data = new SimpleXMLElement($response);
             }
-        } elseif (empty($diffXML)) {
-            $data = new SimpleXMLElement($response);
         }
         if (!$isError
          && is_null($data)
@@ -262,9 +264,9 @@ class CURLClient extends Client
         }
         if (!empty($errorMessage)) {
             if (!empty($errorCode)) {
-                $this->addErrorList("{$errorCode}: {$errorMessage}");
+                $this->addError("{$errorCode}: {$errorMessage}");
             } else {
-                $this->addErrorList($errorMessage);
+                $this->addError($errorMessage);
             }
         }
         return Response::create($this, $response, $data, $isError, $errorMessage, $errorCode);
