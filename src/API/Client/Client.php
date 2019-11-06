@@ -89,7 +89,6 @@ class Client
      */
     public function __construct()
     {
-        parent::__construct();
         $reflection = new ReflectionClass($this);
         $shortName  = $reflection->getShortName();
         $this->setLogFileName("APIClient.{$shortName}");
