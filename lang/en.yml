@@ -69,6 +69,7 @@ en:
         MISSES: Misses
         MISTER: Mister
         NAME: Name
+        NoAddressData: 'No address data available.'
         NO_ADDRESS_AVAILABLE: 'No address available'
         PACKSTATION: 'Packstation (e.g. "Packstation 105")'
         PACKSTATION_LABEL: PACKSTATION

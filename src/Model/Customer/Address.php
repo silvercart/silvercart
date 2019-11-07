@@ -694,6 +694,7 @@ class Address extends DataObject implements PermissionProvider
             'InvoiceAddresses'   => _t(Address::class . '.InvoiceAddresses', 'Invoice addresses'),
             'ShippingAddress'    => _t(Address::class . '.ShippingAddress', 'Shipping address'),
             'ShippingAddresses'  => _t(Address::class . '.ShippingAddresses', 'Shipping addresses'),
+            'NoAddressData'      => _t(Address::class . '.NoAddressData', 'No address data available.'),
             'InvoiceAddressAsShippingAddress' => _t(Address::class . '.InvoiceAddressAsShippingAddress', 'Use invoice address as shipping address'),
             'SILVERCART_ADDRESS_VIEW'   => _t(Address::class . '.SILVERCART_ADDRESS_VIEW', 'View address'),
             'SILVERCART_ADDRESS_EDIT'   => _t(Address::class . '.SILVERCART_ADDRESS_EDIT', 'Edit address'),

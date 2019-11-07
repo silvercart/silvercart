@@ -66,6 +66,18 @@ class OrderStatus extends DataObject
     }
     
     /**
+     * Returns the order status with the given $code.
+     * 
+     * @param string $code Code to get status for
+     * 
+     * @return OrderStatus|null
+     */
+    public static function get_by_code(string $code) : ?OrderStatus
+    {
+        return self::get()->filter('Code', $code)->first();
+    }
+    
+    /**
      * attributes
      *
      * @var array
