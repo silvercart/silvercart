@@ -1315,6 +1315,7 @@ de:
     Code: "Code"
     DefaultStatusOpen: "Offen"
     DefaultStatusPaid: "Bezahlt"
+    DefaultStatusPartlyPaid: 'Teilweise bezahlt'
     IsDefault: "Ist Standard"
     Orders: "Bestellungen"
     PaymentStatusTranslations: "Übersetzungen"

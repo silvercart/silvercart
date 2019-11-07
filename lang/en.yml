@@ -1315,6 +1315,7 @@ en:
         Code: Code
         DefaultStatusOpen: Open
         DefaultStatusPaid: Paid
+        DefaultStatusPartlyPaid: 'Partly paid'
         IsDefault: 'Is default'
         Orders: Orders
         PaymentStatusTranslations: Translations
