@@ -6,7 +6,8 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBField;
 
 /**
- * DB field type BLOB to store binary data with a size of up to 65,535 bytes.
+ * DB field type MEDIUMBLOB to store binary data with a size of up to 16,777,215
+ * bytes.
  *
  * @package SilverCart
  * @subpackage ORM\FieldType
@@ -15,7 +16,7 @@ use SilverStripe\ORM\FieldType\DBField;
  * @copyright 2019 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DBBlob extends DBField
+class DBMediumBlob extends DBField
 {
     /**
      * Requires the DB field data.
@@ -27,6 +28,6 @@ class DBBlob extends DBField
      */
     public function requireField() : void
     {
-        DB::require_field($this->tableName, $this->name, "blob");
+        DB::require_field($this->tableName, $this->name, "MEDIUMBLOB");
     }
 }
