@@ -35,6 +35,28 @@ use SilverStripe\Security\PermissionProvider;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $TaxIdNumber   Tax Id Number
+ * @property string $Company       Company
+ * @property string $Salutation    Salutation
+ * @property string $AcademicTitle Academic Title
+ * @property string $FirstName     Firstname
+ * @property string $Surname       Surname
+ * @property string $Addition      Addition
+ * @property string $PostNumber    PostNumber
+ * @property string $Packstation   Packstation
+ * @property string $Street        Street
+ * @property string $StreetNumber  Street Number
+ * @property string $Postcode      Postcode
+ * @property string $City          City
+ * @property string $Phone         Phone
+ * @property string $Fax           Fax
+ * @property bool   $IsPackstation Is Packstation?
+ * @property int    $MemberID      Member ID
+ * @property int    $CountryID     Country ID
+ * 
+ * @method Member  Member()  Returns the related Member.
+ * @method Country Country() Returns the related Country.
  */
 class Address extends DataObject implements PermissionProvider
 {
@@ -1274,14 +1296,76 @@ class Address extends DataObject implements PermissionProvider
     /**
      * Renders the address with the default template.
      * 
+     * @param string $headLine Headline
+     * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function render($headLine = null) : DBHTMLText
+    public function render(string $headLine = null) : DBHTMLText
     {
         return $this->customise(['HeadLine' => $headLine])->renderWith(Address::class);
+    }
+
+    /**
+     * Returns the rendered address to use as plain text.
+     * 
+     * @param string $headLine Headline
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 09.07.2019
+     */
+    public function renderPlainText(string $headLine = null) : string
+    {
+        $plainText = '';
+        if ($this->exists()) {
+            if (!is_null($headLine)) {
+                $plainText .= $headLine . PHP_EOL;
+            }
+            if (!empty($this->TaxIdNumber)) {
+                $plainText .= "{$this->fieldLabel('TaxIdNumber')}: {$this->TaxIdNumber}" . PHP_EOL;
+            }
+            if (!empty($this->Company)) {
+                $plainText .= $this->Company . PHP_EOL;
+            }
+            $plainText .= "{$this->Salutation} ";
+            if (!empty($this->AcademicTitle)) {
+                $plainText .= "{$this->AcademicTitle} ";
+            }
+            $plainText .= "{$this->FullName}" . PHP_EOL;
+            if (!empty($this->Addition)) {
+                $plainText .= $this->Addition . PHP_EOL;
+            }
+            if ($this->IsPackstation) {
+                $plainText .= "{$this->fieldLabel('PostNumber')}: {$this->PostNumber}" . PHP_EOL;
+                $plainText .= "{$this->fieldLabel('PackstationPlain')}: {$this->Packstation}" . PHP_EOL;
+            } else {
+                $plainText .= "{$this->Street} {$this->StreetNumber}" . PHP_EOL;
+            }
+            $plainText .= "{$this->Country()->ISO2}-{$this->Postcode} {$this->City}" . PHP_EOL;
+            if (!empty($this->Phone)) {
+                $plainText .= "{$this->fieldLabel('PhoneShort')}: {$this->Phone}" . PHP_EOL;
+            }
+            if (!empty($this->Fax)) {
+                $plainText .= "{$this->fieldLabel('Fax')}: {$this->Fax}" . PHP_EOL;
+            }
+        }
+        return trim($plainText);
+    }
+    
+    /**
+     * Returns the line count of the plain text version.
+     * 
+     * @param string $headLine Headline
+     * 
+     * @return int
+     */
+    public function PlainTextLineCount(string $headLine = null) : int
+    {
+        return count(explode(PHP_EOL, $this->renderPlainText($headLine)));
     }
     
     /**
