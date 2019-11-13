@@ -464,8 +464,7 @@ class Address extends DataObject implements PermissionProvider
         }
         $can = false;
         if ($member->InvoiceAddressID !== $this->ID
-         && ($member->InvoiceAddress()->canEdit()
-          || !$member->InvoiceAddress()->exists())
+         || !$member->InvoiceAddress()->exists()
         ) {
             $can = true;
         }
