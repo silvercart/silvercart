@@ -11,6 +11,8 @@ use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\MyAccountHolderController;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * AddressHolder Controller Class;
@@ -53,7 +55,7 @@ class AddressHolderController extends MyAccountHolderController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function AddAddressForm()
+    public function AddAddressForm() : AddAddressForm
     {
         return AddAddressForm::create($this);
     }
@@ -61,27 +63,37 @@ class AddressHolderController extends MyAccountHolderController
     /**
      * Returns the EditAddressForm.
      * 
-     * @return EditAddressForm
+     * @return EditAddressForm|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.11.2017
      */
-    public function EditAddressForm()
+    public function EditAddressForm() : ?EditAddressForm
+    {
+        $address = $this->getAddress();
+        if (!($address instanceof Address)
+         || !$address->exists()
+        ) {
+            return null;
+        }
+        return EditAddressForm::create($address, $this);
+    }
+    
+    /**
+     * Returns the address matching with the request data.
+     * 
+     * @return Address|null
+     */
+    public function getAddress() : ?Address
     {
         $addressID = $this->getRequest()->postVar('AddressID');
         if (is_null($addressID)) {
             $addressID = $this->getRequest()->param('ID');
         }
         if (!is_numeric($addressID)) {
-            return;
+            return null;
         }
-        $address = Address::get()->byID($addressID);
-        if (!($address instanceof Address) ||
-            !$address->exists()) {
-            return;
-        }
-        $form = EditAddressForm::create($address, $this);
-        return $form;
+        return Address::get()->byID($addressID);
     }
     
     /**
@@ -91,7 +103,7 @@ class AddressHolderController extends MyAccountHolderController
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function addNewAddress(HTTPRequest $request)
+    public function addNewAddress(HTTPRequest $request) : DBHTMLText
     {
         if (!Address::singleton()->canCreate()) {
             $this->redirect($this->data()->Link());
@@ -111,7 +123,7 @@ class AddressHolderController extends MyAccountHolderController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function deleteAddress(HTTPRequest $request, string $context = '')
+    public function deleteAddress(HTTPRequest $request, string $context = '') : void
     {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
@@ -159,7 +171,7 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @return int
      */
-    public function getAddressID()
+    public function getAddressID() : int
     {
         return $this->addressID;
     }
@@ -171,9 +183,10 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @return void
      */
-    public function setAddressID($addressID)
+    public function setAddressID(int $addressID) : AddressHolderController
     {
         $this->addressID = $addressID;
+        return $this;
     }
     
     /**
@@ -181,17 +194,20 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @param HTTPRequest $request The given request
      *
-     * @return void
+     * @return HTTPResponse
      */
-    public function setInvoiceAddress(HTTPRequest $request)
+    public function setInvoiceAddress(HTTPRequest $request) : HTTPResponse
     {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
-         && !empty ($params['ID'])) {
+         && !empty ($params['ID'])
+        ) {
             $addressID          = (int) $params['ID'];
             $membersAddresses   = Customer::currentUser()->Addresses();
             $membersAddress     = $membersAddresses->find('ID', $addressID);
-            if ($membersAddress instanceof Address && $membersAddress->exists()) {
+            if ($membersAddress instanceof Address
+             && $membersAddress->exists()
+            ) {
                 // Address contains to logged in user - set as invoice address
                 $member = Customer::currentUser();
                 $member->InvoiceAddressID = $addressID;
@@ -202,7 +218,7 @@ class AddressHolderController extends MyAccountHolderController
                 $this->setErrorMessage(_t(AddressHolder::class . '.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        $this->redirectBack();
+        return $this->redirectBack();
     }
     
     /**
@@ -210,9 +226,9 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @param HTTPRequest $request The given request
      *
-     * @return void
+     * @return HTTPResponse
      */
-    public function setShippingAddress(HTTPRequest $request)
+    public function setShippingAddress(HTTPRequest $request) : HTTPResponse
     {
         $params = $request->allParams();
         if (array_key_exists('ID', $params)
@@ -234,7 +250,7 @@ class AddressHolderController extends MyAccountHolderController
                 $this->setErrorMessage(_t(AddressHolder::class . '.ADDRESS_NOT_FOUND', 'Sorry, but the given address was not found.'));
             }
         }
-        $this->redirectBack();
+        return $this->redirectBack();
     }
     
     /**
@@ -242,12 +258,12 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @return string
      */
-    public function getErrorMessage()
+    public function getErrorMessage() : string
     {
         $errorMessage = Tools::Session()->get('SilvercartAddressHolder.errorMessage');
         Tools::Session()->clear('SilvercartAddressHolder.errorMessage');
         Tools::saveSession();
-        return $errorMessage;
+        return (string) $errorMessage;
     }
 
     /**
@@ -255,12 +271,13 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @param string $errorMessage Error message
      * 
-     * @return void
+     * @return AddressHolderController
      */
-    public function setErrorMessage($errorMessage)
+    public function setErrorMessage(string $errorMessage) : PageController
     {
         Tools::Session()->set('SilvercartAddressHolder.errorMessage', $errorMessage);
         Tools::saveSession();
+        return $this;
     }
     
     /**
@@ -268,12 +285,12 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @return string
      */
-    public function getSuccessMessage()
+    public function getSuccessMessage() : string
     {
         $successMessage = Tools::Session()->get('SilvercartAddressHolder.successMessage');
         Tools::Session()->clear('SilvercartAddressHolder.successMessage');
         Tools::saveSession();
-        return $successMessage;
+        return (string) $successMessage;
     }
 
     /**
@@ -281,11 +298,12 @@ class AddressHolderController extends MyAccountHolderController
      *
      * @param string $successMessage Success message
      * 
-     * @return void
+     * @return AddressHolderController
      */
-    public function setSuccessMessage($successMessage)
+    public function setSuccessMessage(string $successMessage) : PageController
     {
         Tools::Session()->set('SilvercartAddressHolder.successMessage', $successMessage);
         Tools::saveSession();
+        return $this;
     }
 }

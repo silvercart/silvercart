@@ -68,7 +68,7 @@ class MyAccountHolderController extends \PageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.07.2018
      */
-    public function OrderDetailLink($orderID = '')
+    public function OrderDetailLink($orderID = '') : string
     {
         return Tools::PageByIdentifierCode(Page::IDENTIFIER_ORDER_HOLDER)->Link("detail/{$orderID}");
     }
@@ -78,7 +78,7 @@ class MyAccountHolderController extends \PageController
      * 
      * @return LoginForm
      */
-    public function LoginForm()
+    public function LoginForm() : LoginForm
     {
         return LoginForm::create($this);
     }

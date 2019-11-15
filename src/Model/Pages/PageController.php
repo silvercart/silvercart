@@ -91,7 +91,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireFullJavaScript()
+    public function RequireFullJavaScript() : void
     {
         if (Tools::isIsolatedEnvironment()) {
             return;
@@ -116,7 +116,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireI18nJavaScript()
+    public function RequireI18nJavaScript() : void
     {
         if (Tools::isIsolatedEnvironment()) {
             return;
@@ -136,7 +136,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireCoreJavaScript()
+    public function RequireCoreJavaScript() : void
     {
         if (Tools::isIsolatedEnvironment()) {
             return;
@@ -187,7 +187,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireExtendedJavaScript()
+    public function RequireExtendedJavaScript() : void
     {
         if (Tools::isIsolatedEnvironment()) {
             return;
@@ -210,7 +210,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireCookieBannerJavaScript()
+    public function RequireCookieBannerJavaScript() : void
     {
         if (Tools::isIsolatedEnvironment()) {
             return;
@@ -226,7 +226,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.06.2014
      */
-    public function RequireColorSchemeCSS()
+    public function RequireColorSchemeCSS() : void
     {
         if (!is_null(Config::getConfig()->ColorScheme)) {
             Requirements::themedCSS('client/css/color_' . Config::getConfig()->ColorScheme);
@@ -242,7 +242,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public function HeadCustomHtmlContent()
+    public function HeadCustomHtmlContent() : DBHTMLText
     {
         $headCustomHtmlContent = '';
         $this->extend('updateHeadCustomHtmlContent', $headCustomHtmlContent);
@@ -258,7 +258,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public function HeaderCustomHtmlContent()
+    public function HeaderCustomHtmlContent() : DBHTMLText
     {
         $headerCustomHtmlContent = '';
         $this->extend('updateHeaderCustomHtmlContent', $headerCustomHtmlContent);
@@ -274,7 +274,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public function BeforeFooterContent()
+    public function BeforeFooterContent() : DBHTMLText
     {
         $beforeFooterContent = '';
         $this->extend('updateBeforeFooterContent', $beforeFooterContent);
@@ -290,7 +290,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public function FooterCustomHtmlContent()
+    public function FooterCustomHtmlContent() : DBHTMLText
     {
         $footerCustomHtmlContent = '';
         $this->extend('updateFooterCustomHtmlContent', $footerCustomHtmlContent);
@@ -316,7 +316,7 @@ class PageController extends ContentController
 
         if (array_key_exists($this->ID, self::$instanceMemorizer)) {
             parent::init();
-            return true;
+            return;
         }
         Requirements_Backend::config()->set('force_combine_files', true);
         
@@ -399,13 +399,14 @@ class PageController extends ContentController
     /**
      * Returns the ChangeLanguageForm.
      * 
-     * @return ChangeLanguageForm
+     * @return ChangeLanguageForm|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    public function ChangeLanguageForm()
+    public function ChangeLanguageForm() : ?ChangeLanguageForm
     {
+        $form         = null;
         $translations = Tools::get_translations($this->data());
         if ($translations instanceof \SilverStripe\ORM\SS_List
          && $translations->exists()
@@ -421,12 +422,12 @@ class PageController extends ContentController
      * 
      * @param string $statusCode Status code
      * 
-     * @return ContentController
+     * @return ContentController|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.05.2015
      */
-    public static function error_response_for($statusCode)
+    public static function error_response_for($statusCode) : ?ContentController
     {
         $response  = null;
         $errorPage = ErrorPage::get()->filter([
@@ -445,7 +446,7 @@ class PageController extends ContentController
      *
      * @return string
      */
-    public function getProtocol()
+    public function getProtocol() : string
     {
         return Director::protocol();
     }
@@ -454,18 +455,13 @@ class PageController extends ContentController
      * Returns HTML code that has been created by SilverCart modules.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-01-03
      */
-    public function ModuleHtmlInjections()
+    public function ModuleHtmlInjections() : string
     {
         $injections = '';
-
         foreach (self::$moduleHtmlInjections as $injectionId => $injectionCode) {
             $injections .= $injectionCode;
         }
-
         return $injections;
     }
 
@@ -476,11 +472,8 @@ class PageController extends ContentController
      * @param string $code       The code to inject
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-01-03
      */
-    public static function injectHtmlCode($identifier, $code)
+    public static function injectHtmlCode(string $identifier, $code) : void
     {
         self::$moduleHtmlInjections[$identifier] = $code;
     }
@@ -488,12 +481,12 @@ class PageController extends ContentController
     /**
      * Indicates wether the site is in live mode.
      * 
-     * @return boolean
+     * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 18.01.2012
      */
-    public function isLive()
+    public function isLive() : bool
     {
         return Director::isLive();
     }
@@ -503,12 +496,12 @@ class PageController extends ContentController
      * 
      * @param int $limit Limit
      *
-     * @return DataList
+     * @return DataList|null
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 27.10.10
      */
-    public function CurrentMembersOrders($limit = null)
+    public function CurrentMembersOrders(int $limit = null) : ?DataList
     {
         $customer = Security::getCurrentUser();
         if ($customer instanceof Member) {
@@ -530,10 +523,9 @@ class PageController extends ContentController
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2013
      */
-    public function ShopErrors()
+    public function ShopErrors() : string
     {
         $errorStr = '';
-        
         $silvercartSessionErrors = Tools::Session()->get('Silvercart.errors');
         if (is_array($silvercartSessionErrors)) {
             foreach ($silvercartSessionErrors as $error) {
@@ -542,7 +534,6 @@ class PageController extends ContentController
             Tools::Session()->set('Silvercart.errors', []);
             Tools::saveSession();
         }
-        
         return $errorStr;
     }
 
@@ -550,11 +541,8 @@ class PageController extends ContentController
      * Provide permissions
      * 
      * @return array configuration of API permissions
-     * 
-     * @author Sascha koehler <skoehler@pixeltricks.de>
-     * @since 12.10.2010
      */
-    public function providePermissions()
+    public function providePermissions() : array
     {
         return [
             'API_VIEW'   => Page::singleton()->fieldLabel('APIView'),
@@ -568,14 +556,15 @@ class PageController extends ContentController
      * Function similar to Security::getCurrentUser(); Determines if we deal with a
      * registered customer who has opted in. Returns the member object or false.
      *
-     * @return mixed Member|boolean(false)
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.09.2017
+     * @return Member|null
      */
-    public function CurrentRegisteredCustomer()
+    public function CurrentRegisteredCustomer() : ?Member
     {
-        return Customer::currentRegisteredCustomer();
+        $member = Customer::currentRegisteredCustomer();
+        if (!$member) {
+            $member = null;
+        }
+        return $member;
     }
     
     /**
@@ -586,7 +575,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.08.2018
      */
-    public function logoutURL()
+    public function logoutURL() : string
     {
         return Security::logout_url();
     }
@@ -597,12 +586,9 @@ class PageController extends ContentController
      *
      * @param string $identifierCode the classes name
      * 
-     * @return SiteTree | false a single object of the site tree; without param the FrontPage will be returned
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
+     * @return SiteTree|null
      */
-    public static function PageByIdentifierCode($identifierCode = Page::IDENTIFIER_FRONT_PAGE)
+    public static function PageByIdentifierCode(string $identifierCode = Page::IDENTIFIER_FRONT_PAGE) : ?SiteTree
     {
         return Tools::PageByIdentifierCode($identifierCode);
     }
@@ -613,11 +599,8 @@ class PageController extends ContentController
      * @param string $identifierCode the DataObjects IdentifierCode
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
      */
-    public static function PageByIdentifierCodeLink($identifierCode = Page::IDENTIFIER_FRONT_PAGE)
+    public static function PageByIdentifierCodeLink(string $identifierCode = Page::IDENTIFIER_FRONT_PAGE) : string
     {
         return Tools::PageByIdentifierCodeLink($identifierCode);
     }
@@ -631,7 +614,7 @@ class PageController extends ContentController
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getSubNavigation($identifierCode = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    public function getSubNavigation(string $identifierCode = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $output = '';
         $this->extend('updateSubNavigation', $output);
@@ -680,7 +663,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.09.2017
      */
-    public function showPrices($type)
+    public function showPrices(string $type) : bool
     {
         $pricetype = Config::Pricetype();
         $member    = Customer::currentUser();
@@ -702,7 +685,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.09.2017
      */
-    public function showPricesGross()
+    public function showPricesGross() : bool
     {
         return $this->showPrices('gross');
     }
@@ -715,7 +698,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.09.2017
      */
-    public function showPricesNet()
+    public function showPricesNet() : bool
     {
         return $this->showPrices('net');
     }
@@ -769,7 +752,7 @@ class PageController extends ContentController
      * 
      * @deprecated no uses found. remove before release.
      */
-    public static function getRecursivePagesForGroupedDropdownAsArray($parent = null, $allChildren = false, $withParent = false)
+    public static function getRecursivePagesForGroupedDropdownAsArray($parent = null, $allChildren = false, $withParent = false) : array
     {
         $pages = [];
         
@@ -820,7 +803,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function ShippingCountry()
+    public function ShippingCountry() : ?Country
     {
         $customer        = Customer::currentUser();
         $shippingCountry = null;
@@ -843,7 +826,7 @@ class PageController extends ContentController
      * 
      * @return DataList
      */
-    public function getFooterColumns()
+    public function getFooterColumns() : DataList
     {
         return MetaNavigationHolder::get()->filter('ClassName', MetaNavigationHolder::class);
     }
@@ -880,7 +863,7 @@ class PageController extends ContentController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.07.2014
      */
-    public function LostPasswordLink()
+    public function LostPasswordLink() : string
     {
         return Director::baseURL() . 'Security/lostpassword/?locale=' . Tools::current_locale();
     }
@@ -890,12 +873,12 @@ class PageController extends ContentController
      *
      * @return string
      */
-    public function getErrorMessage()
+    public function getErrorMessage() : string
     {
         $errorMessage = Tools::Session()->get('Silvercart.errorMessage');
         Tools::Session()->clear('Silvercart.errorMessage');
         Tools::saveSession();
-        return $errorMessage;
+        return (string) $errorMessage;
     }
 
     /**
@@ -905,10 +888,11 @@ class PageController extends ContentController
      * 
      * @return void
      */
-    public function setErrorMessage($errorMessage)
+    public function setErrorMessage(string $errorMessage) : PageController
     {
         Tools::Session()->set('Silvercart.errorMessage', $errorMessage);
         Tools::saveSession();
+        return $this;
     }
     
     /**
@@ -916,12 +900,12 @@ class PageController extends ContentController
      *
      * @return string
      */
-    public function getSuccessMessage()
+    public function getSuccessMessage() : string
     {
         $successMessage = Tools::Session()->get('Silvercart.successMessage');
         Tools::Session()->clear('Silvercart.successMessage');
         Tools::saveSession();
-        return $successMessage;
+        return (string) $successMessage;
     }
 
     /**
@@ -931,10 +915,11 @@ class PageController extends ContentController
      * 
      * @return void
      */
-    public function setSuccessMessage($successMessage)
+    public function setSuccessMessage(string $successMessage) : PageController
     {
         Tools::Session()->set('Silvercart.successMessage', $successMessage);
         Tools::saveSession();
+        return $this;
     }
     
     /**
@@ -945,7 +930,7 @@ class PageController extends ContentController
      * 
      * @return QuickSearchForm
      */
-    public function QuickSearchForm($htmlID = null)
+    public function QuickSearchForm(string $htmlID = null) : QuickSearchForm
     {
         $form = QuickSearchForm::create($this);
         if (!is_null($htmlID)) {
@@ -962,7 +947,7 @@ class PageController extends ContentController
      * 
      * @return QuickLoginForm
      */
-    public function QuickLoginForm($htmlID = null)
+    public function QuickLoginForm(string $htmlID = null) : QuickLoginForm
     {
         $form = QuickLoginForm::create($this);
         if (!is_null($htmlID)) {
@@ -976,7 +961,7 @@ class PageController extends ContentController
      * 
      * @return LoginForm
      */
-    public function LoginForm()
+    public function LoginForm() : LoginForm
     {
         return LoginForm::create($this);
     }
