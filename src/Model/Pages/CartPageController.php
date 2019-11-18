@@ -14,6 +14,7 @@ use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Security\Member;
 
 /**
  * CartPage Controller class.
@@ -25,8 +26,8 @@ use SilverStripe\Control\HTTPRequest;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CartPageController extends \PageController {
-    
+class CartPageController extends \PageController
+{
     /**
      * List of allowed actions.
      *
@@ -37,7 +38,6 @@ class CartPageController extends \PageController {
         'DecrementPositionQuantityForm',
         'RemovePositionForm',
     ];
-
     /**
      * Checkout.
      *
@@ -53,18 +53,26 @@ class CartPageController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
-    protected function init() {
-        if (Customer::currentUser() &&
-            Customer::currentUser()->ShoppingCartID > 0) {
-            Customer::currentUser()->getCart();
+    protected function init() : void
+    {
+        $customer = Customer::currentUser();
+        if ($customer instanceof Member
+        && $customer->ShoppingCartID > 0
+        ) {
+            $customer->getCart();
         }
         parent::init();
-        if (Customer::currentUser() &&
-            Customer::currentUser()->getCart()->exists() &&
-            Customer::currentUser()->getCart()->ShoppingCartPositions()->count() > 0 &&
-            Config::RedirectToCheckoutWhenInCart()) {
-            
+        if ($customer instanceof Member
+         && $customer->getCart()->exists()
+         && $customer->getCart()->ShoppingCartPositions()->exists()
+         && Config::RedirectToCheckoutWhenInCart()
+        ) {
             $this->redirect(Tools::PageByIdentifierCode(Page::IDENTIFIER_CHECKOUT_PAGE)->Link());
+        } elseif ($customer instanceof Member
+               && $customer->getCart()->exists()
+               && $customer->getCart()->ShoppingCartPositions()->exists()
+        ) {
+            $customer->getCart()->adjustPositionQuantitiesToStockQuantities();
         }
     }
 

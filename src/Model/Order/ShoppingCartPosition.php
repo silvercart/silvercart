@@ -75,43 +75,6 @@ class ShoppingCartPosition extends DataObject
      * @var string
      */
     protected $pluggedInTitle = null;
-    /**
-     * List of already initialized positions
-     *
-     * @var array
-     */
-    public static $initializedPositions = [];
-
-    /**
-     * Registers the edit-forms for this position.
-     *
-     * @param array|null $record      This will be null for a new database record.  Alternatively, you can pass an array of
-     *                                  field values.  Normally this contructor is only used by the internal systems that get objects from the database.
-     * @param boolean    $isSingleton This this to true if this is a singleton() object, a stub for calling methods.  Singletons
-     *                                  don't have their defaults set.
-     *
-     * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.11.2012
-     */
-    public function __construct($record = null, $isSingleton = false)
-    {
-        parent::__construct($record, $isSingleton);
-        if ($this->ID > 0
-         && !array_key_exists($this->ID, self::$initializedPositions)
-        ) {
-            // Check if the installation is complete. If it's not complete we
-            // can't access the Config data object (out of database)
-            // because it's not build yet
-            if (Tools::isInstallationCompleted()) {
-                $this->adjustQuantityToStockQuantity();
-            }
-
-            self::$initializedPositions[$this->ID] = true;
-        }
-    }
 
     /**
      * Returns the translated singular name of the object.
@@ -149,6 +112,7 @@ class ShoppingCartPosition extends DataObject
             'MaxQuantityReached'     => _t(ShoppingCartPosition::class . '.MAX_QUANTITY_REACHED_MESSAGE', 'The maximum quantity of products for this position has been reached.'),
             'QuantityAdded'          => _t(ShoppingCartPosition::class . '.QUANTITY_ADDED_MESSAGE', 'The product(s) were added to your cart.'),
             'QuantityAdjusted'       => _t(ShoppingCartPosition::class . '.QUANTITY_ADJUSTED_MESSAGE', 'The quantity of this position was adjusted to the currently available stock quantity.'),
+            'PositionDeleted'        => _t(ShoppingCartPosition::class . '.PositionDeletedMessage', 'One or more positions were deleted from your shoppping cart because they are no more available.'),
             'RemainingQuantityAdded' => _t(ShoppingCartPosition::class . '.REMAINING_QUANTITY_ADDED_MESSAGE', 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'),
         ]);
     }
@@ -385,15 +349,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function getShoppingCartPositionNotices() : DBHTMLText
     {
-        $text    = "";
-        $notices = Tools::Session()->get("position".$this->ID);
-        if (array_key_exists('codes', $notices)) {
-            foreach ($notices['codes'] as $code) {
-                $text .= ShoppingCartPositionNotice::getNoticeText($code) . "<br />";
-            }
-            ShoppingCartPositionNotice::unsetNotices($this->ID);
-        }
-        return Tools::string2html($text);
+        return ShoppingCartPositionNotice::getNotices($this->ID);
     }
 
     /**
@@ -474,7 +430,12 @@ class ShoppingCartPosition extends DataObject
                 if ($this->Quantity > $this->Product()->StockQuantity) {
                     $this->Quantity = $this->Product()->StockQuantity;
                     $this->write();
-                    ShoppingCartPositionNotice::setNotice($this->ID, "adjusted");
+                    if ($this->exists()) {
+                        $noticeCode = ShoppingCartPositionNotice::NOTICE_CODE_ADJUSTED;
+                    } else {
+                        $noticeCode = ShoppingCartPositionNotice::NOTICE_CODE_DELETED;
+                    }
+                    ShoppingCartPositionNotice::setNotice($this->ID, $noticeCode);
                 }
             }
         }
@@ -483,17 +444,11 @@ class ShoppingCartPosition extends DataObject
     /**
      * Is a notice set in the session?
      * 
-     * @return bool 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.7.2011
+     * @return bool
      */
     public function hasNotice() : bool
     {
-        if (Tools::Session()->get("position".$this->ID)) {
-            return true;
-        }
-        return false;
+        return ShoppingCartPositionNotice::hasNotices($this->ID);
     }
     
     /**
@@ -531,6 +486,9 @@ class ShoppingCartPosition extends DataObject
         $this->getCart()->LastEdited = $this->LastEdited;
         $this->getCart()->write();
         $this->extend('updateOnAfterWrite');
+        if ($this->Quantity <= 0) {
+            $this->delete();
+        }
     }
     
     /**

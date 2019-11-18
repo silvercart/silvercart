@@ -1925,6 +1925,7 @@ en:
     SilverCart\Model\Order\ShoppingCartPosition:
         MAX_QUANTITY_REACHED_MESSAGE: 'The maximum quantity of products for this position has been reached.'
         PLURALNAME: 'Cart positions'
+        PositionDeletedMessage: 'One or more positions were deleted from your shoppping cart because they are no more available.'
         QUANTITY_ADDED_MESSAGE: 'The product(s) were added to your cart.'
         QUANTITY_ADJUSTED_MESSAGE: 'The quantity of this position was adjusted to the currently available stock quantity.'
         REMAINING_QUANTITY_ADDED_MESSAGE: 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'

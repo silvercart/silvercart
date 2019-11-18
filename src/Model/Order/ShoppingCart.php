@@ -9,6 +9,7 @@ use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
+use SilverCart\Model\Order\ShoppingCartPositionNotice;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Tax;
@@ -20,6 +21,7 @@ use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
@@ -2412,4 +2414,23 @@ class ShoppingCart extends DataObject
         }
     }
     
+    /**
+     * returns a string with notices. Notices are seperated by <br />
+     * 
+     * @return DBHTMLText
+     */
+    public function getShoppingCartPositionNotices() : DBHTMLText
+    {
+        return ShoppingCartPositionNotice::getNotices(0);
+    }
+    
+    /**
+     * Is a notice set in the session?
+     * 
+     * @return bool
+     */
+    public function hasNotice() : bool
+    {
+        return ShoppingCartPositionNotice::hasNotices(0);
+    }
 }

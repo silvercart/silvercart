@@ -1925,6 +1925,7 @@ de:
   SilverCart\Model\Order\ShoppingCartPosition:
     MAX_QUANTITY_REACHED_MESSAGE: "Die maximale Anzahl an Artikeln für diese Position wurde erreicht."
     PLURALNAME: "Warenkorbpositionen"
+    PositionDeletedMessage: 'Ein oder mehrere Artikel wurden entfernt, da sie leider nicht mehr verfügbar sind.'
     QUANTITY_ADDED_MESSAGE: "Der Artikel wurde in den Warenkorb gelegt."
     QUANTITY_ADJUSTED_MESSAGE: "Die Menge dieser Position wurde an den verfügbaren Lagerbestand angepasst."
     REMAINING_QUANTITY_ADDED_MESSAGE: "Da wir die angeforderte Menge nicht mehr auf Lager haben, haben wir die verfügbare Menge in Ihren Warenkorb gelegt."

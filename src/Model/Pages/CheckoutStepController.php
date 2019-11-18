@@ -19,6 +19,8 @@ use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Forms\HiddenField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\Security\Member;
 
 /**
  * Checkout step page controller.
@@ -30,8 +32,8 @@ use SilverStripe\Forms\HiddenField;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutStepController extends \PageController {
-    
+class CheckoutStepController extends \PageController
+{
     /**
      * Allowed actions.
      *
@@ -53,7 +55,6 @@ class CheckoutStepController extends \PageController {
      * @var array
      */
     private static $allowed_thanks_actions = [];
-
     /**
      * Checkout.
      *
@@ -69,7 +70,8 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2018
      */
-    protected function init() {
+    protected function init() : void
+    {
         if (Config::EnableSSL()) {
             Director::forceSSL();
         }
@@ -87,6 +89,12 @@ class CheckoutStepController extends \PageController {
             }
             $currentStepNumber = array_search($stepName, $stepList) + 1;
             $action            = $this->getRequest()->param('Action');
+            $customer          = Customer::currentUser();
+            if ($customer instanceof Member
+             && $customer->exists()
+            ) {
+                $customer->getCart()->adjustPositionQuantitiesToStockQuantities();
+            }
             if (empty($action)
              && !$this->redirectedTo()
             ) {
@@ -111,13 +119,15 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function allowedActions($limitToClass = null) {
+    public function allowedActions($limitToClass = null) : array
+    {
         $currentStep    = $this->getCheckout()->getCurrentStep();
         $allowedActions = parent::allowedActions($limitToClass);
-        if (is_null($limitToClass) ||
-            $limitToClass == get_class($this)) {
+        if (is_null($limitToClass)
+         || $limitToClass == get_class($this)
+        ) {
             if (!is_array($allowedActions)) {
-                $allowedActions = array();
+                $allowedActions = [];
             }
             $stepActions = $currentStep->allowedActions();
             if (is_array($stepActions)) {
@@ -153,7 +163,8 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function hasAction($action) {
+    public function hasAction($action): bool
+    {
         $hasAction = parent::hasAction($action);
         if (!$hasAction) {
             $hasAction = $this->getCheckout()->getCurrentStep()->hasAction($action);
@@ -173,7 +184,8 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    protected function handleAction($request, $action) {
+    protected function handleAction($request, $action)
+    {
         $currentStep = $this->getCheckout()->getCurrentStep();
         if ($currentStep->hasAction($action)) {
             return $currentStep->$action($request);
@@ -186,12 +198,13 @@ class CheckoutStepController extends \PageController {
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return void
+     * @return DBHTMLText|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.11.2017
      */
-    public function step(HTTPRequest $request) {
+    public function step(HTTPRequest $request) : ?DBHTMLText
+    {
         $stepNumber = (int) $request->param('ID') - 1;
         $checkout   = $this->getCheckout();
         $stepList   = $checkout->getStepList();
@@ -199,7 +212,7 @@ class CheckoutStepController extends \PageController {
             if (!$this->redirectedTo()) {
                 $this->redirect($this->Link('step/1'));
             }
-            return;
+            return null;
         }
         $currentStepName = $stepList[$stepNumber];
         $currentStep     = new $currentStepName($this);
@@ -228,6 +241,7 @@ class CheckoutStepController extends \PageController {
                 $this->redirect($this->Link('step/' . $previousStepIndex));
             }
         }
+        return null;
     }
     
     /**
@@ -240,7 +254,8 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.09.2018
      */
-    public function thanks(HTTPRequest $request) {
+    public function thanks(HTTPRequest $request) : ?DBHTMLText
+    {
         $checkout     = $this->getCheckout();
         $checkoutData = $checkout->getFinalizedData();
         if (!empty($checkoutData)
@@ -259,6 +274,7 @@ class CheckoutStepController extends \PageController {
         if (!$this->redirectedTo()) {
             $this->redirect($this->Link());
         }
+        return null;
     }
     
     /**
@@ -273,8 +289,9 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.07.2011
      */
-    public function deleteAddress(HTTPRequest $request, $context = 'CheckoutStep') {
-        $silvercartAddressHolder = new AddressHolderController();
+    public function deleteAddress(HTTPRequest $request, $context = 'CheckoutStep') : void
+    {
+        $silvercartAddressHolder = AddressHolderController::create();
         $silvercartAddressHolder->deleteAddress($request, $context);
         $this->redirectBack();
     }
@@ -287,9 +304,10 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.2018
      */
-    public function AddAddressForm() {
-        $form = new AddAddressForm($this);
-        $form->Fields()->push(new HiddenField('redirect', '', $this->Link()));
+    public function AddAddressForm() : AddAddressForm
+    {
+        $form = AddAddressForm::create($this);
+        $form->Fields()->push(HiddenField::create('redirect', '', $this->Link()));
         return $form;
     }
     
@@ -301,21 +319,23 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.2018
      */
-    public function EditAddressForm() {
+    public function EditAddressForm() : ?EditAddressForm
+    {
         $addressID = $this->getRequest()->postVar('AddressID');
         if (is_null($addressID)) {
             $addressID = $this->getRequest()->param('ID');
         }
         if (!is_numeric($addressID)) {
-            return;
+            return null;
         }
         $address = Address::get()->byID($addressID);
-        if (!($address instanceof Address) ||
-            !$address->exists()) {
-            return;
+        if (!($address instanceof Address)
+         || !$address->exists()
+        ) {
+            return null;
         }
-        $form = new EditAddressForm($address, $this);
-        $form->Fields()->push(new HiddenField('redirect', '', $this->Link()));
+        $form = EditAddressForm::create($address, $this);
+        $form->Fields()->push(HiddenField::create('redirect', '', $this->Link()));
         return $form;
     }
 
@@ -324,7 +344,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return Checkout
      */
-    public function getCheckout() {
+    public function getCheckout() : Checkout
+    {
         if (is_null($this->checkout)) {
             $this->checkout = Checkout::create_from_session($this);
         }
@@ -339,7 +360,8 @@ class CheckoutStepController extends \PageController {
      *
      * @return Address 
      */
-    public function getInvoiceAddress() {
+    public function getInvoiceAddress()
+    {
         return $this->getAddress('InvoiceAddress');
     }
     
@@ -348,7 +370,8 @@ class CheckoutStepController extends \PageController {
      *
      * @return Address
      */
-    public function getShippingAddress() {
+    public function getShippingAddress()
+    {
         return $this->getAddress('ShippingAddress');
     }
     
@@ -359,18 +382,21 @@ class CheckoutStepController extends \PageController {
      * 
      * @return \SilverCart\Model\Customer\Address
      */
-    public function getAddress($type) {
+    public function getAddress(string $type)
+    {
         $address  = false;
         $checkout = $this->getCheckout();
         /* @var $checkout \SilverCart\Checkout\Checkout */
         $addressData = $checkout->getDataValue($type);
-        if (is_array($addressData) &&
-            !empty($addressData)) {
-            if (!array_key_exists('CountryID', $addressData) &&
-                array_key_exists('Country', $addressData)) {
+        if (is_array($addressData)
+         && !empty($addressData)
+        ) {
+            if (!array_key_exists('CountryID', $addressData)
+             && array_key_exists('Country', $addressData)
+            ) {
                 $addressData['CountryID'] = $addressData['Country'];
             }
-            $address = new Address($addressData);
+            $address = Address::create($addressData);
             $address->CountryID = $addressData['CountryID'];
         }
         return $address;
@@ -384,7 +410,8 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.11.2017
      */
-    public function currentStepIsPaymentStep() {
+    public function currentStepIsPaymentStep() : bool
+    {
         return $this->getCheckout()->getCurrentStep() instanceof CheckoutStep4;
     }
     
@@ -393,7 +420,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getAddressStepNumber() {
+    public function getAddressStepNumber() : int
+    {
         $stepNumber = 2;
         return $stepNumber;
     }
@@ -403,7 +431,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getShipmentStepNumber() {
+    public function getShipmentStepNumber() : int
+    {
         $stepNumber = 3;
         return $stepNumber;
     }
@@ -413,7 +442,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getPaymentStepNumber() {
+    public function getPaymentStepNumber() : int
+    {
         $stepNumber = 4;
         return $stepNumber;
     }
@@ -423,7 +453,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getLastStepNumber() {
+    public function getLastStepNumber() : int
+    {
         $stepNumber = 5;
         return $stepNumber;
     }
@@ -433,7 +464,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getAddressStepLink() {
+    public function getAddressStepLink() : string
+    {
         return $this->Link('step/' . $this->getAddressStepNumber());
     }
     
@@ -442,7 +474,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getShipmentStepLink() {
+    public function getShipmentStepLink() : string
+    {
         return $this->Link('step/' . $this->getShipmentStepNumber());
     }
     
@@ -451,7 +484,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getPaymentStepLink() {
+    public function getPaymentStepLink() : string
+    {
         return $this->Link('step/' . $this->getPaymentStepNumber());
     }
     
@@ -460,7 +494,8 @@ class CheckoutStepController extends \PageController {
      * 
      * @return int
      */
-    public function getLastStepLink() {
+    public function getLastStepLink() : string
+    {
         return $this->Link('step/' . $this->getLastStepNumber());
     }
     
@@ -472,8 +507,9 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.11.2017
      */
-    public function SkipPaymentStep() {
-        $paymentStep = new CheckoutStep4($this);
+    public function SkipPaymentStep() : bool
+    {
+        $paymentStep = CheckoutStep4::create($this);
         return $paymentStep->SkipPaymentStep();
     }
     
@@ -485,8 +521,9 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.11.2017
      */
-    public function SkipShippingStep() {
-        $shippingStep = new CheckoutStep3($this);
+    public function SkipShippingStep() : bool
+    {
+        $shippingStep = CheckoutStep3::create($this);
         return $shippingStep->SkipShippingStep();
     }
 
@@ -499,7 +536,8 @@ class CheckoutStepController extends \PageController {
      *
      * @return boolean false
      */
-    public function getEditableShoppingCart() {
+    public function getEditableShoppingCart() : bool
+    {
         return false;
     }
     
@@ -511,11 +549,13 @@ class CheckoutStepController extends \PageController {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.2018
      */
-    public function canCheckout() {
+    public function canCheckout() : bool
+    {
         $canCheckout = true;
         $customer    = Customer::currentUser();
-        if ($customer instanceof \SilverStripe\Security\Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             $cart = $customer->getCart();
             if (Config::UseMinimumOrderValue() &&
                 is_object(Config::MinimumOrderValue()) &&
@@ -534,15 +574,18 @@ class CheckoutStepController extends \PageController {
      * 
      * @return string
      */
-    public function getCheckoutErrorMessage() {
+    public function getCheckoutErrorMessage() : string
+    {
         $errorMessage = '';
         $customer     = Customer::currentUser();
-        if ($customer instanceof \SilverStripe\Security\Member &&
-            $customer->exists()) {
+        if ($customer instanceof Member
+         && $customer->exists()
+        ) {
             $cart = $customer->getCart();
-            if (Config::UseMinimumOrderValue() &&
-                is_object(Config::MinimumOrderValue()) &&
-                Config::MinimumOrderValue()->getAmount() > $cart->getAmountTotalWithoutFees()->getAmount()) {
+            if (Config::UseMinimumOrderValue()
+             && is_object(Config::MinimumOrderValue())
+             && Config::MinimumOrderValue()->getAmount() > $cart->getAmountTotalWithoutFees()->getAmount()
+            ) {
                 $errorMessage = _t(ShoppingCart::class . '.ERROR_MINIMUMORDERVALUE_NOT_REACHED',
                         'The minimum order value is {amount}',
                         [
@@ -553,5 +596,4 @@ class CheckoutStepController extends \PageController {
         }
         return $errorMessage;
     }
-    
 }
