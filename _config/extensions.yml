@@ -43,6 +43,9 @@ SilverStripe\Security\Member_Validator:
 SilverStripe\Admin\ModelAdmin:
   extensions:
     - SilverCart\Admin\Controllers\ModelAdminExtension
+SilverStripe\ORM\FieldType\DBInt:
+  extensions:
+    - SilverCart\Extensions\ORM\FieldType\DBIntExtension
 SilverStripe\ORM\FieldType\DBMoney:
   extensions:
     - SilverCart\Extensions\ORM\FieldType\DBMoneyExtension
