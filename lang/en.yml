@@ -3,6 +3,7 @@ en:
         Buy1: 'Buy {title}'
         Buy2: 'Buy {title1} {title2}'
         Change: Change
+        Close: Close
         Go: Go
         go: go
         NextPage: 'Next page'
