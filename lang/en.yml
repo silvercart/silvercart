@@ -3,6 +3,7 @@ en:
         Buy1: 'Buy {title}'
         Buy2: 'Buy {title1} {title2}'
         Change: Change
+        ClickForMore: 'Click for more informationen'
         Close: Close
         Go: Go
         go: go
