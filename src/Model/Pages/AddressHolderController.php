@@ -256,14 +256,14 @@ class AddressHolderController extends MyAccountHolderController
     /**
      * Get the error message out of session and delete it (from session).
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getErrorMessage() : string
+    public function getErrorMessage() : DBHTMLText
     {
         $errorMessage = Tools::Session()->get('SilvercartAddressHolder.errorMessage');
         Tools::Session()->clear('SilvercartAddressHolder.errorMessage');
         Tools::saveSession();
-        return (string) $errorMessage;
+        return DBHTMLText::create()->setValue($errorMessage);
     }
 
     /**
@@ -283,14 +283,14 @@ class AddressHolderController extends MyAccountHolderController
     /**
      * Get the success message out of session and delete it (from session).
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getSuccessMessage() : string
+    public function getSuccessMessage() : DBHTMLText
     {
         $successMessage = Tools::Session()->get('SilvercartAddressHolder.successMessage');
         Tools::Session()->clear('SilvercartAddressHolder.successMessage');
         Tools::saveSession();
-        return (string) $successMessage;
+        return DBHTMLText::create()->setValue($successMessage);
     }
 
     /**

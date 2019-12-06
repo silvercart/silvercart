@@ -871,14 +871,14 @@ class PageController extends ContentController
     /**
      * Get the error message out of session and delete it (from session).
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getErrorMessage() : string
+    public function getErrorMessage() : DBHTMLText
     {
         $errorMessage = Tools::Session()->get('Silvercart.errorMessage');
         Tools::Session()->clear('Silvercart.errorMessage');
         Tools::saveSession();
-        return (string) $errorMessage;
+        return DBHTMLText::create()->setValue($errorMessage);
     }
 
     /**
@@ -898,14 +898,14 @@ class PageController extends ContentController
     /**
      * Get the success message out of session and delete it (from session).
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getSuccessMessage() : string
+    public function getSuccessMessage() : DBHTMLText
     {
         $successMessage = Tools::Session()->get('Silvercart.successMessage');
         Tools::Session()->clear('Silvercart.successMessage');
         Tools::saveSession();
-        return (string) $successMessage;
+        return DBHTMLText::create()->setValue($successMessage);
     }
 
     /**
