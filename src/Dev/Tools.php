@@ -1272,4 +1272,21 @@ class Tools
         
         return $moduleName;
     }
+    
+    /**
+     * Multibyte alternative for the default PHP function str_pad.
+     * 
+     * @param string $input      The input string.
+     * @param int    $pad_length If the value of pad_length is negative, less than, or equal to the length of the input string, no padding takes place, and input will be returned.
+     * @param string $pad_string Note: The pad_string may be truncated if the required number of padding characters can't be evenly divided by the pad_string's length.
+     * @param int    $pad_type   Optional argument pad_type can be STR_PAD_RIGHT, STR_PAD_LEFT, or STR_PAD_BOTH. If pad_type is not specified it is assumed to be STR_PAD_RIGHT.
+     * @param string $encoding   Encoding
+     * 
+     * @return string
+     */
+    public static function mb_str_pad(string $input, int $pad_length, string $pad_string = ' ', int $pad_type = STR_PAD_RIGHT, string $encoding = 'UTF-8') : string
+    {
+        $mb_diff = mb_strlen($input, $encoding) - strlen($input);
+        return str_pad($input, $pad_length - $mb_diff, $pad_string, $pad_type);
+    }
 }
