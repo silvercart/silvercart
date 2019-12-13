@@ -50,6 +50,11 @@ en:
         CookiePolicyConfigButtonTextDefault: 'Got it!'
         CookiePolicyConfigPolicyText: 'Text "Learn more"'
         CookiePolicyConfigPolicyTextDefault: 'Learn more'
+    SilverCart\Extensions\ORM\PaginatedListExtension:
+        Info: 'Page {currentPage}, item {firstItem}'
+        Info2Plural: '{totalItems} items on {totalPages} pages'
+        Info2Singular: '{totalItems} items on {totalPages} page'
+        InfoFirstIsLast: 'Page {currentPage}, item {firstItem} - {lastItem}'
     SilverCart\Model\Customer\Address:
         AcademicTitle: 'Academic title'
         ADDITION: Addition
