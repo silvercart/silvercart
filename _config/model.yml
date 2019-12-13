@@ -1,0 +1,14 @@
+---
+Name: silvercartsearchfilters
+---
+SilverStripe\Core\Injector\Injector:
+  DataListFilter.PartialMatchOrNull:
+    class: SilverCart\ORM\Filters\PartialMatchOrNullFilter
+  DataListFilter.StartsWithOrNull:
+    class: SilverCart\ORM\Filters\StartsWithOrNullFilter
+---
+Name: silvercartsearchaliases
+---
+SilverStripe\Core\Injector\Injector:
+  PartialMatchOrNullFilter: '%$DataListFilter.PartialMatchOrNull'
+  StartsWithOrNullFilter: '%$DataListFilter.StartsWithOrNull'
