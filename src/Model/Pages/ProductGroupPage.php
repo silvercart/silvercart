@@ -526,37 +526,14 @@ class ProductGroupPage extends \Page
             )->setHeadingLevel(4)->setStartClosed(true);
             $fields->insertAfter($displaySettingsToggle, 'Content');
 
-            $mirroredProductIdList  = '';
-            $mirroredProductIDs     = $this->getMirroredProductIDs();
-
-            foreach ($mirroredProductIDs as $mirroredProductID) {
-                $mirroredProductIdList .= "'{$mirroredProductID}',";
-            }
-
-            $filter = "ProductGroupID = {$this->ID}";
-            if (!empty($mirroredProductIdList)) {
-                $mirroredProductIdList = substr($mirroredProductIdList, 0, -1);
-                $tableName             = Product::config()->get('table_name');
-                $filter                = "{$filter} OR {$tableName}.ID IN ({$mirroredProductIdList})";
-            }
-
             if ($this->drawCMSFields()) {
-                $config = GridFieldConfig_RelationEditor::create(100);
-                $productsTableField = GridField::create(
-                    'Products',
-                    $this->fieldLabel('Products'),
-                    Product::get()->filter('ProductGroupID', $this->ID),
-                    $config
-                );
-                $tabPARAM = "Root." . _t(Product::class . '.TITLE', 'product');
-                $fields->addFieldToTab($tabPARAM, $productsTableField);
-
                 $productAdminLink     = Director::baseURL().'admin/silvercart-products';
                 $manageProductsButton = LiteralField::create(
                     'ManageProductsButton',
-                    "<a href=\"{$productAdminLink}\">{$this->fieldLabel('ManageProductsButton')}</a>"
+                    "<a href=\"{$productAdminLink}?q[ProductGroup__ID]={$this->ID}\">{$this->fieldLabel('ManageProductsButton')}</a>"
                 );
-                $fields->addFieldToTab($tabPARAM, $manageProductsButton);
+                $fields->findOrMakeTab('Root.Products', Product::singleton()->plural_name());
+                $fields->addFieldToTab('Root.Products', $manageProductsButton);
 
                 $imageUploadField = UploadField::create('GroupPicture', $this->fieldLabel('GroupPicture'));
                 $imageUploadField->setFolderName('assets/productgroup-images');
