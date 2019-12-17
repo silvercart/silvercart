@@ -34,6 +34,9 @@ SilverStripe\Security\Group:
 SilverStripe\Assets\Image:
   extensions:
     - SilverCart\Extensions\Assets\ImageExtension
+SilverStripe\Assets\Storage\DBFile:
+  extensions:
+    - SilverCart\Extensions\Assets\Storage\DBFileExtension
 SilverStripe\Admin\LeftAndMain:
   extensions:
     - SilverCart\Admin\Controllers\LeftAndMainExtension
