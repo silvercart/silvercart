@@ -41,7 +41,7 @@ class PaymentStatus extends DataObject
      * 
      * @return PaymentStatus
      */
-    public static function get_default($withFallback = true) : PaymentStatus
+    public static function get_default($withFallback = true) : ?PaymentStatus
     {
         $default = self::get()->filter('IsDefault', true)->first();
         if ($withFallback
