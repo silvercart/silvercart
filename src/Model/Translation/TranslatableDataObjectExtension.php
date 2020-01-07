@@ -53,13 +53,14 @@ class TranslatableDataObjectExtension extends DataExtension
             $baseTranslationTableName = $this->getBaseTranslationTableName();
             $relationFieldName        = $this->getRelationFieldName();
             $currentLocale            = Tools::current_locale();
-//        if (!$query->isJoinedTo($this->getTranslationTableName()) &&
-//            !$query->getDelete()) {
-            $silvercartDefaultLocale = Config::Locale();
+            $silvercartDefaultLocale  = Config::Locale();
             if ($this->owner->hasExtension(Versioned::class)) {
-                $stage = $dataQuery->getQueryParam('Versioned.stage');
-                ReadingMode::validateStage($stage);
-                if ($stage === Versioned::LIVE) {
+                $versionedMode  = $dataQuery->getQueryParam('Versioned.mode');
+                $versionedStage = $dataQuery->getQueryParam('Versioned.stage');
+                ReadingMode::validateStage($versionedStage);
+                if (in_array($versionedMode, ['archive', 'latest_versions', 'version', 'all_versions'])) {
+                    $baseTableName = "{$baseTableName}_Versions";
+                } elseif ($versionedStage === Versioned::LIVE) {
                     $baseTableName = "{$baseTableName}_Live";
                 }
             }

@@ -22,6 +22,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\HTML;
 use TractorCow\Fluent\Extension\FluentDirectorExtension;
@@ -287,12 +288,29 @@ class Page extends SiteTree
      */
     public function MainNavigationRootPage()
     {
-        $mainNavigationRootPage = Page::get()->filter('UseAsRootForMainNavigation', true)->first();
+        $list                   = Page::get()->filter('UseAsRootForMainNavigation', true);
+        $dataQuery              = $list->dataQuery();
+        $mainNavigationRootPage = $list->first();
         if (is_null($mainNavigationRootPage)) {
+            $versionedMode          = $dataQuery->getQueryParam('Versioned.mode');
+            $versionedStage         = $dataQuery->getQueryParam('Versioned.stage');
             $mainNavigationRootPage = Tools::PageByIdentifierCode(self::IDENTIFIER_PRODUCT_GROUP_HOLDER);
-            $table = Tools::get_table_name(Page::class);
-            DB::query('UPDATE ' . $table . ' SET UseAsRootForMainNavigation = 1 WHERE ID = ' . $mainNavigationRootPage->ID);
-            DB::query('UPDATE ' . $table . '_Live SET UseAsRootForMainNavigation = 1 WHERE ID = ' . $mainNavigationRootPage->ID);
+            if (is_null($mainNavigationRootPage)) {
+                $mainNavigationRootPage = ProductGroupHolder::get()->first();
+            }
+            if (is_null($mainNavigationRootPage)) {
+                $mainNavigationRootPage = ProductGroupHolder::create();
+            }
+            if ($mainNavigationRootPage instanceof Page
+             && (is_null($versionedMode)
+              || $versionedMode === false
+              || ($versionedMode === 'stage'
+               && $versionedStage === Versioned::LIVE))
+            ) {
+                $table = Page::config()->table_name;
+                DB::query("UPDATE {$table} SET UseAsRootForMainNavigation = 1 WHERE ID = {$mainNavigationRootPage->ID}");
+                DB::query("UPDATE {$table}_Live SET UseAsRootForMainNavigation = 1 WHERE ID = {$mainNavigationRootPage->ID}");
+            }
         }
         return $mainNavigationRootPage;
     }
