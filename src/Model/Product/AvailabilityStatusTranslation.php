@@ -77,7 +77,7 @@ class AvailabilityStatusTranslation extends DataObject
      */
     public function fieldLabels($includerelations = true) : array
     {
-        $this->defaultFieldLabels($includerelations, [
+        return $this->defaultFieldLabels($includerelations, [
             'Title'          => AvailabilityStatus::singleton()->singular_name(),
             'AdditionalText' => AvailabilityStatus::singleton()->fieldLabel('AdditionalText'),
         ]);
