@@ -316,9 +316,7 @@ class SearchResultsPageController extends ProductGroupPageController
      */
     protected function searchObjectHandler()
     {
-        if ($this->IsDefaultSearchContext()) {
-            $this->searchProducts();
-        } else {
+        if (!$this->IsDefaultSearchContext()) {
             $context = $this->getCurrentSearchContextObject();
             $context->initSearchHandler($this);
         }
@@ -334,27 +332,6 @@ class SearchResultsPageController extends ProductGroupPageController
         $context = $this->getCurrentSearchContextObject();
         $context->initSearchHandler($this);
         return $context->renderSearchResults();
-    }
-
-    /**
-     * Executes a product search.
-     *
-     * @return void
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.11.2013
-     */
-    protected function searchProducts()
-    {  
-        $SQL_start              = $this->getSqlOffset();
-        $searchResultProducts   = $this->buildSearchResultProducts();
-
-        if (!$searchResultProducts) {
-            $searchResultProducts = ArrayList::create();
-        }
-
-        $this->searchResultProducts = $searchResultProducts;
     }
     
     /**
@@ -470,7 +447,7 @@ class SearchResultsPageController extends ProductGroupPageController
                 $sort = Product::defaultSort();
             }
             
-            $searchResultProductsRaw = Product::getProducts(
+            $searchResultProductsRaw = Product::getProductsList(
                 $filter,
                 $sort,
                 [

@@ -60,6 +60,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
 use SilverStripe\Widgets\Model\WidgetArea;
@@ -1278,8 +1279,16 @@ class Product extends DataObject implements PermissionProvider
                 $SQL_Statements[] = ($fieldName . ' != \'' . Convert::raw2sql($value) . '\'');
             }
         }
+        
+        $pgp   = ProductGroupPage::config()->table_name;
+        $stage = Versioned::get_stage();
+        if ($stage === Versioned::LIVE) {
+            $pgp = "{$pgp}_{$stage}";
+        }
         $SQL_Statements[] = "(LaunchDate IS NULL OR LaunchDate < NOW())";
         $SQL_Statements[] = "(SalesBanDate IS NULL OR SalesBanDate > NOW())";
+        $SQL_Statements[] = "ProductGroupID > 0";
+        $SQL_Statements[] = "(ProductGroupID IN (SELECT PGP.ID FROM {$pgp} AS PGP))";
 
         if (count($SQL_Statements) > 0) {
             $filter = implode(" AND ", $SQL_Statements);
