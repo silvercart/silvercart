@@ -2,15 +2,18 @@
 
 namespace SilverCart\Model\Customer;
 
+use SilverCart\Admin\Forms\AlertWarningField;
 use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\CountryTranslation;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Shipment\Zone;
-use SilverCart\Model\Translation\TranslationTools;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\FieldType\DBMoney;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
@@ -20,20 +23,43 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * Abstract for a country.
  *
  * @package SilverCart
- * @subpackage Model_Customer
+ * @subpackage Model\Customer
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string  $ISO2                    ISO2
+ * @property string  $ISO3                    ISO3
+ * @property int     $ISON                    ISON
+ * @property string  $FIPS                    FIPS
+ * @property string  $Continent               Continent
+ * @property string  $Currency                Currency
+ * @property bool    $Active                  Active
+ * @property DBMoney $freeOfShippingCostsFrom Amount where free shipping costs start from
+ * @property bool    $IsPrioritive            Is Prioritive?
+ * @property int     $DisplayPosition         Display position
+ * @property bool    $IsNonTaxable            Is non taxable?
+ * 
+ * @property string  $AttributedZones          Attributed Zones (comma separated list)
+ * @property string  $AttributedPaymentMethods Attributed PaymentMethods (comma separated list)
+ * @property string  $ActivityText             Activity Text
+ * @property string  $Title                    Title
+ * @property string  $IsPrioritiveText         Is Prioritive Text
+ * 
+ * @method \SilverStripe\ORM\HasManyList  CountryTranslations() Returns the related translations.
+ * @method \SilverStripe\ORM\ManyManyList PaymentMethods()      Returns the related PaymentMethods.
+ * @method \SilverStripe\ORM\ManyManyList Zones()               Returns the related Zones.
  */
-class Country extends DataObject {
-    
+class Country extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'ISO2'                      => 'Varchar',
         'ISO3'                      => 'Varchar',
         'ISON'                      => 'Int',
@@ -41,105 +67,97 @@ class Country extends DataObject {
         'Continent'                 => 'Varchar',
         'Currency'                  => 'Varchar',
         'Active'                    => 'Boolean',
-        'freeOfShippingCostsFrom'   => \SilverCart\ORM\FieldType\DBMoney::class,
+        'freeOfShippingCostsFrom'   => DBMoney::class,
         'IsPrioritive'              => 'Boolean(0)',
         'DisplayPosition'           => 'Int',
         'IsNonTaxable'              => 'Boolean(0)',
-    );
+    ];
     /**
      * Default values
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'Active' => false,
-    );
+    ];
     /**
      * Has-many relationship.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'CountryTranslations' => CountryTranslation::class,
-    );
+    ];
     /**
      * Many-many relationships.
      *
      * @var array
      */
-    private static $many_many = array(
+    private static $many_many = [
         'PaymentMethods' => PaymentMethod::class,
-    );
+    ];
     /**
      * Belongs-many-many relationships.
      *
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'Zones' => Zone::class,
-    );
+    ];
     /**
      * Virtual database columns.
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'AttributedZones'           => 'Varchar(255)',
         'AttributedPaymentMethods'  => 'Varchar(255)',
         'ActivityText'              => 'Varchar',
         'Title'                     => 'Text',
         'IsPrioritiveText'          => 'Varchar',
-    );
-    
-     /**
+    ];
+    /**
      * Default sort order and direction
      *
      * @var string
      */
     private static $default_sort = "SilvercartCountry.Active DESC, SilvercartCountry.IsPrioritive DESC, SilvercartCountryTranslation.Title ASC";
-
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartCountry';
-    
     /**
      * list of prioritive countries
      *
      * @var array 
      */
-    protected static $prioritiveCountries = array();
-    
+    protected static $prioritiveCountries = [];
     /**
      * count of prioritive countries
      *
      * @var array
      */
-    protected static $prioritiveCountryCount = array();
-    
+    protected static $prioritiveCountryCount = [];
     /**
      * list of non prioritive countries
      *
      * @var array 
      */
-    protected static $nonPrioritiveCountries = array();
-    
+    protected static $nonPrioritiveCountries = [];
     /**
      * count of non prioritive countries
      *
      * @var array
      */
-    protected static $nonPrioritiveCountryCount = array();
-    
+    protected static $nonPrioritiveCountryCount = [];
     /**
      * dropdown map sorted by prioritive countries
      *
      * @var array
      */
-    protected static $prioritiveDropdownMap = array();
-    
+    protected static $prioritiveDropdownMap = [];
     /**
      * A DataList of all active countries or en empty ArrayList
      * 
@@ -147,16 +165,14 @@ class Country extends DataObject {
      */
     protected static $activeCountries = null;
 
-        /**
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.06.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -164,12 +180,10 @@ class Country extends DataObject {
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.06.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);
     }
 
@@ -179,98 +193,91 @@ class Country extends DataObject {
      * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.07.2013
      */
-    public function fieldLabels($includerelations = true) {
-        return array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'Title'                     => $this->singular_name(),
-                'ISO2'                      => _t(Country::class . '.ISO2', 'ISO Alpha2'),
-                'ISO3'                      => _t(Country::class . '.ISO3', 'ISO Alpha3'),
-                'ISON'                      => _t(Country::class . '.ISON', 'ISO numeric'),
-                'FIPS'                      => _t(Country::class . '.FIPS', 'FIPS code'),
-                'Continent'                 => _t(Country::class . '.CONTINENT', 'Continent'),
-                'Currency'                  => _t(Country::class . '.CURRENCY', 'Currency'),
-                'Active'                    => _t(Country::class . '.ACTIVE', 'Active'),
-                'AttributedZones'           => _t(Country::class . '.ATTRIBUTED_ZONES', 'attributed zones'),
-                'AttributedPaymentMethods'  => _t(Country::class . '.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
-                'ActivityText'              => _t(Country::class . '.ACTIVE', 'Active'),
-                'freeOfShippingCostsFrom'   => _t(Country::class . '.FREEOFSHIPPINGCOSTSFROM', 'Free of shipping costs from'),
-                'IsPrioritive'              => _t(Country::class . '.ISPRIORITIVE', 'Show country prioritive at the top of dropdown lists?'),
-                'IsPrioritiveShort'         => _t(Country::class . '.ISPRIORITIVE_SHORT', 'Prioritive'),
-                'DisplayPosition'           => _t(Country::class . '.DISPLAYPOSITION', 'Display position (if prioritive)'),
-                'IsNonTaxable'              => _t(Country::class . '.IsNonTaxable', 'Non-taxable'),
-                'CountryTranslations.Title' => _t(Country::class . '.TITLE', 'Name'),
-                'CountryTranslations'       => CountryTranslation::singleton()->plural_name(),
-                'Zones'                     => Zone::singleton()->plural_name(),
-                'PaymentMethods'            => PaymentMethod::singleton()->plural_name(),
-                'PaymentMethods.ID'         => PaymentMethod::singleton()->plural_name(),
-            )
-        );
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'                     => $this->singular_name(),
+            'ISO2'                      => _t(Country::class . '.ISO2', 'ISO Alpha2'),
+            'ISO3'                      => _t(Country::class . '.ISO3', 'ISO Alpha3'),
+            'ISON'                      => _t(Country::class . '.ISON', 'ISO numeric'),
+            'FIPS'                      => _t(Country::class . '.FIPS', 'FIPS code'),
+            'Continent'                 => _t(Country::class . '.CONTINENT', 'Continent'),
+            'Currency'                  => _t(Country::class . '.CURRENCY', 'Currency'),
+            'Active'                    => _t(Country::class . '.ACTIVE', 'Active'),
+            'AttributedZones'           => _t(Country::class . '.ATTRIBUTED_ZONES', 'attributed zones'),
+            'AttributedPaymentMethods'  => _t(Country::class . '.ATTRIBUTED_PAYMENTMETHOD', 'attributed payment method'),
+            'ActivityText'              => _t(Country::class . '.ACTIVE', 'Active'),
+            'freeOfShippingCostsFrom'   => _t(Country::class . '.FREEOFSHIPPINGCOSTSFROM', 'Free of shipping costs from'),
+            'IsPrioritive'              => _t(Country::class . '.ISPRIORITIVE', 'Show country prioritive at the top of dropdown lists?'),
+            'IsPrioritiveShort'         => _t(Country::class . '.ISPRIORITIVE_SHORT', 'Prioritive'),
+            'DisplayPosition'           => _t(Country::class . '.DISPLAYPOSITION', 'Display position (if prioritive)'),
+            'IsNonTaxable'              => _t(Country::class . '.IsNonTaxable', 'Non-taxable'),
+            'CountryTranslations.Title' => _t(Country::class . '.TITLE', 'Name'),
+            'CountryTranslations'       => CountryTranslation::singleton()->plural_name(),
+            'Zones'                     => Zone::singleton()->plural_name(),
+            'PaymentMethods'            => PaymentMethod::singleton()->plural_name(),
+            'PaymentMethods.ID'         => PaymentMethod::singleton()->plural_name(),
+        ]);
     }
 
     /**
-     * Searchable fields of SIlvercartCountry.
+     * Searchable fields of SilvercartCountry.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.04.2014
      */
-    public function  searchableFields() {
-        return array(
-            'CountryTranslations.Title' => array(
+    public function  searchableFields() : array
+    {
+        return [
+            'CountryTranslations.Title' => [
                 'title'  => $this->singular_name(),
                 'filter' => PartialMatchFilter::class,
-            ),
-            'ISO2' => array(
+            ],
+            'ISO2' => [
                 'title'     => $this->fieldLabel('ISO2'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'ISO3' => array(
+            ],
+            'ISO3' => [
                 'title'     => $this->fieldLabel('ISO3'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'ISON' => array(
+            ],
+            'ISON' => [
                 'title'     => $this->fieldLabel('ISON'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'FIPS' => array(
+            ],
+            'FIPS' => [
                 'title'     => $this->fieldLabel('FIPS'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'Continent' => array(
+            ],
+            'Continent' => [
                 'title'     => $this->fieldLabel('Continent'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'Currency' => array(
+            ],
+            'Currency' => [
                 'title'     => $this->fieldLabel('Currency'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'PaymentMethods.ID' => array(
+            ],
+            'PaymentMethods.ID' => [
                 'title'     => $this->fieldLabel('PaymentMethods'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'Zones.ID' => array(
+            ],
+            'Zones.ID' => [
                 'title'     => $this->fieldLabel('Zones'),
                 'filter'    => PartialMatchFilter::class,
-            ),
-            'Active' => array(
+            ],
+            'Active' => [
                 'title'     => $this->fieldLabel('Active'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-            'IsPrioritive' => array(
+            ],
+            'IsPrioritive' => [
                 'title'     => $this->fieldLabel('IsPrioritiveShort'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-            'IsNonTaxable' => array(
+            ],
+            'IsNonTaxable' => [
                 'title'     => $this->fieldLabel('IsNonTaxable'),
                 'filter'    => ExactMatchFilter::class,
-            ),
-        );
+            ],
+        ];
     }
     
     /**
@@ -278,22 +285,21 @@ class Country extends DataObject {
      *
      * @return string
      */
-    public function getFreeOfShippingCostsFromNice() {
-        return $this->freeOfShippingCostsFrom->Nice();
+    public function getFreeOfShippingCostsFromNice() : string
+    {
+        return (string) $this->freeOfShippingCostsFrom->Nice();
     }
 
         /**
      * Summary fields
      *
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012 
      */
-    public function summaryFields() {
+    public function summaryFields() : array
+    {
         $summaryFields = array_merge(
                 parent::summaryFields(),
-                array(
+                [
                     'Title'                             => $this->fieldLabel('Title'),
                     'ISO2'                              => $this->fieldLabel('ISO2'),
                     'ISO3'                              => $this->fieldLabel('ISO3'),
@@ -305,9 +311,8 @@ class Country extends DataObject {
                     'getFreeOfShippingCostsFromNice'    => $this->fieldLabel('freeOfShippingCostsFrom'),
                     'IsPrioritiveText'                  => $this->fieldLabel('IsPrioritiveShort'),
                     'IsNonTaxable'                      => $this->fieldLabel('IsNonTaxable'),
-                )
+                ]
         );
-        
         $this->extend('updateSummary', $summaryFields);
         return $summaryFields;
     }
@@ -319,47 +324,42 @@ class Country extends DataObject {
      * This is a performance friendly way to exclude fields.
      * 
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding() : array
+    {
+        $excludeFromScaffolding = [
             'Zones',
             'Locale'
-        );
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         return $excludeFromScaffolding;
     }
 
     /**
-     * customizes the backends fields, mainly for ModelAdmin
+     * Returns the CMS fields.
      *
-     * @return FieldList the fields for the backend
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
+     * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this);
-        
-        $paymentMethodsTable = $fields->dataFieldByName('PaymentMethods');
-        $paymentMethodsTable->setConfig(GridFieldConfig_RelationEditor::create());
-        
-        $languageFields = TranslationTools::prepare_cms_fields($this->getTranslationClassName());
-        foreach ($languageFields as $languageField) {
-            $fields->insertBefore($languageField, 'ISO2');
+    public function getCMSFields() : FieldList
+    {
+        $fields = DataObjectExtension::getCMSFields($this, 'ISO2', false);
+        if ($this->exists()) {
+            $paymentMethodsTable = $fields->dataFieldByName('PaymentMethods');
+            $paymentMethodsTable->setConfig(GridFieldConfig_RelationEditor::create());
+        } else {
+            $content = _t(self::class . '.AlertWarningCreationContent', 'Do you really want to create a new country? If you want to assign one of the {count} existing countries instead, use the "Link Existing" function (upper right corner of the table).', ['count' => self::get()->count()]);
+            $title   = _t(self::class . '.AlertWarningCreationTitle', 'Caution');
+            $creationWarningField = AlertWarningField::create('CreationWarning', $content, "{$title}:");
+            $fields->insertBefore($creationWarningField, 'Title');
         }
-        
-        $displayPositionMap = array(
+        $displayPositionMap = [
             '0' => Tools::field_label('PleaseChoose'),
-        );
+        ];
         for ($x = 1; $x <= self::getPrioritiveCountryCount(false) + 1; $x++) {
             $displayPositionMap[$x] = $x;
         }
-        $displayPositionField = new DropdownField('DisplayPosition', $this->fieldLabel('DisplayPosition'), $displayPositionMap);
+        $displayPositionField = DropdownField::create('DisplayPosition', $this->fieldLabel('DisplayPosition'), $displayPositionMap);
         $fields->insertAfter($displayPositionField, 'IsPrioritive');
-
         return $fields;
     }
     
@@ -371,7 +371,8 @@ class Country extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.12.2012
      */
-    public function onBeforeWrite() {
+    public function onBeforeWrite() : void
+    {
         parent::onBeforeWrite();
         if (!$this->IsPrioritive) {
             $this->DisplayPosition = 0;
@@ -385,7 +386,8 @@ class Country extends DataObject {
      *
      * @return string
      */
-    public function getActivityText() {
+    public function getActivityText() : string
+    {
         if ($this->Active) {
             return Tools::field_label('Yes');
         }
@@ -397,7 +399,8 @@ class Country extends DataObject {
      *
      * @return string
      */
-    public function getIsPrioritiveText() {
+    public function getIsPrioritiveText() : string
+    {
         if ($this->IsPrioritive) {
             return Tools::field_label('Yes');
         }
@@ -412,7 +415,8 @@ class Country extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public function AttributedZones() {
+    public function AttributedZones() : string
+    {
         return Tools::AttributedDataObject($this->Zones());
     }
 
@@ -424,17 +428,19 @@ class Country extends DataObject {
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2012
      */
-    public function AttributedPaymentMethods() {
+    public function AttributedPaymentMethods() : string
+    {
         return Tools::AttributedDataObject($this->PaymentMethods());
     }
     
     /**
      * Returns the title
      *
-     * @return string $title i18n title
+     * @return string
      */
-    public function getTitle() {
-        return $this->getTranslationFieldValue('Title');
+    public function getTitle() : string
+    {
+        return (string) $this->getTranslationFieldValue('Title');
     }
     
     /**
@@ -442,11 +448,12 @@ class Country extends DataObject {
      * 
      * @return SS_List
      */
-    public static function get_active() {
+    public static function get_active() : SS_List
+    {
         if (!self::$activeCountries) {
             $activeCountries = Country::get()->filter("Active", 1);
             if (!$activeCountries->exists()) {
-                $activeCountries = new ArrayList();
+                $activeCountries = ArrayList::create();
             }
             self::$activeCountries = $activeCountries;
         }
@@ -458,21 +465,21 @@ class Country extends DataObject {
      * 
      * @param bool $onlyActive Search only for active coutries?
      * 
-     * @return SS_List
+     * @return DataList
      */
-    public static function getPrioritiveCountries($onlyActive = true) {
+    public static function getPrioritiveCountries(bool $onlyActive = true) : DataList
+    {
         $key            = 0;
-        $addToFilter    = array();
+        $addToFilter    = [];
         if ($onlyActive) {
-            $key            = 1;
-            $addToFilter    = array("Active" => 1);
+            $key         = 1;
+            $addToFilter = ['Active' => 1];
         }
         if (!array_key_exists($key, self::$prioritiveCountries)) {
-            $filter = array_merge(array("IsPrioritive" => 1), $addToFilter);
-            $prioritiveCountries = Country::get()
+            $filter = array_merge(['IsPrioritive' => 1], $addToFilter);
+            self::$prioritiveCountries[$key] = Country::get()
                                     ->filter($filter)
-                                    ->sort(array("DisplayPosition" => "ASC", "Title" => "ASC"));
-            self::$prioritiveCountries[$key] = $prioritiveCountries;
+                                    ->sort(['DisplayPosition' => 'ASC', 'Title' => 'ASC']);
         }
         return self::$prioritiveCountries[$key];
     }
@@ -484,7 +491,8 @@ class Country extends DataObject {
      * 
      * @return int
      */
-    public static function getPrioritiveCountryCount($onlyActive = true) {
+    public static function getPrioritiveCountryCount(bool $onlyActive = true) : int
+    {
         $key = 0;
         if ($onlyActive) {
             $key = 1;
@@ -505,21 +513,21 @@ class Country extends DataObject {
      * 
      * @param bool $onlyActive Search only for active coutries?
      * 
-     * @return ArrayList
+     * @return DataList
      */
-    public static function getNonPrioritiveCountries($onlyActive = true) {
-        $key            = 0;
-        $addToFilter    = array();
+    public static function getNonPrioritiveCountries(bool $onlyActive = true) : DataList
+    {
+        $key         = 0;
+        $addToFilter = [];
         if ($onlyActive) {
-            $key            = 1;
-            $addToFilter    = array("Active" => 1);
+            $key         = 1;
+            $addToFilter = ['Active' => 1];
         }
         if (!array_key_exists($key, self::$nonPrioritiveCountries)) {
-            $filter = array_merge(array("IsPrioritive" => 0), $addToFilter);
-            $nonPrioritiveCountries = Country::get()
+            $filter = array_merge(['IsPrioritive' => 0], $addToFilter);
+            self::$nonPrioritiveCountries[$key] = Country::get()
                                         ->filter($filter)
-                                        ->sort(array("Title" => "ASC"));
-            self::$nonPrioritiveCountries[$key] = $nonPrioritiveCountries;
+                                        ->sort(['Title' => 'ASC']);
         }
         return self::$nonPrioritiveCountries[$key];
     }
@@ -531,14 +539,15 @@ class Country extends DataObject {
      * 
      * @return int
      */
-    public static function getNonPrioritiveCountryCount($onlyActive = true) {
+    public static function getNonPrioritiveCountryCount(bool $onlyActive = true) : int
+    {
         $key = 0;
         if ($onlyActive) {
             $key = 1;
         }
         if (!array_key_exists($key, self::$nonPrioritiveCountryCount)) {
-            $nonPrioritiveCountryCount  = 0;
-            $nonPrioritiveCountries     = self::getNonPrioritiveCountries($onlyActive);
+            $nonPrioritiveCountryCount = 0;
+            $nonPrioritiveCountries    = self::getNonPrioritiveCountries($onlyActive);
             if ($nonPrioritiveCountries instanceof SS_List) {
                 $nonPrioritiveCountryCount = (int) $nonPrioritiveCountries->count();
             }
@@ -555,7 +564,8 @@ class Country extends DataObject {
      * 
      * @return array
      */
-    public static function getPrioritiveDropdownMap($onlyActive = true, $emptyString = null) {
+    public static function getPrioritiveDropdownMap(bool $onlyActive = true, string $emptyString = null) : array
+    {
         $key = 0;
         if ($onlyActive) {
             $key = 1;
@@ -564,7 +574,7 @@ class Country extends DataObject {
             $key .= md5($emptyString);
         }
         if (!array_key_exists($key, self::$prioritiveDropdownMap)) {
-            $dropdownMap = array();
+            $dropdownMap = [];
             if (!is_null($emptyString)) {
                 $dropdownMap[''] = $emptyString;
             }
@@ -575,8 +585,11 @@ class Country extends DataObject {
                 }
             }
             if (self::getNonPrioritiveCountryCount() > 0) {
-                if ((is_null($emptyString) && count($dropdownMap) > 0) ||
-                    (!is_null($emptyString) && count($dropdownMap) > 1)) {
+                if ((is_null($emptyString)
+                  && count($dropdownMap) > 0)
+                 || (!is_null($emptyString)
+                  && count($dropdownMap) > 1)
+                ) {
                     $dropdownMap[' '] = '------------------------';
                 }
                 $nonPrioritiveCountries = self::getNonPrioritiveCountries($onlyActive);
@@ -584,10 +597,11 @@ class Country extends DataObject {
                     $dropdownMap[$id] = $title;
                 }
             }
-            if (empty($dropdownMap) &&
-                Tools::isBackendEnvironment()) {
+            if (empty($dropdownMap)
+             && Tools::isBackendEnvironment()
+            ) {
                 $allCountries = Country::get();
-                $dropdownMap = $allCountries->map()->toArray();
+                $dropdownMap  = $allCountries->map()->toArray();
             }
             self::$prioritiveDropdownMap[$key] = $dropdownMap;
         }
@@ -608,7 +622,8 @@ class Country extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.05.2018
      */
-    public static function create_translations($existingLocale, $targetLocale = null) {
+    public static function create_translations(string $existingLocale, string $targetLocale = null) : void
+    {
         if (is_null($targetLocale)) {
             $targetLocale = Tools::current_locale();
         }
@@ -617,15 +632,14 @@ class Country extends DataObject {
             Tools::set_current_locale($existingLocale);
             $countries = Country::get();
             foreach ($countries as $country) {
-
                 $translation = CountryTranslation::get()->filter([
                     'CountryID' => $country->ID,
                     'Locale'    => $targetLocale,
                 ])->first();
-                if (!($translation instanceof CountryTranslation) ||
-                    !$translation->exists()) {
-
-                    $translation = new CountryTranslation();
+                if (!($translation instanceof CountryTranslation)
+                 || !$translation->exists()
+                ) {
+                    $translation = CountryTranslation::create();
                     $translation->Locale    = $targetLocale;
                     $translation->CountryID = $country->ID;
                     $translation->Title     = _t(Country::class . ".TITLE_" . $country->ISO2, $country->Title);

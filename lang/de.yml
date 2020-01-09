@@ -411,6 +411,8 @@ de:
         MENUTITLE: "Kontaktanfragen"
     SilverCart\Model\Customer\Country:
         ACTIVE: "Aktiv"
+        AlertWarningCreationContent: 'Möchten Sie wirklich ein neues Land hinzufügen? Sollten Sie stattdessen eines der {count} verfügbaren Länder verknüpfen wollen, verwenden Sie anstelle von "Land hinzufügen" die Funktion "Bestehenden Datensatz verknüpfen" (in der Regel oben rechts).'
+        AlertWarningCreationTitle: 'Achtung'
         ATTRIBUTED_PAYMENTMETHOD: "zugeordnete Bezahlart"
         ATTRIBUTED_ZONES: "zugeordnete Zonen"
         CONTINENT: "Kontinent"

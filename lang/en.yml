@@ -411,6 +411,8 @@ en:
         MENUTITLE: 'Contact messages'
     SilverCart\Model\Customer\Country:
         ACTIVE: Active
+        AlertWarningCreationContent: 'Do you really want to create a new country? If you want to assign one of the {count} existing countries instead, use the "Link Existing" function (upper right corner of the table).'
+        AlertWarningCreationTitle: 'Caution'
         ATTRIBUTED_PAYMENTMETHOD: 'Attributed payment method'
         ATTRIBUTED_ZONES: 'Attributed zones'
         CONTINENT: Continent
