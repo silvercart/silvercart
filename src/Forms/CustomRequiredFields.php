@@ -984,7 +984,7 @@ class CustomRequiredFields extends RequiredFields
      * @author Cal Henderson <cal@iamcal.com>
      * @since 19.11.2012
      */
-    private function isValidEmailAddress($email, $options = []) {
+    public function isValidEmailAddress($email, $options = []) {
         #
         # you can pass a few different named options as a second argument,
         # but the defaults are usually a good choice.
