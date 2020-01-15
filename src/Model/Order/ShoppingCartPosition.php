@@ -15,6 +15,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDecimal;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
+use SilverStripe\Security\Member;
 
 /**
  * abstract for shopping cart positions.
@@ -315,6 +316,7 @@ class ShoppingCartPosition extends DataObject
      * If stock management is disabled true will be returned.
      * 
      * @param integer $quantity The quantity of products
+     * @param Product $product  Optional context product
      * 
      * @return bool Can this position be incremented
      * 
@@ -322,21 +324,24 @@ class ShoppingCartPosition extends DataObject
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function isQuantityIncrementableBy($quantity = 1) : bool
+    public function isQuantityIncrementableBy($quantity = 1, Product $product = null) : bool
     {
         if (!array_key_exists((int) $quantity, $this->isQuantityIncrementableByList)) {
+            if (is_null($product)) {
+                $product = $this->Product();
+            }
             $isQuantityIncrementableBy = true;
 
             if (Config::EnableStockManagement()) {
                 $isQuantityIncrementableBy = false;
-                if ($this->Product()->isStockQuantityOverbookable()) {
+                if ($product->isStockQuantityOverbookable()) {
                     $isQuantityIncrementableBy = true;
-                } elseif ($this->Product()->StockQuantity >= ($this->Quantity + $quantity)) {
+                } elseif ($product->StockQuantity >= ($this->Quantity + $quantity)) {
                     $isQuantityIncrementableBy = true;
                 }
             }
-            $this->extend('overwriteIsQuantityIncrementableBy', $isQuantityIncrementableBy);
-            $this->extend('updateIsQuantityIncrementableBy', $isQuantityIncrementableBy);
+            $this->extend('overwriteIsQuantityIncrementableBy', $isQuantityIncrementableBy, $quantity, $product);
+            $this->extend('updateIsQuantityIncrementableBy', $isQuantityIncrementableBy, $quantity, $product);
             $this->isQuantityIncrementableByList[$quantity] = $isQuantityIncrementableBy;
         }
         return $this->isQuantityIncrementableByList[$quantity];
