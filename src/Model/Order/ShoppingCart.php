@@ -219,6 +219,7 @@ class ShoppingCart extends DataObject
      */
     protected function cleanUp() : void
     {
+        $this->extend('onBeforeCleanUp');
         $positionTable = ShoppingCartPosition::config()->table_name;
         $positionIDs   = DB::query("SELECT ID FROM {$positionTable} WHERE {$positionTable}.ShoppingCartID = {$this->ID} AND (ProductID = 0 OR Quantity = 0)");
         if ($positionIDs->numRecords() > 0) {
@@ -227,6 +228,7 @@ class ShoppingCart extends DataObject
                 $position->delete();
             }
         }
+        $this->extend('onAfterCleanUp');
     }
 
     /**
