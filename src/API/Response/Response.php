@@ -97,6 +97,7 @@ class Response
         }
         $this->setClient($client);
         $this->setBody($body);
+        $this->setData($data);
         $this->setIsError($isError);
         $this->setErrorMessage($errorMessage);
         $this->setErrorCode($errorCode);
