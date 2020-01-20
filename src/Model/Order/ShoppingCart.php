@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Order;
 
 use SilverCart\Admin\Model\Config;
+use SilverCart\Checkout\Checkout;
 use SilverCart\Dev\DateTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
@@ -279,6 +280,17 @@ class ShoppingCart extends DataObject
         $this->extend('updateFieldLabels', $fieldLabels);
 
         return $fieldLabels;
+    }
+    
+    /**
+     * Clears the checkout session data after updating the shopping cart.
+     *
+     * @return void
+     */
+    protected function onAfterWrite() : void
+    {
+        parent::onAfterWrite();
+        Checkout::clear_session();
     }
 
     /**

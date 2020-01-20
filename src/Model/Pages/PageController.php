@@ -378,17 +378,6 @@ class PageController extends ContentController
             Requirements::flush();
         }
 
-        // Delete checkout session data if user is not in the checkout process.
-        if (get_class($this) != CheckoutStep::class
-         && get_class($this) != CheckoutStepController::class
-         && get_class($this) != ErrorPageController::class
-         && get_class($this) != Security::class
-         && get_class($this) != RegistrationPageController::class
-         && !is_subclass_of(get_class($this), CheckoutStepController::class)
-        ) {
-            Checkout::clear_session();
-        }
-
         // Decorator can use this method to add custom forms and other stuff
         $this->extend('updateInit');
         
