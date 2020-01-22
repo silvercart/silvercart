@@ -230,6 +230,38 @@ class ShoppingCartPosition extends DataObject
     }
 
     /**
+     * Returns the formatted (Nice) summed price.
+     *
+     * @return DBHTMLText
+     */
+    public function getPriceNice() : DBHTMLText
+    {
+        $priceNice = '';
+        $price     = $this->getPrice();
+        if ($price) {
+            $priceNice = DBHTMLText::create()->setValue($price->Nice());
+        }
+        $this->extend('updatePriceNice', $priceNice);
+        return $priceNice;
+    }
+
+    /**
+     * Returns the formatted (Nice) single price.
+     *
+     * @return DBHTMLText
+     */
+    public function getSinglePriceNice() : DBHTMLText
+    {
+        $priceNice = '';
+        $price     = $this->getPrice(true);
+        if ($price) {
+            $priceNice = DBHTMLText::create()->setValue($price->Nice());
+        }
+        $this->extend('updateSinglePriceNice', $priceNice);
+        return $priceNice;
+    }
+
+    /**
      * Returns the shop product number
      *
      * @return string
