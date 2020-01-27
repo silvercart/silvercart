@@ -17,6 +17,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
 use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
@@ -107,7 +108,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return array
      */
-    public static function getRegisteredSearchContexts()
+    public static function getRegisteredSearchContexts() : array
     {
         return self::$registeredSearchContexts;
     }
@@ -122,7 +123,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Patrick Schneider <pschneider@pixeltricks.de>
      * @since 07.06.2013
      */
-    public static function addSearchContext($objectClass)
+    public static function addSearchContext(strng $objectClass) : void
     {
         if (class_exists($objectClass)
          && !in_array($objectClass, self::getRegisteredSearchContexts())
@@ -139,9 +140,9 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @param string $searchContext search context
      *
-     * @return void
+     * @return SearchResultsPageController
      */
-    public function setCurrentSearchContext($searchContext)
+    public function setCurrentSearchContext(string $searchContext) : SearchResultsPageController
     {
         if (is_null($searchContext)
          || !in_array($searchContext, self::getRegisteredSearchContexts())
@@ -150,6 +151,7 @@ class SearchResultsPageController extends ProductGroupPageController
         }
         $this->currentSearchContext = $searchContext;
         SearchResultsPage::setCurrentSearchContext($searchContext);
+        return $this;
     }
 
     /**
@@ -157,7 +159,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return string
      */
-    public function getCurrentSearchContext()
+    public function getCurrentSearchContext() : string
     {
         if (is_null($this->currentSearchContext)) {
             $this->setCurrentSearchContext(SearchResultsPage::getCurrentSearchContext());
@@ -168,9 +170,9 @@ class SearchResultsPageController extends ProductGroupPageController
     /**
      * returns the current search context
      *
-     * @return string
+     * @return object
      */
-    public function getCurrentSearchContextObject()
+    public function getCurrentSearchContextObject() : object
     {
         if (is_null($this->currentSearchContextObject)) {
             $contextObject = $this->getCurrentSearchContext();
@@ -184,14 +186,14 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return ArrayList
      */
-    public function getSearchContextObjects()
+    public function getSearchContextObjects() : ArrayList
     {
         if (is_null($this->searchContextObjects)) {
             $this->searchContextObjects = ArrayList::create();
             $contexts                   = self::getRegisteredSearchContexts();
             foreach ($contexts as $context) {
                 $contextObject = new $context();
-                $contextObject->IsCurrentSearchContext = $this->getCurrentSearchContext() == $context;
+                $contextObject->IsCurrentSearchContext = $this->getCurrentSearchContext() === $context;
                 $this->searchContextObjects->push($contextObject);
             }
         }
@@ -206,9 +208,9 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2013
      */
-    public function IsDefaultSearchContext()
+    public function IsDefaultSearchContext() : bool
     {
-        return $this->getCurrentSearchContext() == Product::class;
+        return $this->getCurrentSearchContext() === Product::class;
     }
 
     /**
@@ -216,17 +218,16 @@ class SearchResultsPageController extends ProductGroupPageController
      * the method 'filter' is called on the plugin. It has to return an array
      * with filters to deploy on the query.
      *
-     * @param Object $plugin The filter plugin object
+     * @param string $plugin The filter plugin object name
      *
      * @return void
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.05.2012
      */
-    public static function registerFilterPlugin($plugin)
+    public static function registerFilterPlugin(string $plugin) : void
     {
         $reflectionClass = new ReflectionClass($plugin);
-        
         if ($reflectionClass->hasMethod('filter')) {
             self::$registeredFilterPlugins[] = new $plugin();
         }
@@ -235,12 +236,12 @@ class SearchResultsPageController extends ProductGroupPageController
     /**
      * Indicates wether a filter plugin can be registered for the current view.
      *
-     * @return boolean
+     * @return bool
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 29.08.2011
      */
-    public function canRegisterFilterPlugin()
+    public function canRegisterFilterPlugin() : bool
     {
         return true;
     }
@@ -257,7 +258,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 26.09.2018
      */
-    protected function init($skip = false)
+    protected function init(bool $skip = false) : void
     {
         Product::addExtendedSortableFrontendFields(
                 [
@@ -294,12 +295,12 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return void
+     * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.06.2013
      */
-    public function cc(HTTPRequest $request)
+    public function cc(HTTPRequest $request) : DBHTMLText
     {
         $newContext = $request->param('ID');
         $this->setCurrentSearchContext($newContext);
@@ -314,7 +315,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Patrick Schneider <pschneider@pixeltricks.de>
      * @since 07.06.2013
      */
-    protected function searchObjectHandler()
+    protected function searchObjectHandler() : void
     {
         if (!$this->IsDefaultSearchContext()) {
             $context = $this->getCurrentSearchContextObject();
@@ -337,12 +338,12 @@ class SearchResultsPageController extends ProductGroupPageController
     /**
      * Builds the DataObject of filtered products
      *
-     * @return DataList
+     * @return PaginatedList
      * 
      * @author Sebastian Diel <sdiel@πixeltricks.de>
      * @since 23.09.2014
      */
-    public function buildSearchResultProducts()
+    public function buildSearchResultProducts() : PaginatedList
     {
         $searchResultProducts       = $this->searchResultProducts;
         $productsPerPage            = $this->getProductsPerPageSetting();
@@ -482,7 +483,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @return string
      */
-    protected function getSoftSearchFilter($searchTerms)
+    protected function getSoftSearchFilter(array $searchTerms) : string
     {
         $softSearchQuery         = implode('%', $searchTerms);
         $productTable            = Tools::get_table_name(Product::class);
@@ -523,7 +524,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return int
      */
-    public function getSqlOffset($numberOfProducts = false)
+    public function getSqlOffset($numberOfProducts = false) : int
     {
         $productsPerPage = $this->getProductsPerPageSetting();
         
@@ -567,9 +568,10 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @return void
      */
-    public function setSearchResultProducts($searchResultProducts)
+    public function setSearchResultProducts($searchResultProducts) : SearchResultsPageController
     {
         $this->searchResultProducts = $searchResultProducts;
+        return $this;
     }
 
     /**
@@ -582,7 +584,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return PaginatedList
      */
-    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false)
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false) : PaginatedList
     {
         if (is_null($this->searchResultProducts)
          || $force
@@ -604,9 +606,10 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.12.2015
      */
-    public function disableProductRuntimeCache()
+    public function disableProductRuntimeCache() : SearchResultsPageController
     {
         $this->productRuntimeCacheEnabled = false;
+        return $this;
     }
     
     /**
@@ -617,9 +620,10 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.12.2015
      */
-    public function enableProductRuntimeCache()
+    public function enableProductRuntimeCache() : SearchResultsPageController
     {
         $this->productRuntimeCacheEnabled = true;
+        return $this;
     }
     
     /**
@@ -630,7 +634,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.12.2015
      */
-    public function productRuntimeCacheEnabled()
+    public function productRuntimeCacheEnabled() : bool
     {
         return $this->productRuntimeCacheEnabled;
     }
@@ -638,11 +642,11 @@ class SearchResultsPageController extends ProductGroupPageController
     /**
      * Returns the SQL filter statement for the current query.
      *
-     * @param boolean $excludeFilter Optionally the name of the filter to exclude
+     * @param bool $excludeFilter Optionally the name of the filter to exclude
      *
      * @return string
      */
-    public function getListFilters($excludeFilter = false)
+    public function getListFilters($excludeFilter = false) : string
     {
         $filter = '';
         
@@ -666,7 +670,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 20.04.2011
      */
-    public function HasMorePagesThan($maxResults = 10)
+    public function HasMorePagesThan(int $maxResults = 10) : bool
     {
         $items = $this->getProducts()->Pages()->count();
         $hasMoreResults = false;
@@ -689,7 +693,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 28.08.2011
      */
-    public function HasMoreProductsThan($maxResults = 10)
+    public function HasMoreProductsThan(int $maxResults = 10) : bool
     {
         $products = $this->getProducts();
         if ($products
@@ -706,7 +710,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return string
      */
-    public function getPlainSearchQuery()
+    public function getPlainSearchQuery() : string
     {
         return SearchResultsPage::getCurrentSearchQuery();
     }
@@ -716,7 +720,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return string
      */
-    public function getEncodedSearchQuery()
+    public function getEncodedSearchQuery() : string
     {
         return htmlentities(
             stripslashes(SearchResultsPage::getCurrentSearchQuery()),
@@ -730,7 +734,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @return string
      */
-    public function getSearchQuery()
+    public function getSearchQuery() : string
     {
         $searchQuery = trim(Convert::raw2sql(SearchResultsPage::getCurrentSearchQuery()));
         return $searchQuery;
@@ -741,7 +745,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @return int
      */
-    public function getSearchCategoryID()
+    public function getSearchCategoryID() : int
     {
         return (int) SearchResultsPage::getCurrentSearchCategory();
     }
@@ -749,9 +753,9 @@ class SearchResultsPageController extends ProductGroupPageController
     /**
      * Returns the search category
      * 
-     * @return ProductGroupPage
+     * @return ProductGroupPage|null
      */
-    public function getSearchCategory()
+    public function getSearchCategory() : ?ProductGroupPage
     {
         return ProductGroupPage::get()->byID($this->getSearchCategoryID());
     }
@@ -760,14 +764,10 @@ class SearchResultsPageController extends ProductGroupPageController
      * Returns the total number of search results.
      *
      * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.06.2011
      */
-    public function TotalSearchResults()
+    public function TotalSearchResults() : int
     {
         $totalItems = 0;
-        
         if ($this->IsDefaultSearchContext()) {
             if ($this->getProducts()) {
                 $totalItems = $this->getProducts()->count();
@@ -776,8 +776,7 @@ class SearchResultsPageController extends ProductGroupPageController
             $context    = $this->getCurrentSearchContextObject();
             $totalItems = $context->TotalSearchResults();
         }
-        
-        return $totalItems;
+        return (int) $totalItems;
     }
     
     /**
@@ -792,13 +791,11 @@ class SearchResultsPageController extends ProductGroupPageController
     {
         $productsPerPage = 0;
         $member          = Customer::currentUser();
-        
         if ($member
          && $member->getCustomerConfig()
          && $member->getCustomerConfig()->productsPerPage !== null
         ) {
             $productsPerPage = $member->getCustomerConfig()->productsPerPage;
-            
             if ($productsPerPage == 0) {
                 $productsPerPage = Config::getProductsPerPageUnlimitedNumber();
             }
@@ -807,7 +804,6 @@ class SearchResultsPageController extends ProductGroupPageController
         } else {
             $productsPerPage = Config::ProductsPerPage();
         }
-        
         return $productsPerPage;
     }
     
@@ -828,13 +824,14 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.08.2011
      */
-    public function addListFilter($property, $value, $comparison = '=', $operator = 'AND')
+    public function addListFilter($property, $value, $comparison = '=', $operator = 'AND') : ProductGroupPageController
     {
         if ($comparison == 'IN') {
             $this->listFilters[] = "{$operator} \"{$property}\" {$comparison} ({$value})";
         } else {
             $this->listFilters[] = "{$operator} \"{$property}\" {$comparison} '{$value}'";
         }
+        return $this;
     }
     
     /**
@@ -847,7 +844,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.06.2012
      */
-    public function SearchByQuery(HTTPRequest $request)
+    public function SearchByQuery(HTTPRequest $request) : void
     {
         $redirectBack   = true;
         $searchQueryID  = $request->param('ID');
@@ -869,10 +866,9 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @return ProductGroupPageSelectorsForm
      */
-    public function ProductGroupPageSelectorsForm()
+    public function ProductGroupPageSelectorsForm() : ProductGroupPageSelectorsForm
     {
-        $form = ProductGroupPageSelectorsForm::create($this);
-        return $form;
+        return ProductGroupPageSelectorsForm::create($this);
     }
     
     /**
@@ -880,7 +876,7 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @return ArrayList
      */
-    public function getProductGroups()
+    public function getProductGroups() : ArrayList
     {
         $productGroups = ArrayList::create();
         $products      = $this->getProducts();
