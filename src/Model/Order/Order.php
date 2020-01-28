@@ -38,6 +38,8 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_Base;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
@@ -862,6 +864,15 @@ class Order extends DataObject implements PermissionProvider
             }
             $fields->removeByName('PaymentReferenceData');
             $fields->removeByName('OrderLogs');
+            $logField = GridField::create(
+                    'OrderLogs',
+                    $this->fieldLabel('OrderLogs'),
+                    $this->OrderLogs(),
+                    GridFieldConfig_Base::create()
+            );
+            $logField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+            $fields->findOrMakeTab('Root.OrderLogs', $this->fieldLabel('OrderLogs'));
+            $fields->addFieldToTab('Root.OrderLogs', $logField);
         });
         return DataObjectExtension::getCMSFields($this);
     }
