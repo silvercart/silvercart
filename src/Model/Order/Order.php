@@ -2848,23 +2848,27 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function handleOrderStatusChange()
+    public function handleOrderStatusChange() : void
     {
         if (!$this->didHandleOrderStatusChange
          && $this->exists()
          && $this->isChanged('OrderStatusID')
         ) {
+            $changed = $this->getChangedFields('OrderStatusID')['OrderStatusID'];
+            if ((int) $changed['before'] === (int) $changed['after']) {
+                return;
+            }
             $this->didHandleOrderStatusChange = true;
             $this->extend('onBeforeOrderStatusChange');
             if (method_exists($this->PaymentMethod(), 'handleOrderStatusChange')) {
                 $this->PaymentMethod()->handleOrderStatusChange($this);
             }
             $newOrderStatus = OrderStatus::get()->byID($this->OrderStatusID);
-            
             if ($newOrderStatus) {
                 if ($newOrderStatus instanceof OrderStatus
                  && $newOrderStatus->Code === 'shipped'
-                 && $this->ShippingDate == null) {
+                 && $this->ShippingDate == null
+                ) {
                     $this->ShippingDate = date('Y-m-d');
                 }
                 if ($this->AmountTotalAmount > 0) {
@@ -2889,22 +2893,26 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function handlePaymentStatusChange()
+    public function handlePaymentStatusChange() : void
     {
         if (!$this->didHandlePaymentStatusChange
          && $this->exists()
          && $this->isChanged('PaymentStatusID')
         ) {
+            $changed = $this->getChangedFields('PaymentStatusID')['PaymentStatusID'];
+            if ((int) $changed['before'] === (int) $changed['after']) {
+                return;
+            }
             $this->didHandlePaymentStatusChange = true;
             $this->extend('onBeforePaymentStatusChange');
             if (method_exists($this->PaymentMethod(), 'handlePaymentStatusChange')) {
                 $this->PaymentMethod()->handlePaymentStatusChange($this);
             }
             $newPaymentStatus = PaymentStatus::get()->byID($this->PaymentStatusID);
-            
             if ($newPaymentStatus instanceof PaymentStatus
              && $newPaymentStatus->Code === 'paid'
-             && $this->PaymentDate == null) {
+             && $this->PaymentDate == null
+            ) {
                 $this->PaymentDate = date('Y-m-d');
             }
             $paymentStatusID = 0;
