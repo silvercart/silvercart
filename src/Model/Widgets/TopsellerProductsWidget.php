@@ -99,9 +99,7 @@ class TopsellerProductsWidget extends Widget
         $productTable       = Tools::get_table_name(Product::class);
         
         $products   = [];
-        $sqlSelect  = SQLSelect::create();
-
-        $sqlSelect->selectField('SOP.ProductID');
+        $sqlSelect  = SQLSelect::create('SOP.ProductID');
         $sqlSelect->selectField('SUM(SOP.Quantity) AS OrderedQuantity');
         $sqlSelect->addFrom($orderPositionTable . ' SOP');
         $sqlSelect->addLeftJoin($productTable, 'SP.ID = SOP.ProductID', 'SP');
