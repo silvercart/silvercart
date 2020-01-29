@@ -2,6 +2,7 @@
 
 namespace SilverCart\Checkout;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Control\Director;
 use SilverStripe\Security\Security;
@@ -31,7 +32,7 @@ trait PaymentCheckoutStep
      * 
      * @return \SilverCart\Model\Payment\PaymentMethod
      */
-    public function getPaymentMethod()
+    public function getPaymentMethod() : ?PaymentMethod
     {
         return $this->paymentMethod;
     }
@@ -41,9 +42,9 @@ trait PaymentCheckoutStep
      * 
      * @param \SilverCart\Model\Payment\PaymentMethod $paymentMethod Payment method
      * 
-     * @return \SilverCart\Checkout\PaymentCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      */
-    public function setPaymentMethod(PaymentMethod $paymentMethod)
+    public function setPaymentMethod(PaymentMethod $paymentMethod) : CheckoutStep
     {
         $this->paymentMethod = $paymentMethod;
         return $this;
@@ -54,12 +55,12 @@ trait PaymentCheckoutStep
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return \SilverCart\Checkout\PaymentCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function initPaymentMethod($checkoutData = null)
+    public function initPaymentMethod($checkoutData = null) : CheckoutStep
     {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
@@ -70,28 +71,39 @@ trait PaymentCheckoutStep
         $paymentMethodID = $checkoutData['PaymentMethod'];
         $paymentMethod   = PaymentMethod::get()->byID($paymentMethodID);
         /* @var $paymentMethod PaymentMethod */
-        $paymentMethod->setController($controller);
-        $paymentMethod->setCancelLink(Director::absoluteURL($controller->Link()) . 'step/4');
-        $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()) . 'step/' . $currentStep->StepNumber());
-        $paymentMethod->setCustomerDetailsByCheckoutData($checkoutData);
-        $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
-        $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
-        $paymentMethod->setShoppingCart($customer->getCart());
-        
-        $this->setPaymentMethod($paymentMethod);
+        if ($paymentMethod instanceof PaymentMethod) {
+            $paymentMethod->setController($controller);
+            $paymentMethod->setCancelLink(Director::absoluteURL($controller->Link()) . 'step/4');
+            $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()) . 'step/' . $currentStep->StepNumber());
+            $paymentMethod->setCustomerDetailsByCheckoutData($checkoutData);
+            $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
+            $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
+            $paymentMethod->setShoppingCart($customer->getCart());
+            $this->setPaymentMethod($paymentMethod);
+        } else {
+            /* @var $controller \SilverStripe\Control\Controller */
+            Tools::Log('WARNING', "--- START ---", 'PaymentCheckoutStep');
+            Tools::Log('WARNING', "initializing payment method failed", 'PaymentCheckoutStep');
+            Tools::Log('WARNING', "called URL:    {$controller->getRequest()->getURL(true)}", 'PaymentCheckoutStep');
+            Tools::Log('WARNING', "customer ID:   {$customer->ID}", 'PaymentCheckoutStep');
+            Tools::Log('WARNING', "checkout data:", 'PaymentCheckoutStep');
+            Tools::Log('WARNING', var_export($checkoutData, true), 'PaymentCheckoutStep');
+            Tools::Log('WARNING', "--- END ---", 'PaymentCheckoutStep');
+        }
         return $this;
     }
     
     /**
      * Resets the payment specific progress information.
      * 
-     * @return void
+     * @return \SilverCart\Checkout\CheckoutStep
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.10.2018
      */
-    public function resetPaymentProgress()
+    public function resetPaymentProgress() : CheckoutStep
     {
         $this->getPaymentMethod()->resetProgress();
+        return $this;
     }
 }
