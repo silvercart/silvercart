@@ -61,15 +61,26 @@ class CheckoutStep6 extends CheckoutStep
     public function process() : void
     {
         $checkoutData = $this->getCheckout()->getData();
-        $payment = $this->getPaymentMethod();
-        $payment->doProcessBeforePaymentProvider($checkoutData);
-        $payment->doProcessAfterPaymentProvider($checkoutData);
-        $payment->doProcessBeforeOrder($checkoutData);
-        if ($payment->canPlaceOrder($checkoutData)) {
-            $this->placeOrder($checkoutData);
-            $payment->doProcessAfterOrder($this->getOrder(), $checkoutData);
-            $this->getCheckout()->finalize();
-            if (!$this->getController()->redirectedTo()) {
+        if (!empty($checkoutData)) {
+            $payment = $this->getPaymentMethod();
+            $payment->doProcessBeforePaymentProvider($checkoutData);
+            $payment->doProcessAfterPaymentProvider($checkoutData);
+            $payment->doProcessBeforeOrder($checkoutData);
+            if ($payment->canPlaceOrder($checkoutData)) {
+                ShoppingCart::setClearCheckoutAfterWrite(false);
+                $this->placeOrder($checkoutData);
+                $payment->doProcessAfterOrder($this->getOrder(), $checkoutData);
+                $this->getCheckout()->finalize();
+                if (!$this->getController()->redirectedTo()) {
+                    $this->getController()->redirect($this->getController()->Link('thanks'));
+                }
+            }
+        } else {
+            $checkoutData = $this->getCheckout()->getFinalizedData();
+            if (!empty($checkoutData)
+             && array_key_exists('Order', $checkoutData)
+             && !$this->getController()->redirectedTo()
+            ) {
                 $this->getController()->redirect($this->getController()->Link('thanks'));
             }
         }

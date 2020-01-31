@@ -94,6 +94,12 @@ class ShoppingCart extends DataObject
      */
     public static $createForms = true;
     /**
+     * Determines whether to clear checkout after writing or not.
+     *
+     * @var bool
+     */
+    protected static $clear_checkout_after_write = true;
+    /**
      * Contains the ID of the payment method the customer has chosen.
      *
      * @var Int
@@ -168,6 +174,28 @@ class ShoppingCart extends DataObject
      * @var ArrayData
      */
     protected $deliveryTimeData = null;
+
+    /**
+     * Sets whether to clear checkout after writing or not.
+     * 
+     * @param bool $clear Clear?
+     * 
+     * @return void
+     */
+    public static function setClearCheckoutAfterWrite(bool $clear) : void
+    {
+        self::$clear_checkout_after_write = $clear;
+    }
+    
+    /**
+     * Returns whether to clear checkout after writing or not.
+     * 
+     * @return bool
+     */
+    public static function getClearCheckoutAfterWrite() : bool
+    {
+        return self::$clear_checkout_after_write;
+    }
 
     /**
      * default constructor
@@ -281,7 +309,7 @@ class ShoppingCart extends DataObject
 
         return $fieldLabels;
     }
-    
+
     /**
      * Clears the checkout session data after updating the shopping cart.
      *
@@ -290,7 +318,9 @@ class ShoppingCart extends DataObject
     protected function onAfterWrite() : void
     {
         parent::onAfterWrite();
-        Checkout::clear_session();
+        if (self::getClearCheckoutAfterWrite()) {
+            Checkout::clear_session();
+        }
     }
 
     /**

@@ -104,8 +104,15 @@ class CheckoutStepController extends \PageController
                && !in_array($this->getRequest()->param('Action'), $this->config()->allowed_thanks_actions)
                && !$this->redirectedTo()
         ) {
-            $cartPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CART_PAGE);
-            $this->redirect($cartPage->Link());
+            $checkoutData = $checkout->getFinalizedData();
+            if (!empty($checkoutData)
+             && array_key_exists('Order', $checkoutData)
+            ) {
+                $this->redirect($this->Link('thanks'));
+            } else {
+                $cartPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CART_PAGE);
+                $this->redirect($cartPage->Link());
+            }
         }
     }
     

@@ -16,22 +16,20 @@ use SilverCart\Model\Customer\Customer;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-trait AddressCheckoutStep {
-    
+trait AddressCheckoutStep
+{
     /**
      * Invoice address.
      *
      * @var \SilverCart\Model\Customer\Address
      */
     protected $invoiceAddress = null;
-    
     /**
      * Shipping address.
      *
      * @var \SilverCart\Model\Customer\Address
      */
     protected $shippingAddress = null;
-    
     /**
      * Determines whether the invoice address is also used as shipping address.
      *
@@ -44,7 +42,8 @@ trait AddressCheckoutStep {
      * 
      * @return \SilverCart\Model\Customer\Address
      */
-    public function getInvoiceAddress() {
+    public function getInvoiceAddress() : ?Address
+    {
         return $this->invoiceAddress;
     }
 
@@ -53,7 +52,8 @@ trait AddressCheckoutStep {
      * 
      * @return \SilverCart\Model\Customer\Address
      */
-    public function getShippingAddress() {
+    public function getShippingAddress() : ?Address
+    {
         return $this->shippingAddress;
     }
 
@@ -62,7 +62,8 @@ trait AddressCheckoutStep {
      * 
      * @return bool
      */
-    public function getInvoiceAddressIsShippingAddress() {
+    public function getInvoiceAddressIsShippingAddress() : bool
+    {
         return $this->invoiceAddressIsShippingAddress;
     }
 
@@ -71,9 +72,10 @@ trait AddressCheckoutStep {
      * 
      * @param \SilverCart\Model\Customer\Address $invoiceAddress Invoice address
      * 
-     * @return \SilverCart\Checkout\AddressCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      */
-    public function setInvoiceAddress(Address $invoiceAddress) {
+    public function setInvoiceAddress(Address $invoiceAddress) : CheckoutStep
+    {
         $this->invoiceAddress = $invoiceAddress;
         return $this;
     }
@@ -83,9 +85,10 @@ trait AddressCheckoutStep {
      * 
      * @param \SilverCart\Model\Customer\Address $shippingAddress Shipping address
      * 
-     * @return \SilverCart\Checkout\AddressCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      */
-    public function setShippingAddress(Address $shippingAddress) {
+    public function setShippingAddress(Address $shippingAddress) : CheckoutStep
+    {
         $this->shippingAddress = $shippingAddress;
         return $this;
     }
@@ -95,9 +98,10 @@ trait AddressCheckoutStep {
      * 
      * @param bool $invoiceAddressIsShippingAddress Invoice address is shipping address?
      * 
-     * @return \SilverCart\Checkout\AddressCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      */
-    public function setInvoiceAddressIsShippingAddress($invoiceAddressIsShippingAddress) {
+    public function setInvoiceAddressIsShippingAddress(bool $invoiceAddressIsShippingAddress) : CheckoutStep
+    {
         $this->invoiceAddressIsShippingAddress = $invoiceAddressIsShippingAddress;
         return $this;
     }
@@ -107,24 +111,27 @@ trait AddressCheckoutStep {
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return \SilverCart\Checkout\AddressCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.04.2018
      */
-    public function initAddressData($checkoutData = null) {
+    public function initAddressData(array $checkoutData = null) : CheckoutStep
+    {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
-        $invoiceAddressIsShippingAddress = $checkoutData['InvoiceAddressAsShippingAddress'] == '1';
-        
-        $this->setInvoiceAddress($this->initAddress(Address::TYPE_INVOICE, $checkoutData));
-        $this->setShippingAddress($this->initAddress(Address::TYPE_SHIPPING, $checkoutData));
-        $this->setInvoiceAddressIsShippingAddress($invoiceAddressIsShippingAddress);
-        
-        if ($invoiceAddressIsShippingAddress) {
-            $this->getInvoiceAddress()->setIsCheckoutShippingAddress(true);
-            $this->getShippingAddress()->setIsCheckoutInvoiceAddress(true);
+        if (array_key_exists('InvoiceAddressAsShippingAddress', $checkoutData)) {
+            $invoiceAddressIsShippingAddress = $checkoutData['InvoiceAddressAsShippingAddress'] == '1';
+
+            $this->setInvoiceAddress($this->initAddress(Address::TYPE_INVOICE, $checkoutData));
+            $this->setShippingAddress($this->initAddress(Address::TYPE_SHIPPING, $checkoutData));
+            $this->setInvoiceAddressIsShippingAddress($invoiceAddressIsShippingAddress);
+
+            if ($invoiceAddressIsShippingAddress) {
+                $this->getInvoiceAddress()->setIsCheckoutShippingAddress(true);
+                $this->getShippingAddress()->setIsCheckoutInvoiceAddress(true);
+            }
         }
         return $this;
     }
@@ -140,24 +147,25 @@ trait AddressCheckoutStep {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.04.2018
      */
-    public function initAddress($type = Address::TYPE_INVOICE, $checkoutData = null) {
+    public function initAddress(string $type = Address::TYPE_INVOICE, array $checkoutData = null) : ?Address
+    {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
         $customer   = Customer::currentUser();
         $address    = null;
-        $addressKey = $type . 'Address';
+        $addressKey = "{$type}Address";
         
-        if (array_key_exists($addressKey, $checkoutData) &&
-            is_array($checkoutData[$addressKey])) {
-            
+        if (array_key_exists($addressKey, $checkoutData)
+         && is_array($checkoutData[$addressKey])
+        ) {
             $addressData = $checkoutData[$addressKey];
             $addressID   = array_key_exists('ID', $addressData) ? $addressData['ID'] : 0;
             $address     = $customer->Addresses()->byID($addressID);
-            if (!($address instanceof Address) ||
-                !$address->exists()) {
-                
-                $address = new Address($addressData);
+            if (!($address instanceof Address)
+             || !$address->exists()
+            ) {
+                $address = Address::create($addressData);
                 if ($type == Address::TYPE_INVOICE) {
                     $address->setIsAnonymousInvoiceAddress(true);
                 } else {
@@ -172,5 +180,4 @@ trait AddressCheckoutStep {
         }
         return $address;
     }
-    
 }

@@ -65,30 +65,23 @@ trait PaymentCheckoutStep
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
-        $customer        = Security::getCurrentUser();
-        $controller      = $this->getController();
-        $currentStep     = $controller->getCheckout()->getCurrentStep();
-        $paymentMethodID = $checkoutData['PaymentMethod'];
-        $paymentMethod   = PaymentMethod::get()->byID($paymentMethodID);
-        /* @var $paymentMethod PaymentMethod */
-        if ($paymentMethod instanceof PaymentMethod) {
-            $paymentMethod->setController($controller);
-            $paymentMethod->setCancelLink(Director::absoluteURL($controller->Link()) . 'step/4');
-            $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()) . 'step/' . $currentStep->StepNumber());
-            $paymentMethod->setCustomerDetailsByCheckoutData($checkoutData);
-            $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
-            $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
-            $paymentMethod->setShoppingCart($customer->getCart());
-            $this->setPaymentMethod($paymentMethod);
-        } else {
-            /* @var $controller \SilverStripe\Control\Controller */
-            Tools::Log('WARNING', "--- START ---", 'PaymentCheckoutStep');
-            Tools::Log('WARNING', "initializing payment method failed", 'PaymentCheckoutStep');
-            Tools::Log('WARNING', "called URL:    {$controller->getRequest()->getURL(true)}", 'PaymentCheckoutStep');
-            Tools::Log('WARNING', "customer ID:   {$customer->ID}", 'PaymentCheckoutStep');
-            Tools::Log('WARNING', "checkout data:", 'PaymentCheckoutStep');
-            Tools::Log('WARNING', var_export($checkoutData, true), 'PaymentCheckoutStep');
-            Tools::Log('WARNING', "--- END ---", 'PaymentCheckoutStep');
+        if (array_key_exists('PaymentMethod', $checkoutData)) {
+            $customer        = Security::getCurrentUser();
+            $controller      = $this->getController();
+            $currentStep     = $controller->getCheckout()->getCurrentStep();
+            $paymentMethodID = $checkoutData['PaymentMethod'];
+            $paymentMethod   = PaymentMethod::get()->byID($paymentMethodID);
+            /* @var $paymentMethod PaymentMethod */
+            if ($paymentMethod instanceof PaymentMethod) {
+                $paymentMethod->setController($controller);
+                $paymentMethod->setCancelLink(Director::absoluteURL($controller->Link()) . 'step/4');
+                $paymentMethod->setReturnLink(Director::absoluteURL($controller->Link()) . 'step/' . $currentStep->StepNumber());
+                $paymentMethod->setCustomerDetailsByCheckoutData($checkoutData);
+                $paymentMethod->setInvoiceAddressByCheckoutData($checkoutData);
+                $paymentMethod->setShippingAddressByCheckoutData($checkoutData);
+                $paymentMethod->setShoppingCart($customer->getCart());
+                $this->setPaymentMethod($paymentMethod);
+            }
         }
         return $this;
     }

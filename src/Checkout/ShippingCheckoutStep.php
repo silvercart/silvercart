@@ -15,8 +15,8 @@ use SilverCart\Model\Shipment\ShippingMethod;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-trait ShippingCheckoutStep {
-    
+trait ShippingCheckoutStep
+{
     /**
      * Chosen shipping method.
      *
@@ -29,7 +29,8 @@ trait ShippingCheckoutStep {
      * 
      * @return \SilverCart\Model\Shipment\ShippingMethod
      */
-    public function getShippingMethod() {
+    public function getShippingMethod() : ?ShippingMethod
+    {
         return $this->shippingMethod;
     }
 
@@ -38,9 +39,10 @@ trait ShippingCheckoutStep {
      * 
      * @param \SilverCart\Model\Shipment\ShippingMethod $shippingMethod Payment method
      * 
-     * @return \SilverCart\Checkout\ShippingCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      */
-    public function setShippingMethod(ShippingMethod $shippingMethod) {
+    public function setShippingMethod(ShippingMethod $shippingMethod) : CheckoutStep
+    {
         $this->shippingMethod = $shippingMethod;
         return $this;
     }
@@ -50,19 +52,24 @@ trait ShippingCheckoutStep {
      * 
      * @param array $checkoutData Checkout data
      * 
-     * @return \SilverCart\Checkout\ShippingCheckoutStep
+     * @return \SilverCart\Checkout\CheckoutStep
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function initShippingMethod($checkoutData = null) {
+    public function initShippingMethod($checkoutData = null) : CheckoutStep
+    {
         if (is_null($checkoutData)) {
             $checkoutData = $this->getCheckout()->getData();
         }
-        $shippingMethodID = $checkoutData['ShippingMethod'];
-        $shippingMethod   = ShippingMethod::get()->byID($shippingMethodID);
-        $this->setShippingMethod($shippingMethod);
+        if (array_key_exists('ShippingMethod', $checkoutData)) {
+            $shippingMethodID = $checkoutData['ShippingMethod'];
+            $shippingMethod   = ShippingMethod::get()->byID($shippingMethodID);
+            /* @var $shippingMethod ShippingMethod */
+            if ($shippingMethod instanceof ShippingMethod) {
+                $this->setShippingMethod($shippingMethod);
+            }
+        }
         return $this;
     }
-    
 }
