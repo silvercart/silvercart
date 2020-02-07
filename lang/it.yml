@@ -2094,3 +2094,8 @@ it:
         NotDisplayed: 'Non visualizzato'
         ShowTitleLabel: Visualizzato
         TitleLabel: 'Titolo (visualizzato se selezionato)'
+    SilverStripe\Security\Security:
+        CONFIRMLOGOUT: 'Clicca il tasto qui sotto per confermare che vuoi procedere con il log-out.'    
+        NOTERESETLINKINVALID: '<p>Il link del reset password non è valido o è scaduto.</p><p>Puoi riceverne uno nuovo cliccando qui <a href="{link1}">here</a> oppure cambia la tua password dopo il tuo <a href="{link2}">log-in</a>.</p>'
+        PASSWORDRESETSENTHEADER: 'Il link per il reset della password ti è stato spedito'
+        PASSWORDRESETSENTTEXT: 'Grazie. Troverai nella posta in entrata dell''indirizzo email indicato nell''account cliente già esistente il link per il reset della password.'
