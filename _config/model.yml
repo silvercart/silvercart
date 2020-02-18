@@ -6,9 +6,12 @@ SilverStripe\Core\Injector\Injector:
     class: SilverCart\ORM\Filters\PartialMatchOrNullFilter
   DataListFilter.StartsWithOrNull:
     class: SilverCart\ORM\Filters\StartsWithOrNullFilter
+  DataListFilter.LowerCase:
+    class: SilverCart\ORM\Filters\LowerCaseFilter
 ---
 Name: silvercartsearchaliases
 ---
 SilverStripe\Core\Injector\Injector:
   PartialMatchOrNullFilter: '%$DataListFilter.PartialMatchOrNull'
   StartsWithOrNullFilter: '%$DataListFilter.StartsWithOrNull'
+  LowerCaseFilter: '%$DataListFilter.LowerCase'
