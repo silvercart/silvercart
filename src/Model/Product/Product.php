@@ -1306,7 +1306,7 @@ class Product extends DataObject implements PermissionProvider
         $requiredAttributes = self::getRequiredAttributes();
         $pricetype          = Config::Pricetype();
         $filter             = "";
-
+        $filterAddition     = "";
         if (!empty($requiredAttributes)) {
             foreach ($requiredAttributes as $requiredAttribute) {
                 //find out if we are dealing with a real attribute or a multilingual field
@@ -1323,6 +1323,8 @@ class Product extends DataObject implements PermissionProvider
                     } else {
                         $filter .= "{$requiredAttribute} != '' AND ";
                     }
+                } elseif ($requiredAttribute === 'ProductGroupID') {
+                    $filterAddition = ' AND ProductGroupID > 0';
                 } else {
                     // if its a multilingual attribute it comes from a relational class
                     $tableName = Tools::get_table_name(ProductTranslation::class);
@@ -1331,7 +1333,7 @@ class Product extends DataObject implements PermissionProvider
                 
             }
         }
-        $filter .= 'isActive = 1 AND ProductGroupID > 0';
+        $filter .= "isActive = 1{$filterAddition}";
         
         return $filter;
     }
