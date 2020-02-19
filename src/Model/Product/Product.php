@@ -1242,6 +1242,9 @@ class Product extends DataObject implements PermissionProvider
         $exclude              = [];
         $requiredAttributes   = self::getRequiredAttributes();
         $requiredAttributes[] = 'isActive';
+        $SQL_Statements       = [];
+        $SQL_Statements[]     = "(LaunchDate IS NULL OR LaunchDate < NOW())";
+        $SQL_Statements[]     = "(SalesBanDate IS NULL OR SalesBanDate > NOW())";
 
         foreach ($requiredAttributes as $requiredAttribute) {
             //find out if we are dealing with a real attribute or a multilingual field
@@ -1258,6 +1261,14 @@ class Product extends DataObject implements PermissionProvider
                 } else {
                     $exclude[$requiredAttribute] = '';
                 }
+            } elseif ($requiredAttribute === 'ProductGroupID') {
+                $pgp   = ProductGroupPage::config()->table_name;
+                $stage = Versioned::get_stage();
+                if ($stage === Versioned::LIVE) {
+                    $pgp = "{$pgp}_{$stage}";
+                }
+                $SQL_Statements[] = "ProductGroupID > 0";
+                $SQL_Statements[] = "(ProductGroupID IN (SELECT PGP.ID FROM {$pgp} AS PGP))";
             } else {
                 // if its a multilingual attribute it comes from a relational class
                 $exclude[$requiredAttribute] = '';
@@ -1265,7 +1276,6 @@ class Product extends DataObject implements PermissionProvider
 
         }
 
-        $SQL_Statements = [];
         foreach ($exclude as $fieldName => $value) {
             if ($fieldName == 'ID') {
                 $fieldName = sprintf('"%s"."ID"', DataObject::getSchema()->baseDataClass(Product::class));
@@ -1279,17 +1289,6 @@ class Product extends DataObject implements PermissionProvider
                 $SQL_Statements[] = ($fieldName . ' != \'' . Convert::raw2sql($value) . '\'');
             }
         }
-        
-        $pgp   = ProductGroupPage::config()->table_name;
-        $stage = Versioned::get_stage();
-        if ($stage === Versioned::LIVE) {
-            $pgp = "{$pgp}_{$stage}";
-        }
-        $SQL_Statements[] = "(LaunchDate IS NULL OR LaunchDate < NOW())";
-        $SQL_Statements[] = "(SalesBanDate IS NULL OR SalesBanDate > NOW())";
-        $SQL_Statements[] = "ProductGroupID > 0";
-        $SQL_Statements[] = "(ProductGroupID IN (SELECT PGP.ID FROM {$pgp} AS PGP))";
-
         if (count($SQL_Statements) > 0) {
             $filter = implode(" AND ", $SQL_Statements);
         }

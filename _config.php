@@ -56,6 +56,7 @@ if (class_exists('PageController')) {
 }
 // Define required attributes to display a product in frontend
 Product::addRequiredAttribute("Price");
+Product::addRequiredAttribute("ProductGroupID");
 // disable default pages for SiteTree
 SiteTree::config()->set('create_default_pages', false);
 // Enable validation for Member
