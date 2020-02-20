@@ -21,7 +21,7 @@
 		"php": ">=5.6.0",
 		"composer/installers": "*",
 		"silverstripe/cms": "~4.1",
-		"silverstripe/widgets": "dev-master",
+		"silverstripe/widgets": "~2.0",
 		"silvercart/widgetsets": "~4.0",
 		"silvercart/payment-prepayment": "~4.0",
 		"tractorcow/silverstripe-fluent": "~4.0",
