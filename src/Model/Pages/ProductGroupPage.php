@@ -711,6 +711,8 @@ class ProductGroupPage extends \Page
                         } else {
                             $filter[] = "{$requiredAttribute} != ''";
                         }
+                    } elseif ($requiredAttribute === 'ProductGroupID') {
+                        $filter[] = 'ProductGroupID > 0';
                     } else {
                         // if its a multilingual attribute it comes from a relational class
                         $translationTableName = Tools::get_table_name(ProductTranslation::class);
