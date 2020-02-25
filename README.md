@@ -50,10 +50,10 @@ SilverCart E-Commerce module for SilverStripe CMS Framework
 9. composer vendor-expose
 10. run yourdomain.tld/?flush=1 in your browser.
 
-###YAML theme configuration:
+### YAML theme configuration:
 Place this configuration into your app/_config/theme.yml after installing the SilverCart theme sc-bootstrap4.
 
-    ```yaml
+    ```
     ---
     Name: mytheme
     ---
