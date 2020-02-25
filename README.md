@@ -14,7 +14,7 @@ SilverCart E-Commerce module for SilverStripe CMS Framework
 
 ## Basic installation from scratch with composer
 1. composer create-project silverstripe/installer silvercart-demo
-2. cd silvercart_demo 
+2. cd silvercart-demo 
 3. composer require silvercart/silvercart 4.1.2
 4. change the class definition in mysite/code/Page.php to
    ```class Page extends \SilverCart\Model\Pages\Page```
