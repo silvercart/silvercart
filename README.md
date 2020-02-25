@@ -53,16 +53,16 @@ SilverCart E-Commerce module for SilverStripe CMS Framework
 ### YAML theme configuration:
 Place this configuration into your app/_config/theme.yml after installing the SilverCart theme sc-bootstrap4.
 
-    ```
-    ---
-    Name: mytheme
-    ---
-    SilverStripe\View\SSViewer:
-      themes:
-        - sc-bootstrap4
-        - '$public'
-        - '$default'
-    ```
+```
+---
+Name: mytheme
+---
+SilverStripe\View\SSViewer:
+  themes:
+    - sc-bootstrap4
+    - '$public'
+    - '$default'
+```
 
 ## Summary
 SilverCart is an Open Source E-Commerce module for the CMS Framework SilverStripe.
