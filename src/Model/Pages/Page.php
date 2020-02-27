@@ -277,6 +277,20 @@ class Page extends SiteTree
             }
         }
     }
+
+    /**
+     * getter for the Title, looks for set translation
+     * 
+     * @return string
+     */
+    public function getTitle()
+    {
+        $title = $this->getField('Title');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateTitle', $title);
+        }
+        return $title;
+    }
     
     /**
      * Returns the main navigation root page (set in backend).

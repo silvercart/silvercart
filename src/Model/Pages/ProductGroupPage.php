@@ -3,7 +3,6 @@
 namespace SilverCart\Model\Pages;
 
 use DateTime;
-use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
@@ -25,7 +24,6 @@ use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
-use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
@@ -50,6 +48,7 @@ use WidgetSets\Model\WidgetSet;
  */
 class ProductGroupPage extends \Page
 {
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * DB table name
      *
@@ -131,7 +130,13 @@ class ProductGroupPage extends \Page
      *
      * @var string
      */
-    private static $breadcrumb_title_delimiter = ' > ';
+    private static $breadcrumb_title_delimiter = ' ';
+    /**
+     * Set to true to use the breadcrumb title for the meta title.
+     *
+     * @var bool
+     */
+    private static $use_breadcrumb_title_for_meta_title = true;
     /**
      * Determines whether to show new products on a product group page or not.
      *
@@ -440,41 +445,33 @@ class ProductGroupPage extends \Page
     /**
      * Field labels for display in tables.
      *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * @param bool $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.10.2012
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'productsPerPage'               => _t(ProductGroupPage::class . '.PRODUCTSPERPAGE', 'Products per page'),
-                'ProductsPerPageHint'           => _t(ProductGroupPage::class . '.PRODUCTSPERPAGEHINT', 'Set products or product groups per page to 0 (zero) to use the default setting.'),
-                'productGroupsPerPage'          => _t(ProductGroupPage::class . '.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
-                'useContentFromParent'          => _t(ProductGroupPage::class . '.USE_CONTENT_FROM_PARENT', 'Use content from parent pages'),
-                'DefaultGroupView'              => _t(ProductGroupPage::class . '.DEFAULTGROUPVIEW', 'Default product list view'),
-                'DefaultGroupViewInherit'       => _t(ProductGroupPage::class . '.DEFAULTGROUPVIEW_DEFAULT', 'Use view from parent pages'),
-                'UseOnlyDefaultGroupView'       => _t(ProductGroupPage::class . '.USEONLYDEFAULTGROUPVIEW', 'Allow only default view'),
-                'DefaultGroupHolderView'        => _t(ProductGroupPage::class . '.DEFAULTGROUPHOLDERVIEW', 'Default product group view'),
-                'UseOnlyDefaultGroupHolderView' => _t(ProductGroupPage::class . '.USEONLYDEFAULTGROUPHOLDERVIEW', 'Allow only default view'),
-                'DoNotShowProducts'             => _t(ProductGroupPage::class . '.DONOTSHOWPRODUCTS', 'do <strong>not</strong> show products of this group'),
-                'DisplaySettings'               => _t(ProductGroupPage::class . '.DisplaySettings', 'Display Settings'),
-                'NewProducts'                   => _t(ProductGroupPage::class . '.NewProducts', 'New Products'),
-                'NewProductsLinkTitle'          => _t(ProductGroupPage::class . '.NewProductsLinkTitle', 'Show all new products'),
-                'PreorderableProducts'          => _t(ProductGroupPage::class . '.PreorderableProducts', 'Pre-Orders'),
-                'PreorderableProductsLinkTitle' => _t(ProductGroupPage::class . '.PreorderableProductsLinkTitle', 'Show all pre-orders'),
-                'GroupPicture'                  => _t(ProductGroupPage::class . '.GROUP_PICTURE', 'Group picture'),
-                'ManageProductsButton'          => _t(ProductGroupPage::class . '.MANAGE_PRODUCTS_BUTTON', 'Manage products'),
-                'Yes'                           => Tools::field_label('Yes'),
-                'No'                            => Tools::field_label('No'),
-            )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'productsPerPage'               => _t(ProductGroupPage::class . '.PRODUCTSPERPAGE', 'Products per page'),
+            'ProductsPerPageHint'           => _t(ProductGroupPage::class . '.PRODUCTSPERPAGEHINT', 'Set products or product groups per page to 0 (zero) to use the default setting.'),
+            'productGroupsPerPage'          => _t(ProductGroupPage::class . '.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
+            'useContentFromParent'          => _t(ProductGroupPage::class . '.USE_CONTENT_FROM_PARENT', 'Use content from parent pages'),
+            'DefaultGroupView'              => _t(ProductGroupPage::class . '.DEFAULTGROUPVIEW', 'Default product list view'),
+            'DefaultGroupViewInherit'       => _t(ProductGroupPage::class . '.DEFAULTGROUPVIEW_DEFAULT', 'Use view from parent pages'),
+            'UseOnlyDefaultGroupView'       => _t(ProductGroupPage::class . '.USEONLYDEFAULTGROUPVIEW', 'Allow only default view'),
+            'DefaultGroupHolderView'        => _t(ProductGroupPage::class . '.DEFAULTGROUPHOLDERVIEW', 'Default product group view'),
+            'UseOnlyDefaultGroupHolderView' => _t(ProductGroupPage::class . '.USEONLYDEFAULTGROUPHOLDERVIEW', 'Allow only default view'),
+            'DoNotShowProducts'             => _t(ProductGroupPage::class . '.DONOTSHOWPRODUCTS', 'do <strong>not</strong> show products of this group'),
+            'DisplaySettings'               => _t(ProductGroupPage::class . '.DisplaySettings', 'Display Settings'),
+            'NewProducts'                   => _t(ProductGroupPage::class . '.NewProducts', 'New Products'),
+            'NewProductsLinkTitle'          => _t(ProductGroupPage::class . '.NewProductsLinkTitle', 'Show all new products'),
+            'PreorderableProducts'          => _t(ProductGroupPage::class . '.PreorderableProducts', 'Pre-Orders'),
+            'PreorderableProductsLinkTitle' => _t(ProductGroupPage::class . '.PreorderableProductsLinkTitle', 'Show all pre-orders'),
+            'GroupPicture'                  => _t(ProductGroupPage::class . '.GROUP_PICTURE', 'Group picture'),
+            'ManageProductsButton'          => _t(ProductGroupPage::class . '.MANAGE_PRODUCTS_BUTTON', 'Manage products'),
+            'Yes'                           => Tools::field_label('Yes'),
+            'No'                            => Tools::field_label('No'),
+        ]);
     }
 
     /**
@@ -1112,6 +1109,7 @@ class ProductGroupPage extends \Page
         if (!$this->getCMSFieldsIsCalled
          && !Tools::isBackendEnvironment()
         ) {
+            $this->extend('onBeforeGetMetaTitle', $metaTitle);
             if (empty($metaTitle)) {
                 $ctrl = Controller::curr();
                 if ($ctrl instanceof ProductGroupPageController
@@ -1122,23 +1120,36 @@ class ProductGroupPage extends \Page
                         'title' => $product->MetaTitle,
                     ]);
                 } else {
-                    $pageXofY  = "";
-                    $buyTitle  = _t(self::class . '.BuyTitle', 'Buy {title}', [
-                        'title' => $this->BreadcrumbTitle,
+                    $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
+                        'title' => $this->config()->use_breadcrumb_title_for_meta_title ? $this->BreadcrumbTitle : $this->Title,
                     ]);
-                    if ($ctrl->HasMorePagesThan(1)) {
-                        $pageXofY = _t(Page::class . '.PageXofY', 'Page {x} of {y}', [
-                            'x' => $ctrl->getProducts()->CurrentPage(),
-                            'y' => $ctrl->getProducts()->Pages()->count(),
-                        ]);
-                        $pageXofY = "({$pageXofY}) ";
-                    }
-                    $metaTitle = "{$this->Title} {$pageXofY}| {$buyTitle}";
                 }
             }
             $this->extend('updateMetaTitle', $metaTitle);
         }
         return $metaTitle;
+    }
+    
+    /**
+     * Returns the string to render after the original meta title.
+     * 
+     * @return string
+     */
+    public function getAfterMetaTitle() : string
+    {
+        $ctrl           = Controller::curr();
+        $afterMetaTitle = '';
+        if ($ctrl->HasMorePagesThan(1)
+         && $ctrl->getProducts()->CurrentPage() > 1
+        ) {
+            $pageXofY = _t(Page::class . '.PageXofY', 'Page {x} of {y}', [
+                'x' => $ctrl->getProducts()->CurrentPage(),
+                'y' => $ctrl->getProducts()->Pages()->count(),
+            ]);
+            $afterMetaTitle = " ({$pageXofY})";
+        }
+        $this->extend('updateMetaTitle', $afterMetaTitle);
+        return $afterMetaTitle;
     }
     
     /**
