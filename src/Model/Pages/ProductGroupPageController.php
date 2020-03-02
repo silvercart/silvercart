@@ -408,7 +408,7 @@ class ProductGroupPageController extends PageController
         if ($this->data()->DoNotShowProducts
          && !$force
         ) {
-            $this->groupProducts[$hashKey] = PaginatedList::create();
+            $this->groupProducts[$hashKey] = PaginatedList::create(ArrayList::create());
         } elseif (!array_key_exists($hashKey, $this->groupProducts)
                || $force
         ) {
