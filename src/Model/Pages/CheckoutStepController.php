@@ -256,7 +256,7 @@ class CheckoutStepController extends \PageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return void
+     * @return DBHTMLText|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.09.2018
@@ -272,10 +272,16 @@ class CheckoutStepController extends \PageController
             $order         = Order::get()->byID($checkoutData['Order']);
             /* @var $paymentMethod PaymentMethod */
             /* @var $order Order */
+            $afterContent  = '';
+            $beforeContent = '';
             $this->extend('onBeforeRenderThanks', $order, $paymentMethod, $checkoutData);
+            $this->extend('updateAfterCheckoutThanksContent', $afterContent, $order, $paymentMethod, $checkoutData);
+            $this->extend('updateBeforeCheckoutThanksContent', $beforeContent, $order, $paymentMethod, $checkoutData);
             return $this->customise([
                 'PaymentConfirmationText' => $paymentMethod->processConfirmationText($order, $checkoutData),
                 'CustomersOrder'          => $order,
+                'AfterContent'            => DBHTMLText::create()->setValue($afterContent),
+                'BeforeContent'           => DBHTMLText::create()->setValue($beforeContent),
             ])->render();
         }
         if (!$this->redirectedTo()) {

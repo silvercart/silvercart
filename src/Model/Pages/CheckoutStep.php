@@ -8,6 +8,7 @@ use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
 
 /**
  * Checkout step page.
@@ -34,6 +35,7 @@ class CheckoutStep extends \Page
         'ContentStep3'  => 'HTMLText',
         'ContentStep4'  => 'HTMLText',
         'ContentStep5'  => 'HTMLText',
+        'TitleStep6'    => 'Varchar',
         'ContentStep6'  => 'HTMLText',
     ];
     /**
@@ -111,15 +113,34 @@ class CheckoutStep extends \Page
     public function getCMSFields()
     {
         $this->beforeUpdateCMSFields(function($fields) {
+            $this->getCMSFieldsIsCalled = true;
+            $titleStep6Default = _t(Page::class . '.ORDER_COMPLETED', 'Your order is completed');
             $fields->findOrMakeTab('Root.StepContent', $this->fieldLabel('StepContent'));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep1', $this->fieldLabel('ContentStep1'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep2', $this->fieldLabel('ContentStep2'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep3', $this->fieldLabel('ContentStep3'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep4', $this->fieldLabel('ContentStep4'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep5', $this->fieldLabel('ContentStep5'))->addExtraClass('stacked')->setRows(8));
+            $fields->addFieldToTab('Root.StepContent', TextField::create('TitleStep6', $this->fieldLabel('TitleStep6'))->setAttribute('placeholder', $titleStep6Default)->setDescription(_t(self::class . '.TitleStep6Info', 'Alternative title to display on the order confirmation page (default: "{default}").', ['default' => $titleStep6Default])));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep6', $this->fieldLabel('ContentStep6'))->addExtraClass('stacked')->setRows(8));
         });
         return parent::getCMSFields();
+    }
+    
+    /**
+     * Returns the title for the checkout step 6.
+     * 
+     * @return string
+     */
+    public function getTitleStep6() : string
+    {
+        $title = $this->getField('TitleStep6');
+        if (empty($title)
+         && !$this->getCMSFieldsIsCalled
+        ) {
+            $title = _t(Page::class . '.ORDER_COMPLETED', 'Your order is completed');
+        }
+        return (string) $title;
     }
     
     /**

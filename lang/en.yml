@@ -244,6 +244,8 @@ en:
         SINGULARNAME: 'Checkout Step'
         StepContent: 'Content for single steps'
         TaxAndDutyHint: 'Caution: There are additional taxes and fees for delivery to non EU countries.'
+        TitleStep6: 'Title Step 6 - Confirmation'
+        TitleStep6Info: 'Alternative title to display on the order confirmation page (default: "{default}").'
         URL_SEGMENT: checkout
     SilverCart\Admin\Model\Config:
         ADDED_EXAMPLE_CONFIGURATION: 'Added Example Configuration'
