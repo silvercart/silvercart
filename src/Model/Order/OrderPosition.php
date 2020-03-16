@@ -8,6 +8,7 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnit;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 
 /**
@@ -520,5 +521,18 @@ class OrderPosition extends DataObject
         $addToTitle = '';
         $this->extend('addToTitle', $addToTitle);
         return Tools::string2html($addToTitle);
+    }
+    
+    /**
+     * Returns the rendered position.
+     * 
+     * @param string $templateAddition Optional template name addition
+     * 
+     * @return DBHTMLText
+     */
+    public function forTemplate(string $templateAddition = '') : DBHTMLText
+    {
+        $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
+        return $this->renderWith(static::class . $addition);
     }
 }

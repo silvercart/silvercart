@@ -3144,4 +3144,17 @@ class Order extends DataObject implements PermissionProvider
     {
         return $this->renderWith(Order::class);
     }
+    
+    /**
+     * Returns the rendered position.
+     * 
+     * @param string $templateAddition Optional template name addition
+     * 
+     * @return DBHTMLText
+     */
+    public function forTemplate(string $templateAddition = '') : DBHTMLText
+    {
+        $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
+        return $this->renderWith(static::class . $addition);
+    }
 }
