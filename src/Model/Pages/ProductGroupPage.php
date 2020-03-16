@@ -20,16 +20,16 @@ use SilverStripe\Control\Director;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
-use SilverStripe\ORM\Map;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Versioned\Versioned;
@@ -45,6 +45,22 @@ use WidgetSets\Model\WidgetSet;
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property int    $productsPerPage               Products per page
+ * @property int    $productGroupsPerPage          Product groups per page
+ * @property bool   $useContentFromParent          Use content from parent
+ * @property string $DefaultGroupView              Default group view
+ * @property string $UseOnlyDefaultGroupView       Use only default group view
+ * @property string $DefaultGroupHolderView        Default group holder view
+ * @property string $UseOnlyDefaultGroupHolderView Use only default group holder view
+ * @property bool   $DoNotShowProducts             Do not show products
+ * @property string $LastEditedForCache            LastEdited date and time for cache purposes
+ * @property string $BreadcrumbTitle               Breadcrumb title
+ * @property string $ProductsOnPagesString         Products on pages string
+ * 
+ * @method Image                          GroupPicture()   Returns the related GroupPicture.
+ * @method \SilverStripe\ORM\HasManyList  Products()       Returns the related products.
+ * @method \SilverStripe\ORM\ManyManyList MirrorProducts() Returns the related products.
  */
 class ProductGroupPage extends \Page
 {
@@ -228,7 +244,7 @@ class ProductGroupPage extends \Page
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -239,7 +255,7 @@ class ProductGroupPage extends \Page
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }
@@ -257,21 +273,21 @@ class ProductGroupPage extends \Page
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 29.6.2011
      */
-    public function LinkingMode()
+    public function LinkingMode() : string
     {
-        if (Tools::Session()->get("SilverCart.ProductGroupPageID")
+        $mode = 'link';
+        if (Tools::Session()->get('SilverCart.ProductGroupPageID')
          && Controller::curr() instanceof ProductGroupPageController
         ) {
-            if ($this->ID == Tools::Session()->get("SilverCart.ProductGroupPageID")) {
-                return 'current';
+            if ($this->ID == Tools::Session()->get('SilverCart.ProductGroupPageID')) {
+                $mode = 'current';
             }
         } elseif ($this->isCurrent()) {
-            return "current";
+            $mode = 'current';
         } elseif ($this->isSection()) {
-            return 'section';
-        } else {
-            return 'link';
+            $mode = 'section';
         }
+        return $mode;
     }
 
     /**
@@ -284,7 +300,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.03.2015
      */
-    public function Link($action = null)
+    public function Link($action = null) : string
     {
         $controller = Controller::curr();
         if ($controller->hasMethod('isProductDetailView')
@@ -296,7 +312,7 @@ class ProductGroupPage extends \Page
         } else {
             $link = parent::Link($action);
         }
-        return $link;
+        return (string) $link;
     }
     
     /**
@@ -308,7 +324,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 30.06.2017
      */
-    public function CanonicalLink()
+    public function CanonicalLink() : string
     {
         $link = parent::CanonicalLink();
         if (!(Controller::curr()->hasMethod('isProductDetailView')
@@ -323,13 +339,13 @@ class ProductGroupPage extends \Page
                  && strpos($link, '&start=') === false
                  && (int) $_GET['start'] > 0
                 ) {
-                    $link .= $char . 'start=' . $_GET['start'];
+                    $link .= "{$char}start={$_GET['start']}";
                 }
             }
         } elseif (Controller::curr()->isProductDetailView()) {
             $link = Controller::curr()->getDetailViewProduct()->CanonicalLink();
         }
-        return $link;
+        return (string) $link;
     }
 
     /**
@@ -349,9 +365,9 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.02.2011
      */
-    public function OriginalLink($action = null)
+    public function OriginalLink($action = null) : string
     {
-        return parent::Link($action);
+        return (string) parent::Link($action);
     }
     
     /**
@@ -362,7 +378,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.05.2014
      */
-    public function BackLink()
+    public function BackLink() : string
     {
         if (Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL')) {
             $url = Controller::curr()->getRequest()->requestVar('_REDIRECT_BACK_URL');
@@ -376,7 +392,7 @@ class ProductGroupPage extends \Page
         ) {
             $url = $this->OriginalLink();
         }
-        return $url;
+        return (string) $url;
     }
     
     /**
@@ -408,17 +424,13 @@ class ProductGroupPage extends \Page
             $productId = array_pop($urlElems);
             if (is_numeric($productId)) {
                 $product = Product::get()->byID(Convert::raw2xml($productId));
-
                 if ($product) {
-                    $backPage = new DataObject();
-                    $backPage->MenuTitle = $product->Title;
+                    $backPage = ArrayData::create(['MenuTitle' => $product->Title]);
                 }
             } else {
-                $backPage = new DataObject();
-                $backPage->MenuTitle = Page::singleton()->fieldLabel('PreviousPage');
+                $backPage = ArrayData::create(['MenuTitle' => Page::singleton()->fieldLabel('PreviousPage')]);
             }
         }
-        
         return $backPage;
     }
     
@@ -432,10 +444,11 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.05.2012
      */
-    public function isInternalUrl($url) {
+    public function isInternalUrl($url) : bool
+    {
         $isInternalUrl  = false;
-        if (Director::is_absolute_url($url) &&
-            strpos($url, $_SERVER['SERVER_NAME'])
+        if (Director::is_absolute_url($url)
+         && strpos($url, $_SERVER['SERVER_NAME'])
         ) {
             $isInternalUrl  = true;
         }
@@ -479,19 +492,17 @@ class ProductGroupPage extends \Page
      *
      * @return FieldList Fields of the CMS
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
-        $this->beforeUpdateCMSFields(function($fields) {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
             if ($this->isArchived()) {
                 return;
             }
-
             $useOnlydefaultGroupviewSource  = [
                 'inherit' => $this->fieldLabel('DefaultGroupViewInherit'),
                 'yes'     => $this->fieldLabel('Yes'),
                 'no'      => $this->fieldLabel('No'),
             ];
-
             $useContentField                    = CheckboxField::create('useContentFromParent',     $this->fieldLabel('useContentFromParent'));
             $doNotShowProductsField             = CheckboxField::create('DoNotShowProducts',        Tools::string2html($this->fieldLabel('DoNotShowProducts')));
             $productsPerPageField               = TextField::create('productsPerPage',              $this->fieldLabel('productsPerPage'));
@@ -562,7 +573,7 @@ class ProductGroupPage extends \Page
      *
      * @return array
      */
-    public function getMirroredProductIDs()
+    public function getMirroredProductIDs() : array
     {
         if (static::class !== self::class) {
             return [];
@@ -582,18 +593,16 @@ class ProductGroupPage extends \Page
         }
         $translationProductGroupIDList  = implode(',', $translationProductGroupIDs);
 
-        $productTable = Product::config()->get('table_name');
-        $groupTable   = self::config()->get('table_name');
-        $sqlQuery = SQLSelect::create();
+        $productTable = Product::config()->table_name;
+        $groupTable   = self::config()->table_name;
+        $sqlQuery     = SQLSelect::create();
         $sqlQuery->setSelect("P_PGMP.{$productTable}ID");
         $sqlQuery->addFrom("{$productTable}_ProductGroupMirrorPages P_PGMP");
         $sqlQuery->addWhere(["P_PGMP.{$groupTable}ID IN ({$translationProductGroupIDList})"]);
         $result = $sqlQuery->execute();
-
         foreach ($result as $row) {
             $mirroredProductIDs[] = $row["{$productTable}ID"];
         }
-        
         return $mirroredProductIDs;
     }
 
@@ -605,16 +614,14 @@ class ProductGroupPage extends \Page
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.03.2011
      */
-    public function drawCMSFields()
+    public function drawCMSFields() : bool
     {
         $drawCMSFields   = true;
         $updateCMSFields = $this->extend('updateDrawCMSFields', $drawCMSFields);
-
         if (!empty($updateCMSFields)) {
             $drawCMSFields = $updateCMSFields[0];
         }
-
-        return $drawCMSFields;
+        return (bool) $drawCMSFields;
     }
 
     /**
@@ -625,14 +632,10 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.02.2011
      */
-    public function hasProductsOrChildren()
+    public function hasProductsOrChildren() : bool
     {
-        if ($this->ActiveProducts()->Count > 0
-         || count($this->Children()) > 0
-        ) {
-            return true;
-        }
-        return false;
+        return $this->ActiveProducts()->Count > 0
+            || count($this->Children()) > 0;
     }
 
     /**
@@ -657,7 +660,7 @@ class ProductGroupPage extends \Page
      *
      * @return array
      */
-    public static function getFlatChildPageIDsForPage($pageId)
+    public static function getFlatChildPageIDsForPage($pageId) : array
     {
         return Tools::getFlatChildPageIDsForPage($pageId);
     }
@@ -966,7 +969,7 @@ class ProductGroupPage extends \Page
      * 
      * @return ArrayData
      */
-    public function getNewProductsForTemplate($limit = null)
+    public function getNewProductsForTemplate(int $limit = null) : ArrayData
     {
         return ArrayData::create([
             "Title"                => _t(self::class . ".NewProductsIn", "New Products in {productgroup}", ['productgroup' => $this->Title]),
@@ -1003,9 +1006,9 @@ class ProductGroupPage extends \Page
      * 
      * @return DataList
      */
-    public function getPreorderableProducts($limit = null)
+    public function getPreorderableProducts(int $limit = null)
     {
-        $tableName = Product::config()->get('table_name');
+        $tableName = Product::config()->table_name;
         $products  = $this->getProductsInherited()
                 ->where("\"{$tableName}\".ReleaseDate > NOW()")
                 ->sort("\"{$tableName}\".ReleaseDate", "ASC");
@@ -1022,7 +1025,7 @@ class ProductGroupPage extends \Page
      * 
      * @return ArrayData
      */
-    public function getPreorderableProductsForTemplate($limit = null) : ArrayData
+    public function getPreorderableProductsForTemplate(int $limit = null) : ArrayData
     {
         return ArrayData::create([
             "Title"                         => _t(self::class . ".PreorderableProductsIn", "Pre-Orders in {productgroup}", ['productgroup' => $this->Title]),
@@ -1058,42 +1061,37 @@ class ProductGroupPage extends \Page
      * 
      * @return string
      */
-    public function getMetaDescription()
+    public function getMetaDescription() : string
     {
         $metaDescription = $this->getField('MetaDescription');
         if (!$this->getCMSFieldsIsCalled
          && !Tools::isBackendEnvironment()
         ) {
-            if (empty($metaDescription)) {
-                $ctrl = Controller::curr();
-                if ($ctrl instanceof ProductGroupPageController
-                 && $ctrl->isProductDetailView()
-                ) {
-                    $product = $ctrl->getDetailViewProduct();
-                    $metaDescription = $product->MetaDescription;
-                } elseif ($ctrl instanceof ProductGroupPageController) {
-                    $descriptionArray = [$this->Title];
-                    $children         = $this->Children();
-                    if ($children->count() > 0) {
-                        $map = $children->map();
-                        if ($map instanceof Map) {
-                            $map = $map->toArray();
-                        }
-                        $descriptionArray = array_merge($descriptionArray, $map);
-                    }
-                    $products = $this->getProductsToDisplay();
-                    if ($products->count() > 0) {
-                        $currOffset       = $ctrl->CurrentOffset();
-                        $sqlOffset        = $ctrl->getProductsPerPageSetting();
-                        $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
-                        $descriptionArray = array_merge($descriptionArray, $products);
-                    }
-                    $metaDescription = SeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
+            $ctrl = Controller::curr();
+            if ($ctrl instanceof ProductGroupPageController
+             && $ctrl->isProductDetailView()
+            ) {
+                $metaDescription = $ctrl->getDetailViewProduct()->MetaDescription;
+            } elseif ($ctrl instanceof ProductGroupPageController
+                   && empty($metaDescription)
+            ) {
+                $descriptionArray = [$this->Title];
+                $children         = $this->Children();
+                if ($children->count() > 0) {
+                    $descriptionArray = array_merge($descriptionArray, $children->map()->toArray());
                 }
+                $products = $this->getProductsToDisplay();
+                if ($products->count() > 0) {
+                    $currOffset       = $ctrl->CurrentOffset();
+                    $sqlOffset        = $ctrl->getProductsPerPageSetting();
+                    $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
+                    $descriptionArray = array_merge($descriptionArray, $products);
+                }
+                $metaDescription = SeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
             }
             $this->extend('updateMetaDescription', $metaDescription);
         }
-        return $metaDescription;
+        return (string) $metaDescription;
     }
     
     /**
@@ -1103,31 +1101,28 @@ class ProductGroupPage extends \Page
      * 
      * @return string
      */
-    public function getMetaTitle()
+    public function getMetaTitle() : string
     {
         $metaTitle = $this->getField('MetaTitle');
         if (!$this->getCMSFieldsIsCalled
          && !Tools::isBackendEnvironment()
         ) {
             $this->extend('onBeforeGetMetaTitle', $metaTitle);
-            if (empty($metaTitle)) {
-                $ctrl = Controller::curr();
-                if ($ctrl instanceof ProductGroupPageController
-                 && $ctrl->isProductDetailView()
-                ) {
-                    $product = $ctrl->getDetailViewProduct();
-                    $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
-                        'title' => $product->MetaTitle,
-                    ]);
-                } else {
-                    $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
-                        'title' => $this->config()->use_breadcrumb_title_for_meta_title ? $this->BreadcrumbTitle : $this->Title,
-                    ]);
-                }
+            $ctrl = Controller::curr();
+            if ($ctrl instanceof ProductGroupPageController
+             && $ctrl->isProductDetailView()
+            ) {
+                $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
+                    'title' => $ctrl->getDetailViewProduct()->MetaTitle,
+                ]);
+            } elseif (empty($metaTitle)) {
+                $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
+                    'title' => $this->config()->use_breadcrumb_title_for_meta_title ? $this->BreadcrumbTitle : $this->Title,
+                ]);
             }
             $this->extend('updateMetaTitle', $metaTitle);
         }
-        return $metaTitle;
+        return (string) $metaTitle;
     }
     
     /**
@@ -1224,7 +1219,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.10.2016
      */
-    protected function onBeforeWrite()
+    protected function onBeforeWrite() : void
     {
         if (!isset($this->ParentID)) {
             $productGroupHolder = ProductGroupHolder::get()->first();
@@ -1241,16 +1236,14 @@ class ProductGroupPage extends \Page
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 03.07.2012
      */
-    public function onBeforeDelete()
+    public function onBeforeDelete() : void
     {
         $productGroupHolderPage = $this->getProductGroupHolderPage();
-
         if ($productGroupHolderPage) {
             $now = new DateTime();
             $productGroupHolderPage->LastEdited = $now->format('Y-m-d H:i:s');
             $productGroupHolderPage->write();
         }
-
         parent::onBeforeDelete();
     }
 
@@ -1266,13 +1259,11 @@ class ProductGroupPage extends \Page
         if (is_null($context)) {
             $context = $this;
         }
-
         if ( $context->ParentID > 0
          && !$context->Parent() instanceof ProductGroupHolder
         ) {
             $context = $this->getProductGroupHolderPage($context->Parent());
         }
-
         return $context;
     }
     
@@ -1280,11 +1271,8 @@ class ProductGroupPage extends \Page
      * Returns the title including the parent product group titles.
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.09.2018
      */
-    public function getBreadcrumbTitle()
+    public function getBreadcrumbTitle() : string
     {
         $group = $this->owner;
         $ctrl  = Controller::curr();
@@ -1297,7 +1285,7 @@ class ProductGroupPage extends \Page
         ) {
             array_pop($map);
         }
-        return implode($group->config()->get('breadcrumb_title_delimiter'), $map);
+        return (string) implode($group->config()->get('breadcrumb_title_delimiter'), $map);
     }
     
     /**
@@ -1305,7 +1293,7 @@ class ProductGroupPage extends \Page
      * 
      * @return string
      */
-    public function getProductsOnPagesString()
+    public function getProductsOnPagesString() : string
     {
         $productsOnPagesString = '';
         $products = $this->getPaginationContext();
@@ -1327,7 +1315,7 @@ class ProductGroupPage extends \Page
                     ]
             );
         }
-        return $productsOnPagesString;
+        return (string) $productsOnPagesString;
     }
     
     /**
@@ -1346,7 +1334,7 @@ class ProductGroupPage extends \Page
     /**
      * Sets the pagination context.
      * 
-     * @param type $paginationContext
+     * @param PaginatedList $paginationContext Pagination context
      * 
      * @return void
      */
@@ -1365,7 +1353,7 @@ class ProductGroupPage extends \Page
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.01.2019
      */
-    public function updateLastEditedForCache($newDate = null) : void
+    public function updateLastEditedForCache(string $newDate = null) : void
     {
         if (is_null($newDate)) {
             $newDate = date('Y-m-d H:i:s');
@@ -1501,12 +1489,12 @@ class ProductGroupPage extends \Page
      * Returns custom content to render before the content widget area, injected
      * by extensions.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.09.2018
      */
-    public function BeforeInsertWidgetAreaContent()
+    public function BeforeInsertWidgetAreaContent() : DBHTMLText
     {
         $content = '';
         $this->extend('updateBeforeInsertWidgetAreaContent', $content);

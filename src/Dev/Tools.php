@@ -681,21 +681,16 @@ class Tools
      * @param int $pageId The root page ID
      *
      * @return array
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.08.2012
      */
-    public static function getFlatChildPageIDsForPage($pageId)
+    public static function getFlatChildPageIDsForPage($pageId) : array
     {
         $pageIDs = [$pageId];
         $pageObj = SiteTree::get()->byID($pageId);
-        
         if ($pageObj) {
             foreach ($pageObj->Children() as $pageChild) {
                 $pageIDs = array_merge($pageIDs, self::getFlatChildPageIDsForPage($pageChild->ID));
             }
         }
-        
         return $pageIDs;
     }
 
