@@ -19,8 +19,7 @@
     background-image: none !important;
 }
 .sub-list span.sub-list-record {
-    display: inline-block;
-    padding: 3px 5px;
+    display: inline-flex;
     color: #ffffff;
     border: 1px solid #ccc;
     border-top: 1px solid #a4b4bf;
@@ -38,6 +37,13 @@
     background-image: -o-linear-gradient(#b0bec7, #98aab6);
     background-image: linear-gradient(#b0bec7, #98aab6);
 }
+.sub-list span.sub-list-record .sub-list-record-title {
+    display: inline-block;
+    padding: 0.2rem 1rem;
+    background-color: #eeeeee;
+    color: #444444;
+    border-radius: 4px 0 0 4px;
+}
 .sub-list table {
     width: 100%;
 }
@@ -49,12 +55,13 @@
 }
 
 .sub-list .sub-list-record-action {
-    width: 16px;
-    height: 16px;
     display: inline-block;
-    position: relative;
-    top: 3px;
+    padding: 0.2rem 0.4rem;
     cursor: pointer;
+}
+.sub-list .sub-list-record .sub-list-record-action:hover {
+    background-color: #98aab6;
+    background-image: none;
 }
 .sub-list .sub-list-record.action-in-progress,
 .sub-list .sub-list-record.action-in-progress .sub-list-record-action:hover {
@@ -71,20 +78,18 @@
     font-weight: bold;
 }
 
-.grid.field table tbody tr.sub-row,
+.grid.field table tbody tr td.col-add-sub-object,
+.grid.field table tbody tr td.col-add-sub-object ~ td {
+    border-bottom: none;
+}
 .grid.field table tbody tr.sub-row td {
     cursor: default;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: .4rem 3rem;
+    border-top: none;
 }
-.grid.field table tbody tr.sub-row.odd:hover,
 .grid.field table tbody tr.sub-row.odd td:hover {
     background-color: #ffffff;
 }
-.grid.field table tbody tr.sub-row.even:hover,
 .grid.field table tbody tr.sub-row.even td:hover {
     background-color: #f0f4f7;;
-}
-.grid.field table tbody tr.sub-row td {
-    padding-left: 40px;
 }

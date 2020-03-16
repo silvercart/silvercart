@@ -54,7 +54,9 @@
     });
 
     var successRemove = function(button, parentID, recordID, recordTitle, subListRecord) {
-        var selectList = $('select[name="ProductAttributeSubObjects\[' + parentID + '\]"]');
+        var subList    = $(subListRecord).closest('.sub-list'),
+            fieldName  = subList.data('field-name'),
+            selectList = $('select[name="' + fieldName + 'SubObjects\[' + parentID + '\]"]');
         selectList.append('<option value="' + recordID + '">' + recordTitle + '</option>');
 
         var options = $('option', selectList);
@@ -90,8 +92,8 @@
             button.data('icon', alterIcon);
             button.attr('title', alterTitle);
 
-            button.removeClass('btn-icon-' + icon);
-            button.addClass('btn-icon-' + alterIcon);
+            button.removeClass('font-icon-' + icon);
+            button.addClass('font-icon-' + alterIcon);
 
             if (actionName === 'activate') {
                 subListRecord.removeClass('active0');

@@ -123,7 +123,8 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
      * 
      * @return DropdownField
      */
-    public function getDropdownField($record) {
+    public function getDropdownField(GridField $gridField, DataObject $record) : ?DropdownField
+    {
         $dropdownField = null;
         $subObjects    = $this->getSubObjects($record);
         $subObjectsMap = $subObjects->map()->toArray();
@@ -137,7 +138,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
             }
         }
         if (count($subObjectsMap) > 0) {
-            $dropdownField = new DropdownField($record->ClassName . 'SubObjects[' . $record->ID . ']', '', $subObjectsMap);
+            $dropdownField = DropdownField::create($gridField->getName() . 'SubObjects[' . $record->ID . ']', '', $subObjectsMap);
         }
         return $dropdownField;
     }
@@ -240,6 +241,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
                     'DeactivateActionID' => $deactivateActionID,
                     'DefaultActionID'    => $defaultActionID,
                     'UndefaultActionID'  => $undefaultActionID,
+                    'FieldName'          => $gridField->getName(),
                 ))->renderWith($this->getSubListTemplate());
             }
         }
@@ -289,7 +291,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
     public function handleAction(GridField $gridField, $actionName, $arguments, $data) {
         if ($actionName == 'addsubobject') {
             $recordID    = $data['SubObjectParentID'];
-            $subObjectID = $data[$gridField->getModelClass() . 'SubObjects'][$recordID];
+            $subObjectID = $data[$gridField->getName() . 'SubObjects'][$recordID];
             
             $list = $gridField->getList();
             $parent    = DataObject::get($gridField->getModelClass())->byID($recordID);
@@ -396,7 +398,7 @@ class GridFieldSubObjectHandler implements GridField_HTMLProvider, GridField_Act
     public function getColumnContent($gridField, $record, $columnName) {
         if ($columnName == $this->getAddSubObjectColumnName()) {
             $content  = '---';
-            $dropdown = $this->getDropdownField($record);
+            $dropdown = $this->getDropdownField($gridField, $record);
             $action   = GridField_FormAction::create($gridField, 'AddSubObject' . $record->ID, false, "addsubobject", array('RecordID' => $record->ID))
                             ->addExtraClass('add-sub-object-button')
                             ->setTitle(_t(GridFieldSubObjectHandler::class . '.AddSubObjectColumnTitle', 'Add Sub Object'))
