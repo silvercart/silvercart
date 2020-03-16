@@ -7,6 +7,7 @@ use SilverCart\Model\Order\Order;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnit;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
@@ -20,6 +21,24 @@ use SilverStripe\ORM\FieldType\DBMoney;
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property \SilverCart\ORM\FieldType\DBMoney $Price                              Price (single)
+ * @property \SilverCart\ORM\FieldType\DBMoney $PriceTotal                         Price total
+ * @property bool                              $isChargeOrDiscount                 Is charge or discount?
+ * @property bool                              $isIncludedInTotal                  Is included in total?
+ * @property string                            $chargeOrDiscountModificationImpact Charge or discount modification impact
+ * @property float                             $Tax                                Tax
+ * @property float                             $TaxTotal                           Tax total
+ * @property float                             $TaxRate                            Tax rate
+ * @property string                            $ProductDescription                 Product description
+ * @property float                             $Quantity                           Quantity
+ * @property string                            $Title                              Title
+ * @property string                            $ProductNumber                      Product number
+ * @property int                               $numberOfDecimalPlaces              Number of decimal places
+ * @property bool                              $IsNonTaxable                       Is non taxable
+ * 
+ * @method Order   Order()   Returns the related Order.
+ * @method Product Product() Returns the related Product.
  */
 class OrderPosition extends DataObject
 {
@@ -136,7 +155,7 @@ class OrderPosition extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -147,7 +166,7 @@ class OrderPosition extends DataObject
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);  
     }
@@ -205,7 +224,7 @@ class OrderPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.06.2012
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $summaryFields = [
             'ProductNumber'         => $this->fieldLabel('ProductNumber'),
@@ -224,7 +243,7 @@ class OrderPosition extends DataObject
      *
      * @return string
      */
-    public function getPriceNice()
+    public function getPriceNice() : string
     {
         return str_replace('.', ',', number_format($this->PriceAmount, 2)) . ' ' . $this->PriceCurrency;
     }
@@ -234,7 +253,7 @@ class OrderPosition extends DataObject
      *
      * @return string
      */
-    public function getPriceTotalNice()
+    public function getPriceTotalNice() : string
     {
         return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
     }
@@ -271,7 +290,7 @@ class OrderPosition extends DataObject
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getFullTitle()
+    public function getFullTitle() : DBHTMLText
     {
         $fullTitle = $this->Title . '<br/>' . $this->addToTitle();
         return Tools::string2html($fullTitle);
@@ -291,20 +310,11 @@ class OrderPosition extends DataObject
     /**
      * Returns true if this position has a quantity of more than 1.
      *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 13.04.2011
+     * @return bool
      */
-    public function MoreThanOneProduct()
+    public function MoreThanOneProduct() : bool
     {
-        $moreThanOneProduct = false;
-
-        if ($this->Quantity > 1) {
-            $moreThanOneProduct = true;
-        }
-
-        return $moreThanOneProduct;
+        return $this->Quantity > 1;
     }
 
     /**
@@ -312,7 +322,7 @@ class OrderPosition extends DataObject
      *
      * @return FieldList
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
         $fields = DataObjectExtension::getCMSFields($this);
         if ($this->exists()) {
@@ -345,10 +355,9 @@ class OrderPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2017
      */
-    public function onBeforeWrite()
+    public function onBeforeWrite() : void
     {
         $changedFields = $this->getChangedFields();
-
         if (!$this->objectCreated
          && array_key_exists('OrderID', $changedFields)
         ) {
@@ -357,9 +366,7 @@ class OrderPosition extends DataObject
         } elseif (!$this->objectCreated) {
             $this->saveChanges($changedFields);
         }
-
         $this->extend('updateOnBeforeWrite', $changedFields, $this->doRecalculate);
-
         parent::onBeforeWrite();
     }
 
@@ -373,10 +380,9 @@ class OrderPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2017
      */
-    public function saveChanges($changedFields)
+    public function saveChanges(array $changedFields) : void
     {
         $price = $this->Price->getAmount();
-
         if (array_key_exists('Price', $changedFields)) {
             if ($changedFields['Price']['before'] !== $changedFields['Price']['after']) {
                 $newPrice = $changedFields['Price']['after'];
@@ -423,13 +429,11 @@ class OrderPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2017
      */
-    public function saveNew($changedFields)
+    public function saveNew(array $changedFields) : void
     {
         if (array_key_exists('ProductID', $changedFields)) {
             $productId = $changedFields['ProductID']['after'];
-
-            $product = Product::get()->byID($productId);
-
+            $product  = Product::get()->byID($productId);
             if ($product) {
                 if (array_key_exists('Quantity', $changedFields)
                  && (int) $changedFields['Quantity']['after'] > 0
@@ -438,7 +442,6 @@ class OrderPosition extends DataObject
                 } else {
                     $quantity = 1;
                 }
-
                 $this->Price->setAmount($product->getPrice()->getAmount());
                 $this->Price->setCurrency($product->getPrice()->getCurrency());
                 $this->PriceTotal->setAmount($product->getPrice()->getAmount() * $quantity);
@@ -460,14 +463,10 @@ class OrderPosition extends DataObject
      * Recalculate the order if necessary.
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.09.2017
      */
-    public function onAfterWrite()
+    public function onAfterWrite() : void
     {
         parent::onAfterWrite();
-
         if ($this->doRecalculate
          && $this->Order()->ID != 0
         ) {
@@ -480,11 +479,8 @@ class OrderPosition extends DataObject
      * Make onAfterDelete extendable.
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
      */
-    public function onAfterDelete()
+    public function onAfterDelete() : void
     {
         $this->extend('updateOnAfterDelete');
         parent::onAfterDelete();
@@ -494,11 +490,8 @@ class OrderPosition extends DataObject
      * Make onBeforeDelete extendable.
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.03.2012
      */
-    public function onBeforeDelete()
+    public function onBeforeDelete() : void
     {
         if (!$this->objectDeleted) {
             $this->extend('updateOnBeforeDelete');
@@ -516,7 +509,7 @@ class OrderPosition extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.04.2018
      */
-    public function addToTitle()
+    public function addToTitle() : DBHTMLText
     {
         $addToTitle = '';
         $this->extend('addToTitle', $addToTitle);
