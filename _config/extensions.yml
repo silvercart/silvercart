@@ -265,3 +265,6 @@ SilverCart\Model\Widgets\TextWidget:
 SilverCart\Model\Widgets\TextWithLinkWidget:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
+Wilr\GoogleSitemaps\GoogleSitemap:
+  extensions:
+    - SilverCart\Extensions\GoogleSitemaps\GoogleSitemapExtension
