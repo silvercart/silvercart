@@ -175,6 +175,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      * @var array
      */
     private static $shoppingCartList = [];
+    /**
+     * Stores the called status seperated by customer ID.
+     *
+     * @var bool[]
+     */
+    protected $getCMSFieldsIsCalled = [];
 
     // ------------------------------------------------------------------------
     // Extension methods
@@ -192,6 +198,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      * @since 13.01.2014
      */
     public function updateCMSFields(FieldList $fields) {
+        $this->getCMSFieldsIsCalled[$this->owner->ID] = true;
         $fields->insertBefore($fields->dataFieldByName('Salutation'), 'FirstName');
         $fields->dataFieldByName('Salutation')->setSource(Tools::getSalutationMap());
         
@@ -440,6 +447,33 @@ class Customer extends DataExtension implements TemplateGlobalProvider
                     $fields
             );
         }
+    }
+
+    /**
+     * Returns whether the method self::getCMSFields() is called for the current 
+     * customer context.
+     * 
+     * @param int $customerID Customer ID
+     * 
+     * @return bool
+     */
+    public function getCMSFieldsIsCalled(int $customerID) : bool
+    {
+        return array_key_exists($customerID, $this->getCMSFieldsIsCalled)
+            && $this->getCMSFieldsIsCalled[$customerID];
+    }
+
+    /**
+     * Returns the customer number.
+     * 
+     * @return string
+     */
+    public function getCustomerNumber() : string
+    {
+        $customerNumber = $this->owner->getField('CustomerNumber');
+        $getCMSFieldsIsCalled = $this->getCMSFieldsIsCalled($this->owner->ID);
+        $this->owner->extend('updateCustomerNumber', $customerNumber, $getCMSFieldsIsCalled);
+        return (string) $customerNumber;
     }
 
     /**

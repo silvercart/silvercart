@@ -230,6 +230,12 @@ class Order extends DataObject implements PermissionProvider
      * @var bool
      */
     protected $didHandlePaymentStatusChange = false;
+    /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -528,6 +534,18 @@ class Order extends DataObject implements PermissionProvider
         $title = $this->fieldLabel('OrderNumber') . ': ' . $this->OrderNumber . ' | ' . $this->fieldLabel('Created') . ': ' . date($this->fieldLabel('DateFormat'), strtotime($this->Created)) . ' | ' . $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
         $this->extend('updateTitle', $title);
         return $title;
+    }
+    
+    /**
+     * Returns the order number.
+     * 
+     * @return string
+     */
+    public function getOrderNumber() : string
+    {
+        $orderNumber = $this->getField('OrderNumber');
+        $this->extend('updateOrderNumber', $orderNumber, $this->getCMSFieldsIsCalled);
+        return (string) $orderNumber;
     }
 
     /**
@@ -835,6 +853,7 @@ class Order extends DataObject implements PermissionProvider
      */
     public function getCMSFields()
     {
+        $this->getCMSFieldsIsCalled = true;
         $this->markAsSeen();
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             if ($this->isAdminModeEdit()) {
