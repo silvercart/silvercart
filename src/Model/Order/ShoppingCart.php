@@ -1556,13 +1556,17 @@ class ShoppingCart extends DataObject
                 $shippingMethod->getShippingFee()->exists()) {
 
 
-                $deliveryDaysMin = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
-                $deliveryDaysMax = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;
+                $deliveryDaysMin  = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
+                $deliveryDaysMax  = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;
+                $deliveryDaysText = $shippingMethod->getShippingFee()->DeliveryTimeText;
                 if ($deliveryDaysMin == 0) {
                     $deliveryDaysMin = $shippingMethod->DeliveryTimeMin;
                 }
                 if ($deliveryDaysMax == 0) {
                     $deliveryDaysMax = $shippingMethod->DeliveryTimeMax;
+                }
+                if (empty($deliveryDaysText)) {
+                    $deliveryDaysText = $shippingMethod->DeliveryTimeText;
                 }
             }
             
