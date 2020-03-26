@@ -2047,7 +2047,7 @@ it:
         TAGLINEDEFAULT: 'Software eCommerce. Open-source. Ti piacerà.'
     SilverCart\Dev\Tools:
         DATE: Data
-        DATEFORMAT: g.m.a.
+        DATEFORMAT: d.m.Y
         'NO': 'No'
         Oclock: ore
         PLEASECHOOSE: '--scegli qui--'
