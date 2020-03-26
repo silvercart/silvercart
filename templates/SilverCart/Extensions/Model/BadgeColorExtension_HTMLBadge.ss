@@ -1,0 +1,1 @@
+<span class="badge badge-{$badgeColor} {$CSSClasses}">{$Title}</span>

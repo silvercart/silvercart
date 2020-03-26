@@ -3,10 +3,10 @@
 namespace SilverCart\Model\Product;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\BadgeColorExtension;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Product\AvailabilityStatusTranslation;
 use SilverCart\ORM\DataObjectExtension;
-use SilverStripe\Forms\OptionsetField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
 use SilverStripe\ORM\HasManyList;
@@ -23,10 +23,10 @@ use SilverStripe\ORM\HasManyList;
  * 
  * @property string $Code                Status code
  * @property string $SeoMicrodataCode    SEO Microdata Code
- * @property string $badgeColor          Badge Color
  * @property bool   $SetForPositiveStock Set this status for a produt if the stock changes from <= 0 to > 0?
  * @property bool   $SetForNegativeStock Set this status for a produt if the stock changes from > 0 to <= 0?
  * @property bool   $IsDefault           Is Default?
+ * @property string $badgeColor          Badge Color
  * 
  * @property string $Title          Title (current locale context)
  * @property string $AdditionalText Additional Text (current locale context)
@@ -45,7 +45,6 @@ class AvailabilityStatus extends DataObject
     private static $db = [
         'Code'                => 'Varchar',
         'SeoMicrodataCode'    => "Enum(',Discontinued,InStock,InStoreOnly,LimitedAvailability,OnlineOnly,OutOfStock,PreOrder,PreSale,SoldOut','')",
-        'badgeColor'          => "Enum('primary,secondary,success,danger,warning,info,light,dark','light')",
         'SetForPositiveStock' => 'Boolean(0)',
         'SetForNegativeStock' => 'Boolean(0)',
         'IsDefault'           => 'Boolean',
@@ -73,19 +72,19 @@ class AvailabilityStatus extends DataObject
         'AvailabilityStatusTranslations' => AvailabilityStatusTranslation::class,
     ];
     /**
-     * Default DB attribute values.
-     *
-     * @var array
-     */
-    private static $defaults = [
-        'badgeColor' => "default",
-    ];
-    /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartAvailabilityStatus';
+    /**
+     * List of extensions to use.
+     *
+     * @var array
+     */
+    private static $extensions = [
+        BadgeColorExtension::class,
+    ];
     /**
      * DB table name
      *
@@ -147,7 +146,6 @@ class AvailabilityStatus extends DataObject
             $labels = array_merge(
                 $labels,
                 [
-                    'badgeColor'                            => OrderStatus::singleton()->fieldLabel('BadgeColor'),
                     'Code'                                  => OrderStatus::singleton()->fieldLabel('Code'),
                     'Title'                                 => $this->singular_name(),
                     'SeoMicrodataCode'                      => _t(AvailabilityStatus::class . '.SeoMicrodataCode', 'SEO microdata code'),
@@ -187,23 +185,6 @@ class AvailabilityStatus extends DataObject
     public function getCMSFields()
     {
         $this->beforeUpdateCMSFields(function($fields) {
-            $badgeColorSource = [
-                'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
-                'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
-                'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
-                'danger'    => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#dc3545">' . $this->Title . '</span>'),
-                'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#ffc107">' . $this->Title . '</span>'),
-                'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
-                'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
-                'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
-            ];
-
-            $fields->removeByName('badgeColor');
-            $fields->addFieldToTab(
-                    'Root.Main',
-                    OptionsetField::create('badgeColor', $this->fieldLabel('badgeColor'), $badgeColorSource)
-            );
-
             $enumValues = $this->dbObject('SeoMicrodataCode')->enumValues();
             $i18nSource = [];
             foreach ($enumValues as $value => $label) {
@@ -230,7 +211,6 @@ class AvailabilityStatus extends DataObject
     public function summaryFields()
     {
         $summaryFields = [
-            'BadgeColorIndicator'     => $this->fieldLabel('badgeColor'),
             'Title'                   => $this->fieldLabel('Title'),
             'Code'                    => $this->fieldLabel('Code'),
             'SetForNegativeStockNice' => $this->fieldLabel('SetForNegativeStockShort'),
@@ -412,31 +392,5 @@ class AvailabilityStatus extends DataObject
     public static function getDefault()
     {
         return AvailabilityStatus::get()->filter('IsDefault', true)->first();
-    }
-    
-    /**
-     * Helper for summary fields.
-     * Returns the badge color indicator.
-     * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
-     */
-    public function getBadgeColorIndicator()
-    {
-        $badgeColorSource = [
-            'primary'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#007bff">' . $this->Title . '</span>'),
-            'secondary' => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#6c757d">' . $this->Title . '</span>'),
-            'success'   => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#28a745">' . $this->Title . '</span>'),
-            'danger'    => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#dc3545">' . $this->Title . '</span>'),
-            'warning'   => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#ffc107">' . $this->Title . '</span>'),
-            'info'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#17a2b8">' . $this->Title . '</span>'),
-            'light'     => Tools::string2html('<span style="padding: 4px 8px; color: #212529; background-color:#f8f9fa">' . $this->Title . '</span>'),
-            'dark'      => Tools::string2html('<span style="padding: 4px 8px; color: #fff; background-color:#343a40">' . $this->Title . '</span>'),
-        ];
-        if (empty($this->badgeColor)
-         || !array_key_exists($this->badgeColor, $badgeColorSource)
-        ) {
-            $this->badgeColor = 'light';
-        }
-        return $badgeColorSource[$this->badgeColor];
     }
 }

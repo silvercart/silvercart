@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Payment;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\BadgeColorExtension;
 use SilverCart\Model\Order\Order;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Forms\FieldList;
@@ -17,8 +18,9 @@ use SilverStripe\ORM\DataObject;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property string $Code      Status code
- * @property bool   $IsDefault Status is default?
+ * @property string $Code       Status code
+ * @property bool   $IsDefault  Status is default?
+ * @property string $badgeColor Badge Color
  * 
  * @property string $IsDefaultString self::$IsDefault as a human readable string
  * @property string $Title           Status title
@@ -111,6 +113,14 @@ class PaymentStatus extends DataObject
      * @var bool
      */
     private static $api_access = true;
+    /**
+     * List of extensions to use.
+     *
+     * @var array
+     */
+    private static $extensions = [
+        BadgeColorExtension::class,
+    ];
     /**
      * Default status codes
      *

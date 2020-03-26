@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Order;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\BadgeColorExtension;
 use SilverCart\Model\ShopEmail;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderStatusTranslation;
@@ -24,8 +25,9 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property string $Code      Status code
- * @property bool   $IsDefault Determines whether this status is the default status
+ * @property string $Code       Status code
+ * @property bool   $IsDefault  Determines whether this status is the default status
+ * @property string $badgeColor Badge Color
  * 
  * @property string $IsDefaultString Human readable string to display the default status
  * @property string $Title           Status title
@@ -139,6 +141,14 @@ class OrderStatus extends DataObject
      */
     private static $api_access = true;
     /**
+     * List of extensions to use.
+     *
+     * @var array
+     */
+    private static $extensions = [
+        BadgeColorExtension::class,
+    ];
+    /**
      * Default status codes
      *
      * @var array 
@@ -195,7 +205,6 @@ class OrderStatus extends DataObject
     {
         return $this->defaultFieldLabels($includerelations, [
             'Title'                         => Page::singleton()->fieldLabel('Title'),
-            'BadgeColor'                    => _t(OrderStatus::class . '.BADGECOLOR', 'Color code'),
             'Code'                          => _t(OrderStatus::class . '.CODE', 'Code'),
             'Orders'                        => Order::singleton()->plural_name(),
             'PaymentMethodRestrictions'     => PaymentMethod::singleton()->plural_name(),
