@@ -65,6 +65,9 @@ use WidgetSets\Model\WidgetSet;
 class ProductGroupPage extends \Page
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    const META_TITLE_BEHAVIOR_NONE   = 'none';
+    const META_TITLE_BEHAVIOR_PREFIX = 'prefix';
+    const META_TITLE_BEHAVIOR_SUFFIX = 'suffix';
     /**
      * DB table name
      *
@@ -107,6 +110,9 @@ class ProductGroupPage extends \Page
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DoNotShowProducts'             => 'Boolean(0)',
         'LastEditedForCache'            => 'DBDatetime',
+        'MetaTitle'                     => 'Varchar',
+        'MetaTitleShort'                => 'Varchar',
+        'MetaTitleBehavior'             => 'Enum("none,prefix,suffix","none")',
     ];
     /**
      * Has-one relationships.
@@ -484,6 +490,9 @@ class ProductGroupPage extends \Page
             'ManageProductsButton'          => _t(ProductGroupPage::class . '.MANAGE_PRODUCTS_BUTTON', 'Manage products'),
             'Yes'                           => Tools::field_label('Yes'),
             'No'                            => Tools::field_label('No'),
+            'MetaTitleBehavior_none'        => _t(ProductGroupPage::class . '.MetaTitleBehavior_none', 'disabled'),
+            'MetaTitleBehavior_prefix'      => _t(ProductGroupPage::class . '.MetaTitleBehavior_prefix', 'enabled as prefix'),
+            'MetaTitleBehavior_suffix'      => _t(ProductGroupPage::class . '.MetaTitleBehavior_suffix', 'enabled as suffix'),
         ]);
     }
 
@@ -562,6 +571,19 @@ class ProductGroupPage extends \Page
             if ($fields->dataFieldByName('LastEditedForCache') instanceof FormField) {
                 $fields->removeByName('LastEditedForCache');
             }
+            
+            $MetaTitleField          = TextField::create('MetaTitle', $this->fieldLabel('MetaTitle'))
+                    ->setDescription($this->fieldLabel('MetaTitleDesc'))
+                    ->setRightTitle($this->fieldLabel('MetaTitleRightTitle'))
+                    ->setAttribute('placeholder', $this->Title);
+            $MetaTitleShortField     = TextField::create('MetaTitleShort', $this->fieldLabel('MetaTitleShort'))
+                    ->setDescription($this->fieldLabel('MetaTitleShortDesc'));
+            $metaTitleBehaviorSource = Tools::enum_i18n_labels($this, 'MetaTitleBehavior');
+            $metaTitleBehaviorField  = DropdownField::create('MetaTitleBehavior', $this->fieldLabel('MetaTitleBehavior'), $metaTitleBehaviorSource)
+                    ->setDescription($this->fieldLabel('MetaTitleBehaviorDesc'));
+            $fields->insertBefore('MetaDescription', $MetaTitleField);
+            $fields->insertBefore('MetaDescription', $MetaTitleShortField);
+            $fields->insertBefore('MetaDescription', $metaTitleBehaviorField);
         });
         $this->getCMSFieldsIsCalled = true;
         return parent::getCMSFields();
@@ -1107,20 +1129,65 @@ class ProductGroupPage extends \Page
         if (!$this->getCMSFieldsIsCalled
          && !Tools::isBackendEnvironment()
         ) {
+            $metaTitlePrefix      = "";
+            $metaTitleSuffix      = "";
+            $metaTitleShortPrefix = "";
+            $metaTitleShortSuffix = "";
+            $pageTitle            = $this->Title;
+            if ($this->Parent()->hasField('MetaTitleBehavior')
+             && $this->Parent()->MetaTitleBehavior !== self::META_TITLE_BEHAVIOR_NONE
+            ) {
+                $pageTitle = $this->PlainTitle;
+                if ($this->Parent()->MetaTitleBehavior === self::META_TITLE_BEHAVIOR_PREFIX) {
+                    $metaTitlePrefix      = "{$this->Parent()->PlainMetaTitle} ";
+                    $metaTitleShortPrefix = empty($this->Parent()->MetaTitleShort) ? $metaTitlePrefix : "{$this->Parent()->MetaTitleShort} ";
+                } elseif ($this->Parent()->MetaTitleBehavior === self::META_TITLE_BEHAVIOR_SUFFIX) {
+                    $metaTitleSuffix      = " {$this->Parent()->PlainMetaTitle}";
+                    $metaTitleShortSuffix = empty($this->Parent()->MetaTitleShort) ? $metaTitleSuffix : " {$this->Parent()->MetaTitleShort}";
+                }
+            }
+            $plainMetaTitle       = empty($metaTitle) ? $pageTitle : $metaTitle;
+            $plainMetaTitleShort  = empty($this->MetaTitleShort) ? $plainMetaTitle : $this->MetaTitleShort;
             $this->extend('onBeforeGetMetaTitle', $metaTitle);
             $ctrl = Controller::curr();
             if ($ctrl instanceof ProductGroupPageController
              && $ctrl->isProductDetailView()
             ) {
-                $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
-                    'title' => $ctrl->getDetailViewProduct()->MetaTitle,
-                ]);
+                $metaTitle = $ctrl->getDetailViewProduct()->MetaTitle;
+            } elseif ($ctrl->getAction() === 'newproducts') {
+                $metaTitle = "{$metaTitleShortPrefix}{$plainMetaTitleShort}{$metaTitleShortSuffix} {$this->fieldLabel('NewProducts')}";
+            } elseif ($ctrl->getAction() === 'preorders') {
+                $metaTitle = "{$metaTitleShortPrefix}{$plainMetaTitleShort}{$metaTitleShortSuffix} {$this->fieldLabel('PreorderableProducts')}";
             } elseif (empty($metaTitle)) {
-                $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
-                    'title' => $this->config()->use_breadcrumb_title_for_meta_title ? $this->BreadcrumbTitle : $this->Title,
-                ]);
+                $metaTitle = $this->config()->use_breadcrumb_title_for_meta_title ? (string) $this->BreadcrumbTitle : "{$metaTitlePrefix}{$pageTitle}{$metaTitleSuffix}";
             }
-            $this->extend('updateMetaTitle', $metaTitle);
+            $metaTitle = _t(self::class . '.BuyTitle', 'Buy {title}', [
+                'title' => $metaTitle,
+            ]);
+            $this->extend('updateMetaTitle', $metaTitle, $plainMetaTitle, $plainMetaTitleShort, $metaTitlePrefix, $metaTitleSuffix, $metaTitleShortPrefix, $metaTitleShortSuffix);
+        }
+        return (string) $metaTitle;
+    }
+    
+    /**
+     * Returns the plain meta title.
+     * 
+     * @return string
+     */
+    public function getPlainMetaTitle() : string
+    {
+        $metaTitle = $this->getField('MetaTitle');
+        if (!$this->getCMSFieldsIsCalled
+         && !Tools::isBackendEnvironment()
+        ) {
+            $ctrl = Controller::curr();
+            if ($ctrl instanceof ProductGroupPageController
+             && $ctrl->isProductDetailView()
+            ) {
+                $metaTitle = $ctrl->getDetailViewProduct()->MetaTitle;
+            } elseif (empty($metaTitle)) {
+                $metaTitle = $this->config()->use_breadcrumb_title_for_meta_title ? (string) $this->BreadcrumbTitle : (string) $this->Title;
+            }
         }
         return (string) $metaTitle;
     }
@@ -1143,7 +1210,7 @@ class ProductGroupPage extends \Page
             ]);
             $afterMetaTitle = " ({$pageXofY})";
         }
-        $this->extend('updateMetaTitle', $afterMetaTitle);
+        $this->extend('updateAfterMetaTitle', $afterMetaTitle);
         return $afterMetaTitle;
     }
     

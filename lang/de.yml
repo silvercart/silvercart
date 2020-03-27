@@ -1549,6 +1549,16 @@ de:
         GROUP_PICTURE: "Bild der Gruppe"
         MANAGE_PRODUCTS_BUTTON: "Artikel verwalten"
         MANUFACTURER_LINK: "hersteller"
+        MetaTitleBehavior: 'Meta Titel vererben'
+        MetaTitleBehaviorDesc: 'Ist diese Option aktiviert, wird der Meta Titel dieser Warengruppe als Prä- oder Suffix des Meta Titels direkter Untergruppen verwendet'
+        MetaTitleBehavior_none: 'deaktiviert'
+        MetaTitleBehavior_prefix: 'aktiviert als Präfix'
+        MetaTitleBehavior_suffix: 'aktiviert als Suffix'
+        MetaTitle: 'Meta Titel'
+        MetaTitleDesc: 'Der Meta Titel dieser Warengruppe. Ohne Angabe wird der Seitenname verwendet.'
+        MetaTitleRightTitle: 'Der Meta Titel ist SEO relevant und sollte 64 Zeichen nicht überschreiten. Er wird bspw. zur Anzeige von Google Treffern oder als Bezeichnung in Browser-Tabs verwendet.'
+        MetaTitleShort: 'Meta Titel Kurzform'
+        MetaTitleShortDesc: 'Wird z.B. bei Neuheiten, beliebten Artikeln und Vorbestellern verwendet.'
         NewProducts: "Neuheiten"
         NewProductsIn: "{productgroup} Neuheiten"
         NewProductsLinkTitle: "Alle Neuheiten anzeigen"

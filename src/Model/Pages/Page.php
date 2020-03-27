@@ -291,6 +291,16 @@ class Page extends SiteTree
         }
         return $title;
     }
+
+    /**
+     * Returns the original title without any extension mutations.
+     * 
+     * @return string
+     */
+    public function getPlainTitle() : string
+    {
+        return (string) $this->getField('Title');
+    }
     
     /**
      * Returns the main navigation root page (set in backend).

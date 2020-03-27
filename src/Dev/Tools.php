@@ -501,6 +501,9 @@ class Tools
                 $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . $label);
                 if ($i18nLabels[$value] == FormField::name_to_label($enumFieldName . $label)) {
                     $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . ucfirst($label));
+                    if ($i18nLabels[$value] == FormField::name_to_label($enumFieldName . ucfirst($label))) {
+                        $i18nLabels[$value] = $contextObject->fieldLabel("{$enumFieldName}_{$label}");
+                    }
                 }
             }
         }
