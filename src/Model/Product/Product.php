@@ -514,6 +514,37 @@ class Product extends DataObject implements PermissionProvider
         }
         return $title;
     }
+
+    /**
+     * Returns the list title
+     * 
+     * @return string
+     */
+    public function getListTitle() : string
+    {
+        $title        = $this->Title;
+        $replacements = (array) $this->config()->list_title_replacements;
+        if (!empty($replacements)) {
+            $match = '';
+            foreach ($replacements as $replacement) {
+                if (strpos($title, $replacement) === 0) {
+                    $title = trim(substr($title, strlen($replacement)));
+                    $match = $replacement;
+                    break;
+                }
+            }
+            while (strlen($title) > 0
+                && !preg_match("@[A-Z|a-z|0-9]@", substr($title, 0, 1))
+            ) {
+                $title = substr($title, 1);
+            }
+            if ($match) {
+                $title = "{$title} [{$match}]";
+            }
+        }
+        $this->extend('updateListTitle', $title);
+        return (string) $title;
+    }
     
     /**
      * getter for the ShortDescription, looks for set translation
