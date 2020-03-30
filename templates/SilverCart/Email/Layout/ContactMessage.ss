@@ -5,7 +5,7 @@
 <h2><%t SilverCart\Model\Order\Order.CUSTOMERDATA 'Customer Data' %></h2>
 <% with ContactMessage %>
 <table>
-    <tr><td>{$fieldLabel('Name')}:</td><td><strong>{$Salutation} {$FirstName} {$Surname}</strong></td></tr>
+    <tr><td>{$fieldLabel('Name')}:</td><td><strong>{$SalutationText} {$FirstName} {$Surname}</strong></td></tr>
     <tr><td>{$fieldLabel('Email')}:</td><td><strong>{$Email}</strong></td></tr>
 <% if $Street %>
     <tr><td>{$fieldLabel('Street')}:</td><td><strong>{$Street} {$StreetNumber}</strong></td></tr>

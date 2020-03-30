@@ -66,7 +66,8 @@ class ContactMessage extends DataObject
      * @var array
      */
     private static $casting = [
-        'CreatedNice' => 'Varchar',
+        'CreatedNice'    => 'Varchar',
+        'SalutationText' => 'Varchar',
     ];
     /**
      * Default SQL sort statement.
@@ -115,6 +116,7 @@ class ContactMessage extends DataObject
             'Salutation'   => Address::singleton()->fieldLabel('Salutation'),
             'FirstName'    => Member::singleton()->fieldLabel('FirstName'),
             'Surname'      => Member::singleton()->fieldLabel('Surname'),
+            'Name'         => Address::singleton()->fieldLabel('Name'),
             'Email'        => Member::singleton()->fieldLabel('Email'),
             'Street'       => Address::singleton()->fieldLabel('Street'),
             'StreetNumber' => Address::singleton()->fieldLabel('StreetNumber'),
@@ -155,6 +157,16 @@ class ContactMessage extends DataObject
     public function getCreatedNice() : string
     {
         return date('d.m.Y - H:i', strtotime($this->Created));
+    }
+
+    /**
+     * Returns the localized salutation string.
+     *
+     * @return string
+     */
+    public function getSalutationText() : string
+    {
+        return Tools::getSalutationText($this->Salutation);
     }
 
     /**
