@@ -1,4 +1,3 @@
-<% if $PaginatedList.MoreThanOnePage %>
 <span class="badge badge-light text-uppercase">
     <% if $FirstItem == $LastItem %>
         <%t SilverCart\Extensions\ORM\PaginatedListExtension.InfoFirstIsLast 'Page {currentPage}, item {firstItem}' currentPage=$CurrentPage firstItem=$FirstItem %>
@@ -13,4 +12,3 @@
     <% end_if %>
     </span>
 </span>
-<% end_if %>
