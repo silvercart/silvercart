@@ -9,6 +9,7 @@ use SilverCart\Admin\Forms\AlertInfoField;
 use SilverCart\Admin\Forms\AlertSuccessField;
 use SilverCart\Admin\Forms\AlertWarningField;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
@@ -132,7 +133,9 @@ class ProductImageAdmin extends LeftAndMain
                         continue;
                     }
                     $file = $folder->myChildren()->filter('FileHash:StartsWith', $entry)->first();
-                    if ($file->exists()) {
+                    if ($file instanceof File
+                     && $file->exists()
+                    ) {
                         $entry = $file->Name;
                     }
                     $files[] = $entry;

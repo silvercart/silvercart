@@ -2,6 +2,7 @@
 
 namespace SilverCart\Admin\Dev\Tasks;
 
+use SilverCart\Extensions\Assets\ImageExtension;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\Image as SilverCartImage;
 use SilverStripe\Assets\FileNameFilter;
@@ -10,6 +11,7 @@ use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\Versioned\Versioned;
 
 /**
  * Provides a task to assign the uploaded product images.
@@ -98,6 +100,7 @@ class ProductImageImportTask extends BuildTask
     {
         self::$log_file_name = 'ProductImageImportTask';
         if (self::is_running()) {
+            $this->printInfo('quit, import is already running.');
             return;
         }
         $this->markAsInstalled();
@@ -108,18 +111,27 @@ class ProductImageImportTask extends BuildTask
         $notFound            = [];
         $uploadedFiles       = $this->getUploadedFiles();
         $folder              = Folder::find_or_make($this->config()->relative_upload_folder);
-        if (count($uploadedFiles) > 0) {
-            $imageData = [];
+        $uploadedFilesCount  = count($uploadedFiles);
+        if ($uploadedFilesCount > 0) {
+            $this->printInfo("found {$uploadedFilesCount} files to import.");
+            $this->printInfo("");
+            $this->printInfo("analyzing files...", self::$CLI_COLOR_MAGENTA);
+            $imageData    = [];
+            $currentIndex = 0;
             foreach ($uploadedFiles as $uploadedFile) {
+                $currentIndex++;
+                $logString = "{$this->getXofY($currentIndex, $uploadedFilesCount)} | handling file {$uploadedFile}";
+                $this->printProgressInfo("{$logString}");
                 $consecutiveNumber = 1;
                 $nameWithoutEnding = strrev(substr(strrev($uploadedFile), strpos(strrev($uploadedFile), '.') + 1));
                 $description       = '';
                 $separator         = self::get_image_name_separator();
-                $file = $folder->myChildren()->filter('FileHash:StartsWith', $nameWithoutEnding)->first();
+                $file              = $folder->myChildren()->filter('FileHash:StartsWith', $nameWithoutEnding)->first();
                 if ($file instanceof Image
                  && $file->exists()
                 ) {
-                    $nameWithoutEnding = $file->Title;
+                    $name              = basename($file->FileFilename);
+                    $nameWithoutEnding = strrev(substr(strrev($name), strpos(strrev($name), '.') + 1));
                 }
                 if (strpos($nameWithoutEnding, $separator) !== false) {
                     $parts = explode($separator, $nameWithoutEnding);
@@ -140,13 +152,22 @@ class ProductImageImportTask extends BuildTask
                     'description' => $description,
                     'file'        => $file,
                 ];
+                $newOrExisting = ($file instanceof Image) ? 'exists' : 'new';
+                $this->printInfo("{$logString} - #{$productnumber} -{$newOrExisting}- ({$consecutiveNumber}) {$description}", self::$CLI_COLOR_GREEN);
             }
-            
+            $this->printInfo("");
+            $this->printInfo("looking for matching products...", self::$CLI_COLOR_MAGENTA);
+            $imageDataCount = count($imageData);
+            $currentIndex   = 0;
             foreach ($imageData as $productnumber => $data) {
+                $currentIndex++;
+                $logString = "{$this->getXofY($currentIndex, $imageDataCount)} | handling productnumber {$productnumber}";
+                $this->printProgressInfo("{$logString}");
                 $product = Product::get_by_product_number($productnumber);
                 if ($product instanceof Product
                  && $product->exists()
                 ) {
+                    $this->printInfo("{$logString} - found \"{$product->Title}\"", self::$CLI_COLOR_GREEN);
                     $found[] = $productnumber;
                     $this->deleteExistingImages($product);
                     ksort($data);
@@ -156,16 +177,22 @@ class ProductImageImportTask extends BuildTask
                     }
                 } else {
                     $notFound[] = $productnumber;
+                    $this->printInfo("{$logString} - not found", self::$CLI_COLOR_RED);
                 }
             }
+        } else {
+            $this->printInfo("quit, nothing to import");
         }
-
-        $this->Log('INFO', 'imported ' . $importedImagesCount . ' images for ' . count($found) . ' products.');
-        $this->Log('INFO', 'did not find ' . count($notFound) . ' products.');
-        $this->Log('INFO', '- product numbers: ' . implode(', ', $notFound));
-        $this->Log('INFO', '');
-        $this->Log('INFO', '');
-
+        $foundCount    = count($found);
+        $notFoundCount = count($notFound);
+        $notFoundList  = implode(', ', $notFound);
+        $this->printInfo('');
+        $this->printInfo("imported {$importedImagesCount} image(s) for {$foundCount} product(s).");
+        if ($notFoundCount > 0) {
+            $this->printInfo("did not find {$notFoundCount} product(s).");
+            $this->printInfo("- product number(s): {$notFoundList}");
+        }
+        $this->printInfo('');
         $this->unmarkAsRunning();
     }
     
@@ -184,30 +211,30 @@ class ProductImageImportTask extends BuildTask
         if ($file instanceof Image
          && $file->exists()
         ) {
+            $this->printInfo("\t   updating existing file #{$file->ID}", self::$CLI_COLOR_GREEN);
             $image           = $file;
             $fileEnding      = strrev(substr(strrev($image->Name), 0, strpos(strrev($image->Name), '.')));
             $targetFilename .= $fileEnding;
+            $targetFolder    = Folder::find_or_make(str_replace(ASSETS_PATH, '', self::get_absolute_product_image_folder()));
+            $image->Name     = $targetFilename;
+            $image->ParentID = $targetFolder->ID;
+            $image->write();
+            $image->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
         } else {
             $fileEnding      = strrev(substr(strrev($filename), 0, strpos(strrev($filename), '.')));
             $targetFilename .= $fileEnding;
             $originalFile    = self::get_absolute_upload_folder() . "/{$filename}";
             $targetFile      = self::get_absolute_product_image_folder() . "/{$targetFilename}";
-
-            rename($originalFile, $targetFile);
-            
-            $image       = Image::create();
+            $this->printInfo("\t • moving file from {$originalFile}", self::$CLI_COLOR_GREEN);
+            $this->printInfo("\t                 to {$targetFile}", self::$CLI_COLOR_GREEN);
+            $image = ImageExtension::create_from_path($originalFile, self::get_absolute_product_image_folder(), $targetFilename);
+            unlink($originalFile);
+            $this->printInfo("\t   created new image #{$image->ID}", self::$CLI_COLOR_GREEN);
         }
-        $parentFolder    = Folder::find_or_make(Product::DEFAULT_IMAGE_FOLDER);
-        $image->Name     = $targetFilename;
-        $image->ParentID = $parentFolder->ID;
-        $image->write();
-        $image->publishRecursive();
-        
         $silvercartImage = SilverCartImage::create();
         $silvercartImage->ImageID = $image->ID;
         $silvercartImage->Title   = $description;
         $silvercartImage->write();
-            
         $product->Images()->add($silvercartImage);
     }
     
@@ -223,6 +250,10 @@ class ProductImageImportTask extends BuildTask
      */
     protected function deleteExistingImages(Product $product) : void
     {
+        if (!$product->Images()->exists()) {
+            return;
+        }
+        $this->printInfo("\t • deleting {$product->Images()->count()} existing images", self::$CLI_COLOR_RED);
         foreach ($product->Images() as $existingImage) {
             /* @var $existingImage SilverCart\Model\Product\Image */
             $existingImage->delete();
@@ -258,6 +289,7 @@ class ProductImageImportTask extends BuildTask
 
             closedir($handle);
         }
+        sort($files);
         return $files;
     }
     
