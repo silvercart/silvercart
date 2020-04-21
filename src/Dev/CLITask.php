@@ -78,6 +78,12 @@ trait CLITask
      * @var array
      */
     protected $emailInfos = [];
+    /**
+     * Contains the length of the last progress string printed by $this->printProgressInfo()
+     *
+     * @var int
+     */
+    protected $lastProgressInfoLength = 0;
     
     /**
      * Initializes the given arguments.
@@ -299,7 +305,7 @@ trait CLITask
         }
         $this->Log($logKey, $string);
     }
-    
+
     /**
      * Prints the given progess info.
      * 
@@ -316,6 +322,17 @@ trait CLITask
             return;
         }
         if (!$this->isInSilentMode()) {
+            $progressLength = mb_strlen($progress);
+            if ($this->lastProgressInfoLength > $progressLength) {
+                $spaces = '';
+                for ($x = 0; $x < $this->lastProgressInfoLength; $x++) {
+                    $spaces .= ' ';
+                }
+                if (!empty($spaces)) {
+                    print "\t\033[33m{$spaces}\033[0m\r";
+                }
+            }
+            $this->lastProgressInfoLength = $progressLength;
             print "\t\033[33m{$progress}\033[0m\r";
         }
     }
@@ -427,6 +444,41 @@ trait CLITask
             $memUsage   = 'Current Memory Usage: ' . DebugTools::getCurrentMemoryUsage() . ' (' . DebugTools::getCurrentMemoryUsage(true) . ')';
             print "\t\033[35m{$memUsage}\033[0m\r";
         }
+    }
+    
+    /**
+     * Prints the current time as start time and returns the timestamp.
+     * 
+     * @param string $color Color code
+     * 
+     * @return int
+     */
+    public function printStartTime(string $color = '33') : int
+    {
+        $startTime     = time();
+        $startTimeNice = date('Y-m-d H:i:s', $startTime);
+        $this->printInfo("Start time: {$startTimeNice}", $color);
+        return (int) $startTime;
+    }
+    
+    /**
+     * Prints end time information to the output.
+     * 
+     * @param int $startTime Start timestamp
+     * 
+     * @return void
+     */
+    public function printEndTime(int $startTime) : void
+    {
+        $endTime       = time();
+        $startDate     = date('Y-m-d', $startTime);
+        $endDate       = date('Y-m-d', $endTime);
+        $startTimeNice = date('Y-m-d H:i:s', $startTime);
+        $endTimeNice   = $startDate !== $endDate ? date('Y-m-d H:i:s', $endTime) : date('H:i:s', $endTime);
+        $timeZoneDiff  = date('I') === '1' ? (int) date('Z') - 3600 : (int) date('Z');
+        $durationNice  = date('H:i:s', ($endTime - $startTime) - $timeZoneDiff);
+        $this->printInfo("");
+        $this->printInfo("done after {$durationNice} ({$startTimeNice} - {$endTimeNice})");
     }
     
     /**
