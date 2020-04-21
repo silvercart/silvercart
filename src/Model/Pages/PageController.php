@@ -111,14 +111,18 @@ class PageController extends ContentController
      * Loads SilverStripe framework i18n.js and registers the SilverCart i18n JS
      * folder.
      * 
+     * @param bool $force Force requirement
+     * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireI18nJavaScript() : void
+    public function RequireI18nJavaScript(bool $force = false) : void
     {
-        if (Tools::isIsolatedEnvironment()) {
+        if (!$force
+         && Tools::isIsolatedEnvironment()
+        ) {
             return;
         }
         $this->extend('onBeforeRequireI18nJavaScript');
@@ -182,14 +186,18 @@ class PageController extends ContentController
      * Extended JS files are loaded by modules or custom project extensions
      * using the updateRequireExtendedJavaScript hook.
      * 
+     * @param bool $force Force requirement
+     * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireExtendedJavaScript() : void
+    public function RequireExtendedJavaScript(bool $force = false) : void
     {
-        if (Tools::isIsolatedEnvironment()) {
+        if (!$force
+         && Tools::isIsolatedEnvironment()
+        ) {
             return;
         }
         $jsFilesExt = [];
@@ -205,14 +213,18 @@ class PageController extends ContentController
     /**
      * Loads the SilverCart cookie policy (banner) JS requirements.
      * 
+     * @param bool $force Force requirement
+     * 
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2018
      */
-    public function RequireCookieBannerJavaScript() : void
+    public function RequireCookieBannerJavaScript(bool $force = false) : void
     {
-        if (Tools::isIsolatedEnvironment()) {
+        if (!$force
+         && Tools::isIsolatedEnvironment()
+        ) {
             return;
         }
         CookiePolicyConfig::load_requirements();
