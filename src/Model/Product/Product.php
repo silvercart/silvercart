@@ -622,6 +622,20 @@ class Product extends DataObject implements PermissionProvider
         }
         return $metaTitle;
     }
+
+    /**
+     * getter for the Title, looks for set translation
+     * 
+     * @return float
+     */
+    public function getStockQuantity()
+    {
+        $stockQuantity = $this->getField('StockQuantity');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateStockQuantity', $stockQuantity);
+        }
+        return $stockQuantity;
+    }
     
     /**
      * Returns a fallback default country.
@@ -3216,6 +3230,7 @@ class Product extends DataObject implements PermissionProvider
     {
         parent::onAfterWrite();
         $this->addWidgetAreaIfNotExists();
+        $this->cacheHashes = [];
     }
     
     /**
@@ -4141,5 +4156,18 @@ class Product extends DataObject implements PermissionProvider
     public function getUpdateStockQuantityReason() : string
     {
         return $this->updateStockQuantityReason;
+    }
+    
+    /**
+     * Returns the rendered position.
+     * 
+     * @param string $templateAddition Optional template name addition
+     * 
+     * @return DBHTMLText
+     */
+    public function forTemplate(string $templateAddition = '') : DBHTMLText
+    {
+        $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
+        return $this->renderWith(static::class . $addition);
     }
 }
