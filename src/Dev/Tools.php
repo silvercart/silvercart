@@ -19,7 +19,6 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
-use SilverStripe\View\Parsers\Transliterator;
 use TractorCow\Fluent\Model\Locale;
 use TractorCow\Fluent\State\FluentState;
 
@@ -173,11 +172,9 @@ class Tools
      * 
      * @return DBHTMLText
      */
-    public static function string2html($string)
+    public static function string2html(string $string = null) : DBHTMLText
     {
-        $html = DBHTMLText::create();
-        $html->setValue($string);
-        return $html;
+        return StringTools::string2html((string) $string);
     }
 
     /**
@@ -190,33 +187,9 @@ class Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.04.2014
      */
-    public static function string2urlSegment($originalString)
+    public static function string2urlSegment(string $originalString = null) : string
     {
-        if (function_exists('mb_strtolower')) {
-            $string = mb_strtolower($originalString);
-        } else {
-            $string = strtolower($originalString);
-        }
-        $transliterator = Transliterator::create();
-        $string         = $transliterator->toASCII($string);
-        $string         = str_replace('&amp;', '-and-', $string);
-        $string         = str_replace('&', '-and-', $string);
-        $string         = preg_replace('/[^A-Za-z0-9]+/', '-', $string);
-
-        if (!$string
-         || $string == '-'
-         || $string == '-1'
-        ) {
-            if (function_exists('mb_strtolower')) {
-                $string = mb_strtolower($originalString);
-            } else {
-                $string = strtolower($originalString);
-            }
-        }
-        $string = trim($string, '-');
-        self::replace_special_chars($string);
-        self::replace_cyrillic_chars($string);
-        return urlencode($string);
+        return StringTools::string2urlSegment((string) $originalString);
     }
     
     /**
@@ -229,11 +202,9 @@ class Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2014
      */
-    public static function replace_special_chars(&$string)
+    public static function replace_special_chars(string &$string) : void
     {
-        $remove  = ['ä',  'ö',  'ü',  'Ä',  'Ö',  'Ü',  '/', '?', '&', '#', '.', ',', ' ', '%', '"', "'", '<', '>'];
-        $replace = ['ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', '-', '-', '-', '-', '-', '-', '-', '',  '',  '',  '',  ''];
-        $string  = str_replace($remove, $replace, $string);
+        StringTools::replace_special_chars($string);
     }
     
     /**
@@ -246,11 +217,9 @@ class Tools
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.03.2014
      */
-    public static function replace_cyrillic_chars(&$string)
+    public static function replace_cyrillic_chars(string &$string) : void
     {
-        $remove  = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я'];
-        $replace = ['a', 'b', 'v', 'g', 'd', 'e', 'yo', 'zh', 'z', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'shh', '-', 'y', '-', 'e-', 'yu', 'ya'];
-        $string  = str_replace($remove, $replace, $string);
+        StringTools::replace_cyrillic_chars($string);
     }
 
     /**
