@@ -146,6 +146,11 @@ class NewProductsWidget extends Widget
      */
     public function Elements()
     {
+        if (empty($this->ShowProductsFromQuantity)
+         || empty($this->ShowProductsFromUnit)
+        ) {
+            return ArrayList::create();
+        }
         if (!$this->numberOfProductsToShow) {
             $defaults = $this->config()->get('defaults');
             $this->numberOfProductsToShow = $defaults['numberOfProductsToShow'];
