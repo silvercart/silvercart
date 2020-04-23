@@ -119,6 +119,103 @@ trait CLITask
     }
     
     /**
+     * Returns the file name (including path) for the running action.
+     * 
+     * @param string $action Action to get file name for
+     * 
+     * @return string
+     */
+    protected function getRunningActionFilename(string $action) : string
+    {
+        $class = str_replace('\\', '-', get_class($this));
+        return "{$this->getTmpFolder()}/cli-running-action-{$class}-{$action}";
+    }
+    
+    /**
+     * Will exit the currently running program if the requested $action is already 
+     * running. If $markAsStarted is set to true, the $action will automatically
+     * be marked as started if not running yet. If $printInfoMessage is set to false,
+     * nothing will be printed to the output.
+     * 
+     * @param string $action           Action to check
+     * @param bool   $markAsStarted    Mark as started if not running yet
+     * @param bool   $printInfoMessage Print info message if the action is running
+     * 
+     * @return void
+     */
+    protected function exitIfRunningAction(string $action, bool $markAsStarted = true, bool $printInfoMessage = true) : void
+    {
+        if ($this->isRunningAction($action, $markAsStarted)) {
+            if ($this->getCliArg('force-run') === '1') {
+                $this->printError("");
+                $this->printError("!!! CAUTION !!!");
+                $this->printError("It seems that this action is already running. Forcing this action to run anyway might result in unexpected behavior.");
+                $this->printError("");
+                $filename  = $this->getRunningActionFilename($action);
+                file_put_contents($filename, time());
+                return;
+            } elseif ($printInfoMessage) {
+                $this->printInfo("!!! Action {$action} is already running, quit.", self::$CLI_COLOR_YELLOW);
+            }
+            exit();
+        }
+    }
+    
+    /**
+     * Checks whether the requested $action is already running. If $markAsStarted 
+     * is set to true, the $action will automatically be marked as started if not 
+     * running yet.
+     * 
+     * @param string $action        Action to check
+     * @param bool   $markAsStarted Mark as started if not running yet
+     * 
+     * @return bool
+     */
+    public function isRunningAction(string $action, bool $markAsStarted = true) : bool
+    {
+        $isRunning = false;
+        $filename  = $this->getRunningActionFilename($action);
+        if (file_exists($filename)) {
+            $isRunning = true;
+        } elseif ($markAsStarted) {
+            file_put_contents($filename, time());
+        }
+        return $isRunning;
+    }
+    
+    /**
+     * Will mark the requested $action as finished by removing the file marker.
+     * 
+     * @param string $action Action to finish
+     * 
+     * @return void
+     */
+    public function finishAction(string $action) : void
+    {
+        $filename = $this->getRunningActionFilename($action);
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+    }
+    
+    /**
+     * Returns the start time for the requested $action (if running).
+     * 
+     * @param string $action Action to get start time for
+     * 
+     * @return int
+     */
+    public function getRunningActionStartTime(string $action) : int
+    {
+        $starttime = 0;
+        $filename  = $this->getRunningActionFilename($action);
+        if (file_exists($filename)) {
+            $starttime = file_get_contents($filename);
+        }
+        return (int) $starttime;
+    }
+    
+    /**
      * Returns whether the current task is running in CLI.
      * 
      * @return bool
