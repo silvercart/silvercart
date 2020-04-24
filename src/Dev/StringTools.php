@@ -125,6 +125,6 @@ class StringTools
      */
     public static function removeSpecialChars(string $string) : string
     {
-        return preg_replace('/[^A-Za-z0-9ÄäÜüÖö ]/', '', $string);
+        return mb_ereg_replace("[^A-Za-z0-9ÄäÖöÜüÁáÀàÉéÈèÍíÌìÓóÒòÚúÙùÂâÊêÎîÔôÛûÃãÕõ ]", '', str_replace('-', ' ', $string));
     }
 }
