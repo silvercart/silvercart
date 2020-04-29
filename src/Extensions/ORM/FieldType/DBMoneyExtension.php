@@ -2,6 +2,7 @@
 
 namespace SilverCart\Extensions\ORM\FieldType;
 
+use NumberFormatter;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
@@ -33,6 +34,8 @@ class DBMoneyExtension extends Extension
         $amount    = $this->owner->getAmount();
         $locale    = $this->owner->getLocale();
         $formatter = NumberFormatter::create($locale, NumberFormatter::DECIMAL);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 2);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 2);
         return $formatter->format($amount);
     }
     
