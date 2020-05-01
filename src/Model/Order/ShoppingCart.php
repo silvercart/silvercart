@@ -171,9 +171,9 @@ class ShoppingCart extends DataObject
     /**
      * Delivery time data.
      *
-     * @var ArrayData
+     * @var ArrayData[]
      */
-    protected $deliveryTimeData = null;
+    protected $deliveryTimeData = [];
 
     /**
      * Sets whether to clear checkout after writing or not.
@@ -1540,8 +1540,10 @@ class ShoppingCart extends DataObject
      * 
      * @return ArrayData
      */
-    public function getDeliveryTimeData($shippingMethodID = 0, $forceDisplayInDays = false) {
-        if (is_null($this->deliveryTimeData)) {
+    public function getDeliveryTimeData(int $shippingMethodID = 0, bool $forceDisplayInDays = false) : ArrayData
+    {
+        $key = "{$shippingMethodID}-" . ($forceDisplayInDays ? 1 : 0);
+        if (!array_key_exists($key, $this->deliveryTimeData)) {
             $deliveryDaysMin  = 0;
             $deliveryDaysMax  = 0;
             $deliveryDaysText = '';
@@ -1550,12 +1552,11 @@ class ShoppingCart extends DataObject
             } else {
                 $shippingMethod = $this->getShippingMethod();
             }
-            if ($shippingMethod instanceof ShippingMethod &&
-                $shippingMethod->exists() &&
-                $shippingMethod->getShippingFee() instanceof ShippingFee &&
-                $shippingMethod->getShippingFee()->exists()) {
-
-
+            if ($shippingMethod instanceof ShippingMethod
+             && $shippingMethod->exists()
+             && $shippingMethod->getShippingFee() instanceof ShippingFee
+             && $shippingMethod->getShippingFee()->exists()
+            ) {
                 $deliveryDaysMin  = (int) $shippingMethod->getShippingFee()->DeliveryTimeMin;
                 $deliveryDaysMax  = (int) $shippingMethod->getShippingFee()->DeliveryTimeMax;
                 $deliveryDaysText = $shippingMethod->getShippingFee()->DeliveryTimeText;
@@ -1569,7 +1570,6 @@ class ShoppingCart extends DataObject
                     $deliveryDaysText = $shippingMethod->DeliveryTimeText;
                 }
             }
-            
             $productDeliveryDaysMin = 0;
             $productDeliveryDaysMax = 0;
             foreach ($this->ShoppingCartPositions() as $position) {
@@ -1596,7 +1596,6 @@ class ShoppingCart extends DataObject
                     }
                 }
             }
-            
             if ($productDeliveryDaysMin > $deliveryDaysMin) {
                 $deliveryDaysMin = $productDeliveryDaysMin;
             }           
@@ -1606,14 +1605,14 @@ class ShoppingCart extends DataObject
             if ($deliveryDaysMax < $productDeliveryDaysMin) {
                 $deliveryDaysMax = 0;
             }
-            $this->deliveryTimeData = new ArrayData([
+            $this->deliveryTimeData[$key] = ArrayData::create([
                 'Min'  => $deliveryDaysMin,
                 'Max'  => $deliveryDaysMax,
                 'Text' => $deliveryDaysText,
             ]);
-            $this->extend('updateDeliveryTimeData', $this->deliveryTimeData);
+            $this->extend('updateDeliveryTimeData', $this->deliveryTimeData[$key]);
         }
-        return $this->deliveryTimeData;
+        return $this->deliveryTimeData[$key];
     }
     
     /**
@@ -1622,9 +1621,10 @@ class ShoppingCart extends DataObject
      * @param int  $shippingMethodID   ID of the shipping method to use for delivery
      * @param bool $forceDisplayInDays Force displaying the delivery time in days
      * 
-     * @return string
+     * @return DBHTMLText
      */
-    public function getDeliveryTime($shippingMethodID = 0, $forceDisplayInDays = false) {
+    public function getDeliveryTime(int $shippingMethodID = 0, bool $forceDisplayInDays = false) : DBHTMLText
+    {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
         $deliveryTime     = ShippingMethod::get_delivery_time(
                 $deliveryTimeData->Min,
@@ -1633,7 +1633,7 @@ class ShoppingCart extends DataObject
                 $forceDisplayInDays
         );
         $this->extend('updateDeliveryTime', $deliveryTime);
-        return $deliveryTime;
+        return DBHTMLText::create()->setValue($deliveryTime);
     }
     
     /**
