@@ -566,7 +566,8 @@ class CheckoutStepController extends \PageController
     {
         $canCheckout = true;
         $customer    = Customer::currentUser();
-        if ($customer instanceof Member
+        if ($this->getAction() !== 'thanks'
+         && $customer instanceof Member
          && $customer->exists()
         ) {
             $cart = $customer->getCart();
