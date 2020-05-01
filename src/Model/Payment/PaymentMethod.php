@@ -2136,9 +2136,9 @@ class PaymentMethod extends DataObject
      *
      * @return string
      */
-    public function getPaymentChannelName($paymentChannel)
+    public function getPaymentChannelName(string $paymentChannel = null) : string
     {
-        return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel), $paymentChannel);
+        return _t($this->ClassName . '.PAYMENT_CHANNEL_' . strtoupper($paymentChannel), empty($paymentChannel) ? 'none' : $paymentChannel);
     }
     
     /**
