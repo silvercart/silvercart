@@ -3056,17 +3056,16 @@ class Product extends DataObject implements PermissionProvider
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.06.2013
      */
-    public function onBeforeDelete()
+    public function onBeforeDelete() : void
     {
         parent::onBeforeDelete();
-        if ($this->WidgetArea()->exists()) {
-            foreach ($this->WidgetArea()->Widgets() as $widget) {
+        $widgetArea = $this->getComponent('WidgetArea');
+        if ($widgetArea->exists()) {
+            foreach ($widgetArea->Widgets() as $widget) {
                 $widget->delete();
             }
-
-            $this->WidgetArea()->delete();
+            $widgetArea->delete();
         }
-        
         foreach ($this->ShoppingCartPositions() as $position) {
             $position->delete();
         }
