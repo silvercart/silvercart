@@ -1094,22 +1094,26 @@ class ProductGroupPage extends \Page
              && $ctrl->isProductDetailView()
             ) {
                 $metaDescription = $ctrl->getDetailViewProduct()->MetaDescription;
-            } elseif ($ctrl instanceof ProductGroupPageController
-                   && empty($metaDescription)
-            ) {
-                $descriptionArray = [$this->Title];
-                $children         = $this->Children();
-                if ($children->count() > 0) {
-                    $descriptionArray = array_merge($descriptionArray, $children->map()->toArray());
+            } elseif ($ctrl instanceof ProductGroupPageController) {
+                if (empty($metaDescription)
+                 || (int) $ctrl->getRequest()->getVar('start') > 0
+                ) {
+                    $descriptionArray = [$this->Title];
+                    if ((int) $ctrl->getRequest()->getVar('start') <= 0) {
+                        $children = $this->Children();
+                        if ($children->count() > 0) {
+                            $descriptionArray = array_merge($descriptionArray, $children->map()->toArray());
+                        }
+                    }
+                    $products = $this->getProductsToDisplay();
+                    if ($products->count() > 0) {
+                        $currOffset       = $ctrl->CurrentOffset();
+                        $sqlOffset        = $ctrl->getProductsPerPageSetting();
+                        $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
+                        $descriptionArray = array_merge($descriptionArray, $products);
+                    }
+                    $metaDescription = SeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
                 }
-                $products = $this->getProductsToDisplay();
-                if ($products->count() > 0) {
-                    $currOffset       = $ctrl->CurrentOffset();
-                    $sqlOffset        = $ctrl->getProductsPerPageSetting();
-                    $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
-                    $descriptionArray = array_merge($descriptionArray, $products);
-                }
-                $metaDescription = SeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
             }
             $this->extend('updateMetaDescription', $metaDescription);
         }
