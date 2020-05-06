@@ -2,6 +2,7 @@
 
 namespace SilverCart\Dev;
 
+use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Dev\DebugTools;
@@ -42,6 +43,14 @@ trait CLITask
     public static $CLI_EMAIL_INFO_TYPE_ERROR   = 'error';
     public static $CLI_EMAIL_INFO_TYPE_WARNING = 'warning';
 
+    /**
+     * Help docs.
+     *
+     * @var array
+     */
+    protected static $default_help_docs = [
+        'help' => "The action help is showing this help text.",
+    ];
     /**
      * Default CLI arguments
      *
@@ -116,6 +125,116 @@ trait CLITask
                 $this->setCliArg($name, $value);
             }
         }
+    }
+    
+    /**
+     * Returns the help docs.
+     * 
+     * @return array
+     */
+    protected function getHelpDocs() : array
+    {
+        $helpDocs = $this->config()->get('help_docs');
+        if (is_array($helpDocs)) {
+            $helpDocs = array_merge(self::$default_help_docs, $helpDocs);
+        } else {
+            $helpDocs = [];
+        }
+        return $helpDocs;
+    }
+    
+    /**
+     * Will show the help.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 04.10.2018
+     */
+    public function help() : void
+    {
+        $docs = $this->getHelpDocs();
+        if (empty($docs)) {
+            return;
+        }
+        $reflection    = new ReflectionClass($this);
+        $taskName      = $reflection->getShortName();
+        $actions       = $this->config()->uninherited('allowed_actions');
+        $cwd           = getcwd();
+        $changeMagenta = self::$CLI_COLOR_CHANGE_MAGENTA;
+        $changeYellow  = self::$CLI_COLOR_CHANGE_YELLOW;
+        $this->printInfo("");
+        $this->printInfo("Information about {$taskName}:", self::$CLI_COLOR_CYAN);
+        $this->printInfo("-----------------------------------------", self::$CLI_COLOR_CYAN);
+        $this->printInfo("The {$taskName} provides the following actions:");
+        $this->printInfo("");
+        foreach ($actions as $action) {
+            if (!array_key_exists($action, $docs)) {
+                $docs[$action] = "";
+            }
+            $this->printInfo("  {$action}", self::$CLI_COLOR_MAGENTA);
+            foreach (explode(PHP_EOL, $docs[$action]) as $line) {
+                $this->printInfo($line);
+            }
+            $this->printInfo("");
+        }
+        $urlSegment = (string) $this->config()->url_segment;
+        if (empty($urlSegment)) {
+            $request = $this->getRequest();
+            /* @var $request \SilverStripe\Control\HTTPRequest */
+            $parts   = explode('/', $request->getURL());
+            $cAction = array_pop($parts);
+            if ($cAction !== $request->param('Action')) {
+                $parts[] = $cAction;
+            }
+            $urlSegment = implode('/', $parts);
+        }
+        $this->printInfo("");
+        $this->printInfo("");
+        $this->printInfo("Usage of {$taskName}:", self::$CLI_COLOR_CYAN);
+        $this->printInfo("--------------------------------", self::$CLI_COLOR_CYAN);
+        $this->printInfo("");
+        foreach ($actions as $action) {
+            $this->printInfo("Calling the action {$changeMagenta}{$action}{$changeYellow}:");
+            $this->printInfo("");
+            $this->printInfo("\t" . "# cd {$cwd}", self::$CLI_COLOR_WHITE);
+            $this->printInfo("\t" . "# php vendor/silverstripe/framework/cli-script.php {$urlSegment}/{$action}", self::$CLI_COLOR_WHITE);
+            $this->printInfo("\t" . "-- or if sake is installed --");
+            $this->printInfo("\t" . "# cd {$cwd}", self::$CLI_COLOR_WHITE);
+            $this->printInfo("\t" . "# sake {$urlSegment}/{$action}", self::$CLI_COLOR_WHITE);
+            $this->printInfo("");
+        }
+        $this->printInfo("");
+        $this->printInfo("");
+        $this->printInfo("{$taskName} Support:", self::$CLI_COLOR_CYAN);
+        $this->printInfo("-------------------------------", self::$CLI_COLOR_CYAN);
+        $this->printInfo("You have problems with or questions about the {$taskName}?");
+        $this->printInfo("Feel free to text me at sdiel@pixeltricks.de.");
+        $this->printInfo("");
+        $this->printInfo("");
+    }
+    
+    /**
+     * Will show the help.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 06.05.2020
+     */
+    public function helpNoAction() : void
+    {
+        $errorMessage  = " No action given. Please choose an action to use this task properly.   ";
+        $errorMessage2 = " See the help text below for further information how to use this task. ";
+        $paddedString  = str_pad("", strlen($errorMessage));
+        $this->printInfo("");
+        $this->printInfo("An error occured:");
+        $this->printError($paddedString);
+        $this->printError($errorMessage);
+        $this->printError($errorMessage2);
+        $this->printError($paddedString);
+        $this->printInfo("");
+        $this->help();
     }
     
     /**
@@ -660,6 +779,52 @@ trait CLITask
     public function setTmpFolder($tmpFolder)
     {
         $this->tmpFolder = $tmpFolder;
+    }
+    
+    /**
+     * Adds the given prefix to the log file name (separated with a ".").
+     * If $force is not set to true, the $prefix won't be added if there already
+     * is an added prefix.
+     * 
+     * @param string $prefix Prefix to add
+     * @param bool   $force  Force adding the prefix?
+     * 
+     * @return void
+     */
+    protected function setLogFileNamePrefix(string $prefix, bool $force = false) : void
+    {
+        if (is_null(static::$log_file_name)) {
+            $reflection            = new ReflectionClass($this);
+            static::$log_file_name = $reflection->getShortName();
+        }
+        if (strpos(static::$log_file_name, '-') === false) {
+            $last  = static::$log_file_name;
+        } elseif ($force) {
+            $parts = explode('-', static::$log_file_name);
+            $last  = array_pop($parts);
+        }
+        static::$log_file_name = "{$prefix}-{$last}";
+    }
+    
+    /**
+     * Adds the given suffix to the log file name (separated with a ".").
+     * If $force is not set to true, the $suffix won't be added if there already
+     * is an added suffix.
+     * 
+     * @param string $suffix Suffix to add
+     * @param bool   $force  Force adding the suffix?
+     * 
+     * @return void
+     */
+    protected function setLogFileNameSuffix(string $suffix, bool $force = false) : void
+    {
+        if (strpos(static::$log_file_name, '.') === false) {
+            static::$log_file_name .= ".{$suffix}";
+        } elseif ($force) {
+            $parts = explode('.', static::$log_file_name);
+            $first = array_shift($parts);
+            static::$log_file_name = "{$first}.{$suffix}";
+        }
     }
 
     /**
