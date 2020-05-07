@@ -1097,13 +1097,20 @@ class ProductGroupPage extends \Page
             } elseif ($ctrl instanceof ProductGroupPageController) {
                 if (empty($metaDescription)
                  || (int) $ctrl->getRequest()->getVar('start') > 0
+                 || mb_strlen($metaDescription) < SeoTools::$metaDescriptionMaxLength
                 ) {
-                    $descriptionArray = [$this->Title];
                     if ((int) $ctrl->getRequest()->getVar('start') <= 0) {
+                        if (empty($metaDescription)) {
+                            $descriptionArray = [$this->Title];
+                        } else {
+                            $descriptionArray = [$metaDescription];
+                        }
                         $children = $this->Children();
                         if ($children->count() > 0) {
                             $descriptionArray = array_merge($descriptionArray, $children->map()->toArray());
                         }
+                    } else {
+                        $descriptionArray = [$this->Title];
                     }
                     $products = $this->getProductsToDisplay();
                     if ($products->count() > 0) {
