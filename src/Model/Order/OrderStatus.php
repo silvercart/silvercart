@@ -42,11 +42,12 @@ class OrderStatus extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
-    const STATUS_CODE_NEW        = 'new';
-    const STATUS_CODE_CANCELED   = 'canceled';
-    const STATUS_CODE_COMPLETED  = 'completed';
-    const STATUS_CODE_INPROGRESS = 'inprogress';
-    const STATUS_CODE_SHIPPED    = 'shipped';
+    const STATUS_CODE_NEW                = 'new';
+    const STATUS_CODE_CANCELED           = 'canceled';
+    const STATUS_CODE_COMPLETED          = 'completed';
+    const STATUS_CODE_INPROGRESS         = 'inprogress';
+    const STATUS_CODE_SHIPPED            = 'shipped';
+    const STATUS_CODE_PREPARING_SHIPMENT = 'preparing-shipment';
     /**
      * Returns the default OrderStatus.
      * 
@@ -159,6 +160,7 @@ class OrderStatus extends DataObject
         self::STATUS_CODE_COMPLETED,
         self::STATUS_CODE_INPROGRESS,
         self::STATUS_CODE_SHIPPED,
+        self::STATUS_CODE_PREPARING_SHIPMENT,
     ];
 
     /**

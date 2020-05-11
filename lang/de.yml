@@ -1086,6 +1086,7 @@ de:
         DefaultStatusCompleted: "Abgeschlossen"
         DefaultStatusInprogress: "In Bearbeitung"
         DefaultStatusShipped: "Bestellung versandt"
+        DefaultStatusPreparing-shipment: "Versand wird vorbereitet"
         IsDefault: "Ist Standard"
         PLURALNAME: "Bestellstatus"
         SINGULARNAME: "Bestellstatus"

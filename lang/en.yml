@@ -1086,6 +1086,7 @@ en:
         DefaultStatusCompleted: Completed
         DefaultStatusInprogress: 'In Progress'
         DefaultStatusShipped: Shipped
+        DefaultStatusPreparing-shipment: "Preparing shipment"
         IsDefault: 'Is default'
         PLURALNAME: 'Order status'
         SINGULARNAME: 'Order status'
