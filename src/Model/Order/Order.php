@@ -219,6 +219,12 @@ class Order extends DataObject implements PermissionProvider
      */
     private static $api_access = true;
     /**
+     * Flag to determine whether the cancel is in progress.
+     *
+     * @var bool
+     */
+    protected $cancelInProgress = false;
+    /**
      * Prevents multiple handling of order status change.
      *
      * @var bool
@@ -330,6 +336,19 @@ class Order extends DataObject implements PermissionProvider
     public function canDelete($member = null) : bool
     {
         return Permission::checkMember($member, 'SILVERCART_ORDER_DELETE');
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member declated to be compatible with parent
+     *
+     * @return bool
+     */
+    public function canCancel($member = null) : bool
+    {
+        return $this->canEdit($member)
+            && $this->OrderStatus()->Code !== OrderStatus::STATUS_CODE_CANCELED;
     }
 
     /**
@@ -2772,13 +2791,13 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    protected function onBeforeWrite()
+    protected function onBeforeWrite() : void
     {
         parent::onBeforeWrite();
-        
         if (empty ($this->OrderNumber)) {
             $this->OrderNumber = NumberRange::useReservedNumberByIdentifier('OrderNumber');
         }
+        $this->handleCancelOnBeforeWrite();
         $this->handleTrackingCodeChange();
         $this->handleOrderStatusChange();
         $this->handlePaymentStatusChange();
@@ -2805,6 +2824,49 @@ class Order extends DataObject implements PermissionProvider
             $this->InvoiceAddress()->write();
         }
         $this->extend('updateOnBeforeWrite');
+    }
+    
+    /**
+     * Handles the cancel process before writing an order.
+     * 
+     * @return void
+     */
+    protected function handleCancelOnBeforeWrite() : void
+    {
+        if (!$this->cancelInProgress
+         && $this->isChanged('OrderStatusID')
+         && $this->OrderStatus()->Code === OrderStatus::STATUS_CODE_CANCELED
+        ) {
+            // order is canceled
+            $this->cancel(false);
+        }
+    }
+
+    /**
+     * Cancels the order.
+     * 
+     * @param bool $doWrite Write order?
+     * 
+     * @return \SilverCart\Model\Order\Order
+     */
+    public function cancel(bool $doWrite = true) : Order
+    {
+        $this->cancelInProgress = true;
+        $this->extend('onBeforeCancel');
+        if ($this->OrderStatus()->Code !== OrderStatus::STATUS_CODE_CANCELED) {
+            $status              = OrderStatus::get_by_code(OrderStatus::STATUS_CODE_CANCELED);
+            $this->OrderStatusID = $status->ID;
+        }
+        if ($this->PaymentStatus()->Code !== PaymentStatus::STATUS_CODE_CANCELED) {
+            $status                = PaymentStatus::get_by_code(PaymentStatus::STATUS_CODE_CANCELED);
+            $this->PaymentStatusID = $status->ID;
+        }
+        $this->extend('updateCancel');
+        if ($doWrite) {
+            $this->write();
+        }
+        $this->extend('onAfterCancel');
+        return $this;
     }
     
     /**
