@@ -1326,6 +1326,7 @@ en:
         PLURALNAME: 'Payment Status'
         SINGULARNAME: 'Payment Status'
         Code: Code
+        DefaultStatusCanceled: Canceled
         DefaultStatusOpen: Open
         DefaultStatusPaid: Paid
         DefaultStatusPartlyPaid: 'Partly paid'

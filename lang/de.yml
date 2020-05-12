@@ -1326,6 +1326,7 @@ de:
         PLURALNAME: "Zahlungs-Status"
         SINGULARNAME: "Zahlungs-Status"
         Code: "Code"
+        DefaultStatusCanceled: Storniert
         DefaultStatusOpen: "Offen"
         DefaultStatusPaid: "Bezahlt"
         DefaultStatusPartlyPaid: 'Teilweise bezahlt'

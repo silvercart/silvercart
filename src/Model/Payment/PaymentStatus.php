@@ -32,6 +32,7 @@ class PaymentStatus extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
+    const STATUS_CODE_CANCELED    = 'canceled';
     const STATUS_CODE_OPEN        = 'open';
     const STATUS_CODE_PAID        = 'paid';
     const STATUS_CODE_PARTLY_PAID = 'partly-paid';
@@ -127,6 +128,7 @@ class PaymentStatus extends DataObject
      * @var array 
      */
     private static $default_codes = [
+        self::STATUS_CODE_CANCELED,
         self::STATUS_CODE_OPEN,
         self::STATUS_CODE_PAID,
         self::STATUS_CODE_PARTLY_PAID,
@@ -171,6 +173,7 @@ class PaymentStatus extends DataObject
                     $labels,
                     Tools::field_labels_for(self::class),
                     [
+                        'DefaultStatusCanceled'    => _t(self::class . '.DefaultStatusCanceled', 'Canceled'),
                         'DefaultStatusOpen'        => _t(self::class . '.DefaultStatusOpen', 'Open'),
                         'DefaultStatusPaid'        => _t(self::class . '.DefaultStatusPaid', 'Paid'),
                         'DefaultStatusPartly-paid' => _t(self::class . '.DefaultStatusPartlyPaid', 'Partly paid'),
