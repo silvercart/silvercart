@@ -50,6 +50,12 @@ class ActionHandler extends Controller
         'incrementPositionQuantity',
         'loadSubNavigation',
     ];
+    /**
+     * URL segment
+     *
+     * @var string
+     */
+    private static $url_segment = 'sc-action';
 
     /**
      * returns a single page by IdentifierCode
