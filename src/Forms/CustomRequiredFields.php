@@ -202,7 +202,7 @@ class CustomRequiredFields extends RequiredFields
             $value = trim($value);
         }
         foreach ($callbacks as $callbackName => $callbackData) {
-            if (method_exists($this, $callbackName)) {
+            if ($this->hasMethod($callbackName)) {
                 $errorData = $this->$callbackName($formField, $value, $callbackData);
                 if ($errorData['error']) {
                     $this->validationError(
