@@ -38,6 +38,10 @@ use SilverStripe\View\ArrayData;
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @method Member                         Member()                Returns the related Member.
+ * @method \SilverStripe\ORM\HasManyList  ShoppingCartPositions() Returns the related positions.
+ * @method \SilverStripe\ORM\ManyManyList Products()              Returns the related products.
  */
 class ShoppingCart extends DataObject
 {
@@ -51,6 +55,12 @@ class ShoppingCart extends DataObject
      * @var array
      */
     public static $registeredModules = [];
+    /**
+     * Module list to exclude from most valuable tax rate calculation.
+     *
+     * @var array
+     */
+    private static $exclude_modules_from_most_valuable_tax_rate = [];
     /**
      * 1:n relations
      *
@@ -714,20 +724,17 @@ class ShoppingCart extends DataObject
     /**
      * Returns the price of the cart positions + fees, including taxes.
      *
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
-     *                                              can contain the ID or the className of the position
-     * @param boolean $excludeCharges               Indicates wether charges and discounts should be calculated
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * @param bool  $excludeCharges               Indicates wether charges and discounts should be calculated
      *
-     * @return string a price amount
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.10.2012
+     * @return DBMoney
      */
-    public function getTaxableAmountWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getTaxableAmountWithFees(array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
+    {
         if (Config::PriceType() == 'gross') {
-            $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false);
+            $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions, $excludeCharges);
         } else {
-            $taxableAmountWithFees = $this->getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false);
+            $taxableAmountWithFees = $this->getTaxableAmountNetWithFees($excludeShoppingCartPositions, $excludeCharges);
         }
         return $taxableAmountWithFees;
     }
@@ -735,97 +742,82 @@ class ShoppingCart extends DataObject
     /**
      * Returns the GROSS price of the cart positions + fees, including taxes.
      *
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
-     *                                              can contain the ID or the className of the position
-     * @param boolean $excludeCharges               Indicates wether charges and discounts should be calculated
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * @param bool  $excludeCharges               Indicates wether charges and discounts should be calculated
      *
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getTaxableAmountGrossWithFees(array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
+    {
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
         $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
-
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
-
             if ($shippingFee !== false) {
                 $shippingFeeAmount = $shippingFee->getPriceAmount();
                 $amountTotal = $shippingFeeAmount + $amountTotal;
             }
         }
-
         if ($paymentMethod) {
             $paymentFee = $paymentMethod->getHandlingCost();
-
             if ($paymentFee !== false) {
                 $paymentFeeAmount = $paymentFee->getPriceAmount();
                 $amountTotal = $paymentFeeAmount + $amountTotal;
             }
         }
-        
-        $amountTotalObj = new DBMoney;
-        $amountTotalObj->setAmount($amountTotal);
-        $amountTotalObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountTotalObj;
+        return DBMoney::create()
+                ->setAmount($amountTotal)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
      * Returns the NET price of the cart positions + fees, including taxes.
      *
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted;
-     *                                              can contain the ID or the className of the position
-     * @param boolean $excludeCharges               Indicates wether charges and discounts should be calculated
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * @param bool  $excludeCharges               Indicates wether charges and discounts should be calculated
      *
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithFees($excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getTaxableAmountNetWithFees(array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
+    {
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
-        $amountTotal    = round($this->getTaxableAmountNetWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount(), 2);
-
+        $amountTotal    = round($this->getTaxableAmountNetWithoutFees([], $excludeShoppingCartPositions, $excludeCharges)->getAmount(), 2);
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
-
             if ($shippingFee !== false) {
                 $shippingFeeAmount = $shippingFee->getPriceAmount();
                 $amountTotal       = $shippingFeeAmount + $amountTotal;
             }
         }
-
         if ($paymentMethod) {
             $paymentFee = $paymentMethod->getHandlingCost();
-
             if ($paymentFee !== false) {
                 $paymentFeeAmount = $paymentFee->getPriceAmount();
                 $amountTotal      = $paymentFeeAmount + $amountTotal;
             }
         }
-
-        $amountTotalObj = new DBMoney;
-        $amountTotalObj->setAmount($amountTotal);
-        $amountTotalObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountTotalObj;
+        return DBMoney::create()
+                ->setAmount($amountTotal)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
      * Returns the price of the cart positions, including taxes, excluding fees.
      *
-     * @param array   $excludeModules              An array of registered modules that shall not
-     *                                             be taken into account.
-     * @param array   $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                             can contain the ID or the className of the position
-     * @param boolean $excludeCharges              Indicates wether charges and discounts should be calculated
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * @param bool  $excludeCharges               Indicates wether charges and discounts should be calculated
      * 
-     * @return DBMoney a price amount
+     * @return DBMoney
      */
-    public function getTaxableAmountWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
+    public function getTaxableAmountWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
+    {
         if (Config::PriceType() == 'gross') {
-            $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPosition, $excludeCharges);
+            $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
-            $taxableAmountWithoutFees = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPosition, $excludeCharges);
+            $taxableAmountWithoutFees = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         }
         return $taxableAmountWithoutFees;
     }
@@ -833,61 +825,50 @@ class ShoppingCart extends DataObject
     /**
      * Returns the GROSS price of the cart positions, including taxes, excluding fees.
      *
-     * @param array   $excludeModules              An array of registered modules that shall not
-     *                                             be taken into account.
-     * @param array   $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                             can contain the ID or the className of the position
-     * @param boolean $excludeCharges              Indicates wether charges and discounts should be calculated
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * @param bool  $excludeCharges               Indicates wether charges and discounts should be calculated
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
-        $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition)->getAmount();
-        
+    public function getTaxableAmountGrossWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
+    {
+        $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPositions)->getAmount();
         // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->ChargesAndDiscountsForProducts()) {
-            
+        if (!$excludeCharges
+         && $this->ChargesAndDiscountsForProducts()
+        ) {
             $amount += $this->ChargesAndDiscountsForProducts()->Price->getAmount();
         }
-        
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
      * Returns the NET price of the cart positions, including taxes, excluding fees.
      *
-     * @param array   $excludeModules              An array of registered modules that shall not
-     *                                             be taken into account.
-     * @param array   $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                             can contain the ID or the className of the position
-     * @param boolean $excludeCharges              Indicates wether charges and discounts should be calculated
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * @param bool  $excludeCharges               Indicates wether charges and discounts should be calculated
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutFees($excludeModules = array(), $excludeShoppingCartPosition = false, $excludeCharges = false) {
-        $amount = $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition)->getAmount();
-        
+    public function getTaxableAmountNetWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
+    {
+        $amount = $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPositions)->getAmount();
         // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->ChargesAndDiscountsForProducts()) {
-            
+        if (!$excludeCharges
+         && $this->ChargesAndDiscountsForProducts()
+        ) {
             $amount += $this->ChargesAndDiscountsForProducts()->Price->getAmount();
         }
-        
         if (round($amount, 2) === -0.00) {
             $amount = 0;
         }
-
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
     
     /**
@@ -897,7 +878,8 @@ class ShoppingCart extends DataObject
      *
      * @return DBMoney
      */
-    public function getTaxableAmountWithoutModules() {
+    public function getTaxableAmountWithoutModules() : DBMoney
+    {
         if (Config::PriceType() == 'gross') {
             $taxableAmountWithoutModules = $this->getTaxableAmountGrossWithoutModules();
         } else {
@@ -959,37 +941,27 @@ class ShoppingCart extends DataObject
      *
      * @param array $excludeModules              An array of registered modules that shall not
      *                                           be taken into account.
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted;
      *                                           can contain the ID or the className of the position
      * @param bool  $includeModules              Indicate whether to include modules or not
      *
      * @return ArrayList
      */
-    public function getTaxableShoppingcartPositions($excludeModules = array(), $excludeShoppingCartPosition = false, $includeModules = true) : ArrayList
+    public function getTaxableShoppingcartPositions(array $excludeModules = [], array $excludeShoppingCartPositions = [], bool $includeModules = true) : ArrayList
     {
         $cartPositions = ArrayList::create();
-        if (!is_array($excludeModules)) {
-            $excludeModules = [$excludeModules];
-        }
-        if (!is_array($excludeShoppingCartPosition)) {
-            $excludeShoppingCartPosition = [$excludeShoppingCartPosition];
-        }
-
-        $cacheHash = md5(
+        $cacheHash     = md5(
             implode(',', $excludeModules).
-            implode(',', $excludeShoppingCartPosition).
+            implode(',', $excludeShoppingCartPositions).
             $includeModules
         );
         $cacheKey = 'ggetTaxableShoppingcartPositions_'.$cacheHash;
-
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
-
         foreach ($this->ShoppingCartPositions() as $position) {
             $cartPositions->push($position);
         }
-
         if ($includeModules) {
             $registeredModules = $this->callMethodOnRegisteredModules(
                 'ShoppingCartPositions',
@@ -997,11 +969,10 @@ class ShoppingCart extends DataObject
                     $this,
                     Customer::currentUser(),
                     true,
-                    $excludeShoppingCartPosition,
+                    $excludeShoppingCartPositions,
                     false
                 ],
-                $excludeModules,
-                $excludeShoppingCartPosition
+                $excludeModules
             );
 
             // Registered Modules
@@ -1022,120 +993,92 @@ class ShoppingCart extends DataObject
     /**
      * Returns the price of the cart positions, including taxes.
      *
-     * @param array $excludeModules              An array of registered modules that shall not
-     *                                           be taken into account.
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                           can contain the ID or the className of the position
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutFeesAndCharges($excludeModules = [], $excludeShoppingCartPosition = false) : DBMoney
+    public function getTaxableAmountGrossWithoutFeesAndCharges(array $excludeModules = [], array $excludeShoppingCartPositions = []) : DBMoney
     {
         if (!is_array($excludeModules)) {
             $excludeModules = [$excludeModules];
         }
-        if (!is_array($excludeShoppingCartPosition)) {
-            $excludeShoppingCartPosition = [$excludeShoppingCartPosition];
+        if (!is_array($excludeShoppingCartPositions)) {
+            $excludeShoppingCartPositions = [$excludeShoppingCartPositions];
         }
-
         $cacheHash = md5(
             implode(',', $excludeModules).
-            implode(',', $excludeShoppingCartPosition)
+            implode(',', $excludeShoppingCartPositions)
         );
         $cacheKey = 'getTaxableAmountGrossWithoutFeesAndCharges_'.$cacheHash;
-
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
 
-        $amountObj = DBMoney::create();
-        $amountObj->setCurrency(Config::DefaultCurrency());
-        $amount    = 0;
-
-        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, true);
+        $amount          = 0;
+        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPositions, true);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
         }
         $this->extend('updateTaxableAmountGrossWithoutFeesAndCharges', $amount, $modulePositions);
-
-        $amountObj->setAmount($amount);
-
+        $amountObj = DBMoney::create()
+                ->setCurrency(Config::DefaultCurrency())
+                ->setAmount($amount);
         $this->cacheHashes[$cacheKey] = $amountObj;
-    
         return $amountObj;
     }
 
     /**
      * Returns the price of the cart positions, including taxes.
      *
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                           can contain the ID or the className of the position
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountGrossWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) : DBMoney
+    public function getTaxableAmountGrossWithoutFeesAndChargesAndModules(array $excludeShoppingCartPositions = []) : DBMoney
     {
-        $excludeModules = self::$registeredModules;
-        return $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
+        return $this->getTaxableAmountGrossWithoutFeesAndCharges(self::$registeredModules, $excludeShoppingCartPositions);
     }
 
     /**
      * Returns the price of the cart positions.
      *
-     * @param array $excludeModules              An array of registered modules that shall not
-     *                                           be taken into account.
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                           can contain the ID or the className of the position
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutFeesAndCharges($excludeModules = [], $excludeShoppingCartPosition = false) : DBMoney
+    public function getTaxableAmountNetWithoutFeesAndCharges(array $excludeModules = [], array $excludeShoppingCartPositions = []) : DBMoney
     {
-        if (!is_array($excludeModules)) {
-            $excludeModules = [$excludeModules];
-        }
-        if (!is_array($excludeShoppingCartPosition)) {
-            $excludeShoppingCartPosition = [$excludeShoppingCartPosition];
-        }
-
         $cacheHash = md5(
             implode(',', $excludeModules).'_'.
-            implode(',', $excludeShoppingCartPosition)
+            implode(',', $excludeShoppingCartPositions)
         );
         $cacheKey = 'getTaxableAmountNetWithoutFeesAndCharges_'.$cacheHash;
-
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
-
-        $amountObj = DBMoney::create();
-        $amount    = 0;
-
-        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPosition, true);
+        $amount          = 0;
+        $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPositions, true);
         foreach ($modulePositions as $modulePosition) {
             $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
         }
         $this->extend('updateTaxableAmountNetWithoutFeesAndCharges', $amount, $modulePositions);
-
-        $amountObj->setAmount($amount);
-
-        $this->cacheHashes[$cacheKey] = $amountObj;
-    
-        return $amountObj;
+        $this->cacheHashes[$cacheKey] = DBMoney::create()
+                ->setAmount($amount);
+        return $this->cacheHashes[$cacheKey];
     }
 
     /**
      * Returns the price of the cart positions.
      *
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted;
-     *                                           can contain the ID or the className of the position
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      * 
      * @return DBMoney
      */
-    public function getTaxableAmountNetWithoutFeesAndChargesAndModules($excludeShoppingCartPosition = false) : DBMoney
+    public function getTaxableAmountNetWithoutFeesAndChargesAndModules(array $excludeShoppingCartPositions = []) : DBMoney
     {
-        $excludeModules = self::$registeredModules;
-        return $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPosition);
+        return $this->getTaxableAmountNetWithoutFeesAndCharges(self::$registeredModules, $excludeShoppingCartPositions);
     }
 
     /**
@@ -1192,38 +1135,33 @@ class ShoppingCart extends DataObject
      * Returns the non taxable amount of positions in the shopping cart.
      * Those can originate from registered modules only.
      *
-     * @param array $excludeModules              An array of registered modules that shall not
-     *                                           be taken into account.
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
      *
      * @return DBMoney
      */
-    public function getNonTaxableAmount($excludeModules = array(), $excludeShoppingCartPosition = false) {
+    public function getNonTaxableAmount(array $excludeModules = [], array $excludeShoppingCartPositions = []) : DBMoney
+    {
         $amount = 0;
         $registeredModules = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
-            array(
+            [
                 $this,
                 Customer::currentUser(),
                 false,
-                $excludeShoppingCartPosition
-            ),
-            $excludeModules,
-            $excludeShoppingCartPosition
+                $excludeShoppingCartPositions
+            ],
+            $excludeModules
         );
-
         // Registered Modules
-        foreach ($registeredModules as $moduleName => $modulePositions) {
+        foreach ($registeredModules as $modulePositions) {
             foreach ($modulePositions as $modulePosition) {
                 $amount += (float) $modulePosition->PriceTotal;
             }
         }
-
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
@@ -1668,17 +1606,14 @@ class ShoppingCart extends DataObject
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees).
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
-     * @return Money a money object with the calculated amount and the default currency
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.09.2012
+     * @return DBMoney
      */
-    public function getAmountTotal($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotal(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         if (Config::PriceType() == 'gross') {
             $amountTotal = $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
@@ -1694,52 +1629,45 @@ class ShoppingCart extends DataObject
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees).
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalGross($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalGross(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
-        
         // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->HasChargesAndDiscountsForTotal()) {
-            
+        if (!$excludeCharges
+         && $this->HasChargesAndDiscountsForTotal()
+        ) {
             $amount += $this->ChargesAndDiscountsForTotal('gross')->Price->getAmount();
         }
-        
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees) excluding vat.
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalNet($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalNet(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         $amountObj = $this->getAmountTotalNetWithoutVat($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         $amount    = $amountObj->getAmount();
-
         foreach ($this->getTaxTotal($excludeCharges) as $tax) {
             $amount += $tax->Amount->getAmount();
         }
-
         $amountObj->setAmount($amount);
-
         return $amountObj;
     }
 
@@ -1747,84 +1675,74 @@ class ShoppingCart extends DataObject
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees) excluding vat.
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalNetWithoutVat($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalNetWithoutVat(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         $amount  = $this->getTaxableAmountNetWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
-
         // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->HasChargesAndDiscountsForTotal()) {
-            
+        if (!$excludeCharges
+         && $this->HasChargesAndDiscountsForTotal()
+        ) {
             $amount += $this->ChargesAndDiscountsForTotal('net')->Price->getAmount();
         }
-
         if (round($amount, 2) === 0.00) {
             $amount = round($amount, 2);
         }
-
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
      * Returns the end sum of the cart (taxable positions + nontaxable
      * positions + fees) without any taxes.
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalWithoutTaxes($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalWithoutTaxes(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         $amount  = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
-        
         // Handling costs for payment and shipment
-        if (!$excludeCharges &&
-             $this->ChargesAndDiscountsForTotal()) {
-            
+        if (!$excludeCharges
+         && $this->ChargesAndDiscountsForTotal()
+        ) {
             $amount += $this->ChargesAndDiscountsForTotal()->Price->getAmount();
         }
-
-        if (round($amount, 2) === 0.00) {
+        if (round($amount, 2) == 0.00) {
             $amount = round($amount, 2);
         }
-        
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
     
     /**
      * Returns the end sum of the cart without fees based on shop settings for net or gross price type
      * 
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         if (Config::Pricetype() == 'gross') {
             $amountObj = $this->getAmountTotalGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);                        
         } else {
             $amountObj = $this->getAmountTotalNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
-        }       
+        }
         return $amountObj;
     }
 
@@ -1832,52 +1750,44 @@ class ShoppingCart extends DataObject
      * Returns the end sum of the cart without fees (taxable positions +
      * nontaxable positions).
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalGrossWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalGrossWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         $amount  = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
-
-        if (round($amount, 2) === 0.00) {
+        if (round($amount, 2) == 0.00) {
             $amount = round($amount, 2);
-        }       
-
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        }
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
 
     /**
      * Returns the end sum of the cart without fees (taxable positions +
      * nontaxable positions).
      *
-     * @param array   $excludeModules               An array of registered modules that shall not
-     *                                              be taken into account.
-     * @param array   $excludeShoppingCartPositions Positions that shall not be counted
-     * @param boolean $excludeCharges               Indicates wether to exlude charges and discounts
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
+     * @param bool  $excludeCharges               Indicates wether to exlude charges and discounts
      * 
      * @return DBMoney
      */
-    public function getAmountTotalNetWithoutFees($excludeModules = array(), $excludeShoppingCartPositions = false, $excludeCharges = false) {
+    public function getAmountTotalNetWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
+    {
         $amount  = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         $amount += $this->getNonTaxableAmount($excludeModules, $excludeShoppingCartPositions)->getAmount();
-
-        if (round($amount, 2) === 0.00) {
+        if (round($amount, 2) == 0.00) {
             $amount = round($amount, 2);
         }
-
-        $amountObj = new DBMoney;
-        $amountObj->setAmount($amount);
-        $amountObj->setCurrency(Config::DefaultCurrency());
-
-        return $amountObj;
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency(Config::DefaultCurrency());
     }
     
     /**
@@ -1885,49 +1795,36 @@ class ShoppingCart extends DataObject
      * 
      * @return ArrayList
      */
-    public function getTaxRatesForFees() {
-        $taxes          = new ArrayList();
+    public function getTaxRatesForFees() : ArrayList
+    {
+        $taxes          = ArrayList::create();
         $taxAmount      = 0;
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
-
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
-
             if ($shippingFee) {
                 $taxAmount += $shippingFee->getTaxAmount();
             }
         }
-
         if ($paymentMethod) {
             $paymentFee = $paymentMethod->getHandlingCost();
-
             if ($paymentFee) {
                 $taxAmount += $paymentFee->getTaxAmount();
             }
         }
-
         $taxRate = $this->getMostValuableTaxRate($this->getTaxRatesWithoutFeesAndCharges())->Rate;
-
         if (!$taxes->find('Rate', $taxRate)) {
-            $taxes->push(
-                new DataObject(
-                    array(
-                        'Rate'      => $taxRate,
-                        'AmountRaw' => $taxAmount,
-                    )
-                )
-            );
+            $taxes->push(ArrayData::create([
+                'Rate'      => $taxRate,
+                'AmountRaw' => $taxAmount,
+            ]));
         }
-
         foreach ($taxes as $tax) {
-            $taxObj = new DBMoney;
-            $taxObj->setAmount($tax->AmountRaw);
-            $taxObj->setCurrency(Config::DefaultCurrency());
-
-            $tax->Amount = $taxObj;
+            $tax->Amount = DBMoney::create()
+                    ->setAmount($tax->AmountRaw)
+                    ->setCurrency(Config::DefaultCurrency());
         }
-
         return $taxes;
     }
 
@@ -2045,27 +1942,25 @@ class ShoppingCart extends DataObject
      * Returns tax amounts included in the shoppingcart separated by tax rates
      * without fee taxes.
      *
-     * @param array $excludeModules              An array of registered modules that shall not
-     *                                           be taken into account.
-     * @param array $excludeShoppingCartPosition Positions that shall not be counted
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted
      *
      * @return ArrayList
      */
-    public function getTaxRatesWithoutFeesAndCharges($excludeModules = [], $excludeShoppingCartPosition = false) : ArrayList
+    public function getTaxRatesWithoutFeesAndCharges(array $excludeModules = [], array $excludeShoppingCartPositions = []) : ArrayList
     {
-        $positions          = $this->ShoppingCartPositions();
-        $taxes              = ArrayList::create();
-        $registeredModules  = $this->callMethodOnRegisteredModules(
+        $positions         = $this->ShoppingCartPositions();
+        $taxes             = ArrayList::create();
+        $registeredModules = $this->callMethodOnRegisteredModules(
             'ShoppingCartPositions',
             [
                 Customer::currentUser()->getCart(),
                 Customer::currentUser(),
-                true
+                true,
+                $excludeShoppingCartPositions,
             ],
-            $excludeModules,
-            $excludeShoppingCartPosition
+            $excludeModules
         );
-
         // products
         $this->extend('overwritePositionTaxRates', $taxes, $positions);
         foreach ($positions as $position) {
@@ -2081,7 +1976,6 @@ class ShoppingCart extends DataObject
             $taxSection = $taxes->find('Rate', $taxRate);
             $taxSection->AmountRaw += $position->getTaxAmount();
         }
-
         // Registered Modules
         foreach ($registeredModules as $moduleOutput) {
             foreach ($moduleOutput as $modulePosition) {
@@ -2098,14 +1992,11 @@ class ShoppingCart extends DataObject
                 $taxSection->AmountRaw = round($taxSection->AmountRaw + $taxAmount, 4);
             }
         }
-
         foreach ($taxes as $tax) {
-            $taxObj = DBMoney::create();
-            $taxObj->setAmount($tax->AmountRaw);
-            $taxObj->setCurrency(Config::DefaultCurrency());
-            $tax->Amount = $taxObj;
+            $tax->Amount = DBMoney::create()
+                    ->setAmount($tax->AmountRaw)
+                    ->setCurrency(Config::DefaultCurrency());
         }
-
         return $taxes;
     }
 
@@ -2139,7 +2030,7 @@ class ShoppingCart extends DataObject
      */
     public function getMostValuableTaxRate($taxes = null) {
         if (is_null($taxes)) {
-            $taxes = $this->getTaxRatesWithoutFeesAndCharges('Voucher');
+            $taxes = $this->getTaxRatesWithoutFeesAndCharges($this->config()->exclude_modules_from_most_valuable_tax_rate);
         }
         $highestTaxValue                = 0;
         $mostValuableTaxRate            = null;
@@ -2321,58 +2212,38 @@ class ShoppingCart extends DataObject
      *
      * @param string $methodName                   The name of the method to call
      * @param array  $parameters                   Additional parameters for the method call
-     * @param array  $excludeModules               An array of registered modules that shall not
-     *                                             be taken into account.
+     * @param array  $excludeModules               An array of registered modules that shall not be taken into account.
      * @param array  $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
      *
-     * @return array Associative array:
-     *      'ModuleName' => DataList (ModulePositions)
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 24.01.2011
+     * @return array
      */
-    public function callMethodOnRegisteredModules($methodName, $parameters = array(), $excludeModules = array(), $excludeShoppingCartPositions = false) {
+    public function callMethodOnRegisteredModules(string $methodName, array $parameters = [], array $excludeModules = [], array $excludeShoppingCartPositions = []) : array
+    {
         $registeredModules = self::$registeredModules;
-        $outputOfModules = array();
-        
-        if (!is_array($excludeModules)) {
-            $excludeModules = array($excludeModules);
-        }
-        
+        $outputOfModules   = [];
         foreach ($registeredModules as $registeredModule) {
-
             // Skip excluded modules
             if (in_array($registeredModule, $excludeModules)) {
                 continue;
             }
-
             $registeredModuleObjPlain = new $registeredModule();
-
             if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
                 $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
             } else {
                 $registeredModuleObj = $registeredModuleObjPlain;
             }
-
             if ($registeredModuleObj) {
                 if ($registeredModuleObj->hasMethod($methodName)) {
-
-                    if (!is_array($parameters)) {
-                        $parameters = array($parameters);
+                    if (!empty($excludeShoppingCartPositions)) {
+                        $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
                     }
-
-                    $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
-
-                    $outputOfModules[$registeredModule] = call_user_func_array(
-                        array(
-                            $registeredModuleObj,
-                            $methodName
-                        ), $parameters
-                    );
+                    $outputOfModules[$registeredModule] = call_user_func_array([
+                        $registeredModuleObj,
+                        $methodName
+                    ], $parameters);
                 }
             }
         }
-
         return $outputOfModules;
     }
 
