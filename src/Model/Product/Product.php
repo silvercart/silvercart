@@ -1973,17 +1973,15 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getPrice($priceType = '', $ignoreTaxExemption = false) : DBMoney
     {
-        $cacheHash = md5($priceType);
-        $cacheKey = 'getPrice_' . $cacheHash . '_' . $ignoreTaxExemption ? '1' : '0';
-
+        $cacheHash    = md5($priceType);
+        $cacheKeyPart = $ignoreTaxExemption ? '1' : '0';
+        $cacheKey     = "getPrice_{$cacheHash}_{$cacheKeyPart}";
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
-
         if (empty($priceType)) {
             $priceType = Config::PriceType();
         }
-        
         if ($priceType == "net") {
             $price = clone $this->PriceNet;
         } elseif ($priceType == "gross") {
@@ -1991,7 +1989,6 @@ class Product extends DataObject implements PermissionProvider
         } else {
             $price = clone $this->PriceGross;
         }
-        
         $member = Customer::currentUser();
         if (!$ignoreTaxExemption
          && !$this->ignoreTaxExemption
@@ -2003,16 +2000,13 @@ class Product extends DataObject implements PermissionProvider
             $price->setAmount($price->getAmount() - $this->getTaxAmount());
             $this->ignoreTaxExemption = false;
         }
-
         $price->setAmount(round($price->getAmount(), 2));
-
         if ($price->getAmount() < 0) {
             $price->setAmount(0);
         }
         //overwrite the price in a decorator
         $this->extend('updatePrice', $price);
-        $this->price = $price;
-
+        $this->price                  = $price;
         $this->cacheHashes[$cacheKey] = $this->price;
         return $this->price;
     }
