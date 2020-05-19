@@ -751,7 +751,7 @@ class ShoppingCart extends DataObject
     {
         $shippingMethod = $this->getShippingMethod();
         $paymentMethod  = $this->getPaymentMethod();
-        $amountTotal    = $this->getTaxableAmountGrossWithoutFees(null, $excludeShoppingCartPositions, $excludeCharges)->getAmount();
+        $amountTotal    = $this->getTaxableAmountGrossWithoutFees([], $excludeShoppingCartPositions, $excludeCharges)->getAmount();
         if ($shippingMethod) {
             $shippingFee = $shippingMethod->getShippingFee();
             if ($shippingFee !== false) {
