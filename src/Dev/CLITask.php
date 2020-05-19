@@ -7,6 +7,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Dev\DebugTools;
 use SilverCart\Model\ShopEmail;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use ZipArchive;
 
@@ -93,6 +94,13 @@ trait CLITask
      * @var int
      */
     protected $lastProgressInfoLength = 0;
+    /**
+     * List of action callbacks to finish before self::exitIfRunningAction() is
+     * calling exit().
+     *
+     * @var callable[]
+     */
+    protected $finishRunningActionsOnBeforeExit = [];
     
     /**
      * Initializes the given arguments.
@@ -276,8 +284,26 @@ trait CLITask
             } elseif ($printInfoMessage) {
                 $this->printInfo("!!! Action {$action} is already running, quit.", self::$CLI_COLOR_YELLOW);
             }
+            foreach ($this->finishRunningActionsOnBeforeExit as $callback) {
+                $callback();
+            }
             exit();
         }
+    }
+
+    /**
+     * Adds the given $action and $task combination to the callback list.
+     * 
+     * @param string     $action Action to finish
+     * @param Controller $task   Task context
+     * 
+     * @return void
+     */
+    public function finishRunningActionOnBeforeExit(string $action, Controller $task) : void
+    {
+        $this->finishRunningActionsOnBeforeExit[] = function() use($action, $task) {
+            $task->finishAction($action);
+        };
     }
     
     /**
