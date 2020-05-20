@@ -8,6 +8,7 @@ use SilverCart\Dev\SeoTools;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
@@ -22,6 +23,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Permission;
+use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\HTML;
@@ -468,6 +470,7 @@ class Page extends SiteTree
             'name'    => 'robots',
             'content' => self::getRobotsTag(),
         ]) . PHP_EOL;
+        $tags        .= $this->OpenGraphMetaTags();
         return $tags;
     }
     
@@ -876,5 +879,77 @@ class Page extends SiteTree
         } else {
             return $link;
         }
+    }
+    /**
+     * Meta Tags for Social Sharing Pages and Products
+     * 
+     * @return string
+     * 
+     * @author Jiri Ripa <jripa@pixeltricks.de>
+     * @since 08.05.2020
+     */
+    public function OpenGraphMetaTags() : string
+    {
+        $tags       = "";
+        $siteConfig = SiteConfig::current_site_config();
+        $ctrl       = Controller::curr();
+        $image      = null;
+        $ogType     = "website";
+        $tags      .= HTML::createTag('meta', [
+            'property' => 'og:site_name',
+            'content'  => $siteConfig->Title,
+        ]) . PHP_EOL;
+        $tags      .= HTML::createTag('meta', [
+            'property' => 'og:url',
+            'content'  => Director::absoluteURL($this->Link()),
+        ]) . PHP_EOL;
+        $metaTitle  = $this->MetaTitle ? $this->MetaTitle : $this->getTitle() ;
+        $tags      .= HTML::createTag('meta', [
+            'property' => 'og:title',
+            'content'  => $metaTitle,
+        ]) . PHP_EOL;
+        $tags      .= HTML::createTag('meta', [
+            'property' => 'og:description',
+            'content'  => $this->MetaDescription,
+        ]) . PHP_EOL;
+        if ($ctrl instanceof ProductGroupPageController 
+         && $ctrl->isProductDetailView()
+        ) {
+            $ogType  = "product:item";
+            $product = $ctrl->getDetailViewProduct();
+            $image   = $product->getListImage();
+        } elseif ($ctrl instanceof ProductGroupPageController) {
+            $ogType  = "product:group";
+            $image   = $this->GroupPicture();
+            if ((!($image instanceof Image)
+              || !$image->exists())
+             && $this->getProductsToDisplay()->exists()
+            ) {
+                $image = $this->getProductsToDisplay()->first()->getListImage();
+            }
+        }
+        if (!($image instanceof Image)
+         || !$image->exists()
+        ) {
+            $image = $siteConfig->MobileTouchIcon();
+            if (!($image instanceof Image)
+             || !$image->exists()
+            ) {
+                $image = $siteConfig->ShopLogo();
+            }
+        }
+        if ($image instanceof Image 
+         && $image->exists()
+        ) {
+            $tags  .= HTML::createTag('meta', [
+                'property' => 'og:image',
+                'content'  => $image->Pad(250,250)->getAbsoluteURL(),
+            ]) . PHP_EOL;
+        }
+            $tags  .= HTML::createTag('meta', [
+                'property' => 'og:type',
+                'content'  => $ogType,
+        ]) . PHP_EOL;
+        return $tags;        
     }
 }
