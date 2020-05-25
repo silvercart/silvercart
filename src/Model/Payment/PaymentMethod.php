@@ -875,12 +875,14 @@ class PaymentMethod extends DataObject
         if (!$shippingCountry) {
             return ArrayList::create();
         }
-        
+        $paymentMethod          = self::singleton();
         $allowedPaymentMethods  = [];
         $paymentMethods         = $shippingCountry->PaymentMethods()->filter('isActive', true);
         $member                 = Customer::currentUser();
-        if (!$member &&
-            $forceAnonymousCustomerIfNotExist) {
+        $paymentMethod->extend('onBeforeGetAllowedPaymentMethodsFor', $allowedPaymentMethods, $paymentMethods, $shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist);
+        if (!$member
+         && $forceAnonymousCustomerIfNotExist
+        ) {
             $member         = Member::create();
             $anonymousGroup = Group::get()->filter('Code', Customer::GROUP_CODE_ANONYMOUS)->first();
             $memberGroups   = ArrayList::create();
@@ -888,7 +890,6 @@ class PaymentMethod extends DataObject
         } else {
             $memberGroups = $member->Groups();
         }
-        
         $shippingMethodID = null;
         if (Controller::curr() instanceof CheckoutStepController) {
             $checkoutData = Controller::curr()->getCheckout()->getData();
@@ -896,14 +897,12 @@ class PaymentMethod extends DataObject
                 $shippingMethodID   = $checkoutData['ShippingMethod'];
             }
         }
-        
-        if ($paymentMethods) {
+        if ($paymentMethods->exists()) {
             foreach ($paymentMethods as $paymentMethod) {
                 $assumePaymentMethod = true;
                 $containedInGroup    = false;
                 $containedInUsers    = false;
                 $doAccessChecks      = true;
-
                 // ------------------------------------------------------------
                 // Basic checks
                 // ------------------------------------------------------------
@@ -911,14 +910,11 @@ class PaymentMethod extends DataObject
                     $assumePaymentMethod = $paymentMethod->isActivationByOrderRestrictionsPossible($member);
                     $doAccessChecks      = false;
                 }
-                
                 $checkAmount = $shoppingCart->getAmountTotalWithoutFees()->getAmount();
-
                 if (!$paymentMethod->isAvailableForAmount($checkAmount)) {
                     $assumePaymentMethod = false;
                     $doAccessChecks      = false;
                 }
-                
                 // ------------------------------------------------------------
                 // Shipping method check
                 // ------------------------------------------------------------
@@ -929,11 +925,9 @@ class PaymentMethod extends DataObject
                     $assumePaymentMethod = false;
                     $doAccessChecks      = false;
                 }
-                
                 // ------------------------------------------------------------
                 // Access checks
                 // ------------------------------------------------------------
-                
                 if ($doAccessChecks) {
                     // Check if access for groups or is set positively
                     if ($paymentMethod->ShowOnlyForGroups()->exists()) {
@@ -943,20 +937,17 @@ class PaymentMethod extends DataObject
                                 break;
                             }
                         }
-
                         if ($containedInGroup) {
                             $assumePaymentMethod = true;
                         } else {
                             $assumePaymentMethod = false;
                         }
                     }
-
                     // Check if access for users or is set positively
                     if ($paymentMethod->ShowOnlyForUsers()->exists()) {
                         if ($paymentMethod->ShowOnlyForUsers()->find('ID', $member->ID)) {
                             $containedInUsers = true;
                         }
-
                         if ($containedInUsers) {
                             $assumePaymentMethod = true;
                         } else {
@@ -965,7 +956,6 @@ class PaymentMethod extends DataObject
                             }
                         }
                     }
-
                     // Check if access for groups is set negatively
                     if ($paymentMethod->ShowNotForGroups()->exists()) {
                         foreach ($paymentMethod->ShowNotForGroups() as $paymentGroup) {
@@ -976,7 +966,6 @@ class PaymentMethod extends DataObject
                             }
                         }
                     }
-
                     // Check if access for users is set negatively
                     if ($paymentMethod->ShowNotForUsers()->exists()) {
                         if ($paymentMethod->ShowNotForUsers()->find('ID', $member->ID)) {
@@ -986,15 +975,13 @@ class PaymentMethod extends DataObject
                         }
                     }
                 }
-                
                 if ($assumePaymentMethod) {
                     $allowedPaymentMethods[] = $paymentMethod;
                 }
             }
         }
-        
+        $paymentMethod->extend('onAfterGetAllowedPaymentMethodsFor', $allowedPaymentMethods, $paymentMethods, $shippingCountry, $shoppingCart, $forceAnonymousCustomerIfNotExist);
         $allowedPaymentMethodList = ArrayList::create($allowedPaymentMethods);
-        
         return $allowedPaymentMethodList;
     }
     
