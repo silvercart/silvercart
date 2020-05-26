@@ -123,7 +123,7 @@ class SearchResultsPage extends ProductGroupPage
      */
     public function getMetaTitle() : string
     {
-        $metaTitle = $this->getField('MetaTitle');
+        $metaTitle = (string) $this->getField('MetaTitle');
         if (!$this->getCMSFieldsIsCalled
          && !Tools::isBackendEnvironment()
         ) {
