@@ -1092,7 +1092,8 @@ class Address extends DataObject implements PermissionProvider
         $currentCustomer  = Customer::currentUser();
         if (($currentCustomer instanceof Member
           && $this->ID == $currentCustomer->InvoiceAddressID)
-         || $this->ID == $this->Member()->InvoiceAddressID
+         || ($this->exists()
+          && $this->ID == $this->Member()->InvoiceAddressID)
          || $this->isAnonymousInvoiceAddress()
         ) {
             $isInvoiceAddress = true;
@@ -1122,7 +1123,8 @@ class Address extends DataObject implements PermissionProvider
         $currentCustomer   = Customer::currentUser();
         if (($currentCustomer instanceof Member
           && $this->ID == $currentCustomer->ShippingAddressID)
-         || $this->ID == $this->Member()->ShippingAddressID
+         || ($this->exists()
+          && $this->ID == $this->Member()->ShippingAddressID)
          || $this->isAnonymousShippingAddress()
         ) {
             $isShippingAddress = true;
@@ -1290,6 +1292,25 @@ class Address extends DataObject implements PermissionProvider
     {
         $contentParts = $this->extend('updateBeforeAddressContent');
         return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
+     * Executes an extension hook to add some HTML content before rendering the 
+     * country data.
+     * 
+     * @return string
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 27.05.2020
+     */
+    public function BeforeCountryContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateBeforeCountryContent');
+        $html         = implode('<br/>', $contentParts);
+        if (!empty($html)) {
+            $html .= '<br/>';
+        }
+        return DBHTMLText::create()->setValue($html);
     }
     
     /**
