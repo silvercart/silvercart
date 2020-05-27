@@ -1268,47 +1268,61 @@ class Address extends DataObject implements PermissionProvider
      * Executes an extension hook to add some HTML content after rendering the 
      * default address content.
      * 
+     * @param string $separator Separator string to use between the content parts
+     * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.07.2019
      */
-    public function AfterAddressContent() : DBHTMLText
+    public function AfterAddressContent(string $separator = '<br/>') : DBHTMLText
     {
         $contentParts = $this->extend('updateAfterAddressContent');
-        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+        $html         = implode($separator, $contentParts);
+        if (!empty($html)) {
+            $html .= $separator;
+        }
+        return DBHTMLText::create()->setValue($html);
     }
     
     /**
      * Executes an extension hook to add some HTML content before rendering the 
      * default address content.
      * 
+     * @param string $separator Separator string to use between the content parts
+     * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.07.2019
      */
-    public function BeforeAddressContent() : DBHTMLText
+    public function BeforeAddressContent(string $separator = '<br/>') : DBHTMLText
     {
         $contentParts = $this->extend('updateBeforeAddressContent');
-        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+        $html         = implode($separator, $contentParts);
+        if (!empty($html)) {
+            $html .= $separator;
+        }
+        return DBHTMLText::create()->setValue($html);
     }
     
     /**
      * Executes an extension hook to add some HTML content before rendering the 
      * country data.
      * 
+     * @param string $separator Separator string to use between the content parts
+     * 
      * @return string
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.05.2020
      */
-    public function BeforeCountryContent() : DBHTMLText
+    public function BeforeCountryContent(string $separator = '<br/>') : DBHTMLText
     {
         $contentParts = $this->extend('updateBeforeCountryContent');
-        $html         = implode('<br/>', $contentParts);
+        $html         = implode($separator, $contentParts);
         if (!empty($html)) {
-            $html .= '<br/>';
+            $html .= $separator;
         }
         return DBHTMLText::create()->setValue($html);
     }
