@@ -655,7 +655,10 @@ class Checkout extends ViewableData
      */
     public function setCurrentStepName(string $currentStepName) : Checkout
     {
-        $this->currentStepName = $currentStepName;
+        if ($this->currentStepName !== $currentStepName) {
+            $this->currentStep     = null;
+            $this->currentStepName = $currentStepName;
+        }
         return $this;
     }
 
