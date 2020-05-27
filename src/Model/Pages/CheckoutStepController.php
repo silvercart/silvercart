@@ -4,6 +4,7 @@ namespace SilverCart\Model\Pages;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Checkout\Checkout;
+use SilverCart\Checkout\CheckoutStep1;
 use SilverCart\Checkout\CheckoutStep3;
 use SilverCart\Checkout\CheckoutStep4;
 use SilverCart\Dev\Tools;
@@ -18,6 +19,7 @@ use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
@@ -288,6 +290,22 @@ class CheckoutStepController extends \PageController
             $this->redirect($this->Link());
         }
         return null;
+    }
+    
+    /**
+     * Welcome action after finishing the registration in checkout.
+     * 
+     * @param HTTPRequest $request HTTP request
+     * 
+     * @return HTTPResponse
+     */
+    public function welcome(HTTPRequest $request) : HTTPResponse
+    {
+        $currentStep = $this->getCheckout()->getCurrentStep();
+        if ($currentStep instanceof CheckoutStep1) {
+            $currentStep->complete();
+        }
+        return HTTPResponse::create($this->render(), 200);
     }
     
     /**
