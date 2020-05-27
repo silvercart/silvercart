@@ -1,5 +1,6 @@
 en:
     SilverCart:
+        Actions: 'Actions'
         Buy1: 'Buy {title}'
         Buy2: 'Buy {title1} {title2}'
         Change: Change
