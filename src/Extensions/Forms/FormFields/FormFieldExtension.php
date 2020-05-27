@@ -16,6 +16,8 @@ use SilverStripe\View\SSViewer;
  * @since 28.06.2018
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property FormField $owner Owner
  */
 class FormFieldExtension extends Extension
 {
@@ -25,6 +27,12 @@ class FormFieldExtension extends Extension
      * @var bool
      */
     protected $validationFailed = false;
+    /**
+     * Determines whether the field is required (forces).
+     *
+     * @var bool[]
+     */
+    protected $requiredForced = [];
     
     /**
      * Returns whether the field validation failed.
@@ -47,6 +55,38 @@ class FormFieldExtension extends Extension
     {
         $this->owner->validationFailed = $validationFailed;
         return $this->owner;
+    }
+    
+    /**
+     * Forces the required attribute.
+     * 
+     * @param bool $isRequired Enable forcing the required attribute or not?
+     * 
+     * @return FormField
+     */
+    public function setRequiredForced(bool $isRequired) : FormField
+    {
+        if ($isRequired) {
+            $this->requiredForced[$this->owner->ID()] = true;
+            $this->owner->setAttribute('required', 'required');
+        } else {
+            $this->requiredForced[$this->owner->ID()] = false;
+        }
+        return $this->owner;
+    }
+    
+    /**
+     * Returns whether the required attribute should be forced.
+     * 
+     * @return bool
+     */
+    public function getRequiredForced() : bool
+    {
+        $is = false;
+        if (array_key_exists($this->owner->ID(), $this->requiredForced)) {
+            $is = $this->requiredForced[$this->owner->ID()];
+        }
+        return $is;
     }
     
     /**
@@ -82,6 +122,9 @@ class FormFieldExtension extends Extension
      */
     public function updateAttributes(&$attributes) : void
     {
+        if ($this->getRequiredForced()) {
+            return;
+        }
         if (!$this->HasRequiredProperty()) {
             if (array_key_exists('required', $attributes)) {
                 unset($attributes['required']);
