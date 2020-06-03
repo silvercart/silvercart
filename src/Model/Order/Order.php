@@ -1628,6 +1628,16 @@ class Order extends DataObject implements PermissionProvider
         }
         return $this;
     }
+    
+    /**
+     * Returns whether this order has the payment status open.
+     * 
+     * @return bool
+     */
+    public function isPaymentStatusOpen() : bool
+    {
+        return $this->PaymentStatus()->Code === PaymentStatus::STATUS_CODE_OPEN;
+    }
 
     /**
      * set status of $this
@@ -2824,6 +2834,30 @@ class Order extends DataObject implements PermissionProvider
             $this->InvoiceAddress()->write();
         }
         $this->extend('updateOnBeforeWrite');
+    }
+    
+    /**
+     * On before delete.
+     * 
+     * @return void
+     */
+    protected function onBeforeDelete() : void
+    {
+        parent::onBeforeDelete();
+        if ($this->ShippingAddress()->exists()) {
+            $this->ShippingAddress()->delete();
+        }
+        if ($this->InvoiceAddress()->exists()) {
+            $this->InvoiceAddress()->delete();
+        }
+        foreach ($this->OrderPositions() as $position) {
+            /* @var $position OrderPosition */
+            $position->delete();
+        }
+        foreach ($this->OrderLogs() as $log) {
+            /* @var $log OrderLog */
+            $log->delete();
+        }
     }
     
     /**
