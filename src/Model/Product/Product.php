@@ -2214,6 +2214,21 @@ class Product extends DataObject implements PermissionProvider
     {
         return Tools::string2urlSegment($this->Title);
     }
+    
+    /**
+     * Returns the DataList filter for shopping cart positions related to this product.
+     * 
+     * @param int $cartID ID of the users shopping cart
+     * 
+     * @return array
+     */
+    public function getAddToCartPositionFilter(int $cartID) : array
+    {
+        return [
+            'ProductID'      => $this->ID,
+            'ShoppingCartID' => $cartID,
+        ];
+    }
 
     /**
      * adds an product to the cart or increases its amount
@@ -2254,21 +2269,15 @@ class Product extends DataObject implements PermissionProvider
         ) {
             return $shoppingCartPosition;
         }
-
-        $shoppingCartPosition = ShoppingCartPosition::get()->filter([
-            'ProductID'      => $this->ID,
-            'ShoppingCartID' => $cartID,
-        ])->first();
+        $filter               = $this->getAddToCartPositionFilter($cartID);
+        $shoppingCartPosition = ShoppingCartPosition::get()->filter($filter)->first();
 
         if (!($shoppingCartPosition instanceof ShoppingCartPosition)
          || !$shoppingCartPosition->exists()
         ) {
             $isNewPosition        = true;
             $shoppingCartPosition = ShoppingCartPosition::create()
-                    ->castedUpdate([
-                        'ShoppingCartID' => $cartID,
-                        'ProductID'      => $this->ID,
-                    ]);
+                    ->castedUpdate($filter);
             $shoppingCartPosition->write();
         }
         
