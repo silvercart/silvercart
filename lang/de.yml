@@ -51,6 +51,10 @@ de:
         CookiePolicyConfigButtonTextDefault: 'Verstanden!'
         CookiePolicyConfigPolicyText: 'Text "Weitere Informationen"'
         CookiePolicyConfigPolicyTextDefault: 'Weitere Informationen'
+    SilverCart\Extensions\Model\FontAwesomeExtension:
+        FontAwesomeIcon: 'Font Awesome Icon'
+        FontAwesomeIconDesc: 'Erweiterte Suche auf der <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Font Awesome Icon Referenz-Seite</a> öffnen.'
+        FontAwesomeIconRightTitle: 'Das Font Awesome Icon wird an werbewirksamen Stellen wie z.B. einer CMS-Seite für eine Paket-Auswahl angezeigt.'
     SilverCart\Extensions\ORM\PaginatedListExtension:
         Info: 'Seite {currentPage}, Eintrag {firstItem} - {lastItem}'
         Info2Plural: '{totalItems} Einträge auf {totalPages} Seiten'

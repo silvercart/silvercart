@@ -1,0 +1,1 @@
+<% if $FontAwesomeIcon %><span class="{$FontAwesomeIcon} {$CSSClasses}"></span><% end_if %>
