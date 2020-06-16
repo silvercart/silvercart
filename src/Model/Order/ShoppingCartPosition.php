@@ -16,6 +16,7 @@ use SilverStripe\ORM\FieldType\DBDecimal;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\Security;
 
 /**
  * abstract for shopping cart positions.
@@ -95,6 +96,36 @@ class ShoppingCartPosition extends DataObject
     public function plural_name() : string
     {
         return Tools::plural_name_for($this);
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     */
+    public function canDelete($member = null) : bool
+    {
+        $canDelete = false;
+        if (is_null($member)) {
+            $member = Security::getCurrentUser();
+        }
+        if ($member instanceof Member
+         && $member->ID === $this->ShoppingCart()->Member()->ID
+         && !is_null($this->ShoppingCart()->Member()->ID)
+        ) {
+            $canDelete = true;
+        }
+        $results = $this->extend('canDelete', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $canDelete = false;
+            }
+        }
+        return $canDelete;
     }
 
     /**

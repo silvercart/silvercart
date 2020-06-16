@@ -30,10 +30,15 @@ class RemovePositionForm extends UpdatePositionForm {
      */
     public function getCustomActions() {
         $this->beforeUpdateCustomActions(function (array &$actions) {
-            $actions += [
-                FormAction::create('submit', Page::singleton()->fieldLabel('RemoveFromCart'))
-                    ->setUseButtonTag(true)->addExtraClass('btn btn-mini btn-danger')
-            ];
+            $position = $this->getPosition();
+            if ($position instanceof ShoppingCartPosition
+             && $position->canDelete()
+            ) {
+                $actions += [
+                    FormAction::create('submit', Page::singleton()->fieldLabel('RemoveFromCart'))
+                        ->setUseButtonTag(true)->addExtraClass('btn btn-mini btn-danger')
+                ];
+            }
         });
         return parent::getCustomActions();
     }
