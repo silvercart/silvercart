@@ -1,8 +1,35 @@
 (function($) {
-    $('.silvercart-permanent-notification .btn-close').live('click', function() {
+    $(document).on('click', '.silvercart-permanent-notification .btn-close', function() {
         $(this).closest('.silvercart-permanent-notification').fadeOut();
     });
-    
+    $(document).on('click', '#Form_ItemEditForm_action_doSave', function(e) {
+        var doSubmit = true,
+            form     = $(this).closest('#Form_ItemEditForm');
+        if ($('#Form_ItemEditForm_PaymentMethod', form).length > 0
+         && $('#Form_ItemEditForm_ClassName', form).length > 0
+         && $('#Form_ItemEditForm_PaymentChannel', form).length > 0
+        ) {
+            if ($('#Form_ItemEditForm_PaymentMethod', form).val() === '') {
+                alert(ss.i18n._t('SilverCart.PleaseChoosePaymentMethod', 'Please choose a payment method!'));
+                e.preventDefault();
+                doSubmit = false;
+            } else {
+                var className, paymentChannel, list,
+                    paymentMethod = $('#Form_ItemEditForm_PaymentMethod', form).val();
+                if (paymentMethod.indexOf('--') === -1) {
+                    className      = paymentMethod;
+                    paymentChannel = '';
+                } else {
+                    list           = paymentMethod.split('--');
+                    className      = list[0];
+                    paymentChannel = list[1];
+                }
+                $('#Form_ItemEditForm_ClassName').val(className);
+                $('#Form_ItemEditForm_PaymentChannel').val(paymentChannel);
+            }
+        }
+        return doSubmit;
+    });
     $.entwine('ss', function($) {
 
         /**

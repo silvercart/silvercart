@@ -40,6 +40,7 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\OptionsetField;
 use SilverStripe\Forms\ReadonlyField;
@@ -58,6 +59,7 @@ use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\LessThanFilter;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
+use SilverStripe\Versioned\RecursivePublishable;
 
 /**
  * Base class for payment.
@@ -266,12 +268,6 @@ class PaymentMethod extends DataObject
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
-    /**
-     * Set to true to delete the object after writing.
-     *
-     * @var bool
-     */
-    protected $deleteAfterWrite = false;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -1277,33 +1273,13 @@ class PaymentMethod extends DataObject
                 ) = explode('--', $paymentMethod);
             }
             unset($_POST['PaymentMethod']);
-            
-            $payment = Injector::inst()->get($paymentMethod);
-            $payment->Name  = _t($paymentMethod . '.NAME',  $payment->moduleName);
-            if (!empty($paymentChannel)) {
-                $payment->Name = $this->getPaymentChannelName($paymentChannel);
-                $payment->PaymentChannel = $paymentChannel;
+            if ($_POST['ClassName'] === $paymentMethod
+             && $_POST['PaymentChannel'] === $paymentChannel
+            ) {
+                $this->Name = $this->getPaymentChannelName($paymentChannel);
             }
-            $payment->write();
-            $this->deleteAfterWrite = true;
         }
         parent::onBeforeWrite();
-    }
-
-    /**
-     * On after write. Deletes the payment method right after creating it if necessary.
-     * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.02.2017
-     */
-    public function onAfterWrite()
-    {
-        parent::onAfterWrite();
-        if ($this->deleteAfterWrite == true) {
-            $this->delete();
-        }
     }
 
     /**
@@ -1311,45 +1287,52 @@ class PaymentMethod extends DataObject
      *
      * @return FieldList the fields for the backend
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
         $this->getCMSFieldsIsCalled = true;
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
-            $paymentMethods = [];
-            $subClasses = ClassInfo::subclassesFor(get_class($this));
-            foreach ($subClasses as $subClass) {
-                if ($subClass == PaymentMethod::class) {
-                    continue;
-                }
-                $subObject = singleton($subClass);
-                $paymentMethods[$subClass] = [
-                    'channels' => $subObject->getPossiblePaymentChannels(),
-                    'name'     => _t($subClass . '.NAME',  $subObject->moduleName),
-                    'title'    => _t($subClass . '.TITLE',  $subObject->moduleName),
-                ];
-            }
-
-            $paymentMethodsSource = [];
-            foreach ($paymentMethods as $paymentMethodName => $paymentMethodData) {
-                if (count($paymentMethodData['channels']) > 0) {
-                    foreach ($paymentMethodData['channels'] as $channelName => $channelTitle) {
-                        $paymentMethodsSource[$paymentMethodName . '--' . $channelName] = $channelTitle;
+            if (!$this->exists()) {
+                $paymentMethods = [];
+                $subClasses = ClassInfo::subclassesFor(get_class($this));
+                foreach ($subClasses as $subClass) {
+                    if ($subClass == PaymentMethod::class) {
+                        continue;
                     }
-                } else {
-                    $paymentMethodsSource[$paymentMethodName] = $paymentMethodData['title'];
+                    $subObject = singleton($subClass);
+                    $paymentMethods[$subClass] = [
+                        'channels' => $subObject->getPossiblePaymentChannels(),
+                        'name'     => _t("{$subClass}.NAME",  $subObject->moduleName),
+                        'title'    => _t("{$subClass}.TITLE", $subObject->moduleName),
+                    ];
                 }
-            }
-            asort($paymentMethodsSource);
-
-            $paymentMethodsField = DropdownField::create('PaymentMethod', $this->singular_name());
-            $paymentMethodsField->setSource($paymentMethodsSource);
-            $fields->addFieldToTab('Root.Main', $paymentMethodsField);
-
-            foreach (self::$db as $dbFieldName => $dbFieldType) {
-                $fields->removeByName($dbFieldName);
-            }
-            foreach (self::$has_one as $has_oneFieldName => $has_oneFieldType) {
-                $fields->removeByName($has_oneFieldName . 'ID');
+                $paymentMethodsSource = [];
+                foreach ($paymentMethods as $paymentMethodName => $paymentMethodData) {
+                    if (count($paymentMethodData['channels']) > 0) {
+                        foreach ($paymentMethodData['channels'] as $channelName => $channelTitle) {
+                            $paymentMethodsSource["{$paymentMethodName}--{$channelName}"] = $channelTitle;
+                        }
+                    } else {
+                        $paymentMethodsSource[$paymentMethodName] = $paymentMethodData['title'];
+                    }
+                }
+                asort($paymentMethodsSource);
+                $firstClassName      = array_key_first($paymentMethodsSource);
+                $firstPaymentChannel = '';
+                if (strpos($firstClassName, '--') !== false) {
+                    list($firstClassName, $firstPaymentChannel) = explode('--', $firstClassName);
+                }
+                $paymentMethodsSource = array_merge([
+                    '' => Tools::field_label('PleaseChoose'),
+                ], $paymentMethodsSource);
+                $fields->addFieldToTab('Root.Main', DropdownField::create('PaymentMethod', $this->singular_name(), $paymentMethodsSource));
+                $fields->addFieldToTab('Root.Main', HiddenField::create('ClassName', '', $firstClassName));
+                $fields->addFieldToTab('Root.Main', HiddenField::create('PaymentChannel', '', $firstPaymentChannel));
+                foreach (self::$db as $dbFieldName => $dbFieldType) {
+                    $fields->removeByName($dbFieldName);
+                }
+                foreach (self::$has_one as $has_oneFieldName => $has_oneFieldType) {
+                    $fields->removeByName("{$has_oneFieldName}ID");
+                }
             }
         });
         return DataObjectExtension::getCMSFields($this);
