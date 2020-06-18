@@ -293,6 +293,18 @@ class ShoppingCartPosition extends DataObject
     }
 
     /**
+     * Returns the single price.
+     *
+     * @return DBMoney
+     */
+    public function getSinglePrice() : DBMoney
+    {
+        $price = $this->getPrice(true);
+        $this->extend('updateSinglePrice', $price);
+        return $price;
+    }
+
+    /**
      * Returns the shop product number
      *
      * @return string
