@@ -15,3 +15,13 @@ SilverStripe\Core\Injector\Injector:
   PartialMatchOrNullFilter: '%$DataListFilter.PartialMatchOrNull'
   StartsWithOrNullFilter: '%$DataListFilter.StartsWithOrNull'
   LowerCaseFilter: '%$DataListFilter.LowerCase'
+---
+Name: asdaf
+---
+SilverStripe\Security\Member:
+  title_format:
+      columns:
+          - CustomerNumber
+          - Surname
+          - FirstName
+      sep: ', '
