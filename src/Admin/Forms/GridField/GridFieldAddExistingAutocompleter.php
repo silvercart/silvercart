@@ -43,11 +43,22 @@ class GridFieldAddExistingAutocompleter extends SilverStripeGridFieldAddExisting
      */
     public function scaffoldSearchFields($dataClass) {
         $fields            = parent::scaffoldSearchFields($dataClass);
+        $db                = Config::inst()->get($dataClass, 'db');
         $has_many          = Config::inst()->get($dataClass, 'has_many');
         $many_many         = Config::inst()->get($dataClass, 'many_many');
         $belongs_many_many = Config::inst()->get($dataClass, 'belongs_many_many');
         
         foreach ($fields as $key => $value) {
+            $fieldName = $value;
+            if (strpos($value, '\\') !== false
+             && strpos($value, ':') !== false
+            ) {
+                list($fieldName, $filter) = explode(':', $value);
+                $classNameParts = explode('\\', $filter);
+                $filterName     = array_pop($classNameParts);
+                $value          = "{$fieldName}:{$filterName}";
+                $fields[$key]   = $value;
+            }
             if (strpos($value, '.') !== false) {
                 $parts        = explode('.', $value, 2);
                 $relationName = $parts[0];
@@ -59,6 +70,10 @@ class GridFieldAddExistingAutocompleter extends SilverStripeGridFieldAddExisting
                 } elseif (is_array($belongs_many_many) && array_key_exists($relationName, $belongs_many_many)) {
                     unset($fields[$key]);
                 }
+            } elseif (array_key_exists($fieldName, $db)
+                   && strpos($db[$fieldName], 'Boolean') === 0
+            ) {
+                unset($fields[$key]);
             }
         }
         
