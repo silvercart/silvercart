@@ -160,6 +160,7 @@ class ActionHandler extends Controller
                 'QuantityInCartString' => $quantityInCartString,
                 'HTMLDropdown'         => $htmlDropdown,
                 'HTMLModal'            => $htmlModal,
+                'Redirect'             => $this->redirectedTo() ? $this->getResponse()->getHeader('Location') : '',
             ];
             print json_encode($json);
             exit();
