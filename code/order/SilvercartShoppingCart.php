@@ -338,7 +338,7 @@ class SilvercartShoppingCart extends DataObject {
         $cacheKey = 'ChargesAndDiscountsForProducts_'.$cacheHash;
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
-            return $this->cacheHashes[$cacheKey];
+            //return $this->cacheHashes[$cacheKey];
         }
 
         $paymentMethodObj = $this->getPaymentMethod();
@@ -388,7 +388,7 @@ class SilvercartShoppingCart extends DataObject {
         $cacheKey = 'ChargesAndDiscountsForTotal_'.$cacheHash;
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
-            return $this->cacheHashes[$cacheKey];
+            //return $this->cacheHashes[$cacheKey];
         }
 
         $paymentMethodObj = $this->getPaymentMethod();
@@ -881,7 +881,7 @@ class SilvercartShoppingCart extends DataObject {
         $cacheKey = 'ggetTaxableShoppingcartPositions_'.$cacheHash;
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
-            return $this->cacheHashes[$cacheKey];
+            //return $this->cacheHashes[$cacheKey];
         }
 
         foreach ($this->SilvercartShoppingCartPositions() as $position) {
@@ -942,7 +942,7 @@ class SilvercartShoppingCart extends DataObject {
         $cacheKey = 'getTaxableAmountGrossWithoutFeesAndCharges_'.$cacheHash;
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
-            return $this->cacheHashes[$cacheKey];
+            //return $this->cacheHashes[$cacheKey];
         }
 
         $amountObj = Money::create();
@@ -1003,7 +1003,7 @@ class SilvercartShoppingCart extends DataObject {
         $cacheKey = 'getTaxableAmountNetWithoutFeesAndCharges_'.$cacheHash;
 
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
-            return $this->cacheHashes[$cacheKey];
+            //return $this->cacheHashes[$cacheKey];
         }
 
         $amountObj = Money::create();
