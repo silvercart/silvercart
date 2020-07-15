@@ -3118,21 +3118,23 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.2018
      */
-    public function calculateAmountTotal()
+    public function calculateAmountTotal() : float
     {
         $amountTotal = 0;
-
         foreach ($this->OrderPositions() as $orderPosition) {
+            $results = $orderPosition->extend('skipCalculateAmountTotal');
+            if (is_array($results)
+             && max($results) === true
+            ) {
+                continue;
+            }
             $amountTotal += $orderPosition->PriceTotal->getAmount();
         }
-        
         $amountTotal += $this->HandlingCostShipment->getAmount();
         $amountTotal += $this->HandlingCostPayment->getAmount();
-        
         if ($this->IsPriceTypeNet()) {
             $amountTotal += $this->getTaxTotalAmount();
         }
-        
         return $amountTotal;
     }
 
