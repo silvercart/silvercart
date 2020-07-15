@@ -237,25 +237,97 @@ class OrderPosition extends DataObject
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
+    
+    /**
+     * Returns some additional content to insert right after the nice price is 
+     * rendered.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterPriceNiceContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterPriceNiceContent', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
+    
+    /**
+     * Returns some additional content to insert right before the nice price is 
+     * rendered.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function BeforePriceNiceContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforePriceNiceContent', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
 
     /**
      * returns the orders total amount as string incl. currency.
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getPriceNice() : string
+    public function getPriceNice() : DBHTMLText
     {
-        return str_replace('.', ',', number_format($this->PriceAmount, 2)) . ' ' . $this->PriceCurrency;
+        $priceNice = $this->renderWith(self::class . '_PriceNice');
+        $this->extend('updatePriceNice', $priceNice);
+        return DBHTMLText::create()->setValue($priceNice);
+    }
+    
+    /**
+     * Returns some additional content to insert right after the nice price is 
+     * rendered.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterPriceTotalNiceContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterPriceTotalNiceContent', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
+    
+    /**
+     * Returns some additional content to insert right before the nice price is 
+     * rendered.
+     * 
+     * @return DBHTMLText
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 21.09.2018
+     */
+    public function BeforePriceTotalNiceContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforePriceTotalNiceContent', $content);
+        return DBHTMLText::create()->setValue($content);
     }
     
     /**
      * returns the orders total amount as string incl. currency.
      *
-     * @return string
+     * @return DBHTMLText
      */
-    public function getPriceTotalNice() : string
+    public function getPriceTotalNice() : DBHTMLText
     {
-        return str_replace('.', ',', number_format($this->PriceTotalAmount, 2)) . ' ' . $this->PriceTotalCurrency;
+        $priceNice = $this->renderWith(self::class . '_PriceTotalNice');
+        $this->extend('updatePriceTotalNice', $priceNice);
+        return DBHTMLText::create()->setValue($priceNice);
+    }
+    
+    /**
+     * Returns the tax value as a money object.
+     * 
+     * @return DBMoney
+     */
+    public function getTaxMoney() : DBMoney
+    {
+        return DBMoney::create()->setAmount($this->Tax)->setCurrency($this->Price->getCurrency());
     }
     
     /**
