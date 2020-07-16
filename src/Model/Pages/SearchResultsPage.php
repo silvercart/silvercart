@@ -149,7 +149,7 @@ class SearchResultsPage extends ProductGroupPage
             }
             $this->extend('updateMetaTitle', $metaTitle);
         }
-        return $metaTitle;
+        return (string) $metaTitle;
     }
     
     /**
