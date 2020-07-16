@@ -39,7 +39,6 @@ use SilverStripe\ORM\HasManyList;
  * 
  * @method Product           Product()       Returns the related Product.
  * @method PaymentMethod     PaymentMethod() Returns the related Payment Method.
- * @method SilverStripeImage Image()         Returns the related SilverStripe Image.
  * 
  * @method HasManyList ImageTranslations() Returns a list of translations for this image.
  */
@@ -109,6 +108,12 @@ class Image extends DataObject
      * @var string
      */
     protected $link = null;
+    /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
 
     /**
      * Constructor. Overwrites some basic attributes.
@@ -165,6 +170,25 @@ class Image extends DataObject
     }
     
     /**
+     * Returns the image respecting the current translation context.
+     * 
+     * @return Image
+     */
+    public function Image() : SilverStripeImage
+    {
+        $image = $this->getComponent('Image');
+        if (!$this->getCMSFieldsIsCalled) {
+            $translation = $this->getTranslation();
+            if (is_object($translation)
+             && $translation->ImageFile()->exists()
+            ) {
+                $image = $translation->ImageFile();
+            }
+        }
+        return $image;
+    }
+    
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -193,6 +217,7 @@ class Image extends DataObject
      */
     public function getCMSFields() : FieldList
     {
+        $this->getCMSFieldsIsCalled = true;
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             $fields->removeByName('ProductID');
             $fields->removeByName('PaymentMethodID');

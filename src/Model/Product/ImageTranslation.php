@@ -4,6 +4,7 @@ namespace SilverCart\Model\Product;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Image;
+use SilverStripe\Assets\Image as SilverStripeImage;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -41,7 +42,8 @@ class ImageTranslation extends DataObject
      * @var array
      */
     private static $has_one = [
-        'Image' => Image::class,
+        'ImageFile' => SilverStripeImage::class,
+        'Image'     => Image::class,
     ];
     /**
      * DB table name

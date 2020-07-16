@@ -10,6 +10,7 @@ use SilverCart\Model\Widgets\ImageSliderWidget;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\ORM\DataObject;
@@ -20,78 +21,81 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * Provides additional (meta-)information about the image.
  *
  * @package SilverCart
- * @subpackage Model_Widgets
+ * @subpackage Model\Widgets
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 09.10.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class ImageSliderImage extends DataObject {
-    
+class ImageSliderImage extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * DB properties
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'ProductNumberToReference'  => 'Varchar(128)',
-    );
-    
+    ];
     /**
      * Casted properties
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'Title'             => 'Varchar',
         'Content'           => 'HTMLText',
         'AltText'           => 'Varchar',
         'TableIndicator'    => 'Text',
         'Thumbnail'         => 'HTMLText',
-    );
-    
+    ];
     /**
      * Has-one relationships.
      * 
      * @var array
      */
-    private static $has_one = array(
+    private static $has_one = [
         'Image'     => Image::class,
         'SiteTree'  => SiteTree::class,
-    );
-    
+    ];
     /**
      * 1:n relationships.
      *
      * @var array
      */
-    private static $has_many = array(
+    private static $has_many = [
         'ImageSliderImageTranslations' => ImageSliderImageTranslation::class,
-    );
-    
+    ];
     /**
      * Belongs-many-many relationships.
      * 
      * @var array
      */
-    private static $belongs_many_many = array(
+    private static $belongs_many_many = [
         'ImageSliderWidgets' => ImageSliderWidget::class,
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartImageSliderImage';
+    /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
     
     /**
      * getter for the Title, looks for set translation
      * 
      * @return string The Title from the translation object or an empty string
      */
-    public function getTitle() {
-        return $this->getTranslationFieldValue('Title');
+    public function getTitle() : string
+    {
+        return (string) $this->getTranslationFieldValue('Title');
     }
     
     /**
@@ -99,11 +103,9 @@ class ImageSliderImage extends DataObject {
      * the class name will be returned.
      * 
      * @return string The objects singular name 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.03.2014
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
     
@@ -112,11 +114,9 @@ class ImageSliderImage extends DataObject {
      * the class name will be returned.
      * 
      * @return string the objects plural name
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.03.2014
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this);
     }
     
@@ -131,11 +131,12 @@ class ImageSliderImage extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding() : array
+    {
+        $excludeFromScaffolding = [
             'ImageSliderWidgets',
             'SortOrder'
-        );
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         return $excludeFromScaffolding;
     }
@@ -145,7 +146,8 @@ class ImageSliderImage extends DataObject {
      * 
      * @return string The content from the translation object or an empty string
      */
-    public function getContent() {
+    public function getContent()
+    {
         return $this->getTranslationFieldValue('Content');
     }
     
@@ -154,12 +156,32 @@ class ImageSliderImage extends DataObject {
      * 
      * @return string
      */
-    public function getAltText() {
+    public function getAltText() : string
+    {
         $altText = $this->getTranslationFieldValue('AltText');
         if (empty($altText)) {
             $altText = $this->Title;
         }
-        return $altText;
+        return (string) $altText;
+    }
+    
+    /**
+     * Returns the image respecting the current translation context.
+     * 
+     * @return Image
+     */
+    public function Image() : Image
+    {
+        $image = $this->getComponent('Image');
+        if (!$this->getCMSFieldsIsCalled) {
+            $translation = $this->getTranslation();
+            if (is_object($translation)
+             && $translation->Image()->exists()
+            ) {
+                $image = $translation->Image();
+            }
+        }
+        return $image;
     }
     
     /**
@@ -167,23 +189,25 @@ class ImageSliderImage extends DataObject {
      * 
      * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'Image', false);
-        $siteTreeField = new TreeDropdownField(
-            'SiteTreeID',
-            $this->fieldLabel('Linkpage'),
-            SiteTree::class,
-            'ID',
-            'Title',
-            false
-        );
-        $productNumberToReferenceField = new TextField('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference'));
-        $productNumberToReferenceField->setDescription($this->fieldLabel('ProductNumberToReferenceInfo'));
-        $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
-        $fields->addFieldToTab('Root.Main', $productNumberToReferenceField, 'SiteTreeID');
-        $fields->removeByName('ImageSliderWidgets');
-        
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->getCMSFieldsIsCalled = true;
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $siteTreeField = TreeDropdownField::create(
+                'SiteTreeID',
+                $this->fieldLabel('Linkpage'),
+                SiteTree::class,
+                'ID',
+                'Title',
+                false
+            );
+            $productNumberToReferenceField = TextField::create('ProductNumberToReference', $this->fieldLabel('ProductNumberToReference'));
+            $productNumberToReferenceField->setDescription($this->fieldLabel('ProductNumberToReferenceInfo'));
+            $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
+            $fields->addFieldToTab('Root.Main', $productNumberToReferenceField, 'SiteTreeID');
+            $fields->removeByName('ImageSliderWidgets');
+        });
+        return DataObjectExtension::getCMSFields($this, 'Image', false);
     }
     
     /**
@@ -192,47 +216,34 @@ class ImageSliderImage extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.03.2014
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'AltText'                            => _t(ImageSliderImage::class . '.AltText', 'Text for ALT-Tag'),
-                'ImageSliderImageTranslations'       => ImageSliderImageTranslation::singleton()->plural_name(),
-                'Image'                              => Image::singleton()->singular_name(),
-                'Linkpage'                           => _t(ImageSliderImage::class . '.LINKPAGE', 'Page that shall be linked to'),
-                'ProductNumberToReference'           => _t(ImageSliderImage::class . '.ProductNumberToReference', 'Productnumber of the product to link to'),
-                'ProductNumberToReferenceInfo'       => _t(ImageSliderImage::class . '.ProductNumberToReferenceInfo', 'Will be used instead the page.'),
-                'SortOrder'                          => _t(Widget::class . '.SORT_ORDER_LABEL', 'Sort order'),
-                'Thumbnail'                          => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Thumbnail'),
-                'Title'                              => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Title'),
-                'ImageSliderImageTranslations.Title' => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Title'),
-            )
-        );
-
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'AltText'                            => _t(ImageSliderImage::class . '.AltText', 'Text for ALT-Tag'),
+            'ImageSliderImageTranslations'       => ImageSliderImageTranslation::singleton()->plural_name(),
+            'Image'                              => Image::singleton()->singular_name(),
+            'Linkpage'                           => _t(ImageSliderImage::class . '.LINKPAGE', 'Page that shall be linked to'),
+            'ProductNumberToReference'           => _t(ImageSliderImage::class . '.ProductNumberToReference', 'Productnumber of the product to link to'),
+            'ProductNumberToReferenceInfo'       => _t(ImageSliderImage::class . '.ProductNumberToReferenceInfo', 'Will be used instead the page.'),
+            'SortOrder'                          => _t(Widget::class . '.SORT_ORDER_LABEL', 'Sort order'),
+            'Thumbnail'                          => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Thumbnail'),
+            'Title'                              => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Title'),
+            'ImageSliderImageTranslations.Title' => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Title'),
+        ]);
     }
     
     /**
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 20.01.2012
      */
-    public function summaryFields() {
-        $summaryFields = array(
+    public function summaryFields() : array
+    {
+        $summaryFields = [
             'Thumbnail'      => $this->fieldLabel('Thumbnail'),
             'Title'          => $this->fieldLabel('Title'),
-        );
-
-
+        ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
     }
@@ -241,31 +252,29 @@ class ImageSliderImage extends DataObject {
      * Searchable fields definition
      *
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.03.2014
      */
-    public function searchableFields() {
-        $searchableFields = array(
-            'ImageSliderImageTranslations.Title' => array(
+    public function searchableFields() : array
+    {
+        $searchableFields = [
+            'ImageSliderImageTranslations.Title' => [
                 'title'  => $this->fieldLabel('Title'),
                 'filter' => PartialMatchFilter::class,
-            )
-        );
-            
+            ],
+        ];
         return $searchableFields;
     }
     
     /**
      * Returns the linked SiteTree object.
      *
-     * @return mixed SiteTree|boolean false
+     * @return SiteTree|Product|null
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.06.2014
      */
-    public function LinkedSite() {
+    public function LinkedSite()
+    {
         $linkedSite = false;
         if (!empty($this->ProductNumberToReference)) {
             $product = Product::get()->filter('ProductNumberShop', $this->ProductNumberToReference)->first();
@@ -273,11 +282,11 @@ class ImageSliderImage extends DataObject {
                 $linkedSite = $product;
             }
         }
-        if ($linkedSite == false &&
-            $this->SiteTreeID > 0) {
+        if ($linkedSite === false
+         && $this->SiteTreeID > 0
+        ) {
             $linkedSite = $this->SiteTree();
         }
-        
         return $linkedSite;
     }
     
@@ -286,9 +295,9 @@ class ImageSliderImage extends DataObject {
      *
      * @return Image_Cached
      */
-    public function getThumbnail() {
+    public function getThumbnail()
+    {
         $result = false;
-
         if ($this->Image()->isInDB()) {
             $result = $this->Image()->Pad(50, 50);
         }
