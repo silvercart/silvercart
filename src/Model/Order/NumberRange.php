@@ -4,6 +4,7 @@ namespace SilverCart\Model\Order;
 
 use SilverCart\Dev\Tools;
 use SilverCart\ORM\DataObjectExtension;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Member;
@@ -18,14 +19,15 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class NumberRange extends DataObject {
-
+class NumberRange extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * DB attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'Title'       => 'Varchar(32)',
         'Identifier'  => 'Varchar(32)',
         'Prefix'      => 'Varchar(32)',
@@ -33,47 +35,48 @@ class NumberRange extends DataObject {
         'StartCount'  => 'Int(16)',
         'EndCount'    => 'Int(16)',
         'ActualCount' => 'Int(16)',
-    );
-
+    ];
     /**
      * default values for some attributes
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'StartCount'    => '100000',
         'EndCount'      => '999999',
         'ActualCount'   => '100000',
-    );
-
+    ];
     /**
      * some virtual attributes (not in db)
      *
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'ActualNumber' => 'Varchar(80)',
         'EndNumber'    => 'Varchar(80)',
         'StartNumber'  => 'Varchar(80)',
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartNumberRange';
+    /**
+     * Enable table lock when getting new numbers?
+     *
+     * @var bool
+     */
+    private static $enable_table_lock = true;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -81,12 +84,10 @@ class NumberRange extends DataObject {
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
     }
 
@@ -96,43 +97,33 @@ class NumberRange extends DataObject {
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2011
      */
-    public function fieldLabels($includerelations = true) {
-        return array_merge(
-                parent::fieldLabels($includerelations),
-                array(
-                    'Title'         => _t(NumberRange::class . '.TITLE', 'Title'),
-                    'Identifier'    => _t(NumberRange::class . '.IDENTIFIER', 'Identifier'),
-                    'Prefix'        => _t(NumberRange::class . '.PREFIX', 'Prefix'),
-                    'Suffix'        => _t(NumberRange::class . '.SUFFIX', 'Suffix'),
-                    'StartCount'    => _t(NumberRange::class . '.STARTCOUNT', 'Start'),
-                    'EndCount'      => _t(NumberRange::class . '.ENDCOUNT', 'End'),
-                    'ActualCount'   => _t(NumberRange::class . '.ACTUALCOUNT', 'Actual Count'),
-                )
-        );
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Title'       => _t(self::class . '.TITLE', 'Title'),
+            'Identifier'  => _t(self::class . '.IDENTIFIER', 'Identifier'),
+            'Prefix'      => _t(self::class . '.PREFIX', 'Prefix'),
+            'Suffix'      => _t(self::class . '.SUFFIX', 'Suffix'),
+            'StartCount'  => _t(self::class . '.STARTCOUNT', 'Start'),
+            'EndCount'    => _t(self::class . '.ENDCOUNT', 'End'),
+            'ActualCount' => _t(self::class . '.ACTUALCOUNT', 'Actual Count'),
+        ]);
     }
     
     /**
      * i18n for summary fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2011
      */
-    public function summaryFields() {
-        return array_merge(
-                parent::summaryFields(),
-                array(
-                    'Title'        => $this->fieldLabel('Title'),
-                    'StartCount'   => $this->fieldLabel('StartCount'),
-                    'EndCount'     => $this->fieldLabel('EndCount'),
-                    'ActualCount'  => $this->fieldLabel('ActualCount'),
-                )
-        );
+    public function summaryFields() : array
+    {
+        return [
+            'Title'       => $this->fieldLabel('Title'),
+            'StartCount'  => $this->fieldLabel('StartCount'),
+            'EndCount'    => $this->fieldLabel('EndCount'),
+            'ActualCount' => $this->fieldLabel('ActualCount'),
+        ];
     }
     
     /**
@@ -146,10 +137,11 @@ class NumberRange extends DataObject {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 10.02.2013
      */
-    public function excludeFromScaffolding() {
-        $excludeFromScaffolding = array(
+    public function excludeFromScaffolding() : array
+    {
+        $excludeFromScaffolding = [
             'Identifier'
-        );
+        ];
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
         return $excludeFromScaffolding;
     }
@@ -158,16 +150,15 @@ class NumberRange extends DataObject {
      * customizes the backends fields
      *
      * @return FieldList
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2011
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this);
-        if (!empty($this->Identifier)) {
-            $fields->makeFieldReadonly('ActualCount');
-        }
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if (!empty($this->Identifier)) {
+                $fields->makeFieldReadonly('ActualCount');
+            }
+        });
+        return DataObjectExtension::getCMSFields($this);
     }
 
     /**
@@ -180,7 +171,8 @@ class NumberRange extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public function canDelete($member = null) {
+    public function canDelete($member = null) : bool
+    {
         return false;
     }
 
@@ -189,8 +181,9 @@ class NumberRange extends DataObject {
      *
      * @return string
      */
-    public function getActualNumber() {
-        return $this->Prefix . $this->ActualCount . $this->Suffix;
+    public function getActualNumber() : string
+    {
+        return "{$this->Prefix}{$this->ActualCount}{$this->Suffix}";
     }
 
     /**
@@ -198,8 +191,9 @@ class NumberRange extends DataObject {
      *
      * @return string
      */
-    public function getEndNumber() {
-        return $this->Prefix . $this->EndCount . $this->Suffix;
+    public function getEndNumber() : string
+    {
+        return "{$this->Prefix}{$this->EndCount}{$this->Suffix}";
     }
 
     /**
@@ -207,18 +201,22 @@ class NumberRange extends DataObject {
      *
      * @return string
      */
-    public function getStartNumber() {
-        return $this->Prefix . $this->StartCount . $this->Suffix;
+    public function getStartNumber() : string
+    {
+        return "{$this->Prefix}{$this->StartCount}{$this->Suffix}";
     }
 
     /**
      * increments and returns the actual number.
      *
      * @return string
-	 */
-    public function getNewNumber() {
+     */
+    public function getNewNumber() : string
+    {
         $table = Tools::get_table_name(NumberRange::class);
-        DB::query("LOCK TABLES " . $table . " WRITE");
+        if ($this->config()->enable_table_lock) {
+            DB::query("LOCK TABLES " . $table . " WRITE");
+        }
         DB::query(
                 sprintf(
                         "UPDATE " . $table . " SET ActualCount=ActualCount+1 WHERE Identifier = '%s'",
@@ -231,7 +229,9 @@ class NumberRange extends DataObject {
                         $this->Identifier
                 )
         );
-        DB::query("UNLOCK TABLES");
+        if ($this->config()->enable_table_lock) {
+            DB::query("UNLOCK TABLES");
+        }
         
         $firstRow          = $results->first();
         $this->ActualCount = $firstRow['ActualCount'];
@@ -246,12 +246,13 @@ class NumberRange extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public function reserveNewNumber() {
-        if (!Tools::Session()->get('Reserved' . $this->Identifier)) {
-            Tools::Session()->set('Reserved' . $this->Identifier, $this->getNewNumber());
+    public function reserveNewNumber() : string
+    {
+        if (!Tools::Session()->get("Reserved{$this->Identifier}")) {
+            Tools::Session()->set("Reserved{$this->Identifier}", $this->getNewNumber());
             Tools::saveSession();
         }
-        return Tools::Session()->get('Reserved' . $this->Identifier);
+        return (string) Tools::Session()->get("Reserved{$this->Identifier}");
     }
 
     /**
@@ -262,7 +263,8 @@ class NumberRange extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public function useReservedNumber() {
+    public function useReservedNumber() : string
+    {
         $reservedNumber = $this->reserveNewNumber();
         Tools::Session()->clear('Reserved' . $this->Identifier);
         Tools::saveSession();
@@ -274,9 +276,10 @@ class NumberRange extends DataObject {
      *
      * @param string $identifier Identifier of the number range
      *
-     * @return NumberRange
+     * @return NumberRange|null
      */
-    public static function getByIdentifier($identifier) {
+    public static function getByIdentifier(string $identifier) : ?NumberRange
+    {
         return NumberRange::get()->filter('Identifier', $identifier)->first();
     }
 
@@ -290,12 +293,14 @@ class NumberRange extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public static function reserveNewNumberByIdentifier($identifier) {
+    public static function reserveNewNumberByIdentifier(string $identifier) : string
+    {
+        $number      = '';
         $numberRange = self::getByIdentifier($identifier);
-        if ($numberRange) {
-            return $numberRange->reserveNewNumber();
+        if ($numberRange instanceof NumberRange) {
+            $number = $numberRange->reserveNewNumber();
         }
-        return false;
+        return $number;
     }
 
     /**
@@ -308,12 +313,13 @@ class NumberRange extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.04.2011
      */
-    public static function useReservedNumberByIdentifier($identifier) {
+    public static function useReservedNumberByIdentifier(string $identifier) : string
+    {
+        $number      = '';
         $numberRange = self::getByIdentifier($identifier);
         if ($numberRange) {
-            return $numberRange->useReservedNumber();
+            $number = $numberRange->useReservedNumber();
         }
-        return false;
+        return $number;
     }
-
 }

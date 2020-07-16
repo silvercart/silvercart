@@ -251,7 +251,7 @@ class StockItemEntry extends DataObject
             return;
         }
         $tableName = Product::config()->get('table_name');
-        DB::query("BEGIN;UPDATE {$tableName} SET StockQuantity = StockQuantity + {$this->Quantity} WHERE ID = {$this->ProductID};COMMIT;");
+        DB::query("UPDATE {$tableName} SET StockQuantity = StockQuantity + {$this->Quantity} WHERE ID = {$this->ProductID}");
     }
     
     /**
