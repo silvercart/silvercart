@@ -2105,6 +2105,7 @@ class SilvercartShoppingCart extends DataObject {
                 'TaxableShoppingCartPositions',
                 'IncludedInTotalShoppingCartPositions',
                 'ShoppingCartActions',
+                'ShoppingCartSubTotal',
                 'ShoppingCartTotal',
                 'CustomShoppingCartPositions',
             );
@@ -2123,15 +2124,19 @@ class SilvercartShoppingCart extends DataObject {
 
                 if ($registeredModuleObj) {
                     $hooks = array();
+                    $sort  = $registeredModuleObj->hasMethod('ShoppingCartSort') ? $registeredModuleObj->ShoppingCartSort() : 1;
                     foreach ($hookMethods as $hookMethod) {
                         if ($registeredModuleObj->hasMethod($hookMethod)) {
                             $hooks[$hookMethod] = $registeredModuleObj->$hookMethod($this, $customer);
                         }
                     }
-                    $modules[] = $hooks;
+                    while (array_key_exists($sort, $modules)) {
+                        $sort++;
+                    }
+                    $modules[$sort] = $hooks;
                 }
             }
-
+            ksort($modules);
             $this->registeredModulesSet = new ArrayList($modules);
         }
 
