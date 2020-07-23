@@ -3124,6 +3124,7 @@ class Order extends DataObject implements PermissionProvider
         foreach ($this->OrderPositions() as $orderPosition) {
             $results = $orderPosition->extend('skipCalculateAmountTotal');
             if (is_array($results)
+             && count($results) > 0
              && max($results) === true
             ) {
                 continue;
