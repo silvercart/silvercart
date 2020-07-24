@@ -1,6 +1,6 @@
 en:
     SilverCart:
-        Actions: 'Actions'
+        Actions: Actions
         Buy1: 'Buy {title}'
         Buy2: 'Buy {title1} {title2}'
         Change: Change
@@ -2174,3 +2174,14 @@ en:
         NotDisplayed: 'Not displayed'
         ShowTitleLabel: Displayed
         TitleLabel: 'Title (displayed if checked)'
+    SilverCart\Extensions\Model\FontAwesomeExtension:
+        FontAwesomeIcon: 'Font Awesome Icon'
+        FontAwesomeIconDesc: 'Go to the <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Font Awesome icon reference page</a> for an enhanced search filter.'
+        FontAwesomeIconRightTitle: 'The Font Awesome icon will be displayed on promotionally effective places like a CMS page for a package selection.'
+    SilverCart\Extensions\ORM\PaginatedListExtension:
+        Info: 'Page {currentPage}, item {firstItem}'
+        Info2Plural: '{totalItems} items on {totalPages} pages'
+        Info2Singular: '{totalItems} items on {totalPages} page'
+        InfoFirstIsLast: 'Page {currentPage}, item {firstItem} - {lastItem}'
+    SilverCart\Forms\FormFields\GoogleRecaptchaField:
+        Verify: 'Please verify that you are not a robot.'
