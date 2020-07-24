@@ -134,8 +134,6 @@ class WidgetTools
         $buildArrows        = CheckboxField::create('buildArrows',      $widget->fieldLabel('buildArrows'));
         $buildNavigation    = CheckboxField::create('buildNavigation',  $widget->fieldLabel('buildNavigation'));
         $buildStartStop     = CheckboxField::create('buildStartStop',   $widget->fieldLabel('buildStartStop'));
-        $autoPlayDelayed    = CheckboxField::create('autoPlayDelayed',  $widget->fieldLabel('autoPlayDelayed'));
-        $autoPlayLocked     = CheckboxField::create('autoPlayLocked',   $widget->fieldLabel('autoPlayLocked'));
         $stopAtEnd          = CheckboxField::create('stopAtEnd',        $widget->fieldLabel('stopAtEnd'));
         $transitionEffect   = DropdownField::create(
             'transitionEffect',
@@ -152,15 +150,13 @@ class WidgetTools
                 $widget->fieldLabel('SlideshowTab'),
                 [
                     $useSlider,
+                    $transitionEffect,
                     $autoplay,
                     $slideDelay,
                     $buildArrows,
                     $buildNavigation,
                     $buildStartStop,
-                    $autoPlayDelayed,
-                    $autoPlayLocked,
                     $stopAtEnd,
-                    $transitionEffect,
                 ]
         )->setHeadingLevel(4);
         $fields->addFieldToTab("Root.Main", $sliderToggle);
@@ -231,8 +227,6 @@ class WidgetTools
             return;
         }
         $autoplay           = 'false';
-        $autoPlayDelayed    = 'false';
-        $autoPlayLocked     = 'true';
         $stopAtEnd          = 'false';
         $buildArrows        = 'false';
         $buildStartStop     = 'false';
@@ -249,12 +243,6 @@ class WidgetTools
         }
         if ($widget->buildStartStop) {
             $buildStartStop = 'true';
-        }
-        if ($widget->autoPlayDelayed) {
-            $autoPlayDelayed = 'true';
-        }
-        if ($widget->autoPlayLocked) {
-            $autoPlayLocked = 'false';
         }
         if ($widget->stopAtEnd) {
             $stopAtEnd = 'true';
@@ -288,8 +276,8 @@ class WidgetTools
                     $("#%s")
                     .anythingSlider({
                         autoPlay:           %s,
-                        autoPlayDelayed:    %s,
-                        autoPlayLocked:     %s,
+                        autoPlayDelayed:    false,
+                        autoPlayLocked:     true,
                         stopAtEnd:          %s,
                         buildArrows:        %s,
                         buildNavigation:    %s,
@@ -314,8 +302,6 @@ class WidgetTools
                 ',
                 $jsID,
                 $autoplay,
-                $autoPlayDelayed,
-                $autoPlayLocked,
                 $stopAtEnd,
                 $buildArrows,
                 $buildNavigation,
@@ -458,12 +444,6 @@ class WidgetTools
         if (!array_key_exists('buildStartStop', $data)) {
             $widget->buildStartStop = 0;
         }
-        if (!array_key_exists('autoPlayDelayed', $data)) {
-            $widget->autoPlayDelayed = 0;
-        }
-        if (!array_key_exists('autoPlayLocked', $data)) {
-            $widget->autoPlayLocked = 0;
-        }
         if (!array_key_exists('stopAtEnd', $data)) {
             $widget->stopAtEnd = 0;
         }
@@ -497,8 +477,6 @@ class WidgetTools
             'isContentView'                 => _t(ProductSliderWidget::class . '.IS_CONTENT_VIEW', 'Use regular productview instead of widgetview'),
             'isContentViewInfo'             => _t(ProductSliderWidget::class . '.IS_CONTENT_VIEW_INFO', 'If this widget is created to display inside the content area of a page, this option should be checked.'),
             'Autoplay'                      => _t(ProductSliderWidget::class . '.AUTOPLAY', 'Activate automatic slideshow'),
-            'autoPlayDelayed'               => _t(ProductSliderWidget::class . '.AUTOPLAYDELAYED', 'Activate delay for automatic slideshow'),
-            'autoPlayLocked'                => _t(ProductSliderWidget::class . '.AUTOPLAYLOCKED', 'Deactivate automatic slideshow when the user navigates the slides manually'),
             'buildArrows'                   => _t(ProductSliderWidget::class . '.BUILDARROWS', 'Show next/previous buttons'),
             'buildNavigation'               => _t(ProductSliderWidget::class . '.BUILDNAVIGATION', 'Show page navigation'),
             'buildStartStop'                => _t(ProductSliderWidget::class . '.BUILDSTARTSTOP', 'Show start/stop buttons'),

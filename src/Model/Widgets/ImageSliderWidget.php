@@ -35,8 +35,6 @@ class ImageSliderWidget extends Widget {
      */
     private static $db = array(
         'Autoplay'         => 'Boolean(1)',
-        'autoPlayDelayed'  => 'Boolean(1)',
-        'autoPlayLocked'   => 'Boolean(0)',
         'buildArrows'      => 'Boolean(1)',
         'buildNavigation'  => 'Boolean(1)',
         'buildStartStop'   => 'Boolean(1)',
@@ -167,8 +165,6 @@ class ImageSliderWidget extends Widget {
                 array(
                     'slideImages',
                     'Autoplay',
-                    'autoPlayDelayed',
-                    'autoPlayLocked',
                     'buildArrows',
                     'buildNavigation',
                     'buildStartStop',

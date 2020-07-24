@@ -29,8 +29,6 @@ class ImageSliderWidgetController extends WidgetController {
     protected function init() {
         parent::init();
         $autoplay           = 'false';
-        $autoPlayDelayed    = 'false';
-        $autoPlayLocked     = 'true';
         $stopAtEnd          = 'false';
         $buildArrows        = 'false';
         $buildStartStop     = 'false';
@@ -47,12 +45,6 @@ class ImageSliderWidgetController extends WidgetController {
         }
         if ($this->buildStartStop) {
             $buildStartStop = 'true';
-        }
-        if ($this->autoPlayDelayed) {
-            $autoPlayDelayed = 'true';
-        }
-        if ($this->autoPlayLocked) {
-            $autoPlayLocked = 'false';
         }
         if ($this->stopAtEnd) {
             $stopAtEnd = 'true';
@@ -83,8 +75,6 @@ class ImageSliderWidgetController extends WidgetController {
             Requirements::customScript(
                 sprintf('
 var imageSliderAutoPlay = %s,
-    imageSliderAutoPlayDelayed = %s,
-    imageSliderAutoPlayLocked = %s,
     imageSliderStopAtEnd = %s,
     imageSliderBuildArrows = %s,
     imageSliderBuildNavigation = %s,
@@ -96,8 +86,6 @@ var imageSliderAutoPlay = %s,
     imageSliderEffect = \'%s\';',
                     $this->ID,
                     $autoplay,
-                    $autoPlayDelayed,
-                    $autoPlayLocked,
                     $stopAtEnd,
                     $buildArrows,
                     $buildNavigation,
@@ -117,8 +105,8 @@ var imageSliderAutoPlay = %s,
                         .anythingSlider({
                             startPanel:         1,
                             autoPlay:           %s,
-                            autoPlayDelayed:    %s,
-                            autoPlayLocked:     %s,
+                            autoPlayDelayed:    false,
+                            autoPlayLocked:     true,
                             stopAtEnd:          %s,
                             buildArrows:        %s,
                             buildNavigation:    %s,
@@ -143,8 +131,6 @@ var imageSliderAutoPlay = %s,
                     ',
                     $this->ID,
                     $autoplay,
-                    $autoPlayDelayed,
-                    $autoPlayLocked,
                     $stopAtEnd,
                     $buildArrows,
                     $buildNavigation,

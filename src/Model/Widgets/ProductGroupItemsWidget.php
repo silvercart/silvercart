@@ -35,8 +35,6 @@ class ProductGroupItemsWidget extends Widget {
         'GroupView'               => 'Varchar(255)',
         'isContentView'           => 'Boolean',
         'Autoplay'                => 'Boolean(1)',
-        'autoPlayDelayed'         => 'Boolean(1)',
-        'autoPlayLocked'          => 'Boolean(0)',
         'buildArrows'             => 'Boolean(1)',
         'buildNavigation'         => 'Boolean(1)',
         'buildStartStop'          => 'Boolean(1)',
@@ -132,8 +130,6 @@ class ProductGroupItemsWidget extends Widget {
                 $parentExcludes,
                 array(
                     'Autoplay',
-                    'autoPlayDelayed',
-                    'autoPlayLocked',
                     'buildArrows',
                     'buildNavigation',
                     'buildStartStop',
