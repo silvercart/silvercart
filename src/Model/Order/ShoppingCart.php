@@ -991,6 +991,25 @@ class ShoppingCart extends DataObject
     }
 
     /**
+     * Returns the price of the cart positions, including or excluding taxes 
+     * depending on the current context.
+     *
+     * @param array $excludeModules               An array of registered modules that shall not be taken into account.
+     * @param array $excludeShoppingCartPositions Positions that shall not be counted; can contain the ID or the className of the position
+     * 
+     * @return DBMoney
+     */
+    public function getTaxableAmountWithoutFeesAndCharges(array $excludeModules = [], array $excludeShoppingCartPositions = []) : DBMoney
+    {
+        if (Config::PriceType() == 'gross') {
+            $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPositions);
+        } else {
+            $amount = $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPositions);
+        }
+        return $amount;
+    }
+
+    /**
      * Returns the price of the cart positions, including taxes.
      *
      * @param array $excludeModules               An array of registered modules that shall not be taken into account.
