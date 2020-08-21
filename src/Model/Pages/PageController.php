@@ -14,8 +14,6 @@ use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\ShoppingCart;
-use SilverCart\Model\Pages\CheckoutStep;
-use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupHolder;
@@ -29,7 +27,6 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ErrorPage\ErrorPage;
-use SilverStripe\ErrorPage\ErrorPageController;
 use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
 use SilverStripe\ORM\ArrayList;
@@ -57,6 +54,12 @@ class PageController extends ContentController
      * @var array
      */
     public static $instanceMemorizer = [];
+    /**
+     * Checkout.
+     *
+     * @var Checkout
+     */
+    protected $checkout = null;
     /**
      * Contains HTML code from modules that shall be inserted on the Page.ss
      * template.
@@ -740,6 +743,18 @@ class PageController extends ContentController
     public function getCart()
     {
         return $this->ShoppingCart();
+    }
+
+    /**
+     * Returns the checkout.
+     * 
+     * @return Checkout
+     */
+    public function getCheckout() {
+        if (is_null($this->checkout)) {
+            $this->checkout = Checkout::create_from_session($this);
+        }
+        return $this->checkout;
     }
     
     /**
