@@ -94,7 +94,7 @@ fr_BE:
         STREET: Rue
         STREETNUMBER: 'Numéro de maison'
         SURNAME: 'Nom de famille'
-        TAXIDNUMBER: 'Numéro d''identification fiscale'
+        TAXIDNUMBER: 'Numéro TVA'
         USE_ABSOLUTEADDRESS: 'Utiliser l''adresse de résidence comme adresse'
         USE_PACKSTATION: 'Utiliser Packstation comme adresse'
         NoAddressData: 'Aucune donnée d’adresse n’est disponible'
@@ -112,7 +112,7 @@ fr_BE:
         DEFAULT_SHIPPING: 'Adresse de livraison active'
         DEFAULT_SHIPPINGADDRESS: 'Adresse de livraison standard'
         DEFAULT_TITLE: 'Aperçu des adresses'
-        DEFAULT_URLSEGMENT: 'aperçu des adresses'
+        DEFAULT_URLSEGMENT: aperçu-des-adresses
         DELETE: Supprimer
         EDIT: Modifier
         EDIT_ADDRESS: 'Modifier l''adresse'
@@ -132,7 +132,7 @@ fr_BE:
         TITLE: 'Aperçu des adresses'
         UPDATED_INVOICE_ADDRESS: 'Votre adresse de facturation a été mise à jour avec succès.'
         UPDATED_SHIPPING_ADDRESS: 'Votre adresse de livraison a été mise à jour avec succès.'
-        URL_SEGMENT: 'aperçu des adresses'
+        URL_SEGMENT: aperçu-des-adresses
     SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
         PLURALNAME: 'Destinataires anonymes de la newsletter'
         SINGULARNAME: 'Destinataire anonyme de la newsletter'
@@ -834,17 +834,17 @@ fr_BE:
         DEFAULT_URLSEGMENT_ABOUT: à-propos-de-nous
         DEFAULT_URLSEGMENT_LEGAL: juridique
         DEFAULT_URLSEGMENT_SERVICE: service
-        DEFAULT_URLSEGMENT_SHOP: 'système de boutique'
+        DEFAULT_URLSEGMENT_SHOP: système-de-boutique
         PLURALNAME: 'Aperçus de la métanavigation'
         SINGULARNAME: 'Aperçu de la métanavigation'
         URL_SEGMENT: juridique
     SilverCart\Model\Pages\MetaNavigationPage:
         DEFAULT_TITLE_IMPRINT: 'Mentions légales'
-        DEFAULT_URLSEGMENT_IMPRINT: 'mentions légales'
+        DEFAULT_URLSEGMENT_IMPRINT: mentions-légales
         DEFAULT_TITLE_PRIVACY: 'Déclaration sur la protection des données'
-        DEFAULT_URLSEGMENT_PRIVACY: 'déclaration sur la protection des données'
+        DEFAULT_URLSEGMENT_PRIVACY: déclaration-sur-la-protection-des-données
         DEFAULT_TITLE_REVOCATION: 'Droit de rétractation'
-        DEFAULT_URLSEGMENT_REVOCATION: 'droit de rétractation'
+        DEFAULT_URLSEGMENT_REVOCATION: droit-de-rétractation
         DEFAULT_TITLE_TERMS: 'Conditions générales'
         DEFAULT_URLSEGMENT_TERMS: conditions-générales-informations-pour-les-acheteurs
         PLURALNAME: 'Pages avec métainformations'
@@ -1090,7 +1090,7 @@ fr_BE:
         ADDRESS_DATA: 'Données d''adresse'
         ADMIN_AREA: 'Accès administrateur'
         AllPricesInclVat: 'Tous les prix TVA incluse'
-        AllPricesExclVat: 'Tous les prix TVA incluse'
+        AllPricesExclVat: 'Tous les prix hors TVA'
         ALREADY_REGISTERED: 'Bonjour {name}, vous êtes déjà enregistré.'
         API_CREATE: 'peut créer des objets via l''API'
         API_DELETE: 'peut supprimer des objets via l''API'
@@ -1176,7 +1176,7 @@ fr_BE:
         PASSWORD_WRONG: 'Ce mot de passe est erroné.'
         PAYMENT_NOT_WORKING: 'Le module de paiement sélectionné ne fonctionne pas.'
         PLURALNAME: Pages
-        PLUS_SHIPPING: 'Frais d''expédition inclus'
+        PLUS_SHIPPING: 'Plus frais d''expédition'
         PREV: Retour
         PRODUCTNAME: 'Description de l''article'
         REGISTER: 'S''enregistrer'
@@ -1320,16 +1320,16 @@ fr_BE:
         MENUTITLE: 'Statut du paiement'
     SilverCart\Model\Pages\PaymentMethodsPage:
         DEFAULT_TITLE: 'Modes de paiement'
-        DEFAULT_URLSEGMENT: 'modes de paiement'
+        DEFAULT_URLSEGMENT: modes-de-paiement
         PLURALNAME: 'Pages de modes de paiement'
         SINGULARNAME: 'Page de mode de paiement'
     SilverCart\Model\Pages\PaymentNotification:
         DEFAULT_TITLE: 'Notification de paiement'
-        DEFAULT_URLSEGMENT: 'notification de paiement'
+        DEFAULT_URLSEGMENT: notification-de-paiement
         PLURALNAME: 'Notifications de paiement'
         SINGULARNAME: 'Notification de paiement'
         TITLE: 'Notification de paiement'
-        URL_SEGMENT: 'notification de paiement'
+        URL_SEGMENT: notification-de-paiement
         TEXTBANKACCOUNTINFO: 'Informations sur le mode de paiement à l''avance'
     SilverCart\Model\Product\Product:
         AMOUNT_UNIT: 'Unité de mesure de vente'
@@ -1467,7 +1467,7 @@ fr_BE:
         SINGULARNAME: Traduction
     SilverCart\Model\Pages\ProductGroupHolder:
         DEFAULT_TITLE: 'Groupes de produits'
-        DEFAULT_URLSEGMENT: 'groupes de produits'
+        DEFAULT_URLSEGMENT: groupes-de-produits
         LinkTo: 'Groupe de produits vers lequel il faut être redirigé'
         PAGE_TITLE: 'Groupes de produits'
         PLURALNAME: 'Aperçus des groupes d''articles'
@@ -1477,7 +1477,7 @@ fr_BE:
         SHOW_PRODUCTS_WITH_COUNT_SINGULAR: 'Afficher articles {count}'
         SINGULARNAME: 'Aperçu des groupes d''articles'
         SUBGROUPS_OF: 'Sous-groupes de'
-        URL_SEGMENT: 'Groupes de produits'
+        URL_SEGMENT: groupes-de-produits
     SilverCart\Model\Widgets\ProductGroupItemsWidget:
         CMSTITLE: 'SilverCart Curseur pour les articles'
         CMS_PRODUCTGROUPTABNAME: 'Groupe de produits'
@@ -1583,7 +1583,7 @@ fr_BE:
         PRINT: Imprimer
         QUANTITY: Nombre
         SINGULARNAME: 'Page de détails d''articles'
-        URL_SEGMENT: 'détails de l''article'
+        URL_SEGMENT: détails
     SilverCart\Model\Widgets\ProductSliderWidget:
         AUTOPLAY: 'Activer le diaporama automatique'
         AUTOPLAYDELAYED: 'Activer le délai pour le diaporama automatique'
@@ -1655,7 +1655,7 @@ fr_BE:
         CONFIRMATION_TEXT: '<h1>Finaliser l''enregistrement</h1><p>Veuillez cliquer sur le lien d''activation ou copiez le lien dans votre navigateur.</p><p><a href="$ConfirmationLink">Confirmer l''enregistrement</a></p><p>Si vous ne vous êtes pas encore enregistré, ignorez simplement ce courriel.</p><p>L''équipe de votre boutique en ligne</p>'
         CUSTOMER_SALUTATION: 'Cher client,'
         DEFAULT_TITLE: 'Page d''enregistrement'
-        DEFAULT_URLSEGMENT: 's''enregistrer'
+        DEFAULT_URLSEGMENT: enregistrer
         DEFAULT_WELCOME_CONTENT: '<p>Cher client,</p><p>pour vous éviter du travail, nous vous avons déjà connecté automatiquement.</p><p>Amusez-vous bien en faisant vos achats dans notre boutique !</p>'
         EMAIL_EXISTS_ALREADY: 'Cette adresse électronique est déjà prise.'
         EmailOptInConfirmationCustomerData: 'Vos données client'
@@ -1692,7 +1692,7 @@ fr_BE:
         SUCCESS_TEXT: '<h1>Enregistrement finalisé avec succès!</h1><p>Merci beaucoup pour votre enregistrement.</p><p>Amusez-vous bien dans notre boutique !</p><p>L''équipe de votre boutique en ligne</p>'
         THANKS: 'Merci beaucoup pour votre enregistrement'
         TITLE: 'Page d''enregistrement'
-        URL_SEGMENT: 's''enregistrer'
+        URL_SEGMENT: enregistrer
         YOUR_REGISTRATION: 'Votre enregistrement'
     SilverCart\Forms\RegisterRegularCustomerForm:
         PasswordHint: 'Créez un mot de passe pour votre connexion à la boutique en ligne. Le mot de passe doit comporter au moins {minlength} caractères. Parmi eux, il doit y avoir au moins 1 lettre majuscule, 1 lettre minuscule et 1 chiffre.'
@@ -1725,7 +1725,7 @@ fr_BE:
     SilverCart\Model\Pages\SearchResultsPage:
         CHOOSE_CONTEXT: 'Résultats pour'
         DEFAULT_TITLE: 'Résultats de recherche'
-        DEFAULT_URLSEGMENT: 'résultats de recherche'
+        DEFAULT_URLSEGMENT: résultats-de-recherche
         PLURALNAME: 'Pages de résultats de recherche'
         RELEVANCESORT: Pertinence
         ResultsTextCategory: 'Résultats de la recherche pour la catégorie <strong>&rdquo;{category}&rdquo;</strong> ({results} résultats positifs)'
@@ -1734,7 +1734,7 @@ fr_BE:
         SearchTitle: '{count} résultats de recherche pour "{title}"'
         SINGULARNAME: 'Page de résultats de recherche'
         TITLE: 'Résultats de recherche'
-        URL_SEGMENT: 'résultats de recherche'
+        URL_SEGMENT: résultats-de-recherche
     SilverCart\Model\Widgets\SearchWidget:
         CMSTITLE: Recherche
         DESCRIPTION: 'Ce widget affiche un formulaire de recherche pour la recherche d''articles.'
@@ -1762,11 +1762,11 @@ fr_BE:
         ZONE_WITH_DESCRIPTION: 'Zone (seules les zones de transporteurs sont disponibles)'
     SilverCart\Model\Pages\ShippingFeesPage:
         DEFAULT_TITLE: 'Frais d''expédition'
-        DEFAULT_URLSEGMENT: 'frais d''expédition'
+        DEFAULT_URLSEGMENT: frais-expédition
         PLURALNAME: 'Pages de frais d’expédition'
         SINGULARNAME: 'Page des frais d’expédition'
         TITLE: 'Frais d''expédition'
-        URL_SEGMENT: 'frais d''expédition'
+        URL_SEGMENT: frais-expédition
     SilverCart\Model\Shipment\ShippingMethod:
         BusinessDay: 'Jour ouvrable'
         BusinessDays: 'Jours ouvrables'
@@ -1972,14 +1972,14 @@ fr_BE:
         PRODUCTGROUPEXTENDABLE_TITLE: Extensible
         PRODUCTGROUPEXTENDABLE_URLSEGMENT: extensible
         PRODUCTGROUPMARKETING_TITLE: 'Modules de marketing'
-        PRODUCTGROUPMARKETING_URLSEGMENT: 'modules de marketing'
+        PRODUCTGROUPMARKETING_URLSEGMENT: modules-de-marketing
         PRODUCTGROUPOPEN_CONTENT: 'SilverCart est un logiciel libre. Vous ne payez donc que pour la mise en œuvre et l''adaptation du système de boutique à vos souhaits.'
         PRODUCTGROUPOPEN_TITLE: Impayé
         PRODUCTGROUPOPEN_URLSEGMENT: impayé
         PRODUCTGROUPOTHERS_TITLE: 'Autres modules'
         PRODUCTGROUPOTHERS_URLSEGMENT: autres-modules
         PRODUCTGROUPPAYMENT_TITLE: 'Modules de paiement'
-        PRODUCTGROUPPAYMENT_URLSEGMENT: 'modules de paiement'
+        PRODUCTGROUPPAYMENT_URLSEGMENT: modules-de-paiement
         PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"> <strong> <span class="fa fa-info-circle"> </span> Attention: </strong> <br/> Les modules eux-mêmes sont gratuits. L''indication des prix est utilisée uniquement à des fins de démonstration. </div>'
         SLIDORION_TITLE: 'Avantages de SilverCart'
         WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p> Découvrez les modules de paiement de SilverCart. </p>'

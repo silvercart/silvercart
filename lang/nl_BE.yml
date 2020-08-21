@@ -69,8 +69,8 @@ nl_BE:
         InvoiceAddressAsShippingAddress: 'Factuuradres gebruiken als leveringsadres'
         InvoiceAddresses: Factuuradressen
         InvoiceAddress: Factuuradres
-        MISSES: mevrouw
-        MISTER: heer
+        MISSES: Mevrouw
+        MISTER: Mijnheer
         NAME: Naam
         NO_ADDRESS_AVAILABLE: 'Geen adres beschikbaar'
         PACKSTATION: 'Packstation (bv. "Packstation 105")'
@@ -94,7 +94,7 @@ nl_BE:
         STREET: Straat
         STREETNUMBER: Huisnummer
         SURNAME: Achternaam
-        TAXIDNUMBER: Belastingnummer
+        TAXIDNUMBER: BTW-nummer
         USE_ABSOLUTEADDRESS: 'Woonadres als adres gebruiken'
         USE_PACKSTATION: 'Packstation als adres gebruiken'
         NoAddressData: 'Geen adresgegevens beschikbaar.'
@@ -176,7 +176,7 @@ nl_BE:
     SilverCart\Model\Shipment\Carrier:
         ATTRIBUTED_SHIPPINGMETHODS: 'toegewezen verzendmethode'
         FULL_NAME: 'volledige naam'
-        PLURALNAME: Vervoerder
+        PLURALNAME: Vervoerders
         SINGULARNAME: Vervoerder
         TrackingLinkBase: Trackingslink
         TrackingLinkBaseDesc: 'Basislink die wordt gebruikt voor toegang tot de online opvolging van de verzending (tracking). Plaats "{TrackingCode}" waar u de trackingscode van de bestelling later wilt plaatsen. Bijvoorbeeld voor particuliere DHL-klanten: "https://www.dhl.de/de/privatkunden/pakete-empfangen/verzen.html?piececode= {TrackingCode}"'
@@ -829,9 +829,9 @@ nl_BE:
         DEFAULT_TITLE_ABOUT: 'Over ons'
         DEFAULT_TITLE_LEGAL: Juridisch
         DEFAULT_TITLE_SERVICE: Dienst
-        DEFAULT_TITLE_SHOP: Winkelsysteem
+        DEFAULT_TITLE_SHOP: Winkel
         DEFAULT_URLSEGMENT: juridisch
-        DEFAULT_URLSEGMENT_ABOUT: 'Over ons'
+        DEFAULT_URLSEGMENT_ABOUT: over-ons
         DEFAULT_URLSEGMENT_LEGAL: juridisch
         DEFAULT_URLSEGMENT_SERVICE: dienst
         DEFAULT_URLSEGMENT_SHOP: winkelsysteem
@@ -841,12 +841,12 @@ nl_BE:
     SilverCart\Model\Pages\MetaNavigationPage:
         DEFAULT_TITLE_IMPRINT: 'Wettelijke vermeldingen'
         DEFAULT_URLSEGMENT_IMPRINT: 'Wettelijke vermeldingen'
-        DEFAULT_TITLE_PRIVACY: gegevensbeschermingsverklaring
+        DEFAULT_TITLE_PRIVACY: Gegevensbeschermingsverklaring
         DEFAULT_URLSEGMENT_PRIVACY: gegevensbeschermingsverklaring
         DEFAULT_TITLE_REVOCATION: 'Informatie over het herroepingsrecht'
-        DEFAULT_URLSEGMENT_REVOCATION: 'Informatie over het herroepingsrecht'
+        DEFAULT_URLSEGMENT_REVOCATION: herroepingsrecht
         DEFAULT_TITLE_TERMS: 'Algemene voorwaarden'
-        DEFAULT_URLSEGMENT_TERMS: 'algemene voorwaarden - informatie voor de koper'
+        DEFAULT_URLSEGMENT_TERMS: algemene-voorwaarden
         PLURALNAME: 'Meta-informatiepagina''s'
         SINGULARNAME: Meta-informatiepagina
     SilverCart\Model\Pages\MyAccountHolder:
@@ -859,7 +859,7 @@ nl_BE:
         REGISTER_ADVANTAGES_TEXT: 'Als u zich registreert kunt u bij een aankoop gebruik maken van uw gegevens, zoals  een aankoop op uw gegevens, zoals facturatie-en leveringsadres.'
         SINGULARNAME: Accountoverzicht
         TITLE: 'Mijn account'
-        URL_SEGMENT: 'Mijn account'
+        URL_SEGMENT: Mijn-account
         WANTTOREGISTER: 'Wilt u zich registreren?'
         YOUR_CURRENT_ADDRESSES: 'Uw huidig factuur- en leveringsadres'
         YOUR_CUSTOMERNUMBER: 'Uw klantnummer'
@@ -1024,12 +1024,12 @@ nl_BE:
         MENUTITLE: Bestellingen
     SilverCart\Model\Pages\OrderHolder:
         DEFAULT_TITLE: 'Mijn bestellingen'
-        DEFAULT_URLSEGMENT: 'mijn bestellingen'
+        DEFAULT_URLSEGMENT: mijn-bestellingen
         OrderDetails: Bestelgegevens
         PLURALNAME: Besteloverzichten
         SINGULARNAME: Besteloverzicht
         TITLE: 'Mijn bestellingen'
-        URL_SEGMENT: 'mijn bestellingen'
+        URL_SEGMENT: mijn-bestellingen
     SilverCart\Model\Order\OrderInvoiceAddress:
         PLURALNAME: 'Factuuradressen van de bestellingen'
         SINGULARNAME: 'Factuuradres van de bestelling'
@@ -1082,15 +1082,15 @@ nl_BE:
         SINGULARNAME: Vertaling
         TITLE: Label
     SilverCart\Model\Pages\Page:
-        ABOUT_US: 'over ons'
-        ABOUT_US_URL_SEGMENT: 'over ons'
+        ABOUT_US: 'Over ons'
+        ABOUT_US_URL_SEGMENT: over-ons
         ACCESS_CREDENTIALS_CALL: 'Geef uw toegangsgegevens in:'
         ADDRESS: Adres
         ADDRESSINFORMATION: Adresinformatie
         ADDRESS_DATA: Adresgegevens
         ADMIN_AREA: Beheerderstoegang
         AllPricesInclVat: 'Alle prijzen inclusief btw.'
-        AllPricesExclVat: 'Alle prijzen inclusief btw.'
+        AllPricesExclVat: 'Alle prijzen btw niet inbegrepen'
         ALREADY_REGISTERED: 'Hallo, u hebt zich reeds geregistreerd.'
         API_CREATE: 'kan objecten aanmaken via API'
         API_DELETE: 'kan objecten verwijderen via API'
@@ -1130,7 +1130,7 @@ nl_BE:
         FEBRUARY: februari
         FIND: 'Zoeken naar:'
         FORWARD: Verder
-        GOTO: 'Naar {titel} pagina'
+        GOTO: 'Naar {title} pagina'
         GOTO_CART_SHORT: Winkelwagen
         GOTO_CONTACT_LINK: 'Naar de contactpagina'
         GOTO_PAGE: 'Naar de pagina {count}'
@@ -1176,7 +1176,7 @@ nl_BE:
         PASSWORD_WRONG: 'Dit wachtwoord is verkeerd.'
         PAYMENT_NOT_WORKING: 'De geselecteerde betalingsmodule werkt niet.'
         PLURALNAME: 'Pagina''s'
-        PLUS_SHIPPING: 'inlcusief verzendkosten'
+        PLUS_SHIPPING: 'Plus verzendkosten'
         PREV: Terug
         PRODUCTNAME: Artikelomschrijving
         REGISTER: Registreren
@@ -1184,7 +1184,7 @@ nl_BE:
         REGISTER_HERE: 'Registreer u hier.'
         REMARKS: Opmerkingen
         REMOVE_FROM_CART: verwijderen
-        RETURNTOPRODUCTGROUP: 'Terug naar "{titel}"'
+        RETURNTOPRODUCTGROUP: 'Terug naar "{title}"'
         REVOCATION: Herroepingsrecht
         REVOCATIONREAD: 'Informatie over het herroepingsrecht gelezen'
         SAVE: Opslaan
@@ -1193,9 +1193,9 @@ nl_BE:
         SHIPPING_ADDRESS: Leveringsadres
         SHIPPING_AND_BILLING: 'Leverings- en facturatieadres'
         SHOP_WITHOUT_REGISTRATION: 'Winkel zonder registratie'
-        SHOWINPAGE: 'Stel de taal in op {taal}.'
+        SHOWINPAGE: 'Stel de taal in op {language}.'
         SHOW_DETAILS: 'Details weergeven'
-        SHOW_DETAILS_FOR: 'Details van {titel} weergeven'
+        SHOW_DETAILS_FOR: 'Details van {title} weergeven'
         SINGULARNAME: Pagina
         SITMAP_HERE: 'Hier ziet u een overzicht van onze pagina.'
         STEPS: Stappen
@@ -1213,8 +1213,8 @@ nl_BE:
         TITLE_TERMS: 'Algemene voorwaarden'
         TODAY: vandaag
         TOTAL: Totaalbedrag
-        URL_SEGMENT_IMPRINT: 'Wettelijke vermeldingen'
-        URL_SEGMENT_TERMS: 'algemene voorwaarden - informatie voorr de koper'
+        URL_SEGMENT_IMPRINT: wettelijke-vermeldingen
+        URL_SEGMENT_TERMS: algemene-voorwaarden
         USER_NOT_EXISTING: 'Deze gebruiker bestaat niet.'
         UseAsRootForMainNavigation: 'Subpagina''s van deze pagina vormen de hoofdnavigatie'
         UseAsRootForMainNavigationDesc: 'De hoofdnavigatie, die bij de basisinstallatie de productgroepen bevat, wordt gevormd vanuit de subpagina''s van deze pagina. Er kan maar een pagina zijn waarvoor deze instelling actief is.'
@@ -1329,7 +1329,7 @@ nl_BE:
         PLURALNAME: Betalingsmeldingen
         SINGULARNAME: Betalingsmelding
         TITLE: 'Kennisgeving van betaling'
-        URL_SEGMENT: 'Kennisgeving van betaling'
+        URL_SEGMENT: Kennisgeving-van-betaling
         TEXTBANKACCOUNTINFO: 'Informatie over de betalingswijze vooruitbetaling'
     SilverCart\Model\Product\Product:
         AMOUNT_UNIT: 'Eenheid van verkoophoeveelheid'
@@ -1378,7 +1378,7 @@ nl_BE:
         NewestArrivals: 'Nieuw in de winkel'
         PACKAGING_QUANTITY: Verkoophoeveelheid
         PACKAGING_UNIT: Verpakkingseenheid
-        PLURALNAME: Artikel
+        PLURALNAME: Artikelen
         Preorderable: 'Kan worden gereserveerd'
         PreorderInfo: 'Dit artikel verschijnt pas op {releasedate}. Houd er rekening mee dat dit artikel niet kan worden verzonden voor de publicatiedatum.'
         PreorderNow: 'Nu reserveren'
@@ -1474,7 +1474,7 @@ nl_BE:
         RedirectToProductGroup: 'Rechtstreeks doorsturen naar een productgroep'
         RedirectionSettings: Doorsturen
         SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Artikelen weergeven'
-        SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Artikelen weergeven'
+        SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Artikel weergeven'
         SINGULARNAME: 'Overzicht van artikelgroepen'
         SUBGROUPS_OF: 'Subgroepen van'
         URL_SEGMENT: Productgroepen
@@ -1520,7 +1520,7 @@ nl_BE:
     SilverCart\Model\Pages\ProductGroupPage:
         ATTRIBUTES: Kenmerk
         BREADCRUMBS: 'Broodkruimelnavigatie van productgroepen'
-        BuyTitle: '{titel} kopen'
+        BuyTitle: '{title} kopen'
         DEFAULTGROUPHOLDERVIEW: 'Standaardweergave van productgroepen'
         DEFAULTGROUPVIEW: 'Standaardweergave van artikellijsten'
         DEFAULTGROUPVIEW_DEFAULT: 'Bovenliggende groep/standaardconfiguratie toepassen'
@@ -1683,7 +1683,7 @@ nl_BE:
         OptInTitle: 'Bevestig uw e-mailadres'
         OptInWelcomeMessage: 'Gefeliciteerd! Uw registratie bij onze winkel werd succesvol afgerond!'
         OptInWelcomeMessage2: 'Om uw klantenaccount te activeren, dient u uw e-mailadres te bevestigen door naar de bevestigingslink te gaan die u per e-mail hebt ontvangen.'
-        OptInWelcomeMessage3: 'De bevestigingslin werd naar <strong>{email}</strong> verzonden. Controleer uw inbox.'
+        OptInWelcomeMessage3: 'De bevestigingslink werd naar <strong>{email}</strong> verzonden. Controleer uw inbox.'
         OptInWelcomeTitle: 'Bevestig uw e-mailadres'
         OTHERITEMS: Andere
         PLEASE_COFIRM: 'Bevestig uw registratie.'
@@ -1977,7 +1977,7 @@ nl_BE:
         PRODUCTGROUPOPEN_TITLE: Verschuldigd
         PRODUCTGROUPOPEN_URLSEGMENT: verschuldigd
         PRODUCTGROUPOTHERS_TITLE: 'Andere modules'
-        PRODUCTGROUPOTHERS_URLSEGMENT: andere_modules
+        PRODUCTGROUPOTHERS_URLSEGMENT: andere-modules
         PRODUCTGROUPPAYMENT_TITLE: Betalingsmodules
         PRODUCTGROUPPAYMENT_URLSEGMENT: betalingsmodules
         PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> Let op:</strong><br/>De modules zelf zijn gratis. De prijs wordt enkel gebruikt voor demodoeleinden.</div>'
@@ -2086,7 +2086,7 @@ nl_BE:
         DefaultSuccessMessageSend: 'Uw gegevens werden verzonden.'
     SilverCart\Forms\CustomRequiredFields:
         FieldCanNotHaveMoreDecimalPlaces: 'Het veld {name} mag maximaal {places} decimalen bevatten.'
-        FieldExpectsValidPhoneNumber: 'Voor het veld "{name}" wordt een  geldig telefoonnummer (bv. "01234 56789", "''+49 1234 5678-9") verwacht.'
+        FieldExpectsValidPhoneNumber: 'Voor het veld "{name}" wordt een geldig telefoonnummer (bv. "01234 56789", "''+32 1234 5678-9") verwacht.'
         FieldMayConsistOfNumbersOnly: 'Het veld "{name}" mag alleen cijfers bevatten.'
         FieldMayNotBeEmpty: 'Het veld "{name}" mag niet leeg zijn.'
         FieldMayNotHaveValue: 'Het veld "{name1}" mag niet dezelfde waarde als het veld "{name2}" bevatten.'
