@@ -29,7 +29,12 @@ class LoginForm extends CustomForm {
      * @var string
      */
     protected $formActionPath = 'sc-action/doLogin';
-    
+    /**
+     * URL to redirect to after logging in.
+     *
+     * @var string
+     */
+    protected $redirectTo = null;
     /**
      * Custom extra CSS classes.
      *
@@ -58,13 +63,8 @@ class LoginForm extends CustomForm {
      */
     public function getCustomFields() {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            $baseURL    = Director::baseURL();
-            $requestURL = $_SERVER['REQUEST_URI'];
-            if (strpos($requestURL, $baseURL) !== 0) {
-                $requestURL = $baseURL . substr($requestURL, 1);
-            }
             $fields += [
-                HiddenField::create('redirect_to', '', $requestURL),
+                HiddenField::create('redirect_to', '', $this->getRedirectTo()),
                 HiddenField::create('cn', '', static::class),
                 TextField::create('emailaddress', Page::singleton()->fieldLabel('EmailAddress')),
                 PasswordField::create('password', Page::singleton()->fieldLabel('Password')),
@@ -87,5 +87,35 @@ class LoginForm extends CustomForm {
         });
         return parent::getCustomActions();
     }
+    
+    /**
+     * Returns the URL to redirect to after logging in.
+     * 
+     * @return string
+     */
+    public function getRedirectTo() : string
+    {
+        if (is_null($this->redirectTo)) {
+            $baseURL    = Director::baseURL();
+            $requestURL = $_SERVER['REQUEST_URI'];
+            if (strpos($requestURL, $baseURL) !== 0) {
+                $requestURL = $baseURL . substr($requestURL, 1);
+            }
+            $this->redirectTo = $requestURL;
+        }
+        return (string) $this->redirectTo;
+    }
 
+    /**
+     * Sets the URL to redirect to after logging in.
+     * 
+     * @param string $redirectTo URL to redirect to after logging in
+     * 
+     * @return \SilverCart\Forms\LoginForm
+     */
+    public function setRedirectTo(string $redirectTo) : LoginForm
+    {
+        $this->redirectTo = $redirectTo;
+        return $this;
+    }
 }
