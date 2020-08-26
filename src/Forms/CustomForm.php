@@ -10,6 +10,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\Validator;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * custom form definition.
@@ -615,5 +616,18 @@ class CustomForm extends Form
     public function getRequiredFieldMarker() : string
     {
         return $this->config()->required_field_marker;
+    }
+    
+    /**
+     * Returns the rendered position.
+     * 
+     * @param string $templateAddition Optional template name addition
+     * 
+     * @return DBHTMLText
+     */
+    public function renderForTemplate(string $templateAddition = '') : DBHTMLText
+    {
+        $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
+        return $this->renderWith(static::class . $addition);
     }
 }
