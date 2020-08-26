@@ -844,13 +844,13 @@ it:
         URL_SEGMENT: Legale
     SilverCart\Model\Pages\MetaNavigationPage:
         DEFAULT_TITLE_IMPRINT: 'Informazioni legali'
-        DEFAULT_URLSEGMENT_IMPRINT: 'Informazioni legali'
+        DEFAULT_URLSEGMENT_IMPRINT: 'informazioni-legali'
         DEFAULT_TITLE_PRIVACY: 'Informativa sulla privacy'
-        DEFAULT_URLSEGMENT_PRIVACY: 'Informativa sulla privacy'
+        DEFAULT_URLSEGMENT_PRIVACY: 'informativa-sulla-privacy'
         DEFAULT_TITLE_REVOCATION: Cancellazione
-        DEFAULT_URLSEGMENT_REVOCATION: Cancellazione
+        DEFAULT_URLSEGMENT_REVOCATION: cancellazione
         DEFAULT_TITLE_TERMS: 'Termini e condizioni generali di vendita'
-        DEFAULT_URLSEGMENT_TERMS: 'Termini e condizioni generali d''acquisto'
+        DEFAULT_URLSEGMENT_TERMS: 'termini-e-condizioni-generali-dacquisto'
         PLURALNAME: 'Pagine di meta-informazioni'
         SINGULARNAME: 'Pagine di meta-informazioni'
     SilverCart\Model\Pages\MyAccountHolder:
@@ -1257,7 +1257,7 @@ it:
         ChargeOrDiscountForAmount: 'a {price}'
         ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Utilizzare la seguente regola'
         ExcludedPosition: 'questo non si applica alla posizione {position}'
-        ExcludedPositions: 'questo non si applica alle posizioni {position}'
+        ExcludedPositions: 'questo non si applica alle posizioni {positions}'
         FROM_PURCHASE_VALUE: 'a partire da'
         HANDLINGCOSTS_SETTINGS: 'Costi di gestione'
         LONG_PAYMENT_DESCRIPTION: 'Descrizione da visualizzare nella pagina delle modalità di pagamento'
@@ -1738,7 +1738,7 @@ it:
         RELEVANCESORT: Rilevanza
         ResultsTextCategory: 'Risultati di ricerca per la categoria <strong>&rdquo;{query}&rdquo; </strong> ( {results}trovati)'
         ResultsTextQuery: 'Risultati di ricerca per il termine <strong> &rdquo;{query}&rdquo; </strong> ( {results} trovati)'
-        ResultsTextQueryAndCategory: "Risultati di ricerca per il termine <strong>&rdquo;{query}&rdquo; </strong> nella categoria <strong>&rdquo;{category}&rdquo;\n </strong> ( {results}trovati)"
+        ResultsTextQueryAndCategory: "Risultati di ricerca per il termine <strong>&rdquo;{query}&rdquo; </strong> nella categoria <strong>&rdquo;{category}&rdquo;</strong> ( {results}trovati)"
         SearchTitle: '{count} Risultati di ricerca per "{title}"'
         SINGULARNAME: 'Pagina risultati di ricerca'
         TITLE: 'Risultati di ricerca'
@@ -1893,7 +1893,7 @@ it:
         PLURALNAME: Carrelli
         SINGULARNAME: Carrello
         ShippingDateDeferredDueToReleasDate: 'La data di spedizione subirà un ritardo dovuto ad articoli non ancora disponibili.'
-        ShippingTo: 'Spedizione a {country} per <strong> {price} </strong> tramite {shippingmethod}.'
+        ShippingTo: 'Spedizione a {country} per <strong>{price}</strong> tramite {shippingmethod}.'
     SilverCart\Model\Order\ShoppingCartPosition:
         MAX_QUANTITY_REACHED_MESSAGE: 'È stato raggiunto il numero massimo di articoli per questa posizione.'
         PLURALNAME: Carrello
