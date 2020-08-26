@@ -1652,7 +1652,7 @@ nl_BE:
     SilverCart\Forms\QuickSearchForm:
         SUBMITBUTTONTITLE: Zoeken
     SilverCart\Model\Pages\RegistrationPage:
-        CONFIRMATION_TEXT: '<h1>Registratie voltooien</h1> <p> lik op de activeringslink of kopieer de link naar de browser.</p><p><a href="$ConfirmationLink">Registratie bevestigen</a></p><p>Als u zich niet hebt geregistreerd, negeer dan deze e-mail.</p><p> Uw webwinkelteam </p>'
+        CONFIRMATION_TEXT: '<h1>Registratie voltooien</h1> <p> Klik op de activeringslink of kopieer de link naar de browser.</p><p><a href="$ConfirmationLink">Registratie bevestigen</a></p><p>Als u zich niet hebt geregistreerd, negeer dan deze e-mail.</p><p> Uw webwinkelteam </p>'
         CUSTOMER_SALUTATION: 'Geachte klant,'
         DEFAULT_TITLE: Registratiepagina
         DEFAULT_URLSEGMENT: registreren
