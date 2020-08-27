@@ -13,6 +13,7 @@ use SilverCart\Model\ {
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\TreeMultiselectField;
 use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ {
     ArrayList,
     FieldType\DBBoolean,
