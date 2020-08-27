@@ -240,7 +240,7 @@ class ProductGroupWidget extends Widget
      */
     public function WidgetCacheKey()
     {
-        $cacheKey = implode('_', $this->ProductGroups()->map('ID', 'ID')->toArray());
+        $cacheKey = i18n::get_locale() . '_' . implode('_', $this->ProductGroups()->map('ID', 'ID')->toArray());
         if (Director::isDev()) {
             $cacheKey .= '_' . uniqid();
         }
