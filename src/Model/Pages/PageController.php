@@ -22,6 +22,7 @@ use SilverCart\Model\Widgets\Widget;
 use SilverCart\View\Requirements_Backend;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Controllers\ModelAsController;
+use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -845,6 +846,18 @@ class PageController extends ContentController
     public function getFooterColumns() : DataList
     {
         return MetaNavigationHolder::get()->filter('ClassName', MetaNavigationHolder::class);
+    }
+    
+    /**
+     * Returns the default hoomepage defined by the RootController::default_homepage_link
+     * configuration option.
+     * 
+     * @return SiteTree|null
+     */
+    public function getDefaultHomepage() : ?SiteTree
+    {
+        $defaultHomepageLink = RootURLController::config()->get('default_homepage_link');
+        return SiteTree::get_by_link($defaultHomepageLink);
     }
     
     /**
