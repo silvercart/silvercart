@@ -93,17 +93,53 @@ var checkForUploadedFiles = function() {
 
             fileGridField.reload();
         }
+    },
+    attachFiles = function(fieldSelector) {
+        var addRelations = [], scImageUploadField = $('input.' + fieldSelector, $('.field.' + fieldSelector + ' .uploadfield-item').closest('.uploadfield-holder').closest('.form__field-holder'));
+        if (scImageUploadField.length > 0) {
+            var schema   = scImageUploadField.data('schema'),
+                endpoint = schema.data.attachFileEndpoint.url;
+            $('.field.' + fieldSelector + ' .uploadfield-item').each(function() {
+                if ($('.uploadfield-item__complete-icon', this).length === 0
+                 && $('.uploadfield-item__upload-progress', this).length === 0
+                ) {
+                    addRelations.push($('input', this).val());
+                    $('.uploadfield-item__details', this).after('<div class="uploadfield-item__upload-progress"><div class="progress h-100"><div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div></div>');
+                }
+            });
+        }
+        if (addRelations.length > 0) {
+            var queryString = '';
+            addRelations.forEach(function(id) {
+                queryString += 'ids[]=' + id + '&';
+            });
+            $.ajax({
+                type: "POST",
+                url:  endpoint,
+                data: queryString,
+                success: function(data) {
+                    addRelations.forEach(function(id) {
+                        var item = $('.uploadfield-item input[value="' + id + '"]').closest('.uploadfield-item');
+                        $('.uploadfield-item__upload-progress', item).remove();
+                        $('.uploadfield-item__details', item).after('<div class="uploadfield-item__complete-icon"></div>');
+                    });
+                    reloadFileGridField(fieldSelector, '.field.' + fieldSelector + ' .uploadfield-item');
+                },
+            });
+        } else {
+            reloadFileGridField(fieldSelector, '.field.' + fieldSelector + ' .uploadfield-item');
+        }
     };
     
     if (checkForUploadedFilesLength < $('.field.sc-fileuploadfield .uploadfield-item').length) {
         checkForUploadedFilesLength = $('.field.sc-fileuploadfield .uploadfield-item').length;
-        reloadFileGridField('sc-fileuploadfield', '.field.sc-fileuploadfield .uploadfield-item');
+        attachFiles('sc-fileuploadfield');
     } else if (checkForUploadedFilesLength > $('.field.sc-fileuploadfield .uploadfield-item').length) {
         checkForUploadedFilesLength = $('.field.sc-fileuploadfield .uploadfield-item').length;
     }
     if (checkForUploadedImagesLength < $('.field.sc-imageuploadfield .uploadfield-item').length) {
         checkForUploadedImagesLength = $('.field.sc-imageuploadfield .uploadfield-item').length;
-        reloadFileGridField('sc-imageuploadfield', '.field.sc-imageuploadfield .uploadfield-item');
+        attachFiles('sc-imageuploadfield');
     } else if (checkForUploadedImagesLength > $('.field.sc-imageuploadfield .uploadfield-item').length) {
         checkForUploadedImagesLength = $('.field.sc-imageuploadfield .uploadfield-item').length;
     }
