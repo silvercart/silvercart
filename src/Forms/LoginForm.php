@@ -101,6 +101,26 @@ class LoginForm extends CustomForm {
             if (strpos($requestURL, $baseURL) !== 0) {
                 $requestURL = $baseURL . substr($requestURL, 1);
             }
+            if (strpos($requestURL, '?') !== false) {
+                $urlParts = explode('?', $requestURL);
+                $query    = array_pop($urlParts);
+                if (strpos($query, 'BackURL=') !== false) {
+                    $queryParts = explode('&', $query);
+                    foreach ($queryParts as $queryPart) {
+                        if (strpos($queryPart, 'BackURL=') === 0) {
+                            list($name, $value) = explode('=', $queryPart);
+                            $backURL = urldecode($value);
+                            if (strpos($backURL, $baseURL) !== 0) {
+                                $backURL = $baseURL . substr($backURL, 1);
+                            }
+                            $newValue     = urlencode($backURL);
+                            $newQueryPart = "{$name}={$newValue}";
+                            $requestURL   = str_replace($queryPart, $newQueryPart, $requestURL);
+                            break;
+                        }
+                    }
+                }
+            }
             $this->redirectTo = $requestURL;
         }
         return (string) $this->redirectTo;
