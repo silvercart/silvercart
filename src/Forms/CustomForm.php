@@ -5,6 +5,7 @@ namespace SilverCart\Forms;
 use ReflectionClass;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomRequiredFields;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
@@ -198,11 +199,12 @@ class CustomForm extends Form
      * 
      * @param string $message Error message
      * 
-     * @return void
+     * @return Controller
      */
-    public function setErrorMessage($message)
+    public function setErrorMessage(string $message) : Controller
     {
         $this->sessionMessage($message, 'error');
+        return $this->getController();
     }
     
     /**
@@ -210,11 +212,12 @@ class CustomForm extends Form
      * 
      * @param string $message Success message
      * 
-     * @return void
+     * @return Controller
      */
-    public function setSuccessMessage($message)
+    public function setSuccessMessage(string $message) : Controller
     {
         $this->sessionMessage($message, 'success');
+        return $this->getController();
     }
     
     /**
