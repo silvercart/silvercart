@@ -10,6 +10,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\MyAccountHolderController;
 use SilverCart\Model\Pages\Page;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -273,7 +274,7 @@ class AddressHolderController extends MyAccountHolderController
      * 
      * @return AddressHolderController
      */
-    public function setErrorMessage(string $errorMessage) : PageController
+    public function setErrorMessage(string $errorMessage) : Controller
     {
         Tools::Session()->set('SilvercartAddressHolder.errorMessage', $errorMessage);
         Tools::saveSession();
@@ -300,7 +301,7 @@ class AddressHolderController extends MyAccountHolderController
      * 
      * @return AddressHolderController
      */
-    public function setSuccessMessage(string $successMessage) : PageController
+    public function setSuccessMessage(string $successMessage) : Controller
     {
         Tools::Session()->set('SilvercartAddressHolder.successMessage', $successMessage);
         Tools::saveSession();

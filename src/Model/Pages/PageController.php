@@ -915,9 +915,9 @@ class PageController extends ContentController
      *
      * @param string $errorMessage Error message
      * 
-     * @return void
+     * @return Controller
      */
-    public function setErrorMessage(string $errorMessage) : PageController
+    public function setErrorMessage(string $errorMessage) : Controller
     {
         Tools::Session()->set('Silvercart.errorMessage', $errorMessage);
         Tools::saveSession();
@@ -942,9 +942,9 @@ class PageController extends ContentController
      *
      * @param string $successMessage Success message
      * 
-     * @return void
+     * @return Controller
      */
-    public function setSuccessMessage(string $successMessage) : PageController
+    public function setSuccessMessage(string $successMessage) : Controller
     {
         Tools::Session()->set('Silvercart.successMessage', $successMessage);
         Tools::saveSession();
