@@ -23,38 +23,34 @@ use SilverStripe\ORM\DB;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class NewsletterRecipientsAdmin extends LeftAndMain {
-    
+class NewsletterRecipientsAdmin extends LeftAndMain
+{
     /**
      * List of allowed actions
      *
      * @var array
      */
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'do_newsletter_recipients_export',
-    );
-
+    ];
     /**
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
      */
     private static $menuCode = 'customer';
-
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
     private static $menuSortIndex = 50;
-
     /**
      * The URL segment
      *
      * @var string
      */
     private static $url_segment = 'silvercart-newsletter-recipients';
-
     /**
      * The menu title
      *
@@ -65,32 +61,31 @@ class NewsletterRecipientsAdmin extends LeftAndMain {
     /**
      * Returns the edit form for this admin.
      * 
-     * @param type $id
-     * @param type $fields
+     * @param int       $id     Record ID
+     * @param FieldList $fields Fields
      * 
      * @return Form
      */
-    public function getEditForm($id = null, $fields = null) {
-        $fields = new FieldList(
-            $descriptionField   = new AlertInfoField('ProductImagesDescription', str_replace(PHP_EOL, '<br/>', _t(NewsletterRecipientsAdmin::class . '.Description', 'Please choose your export context and press the export button to download a CSV list of email recipients.'))),
-            $exportContextField = new DropdownField('ExportContext', _t(NewsletterRecipientsAdmin::class . '.ExportContext', 'Export context'))
+    public function getEditForm($id = null, $fields = null) : Form
+    {
+        $fields = FieldList::create(
+            $descriptionField   = AlertInfoField::create('ProductImagesDescription', str_replace(PHP_EOL, '<br/>', _t(NewsletterRecipientsAdmin::class . '.Description', 'Please choose your export context and press the export button to download a CSV list of email recipients.'))),
+            $exportContextField = DropdownField::create('ExportContext', _t(NewsletterRecipientsAdmin::class . '.ExportContext', 'Export context'))
         );
-        $actions = new FieldList(
+        $actions = FieldList::create(
             $doExportButton = FormAction::create(
                 'do_newsletter_recipients_export',
                 _t(NewsletterRecipientsAdmin::class . '.DoExport', 'Export as CSV')
             )->addExtraClass('btn-primary download-csv')
         );
-        
-        $exportContextField->setSource(array(
+        $exportContextField->setSource([
             '0' => _t(NewsletterRecipientsAdmin::class . '.ExportAll', 'Export all customers'),
             '1' => _t(NewsletterRecipientsAdmin::class . '.ExportAllNewsletterRecipients', 'Export all newsletter recipients'),
             '2' => _t(NewsletterRecipientsAdmin::class . '.ExportAllNewsletterRecipientsWithAccount', 'Export all newsletter recipients with customer account'),
             '3' => _t(NewsletterRecipientsAdmin::class . '.ExportAllNewsletterRecipientsWithoutAccount', 'Export all newsletter recipients without customer account'),
             '4' => _t(NewsletterRecipientsAdmin::class . '.ExportAllNonNewsletterRecipients', 'Export all non-newsletter recipients'),
-        ));
+        ]);
         $doExportButton->setAttribute('data-icon', 'download-csv');
-        
         $form = Form::create(
             $this,
             'EditForm',
@@ -102,26 +97,28 @@ class NewsletterRecipientsAdmin extends LeftAndMain {
         $form->setHTMLID('Form_EditForm');
         $form->loadDataFrom($this->request->getVars());
         $form->setTemplate($this->getTemplatesWithSuffix('_EditForm'));
-
         $this->extend('updateEditForm', $form);
-
         return $form;
     }
     
     /**
      * Adds example data to SilverCart when triggered in ModelAdmin.
      *
-     * @return \SilverStripe\Control\HTTPResponse
+     * @return void
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.07.2016
      */
-    public function do_newsletter_recipients_export(HTTPRequest $request) {
+    public function do_newsletter_recipients_export($request) : void
+    {
+        if (!($request instanceof HTTPRequest)) {
+            $this->redirectBack();
+            return;
+        }
         $exportContext = $request->getVar('ExportContext');
         if (is_null($exportContext)) {
-            return false;
+            return;
         }
-        
         $csv = $this->getCSVContent($exportContext);
         header('Content-Type: text/csv');
         header('Content-Type: application/force-download');
@@ -146,12 +143,12 @@ class NewsletterRecipientsAdmin extends LeftAndMain {
      * 
      * @return string
      */
-    protected function getCSVContent($exportContext) {
-        $table = Tools::get_table_name(AnonymousNewsletterRecipient::class);
+    protected function getCSVContent(string $exportContext) : string
+    {
+        $table              = Tools::get_table_name(AnonymousNewsletterRecipient::class);
         $membersSql         = 'SELECT "M"."Email", "M"."Salutation", "M"."FirstName", "M"."Surname" FROM "Member" AS "M" WHERE "M"."Email" IS NOT NULL';
         $anonymousSql       = 'SELECT "ANR"."Email", "ANR"."Salutation", "ANR"."FirstName", "ANR"."Surname" FROM "' . $table . '" AS "ANR" WHERE "ANR"."Email" IS NOT NULL AND "ANR"."NewsletterOptInStatus" = 1';
         $membersSqlAddition = '';
-        
         switch ($exportContext) {
             case '1':
                 // All newletter recipients
@@ -183,17 +180,14 @@ class NewsletterRecipientsAdmin extends LeftAndMain {
                 $useAnonymousSql    = true;
                 break;
         }
-        
         $tempCsvFile = TEMP_FOLDER . '/do_newsletter_recipients_export.csv';
-        
-        $csvFile = fopen($tempCsvFile, 'w');
-        fputcsv($csvFile, array(
+        $csvFile     = fopen($tempCsvFile, 'w');
+        fputcsv($csvFile, [
             'email',
             'salutation',
             'firstname',
             'surname',
-        ));
-        
+        ]);
         if ($useMembersSql) {
             $records = DB::query($membersSql . $membersSqlAddition);
             if ($records->numRecords() > 0) {
@@ -212,12 +206,9 @@ class NewsletterRecipientsAdmin extends LeftAndMain {
                 }
             }
         }
-
         fclose($csvFile);
         $csvFileContent = file_get_contents($tempCsvFile);
         unlink($tempCsvFile);
-        
         return $csvFileContent;
     }
-    
 }
