@@ -23,7 +23,29 @@ class ShoppingCartPositionNotice
     const NOTICE_CODE_DELETED              = 'deleted';
     const NOTICE_CODE_MAX_QUANTITY_REACHED = 'maxQuantityReached';
     const NOTICE_CODE_REMAINING            = 'remaining';
+    const SESSION_KEY_ADDITIONAL_NOTICES   = 'SilverCart.AdditionalShoppingCartPositionNotices';
     
+    /**
+     * Adds a key value pair of allowed notices.
+     * 
+     * @param string $code Code
+     * @param string $text Text
+     * 
+     * @return void
+     */
+    public static function addAllowedNotice(string $code, string $text, string $type = 'hint') : void
+    {
+        $notices = (array) Tools::Session()->get(self::SESSION_KEY_ADDITIONAL_NOTICES);
+        Tools::Session()->set(self::SESSION_KEY_ADDITIONAL_NOTICES, array_merge($notices, [
+            $code => [
+                'text' => $text,
+                'type' => $type,
+            ],
+        ]));
+        Tools::saveSession();
+    }
+
+
     /**
      * Holds an array with possible notices that are selected with a $code
      * A notice can have a type: hint, error, warning
@@ -35,7 +57,7 @@ class ShoppingCartPositionNotice
     public static function getNoticeText(string $code) : string
     {
         $text    = '';
-        $notices = [
+        $notices = array_merge([
             self::NOTICE_CODE_ADJUSTED  => [
                 'text' => ShoppingCartPosition::singleton()->fieldLabel('QuantityAdjusted'),
                 'type' => 'hint'
@@ -52,7 +74,7 @@ class ShoppingCartPositionNotice
                 'text' => ShoppingCartPosition::singleton()->fieldLabel('MaxQuantityReached'),
                 'type' => 'hint'
             ],
-        ];
+        ], (array) Tools::Session()->get(self::SESSION_KEY_ADDITIONAL_NOTICES));
         if (array_key_exists($code, $notices)) {
             $text = $notices[$code]['text'];
         }
