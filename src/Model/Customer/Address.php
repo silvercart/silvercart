@@ -61,8 +61,12 @@ use SilverStripe\Security\PermissionProvider;
 class Address extends DataObject implements PermissionProvider
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-    const TYPE_INVOICE  = 'Invoice';
-    const TYPE_SHIPPING = 'Shipping';
+    const TYPE_INVOICE      = 'Invoice';
+    const TYPE_SHIPPING     = 'Shipping';
+    const PERMISSION_CREATE = 'SILVERCART_ADDRESS_CREATE';
+    const PERMISSION_DELETE = 'SILVERCART_ADDRESS_DELETE';
+    const PERMISSION_EDIT   = 'SILVERCART_ADDRESS_EDIT';
+    const PERMISSION_VIEW   = 'SILVERCART_ADDRESS_VIEW';
     /**
      * Attributes.
      *
@@ -297,12 +301,34 @@ class Address extends DataObject implements PermissionProvider
      */
     public function providePermissions() : array
     {
-        return [
-            'SILVERCART_ADDRESS_VIEW'   => $this->fieldLabel('SILVERCART_ADDRESS_VIEW'),
-            'SILVERCART_ADDRESS_EDIT'   => $this->fieldLabel('SILVERCART_ADDRESS_EDIT'),
-            'SILVERCART_ADDRESS_CREATE' => $this->fieldLabel('SILVERCART_ADDRESS_CREATE'),
-            'SILVERCART_ADDRESS_DELETE' => $this->fieldLabel('SILVERCART_ADDRESS_DELETE')
+        $permissions = [
+            self::PERMISSION_VIEW   => [
+                'name'     => $this->fieldLabel(self::PERMISSION_VIEW),
+                'help'     => $this->fieldLabel(self::PERMISSION_VIEW . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 10,
+            ],
+            self::PERMISSION_EDIT   => [
+                'name'     => $this->fieldLabel(self::PERMISSION_EDIT),
+                'help'     => $this->fieldLabel(self::PERMISSION_EDIT . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 20,
+            ],
+            self::PERMISSION_CREATE => [
+                'name'     => $this->fieldLabel(self::PERMISSION_CREATE),
+                'help'     => $this->fieldLabel(self::PERMISSION_CREATE . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 30,
+            ],
+            self::PERMISSION_DELETE => [
+                'name'     => $this->fieldLabel(self::PERMISSION_DELETE),
+                'help'     => $this->fieldLabel(self::PERMISSION_DELETE . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 40,
+            ],
         ];
+        $this->extend('updateProvidePermissions', $permissions);
+        return $permissions;
     }
 
     /**
@@ -324,7 +350,7 @@ class Address extends DataObject implements PermissionProvider
         if (($member instanceof Member
           && $member->ID == $this->MemberID
           && !is_null($this->MemberID))
-         || Permission::checkMember($member, 'SILVERCART_ADDRESS_VIEW')
+         || Permission::checkMember($member, self::PERMISSION_VIEW)
         ) {
             $canView = true;
         }
@@ -363,7 +389,7 @@ class Address extends DataObject implements PermissionProvider
         ) {
             $canEdit = true;
         }
-        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_EDIT')) {
+        if (Permission::checkMember($member, self::PERMISSION_EDIT)) {
             $canEdit = true;
         }
         $results = $this->extend('canEdit', $member);
@@ -394,7 +420,7 @@ class Address extends DataObject implements PermissionProvider
         if (is_null($member)) {
             $member = Security::getCurrentUser();
         }
-        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_CREATE')) {
+        if (Permission::checkMember($member, self::PERMISSION_CREATE)) {
             $can = true;
         }
         $results = $this->extend('canCreate', $member);
@@ -432,7 +458,7 @@ class Address extends DataObject implements PermissionProvider
         ) {
             $canDelete = true;
         }
-        if (Permission::checkMember($member, 'SILVERCART_ADDRESS_DELETE')) {
+        if (Permission::checkMember($member, self::PERMISSION_DELETE)) {
             $canDelete = true;
         }
         $results = $this->extend('canDelete', $member);
@@ -717,10 +743,14 @@ class Address extends DataObject implements PermissionProvider
             'ShippingAddresses'  => _t(Address::class . '.ShippingAddresses', 'Shipping addresses'),
             'NoAddressData'      => _t(Address::class . '.NoAddressData', 'No address data available.'),
             'InvoiceAddressAsShippingAddress' => _t(Address::class . '.InvoiceAddressAsShippingAddress', 'Use invoice address as shipping address'),
-            'SILVERCART_ADDRESS_VIEW'   => _t(Address::class . '.SILVERCART_ADDRESS_VIEW', 'View address'),
-            'SILVERCART_ADDRESS_EDIT'   => _t(Address::class . '.SILVERCART_ADDRESS_EDIT', 'Edit address'),
-            'SILVERCART_ADDRESS_CREATE' => _t(Address::class . '.SILVERCART_ADDRESS_CREATE', 'Create address'),
-            'SILVERCART_ADDRESS_DELETE' => _t(Address::class . '.SILVERCART_ADDRESS_DELETE', 'Delete address'),
+            self::PERMISSION_VIEW             => _t(Address::class . '.' . self::PERMISSION_VIEW, 'View address'),
+            self::PERMISSION_EDIT             => _t(Address::class . '.' . self::PERMISSION_EDIT, 'Edit address'),
+            self::PERMISSION_CREATE           => _t(Address::class . '.' . self::PERMISSION_CREATE, 'Create address'),
+            self::PERMISSION_DELETE           => _t(Address::class . '.' . self::PERMISSION_DELETE, 'Delete address'),
+            self::PERMISSION_VIEW . '_HELP'   => _t(Address::class . '.' . self::PERMISSION_VIEW . '_HELP', 'Allows a user to view any addresses (not only owned ones!). Own addresses can be viewed without this permission.'),
+            self::PERMISSION_EDIT . '_HELP'   => _t(Address::class . '.' . self::PERMISSION_EDIT . '_HELP', 'Allows a user to edit any addresses (not only owned ones!). Own addresses can be edited without this permission if it is granted by the general shop configuration (default).'),
+            self::PERMISSION_CREATE . '_HELP' => _t(Address::class . '.' . self::PERMISSION_CREATE . '_HELP', 'Allows a customer or user to create addresses.'),
+            self::PERMISSION_DELETE . '_HELP' => _t(Address::class . '.' . self::PERMISSION_DELETE . '_HELP', 'Allows a user to delete any addresses (not only owned ones!). Own addresses can be deleted without this permission if it is granted by the general shop configuration (default).'),
         ]);
     }
     

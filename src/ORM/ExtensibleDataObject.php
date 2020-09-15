@@ -72,6 +72,22 @@ trait ExtensibleDataObject
     }
     
     /**
+     * Allows user code to hook into DataObject::updateProvidePermissions() prior 
+     * to providePermissions being called on extensions.
+     *
+     * @param callable $callback The callback to execute
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 15.09.2020
+     */
+    protected function beforeUpdateProvidePermissions(callable $callback) : void
+    {
+        $this->beforeExtending('updateProvidePermissions', $callback);
+    }
+    
+    /**
      * Returns the default field labels.
      * 
      * @param bool  $includerelations Include relations?

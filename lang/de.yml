@@ -97,9 +97,13 @@ de:
         ShippingAddresses: Lieferadressen
         ShippingAddress: Lieferadresse
         SILVERCART_ADDRESS_CREATE: 'Adresse erstellen'
+        SILVERCART_ADDRESS_CREATE_HELP: 'Erlaubt einem Kunden (eigene) oder einem Benutzer (beliebige) Adressen zu erstellen.'
         SILVERCART_ADDRESS_DELETE: 'Adresse löschen'
+        SILVERCART_ADDRESS_DELETE_HELP: 'Erlaubt einem Benutzer beliebige Adressen (nicht nur die eigenen!) zu löschen. Eigene Adressen können auch ohne diese Berechtigung gelöscht werden, sofern es die Shop-Grundeinstellungen erlauben.'
         SILVERCART_ADDRESS_EDIT: 'Adresse bearbeiten'
+        SILVERCART_ADDRESS_EDIT_HELP: 'Erlaubt einem Benutzer beliebige Adressen (nicht nur die eigenen!) zu bearbeiten. Eigene Adressen können auch ohne diese Berechtigung bearbeitet werden, sofern es die Shop-Grundeinstellungen erlauben.'
         SILVERCART_ADDRESS_VIEW: 'Adresse anschauen'
+        SILVERCART_ADDRESS_VIEW_HELP: 'Erlaubt einem Benutzer beliebige Adressen (nicht nur die eigenen!) anzuschauen. Eigene Adressen können auch ohne diese Berechtigung angesehen werden.'
         SINGULARNAME: Adresse
         STREET: Straße
         STREETNUMBER: Hausnummer
@@ -1010,8 +1014,11 @@ de:
         ShippingDate: 'Versandt am'
         SHIPPINGRATE: Versandkosten
         SILVERCART_ORDER_DELETE: 'Bestellung löschen'
+        SILVERCART_ORDER_DELETE_HELP: 'Erlaubt einem Benutzer beliebige Bestellungen zu löschen.'
         SILVERCART_ORDER_EDIT: 'Bestellung bearbeiten'
+        SILVERCART_ORDER_EDIT_HELP: 'Erlaubt einem Benutzer beliebige Bestellungen zu bearbeiten.'
         SILVERCART_ORDER_VIEW: 'Bestellung anschauen'
+        SILVERCART_ORDER_VIEW_HELP: 'Erlaubt einem Benutzer beliebige Bestellungen (nicht nur die eigenen!) anzuschauen. Eigene Bestellungen können auch ohne diese Berechtigung angesehen werden.'
         SINGULARNAME: Bestellung
         STATUS: Bestellstatus
         TAXAMOUNTPAYMENT: 'Steuer der Bezahlart'
@@ -1440,6 +1447,7 @@ de:
         ReleaseDateInfo: '<strong>Optional</strong> - Nur setzen, wenn der Verkaufsstart verzögert werden soll.'
         SHORTDESCRIPTION: Listenbeschreibung
         SILVERCART_PRODUCT_CREATE: 'Kann Artikel erstellen.'
+        SILVERCART_PRODUCT_CREATE_HELP: 'Erlaubt einem Benutzer Artikel zu erstellen.'
         SINGULARNAME: Artikel
         STOCKQUANTITY: Lagerbestand
         STOCK_QUANTITY: 'Ist der Lagerbestand dieses Artikels überbuchbar?'

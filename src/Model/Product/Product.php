@@ -129,6 +129,7 @@ class Product extends DataObject implements PermissionProvider
     
     const DEFAULT_IMAGE_FOLDER = 'product-images';
     const DEFAULT_FILES_FOLDER = 'product-files';
+    const PERMISSION_CREATE    = 'SILVERCART_PRODUCT_CREATE';
 
     /**
      * attributes
@@ -820,8 +821,14 @@ class Product extends DataObject implements PermissionProvider
     public function providePermissions() : array
     {
         $permissions = [
-            'SILVERCART_PRODUCT_CREATE' => _t(Product::class . '.SILVERCART_PRODUCT_CREATE', 'Can create products'),
+            self::PERMISSION_CREATE   => [
+                'name'     => _t(Product::class . '.' . self::PERMISSION_CREATE, 'Can create products'),
+                'help'     => _t(Product::class . '.' . self::PERMISSION_CREATE . '_HELP', 'Allows a user to create products.'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 10,
+            ],
         ];
+        $this->extend('updateProvidePermissions', $permissions);
         $this->extend('updatePermissions', $permissions);
         return $permissions;
     }
@@ -838,7 +845,7 @@ class Product extends DataObject implements PermissionProvider
      */
     public function canCreate($member = null, $context = []) : bool
     {
-        $can = Permission::checkMember($member, 'SILVERCART_PRODUCT_CREATE');
+        $can = Permission::checkMember($member, self::PERMISSION_CREATE);
         $this->extend('updateCanCreate', $member, $can);
         return $can;
     }

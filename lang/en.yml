@@ -97,9 +97,13 @@ en:
         ShippingAddresses: 'Shipping addresses'
         ShippingAddress: 'Shipping address'
         SILVERCART_ADDRESS_CREATE: 'Create address'
+        SILVERCART_ADDRESS_CREATE_HELP: 'Allows a customer or user to create addresses.'
         SILVERCART_ADDRESS_DELETE: 'Delete address'
+        SILVERCART_ADDRESS_DELETE_HELP: 'Allows a user to delete any addresses (not only owned ones!). Own addresses can be deleted without this permission if it is granted by the general shop configuration (default).'
         SILVERCART_ADDRESS_EDIT: 'Edit address'
+        SILVERCART_ADDRESS_EDIT_HELP: 'Allows a user to edit any addresses (not only owned ones!). Own addresses can be edited without this permission if it is granted by the general shop configuration (default).'
         SILVERCART_ADDRESS_VIEW: 'View address'
+        SILVERCART_ADDRESS_VIEW_HELP: 'Allows a user to view any addresses (not only owned ones!). Own addresses can be viewed without this permission.'
         SINGULARNAME: Address
         STREET: Street
         STREETNUMBER: 'Street number'
@@ -1010,8 +1014,11 @@ en:
         ShippingDate: 'Shipping date'
         SHIPPINGRATE: 'Shipping rate'
         SILVERCART_ORDER_DELETE: 'Delete order'
+        SILVERCART_ORDER_DELETE_HELP: 'Allows an user to delete any orders (not only owned ones!).'
         SILVERCART_ORDER_EDIT: 'Edit order'
+        SILVERCART_ORDER_EDIT_HELP: 'Allows an user to edit any orders (not only owned ones!).'
         SILVERCART_ORDER_VIEW: 'View order'
+        SILVERCART_ORDER_VIEW_HELP: 'Allows an user to view any orders (not only owned ones!). Own orders can be viewed without this permission.'
         SINGULARNAME: Order
         STATUS: 'Order status'
         TAXAMOUNTPAYMENT: 'Payment tax amount'
@@ -1440,6 +1447,7 @@ en:
         ReleaseDateInfo: '<strong>Optional</strong> - Set this to delay the start date and time of sale.'
         SHORTDESCRIPTION: 'List description'
         SILVERCART_PRODUCT_CREATE: 'Can create products.'
+        SILVERCART_PRODUCT_CREATE_HELP: 'Allows a user to create products.'
         SINGULARNAME: Product
         STOCKQUANTITY: 'stock quantity'
         STOCK_QUANTITY: 'Is the stock quantity of this product overbookable?'

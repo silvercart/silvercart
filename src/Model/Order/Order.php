@@ -119,6 +119,9 @@ class Order extends DataObject implements PermissionProvider
     const SESSION_KEY_EDIT_MODE = 'SilverCart.Order.EditMode';
     const ADMIN_MODE_EDIT       = 'edit';
     const ADMIN_MODE_VIEW       = 'view';
+    const PERMISSION_EDIT       = 'SILVERCART_ORDER_EDIT';
+    const PERMISSION_DELETE     = 'SILVERCART_ORDER_DELETE';
+    const PERMISSION_VIEW       = 'SILVERCART_ORDER_VIEW';
 
     /**
      * attributes
@@ -272,11 +275,28 @@ class Order extends DataObject implements PermissionProvider
      */
     public function providePermissions() : array
     {
-        return [
-            'SILVERCART_ORDER_VIEW'   => $this->fieldLabel('SILVERCART_ORDER_VIEW'),
-            'SILVERCART_ORDER_EDIT'   => $this->fieldLabel('SILVERCART_ORDER_EDIT'),
-            'SILVERCART_ORDER_DELETE' => $this->fieldLabel('SILVERCART_ORDER_DELETE'),
+        $permissions = [
+            self::PERMISSION_VIEW   => [
+                'name'     => $this->fieldLabel(self::PERMISSION_VIEW),
+                'help'     => $this->fieldLabel(self::PERMISSION_VIEW . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 10,
+            ],
+            self::PERMISSION_EDIT   => [
+                'name'     => $this->fieldLabel(self::PERMISSION_EDIT),
+                'help'     => $this->fieldLabel(self::PERMISSION_EDIT . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 20,
+            ],
+            self::PERMISSION_DELETE => [
+                'name'     => $this->fieldLabel(self::PERMISSION_DELETE),
+                'help'     => $this->fieldLabel(self::PERMISSION_DELETE . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 30,
+            ],
         ];
+        $this->extend('updateProvidePermissions', $permissions);
+        return $permissions;
     }
 
     /**
@@ -295,7 +315,7 @@ class Order extends DataObject implements PermissionProvider
         if (($member instanceof Member
           && $member->ID == $this->MemberID
           && !is_null($this->MemberID))
-         || Permission::checkMember($member, 'SILVERCART_ORDER_VIEW')
+         || Permission::checkMember($member, self::PERMISSION_VIEW)
         ) {
             $canView = true;
         }
@@ -323,7 +343,7 @@ class Order extends DataObject implements PermissionProvider
      */
     public function canEdit($member = null) : bool
     {
-        return Permission::checkMember($member, 'SILVERCART_ORDER_EDIT');
+        return Permission::checkMember($member, self::PERMISSION_EDIT);
     }
 
     /**
@@ -335,7 +355,7 @@ class Order extends DataObject implements PermissionProvider
      */
     public function canDelete($member = null) : bool
     {
-        return Permission::checkMember($member, 'SILVERCART_ORDER_DELETE');
+        return Permission::checkMember($member, self::PERMISSION_DELETE);
     }
 
     /**
@@ -451,9 +471,12 @@ class Order extends DataObject implements PermissionProvider
             'DateFormat'                       => Tools::field_label('DateFormat'),
             'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
             'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
-            'SILVERCART_ORDER_VIEW'            => _t(Order::class . '.SILVERCART_ORDER_VIEW', 'View order'),
-            'SILVERCART_ORDER_EDIT'            => _t(Order::class . '.SILVERCART_ORDER_EDIT', 'Edit order'),
-            'SILVERCART_ORDER_DELETE'          => _t(Order::class . '.SILVERCART_ORDER_DELETE', 'Delete order'),
+            self::PERMISSION_VIEW              => _t(Order::class . '.' . self::PERMISSION_VIEW, 'View order'),
+            self::PERMISSION_VIEW . '_HELP'    => _t(Order::class . '.' . self::PERMISSION_VIEW . '_HELP', 'Allows an user to view any orders (not only owned ones!). Own orders can be viewed without this permission.'),
+            self::PERMISSION_EDIT              => _t(Order::class . '.' . self::PERMISSION_EDIT, 'Edit order'),
+            self::PERMISSION_EDIT . '_HELP'    => _t(Order::class . '.' . self::PERMISSION_EDIT . '_HELP', 'Allows an user to edit any orders (not only owned ones!).'),
+            self::PERMISSION_DELETE            => _t(Order::class . '.' . self::PERMISSION_DELETE, 'Delete order'),
+            self::PERMISSION_DELETE . '_HELP'  => _t(Order::class . '.' . self::PERMISSION_DELETE . '_HELP', 'Allows an user to delete any orders (not only owned ones!).'),
         ]);
     }
     
