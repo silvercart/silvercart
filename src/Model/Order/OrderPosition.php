@@ -4,13 +4,17 @@ namespace SilverCart\Model\Order;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\Order;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnit;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\Filters\DateRangeSearchFilter;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
+use SilverStripe\ORM\Filters\PartialMatchFilter;
 
 /**
  * The OrderPosition object.
@@ -36,6 +40,8 @@ use SilverStripe\ORM\FieldType\DBMoney;
  * @property string                            $ProductNumber                      Product number
  * @property int                               $numberOfDecimalPlaces              Number of decimal places
  * @property bool                              $IsNonTaxable                       Is non taxable
+ * @property int                               $OrderID                            Order ID
+ * @property int                               $ProductID                          Product ID
  * 
  * @method Order   Order()   Returns the related Order.
  * @method Product Product() Returns the related Product.
@@ -133,6 +139,7 @@ class OrderPosition extends DataObject
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
+            'Created'                            => _t(Page::class . '.ORDER_DATE', 'Order date'),
             'Product'                            => Product::singleton()->singular_name(),
             'Price'                              => _t(OrderPosition::class . '.PRICE', 'Price'),
             'PriceTotal'                         => _t(OrderPosition::class . '.PRICETOTAL', 'Price total'),
@@ -236,6 +243,38 @@ class OrderPosition extends DataObject
         ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Searchable fields.
+     * 
+     * @return array
+     */
+    public function searchableFields() : array
+    {
+        return [
+            'Created' => [
+                'title'  => $this->fieldLabel('Created'),
+                'filter' => DateRangeSearchFilter::class,
+                'field'  => TextField::class,
+            ],
+            'Order.OrderNumber' => [
+                'title'  => $this->Order()->fieldLabel('OrderNumber'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ProductNumber' => [
+                'title'  => $this->fieldLabel('ProductNumber'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'Title' => [
+                'title'  => $this->fieldLabel('Title'),
+                'filter' => PartialMatchFilter::class,
+            ],
+            'ProductDescription' => [
+                'title'  => $this->fieldLabel('ProductDescription'),
+                'filter' => PartialMatchFilter::class,
+            ],
+        ];
     }
     
     /**
