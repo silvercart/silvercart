@@ -2,8 +2,7 @@
 
 namespace SilverCart\ORM\Filters;
 
-use SilverCart\Dev\Tools;
-use SilverCart\Model\Order\Order;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\ORM\Filters\SearchFilter;
@@ -18,21 +17,20 @@ use SilverStripe\ORM\Filters\SearchFilter;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DateRangeSearchFilter extends SearchFilter {
-
+class DateRangeSearchFilter extends SearchFilter
+{
     /**
      * Minimum date
      *
-     * @var String
+     * @var string
      */
-    protected $min;
-
+    protected $min = null;
     /**
      * Maximum date
      *
-     * @var String
+     * @var string
      */
-    protected $max;
+    protected $max = null;
 
     /**
      * Setter for min date value
@@ -41,7 +39,8 @@ class DateRangeSearchFilter extends SearchFilter {
      *
      * @return void
      */
-    public function setMin($min) {
+    public function setMin(string $min) : void
+    {
         $this->min = $min;
     }
 
@@ -52,7 +51,8 @@ class DateRangeSearchFilter extends SearchFilter {
      *
      * @return void
      */
-    public function setMax($max) {
+    public function setMax(string $max) : void
+    {
         $this->max = $max;
     }
     
@@ -64,26 +64,27 @@ class DateRangeSearchFilter extends SearchFilter {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.06.2014
      */
-    public function initValue() {
+    public function initValue() : void
+    {
         $value = $this->getValue();
         if (strpos($value, '-') === false) {
             $min_val = $value;
+            $max_val = null;
         } else {
             preg_match('/([^\s]*)(\s-\s(.*))?/i', $value, $matches);
-
             $min_val = (isset($matches[1])) ? $matches[1] : null;
-
             if (isset($matches[3])) {
                 $max_val = $matches[3];
             }
         }
-
-        if ($min_val && $max_val) {
+        if ($min_val
+         && $max_val
+        ) {
             $this->setMin($min_val);
             $this->setMax($max_val);
-        } else if ($min_val) {
+        } elseif ($min_val) {
             $this->setMin($min_val);
-        } else if ($max_val) {
+        } elseif ($max_val) {
             $this->setMax($max_val);
         }
     }
@@ -95,33 +96,22 @@ class DateRangeSearchFilter extends SearchFilter {
      * @param DataQuery $query The query object
      *
      * @return void
-     * 
-     * @return void
      *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.06.2014
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 11.09.2020
      */
-    public function apply(DataQuery $query) {
+    public function apply(DataQuery $query) : void
+    {
         $this->initValue();
-        $min = Convert::raw2sql($this->min).' 00:00:00';
-        $max = Convert::raw2sql($this->max).' 23:59:59';
-        $orderTable = Tools::get_table_name(Order::class);
-
-        if ($this->min && $this->max) {
-            $query->where(sprintf(
-                "%s >= STR_TO_DATE('%s', '%%d.%%m.%%Y') AND %s <= STR_TO_DATE('%s', '%%d.%%m.%%Y %%H:%%i:%%s')",
-                $orderTable . '.Created',
-                $min,
-                $orderTable . '.Created',
-                $max
-            ));
-        } else if ($this->min) {
-            $query->where(sprintf(
-                "DATEDIFF(%s, STR_TO_DATE('%s', '%%d.%%m.%%Y')) = 0",
-                $orderTable . '.Created',
-                $min
-            ));
+        $min        = Convert::raw2sql($this->min) . ' 00:00:00';
+        $max        = Convert::raw2sql($this->max) . ' 23:59:59';
+        $tableName  = Config::inst()->get($query->dataClass(), 'table_name');
+        if ($this->min
+         && $this->max
+        ) {
+            $query->where("{$tableName}.Created >= STR_TO_DATE('{$min}', '%d.%m.%Y') AND {$tableName}.Created <= STR_TO_DATE('{$max}', '%d.%m.%Y %H:%i:%s')");
+        } elseif ($this->min) {
+            $query->where("DATEDIFF({$tableName}.Created, STR_TO_DATE('{$min}', '%d.%m.%Y')) = 0");
         }
     }
     
@@ -135,7 +125,8 @@ class DateRangeSearchFilter extends SearchFilter {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 04.01.2013
      */
-    public function applyOne(DataQuery $query) {
+    public function applyOne(DataQuery $query) : void
+    {
         
     }
     
@@ -149,8 +140,8 @@ class DateRangeSearchFilter extends SearchFilter {
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 04.01.2013
      */
-    public function excludeOne(DataQuery $query) {
+    public function excludeOne(DataQuery $query) : void
+    {
         
     }
 }
-
