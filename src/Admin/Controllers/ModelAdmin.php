@@ -6,6 +6,10 @@ use SilverCart\Dev\Tools;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
 use SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldExportButton;
 
 /**
  * ModelAdmin extension for SilverCart.
@@ -46,6 +50,24 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * @var string
      */
     private static $sortable_field = '';
+    /**
+     * The default CSV export delimiter character.
+     * 
+     * @var string
+     */
+    private static $csv_export_delimiter = ',';
+    /**
+     * The default CSV export enclosure character.
+     * 
+     * @var string
+     */
+    private static $csv_export_enclosure = '"';
+    /**
+     * Determines whether the CSV export file is generated with a header line.
+     * 
+     * @var string
+     */
+    private static $csv_export_has_header = true;
     /**
      * GridField of the edit form
      *
@@ -138,24 +160,31 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @return \SilverStripe\Forms\Form
      */
-    public function getEditForm($id = null, $fields = null)
+    public function getEditForm($id = null, $fields = null) : Form
     {
         $this->beforeUpdateEditForm(function(\SilverStripe\Forms\Form $form) {
+            $config         = $this->getGridFieldConfig($form);
             $sortable_field = $this->stat('sortable_field');
             if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')
              && !empty($sortable_field)
             ) {
-                $this->getGridFieldConfig($form)->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows($sortable_field));
+                $config->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows($sortable_field));
             } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')
              && !empty($sortable_field)
             ) {
-                $this->getGridFieldConfig($form)->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
+                $config->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
             }
             if (GridFieldBatchController::hasBatchActionsFor($this->modelClass)) {
-                $this->getGridFieldConfig($form)->addComponent(new GridFieldBatchController($this->modelClass, 'buttons-before-left'));
+                $config->addComponent(new GridFieldBatchController($this->modelClass, 'buttons-before-left'));
             }
             if (singleton($this->modelClass)->hasMethod('getQuickAccessFields')) {
-                $this->getGridFieldConfig($form)->addComponent(new GridFieldQuickAccessController());
+                $config->addComponent(new GridFieldQuickAccessController());
+            }
+            $exportButton = $config->getComponentByType(GridFieldExportButton::class);
+            if ($exportButton instanceof GridFieldExportButton) {
+                $exportButton->setCsvSeparator($this->config()->csv_export_delimiter);
+                $exportButton->setCsvEnclosure($this->config()->csv_export_enclosure);
+                $exportButton->setCsvHasHeader($this->config()->csv_export_has_header);
             }
         });
         return parent::getEditForm($id, $fields);
@@ -169,7 +198,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.03.2014
      */
-    public function SearchFormCollapseClass()
+    public function SearchFormCollapseClass() : string
     {
         $collapseClass = '';
         if (self::$search_form_is_collapsed) {
@@ -204,7 +233,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @return \SilverStripe\Forms\GridField\GridField
      */
-    public function getGridField($form)
+    public function getGridField(Form $form) : GridField
     {
         if (is_null($this->gridField)) {
             $this->gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
@@ -219,7 +248,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @return GridFieldConfig
      */
-    public function getGridFieldConfig($form)
+    public function getGridFieldConfig(Form $form) : GridFieldConfig
     {
         if (is_null($this->gridFieldConfig)) {
             $this->gridFieldConfig = $this->getGridField($form)->getConfig();
@@ -232,12 +261,12 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @param Member $member Member
      * 
-     * @return boolean
+     * @return bool
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.10.2017
      */
-    public function canView($member = null)
+    public function canView($member = null) : bool
     {
         if (get_class($this) === ModelAdmin::class) {
             return false;

@@ -5,6 +5,7 @@ namespace SilverCart\Admin\Controllers;
 use SilverCart\Admin\Controllers\ModelAdmin;
 use SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction;
 use SilverCart\Model\Product\Product;
+use SilverStripe\Forms\Form;
 
 /**
  * ModelAdmin for Products.
@@ -71,7 +72,7 @@ class ProductAdmin extends ModelAdmin
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.09.2018
      */
-    protected function init()
+    protected function init() : void
     {
         /*
          * we tweeked the backend behavior so that when you press the button 'add' on the
@@ -115,14 +116,11 @@ class ProductAdmin extends ModelAdmin
      * 
      * @return \SilverStripe\Forms\Form
      */
-    public function getEditForm($id = null, $fields = null)
+    public function getEditForm($id = null, $fields = null) : Form
     {
-        $this->beforeUpdateEditForm(function(\SilverStripe\Forms\Form $form) {
+        $this->beforeUpdateEditForm(function(Form $form) {
             $this->getGridFieldConfig($form)->addComponent(new GridFieldDuplicateAction());
         });
         return parent::getEditForm($id, $fields);
     }
 }
-
-
-
