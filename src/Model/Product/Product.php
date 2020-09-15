@@ -1106,6 +1106,7 @@ class Product extends DataObject implements PermissionProvider
             'ExcludeFromPaymentDiscounts'          => _t(Product::class . '.ExcludeFromPaymentDiscounts', 'This product is excluded from payment discounts.'),
             'AddImage'                             => _t(Product::class . '.AddImage', 'Add Image'),
             'AddFile'                              => _t(Product::class . '.AddFile', 'Add File'),
+            'IsInCart'                             => _t(Product::class . '.IsInCart', 'Added to cart'),
             'IsNotBuyable'                         => _t(Product::class . '.IsNotBuyable', 'Is not buyable'),
             'ProductTranslations.Title'            => _t(Product::class . '.COLUMN_TITLE', 'Title'),
             'ProductTranslations.ShortDescription' => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),

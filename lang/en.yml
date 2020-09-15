@@ -1385,6 +1385,7 @@ en:
         IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Absolute path to the directory on the webserver where the images are located (e.g. /var/www/silvercart/images/)'
         IMPORTIMAGESFORM_REPORT: '<p>Found %d files.</p><p>%d could be attributed to products and were imported.</p>'
         IS_ACTIVE: 'is active'
+        IsInCart: 'Added to cart'
         IsNotBuyable: 'Is not buyable'
         Keywords: 'Keywords for search'
         LIST_PRICE: 'list price'
