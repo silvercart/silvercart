@@ -314,6 +314,11 @@ class Page extends SiteTree
      */
     public function MainNavigationRootPage()
     {
+        $mainNavigationRootPage = null;
+        $this->extend('alterMainNavigationRootPage', $mainNavigationRootPage);
+        if ($mainNavigationRootPage instanceof SiteTree) {
+            return $mainNavigationRootPage;
+        }
         $list                   = Page::get()->filter('UseAsRootForMainNavigation', true);
         $dataQuery              = $list->dataQuery();
         $mainNavigationRootPage = $list->first();
@@ -711,7 +716,7 @@ class Page extends SiteTree
         }
         $relativeLink = Director::makeRelative($link);
         $plainLink    = str_replace('/', '', $relativeLink);
-        return $plainLink == RootURLController::config()->get('default_homepage_link');
+        return $plainLink == RootURLController::get_homepage_link();
     }
 
     /**
