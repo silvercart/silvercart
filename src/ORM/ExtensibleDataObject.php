@@ -97,13 +97,16 @@ trait ExtensibleDataObject
      */
     public function defaultFieldLabels($includerelations = true, array $additionalLabels = []) : array
     {
-        $this->beforeUpdateFieldLabels(function(&$labels) use ($additionalLabels) {
-            $labels = array_merge(
-                    $labels,
-                    $this->scaffoldFieldLabels(),
-                    $additionalLabels
-            );
-        });
+        $cacheKey = static::class . '_' . $includerelations;
+        if (!isset(self::$_cache_field_labels[$cacheKey])) {
+            $this->beforeUpdateFieldLabels(function(&$labels) use ($additionalLabels) {
+                $labels = array_merge(
+                        $labels,
+                        $this->scaffoldFieldLabels(),
+                        $additionalLabels
+                );
+            });
+        }
         return parent::fieldLabels($includerelations);
     }
     
