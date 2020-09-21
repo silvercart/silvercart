@@ -109,7 +109,7 @@ class ProductGroupPage extends \Page
         'DefaultGroupHolderView'        => 'Varchar(255)',
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DoNotShowProducts'             => 'Boolean(0)',
-        'ShowNewProducts'               => 'Boolean(0)',
+        'ShowNewProducts'               => 'Boolean(1)',
         'LastEditedForCache'            => 'DBDatetime',
         'MetaTitle'                     => 'Varchar',
         'MetaTitleShort'                => 'Varchar',
