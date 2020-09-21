@@ -109,6 +109,7 @@ class ProductGroupPage extends \Page
         'DefaultGroupHolderView'        => 'Varchar(255)',
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DoNotShowProducts'             => 'Boolean(0)',
+        'ShowNewProducts'               => 'Boolean(0)',
         'LastEditedForCache'            => 'DBDatetime',
         'MetaTitle'                     => 'Varchar',
         'MetaTitleShort'                => 'Varchar',
@@ -159,12 +160,6 @@ class ProductGroupPage extends \Page
      * @var bool
      */
     private static $use_breadcrumb_title_for_meta_title = true;
-    /**
-     * Determines whether to show new products on a product group page or not.
-     *
-     * @var boolean
-     */
-    private static $show_new_products = true;
     /**
      * Determines whether to show pre-orderable products on a product group page or not.
      *
@@ -493,6 +488,7 @@ class ProductGroupPage extends \Page
             'MetaTitleBehavior_none'        => _t(ProductGroupPage::class . '.MetaTitleBehavior_none', 'disabled'),
             'MetaTitleBehavior_prefix'      => _t(ProductGroupPage::class . '.MetaTitleBehavior_prefix', 'enabled as prefix'),
             'MetaTitleBehavior_suffix'      => _t(ProductGroupPage::class . '.MetaTitleBehavior_suffix', 'enabled as suffix'),
+            'ShowNewProducts'               => _t(ProductGroupPage::class . '.ShowNewProducts', 'Show new products'),
         ]);
     }
 
@@ -520,6 +516,7 @@ class ProductGroupPage extends \Page
             $productGroupsPerPageField          = TextField::create('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
             $defaultGroupHolderViewField        = GroupViewHandler::getGroupViewDropdownField('DefaultGroupHolderView', $this->fieldLabel('DefaultGroupHolderView'), $this->DefaultGroupHolderView, $this->fieldLabel('DefaultGroupViewInherit'));
             $useOnlyDefaultGroupHolderViewField = DropdownField::create('UseOnlyDefaultGroupHolderView',  $this->fieldLabel('UseOnlyDefaultGroupHolderView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupHolderView);
+            $showNewProductField                = CheckboxField::create('ShowNewProducts',           $this->fieldLabel('ShowNewProducts'));
             $fieldGroup                         = FieldGroup::create('FieldGroup', '', $fields);
 
             $productsPerPageField->setRightTitle($this->fieldLabel('ProductsPerPageHint'));
@@ -533,7 +530,7 @@ class ProductGroupPage extends \Page
             $fieldGroup->breakAndPush(  $productGroupsPerPageField);
             $fieldGroup->breakAndPush(  $defaultGroupHolderViewField);
             $fieldGroup->push(          $useOnlyDefaultGroupHolderViewField);
-
+            $fieldGroup->breakAndPush(  $showNewProductField);
             $displaySettingsToggle = ToggleCompositeField::create(
                     'DisplaySettingsToggle',
                     $this->fieldLabel('DisplaySettings'),
@@ -1012,7 +1009,7 @@ class ProductGroupPage extends \Page
      */
     public function ShowNewProducts() : bool
     {
-        $showNewProducts = $this->config()->get('show_new_products');
+        $showNewProducts = $this->getShowNewProducts();
         if ($showNewProducts
          && !$this->getNewProducts()->exists()
         ) {
@@ -1287,6 +1284,22 @@ class ProductGroupPage extends \Page
             $this->extend('updateDoNotShowProducts', $doNotShowProducts);
         }
         return $doNotShowProducts;
+    }
+    
+    /**
+     * Returns the ShowNewProducts setting.
+     * 
+     * @return bool
+     */
+    public function getShowNewProducts() : bool
+    {
+        $showNewProducts = (bool) $this->getField('ShowNewProducts');
+        if (!$this->getCMSFieldsIsCalled
+         && !Tools::isBackendEnvironment()
+        ) {
+            $this->extend('updateShowNewProducts', $showNewProducts);
+        }
+        return $showNewProducts;
     }
     
     /**

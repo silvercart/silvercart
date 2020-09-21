@@ -1588,6 +1588,7 @@ en:
         PRODUCTS_ON_PAGE: '{productcount} products on {pagecount} page'
         PRODUCTS_ON_PAGES: '{productcount} products on {pagecount} pages'
         PRODUCT_ON_PAGE: '{productcount} product on {pagecount} page'
+        ShowNewProducts: 'Show new product'
         ShowOffersFor: 'Show offers for'
         ShowResultsFor: 'Show results for'
         ShowResultsForAll: 'Show results for all categories'

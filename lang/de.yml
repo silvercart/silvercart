@@ -1588,6 +1588,7 @@ de:
         PRODUCTS_ON_PAGE: '{productcount} Artikel auf {pagecount} Seite'
         PRODUCTS_ON_PAGES: '{productcount} Artikel auf {pagecount} Seiten'
         PRODUCT_ON_PAGE: '{productcount} Artikel auf {pagecount} Seite'
+        ShowNewProducts: 'Zeige neue Artikel'
         ShowOffersFor: 'Angebote anzeigen für'
         ShowResultsFor: 'Ergebnisse anzeigen für'
         ShowResultsForAll: 'Ergebnisse für alle Kategorien anzeigen'
