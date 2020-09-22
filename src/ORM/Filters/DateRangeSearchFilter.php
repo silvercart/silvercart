@@ -66,10 +66,10 @@ class DateRangeSearchFilter extends SearchFilter
      */
     public function initValue() : void
     {
-        $value = $this->getValue();
+        $value   = $this->getValue();
+        $max_val = null;
         if (strpos($value, '-') === false) {
             $min_val = $value;
-            $max_val = null;
         } else {
             preg_match('/([^\s]*)(\s-\s(.*))?/i', $value, $matches);
             $min_val = (isset($matches[1])) ? $matches[1] : null;
