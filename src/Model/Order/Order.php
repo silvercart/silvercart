@@ -688,7 +688,7 @@ class Order extends DataObject implements PermissionProvider
      */
     public function getCreatedNice()
     {
-        return date('d.m.Y H:i', strtotime($this->Created)) . ' Uhr';
+        return Tools::getDateWithTimeNice($this->Created);
     }
     
     /**

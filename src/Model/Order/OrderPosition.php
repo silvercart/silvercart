@@ -111,6 +111,7 @@ class OrderPosition extends DataObject
      * @var array
      */
     private static $casting = [
+        'CreatedNice'       => 'Text',
         'PriceNice'         => 'Varchar(255)',
         'PriceTotalNice'    => 'Varchar(255)',
         'FullTitle'         => 'HtmlText',
@@ -234,6 +235,7 @@ class OrderPosition extends DataObject
     public function summaryFields() : array
     {
         $summaryFields = [
+            'CreatedNice'           => $this->Order()->fieldLabel('Created'),
             'ProductNumber'         => $this->fieldLabel('ProductNumber'),
             'FullTitle'             => $this->fieldLabel('Title'),
             'PriceNice'             => $this->fieldLabel('Price'),
@@ -416,6 +418,16 @@ class OrderPosition extends DataObject
     {
         $html = Tools::string2html($this->ProductDescription);
         return trim(str_replace([PHP_EOL], " ", strip_tags($html->LimitWordCount($numWords))), "\xC2\xA0\n ");
+    }
+
+    /**
+     * returns the orders creation date formated: dd.mm.yyyy hh:mm
+     *
+     * @return string
+     */
+    public function getCreatedNice() : string
+    {
+        return Tools::getDateWithTimeNice($this->Created);
     }
 
     /**

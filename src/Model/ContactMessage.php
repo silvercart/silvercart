@@ -156,7 +156,7 @@ class ContactMessage extends DataObject
      */
     public function getCreatedNice() : string
     {
-        return date('d.m.Y - H:i', strtotime($this->Created));
+        return Tools::getDateWithTimeNice($this->Created);
     }
 
     /**
