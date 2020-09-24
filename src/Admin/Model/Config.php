@@ -40,6 +40,9 @@ class Config
 {
     use Extensible;
     
+    const PRICE_TYPE_GROSS = 'gross';
+    const PRICE_TYPE_NET   = 'net';
+    
     /**
      * Contains the possible values for products per page selectors for
      * storefront users.
@@ -1634,5 +1637,4 @@ class Config
         }
         return self::$useDefaultLanguageAsFallback;
     }
-
 }
