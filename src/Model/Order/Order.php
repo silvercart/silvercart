@@ -1408,7 +1408,7 @@ class Order extends DataObject implements PermissionProvider
 
                 foreach ($registeredModules as $moduleName => $moduleOutput) {
                     foreach ($moduleOutput as $modulePosition) {
-                        $orderPosition = new OrderPosition();
+                        $orderPosition = OrderPosition::create();
                         if ($this->IsPriceTypeGross()) {
                             if ($modulePosition->Price instanceof DBMoney) {
                                 $price = $modulePosition->Price->getAmount();
@@ -1442,7 +1442,9 @@ class Order extends DataObject implements PermissionProvider
                             $orderPosition->chargeOrDiscountModificationImpact  = $modulePosition->chargeOrDiscountModificationImpact;
                         }
                         $orderPosition->OrderID = $this->ID;
+                        $this->extend('onBeforeConvertSingleModulePositionToOrderPosition', $modulePosition, $orderPosition, $moduleName);
                         $orderPosition->write();
+                        $this->extend('onAfterConvertSingleModulePositionToOrderPosition', $modulePosition, $orderPosition, $moduleName);
                         unset($orderPosition);
                     }
                 }
