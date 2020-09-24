@@ -11,6 +11,7 @@ use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
 use SilverCart\Model\Product\Product;
 use SilverStripe\Control\Controller;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDecimal;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -430,6 +431,16 @@ class ShoppingCartPosition extends DataObject
     public function getShoppingCartPositionNotices() : DBHTMLText
     {
         return ShoppingCartPositionNotice::getNotices($this->ID);
+    }
+    
+    /**
+     * Returns a list of notices.
+     * 
+     * @return ArrayList
+     */
+    public function getShoppingCartPositionNoticesList() : ArrayList
+    {
+        return ShoppingCartPositionNotice::getNoticesList($this->ID);
     }
 
     /**

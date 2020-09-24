@@ -4,7 +4,9 @@ namespace SilverCart\Model\Order;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\ShoppingCartPosition;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\View\ArrayData;
 
 /**
  * Contains a couple of static methods for shopping cart related notices for the
@@ -23,6 +25,10 @@ class ShoppingCartPositionNotice
     const NOTICE_CODE_DELETED              = 'deleted';
     const NOTICE_CODE_MAX_QUANTITY_REACHED = 'maxQuantityReached';
     const NOTICE_CODE_REMAINING            = 'remaining';
+    const NOTICE_TYPE_DANGER               = 'danger';
+    const NOTICE_TYPE_INFO                 = 'info';
+    const NOTICE_TYPE_SUCCESS              = 'success';
+    const NOTICE_TYPE_WARNING              = 'warning';
     const SESSION_KEY_ADDITIONAL_NOTICES   = 'SilverCart.AdditionalShoppingCartPositionNotices';
     
     /**
@@ -33,7 +39,7 @@ class ShoppingCartPositionNotice
      * 
      * @return void
      */
-    public static function addAllowedNotice(string $code, string $text, string $type = 'hint') : void
+    public static function addAllowedNotice(string $code, string $text, string $type = self::NOTICE_TYPE_WARNING) : void
     {
         $notices = (array) Tools::Session()->get(self::SESSION_KEY_ADDITIONAL_NOTICES);
         Tools::Session()->set(self::SESSION_KEY_ADDITIONAL_NOTICES, array_merge($notices, [
@@ -45,6 +51,32 @@ class ShoppingCartPositionNotice
         Tools::saveSession();
     }
 
+    /**
+     * Returns the allowed notices.
+     * 
+     * @return array
+     */
+    public static function getAllowedNotices() : array
+    {
+        return array_merge([
+            self::NOTICE_CODE_ADJUSTED  => [
+                'text' => ShoppingCartPosition::singleton()->fieldLabel('QuantityAdjusted'),
+                'type' => self::NOTICE_TYPE_WARNING
+            ],
+            self::NOTICE_CODE_DELETED => [
+                'text' => ShoppingCartPosition::singleton()->fieldLabel('PositionDeleted'),
+                'type' => self::NOTICE_TYPE_WARNING
+            ],
+            self::NOTICE_CODE_REMAINING => [
+                'text' => ShoppingCartPosition::singleton()->fieldLabel('RemainingQuantityAdded'),
+                'type' => self::NOTICE_TYPE_WARNING
+            ],
+            self::NOTICE_CODE_MAX_QUANTITY_REACHED => [
+                'text' => ShoppingCartPosition::singleton()->fieldLabel('MaxQuantityReached'),
+                'type' => self::NOTICE_TYPE_WARNING
+            ],
+        ], (array) Tools::Session()->get(self::SESSION_KEY_ADDITIONAL_NOTICES));
+    }
 
     /**
      * Holds an array with possible notices that are selected with a $code
@@ -57,28 +89,28 @@ class ShoppingCartPositionNotice
     public static function getNoticeText(string $code) : string
     {
         $text    = '';
-        $notices = array_merge([
-            self::NOTICE_CODE_ADJUSTED  => [
-                'text' => ShoppingCartPosition::singleton()->fieldLabel('QuantityAdjusted'),
-                'type' => 'hint'
-            ],
-            self::NOTICE_CODE_DELETED => [
-                'text' => ShoppingCartPosition::singleton()->fieldLabel('PositionDeleted'),
-                'type' => 'hint'
-            ],
-            self::NOTICE_CODE_REMAINING => [
-                'text' => ShoppingCartPosition::singleton()->fieldLabel('RemainingQuantityAdded'),
-                'type' => 'hint'
-            ],
-            self::NOTICE_CODE_MAX_QUANTITY_REACHED => [
-                'text' => ShoppingCartPosition::singleton()->fieldLabel('MaxQuantityReached'),
-                'type' => 'hint'
-            ],
-        ], (array) Tools::Session()->get(self::SESSION_KEY_ADDITIONAL_NOTICES));
+        $notices = self::getAllowedNotices();
         if (array_key_exists($code, $notices)) {
             $text = $notices[$code]['text'];
         }
         return $text;   
+    }
+    
+    /**
+     * Returns the notice type for the given $code.
+     * 
+     * @param string $code Code to get type for
+     * 
+     * @return string
+     */
+    public static function getNoticeType(string $code) : string
+    {
+        $type    = self::NOTICE_TYPE_WARNING;
+        $notices = self::getAllowedNotices();
+        if (array_key_exists($code, $notices)) {
+            $type = $notices[$code]['type'];
+        }
+        return $type;   
     }
     
     /**
@@ -125,6 +157,29 @@ class ShoppingCartPositionNotice
     }
     
     /**
+     * Returns a list of notices for the given position ID.
+     * 
+     * @param int $positionID Position ID
+     * 
+     * @return ArrayList
+     */
+    public static function getNoticesList(int $positionID) : ArrayList
+    {
+        $list = ArrayList::create();
+        $notices = (array) Tools::Session()->get("position".$positionID);
+        if (array_key_exists('codes', $notices)) {
+            foreach ($notices['codes'] as $code) {
+                $list->push(ArrayData::create([
+                    'Notice' => DBHTMLText::create()->setValue(ShoppingCartPositionNotice::getNoticeText($code)),
+                    'Type'   => self::getNoticeType($code),
+                ]));
+            }
+            ShoppingCartPositionNotice::unsetNotices($positionID);
+        }
+        return $list;
+    }
+    
+    /**
      * Returns whether there are notices for the given position ID.
      * 
      * @param int $positionID Position ID
@@ -138,21 +193,21 @@ class ShoppingCartPositionNotice
     }
     
     /**
-     * deletes only one specific position notice.
+     * Deletes only one specific position notice.
      * 
-     * @param integer $positionID the positions id
-     * @param string  $code       the code to identify the message 
+     * @param int    $positionID The positions id
+     * @param string $code       The code to identify the message 
      * 
-     * @return bool Was the notice unset?
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 7.8.2011
+     * @return bool
      */
-    public static function unsetNotice($positionID, $code) : bool
+    public static function unsetNotice(int $positionID, string $code) : bool
     {
-        $notices = Tools::Session()->get("position".$positionID);
-        if (array_key_exists('codes', $notices)) {
-            unset ($notices[$code]);
+        $notices = (array) Tools::Session()->get("position".$positionID);
+        if (array_key_exists('codes', $notices)
+         && in_array($code, $notices['codes'])
+        ) {
+            unset ($notices['codes'][array_search($code, $notices['codes'])]);
+            Tools::Session()->clear("position".$positionID);
             Tools::Session()->set("position".$positionID, $notices);
             Tools::saveSession();
             return true;
