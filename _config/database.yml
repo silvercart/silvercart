@@ -1,0 +1,13 @@
+---
+name: silvercart-databaseconnectors
+---
+SilverStripe\Core\Injector\Injector:
+  SilverCartMySQLPDODatabase:
+    class: 'SilverStripe\ORM\Connect\MySQLDatabase'
+    properties:
+      connector: '%$SilverCartPDOConnector'
+      schemaManager: '%$MySQLSchemaManager'
+      queryBuilder: '%$MySQLQueryBuilder'
+  SilverCartPDOConnector:
+    class: 'SilverCart\ORM\Connect\PDOConnector'
+    type: prototype
