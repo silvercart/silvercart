@@ -10,3 +10,5 @@ SilverStripe\Core\Injector\Injector:
     class: SilverCart\Forms\HiddenField
   SilverStripe\Security\MemberAuthenticator\LostPasswordHandler:
     class: SilverCart\Security\MemberAuthenticator\LostPasswordHandler
+  SilverStripe\View\SSTemplateParser:
+    class: SilverCart\View\SCTemplateParser
