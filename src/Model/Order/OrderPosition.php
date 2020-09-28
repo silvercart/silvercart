@@ -235,13 +235,15 @@ class OrderPosition extends DataObject
     public function summaryFields() : array
     {
         $summaryFields = [
-            'CreatedNice'           => $this->Order()->fieldLabel('Created'),
-            'ProductNumber'         => $this->fieldLabel('ProductNumber'),
-            'FullTitle'             => $this->fieldLabel('Title'),
-            'PriceNice'             => $this->fieldLabel('Price'),
-            'TaxRate'               => $this->fieldLabel('TaxRate'),
-            'Quantity'              => $this->fieldLabel('Quantity'),
-            'PriceTotalNice'        => $this->fieldLabel('PriceTotal'),
+            'CreatedNice'                 => $this->Order()->fieldLabel('Created'),
+            'Order.OrderNumber'           => $this->Order()->fieldLabel('OrderNumber'),
+            'Order.Member.CustomerNumber' => $this->Order()->Member()->fieldLabel('CustomerNumber'),
+            'ProductNumber'               => $this->fieldLabel('ProductNumber'),
+            'FullTitle'                   => $this->fieldLabel('Title'),
+            'PriceNice'                   => $this->fieldLabel('Price'),
+            'TaxRate'                     => $this->fieldLabel('TaxRate'),
+            'Quantity'                    => $this->fieldLabel('Quantity'),
+            'PriceTotalNice'              => $this->fieldLabel('PriceTotal'),
         ];
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
