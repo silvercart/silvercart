@@ -2363,6 +2363,16 @@ class ShoppingCart extends DataObject
     }
     
     /**
+     * Returns a list with notices.
+     * 
+     * @return ArrayList
+     */
+    public function getShoppingCartPositionNoticesList() : ArrayList
+    {
+        return ShoppingCartPositionNotice::getNoticesList(0);
+    }
+    
+    /**
      * Is a notice set in the session?
      * 
      * @return bool

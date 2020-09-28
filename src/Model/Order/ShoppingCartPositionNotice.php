@@ -29,6 +29,9 @@ class ShoppingCartPositionNotice
     const NOTICE_TYPE_INFO                 = 'info';
     const NOTICE_TYPE_SUCCESS              = 'success';
     const NOTICE_TYPE_WARNING              = 'warning';
+    const NOTICE_FA_EXCLAMATION_CIRCLE     = 'exclamation-circle';
+    const NOTICE_FA_CHECK                  = 'check';
+    const NOTICE_FA_INFO_CIRCLE            = 'info-circle';
     const SESSION_KEY_ADDITIONAL_NOTICES   = 'SilverCart.AdditionalShoppingCartPositionNotices';
     
     /**
@@ -36,16 +39,18 @@ class ShoppingCartPositionNotice
      * 
      * @param string $code Code
      * @param string $text Text
+     * @param string $icon Icon
      * 
      * @return void
      */
-    public static function addAllowedNotice(string $code, string $text, string $type = self::NOTICE_TYPE_WARNING) : void
+    public static function addAllowedNotice(string $code, string $text, string $type = self::NOTICE_TYPE_WARNING, string $icon = self::NOTICE_FA_EXCLAMATION_CIRCLE) : void
     {
         $notices = (array) Tools::Session()->get(self::SESSION_KEY_ADDITIONAL_NOTICES);
         Tools::Session()->set(self::SESSION_KEY_ADDITIONAL_NOTICES, array_merge($notices, [
             $code => [
                 'text' => $text,
                 'type' => $type,
+                'icon' => $icon,
             ],
         ]));
         Tools::saveSession();
@@ -114,6 +119,23 @@ class ShoppingCartPositionNotice
     }
     
     /**
+     * Returns the notice icon for the given $code.
+     * 
+     * @param string $code Code to get icon for
+     * 
+     * @return string
+     */
+    public static function getNoticeIcon(string $code) : string
+    {
+        $icon    = self::NOTICE_TYPE_WARNING;
+        $notices = self::getAllowedNotices();
+        if (array_key_exists($code, $notices)) {
+            $icon = $notices[$code]['icon'];
+        }
+        return $icon;   
+    }
+    
+    /**
      * adds a notice to a position
      * 
      * @param integer $positionID object id of the position
@@ -172,6 +194,7 @@ class ShoppingCartPositionNotice
                 $list->push(ArrayData::create([
                     'Notice' => DBHTMLText::create()->setValue(ShoppingCartPositionNotice::getNoticeText($code)),
                     'Type'   => self::getNoticeType($code),
+                    'Icon'   => self::getNoticeIcon($code),
                 ]));
             }
             ShoppingCartPositionNotice::unsetNotices($positionID);
