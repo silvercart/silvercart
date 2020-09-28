@@ -47,7 +47,9 @@ class LostPasswordHandler extends SilverStripeLostPasswordHandler
         return ShopEmail::send(
                 'ChangePassword',
                 $member->Email,
-                $variables
+                $variables,
+                [],
+                $member->Locale
         );
     }
 }

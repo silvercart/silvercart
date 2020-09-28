@@ -1332,7 +1332,9 @@ class Customer extends DataExtension implements TemplateGlobalProvider
         ShopEmail::send(
                 'ChangePassword',
                 $member->Email,
-                $variables
+                $variables,
+                [],
+                $member->Locale
         );
     }
     
@@ -1396,9 +1398,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider
                 $this->owner->RegistrationOptInConfirmationHash = $this->createOptInConfirmationHash();
                 $this->owner->write();
             }
-            ShopEmail::send('RegistrationOptIn', $this->owner->Email, [
-                'Customer' => $this->owner,
-            ]);
+            ShopEmail::send('RegistrationOptIn', $this->owner->Email, ['Customer' => $this->owner], [], $this->owner->Locale);
         }
     }
     
@@ -1421,12 +1421,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider
             $confirmed = true;
             $this->owner->RegistrationOptInConfirmed = true;
             $this->owner->write();
-            ShopEmail::send('RegistrationOptInConfirmation', $this->owner->Email, [
-                'Customer' => $this->owner,
-            ]);
-            ShopEmail::send('RegistrationOptInNotification', Config::DefaultMailOrderNotificationRecipient(), [
-                'Customer' => $this->owner,
-            ]);
+            ShopEmail::send('RegistrationOptInConfirmation', $this->owner->Email, ['Customer' => $this->owner], [], $this->owner->Locale);
+            ShopEmail::send('RegistrationOptInNotification', Config::DefaultMailOrderNotificationRecipient(), ['Customer' => $this->owner], [], Tools::default_locale()->getLocale());
         }
         return $confirmed;
     }

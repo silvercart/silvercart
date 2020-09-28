@@ -111,6 +111,19 @@ trait ExtensibleDataObject
     }
     
     /**
+     * Resets the field label cache.
+     * 
+     * @return void
+     * 
+     * @author Sebastian Diel <sdiel@pixeltricks.de>
+     * @since 28.09.2020
+     */
+    public static function reset_field_labels() : void
+    {
+        self::$_cache_field_labels = [];
+    }
+    
+    /**
      * Returns the default field labels for this DataObject.
      * 
      * @var string $objectName Optional context object name

@@ -9,11 +9,13 @@ use SilverCart\Model\EmailAddress;
 use SilverCart\Model\ShopEmailTranslation;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\View\SCTemplateParser;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTP;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
@@ -472,8 +474,14 @@ class ShopEmail extends DataObject {
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 16.06.2014
      */
-    public static function send($identifier, $to, $variables = [], $attachments = null) : bool
+    public static function send(string $identifier, string $to, array $variables = [], array $attachments = null, string $locale = null) : bool
     {
+        $originalLocale = null;
+        if ($locale !== null) {
+            $originalLocale = Tools::current_locale();
+            i18n::set_locale($locale);
+            Tools::set_current_locale($locale);
+        }
         $email = ShopEmail::get()->filter('TemplateName', $identifier)->first();
 
         if (!($email instanceof ShopEmail)
@@ -490,12 +498,24 @@ class ShopEmail extends DataObject {
         if (!is_array($variables)) {
             $variables = [];
         }
-        
+        DataObject::reset();
+        foreach ($variables as $variable) {
+            if ($variable instanceof DataObject) {
+                if ($variable->hasMethod('reset_field_labels')) {
+                    $variable->reset_field_labels();
+                    break;
+                } elseif ($variable->hasMethod('reset')) {
+                    $variable->reset();
+                    break;
+                }
+            }
+        }
+        SCTemplateParser::config()->set('disable_field_label_cache', true);
         Requirements::clear();
         $frontendThemes = SSViewer::config()->themes;
         $adminThemes    = SSViewer::get_themes();
         SSViewer::set_themes($frontendThemes);
-        $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(new ArrayData($variables)));
+        $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(ArrayData::create($variables)));
         $variables['ShopEmailSubject'] = $subject;
         $htmlText = $email->customise($variables)->renderWith(['SilverCart/Email/' . $identifier, 'SilverCart/Email/ShopEmail']);
         if (SSViewer::hasTemplate(['SilverCart/Email/Layout/' . $identifier . 'Plain'])) {
@@ -505,6 +525,7 @@ class ShopEmail extends DataObject {
         }
         SSViewer::set_themes($adminThemes);
         Requirements::restore();
+        SCTemplateParser::config()->set('disable_field_label_cache', false);
         
         if (empty($plainText)) {
             $plainText = strip_tags($htmlText);
@@ -543,6 +564,10 @@ class ShopEmail extends DataObject {
                 self::send_email($recipient, $subject, $htmlText, $attachments);
             }
         }
+        if ($originalLocale !== null) {
+            i18n::set_locale($originalLocale);
+            Tools::set_current_locale($originalLocale);
+        }
         return $result;
     }
     
@@ -559,7 +584,7 @@ class ShopEmail extends DataObject {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
      */
-    public static function send_email($recipient, $subject, $content, $attachments = null) : bool
+    public static function send_email($recipient, string $subject, string $content, array $attachments = null) : bool
     {
         if (Director::isDev()) {
             $devEmailRecipient = self::config()->get('dev_email_recipient');

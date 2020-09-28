@@ -17,6 +17,7 @@ use SilverCart\Model\Pages\RevocationFormPage;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\i18n\i18n;
 use SilverStripe\Security\Member;
 
 /**
@@ -172,9 +173,11 @@ class RevocationForm extends CustomForm
         ];
         
         ShopEmail::send(
-            'RevocationNotification',
-            Config::DefaultMailOrderNotificationRecipient(),
-            $variables
+                'RevocationNotification',
+                Config::DefaultMailOrderNotificationRecipient(),
+                $variables,
+                [],
+                Tools::default_locale()->getLocale()
         );
         ShopEmail::send(
             'RevocationConfirmation',

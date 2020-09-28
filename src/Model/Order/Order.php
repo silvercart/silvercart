@@ -2805,13 +2805,15 @@ class Order extends DataObject implements PermissionProvider
             $params['OrderConfirmation']['Template'],
             $params['OrderConfirmation']['Recipient'],
             $params['OrderConfirmation']['Variables'],
-            $params['OrderConfirmation']['Attachments']
+            $params['OrderConfirmation']['Attachments'],
+            $this->Member()->Locale
         );
         ShopEmail::send(
             $params['OrderNotification']['Template'],
             $params['OrderNotification']['Recipient'],
             $params['OrderNotification']['Variables'],
-            $params['OrderNotification']['Attachments']
+            $params['OrderNotification']['Attachments'],
+            Tools::default_locale()->getLocale()
         );
         $this->extend('onAfterConfirmationMail', $params);
         return $this;

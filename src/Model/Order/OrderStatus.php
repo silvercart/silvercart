@@ -299,17 +299,19 @@ class OrderStatus extends DataObject
         if ($shopEmails) {
             foreach ($shopEmails as $shopEmail) {
                 ShopEmail::send(
-                    $shopEmail->TemplateName,
-                    $order->CustomersEmail,
-                    [
-                        'Order'             => $order,
-                        'OrderNumber'       => $order->OrderNumber,
-                        'CustomersEmail'    => $order->CustomersEmail,
-                        'FirstName'         => $order->InvoiceAddress()->FirstName,
-                        'Surname'           => $order->InvoiceAddress()->Surname,
-                        'Salutation'        => $order->InvoiceAddress()->Salutation,
-                        'SalutationText'    => $order->InvoiceAddress()->SalutationText,
-                    ]
+                        $shopEmail->TemplateName,
+                        $order->CustomersEmail,
+                        [
+                            'Order'             => $order,
+                            'OrderNumber'       => $order->OrderNumber,
+                            'CustomersEmail'    => $order->CustomersEmail,
+                            'FirstName'         => $order->InvoiceAddress()->FirstName,
+                            'Surname'           => $order->InvoiceAddress()->Surname,
+                            'Salutation'        => $order->InvoiceAddress()->Salutation,
+                            'SalutationText'    => $order->InvoiceAddress()->SalutationText,
+                        ],
+                        [],
+                        $order->Member()->Locale
                 );
             }
         }

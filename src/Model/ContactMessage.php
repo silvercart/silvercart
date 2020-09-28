@@ -219,9 +219,11 @@ class ContactMessage extends DataObject
         }
 
         ShopEmail::send(
-            'ContactMessage',
-            Config::DefaultContactMessageRecipient(),
-            $fields
+                'ContactMessage',
+                Config::DefaultContactMessageRecipient(),
+                $fields,
+                [],
+                Tools::default_locale()->getLocale()
         );
         if ($this->config()->send_acknowledgement_of_receipt) {
             ShopEmail::send(

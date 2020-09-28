@@ -91,7 +91,7 @@ class Newsletter {
                 // Opt-in has to be done first
                 $confirmationHash = self::createConfirmationHash($member->Salutation, $member->FirstName, $member->Surname, $member->Email);
                 $member->setField('NewsletterConfirmationHash', Convert::raw2sql($confirmationHash));
-                self::sendOptInEmailTo($member->Salutation, $member->FirstName, $member->Surname, $member->Email, $confirmationHash);
+                self::sendOptInEmailTo($member->Salutation, $member->FirstName, $member->Surname, $member->Email, $confirmationHash, $member->Locale);
             }
             $member->write();
             $subscribed = true;
@@ -225,23 +225,24 @@ class Newsletter {
      * @param string $surName          The last name to use
      * @param string $email            The email address to use
      * @param string $confirmationHash The hash value to use for identification
+     * @param string $locale           Locale
      * 
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.08.2011
      */
-    public static function sendOptInEmailTo($salutation, $firstName, $surName, $email, $confirmationHash) {
+    public static function sendOptInEmailTo(string $salutation, string $firstName, string $surName, string $email, string $confirmationHash, string $locale = null) : void
+    {
         ShopEmail::send(
-            'NewsletterOptIn',
-            $email,
-            array(
-                'Salutation'        => $salutation,
-                'FirstName'         => $firstName,
-                'Surname'           => $surName,
-                'Email'             => $email,
-                'ConfirmationLink'  => Director::absoluteURL(Tools::PageByIdentifierCode(Page::IDENTIFIER_NEWSLETTER_PAGE)->Link('optin')).'?h='.urlencode($confirmationHash)
-            )
+                'NewsletterOptIn',
+                $email,
+                [
+                    'Salutation'        => $salutation,
+                    'FirstName'         => $firstName,
+                    'Surname'           => $surName,
+                    'Email'             => $email,
+                    'ConfirmationLink'  => Director::absoluteURL(Tools::PageByIdentifierCode(Page::IDENTIFIER_NEWSLETTER_PAGE)->Link('optin')).'?h='.urlencode($confirmationHash)
+                ],
+                [],
+                $locale
         );
     }
     

@@ -326,10 +326,9 @@ class PageController extends ContentController
     {
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
             if (Config::isUserAgentBlacklisted($_SERVER['HTTP_USER_AGENT'])) {
-                exit();
+                $this->httpError(403);
             }
         }
-
         if (array_key_exists($this->ID, self::$instanceMemorizer)) {
             parent::init();
             return;
@@ -361,14 +360,19 @@ class PageController extends ContentController
         $registeredCustomer = Customer::currentRegisteredCustomer();
         if ($registeredCustomer instanceof Member
          && $registeredCustomer->exists()
-         && !$registeredCustomer->RegistrationOptInConfirmed
-         && !($this instanceof RegistrationPageController)
         ) {
-            $registrationPage = RegistrationPage::get()->first();
-            if ($registrationPage instanceof RegistrationPage
-             && $registrationPage->exists()
+            if (!$registeredCustomer->RegistrationOptInConfirmed
+             && !($this instanceof RegistrationPageController)
             ) {
-                $this->redirect($registrationPage->Link('optinpending'));
+                $registrationPage = RegistrationPage::get()->first();
+                if ($registrationPage instanceof RegistrationPage
+                 && $registrationPage->exists()
+                ) {
+                    $this->redirect($registrationPage->Link('optinpending'));
+                }
+            } elseif ($registeredCustomer->Locale !== Tools::current_locale()) {
+                $registeredCustomer->Locale = Tools::current_locale();
+                $registeredCustomer->write();
             }
         }
 
