@@ -199,9 +199,9 @@ class CustomForm extends Form
      * 
      * @param string $message Error message
      * 
-     * @return Controller
+     * @return Controller|null
      */
-    public function setErrorMessage(string $message) : Controller
+    public function setErrorMessage(string $message) : ?Controller
     {
         $this->sessionMessage($message, 'error');
         return $this->getController();
@@ -212,9 +212,9 @@ class CustomForm extends Form
      * 
      * @param string $message Success message
      * 
-     * @return Controller
+     * @return Controller|null
      */
-    public function setSuccessMessage(string $message) : Controller
+    public function setSuccessMessage(string $message) : ?Controller
     {
         $this->sessionMessage($message, 'success');
         return $this->getController();
