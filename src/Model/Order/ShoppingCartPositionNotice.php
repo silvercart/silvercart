@@ -230,6 +230,9 @@ class ShoppingCartPositionNotice
          && in_array($code, $notices['codes'])
         ) {
             unset ($notices['codes'][array_search($code, $notices['codes'])]);
+            if (empty($notices['codes'])) {
+                $notices = [];
+            }
             Tools::Session()->clear("position".$positionID);
             Tools::Session()->set("position".$positionID, $notices);
             Tools::saveSession();
