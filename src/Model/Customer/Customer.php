@@ -961,23 +961,17 @@ class Customer extends DataExtension implements TemplateGlobalProvider
      * Get the customers shopping cart or create one if it doesn't exist yet.
      * 
      * @return ShoppingCart
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 01.12.2014
      */
-    public function getCart() {
+    public function getCart() : ShoppingCart
+    {
         $id = $this->owner->ID;
-
         if (!array_key_exists($id, self::$shoppingCartList)) {
-            if ($this->owner->ShoppingCartID == 0 ||
-                !ShoppingCart::get()->byID($this->owner->ShoppingCartID)) {
-                $cart = new ShoppingCart();
+            if (!$this->owner->ShoppingCart()->exists()) {
+                $cart = ShoppingCart::create();
                 $cart->write();
                 $this->owner->ShoppingCartID = $cart->ID;
                 $this->owner->write();
             }
-
             self::$shoppingCartList[$id] = $this->owner->ShoppingCart();
         }
         return self::$shoppingCartList[$id];

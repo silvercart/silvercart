@@ -206,7 +206,7 @@ class ShoppingCart extends DataObject
     {
         return self::$clear_checkout_after_write;
     }
-
+    
     /**
      * default constructor
      *
@@ -2245,21 +2245,29 @@ class ShoppingCart extends DataObject
             if (in_array($registeredModule, $excludeModules)) {
                 continue;
             }
-            $registeredModuleObjPlain = new $registeredModule();
-            if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
-                $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
+            $singleton = singleton($registeredModule);
+            $objects   = ArrayList::create();
+            if ($singleton->hasMethod('loadObjectsForShoppingCart')) {
+                $objects = $singleton->loadObjectsForShoppingCart($this);
+            } elseif ($singleton->hasMethod('loadObjectForShoppingCart')) {
+                $object = $singleton->loadObjectForShoppingCart($this);
+                if (is_object($object)) {
+                    $objects->push($object);
+                }
             } else {
-                $registeredModuleObj = $registeredModuleObjPlain;
+                $objects->push($singleton);
             }
-            if ($registeredModuleObj) {
-                if ($registeredModuleObj->hasMethod($methodName)) {
-                    if (!empty($excludeShoppingCartPositions)) {
-                        $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
+            if ($objects->exists()) {
+                foreach ($objects as $object) {
+                    if ($object->hasMethod($methodName)) {
+                        if (!empty($excludeShoppingCartPositions)) {
+                            $parameters['excludeShoppingCartPositions'] = $excludeShoppingCartPositions;
+                        }
+                        $outputOfModules[$registeredModule] = call_user_func_array([
+                            $object,
+                            $methodName
+                        ], $parameters);
                     }
-                    $outputOfModules[$registeredModule] = call_user_func_array([
-                        $registeredModuleObj,
-                        $methodName
-                    ], $parameters);
                 }
             }
         }
