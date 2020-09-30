@@ -265,6 +265,9 @@ SilverCart\Model\Widgets\TextWidget:
 SilverCart\Model\Widgets\TextWithLinkWidget:
   extensions:
     - SilverCart\Model\Translation\TranslatableDataObjectExtension
+TractorCow\Fluent\Model\Locale:
+  extensions:
+    - SilverCart\Extensions\TractorCow\Fluent\Model\LocaleExtension
 Wilr\GoogleSitemaps\GoogleSitemap:
   extensions:
     - SilverCart\Extensions\GoogleSitemaps\GoogleSitemapExtension
