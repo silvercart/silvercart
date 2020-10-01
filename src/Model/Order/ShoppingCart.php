@@ -583,43 +583,41 @@ class ShoppingCart extends DataObject
      *
      * @param array $formData the sended form data
      *
-     * @return bool
+     * @return ShoppingCartPosition
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.11.2014
      */
-    public static function addProduct($formData) {
-        $error  = true;
-        $member = Customer::currentUser();
-        
+    public static function addProduct(array $formData) : ?ShoppingCartPosition
+    {
+        $position = null;
+        $member   = Customer::currentUser();
         if (!$member) {
             $member = Customer::createAnonymousCustomer();
         }
-
         $overwriteAddProduct = false;
         $member->getCart()->extend('overwriteAddProduct', $overwriteAddProduct, $formData);
-        
-        if ($overwriteAddProduct) {
-            $error = false;
-        } elseif ($formData['productID'] && $formData['productQuantity']) {
+        if (!$overwriteAddProduct
+         && $formData['productID']
+         && $formData['productQuantity']
+        ) {
             $cart = $member->getCart();
-            if ($cart instanceof ShoppingCart &&
-                $cart->exists()) {
+            if ($cart instanceof ShoppingCart
+             && $cart->exists()
+            ) {
                 $product = Product::get()->byID($formData['productID']);
-                if ($product instanceof Product &&
-                    $product->exists()) {
+                if ($product instanceof Product
+                 && $product->exists()
+                ) {
                     $quantity = (float) str_replace(',', '.', $formData['productQuantity']);
-
                     if ($quantity > 0) {
-                        $product->addToCart($cart->ID, $quantity);
-                        $error = false;
+                        $position = $product->addToCart($cart->ID, $quantity);
                     }
                 }
             }
         }
-
-        return !$error;
+        return $position;
     }
 
     /**
