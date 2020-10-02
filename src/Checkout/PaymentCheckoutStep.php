@@ -96,7 +96,9 @@ trait PaymentCheckoutStep
      */
     public function resetPaymentProgress() : CheckoutStep
     {
-        $this->getPaymentMethod()->resetProgress();
+        if ($this->getPaymentMethod() !== null) {
+            $this->getPaymentMethod()->resetProgress();
+        }
         return $this;
     }
 }

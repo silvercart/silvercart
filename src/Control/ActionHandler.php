@@ -260,12 +260,12 @@ class ActionHandler extends Controller
      * @param string $backLink Back link to redirect to
      * @param string $anchor   Optional anchor to scroll to after redirect
      * 
-     * @return HTTPResponse
+     * @return HTTPResponse|null
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.03.2013
      */
-    public function redirectBack(string $backLink = null, string $anchor = '') : HTTPResponse
+    public function redirectBack(string $backLink = null, string $anchor = '') : ?HTTPResponse
     {
         $postVars = $this->getRequest()->postVars();
         if (is_null($backLink)
