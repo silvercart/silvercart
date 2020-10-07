@@ -104,6 +104,12 @@ class ShoppingCart extends DataObject
      */
     public static $createForms = true;
     /**
+     * Global cart context
+     *
+     * @var ShoppingCart
+     */
+    protected static $cart = null;
+    /**
      * Determines whether to clear checkout after writing or not.
      *
      * @var bool
@@ -184,6 +190,16 @@ class ShoppingCart extends DataObject
      * @var ArrayData[]
      */
     protected $deliveryTimeData = [];
+    
+    /**
+     * Returns the global shopping cart instance.
+     * 
+     * @return \SilverCart\Model\Order\ShoppingCart|null
+     */
+    public static function getCart() : ?ShoppingCart
+    {
+        return self::$cart;
+    }
 
     /**
      * Sets whether to clear checkout after writing or not.
@@ -222,6 +238,9 @@ class ShoppingCart extends DataObject
     {
         parent::__construct($record, $isSingleton);
         if ($this->ID > 0) {
+            if (self::$cart === null) {
+                self::$cart = $this;
+            }
             if (!Tools::isIsolatedEnvironment()
              && !Tools::isBackendEnvironment()
             ) {

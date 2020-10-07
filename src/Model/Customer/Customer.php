@@ -966,13 +966,19 @@ class Customer extends DataExtension implements TemplateGlobalProvider
     {
         $id = $this->owner->ID;
         if (!array_key_exists($id, self::$shoppingCartList)) {
-            if (!$this->owner->ShoppingCart()->exists()) {
-                $cart = ShoppingCart::create();
-                $cart->write();
-                $this->owner->ShoppingCartID = $cart->ID;
-                $this->owner->write();
+            $cart = ShoppingCart::getCart();
+            if (is_null($cart)
+            || (int) $cart->Member()->ID !== (int) $this->owner->ID
+            ) {
+                $cart = $this->owner->ShoppingCart();
+                if (!$cart->exists()) {
+                    $cart = ShoppingCart::create();
+                    $cart->write();
+                    $this->owner->ShoppingCartID = $cart->ID;
+                    $this->owner->write();
+                }
             }
-            self::$shoppingCartList[$id] = $this->owner->ShoppingCart();
+            self::$shoppingCartList[$id] = $cart;
         }
         return self::$shoppingCartList[$id];
     }
