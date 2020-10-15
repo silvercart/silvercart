@@ -105,14 +105,15 @@ class ShippingFee extends DataObject
      * @var array
      */
     private static $casting = [
-        'PriceFormatted'                => 'Varchar(20)',
-        'PriceFormattedPlain'           => 'Varchar(20)',
-        'AttributedShippingMethods'     => 'Varchar(255)',
-        'MaximumWeightLimitedOrNot'     => 'Varchar(255)',
-        'PriceAmount'                   => 'Varchar(255)',
-        'PriceCurrency'                 => 'Varchar(255)',
-        'MaximumWeightNice'             => 'Varchar(255)',
-        'MaximumWeightUnitAbbreviation' => 'Varchar(2)',
+        'PriceFormatted'                  => 'Varchar(20)',
+        'PriceFormattedPlain'             => 'Varchar(20)',
+        'AttributedShippingMethods'       => 'Varchar(255)',
+        'MaximumWeightLimitedOrNot'       => 'Varchar(255)',
+        'PriceAmount'                     => 'Varchar(255)',
+        'PriceCurrency'                   => 'Varchar(255)',
+        'MaximumWeightNice'               => 'Varchar(255)',
+        'MaximumWeightUnitAbbreviation'   => 'Varchar(2)',
+        'FeeWithCarrierAndShippingMethod' => 'Text',
     ];
     /**
      * Default sort field and direction

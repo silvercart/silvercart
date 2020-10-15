@@ -39,6 +39,25 @@ use SilverStripe\Security\Group;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property bool   $isActive                    Is active?
+ * @property bool   $isPickup                    Is pickup?
+ * @property int    $priority                    Priority
+ * @property bool   $DoNotShowOnShippingFeesPage Do not show this shipping method on  shipping fees page?
+ * @property int    $DeliveryTimeMin             Delivery time min
+ * @property int    $DeliveryTimeMax             Delivery time max
+ * @property string $DeliveryTimeText            Delivery time text
+ * 
+ * @method Carrier Carrier() Returns the related Carrier.
+ * @method Image   Logo()    Returns the related Logo.
+ * 
+ * @method \SilverStripe\ORM\HasManyList Orders()                     Returns the related Orders.
+ * @method \SilverStripe\ORM\HasManyList ShippingFees()               Returns the related ShippingFees.
+ * @method \SilverStripe\ORM\HasManyList ShippingMethodTranslations() Returns the related translations.
+ * 
+ * @method \SilverStripe\ORM\ManyManyList Zones()          Returns the related Zones.
+ * @method \SilverStripe\ORM\ManyManyList CustomerGroups() Returns the related customer Groups.
+ * @method \SilverStripe\ORM\ManyManyList PaymentMethods() Returns the related PaymentMethods.
  */
 class ShippingMethod extends DataObject
 {
