@@ -1968,6 +1968,17 @@ class Product extends DataObject implements PermissionProvider
 
         return Tools::string2html($output);
     }
+    
+    /**
+     * Clears the price cache.
+     * 
+     * @return \SilverCart\Model\Product\Product
+     */
+    public function clearPriceCache() : Product
+    {
+        $this->cacheHashes = [];
+        return $this;
+    }
 
     /**
      * Getter for product price
@@ -1981,6 +1992,7 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getPrice($priceType = '', $ignoreTaxExemption = false) : DBMoney
     {
+        $this->extend('onBeforeUpdatePrice', $priceType, $ignoreTaxExemption);
         $cacheHash    = md5($priceType);
         $cacheKeyPart = $ignoreTaxExemption ? '1' : '0';
         $cacheKey     = "getPrice_{$cacheHash}_{$cacheKeyPart}";
@@ -2014,6 +2026,7 @@ class Product extends DataObject implements PermissionProvider
         }
         //overwrite the price in a decorator
         $this->extend('updatePrice', $price);
+        $this->extend('onAfterUpdatePrice', $price);
         $this->price                  = $price;
         $this->cacheHashes[$cacheKey] = $this->price;
         return $this->price;
@@ -3240,7 +3253,7 @@ class Product extends DataObject implements PermissionProvider
     {
         parent::onAfterWrite();
         $this->addWidgetAreaIfNotExists();
-        $this->cacheHashes = [];
+        $this->clearPriceCache();
     }
     
     /**

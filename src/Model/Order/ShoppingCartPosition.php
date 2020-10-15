@@ -221,6 +221,17 @@ class ShoppingCartPosition extends DataObject
         }
         return Tools::string2html($addToTitleForWidget);
     }
+    
+    /**
+     * Clears the price cache.
+     * 
+     * @return ShoppingCartPosition
+     */
+    public function clearPriceCache() : ShoppingCartPosition
+    {
+        $this->prices = [];
+        return $this;
+    }
 
     /**
      * price sum of this position
@@ -234,6 +245,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function getPrice(bool $forSingleProduct = false, string $priceType = null) : DBMoney
     {
+        $this->extend('onBeforeUpdatePrice', $forSingleProduct, $priceType);
         $priceKey = (string) $forSingleProduct . '-' . (string) $priceType;
         if (!array_key_exists($priceKey, $this->prices)) {
             $overwrittenPrice = null;
@@ -256,6 +268,7 @@ class ShoppingCartPosition extends DataObject
             $priceObj->setAmount($price);
             $priceObj->setCurrency(Config::DefaultCurrency());
             $this->extend('updatePrice', $priceObj, $forSingleProduct);
+            $this->extend('onAfterUpdatePrice', $priceObj, $forSingleProduct);
             $this->prices[$priceKey] = $priceObj;
         }
         return $this->prices[$priceKey];
@@ -490,7 +503,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function getTaxAmount($forSingleProduct = false) : float
     {
-        if (Config::PriceType() == 'gross') {
+        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $taxRate = $this->getPrice($forSingleProduct)->getAmount() -
                        ($this->getPrice($forSingleProduct)->getAmount() /
                         (100 + $this->Product()->getTaxRate()) * 100); 

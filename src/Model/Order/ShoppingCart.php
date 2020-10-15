@@ -472,6 +472,17 @@ class ShoppingCart extends DataObject
     }
     
     /**
+     * Clears the price cache.
+     * 
+     * @return ShoppingCart
+     */
+    public function clearPriceCache() : ShoppingCart
+    {
+        $this->cacheHashes = [];
+        return $this;
+    }
+    
+    /**
      * Returns the charges and discounts for product values.
      *
      * @param string $priceType 'gross' or 'net'
@@ -1650,6 +1661,7 @@ class ShoppingCart extends DataObject
      */
     public function getAmountTotal(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
     {
+        $this->extend('onBeforeGetAmountTotal');
         if (Config::PriceType() == 'gross') {
             $amountTotal = $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
