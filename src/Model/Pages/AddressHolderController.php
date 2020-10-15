@@ -10,7 +10,6 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Pages\AddressHolder;
 use SilverCart\Model\Pages\MyAccountHolderController;
 use SilverCart\Model\Pages\Page;
-use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -252,59 +251,5 @@ class AddressHolderController extends MyAccountHolderController
             }
         }
         return $this->redirectBack();
-    }
-    
-    /**
-     * Get the error message out of session and delete it (from session).
-     *
-     * @return DBHTMLText
-     */
-    public function getErrorMessage() : DBHTMLText
-    {
-        $errorMessage = Tools::Session()->get('SilvercartAddressHolder.errorMessage');
-        Tools::Session()->clear('SilvercartAddressHolder.errorMessage');
-        Tools::saveSession();
-        return DBHTMLText::create()->setValue($errorMessage);
-    }
-
-    /**
-     * Set the error message into the session.
-     *
-     * @param string $errorMessage Error message
-     * 
-     * @return AddressHolderController
-     */
-    public function setErrorMessage(string $errorMessage) : Controller
-    {
-        Tools::Session()->set('SilvercartAddressHolder.errorMessage', $errorMessage);
-        Tools::saveSession();
-        return $this;
-    }
-    
-    /**
-     * Get the success message out of session and delete it (from session).
-     *
-     * @return DBHTMLText
-     */
-    public function getSuccessMessage() : DBHTMLText
-    {
-        $successMessage = Tools::Session()->get('SilvercartAddressHolder.successMessage');
-        Tools::Session()->clear('SilvercartAddressHolder.successMessage');
-        Tools::saveSession();
-        return DBHTMLText::create()->setValue($successMessage);
-    }
-
-    /**
-     * Set the success message into the session.
-     *
-     * @param string $successMessage Success message
-     * 
-     * @return AddressHolderController
-     */
-    public function setSuccessMessage(string $successMessage) : Controller
-    {
-        Tools::Session()->set('SilvercartAddressHolder.successMessage', $successMessage);
-        Tools::saveSession();
-        return $this;
     }
 }

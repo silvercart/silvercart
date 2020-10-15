@@ -49,6 +49,7 @@ use SilverStripe\View\Requirements;
  */
 class PageController extends ContentController
 {
+    use \SilverCart\View\MessageProvider;
     /**
      * Prevents recurring rendering of this page's controller.
      *
@@ -899,60 +900,6 @@ class PageController extends ContentController
     public function LostPasswordLink() : string
     {
         return Director::baseURL() . 'Security/lostpassword/?locale=' . Tools::current_locale();
-    }
-    
-    /**
-     * Get the error message out of session and delete it (from session).
-     *
-     * @return DBHTMLText
-     */
-    public function getErrorMessage() : DBHTMLText
-    {
-        $errorMessage = Tools::Session()->get('Silvercart.errorMessage');
-        Tools::Session()->clear('Silvercart.errorMessage');
-        Tools::saveSession();
-        return DBHTMLText::create()->setValue($errorMessage);
-    }
-
-    /**
-     * Set the error message into the session.
-     *
-     * @param string $errorMessage Error message
-     * 
-     * @return Controller
-     */
-    public function setErrorMessage(string $errorMessage) : Controller
-    {
-        Tools::Session()->set('Silvercart.errorMessage', $errorMessage);
-        Tools::saveSession();
-        return $this;
-    }
-    
-    /**
-     * Get the success message out of session and delete it (from session).
-     *
-     * @return DBHTMLText
-     */
-    public function getSuccessMessage() : DBHTMLText
-    {
-        $successMessage = Tools::Session()->get('Silvercart.successMessage');
-        Tools::Session()->clear('Silvercart.successMessage');
-        Tools::saveSession();
-        return DBHTMLText::create()->setValue($successMessage);
-    }
-
-    /**
-     * Set the success message into the session.
-     *
-     * @param string $successMessage Success message
-     * 
-     * @return Controller
-     */
-    public function setSuccessMessage(string $successMessage) : Controller
-    {
-        Tools::Session()->set('Silvercart.successMessage', $successMessage);
-        Tools::saveSession();
-        return $this;
     }
     
     /**

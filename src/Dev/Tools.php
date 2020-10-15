@@ -34,9 +34,21 @@ use TractorCow\Fluent\State\FluentState;
  */
 class Tools
 {
+    use \SilverStripe\Core\Config\Configurable;
     use \SilverStripe\Core\Extensible;
     use \SilverStripe\Core\Injector\Injectable;
     
+    const SESSION_KEY_MESSAGE_ERROR   = 'SilverCart.Message.Error';
+    const SESSION_KEY_MESSAGE_INFO    = 'SilverCart.Message.Info';
+    const SESSION_KEY_MESSAGE_SUCCESS = 'SilverCart.Message.Success';
+    const SESSION_KEY_MESSAGE_WARNING = 'SilverCart.Message.Warning';
+    /**
+     * The character(s) to use to seperate multiple messages of the same type to 
+     * render in template.
+     *
+     * @var string
+     */
+    private static $message_separator = '<br/>';
     /**
      * The base url segment
      *
