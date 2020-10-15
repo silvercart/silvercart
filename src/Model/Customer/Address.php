@@ -1358,18 +1358,41 @@ class Address extends DataObject implements PermissionProvider
     }
     
     /**
+     * Renders the address with the default template or the template with the given
+     * $templateAddition.
+     * 
+     * @param string $templateAddition Template addition
+     * @param string $headline         Headline
+     * @param string $cssClasses       CSS classes to add
+     * 
+     * @return DBHTMLText
+     */
+    public function forTemplate(string $templateAddition = null, string $headline = null, string $cssClasses = null) : DBHTMLText
+    {
+        $template = Address::class;
+        if ($templateAddition !== null) {
+            $template = "{$template}_{$templateAddition}";
+        }
+        return $this->renderWith($template, [
+            'HeadLine'   => $headline,
+            'CSSClasses' => $cssClasses,
+        ]);
+    }
+    
+    /**
      * Renders the address with the default template.
      * 
-     * @param string $headLine Headline
+     * @param string $headline   Headline
+     * @param string $cssClasses CSS classes to add
      * 
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function render(string $headLine = null) : DBHTMLText
+    public function render(string $headline = null, string $cssClasses = null) : DBHTMLText
     {
-        return $this->customise(['HeadLine' => $headLine])->renderWith(Address::class);
+        return $this->forTemplate(null, $headline, $cssClasses);
     }
 
     /**
