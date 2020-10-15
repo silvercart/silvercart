@@ -300,7 +300,7 @@ class OrderStatus extends DataObject
             foreach ($shopEmails as $shopEmail) {
                 ShopEmail::send(
                         $shopEmail->TemplateName,
-                        $order->CustomersEmail,
+                        (string) $order->CustomersEmail,
                         [
                             'Order'             => $order,
                             'OrderNumber'       => $order->OrderNumber,
