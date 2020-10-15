@@ -45,6 +45,7 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
@@ -692,6 +693,48 @@ class Order extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns the date the current order status was changed.
+     * 
+     * @return DBDatetime|null
+     */
+    public function getOrderStatusChangedDate() : ?DBDatetime
+    {
+        $date = null;
+        $log  = $this->OrderLogs()
+                ->filter([
+                    'Context'  => OrderStatus::class,
+                    'TargetID' => $this->OrderStatus()->ID,
+                ])
+                ->sort('Created', 'DESC')
+                ->first();
+        if ($log instanceof OrderLog) {
+            $date = $log->dbObject('Created');
+        }
+        return $date;
+    }
+    
+    /**
+     * Returns the date the current payment status was changed.
+     * 
+     * @return DBDatetime|null
+     */
+    public function getPaymentStatusChangedDate() : ?DBDatetime
+    {
+        $date = null;
+        $log  = $this->OrderLogs()
+                ->filter([
+                    'Context'  => PaymentStatus::class,
+                    'TargetID' => $this->PaymentStatus()->ID,
+                ])
+                ->sort('Created', 'DESC')
+                ->first();
+        if ($log instanceof OrderLog) {
+            $date = $log->dbObject('Created');
+        }
+        return $date;
+    }
+    
+    /**
      * Returns the expected delivery date (span).
      * 
      * @return string
@@ -1309,10 +1352,13 @@ class Order extends DataObject implements PermissionProvider
             $this->PriceType = $member->getPriceType();
 
             // adjust orders standard status
-            $orderStatus = OrderStatus::get_default();
-            if ($orderStatus instanceof OrderStatus
-             && $orderStatus->exists()) {
-                $this->OrderStatusID = $orderStatus->ID;
+            if ((int) $this->OrderStatusID === 0) {
+                $orderStatus = OrderStatus::get_default();
+                if ($orderStatus instanceof OrderStatus
+                 && $orderStatus->exists()
+                ) {
+                    $this->OrderStatusID = $orderStatus->ID;
+                }
             }
             $paymentStatus = $paymentMethod->PaymentStatus();
             if (!$paymentStatus->exists()) {
@@ -1704,6 +1750,27 @@ class Order extends DataObject implements PermissionProvider
         }
 
         return $orderStatusSet;
+    }
+
+    /**
+     * Set status by the given $orderStatusCode.
+     *
+     * @param string $orderStatusCode The order status code
+     *
+     * @return bool
+     */
+    public function setOrderStatusByCode(string $orderStatusCode) : bool
+    {
+        $changed = false;
+        $status  = OrderStatus::get_by_code($orderStatusCode);
+        if ($status instanceof OrderStatus
+         && $status->exists()
+        ) {
+            $this->OrderStatusID = $status->ID;
+            $this->write();
+            $changed = true;
+        }
+        return $changed;
     }
     
     /**
@@ -2744,6 +2811,17 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('updateIsPriceTypeNet', $isPriceTypeNet);
 
         return $isPriceTypeNet;
+    }
+    
+    /**
+     * Returns whether this order is a pickup order.
+     * 
+     * @return bool
+     */
+    public function IsPickup() : bool
+    {
+        return $this->ShippingMethod() instanceof ShippingMethod
+            && $this->ShippingMethod()->isPickup;
     }
 
     /**
