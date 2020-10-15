@@ -12,6 +12,7 @@ en:
         PrevPage: 'Previous page'
         ProductAddedToCart: 'The product was added to your cart.'
         ProductRemovedFromCart: 'The product was removed from your cart.'
+        since: since
         Until: until
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Execute
@@ -59,6 +60,7 @@ en:
         Info: 'Page {currentPage}, item {firstItem}'
         Info2Plural: '{totalItems} items on {totalPages} pages'
         Info2Singular: '{totalItems} items on {totalPages} page'
+        Info2SingularSingular: '{totalItems} item on {totalPages} page'
         InfoFirstIsLast: 'Page {currentPage}, item {firstItem} - {lastItem}'
     SilverCart\Model\Customer\Address:
         AcademicTitle: 'Academic title'

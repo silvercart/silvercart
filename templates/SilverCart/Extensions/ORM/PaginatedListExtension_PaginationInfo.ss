@@ -6,9 +6,13 @@
     <% end_if %>
     <span class="font-weight-normal border-left border-dark ml-2 pl-2">
     <% if $TotalPages == 1 %>
-    <%t SilverCart\Extensions\ORM\PaginatedListExtension.Info2Singular '{totalItems} items on {totalPages} page' totalItems=$TotalItems totalPages=$TotalPages %>
+        <% if $TotalItems == 1 %>
+            <%t SilverCart\Extensions\ORM\PaginatedListExtension.Info2SingularSingular '{totalItems} item on {totalPages} page' totalItems=$TotalItems totalPages=$TotalPages %>
+        <% else %>
+            <%t SilverCart\Extensions\ORM\PaginatedListExtension.Info2Singular '{totalItems} items on {totalPages} page' totalItems=$TotalItems totalPages=$TotalPages %>
+        <% end_if %>
     <% else %>
-    <%t SilverCart\Extensions\ORM\PaginatedListExtension.Info2Plural '{totalItems} items on {totalPages} pages' totalItems=$TotalItems totalPages=$TotalPages %>
+        <%t SilverCart\Extensions\ORM\PaginatedListExtension.Info2Plural '{totalItems} items on {totalPages} pages' totalItems=$TotalItems totalPages=$TotalPages %>
     <% end_if %>
     </span>
 </span>

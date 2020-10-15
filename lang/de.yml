@@ -12,6 +12,7 @@ de:
         PrevPage: 'Vorherige Seite'
         ProductAddedToCart: 'Der Artikel wurde Ihrem Warenkorb hinzugefügt.'
         ProductRemovedFromCart: 'Der Artikel wurde aus Ihrem Warenkorb entfernt.'
+        since: seit
         Until: bis
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Ausführen
@@ -59,6 +60,7 @@ de:
         Info: 'Seite {currentPage}, Eintrag {firstItem} - {lastItem}'
         Info2Plural: '{totalItems} Einträge auf {totalPages} Seiten'
         Info2Singular: '{totalItems} Einträge auf {totalPages} Seite'
+        Info2SingularSingular: '{totalItems} Eintrag auf {totalPages} Seite'
         InfoFirstIsLast: 'Seite {currentPage}, Eintrag {firstItem}'
     SilverCart\Model\Customer\Address:
         AcademicTitle: Titel
