@@ -3256,6 +3256,7 @@ class Order extends DataObject implements PermissionProvider
     public function recalculate()
     {
         $this->AmountTotal->setAmount($this->calculateAmountTotal());
+        $this->extend('recalculate');
         $this->write();
     }
 

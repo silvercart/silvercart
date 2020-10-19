@@ -521,6 +521,7 @@ class OrderPosition extends DataObject
             if ($changedFields['Quantity']['before'] !== $changedFields['Quantity']['after']) {
                 $this->PriceTotal->setAmount($price * $changedFields['Quantity']['after']);
                 $this->doRecalculate = true;
+                $this->extend('recalculate');
             }
         }
         if (array_key_exists('ProductID', $changedFields)) {
@@ -608,6 +609,9 @@ class OrderPosition extends DataObject
     public function onAfterDelete() : void
     {
         $this->extend('updateOnAfterDelete');
+        if ($this->Order()->exists()) {
+            $this->Order()->recalculate();
+        }
         parent::onAfterDelete();
     }
 
