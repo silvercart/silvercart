@@ -129,10 +129,13 @@ class ShoppingCartPositionNotice
     {
         $icon    = self::NOTICE_TYPE_WARNING;
         $notices = self::getAllowedNotices();
-        if (array_key_exists($code, $notices)) {
+        if (array_key_exists($code, $notices)
+         && is_array($notices[$code])
+         && array_key_exists('icon', $notices[$code])
+        ) {
             $icon = $notices[$code]['icon'];
         }
-        return $icon;   
+        return (string) $icon;   
     }
     
     /**
