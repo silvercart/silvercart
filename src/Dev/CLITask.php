@@ -6,9 +6,15 @@ use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Dev\DebugTools;
+use SilverCart\Model\Product\Product;
 use SilverCart\Model\ShopEmail;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config as SSConfig;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\ORM\FieldType\DBText;
+use SilverStripe\View\ArrayData;
 use ZipArchive;
 
 /**
@@ -43,6 +49,8 @@ trait CLITask
     public static $CLI_EMAIL_INFO_TYPE_INFO    = 'info';
     public static $CLI_EMAIL_INFO_TYPE_ERROR   = 'error';
     public static $CLI_EMAIL_INFO_TYPE_WARNING = 'warning';
+    
+    public static $RUNNING_ACTION_FILE_PREFIX = 'cli-running-action';
 
     /**
      * Help docs.
@@ -81,7 +89,7 @@ trait CLITask
      *
      * @var string
      */
-    protected $tmpFolder = null;
+    protected static $tmpFolder = null;
     /**
      * List of infos to send by email.
      *
@@ -101,6 +109,158 @@ trait CLITask
      * @var callable[]
      */
     protected $finishRunningActionsOnBeforeExit = [];
+    
+    /**
+     * Returns a list of running actions.
+     * 
+     * @return array
+     */
+    public static function getRunningActions() : array
+    {
+        $actions   = [];
+        $tmpFolder = self::getTmpFolder();
+        if (is_dir($tmpFolder)) {
+            $handle = opendir($tmpFolder);
+            while (false !== ($entry = readdir($handle))) {
+                if (strpos($entry, self::$RUNNING_ACTION_FILE_PREFIX) !== 0) {
+                    continue;
+                }
+                $args               = ArrayList::create();
+                $filepath           = "{$tmpFolder}/{$entry}";
+                $classnameAndAction = substr($entry, strlen(self::$RUNNING_ACTION_FILE_PREFIX) + 1);
+                $classnameAndActionAndArgs = substr($entry, strlen(self::$RUNNING_ACTION_FILE_PREFIX) + 1);
+                if (strpos($classnameAndActionAndArgs, '______') !== false) {
+                    list(
+                        $classnameAndAction,
+                        $argsString
+                    ) = explode('______', $classnameAndActionAndArgs);
+                    $argsPairs = explode('___', $argsString);
+                    foreach ($argsPairs as $argsPair) {
+                        list($argName, $argValue) = explode('=', $argsPair);
+                        $args->push(ArrayData::create([
+                            'Name'  => $argName,
+                            'Value' => $argValue,
+                        ]));
+                    }
+                } else {
+                    $classnameAndAction = $classnameAndActionAndArgs;
+                }
+                $parts              = explode('-', $classnameAndAction);
+                $action             = array_pop($parts);
+                $taskName           = 'Unknown';
+                $classname          = implode('\\', $parts);
+                $description        = 'No description available.';
+                $expectedRuntime    = [
+                    60 * 5,
+                    60 * 10,
+                ];
+                if (class_exists($classname)) {
+                    $reflection       = new ReflectionClass($classname);
+                    $taskName         = $reflection->getShortName();
+                    $helpDocs         = (array) SSConfig::inst()->get($classname, 'help_docs');
+                    $expectedRuntimes = (array) SSConfig::inst()->get($classname, 'expected_runtimes');
+                    if (array_key_exists($action, $helpDocs)) {
+                        $description = $helpDocs[$action];
+                    }
+                    if (array_key_exists($action, $expectedRuntimes)) {
+                        $expectedRuntime = $expectedRuntimes[$action];
+                    }
+                }
+                $greenRuntimePeak  = array_shift($expectedRuntime);
+                $yellowRuntimePeak = array_shift($expectedRuntime);
+                $seconds           = time() - filectime($filepath);
+                $hours             = floor($seconds / 3600);
+                $mins              = floor($seconds / 60 % 60);
+                $secs              = floor($seconds % 60);
+                if ($hours > 24) {
+                    $days     = floor($hours / 24);
+                    $dayLabel = $days === 1 ? _t(Product::class . '.DAY', 'Day') : _t(Product::class . '.DAYS', 'Days');
+                    $hours    = floor($hours % 24);
+                    $runtimeH = sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+                    $runtime  = "{$days} {$dayLabel}, {$runtimeH}";
+                } else {
+                    $runtime = sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+                }
+                $runtimeStatus = 'green';
+                if ($seconds > $yellowRuntimePeak) {
+                    $runtimeStatus = 'red';
+                } elseif ($seconds > $greenRuntimePeak) {
+                    $runtimeStatus = 'yellow';
+                }
+                $actions[] = [
+                    'ID'               => md5($entry) . sha1($entry),
+                    'Filename'         => $entry,
+                    'Filepath'         => $filepath,
+                    'Task'             => $taskName,
+                    'Action'           => $action,
+                    'Namespace'        => $classname,
+                    'Description'      => DBText::create()->setValue($description),
+                    'ModificationTime' => DBDatetime::create()->setValue(date('Y-m-d H:i:s', filemtime($filepath))),
+                    'ChangeTime'       => DBDatetime::create()->setValue(date('Y-m-d H:i:s', filectime($filepath))),
+                    'AccessTime'       => DBDatetime::create()->setValue(date('Y-m-d H:i:s', fileatime($filepath))),
+                    'Runtime'          => $runtime,
+                    'RuntimeStatus'    => $runtimeStatus,
+                    'Args'             => $args,
+                ];
+            }
+            closedir($handle);
+        }
+        return $actions;
+    }
+    
+    /**
+     * Returns the file name (including path) for the running $action of the given 
+     * $task.
+     * 
+     * @param string $task   Task to get file name for
+     * @param string $action Action to get file name for
+     * 
+     * @return string
+     */
+    protected static function getRunningTaskActionFilename(string $task, string $action) : string
+    {
+        $tmpFolder = self::getTmpFolder();
+        $class     = str_replace('\\', '-', $task);
+        $prefix    = self::$RUNNING_ACTION_FILE_PREFIX;
+        $file      = "{$tmpFolder}/{$prefix}-{$class}-{$action}";
+        $args      = [];
+        foreach (self::$cli_args as $name => $value) {
+            $args[] = "{$name}={$value}";
+        }
+        if (count($args) > 0) {
+            $argsPart = implode('___', $args);
+            $file    .= "______{$argsPart}";
+        }
+        return $file;
+    }
+    
+    /**
+     * Removes the running $action file for the given $task.
+     * 
+     * @param string $task   Task to remove file for
+     * @param string $action Action to remove file for
+     * 
+     * @return void
+     */
+    public static function removeTaskActionFile(string $task, string $action) : void
+    {
+        $filename = self::getRunningTaskActionFilename($task, $action);
+        self::removeActionFilename($filename);
+    }
+    
+    /**
+     * Removes the file with the given $filename.
+     * 
+     * @param string $filename Filename to remove
+     * 
+     * @return void
+     */
+    public static function removeActionFilename(string $filename) : void
+    {
+        if (file_exists($filename)) {
+            unlink($filename);
+        }
+    }
     
     /**
      * Initializes the given arguments.
@@ -254,10 +414,9 @@ trait CLITask
      */
     protected function getRunningActionFilename(string $action) : string
     {
-        $class = str_replace('\\', '-', get_class($this));
-        return "{$this->getTmpFolder()}/cli-running-action-{$class}-{$action}";
+        return self::getRunningTaskActionFilename(get_class($this), $action);
     }
-    
+
     /**
      * Will exit the currently running program if the requested $action is already 
      * running. If $markAsStarted is set to true, the $action will automatically
@@ -327,7 +486,7 @@ trait CLITask
         }
         return $isRunning;
     }
-    
+
     /**
      * Will mark the requested $action as finished by removing the file marker.
      * 
@@ -784,15 +943,15 @@ trait CLITask
      * 
      * @return string
      */
-    public function getTmpFolder()
+    public static function getTmpFolder()
     {
-        if (is_null($this->tmpFolder)) {
-            $this->setTmpFolder(Director::baseFolder() . '/silverstripe-cache/tmp');
-            if (!is_dir($this->tmpFolder)) {
-                mkdir($this->tmpFolder, 0777, true);
+        if (self::$tmpFolder === null) {
+            self::setTmpFolder(Director::baseFolder() . '/silverstripe-cache/tmp');
+            if (!is_dir(self::$tmpFolder)) {
+                mkdir(self::$tmpFolder, 0777, true);
             }
         }
-        return $this->tmpFolder;
+        return self::$tmpFolder;
     }
 
     /**
@@ -802,9 +961,9 @@ trait CLITask
      * 
      * @return void
      */
-    public function setTmpFolder($tmpFolder)
+    public static function setTmpFolder(string $tmpFolder) : void
     {
-        $this->tmpFolder = $tmpFolder;
+        self::$tmpFolder = $tmpFolder;
     }
     
     /**
