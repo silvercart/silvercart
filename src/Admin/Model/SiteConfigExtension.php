@@ -924,6 +924,16 @@ class SiteConfigExtension extends DataExtension
     }
     
     /**
+     * Returns the DefaultMailOrderNotificationRecipient.
+     * 
+     * @return string|null
+     */
+    public function getDefaultMailOrderNotificationRecipient() : ?string
+    {
+        return $this->getUpdatedField('DefaultMailOrderNotificationRecipient');
+    }
+    
+    /**
      * Returns the DefaultContactMessageRecipient.
      * 
      * @return string|null
