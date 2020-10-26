@@ -272,6 +272,13 @@ class CheckoutStepController extends \PageController
         ) {
             $paymentMethod = PaymentMethod::get()->byID($checkoutData['PaymentMethod']);
             $order         = Order::get()->byID($checkoutData['Order']);
+            $orders        = null;
+            if (array_key_exists('Orders', $checkoutData)
+             && !empty($checkoutData['Orders'])
+            ) {
+                $orderIDs = $checkoutData['Orders'];
+                $orders   = Order::get()->filter('ID', $orderIDs);
+            }
             /* @var $paymentMethod PaymentMethod */
             /* @var $order Order */
             $afterContent  = '';
@@ -282,6 +289,7 @@ class CheckoutStepController extends \PageController
             return $this->customise([
                 'PaymentConfirmationText' => $paymentMethod->processConfirmationText($order, $checkoutData),
                 'CustomersOrder'          => $order,
+                'CustomersOrders'         => $orders,
                 'AfterContent'            => DBHTMLText::create()->setValue($afterContent),
                 'BeforeContent'           => DBHTMLText::create()->setValue($beforeContent),
             ])->render();

@@ -57,9 +57,9 @@ use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\LessThanFilter;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
-use SilverStripe\Versioned\RecursivePublishable;
 
 /**
  * Base class for payment.
@@ -599,28 +599,21 @@ class PaymentMethod extends DataObject
      * @param ShoppingCart $shoppingCart The shopping cart object
      * @param string       $priceType    'gross' or 'net'
      *
-     * @return mixed boolean|DataObject
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.03.2014
+     * @return DBMoney
      */
-    public function getChargesAndDiscountsForProducts(ShoppingCart $shoppingCart, $priceType = false)
+    public function getChargesAndDiscountsForProducts(ShoppingCart $shoppingCart, string $priceType = null) : DBMoney
     {
         $handlingCosts = DBMoney::create();
         $handlingCosts->setAmount(0);
         $handlingCosts->setCurrency(Config::DefaultCurrency());
-
-        if ($priceType === false) {
+        if ($priceType === null) {
             $priceType = Config::PriceType();
         }
-
         if ($this->useSumModification
-         && $this->sumModificationImpact == 'productValue'
+         && $this->sumModificationImpact === 'productValue'
         ) {
             $excludedPositions  = [];
             $shoppingCartAmount = $shoppingCart->getAmountTotalWithoutFees([], false, true);
-            
             switch ($this->sumModificationValueType) {
                 case 'percent':
                     $modificationValue = $shoppingCartAmount->getAmount() / 100 * $this->sumModificationValue;
@@ -646,7 +639,6 @@ class PaymentMethod extends DataObject
                 default:
                     $modificationValue = $this->sumModificationValue;
             }
-            
             if (count($excludedPositions) > 0) {
                 if (count($excludedPositions) == 1) {
                     $this->sumModificationLabel .= ' (' . _t(PaymentMethod::class . '.ExcludedPosition',
@@ -664,19 +656,16 @@ class PaymentMethod extends DataObject
                     ) . ')';
                 }
             }
-            
             if ($this->sumModificationImpactType == 'charge') {
                 $handlingCostAmount = $modificationValue;
             } else {
-                $handlingCostAmount = "-".$modificationValue;
+                $handlingCostAmount = "-{$modificationValue}";
             }
-
-            if (Config::PriceType() == 'gross') {
+            if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
                 $shoppingCartTotal = $shoppingCart->getAmountTotalGrossWithoutFees([], false, true);
             } else {
                 $shoppingCartTotal = $shoppingCart->getAmountTotalNetWithoutFees([], false, true);
             }
-
             if ($handlingCostAmount < 0
              && $shoppingCartTotal->getAmount() < ($handlingCostAmount * -1)
             ) {
@@ -686,22 +675,18 @@ class PaymentMethod extends DataObject
                     $handlingCostAmount = ($shoppingCartTotal->getAmount() * -1);
                 }
             }
-
-            if (Config::PriceType() == 'net') {
+            if (Config::PriceType() === Config::PRICE_TYPE_NET) {
                 $taxRate = $shoppingCart->getMostValuableTaxRate();
-
-                if ($taxRate) {
+                if ($taxRate instanceof Tax
+                 && $taxRate->exists()
+                ) {
                     $handlingCostAmount = round($handlingCostAmount / (100 + $taxRate->Rate) * 100, 4);
                 }
             }
-
             $handlingCosts->setAmount(round($handlingCostAmount, 2));
         }
         
         $this->extend('updateChargesAndDiscountsForProducts', $handlingCosts);
-        if ($handlingCosts->getAmount() == 0) {
-            $handlingCosts = false;
-        }
         return $handlingCosts;
     }
     

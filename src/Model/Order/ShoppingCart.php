@@ -39,6 +39,8 @@ use SilverStripe\View\ArrayData;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
+ * @var int $MemberID Member ID
+ * 
  * @method Member                         Member()                Returns the related Member.
  * @method \SilverStripe\ORM\HasManyList  ShoppingCartPositions() Returns the related positions.
  * @method \SilverStripe\ORM\ManyManyList Products()              Returns the related products.
@@ -506,7 +508,7 @@ class ShoppingCart extends DataObject
         if ($paymentMethod) {
             $handlingCostPayment = $paymentMethod->getChargesAndDiscountsForProducts($this, $priceType);
             
-            if ($handlingCostPayment === false) {
+            if ($handlingCostPayment->getAmount() == 0) {
                 return false;
             } else {
                 $tax = $this->getMostValuableTaxRate();

@@ -1283,17 +1283,21 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * creates an order from the cart
+     * 
+     * @param ShoppingCart $shoppingCart  Optional shopping cart context
      *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.04.20118
      */
-    public function createFromShoppingCart()
+    public function createFromShoppingCart(ShoppingCart $shoppingCart = null)
     {
         $member = Customer::currentUser();
         if ($member instanceof Member) {
-            $shoppingCart = $member->getCart();
+            if ($shoppingCart === null) {
+                $shoppingCart = $member->getCart();
+            }
             $shoppingCart->setPaymentMethodID($this->PaymentMethodID);
             $shoppingCart->setShippingMethodID($this->ShippingMethodID);
             $this->MemberID = $member->ID;
@@ -1342,7 +1346,7 @@ class Order extends DataObject implements PermissionProvider
             }
 
             // amount of all positions + handling fee of the payment method + shipping fee
-            $totalAmount = $member->getCart()->getAmountTotal()->getAmount();
+            $totalAmount = $shoppingCart->getAmountTotal()->getAmount();
 
             $this->AmountTotal->setAmount(
                 $totalAmount
@@ -1378,7 +1382,94 @@ class Order extends DataObject implements PermissionProvider
     }
 
     /**
+     * Converts the given $shoppingCartPosition to an order position.
+     * 
+     * @param ShoppingCartPosition $shoppingCartPosition Shopping cart position
+     *
+     * @return OrderPosition|null
+     */
+    public function convertShoppingCartPositionToOrderPosition(ShoppingCartPosition $shoppingCartPosition, Member $customer) : ?OrderPosition
+    {
+        $orderPosition = null;
+        $product       = $shoppingCartPosition->Product();
+        if ($product->exists()) {
+            $orderPosition = OrderPosition::create();
+            $orderPosition->objectCreated = true;
+            $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
+            $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
+            $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
+            $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
+            $orderPosition->Tax                     = $shoppingCartPosition->getTaxAmount(true);
+            $orderPosition->TaxTotal                = $shoppingCartPosition->getTaxAmount();
+            $orderPosition->TaxRate                 = $product->getTaxRate();
+            $orderPosition->ProductDescription      = $product->LongDescription;
+            $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
+            $orderPosition->numberOfDecimalPlaces   = $product->QuantityUnit()->numberOfDecimalPlaces;
+            $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
+            $orderPosition->Title                   = $product->Title;
+            $orderPosition->OrderID                 = $this->ID;
+            $orderPosition->IsNonTaxable            = $customer->doesNotHaveToPayTaxes();
+            $orderPosition->ProductID               = $product->ID;
+            $orderPosition->log                     = false;
+            $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
+            $orderPosition->write();
+            // Call hook method on product if available
+            if ($product->hasMethod('ShoppingCartConvert')) {
+                $product->ShoppingCartConvert($this, $orderPosition);
+            }
+            // decrement stock quantity of the product
+            if (Config::EnableStockManagement()) {
+                $reason = "{$this->fieldLabel('OrderNumber')}: {$this->OrderNumber} [#{$this->ID}]";
+                $product->decrementStockQuantity($shoppingCartPosition->Quantity, $reason, StockItemEntry::ORIGIN_CODE_ORDER_PLACED, $this);
+            }
+            $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
+            $orderPosition->write();
+        }
+        return $orderPosition;
+    }
+    
+    /**
+     * Adds charges and discounts for products.
+     * 
+     * @param \SilverCart\Model\Order\ShoppingCart $shoppingCart Shopping cart
+     * 
+     * @return void
+     */
+    public function addChargesAndDiscountsForProducts(ShoppingCart $shoppingCart) : void
+    {
+        // Get charges and discounts for product values
+        if ($shoppingCart->HasChargesAndDiscountsForProducts()) {
+            $chargesAndDiscountsForProducts = $shoppingCart->ChargesAndDiscountsForProducts();
+            foreach ($chargesAndDiscountsForProducts as $chargeAndDiscountForProduct) {
+                $orderPosition = OrderPosition::create();
+                $orderPosition->Price->setAmount($chargeAndDiscountForProduct->Price->getAmount());
+                $orderPosition->Price->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
+                $orderPosition->PriceTotal->setAmount($chargeAndDiscountForProduct->Price->getAmount());
+                $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
+                $orderPosition->isChargeOrDiscount = true;
+                $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForProduct->sumModificationImpact;
+                $orderPosition->Tax                 = $chargeAndDiscountForProduct->Tax->Title;
+                if ($this->IsPriceTypeGross()) {
+                    $orderPosition->TaxTotal = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->Tax->Rate) * 100);
+                } else {
+                    $orderPosition->TaxTotal = ($chargeAndDiscountForProduct->Price->getAmount() / 100 * (100 + $chargeAndDiscountForProduct->Tax->Rate)) - $chargeAndDiscountForProduct->Price->getAmount();
+                }
+                $orderPosition->TaxRate             = $chargeAndDiscountForProduct->Tax->Rate;
+                $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
+                $orderPosition->Quantity            = 1;
+                $orderPosition->ProductNumber       = $chargeAndDiscountForProduct->sumModificationProductNumber;
+                $orderPosition->Title               = (string) $chargeAndDiscountForProduct->Name;
+                $orderPosition->OrderID             = $this->ID;
+                $orderPosition->write();
+                unset($orderPosition);
+            }
+        }
+    }
+
+    /**
      * convert cart positions in order positions
+     * 
+     * @param ShoppingCart $shoppingCart  Optional shopping cart context
      *
      * @return void
      *
@@ -1386,7 +1477,7 @@ class Order extends DataObject implements PermissionProvider
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.11.2014
      */
-    public function convertShoppingCartPositionsToOrderPositions()
+    public function convertShoppingCartPositionsToOrderPositions(ShoppingCart $shoppingCart = null)
     {
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
             return true;
@@ -1394,59 +1485,25 @@ class Order extends DataObject implements PermissionProvider
         
         $member = Customer::currentUser();
         if ($member instanceof Member) {
-            $shoppingCart = $member->getCart();
+            if ($shoppingCart === null) {
+                $shoppingCart = $member->getCart();
+            }
             $shoppingCart->setPaymentMethodID($this->PaymentMethodID);
             $shoppingCart->setShippingMethodID($this->ShippingMethodID);
-            $shoppingCartPositions = ShoppingCartPosition::get()->filter('ShoppingCartID', $member->ShoppingCartID);
+            //$shoppingCartPositions = ShoppingCartPosition::get()->filter('ShoppingCartID', $member->ShoppingCartID);
+            $shoppingCartPositions = $shoppingCart->ShoppingCartPositions();
 
             if ($shoppingCartPositions->exists()) {
                 foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                    $product = $shoppingCartPosition->Product();
-
-                    if ($product) {
-                        $orderPosition = OrderPosition::create();
-                        $orderPosition->objectCreated = true;
-                        $orderPosition->Price->setAmount($shoppingCartPosition->getPrice(true)->getAmount());
-                        $orderPosition->Price->setCurrency($shoppingCartPosition->getPrice(true)->getCurrency());
-                        $orderPosition->PriceTotal->setAmount($shoppingCartPosition->getPrice()->getAmount());
-                        $orderPosition->PriceTotal->setCurrency($shoppingCartPosition->getPrice()->getCurrency());
-                        $orderPosition->Tax                     = $shoppingCartPosition->getTaxAmount(true);
-                        $orderPosition->TaxTotal                = $shoppingCartPosition->getTaxAmount();
-                        $orderPosition->TaxRate                 = $product->getTaxRate();
-                        $orderPosition->ProductDescription      = $product->LongDescription;
-                        $orderPosition->Quantity                = $shoppingCartPosition->Quantity;
-                        $orderPosition->numberOfDecimalPlaces   = $product->QuantityUnit()->numberOfDecimalPlaces;
-                        $orderPosition->ProductNumber           = $shoppingCartPosition->getProductNumberShop();
-                        $orderPosition->Title                   = $product->Title;
-                        $orderPosition->OrderID                 = $this->ID;
-                        $orderPosition->IsNonTaxable            = $member->doesNotHaveToPayTaxes();
-                        $orderPosition->ProductID               = $product->ID;
-                        $orderPosition->log                     = false;
-                        $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
-                        $orderPosition->write();
-
-                        // Call hook method on product if available
-                        if ($product->hasMethod('ShoppingCartConvert')) {
-                            $product->ShoppingCartConvert($this, $orderPosition);
-                        }
-                        // decrement stock quantity of the product
-                        if (Config::EnableStockManagement()) {
-                            $reason = "{$this->fieldLabel('OrderNumber')}: {$this->OrderNumber} [#{$this->ID}]";
-                            $product->decrementStockQuantity($shoppingCartPosition->Quantity, $reason, StockItemEntry::ORIGIN_CODE_ORDER_PLACED, $this);
-                        }
-
-                        $this->extend('onAfterConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
-
-                        $orderPosition->write();
-                        unset($orderPosition);
-                    }
+                    $orderPosition = $this->convertShoppingCartPositionToOrderPosition($shoppingCartPosition, $member);
+                    unset($orderPosition);
                 }
 
                 // Get taxable positions from registered modules
-                $registeredModules = $member->getCart()->callMethodOnRegisteredModules(
+                $registeredModules = $shoppingCart->callMethodOnRegisteredModules(
                     'ShoppingCartPositions',
                     [
-                        $member->getCart(),
+                        $shoppingCart,
                         $member,
                         true
                     ]
@@ -1495,42 +1552,13 @@ class Order extends DataObject implements PermissionProvider
                     }
                 }
 
-                // Get charges and discounts for product values
-                if ($shoppingCart->HasChargesAndDiscountsForProducts()) {
-                    $chargesAndDiscountsForProducts = $shoppingCart->ChargesAndDiscountsForProducts();
-
-                    foreach ($chargesAndDiscountsForProducts as $chargeAndDiscountForProduct) {
-                        $orderPosition = OrderPosition::create();
-                        $orderPosition->Price->setAmount($chargeAndDiscountForProduct->Price->getAmount());
-                        $orderPosition->Price->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
-                        $orderPosition->PriceTotal->setAmount($chargeAndDiscountForProduct->Price->getAmount());
-                        $orderPosition->PriceTotal->setCurrency($chargeAndDiscountForProduct->Price->getCurrency());
-                        $orderPosition->isChargeOrDiscount = true;
-                        $orderPosition->chargeOrDiscountModificationImpact = $chargeAndDiscountForProduct->sumModificationImpact;
-                        $orderPosition->Tax                 = $chargeAndDiscountForProduct->Tax->Title;
-
-                        if ($this->IsPriceTypeGross()) {
-                            $orderPosition->TaxTotal = $chargeAndDiscountForProduct->Price->getAmount() - ($chargeAndDiscountForProduct->Price->getAmount() / (100 + $chargeAndDiscountForProduct->Tax->Rate) * 100);
-                        } else {
-                            $orderPosition->TaxTotal = ($chargeAndDiscountForProduct->Price->getAmount() / 100 * (100 + $chargeAndDiscountForProduct->Tax->Rate)) - $chargeAndDiscountForProduct->Price->getAmount();
-                        }
-
-                        $orderPosition->TaxRate             = $chargeAndDiscountForProduct->Tax->Rate;
-                        $orderPosition->ProductDescription  = $chargeAndDiscountForProduct->Name;
-                        $orderPosition->Quantity            = 1;
-                        $orderPosition->ProductNumber       = $chargeAndDiscountForProduct->sumModificationProductNumber;
-                        $orderPosition->Title               = (string) $chargeAndDiscountForProduct->Name;
-                        $orderPosition->OrderID             = $this->ID;
-                        $orderPosition->write();
-                        unset($orderPosition);
-                    }
-                }
+                $this->addChargesAndDiscountsForProducts($shoppingCart);
 
                 // Get nontaxable positions from registered modules
-                $registeredModulesNonTaxablePositions = $member->getCart()->callMethodOnRegisteredModules(
+                $registeredModulesNonTaxablePositions = $shoppingCart->callMethodOnRegisteredModules(
                     'ShoppingCartPositions',
                     [
-                        $member->getCart(),
+                        $shoppingCart,
                         $member,
                         false
                     ]
@@ -1593,11 +1621,11 @@ class Order extends DataObject implements PermissionProvider
                 }
 
                 // Convert positions of registered modules
-                $member->getCart()->callMethodOnRegisteredModules(
+                $shoppingCart->callMethodOnRegisteredModules(
                     'ShoppingCartConvert',
                     [
-                        Customer::currentUser()->getCart(),
-                        Customer::currentUser(),
+                        $shoppingCart,
+                        $member,
                         $this
                     ]
                 );
