@@ -9,6 +9,7 @@
  * @ignore 
  */
 
+use Broarm\CookieConsent\CookieConsent;
 use SilverCart\Admin\Controllers\LeftAndMainExtension;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus;
@@ -23,6 +24,9 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\CookieConsent\BroarmContentControllerExtension;
+use SilverCart\Extensions\Model\CookieConsent\BroarmExternalResourceExtension;
+use SilverCart\Model\CookieConsent\ExternalResource;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Product\Product;
@@ -33,6 +37,7 @@ use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Admin\SecurityAdmin;
 use SilverStripe\AssetAdmin\Controller\AssetAdmin;
 use SilverStripe\CMS\Controllers\CMSPagesController;
+use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Reports\ReportAdmin;
 use SilverStripe\Security\Member;
@@ -53,6 +58,10 @@ if (class_exists('PageController')) {
     if ($ext->getParentClass()->getName() != \SilverCart\Model\Pages\PageController::class) {
         throw new Exception('Class "PageController" has to extend "SilverCart\Model\Pages\PageController::class".');
     }
+}
+if (class_exists(CookieConsent::class)) {
+    ExternalResource::add_extension(BroarmExternalResourceExtension::class);
+    ContentController::add_extension(BroarmContentControllerExtension::class);
 }
 // Define required attributes to display a product in frontend
 Product::addRequiredAttribute("Price");

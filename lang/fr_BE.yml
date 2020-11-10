@@ -51,6 +51,27 @@ fr_BE:
         CookiePolicyConfigButtonTextDefault: Compris!
         CookiePolicyConfigPolicyText: 'Texte "Plus d''informations"'
         CookiePolicyConfigPolicyTextDefault: 'Plus d''informations'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        Code: Code
+        Description: Description
+        Name: Nom
+        NameDesc: 'Nom unique de cette ressource.'
+        PLURALNAME: 'Ressources externes'
+        Position: 'Position du code'
+        Position_body: HTML-Body
+        Position_head: HTML-Head
+        RestrictToLiveMode: 'Restreindre au mode production'
+        SINGULARNAME: 'Ressources externe'
+        Title: Titre
+        URLSegment: 'Segment d''URL'
+        GoogleAnalyticsTrackingCode_Name: 'Code de suivi Google Analytics'
+        GoogleAnalyticsTrackingCode_Description: 'Code Javascript pour activer le suivi Google Analytics.'
+        GoogleConversionTrackingCode_Name: 'Code Outil Conversion Tracking de Google'
+        GoogleConversionTrackingCode_Description: 'Code Javascript pour activer l''Outil Conversion Tracking de Google.'
+        GoogleWebmasterCode_Name: 'Code Outils Google pour les webmasters'
+        GoogleWebmasterCode_Description: 'HTML-<meta>-tag code pour activer l''Outils Google pour les webmasters.'
+        MatomoTrackingCode_Name: 'Code de suivi Matomo'
+        MatomoTrackingCode_Description: 'Code Javascript pour activer le suivi de Matomo (anciennement Piwik).'
     SilverCart\Model\Customer\Address:
         AcademicTitle: Titre
         ADDITION: 'Complément d''adresse'
@@ -1900,11 +1921,6 @@ fr_BE:
         CREATE_TRANSLATION_DESC: 'De nouvelles traductions sont créées pour la totalité de l''arborescence des pages (non publiées). Chaque page est créée en tant que modèle de traduction et, si disponible, est remplie de contenu standard dans la langue sélectionnée. S''il n''y a pas de contenu standard, le contenu de la langue actuellement sélectionnée est prédéfini.'
         FACEBOOK_LINK: 'Lien Facebook'
         GoogleplusLink: 'Lien Google Plus'
-        GOOGLE_ANALYTICS_TRACKING_CODE: 'Code de suivi Google Analytics'
-        GOOGLE_CONVERSION_TRACKING_CODE: 'Code Outil Conversion Tracking de Google'
-        GOOGLE_WEBMASTER_CODE: 'Code Outils Google pour les webmasters'
-        MatomoTrackingCode: 'Code de suivi Matomo'
-        MatomoTrackingCodeDesc: 'Code Javascript pour activer le suivi de Matomo (anciennement Piwik).'
         PUBLISHBUTTON: 'Publier toutes les pages de la langue actuelle'
         TESTDATA_HEADLINE: 'Données d''essai'
         TESTDATA_LINKTEXT: 'Accédez à la section des données d''essai'

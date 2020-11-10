@@ -2,6 +2,7 @@
 
 namespace SilverCart\Admin\Model;
 
+use Broarm\CookieConsent\CookieConsent;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\FieldGroup;
 use SilverCart\Forms\FormFields\TextField;
@@ -24,8 +25,8 @@ use SilverStripe\View\Requirements;
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CookiePolicyConfig extends DataExtension {
-    
+class CookiePolicyConfig extends DataExtension
+{
     /**
      * DB attributes.
      *
@@ -43,7 +44,6 @@ class CookiePolicyConfig extends DataExtension {
         'CookiePolicyConfigButtonText'  => 'Varchar(64)',
         'CookiePolicyConfigPolicyText'  => 'Varchar(64)',
     ];
-    
     /**
      * Defaults for DB attributes.
      *
@@ -67,26 +67,33 @@ class CookiePolicyConfig extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.05.2018
      */
-    public function updateCMSFields(FieldList $fields) {
-        $positionSrc = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigPosition');
-        $layoutSrc   = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigLayout');
-        
-        $colorGroup = new FieldGroup('ColorGroup', '', $fields);
-        $colorGroup->push(TextField::create('CookiePolicyConfigBgColor', $this->owner->fieldLabel('CookiePolicyConfigBgColor'))->setInputType('color'));
-        $colorGroup->push(TextField::create('CookiePolicyConfigTxtColor', $this->owner->fieldLabel('CookiePolicyConfigTxtColor'))->setInputType('color'));
-        $colorGroup->push(TextField::create('CookiePolicyConfigBtnColor', $this->owner->fieldLabel('CookiePolicyConfigBtnColor'))->setInputType('color'));
-        $colorGroup->push(TextField::create('CookiePolicyConfigBtnTxtColor', $this->owner->fieldLabel('CookiePolicyConfigBtnTxtColor'))->setInputType('color'));
-        
-        $cookyPolicyTab = $fields->findOrMakeTab('Root.CookiePolicy', $this->owner->fieldLabel('CookiePolicy'));
-        $cookyPolicyTab->push(CheckboxField::create('CookiePolicyConfigIsActive', $this->owner->fieldLabel('CookiePolicyConfigIsActive')));
-        $cookyPolicyTab->push(TextareaField::create('CookiePolicyConfigMessageText', $this->owner->fieldLabel('CookiePolicyConfigMessageText')));
-        $cookyPolicyTab->push(TextField::create('CookiePolicyConfigButtonText', $this->owner->fieldLabel('CookiePolicyConfigButtonText')));
-        $cookyPolicyTab->push(TextField::create('CookiePolicyConfigPolicyText', $this->owner->fieldLabel('CookiePolicyConfigPolicyText')));
-        $cookyPolicyTab->push(DropdownField::create('CookiePolicyConfigPosition', $this->owner->fieldLabel('CookiePolicyConfigPosition'))->setSource($positionSrc));
-        $cookyPolicyTab->push(DropdownField::create('CookiePolicyConfigLayout', $this->owner->fieldLabel('CookiePolicyConfigLayout'))->setSource($layoutSrc));
-        $cookyPolicyTab->push($colorGroup);
-        
-        $this->owner->extend('updateCookiePolicyFields', $cookyPolicyTab);
+    public function updateCMSFields(FieldList $fields) : void
+    {
+        if (class_exists(CookieConsent::class)) {
+            $cookyPolicyTab = $fields->findOrMakeTab('Root.CookieConsent', $this->owner->fieldLabel('CookiePolicy'));
+            $cookyPolicyTab->setTitle($this->owner->fieldLabel('CookiePolicy'));
+            $cookyPolicyTab->unshift(CheckboxField::create('CookiePolicyConfigIsActive', $this->owner->fieldLabel('CookiePolicyConfigIsActive')));
+        } else {
+            $positionSrc = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigPosition');
+            $layoutSrc   = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigLayout');
+
+            $colorGroup = new FieldGroup('ColorGroup', '', $fields);
+            $colorGroup->push(TextField::create('CookiePolicyConfigBgColor', $this->owner->fieldLabel('CookiePolicyConfigBgColor'))->setInputType('color'));
+            $colorGroup->push(TextField::create('CookiePolicyConfigTxtColor', $this->owner->fieldLabel('CookiePolicyConfigTxtColor'))->setInputType('color'));
+            $colorGroup->push(TextField::create('CookiePolicyConfigBtnColor', $this->owner->fieldLabel('CookiePolicyConfigBtnColor'))->setInputType('color'));
+            $colorGroup->push(TextField::create('CookiePolicyConfigBtnTxtColor', $this->owner->fieldLabel('CookiePolicyConfigBtnTxtColor'))->setInputType('color'));
+
+            $cookyPolicyTab = $fields->findOrMakeTab('Root.CookiePolicy', $this->owner->fieldLabel('CookiePolicy'));
+            $cookyPolicyTab->push(CheckboxField::create('CookiePolicyConfigIsActive', $this->owner->fieldLabel('CookiePolicyConfigIsActive')));
+            $cookyPolicyTab->push(TextareaField::create('CookiePolicyConfigMessageText', $this->owner->fieldLabel('CookiePolicyConfigMessageText')));
+            $cookyPolicyTab->push(TextField::create('CookiePolicyConfigButtonText', $this->owner->fieldLabel('CookiePolicyConfigButtonText')));
+            $cookyPolicyTab->push(TextField::create('CookiePolicyConfigPolicyText', $this->owner->fieldLabel('CookiePolicyConfigPolicyText')));
+            $cookyPolicyTab->push(DropdownField::create('CookiePolicyConfigPosition', $this->owner->fieldLabel('CookiePolicyConfigPosition'))->setSource($positionSrc));
+            $cookyPolicyTab->push(DropdownField::create('CookiePolicyConfigLayout', $this->owner->fieldLabel('CookiePolicyConfigLayout'))->setSource($layoutSrc));
+            $cookyPolicyTab->push($colorGroup);
+
+            $this->owner->extend('updateCookiePolicyFields', $cookyPolicyTab);
+        }
     }
     
     /**
@@ -99,14 +106,17 @@ class CookiePolicyConfig extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.05.2018
      */
-    public function updateFieldLabels(&$labels) {
+    public function updateFieldLabels(&$labels) : void
+    {
         $labels = array_merge(
                 $labels,
                 Tools::field_labels_for(self::class),
                 Tools::enum_field_labels_for($this->owner, 'CookiePolicyConfigPosition', self::class),
                 Tools::enum_field_labels_for($this->owner, 'CookiePolicyConfigLayout', self::class),
                 [
-                    'CookiePolicy' => _t(self::class . '.CookiePolicy', 'Cookie Policy'),
+                    'CookiePolicy'         => _t(self::class . '.CookiePolicy', 'Cookie Policy'),
+                    'CookieConsentTitle'   => _t(Page::class . '.TITLE', 'Title'),
+                    'CookieConsentContent' => _t(self::class . '.CookiePolicy', 'Cookie Policy'),
                 ]
         );
     }
@@ -119,12 +129,13 @@ class CookiePolicyConfig extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.05.2018
      */
-    public function requireDefaultRecords() {
+    public function requireDefaultRecords() : void
+    {
         $config = SiteConfig::current_site_config();
-        if ($config instanceof SiteConfig &&
-            $config->exists() &&
-            empty($config->CookiePolicyConfigMessageText)) {
-            
+        if ($config instanceof SiteConfig
+         && $config->exists()
+         && empty($config->CookiePolicyConfigMessageText)
+        ) {
             $this->setDefaultValuesFor($config);
         }
     }
@@ -136,7 +147,8 @@ class CookiePolicyConfig extends DataExtension {
      * 
      * @return void
      */
-    protected function setDefaultValuesFor(SiteConfig $config) {
+    protected function setDefaultValuesFor(SiteConfig $config) : void
+    {
         $defaults = $config->config()->get('defaults');
         $config->CookiePolicyConfigBgColor     = $defaults['CookiePolicyConfigBgColor'];
         $config->CookiePolicyConfigTxtColor    = $defaults['CookiePolicyConfigTxtColor'];
@@ -153,7 +165,8 @@ class CookiePolicyConfig extends DataExtension {
      * 
      * @return array
      */
-    public function getCookiePolicyPositionConfig() {
+    public function getCookiePolicyPositionConfig() : array
+    {
         $bgColor     = $this->owner->CookiePolicyConfigBgColor;
         $txtColor    = $this->owner->CookiePolicyConfigTxtColor;
         $btnColor    = $this->owner->CookiePolicyConfigBtnColor;
@@ -229,7 +242,11 @@ class CookiePolicyConfig extends DataExtension {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.05.2018
      */
-    public static function load_requirements() {
+    public static function load_requirements() : void
+    {
+        if (class_exists(CookieConsent::class)) {
+            return;
+        }
         $config = SiteConfig::current_site_config();
         if ($config->CookiePolicyConfigIsActive) {
             $cfg    = $config->getCookiePolicyPositionConfig();
@@ -240,5 +257,4 @@ class CookiePolicyConfig extends DataExtension {
             Requirements::customScript($js, 'cookieconsent');
         }
     }
-    
 }

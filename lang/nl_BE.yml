@@ -51,6 +51,14 @@ nl_BE:
         CookiePolicyConfigButtonTextDefault: Begrepen!
         CookiePolicyConfigPolicyText: 'Tekst "Meer informatie"'
         CookiePolicyConfigPolicyTextDefault: 'Meer informatie'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        GoogleAnalyticsTrackingCode_Name: 'Google Analytics-trackingscode'
+        GoogleAnalyticsTrackingCode_Description: 'Javascript-code om Google Analytics-tracking te activeren.'
+        GoogleConversionTrackingCode_Name: 'Google Conversion-trackingscode'
+        GoogleConversionTrackingCode_Description: 'Javascript-code om Google Conversion-tracking te activeren.'
+        GoogleWebmasterCode_Name: 'Google Webmaster Tools-code'
+        MatomoTrackingCode_Name: Matomo-trackingscode
+        MatomoTrackingCode_Description: 'Javascript-code om Matomo-tracking (voorheen Piwik) te activeren.'
     SilverCart\Model\Customer\Address:
         AcademicTitle: Titel
         ADDITION: Adrestoevoeging
@@ -1900,11 +1908,6 @@ nl_BE:
         CREATE_TRANSLATION_DESC: 'Er werden nieuwe vertalingen aangemaakt voor de gehele paginaboom (niet gepubliceerd). Elke pagina wordt aangemaakt als vertaalsjabloon en vervolledigd met standaardinhoud in de geselecteerde taal, indien beschikbaar. Als er geen standaardinhoud beschikbaar is, wordt de inhoud van de momenteel geselecteerde taal vooraf ingesteld.'
         FACEBOOK_LINK: Facebook-link
         GoogleplusLink: 'Google Plus-link'
-        GOOGLE_ANALYTICS_TRACKING_CODE: 'Google Analytics-trackingscode'
-        GOOGLE_CONVERSION_TRACKING_CODE: 'Google Conversion-trackingscode'
-        GOOGLE_WEBMASTER_CODE: 'Google Webmaster Tools-code'
-        MatomoTrackingCode: Matomo-trackingscode
-        MatomoTrackingCodeDesc: 'Javascript-code om Matomo-tracking (voorheen Piwik) te activeren.'
         PUBLISHBUTTON: 'Alle pagina''s van de huidige taal publiceren'
         TESTDATA_HEADLINE: Testgegevens
         TESTDATA_LINKTEXT: 'Naar de sectie met testgegevens gaan'

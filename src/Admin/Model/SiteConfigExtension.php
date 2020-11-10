@@ -7,6 +7,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Forms\FormFields\TextareaField;
+use SilverCart\Model\CookieConsent\ExternalResource;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
@@ -23,6 +24,8 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\ORM\ArrayList;
@@ -101,10 +104,6 @@ class SiteConfigExtension extends DataExtension
         'useStrictSearchRelevance'              => 'Boolean(0)',
         'userAgentBlacklist'                    => 'Text',
         'ColorScheme'                           => 'Varchar(256)',
-        'GoogleAnalyticsTrackingCode'   => 'Text',
-        'GoogleConversionTrackingCode'  => 'Text',
-        'GoogleWebmasterCode'           => 'Text',
-        'MatomoTrackingCode'            => 'Text',
         'GoogleplusLink'                => 'Text',
         'FacebookLink'                  => 'Text',
         'TwitterLink'                   => 'Text',
@@ -296,10 +295,6 @@ class SiteConfigExtension extends DataExtension
                     'DefaultContactMessageRecipientRightTitle'          => _t(Config::class . '.DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO', 'Contact messages will be sent to this address (no more to Default Email Recipient).'),
                     'userAgentBlacklistRightTitle'                      => _t(Config::class . '.USER_AGENT_BLACKLIST_INFO', 'Set one UserAgent per line.<br/>If a visitors UserAgent matches one out of this list, the request will be blocked to prevent spam bot attacks onto input forms.<br/><strong>Caution: Every visitor has an UserAgent. Only add a UserAgent to this list when you are sure that it will only match spam bots.</strong>.'),
                     
-                    'GoogleAnalyticsTrackingCode'   => _t(SiteConfigExtension::class . '.GOOGLE_ANALYTICS_TRACKING_CODE', 'Google Analytics Tracking Code'),
-                    'GoogleConversionTrackingCode'  => _t(SiteConfigExtension::class . '.GOOGLE_CONVERSION_TRACKING_CODE', 'Google Conversion Tracking Code'),
-                    'GoogleWebmasterCode'           => _t(SiteConfigExtension::class . '.GOOGLE_WEBMASTER_CODE', 'Google Webmaster Tools Code'),
-                    'MatomoTrackingCode'            => _t(SiteConfigExtension::class . '.MatomoTrackingCode', 'Matomo Tracking Code'),
                     'GoogleplusLink'                => _t(SiteConfigExtension::class . '.GoogleplusLink', 'Google Plus Link'),
                     'FacebookLink'                  => _t(SiteConfigExtension::class . '.FACEBOOK_LINK', 'Facebook Link'),
                     'TwitterLink'                   => _t(SiteConfigExtension::class . '.TWITTER_LINK', 'Twitter Link'),
@@ -344,21 +339,10 @@ class SiteConfigExtension extends DataExtension
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 04.04.2013
      */
-    public function updateCMSFields(FieldList $fields)
+    public function updateCMSFields(FieldList $fields) : void
     {
         $this->getCMSFieldsIsCalled = true;
-        $fields->findOrMakeTab('Root.SEO')          ->setTitle($this->owner->fieldLabel('SeoTab'));
-        $fields->findOrMakeTab('Root.SocialMedia')  ->setTitle($this->owner->fieldLabel('SocialMediaTab'));
-        
-        $googleWebmasterCodeField          = TextField::create('GoogleWebmasterCode',              $this->owner->fieldLabel('GoogleWebmasterCode'));
-        $googleAnalyticsTrackingCodeField  = TextareaField::create('GoogleAnalyticsTrackingCode',  $this->owner->fieldLabel('GoogleAnalyticsTrackingCode'));
-        $googleConversionTrackingCodeField = TextareaField::create('GoogleConversionTrackingCode', $this->owner->fieldLabel('GoogleConversionTrackingCode'));
-        $matomoTrackingCodeField           = TextareaField::create('MatomoTrackingCode',           $this->owner->fieldLabel('MatomoTrackingCode'))->setDescription($this->owner->fieldLabel('MatomoTrackingCodeDesc'));
-        
-        $fields->addFieldToTab('Root.SEO', $googleWebmasterCodeField);
-        $fields->addFieldToTab('Root.SEO', $googleAnalyticsTrackingCodeField);
-        $fields->addFieldToTab('Root.SEO', $googleConversionTrackingCodeField);
-        $fields->addFieldToTab('Root.SEO', $matomoTrackingCodeField);
+        $fields->findOrMakeTab('Root.SocialMedia')->setTitle($this->owner->fieldLabel('SocialMediaTab'));
         
         $facebookLinkField   = TextField::create('FacebookLink',   $this->owner->fieldLabel('FacebookLink'));
         $twitterLinkField    = TextField::create('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
@@ -383,6 +367,9 @@ class SiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.SocialMedia', $tumblrLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $rssLinkField);
         $fields->addFieldToTab('Root.SocialMedia', $emailLinkField);
+        
+        $fields->findOrMakeTab('Root.ExternalResources', ExternalResource::singleton()->i18n_plural_name());
+        $fields->addFieldToTab('Root.ExternalResources', GridField::create('ExternalResources', ExternalResource::singleton()->i18n_plural_name(), ExternalResource::get(), GridFieldConfig_RecordEditor::create()));
         
         $this->getCMSFieldsForSilvercart($fields);
     }
@@ -693,23 +680,6 @@ class SiteConfigExtension extends DataExtension
     }
     
     /**
-     * Will be called right after $this->owner->requireTable().
-     * If not happened yet, the DB table column PiwikTrackingCode will be
-     * renamed to MatomoTrackingCode.
-     * 
-     * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.09.2018
-     */
-    public function augmentDatabase()
-    {
-        DBMigration::rename_fields($this->owner, [
-            'PiwikTrackingCode' => 'MatomoTrackingCode',
-        ]);
-    }
-    
-    /**
      * Restores the config parameters out of the old SilvercartConfig object.
      * 
      * @return void
@@ -941,18 +911,5 @@ class SiteConfigExtension extends DataExtension
     public function getDefaultContactMessageRecipient() : ?string
     {
         return $this->getUpdatedField('DefaultContactMessageRecipient');
-    }
-    
-    /**
-     * Returns the Matomo tracking code.
-     * Adds the possibility to update the Matomo tracking code by extension.
-     * 
-     * @return string
-     */
-    public function getMatomoTrackingCode()
-    {
-        $matomoTrackingCode = $this->owner->getField('MatomoTrackingCode');
-        $this->owner->extend('updateMatomoTrackingCode', $matomoTrackingCode);
-        return $matomoTrackingCode;
     }
 }

@@ -62,6 +62,30 @@ en:
         Info2Singular: '{totalItems} items on {totalPages} page'
         Info2SingularSingular: '{totalItems} item on {totalPages} page'
         InfoFirstIsLast: 'Page {currentPage}, item {firstItem} - {lastItem}'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        Code: Code
+        CookieGroup: 'Cookie Group'
+        CookieGroupDesc: 'Adding a cookie group to a resource will prevent to include it if the visitor did not accept the cookie group in the cookie consent settings.'
+        Description: Description
+        Name: Name
+        NameDesc: 'Unique Name for this resource.'
+        PLURALNAME: 'External Resources'
+        Position: 'Code position'
+        Position_body: HTML-Body
+        Position_head: HTML-Head
+        RestrictToLiveMode: 'Restrict to live mode'
+        RestrictToLiveModeDesc: 'Enable to restrict the requirement of this resource to live/production environments.'
+        SINGULARNAME: 'External Resource'
+        Title: Title
+        URLSegment: 'URL segment'
+        GoogleAnalyticsTrackingCode_Name: 'Google Analytics Tracking Code'
+        GoogleAnalyticsTrackingCode_Description: 'Javascript code to enable Google Analytics tracking.'
+        GoogleConversionTrackingCode_Name: 'Google Conversion Tracking Code'
+        GoogleConversionTrackingCode_Description: 'Javascript code to enable Google Conversion tracking.'
+        GoogleWebmasterCode_Name: 'Google Webmaster Tools Code'
+        GoogleWebmasterCode_Description: 'HTML-<meta>-tag code to integrate the Google Webmaster Tools.'
+        MatomoTrackingCode_Name: 'Matomo Tracking Code'
+        MatomoTrackingCode_Description: 'Javascript code to enable Matomo (formerly Piwik) tracking.'
     SilverCart\Model\Customer\Address:
         AcademicTitle: 'Academic title'
         ADDITION: Addition
@@ -1979,11 +2003,6 @@ en:
         CREATE_TRANSLATION_DESC: 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.'
         FACEBOOK_LINK: 'Facebook Link'
         GoogleplusLink: 'Google Plus Link'
-        GOOGLE_ANALYTICS_TRACKING_CODE: 'Google Analytics Tracking Code'
-        GOOGLE_CONVERSION_TRACKING_CODE: 'Google Conversion Tracking Code'
-        GOOGLE_WEBMASTER_CODE: 'Google Webmaster Tools Code'
-        MatomoTrackingCode: 'Matomo Tracking Code'
-        MatomoTrackingCodeDesc: 'Javascript code to enable Matomo (formerly Piwik) tracking.'
         PUBLISHBUTTON: 'Publish all pages of this translation'
         TESTDATA_HEADLINE: Testdata
         TESTDATA_LINKTEXT: 'Jump to the testdata section'

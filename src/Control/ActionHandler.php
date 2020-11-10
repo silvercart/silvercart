@@ -2,6 +2,7 @@
 
 namespace SilverCart\Control;
 
+use Broarm\CookieConsent\Model\CookiePolicyPage;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
@@ -14,6 +15,7 @@ use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Pages\SearchResultsPage;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\SearchQuery;
+use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -49,6 +51,7 @@ class ActionHandler extends Controller
         'decrementPositionQuantity',
         'incrementPositionQuantity',
         'loadSubNavigation',
+        'cookieManager',
     ];
     /**
      * URL segment
@@ -441,5 +444,30 @@ class ActionHandler extends Controller
         return $this->renderWith(self::class . '_loadSubNavigation', [
             'ProductGroup' => $productGroup,
         ]);
+    }
+    
+    /**
+     * Loads the cookie manager template requested by an AJAX call.
+     * 
+     * @param HTTPRequest $request Request
+     * 
+     * @return HTTPResponse
+     */
+    public function cookieManager(HTTPRequest $request) : HTTPResponse
+    {
+        $cookiePolicyPage           = CookiePolicyPage::instance();
+        $cookiePolicyPageController = ModelAsController::controller_for($cookiePolicyPage);
+        /* @var $cookiePolicyPageController \Broarm\CookieConsent\Control\CookiePolicyPageController */
+        return HTTPResponse::create($cookiePolicyPageController->renderWith(CookiePolicyPage::class . '_ajax', $cookiePolicyPageController->index($request)));
+    }
+    
+    /**
+     * Returns whether the current request was called via AJAX.
+     * 
+     * @return bool
+     */
+    public function isAjaxRequest() : bool
+    {
+        return (bool) $this->getRequest()->isAjax();
     }
 }

@@ -229,6 +229,79 @@ class DBMigration
     ];
     
     /**
+     * Returns the current DB field value of $fieldName by the given $dataObject 
+     * context.
+     * 
+     * @param DataObject $dataObject Data object context
+     * @param string     $fieldName  DB field name
+     * 
+     * @return string
+     */
+    public static function get_field_value_and_remove_field(DataObject $dataObject, string $fieldName) : string
+    {
+        $value = '';
+        if (!$dataObject->exists()) {
+            return $value;
+        }
+        $schema    = DB::get_schema();
+        $tableName = $dataObject->getSchema()->tableName($dataObject->ClassName);
+        if ($tableName === null) {
+            return $value;
+        }
+        if ($schema->hasField($tableName, $fieldName)) {
+            $result = DB::query("SELECT {$fieldName} FROM \"{$tableName}\" WHERE ID = {$dataObject->ID}");
+            DB::alteration_message("Extracted field value {$tableName}.{$fieldName} [#{$dataObject->ID}]", "changed");
+            $value = $result->first()[$fieldName];
+            DB::query("ALTER TABLE \"{$tableName}\" DROP COLUMN {$fieldName}");
+            DB::alteration_message("Dropped field {$tableName}.{$fieldName}.", "deleted");
+        }
+        return (string) $value;
+    }
+
+    /**
+     * Moves the values of the fields defined in $renameFieldMap from $sourceObject
+     * to $targetObject.
+     * The source DB fields in $sourceObject will be removed from DB.
+     * 
+     * <code>
+     * // expected format for $renameFieldMap
+     * $renameFieldMap = [
+     *     'OldFieldName1' => 'NewFieldName1',
+     *     'OldFieldName2' => 'NewFieldName2',
+     *     'OldFieldName3' => 'NewFieldName3',
+     *     'OldFieldName4' => 'NewFieldName4',
+     * ];
+     * </code>
+     * 
+     * @param DataObject $sourceObject   Source data object
+     * @param DataObject $targetObject   Target data object
+     * @param array      $renameFieldMap The field map (old name => new name)
+     * 
+     * @return void
+     */
+    public static function move_fields(DataObject $sourceObject, DataObject $targetObject, array $renameFieldMap) : void
+    {
+        $schema    = DB::get_schema();
+        $sourceTableName = $sourceObject->getSchema()->tableName($sourceObject->ClassName);
+        $targetTableName = $targetObject->getSchema()->tableName($targetObject->ClassName);
+        if ($sourceTableName === null
+         || $targetTableName === null
+        ) {
+            return;
+        }
+        foreach ($renameFieldMap as $oldFieldName => $newFieldName) {
+            if ($schema->hasField($sourceTableName, $oldFieldName)
+             && $schema->hasField($targetTableName, $newFieldName)
+            ) {
+                DB::query("UPDATE \"{$targetTableName}\" SET {$newFieldName} = {$oldFieldName}");
+                DB::alteration_message("Updated field {$targetTableName}.{$newFieldName} with the value of {$sourceTableName}.{$oldFieldName}", "changed");
+                DB::query("ALTER TABLE \"{$sourceTableName}\" DROP COLUMN {$oldFieldName}");
+                DB::alteration_message("Dropped field {$sourceTableName}.{$oldFieldName} to make room for the new replacement field {$targetTableName}.{$newFieldName}.", "deleted");
+            }
+        }
+    }
+    
+    /**
      * Renames database columns for the given $dataObject like defined in 
      * $renameFieldMap.
      * 
@@ -250,7 +323,7 @@ class DBMigration
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public static function rename_fields(DataObject $dataObject, array $renameFieldMap)
+    public static function rename_fields(DataObject $dataObject, array $renameFieldMap) : void
     {
         $schema    = DB::get_schema();
         $tableName = $dataObject->getSchema()->tableName($dataObject->ClassName);

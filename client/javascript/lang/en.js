@@ -6,6 +6,7 @@ if(typeof(ss) === 'undefined' || typeof(ss.i18n) === 'undefined') {
     ss.i18n.addDictionary('en', {
         'Boolean.NO':                                           'No',
         'Boolean.YES':                                          'Yes',
+        'SilverCart.AnErrorOccurred':                           'An error occurred. Please try again.',
         'SilverCart.PleaseChoosePaymentMethod':                 'Please choose a payment method!',
         'Silvercart.ShowAll':                                   'Show all',
         'SilvercartRegistrationPage.EMAIL_EXISTS_ALREADY':      'This email address already exists.',

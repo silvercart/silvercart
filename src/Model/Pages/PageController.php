@@ -502,6 +502,16 @@ class PageController extends ContentController
     }
     
     /**
+     * Returns whether the current request was called via AJAX.
+     * 
+     * @return bool
+     */
+    public function isAjaxRequest() : bool
+    {
+        return (bool) $this->getRequest()->isAjax();
+    }
+    
+    /**
      * template function: returns customers orders
      * 
      * @param int $limit Limit
