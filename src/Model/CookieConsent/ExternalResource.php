@@ -338,8 +338,7 @@ class ExternalResource extends DataObject implements TemplateGlobalProvider
     public function requireTable() : void
     {
         parent::requireTable();
-        $siteConfig = SiteConfig::current_site_config();
-        DBMigration::rename_fields($siteConfig, [
+        DBMigration::rename_fields(SiteConfig::singleton(), [
             'PiwikTrackingCode' => self::RESOURCE_MATOMO_TRACKING_CODE,
         ]);
     }
