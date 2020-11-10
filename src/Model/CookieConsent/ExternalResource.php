@@ -212,7 +212,7 @@ class ExternalResource extends DataObject implements TemplateGlobalProvider
         }
         $can = trim($this->Code) === '';
         if ($this->RestrictToLiveMode
-         && !Director::isLive() && 1===2
+         && !Director::isLive()
         ) {
             $can = false;
         } elseif ($this->Name === self::RESOURCE_GOOGLE_CONVERSION_TRACKING_CODE) {
