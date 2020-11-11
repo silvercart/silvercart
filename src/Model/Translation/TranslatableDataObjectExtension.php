@@ -6,6 +6,8 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FormField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataQuery;
@@ -24,6 +26,8 @@ use ReflectionClass;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property DataObject $owner Owner
  */
 class TranslatableDataObjectExtension extends DataExtension
 {
@@ -33,6 +37,51 @@ class TranslatableDataObjectExtension extends DataExtension
      * @var array
      */
     protected $translationCache = [];
+    
+    /**
+     * Updates the CMS fields.
+     * 
+     * @param FieldList $fields Fields
+     * 
+     * @return void
+     */
+    public function updateCMSFields(FieldList $fields) : void
+    {
+        $insertFields = (bool) $this->owner->config()->insert_translation_cms_fields;
+        if (!$insertFields) {
+            return;
+        }
+        $insertBefore = $this->owner->config()->insert_translation_cms_fields_before;
+        $insertAfter  = $this->owner->config()->insert_translation_cms_fields_after;
+        $languageFields = TranslationTools::prepare_cms_fields($this->owner->getTranslationClassName());
+        foreach ($languageFields as $languageField) {
+            /* @var $languageField \SilverStripe\Forms\FormField */
+            if ($insertBefore === null
+             && $insertAfter === null
+            ) {
+                $fields->addFieldToTab('Root.Main', $languageField);
+            } elseif ($insertBefore !== null) {
+                $fields->insertBefore($languageField, $insertBefore);
+            } else {
+                $fields->insertAfter($languageField, $insertAfter);
+                /*
+                 * Change the name of the field the insert the next field
+                 * Otherwise the sort order would be inverted
+                 */
+                $insertAfter = $languageField->getName();
+            }
+            foreach (['Desc' => 'Description', 'RightTitle'] as $label => $setter) {
+                if (is_numeric($label)) {
+                    $label = $setter;
+                }
+                $labelKey   = "{$languageField->getName()}{$label}";
+                $fieldLabel = $this->owner->fieldLabel($labelKey);
+                if ($fieldLabel !== FormField::name_to_label($labelKey)) {
+                    $languageField->{"set{$setter}"}($fieldLabel);
+                }
+            }
+        }
+    }
     
     /**
      * Manipulates the SQL query
