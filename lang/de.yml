@@ -2221,7 +2221,7 @@ de:
         Expiry: 'Dauer'
     Broarm\CookieConsent\Model\CookieGroup:
         Necessary: 'Notwendig'
-        Necessary_Content: '<p>Notwendige Cookies gewährleisten den funktionalen Betrieb der Seite un müssen aus technischen Gründen gesetzt werden.</p>'
+        Necessary_Content: '<p>Notwendige Cookies gewährleisten den funktionalen Betrieb der Seite und müssen aus technischen Gründen gesetzt werden.</p>'
         Analytics: 'Analyse'
         Analytics_Content: '<p>Mit Hilfe von Analyse-Cookies sind wir in der Lage die Benutzung der Seite technisch zu analysieren um Probleme zu erkennen und die Benutzbarkeit zu optimieren.</p>'
         Marketing: 'Marketing'
