@@ -563,6 +563,20 @@ iframe.print-preview {
     background-image: -o-linear-gradient(#338dc1, #287099);
     background-image: linear-gradient(#338dc1, #287099);
 }
+.cms-content-header-tabs {
+    max-width: 80%;
+}
+.ui-tabs .cms-content-header-tabs .ui-tabs-nav li:not(.ui-state-active) .nav-link,
+.ui-tabs .cms-content-header-tabs .ui-tabs-nav li:not(.ui-state-active) .nav-link:hover,
+.ui-tabs .cms-content-header-tabs .ui-tabs-nav li:not(.ui-state-active) a,
+.ui-tabs.cms-tabset-primary .ui-tabs-nav li:not(.ui-state-active) .nav-link,
+.ui-tabs.cms-tabset-primary .ui-tabs-nav li:not(.ui-state-active) .nav-link:hover,
+.ui-tabs.cms-tabset-primary .ui-tabs-nav li:not(.ui-state-active) a,
+.ui-tabs .ui-tabs-nav.cms-tabset-nav-primary li:not(.ui-state-active) .nav-link,
+.ui-tabs .ui-tabs-nav.cms-tabset-nav-primary li:not(.ui-state-active) .nav-link:hover,
+.ui-tabs .ui-tabs-nav.cms-tabset-nav-primary li:not(.ui-state-active) a {
+    border-bottom: .15385rem solid transparent;
+}
 
 
 /*******************************************************************************
