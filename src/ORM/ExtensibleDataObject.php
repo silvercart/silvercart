@@ -3,6 +3,7 @@
 namespace SilverCart\ORM;
 
 use SilverStripe\Core\Config\Config as SilverStripeConfig;
+use SilverStripe\Forms\FormField;
 
 /**
  * Trait to add extende Extensible features to a DataObject.
@@ -152,9 +153,9 @@ trait ExtensibleDataObject
                 if (is_array($source)) {
                     foreach (array_keys($source) as $fieldname) {
                         $fieldLabels[$fieldname]               = _t("{$objectName}.{$fieldname}", $fieldname);
-                        $fieldLabels["{$fieldname}Desc"]       = _t("{$objectName}.{$fieldname}Desc", "{$fieldname} description");
-                        $fieldLabels["{$fieldname}Default"]    = _t("{$objectName}.{$fieldname}Default", "{$fieldname} default");
-                        $fieldLabels["{$fieldname}RightTitle"] = _t("{$objectName}.{$fieldname}RightTitle", "{$fieldname} right title");
+                        $fieldLabels["{$fieldname}Desc"]       = _t("{$objectName}.{$fieldname}Desc", FormField::name_to_label("{$fieldname}Desc"));
+                        $fieldLabels["{$fieldname}Default"]    = _t("{$objectName}.{$fieldname}Default", FormField::name_to_label("{$fieldname}Default"));
+                        $fieldLabels["{$fieldname}RightTitle"] = _t("{$objectName}.{$fieldname}RightTitle", FormField::name_to_label("{$fieldname}RightTitle"));
                         if ($fieldLabels[$fieldname] === $fieldname) {
                             if ($param === 'has_one') {
                                 $className = $source[$fieldname];
