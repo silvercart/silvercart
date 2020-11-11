@@ -26,7 +26,7 @@ class FormFieldExtension extends Extension
      *
      * @var bool
      */
-    protected $validationFailed = false;
+    public $validationFailed = false;
     /**
      * Determines whether the field is required (forces).
      *
@@ -41,7 +41,7 @@ class FormFieldExtension extends Extension
      */
     public function getValidationFailed() : bool
     {
-        return $this->owner->validationFailed;
+        return (bool) $this->owner->validationFailed;
     }
 
     /**
