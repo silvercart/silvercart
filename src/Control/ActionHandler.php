@@ -460,6 +460,16 @@ class ActionHandler extends Controller
         /* @var $cookiePolicyPageController \Broarm\CookieConsent\Control\CookiePolicyPageController */
         return HTTPResponse::create($cookiePolicyPageController->renderWith(CookiePolicyPage::class . '_ajax', $cookiePolicyPageController->index($request)));
     }
+
+    /**
+     * Returns the link to accept all cookies.
+     * 
+     * @return string
+     */
+    public function getAcceptAllCookiesLink() : string
+    {
+        return Controller::join_links('acceptAllCookies', 'acceptAllCookies');
+    }
     
     /**
      * Returns whether the current request was called via AJAX.
