@@ -159,6 +159,8 @@ nl:
     SilverCart\Checkout\CheckoutStep1:
         NewCustomer: 'You are a new customer?'
         StepTitle: Login
+    SilverCart\Checkout\CheckoutStep3:
+        StepTitle: Shioment
     SilverCart\Forms\Checkout\CheckoutLoginForm:
         SubmitButtonTitle: 'Login and continue'
     SilverCart\Forms\Checkout\CheckoutNewCustomerForm:
@@ -670,8 +672,8 @@ nl:
         SearchQuery: 'Your Search Term...'
         submitButtonTitle: 'Search for Downloads'
     SilverCart\Model\EmailAddress:
-        PLURAlNAME: 'Email addresses'
         SINGULARNAME: 'Email address'
+        PLURAlNAME: 'Email addresses'
     SilverCart\Model\Product\File:
         DESCRIPTION: Omschrijving
         FILE_ATTACHMENTS: Bestandsbijlagen
@@ -829,8 +831,8 @@ nl:
         ACTIONFIELD_TITLE: 'Wat wilt u doen?'
         ACTIONFIELD_UNSUBSCRIBE: 'Ik wil me uitschrijven voor de nieuwsbrief'
     SilverCart\Model\Pages\NewsletterPage:
-        AlreadyConfirmedMessage: 'Message for already existing subscription'
         AlreadyConfirmedMessageText: 'Bericht: de gebruiker voltooide opt-in reeds'
+        AlreadyConfirmedMessage: 'Message for already existing subscription'
         ConfirmationFailureMessage: 'Message for subscription failure'
         ConfirmationSuccessMessage: 'Message for subscription success'
         DEFAULT_TITLE: Nieuwsbrief
@@ -839,7 +841,6 @@ nl:
         DefaultConfirmationFailureMessage: '<p>Uw nieuwsbrief registratie kan niet worden voltooid.</p>'
         DefaultConfirmationSuccessMessage: '<p>Uw nieuwsbrief registratie is geslaagd!</p><p>Hopelijk zijn onze aanbiedingen nuttig voor u.</p>'
         DefaultConfirmationSuccessSubject: 'Nieuwsbrief registratie succesvol afgerond'
-        DefaultEmailConfirmationContent: '<h1>Volledige nieuwsbrief registratie </h1><p> Klik op de activatie link of kopieer de link naar uw de browser van uw keuze</p><a href="$ConfirmationLink">Bevestig nieuwsbrief registratie</a></p><p>Als u nog geen nieuwsbrief wilt ontvangen negeer dan dit email bericht</p><p>Uw webshop team</p>'
         DefaultEmailConfirmationSubject: 'Volledige nieuwsbrief registratie'
         DefaultOptInPageTitle: 'Volledige nieuwsbrief registratie'
         FailureMessageText: Foutmelding
@@ -851,6 +852,7 @@ nl:
         TITLE: Nieuwsbrief
         URL_SEGMENT: nieuwsbrief_nl_nl
         UseDoubleOptIn: 'Gebruik double opt-in'
+        DefaultEmailConfirmationContent: '<h1>Volledige nieuwsbrief registratie </h1><p> Klik op de activatie link of kopieer de link naar uw de browser van uw keuze</p><a href="$ConfirmationLink">Bevestig nieuwsbrief registratie</a></p><p>Als u nog geen nieuwsbrief wilt ontvangen negeer dan dit email bericht</p><p>Uw webshop team</p>'
     SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
         Description: 'Please choose your export context and press the export button to download a CSV list of email recipients.'
         DoExport: 'Export as CSV'
@@ -996,11 +998,11 @@ nl:
         ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'Geselecteerde e-mail adressen'
         BADGECOLOR: 'Color code'
         CODE: Code
+        PLURALNAME: 'Bestel status'
+        SINGULARNAME: 'Bestel status'
         INWORK: 'In work'
         PAID: Betaald
-        PLURALNAME: 'Bestel status'
         SHIPPED: 'Bestelling verstuurd'
-        SINGULARNAME: 'Bestel status'
     SilverCart\Admin\Controllers\OrderStatusAdmin:
         MENUTITLE: 'Order Status'
     SilverCart\Model\Order\OrderStatusTranslation:
@@ -1895,3 +1897,12 @@ nl:
         FieldMustHaveValue: 'Please enter the same value as in field "{name}".'
         FieldMustNotBeEmail: 'Please don''t enter an email address.'
         FieldMustNotContainSpecialSigns: 'The field "{name}" must not contain special signs (letters, numbers and the signs "@" and ".").'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        GoogleAnalyticsTrackingCode_Name: 'Google Analytics Tracking Code'
+        GoogleAnalyticsTrackingCode_Description: 'Javascript code to enable Google Analytics tracking.'
+        GoogleConversionTrackingCode_Name: 'Google Conversion Tracking Code'
+        GoogleConversionTrackingCode_Description: 'Javascript code to enable Google Conversion tracking.'
+        GoogleWebmasterCode_Name: 'Google Webmaster Tools Code'
+        GoogleWebmasterCode_Description: 'HTML-<meta>-tag code to integrate the Google Webmaster Tools.'
+        MatomoTrackingCode_Name: 'Matomo Tracking Code'
+        MatomoTrackingCode_Description: 'Javascript code to enable Matomo (formerly Piwik) tracking.'

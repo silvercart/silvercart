@@ -13,6 +13,7 @@ nl_BE:
         Actions: Acties
         ClickForMore: 'Klik om meer informatie weer te geven'
         Close: Afsluiten
+        since: sinds
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Uitvoeren
         MARK_ALL: 'Alles markeren'
@@ -51,14 +52,6 @@ nl_BE:
         CookiePolicyConfigButtonTextDefault: Begrepen!
         CookiePolicyConfigPolicyText: 'Tekst "Meer informatie"'
         CookiePolicyConfigPolicyTextDefault: 'Meer informatie'
-    SilverCart\Model\CookieConsent\ExternalResource:
-        GoogleAnalyticsTrackingCode_Name: 'Google Analytics-trackingscode'
-        GoogleAnalyticsTrackingCode_Description: 'Javascript-code om Google Analytics-tracking te activeren.'
-        GoogleConversionTrackingCode_Name: 'Google Conversion-trackingscode'
-        GoogleConversionTrackingCode_Description: 'Javascript-code om Google Conversion-tracking te activeren.'
-        GoogleWebmasterCode_Name: 'Google Webmaster Tools-code'
-        MatomoTrackingCode_Name: Matomo-trackingscode
-        MatomoTrackingCode_Description: 'Javascript-code om Matomo-tracking (voorheen Piwik) te activeren.'
     SilverCart\Model\Customer\Address:
         AcademicTitle: Titel
         ADDITION: Adrestoevoeging
@@ -106,6 +99,10 @@ nl_BE:
         USE_ABSOLUTEADDRESS: 'Woonadres als adres gebruiken'
         USE_PACKSTATION: 'Packstation als adres gebruiken'
         NoAddressData: 'Geen adresgegevens beschikbaar.'
+        SILVERCART_ADDRESS_CREATE_HELP: 'Hiermee kan een klant eigen adressen aanmaken of kan een gebruiker elk adres aanmaken.'
+        SILVERCART_ADDRESS_DELETE_HELP: 'Hiermee kan een gebruiker alle adressen verwijderen (niet alleen zijn eigen adressen!). De eigen adressen kunnen ook zonder deze toestemming worden verwijderd, op voorwaarde dat de basisinstellingen van de winkel dat toestaan.'
+        SILVERCART_ADDRESS_EDIT_HELP: 'Hiermee kan een gebruiker alle adressen aanpassen (niet alleen zijn eigen adressen!). De eigen adressen kunnen ook zonder deze toestemming worden aangepast, op voorwaarde dat de basisinstellingen van de winkel dat toestaan.'
+        SILVERCART_ADDRESS_VIEW_HELP: 'Hiermee kan een gebruiker alle adressen bekijken (niet alleen zijn eigen adressen!). De eigen adressen kunnen ook zonder deze toestemming worden bekeken.'
     SilverCart\Model\Pages\AddressHolder:
         ADDED_ADDRESS_FAILURE: 'Uw adres kon niet worden opgeslagen.'
         ADDED_ADDRESS_SUCCESS: 'Uw adres werd opgeslagen.'
@@ -133,7 +130,7 @@ nl_BE:
         PLURALNAME: 'Adresoverzichtspagina''s'
         SET_AS: 'Gebruiken als'
         SET_DEFAULT_INVOICE: 'Gebruiken als facturatieadres'
-        SET_DEFAULT_SHIPPING: 'Gebruiken als afleveradres'
+        SET_DEFAULT_SHIPPING: 'Gebruiken als leveringsadres'
         SHIPPINGADDRESS: Leveringsadres
         SHIPPINGADDRESS_TAB: Leveringsadres
         SINGULARNAME: Adresoverzichtspagina
@@ -1012,6 +1009,9 @@ nl_BE:
         TrackingLinkLabel: 'Weergeven waar mijn zending zich momenteel bevindt'
         WEIGHTTOTAL: Totaalgewicht
         YOUR_REMARK: 'Uw opmerking'
+        SILVERCART_ORDER_DELETE_HELP: 'Hiermee kan een gebruiker elke bestelling verwijderen.'
+        SILVERCART_ORDER_EDIT_HELP: 'Hiermee kan een gebruiker elke bestelling verwerken.'
+        SILVERCART_ORDER_VIEW_HELP: 'Hiermee kan een gebruiker alle bestellingen bekijken (niet alleen zijn eigen bestellingen!). Eigen bestellingen kunnen ook zonder deze toestemming worden bekeken.'
     SilverCart\Model\Order\OrderAddress:
         PLURALNAME: Besteladressen
         SINGULARNAME: Besteladres
@@ -1107,7 +1107,7 @@ nl_BE:
         APRIL: april
         AUGUST: augustus
         BACK: Terug
-        BACK_TO: 'Terug naar &quot;{title}&quot; '
+        BACK_TO: 'Terug naar &quot;{title}&quot;'
         BACK_TO_DEFAULT: 'vorige pagina'
         BILLING_ADDRESS: Factuuradres
         BIRTHDAY: Verjaardag
@@ -1441,6 +1441,8 @@ nl_BE:
         WIDGETAREA: Widgets
         YEAR: Jaar
         YEARS: Jaren
+        IsInCart: 'In winkelwagen'
+        SILVERCART_PRODUCT_CREATE_HELP: 'Hiermee kan een gebruiker artikelen aanmaken.'
     SilverCart\Admin\Controllers\ProductAdmin:
         MENUTITLE: Artikelen
     SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
@@ -1571,8 +1573,9 @@ nl_BE:
         MetaTitleRightTitle: 'De meta-titel is SEO relevant en mag niet meer dan 64 karakters bevatten. Het wordt bijvoorbeeld gebruikt om Google-treffers weer te geven of als benaming in browsertabbladen.'
         MetaTitleShort: 'Meta-titel afkorting'
         MetaTitleShortDesc: 'Wordt bijvoorbeeld gebruikt voor nieuwe producten, populaire artikelen en reserveringen.'
+        ShowNewProducts: 'Toon nieuwe artikelen'
     SilverCart\Admin\Controllers\ProductImageAdmin:
-        CronNotInstalledDescription: "De installatie van de import van de artikelafbeelding werd nog niet volledig afgerond. Voeg daarvoor de nodige programma's (`sake dev/tasks/sc-image-importer`) toe aan de getimede taken van uw server.\nNeem contact op met uw winkelier voor meer informatie.\n"
+        CronNotInstalledDescription: "De installatie van de import van de artikelafbeelding werd nog niet volledig afgerond. Voeg daarvoor de nodige programma's (`sake dev/tasks/sc-image-importer`) toe aan de getimede taken van uw server.\nNeem contact op met uw winkelier voor meer informatie."
         CronNotInstalledTitle: Opgelet
         CronIsRunningDescription: 'De import van artikelafbeelding wordt momenteel uitgevoerd.'
         CronIsRunningTitle: Opgelet
@@ -1890,7 +1893,7 @@ nl_BE:
         PLURALNAME: Winkelwagens
         SINGULARNAME: Winkelwagen
         ShippingDateDeferredDueToReleasDate: 'De datum van de verzending wordt uitgesteld vanwege de niet-beschikbare artikelen.'
-        ShippingTo: 'Verzenden naar {country} voor <strong> {price} </strong> via {shippingmethod}.'
+        ShippingTo: 'Verzenden naar {country} voor <strong>{price}</strong> via {shippingmethod}.'
     SilverCart\Model\Order\ShoppingCartPosition:
         MAX_QUANTITY_REACHED_MESSAGE: 'Het maximumaantal artikelen voor deze positie werd bereikt.'
         PLURALNAME: Winkelwagenposities
@@ -2113,14 +2116,190 @@ nl_BE:
         FontAwesomeIconDesc: 'Open geavanceerd zoeken op de <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Awesome-lettertype-pictogram referentiepagina</a>.'
         FontAwesomeIconRightTitle: 'Het Awesome-lettertype-pictogram wordt weergegeven op verkoopbevorderende plaatsen zoals een CMS-pagina voor een pakketselectie.'
     SilverCart\Extensions\ORM\PaginatedListExtension:
-        Info: 'Pagina {currentPage} , vermelding {firstItem} - {lastItem}'
+        Info: 'Pagina {currentPage}, vermelding {firstItem} - {lastItem}'
         Info2Plural: '{totalItems} vermeldingen op {totalPages} pagina''s'
         Info2Singular: '{totalItems} vermeldingen op {totalPages} pagina'
-        InfoFirstIsLast: 'Pagina {currentPage}, Invoer {firstItem}'
+        InfoFirstIsLast: 'Pagina {currentPage}, Vermelding {firstItem}'
+        Info2SingularSingular: '{totalItems} Vermeldingen op {totalPages} pagina'
     SilverCart\Forms\FormFields\GoogleRecaptchaField:
         Verify: 'Bevestig dat u geen robot bent.'
     SilverStripe\Security\Security:
         CONFIRMLOGOUT: 'Klik op de onderstaande knop om te bevestigen dat u zich wilt afmelden.'
-        NOTERESETLINKINVALID: '<p> De link voor het opnieuw instellen van het wachtwoord is ongeldig of is verlopen. </p> <p> U kunt <a href="{link1}"> hier </a> een nieuw wachtwoord aanvragen <a href="{link1}"> of uw wachtwoord wijzigen nadat u bent <a href="{link2}"> aangemeld. </a> . </p>'
+        NOTERESETLINKINVALID: '<p> De link voor het opnieuw instellen van het wachtwoord is ongeldig of is verlopen. </p> <p> U kunt <a href="{link1}"> hier </a> een nieuw wachtwoord aanvragen of uw wachtwoord wijzigen nadat u bent <a href="{link2}"> aangemeld. </a> . </p>'
         PASSWORDRESETSENTHEADER: 'De link om het wachtwoord opnieuw in te stellen werd verstuurd.'
         PASSWORDRESETSENTTEXT: 'Bedankt. Er werd een resetlink verzonden als een account voor dat e-mailadres bestaat.'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        Code: Code
+        CookieGroup: Cookiecategorie
+        CookieGroupDesc: 'Als een resource is toegewezen aan een cookiecategorie, wordt die alleen opgenomen als de bezoeker die cookiecategorie heeft geaccepteerd.'
+        Description: Beschrijving
+        Name: Naam
+        NameDesc: 'Unieke naam voor deze resource'
+        PLURALNAME: 'Externe resources'
+        Position: Codepositie
+        Position_body: HTML-hoofdtekst
+        Position_head: HTML-kop
+        RestrictToLiveMode: 'Beperken tot live-activiteiten'
+        RestrictToLiveModeDesc: 'Activeer om deze resource alleen te verkrijgen in de live-/productiemodus.'
+        SINGULARNAME: 'Externe resource'
+        Title: Omschrijving
+        URLSegment: URL-segment
+        GoogleAnalyticsTrackingCode_Name: 'Google Analytics-trackingscode'
+        GoogleAnalyticsTrackingCode_Description: 'Javascript-code om Google Analytics-tracking te activeren.'
+        GoogleConversionTrackingCode_Name: 'Google Conversion-trackingscode'
+        GoogleConversionTrackingCode_Description: 'Javascript-code om Google Conversion-tracking te activeren.'
+        GoogleWebmasterCode_Name: 'Google Webmaster Tools-code'
+        GoogleWebmasterCode_Description: 'HTML<meta>-tagcode om de Google Webmaster Tools-code te integreren.'
+        MatomoTrackingCode_Name: Matomo-trackingscode
+        MatomoTrackingCode_Description: 'Javascript-code om Matomo-tracking (voorheen Piwik) te activeren.'
+    Broarm\CookieConsent\CookieConsent:
+        ManageCookies: Cookie-instellingen
+        AcceptAllCookies: 'Accepteer alles'
+    Broarm\CookieConsent\Shortcode\CookieGroupTable:
+        Title: Cookie
+        Provider: 'Ingesteld door'
+        Purpose: Doel
+        Expiry: Duur
+    Broarm\CookieConsent\Model\CookieGroup:
+        Necessary: Noodzakelijk
+        Necessary_Content: '<p>De noodzakelijke cookies garanderen de functionele werking van de site en moeten om technische redenen worden ingesteld. </p>'
+        Analytics: Analyse
+        Analytics_Content: '<p> Met behulp van analytische cookies zijn we in staat om het gebruik van de site technisch te analyseren en om problemen te identificeren en de bruikbaarheid te optimaliseren. </p>'
+        Marketing: Marketing
+        Marketing_Content: '<p>Met behulp van marketing-cookies zijn we in staat om het succes van reclamecampagnese analyseren.</p>'
+        Preferences: Instellingen
+        Prefrences_Content: '<p> Met behulp van cookie-instellingen kunnen we de gebruiksvriendelijkheid van de site aanpassen aan uw behoeften. Hierdoor kan de site uw voorkeuren onthouden bij een volgend bezoek. </p>'
+    Broarm\CookieConsent\Forms\CookieConsentForm:
+        Save: 'Selectie bevestigen'
+        FormMessage: 'De instellingen werden opgeslagen'
+    Broarm\CookieConsent\Model\CookiePolicyPage:
+        Title: Cookiesbeleid
+        Content: '<p> $ CookieConsentForm </p> <p> [cookiegrouptable group = "Noodzakelijk"] </p> <p> [cookiegrouptable group = "Analytics"] </p> <p> [cookiegrouptable group = "Marketing"] </p> <p> [cookiegrouptable group = "Voorkeuren"] </p>'
+    Broarm\CookieConsent\Model\PrivacyPolicyPage:
+        Title: Privacybeleid
+        Content: '<p>Vul deze pagina met uw privacybeleid.</p>'
+    Broarm\CookieConsent\Model\TermsAndConditionsPage:
+        Title: 'Algemene verkoopsvoorwaarden'
+        Content: '<p> Vul deze pagina in met uw algemene verkoopsvoorwaarden. </p>'
+    Broarm\CookieConsent\Extensions\SiteConfigExtension:
+        Title: 'Deze website maakt gebruik van cookies'
+        Content: '<p>Wij gebruiken cookies om onze websites te optimaliseren, onze producten voor u te verbeteren en advertenties te tonen die aansluiten bij uw interesses via derde partijen. Hier kunt u kiezen welke cookies u wilt toestaan en uw selectie op elk moment wijzigen. U vindt meer informatie in onze richtlijnen over het gebruik van cookies en in onze privacyverklaringen. Technisch noodzakelijke cookies worden ook ingesteld wanneer u ervoor kiest om ze te weigeren.</p><p>Door te klikken op "Accepteer alles" accepteert u deze verwerking.</p>'
+    CookieConsent_local:
+        PHPSESSID_Purpose: Sessie
+        PHPSESSID_Expiry: Sessie
+        CookieConsent_Purpose: 'Slaat uw cookiesinstellingen op'
+        CookieConsent_Expiry: '2 maanden'
+        FluentLocale_Purpose: 'Slaat uw taalinstellingen op'
+        FluentLocale_Expiry: '2 maanden'
+        ipcountry_Purpose: Standaardtaalinstellingen
+        ipcountry_Expiry: Sessie
+        _ga_Purpose: Statistieken
+        _ga_Expiry: '2 jaar'
+        _gat_Purpose: Statistieken
+        _gat_Expiry: '24 uur'
+        _gid_Purpose: Statistieken
+        _gid_Expiry: '24 uur'
+        _hjIncludedInSample_Purpose: Statistieken
+        _hjIncludedInSample_Expiry: Sessie
+        __atuvc_Purpose: 'Knoppen voor het delen met sociale media'
+        __atuvc_Expiry: '1 jaar'
+        __atuvs_Purpose: 'Knoppen voor het delen met sociale media'
+        __atuvs_Expiry: '1 jaar'
+    CookieConsent__ads_linkedin_com:
+        BizoID_Purpose: Marketing
+        BizoID_Expiry: '6 maanden'
+        UserMatchHistory_Purpose: Marketing
+        UserMatchHistory_Expiry: '6 maanden'
+        lang_Purpose: Taalinstellingen
+        lang_Expiry: Sessie
+    CookieConsent__linkedin_com:
+        bcookie_Purpose: Marketing
+        bcookie_Expiry: '2 jaar'
+        lidc_Purpose: Marketing
+        lidc_Expiry: '2 jaar'
+    CookieConsent__addthis_com:
+        mus_Purpose: 'Knoppen voor het delen met sociale media'
+        mus_Expiry: '1 jaar'
+        ouid_Purpose: 'Knoppen voor het delen met sociale media'
+        ouid_Expiry: '1 jaar'
+        uid_Purpose: 'Knoppen voor het delen met sociale media'
+        uid_Expiry: '1 jaar'
+        uvc_Purpose: 'Knoppen voor het delen met sociale media'
+        uvc_Expiry: '1 jaar'
+        loc_Purpose: 'Knoppen voor het delen met sociale media'
+        loc_Expiry: '1 jaar'
+        na_id_Purpose: 'Knoppen voor het delen met sociale media'
+        na_id_Expiry: '1 jaar'
+        na_tc_Purpose: 'Knoppen voor het delen met sociale media'
+        na_tc_Expiry: '1 jaar'
+    CookieConsent__facebook_com:
+        fr_Purpose: 'Facebook SDK'
+        fr_Expiry: '2 maanden'
+    CookieConsent__youtube_com:
+        GPS_Purpose: Video-integratie
+        GPS_Expiry: Sessie
+        PREF_Purpose: Video-integratie
+        PREF_Expiry: '2 jaar'
+        VISITOR_INFO1_LIVE_Purpose: Video-integratie
+        VISITOR_INFO1_LIVE_Expiry: '6 maanden'
+        YSC_Purpose: Video-integratie
+        YSC_Expiry: Sessie
+        NID_Purpose: Video-integratie
+        NID_Expiry: Sessie
+        CONSENT_Purpose: Video-integratie
+        CONSENT_Expiry: Sessie
+    CookieConsent__vimeo_com:
+        vuid_Purpose: Video-integratie
+        vuid_Expiry: '1 jaar'
+        player_Purpose: Video-integratie
+        player_Expiry: '1 jaar'
+    CookieConsent__google_com:
+        1P_JAR_Purpose: reCAPTCHA
+        1P_JAR_Expiry: '24 uur'
+        APISID_Purpose: reCAPTCHA
+        APISID_Expiry: '2 jaar'
+        CONSENT_Purpose: reCAPTCHA
+        CONSENT_Expiry: '20 jaar'
+        HSID_Purpose: reCAPTCHA
+        HSID_Expiry: '2 jaar'
+        NID_Purpose: reCAPTCHA
+        NID_Expiry: '6 maanden'
+        OGPC_Purpose: reCAPTCHA
+        OGPC_Expiry: '1 maand'
+        SAPISID_Purpose: reCAPTCHA
+        SAPISID_Expiry: '2 jaar'
+        SID_Purpose: reCAPTCHA
+        SID_Expiry: '2 jaar'
+        SIDCC_Purpose: reCAPTCHA
+        SIDCC_Expiry: '3 maanden'
+        SSID_Purpose: reCAPTCHA
+        SSID_Expiry: '2 jaar'
+    CookieConsent_www_google_com:
+        OTZ_Purpose: reCAPTCHA
+        OTZ_Expiry: '1 maand'
+        _ga_Purpose: 'reCAPTCHA Analytics'
+        _ga_Expiry: '2 jaar'
+    CookieConsent__fontawesome_com:
+        _ga_Purpose: 'Font Awesome Analytics'
+        _ga_Expiry: '2 jaar'
+        _gid_Purpose: 'Font Awesome Analytics'
+        _gid_Expiry: '2 jaar'
+    CookieConsent__mapbox_com:
+        _ga_Purpose: 'Mapbox Analytics'
+        _ga_Expiry: '2 jaar'
+        _mkto_trk_Purpose: Mapbox
+        _mkto_trk_Expiry: '2 jaar'
+        ajs_anonymous_id_Purpose: Mapbox
+        ajs_anonymous_id_Expiry: '1 jaar'
+        ajs_group_id_Purpose: Mapbox
+        ajs_group_id_Expiry: '1 jaar'
+        ajs_user_id_Purpose: Mapbox
+        ajs_user_id_Expiry: '1 jaar'
+        intercom-id-wg57poe2_Purpose: Mapbox
+        intercom-id-wg57poe2_Expiry: '9 maanden'
+        mkjs_group_id_Purpose: Mapbox
+        mkjs_group_id_Expiry: '1 jaar'
+        mkjs_user_id_Purpose: Mapbox
+        mkjs_user_id_Expiry: '1 jaar'
+        optimizelyEndUserId_Purpose: Mapbox
+        optimizelyEndUserId_Expiry: '6 maanden'

@@ -1,11 +1,8 @@
 it:
     SilverCart:
-        Actions: Azioni
         Buy1: 'Acquista {title}'
         Buy2: 'Acquista {title1} {title2}'
         Change: Modifica
-        ClickForMore: 'Clicca qui per vedere ulteriori informazioni'
-        Close: Chiudi
         Go: Vai
         go: vai
         NextPage: 'Pagina successiva'
@@ -13,6 +10,10 @@ it:
         ProductAddedToCart: 'L''articolo è stato aggiunto al tuo carrello.'
         ProductRemovedFromCart: 'L''articolo è stato rimosso dal carrello.'
         Until: 'Fino a'
+        Actions: Azioni
+        ClickForMore: 'Clicca qui per vedere ulteriori informazioni'
+        Close: Chiudi
+        since: Dal
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Esegui
         MARK_ALL: 'Seleziona tutto'
@@ -51,14 +52,6 @@ it:
         CookiePolicyConfigButtonTextDefault: Capito!
         CookiePolicyConfigPolicyText: 'Testo "Ulteriori informazioni".'
         CookiePolicyConfigPolicyTextDefault: 'Ulteriori informazioni'
-    SilverCart\Model\CookieConsent\ExternalResource:
-        GoogleAnalyticsTrackingCode_Name: 'Codice di tracciamento Google Analytics'
-        GoogleAnalyticsTrackingCode_Description: 'Codice Javascript per abilitare il tracciamento di Google Analytics.'
-        GoogleConversionTrackingCode_Name: 'Codice tracciamento conversione Google'
-        GoogleConversionTrackingCode_Description: 'Codice Javascript per abilitare il tracciamento di conversione Google.'
-        GoogleWebmasterCode_Name: 'Codice degli strumenti per i webmaster di Google'
-        MatomoTrackingCode_Name: 'Codice di tracciamento Matomo'
-        MatomoTrackingCode_Description: 'Codice Javascript per abilitare il tracciamento di Matomo (ex Piwik).'
     SilverCart\Model\Customer\Address:
         AcademicTitle: Titolo
         ADDITION: 'Indirizzo supplementare'
@@ -80,7 +73,6 @@ it:
         MISSES: Signora
         MISTER: Signor
         NAME: Nome
-        NoAddressData: 'Non sono disponibili i dati dell''indirizzo.'
         NO_ADDRESS_AVAILABLE: 'Nessun indirizzo disponibile'
         PACKSTATION: 'Punto ritiro pacchi postali (ad es. "Punto ritiro pacchi 105")'
         PACKSTATION_LABEL: 'Punto ritiro pacchi postali'
@@ -106,6 +98,11 @@ it:
         TAXIDNUMBER: 'Codice Fiscale'
         USE_ABSOLUTEADDRESS: 'Usa l''indirizzo di casa come predefinito'
         USE_PACKSTATION: 'Utilizzare il punto di ritiro pacchi postali come indirizzo predefinito'
+        NoAddressData: 'Non sono disponibili i dati dell''indirizzo.'
+        SILVERCART_ADDRESS_CREATE_HELP: 'Consente a un cliente o a un altro utente di creare il proprio o qualsiasi altro indirizzo.'
+        SILVERCART_ADDRESS_DELETE_HELP: 'Permette ad un utente di cancellare qualsiasi indirizzo (non solo il proprio!). Anche gli indirizzi propri possono essere cancellati senza questa autorizzazione, a condizione che le impostazioni di base dello shop lo consentano.'
+        SILVERCART_ADDRESS_EDIT_HELP: 'Permette ad un utente di modificare qualsiasi indirizzo (non solo il proprio!). Anche gli indirizzi propri possono essere modificati senza questa autorizzazione, a condizione che le impostazioni di base dello shop lo consentano.'
+        SILVERCART_ADDRESS_VIEW_HELP: 'Consente ad un utente di visualizzare qualsiasi indirizzo (non solo il proprio!) I propri indirizzi possono essere visualizzati anche senza questa autorizzazione.'
     SilverCart\Model\Pages\AddressHolder:
         ADDED_ADDRESS_FAILURE: 'Non è stato possibile salvare il tuo indirizzo.'
         ADDED_ADDRESS_SUCCESS: 'Il tuo indirizzo è stato salvato.'
@@ -239,9 +236,9 @@ it:
         SINGULARNAME: 'Fase pagamento'
         StepContent: 'Contenuto per ogni singola fase'
         TaxAndDutyHint: 'Attenzione: per le consegne in paesi extra UE si applicano i dazi doganali, tasse e spese aggiuntive.'
+        URL_SEGMENT: Cassa
         TitleStep6: 'Titolo Passo 6 - Conferma dell''ordine'
         TitleStep6Info: 'Titolo alternativo da visualizzare nella pagina di conferma dell''ordine (impostazione predefinita: " {default} ").'
-        URL_SEGMENT: Cassa
     SilverCart\Admin\Model\Config:
         ADDED_EXAMPLE_CONFIGURATION: 'È stata creato un esempio di configurazione'
         ADDED_EXAMPLE_DATA: 'Aggiunti dati campione'
@@ -409,8 +406,6 @@ it:
         MENUTITLE: 'Richieste di contatto'
     SilverCart\Model\Customer\Country:
         ACTIVE: Attivo
-        AlertWarningCreationContent: 'Sei sicuro di voler aggiungere un nuovo paese? Se invece vuoi collegare uno dei {count} paesi disponibili, usa la funzione "Collega record esistente" invece di "Aggiungi paese" (di solito in alto a destra).'
-        AlertWarningCreationTitle: Attenzione
         ATTRIBUTED_PAYMENTMETHOD: 'Modalità di pagamento attribuita'
         ATTRIBUTED_ZONES: 'zone assegnate'
         CONTINENT: Continente
@@ -679,6 +674,8 @@ it:
         TITLE_ZA: Sudafrica
         TITLE_ZM: Zambia
         TITLE_ZW: Zimbabwe
+        AlertWarningCreationContent: 'Sei sicuro di voler aggiungere un nuovo paese? Se invece vuoi collegare uno dei {count} paesi disponibili, usa la funzione "Collega record esistente" invece di "Aggiungi paese" (di solito in alto a destra).'
+        AlertWarningCreationTitle: Attenzione
     SilverCart\Admin\Controllers\CountryAdmin:
         MENUTITLE: Paesi
     SilverCart\Model\Customer\CountryTranslation:
@@ -734,7 +731,6 @@ it:
     SilverCart\Model\EmailAddress:
         PLURALNAME: 'Indirizzi email'
         SINGULARNAME: 'Indirizzo email'
-        PLURAlNAME: ''
     SilverCart\Model\Product\File:
         DESCRIPTION: Descrizione
         FILE_ATTACHMENTS: Allegati
@@ -852,13 +848,13 @@ it:
         URL_SEGMENT: Legale
     SilverCart\Model\Pages\MetaNavigationPage:
         DEFAULT_TITLE_IMPRINT: 'Informazioni legali'
-        DEFAULT_URLSEGMENT_IMPRINT: 'informazioni-legali'
+        DEFAULT_URLSEGMENT_IMPRINT: informazioni-legali
         DEFAULT_TITLE_PRIVACY: 'Informativa sulla privacy'
-        DEFAULT_URLSEGMENT_PRIVACY: 'informativa-sulla-privacy'
+        DEFAULT_URLSEGMENT_PRIVACY: informativa-sulla-privacy
         DEFAULT_TITLE_REVOCATION: Cancellazione
         DEFAULT_URLSEGMENT_REVOCATION: cancellazione
         DEFAULT_TITLE_TERMS: 'Termini e condizioni generali di vendita'
-        DEFAULT_URLSEGMENT_TERMS: 'termini-e-condizioni-generali-dacquisto'
+        DEFAULT_URLSEGMENT_TERMS: termini-e-condizioni-generali-dacquisto
         PLURALNAME: 'Pagine di meta-informazioni'
         SINGULARNAME: 'Pagine di meta-informazioni'
     SilverCart\Model\Pages\MyAccountHolder:
@@ -1017,6 +1013,9 @@ it:
         TrackingLinkLabel: 'Mostra dove si trova attualmente la mia spedizione'
         WEIGHTTOTAL: 'Peso totale'
         YOUR_REMARK: Commento
+        SILVERCART_ORDER_DELETE_HELP: 'Consente ad un utente di cancellare qualsiasi ordine.'
+        SILVERCART_ORDER_EDIT_HELP: 'Consente ad un utente di elaborare qualsiasi ordine.'
+        SILVERCART_ORDER_VIEW_HELP: 'Consente ad un utente di visualizzare qualsiasi ordine (non solamente i propri!). Alcuni ordini possono essere visualizzati anche senza questa autorizzazione.'
     SilverCart\Model\Order\OrderAddress:
         PLURALNAME: 'Indirizzi degli ordini'
         SINGULARNAME: 'Indirizzo dell''ordine'
@@ -1087,9 +1086,6 @@ it:
         IsDefault: Standard
         PLURALNAME: 'Stato degli ordini'
         SINGULARNAME: 'Stato dell''ordine'
-        INWORK: ''
-        PAID: ''
-        SHIPPED: ''
         DefaultStatusPreparing-shipment: 'La spedizione è in preparazione'
     SilverCart\Admin\Controllers\OrderStatusAdmin:
         MENUTITLE: 'Stato dell''ordine'
@@ -1449,6 +1445,8 @@ it:
         WIDGETAREA: widgets
         YEAR: Anno
         YEARS: Anni
+        IsInCart: 'Nel carrello'
+        SILVERCART_PRODUCT_CREATE_HELP: 'Permette all''utente di creare articoli.'
     SilverCart\Admin\Controllers\ProductAdmin:
         MENUTITLE: Articoli
     SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
@@ -1579,6 +1577,7 @@ it:
         MetaTitleRightTitle: 'Il meta titolo è rilevante ai fini del SEO e non dovrebbe superare i 64 caratteri. Viene utilizzato, ad esempio, per visualizzare i risultati di Google o come nome nelle schede del browser.'
         MetaTitleShort: 'Meta Titolo Forma abbreviata'
         MetaTitleShortDesc: 'Usato ad esempio per novità, articoli preferiti e pre-ordini.'
+        ShowNewProducts: 'Mostra nuovi articoli'
     SilverCart\Admin\Controllers\ProductImageAdmin:
         CronNotInstalledDescription: "Importazione foto articolo non ancora completata. \nAggiungi il programma necessario (`sake dev / task / sc-image-importer`) per le attività schedulate sul tuo server. \nPer maggiori dettagli contatta il tuo referente. "
         CronNotInstalledTitle: 'Attenzione:'
@@ -1746,7 +1745,7 @@ it:
         RELEVANCESORT: Rilevanza
         ResultsTextCategory: 'Risultati di ricerca per la categoria <strong>&rdquo;{query}&rdquo; </strong> ( {results}trovati)'
         ResultsTextQuery: 'Risultati di ricerca per il termine <strong> &rdquo;{query}&rdquo; </strong> ( {results} trovati)'
-        ResultsTextQueryAndCategory: "Risultati di ricerca per il termine <strong>&rdquo;{query}&rdquo; </strong> nella categoria <strong>&rdquo;{category}&rdquo;</strong> ( {results}trovati)"
+        ResultsTextQueryAndCategory: 'Risultati di ricerca per il termine <strong>&rdquo;{query}&rdquo; </strong> nella categoria <strong>&rdquo;{category}&rdquo;</strong> ({results} trovati)'
         SearchTitle: '{count} Risultati di ricerca per "{title}"'
         SINGULARNAME: 'Pagina risultati di ricerca'
         TITLE: 'Risultati di ricerca'
@@ -1882,9 +1881,6 @@ it:
         Title_RegistrationOptInNotification: 'Registrazione: nuovo cliente'
         Title_RevocationConfirmation: 'Confermiamo di aver ricevuto la tua richiesta di cancellazione ordine'
         Title_RevocationNotification: 'Un cliente ha cancellato un ordine'
-        NEW_ORDER_PLACED: ''
-        ORDER_ARRIVED_EMAIL_SUBJECT: ''
-        ORDER_SHIPPED_NOTIFICATION_SUBJECT: ''
     SilverCart\Admin\Controllers\ShopEmailAdmin:
         MENUTITLE: 'Email Portale Acquisti'
     SilverCart\Model\ShopEmailTranslation:
@@ -2128,6 +2124,7 @@ it:
         Info2Plural: '{totalItems} voci su {totalPages} pagine'
         Info2Singular: '{totalItems} voci sulla {totalPages}  pagina'
         InfoFirstIsLast: 'Pagina {currentPage}, Entrata {firstItem}'
+        Info2SingularSingular: '{totalItems} voce sulla {totalPages}  pagina'
     SilverCart\Forms\FormFields\GoogleRecaptchaField:
         Verify: 'Conferma di non essere un robot.'
     SilverStripe\Security\Security:
@@ -2135,3 +2132,178 @@ it:
         NOTERESETLINKINVALID: '<p>Il link del reset password non è valido o è scaduto.</p><p>Puoi riceverne uno nuovo cliccando qui <a href="{link1}">here</a> oppure cambia la tua password dopo il tuo <a href="{link2}">log-in</a>.</p>'
         PASSWORDRESETSENTHEADER: 'Il link per il reset della password ti è stato spedito'
         PASSWORDRESETSENTTEXT: 'Grazie. Troverai il link per il reset della password  nell''indirizzo e-mail indicato nell''account cliente.'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        Code: Codice
+        CookieGroup: 'Categoria cookie'
+        CookieGroupDesc: 'Se una risorsa è assegnata a una categoria di cookie, viene inclusa solo se il visitatore ha accettato questa categoria di cookie '
+        Description: Descrizione
+        Name: Nome
+        NameDesc: 'Nome univoco per questa risorsa.'
+        PLURALNAME: 'Risorse esterne'
+        Position: 'Posizione del codice'
+        Position_body: 'Corpo HTML'
+        Position_head: 'Testa HTML'
+        RestrictToLiveMode: 'Limitare al funzionamento live'
+        RestrictToLiveModeDesc: 'Attivare questa opzione per ottenere la risorsa solo in modalità live/produttiva.'
+        SINGULARNAME: 'Risorsa esterna'
+        Title: Designazione
+        URLSegment: 'Segmento URL'
+        GoogleAnalyticsTrackingCode_Name: 'Codice di tracciamento Google Analytics'
+        GoogleAnalyticsTrackingCode_Description: 'Codice Javascript per abilitare il tracciamento di Google Analytics.'
+        GoogleConversionTrackingCode_Name: 'Codice tracciamento conversione Google'
+        GoogleConversionTrackingCode_Description: 'Codice Javascript per abilitare il tracciamento di conversione Google.'
+        GoogleWebmasterCode_Name: 'Codice degli strumenti per i webmaster di Google'
+        GoogleWebmasterCode_Description: 'HTML-<meta>- codice tag per integrare il codice dei tool per webmaster Google.'
+        MatomoTrackingCode_Name: 'Codice di tracciamento Matomo'
+        MatomoTrackingCode_Description: 'Codice Javascript per abilitare il tracciamento di Matomo (ex Piwik).'
+    Broarm\CookieConsent\CookieConsent:
+        ManageCookies: 'Impostazioni cookie'
+        AcceptAllCookies: 'Accetta tutti'
+    Broarm\CookieConsent\Shortcode\CookieGroupTable:
+        Title: Cookie
+        Provider: 'Impostato da'
+        Purpose: Scopo
+        Expiry: Durata
+    Broarm\CookieConsent\Model\CookieGroup:
+        Necessary: Necessario
+        Necessary_Content: '<p>I cookie necessari garantiscono il funzionamento del sito e devono essere impostati per ragioni tecniche.</p>'
+        Analytics: Analisi
+        Analytics_Content: '<p> Con l''aiuto dei cookie di analisi, siamo in grado di analizzare tecnicamente l''utilizzo del sito al fine di identificare i problemi e ottimizzarne l''usabilità. </p>'
+        Marketing: Marketing
+        Marketing_Content: '<p>Con l''aiuto dei cookie di marketing siamo in grado di analizzare il successo delle misure pubblicitarie.</p>'
+        Preferences: Impostazioni
+        Prefrences_Content: '<p>Con l''aiuto dei cookies d'' impostazione, possiamo adattare l''usabilità del sito alle tue esigenze. Il sito può ricordare le tue preferenze alla tua prossima visita.</p>'
+    Broarm\CookieConsent\Forms\CookieConsentForm:
+        Save: 'Confermare la selezione'
+        FormMessage: 'Le impostazioni sono state salvate'
+    Broarm\CookieConsent\Model\CookiePolicyPage:
+        Title: 'Linee guida cookie'
+        Content: '<p> $ CookieConsentForm </p> <p> [cookiegrouptable group = "Necessary"] </p> <p> [cookiegrouptable group = "Analytics"] </p> <p> [cookiegrouptable group = "Marketing"] </p> <p> [cookiegrouptable group = "Preferences"] </p>'
+    Broarm\CookieConsent\Model\PrivacyPolicyPage:
+        Title: 'Informativa sulla privacy'
+        Content: '<p> Compila questa pagina con la tua politica sulla privacy. </p>'
+    Broarm\CookieConsent\Model\TermsAndConditionsPage:
+        Title: 'Termini e condizioni generali di vendita'
+        Content: '<p> Compila questa pagina con i tuoi termini e condizioni generali di vendita. </p>'
+    Broarm\CookieConsent\Extensions\SiteConfigExtension:
+        Title: 'Questo sito web utilizza i cookie'
+        Content: '<p> Utilizziamo i cookie per ottimizzare il nostro sito Web, per migliorare i nostri prodotti e per mostrarti, insieme a fornitori di terze parti, pubblicità a te dedicata in base ai tuoi interessi. Qui puoi selezionare quali cookie desideri consentire e modificare la tua selezione in qualsiasi momento. Puoi trovare ulteriori informazioni nella nostra policy sull''uso dei cookie e nella nostra privacy policy. I cookie tecnicamente necessari vengono impostati anche quando selezioni "rifiuta". </p> <p> Facendo clic su "Accetta tutto" accetti questa elaborazione. </p>'
+    CookieConsent_local:
+        PHPSESSID_Purpose: Sessione
+        PHPSESSID_Expiry: Sessione
+        CookieConsent_Purpose: 'Salva le impostazioni dei cookie'
+        CookieConsent_Expiry: '2 mesi'
+        FluentLocale_Purpose: 'Salva le impostazioni della lingua'
+        FluentLocale_Expiry: '2 mesi'
+        ipcountry_Purpose: 'Impostazioni della lingua standard'
+        ipcountry_Expiry: Sessione
+        _ga_Purpose: Statistiche
+        _ga_Expiry: '2 anni'
+        _gat_Purpose: Statistiche
+        _gat_Expiry: '24 ore'
+        _gid_Purpose: Statistiche
+        _gid_Expiry: '24 ore'
+        _hjIncludedInSample_Purpose: Statistiche
+        _hjIncludedInSample_Expiry: Sessione
+        __atuvc_Purpose: 'Pulsanti condivisione social media'
+        __atuvc_Expiry: '1 anno'
+        __atuvs_Purpose: 'Pulsanti condivisione social media'
+        __atuvs_Expiry: '1 anno'
+    CookieConsent__ads_linkedin_com:
+        BizoID_Purpose: Marketing
+        BizoID_Expiry: '6 mesi'
+        UserMatchHistory_Purpose: Marketing
+        UserMatchHistory_Expiry: '6 mesi'
+        lang_Purpose: 'Impostazioni della lingua'
+        lang_Expiry: Sessione
+    CookieConsent__linkedin_com:
+        bcookie_Purpose: Marketing
+        bcookie_Expiry: '2 anni'
+        lidc_Purpose: Marketing
+        lidc_Expiry: '2 anni'
+    CookieConsent__addthis_com:
+        mus_Purpose: 'Pulsanti condivisione social media'
+        mus_Expiry: '1 anno'
+        ouid_Purpose: 'Pulsanti di condivisione social media'
+        ouid_Expiry: '1 anno'
+        uid_Purpose: 'Pulsanti di condivisione social media'
+        uid_Expiry: '1 anno'
+        uvc_Purpose: 'Pulsanti di condivisione social media'
+        uvc_Expiry: '1 anno'
+        loc_Purpose: 'Pulsanti condivisione social media'
+        loc_Expiry: '1 anno'
+        na_id_Purpose: 'Pulsanti condivisione social media'
+        na_id_Expiry: '1 anno'
+        na_tc_Purpose: 'Pulsanti condivisione social media'
+        na_tc_Expiry: '1 anno'
+    CookieConsent__facebook_com:
+        fr_Purpose: 'Facebook SDK'
+        fr_Expiry: '2 mesi'
+    CookieConsent__youtube_com:
+        GPS_Purpose: 'Integrazione video'
+        GPS_Expiry: Sessione
+        PREF_Purpose: 'Integrazione video'
+        PREF_Expiry: '2 anni'
+        VISITOR_INFO1_LIVE_Purpose: 'Integrazione video'
+        VISITOR_INFO1_LIVE_Expiry: '6 mesi'
+        YSC_Purpose: 'Integrazione video'
+        YSC_Expiry: Sessione
+        NID_Purpose: 'Integrazione video'
+        NID_Expiry: Sessione
+        CONSENT_Purpose: 'Integrazione video'
+        CONSENT_Expiry: Sessione
+    CookieConsent__vimeo_com:
+        vuid_Purpose: 'Integrazione video'
+        vuid_Expiry: '1 anno'
+        player_Purpose: 'Integrazione video'
+        player_Expiry: '1 anno'
+    CookieConsent__google_com:
+        1P_JAR_Purpose: reCAPTCHA
+        1P_JAR_Expiry: '24 ore'
+        APISID_Purpose: reCAPTCHA
+        APISID_Expiry: '2 anni'
+        CONSENT_Purpose: reCAPTCHA
+        CONSENT_Expiry: '20 anni'
+        HSID_Purpose: reCAPTCHA
+        HSID_Expiry: '2 anni'
+        NID_Purpose: reCAPTCHA
+        NID_Expiry: '6 mesi'
+        OGPC_Purpose: reCAPTCHA
+        OGPC_Expiry: '1 mese'
+        SAPISID_Purpose: reCAPTCHA
+        SAPISID_Expiry: '2 anni'
+        SID_Purpose: reCAPTCHA
+        SID_Expiry: '2 anni'
+        SIDCC_Purpose: reCAPTCHA
+        SIDCC_Expiry: '3 mesi'
+        SSID_Purpose: reCAPTCHA
+        SSID_Expiry: '2 anni'
+    CookieConsent_www_google_com:
+        OTZ_Purpose: reCAPTCHA
+        OTZ_Expiry: '1 mese'
+        _ga_Purpose: 'analitica reCAPTCHA'
+        _ga_Expiry: '2 anni'
+    CookieConsent__fontawesome_com:
+        _ga_Purpose: 'Fontawesome analytics'
+        _ga_Expiry: '2 anni'
+        _gid_Purpose: 'Fontawesome analytics'
+        _gid_Expiry: '2 anni'
+    CookieConsent__mapbox_com:
+        _ga_Purpose: 'Mapbox analytics'
+        _ga_Expiry: '2 anni'
+        _mkto_trk_Purpose: Mapbox
+        _mkto_trk_Expiry: '2 anni'
+        ajs_anonymous_id_Purpose: Mapbox
+        ajs_anonymous_id_Expiry: '1 anno'
+        ajs_group_id_Purpose: Mapbox
+        ajs_group_id_Expiry: '1 anno'
+        ajs_user_id_Purpose: Mapbox
+        ajs_user_id_Expiry: '1 anno'
+        intercom-id-wg57poe2_Purpose: Mapbox
+        intercom-id-wg57poe2_Expiry: '9 mesi'
+        mkjs_group_id_Purpose: Mapbox
+        mkjs_group_id_Expiry: '1 anno'
+        mkjs_user_id_Purpose: Mapbox
+        mkjs_user_id_Expiry: '1 anno'
+        optimizelyEndUserId_Purpose: Mapbox
+        optimizelyEndUserId_Expiry: '6 mesi'

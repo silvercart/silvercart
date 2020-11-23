@@ -13,6 +13,7 @@ fr_BE:
         Actions: Actions
         ClickForMore: 'Cliquez pour afficher plus d''informations'
         Close: Fermer
+        since: depuis
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Effectuer
         MARK_ALL: 'Marquer tout'
@@ -51,27 +52,6 @@ fr_BE:
         CookiePolicyConfigButtonTextDefault: Compris!
         CookiePolicyConfigPolicyText: 'Texte "Plus d''informations"'
         CookiePolicyConfigPolicyTextDefault: 'Plus d''informations'
-    SilverCart\Model\CookieConsent\ExternalResource:
-        Code: Code
-        Description: Description
-        Name: Nom
-        NameDesc: 'Nom unique de cette ressource.'
-        PLURALNAME: 'Ressources externes'
-        Position: 'Position du code'
-        Position_body: HTML-Body
-        Position_head: HTML-Head
-        RestrictToLiveMode: 'Restreindre au mode production'
-        SINGULARNAME: 'Ressources externe'
-        Title: Titre
-        URLSegment: 'Segment d''URL'
-        GoogleAnalyticsTrackingCode_Name: 'Code de suivi Google Analytics'
-        GoogleAnalyticsTrackingCode_Description: 'Code Javascript pour activer le suivi Google Analytics.'
-        GoogleConversionTrackingCode_Name: 'Code Outil Conversion Tracking de Google'
-        GoogleConversionTrackingCode_Description: 'Code Javascript pour activer l''Outil Conversion Tracking de Google.'
-        GoogleWebmasterCode_Name: 'Code Outils Google pour les webmasters'
-        GoogleWebmasterCode_Description: 'HTML-<meta>-tag code pour activer l''Outils Google pour les webmasters.'
-        MatomoTrackingCode_Name: 'Code de suivi Matomo'
-        MatomoTrackingCode_Description: 'Code Javascript pour activer le suivi de Matomo (anciennement Piwik).'
     SilverCart\Model\Customer\Address:
         AcademicTitle: Titre
         ADDITION: 'Complément d''adresse'
@@ -119,6 +99,10 @@ fr_BE:
         USE_ABSOLUTEADDRESS: 'Utiliser l''adresse de résidence comme adresse'
         USE_PACKSTATION: 'Utiliser Packstation comme adresse'
         NoAddressData: 'Aucune donnée d’adresse n’est disponible'
+        SILVERCART_ADDRESS_CREATE_HELP: 'Permet à un client de créer ses propres adresses ou à un utilisateur de créer n''importe quelle adresse.'
+        SILVERCART_ADDRESS_DELETE_HELP: 'Permet à un utilisateur de supprimer n''importe quelle adresse (pas seulement les siennes !). Les propres adresses peuvent également être supprimées sans cette autorisation, pour autant que les paramètres de base de la boutique le permettent.'
+        SILVERCART_ADDRESS_EDIT_HELP: 'Permet à un utilisateur de modifier n''importe quelle adresse (pas seulement les siennes !). Les propres adresses peuvent également être modifiées sans cette autorisation, pour autant que les paramètres de base de la boutique le permettent.'
+        SILVERCART_ADDRESS_VIEW_HELP: 'Permet à un utilisateur de visualiser n''importe quelle adresse (pas seulement les siennes !). Les propres adresses peuvent également être consultées sans cette autorisation.'
     SilverCart\Model\Pages\AddressHolder:
         ADDED_ADDRESS_FAILURE: 'Votre adresse n''a pas pu être enregistrée.'
         ADDED_ADDRESS_SUCCESS: 'Votre adresse a été enregistrée.'
@@ -268,7 +252,7 @@ fr_BE:
         CLEANED_DATABASE_REPORT: '<br/><hr/><br/> <h3>%s</h3><strong><br/>%s Les images ont été supprimées.<br/> &nbsp;&nbsp;dont %s en raison d’une mauvaise affectation d’article<br/>&nbsp;&nbsp;dont %s en raison d’un mauvais fichier d’image<br/>&nbsp;&nbsp;dont %s en raison d’une mauvaise affectation de fichiers<br/>%s Images ont été affectées de nouveau.</strong><br/><br/><hr/>'
         CLEAN_DATABASE: 'Optimiser la base de données'
         CLEAN_DATABASE_DESCRIPTION: 'L''action "Optimiser la base de données" recherche dans la base de données les enregistrements de données détruits et tente de les réaffecter. Si la réaffectation échoue, l''enregistrement est supprimé. <br/> <strong> ATTENTION: cette action peut prendre quelques minutes! </strong>'
-        CLEAN_DATABASE_INPROGRESS: 'La base de données est en cours d''optimisation ... ( %s / %s ) ( %s %% terminé, environ %s restant)'
+        CLEAN_DATABASE_INPROGRESS: 'La base de données est en cours d''optimisation ... (%s/%s) (%s %% terminé, environ %s restant)'
         CLEAN_DATABASE_START_INDEX: 'Indice de départ'
         CheckoutConfiguration: 'Panier et paramètres de paiement'
         ColorScheme: 'Schéma de couleurs'
@@ -1025,6 +1009,9 @@ fr_BE:
         TrackingLinkLabel: 'Afficher où se trouve actuellement mon envoi'
         WEIGHTTOTAL: 'Poids total'
         YOUR_REMARK: 'Votre remarque'
+        SILVERCART_ORDER_DELETE_HELP: 'Permet à un utilisateur de supprimer n''importe quelle commande.'
+        SILVERCART_ORDER_EDIT_HELP: 'Permet à un utilisateur de modifier n’importe quelle commande.'
+        SILVERCART_ORDER_VIEW_HELP: 'Permet à un utilisateur de visualiser n''importe quelle commande (pas seulement les siennes !). Les propres commandes peuvent également être consultées sans cette autorisation.'
     SilverCart\Model\Order\OrderAddress:
         PLURALNAME: 'Adresses de commande'
         SINGULARNAME: 'Adresse de commande'
@@ -1430,7 +1417,7 @@ fr_BE:
         QUANTITY_SHORT: Nombre
         RefreshCache: 'Renouveler le cache pour cet article après l''avoir sauvegardé'
         ReleaseDate: 'Vente à partir de'
-        ReleaseDateInfo: '<strong>Facultatif</strong> -  À fixer uniquement si le début des ventes doit être retardé.'
+        ReleaseDateInfo: '<strong>Facultatif</strong> - À fixer uniquement si le début des ventes doit être retardé.'
         SHORTDESCRIPTION: 'Description de la liste'
         SILVERCART_PRODUCT_CREATE: 'Peut créer des articles.'
         SINGULARNAME: Article
@@ -1454,6 +1441,8 @@ fr_BE:
         WIDGETAREA: Widgets
         YEAR: An
         YEARS: Ans
+        IsInCart: 'Dans le panier'
+        SILVERCART_PRODUCT_CREATE_HELP: 'Permet à un utilisateur de créer des articles.'
     SilverCart\Admin\Controllers\ProductAdmin:
         MENUTITLE: Article
     SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
@@ -1584,6 +1573,7 @@ fr_BE:
         MetaTitleRightTitle: 'Le métatitre est pertinent pour le référencement et ne doit pas dépasser 64 caractères. Il est utilisé, par exemple, pour afficher les résultats positifs dans Google ou comme nom dans les onglets du navigateur.'
         MetaTitleShort: 'Forme abrégée du métatitre'
         MetaTitleShortDesc: 'Il est utilisé par exemple pour les nouveaux produits, les articles populaires et les précommandes.'
+        ShowNewProducts: 'Afficher les nouveaux articles'
     SilverCart\Admin\Controllers\ProductImageAdmin:
         CronNotInstalledDescription: "L'installation de l'importation des images d'articles n'est pas encore terminée.\nVeuillez ajouter le programme nécessaire (`sake dev/tasks/sc-image-importer`) aux tâches planifiées de votre serveur.\nVeuillez contacter le responsable de votre magasin pour plus de détails.\n"
         CronNotInstalledTitle: Attention
@@ -2130,6 +2120,7 @@ fr_BE:
         Info2Plural: '{totalItems} entrées sur {totalPages} pages'
         Info2Singular: '{totalItems} entrées sur {totalPages} page'
         InfoFirstIsLast: 'Page {currentPage}, entrée {firstItem}'
+        Info2SingularSingular: '{totalItems} Entrée sur {totalPages} Page'
     SilverCart\Forms\FormFields\GoogleRecaptchaField:
         Verify: 'Veuillez confirmer que vous n''êtes pas un robot.'
     SilverStripe\Security\Security:
@@ -2137,3 +2128,178 @@ fr_BE:
         NOTERESETLINKINVALID: '<p>Le lien pour réinitialiser votre mot de passe n''est pas valide ou a expiré.</p><p>Vous pouvez demander un nouveau mot de passe <a href="{link1}">ici</a> ou changer votre mot de passe après que vous vous <a href="{link2}">êtes connecté</a>.</p>'
         PASSWORDRESETSENTHEADER: 'Le lien pour réinitialiser le mot de passe a été envoyé'
         PASSWORDRESETSENTTEXT: 'Merci beaucoup. Un lien de réinitialisation sera envoyé si un compte existe pour cette adresse électronique.'
+    SilverCart\Model\CookieConsent\ExternalResource:
+        Code: Code
+        CookieGroup: 'Catégorie de cookies'
+        CookieGroupDesc: 'Si une ressource est affectée à une catégorie de cookies, elle ne sera intégrée que si le visiteur a accepté cette catégorie de cookies.'
+        Description: Description
+        Name: Nom
+        NameDesc: 'Nom unique de cette ressource.'
+        PLURALNAME: 'Ressources externes'
+        Position: 'Position du code'
+        Position_body: HTML-Body
+        Position_head: HTML-Head
+        RestrictToLiveMode: 'Restreindre au mode production'
+        RestrictToLiveModeDesc: 'Activer pour obtenir cette ressource uniquement en mode temps réel/production.'
+        SINGULARNAME: 'Ressources externe'
+        Title: Titre
+        URLSegment: 'Segment d''URL'
+        GoogleAnalyticsTrackingCode_Name: 'Code de suivi Google Analytics'
+        GoogleAnalyticsTrackingCode_Description: 'Code Javascript pour activer le suivi Google Analytics.'
+        GoogleConversionTrackingCode_Name: 'Code Outil Conversion Tracking de Google'
+        GoogleConversionTrackingCode_Description: 'Code Javascript pour activer l''Outil Conversion Tracking de Google.'
+        GoogleWebmasterCode_Name: 'Code Outils Google pour les webmasters'
+        GoogleWebmasterCode_Description: 'HTML-<meta>-tag code pour activer l''Outils Google pour les webmasters.'
+        MatomoTrackingCode_Name: 'Code de suivi Matomo'
+        MatomoTrackingCode_Description: 'Code Javascript pour activer le suivi de Matomo (anciennement Piwik).'
+    Broarm\CookieConsent\CookieConsent:
+        ManageCookies: 'Paramètres des cookies'
+        AcceptAllCookies: 'Accepter tout'
+    Broarm\CookieConsent\Shortcode\CookieGroupTable:
+        Title: Cookie
+        Provider: 'Fixé par'
+        Purpose: Objectif
+        Expiry: Durée
+    Broarm\CookieConsent\Model\CookieGroup:
+        Necessary: Nécessaire
+        Necessary_Content: '<p>Les cookies nécessaires assurent le fonctionnement du site et doivent être définis pour des raisons techniques.</p>'
+        Analytics: Analyse
+        Analytics_Content: '<p>Grâce aux cookies d''analyse, nous sommes en mesure d''analyser techniquement l''utilisation du site pour identifier les problèmes et optimiser la convivialité.</p>'
+        Marketing: Marketing
+        Marketing_Content: '<p>À l''aide de cookies de marketing, nous sommes en mesure d''analyser le succès des campagnes publicitaires.</p>'
+        Preferences: Paramètres
+        Prefrences_Content: '<p> À l''aide des paramètres des cookies, nous pouvons adapter la convivialité du site à vos besoins. Cela permet au site de se souvenir de vos préférences lors de votre prochaine visite. </p>'
+    Broarm\CookieConsent\Forms\CookieConsentForm:
+        Save: 'Confirmer la sélection'
+        FormMessage: 'Les paramètres ont été enregistrés'
+    Broarm\CookieConsent\Model\CookiePolicyPage:
+        Title: 'Politique en matière de cookies'
+        Content: '<p> $ CookieConsentForm </p> <p> [cookiegrouptable group = "Nécessaire"] </p> <p> [cookiegrouptable group = "Analytics"] </p> <p> [cookiegrouptable group = "Marketing"] </p> <p> [cookiegrouptable group = "Préférences"] </p>'
+    Broarm\CookieConsent\Model\PrivacyPolicyPage:
+        Title: 'Politique de confidentialité'
+        Content: '<p>Remplissez cette page avec votre politique de confidentialité.</p>'
+    Broarm\CookieConsent\Model\TermsAndConditionsPage:
+        Title: 'Conditions générales de vente'
+        Content: '<p> Remplissez cette page avec vos conditions générales de vente. </p>'
+    Broarm\CookieConsent\Extensions\SiteConfigExtension:
+        Title: 'Ce site web utilise des cookies'
+        Content: '<p>Nous utilisons des cookies pour optimiser nos sites web, améliorer nos produits et vous proposer des publicités ciblées adaptées à vos centrez d''intérêt par l''intermédiaire de tierces parties. Ici, vous pouvez choisir les cookies que vous souhaitez autoriser et modifier votre sélection à tout moment. Vous trouverez de plus amples informations dans notre politique sur l''utilisation des cookies et dans notre politique de confidentialité. Les cookies techniquement nécessaires sont également définis lorsque vous choisissez de les rejeter.</p> <p>Avec un clic sur "Accepter tout", vous acceptez ce traitement.</p>'
+    CookieConsent_local:
+        PHPSESSID_Purpose: Session
+        PHPSESSID_Expiry: Session
+        CookieConsent_Purpose: 'Sauvegarde vos paramètres de cookies'
+        CookieConsent_Expiry: '2 mois'
+        FluentLocale_Purpose: 'Sauvegarde vos paramètres de langue'
+        FluentLocale_Expiry: '2 mois'
+        ipcountry_Purpose: 'Paramètres de langue standard'
+        ipcountry_Expiry: Session
+        _ga_Purpose: Statistiques
+        _ga_Expiry: '2 ans'
+        _gat_Purpose: Statistiques
+        _gat_Expiry: '24 heures'
+        _gid_Purpose: Statistiques
+        _gid_Expiry: '24 heures'
+        _hjIncludedInSample_Purpose: Statistiques
+        _hjIncludedInSample_Expiry: Session
+        __atuvc_Purpose: 'Boutons de partage des médias sociaux'
+        __atuvc_Expiry: '1 an'
+        __atuvs_Purpose: 'Boutons de partage des médias sociaux'
+        __atuvs_Expiry: '1 an'
+    CookieConsent__ads_linkedin_com:
+        BizoID_Purpose: Marketing
+        BizoID_Expiry: '6 mois'
+        UserMatchHistory_Purpose: Marketing
+        UserMatchHistory_Expiry: '6 mois'
+        lang_Purpose: 'Paramètres de langue'
+        lang_Expiry: Session
+    CookieConsent__linkedin_com:
+        bcookie_Purpose: Marketing
+        bcookie_Expiry: '2 ans'
+        lidc_Purpose: Marketing
+        lidc_Expiry: '2 ans'
+    CookieConsent__addthis_com:
+        mus_Purpose: 'Boutons de partage des médias sociaux'
+        mus_Expiry: '1 an'
+        ouid_Purpose: 'Boutons de partage des médias sociaux'
+        ouid_Expiry: '1 an'
+        uid_Purpose: 'Boutons de partage des médias sociaux'
+        uid_Expiry: '1 an'
+        uvc_Purpose: 'Boutons de partage des médias sociaux'
+        uvc_Expiry: '1 an'
+        loc_Purpose: 'Boutons de partage des médias sociaux'
+        loc_Expiry: '1 an'
+        na_id_Purpose: 'Boutons de partage des médias sociaux'
+        na_id_Expiry: '1 an'
+        na_tc_Purpose: 'Boutons de partage des médias sociaux'
+        na_tc_Expiry: '1 an'
+    CookieConsent__facebook_com:
+        fr_Purpose: 'SDK Facebook'
+        fr_Expiry: '2 mois'
+    CookieConsent__youtube_com:
+        GPS_Purpose: 'Intégration de la vidéo'
+        GPS_Expiry: Session
+        PREF_Purpose: 'Intégration de la vidéo'
+        PREF_Expiry: '2 ans'
+        VISITOR_INFO1_LIVE_Purpose: 'Intégration de la vidéo'
+        VISITOR_INFO1_LIVE_Expiry: '6 mois'
+        YSC_Purpose: 'Intégration de la vidéo'
+        YSC_Expiry: Session
+        NID_Purpose: 'Intégration de la vidéo'
+        NID_Expiry: Session
+        CONSENT_Purpose: 'Intégration de la vidéo'
+        CONSENT_Expiry: Session
+    CookieConsent__vimeo_com:
+        vuid_Purpose: 'Intégration de la vidéo'
+        vuid_Expiry: '1 an'
+        player_Purpose: 'Intégration de la vidéo'
+        player_Expiry: '1 an'
+    CookieConsent__google_com:
+        1P_JAR_Purpose: reCAPTCHA
+        1P_JAR_Expiry: '24 heures'
+        APISID_Purpose: reCAPTCHA
+        APISID_Expiry: '2 ans'
+        CONSENT_Purpose: reCAPTCHA
+        CONSENT_Expiry: '20 ans'
+        HSID_Purpose: reCAPTCHA
+        HSID_Expiry: '2 ans'
+        NID_Purpose: reCAPTCHA
+        NID_Expiry: '6 mois'
+        OGPC_Purpose: reCAPTCHA
+        OGPC_Expiry: '1 mois'
+        SAPISID_Purpose: reCAPTCHA
+        SAPISID_Expiry: '2 ans'
+        SID_Purpose: reCAPTCHA
+        SID_Expiry: '2 ans'
+        SIDCC_Purpose: reCAPTCHA
+        SIDCC_Expiry: '3 mois'
+        SSID_Purpose: reCAPTCHA
+        SSID_Expiry: '2 ans'
+    CookieConsent_www_google_com:
+        OTZ_Purpose: reCAPTCHA
+        OTZ_Expiry: '1 mois'
+        _ga_Purpose: 'reCAPTCHA Analytics'
+        _ga_Expiry: '2 ans'
+    CookieConsent__fontawesome_com:
+        _ga_Purpose: 'Font Awesome Analytics'
+        _ga_Expiry: '2 ans'
+        _gid_Purpose: 'Font Awesome Analytics'
+        _gid_Expiry: '2 ans'
+    CookieConsent__mapbox_com:
+        _ga_Purpose: 'Mapbox Analytics'
+        _ga_Expiry: '2 ans'
+        _mkto_trk_Purpose: Mapbox
+        _mkto_trk_Expiry: '2 ans'
+        ajs_anonymous_id_Purpose: Mapbox
+        ajs_anonymous_id_Expiry: '1 an'
+        ajs_group_id_Purpose: Mapbox
+        ajs_group_id_Expiry: '1 an'
+        ajs_user_id_Purpose: Mapbox
+        ajs_user_id_Expiry: '1 an'
+        intercom-id-wg57poe2_Purpose: Mapbox
+        intercom-id-wg57poe2_Expiry: '9 mois'
+        mkjs_group_id_Purpose: Mapbox
+        mkjs_group_id_Expiry: '1 an'
+        mkjs_user_id_Purpose: Mapbox
+        mkjs_user_id_Expiry: '1 an'
+        optimizelyEndUserId_Purpose: Mapbox
+        optimizelyEndUserId_Expiry: '6 mois'
