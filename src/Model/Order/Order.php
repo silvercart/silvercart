@@ -54,7 +54,6 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\Security\Security;
-use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
 
 /**
@@ -208,14 +207,6 @@ class Order extends DataObject implements PermissionProvider
      * @var string
      */
     private static $table_name = 'SilvercartOrder';
-    /**
-     * register extensions
-     *
-     * @var array
-     */
-    private static $extensions = [
-        Versioned::class . '.versioned',
-    ];
     /**
      * Grant API access on this item.
      *
