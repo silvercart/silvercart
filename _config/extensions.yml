@@ -91,6 +91,7 @@ SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - SilverCart\Admin\Model\CookiePolicyConfig
     - SilverCart\Admin\Model\SiteConfigExtension
+    - TractorCow\Fluent\Extension\FluentExtension
 WidgetSets\Model\WidgetSet:
   extensions:
     - SilverCart\Model\Widgets\WidgetSetExtension

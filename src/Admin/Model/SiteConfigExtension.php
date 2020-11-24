@@ -655,11 +655,12 @@ class SiteConfigExtension extends DataExtension
      * Duplicates the SilverCart based config into the translations.
      * 
      * @return void
-     *
+     * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.12.2015
+     * @deprecated
      */
-    public function onAfterWrite()
+    public function onAfterWrite_deprecated()
     {
         parent::onAfterWrite();
         if (is_null(self::$duplicate_config_locale)) {
