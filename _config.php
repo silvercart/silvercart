@@ -10,6 +10,7 @@
  */
 
 use Broarm\CookieConsent\CookieConsent;
+use Broarm\CookieConsent\Model\CookieGroup;
 use SilverCart\Admin\Controllers\LeftAndMainExtension;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus;
@@ -43,6 +44,7 @@ use SilverStripe\Reports\ReportAdmin;
 use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfigLeftAndMain;
 use SilverStripe\View\Parsers\ShortcodeParser;
+use TractorCow\Fluent\Extension\FluentExtension;
 use WidgetSets\Admin\Controllers\WidgetSetAdmin;
 
 // Check if the page.php descends from the SilverCart\Model\Pages\Page
@@ -62,6 +64,7 @@ if (class_exists('PageController')) {
 if (class_exists(CookieConsent::class)) {
     ExternalResource::add_extension(BroarmExternalResourceExtension::class);
     ContentController::add_extension(BroarmContentControllerExtension::class);
+    CookieGroup::add_extension(FluentExtension::class);
 }
 // Define required attributes to display a product in frontend
 Product::addRequiredAttribute("Price");
