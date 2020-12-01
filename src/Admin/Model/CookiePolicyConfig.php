@@ -14,6 +14,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\Requirements;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * SiteConfig extension for cookie policy (EU law) settings.
@@ -73,11 +74,18 @@ class CookiePolicyConfig extends DataExtension
             $cookyPolicyTab = $fields->findOrMakeTab('Root.CookieConsent', $this->owner->fieldLabel('CookiePolicy'));
             $cookyPolicyTab->setTitle($this->owner->fieldLabel('CookiePolicy'));
             $cookyPolicyTab->unshift(CheckboxField::create('CookiePolicyConfigIsActive', $this->owner->fieldLabel('CookiePolicyConfigIsActive')));
+            if (class_exists(GridFieldOrderableRows::class)) {
+                $grid = $fields->dataFieldByName('Cookies');
+                /* @var $grid \SilverStripe\Forms\GridField\GridField */
+                if ($grid !== null) {
+                    $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+                }
+            }
         } else {
             $positionSrc = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigPosition');
             $layoutSrc   = Tools::enum_i18n_labels($this->owner, 'CookiePolicyConfigLayout');
 
-            $colorGroup = new FieldGroup('ColorGroup', '', $fields);
+            $colorGroup = FieldGroup::create('ColorGroup', '', $fields);
             $colorGroup->push(TextField::create('CookiePolicyConfigBgColor', $this->owner->fieldLabel('CookiePolicyConfigBgColor'))->setInputType('color'));
             $colorGroup->push(TextField::create('CookiePolicyConfigTxtColor', $this->owner->fieldLabel('CookiePolicyConfigTxtColor'))->setInputType('color'));
             $colorGroup->push(TextField::create('CookiePolicyConfigBtnColor', $this->owner->fieldLabel('CookiePolicyConfigBtnColor'))->setInputType('color'));

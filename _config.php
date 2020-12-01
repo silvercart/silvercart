@@ -25,6 +25,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchController;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Broarm\CookieConsent\Model\CookieGroupExtension;
 use SilverCart\Extensions\Model\CookieConsent\BroarmContentControllerExtension;
 use SilverCart\Extensions\Model\CookieConsent\BroarmExternalResourceExtension;
 use SilverCart\Model\CookieConsent\ExternalResource;
@@ -64,6 +65,7 @@ if (class_exists('PageController')) {
 if (class_exists(CookieConsent::class)) {
     ExternalResource::add_extension(BroarmExternalResourceExtension::class);
     ContentController::add_extension(BroarmContentControllerExtension::class);
+    CookieGroup::add_extension(CookieGroupExtension::class);
     CookieGroup::add_extension(FluentExtension::class);
 }
 // Define required attributes to display a product in frontend
