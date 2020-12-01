@@ -1241,6 +1241,25 @@ class ShoppingCart extends DataObject
     }
 
     /**
+     * Returns the handling costs for the chosen payment method excluding tax.
+     *
+     * @return DBMoney
+     */
+    public function HandlingCostPaymentNet() : DBMoney
+    {
+        $handlingCost    = $this->HandlingCostPayment();
+        $handlingCostNet = DBMoney::create()
+                ->setAmount($handlingCost->getAmount())
+                ->setCurrency($handlingCost->getCurrency());
+        if ($handlingCost->getAmount() > 0) {
+            $handlingCostPayment = $this->getPaymentMethod()->getHandlingCost();
+            $amountNet           = ($handlingCost->getAmount() / (100 + $handlingCostPayment->Tax->Rate)) * 100;
+            $handlingCostNet->setAmount($amountNet);
+        }
+        return $handlingCostNet;
+    }
+
+    /**
      * Returns the handling costs for the chosen shipping method.
      *
      * @return DBMoney
