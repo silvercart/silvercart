@@ -4,14 +4,17 @@ namespace SilverCart\Model\Pages;
 
 use PageController;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\Tools;
 use SilverCart\Forms\LoginForm;
 use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Pages\Page as SilverCartPage;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
+use TractorCow\Fluent\Model\Locale;
 
 /**
  * RegistrationPage Controller class.
@@ -25,6 +28,7 @@ use SilverStripe\Security\Security;
  */
 class RegistrationPageController extends PageController
 {
+    const SESSION_KEY_HTTP_REFERER = 'SilverCart.RegistrationPage.HttpReferer';
     /**
      * List of allowed actions.
      *
@@ -52,6 +56,13 @@ class RegistrationPageController extends PageController
     {
         if (Config::EnableSSL()) {
             Director::forceSSL();
+        }
+        $referer = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        if ($referer === null
+         && $this->getReferer() !== null
+        ) {
+            Tools::Session()->set(self::SESSION_KEY_HTTP_REFERER, $this->getReferer());
+            Tools::saveSession();
         }
         parent::init();
     }
@@ -100,7 +111,10 @@ class RegistrationPageController extends PageController
                     if (RegistrationPage::getIsInCheckout()) {
                         $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_CHECKOUT_PAGE);
                     } else {
-                        $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER);
+                        $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+                        if (empty($link)) {
+                            $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER);
+                        }
                     }
                     $this->redirect($link);
                 } elseif (!$customer->confirmRegistrationOptIn($hash)) {
@@ -200,8 +214,52 @@ class RegistrationPageController extends PageController
         if ($customer instanceof Member
          && $customer->RegistrationOptInConfirmed
         ) {
-            $this->redirect($this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER));
+            $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+            if (empty($link)) {
+                $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER);
+            }
+            $this->redirect($link);
         }
         return $this->render();
+    }
+    
+    /**
+     * Returns the referer link.
+     * The referer link is the link to the page the customer visited right before
+     * accessing the registration page.
+     * 
+     * @return string
+     */
+    public function RefererLink() : string
+    {
+        $link         = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        $originalLink = $link;
+        $page         = $this->data();
+        $localeCode   = $page->getSourceQueryParam('Fluent.Locale');
+        if (is_string($localeCode)
+         && !empty($localeCode)
+        ) {
+            $localeObj = Locale::getByLocale($localeCode);
+        }
+        if (!($localeObj instanceof Locale)) {
+            $localeObj = Locale::getCurrentLocale();
+        }
+        if ($localeObj instanceof Locale) {
+            $URLSegment = $localeObj->getURLSegment();
+            if (!empty($URLSegment)) {
+                $relativeLink = Director::makeRelative($link);
+                if (strpos($relativeLink, "{$URLSegment}/") === 0) {
+                    $originalLink = substr($relativeLink, strlen("{$URLSegment}/"));
+                }
+            }
+
+        }
+        $refererPage = SiteTree::get_by_link($originalLink);
+        if (empty($link)
+         || $refererPage instanceof MyAccountHolder
+        ) {
+            $link = $this->getDefaultHomepage()->Link();
+        }
+        return (string) $link;
     }
 }

@@ -1770,7 +1770,7 @@ de:
         OptInFailedTitle: 'Opt-In fehlgeschlagen'
         OptInPendingMessage: 'Ihre E-Mail-Bestätigung ist noch ausstehend. Bitte prüfen Sie Ihren Posteingang und besuchen Sie den Bestätigungslink.'
         OptInPendingTitle: 'Opt-in ausstehend'
-        OptInGoToShop: 'Zum Shop'
+        OptInGoToShop: 'Weiter zum Shop'
         OptInGoToMyAccount: 'Mein Konto'
         OptInResend: 'Bestätigungslink erneut senden'
         OptInResendMessage: 'Die E-Mail mit dem Bestätigungslink wurde an {email} gesendet.'
