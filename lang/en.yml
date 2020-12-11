@@ -748,6 +748,14 @@ en:
         REGULARCUSTOMER: 'Regular customer'
         SALUTATION: Salutation
         SHIPPING_DATA: 'Shipping address data'
+        SILVERCART_CUSTOMER_CREATE: 'Create customers'
+        SILVERCART_CUSTOMER_CREATE_HELP: 'Allows an user to create customers.'
+        SILVERCART_CUSTOMER_DELETE: 'Delete customers'
+        SILVERCART_CUSTOMER_DELETE_HELP: 'Allows an user to delete customers.'
+        SILVERCART_CUSTOMER_EDIT: 'Edit customers'
+        SILVERCART_CUSTOMER_EDIT_HELP: 'Allows an user to edit customers. Own customer data can be edited without this permission.'
+        SILVERCART_CUSTOMER_VIEW: 'View customers'
+        SILVERCART_CUSTOMER_VIEW_HELP: 'Allows an user to view customers. Own customer data can be viewed without this permission.'
         SUBSCRIBEDTONEWSLETTER: 'Subscribed to newsletter'
         TYPE: Type
     SilverCart\Admin\Controllers\CustomerAdmin:

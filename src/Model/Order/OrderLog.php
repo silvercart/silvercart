@@ -18,6 +18,14 @@ use SilverStripe\ORM\DataObject;
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Context  Context
+ * @property string $Action   Action
+ * @property int    $SourceID Source Object ID
+ * @property int    $TargetID Target Object ID
+ * @property int    $OrderID  Order ID
+ * 
+ * @method Order Order() Returns the related Order.
  */
 class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
 {
@@ -284,6 +292,42 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
             }
         }
         return $targetTitle;
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     * 
+     * @param Member $member current member
+     *
+     * @return bool
+     */
+    public function canView($member = null) : bool
+    {
+        return $this->Order()->canView($member);
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     * 
+     * @param Member $member current member
+     *
+     * @return bool
+     */
+    public function canEdit($member = null) : bool
+    {
+        return $this->Order()->canEdit($member);
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member current member
+     *
+     * @return bool
+     */
+    public function canDelete($member = null) : bool
+    {
+        return $this->Order()->canDelete($member);
     }
 
     /**

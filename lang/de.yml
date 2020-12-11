@@ -748,6 +748,14 @@ de:
         REGULARCUSTOMER: Endkunde
         SALUTATION: Anrede
         SHIPPING_DATA: Liefer-Adressdaten
+        SILVERCART_CUSTOMER_CREATE: 'Kunde erstellen'
+        SILVERCART_CUSTOMER_CREATE_HELP: 'Erlaubt einem Benutzer neue Kunden zu erstellen.'
+        SILVERCART_CUSTOMER_DELETE: 'Kunde löschen'
+        SILVERCART_CUSTOMER_DELETE_HELP: 'Erlaubt einem Benutzer beliebige Kunden zu löschen.'
+        SILVERCART_CUSTOMER_EDIT: 'Kunde bearbeiten'
+        SILVERCART_CUSTOMER_EDIT_HELP: 'Erlaubt einem Benutzer beliebige Kunden zu bearbeiten. Eigene Kundendaten können auch ohne diese Berechtigung bearbeitet werden.'
+        SILVERCART_CUSTOMER_VIEW: 'Kunde anschauen'
+        SILVERCART_CUSTOMER_VIEW_HELP: 'Erlaubt einem Benutzer beliebige Kunden anzuschauen. Eigene Kundendaten können auch ohne diese Berechtigung angesehen werden.'
         SUBSCRIBEDTONEWSLETTER: 'Newsletter aboniert'
         TYPE: Typ
     SilverCart\Admin\Controllers\CustomerAdmin:

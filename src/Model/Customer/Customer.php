@@ -35,6 +35,7 @@ use SilverStripe\Security\Security;
 use SilverStripe\View\TemplateGlobalProvider;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\IdentityStore;
+use SilverStripe\Security\PermissionProvider;
 
 /**
  * Contains additional datafields for SilverCart customers and corresponding
@@ -47,13 +48,17 @@ use SilverStripe\Security\IdentityStore;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Customer extends DataExtension implements TemplateGlobalProvider
+class Customer extends DataExtension implements TemplateGlobalProvider, PermissionProvider
 {
     const GROUP_CODE_ADMINISTRATORS = 'administrators';
     const GROUP_CODE_ANONYMOUS      = 'anonymous';
     const GROUP_CODE_B2B            = 'b2b';
     const GROUP_CODE_B2C            = 'b2c';
-    
+    const PERMISSION_CREATE         = 'SILVERCART_CUSTOMER_CREATE';
+    const PERMISSION_EDIT           = 'SILVERCART_CUSTOMER_EDIT';
+    const PERMISSION_DELETE         = 'SILVERCART_CUSTOMER_DELETE';
+    const PERMISSION_VIEW           = 'SILVERCART_CUSTOMER_VIEW';
+
     /**
      * Comma separated string of related group names
      *
@@ -185,6 +190,91 @@ class Customer extends DataExtension implements TemplateGlobalProvider
     // ------------------------------------------------------------------------
     // Extension methods
     // ------------------------------------------------------------------------
+
+    /**
+     * Set permissions.
+     *
+     * @return array
+     */
+    public function providePermissions() : array
+    {
+        $customer = Member::singleton();
+        $permissions = [
+            self::PERMISSION_VIEW   => [
+                'name'     => $customer->fieldLabel(self::PERMISSION_VIEW),
+                'help'     => $customer->fieldLabel(self::PERMISSION_VIEW . '_HELP'),
+                'category' => $customer->i18n_singular_name(),
+                'sort'     => 10,
+            ],
+            self::PERMISSION_CREATE   => [
+                'name'     => $customer->fieldLabel(self::PERMISSION_CREATE),
+                'help'     => $customer->fieldLabel(self::PERMISSION_CREATE . '_HELP'),
+                'category' => $customer->i18n_singular_name(),
+                'sort'     => 20,
+            ],
+            self::PERMISSION_EDIT   => [
+                'name'     => $customer->fieldLabel(self::PERMISSION_EDIT),
+                'help'     => $customer->fieldLabel(self::PERMISSION_EDIT . '_HELP'),
+                'category' => $customer->i18n_singular_name(),
+                'sort'     => 30,
+            ],
+            self::PERMISSION_DELETE => [
+                'name'     => $customer->fieldLabel(self::PERMISSION_DELETE),
+                'help'     => $customer->fieldLabel(self::PERMISSION_DELETE . '_HELP'),
+                'category' => $customer->i18n_singular_name(),
+                'sort'     => 40,
+            ],
+        ];
+        return $permissions;
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     * 
+     * @param Member $member declated to be compatible with parent
+     *
+     * @return bool|null
+     */
+    public function canView($member = null) : ?bool
+    {
+        return Permission::checkMember($member, self::PERMISSION_VIEW) ? true : null;
+    }
+    
+    /**
+     * Order should not be created via backend
+     * 
+     * @param Member $member Member to check permission for
+     *
+     * @return false
+     */
+    public function canCreate($member = null) : ?bool
+    {
+        return Permission::checkMember($member, self::PERMISSION_CREATE) ? true : null;
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     * 
+     * @param Member $member declated to be compatible with parent
+     *
+     * @return bool
+     */
+    public function canEdit($member = null) : ?bool
+    {
+        return Permission::checkMember($member, self::PERMISSION_EDIT) ? true : null;
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member declated to be compatible with parent
+     *
+     * @return bool
+     */
+    public function canDelete($member = null) : ?bool
+    {
+        return Permission::checkMember($member, self::PERMISSION_DELETE) ? true : null;
+    }
     
     /**
      * manipulate the cms fields of the decorated class
@@ -285,6 +375,14 @@ class Customer extends DataExtension implements TemplateGlobalProvider
                     'AddressData'                       => _t(Customer::class . '.ADDRESS_DATA', 'Basic address data'),
                     'InvoiceData'                       => _t(Customer::class . '.INVOICE_DATA', 'Invoice address data'),
                     'ShippingData'                      => _t(Customer::class . '.SHIPPING_DATA', 'Shipping address data'),
+                    self::PERMISSION_CREATE             => _t(Customer::class . '.' . self::PERMISSION_CREATE, 'Create customer'),
+                    self::PERMISSION_CREATE . '_HELP'   => _t(Customer::class . '.' . self::PERMISSION_CREATE . '_HELP', 'Allows an user to create new customers.'),
+                    self::PERMISSION_VIEW               => _t(Customer::class . '.' . self::PERMISSION_VIEW, 'View customer'),
+                    self::PERMISSION_VIEW . '_HELP'     => _t(Customer::class . '.' . self::PERMISSION_VIEW . '_HELP', 'Allows an user to view any customer (not only the owned one!). The own customer can be viewed without this permission.'),
+                    self::PERMISSION_EDIT               => _t(Customer::class . '.' . self::PERMISSION_EDIT, 'Edit customer'),
+                    self::PERMISSION_EDIT . '_HELP'     => _t(Customer::class . '.' . self::PERMISSION_EDIT . '_HELP', 'Allows an user to edit any customer (not only the owned one!).'),
+                    self::PERMISSION_DELETE             => _t(Customer::class . '.' . self::PERMISSION_DELETE, 'Delete customer'),
+                    self::PERMISSION_DELETE . '_HELP'   => _t(Customer::class . '.' . self::PERMISSION_DELETE . '_HELP', 'Allows an user to delete any customer (not only the owned one!).'),
                 ]
         );
     }
