@@ -21,14 +21,15 @@ use SilverStripe\Forms\FormAction;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class RemovePositionForm extends UpdatePositionForm {
-    
+class RemovePositionForm extends UpdatePositionForm
+{
     /**
      * Returns the static form fields.
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions() : array
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $position = $this->getPosition();
             if ($position instanceof ShoppingCartPosition
@@ -54,15 +55,18 @@ class RemovePositionForm extends UpdatePositionForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
-        if (array_key_exists('PositionID', $data) &&
-            is_numeric($data['PositionID'])) {
+    public function doSubmit($data, CustomForm $form) : void
+    {
+        if (array_key_exists('PositionID', $data)
+         && is_numeric($data['PositionID'])
+        ) {
             //check if the position belongs to this user. Malicious people could manipulate it.
             $member   = Customer::currentUser();
             $position = ShoppingCartPosition::get()->byID($data['PositionID']);
-            if ($position instanceof ShoppingCartPosition &&
-                $position->exists() &&
-                $position->ShoppingCartID == $member->getCart()->ID) {
+            if ($position instanceof ShoppingCartPosition
+             && $position->exists()
+             && $position->ShoppingCartID == $member->getCart()->ID
+            ) {
                 $position->delete();
                 $backLinkPage = SiteTree::get()->byID($data['BlID']);
                 $this->getController()->redirect($backLinkPage->Link());
