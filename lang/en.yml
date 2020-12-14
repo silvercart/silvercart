@@ -440,7 +440,18 @@ en:
         URL_SEGMENT: contact
         WeReceivedYourRequest: 'We received your request.'
         YourData: 'Your data:'
+    SilverCart\Model\BlacklistEntry:
+        PLURALNAME: 'Blacklist Entries'
+        SINGULARNAME: 'Blacklist Entry'
+        Content: Content
+        ContentDesc: 'A contact message will be marked as spam if its content matches this text.'
+        IsPartialMatch: 'Use partial match mode'
+        IsPartialMatchDesc: 'If checked, a contact message will be marked as spam although the text match is only partial and not exact.'
+        IsPartialMatchNice: 'No exact match'
+        Title: Text
     SilverCart\Model\ContactMessage:
+        Blacklist: Blacklist
+        IsSpam: 'Is spam'
         MESSAGE: message
         PLURALNAME: 'Contact messages'
         SINGULARNAME: 'Contact message'

@@ -440,7 +440,18 @@ de:
         URL_SEGMENT: kontakt
         WeReceivedYourRequest: 'Wir haben Ihre Anfrage erhalten.'
         YourData: 'Ihre Daten:'
+    SilverCart\Model\BlacklistEntry:
+        PLURALNAME: Blacklist-Einträge
+        SINGULARNAME: Blacklist-Eintrag
+        Content: Inhalt
+        ContentDesc: 'Entspricht der Inhalt einer Kontaktanfrage diesem Text, wird die Anfrage als Spam markiert.'
+        IsPartialMatch: 'Keine exakten Treffer'
+        IsPartialMatchDesc: 'Wenn aktiviert werden Anfragen als Spam markiert, wenn der Inhalt nur teilweise und nicht exakt dem hier angegebenen Text entspricht.'
+        IsPartialMatchNice: 'Keine exakte Treffer'
+        Title: Text
     SilverCart\Model\ContactMessage:
+        Blacklist: Blacklist
+        IsSpam: 'Ist Spam'
         MESSAGE: Nachricht
         PLURALNAME: Kontaktanfragen
         SINGULARNAME: Kontaktanfrage

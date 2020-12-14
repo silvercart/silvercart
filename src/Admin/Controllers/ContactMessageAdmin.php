@@ -2,8 +2,12 @@
 
 namespace SilverCart\Admin\Controllers;
 
+use SilverCart\Dev\Tools;
 use SilverCart\Admin\Controllers\ModelAdmin;
 use SilverCart\Model\ContactMessage;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
+use SilverStripe\View\ArrayData;
 
 /**
  * ModelAdmin for ContactMessages
@@ -15,7 +19,10 @@ use SilverCart\Model\ContactMessage;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class ContactMessageAdmin extends ModelAdmin {
+class ContactMessageAdmin extends ModelAdmin
+{
+    const SESSION_KEY     = 'SilverCart.ContactMessageAdmin';
+    const SESSION_KEY_TAB = 'SilverCart.ContactMessageAdmin.Tab';
 
     /**
      * The code of the menu under which this admin should be shown.
@@ -23,36 +30,118 @@ class ContactMessageAdmin extends ModelAdmin {
      * @var string
      */
     private static $menuCode = 'customer';
-
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
     private static $menuSortIndex = 20;
-
     /**
      * The URL segment
      *
      * @var string
      */
     private static $url_segment = 'silvercart-contact-messages';
-
     /**
      * The menu title
      *
      * @var string
      */
     private static $menu_title = 'Contact Messages';
-
     /**
      * Managed models
      *
      * @var array
      */
-    private static $managed_models = array(
+    private static $managed_models = [
         ContactMessage::class,
-    );
+    ];
+    /**
+     * Current tab
+     *
+     * @var string
+     */
+    protected $currentTab = null;
+    
+    /**
+     * Returns the current model context list.
+     * Adds a filter dependent on the given tab.
+     * 
+     * @return \SilverCart\ORM\DataList
+     */
+    public function getList() : DataList
+    {
+        return $this->getTabbedList($this->getCurrentTab());
+    }
+    
+    /**
+     * Adds a filter dependent on the given tab.
+     * 
+     * @param string $tab Tab
+     * 
+     * @return \SilverCart\ORM\DataList
+     */
+    protected function getTabbedList(string $tab) : DataList
+    {
+        return parent::getList()->filter('IsSpam', $tab === 'spam');
+    }
+    
+    /**
+     * Adds some additional tabs.
+     * 
+     * @return \SilverStripe\ORM\ArrayList
+     */
+    protected function getManagedModelTabs() : ArrayList
+    {
+        $forms = parent::getManagedModelTabs();
+        if (ContactMessage::config()->store_spam_in_database) {
+            $tabs  = ['spam'];
+            $link  = $this->Link($this->sanitiseClassName(ContactMessage::class));
+            if (strpos($link, '?') === false) {
+                $link = "{$link}?tab=";
+            } else {
+                $link = "{$link}&tab=";
+            }
 
+            foreach ($forms as $form) {
+                if ($form->ClassName === ContactMessage::class) {
+                    $form->Link          = $link . 'all';
+                    $form->LinkOrCurrent = (ContactMessage::class == $this->modelClass && $this->getCurrentTab() === 'all') ? 'current' : 'link';
+                }
+            }
+            foreach ($tabs as $tab) {
+                $forms->push(ArrayData::create([
+                            'Title'         => _t(ContactMessage::class . '.ModelAdminTab' . ucfirst($tab), ucfirst($tab)) . " ({$this->getTabbedList($tab)->count()})",
+                            'ClassName'     => ContactMessage::class,
+                            'Link'          => $link . $tab,
+                            'LinkOrCurrent' => (ContactMessage::class == $this->modelClass && $this->getCurrentTab() === $tab) ? 'current' : 'link'
+                ]));
+            }
+        }
+        return $forms;
+    }
+    
+    /**
+     * Returns the current (tab stored in session).
+     * If given by HTTP GET parameter, the current tab will be updated.
+     * 
+     * @return string
+     */
+    protected function getCurrentTab() : string
+    {
+        if (is_null($this->currentTab)) {
+            $this->currentTab = $this->getRequest()->getVar('tab');
+            if (!is_null($this->currentTab)) {
+                Tools::Session()->set(self::SESSION_KEY_TAB, $this->currentTab);
+                Tools::saveSession();
+            } else {
+                $this->currentTab = Tools::Session()->get(self::SESSION_KEY_TAB);
+            }
+        }
+        if (is_null($this->currentTab)) {
+            $this->currentTab = 'all';
+        }
+        return $this->currentTab;
+    }
 }
 

@@ -4,6 +4,7 @@ namespace SilverCart\Model;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Model\BlacklistEntry;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
@@ -23,6 +24,23 @@ use SilverStripe\Security\Member;
  * @since 10.10.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $Salutation     Salutation
+ * @property string $FirstName      FirstName
+ * @property string $Surname        Surname
+ * @property string $Street         Street
+ * @property string $StreetNumber   StreetNumber
+ * @property string $Postcode       Postcode
+ * @property string $City           City
+ * @property string $Email          Email
+ * @property string $Phone          Phone
+ * @property string $Message        Message
+ * @property bool   $IsSpam         IsSpam
+ * @property string $CreatedNice    Created Nice
+ * @property string $SalutationText Salutation Text
+ * 
+ * @method Country Country() Returns the related Country.
+ * @method Member  Member()  Returns the related Member.
  */
 class ContactMessage extends DataObject
 {
@@ -34,6 +52,19 @@ class ContactMessage extends DataObject
      * @var bool
      */
     private static $send_acknowledgement_of_receipt = true;
+    /**
+     * Set this to false to delete spam detected messages.
+     *
+     * @var bool
+     */
+    private static $store_spam_in_database = true;
+    /**
+     * Allowed number of repeating contact messages with the same content.
+     * Set to 0 to deactivate.
+     *
+     * @var int
+     */
+    private static $mark_as_spam_after_repeating = 3;
     /**
      * Attributes.
      *
@@ -50,6 +81,7 @@ class ContactMessage extends DataObject
         'Email'         => 'Varchar(255)',
         'Phone'         => 'Varchar(255)',
         'Message'       => 'Text',
+        'IsSpam'        => 'Boolean',
     ];
     /**
      * Has-one relationships.
@@ -112,6 +144,7 @@ class ContactMessage extends DataObject
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
+            'Blacklist'    => _t(ContactMessage::class . '.Blacklist', 'Blacklist'),
             'CreatedNice'  => Tools::field_label('DATE'),
             'Salutation'   => Address::singleton()->fieldLabel('Salutation'),
             'FirstName'    => Member::singleton()->fieldLabel('FirstName'),
@@ -143,10 +176,38 @@ class ContactMessage extends DataObject
             'Surname'       => $this->fieldLabel('Surname'),
             'Email'         => $this->fieldLabel('Email'),
         ];
-        
         $this->extend('updateSummaryFields', $fields);
-            
         return $fields;
+    }
+    
+    /**
+     * Marks spam on before write if necessary.
+     * 
+     * @return void
+     */
+    protected function onBeforeWrite() : void
+    {
+        parent::onBeforeWrite();
+        if (!$this->exists()) {
+            $this->IsSpam = BlacklistEntry::isSpam($this->Message)
+                    || ((int) self::config()->mark_as_spam_after_repeating > 0
+                     && self::get()->filter('Message', $this->Message)->count() > self::config()->mark_as_spam_after_repeating);
+        }
+    }
+    
+    /**
+     * Deletes spam on after write if necessary.
+     * 
+     * @return void
+     */
+    protected function onAfterWrite() : void
+    {
+        parent::onAfterWrite();
+        if ($this->IsSpam
+         && !self::config()->store_spam_in_database
+        ) {
+            $this->delete();
+        }
     }
 
     /**
@@ -175,9 +236,6 @@ class ContactMessage extends DataObject
      * @param Member $member Member, defined for compatibility with parent
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.09.2018
      */
     public function canEdit($member = null) : bool
     {
@@ -196,12 +254,13 @@ class ContactMessage extends DataObject
      * Send the contact message via email.
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
      */
     public function send() : void
     {
+        if ($this->IsSpam) {
+            // don not send if marked as spam.
+            return;
+        }
         $this->extend('onBeforeSend');
         $fields = ['ContactMessage' => $this];
         $db     = $this->config()->get('db');
@@ -260,9 +319,6 @@ class ContactMessage extends DataObject
      * This is a performance friendly way to exclude fields.
      * 
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 10.02.2013
      */
     public function excludeFromScaffolding() : array
     {
@@ -283,6 +339,7 @@ class ContactMessage extends DataObject
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             $salutationDropdown = DropdownField::create('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
             $fields->insertBefore($salutationDropdown, 'FirstName');
+            BlacklistEntry::getBlackListCMSFields($fields);
         });
         return DataObjectExtension::getCMSFields($this);
     }
