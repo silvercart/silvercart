@@ -4,6 +4,7 @@ namespace SilverCart\Admin\Controllers;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Admin\Controllers\ModelAdmin;
+use SilverCart\Model\BlacklistEntry;
 use SilverCart\Model\ContactMessage;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
@@ -55,6 +56,7 @@ class ContactMessageAdmin extends ModelAdmin
      */
     private static $managed_models = [
         ContactMessage::class,
+        BlacklistEntry::class,
     ];
     /**
      * Current tab
@@ -77,13 +79,29 @@ class ContactMessageAdmin extends ModelAdmin
     /**
      * Adds a filter dependent on the given tab.
      * 
-     * @param string $tab Tab
+     * @param string $tab        Tab
+     * @param string $modelClass Model class
      * 
      * @return \SilverCart\ORM\DataList
+     * 
+     * 
      */
-    protected function getTabbedList(string $tab) : DataList
+    protected function getTabbedList(string $tab, string $modelClass = null) : DataList
     {
-        return parent::getList()->filter('IsSpam', $tab === 'spam');
+        $restoreModelClass = null;
+        if (class_exists($modelClass)) {
+            $restoreModelClass = $this->modelClass;
+            $this->modelClass  = $modelClass;
+        }
+        if ($this->modelClass === ContactMessage::class) {
+            $list = parent::getList()->filter('IsSpam', $tab === 'spam');
+        } else {
+            $list = parent::getList();
+        }
+        if (class_exists($restoreModelClass)) {
+            $this->modelClass  = $restoreModelClass;
+        }
+        return $list;
     }
     
     /**
@@ -111,7 +129,7 @@ class ContactMessageAdmin extends ModelAdmin
             }
             foreach ($tabs as $tab) {
                 $forms->push(ArrayData::create([
-                            'Title'         => _t(ContactMessage::class . '.ModelAdminTab' . ucfirst($tab), ucfirst($tab)) . " ({$this->getTabbedList($tab)->count()})",
+                            'Title'         => _t(ContactMessage::class . '.ModelAdminTab' . ucfirst($tab), ucfirst($tab)) . " ({$this->getTabbedList($tab, ContactMessage::class)->count()})",
                             'ClassName'     => ContactMessage::class,
                             'Link'          => $link . $tab,
                             'LinkOrCurrent' => (ContactMessage::class == $this->modelClass && $this->getCurrentTab() === $tab) ? 'current' : 'link'
