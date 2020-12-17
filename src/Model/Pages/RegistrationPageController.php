@@ -88,6 +88,16 @@ class RegistrationPageController extends PageController
     }
     
     /**
+     * Returns the checkout page.
+     * 
+     * @return CheckoutStep
+     */
+    public function getCheckoutPage() : CheckoutStep
+    {
+        return $this->PageByIdentifierCode(SilverCartPage::IDENTIFIER_CHECKOUT_PAGE);
+    }
+    
+    /**
      * Action to do the opt-in confirmation.
      * 
      * @param HTTPRequest $request Request
@@ -109,11 +119,11 @@ class RegistrationPageController extends PageController
             ) {
                 if ($customer->RegistrationOptInConfirmed) {
                     if (RegistrationPage::getIsInCheckout()) {
-                        $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_CHECKOUT_PAGE);
+                        $link = $this->getCheckoutPage()->Link();
                     } else {
                         $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
                         if (empty($link)) {
-                            $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER);
+                            $link = $this->PageByIdentifierCode(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER)->Link();
                         }
                     }
                     $this->redirect($link);
@@ -125,7 +135,7 @@ class RegistrationPageController extends PageController
         if (RegistrationPage::getIsInCheckout()
          && !$this->redirectedTo()
         ) {
-            $this->redirect($this->PageByIdentifierCode(SilverCartPage::IDENTIFIER_CHECKOUT_PAGE)->Link('welcome'));
+            $this->redirect($this->getCheckoutPage()->Link('welcome'));
         }
         return $this->render();
     }

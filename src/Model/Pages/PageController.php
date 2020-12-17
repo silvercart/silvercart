@@ -368,6 +368,7 @@ class PageController extends ContentController
                 $registrationPage = RegistrationPage::get()->first();
                 if ($registrationPage instanceof RegistrationPage
                  && $registrationPage->exists()
+                 && !$this->redirectedTo()
                 ) {
                     $this->redirect($registrationPage->Link('optinpending'));
                 }

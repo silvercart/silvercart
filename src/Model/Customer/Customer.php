@@ -60,6 +60,31 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     const PERMISSION_VIEW           = 'SILVERCART_CUSTOMER_VIEW';
 
     /**
+     * Returns the registration opt-in confirmation base link.
+     * 
+     * @return string
+     */
+    public static function getRegistrationOptInConfirmationBaseLink() : string
+    {
+        if (empty(self::$registrationOptInConfirmationBaseLink)) {
+            self::$registrationOptInConfirmationBaseLink = Tools::PageByIdentifierCode(Page::IDENTIFIER_REGISTRATION_PAGE)->Link('optin');
+        }
+        return self::$registrationOptInConfirmationBaseLink;
+    }
+    
+    /**
+     * Sets the registration opt-in confirmation base link.
+     * 
+     * @param string $link Base link to set
+     * 
+     * @return void
+     */
+    public static function setRegistrationOptInConfirmationBaseLink(string $link = null) : void
+    {
+        self::$registrationOptInConfirmationBaseLink = $link;
+    }
+    
+    /**
      * Comma separated string of related group names
      *
      * @var string[]
@@ -180,6 +205,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * @var array
      */
     private static $shoppingCartList = [];
+    /**
+     * Registration opt-in confirmation base link.
+     *
+     * @var string|null
+     */
+    protected static $registrationOptInConfirmationBaseLink = null;
     /**
      * Stores the called status seperated by customer ID.
      *
@@ -1478,7 +1509,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     public function getRegistrationOptInConfirmationLink() : string
     {
-        return Director::absoluteURL(Tools::PageByIdentifierCode(Page::IDENTIFIER_REGISTRATION_PAGE)->Link('optin')) . DIRECTORY_SEPARATOR . urlencode($this->owner->RegistrationOptInConfirmationHash);
+        return Director::absoluteURL(self::getRegistrationOptInConfirmationBaseLink()) . DIRECTORY_SEPARATOR . urlencode($this->owner->RegistrationOptInConfirmationHash);
     }
     
     /**
