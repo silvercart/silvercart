@@ -38,6 +38,9 @@ class BroarmExternalResourceExtension extends DataExtension
      */
     public function canRequire() : ?bool
     {
+        if ($this->owner->canBeRequiredWithoutCookies() === true) {
+            return null;
+        }
         $can         = null;
         $cookieGroup = $this->owner->CookieGroup();
         /* @var $cookieGroup CookieGroup */
@@ -45,6 +48,26 @@ class BroarmExternalResourceExtension extends DataExtension
          && !CookieConsent::check($cookieGroup->ConfigName)
         ) {
             $can = false;
+        }
+        return $can;
+    }
+    
+    /**
+     * Returns whether this resource can be required without using cookies.
+     * 
+     * @return bool
+     */
+    public function canBeRequiredWithoutCookies() : bool
+    {
+        $can     = false;
+        $results = $this->owner->extend('updateCanBeRequiredWithoutCookies');
+        if (is_array($results)) {
+            $results = array_filter($results, function ($v) {
+                return !is_null($v);
+            });
+            if (!empty($results)) {
+                $can = max($results);
+            }
         }
         return $can;
     }
