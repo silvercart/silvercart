@@ -2020,6 +2020,7 @@ de:
         TITLE: Warenkorb
     SilverCart\Admin\Model\SiteConfigExtension:
         CREATE_TRANSLATION_DESC: 'Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist.'
+        DisableProductLinkInCart: 'Artikel-Verlinkung im Warenkorb deaktivieren'
         FACEBOOK_LINK: 'Facebook Link'
         GoogleplusLink: 'Google Plus Link'
         PUBLISHBUTTON: 'Alle Seiten der aktuellen Sprache veröffentlichen'
