@@ -116,6 +116,7 @@ class OrderPosition extends DataObject
         'PriceTotalNice'    => 'Varchar(255)',
         'FullTitle'         => 'HtmlText',
         'ShortDescription'  => 'Text',
+        'TitleNoHTML'       => 'Text',
     ];
     /**
      * DB table name
@@ -409,6 +410,16 @@ class OrderPosition extends DataObject
     {
         $fullTitle = $this->Title . '<br/>' . $this->addToTitle();
         return Tools::string2html($fullTitle);
+    }
+
+    /**
+     * returns the order positions Title without HTML.
+     *
+     * @return string
+     */
+    public function getTitleNoHTML() : string
+    {
+        return strip_tags($this->Title);
     }
 
     /**
