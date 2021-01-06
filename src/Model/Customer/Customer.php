@@ -999,12 +999,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     /**
      * Returns the current user.
      * 
-     * @return Member
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.04.2018
+     * @return Member|null
      */
-    public static function currentUser() {
+    public static function currentUser() : ?Member
+    {
         return Security::getCurrentUser();
     }
 
@@ -1235,19 +1233,15 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 18.07.2013
      */
-    public function showPricesGross($ignoreTaxExemption = false) {
+    public function showPricesGross(bool $ignoreTaxExemption = false) : bool
+    {
         $pricetype = Config::Pricetype();
-        
-        if (!$ignoreTaxExemption &&
-            $this->doesNotHaveToPayTaxes()) {
-            $pricetype = 'net';
+        if (!$ignoreTaxExemption
+         && $this->doesNotHaveToPayTaxes()
+        ) {
+            $pricetype = Config::PRICE_TYPE_NET;
         }
-        
-        if ($pricetype == "gross") {
-            return true;
-        } else {
-            return false;
-        }
+        return $pricetype === Config::PRICE_TYPE_GROSS;
     }
 
     /**

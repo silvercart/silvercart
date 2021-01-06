@@ -1289,21 +1289,17 @@ class Order extends DataObject implements PermissionProvider
             if ($shoppingCart === null) {
                 $shoppingCart = $member->getCart();
             }
-            $shoppingCart->setPaymentMethodID($this->PaymentMethodID);
-            $shoppingCart->setShippingMethodID($this->ShippingMethodID);
-            $this->MemberID = $member->ID;
-            
-            $this->ExpectedDeliveryMin = $shoppingCart->getDeliveryTimeMin();
-            $this->ExpectedDeliveryMax = $shoppingCart->getDeliveryTimeMax();
-
+            $shoppingCart->setPaymentMethodID((int) $this->PaymentMethodID);
+            $shoppingCart->setShippingMethodID((int) $this->ShippingMethodID);
+            $this->MemberID                  = $member->ID;
+            $this->ExpectedDeliveryMin       = $shoppingCart->getDeliveryTimeMin();
+            $this->ExpectedDeliveryMax       = $shoppingCart->getDeliveryTimeMax();
             $overwriteCreateFromShoppingCart = false;
             $this->extend('overwriteCreateFromShoppingCart', $overwriteCreateFromShoppingCart, $shoppingCart);
             if ($overwriteCreateFromShoppingCart) {
                 return true;
             }
-            
             $this->extend('onBeforeCreateFromShoppingCart', $shoppingCart);
-
             // VAT tax for shipping and payment fees
             $shippingMethod = ShippingMethod::get()->byID($this->ShippingMethodID);
             if ($shippingMethod instanceof ShippingMethod
@@ -1318,7 +1314,6 @@ class Order extends DataObject implements PermissionProvider
                     $this->TaxAmountShipment = $shippingFee->getTaxAmount();
                 }
             }
-
             $paymentMethod = PaymentMethod::get()->byID($this->PaymentMethodID);
             if ($paymentMethod instanceof PaymentMethod
              && $paymentMethod->exists()
@@ -1335,17 +1330,11 @@ class Order extends DataObject implements PermissionProvider
                     $this->HandlingCostPayment->setCurrency($paymentFee->amount->getCurrency());
                 }
             }
-
             // amount of all positions + handling fee of the payment method + shipping fee
             $totalAmount = $shoppingCart->getAmountTotal()->getAmount();
-
-            $this->AmountTotal->setAmount(
-                $totalAmount
-            );
+            $this->AmountTotal->setAmount($totalAmount);
             $this->AmountTotal->setCurrency(Config::DefaultCurrency());
-
             $this->PriceType = $member->getPriceType();
-
             // adjust orders standard status
             if ((int) $this->OrderStatusID === 0) {
                 $orderStatus = OrderStatus::get_default();
@@ -1364,10 +1353,7 @@ class Order extends DataObject implements PermissionProvider
             ) {
                 $this->PaymentStatusID = $paymentStatus->ID;
             }
-
-            // write order to have an id
             $this->write();
-            
             $this->extend('onAfterCreateFromShoppingCart', $shoppingCart);
         }
     }
@@ -1479,8 +1465,8 @@ class Order extends DataObject implements PermissionProvider
             if ($shoppingCart === null) {
                 $shoppingCart = $member->getCart();
             }
-            $shoppingCart->setPaymentMethodID($this->PaymentMethodID);
-            $shoppingCart->setShippingMethodID($this->ShippingMethodID);
+            $shoppingCart->setPaymentMethodID((int) $this->PaymentMethodID);
+            $shoppingCart->setShippingMethodID((int) $this->ShippingMethodID);
             //$shoppingCartPositions = ShoppingCartPosition::get()->filter('ShoppingCartID', $member->ShoppingCartID);
             $shoppingCartPositions = $shoppingCart->ShoppingCartPositions();
 
@@ -2791,44 +2777,24 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Indicates wether this order is gross calculated or not.
      * 
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.04.2018
+     * @return bool
      */
-    public function IsPriceTypeGross()
+    public function IsPriceTypeGross() : bool
     {
-        $isPriceTypeGross = false;
-
-        if ($this->PriceType == 'gross') {
-            $isPriceTypeGross = true;
-        }
-
+        $isPriceTypeGross = $this->PriceType === Config::PRICE_TYPE_GROSS;
         $this->extend('updateIsPriceTypeGross', $isPriceTypeGross);
-
         return $isPriceTypeGross;
     }
 
     /**
      * Indicates wether this order is net calculated or not.
      * 
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 23.04.2018
+     * @return bool
      */
-    public function IsPriceTypeNet()
+    public function IsPriceTypeNet() : bool
     {
-        $isPriceTypeNet = false;
-
-        if ($this->PriceType == 'net') {
-            $isPriceTypeNet = true;
-        }
-
+        $isPriceTypeNet = $this->PriceType === Config::PRICE_TYPE_NET;
         $this->extend('updateIsPriceTypeNet', $isPriceTypeNet);
-
         return $isPriceTypeNet;
     }
     
@@ -2854,7 +2820,7 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 20.04.2018
      */
-    public function Log($context, $text)
+    public function Log(string $context, string $text) : void
     {
         Tools::Log($context, $text, 'order');
     }
@@ -2868,7 +2834,7 @@ class Order extends DataObject implements PermissionProvider
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 12.04.2018
      */
-    public function sendConfirmationMail()
+    public function sendConfirmationMail() : Order
     {
         $this->extend('onBeforeConfirmationMail');
         $params = [
@@ -3035,11 +3001,12 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2018
      */
-    public function handleTrackingCodeChange()
+    public function handleTrackingCodeChange() : void
     {
         if (!empty($this->TrackingCode)
          && empty($this->TrackingLink)
-         && !empty($this->ShippingMethod()->Carrier()->TrackingLinkBase)) {
+         && !empty($this->ShippingMethod()->Carrier()->TrackingLinkBase)
+        ) {
             $this->extend('onBeforeTrackingCodeChange');
             $this->TrackingLink = str_replace('{TrackingCode}', $this->TrackingCode, $this->ShippingMethod()->Carrier()->TrackingLinkBase);
             if (strpos($this->TrackingLink, $this->TrackingCode) === false) {
@@ -3047,7 +3014,8 @@ class Order extends DataObject implements PermissionProvider
             }
             if (!$this->isChanged('OrderStatusID')
              && $this->isChanged('TrackingCode')
-             && $this->OrderStatus()->Code === 'shipped') {
+             && $this->OrderStatus()->Code === OrderStatus::STATUS_CODE_SHIPPED
+            ) {
                 $this->sendTrackingInformationEmail();
             }
             $this->extend('onAfterTrackingCodeChange');
@@ -3062,7 +3030,7 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.09.2018
      */
-    public function sendTrackingInformationEmail()
+    public function sendTrackingInformationEmail() : void
     {
         ShopEmail::send(
             'OrderTrackingNotification',
@@ -3171,7 +3139,7 @@ class Order extends DataObject implements PermissionProvider
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 07.09.2018
      */
-    protected function onAfterWrite()
+    protected function onAfterWrite() : void
     {
         parent::onAfterWrite();
         $this->extend('updateOnAfterWrite');
@@ -3184,9 +3152,9 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param string $paymentReferenceID Payment reference ID
      * 
-     * @return Order
+     * @return Order|null
      */
-    public static function get_by_payment_reference_id($paymentReferenceID)
+    public static function get_by_payment_reference_id(string $paymentReferenceID) : ?Order
     {
         return Order::get()->filter('PaymentReferenceID', $paymentReferenceID)->first();
     }
@@ -3198,15 +3166,15 @@ class Order extends DataObject implements PermissionProvider
      * @param int    $orderID  Order ID
      * @param Member $customer Customer
      * 
-     * @return Order
+     * @return Order|null
      */
-    public static function get_by_customer($orderID, Member $customer = null)
+    public static function get_by_customer(int $orderID, Member $customer = null) : ?Order
     {
         $customerID = null;
         if ($customer instanceof Member
          && $customer->exists()
         ) {
-            $customerID = $customer->ID;
+            $customerID = (int) $customer->ID;
         }
         return self::get_by_customer_id($orderID, $customerID);
     }
@@ -3218,9 +3186,9 @@ class Order extends DataObject implements PermissionProvider
      * @param int $orderID    Order ID
      * @param int $customerID Customer ID
      * 
-     * @return Order
+     * @return Order|null
      */
-    public static function get_by_customer_id($orderID, $customerID = null)
+    public static function get_by_customer_id(int $orderID, int $customerID = null) : ?Order
     {
         if (is_null($customerID)) {
             $customer = Security::getCurrentUser();
@@ -3272,7 +3240,7 @@ class Order extends DataObject implements PermissionProvider
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 12.07.2018
      */
-    public function recalculate()
+    public function recalculate() : void
     {
         $this->AmountTotal->setAmount($this->calculateAmountTotal());
         $this->extend('recalculate');
@@ -3314,7 +3282,7 @@ class Order extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getHandlingCostShipmentNice()
+    public function getHandlingCostShipmentNice() : string
     {
         return str_replace('.', ',', number_format($this->HandlingCostShipmentAmount, 2)) . ' ' . $this->HandlingCostShipmentCurrency;
     }
@@ -3324,7 +3292,7 @@ class Order extends DataObject implements PermissionProvider
      *
      * @return string
      */
-    public function getHandlingCostPaymentNice()
+    public function getHandlingCostPaymentNice() : string
     {
         return str_replace('.', ',', number_format($this->HandlingCostPaymentAmount, 2)) . ' ' . $this->HandlingCostPaymentCurrency;
     }
@@ -3334,7 +3302,7 @@ class Order extends DataObject implements PermissionProvider
      *
      * @return DBMoney
      */
-    public function getHandlingCost()
+    public function getHandlingCost() : DBMoney
     {
         $amount   = $this->HandlingCostShipment->getAmount() + $this->HandlingCostPayment->getAmount();
         $currency = $this->HandlingCostShipment->Currency;
@@ -3349,7 +3317,7 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.10.2012
      */
-    public function markAsSeen()
+    public function markAsSeen() : void
     {
         if (!$this->IsSeen) {
             $this->IsSeen = true;
@@ -3366,7 +3334,7 @@ class Order extends DataObject implements PermissionProvider
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 14.03.2013
      */
-    public function markAsNotSeen()
+    public function markAsNotSeen() : void
     {
         if ($this->IsSeen) {
             $this->IsSeen = false;
@@ -3378,12 +3346,12 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Renders the order with the default template.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
-    public function render()
+    public function render() : DBHTMLText
     {
         return $this->renderWith(Order::class);
     }

@@ -512,12 +512,10 @@ class ShippingFee extends DataObject
     public function getPriceAmount(bool $plain = false, float $amountToGetFeeFor = null, Country $countryToGetFeeFor = null) : float
     {
         $price = (float) $this->Price->getAmount();
-
         if (!$plain) {
-            if (Config::PriceType() == 'net') {
+            if (Config::PriceType() === Config::PRICE_TYPE_NET) {
                 $price = $price - $this->getTaxAmount($price);
             }
-
             if (Customer::currentUser()
              && Customer::currentUser()->ShoppingCartID > 0
             ) {
@@ -533,9 +531,7 @@ class ShippingFee extends DataObject
                     $price = 0.0;
                 }
             }
-
             $price = round($price, 2);
-
             $this->extend('updatePriceAmount', $price);
         } elseif (!is_null($amountToGetFeeFor)
                && !is_null($countryToGetFeeFor)
@@ -543,7 +539,6 @@ class ShippingFee extends DataObject
         ) {
             $price = 0.0;
         }
-
         return $price;
     }
     

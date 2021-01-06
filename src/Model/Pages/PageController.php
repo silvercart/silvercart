@@ -688,14 +688,12 @@ class PageController extends ContentController
     {
         $pricetype = Config::Pricetype();
         $member    = Customer::currentUser();
-        
         if ($member instanceof Member
          && $member->doesNotHaveToPayTaxes()
         ) {
-            $pricetype = 'net';
+            $pricetype = Config::PRICE_TYPE_NET;
         }
-        
-        return $pricetype == $type;
+        return $pricetype === $type;
     }
 
     /**
@@ -708,7 +706,7 @@ class PageController extends ContentController
      */
     public function showPricesGross() : bool
     {
-        return $this->showPrices('gross');
+        return $this->showPrices(Config::PRICE_TYPE_GROSS);
     }
 
     /**
@@ -721,7 +719,7 @@ class PageController extends ContentController
      */
     public function showPricesNet() : bool
     {
-        return $this->showPrices('net');
+        return $this->showPrices(Config::PRICE_TYPE_NET);
     }
     
     /**

@@ -138,7 +138,7 @@ class SiteConfigExtension extends DataExtension
     private static $defaults = [
         'SilvercartVersion'             => '4.1',
         'SilvercartMinorVersion'        => '1',
-        'DefaultPriceType'              => 'gross',
+        'DefaultPriceType'              => Config::PRICE_TYPE_GROSS,
         'productsPerPage'               => 18,
         'productGroupsPerPage'          => 6,
         'displayedPaginationPages'      => 4,

@@ -198,14 +198,11 @@ class BargainProductsWidget extends Widget
                 $defaults = $this->config()->get('defaults');
                 $this->numberOfProductsToFetch = $defaults['numberOfProductsToFetch'];
             }
-
             $priceField = 'PriceGrossAmount';
-            if (Config::Pricetype() == 'net') {
+            if (Config::Pricetype() === Config::PRICE_TYPE_NET) {
                 $priceField = 'PriceNetAmount';
             }
-
             $productTable = Tools::get_table_name(Product::class);
-            
             switch ($this->fetchMethod) {
                 case 'sortOrderAsc':
                     $sort = '"' . $productTable . '"."MSRPriceAmount" - "' . $productTable . '"."PriceGrossAmount" ASC';
@@ -217,7 +214,6 @@ class BargainProductsWidget extends Widget
                 default:
                     $sort = "RAND()";
             }
-            
             $this->listFilters = [];
             if (count(self::$registeredFilterPlugins) > 0) {
                 foreach (self::$registeredFilterPlugins as $registeredPlugin) {
@@ -231,25 +227,21 @@ class BargainProductsWidget extends Widget
                     }
                 }
             }
-
             $filter = sprintf(
                             '"' . $productTable . '"."MSRPriceAmount" IS NOT NULL 
                             AND "' . $productTable . '"."MSRPriceAmount" > 0
                             AND "' . $productTable . '"."%s" < "' . $productTable . '"."MSRPriceAmount"',
                             $priceField
             );
-
             foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                 $filter .= ' ' . $listFilter;
             }
-
             $products = Product::getProducts(
                     $filter,
                     $sort,
                     null,
                     "0," . $this->numberOfProductsToFetch
             );
-            
             $this->elements = $products;
         }
         return $this->elements;

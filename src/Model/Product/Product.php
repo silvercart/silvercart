@@ -2721,7 +2721,7 @@ class Product extends DataObject implements PermissionProvider
             }
         } else {
             $defaultPriceType = Config::DefaultPriceType();
-            if ($defaultPriceType == 'gross') {
+            if ($defaultPriceType === Config::PRICE_TYPE_GROSS) {
                 $showPricesGross = true;
             }
         }

@@ -39,6 +39,7 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
@@ -57,7 +58,6 @@ use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\LessThanFilter;
-use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 
@@ -66,11 +66,43 @@ use SilverStripe\Security\Member;
  * Every payment module must extend this class.
  *
  * @package SilverCart
- * @subpackage Model_Payment
+ * @subpackage Model\Payment
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 07.09.2018
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property bool   $isActive                            Is active
+ * @property float  $minAmountForActivation              Min amount for activation
+ * @property float  $maxAmountForActivation              Max amount for activation
+ * @property string $mode                                Mode
+ * @property bool   $showPaymentLogos                    Show payment logos
+ * @property int    $orderRestrictionMinQuantity         Max amount for activation
+ * @property bool   $enableActivationByOrderRestrictions Enable activation by order restrictions
+ * @property bool   $ShowFormFieldsOnPaymentSelection    Show form fields on payment selection
+ * @property string $sumModificationImpact               Sum modification impact
+ * @property string $sumModificationImpactType           Sum modification impact type
+ * @property float  $sumModificationValue                Sum modification value
+ * @property string $sumModificationValueType            Sum modification value type
+ * @property string $sumModificationLabel                Sum modification label
+ * @property string $sumModificationProductNumber        Sum modification product number
+ * @property bool   $useSumModification                  Use sum modification
+ * 
+ * @method PaymentStatus PaymentStatus() Returns the related PaymentStatus.
+ * @method Zone          Zone()          Returns the related Zone.
+ * 
+ * @method \SilverStripe\ORM\HasManyList HandlingCosts() Returns the related HandlingCosts.
+ * @method \SilverStripe\ORM\HasManyList Orders()        Returns the related Orders.
+ * @method \SilverStripe\ORM\HasManyList PaymentLogos()  Returns the related PaymentLogos.
+ * 
+ * @method \SilverStripe\ORM\ManyManyList ShippingMethods()        Returns the related ShippingMethods.
+ * @method \SilverStripe\ORM\ManyManyList ShowOnlyForGroups()      Returns the related Groups to include to this payment method.
+ * @method \SilverStripe\ORM\ManyManyList ShowNotForGroups()       Returns the related Groups to exclude from this payment method.
+ * @method \SilverStripe\ORM\ManyManyList ShowOnlyForUsers()       Returns the related Members to include to this payment method.
+ * @method \SilverStripe\ORM\ManyManyList ShowNotForUsers()        Returns the related Members to exclude from this payment method.
+ * @method \SilverStripe\ORM\ManyManyList OrderRestrictionStatus() Returns the related OrderStatus list to restrict this payment method to.
+ * @method \SilverStripe\ORM\ManyManyList Countries()              Returns the related Countries to restrict this payment method to.
+ * 
  */
 class PaymentMethod extends DataObject
 {
@@ -275,7 +307,7 @@ class PaymentMethod extends DataObject
      * 
      * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -286,7 +318,7 @@ class PaymentMethod extends DataObject
      * 
      * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this);
     }
@@ -296,7 +328,7 @@ class PaymentMethod extends DataObject
      *
      * @return string 
      */
-    public function getName()
+    public function getName() : string
     {
         $name = '';     
         if ($this->isExtendingPaymentMethod()
@@ -304,7 +336,7 @@ class PaymentMethod extends DataObject
         ) {
             $name = $this->getTranslationFieldValue('Name');
         }
-        return $name;
+        return (string) $name;
     }
     
     /**
@@ -312,7 +344,7 @@ class PaymentMethod extends DataObject
      *
      * @return string 
      */
-    public function getpaymentDescription()
+    public function getpaymentDescription() : string
     {
         $paymentDescription = '';
         if ($this->isExtendingPaymentMethod()
@@ -320,7 +352,7 @@ class PaymentMethod extends DataObject
         ) {
             $paymentDescription = $this->getTranslationFieldValue('paymentDescription');
         }
-        return $paymentDescription;
+        return (string) $paymentDescription;
     }
     
     /**
@@ -328,7 +360,7 @@ class PaymentMethod extends DataObject
      *
      * @return string 
      */
-    public function getLongPaymentDescription()
+    public function getLongPaymentDescription() : string
     {
         $LongPaymentDescription = '';
         if ($this->isExtendingPaymentMethod()
@@ -336,7 +368,7 @@ class PaymentMethod extends DataObject
         ) {
             $LongPaymentDescription = $this->getTranslationFieldValue('LongPaymentDescription');
         }
-        return $LongPaymentDescription;
+        return (string) $LongPaymentDescription;
     }
     
     // ------------------------------------------------------------------------
@@ -347,12 +379,8 @@ class PaymentMethod extends DataObject
      * Searchable fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.03.2014
      */
-    public function searchableFields()
+    public function searchableFields() : array
     {
         $searchableFields = [
             'isActive' => [
@@ -383,7 +411,7 @@ class PaymentMethod extends DataObject
      *
      * @return array
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         $this->beforeUpdateFieldLabels(function (&$labels) {
             $labels = array_merge(
@@ -454,11 +482,8 @@ class PaymentMethod extends DataObject
      * i18n for summary fields
      *
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 28.02.2011
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         return [
             'Name'                   => $this->fieldLabel('Name'),
@@ -474,9 +499,9 @@ class PaymentMethod extends DataObject
      * 
      * @return string
      */
-    public function getModuleName()
+    public function getModuleName() : string
     {
-        return $this->moduleName;
+        return (string) $this->moduleName;
     }
 
     /**
@@ -484,9 +509,9 @@ class PaymentMethod extends DataObject
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
-        return $this->Name;
+        return (string) $this->Name;
     }
 
     /**
@@ -760,10 +785,10 @@ class PaymentMethod extends DataObject
             if ($this->sumModificationImpactType == 'charge') {
                 $handlingCostAmount = $modificationValue;
             } else {
-                $handlingCostAmount = "-".$modificationValue;
+                $handlingCostAmount = "-{$modificationValue}";
             }
 
-            if (Config::PriceType() == 'gross') {
+            if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
                 $shoppingCartTotal = $shoppingCart->getAmountTotal([], false, true);
             } else {
                 $shoppingCartTotal  = $shoppingCart->getAmountTotalNetWithoutVat([], false, true);
@@ -2099,14 +2124,21 @@ class PaymentMethod extends DataObject
     /**
      * Returns an optional payment specific form name to insert into checkout step 3.
      *
-     * @return string|boolean
+     * @return bool
      */
-    public function getNestedFormName()
+    public function getNestedFormName() : bool
     {
         return false;
     }
     
-    public function CheckoutChoosePaymentMethodForm(RequestHandler $controller = null)
+    /**
+     * Returns the context/nested CheckoutChoosePaymentMethodForm.
+     * 
+     * @param RequestHandler $controller Controller
+     * 
+     * @return Form
+     */
+    public function CheckoutChoosePaymentMethodForm(RequestHandler $controller = null) : Form
     {
         if (is_null($controller)) {
             $controller = Controller::curr();
@@ -2115,7 +2147,6 @@ class PaymentMethod extends DataObject
         $checkout = $controller->getCheckout();
         /* @var $checkout \SilverCart\Checkout\Checkout */
         $checkoutData = $checkout->getData();
-        
         $this->setController($controller);
         $this->setCancelLink(Director::absoluteURL($controller->Link('step/3')));
         $this->setReturnLink(Director::absoluteURL($controller->Link()));
@@ -2123,15 +2154,13 @@ class PaymentMethod extends DataObject
         $this->setInvoiceAddressByCheckoutData($checkoutData);
         $this->setShippingAddressByCheckoutData($checkoutData);
         if (array_key_exists('ShippingMethod', $checkoutData)) {
-            $member->getCart()->setShippingMethodID($checkoutData['ShippingMethod']);
+            $member->getCart()->setShippingMethodID((int) $checkoutData['ShippingMethod']);
         }
         $this->setShoppingCart($member->getCart());
-        
         $formName = $this->getNestedFormName();
         if (!class_exists($formName)) {
             $formName = CheckoutChoosePaymentMethodForm::class;
         }
-        
         $form = new $formName($this, $controller);
         return $form;
     }

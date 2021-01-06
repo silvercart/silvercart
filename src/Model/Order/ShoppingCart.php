@@ -28,6 +28,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\ArrayData;
+use SilverStripe\View\ViewableData;
 
 /**
  * abstract for shopping cart.
@@ -47,6 +48,8 @@ use SilverStripe\View\ArrayData;
  */
 class ShoppingCart extends DataObject
 {
+    use \SilverCart\ORM\ExtensibleDataObject;
+    
     const SESSION_KEY                  = 'SilverCart.ShoppingCart';
     const SESSION_KEY_SHIPPING_COUNTRY = 'SilverCart.ShoppingCart.ShippingCountryID';
 
@@ -273,9 +276,6 @@ class ShoppingCart extends DataObject
      * quantity of 0.
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.04.2019
      */
     protected function cleanUp() : void
     {
@@ -295,12 +295,10 @@ class ShoppingCart extends DataObject
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -309,36 +307,26 @@ class ShoppingCart extends DataObject
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
     }
 
     /**
      * Field labels for display in tables.
      *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * @param bool $includerelations A boolean value to indicate if the labels returned include relation fields
      * 
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.10.2017
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            array(
-                'Products'              => Product::singleton()->plural_name(),
-                'ShoppingCartPositions' => ShoppingCartPosition::singleton()->plural_name(),
-            )
-        );
-        $this->extend('updateFieldLabels', $fieldLabels);
-
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'Products'              => Product::singleton()->plural_name(),
+            'ShoppingCartPositions' => ShoppingCartPosition::singleton()->plural_name(),
+        ]);
     }
 
     /**
@@ -358,16 +346,13 @@ class ShoppingCart extends DataObject
      * Indicates wether the cart has charges and discounts for the product
      * values.
      *
-     * @return boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
+     * @return bool
      */
-    public function HasChargesAndDiscountsForProducts() {
+    public function HasChargesAndDiscountsForProducts() : bool
+    {
         if ($this->ChargesAndDiscountsForProducts()) {
             return true;
         }
-        
         return false;
     }
     
@@ -375,16 +360,13 @@ class ShoppingCart extends DataObject
      * Indicates wether the cart has charges and discounts for the total
      * shopping cart value.
      *
-     * @return boolean
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.12.2011
+     * @return bool
      */
-    public function HasChargesAndDiscountsForTotal() {
+    public function HasChargesAndDiscountsForTotal() : bool
+    {
         if ($this->ChargesAndDiscountsForTotal()) {
             return true;
         }
-        
         return false;
     }
 
@@ -394,15 +376,11 @@ class ShoppingCart extends DataObject
      *
      * @param int $positions The value to check
      *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-01-08
+     * @return bool
      */
-    public function HasMorePositionsThan($positions = 0) {
-        $numberOfPositions = (int) $this->getQuantity();
-
-        return (int) $positions > $numberOfPositions;
+    public function HasMorePositionsThan(int $positions = 0) : bool
+    {
+        return (int) $positions > (int) $this->getQuantity();
     }
 
     /**
@@ -411,27 +389,20 @@ class ShoppingCart extends DataObject
      *
      * @param int $positions The value to check
      *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 2013-01-08
+     * @return bool
      */
-    public function HasNumberOfPositions($positions = 0) {
-        $numberOfPositions = (int) $this->getQuantity();
-
-        return (int) $positions === $numberOfPositions;
+    public function HasNumberOfPositions(int $positions = 0) : bool
+    {
+        return (int) $positions === (int) $this->getQuantity();
     }
     
     /**
      * Returns whether this shopping cart has products with different release 
      * dates.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.10.2018
+     * @return bool
      */
-    public function HasProductsWithDifferentReleaseDates()
+    public function HasProductsWithDifferentReleaseDates() : bool
     {
         $hasDifferentReleaseDates = false;
         if ($this->ShoppingCartPositions()->count() > 1) {
@@ -453,12 +424,9 @@ class ShoppingCart extends DataObject
      * Returns whether this shopping cart has at least one product with a release 
      * date.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 09.10.2018
+     * @return bool
      */
-    public function HasProductWithReleaseDates()
+    public function HasProductWithReleaseDates() : bool
     {
         $hasReleaseDate = false;
         if ($this->ShoppingCartPositions()->exists()) {
@@ -489,48 +457,40 @@ class ShoppingCart extends DataObject
      *
      * @param string $priceType 'gross' or 'net'
      *
-     * @return DataObject
+     * @return ArrayData
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.07.2013
      */
-    public function ChargesAndDiscountsForProducts($priceType = false) {
+    public function ChargesAndDiscountsForProducts($priceType = false)
+    {
         $cacheHash = md5($priceType);
         $cacheKey = 'ChargesAndDiscountsForProducts_'.$cacheHash;
-
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
-
         $paymentMethod = $this->getPaymentMethod();
-
-        if ($paymentMethod) {
+        if ($paymentMethod instanceof PaymentMethod
+         && $paymentMethod->exists()
+        ) {
             $handlingCostPayment = $paymentMethod->getChargesAndDiscountsForProducts($this, $priceType);
-            
             if ($handlingCostPayment->getAmount() == 0) {
                 return false;
             } else {
-                $tax = $this->getMostValuableTaxRate();
-
-                $chargesAndDiscounts = new DataObject(
-                    array(
-                        'Name'                          => $paymentMethod->sumModificationLabel,
-                        'sumModificationImpact'         => $paymentMethod->sumModificationImpact,
-                        'sumModificationProductNumber'  => $paymentMethod->sumModificationProductNumber,
-                        'PriceFormatted'                => $handlingCostPayment->Nice(),
-                        'Price'                         => $handlingCostPayment,
-                        'Tax'                           => $tax,
-                    )
-                );
-
+                $chargesAndDiscounts = ArrayData::create([
+                    'Name'                         => $paymentMethod->sumModificationLabel,
+                    'sumModificationImpact'        => $paymentMethod->sumModificationImpact,
+                    'sumModificationProductNumber' => $paymentMethod->sumModificationProductNumber,
+                    'PriceFormatted'               => $handlingCostPayment->Nice(),
+                    'Price'                        => $handlingCostPayment,
+                    'Tax'                          => $this->getMostValuableTaxRate(),
+                ]);
                 $this->chargesAndDiscountsForProducts = $chargesAndDiscounts;
                 $this->cacheHashes[$cacheKey] = $this->chargesAndDiscountsForProducts;
-
                 return $chargesAndDiscounts;
             }
         }
-
         return false;
     }
     
@@ -539,26 +499,24 @@ class ShoppingCart extends DataObject
      *
      * @param string $priceType 'gross' or 'net'
      *
-     * @return DataObject
+     * @return ArrayData
      * 
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.07.2013
      */
-    public function ChargesAndDiscountsForTotal($priceType = false) {
+    public function ChargesAndDiscountsForTotal($priceType = false)
+    {
         $cacheHash = md5($priceType);
-        $cacheKey = 'ChargesAndDiscountsForTotal_'.$cacheHash;
-
+        $cacheKey  = 'ChargesAndDiscountsForTotal_'.$cacheHash;
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
-
         $paymentMethod = $this->getPaymentMethod();
-
-        if ($paymentMethod instanceof PaymentMethod &&
-            $paymentMethod->exists()) {
+        if ($paymentMethod instanceof PaymentMethod
+         && $paymentMethod->exists()
+        ) {
             $handlingCostPayment = $paymentMethod->getChargesAndDiscountsForTotal($this, $priceType);
-            
             if ($handlingCostPayment === false) {
                 return false;
             } else {
@@ -567,46 +525,43 @@ class ShoppingCart extends DataObject
                 $handlingCostPaymentRounded->setAmount(
                     round($handlingCostPayment->getAmount(), 2)
                 );
-                $chargesAndDiscounts = new DataObject(
-                    array(
-                        'Name'                          => $paymentMethod->sumModificationLabel,
-                        'sumModificationImpact'         => $paymentMethod->sumModificationImpact,
-                        'sumModificationProductNumber'  => $paymentMethod->sumModificationProductNumber,
-                        'PriceFormatted'                => $handlingCostPayment->Nice(),
-                        'Price'                         => $handlingCostPayment,
-                        'Tax'                           => $tax,
-                    )
-                );
-
+                $chargesAndDiscounts = ArrayData::create([
+                    'Name'                         => $paymentMethod->sumModificationLabel,
+                    'sumModificationImpact'        => $paymentMethod->sumModificationImpact,
+                    'sumModificationProductNumber' => $paymentMethod->sumModificationProductNumber,
+                    'PriceFormatted'               => $handlingCostPayment->Nice(),
+                    'Price'                        => $handlingCostPayment,
+                    'Tax'                          => $tax,
+                ]);
                 $this->chargesAndDiscountsForTotal = $chargesAndDiscounts;
-                $this->cacheHashes[$cacheKey] = $this->chargesAndDiscountsForTotal;
-
+                $this->cacheHashes[$cacheKey]      = $this->chargesAndDiscountsForTotal;
                 return $chargesAndDiscounts;
             }
         }
-
         return false;
     }
 
     /**
      * Set wether the registered modules should be loaded and handled.
      *
-     * @param boolean $doLoad set wether to load the modules or not
+     * @param bool $doLoad set wether to load the modules or not
      *
      * @return void
      */
-    public static function setLoadShoppingCartModules($doLoad) {
+    public static function setLoadShoppingCartModules(bool $doLoad) : void
+    {
         self::$loadModules = $doLoad;
     }
 
     /**
      * Set wether the shopping cart forms should be drawn.
      *
-     * @param boolean $doCreate set wether to create the forms or not
+     * @param bool $doCreate set wether to create the forms or not
      *
      * @return void
      */
-    public static function setCreateShoppingCartForms($doCreate) {
+    public static function setCreateShoppingCartForms(bool $doCreate) : void
+    {
         self::$createForms = $doCreate;
     }
 
@@ -662,17 +617,15 @@ class ShoppingCart extends DataObject
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2014
      */
-    public static function removeProduct($data) {
+    public static function removeProduct(array $data) : bool
+    {
         $error  = true;
         $member = Customer::currentUser();
-        
         if (!$member) {
             $member = Customer::createAnonymousCustomer();
         }
-        
         $overwriteRemoveProduct = false;
         $member->getCart()->extend('overwriteRemoveProduct', $overwriteRemoveProduct, $data);
-        
         if ($overwriteRemoveProduct) {
             $error = false;
         } elseif ($member instanceof Member) {
@@ -689,7 +642,6 @@ class ShoppingCart extends DataObject
                 $member->getCart()->extend('onAfterRemoveFromCart', $data);
             }
         }
-
         return !$error;
     }
 
@@ -699,9 +651,6 @@ class ShoppingCart extends DataObject
      * as a ArrayList
      * 
      * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
      */
     public function addToEditableShoppingCartTable() : ArrayList
     {
@@ -714,13 +663,10 @@ class ShoppingCart extends DataObject
      * empties cart
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.2010
      */
-    public function delete() {
+    public function delete() : void
+    {
         $positions = $this->ShoppingCartPositions();
-
         foreach ($positions as $position) {
             $position->delete();
         }
@@ -731,23 +677,19 @@ class ShoppingCart extends DataObject
      *
      * @param int $productId if set only product quantity of this product is returned
      *
-     * @return int
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.11.10
+     * @return float
      */
-    public function getQuantity($productId = null) {
+    public function getQuantity(int $productId = null) : float
+    {
         $positions = $this->ShoppingCartPositions();
-        $quantity = 0;
-
+        $quantity  = 0;
         foreach ($positions as $position) {
-            if ($productId === null ||
-                    $position->Product()->ID === $productId) {
-
+            if ($productId === null
+             || $position->Product()->ID === $productId
+            ) {
                 $quantity += $position->Quantity;
             }
         }
-
         return $quantity;
     }
 
@@ -761,7 +703,7 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountWithFees(array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
     {
-        if (Config::PriceType() == 'gross') {
+        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $taxableAmountWithFees = $this->getTaxableAmountGrossWithFees($excludeShoppingCartPositions, $excludeCharges);
         } else {
             $taxableAmountWithFees = $this->getTaxableAmountNetWithFees($excludeShoppingCartPositions, $excludeCharges);
@@ -844,7 +786,7 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], bool $excludeCharges = false) : DBMoney
     {
-        if (Config::PriceType() == 'gross') {
+        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $taxableAmountWithoutFees = $this->getTaxableAmountGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
             $taxableAmountWithoutFees = $this->getTaxableAmountNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
@@ -910,7 +852,7 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountWithoutModules() : DBMoney
     {
-        if (Config::PriceType() == 'gross') {
+        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $taxableAmountWithoutModules = $this->getTaxableAmountGrossWithoutModules();
         } else {
             $taxableAmountWithoutModules = $this->getTaxableAmountNetWithoutModules();
@@ -927,18 +869,15 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountGrossWithoutModules() : DBMoney
     {
-        $amountObj = DBMoney::create();
-        $amount    = 0;
-
+        $amountObj       = DBMoney::create();
+        $amount          = 0;
         $modulePositions = $this->getTaxableShoppingcartPositions([], [], false);
         foreach ($modulePositions as $modulePosition) {
-            $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
+            $amount += (float) $modulePosition->getPrice(false, Config::PRICE_TYPE_GROSS)->getAmount();
         }
         $this->extend('updateTaxableAmountGrossWithoutModules', $amount, $modulePositions);
-
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(Config::DefaultCurrency());
-
         return $amountObj;
     }
     
@@ -951,18 +890,15 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountNetWithoutModules() : DBMoney
     {
-        $amountObj = DBMoney::create();
-        $amount    = 0;
-
+        $amountObj       = DBMoney::create();
+        $amount          = 0;
         $modulePositions = $this->getTaxableShoppingcartPositions([], [], false);
         foreach ($modulePositions as $modulePosition) {
-            $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
+            $amount += (float) $modulePosition->getPrice(false, Config::PRICE_TYPE_NET)->getAmount();
         }
         $this->extend('updateTaxableAmountNetWithoutModules', $amount, $modulePositions);
-
         $amountObj->setAmount($amount);
         $amountObj->setCurrency(Config::DefaultCurrency());
-
         return $amountObj;
     }
 
@@ -1004,8 +940,6 @@ class ShoppingCart extends DataObject
                 ],
                 $excludeModules
             );
-
-            // Registered Modules
             if ($registeredModules) {
                 foreach ($registeredModules as $modulePositions) {
                     foreach ($modulePositions as $modulePosition) {
@@ -1014,9 +948,7 @@ class ShoppingCart extends DataObject
                 }
             }
         }
-
         $this->cacheHashes[$cacheKey] = $cartPositions;
-
         return $cartPositions;
     }
 
@@ -1031,7 +963,7 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountWithoutFeesAndCharges(array $excludeModules = [], array $excludeShoppingCartPositions = []) : DBMoney
     {
-        if (Config::PriceType() == 'gross') {
+        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $amount = $this->getTaxableAmountGrossWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPositions);
         } else {
             $amount = $this->getTaxableAmountNetWithoutFeesAndCharges($excludeModules, $excludeShoppingCartPositions);
@@ -1063,11 +995,10 @@ class ShoppingCart extends DataObject
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
-
         $amount          = 0;
         $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPositions, true);
         foreach ($modulePositions as $modulePosition) {
-            $amount += (float) $modulePosition->getPrice(false, 'gross')->getAmount();
+            $amount += (float) $modulePosition->getPrice(false, Config::PRICE_TYPE_GROSS)->getAmount();
         }
         $this->extend('updateTaxableAmountGrossWithoutFeesAndCharges', $amount, $modulePositions);
         $amountObj = DBMoney::create()
@@ -1110,7 +1041,7 @@ class ShoppingCart extends DataObject
         $amount          = 0;
         $modulePositions = $this->getTaxableShoppingcartPositions($excludeModules, $excludeShoppingCartPositions, true);
         foreach ($modulePositions as $modulePosition) {
-            $amount += (float) $modulePosition->getPrice(false, 'net')->getAmount();
+            $amount += (float) $modulePosition->getPrice(false, Config::PRICE_TYPE_NET)->getAmount();
         }
         $this->extend('updateTaxableAmountNetWithoutFeesAndCharges', $amount, $modulePositions);
         $this->cacheHashes[$cacheKey] = DBMoney::create()
@@ -1133,50 +1064,41 @@ class ShoppingCart extends DataObject
     /**
      * Returns the total amount of all taxes.
      *
-     * @param boolean $excludeCharges Indicates wether to exlude charges and discounts
+     * @param bool $excludeCharges Indicates wether to exlude charges and discounts
      *
-     * @return DBMoney
+     * @return ArrayList
      */
-    public function getTaxTotal($excludeCharges = false) {
+    public function getTaxTotal(bool $excludeCharges = false) : ArrayList
+    {
         $cacheKey = (int) $excludeCharges;
         if (!array_key_exists($cacheKey, $this->taxTotalList)) {
             $taxRates = $this->getTaxRatesWithFees();
-
-            if (!$excludeCharges &&
-                 $this->HasChargesAndDiscountsForTotal()) {
-
+            if (!$excludeCharges
+             && $this->HasChargesAndDiscountsForTotal()
+            ) {
                 foreach ($this->ChargesAndDiscountsForTotal() as $charge) {
                     if ($charge->Tax === false) {
                         continue;
                     }
-
                     $taxRate = $taxRates->filter('Rate', $charge->Tax->Rate)->first();
-
-                    if ($taxRate instanceof DataObject) {
+                    if ($taxRate instanceof ViewableData) {
                         $amount = $charge->Price->getAmount();
-
-                        if (Config::PriceType() == 'gross') {
+                        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
                             $rateAmount = $amount - ($amount / (100 + $charge->Tax->Rate) * 100);
                         } else {
                             $rateAmount = ($amount / 100 * (100 + $charge->Tax->Rate)) - $amount;
                         }
-
                         $taxRate->AmountRaw += $rateAmount;
-
                         if (round($taxRate->AmountRaw, 2) === -0.00) {
                             $taxRate->AmountRaw = 0;
                         }
-
                         $taxRate->Amount->setAmount($taxRate->AmountRaw);
                     }
                 }
             }
-
             $this->extend('updateTaxTotal', $taxRates);
-            
             $this->taxTotalList[$cacheKey] = $taxRates;
         }
-
         return $this->taxTotalList[$cacheKey];
     }
 
@@ -1263,77 +1185,57 @@ class ShoppingCart extends DataObject
      * Returns the handling costs for the chosen shipping method.
      *
      * @return DBMoney
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2013
      */
-    public function HandlingCostShipment() {
-        $handlingCostShipment = 0;
+    public function HandlingCostShipment() : DBMoney
+    {
+        $handlingCostShipment   = 0;
         $selectedShippingMethod = $this->getShippingMethod();
-
-        if ($selectedShippingMethod instanceof ShippingMethod &&
-            $selectedShippingMethod->exists() &&
-            $selectedShippingMethod->getShippingFee() instanceof ShippingFee &&
-            $selectedShippingMethod->getShippingFee()->exists()) {
+        if ($selectedShippingMethod instanceof ShippingMethod
+         && $selectedShippingMethod->exists()
+         && $selectedShippingMethod->getShippingFee() instanceof ShippingFee
+         && $selectedShippingMethod->getShippingFee()->exists()
+        ) {
             $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
-            $handlingCostShipmentObj = new DBMoney();
+            $handlingCostShipmentObj = DBMoney::create();
             $handlingCostShipmentObj->setAmount($handlingCostShipment);
             $handlingCostShipmentObj->setCurrency(Config::DefaultCurrency());
         }
-
         return $handlingCostShipmentObj;
     }
     
     /**
      * Returns whether there are handling costs for payment.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.04.2014
+     * @return bool
      */
-    public function hasHandlingCostPayment() {
-        $has = false;
-        if ($this->HandlingCostPayment()->getAmount() > 0) {
-            $has = true;
-        }
-        return $has;
+    public function hasHandlingCostPayment() : bool
+    {
+        return $this->HandlingCostPayment()->getAmount() > 0;
     }
     
     /**
      * Returns whether there are handling costs for shipment.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.04.2014
+     * @return bool
      */
-    public function hasHandlingCostShipment() {
-        $has = false;
-        if ($this->HandlingCostShipment()->getAmount() > 0) {
-            $has = true;
-        }
-        return $has;
+    public function hasHandlingCostShipment() : bool
+    {
+        return $this->HandlingCostShipment()->getAmount() > 0;
     }
 
     /**
      * Returns the shipping method title.
      *
      * @return string
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 26.1.2011
      */
-    public function CarrierAndShippingMethodTitle() {
-        $title = '';
+    public function CarrierAndShippingMethodTitle() : string
+    {
+        $title                  = '';
         $selectedShippingMethod = $this->getShippingMethod();
-
-        if ($selectedShippingMethod) {
-            $title = $selectedShippingMethod->Carrier()->Title . ' - ' . $selectedShippingMethod->Title;
+        if ($selectedShippingMethod instanceof ShippingMethod) {
+            $title = "{$selectedShippingMethod->Carrier()->Title} - {$selectedShippingMethod->Title}";
         }
-
         return $title;
     }
 
@@ -1341,8 +1243,7 @@ class ShoppingCart extends DataObject
      * Returns the payment method object.
      *
      * @return PaymentMethod
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * 
      * @deprecated
      */
     public function getPayment() {
@@ -1352,9 +1253,10 @@ class ShoppingCart extends DataObject
     /**
      * Returns the shipping method
      *
-     * @return ShippingMethod
+     * @return ShippingMethod|null
      */
-    public function getShippingMethod() {
+    public function getShippingMethod() : ?ShippingMethod
+    {
         $shippingMethod = null;
         if (is_numeric($this->ShippingMethodID)) {
             $shippingMethod = ShippingMethod::get()->byID($this->ShippingMethodID);
@@ -1367,9 +1269,9 @@ class ShoppingCart extends DataObject
      * 
      * @param Country $country Optional country context.
      * 
-     * @return ShippingMethod
+     * @return ShippingMethod|null
      */
-    public function getCheapestShippingMethod(Country $country = null)
+    public function getCheapestShippingMethod(Country $country = null) : ?ShippingMethod
     {
         $this->setShippingCountry($country);
         $address = Address::create();
@@ -1405,7 +1307,7 @@ class ShoppingCart extends DataObject
      * 
      * @return DropdownField
      */
-    public function getShippingCountryDropdown()
+    public function getShippingCountryDropdown() : DropdownField
     {
         return DropdownField::create('ShippingCountryID', 'Shipping Country', Country::getPrioritiveDropdownMap(), $this->getShippingCountry()->ID);
     }
@@ -1419,7 +1321,7 @@ class ShoppingCart extends DataObject
      * 
      * @return $this
      */
-    public function setShippingCountry(Country $country = null)
+    public function setShippingCountry(Country $country = null) : ShoppingCart
     {
         $this->shippingCountry = $country;
         if ($country instanceof Country) {
@@ -1435,9 +1337,9 @@ class ShoppingCart extends DataObject
     /**
      * Returns the shipping country context.
      * 
-     * @return Country
+     * @return Country|null
      */
-    public function getShippingCountry()
+    public function getShippingCountry() : ?Country
     {
         $country = $this->shippingCountry;
         if (is_null($country)) {
@@ -1445,16 +1347,19 @@ class ShoppingCart extends DataObject
             $country   = Country::get()->byID($countryID);
         }
         if (!($country instanceof Country)
-         || !$country->exists()) {
+         || !$country->exists()
+        ) {
             $countryCode = substr(i18n::get_locale(), 3);
             $country     = Country::get()->filter('ISO2', $countryCode)->first();
         }
         if (!($country instanceof Country)
-         || !$country->exists()) {
+         || !$country->exists()
+        ) {
             $country = SiteConfig::current_site_config()->getShopCountry();
         }
         if (!($country instanceof Country)
-         || !$country->exists()) {
+         || !$country->exists()
+        ) {
             $country     = Country::get()->filter('Active', true)->first();
         }
         return $country;
@@ -1463,9 +1368,10 @@ class ShoppingCart extends DataObject
     /**
      * Returns the payment method
      *
-     * @return PaymentMethod
+     * @return PaymentMethod|null
      */
-    public function getPaymentMethod() {
+    public function getPaymentMethod() : ?PaymentMethod
+    {
         $paymentMethod = null;
         if (is_numeric($this->PaymentMethodID)) {
             $paymentMethod = PaymentMethod::get()->byID($this->PaymentMethodID);
@@ -1476,21 +1382,17 @@ class ShoppingCart extends DataObject
     /**
      * Returns the minimum order value.
      *
-     * @return mixed Money
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.06.2011
+     * @return string
      */
-    public function MinimumOrderValue() {
-        $minimumOrderValue = new DBMoney();
-
-        if (Config::UseMinimumOrderValue() &&
-            Config::MinimumOrderValue()) {
-
+    public function MinimumOrderValue() : string
+    {
+        $minimumOrderValue = DBMoney::create();
+        if (Config::UseMinimumOrderValue()
+         && Config::MinimumOrderValue()
+        ) {
             $minimumOrderValue->setAmount(Config::MinimumOrderValue()->getAmount());
             $minimumOrderValue->setCurrency(Config::MinimumOrderValue()->getCurrency());
         }
-
         return $minimumOrderValue->Nice();
     }
 
@@ -1498,31 +1400,27 @@ class ShoppingCart extends DataObject
      * Indicates wether the minimum order value is reached.
      *
      * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.06.2011
      */
-    public function IsMinimumOrderValueReached() {
-        if (Config::UseMinimumOrderValue() &&
-            Config::MinimumOrderValue() &&
-            Config::MinimumOrderValue()->getAmount() > $this->getAmountTotalWithoutFees()->getAmount()) {
-
-            return false;
+    public function IsMinimumOrderValueReached() : bool
+    {
+        $is = true;
+        if (Config::UseMinimumOrderValue()
+         && Config::MinimumOrderValue()
+         && Config::MinimumOrderValue()->getAmount() > $this->getAmountTotalWithoutFees()->getAmount()
+        ) {
+            $is = false;
         }
-        
-        return true;
+        return $is;
     }
     
     /**
      * In case stock management is enabled: Find out if all positions quantities
      * are still in stock
      * 
-     * @return bool Can this cart be checkt out?
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 18.7.2011
+     * @return bool
      */
-    public function isAvailableInStock() {
+    public function isAvailableInStock() : bool
+    {
         $positions = $this->ShoppingCartPositions();
         if ($positions) {
             $isCheckoutable = true;
@@ -1650,7 +1548,8 @@ class ShoppingCart extends DataObject
      * 
      * @return string
      */
-    public function getDeliveryTimeMin($shippingMethodID = 0, $forceDisplayInDays = false) {
+    public function getDeliveryTimeMin(int $shippingMethodID = 0, bool $forceDisplayInDays = false) : string
+    {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
         $deliveryTimeMin  = date('Y-m-d', time() + (DateTools::addOffDaysToBusinessDays($deliveryTimeData->Min, ShippingMethod::config()->include_saturdays_in_delivery_time)*60*60*24));
         return $deliveryTimeMin;
@@ -1664,7 +1563,8 @@ class ShoppingCart extends DataObject
      * 
      * @return string
      */
-    public function getDeliveryTimeMax($shippingMethodID = 0, $forceDisplayInDays = false) {
+    public function getDeliveryTimeMax(int $shippingMethodID = 0, bool $forceDisplayInDays = false) : string
+    {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
         $deliveryTimeMax  = date('Y-m-d', time() + (DateTools::addOffDaysToBusinessDays($deliveryTimeData->Max, ShippingMethod::config()->include_saturdays_in_delivery_time)*60*60*24));
         return $deliveryTimeMax;
@@ -1683,7 +1583,7 @@ class ShoppingCart extends DataObject
     public function getAmountTotal(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
     {
         $this->extend('onBeforeGetAmountTotal');
-        if (Config::PriceType() == 'gross') {
+        if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $amountTotal = $this->getAmountTotalGross($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
         } else {
             $amountTotal = $this->getAmountTotalNet($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
@@ -1712,7 +1612,7 @@ class ShoppingCart extends DataObject
         if (!$excludeCharges
          && $this->HasChargesAndDiscountsForTotal()
         ) {
-            $amount += $this->ChargesAndDiscountsForTotal('gross')->Price->getAmount();
+            $amount += $this->ChargesAndDiscountsForTotal(Config::PRICE_TYPE_GROSS)->Price->getAmount();
         }
         return DBMoney::create()
                 ->setAmount($amount)
@@ -1758,7 +1658,7 @@ class ShoppingCart extends DataObject
         if (!$excludeCharges
          && $this->HasChargesAndDiscountsForTotal()
         ) {
-            $amount += $this->ChargesAndDiscountsForTotal('net')->Price->getAmount();
+            $amount += $this->ChargesAndDiscountsForTotal(Config::PRICE_TYPE_NET)->Price->getAmount();
         }
         if (round($amount, 2) === 0.00) {
             $amount = round($amount, 2);
@@ -1807,7 +1707,7 @@ class ShoppingCart extends DataObject
      */
     public function getAmountTotalWithoutFees(array $excludeModules = [], array $excludeShoppingCartPositions = [], $excludeCharges = false) : DBMoney
     {
-        if (Config::Pricetype() == 'gross') {
+        if (Config::Pricetype() === Config::PRICE_TYPE_GROSS) {
             $amountObj = $this->getAmountTotalGrossWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);                        
         } else {
             $amountObj = $this->getAmountTotalNetWithoutFees($excludeModules, $excludeShoppingCartPositions, $excludeCharges);
@@ -1903,66 +1803,50 @@ class ShoppingCart extends DataObject
      *
      * @return ArrayList
      */
-    public function getTaxRatesWithFees() {
+    public function getTaxRatesWithFees() : ArrayList
+    {
         if (is_null($this->taxRatesWithFees)) {
             $taxes          = $this->getTaxRatesWithoutFees();
             $shippingMethod = $this->getShippingMethod();
             $paymentMethod  = $this->getPaymentMethod();
-
-            if ($shippingMethod) {
+            if ($shippingMethod instanceof ShippingMethod) {
                 $shippingFee = $shippingMethod->getShippingFee();
-
-                if ($shippingFee) {
+                if ($shippingFee instanceof ShippingFee) {
                     $taxRate = $shippingFee->getTaxRate();
-
-                    if ( $taxRate &&
-                        !$taxes->find('Rate', $taxRate)) {
-
-                        $taxes->push(
-                            new DataObject(
-                                array(
-                                    'Rate'      => $taxRate,
-                                    'AmountRaw' => 0.0,
-                                )
-                            )
-                        );
+                    if ($taxRate > 0
+                     && !$taxes->find('Rate', $taxRate)
+                    ) {
+                        $taxes->push(ArrayData::create([
+                            'Rate'      => $taxRate,
+                            'AmountRaw' => 0.0,
+                        ]));
                     }
                     $taxSection = $taxes->find('Rate', $taxRate);
                     $taxSection->AmountRaw += $shippingFee->getTaxAmount();
                 }
             }
-
-            if ($paymentMethod) {
+            if ($paymentMethod instanceof PaymentMethod) {
                 $paymentFee = $paymentMethod->getHandlingCost();
-
-                if ($paymentFee instanceof HandlingCost) {
-                    if ($paymentFee->Tax()) {
-                        $taxRate = $paymentFee->Tax()->getTaxRate();
-
-                        if ( $taxRate &&
-                            !$taxes->find('Rate', $taxRate)) {
-
-                            $taxes->push(
-                                new DataObject(
-                                    array(
-                                        'Rate'      => $taxRate,
-                                        'AmountRaw' => 0.0,
-                                    )
-                                )
-                            );
-                        }
-                        $taxSection             = $taxes->find('Rate', $taxRate);
-                        $taxSection->AmountRaw += $paymentFee->getTaxAmount();
+                if ($paymentFee instanceof HandlingCost
+                 && $paymentFee->Tax()->exists()
+                ) {
+                    $taxRate = $paymentFee->Tax()->getTaxRate();
+                    if ($taxRate > 0
+                     && !$taxes->find('Rate', $taxRate)
+                    ) {
+                        $taxes->push(ArrayData::create([
+                            'Rate'      => $taxRate,
+                            'AmountRaw' => 0.0,
+                        ]));
                     }
+                    $taxSection             = $taxes->find('Rate', $taxRate);
+                    $taxSection->AmountRaw += $paymentFee->getTaxAmount();
                 }
             }
-
             foreach ($taxes as $tax) {
-                $taxObj = new DBMoney;
-                $taxObj->setAmount(round($tax->AmountRaw, 2));
-                $taxObj->setCurrency(Config::DefaultCurrency());
-
-                $tax->Amount = $taxObj;
+                $tax->Amount = DBMoney::create()
+                        ->setAmount(round($tax->AmountRaw, 2))
+                        ->setCurrency(Config::DefaultCurrency());
             }
             $this->taxRatesWithFees = $taxes;
         }
@@ -1975,35 +1859,28 @@ class ShoppingCart extends DataObject
      *
      * @return ArrayList
      */
-    public function getTaxRatesWithoutFees() {
+    public function getTaxRatesWithoutFees() : ArrayList
+    {
         $taxes = $this->getTaxRatesWithoutFeesAndCharges();
-        
         // Charges and disounts
         $chargesAndDiscounts = $this->ChargesAndDiscountsForProducts();
-        
         if ($this->HasChargesAndDiscountsForProducts()) {
             $mostValuableTaxRate = $this->getMostValuableTaxRate($taxes);
-            
             if ($mostValuableTaxRate) {
                 $taxSection              = $taxes->find('Rate', $mostValuableTaxRate->Rate);
                 $chargeAndDiscountAmount = $chargesAndDiscounts->Price->getAmount();
-
-                if (Config::PriceType() == 'gross') {
+                if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
                     $taxSection->AmountRaw += $chargeAndDiscountAmount - ($chargeAndDiscountAmount / (100 + $taxSection->Rate) * 100);
                 } else {
                     $taxSection->AmountRaw += ($chargeAndDiscountAmount / 100 * (100 + $taxSection->Rate)) - $chargeAndDiscountAmount;
                 }
             }
         }
-
         foreach ($taxes as $tax) {
-            $taxObj = new DBMoney;
-            $taxObj->setAmount($tax->AmountRaw);
-            $taxObj->setCurrency(Config::DefaultCurrency());
-
-            $tax->Amount = $taxObj;
+            $tax->Amount = DBMoney::create()
+                    ->setAmount($tax->AmountRaw)
+                    ->setCurrency(Config::DefaultCurrency());
         }
-
         return $taxes;
     }
     
@@ -2076,12 +1953,14 @@ class ShoppingCart extends DataObject
      * 
      * @return int
      */
-    public static function get_most_valuable_tax_rate($taxes = null) {
+    public static function get_most_valuable_tax_rate($taxes = null)
+    {
         $rate = false;
-        if (Customer::currentUser() &&
-            Customer::currentUser()->ShoppingCartID > 0) {
+        if (Customer::currentUser()
+         && Customer::currentUser()->ShoppingCartID > 0
+        ) {
             $shoppingCart = Customer::currentUser()->getCart();
-            $taxRate = $shoppingCart->getMostValuableTaxRate($taxes);
+            $taxRate      = $shoppingCart->getMostValuableTaxRate($taxes);
             if ($taxRate) {
                 $rate = $taxRate->Rate;
             }
@@ -2097,26 +1976,24 @@ class ShoppingCart extends DataObject
      *
      * @return Tax
      */
-    public function getMostValuableTaxRate($taxes = null) {
+    public function getMostValuableTaxRate($taxes = null)
+    {
         if (is_null($taxes)) {
             $taxes = $this->getTaxRatesWithoutFeesAndCharges($this->config()->exclude_modules_from_most_valuable_tax_rate);
         }
-        $highestTaxValue                = 0;
-        $mostValuableTaxRate            = null;
-        $originalMostValuableTaxRate    = null;
-
+        $highestTaxValue             = 0;
+        $mostValuableTaxRate         = null;
+        $originalMostValuableTaxRate = null;
         foreach ($taxes as $tax) {
             if ($tax->AmountRaw >= $highestTaxValue) {
-                $highestTaxValue                = $tax->AmountRaw;
-                $mostValuableTaxRate            = $tax->Rate;
-                $originalMostValuableTaxRate    = $tax->OriginalRate;
+                $highestTaxValue             = $tax->AmountRaw;
+                $mostValuableTaxRate         = $tax->Rate;
+                $originalMostValuableTaxRate = $tax->OriginalRate;
             }
         }
-
         if (!is_null($originalMostValuableTaxRate)) {
             $silvercartTax = Tax::get()->filter('Rate', $originalMostValuableTaxRate)->first();
-            
-            if ($silvercartTax) {
+            if ($silvercartTax instanceof Tax) {
                 if ($originalMostValuableTaxRate != $mostValuableTaxRate) {
                     $silvercartTax->Rate = $mostValuableTaxRate;
                     $silvercartTax->setI18nTitle($mostValuableTaxRate . '%');
@@ -2124,7 +2001,6 @@ class ShoppingCart extends DataObject
                 return $silvercartTax;
             }
         }
-
         return false;
     }
 
@@ -2132,11 +2008,12 @@ class ShoppingCart extends DataObject
      * calculate the carts total weight
      * needed to determin the ShippingFee
      *
-     * @return integer|boolean the cart´s weight in gramm
+     * @return int|bool
      */
-    public function getWeightTotal() {
-        $positions = $this->ShoppingCartPositions();
-        $totalWeight = (int) 0;
+    public function getWeightTotal()
+    {
+        $positions   = $this->ShoppingCartPositions();
+        $totalWeight = 0;
         if ($positions) {
             foreach ($positions as $position) {
                 $totalWeight += $position->Product()->Weight * $position->Quantity;
@@ -2150,37 +2027,35 @@ class ShoppingCart extends DataObject
     /**
      * Indicates wether the fees for shipping and payment should be shown.
      *
-     * @return boolean
+     * @return bool
      */
-    public function getShowFees() {
+    public function getShowFees() : bool
+    {
         $showFees = false;
-
-        if ($this->ShippingMethodID > 0 &&
-            $this->PaymentMethodID > 0) {
-
+        if ($this->ShippingMethodID > 0
+         && $this->PaymentMethodID > 0
+        ) {
             $showFees = true;
         }
-
         return $showFees;
     }
 
     /**
      * Indicates wether the fees for shipping and payment should be shown.
      *
-     * @return boolean
+     * @return bool
      */
-    public function getHasFeesOrChargesOrModules() {
+    public function getHasFeesOrChargesOrModules() : bool
+    {
         $hasAnything       = false;
         $registeredModules = $this->registeredModules();
-
-        if ($this->getShowFees() ||
-            $this->HasChargesAndDiscountsForProducts() ||
-            $this->HasChargesAndDiscountsForTotal() ||
-            $registeredModules->NonTaxableShoppingCartPositions) {
-
+        if ($this->getShowFees()
+         || $this->HasChargesAndDiscountsForProducts()
+         || $this->HasChargesAndDiscountsForTotal()
+         || $registeredModules->NonTaxableShoppingCartPositions
+        ) {
             $hasAnything = true;
         }
-
         return $hasAnything;
     }
 
@@ -2188,14 +2063,11 @@ class ShoppingCart extends DataObject
      * deletes all shopping cart positions when cart is deleted
      *
      * @return void
-     * 
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 22.10.2010
      */
-    public function onBeforeDelete() {
+    public function onBeforeDelete() : void
+    {
         parent::onBeforeDelete();
         $shoppingCartPositions = ShoppingCartPosition::get()->filter('ShoppingCartID', $this->ID);
-        
         if ($shoppingCartPositions->exists()) {
             foreach ($shoppingCartPositions as $obj) {
                 $obj->delete();
@@ -2210,14 +2082,10 @@ class ShoppingCart extends DataObject
      * @param string $module The module class name
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 21.01.2011
      */
-    public static function registerModule($module) {
-        array_push(
-                self::$registeredModules, $module
-        );
+    public static function registerModule(string $module) : void
+    {
+        array_push(self::$registeredModules, $module);
     }
 
     /**
@@ -2227,40 +2095,33 @@ class ShoppingCart extends DataObject
      *      - ShoppingCartPositions
      *      - ShoppingCartActions
      *
-     * @return DataList
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 09.04.2014
+     * @return ArrayList
      */
-    public function registeredModules() {
+    public function registeredModules() : ArrayList
+    {
         if (is_null($this->registeredModulesSet)) {
-            $customer = Customer::currentUser();
-            $modules = array();
+            $customer          = Customer::currentUser();
+            $modules           = [];
             $registeredModules = self::$registeredModules;
-            $hookMethods = array(
+            $hookMethods       = [
                 'NonTaxableShoppingCartPositions',
                 'TaxableShoppingCartPositions',
                 'IncludedInTotalShoppingCartPositions',
                 'ShoppingCartActions',
                 'ShoppingCartTotal',
                 'CustomShoppingCartPositions',
-            );
-
+            ];
             foreach ($registeredModules as $registeredModule) {
                 $registeredModuleObjPlain = new $registeredModule();
                 $registeredModuleObj      = false;
-
                 if ($registeredModuleObjPlain->hasMethod('loadObjectForShoppingCart')) {
                     $registeredModuleObj = $registeredModuleObjPlain->loadObjectForShoppingCart($this);
                 }
-
                 if (!$registeredModuleObj) {
                     $registeredModuleObj = $registeredModuleObjPlain;
                 }
-
                 if ($registeredModuleObj) {
-                    $hooks = array();
+                    $hooks = [];
                     foreach ($hookMethods as $hookMethod) {
                         if ($registeredModuleObj->hasMethod($hookMethod)) {
                             $hooks[$hookMethod] = $registeredModuleObj->$hookMethod($this, $customer);
@@ -2269,10 +2130,8 @@ class ShoppingCart extends DataObject
                     $modules[] = $hooks;
                 }
             }
-
-            $this->registeredModulesSet = new ArrayList($modules);
+            $this->registeredModulesSet = ArrayList::create($modules);
         }
-
         return $this->registeredModulesSet;
     }
 
@@ -2331,7 +2190,8 @@ class ShoppingCart extends DataObject
      *
      * @return void
      */
-    public function setShippingMethodID($shippingMethodId) {
+    public function setShippingMethodID(int $shippingMethodId) : void
+    {
         $this->ShippingMethodID = $shippingMethodId;
     }
 
@@ -2342,7 +2202,8 @@ class ShoppingCart extends DataObject
      *
      * @return void
      */
-    public function setPaymentMethodID($paymentMethodId) {
+    public function setPaymentMethodID(int $paymentMethodId) : void
+    {
         $this->PaymentMethodID = $paymentMethodId;
     }
 
@@ -2350,25 +2211,15 @@ class ShoppingCart extends DataObject
      * determine wether a cart is filled or empty; useful for template conditional
      *
      * @return bool
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 17.02.2011
      */
-    public function isFilled() {
+    public function isFilled() : bool
+    {
         $positionTable = Tools::get_table_name(ShoppingCartPosition::class);
-        $records = DB::query(
-            sprintf(
-                "SELECT COUNT(Pos.ID) AS NumberOfPositions FROM %s Pos WHERE Pos.ShoppingCartID = %d",
-                $positionTable,
-                $this->ID
-            )
-        );
-
-        $record = $records->nextRecord();
-
-        if ($record &&
-            $record['NumberOfPositions'] > 0) {
-
+        $records       = DB::query("SELECT COUNT(Pos.ID) AS NumberOfPositions FROM {$positionTable} Pos WHERE Pos.ShoppingCartID = {$this->ID}");
+        $record        = $records->nextRecord();
+        if ($record
+         && $record['NumberOfPositions'] > 0
+        ) {
             return true;
         } else {
             return false;
@@ -2380,11 +2231,9 @@ class ShoppingCart extends DataObject
      * products stock quantities.
      * 
      * @return void
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.7.2011
      */
-    public function adjustPositionQuantitiesToStockQuantities() {
+    public function adjustPositionQuantitiesToStockQuantities() : void
+    {
         $positions = $this->ShoppingCartPositions();
         if ($positions) {
             foreach ($positions as $position) {
@@ -2397,11 +2246,9 @@ class ShoppingCart extends DataObject
      * Reset all message tokens of the related cart positions.
      * 
      * @return void
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 19.7.2011
      */
-    public function resetPositionMessages() {
+    public function resetPositionMessages() : void
+    {
         $positions = $this->ShoppingCartPositions();
         if ($positions) {
             foreach ($positions as $position) {

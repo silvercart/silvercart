@@ -7,6 +7,7 @@ use SilverCart\Model\Order\OrderInvoiceAddress;
 use SilverCart\Model\Order\OrderShippingAddress;
 use SilverCart\Model\Pages\MyAccountHolderController;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Convert;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
@@ -43,19 +44,20 @@ class OrderHolderController extends MyAccountHolderController
      * 
      * @param HTTPRequest $request HTTP request
      * 
+     * @return HTTPResponse
+     * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 11.06.2018
      */
-    public function detail(HTTPRequest $request)
+    public function detail(HTTPRequest $request) : HTTPResponse
     {
         $customer = Security::getCurrentUser();
         if (!($customer instanceof Member)) {
             // there is no logged in customer
-            $this->redirect($this->Link());
-            return;
+            return $this->redirect($this->Link());
         }
-        $orderID = $request->param('ID');
+        $orderID = (int) $request->param('ID');
         $this->setOrderID($orderID);
         // get the order to check whether it is related to the actual customer or not.
         $order = Order::get()->byID($this->getOrderID());
@@ -65,12 +67,12 @@ class OrderHolderController extends MyAccountHolderController
         ) {
             if ($order->Member()->ID != $customer->ID) {
                 // the order is not related to the customer, redirect elsewhere...
-                $this->redirect($this->Link());
+                return $this->redirect($this->Link());
             }
         } else {
-            $this->redirect($this->Link());
+            return $this->redirect($this->Link());
         }
-        return $this->render();
+        return HTTPResponse::create($this->render());
     }
 
     /**
@@ -83,7 +85,7 @@ class OrderHolderController extends MyAccountHolderController
      */
     public function CustomersOrder() : ?Order
     {
-        return Order::get_by_customer(Convert::raw2sql($this->getOrderID()));
+        return Order::get_by_customer($this->getOrderID());
     }
 
     /**
@@ -93,7 +95,7 @@ class OrderHolderController extends MyAccountHolderController
      */
     public function getOrderID() : int
     {
-        return $this->orderID;
+        return (int) $this->orderID;
     }
 
     /**

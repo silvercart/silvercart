@@ -797,8 +797,8 @@ class Checkout extends ViewableData
     {
         $shoppingCart = Customer::currentUser()->getCart();
         /* @var $shoppingCart \SilverCart\Model\Order\ShoppingCart */
-        $shoppingCart->setShippingMethodID($this->getDataValue('ShippingMethod'));
-        $shoppingCart->setPaymentMethodID($this->getDataValue('PaymentMethod'));
+        $shoppingCart->setShippingMethodID((int) $this->getDataValue('ShippingMethod'));
+        $shoppingCart->setPaymentMethodID((int) $this->getDataValue('PaymentMethod'));
         $this->getCurrentStep()->init();
         return $this;
     }
