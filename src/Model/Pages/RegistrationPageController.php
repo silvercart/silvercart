@@ -242,6 +242,23 @@ class RegistrationPageController extends PageController
      */
     public function RefererLink() : string
     {
+        $link        = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        $refererPage = $this->RefererPage();
+        if (empty($link)
+         || $refererPage instanceof MyAccountHolder
+        ) {
+            $link = $this->getDefaultHomepage()->Link();
+        }
+        return (string) $link;
+    }
+    
+    /**
+     * Returns the referer page.
+     * 
+     * @return SiteTree|null
+     */
+    public function RefererPage() : ?SiteTree
+    {
         $link         = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
         $originalLink = $link;
         $page         = $this->data();
@@ -264,12 +281,14 @@ class RegistrationPageController extends PageController
             }
 
         }
-        $refererPage = SiteTree::get_by_link($originalLink);
-        if (empty($link)
-         || $refererPage instanceof MyAccountHolder
-        ) {
-            $link = $this->getDefaultHomepage()->Link();
-        }
-        return (string) $link;
+        do {
+            $refererPage  = SiteTree::get_by_link($originalLink);
+            $parts        = explode('/', $originalLink);
+            array_pop($parts);
+            $originalLink = implode('/', $parts);
+        } while ($refererPage === null
+              && !empty($originalLink)
+        );
+        return $refererPage;
     }
 }

@@ -77,4 +77,28 @@ class RegistrationPage extends Page
     {
         return Tools::plural_name_for($this); 
     }
+    
+    /**
+     * Returns whether to show the my account link or not.
+     * 
+     * @return bool
+     */
+    public function ShowMyAccountLink() : bool
+    {
+        $show = true;
+        $this->extend('updateShowMyAccountLink', $show);
+        return $show;
+    }
+    
+    /**
+     * Returns the 'got to shop' button label.
+     * 
+     * @return string
+     */
+    public function BtnLabelGoToShop() : string
+    {
+        $label = _t(self::class . '.OptInGoToShop', 'Go to shop');
+        $this->extend('updateBtnLabelGoToShop', $label);
+        return $label;
+    }
 }
