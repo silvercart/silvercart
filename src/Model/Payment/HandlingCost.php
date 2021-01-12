@@ -193,9 +193,9 @@ class HandlingCost extends DataObject
     /**
      * Returns the handling costs for display in tables.
      *
-     * @return string
+     * @return string|null
      */
-    public function handlingcosts() : string
+    public function handlingcosts() : ?string
     {
         return $this->amount->Nice();
     }

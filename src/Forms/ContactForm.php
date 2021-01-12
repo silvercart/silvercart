@@ -327,12 +327,12 @@ class ContactForm extends CustomForm
     /**
      * Returns the contact form page.
      * 
-     * @return ContactFormPage
+     * @return ContactFormPage|null
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.04.2015
      */
-    protected function ContactPage() : ContactFormPage
+    protected function ContactPage() : ?ContactFormPage
     {
         $contactPage = $this->getController()->data();
         if ($contactPage->IdentifierCode != Page::IDENTIFIER_CONTACT_FORM_PAGE) {
