@@ -119,7 +119,7 @@ class ProductAdmin extends ModelAdmin
     public function getEditForm($id = null, $fields = null) : Form
     {
         $this->beforeUpdateEditForm(function(Form $form) {
-            $this->getGridFieldConfig($form)->addComponent(new GridFieldDuplicateAction());
+            $this->getGridFieldConfigFor($form)->addComponent(new GridFieldDuplicateAction());
         });
         return parent::getEditForm($id, $fields);
     }

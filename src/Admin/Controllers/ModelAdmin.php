@@ -163,7 +163,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
     public function getEditForm($id = null, $fields = null) : Form
     {
         $this->beforeUpdateEditForm(function(\SilverStripe\Forms\Form $form) {
-            $config         = $this->getGridFieldConfig($form);
+            $config         = $this->getGridFieldConfigFor($form);
             $sortable_field = $this->stat('sortable_field');
             if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')
              && !empty($sortable_field)
@@ -233,7 +233,7 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @return \SilverStripe\Forms\GridField\GridField
      */
-    public function getGridField(Form $form) : GridField
+    public function getGridFieldFor(Form $form) : GridField
     {
         if (is_null($this->gridField)) {
             $this->gridField = $form->Fields()->dataFieldByName($this->sanitiseClassName($this->modelClass));
@@ -248,10 +248,10 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
      * 
      * @return GridFieldConfig
      */
-    public function getGridFieldConfig(Form $form) : GridFieldConfig
+    public function getGridFieldConfigFor(Form $form) : GridFieldConfig
     {
         if (is_null($this->gridFieldConfig)) {
-            $this->gridFieldConfig = $this->getGridField($form)->getConfig();
+            $this->gridFieldConfig = $this->getGridFieldFor($form)->getConfig();
         }
         return $this->gridFieldConfig;
     }
