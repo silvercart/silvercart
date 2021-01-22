@@ -443,6 +443,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function getShoppingCartPositionNotices() : DBHTMLText
     {
+        $this->extend('onBeforeGetShoppingCartPositionNotices');
         return ShoppingCartPositionNotice::getNotices($this->ID);
     }
     
@@ -453,6 +454,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function getShoppingCartPositionNoticesList() : ArrayList
     {
+        $this->extend('onBeforeGetShoppingCartPositionNoticesList');
         return ShoppingCartPositionNotice::getNoticesList($this->ID);
     }
 
@@ -552,6 +554,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function hasNotice() : bool
     {
+        $this->extend('onBeforeHasNotice');
         return ShoppingCartPositionNotice::hasNotices($this->ID);
     }
     
