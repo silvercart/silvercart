@@ -325,7 +325,7 @@ class ShoppingCartPosition extends DataObject
      */
     public function getProductNumberShop() : string
     {
-        $productNumber = $this->Product()->ProductNumberShop;
+        $productNumber = (string) $this->Product()->ProductNumberShop;
         $this->extend('overwriteGetProductNumberShop', $productNumber);
         $this->extend('updateProductNumberShop', $productNumber);
         return (string) $productNumber;
