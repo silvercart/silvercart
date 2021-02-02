@@ -905,6 +905,11 @@ class PaymentMethod extends DataObject
         }
         if ($paymentMethods->exists()) {
             foreach ($paymentMethods as $paymentMethod) {
+                $overwriteIsAllowed  = false;
+                $paymentMethod->extend('overwriteIsAllowedPaymentMethod', $overwriteIsAllowed, $allowedPaymentMethods, $paymentMethod, $shippingCountry, $shoppingCart, $member);
+                if ($overwriteIsAllowed) {
+                    continue;
+                }
                 $assumePaymentMethod = true;
                 $containedInGroup    = false;
                 $containedInUsers    = false;
