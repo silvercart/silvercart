@@ -77,6 +77,7 @@ class CheckoutStepController extends \PageController
         if (Config::EnableSSL()) {
             Director::forceSSL();
         }
+        Tools::Session()->getAll();
         parent::init();
         if (Tools::is_cms_preview()) {
             return;

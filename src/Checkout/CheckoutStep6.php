@@ -75,6 +75,9 @@ class CheckoutStep6 extends CheckoutStep
                     $this->getController()->redirect($this->getController()->Link('thanks'));
                 }
             }
+            if ($payment->getErrorOccured()) {
+                $this->config()->is_visible = true;
+            }
         } else {
             $checkoutData = $this->getCheckout()->getFinalizedData();
             if (!empty($checkoutData)
