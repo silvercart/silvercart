@@ -1933,6 +1933,7 @@ de:
         SUBJECT: Betreff
         VARIABLES: Variablen
         YOUR_TEAM: 'Ihr SilverCart Webshop Team'
+        CustomEmailContent: 'Zusätzlicher E-Mail-Inhalt'
         ForgotPasswordNO_CHANGE: 'Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte.'
         ForgotPasswordPASSWORT_RESET_LINK_HINT: 'Falls Sie den Link nicht anklicken können, kopieren Sie diesen bitte in Ihre Zwischenablage und fügen Sie ihn in die Adressleiste Ihres Browsers ein.'
         ForgotPasswordTITLE: 'Passwort zurücksetzen'
@@ -1993,6 +1994,7 @@ de:
     SilverCart\Model\ShopEmailTranslation:
         PLURALNAME: Übersetzungen
         SINGULARNAME: Übersetzung
+        CustomEmailContent: 'Zusätzlicher E-Mail-Inhalt'
     SilverCart\Model\Order\ShoppingCart:
         DifferentReleaseDateHint1: 'Ihr Warenkorb beinhaltet Artikel mit unterschiedlichem Erscheinungsdatum.'
         DifferentReleaseDateHint2: 'Bitte beachten Sie, dass sich der Versand von bereits verfügbaren Artikeln ggf. bis zum Erscheinungsdatum noch nicht verfügbarer Artikel verzögert.'

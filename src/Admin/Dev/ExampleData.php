@@ -16,6 +16,7 @@ use SilverCart\Model\Payment\PaymentStatus;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\Tax;
 use SilverStripe\Control\Director;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\View\Requirements;
 
@@ -32,7 +33,6 @@ use SilverStripe\View\Requirements;
 class ExampleData
 {
     use \SilverStripe\Core\Extensible;
-    
     /**
      * Registerd email example data.
      * Use this to inject email example data from external modules.
@@ -55,18 +55,14 @@ class ExampleData
      * Returns an example order.
      * 
      * @return Order
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.04.2018
      */
-    public static function get_order()
+    public static function get_order() : Order
     {
-        $order           = Order::singleton();
-        $orderStatus     = array_keys(OrderStatus::get()->map()->toArray());
-        $orderStatusID   = $orderStatus[rand(0, count($orderStatus) - 1)];
-        $paymentStatus   = array_keys(PaymentStatus::get()->map()->toArray());
-        $paymentStatusID = $paymentStatus[rand(0, count($paymentStatus) - 1)];
-
+        $order                               = Order::singleton();
+        $orderStatus                         = array_keys(OrderStatus::get()->map()->toArray());
+        $orderStatusID                       = $orderStatus[rand(0, count($orderStatus) - 1)];
+        $paymentStatus                       = array_keys(PaymentStatus::get()->map()->toArray());
+        $paymentStatusID                     = $paymentStatus[rand(0, count($paymentStatus) - 1)];
         $order->CustomersEmail               = 'email@example.com';
         $order->Created                      = date('Y-m-d H:i:s');
         $order->OrderNumber                  = NumberRange::getByIdentifier('OrderNumber')->ActualNumber;
@@ -83,15 +79,12 @@ class ExampleData
         $order->PriceType                    = Customer::currentUser()->getPriceType();
         $order->TrackingCode                 = "ABCD-EFGH-0987-1234";
         $order->TrackingLink                 = Director::absoluteURL('shipment/track/ABCD-EFGH-0987-1234');
-        
         self::get_address($order->ShippingAddress());
         self::get_address($order->InvoiceAddress());
         self::add_order_positions($order);
         self::add_shipping_method($order);
-        
         $order->AmountTotalAmount            = $order->calculateAmountTotal();
         $order->AmountTotalCurreny           = Config::DefaultCurrency();
-        
         return $order;
     }
     
@@ -101,11 +94,9 @@ class ExampleData
      * @param Order $order Order
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.04.2018
      */
-    protected static function add_order_positions(Order $order) {
+    protected static function add_order_positions(Order $order) : void
+    {
         $positions = [
             [
                 'PriceAmount'                        => 9.99,
@@ -126,9 +117,8 @@ class ExampleData
                 'IsNonTaxable'                       => false,
             ],
         ];
-        
         foreach ($positions as $position) {
-            $order->OrderPositions()->add(new OrderPosition($position));
+            $order->OrderPositions()->add(OrderPosition::create($position));
         }
     }
     
@@ -137,7 +127,8 @@ class ExampleData
      * 
      * @return Product
      */
-    public static function get_product() {
+    public static function get_product() : Product
+    {
         $product = Product::singleton();
         $product->isActive                    = true;
         $product->ProductNumberShop           = 'SKU-0123-ABC-45';
@@ -162,7 +153,8 @@ class ExampleData
      * 
      * @return Member
      */
-    public static function get_member() {
+    public static function get_member() : Member
+    {
         $member = Member::singleton();
         $member->FirstName = 'John';
         $member->Surname   = 'Doe';
@@ -177,11 +169,9 @@ class ExampleData
      * @param Order $order Order
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.04.2018
      */
-    protected static function add_shipping_method(Order $order) {
+    protected static function add_shipping_method(Order $order) : void
+    {
         $shippingMethod = $order->ShippingMethod();
         $shippingMethod->isActive         = true;
         $shippingMethod->isPickup         = false;
@@ -189,12 +179,10 @@ class ExampleData
         $shippingMethod->DeliveryTimeMin  = 1;
         $shippingMethod->DeliveryTimeMax  = 3;
         $shippingMethod->DeliveryTimeText = '';
-        
-        $shippingMethodTranslation = $shippingMethod->getTranslation(true);
+        $shippingMethodTranslation        = $shippingMethod->getTranslation(true);
         $shippingMethodTranslation->Title = 'Express Delivery';
-        
-        $carrierTranslation = $shippingMethod->Carrier()->getTranslation(true);
-        $carrierTranslation->Title = 'Carrier';
+        $carrierTranslation               = $shippingMethod->Carrier()->getTranslation(true);
+        $carrierTranslation->Title        = 'Carrier';
     }
     
     /**
@@ -204,7 +192,8 @@ class ExampleData
      * 
      * @return Tax
      */
-    public static function get_tax($tax = null) {
+    public static function get_tax(Tax $tax = null) : Tax
+    {
         if (is_null($tax)) {
             $tax = Tax::singleton();
         }
@@ -221,7 +210,8 @@ class ExampleData
      * 
      * @return Address
      */
-    public static function get_address($address = null) {
+    public static function get_address(Address $address = null) : Address
+    {
         if (is_null($address)) {
             $address = Address::singleton();
         }
@@ -248,7 +238,8 @@ class ExampleData
      * 
      * @return ContactMessage
      */
-    public static function get_contact_message($contactMessage = null) {
+    public static function get_contact_message(ContactMessage $contactMessage = null) : ContactMessage
+    {
         if (is_null($contactMessage)) {
             $contactMessage = ContactMessage::singleton();
         }
@@ -272,7 +263,8 @@ class ExampleData
      * 
      * @return string
      */
-    public static function get_text() {
+    public static function get_text() : string
+    {
         return 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.<br/>' . PHP_EOL
                 . '<br/>' . PHP_EOL
                 . 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.';
@@ -283,7 +275,8 @@ class ExampleData
      * 
      * @return array
      */
-    public static function get_address_data() {
+    public static function get_address_data() : array
+    {
         $addressData = [];
         switch (rand(0, 1)) {
             case 0:
@@ -331,7 +324,8 @@ class ExampleData
      * 
      * @return array
      */
-    public static function get_email_example_data($templateName) {
+    public static function get_email_example_data(string $templateName) : array
+    {
         switch ($templateName) {
             case 'OrderTrackingNotification':
             case 'OrderShippedNotification':
@@ -437,15 +431,19 @@ class ExampleData
      * 
      * @param string $templateName Template name
      * 
-     * @return string
+     * @return DBHTMLText
      */
-    public static function render_example_email($templateName) {
+    public static function render_example_email(string $templateName) : DBHTMLText
+    {
         $emailExampleData = static::get_email_example_data($templateName);
         $emailTemplatePreview = '';
         if (!empty($emailExampleData)) {
             Requirements::clear();
-            $email                = ShopEmail::singleton();
-            $email->TemplateName  = $templateName;
+            $email = ShopEmail::get()->filter('TemplateName', $templateName)->first();
+            if ($email === null) {
+                $email                = ShopEmail::singleton();
+                $email->TemplateName  = $templateName;
+            }
             $emailTemplatePreview = $email
                     ->customise($emailExampleData)
                     ->renderWith(['SilverCart/Email/' . $templateName, 'SilverCart/Email/ShopEmail']);
@@ -470,11 +468,9 @@ class ExampleData
      * @param function $callback     Callback function
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.2018
      */
-    public static function register_email_example_data($templateName, $callback) {
+    public static function register_email_example_data(string $templateName, callable $callback) : void
+    {
         self::$registered_email_example_data[$templateName] = $callback;
     }
     
@@ -483,8 +479,8 @@ class ExampleData
      * 
      * @return array
      */
-    public static function get_registered_email_example_data() {
-        return self::$registered_email_example_data;
+    public static function get_registered_email_example_data() : array
+    {
+        return (array) self::$registered_email_example_data;
     }
-    
 }

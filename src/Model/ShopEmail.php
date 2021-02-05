@@ -8,15 +8,16 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\EmailAddress;
 use SilverCart\Model\ShopEmailTranslation;
 use SilverCart\Model\Order\OrderStatus;
-use SilverCart\ORM\DataObjectExtension;
 use SilverCart\View\SCTemplateParser;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTP;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
@@ -31,9 +32,20 @@ use SilverStripe\View\SSViewer_FromString;
  * @since 10.10.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $TemplateName                   Template Name
+ * @property string $TemplateNameTitle              Template Name Title
+ * @property string $Subject                        Subject
+ * @property string $CustomEmailContent             Custom Email Content
+ * @property string $AdditionalRecipientsHtmlString Additional Recipients Html String
+ * 
+ * @method \SilverStripe\ORM\HasManyList  ShopEmailTranslations() Returns the related ShopEmailTranslations.
+ * @method \SilverStripe\ORM\ManyManyList AdditionalReceipients() Returns the related AdditionalReceipients (EmailAddress).
+ * @method \SilverStripe\ORM\ManyManyList OrderStatus()           Returns the related OrderStatus.
  */
-class ShopEmail extends DataObject {
-    
+class ShopEmail extends DataObject
+{
+    use \SilverCart\ORM\ExtensibleDataObject;
     /**
      * DB attributes
      *
@@ -42,7 +54,6 @@ class ShopEmail extends DataObject {
     private static $db = [
         'TemplateName' => 'Varchar',
     ];
-
     /**
      * n:1 relations
      * 
@@ -51,7 +62,6 @@ class ShopEmail extends DataObject {
     private static $has_many = [
         'ShopEmailTranslations' => ShopEmailTranslation::class,
     ];
-    
     /**
      * n:m relations
      * 
@@ -60,7 +70,6 @@ class ShopEmail extends DataObject {
     private static $many_many = [
         'AdditionalReceipients' => EmailAddress::class,
     ];
-    
     /**
      * n:m relations
      *
@@ -69,7 +78,6 @@ class ShopEmail extends DataObject {
     private static $belongs_many_many = [
         'OrderStatus' => OrderStatus::class,
     ];
-
     /**
      * Casted properties
      *
@@ -77,17 +85,16 @@ class ShopEmail extends DataObject {
      */
     private static $casting = [
         'Subject'                        => 'Text',
+        'CustomEmailContent'             => 'Text',
         'AdditionalRecipientsHtmlString' => 'HtmlText',
         'TemplateNameTitle'              => 'Text',
     ];
-
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartShopEmail';
-    
     /**
      * Alternative email address to use as universal recipient in dev mode.
      * The original recipient address will be overwritten and added to the subject.
@@ -95,21 +102,36 @@ class ShopEmail extends DataObject {
      * @var string
      */
     private static $dev_email_recipient = '';
-    
     /**
      * List of the email templates.
      *
      * @var array
      */
     private static $email_templates = [];
-    
     /**
      * List of the registered email templates.
      *
      * @var array
      */
     private static $registered_email_templates = [];
-
+    /**
+     * List of templates using custom email content.
+     *
+     * @var array
+     */
+    private static $custom_email_content_templates = [];
+    /**
+     * Determines to insert the translation CMS fields automatically.
+     *
+     * @var bool
+     */
+    private static $insert_translation_cms_fields = true;
+    /**
+     * Field name to insert the translation CMS fields after.
+     *
+     * @var string
+     */
+    private static $insert_translation_cms_fields_after = 'TemplateName';
     /**
      * Key value pair of CSS styles to use as inline styles in emails.
      *
@@ -121,27 +143,22 @@ class ShopEmail extends DataObject {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
-        return Tools::singular_name_for($this);
+    public function singular_name() : string
+    {
+        return (string) Tools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
-        return Tools::plural_name_for($this); 
+    public function plural_name() : string
+    {
+        return (string) Tools::plural_name_for($this); 
     }
     
     /**
@@ -149,62 +166,38 @@ class ShopEmail extends DataObject {
      * 
      * @return string
      */
-    public function getTitle() {
-        return $this->Subject . ' (' . parent::getTitle() . ')';
+    public function getTitle() : string
+    {
+        return "{$this->Subject} (" . parent::getTitle() . ")";
     }
 
     /**
-     * Get any user defined searchable fields labels that
-     * exist. Allows overriding of default field names in the form
-     * interface actually presented to the user.
+     * Returns the field labels.
      *
-     * The reason for keeping this separate from searchable_fields,
-     * which would be a logical place for this functionality, is to
-     * avoid bloating and complicating the configuration array. Currently
-     * much of this system is based on sensible defaults, and this property
-     * would generally only be set in the case of more complex relationships
-     * between data object being required in the search interface.
+     * @param bool $includerelations a boolean value to indicate if the labels returned include relation fields
      *
-     * Generates labels based on name of the field itself, if no static property
-     * {@link self::field_labels} exists.
-     *
-     * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
-     *
-     * @return array|string Array of all element labels if no argument given, otherwise the label of the field
-     *
-     * @uses $field_labels
-     * @uses FormField::name_to_label()
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
+     * @return string[]
      */
-    public function fieldLabels($includerelations = true) {
-        $fieldLabels = array_merge(
-            parent::fieldLabels($includerelations),
-            [
-                'TemplateName'          => _t(ShopEmail::class . '.TemplateName', 'Template Name'),
-                'Subject'               => _t(ShopEmail::class . '.SUBJECT', 'Subject'),
-                'AdditionalReceipients' => _t(ShopEmail::class . '.ADDITIONALS_RECEIPIENTS', 'Additional recipients'),
-                'AdditionalRecipients'  => _t(ShopEmail::class . '.ADDITIONALS_RECEIPIENTS', 'Additional recipients'),
-                'Preview'               => _t(ShopEmail::class . '.Preview', 'Preview'),
-                'ShopEmailTranslations' => _t(ShopEmailTranslation::class . '.PLURALNAME', 'Translations'),
-                'OrderStatus'           => _t(OrderStatus::class . '.PLURALNAME', 'Order status'),
-            ]
-        );
-        
-        $this->extend('updateFieldLabels', $fieldLabels);
-        return $fieldLabels;
+    public function fieldLabels($includerelations = true) : array
+    {
+        return $this->defaultFieldLabels($includerelations, [
+            'TemplateName'          => _t(ShopEmail::class . '.TemplateName', 'Template Name'),
+            'Subject'               => _t(ShopEmail::class . '.SUBJECT', 'Subject'),
+            'AdditionalReceipients' => _t(ShopEmail::class . '.ADDITIONALS_RECEIPIENTS', 'Additional recipients'),
+            'AdditionalRecipients'  => _t(ShopEmail::class . '.ADDITIONALS_RECEIPIENTS', 'Additional recipients'),
+            'Preview'               => _t(ShopEmail::class . '.Preview', 'Preview'),
+            'ShopEmailTranslations' => _t(ShopEmailTranslation::class . '.PLURALNAME', 'Translations'),
+            'OrderStatus'           => _t(OrderStatus::class . '.PLURALNAME', 'Order status'),
+        ]);
     }
 
     /**
      * Get the default summary fields for this object.
      *
-     * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.04.2012
+     * @return string[]
      */
-    public function  summaryFields() {
+    public function  summaryFields() : array
+    {
         $summaryFields = [
             'TemplateNameTitle'              => $this->fieldLabel('TemplateName'),
             'Subject'                        => $this->fieldLabel('Subject'),
@@ -220,51 +213,53 @@ class ShopEmail extends DataObject {
      *
      * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = DataObjectExtension::getCMSFields($this, 'TemplateName', true);
-        
-        $fields->removeByName('TemplateName');
-        $templateNames     = self::get_email_templates();
-        $templateNameField = new DropdownField('TemplateName', $this->fieldLabel('TemplateName'), $templateNames);
-        $fields->insertBefore('Subject', $templateNameField);
-        
-        $exampleEmail = ExampleData::render_example_email($this->TemplateName);
-        if (!empty($exampleEmail)) {
-            $fields->findOrMakeTab('Root.Preview', $this->fieldLabel('Preview'));
-            $frame = '<iframe class="full-height" src="' . Director::absoluteURL('example-data/renderemail/' . $this->TemplateName) . '"></iframe>';
-            $fields->addFieldToTab('Root.Preview', new LiteralField('Preview', $frame));
-        }
-        
-        return $fields;
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->removeByName('TemplateName');
+            $templateNames     = self::get_email_templates();
+            $templateNameField = DropdownField::create('TemplateName', $this->fieldLabel('TemplateName'), $templateNames);
+            $fields->addFieldToTab('Root.Main', $templateNameField);
+            $exampleEmail      = ExampleData::render_example_email($this->TemplateName);
+            if (!empty($exampleEmail)) {
+                $fields->findOrMakeTab('Root.Preview', $this->fieldLabel('Preview'));
+                $frame = '<iframe class="full-height" src="' . Director::absoluteURL('example-data/renderemail/' . $this->TemplateName) . '"></iframe>';
+                $fields->addFieldToTab('Root.Preview', LiteralField::create('Preview', $frame));
+            }
+        });
+        $this->afterExtending('updateCMSFields', function(FieldList $fields) {
+            if (!in_array($this->TemplateName, (array) $this->config()->custom_email_content_templates)) {
+                $fields->removeByName('CustomEmailContent');
+            }
+        });
+        return parent::getCMSFields();
     }
     
     /**
      * Requires the default records.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.04.2018
      */
-    public function requireDefaultRecords() {
+    public function requireDefaultRecords() : void
+    {
         $emailTemplates = self::get_email_templates();
         foreach ($emailTemplates as $templateName => $templateTitle) {
             $email = ShopEmail::get()->filter('TemplateName', $templateName)->first();
-            if (!($email instanceof ShopEmail) ||
-                !$email->exists()) {
-                $email = new ShopEmail();
+            if (!($email instanceof ShopEmail)
+             || !$email->exists()
+            ) {
+                $email = ShopEmail::create();
                 $email->TemplateName = $templateName;
                 $email->Subject      = _t(ShopEmail::class . '.Subject_' . $templateName, $templateTitle);
                 $email->write();
             }
         }
-        
         $orderStatus   = OrderStatus::get()->filter('Code', 'shipped')->sort('ID')->first();
         $shippingEmail = ShopEmail::get()->filter('TemplateName', 'OrderShippedNotification')->sort('ID')->first();
-        
-        if ($orderStatus instanceof OrderStatus &&
-            $shippingEmail instanceof ShopEmail &&
-            !$orderStatus->ShopEmails()->find('ID', $shippingEmail->ID)) {
+        if ($orderStatus instanceof OrderStatus
+         && $shippingEmail instanceof ShopEmail
+         && !$orderStatus->ShopEmails()->find('ID', $shippingEmail->ID)
+        ) {
             $orderStatus->ShopEmails()->add($shippingEmail);
         }
     }
@@ -275,9 +270,6 @@ class ShopEmail extends DataObject {
      * @param string $identifierCode Identifier code
      * 
      * @return \Page|null
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.05.2019
      */
     public function PageByIdentifierCode(string $identifierCode) : ?\Page
     {
@@ -289,7 +281,8 @@ class ShopEmail extends DataObject {
      * 
      * @return array
      */
-    public static function get_email_templates() {
+    public static function get_email_templates() : array
+    {
         if (empty(self::$email_templates)) {
             self::scan_email_templates();
             foreach (self::get_registered_email_templates() as $templateName => $templateNameTitle) {
@@ -308,8 +301,9 @@ class ShopEmail extends DataObject {
      * 
      * @return array
      */
-    public static function get_registered_email_templates() {
-        return self::$registered_email_templates;
+    public static function get_registered_email_templates() : array
+    {
+        return (array) self::$registered_email_templates;
     }
 
     /**
@@ -320,11 +314,9 @@ class ShopEmail extends DataObject {
      * @param string $templateNameTitle i18n title of the email template
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.04.2018
      */
-    public static function register_email_template($templateName, $templateNameTitle = null) {
+    public static function register_email_template(string $templateName, string $templateNameTitle = null) : void
+    {
         if (is_null($templateNameTitle)) {
             $templateNameTitle = $templateName;
         }
@@ -342,11 +334,9 @@ class ShopEmail extends DataObject {
      * @param array $templateNames Email template names.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.04.2018
      */
-    public static function register_email_templates(array $templateNames) {
+    public static function register_email_templates(array $templateNames) : void
+    {
         foreach ($templateNames as $templateName => $templateNameTitle) {
             if (is_numeric($templateName)) {
                 $templateName      = $templateNameTitle;
@@ -360,21 +350,18 @@ class ShopEmail extends DataObject {
      * Scans the file system for default email templates.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.05.2019
      */
-    public static function scan_email_templates() {
+    public static function scan_email_templates() : void
+    {
         self::$email_templates = [];
-        
-        $emailTemplatesPaths = [];
-        $emailDirParts       = [
+        $emailTemplatesPaths   = [];
+        $emailDirParts         = [
             'templates',
             'SilverCart',
             'Email',
             'Layout',
         ];
-        $currentDirParts     = explode('/', __DIR__);
+        $currentDirParts       = explode('/', __DIR__);
         array_pop($currentDirParts);
         array_pop($currentDirParts);
         $templateDirParts = array_merge(
@@ -396,9 +383,7 @@ class ShopEmail extends DataObject {
                     if (substr($entry, -3) != '.ss') {
                         continue;
                     }
-
                     $templateName = substr($entry, 0, -3);
-                    //$templateNames[$templateName] = _t(static::class . '.TemplateName_' . $templateName, ucfirst($templateName));
                     self::$email_templates[$templateName] = self::get_template_name_title($templateName);
                 }
                 closedir($handle);
@@ -412,16 +397,28 @@ class ShopEmail extends DataObject {
      *
      * @return string
      */
-    public function getSubject() {
-        return $this->getTranslationFieldValue('Subject');
+    public function getSubject() : string
+    {
+        return (string) $this->getTranslationFieldValue('Subject');
+    }
+    
+    /**
+     * Returns the CustomEmailContent
+     *
+     * @return string
+     */
+    public function getCustomEmailContent() : string
+    {
+        return (string) $this->getTranslationFieldValue('CustomEmailContent');
     }
     
     /**
      * Returns the additional email recipients as a html string
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
-    public function getAdditionalRecipientsHtmlString() {
+    public function getAdditionalRecipientsHtmlString() : DBHTMLText
+    {
         $additionalRecipientsArray = [];
         if ($this->AdditionalReceipients()->exists()) {
             foreach ($this->AdditionalReceipients() as $additionalRecipient) {
@@ -438,11 +435,12 @@ class ShopEmail extends DataObject {
      * 
      * @return string
      */
-    public function getTemplateNameTitle($templateName = null) {
+    public function getTemplateNameTitle(string $templateName = null) : string
+    {
         if (is_null($templateName)) {
             $templateName = $this->TemplateName;
         }
-        return self::get_template_name_title($templateName);
+        return (string) self::get_template_name_title($templateName);
     }
     
     /**
@@ -452,12 +450,13 @@ class ShopEmail extends DataObject {
      * 
      * @return string
      */
-    public static function get_template_name_title($templateName = null) {
+    public static function get_template_name_title(string $templateName = null) : string
+    {
         $templateNameTitle = '';
         if (!empty($templateName)) {
-            $templateNameTitle = _t(static::class . '.TemplateName_' . $templateName, $templateName);
+            $templateNameTitle = _t(static::class . ".TemplateName_{$templateName}", $templateName);
         }
-        return $templateNameTitle;
+        return (string) $templateNameTitle;
     }
 
     /**
@@ -469,10 +468,6 @@ class ShopEmail extends DataObject {
      * @param array  $attachments absolute filename to an attachment file
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 16.06.2014
      */
     public static function send(string $identifier, string $to, array $variables = [], array $attachments = null, string $locale = null) : bool
     {
@@ -668,17 +663,16 @@ class ShopEmail extends DataObject {
      *
      * @author Sascha Koehler <skoehler@pixeltricks.de>
      * @since 06.12.2010
+     * @deprecated
      */
-    public static function populateTemplate($text, $variables) {
-
+    public static function populateTemplate(string $text, array $variables) : string
+    {
         if (!is_array($variables)) {
             return $text;
         }
-
         foreach ($variables as $placeholder => $value) {
             $text = str_replace('$' . $placeholder . '$', $value, $text);
         }
-
         return $text;
     }
     
@@ -695,11 +689,12 @@ class ShopEmail extends DataObject {
      * 
      * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
      * @since 01.07.2011
+     * @deprecated
      */
-    public static function parse($content) {
-        // i18n _t(...)
+    public static function parse(string $content) : string
+    {
         $plainPattern = '<' . '% +_t\((\'([^\']*)\'|"([^"]*)")(([^)]|\)[^ ]|\) +[^% ])*)\) +%' . '>';
-        $pattern = '/' . $plainPattern . '/';
+        $pattern      = '/' . $plainPattern . '/';
         preg_match_all($pattern, $content, $matches);
         if (is_array($matches[0])) {
             foreach ($matches[0] as $index => $match) {
@@ -717,11 +712,9 @@ class ShopEmail extends DataObject {
      * @param string $style CSS style
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.04.2018
      */
-    public static function add_style($name, $style) {
+    public static function add_style(string $name, string $style) : void
+    {
         self::$style[$name] = $style;
     }
     
@@ -733,11 +726,9 @@ class ShopEmail extends DataObject {
      * @param string $style CSS style
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.04.2018
      */
-    public static function add_style_if_not_exists($name, $style) {
+    public static function add_style_if_not_exists(string $name, string $style) : void
+    {
         if (!array_key_exists($name, self::$style)) {
             self::add_style($name, $style);
         }
@@ -751,7 +742,8 @@ class ShopEmail extends DataObject {
      * 
      * @return string
      */
-    public function getStyle($name) {
+    public function getStyle(string $name) : string
+    {
         $finalStyle = '';
         if (strpos($name, ',') === false) {
             $styles = [$name];
@@ -765,5 +757,4 @@ class ShopEmail extends DataObject {
         }
         return $finalStyle;
     }
-    
 }

@@ -155,7 +155,7 @@ en_GB:
   SilverCart\Checkout\CheckoutStep2:
     StepTitle: "Address"
   SilverCart\Checkout\CheckoutStep3:
-    StepTitle: "Shioment"
+    StepTitle: "Shipment"
   SilverCart\Checkout\CheckoutStep4:
     StepTitle: "Payment"
   SilverCart\Checkout\CheckoutStep5:

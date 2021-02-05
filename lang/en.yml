@@ -1933,6 +1933,7 @@ en:
         SUBJECT: Subject
         VARIABLES: Variables
         YOUR_TEAM: 'Your SilverCart ecommerce team'
+        CustomEmailContent: 'Custom email content'
         ForgotPasswordNO_CHANGE: 'If you do not want to change your password, you may ignore this email.'
         ForgotPasswordPASSWORT_RESET_LINK_HINT: 'If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser.'
         ForgotPasswordTITLE: 'Reset Password'
@@ -1993,6 +1994,7 @@ en:
     SilverCart\Model\ShopEmailTranslation:
         PLURALNAME: Translations
         SINGULARNAME: Translation
+        CustomEmailContent: 'Custom email content'
     SilverCart\Model\Order\ShoppingCart:
         DifferentReleaseDateHint1: 'Your shopping cart contains products with different release dates.'
         DifferentReleaseDateHint2: 'Please be aware that the shipping date for already available products will be deferred due to the release date of the not yet available products.'
