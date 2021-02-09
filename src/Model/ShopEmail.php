@@ -9,6 +9,8 @@ use SilverCart\Model\EmailAddress;
 use SilverCart\Model\ShopEmailTranslation;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\View\SCTemplateParser;
+use SilverStripe\CMS\Controllers\RootURLController;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTP;
 use SilverStripe\Control\Email\Email;
@@ -274,6 +276,18 @@ class ShopEmail extends DataObject
     public function PageByIdentifierCode(string $identifierCode) : ?\Page
     {
         return Tools::PageByIdentifierCode($identifierCode);
+    }
+    
+    /**
+     * Returns the default hoomepage defined by the RootController::default_homepage_link
+     * configuration option.
+     * 
+     * @return SiteTree|null
+     */
+    public function getDefaultHomepage() : ?SiteTree
+    {
+        $defaultHomepageLink = RootURLController::get_homepage_link();
+        return SiteTree::get_by_link($defaultHomepageLink);
     }
 
     /**
