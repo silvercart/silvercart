@@ -87,8 +87,8 @@ class ShopEmail extends DataObject
      */
     private static $casting = [
         'Subject'                        => 'Text',
-        'CustomEmailContent'             => 'Text',
-        'AdditionalRecipientsHtmlString' => 'HtmlText',
+        'CustomEmailContent'             => 'HTMLText',
+        'AdditionalRecipientsHtmlString' => 'HTMLText',
         'TemplateNameTitle'              => 'Text',
     ];
     /**
