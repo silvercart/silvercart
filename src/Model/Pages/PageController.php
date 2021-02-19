@@ -313,6 +313,20 @@ class PageController extends ContentController
         $this->extend('updateFooterCustomHtmlContent', $footerCustomHtmlContent);
         return Tools::string2html($footerCustomHtmlContent);
     }
+    
+    /**
+     * Returns whether the customers user agent is the MS Internet Explorer.
+     * 
+     * @return bool
+     */
+    public function BrowserIsIE() : bool
+    {
+        $isIE = false;
+        if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
+            $isIE = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false;
+        }
+        return $isIE;
+    }
 
     /**
      * standard page controller
