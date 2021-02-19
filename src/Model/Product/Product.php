@@ -2245,10 +2245,12 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getAddToCartPositionFilter(int $cartID) : array
     {
-        return [
+        $filter = [
             'ProductID'      => $this->ID,
             'ShoppingCartID' => $cartID,
         ];
+        $this->extend('updateAddToCartPositionFilter', $filter, $cartID);
+        return $filter;
     }
 
     /**
@@ -2299,7 +2301,6 @@ class Product extends DataObject implements PermissionProvider
             $isNewPosition        = true;
             $shoppingCartPosition = ShoppingCartPosition::create()
                     ->castedUpdate($filter);
-            $shoppingCartPosition->write();
         }
         
         if ($shoppingCartPosition->Quantity < $quantity) {
