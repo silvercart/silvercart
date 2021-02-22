@@ -323,7 +323,8 @@ class PageController extends ContentController
     {
         $isIE = false;
         if (array_key_exists('HTTP_USER_AGENT', $_SERVER)) {
-            $isIE = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false;
+            $isIE = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false
+                 || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident') !== false;
         }
         return $isIE;
     }
