@@ -44,6 +44,12 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     private static $force_combine_files_async = true;
     /**
+     * List of file names to skip combining files for.
+     *
+     * @var string[]
+     */
+    private static $skip_combine_files = [];
+    /**
      * Use the injected minification service to minify any javascript file passed to {@link combine_files()}.
      *
      * @var bool
@@ -374,6 +380,7 @@ MESSAGE
      */
     protected function forceCombineFiles()
     {
+        $skipFiles     = (array) $this->config()->skip_combine_files;
         $existingFiles = [];
         foreach ($this->combinedFiles as $existingCombinedFilename => $combinedItem) {
             $existingFiles = array_merge(
@@ -383,7 +390,10 @@ MESSAGE
         }
         $jsFilesToCombine = [];
         foreach ($this->getJavascript() as $file => $attributes) {
-            if (in_array($file, $existingFiles)) {
+            if (in_array($file, $existingFiles)
+             || in_array(basename($file), $skipFiles)
+             || in_array($file, $skipFiles)
+            ) {
                 continue;
             }
             $jsAttributes = [];
