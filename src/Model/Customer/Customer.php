@@ -21,6 +21,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\ORM\ArrayList;
@@ -306,8 +307,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     {
         return Permission::checkMember($member, self::PERMISSION_DELETE) ? true : null;
     }
-    
-    /**
+ 
+   /**
      * manipulate the cms fields of the decorated class
      *
      * @param FieldList $fields the field set of cms fields
@@ -344,6 +345,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             $shippingAddressField = new DropdownField('ShippingAddressID', $this->owner->fieldLabel('ShippingAddress'), $addresses);
             $fields->insertBefore($invoiceAddressField,  'Locale');
             $fields->insertBefore($shippingAddressField, 'Locale');
+            $created = $this->owner->dbObject('Created');
+            /* @var $created \SilverStripe\ORM\FieldType\DBDatetime */
+            $createdNice = "{$created->Date()}, {$created->Time()}";
+            $fields->insertBefore(ReadonlyField::create('CreatedNice', Tools::field_label('DATE'), $createdNice), 'CustomerNumber');
         }
     }
     
