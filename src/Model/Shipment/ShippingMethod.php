@@ -153,7 +153,7 @@ class ShippingMethod extends DataObject
      *
      * @var string
      */
-    private static $default_sort = "priority DESC";
+    private static $default_sort = "priority ASC";
     /**
      * Shipping address
      *
@@ -451,10 +451,13 @@ class ShippingMethod extends DataObject
     public function detectShippingFee($weight = null)
     {
         $fee = false;
-
+        $this->extend('onBeforeDetectShippingFee', $fee, $weight);
+        if ($fee !== false) {
+            return $fee;
+        }
         if (is_null($weight)) {
             if (!Customer::currentUser()
-                || !Customer::currentUser()->getCart()
+             || !Customer::currentUser()->getCart()
             ) {
                 return $fee;
             }
@@ -465,7 +468,7 @@ class ShippingMethod extends DataObject
         if (is_null($shippingCountry)) {
             $shippingAddress = $this->getShippingAddress();
             if (is_null($shippingAddress)
-                && method_exists(Controller::curr(), 'getShippingAddress')
+             && method_exists(Controller::curr(), 'getShippingAddress')
             ) {
                 $shippingAddress = Controller::curr()->getShippingAddress();
                 $this->setShippingAddress($shippingAddress);
@@ -500,6 +503,7 @@ class ShippingMethod extends DataObject
                 }
             }
         }
+        $this->extend('onAfterDetectShippingFee', $fee);
         return $fee;
     }
     
@@ -921,9 +925,9 @@ class ShippingMethod extends DataObject
         
         $customerGroups = Customer::getCustomerGroups();
         if ($customerGroups
-            && $customerGroups instanceof SS_List
-            && $customerGroups->exists()
-            ) {
+         && $customerGroups instanceof SS_List
+         && $customerGroups->exists()
+        ) {
             $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID')->toArray());
             $filter = sprintf(
                 '"' . $shippingTable . '"."isActive" = 1 AND ("' . $shippingTable . '_CustomerGroups"."GroupID" IN (%s) OR "' . $shippingTable . '"."ID" NOT IN (%s))%s',
@@ -1055,6 +1059,17 @@ class ShippingMethod extends DataObject
      */
     public function getShippingAddress()
     {
+        if ($this->shippingAddress === null) {
+            $ctrl = Controller::curr();
+            if ($ctrl->hasMethod('getShippingAddress')) {
+                $this->setShippingAddress($ctrl->getShippingAddress());
+                if ($this->shippingCountry === null
+                 && $this->shippingAddress instanceof Address
+                ) {
+                    $this->setShippingCountry($this->shippingAddress->Country());
+                }
+            }
+        }
         return $this->shippingAddress;
     }
 
