@@ -578,6 +578,9 @@ iframe.print-preview {
     border-bottom: .15385rem solid transparent;
 }
 
+.grid-field__table .form-check-input {
+    position: relative;
+}
 
 /*******************************************************************************
 * Twitter Bootstrap Extension                                                  *
