@@ -40,8 +40,21 @@ class Config
 {
     use Extensible;
     
-    const PRICE_TYPE_GROSS = 'gross';
-    const PRICE_TYPE_NET   = 'net';
+    const PRICE_TYPE_GROSS           = 'gross';
+    const PRICE_TYPE_NET             = 'net';
+    const WEIGHT_UNIT_GRAM           = 'g';
+    const WEIGHT_UNIT_KILOGRAM       = 'kg';
+    const WEIGHT_UNIT_POUND          = 'lbs';
+    const DIMENSION_UNIT_CENTIMETER  = 'cm';
+    const DIMENSION_UNIT_INCH        = 'in';
+    const ENUMERATION_WEIGHT_UNIT    = 'Enum("'
+            . self::WEIGHT_UNIT_GRAM . ','
+            . self::WEIGHT_UNIT_POUND
+            . '","' . self::WEIGHT_UNIT_GRAM . '")';
+    const ENUMERATION_DIMENSION_UNIT = 'Enum("'
+            . self::DIMENSION_UNIT_CENTIMETER . ','
+            . self::DIMENSION_UNIT_INCH
+            . '","' . self::DIMENSION_UNIT_CENTIMETER . '")';
     
     /**
      * Contains the possible values for products per page selectors for

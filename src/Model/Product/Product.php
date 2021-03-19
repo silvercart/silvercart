@@ -153,6 +153,9 @@ class Product extends DataObject implements PermissionProvider
         'StockQuantityExpirationDate' => DBDate::class,
         'PackagingQuantity'           => 'Int',
         'Weight'                      => 'Float', //unit is gramm
+        'Width'                       => 'Float',
+        'Length'                      => 'Float',
+        'Height'                      => 'Float',
         'ReleaseDate'                 => DBDatetime::class,
         'LaunchDate'                  => DBDatetime::class,
         'SalesBanDate'                => DBDatetime::class,
@@ -1137,6 +1140,8 @@ class Product extends DataObject implements PermissionProvider
             'StockIsLowOrderNow'                   => _t(Product::class . '.StockIsLowOrderNow', 'Sold out soon - order now'),
             'NewestArrivals'                       => _t(Product::class . '.NewestArrivals', 'Newest Arrivals'),
             'StockItemEntries'                     => StockItemEntry::singleton()->plural_name(),
+            'Dimensions'                           => _t(Product::class . '.Dimensions', 'Dimensions'),
+            'DimensionsDesc'                       => _t(Product::class . '.DimensionsDesc', 'Length x Width x Height in decimal form'),
         ]);
     }
 
@@ -1757,6 +1762,9 @@ class Product extends DataObject implements PermissionProvider
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('QuantityUnitID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('Length'));
+        $miscGroup->push(           $fields->dataFieldByName('Width'));
+        $miscGroup->push(           $fields->dataFieldByName('Height'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('ProductConditionID'));
         $miscGroupToggle = ToggleCompositeField::create(
                 'AvailabilityGroupToggle',

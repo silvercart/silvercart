@@ -91,6 +91,8 @@ class SiteConfigExtension extends DataExtension
         'InvoiceAddressIsAlwaysShippingAddress' => 'Boolean(0)',
         'redirectToCartAfterAddToCart'          => 'Boolean(0)',
         'redirectToCheckoutWhenInCart'          => 'Boolean(0)',
+        'WeightUnit'                            => Config::ENUMERATION_WEIGHT_UNIT,
+        'DimensionUnit'                         => Config::ENUMERATION_DIMENSION_UNIT,
         'DisplayWeightsInKilogram'              => 'Boolean(1)',
         'demandBirthdayDateOnRegistration'      => 'Boolean(0)',
         'UseMinimumAgeToOrder'                  => 'Boolean(0)',
@@ -457,6 +459,8 @@ class SiteConfigExtension extends DataExtension
                     CheckboxField::create('SkipShippingStepIfUnique',              $this->owner->fieldLabel('SkipShippingStepIfUnique')),
                     CheckboxField::create('SkipPaymentStepIfUnique',               $this->owner->fieldLabel('SkipPaymentStepIfUnique')),
                     CheckboxField::create('DisplayWeightsInKilogram',              $this->owner->fieldLabel('DisplayWeightsInKilogram')),
+                    DropdownField::create('WeightUnit',                            $this->owner->fieldLabel('WeightUnit')),
+                    DropdownField::create('DimensionUnit',                         $this->owner->fieldLabel('DimensionUnit')),
                     CheckboxField::create('ShowTaxAndDutyHint',                    $this->owner->fieldLabel('ShowTaxAndDutyHint')),
                     CheckboxField::create('InvoiceAddressIsAlwaysShippingAddress', $this->owner->fieldLabel('InvoiceAddressIsAlwaysShippingAddress')),
                 ]
@@ -544,6 +548,16 @@ class SiteConfigExtension extends DataExtension
             $i18nForProductDescriptionField[$productDescriptionField] = Product::singleton()->fieldLabel($productDescriptionField);
         }
         $fields->dataFieldByName('productDescriptionFieldForCart')->setSource($i18nForProductDescriptionField);
+        $i18nWeightUnitField = [];
+        foreach ($this->owner->dbObject('WeightUnit')->enumValues() as $weightUnit) {
+            $i18nWeightUnitField[$weightUnit] = _t(self::class . ".WeightUnit_{$weightUnit}", $weightUnit);
+        }
+        $fields->dataFieldByName('WeightUnit')->setSource($i18nWeightUnitField);
+        $i18nDimensionUnitField = [];
+        foreach ($this->owner->dbObject('DimensionUnit')->enumValues() as $weightUnit) {
+            $i18nDimensionUnitField[$weightUnit] = _t(self::class . ".DimensionUnit_{$weightUnit}", $weightUnit);
+        }
+        $fields->dataFieldByName('DimensionUnit')->setSource($i18nDimensionUnitField);
 
         $fields->dataFieldByName('StandardProductConditionID')->setEmptyString($this->owner->fieldLabel('StandardProductConditionEmptyString'));
 

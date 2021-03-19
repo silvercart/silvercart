@@ -76,6 +76,7 @@ use SilverStripe\View\ViewableData;
  * @property float             $TaxAmountShipment                Tax Amount Shipment
  * @property string            $Note                             Note
  * @property float             $WeightTotal                      Weight Total
+ * @property string            $WeightUnit                       Weight Unit
  * @property string            $CustomersEmail                   Customers Email
  * @property string            $OrderNumber                      Order Number
  * @property bool              $HasAcceptedTermsAndConditions    Has Accepted Terms And Conditions
@@ -138,7 +139,8 @@ class Order extends DataObject implements PermissionProvider
         'TaxAmountPayment'                  => 'Float',
         'TaxAmountShipment'                 => 'Float',
         'Note'                              => 'Text',
-        'WeightTotal'                       => 'Float', //unit is gramm
+        'WeightTotal'                       => 'Float', // default unit is gramm
+        'WeightUnit'                        => Config::ENUMERATION_WEIGHT_UNIT,
         'CustomersEmail'                    => 'Varchar(60)',
         'OrderNumber'                       => 'Varchar(128)',
         'HasAcceptedTermsAndConditions'     => 'Boolean(0)',
@@ -1843,6 +1845,7 @@ class Order extends DataObject implements PermissionProvider
          && $member->getCart()->getWeightTotal()
         ) {
             $this->WeightTotal = $member->getCart()->getWeightTotal();
+            $this->WeightUnit  = Config::getConfig()->WeightUnit;
         }
         return $this;
     }

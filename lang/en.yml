@@ -1514,6 +1514,11 @@ en:
         WIDGETAREA: Widgets
         YEAR: year
         YEARS: years
+        Dimensions: Dimensions
+        DimensionsDesc: 'Length x Width x Height in decimal form'
+        Width: Width
+        Length: Length
+        Height: Height
     SilverCart\Admin\Controllers\ProductAdmin:
         MENUTITLE: Products
     SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
@@ -2032,6 +2037,13 @@ en:
         TWITTER_LINK: 'Twitter Link'
         WELCOME_TO_SILVERCART: 'Welcome to SilverCart'
         XING_LINK: 'Xing Link'
+        WeightUnit: 'Weight unit'
+        WeightUnit_g: 'Gram'
+        WeightUnit_kg: 'Kilogram'
+        WeightUnit_lbs: 'Pound'
+        DimensionUnit: 'Dimension unit'
+        DimensionUnit_cm: 'Centimeter'
+        DimensionUnit_in: 'Inch'
     SilverCart\Model\Pages\SiteMapPage:
         PLURALNAME: SiteMaps
         SINGULARNAME: SiteMap

@@ -628,14 +628,18 @@ class ShippingFee extends DataObject
      */
     public function getMaximumWeightNice() : string
     {
-        $maximumWeightInGram = $this->MaximumWeight;
-        if (Config::DisplayWeightsInKilogram()
-         && $maximumWeightInGram >= 100
-        ) {
-            $maximumWeightInKilo = number_format($maximumWeightInGram / 1000, 2, ',', '.');
-            $maximumWeightNice   = "{$maximumWeightInKilo} kg";
+        $maximumWeight = $this->MaximumWeight;
+        if (Config::getConfig()->WeightUnit === Config::WEIGHT_UNIT_GRAM) {
+            if (Config::DisplayWeightsInKilogram()
+             && $maximumWeight >= 100
+            ) {
+                $maximumWeightInKilo = number_format($maximumWeight / 1000, 2, ',', '.');
+                $maximumWeightNice   = "{$maximumWeightInKilo} " . Config::WEIGHT_UNIT_KILOGRAM;
+            } else {
+                $maximumWeightNice = "{$maximumWeight} " . Config::WEIGHT_UNIT_GRAM;
+            }
         } else {
-            $maximumWeightNice = "{$maximumWeightInGram} g";
+            $maximumWeightNice = "{$maximumWeight} " . Config::getConfig()->WeightUnit;
         }
         return $maximumWeightNice;
     }
@@ -660,9 +664,11 @@ class ShippingFee extends DataObject
      */
     public function getMaximumWeightUnitAbbreviation() : string
     {
-        $maximumWeightUnitAbbreviation = 'g';
-        if (Config::DisplayWeightsInKilogram()) {
-            $maximumWeightUnitAbbreviation = 'kg';
+        $maximumWeightUnitAbbreviation = Config::getConfig()->WeightUnit;
+        if ($maximumWeightUnitAbbreviation === Config::WEIGHT_UNIT_GRAM
+         && Config::DisplayWeightsInKilogram()
+        ) {
+            $maximumWeightUnitAbbreviation = Config::WEIGHT_UNIT_KILOGRAM;
         }
         return $maximumWeightUnitAbbreviation;
     }
