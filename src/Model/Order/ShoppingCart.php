@@ -1193,7 +1193,6 @@ class ShoppingCart extends DataObject
         if ($selectedShippingMethod instanceof ShippingMethod
          && $selectedShippingMethod->exists()
          && $selectedShippingMethod->getShippingFee() instanceof ShippingFee
-         && $selectedShippingMethod->getShippingFee()->exists()
         ) {
             $handlingCostShipmentObj = $selectedShippingMethod->getShippingFee()->getCalculatedPrice();
         } else {
