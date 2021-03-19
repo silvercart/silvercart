@@ -13,7 +13,6 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductCondition;
 use SilverCart\Model\Translation\TranslationTools;
-use SilverCart\ORM\Connect\DBMigration;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverCart\Forms\FormFields\MoneyField;
@@ -48,6 +47,7 @@ use SilverStripe\SiteConfig\SiteConfig;
  */
 class SiteConfigExtension extends DataExtension
 {
+    use \SilverCart\Core\ExtensibleExtension;
     /**
      * DB attributes
      *
@@ -161,6 +161,17 @@ class SiteConfigExtension extends DataExtension
      * @var string
      */
     private static $duplicate_config_locale = null;
+    
+    /**
+     * Workaround to add a custom callback method for ShopState if possible.
+     * 
+     * @param \SilverStripe\View\ViewableData $owner Owner
+     */
+    public function setOwner($owner) : void
+    {
+        parent::setOwner($owner);
+        $this->customAddCallbackMethod('ShopCountry');
+    }
     
     /**
      * There is only one config object which is created on installation.
@@ -844,6 +855,16 @@ class SiteConfigExtension extends DataExtension
     public function getShopCity() : ?string
     {
         return $this->getUpdatedField('ShopCity');
+    }
+    
+    /**
+     * Returns the ShopCountry with extension support.
+     * 
+     * @return Country
+     */
+    public function ShopCountry() : Country
+    {
+        return $this->getShopCountry();
     }
     
     /**
