@@ -11,6 +11,7 @@ use SilverStripe\Forms\FormAction;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\Map;
+use SilverStripe\ORM\SS_List;
 
 /**
  * Form to choose the shipping method in checkout.
@@ -22,8 +23,8 @@ use SilverStripe\ORM\Map;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutChooseShippingMethodForm extends CustomForm {
-    
+class CheckoutChooseShippingMethodForm extends CustomForm
+{
     /**
      * Custom extra CSS classes.
      *
@@ -32,7 +33,6 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
     protected $customExtraClasses = [
         'form-horizontal',
     ];
-    
     /**
      * List of required fields.
      *
@@ -41,7 +41,6 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
     private static $requiredFields = [
         'ShippingMethod',
     ];
-
     /**
      * Set of shipping methods
      *
@@ -54,11 +53,11 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields() : array
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            
             $shippingAddress = $this->getShippingAddress();
-            $title = ShippingMethod::singleton()->fieldLabel('ChooseShippingMethod');
+            $title           = ShippingMethod::singleton()->fieldLabel('ChooseShippingMethod');
             if ($shippingAddress instanceof Address) {
                 $title = _t(ShippingMethod::class . '.CHOOSE_SHIPPING_METHOD_TO',
                         'Please choose a shipping method for the delivery to "{country}"',
@@ -82,7 +81,6 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
                     $shippingMethodsSelectedValue = $shippingMethods->First()->ID;
                 }
             }
-            
             $fields += [
                 ShippingOptionsetField::create('ShippingMethod', $title, $shippingMethodsSource, $shippingMethodsSelectedValue),
             ];
@@ -95,7 +93,8 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions() : array
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', CheckoutStep::singleton()->fieldLabel('Forward'))
@@ -116,7 +115,8 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form) : void
+    {
         $checkout = $this->getController()->getCheckout();
         /* @var $checkout \SilverCart\Checkout\Checkout */
         $chosenShippingMethod = $checkout->getDataValue('ShippingMethod');
@@ -134,23 +134,26 @@ class CheckoutChooseShippingMethodForm extends CustomForm {
      * 
      * @return \SilverCart\Model\Customer\Address
      */
-    public function getShippingAddress() {
+    public function getShippingAddress() : Address
+    {
         return $this->getController()->getShippingAddress();
     }
 
     /**
      * Returns the shipping methods.
      * 
-     * @return DataList
+     * @return SS_List
      */
-    public function getShippingMethods() {
+    public function getShippingMethods() : SS_List
+    {
         if (is_null($this->shippingMethods)) {
             $shippingMethods = ShippingMethod::getAllowedShippingMethods(null, $this->getShippingAddress());
-            if (!($shippingMethods instanceof ArrayList) ||
-                $shippingMethods->count() == 0) {
+            if (!($shippingMethods instanceof ArrayList)
+             || $shippingMethods->count() == 0
+            ) {
                 $shippingMethods = ShippingMethod::get()->filter('isActive', true);
                 if (!($shippingMethods instanceof DataList)) {
-                    $shippingMethods = new DataList();
+                    $shippingMethods = ArrayList::create();
                 }
             }
             $this->shippingMethods = $shippingMethods;
