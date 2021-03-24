@@ -442,6 +442,16 @@ class OrderPosition extends DataObject
     {
         return Tools::getDateWithTimeNice($this->Created);
     }
+    
+    /**
+     * Returns the product number as a string.
+     * 
+     * @return string
+     */
+    public function getProductNumber() : string
+    {
+        return (string) $this->getField('ProductNumber');
+    }
 
     /**
      * Returns true if this position has a quantity of more than 1.
