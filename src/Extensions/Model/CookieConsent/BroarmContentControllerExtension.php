@@ -27,8 +27,9 @@ class BroarmContentControllerExtension extends Extension
      */
     public function updatePromptCookieConsent(bool &$prompt) : void
     {
-        $doNotPromptCookieConsent = $this->owner->getRequest()->getVar('dnpcs') === '1';
-        if ($doNotPromptCookieConsent) {
+        if ($this->owner->getRequest()->getVar('dnpcs') === '1'
+         || $this->owner->data()->DisablePromptCookieConsent
+        ) {
             $prompt = false;
         }
     }

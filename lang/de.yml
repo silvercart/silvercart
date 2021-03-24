@@ -2244,6 +2244,8 @@ de:
         NOTERESETLINKINVALID: '<p>Der Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.</p><p>Sie können ein neues Passwort anfordern <a href="{link1}">here</a> oder Ihr Passwort ändern, nachdem Sie sich <a href="{link2}">eingeloggt haben</a>.</p>'
         PASSWORDRESETSENTHEADER: 'Der Link zum Zurücksetzen des Passworts wurde gesendet'
         PASSWORDRESETSENTTEXT: 'Vielen Dank, es wurde ein Reset-Link gesendet, sofern ein Konto für diese E-Mail-Adresse existiert.'
+    SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension:
+        DisablePromptCookieConsent: 'Cookie Consent für diese Seite deaktivieren'
 # Broarm\CookieConsent translations
     Broarm\CookieConsent\CookieConsent:
         ManageCookies: 'Cookie Einstellungen'

@@ -28,6 +28,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Extensions\Broarm\CookieConsent\Model\CookieGroupExtension;
 use SilverCart\Extensions\Model\CookieConsent\BroarmContentControllerExtension;
 use SilverCart\Extensions\Model\CookieConsent\BroarmExternalResourceExtension;
+use SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension;
 use SilverCart\Model\CookieConsent\ExternalResource;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Pages\Page;
@@ -64,6 +65,7 @@ if (class_exists('PageController')) {
 }
 if (class_exists(CookieConsent::class)) {
     ExternalResource::add_extension(BroarmExternalResourceExtension::class);
+    SiteTree::add_extension(BroarmSiteTreeExtension::class);
     ContentController::add_extension(BroarmContentControllerExtension::class);
     CookieGroup::add_extension(CookieGroupExtension::class);
     CookieGroup::add_extension(FluentExtension::class);
