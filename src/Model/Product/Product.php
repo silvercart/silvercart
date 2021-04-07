@@ -3403,6 +3403,9 @@ class Product extends DataObject implements PermissionProvider
         if (is_object($file)) {
             $thumb = $file->ImageThumbnail(60,30);
         }
+        if (!($thumb instanceof DBHTMLText)) {
+            $thumb = DBHTMLText::create();
+        }
         return $thumb;
     }
 
