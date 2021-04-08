@@ -246,15 +246,7 @@ class ShopEmail extends DataObject
     {
         $emailTemplates = self::get_email_templates();
         foreach ($emailTemplates as $templateName => $templateTitle) {
-            $email = ShopEmail::get()->filter('TemplateName', $templateName)->first();
-            if (!($email instanceof ShopEmail)
-             || !$email->exists()
-            ) {
-                $email = ShopEmail::create();
-                $email->TemplateName = $templateName;
-                $email->Subject      = _t(ShopEmail::class . '.Subject_' . $templateName, $templateTitle);
-                $email->write();
-            }
+            self::requireDefaultRecord($templateName, $templateTitle);
         }
         $orderStatus   = OrderStatus::get()->filter('Code', 'shipped')->sort('ID')->first();
         $shippingEmail = ShopEmail::get()->filter('TemplateName', 'OrderShippedNotification')->sort('ID')->first();
@@ -264,6 +256,28 @@ class ShopEmail extends DataObject
         ) {
             $orderStatus->ShopEmails()->add($shippingEmail);
         }
+    }
+    
+    /**
+     * Requires a default record for the given $templateName and $templateTitle.
+     * 
+     * @param string $templateName  Template name
+     * @param string $templateTitle Remplate title
+     * 
+     * @return ShopEmail
+     */
+    public static function requireDefaultRecord(string $templateName, string $templateTitle) : ShopEmail
+    {
+        $email = ShopEmail::get()->filter('TemplateName', $templateName)->first();
+        if (!($email instanceof ShopEmail)
+         || !$email->exists()
+        ) {
+            $email = ShopEmail::create();
+            $email->TemplateName = $templateName;
+            $email->Subject      = _t(ShopEmail::class . '.Subject_' . $templateName, $templateTitle);
+            $email->write();
+        }
+        return $email;
     }
     
     /**
