@@ -436,7 +436,7 @@ class ExampleData
     public static function render_example_email(string $templateName) : DBHTMLText
     {
         $emailExampleData = static::get_email_example_data($templateName);
-        $emailTemplatePreview = '';
+        $emailTemplatePreview = DBHTMLText::create();
         if (!empty($emailExampleData)) {
             Requirements::clear();
             $email = ShopEmail::get()->filter('TemplateName', $templateName)->first();
