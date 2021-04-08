@@ -1876,7 +1876,8 @@ class Order extends DataObject implements PermissionProvider
     public function setCustomerEmail($email = null)
     {
         $member = Customer::currentUser();
-        if ($member instanceof Member
+        if ($email === null
+         && $member instanceof Member
          && $member->Email
         ) {
             $email = $member->Email;
