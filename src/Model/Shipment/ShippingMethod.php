@@ -24,6 +24,7 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
@@ -910,49 +911,35 @@ class ShippingMethod extends DataObject
      * 
      * @param Carrier $carrier Carrier to get shipping methods for
      *
-     * @return SS_List
+     * @return DataList
      */
-    public static function getAllowedShippingMethodsBase($carrier = null)
+    public static function getAllowedShippingMethodsBase(Carrier $carrier = null) : DataList
     {
         $extendedFilter = "";
-        $shippingTable  = Tools::get_table_name(ShippingMethod::class);
-        if (!is_null($carrier)) {
-            $extendedFilter = sprintf(
-                    ' AND "' . $shippingTable . '"."CarrierID" = \'%s\'',
-                    $carrier->ID
-            );
+        $shippingTable  = ShippingMethod::config()->table_name;
+        if ($carrier instanceof Carrier
+         && $carrier->exists()
+        ) {
+            $extendedFilter = " AND {$shippingTable}.CarrierID = {$carrier->ID}";
         }
-        
         $customerGroups = Customer::getCustomerGroups();
-        if ($customerGroups
-         && $customerGroups instanceof SS_List
+        if ($customerGroups instanceof SS_List
          && $customerGroups->exists()
         ) {
-            $customerGroupIDs   = implode(',', $customerGroups->map('ID', 'ID')->toArray());
-            $filter = sprintf(
-                '"' . $shippingTable . '"."isActive" = 1 AND ("' . $shippingTable . '_CustomerGroups"."GroupID" IN (%s) OR "' . $shippingTable . '"."ID" NOT IN (%s))%s',
-                $customerGroupIDs,
-                'SELECT "' . $shippingTable . '_CustomerGroups"."' . $shippingTable . 'ID" FROM "' . $shippingTable . '_CustomerGroups"',
-                $extendedFilter
-            );
-            
-            $joinTable      = $shippingTable . '_CustomerGroups';
-            $joinOnClause   = '"' . $shippingTable . '_CustomerGroups"."' . $shippingTable . 'ID" = "' . $shippingTable . '"."ID"';
-            
-            $shippingMethods = ShippingMethod::get()
+            $customerGroupIDs = implode(',', $customerGroups->map('ID', 'ID')->toArray());
+            $filter           = "({$shippingTable}_CustomerGroups.GroupID IN ({$customerGroupIDs}) OR {$shippingTable}_CustomerGroups.SilvercartShippingMethodID IS NULL){$extendedFilter}";
+            $joinTable        = "{$shippingTable}_CustomerGroups";
+            $joinOnClause     = "{$joinTable}.{$shippingTable}ID = {$shippingTable}.ID";
+            $shippingMethods  = ShippingMethod::get()
+                    ->filter('isActive', true)
                     ->leftJoin($joinTable, $joinOnClause)
                     ->where($filter);
         } else {
-            $filter = sprintf(
-                '"' . $shippingTable . '"."isActive" = 1 AND ("' . $shippingTable . '"."ID" NOT IN (%s))%s',
-                'SELECT "' . $shippingTable . '_CustomerGroups"."' . $shippingTable . 'ID" FROM "' . $shippingTable . '_CustomerGroups"',
-                $extendedFilter
-            );
-            
+            $filter          = "({$shippingTable}_CustomerGroups.SilvercartShippingMethodID IS NULL){$extendedFilter}";
             $shippingMethods = ShippingMethod::get()
+                    ->filter('isActive', true)
                     ->where($filter);
         }
-        
         return $shippingMethods;
     }
     
