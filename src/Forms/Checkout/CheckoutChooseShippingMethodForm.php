@@ -151,10 +151,7 @@ class CheckoutChooseShippingMethodForm extends CustomForm
             if (!($shippingMethods instanceof ArrayList)
              || $shippingMethods->count() == 0
             ) {
-                $shippingMethods = ShippingMethod::get()->filter('isActive', true);
-                if (!($shippingMethods instanceof DataList)) {
-                    $shippingMethods = ArrayList::create();
-                }
+                $shippingMethods = ArrayList::create();
             }
             $this->shippingMethods = $shippingMethods;
         }
