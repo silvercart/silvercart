@@ -159,10 +159,10 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
             $currentStep->redirectToNextStep();
         } else {
             if (!Customer::currentUser()->Addresses()->Find('ID', $data['InvoiceAddress'])) {
-                $this->addErrorMessage('InvoiceAddress', _t(CheckoutFormStep2::class . '.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
+                $this->setErrorMessage(_t(CheckoutFormStep2::class . '.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
             }
             if (!Customer::currentUser()->Addresses()->Find('ID', $data['ShippingAddress'])) {
-                $this->addErrorMessage('ShippingAddress', _t(CheckoutFormStep2::class . '.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
+                $this->setErrorMessage(_t(CheckoutFormStep2::class . '.ERROR_ADDRESS_NOT_FOUND', 'The given address was not found.'));
             }
         }
     }
