@@ -741,6 +741,28 @@ class SiteConfigExtension extends DataExtension
     }
     
     /**
+     * Returns the i18n weight unit.
+     * 
+     * @return string
+     */
+    public function getWeightUnitNice() : string
+    {
+        $default = empty($this->owner->WeightUnit) ? '---' : $this->owner->WeightUnit;
+        return _t(self::class . ".WeightUnit_{$this->owner->WeightUnit}", $default);
+    }
+    
+    /**
+     * Returns the i18n dimension unit.
+     * 
+     * @return string
+     */
+    public function getDimensionUnitNice() : string
+    {
+        $default = empty($this->owner->DimensionUnit) ? '---' : $this->owner->DimensionUnit;
+        return _t(self::class . ".DimensionUnit_{$this->owner->DimensionUnit}", $default);
+    }
+    
+    /**
      * Returns whether to enable SSL.
      * 
      * @return bool
