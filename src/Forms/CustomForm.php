@@ -8,6 +8,7 @@ use SilverCart\Forms\CustomRequiredFields;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\FileField;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\Validator;
@@ -311,6 +312,9 @@ class CustomForm extends Form
         if ($fields->fieldPosition('action_submit') === false) {
             $fields->push(HiddenField::create('action_submit')->setID(uniqid('action_submit_')));
             foreach ($this->getCustomFields() as $field) {
+                if ($field instanceof FileField) {
+                    $this->setEncType(self::ENC_TYPE_MULTIPART);
+                }
                 if ($fields->fieldPosition($field) === false) {
                     $field->setForm($this);
                     $fields->push($field);
@@ -632,5 +636,22 @@ class CustomForm extends Form
     {
         $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
         return $this->renderWith(static::class . $addition);
+    }
+
+    /**
+     * Returns the encoding type for the form.
+     *
+     * By default this will be URL encoded, unless there is a file field present
+     * in which case multipart is used. You can also set the enc type using
+     * {@link setEncType}.
+     */
+    public function getEncType()
+    {
+        foreach ($this->getCustomFields() as $field) {
+            if ($field instanceof FileField) {
+                return self::ENC_TYPE_MULTIPART;
+            }
+        }
+        return parent::getEncType();
     }
 }
