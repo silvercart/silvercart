@@ -1517,6 +1517,12 @@ class ShoppingCart extends DataObject
                 if (empty($deliveryDaysText)) {
                     $deliveryDaysText = $shippingMethod->DeliveryTimeText;
                 }
+            } elseif ($shippingMethod instanceof ShippingMethod
+                   && $shippingMethod->exists()
+            ) {
+                $deliveryDaysMin  = $shippingMethod->DeliveryTimeMin;
+                $deliveryDaysMax  = $shippingMethod->DeliveryTimeMax;
+                $deliveryDaysText = $shippingMethod->DeliveryTimeText;
             }
             $productDeliveryDaysMin = 0;
             $productDeliveryDaysMax = 0;
