@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Customer;
 
+use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Dev\Tools;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\ShopEmail;
@@ -319,7 +320,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      *         Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.01.2014
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields) : void
+    {
         $this->getCMSFieldsIsCalled[$this->owner->ID] = true;
         $fields->insertBefore($fields->dataFieldByName('Salutation'), 'FirstName');
         $fields->dataFieldByName('Salutation')->setSource(Tools::getSalutationMap());
@@ -341,14 +343,21 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         
             $addresses = $this->owner->Addresses()->map('ID', 'Summary')->toArray();
 
-            $invoiceAddressField  = new DropdownField('InvoiceAddressID',  $this->owner->fieldLabel('InvoiceAddress'),  $addresses);
-            $shippingAddressField = new DropdownField('ShippingAddressID', $this->owner->fieldLabel('ShippingAddress'), $addresses);
+            $invoiceAddressField  = DropdownField::create('InvoiceAddressID',  $this->owner->fieldLabel('InvoiceAddress'),  $addresses);
+            $shippingAddressField = DropdownField::create('ShippingAddressID', $this->owner->fieldLabel('ShippingAddress'), $addresses);
             $fields->insertBefore($invoiceAddressField,  'Locale');
             $fields->insertBefore($shippingAddressField, 'Locale');
             $created = $this->owner->dbObject('Created');
             /* @var $created \SilverStripe\ORM\FieldType\DBDatetime */
             $createdNice = "{$created->Date()}, {$created->Time()}";
             $fields->insertBefore(ReadonlyField::create('CreatedNice', Tools::field_label('DATE'), $createdNice), 'CustomerNumber');
+            if (class_exists(HasOneSelector::class)) {
+                $cartField = HasOneSelector::create('ShoppingCart', $this->owner->fieldLabel('ShoppingCartID'), $this->owner, ShoppingCart::class)->setLeftTitle($this->owner->fieldLabel('ShoppingCart'));
+                $cartField->removeAddable();
+                $cartField->removeLinkable();
+                $cartField->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+                $fields->insertBefore($cartField, 'Locale');
+            }
         }
     }
     

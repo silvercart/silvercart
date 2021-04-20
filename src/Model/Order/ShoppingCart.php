@@ -18,6 +18,12 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -96,6 +102,15 @@ class ShoppingCart extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartShoppingCart';
+    /**
+     * Summary fields
+     *
+     * @var string[]
+     */
+    private static $summary_fields = [
+        'AmountTotal',
+        'ShoppingCartPositions.count',
+    ];
     /**
      * Indicates wether the registered modules should be loaded.
      *
@@ -324,9 +339,39 @@ class ShoppingCart extends DataObject
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
+            'AmountTotal'           => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
             'Products'              => Product::singleton()->plural_name(),
             'ShoppingCartPositions' => ShoppingCartPosition::singleton()->plural_name(),
         ]);
+    }
+    
+    /**
+     * Returns the CMS fields.
+     * 
+     * @return FieldList
+     */
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->addFieldToTab('Root.Main', ReadonlyField::create('AmountTotal', $this->fieldLabel('AmountTotal'), $this->getAmountTotal()->Nice()));
+            $fields->addFieldToTab('Root.Main', ReadonlyField::create('ShoppingCartPositionsCount', $this->fieldLabel('ShoppingCartPositions'), $this->ShoppingCartPositions()->count()));
+            $positionsField = $fields->dataFieldByName('ShoppingCartPositions');
+            if ($positionsField instanceof GridField) {
+                $positionFieldConfig = $positionsField->getConfig();
+                $positionFieldConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                $positionFieldConfig->removeComponentsByType(GridFieldAddNewButton::class);
+                $deleteAction        = $positionFieldConfig->getComponentByType(GridFieldDeleteAction::class);
+                /* @var $deleteAction GridFieldDeleteAction */
+                $deleteAction->setRemoveRelation(false);
+            }
+            $productsField = $fields->dataFieldByName('Products');
+            if ($productsField instanceof GridField) {
+                $productsFieldConfig = $productsField->getConfig();
+                $productsFieldConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                $productsFieldConfig->removeComponentsByType(GridFieldAddNewButton::class);
+            }
+        });
+        return parent::getCMSFields();
     }
 
     /**

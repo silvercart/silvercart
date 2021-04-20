@@ -29,7 +29,9 @@ use SilverStripe\Security\Security;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property float $Quantity Quantity
+ * @property float $Quantity       Quantity
+ * @property int   $ProductID      Product ID
+ * @property int   $ShoppingCartID ShoppingCart ID
  * 
  * @method Product      Product()      Returns the related Product.
  * @method ShoppingCart ShoppingCart() Returns the related ShoppingCart.
@@ -60,6 +62,16 @@ class ShoppingCartPosition extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartShoppingCartPosition';
+    /**
+     * Summary fields
+     *
+     * @var array
+     */
+    private static $summary_fields = [
+        'Quantity',
+        'Product.ProductNumberShop',
+        'Product.Title',
+    ];
     /**
      * List of different accessed prices
      *
@@ -132,21 +144,21 @@ class ShoppingCartPosition extends DataObject
     /**
      * Field labels for display in tables.
      *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * @param bool $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2018
      */
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
-            'MaxQuantityReached'     => _t(ShoppingCartPosition::class . '.MAX_QUANTITY_REACHED_MESSAGE', 'The maximum quantity of products for this position has been reached.'),
-            'QuantityAdded'          => _t(ShoppingCartPosition::class . '.QUANTITY_ADDED_MESSAGE', 'The product(s) were added to your cart.'),
-            'QuantityAdjusted'       => _t(ShoppingCartPosition::class . '.QUANTITY_ADJUSTED_MESSAGE', 'The quantity of this position was adjusted to the currently available stock quantity.'),
-            'PositionDeleted'        => _t(ShoppingCartPosition::class . '.PositionDeletedMessage', 'One or more positions were deleted from your shoppping cart because they are no more available.'),
-            'RemainingQuantityAdded' => _t(ShoppingCartPosition::class . '.REMAINING_QUANTITY_ADDED_MESSAGE', 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'),
+            'MaxQuantityReached'        => _t(ShoppingCartPosition::class . '.MAX_QUANTITY_REACHED_MESSAGE', 'The maximum quantity of products for this position has been reached.'),
+            'Product.ProductNumberShop' => _t(Product::class . '.PRODUCTNUMBER', 'Product number'),
+            'Product.Title'             => _t(Product::class . '.SINGULARNAME', 'Product'),
+            'Quantity'                  => _t(Product::class . '.QUANTITY', 'Quantity'),
+            'QuantityAdded'             => _t(ShoppingCartPosition::class . '.QUANTITY_ADDED_MESSAGE', 'The product(s) were added to your cart.'),
+            'QuantityAdjusted'          => _t(ShoppingCartPosition::class . '.QUANTITY_ADJUSTED_MESSAGE', 'The quantity of this position was adjusted to the currently available stock quantity.'),
+            'PositionDeleted'           => _t(ShoppingCartPosition::class . '.PositionDeletedMessage', 'One or more positions were deleted from your shoppping cart because they are no more available.'),
+            'RemainingQuantityAdded'    => _t(ShoppingCartPosition::class . '.REMAINING_QUANTITY_ADDED_MESSAGE', 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'),
         ]);
     }
 
