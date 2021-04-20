@@ -1758,13 +1758,16 @@ class Product extends DataObject implements PermissionProvider
         if (!is_null($manufactuerField)) {
             $miscGroup->pushAndBreak($manufactuerField);
         }
+        $siteConfig = SiteConfig::current_site_config();
         $miscGroup->breakAndPush(   $fields->dataFieldByName('ExcludeFromPaymentDiscounts'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('PackagingQuantity'));
         $miscGroup->pushAndBreak(   $fields->dataFieldByName('QuantityUnitID'));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Weight'));
+        $miscGroup->push(           LiteralField::create('WeightInfo', "<br/><br/>{$siteConfig->WeightUnitNice}"));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('Length'));
         $miscGroup->push(           $fields->dataFieldByName('Width'));
         $miscGroup->push(           $fields->dataFieldByName('Height'));
+        $miscGroup->push(           LiteralField::create('DimensionInfo', "<br/><br/>{$siteConfig->DimensionUnitNice}"));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('ProductConditionID'));
         $miscGroupToggle = ToggleCompositeField::create(
                 'AvailabilityGroupToggle',
