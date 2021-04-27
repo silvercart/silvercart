@@ -279,6 +279,7 @@ de:
         SINGULARNAME: 'Checkout Schritt'
         StepContent: 'Inhalt für einzelne Schritte'
         TaxAndDutyHint: 'Achtung: Bei Lieferungen in das Nicht-EU- Ausland fallen zusätzliche Zölle, Steuern und Gebühren an.'
+        TermsAndConditionsText: 'Rechtstext zur Auftragsbestätigung'
         TitleStep6: 'Titel Schritt 6 - Bestellbestätigung'
         TitleStep6Info: 'Alternativer Titel zur Anzeige auf der Bestellbestätigungsseite (Standard: "{default}").'
         URL_SEGMENT: checkout

@@ -9,6 +9,7 @@ use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Checkout step page.
@@ -19,6 +20,15 @@ use SilverStripe\Forms\TextField;
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $TermsAndConditionsText Terms And Conditions Text
+ * @property string $ContentStep1           Content Step 1
+ * @property string $ContentStep2           Content Step 2
+ * @property string $ContentStep3           Content Step 3
+ * @property string $ContentStep4           Content Step 4
+ * @property string $ContentStep5           Content Step 5
+ * @property string $ContentStep6           Content Step 6
+ * @property string $TitleStep6             Title Step 6
  */
 class CheckoutStep extends \Page
 {
@@ -30,13 +40,14 @@ class CheckoutStep extends \Page
      * @var array
      */
     private static $db = [
-        'ContentStep1'  => 'HTMLText',
-        'ContentStep2'  => 'HTMLText',
-        'ContentStep3'  => 'HTMLText',
-        'ContentStep4'  => 'HTMLText',
-        'ContentStep5'  => 'HTMLText',
-        'TitleStep6'    => 'Varchar',
-        'ContentStep6'  => 'HTMLText',
+        'ContentStep1'           => 'HTMLText',
+        'ContentStep2'           => 'HTMLText',
+        'ContentStep3'           => 'HTMLText',
+        'ContentStep4'           => 'HTMLText',
+        'ContentStep5'           => 'HTMLText',
+        'TermsAndConditionsText' => 'HTMLText',
+        'TitleStep6'             => 'Varchar',
+        'ContentStep6'           => 'HTMLText',
     ];
     /**
      * DB table name
@@ -121,10 +132,51 @@ class CheckoutStep extends \Page
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep3', $this->fieldLabel('ContentStep3'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep4', $this->fieldLabel('ContentStep4'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep5', $this->fieldLabel('ContentStep5'))->addExtraClass('stacked')->setRows(8));
+            $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('TermsAndConditionsText', $this->fieldLabel('TermsAndConditionsText'))->addExtraClass('stacked')->setRows(6)->setDescription($this->getDefaultTermsAndConditionsText()));
             $fields->addFieldToTab('Root.StepContent', TextField::create('TitleStep6', $this->fieldLabel('TitleStep6'))->setAttribute('placeholder', $titleStep6Default)->setDescription(_t(self::class . '.TitleStep6Info', 'Alternative title to display on the order confirmation page (default: "{default}").', ['default' => $titleStep6Default])));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep6', $this->fieldLabel('ContentStep6'))->addExtraClass('stacked')->setRows(8));
         });
         return parent::getCMSFields();
+    }
+    
+    /**
+     * Returns the terms and condition text.
+     * 
+     * @return DBHTMLText
+     */
+    public function getTermsAndConditionsText() : DBHTMLText
+    {
+        $text = $this->getField('TermsAndConditionsText');
+        if (!$this->getCMSFieldsIsCalled) {
+            if ($text === null) {
+                $text = DBHTMLText::create()->setValue($this->getDefaultTermsAndConditionsText());
+            }
+            if (!($text instanceof DBHTMLText)) {
+                $text = DBHTMLText::create()->setValue($text);
+            }
+            $this->extend('updateTermsAndConditionsText', $text);
+        }
+        if (!($text instanceof DBHTMLText)) {
+            $text = DBHTMLText::create()->setValue($text);
+        }
+        return $text;
+    }
+    
+    /**
+     * Returns the default TermsAndConditionsText.
+     * 
+     * @return string
+     */
+    public function getDefaultTermsAndConditionsText() : string
+    {
+        return Tools::string2html(_t(CheckoutStep::class . '.AcceptTermsAndConditionsText',
+                    'With your order you agree with our <a class="text-primary font-weight-bold" href="{termsAndConditionsLink}" target="blank">terms and conditions</a>. Please read and take note of our <a class="text-primary font-weight-bold" href="{privacyLink}" target="blank">data privacy statement</a> and <a class="text-primary font-weight-bold" href="{revocationLink}" target="blank">revocation instructions</a>',
+                    [
+                        'termsAndConditionsLink' => Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_TERMS_OF_SERVICE_PAGE),
+                        'privacyLink'            => Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_DATA_PRIVACY_PAGE),
+                        'revocationLink'         => Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_REVOCATION_INSTRUCTION_PAGE),
+                    ]
+        ));
     }
     
     /**
