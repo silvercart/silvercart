@@ -26,6 +26,21 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @since 09.10.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property string $ProductNumberToReference Product Number To Reference
+ * @property string $ExternalLink             External Link
+ * @property string $Title                    Title
+ * @property string $Content                  Content
+ * @property string $AltText                  Alt Text
+ * @property string $TableIndicator           Table Indicator
+ * @property string $Thumbnail                Thumbnail
+ * 
+ * @method Image    Image()    Returns the related Image.
+ * @method SiteTree SiteTree() Returns the related SiteTree.
+ * 
+ * @method \SilverStripe\ORM\HasManyList ImageSliderImageTranslations() Returns the related translations.
+ * 
+ * @method \SilverStripe\ORM\ManyManyList ImageSliderWidgets() Returns the related ImageSliderWidgets.
  */
 class ImageSliderImage extends DataObject
 {
@@ -37,6 +52,7 @@ class ImageSliderImage extends DataObject
      */
     private static $db = [
         'ProductNumberToReference'  => 'Varchar(128)',
+        'ExternalLink'              => 'Text',
     ];
     /**
      * Casted properties
@@ -205,6 +221,8 @@ class ImageSliderImage extends DataObject
             $productNumberToReferenceField->setDescription($this->fieldLabel('ProductNumberToReferenceInfo'));
             $fields->addFieldToTab('Root.Main', $siteTreeField, 'Title');
             $fields->addFieldToTab('Root.Main', $productNumberToReferenceField, 'SiteTreeID');
+            $fields->removeByName('ExternalLink');
+            $fields->addFieldToTab('Root.Main', TextField::create('ExternalLink', $this->fieldLabel('ExternalLink'))->setDescription($this->fieldLabel('ExternalLinkDesc')), 'Title');
             $fields->removeByName('ImageSliderWidgets');
         });
         return DataObjectExtension::getCMSFields($this, 'Image', false);
@@ -265,29 +283,59 @@ class ImageSliderImage extends DataObject
     }
     
     /**
-     * Returns the linked SiteTree object.
+     * Returns the linked SiteTree or Product object or NULL.
      *
      * @return SiteTree|Product|null
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.06.2014
      */
-    public function LinkedSite()
+    public function LinkedSite() : ?DataObject
     {
-        $linkedSite = false;
+        $linkedSite = null;
         if (!empty($this->ProductNumberToReference)) {
             $product = Product::get()->filter('ProductNumberShop', $this->ProductNumberToReference)->first();
             if ($product instanceof Product) {
                 $linkedSite = $product;
             }
         }
-        if ($linkedSite === false
+        if ($linkedSite === null
          && $this->SiteTreeID > 0
         ) {
             $linkedSite = $this->SiteTree();
         }
         return $linkedSite;
+    }
+    
+    /**
+     * Returns the image's link.
+     * 
+     * @return string|null
+     */
+    public function Link() : ?string
+    {
+        $link       = null;
+        $linkedSite = $this->LinkedSite();
+        if ($linkedSite === null) {
+            $link = $this->ExternalLink;
+        } else {
+            $link = $linkedSite->Link();
+        }
+        return $link;
+    }
+    
+    /**
+     * Returns the link target _blank if there is only an external link set.
+     * 
+     * @return string|null
+     */
+    public function LinkTarget() : ?string
+    {
+        $linkTarget = null;
+        $linkedSite = $this->LinkedSite();
+        if ($linkedSite === null
+         && !empty($this->ExternalLink)
+        ) {
+            $linkTarget = '_blank';
+        }
+        return $linkTarget;
     }
     
     /**

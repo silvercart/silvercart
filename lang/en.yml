@@ -863,6 +863,8 @@ en:
         SINGULARNAME: Translation
     SilverCart\Model\Widgets\ImageSliderImage:
         AltText: 'Text for ALT-Tag'
+        ExternalLink: 'External Link'
+        ExternalLinkDesc: 'Link/URL to an external web page.'
         LINKPAGE: 'Page that shall be linked to'
         PLURALNAME: 'slider images'
         ProductNumberToReference: 'Productnumber of the product to link to'

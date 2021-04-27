@@ -15,8 +15,8 @@
         <ul class="slides">
         <% loop $getSlideImages %>
             <li>
-            <% if $LinkedSite %>
-                <a href="{$LinkedSite.Link}"><% with $Image %><img src="{$URL}" width="{$Width}" height="{$Height}" alt="{$Up.AltText}" /><% end_with %></a>
+            <% if $Link %>
+                <a href="{$Link}" <% if $LinkTarget %>target="{$LinkTarget}"<% end_if %>><% with $Image %><img src="{$URL}" width="{$Width}" height="{$Height}" alt="{$Up.AltText}" /><% end_with %></a>
             <% else %>
                 <% with $Image %>
                     <img src="{$URL}" width="{$Width}" height="{$Height}" alt="{$Up.AltText}" />
@@ -29,8 +29,8 @@
     <% else %>
         <% loop $getSlideImages %>
             <div class="">
-            <% if $LinkedSite %>
-                <a href="{$LinkedSite.Link}"><% with $Image %><img src="{$URL}" width="{$Width}" height="{$Height}" alt="{$Up.AltText}" /><% end_with %></a>
+            <% if $Link %>
+                <a href="{$Link}" <% if $LinkTarget %>target="{$LinkTarget}"<% end_if %>><% with $Image %><img src="{$URL}" width="{$Width}" height="{$Height}" alt="{$Up.AltText}" /><% end_with %></a>
             <% else %>
                 <% with $Image %>
                     <img src="{$URL}" width="{$Width}" height="{$Height}" alt="{$Up.AltText}" />
