@@ -364,6 +364,21 @@ class Order extends DataObject implements PermissionProvider
         return $this->canEdit($member)
             && $this->OrderStatus()->Code !== OrderStatus::STATUS_CODE_CANCELED;
     }
+    
+    /**
+     * Returns the CSV export columns.
+     * 
+     * @return array
+     */
+    public function exportColumns() : array
+    {
+        $exportColumns = [];
+        $this->owner->extend('updateExportColumns', $exportColumns);
+        if (empty($exportColumns)) {
+            $exportColumns = $this->summaryFields();
+        }
+        return $exportColumns;
+    }
 
     /**
      * Summaryfields for display in tables.

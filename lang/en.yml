@@ -24,6 +24,10 @@ en:
         DUPLICATE_DESCRIPTION: 'Duplicates this object'
         Duplicate: Duplicate
         DuplicatePermissionsFailure: 'No duplicate permissions'
+    SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton:
+        Export-current-month: 'Export current month'
+        Export-penultimate-month: 'Export penultimate month'
+        Export-previous-month: 'Export previous month'
     SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
         Publish: Publish
         PublishDesc: 'Publishes this object'

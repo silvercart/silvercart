@@ -3,10 +3,14 @@
 namespace SilverCart\Admin\Controllers;
 
 use SilverCart\Admin\Controllers\ModelAdmin;
+use SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Payment\PaymentStatus;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\GridFieldImportButton;
+use SilverStripe\Forms\GridField\GridFieldPrintButton;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 
@@ -121,6 +125,39 @@ class OrderAdmin extends ModelAdmin
             );
         });
         return parent::init();
+    }
+    
+    /**
+     * Builds and returns the edit form.
+     * 
+     * @param int       $id     The current records ID. Won't be used for ModelAdmins.
+     * @param FieldList $fields Fields to use. Won't be used for ModelAdmins.
+     * 
+     * @return \SilverStripe\Forms\Form
+     */
+    public function getEditForm($id = null, $fields = null) : Form
+    {
+        $this->beforeUpdateEditForm(function(Form $form) {
+            $config       = $this->getGridFieldConfigFor($form);
+            $exportButton = GridFieldOrderExportButton::create();
+            $config->addComponent($exportButton);
+            $exportButton->setCsvSeparator($this->config()->csv_export_delimiter);
+            $exportButton->setCsvEnclosure($this->config()->csv_export_enclosure);
+            $exportButton->setCsvHasHeader($this->config()->csv_export_has_header);
+            $exportCurrentButton = GridFieldOrderExportButton::create(GridFieldOrderExportButton::EXPORT_MODE_CURRENT_MONTH);
+            $config->addComponent($exportCurrentButton);
+            $exportCurrentButton->setCsvSeparator($this->config()->csv_export_delimiter);
+            $exportCurrentButton->setCsvEnclosure($this->config()->csv_export_enclosure);
+            $exportCurrentButton->setCsvHasHeader($this->config()->csv_export_has_header);
+            $exportPenultimateButton = GridFieldOrderExportButton::create(GridFieldOrderExportButton::EXPORT_MODE_PENULTIMATE_MONTH);
+            $config->addComponent($exportPenultimateButton);
+            $exportPenultimateButton->setCsvSeparator($this->config()->csv_export_delimiter);
+            $exportPenultimateButton->setCsvEnclosure($this->config()->csv_export_enclosure);
+            $exportPenultimateButton->setCsvHasHeader($this->config()->csv_export_has_header);
+            $config->removeComponentsByType(GridFieldImportButton::class);
+            $config->removeComponentsByType(GridFieldPrintButton::class);
+        });
+        return parent::getEditForm($id, $fields);
     }
     
     /**

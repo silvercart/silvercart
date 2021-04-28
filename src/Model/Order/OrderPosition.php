@@ -224,6 +224,21 @@ class OrderPosition extends DataObject
     {
         return $this->Order()->canDelete($member);
     }
+    
+    /**
+     * Returns the CSV export columns.
+     * 
+     * @return array
+     */
+    public function exportColumns() : array
+    {
+        $exportColumns = [];
+        $this->owner->extend('updateExportColumns', $exportColumns);
+        if (empty($exportColumns)) {
+            $exportColumns = $this->summaryFields();
+        }
+        return $exportColumns;
+    }
 
     /**
      * Summaryfields for display in tables.
