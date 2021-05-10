@@ -2,6 +2,8 @@
 
 namespace SilverCart\Core;
 
+use ReflectionMethod;
+
 /**
  * 
  * 
@@ -35,6 +37,10 @@ trait ExtensibleExtension
     public function customAddCallbackMethod(string $method, string $extensionClass = null) : void
     {
         if (!$this->owner->hasMethod('addCallbackMethod')) {
+            return;
+        }
+        $reflection = new ReflectionMethod($this->owner, 'addCallbackMethod');
+        if (!$reflection->isPublic()) {
             return;
         }
         $extensionClass    = $extensionClass === null ? self::class : $extensionClass;
