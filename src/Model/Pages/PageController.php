@@ -33,6 +33,7 @@ use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
@@ -528,14 +529,26 @@ class PageController extends ContentController
     }
     
     /**
+     * Returns whether the current member has any orders.
+     * 
+     * @return bool
+     */
+    public function CurrentMembersHasOrders() : bool
+    {
+        $has      = false;
+        $customer = Security::getCurrentUser();
+        if ($customer instanceof Member) {
+            $has = Order::get()->filter('MemberID', $customer->ID)->exists();
+        }
+        return $has;
+    }
+    
+    /**
      * template function: returns customers orders
      * 
      * @param int $limit Limit
      *
      * @return DataList|null
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.10.10
      */
     public function CurrentMembersOrders(int $limit = null) : ?DataList
     {
@@ -546,8 +559,47 @@ class PageController extends ContentController
             } else {
                 $orders = Order::get()->filter('MemberID', $customer->ID);
             }
+            if (array_key_exists('oq', $_GET)) {
+                $query  = trim($_GET['oq']);
+                $filter = [
+                    'OrderNumber:PartialMatch'                       => $query,
+                    'OrderPositions.Title:PartialMatch'              => $query,
+                    'OrderPositions.ProductDescription:PartialMatch' => $query,
+                    'OrderPositions.ProductNumber:PartialMatch'      => $query,
+                ];
+                $this->extend('updateCurrentMembersOrdersFilter', $filter, $query);
+                return $orders->filterAny($filter);
+            }
             return $orders;
         }
+    }
+    
+    /**
+     * Returns the CurrentMembersOrders as a PaginatedList.
+     * 
+     * @return PaginatedList
+     */
+    public function PaginatedCurrentMembersOrders() : PaginatedList
+    {
+        $list = $this->CurrentMembersOrders();
+        if ($list === null) {
+            $list = ArrayList::create();
+        }
+        return PaginatedList::create($list, $_GET);
+    }
+    
+    /**
+     * Returns the value for the query field of the OrderSeachForm.
+     * 
+     * @return string
+     */
+    public function OrderSearchFormValue() : string
+    {
+        $query = '';
+        if (array_key_exists('oq', $_GET)) {
+            $query = $_GET['oq'];
+        }
+        return $query;
     }
     
     /**
