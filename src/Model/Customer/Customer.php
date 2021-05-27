@@ -1563,4 +1563,29 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         }
         return $confirmed;
     }
+    
+    /**
+     * Moves the shopping cart of $this->owner to $customer.
+     * 
+     * @param Member $customer Target customer
+     * 
+     * @return void
+     */
+    public function moveShoppingCartTo(Member $customer) : void
+    {
+        $ownerPositions = $this->owner->getCart()->ShoppingCartPositions();
+        if ($ownerPositions->exists()) {
+            //delete registered customers cart positions
+            $customerPositions = $customer->getCart()->ShoppingCartPositions();
+            if ($customerPositions->exists()) {
+                foreach ($customerPositions as $customerPosition) {
+                    $customerPosition->delete();
+                }
+            }
+            //add anonymous positions to the registered user
+            foreach ($ownerPositions as $ownerPosition) {
+                $customerPositions->add($ownerPosition);
+            }
+        }
+    }
 }

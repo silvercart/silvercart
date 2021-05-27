@@ -397,18 +397,7 @@ class ActionHandler extends Controller
                 //transfer cart positions from an anonymous user to the one logging in
                 $anonymousCustomer = Customer::currentAnonymousCustomer();
                 if ($anonymousCustomer) {
-                    if ($anonymousCustomer->getCart()->ShoppingCartPositions()->count() > 0) {
-                        //delete registered customers cart positions
-                        if ($customer->getCart()->ShoppingCartPositions()) {
-                            foreach ($customer->getCart()->ShoppingCartPositions() as $position) {
-                                $position->delete();
-                            }
-                        }
-                        //add anonymous positions to the registered user
-                        foreach ($anonymousCustomer->getCart()->ShoppingCartPositions() as $position) {
-                            $customer->getCart()->ShoppingCartPositions()->add($position);
-                        }
-                    }
+                    $anonymousCustomer->moveShoppingCartTo($customer);
                     $anonymousCustomer->delete();
                 }
                 
