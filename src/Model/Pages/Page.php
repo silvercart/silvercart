@@ -923,7 +923,7 @@ class Page extends SiteTree
             $ogType  = "product:item";
             $product = $ctrl->getDetailViewProduct();
             $image   = $product->getListImage();
-        } elseif ($ctrl instanceof ProductGroupPageController) {
+        } elseif ($this instanceof ProductGroupPage) {
             $ogType  = "product:group";
             $image   = $this->GroupPicture();
             if ((!($image instanceof Image)

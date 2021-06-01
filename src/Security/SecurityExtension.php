@@ -21,6 +21,8 @@ use SilverStripe\i18n\i18n;
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property \SilverStripe\Security\Security $owner Owner
  */
 class SecurityExtension extends Extension
 {
@@ -63,9 +65,12 @@ class SecurityExtension extends Extension
             Tools::saveSession();
         }
         
+        $member  = $this->owner->getCurrentUser();
         $request = $this->owner->getRequest();
         $action  = $request->param('Action');
-        if ($action === 'login') {
+        if ($action === 'login'
+         && $member !== null
+        ) {
             $backURL = $request->getVar('BackURL');
             if (!empty($backURL)) {
                 $rootPages = SiteTree::get()->filter('ParentID', 0);
