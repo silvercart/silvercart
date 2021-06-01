@@ -552,6 +552,12 @@ class Address extends DataObject implements PermissionProvider
                 $fields->replaceField('CountryID', $countryDropdown);
             }
             $fields->dataFieldByName('Salutation')->setSource(Tools::getSalutationMap());
+            if ($this->exists()) {
+                $created = $this->owner->dbObject('Created');
+                /* @var $created \SilverStripe\ORM\FieldType\DBDatetime */
+                $createdNice = "{$created->Date()}, {$created->Time()}";
+                $fields->insertBefore(\SilverStripe\Forms\ReadonlyField::create('CreatedNice', Tools::field_label('DATE'), $createdNice), 'TaxIdNumber');
+            }
         });
         return DataObjectExtension::getCMSFields($this);
     }
