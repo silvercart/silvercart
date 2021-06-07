@@ -3,6 +3,7 @@
 namespace SilverCart\Extensions\Assets\Storage;
 
 use SilverStripe\Assets\Flysystem\FlysystemAssetStore;
+use SilverStripe\Assets\Flysystem\ProtectedAssetAdapter;
 use SilverStripe\ORM\DataExtension;
 
 /**
@@ -96,6 +97,13 @@ class DBFileExtension extends DataExtension
      */
     public function getFilePath() : string
     {
-        return ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFileID();
+        $path = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFileID();
+        if (!file_exists($path)) {
+            $path = ASSETS_PATH . DIRECTORY_SEPARATOR . ProtectedAssetAdapter::config()->secure_folder . DIRECTORY_SEPARATOR . $this->getFileID();
+            if (!file_exists($path)) {
+                $path = '';
+            }
+        }
+        return $path;
     }
 }
