@@ -13,6 +13,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\CMS\Controllers\ModelAsController;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Security\Member;
 
@@ -28,6 +29,7 @@ use SilverStripe\Security\Member;
  */
 class CartPageController extends \PageController
 {
+    const SESSION_KEY_CONTINUE_SHOPPING_LINK = 'SilverCart.CartPage.ContinueShoppingLink';
     /**
      * List of allowed actions.
      *
@@ -44,6 +46,36 @@ class CartPageController extends \PageController
      * @var Checkout
      */
     protected $checkout = null;
+    
+    /**
+     * Sets the Continue Shopping Link.
+     * 
+     * @param string $returnRefererLink Return referer link
+     * 
+     * @return void
+     */
+    public static function setContinueShoppingLink(string $returnRefererLink) : void
+    {
+        Tools::Session()->set(self::SESSION_KEY_CONTINUE_SHOPPING_LINK, $returnRefererLink);
+        Tools::saveSession();
+    }
+    
+    /**
+     * Returns the Continue Shopping Link.
+     * 
+     * @return string
+     */
+    public static function getContinueShoppingLink() : string
+    {
+        $link = Tools::Session()->get(self::SESSION_KEY_CONTINUE_SHOPPING_LINK);
+        if ($link === null) {
+            $defaultHomepage = $this->getDefaultHomepage();
+            if ($defaultHomepage !== null) {
+                $link = $defaultHomepage->Link();
+            }
+        }
+        return (string) $link;
+    }
 
     /**
      * Initialise the shopping cart.
@@ -73,6 +105,11 @@ class CartPageController extends \PageController
                && $customer->getCart()->ShoppingCartPositions()->exists()
         ) {
             $customer->getCart()->adjustPositionQuantitiesToStockQuantities();
+        }
+        $referer = (string) $this->getReturnReferer();
+        $page    = SiteTree::get_by_link($referer);
+        if (!($page instanceof CheckoutStep)) {
+            self::setContinueShoppingLink($referer);
         }
     }
 
