@@ -52,11 +52,13 @@ class DBFileExtension extends DataExtension
      *
      * The resulting file will look something like my/directory/EA775CB4D4/filename__variant.jpg
      *
+     * @param bool $legacy Use legacy file names?
+     * 
      * @return string Adapter specific identifier for this file/version
      * 
      * @see FlysystemAssetStore::getFileID()
      */
-    public function getFileID() : string
+    public function getFileID(bool $legacy = false) : string
     {
         // Since we use double underscore to delimit variants, eradicate them from filename
         $filename = $this->cleanFilename($this->owner->Filename);
@@ -69,7 +71,9 @@ class DBFileExtension extends DataExtension
             $name      = substr($name, 0, $pos);
         }
         // Unless in legacy mode, inject hash just prior to the filename
-        if ($this->useLegacyFilenames()) {
+        if ($legacy
+         || $this->useLegacyFilenames()
+        ) {
             $fileID = $name;
         } else {
             $fileID = substr($this->owner->Hash, 0, 10) . "/{$name}";
@@ -99,9 +103,15 @@ class DBFileExtension extends DataExtension
     {
         $path = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFileID();
         if (!file_exists($path)) {
-            $path = ASSETS_PATH . DIRECTORY_SEPARATOR . ProtectedAssetAdapter::config()->secure_folder . DIRECTORY_SEPARATOR . $this->getFileID();
+            $path = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFileID(true);
             if (!file_exists($path)) {
-                $path = '';
+                $path = ASSETS_PATH . DIRECTORY_SEPARATOR . ProtectedAssetAdapter::config()->secure_folder . DIRECTORY_SEPARATOR . $this->getFileID();
+                if (!file_exists($path)) {
+                    $path = ASSETS_PATH . DIRECTORY_SEPARATOR . ProtectedAssetAdapter::config()->secure_folder . DIRECTORY_SEPARATOR . $this->getFileID(true);
+                    if (!file_exists($path)) {
+                        $path = '';
+                    }
+                }
             }
         }
         return $path;
