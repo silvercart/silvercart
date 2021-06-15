@@ -5,6 +5,7 @@ namespace SilverCart\Admin\Controllers;
 use SilverCart\Admin\Controllers\ModelAdmin;
 use SilverCart\Model\Customer\Customer;
 use SilverStripe\Forms\HeaderField;
+use SilverStripe\ORM\DataList;
 use SilverStripe\Security\Member;
 
 /**
@@ -86,7 +87,7 @@ class CustomerAdmin extends ModelAdmin
      * 
      * @return \SilverStripe\ORM\SS_List
      */
-    public function getList()
+    public function getList() : DataList
     {
         /* @var $list DataList */
         $list = parent::getList();

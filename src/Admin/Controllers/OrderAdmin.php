@@ -11,6 +11,7 @@ use SilverCart\Model\Payment\PaymentStatus;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
+use SilverStripe\ORM\DataList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 
@@ -166,7 +167,7 @@ class OrderAdmin extends ModelAdmin
      * 
      * @return \SilverCart\ORM\DataList
      */
-    public function getList()
+    public function getList() : DataList
     {
         return $this->getStatusList($this->getCurrentTab());
     }
