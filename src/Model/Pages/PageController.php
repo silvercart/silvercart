@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
+use Broarm\CookieConsent\Model\CookiePolicyPage;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Admin\Model\CookiePolicyConfig;
 use SilverCart\Checkout\Checkout;
@@ -378,7 +379,9 @@ class PageController extends ContentController
         if ($registeredCustomer instanceof Member
          && $registeredCustomer->exists()
         ) {
-            if (!$registeredCustomer->RegistrationOptInConfirmed
+            if (!in_array($this->getRequest()->param('Action'), ['acceptAllCookies'])
+             && !in_array(get_class($this->data()), [CookiePolicyPage::class])
+             && !$registeredCustomer->RegistrationOptInConfirmed
              && !($this instanceof RegistrationPageController)
             ) {
                 $registrationPage = RegistrationPage::get()->first();
