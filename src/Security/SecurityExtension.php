@@ -68,22 +68,17 @@ class SecurityExtension extends Extension
         $member  = $this->owner->getCurrentUser();
         $request = $this->owner->getRequest();
         $action  = $request->param('Action');
-        if ($action === 'login'
-         && $member !== null
-        ) {
+        if ($action === 'login') {
             $backURL = $request->getVar('BackURL');
             if (!empty($backURL)) {
-                $rootPages = SiteTree::get()->filter('ParentID', 0);
-                foreach ($rootPages as $page) {
-                    if (strpos($backURL, $page->URLSegment) === 0
-                     || strpos($backURL, "/{$page->URLSegment}") === 0
-                    ) {
-                        $this->owner->redirect($backURL);
-                        break;
-                    }
+                if (strpos($backURL, 'admin') !== 0
+                 && strpos($backURL, '/admin') !== 0
+                ) {
+                    $this->owner->redirect($backURL);
                 }
             }
         }
+
     }
     
     /**
