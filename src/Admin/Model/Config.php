@@ -173,6 +173,8 @@ class Config
     public static $useStrictSearchRelevance              = false;
     public static $defaultMailRecipient                  = null;
     public static $defaultMailOrderNotificationRecipient = null;
+    public static $defaultMailRevocationRecipient        = null;
+    public static $defaultMailRegistrationRecipient      = null;
     public static $defaultContactMessageRecipient        = null;
     public static $userAgentBlacklist                    = null;
     public static $skipPaymentStepIfUnique               = null;
@@ -779,6 +781,38 @@ class Config
             }
         }
         return self::$defaultMailOrderNotificationRecipient;
+    }
+
+    /**
+     * Returns the default mail revocation recipient
+     * 
+     * @return string email address
+     */
+    public static function DefaultMailRevocationRecipient() : string
+    {
+        if (is_null(self::$defaultMailRevocationRecipient)) {
+            self::$defaultMailRevocationRecipient = self::getConfig()->DefaultMailRevocationRecipient;
+            if (empty(self::$defaultMailRevocationRecipient)) {
+                self::$defaultMailRevocationRecipient = self::DefaultMailOrderNotificationRecipient();
+            }
+        }
+        return (string) self::$defaultMailRevocationRecipient;
+    }
+    
+    /**
+     * Returns the default mail registration recipient
+     * 
+     * @return string email address
+     */
+    public static function DefaultMailRegistrationRecipient()
+    {
+        if (is_null(self::$defaultMailRegistrationRecipient)) {
+            self::$defaultMailRegistrationRecipient = self::getConfig()->DefaultMailRegistrationRecipient;
+            if (empty(self::$defaultMailRegistrationRecipient)) {
+                self::$defaultMailRegistrationRecipient = self::DefaultMailOrderNotificationRecipient();
+            }
+        }
+        return (string) self::$defaultMailRegistrationRecipient;
     }
 
     /**

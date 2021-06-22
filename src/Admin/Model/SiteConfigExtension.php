@@ -73,6 +73,8 @@ class SiteConfigExtension extends DataExtension
         'GlobalEmailRecipient'                  => 'Varchar(255)',
         'DefaultMailRecipient'                  => 'Varchar(255)',
         'DefaultMailOrderNotificationRecipient' => 'Varchar(255)',
+        'DefaultMailRevocationRecipient'        => 'Varchar(255)',
+        'DefaultMailRegistrationRecipient'      => 'Varchar(255)',
         'DefaultContactMessageRecipient'        => 'Varchar(255)',
         'enableSSL'                             => 'Boolean(0)',
         'productsPerPage'                       => 'Int',
@@ -420,6 +422,8 @@ class SiteConfigExtension extends DataExtension
                     TextField::create('GlobalEmailRecipient',                  $this->owner->fieldLabel('GlobalEmailRecipient')),
                     TextField::create('DefaultMailRecipient',                  $this->owner->fieldLabel('DefaultMailRecipient')),
                     TextField::create('DefaultMailOrderNotificationRecipient', $this->owner->fieldLabel('DefaultMailOrderNotificationRecipient')),
+                    TextField::create('DefaultMailRevocationRecipient',        $this->owner->fieldLabel('DefaultMailRevocationRecipient')),
+                    TextField::create('DefaultMailRegistrationRecipient',      $this->owner->fieldLabel('DefaultMailRegistrationRecipient')),
                     TextField::create('DefaultContactMessageRecipient',        $this->owner->fieldLabel('DefaultContactMessageRecipient'))
                 ]
         )->setHeadingLevel(4);
@@ -961,6 +965,26 @@ class SiteConfigExtension extends DataExtension
     public function getDefaultMailOrderNotificationRecipient() : ?string
     {
         return $this->getUpdatedField('DefaultMailOrderNotificationRecipient');
+    }
+    
+    /**
+     * Returns the DefaultMailRevocationRecipient.
+     * 
+     * @return string|null
+     */
+    public function getDefaultMailRevocationRecipient() : ?string
+    {
+        return $this->getUpdatedField('DefaultMailRevocationRecipient');
+    }
+    
+    /**
+     * Returns the DefaultMailRegistrationRecipient.
+     * 
+     * @return string|null
+     */
+    public function getDefaultMailRegistrationRecipient() : ?string
+    {
+        return $this->getUpdatedField('DefaultMailRegistrationRecipient');
     }
     
     /**
