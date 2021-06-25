@@ -35,6 +35,29 @@ class FormFieldExtension extends Extension
     protected $requiredForced = [];
     
     /**
+     * Returns the placeholder
+     *
+     * @return string
+     */
+    public function getPlaceholder() : string
+    {
+        return (string) $this->owner->getAttribute('placeholder');
+    }
+
+    /**
+     * Sets the placeholder
+     *
+     * @param string $placeholder Placeholder to set
+     * 
+     * @return FormField
+     */
+    public function setPlaceholder($placeholder) : FormField
+    {
+        $this->owner->setAttribute('placeholder', $placeholder);
+        return $this->owner;
+    }
+    
+    /**
      * Returns whether the field validation failed.
      * 
      * @return bool

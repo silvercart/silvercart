@@ -938,7 +938,7 @@ class PageController extends ContentController
      * 
      * @return SiteTree|null
      */
-    public function getDefaultHomepage() : ?SiteTree
+    public static function getDefaultHomepage() : ?SiteTree
     {
         $defaultHomepageLink = RootURLController::get_homepage_link();
         return SiteTree::get_by_link($defaultHomepageLink);

@@ -16,6 +16,7 @@ use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Security\Member;
+use SilverStripe\Control\Director;
 
 /**
  * CartPage Controller class.
@@ -69,7 +70,7 @@ class CartPageController extends \PageController
     {
         $link = Tools::Session()->get(self::SESSION_KEY_CONTINUE_SHOPPING_LINK);
         if ($link === null) {
-            $defaultHomepage = $this->getDefaultHomepage();
+            $defaultHomepage = self::getDefaultHomepage();
             if ($defaultHomepage !== null) {
                 $link = $defaultHomepage->Link();
             }
@@ -108,8 +109,15 @@ class CartPageController extends \PageController
         }
         $referer = (string) $this->getReturnReferer();
         $page    = SiteTree::get_by_link($referer);
-        if (!($page instanceof CheckoutStep)) {
-            self::setContinueShoppingLink($referer);
+        if (!($page instanceof CheckoutStep)
+         && !($page instanceof CartPage)
+        ) {
+            if (strpos(Director::makeRelative($referer), Director::makeRelative($this->Link())) !== 0) {
+                $checkout = CheckoutStep::get()->first();
+                if (strpos(Director::makeRelative($referer), Director::makeRelative($checkout->Link())) !== 0) {
+                    self::setContinueShoppingLink($referer);
+                }
+            }
         }
     }
 

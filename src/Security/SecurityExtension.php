@@ -9,6 +9,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\Director;
 use SilverStripe\Core\Extension;
 use SilverStripe\i18n\i18n;
 
@@ -126,5 +127,17 @@ class SecurityExtension extends Extension
             $form->setHTMLID($htmlID);
         }
         return $form;
+    }
+    
+    /**
+     * Returns the absolute version of $url.
+     * 
+     * @param string $url Relative URL
+     * 
+     * @return string
+     */
+    public function AbsoluteURL(string $url) : string
+    {
+        return Director::absoluteURL($url);
     }
 }
