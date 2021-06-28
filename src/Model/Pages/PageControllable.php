@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Pages;
 
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\SiteConfig\SiteConfig;
 
 /**
  * Adds some basic page controller features.
@@ -16,6 +17,32 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  */
 trait PageControllable
 {
+    /**
+     * Returns an RFC1766 compliant locale string, e.g. 'fr-CA'.
+     * Inspects the associated {@link dataRecord} for a {@link SiteTree->Locale} value if present,
+     * and falls back to {@link Translatable::get_current_locale()} or {@link i18n::default_locale()},
+     * depending if Translatable is enabled.
+     *
+     * Suitable for insertion into lang= and xml:lang=
+     * attributes in HTML or XHTML output.
+     *
+     * @return string
+     */
+    public function ContentLocale() : string
+    {
+        return (string) PageController::singleton()->ContentLocale();
+    }
+
+    /**
+     * Returns the SiteConfig.
+     * 
+     * @return SiteConfig
+     */
+    public function SiteConfig() : SiteConfig
+    {
+        return PageController::singleton()->SiteConfig();
+    }
+    
     /**
      * Loads all PHP side SilverCart JS requirements.
      * Additional JS files can still be loaded elsewhere.
