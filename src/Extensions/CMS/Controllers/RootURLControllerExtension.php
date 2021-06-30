@@ -45,8 +45,10 @@ class RootURLControllerExtension extends Extension
         $originalLink = $link;
         $localeObj    = null;
         $ctrl         = Controller::curr();
-        if ($ctrl->hasMethod('data')) {
-            $page       = Controller::curr()->data();
+        if ($ctrl instanceof Controller
+         && $ctrl->hasMethod('data')
+        ) {
+            $page       = $ctrl->data();
             $localeCode = $page->getSourceQueryParam('Fluent.Locale');
             if (is_string($localeCode)
              && !empty($localeCode)
