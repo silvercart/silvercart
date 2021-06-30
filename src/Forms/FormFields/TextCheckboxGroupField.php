@@ -71,10 +71,13 @@ class TextCheckboxGroupField extends CompositeField
         $displayedText    = _t(self::class . '.Displayed', 'Displayed');
         $notDisplayedText = _t(self::class . '.NotDisplayed', 'Not displayed');
 
-        $field->replaceField("Show{$this->getName()}", LiteralField::create(
-            "Show{$this->getName()}",
-            $field->fieldByName("Show{$this->getName()}")->Value() === 'Yes' ? $displayedText : $notDisplayedText
-        )->addExtraClass('show-title'));
+        $showField = $field->fieldByName("Show{$this->getName()}");
+        if ($showField !== null) {
+            $field->replaceField("Show{$this->getName()}", LiteralField::create(
+                "Show{$this->getName()}",
+                $field->fieldByName("Show{$this->getName()}")->Value() === 'Yes' ? $displayedText : $notDisplayedText
+            )->addExtraClass('show-title'));
+        }
 
         return $field;
     }
