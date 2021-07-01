@@ -2250,6 +2250,11 @@ de:
         NotDisplayed: 'Wird nicht angezeigt'
         ShowTitleLabel: 'Wird angezeigt'
         TitleLabel: 'Titel (angezeigt, wenn ausgewählt)'
+    SilverStripe\Security\PasswordValidator:
+        STRENGTHTESTLOWERCASE: 'Kleinbuchstaben'
+        STRENGTHTESTUPPERCASE: 'Großbuchstaben'
+        STRENGTHTESTDIGITS: 'Zahlen'
+        STRENGTHTESTPUNCTUATION: 'Sonderzeichen'
     SilverStripe\Security\Security:
         CONFIRMLOGOUT: 'Bitte klicken Sie auf den unteren Button, um zu bestätigen, dass Sie sich ausloggen möchten.'
         NOTERESETLINKINVALID: '<p>Der Link zum Zurücksetzen des Passworts ist ungültig oder abgelaufen.</p><p>Sie können ein neues Passwort anfordern <a href="{link1}">here</a> oder Ihr Passwort ändern, nachdem Sie sich <a href="{link2}">eingeloggt haben</a>.</p>'

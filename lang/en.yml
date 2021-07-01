@@ -2250,3 +2250,8 @@ en:
         NotDisplayed: 'Not displayed'
         ShowTitleLabel: Displayed
         TitleLabel: 'Title (displayed if checked)'
+    SilverStripe\Security\PasswordValidator:
+        STRENGTHTESTLOWERCASE: 'lower case letters'
+        STRENGTHTESTUPPERCASE: 'upper case letters'
+        STRENGTHTESTDIGITS: 'digits'
+        STRENGTHTESTPUNCTUATION: 'special characters'
