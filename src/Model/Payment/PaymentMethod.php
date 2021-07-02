@@ -1324,7 +1324,7 @@ class PaymentMethod extends DataObject
                 foreach ($paymentMethods as $paymentMethodName => $paymentMethodData) {
                     if (count($paymentMethodData['channels']) > 0) {
                         foreach ($paymentMethodData['channels'] as $channelName => $channelTitle) {
-                            $paymentMethodsSource["{$paymentMethodName}--{$channelName}"] = $channelTitle;
+                            $paymentMethodsSource["{$paymentMethodName}--{$channelName}"] = "{$channelTitle} ({$paymentMethodData['name']})";
                         }
                     } else {
                         $paymentMethodsSource[$paymentMethodName] = $paymentMethodData['title'];
