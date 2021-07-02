@@ -6,6 +6,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Batch action to change a product group.
@@ -24,21 +25,20 @@ class GridFieldBatchAction_ChangeProductGroup extends GridFieldBatchAction {
      * 
      * @return string
      */
-    public function getCallbackFormFields() {
-        return $this->render(array(
+    public function getCallbackFormFields() : DBHTMLText
+    {
+        return $this->render([
             'Dropdown' => $this->getDataObjectAsDropdownField(ProductGroupPage::class),
-        ));
+        ]);
     }
     
     /**
      * Is used to call javascript requirements of an action.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function RequireJavascript() {
+    public function RequireJavascript() : void
+    {
         $this->RequireDefaultJavascript();
     }
     
@@ -50,11 +50,9 @@ class GridFieldBatchAction_ChangeProductGroup extends GridFieldBatchAction {
      * @param array     $data      Data to handle action for
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function handle(GridField $gridField, $recordIDs, $data) {
+    public function handle(GridField $gridField, array $recordIDs, array $data) : void
+    {
         $targetID       = $data[Convert::raw2att(ProductGroupPage::class)];
         $relationName   = 'ProductGroupID';
         $this->handleDefaultHasOneRelation($gridField, $recordIDs, $targetID, $relationName);

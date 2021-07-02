@@ -7,6 +7,7 @@ use SilverCart\Model\Payment\PaymentStatus;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Batch action to change a payment status.
@@ -25,7 +26,8 @@ class GridFieldBatchAction_ChangePaymentStatus extends GridFieldBatchAction
      * 
      * @return string
      */
-    public function getCallbackFormFields() {
+    public function getCallbackFormFields() : DBHTMLText
+    {
         return $this->render([
             'Dropdown' => $this->getDataObjectAsDropdownField(PaymentStatus::class),
         ]);
@@ -35,11 +37,8 @@ class GridFieldBatchAction_ChangePaymentStatus extends GridFieldBatchAction
      * Is used to call javascript requirements of an action.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function RequireJavascript()
+    public function RequireJavascript() : void
     {
         $this->RequireDefaultJavascript();
     }
@@ -52,11 +51,8 @@ class GridFieldBatchAction_ChangePaymentStatus extends GridFieldBatchAction
      * @param array     $data      Data to handle action for
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function handle(GridField $gridField, $recordIDs, $data)
+    public function handle(GridField $gridField, array $recordIDs, array $data) : void
     {
         $paymentStatusID = $data[Convert::raw2att(PaymentStatus::class)];
         foreach ($recordIDs as $orderID) {

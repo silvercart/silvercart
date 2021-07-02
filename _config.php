@@ -19,6 +19,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject;
+use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders;
@@ -92,6 +93,7 @@ GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction
 GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ChangeAvailabilityStatus::class);
 GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ChangeManufacturer::class);
 GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_ChangeProductGroup::class);
+GridFieldBatchController::addBatchActionFor(Product::class, GridFieldBatchAction_Delete::class);
 // add possible group views
 GroupViewHandler::addGroupView(GroupViewList::class);
 GroupViewHandler::addGroupView(GroupViewTile::class);

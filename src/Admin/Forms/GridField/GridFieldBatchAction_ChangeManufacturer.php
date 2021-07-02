@@ -6,6 +6,7 @@ use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
 use SilverCart\Model\Product\Manufacturer;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Batch action to change an orders status.
@@ -22,23 +23,22 @@ class GridFieldBatchAction_ChangeManufacturer extends GridFieldBatchAction {
     /**
      * Returns the markup of the callback form fields.
      * 
-     * @return string
+     * @return DBHTMLText
      */
-    public function getCallbackFormFields() {
-        return $this->render(array(
+    public function getCallbackFormFields() : DBHTMLText
+    {
+        return $this->render([
             'Dropdown' => $this->getDataObjectAsDropdownField(Manufacturer::class),
-        ));
+        ]);
     }
     
     /**
      * Is used to call javascript requirements of an action.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function RequireJavascript() {
+    public function RequireJavascript() : void
+    {
         $this->RequireDefaultJavascript();
     }
     
@@ -50,14 +50,11 @@ class GridFieldBatchAction_ChangeManufacturer extends GridFieldBatchAction {
      * @param array     $data      Data to handle action for
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function handle(GridField $gridField, $recordIDs, $data) {
+    public function handle(GridField $gridField, array $recordIDs, array $data) : void
+    {
         $targetID       = $data[Convert::raw2att(Manufacturer::class)];
         $relationName   = 'ManufacturerID';
         $this->handleDefaultHasOneRelation($gridField, $recordIDs, $targetID, $relationName);
     }
-    
 }

@@ -19,17 +19,15 @@ use SilverStripe\ORM\ArrayList;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class GridFieldBatchAction_PrintOrders extends GridFieldBatchAction {
-    
+class GridFieldBatchAction_PrintOrders extends GridFieldBatchAction
+{
     /**
      * Is used to call javascript requirements of an action.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function RequireJavascript() {
+    public function RequireJavascript() : void
+    {
         $this->RequireDefaultJavascript();
     }
     
@@ -41,13 +39,11 @@ class GridFieldBatchAction_PrintOrders extends GridFieldBatchAction {
      * @param array     $recordIDs Record IDs to handle action for
      * @param array     $data      Data to handle action for
      * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
+     * @return string
      */
-    public function handle(GridField $gridField, $recordIDs, $data) {
-        $orders = new ArrayList();
+    public function handle(GridField $gridField, array $recordIDs, array $data) : string
+    {
+        $orders = ArrayList::create();
         foreach ($recordIDs as $orderID) {
             $order = Order::get()->byID($orderID);
             if ($order->exists()) {

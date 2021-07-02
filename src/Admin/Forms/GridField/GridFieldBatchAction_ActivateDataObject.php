@@ -16,8 +16,8 @@ use SilverStripe\ORM\DataObject;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class GridFieldBatchAction_ActivateDataObject extends GridFieldBatchAction {
-    
+class GridFieldBatchAction_ActivateDataObject extends GridFieldBatchAction
+{
     /**
      * Handles the action.
      * 
@@ -26,13 +26,11 @@ class GridFieldBatchAction_ActivateDataObject extends GridFieldBatchAction {
      * @param array     $data      Data to handle action for
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function handle(GridField $gridField, $recordIDs, $data) {
+    public function handle(GridField $gridField, array $recordIDs, array $data) : void
+    {
         foreach ($recordIDs as $recordID) {
-            $record = DataObject::get_by_id($gridField->getModelClass(), $recordID);
+            $record = DataObject::get($gridField->getModelClass())->byID($recordID);
             if ($record->exists()) {
                 $record->isActive = true;
                 $record->write();

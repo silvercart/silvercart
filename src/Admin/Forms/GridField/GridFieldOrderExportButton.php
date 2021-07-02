@@ -311,7 +311,15 @@ class GridFieldOrderExportButton implements GridField_HTMLProvider, GridField_Ac
 
         $items = Order::get()
                 ->where("{$orderTable}.Created BETWEEN CAST('{$startDate}' AS DATE) AND CAST('{$endDate}' AS DATE)");
-        foreach ($items->limit(null) as $item) {
+        $limit  = null;
+        $offset = 0;
+        if (array_key_exists('limit', $_GET)) {
+            $limit = (int) $_GET['limit'] === 0 ? null : (int) $_GET['limit'];
+        }
+        if (array_key_exists('offset', $_GET)) {
+            $offset = (int) $_GET['offset'];
+        }
+        foreach ($items->limit($limit, $offset) as $item) {
             /* @var $item Order */
             if (!$item->hasMethod('canView')
              || $item->canView()

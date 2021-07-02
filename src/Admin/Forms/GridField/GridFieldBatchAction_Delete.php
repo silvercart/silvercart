@@ -3,20 +3,20 @@
 namespace SilverCart\Admin\Forms\GridField;
 
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
-use SilverCart\Model\Order\Order;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\ORM\DataObject;
 
 /**
- * Batch action to mark an order as not seen.
+ * Batch action to delete DataObjects.
  *
  * @package SilverCart
- * @subpackage Admin_Forms_GridField_BatchActions
+ * @subpackage Admin\Forms\GridField
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 22.09.2017
- * @copyright 2017 pixeltricks GmbH
+ * @since 02.06.2021
+ * @copyright 2021 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class GridFieldBatchAction_MarkAsNotSeen extends GridFieldBatchAction
+class GridFieldBatchAction_Delete extends GridFieldBatchAction
 {
     /**
      * Handles the action.
@@ -29,10 +29,13 @@ class GridFieldBatchAction_MarkAsNotSeen extends GridFieldBatchAction
      */
     public function handle(GridField $gridField, array $recordIDs, array $data) : void
     {
-        foreach ($recordIDs as $orderID) {
-            $order = Order::get()->byID($orderID);
-            if ($order->exists()) {
-                $order->markAsNotSeen();
+        $modelClass = $gridField->getModelClass();
+        foreach ($recordIDs as $recordID) {
+            $record = DataObject::get($modelClass)->byID($recordID);
+            if (is_object($record)
+             && $record->exists()
+            ) {
+                $record->delete();
             }
         }
     }

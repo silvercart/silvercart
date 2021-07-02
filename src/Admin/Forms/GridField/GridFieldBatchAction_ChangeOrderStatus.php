@@ -7,6 +7,7 @@ use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * Batch action to change an orders status.
@@ -18,28 +19,27 @@ use SilverStripe\Forms\GridField\GridField;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class GridFieldBatchAction_ChangeOrderStatus extends GridFieldBatchAction {
-    
+class GridFieldBatchAction_ChangeOrderStatus extends GridFieldBatchAction
+{
     /**
      * Returns the markup of the callback form fields.
      * 
      * @return string
      */
-    public function getCallbackFormFields() {
-        return $this->render(array(
+    public function getCallbackFormFields() : DBHTMLText
+    {
+        return $this->render([
             'Dropdown' => $this->getDataObjectAsDropdownField(OrderStatus::class),
-        ));
+        ]);
     }
     
     /**
      * Is used to call javascript requirements of an action.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function RequireJavascript() {
+    public function RequireJavascript() : void
+    {
         $this->RequireDefaultJavascript();
     }
     
@@ -51,13 +51,10 @@ class GridFieldBatchAction_ChangeOrderStatus extends GridFieldBatchAction {
      * @param array     $data      Data to handle action for
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
-    public function handle(GridField $gridField, $recordIDs, $data) {
+    public function handle(GridField $gridField, array $recordIDs, array $data) : void
+    {
         $orderStatusID = $data[Convert::raw2att(OrderStatus::class)];
-        
         foreach ($recordIDs as $orderID) {
             $order = Order::get()->byID($orderID);
             if ($order->exists()) {
@@ -67,5 +64,4 @@ class GridFieldBatchAction_ChangeOrderStatus extends GridFieldBatchAction {
             }
         }
     }
-    
 }

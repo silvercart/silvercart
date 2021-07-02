@@ -828,6 +828,8 @@ de:
         TITLE: 'Warengruppe ändern auf...'
     SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
         TITLE: Deaktivieren
+    SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete:
+        TITLE: Löschen
     SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
         TITLE: 'Als nicht gesehen markieren'
     SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
