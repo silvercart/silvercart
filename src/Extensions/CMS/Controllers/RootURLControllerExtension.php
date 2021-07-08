@@ -44,16 +44,18 @@ class RootURLControllerExtension extends Extension
     {
         $originalLink = $link;
         $localeObj    = null;
-        $ctrl         = Controller::curr();
-        if ($ctrl instanceof Controller
-         && $ctrl->hasMethod('data')
-        ) {
-            $page       = $ctrl->data();
-            $localeCode = $page->getSourceQueryParam('Fluent.Locale');
-            if (is_string($localeCode)
-             && !empty($localeCode)
+        if (Controller::has_curr()) {
+            $ctrl = Controller::curr();
+            if ($ctrl instanceof Controller
+             && $ctrl->hasMethod('data')
             ) {
-                $localeObj = Locale::getByLocale($localeCode);
+                $page       = $ctrl->data();
+                $localeCode = $page->getSourceQueryParam('Fluent.Locale');
+                if (is_string($localeCode)
+                 && !empty($localeCode)
+                ) {
+                    $localeObj = Locale::getByLocale($localeCode);
+                }
             }
         }
         if (!($localeObj instanceof Locale)) {
