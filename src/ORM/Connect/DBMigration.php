@@ -344,4 +344,38 @@ class DBMigration
             }
         }
     }
+    
+    /**
+     * Removes database columns for the given $dataObject like defined in 
+     * $removeFields.
+     * 
+     * <code>
+     * // expected format for $removeFields
+     * $removeFields = [
+     *     'FieldName1',
+     *     'FieldName2',
+     *     'FieldName3',
+     *     'FieldName4',
+     * ];
+     * </code>
+     * 
+     * @param DataObject $dataObject   DataObject context to rename fields for
+     * @param array      $removeFields List of field names to remove.
+     * 
+     * @return void
+     */
+    public static function remove_fields(DataObject $dataObject, array $removeFields) : void
+    {
+        $schema    = DB::get_schema();
+        $tableName = $dataObject->getSchema()->tableName($dataObject->ClassName);
+        if (is_null($tableName)) {
+            return;
+        }
+        foreach ($removeFields as $fieldName) {
+            if ($schema->hasField($tableName, $fieldName)) {
+                DB::query("ALTER TABLE \"{$tableName}\" DROP COLUMN {$fieldName}");
+                DB::alteration_message("Dropped field {$tableName}.{$fieldName}.", "deleted");
+            }
+        }
+    }
 }
