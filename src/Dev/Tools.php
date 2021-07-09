@@ -384,6 +384,19 @@ class Tools
     }
     
     /**
+     * Returns the i18n version of 'Yes' or 'No' dependent of the given $boolean
+     * value.
+     * 
+     * @param bool $boolean Boolean value to check
+     * 
+     * @return string
+     */
+    public static function booleanToString(bool $boolean) : string
+    {
+        return (string) $boolean ? self::field_label('Yes') : self::field_label('No');
+    }
+    
+    /**
      * Returns the default field labels for the given DataObject.
      * 
      * @param string $objectName Object name to get field labels for

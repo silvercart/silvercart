@@ -4,8 +4,10 @@ namespace SilverCart\Admin\Dev\Tasks;
 
 use SilverCart\Extensions\Assets\ImageExtension;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Product\File as SilverCartFile;
 use SilverCart\Model\Product\Image as SilverCartImage;
 use SilverStripe\Assets\FileNameFilter;
+use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
@@ -88,6 +90,72 @@ class ProductImageImportTask extends BuildTask
      * @var string
      */
     private static $image_name_separator = '-';
+    /**
+     * File endings to use for the image import. Other endings will be imported as files.
+     *
+     * @var string[]
+     */
+    private static $image_endings = ['jpg', 'jpeg', 'png'];
+    
+    /**
+     * Returns the files (including drafts) from the given $dir.
+     * 
+     * @param string $dir        Directory
+     * @param bool   $forPreview For preview?
+     * 
+     * @return array
+     */
+    public static function getFilesFromDir(string $dir, bool $forPreview = false, string $subDir = null) : array
+    {
+        $files  = [];
+        $ignore = [
+            '.',
+            '..',
+            '_resampled',
+            self::get_import_is_installed_file_name(),
+            self::get_import_is_running_file_name(),
+        ];
+        if ($forPreview) {
+            $folder = Folder::find_or_make(self::get_relative_upload_folder());
+        }
+        if (is_dir($dir)) {
+            if ($handle = opendir($dir)) {
+                while (false !== ($entry = readdir($handle))) {
+                    if (in_array($entry, $ignore)) {
+                        continue;
+                    }
+                    if (strpos($entry, '__FitMax') !== false) {
+                        if (!$forPreview) {
+                            unlink("{$dir}/{$entry}");
+                        }
+                        continue;
+                    }
+                    if (is_dir("{$dir}/{$entry}")) {
+                        $files = array_merge($files, self::getFilesFromDir("{$dir}/{$entry}", $forPreview, $entry));
+                        continue;
+                    }
+                    if ($forPreview) {
+                        $file = $folder->myChildren()->filter('FileHash:StartsWith', $entry)->first();
+                        if ($file instanceof File
+                         && $file->exists()
+                        ) {
+                            $entry = $file->Name;
+                        }
+                        $files[] = $entry;
+                    } else {
+                        $files[] = [
+                            'filename' => $entry,
+                            'filepath' => $dir,
+                        ];
+                    }
+                }
+
+                closedir($handle);
+            }
+        }
+        sort($files);
+        return $files;
+    }
     
     /**
      * Runs this task.
@@ -105,10 +173,12 @@ class ProductImageImportTask extends BuildTask
         }
         $this->markAsInstalled();
         $this->markAsRunning();
-        
         $importedImagesCount = 0;
         $found               = [];
         $notFound            = [];
+        $importedFilesCount  = 0;
+        $foundFiles          = [];
+        $notFoundFiles       = [];
         $uploadedFiles       = $this->getUploadedFiles();
         $folder              = Folder::find_or_make($this->config()->relative_upload_folder);
         $uploadedFilesCount  = count($uploadedFiles);
@@ -117,13 +187,17 @@ class ProductImageImportTask extends BuildTask
             $this->printInfo("");
             $this->printInfo("analyzing files...", self::$CLI_COLOR_MAGENTA);
             $imageData    = [];
+            $fileData     = [];
             $currentIndex = 0;
-            foreach ($uploadedFiles as $uploadedFile) {
+            foreach ($uploadedFiles as $uploadedFileData) {
+                $uploadedFile = $uploadedFileData['filename'];
+                $uploadedPath = $uploadedFileData['filepath'];
                 $currentIndex++;
                 $logString = "{$this->getXofY($currentIndex, $uploadedFilesCount)} | handling file {$uploadedFile}";
                 $this->printProgressInfo("{$logString}");
                 $consecutiveNumber = 1;
                 $nameWithoutEnding = strrev(substr(strrev($uploadedFile), strpos(strrev($uploadedFile), '.') + 1));
+                $ending            = substr($uploadedFile, strpos($uploadedFile, '.') + 1);
                 $description       = '';
                 $separator         = self::get_image_name_separator();
                 $file              = $folder->myChildren()->filter('FileHash:StartsWith', $nameWithoutEnding)->first();
@@ -137,49 +211,54 @@ class ProductImageImportTask extends BuildTask
                     $parts = explode($separator, $nameWithoutEnding);
                     $productnumber     = array_shift($parts);
                     $consecutiveNumber = array_shift($parts);
+                    if (!is_numeric($consecutiveNumber)
+                     && !empty($consecutiveNumber)
+                    ) {
+                        array_unshift($parts, $consecutiveNumber);
+                        $consecutiveNumber = 1;
+                    } elseif (is_numeric($consecutiveNumber)) {
+                        $consecutiveNumber = (int) $consecutiveNumber;
+                    }
                     if (count($parts) > 0) {
                         $description = str_replace('   ', ' ' . $separator . ' ', str_replace($separator, ' ', implode($separator, $parts)));
                     }
                 } else {
                     $productnumber = $nameWithoutEnding;
                 }
-                
-                if (!array_key_exists($productnumber, $imageData)) {
-                    $imageData[$productnumber] = [];
+                $fileType = 'IMAGE';
+                if (in_array($ending, self::config()->image_endings)) {
+                    $isImage = true;
+                    if (!array_key_exists($productnumber, $imageData)) {
+                        $imageData[$productnumber] = [];
+                    }
+                    $imageData[$productnumber][$consecutiveNumber] = [
+                        'filename'    => $uploadedFile,
+                        'filepath'    => $uploadedPath,
+                        'description' => $description,
+                        'file'        => $file,
+                    ];
+                } else {
+                    $fileType = 'FILE';
+                    if (!array_key_exists($productnumber, $fileData)) {
+                        $fileData[$productnumber] = [];
+                    }
+                    $fileData[$productnumber][$consecutiveNumber] = [
+                        'filename'    => $uploadedFile,
+                        'filepath'    => $uploadedPath,
+                        'description' => $description,
+                        'file'        => $file,
+                    ];
                 }
-                $imageData[$productnumber][$consecutiveNumber] = [
-                    'filename'    => $uploadedFile,
-                    'description' => $description,
-                    'file'        => $file,
-                ];
+                
                 $newOrExisting = ($file instanceof Image) ? 'exists' : 'new';
-                $this->printInfo("{$logString} - #{$productnumber} -{$newOrExisting}- ({$consecutiveNumber}) {$description}", self::$CLI_COLOR_GREEN);
+                $this->printInfo("{$logString} - #{$productnumber} -{$newOrExisting}- ({$consecutiveNumber}) {$description} [{$fileType}]", self::$CLI_COLOR_GREEN);
             }
             $this->printInfo("");
             $this->printInfo("looking for matching products...", self::$CLI_COLOR_MAGENTA);
-            $imageDataCount = count($imageData);
-            $currentIndex   = 0;
-            foreach ($imageData as $productnumber => $data) {
-                $currentIndex++;
-                $logString = "{$this->getXofY($currentIndex, $imageDataCount)} | handling productnumber {$productnumber}";
-                $this->printProgressInfo("{$logString}");
-                $product = Product::get_by_product_number($productnumber);
-                if ($product instanceof Product
-                 && $product->exists()
-                ) {
-                    $this->printInfo("{$logString} - found \"{$product->Title}\"", self::$CLI_COLOR_GREEN);
-                    $found[] = $productnumber;
-                    $this->deleteExistingImages($product);
-                    ksort($data);
-                    foreach ($data as $consecutiveNumber => $imageInfo) {
-                        $importedImagesCount++;
-                        $this->addNewImage($product, $imageInfo['filename'], $imageInfo['description'], $consecutiveNumber, $imageInfo['file']);
-                    }
-                } else {
-                    $notFound[] = $productnumber;
-                    $this->printInfo("{$logString} - not found", self::$CLI_COLOR_RED);
-                }
-            }
+            $this->printInfo("images:", self::$CLI_COLOR_MAGENTA);
+            $this->importFileData($imageData, $importedImagesCount, $found, $notFound, true);
+            $this->printInfo("files:", self::$CLI_COLOR_MAGENTA);
+            $this->importFileData($fileData, $importedFilesCount, $foundFiles, $notFoundFiles, false);
         } else {
             $this->printInfo("quit, nothing to import");
         }
@@ -192,8 +271,58 @@ class ProductImageImportTask extends BuildTask
             $this->printInfo("did not find {$notFoundCount} product(s).");
             $this->printInfo("- product number(s): {$notFoundList}");
         }
+        $foundFilesCount    = count($foundFiles);
+        $notFoundFilesCount = count($notFoundFiles);
+        $notFoundFilesList  = implode(', ', $notFoundFiles);
         $this->printInfo('');
+        $this->printInfo("imported {$importedFilesCount} file(s) for {$foundFilesCount} product(s).");
+        if ($notFoundFilesCount > 0) {
+            $this->printInfo("did not find {$notFoundFilesCount} product(s).");
+            $this->printInfo("- product number(s): {$notFoundFilesList}");
+        }
+        $this->printInfo('');
+        foreach ($folder->myChildren() as $file) {
+            if (!$file->exists()) {
+                $file->delete();
+            }
+        }
         $this->unmarkAsRunning();
+    }
+    
+    protected function importFileData(array $fileData, int &$importedCount, array &$found, array &$notFound, bool $isImageImport = true) : void
+    {
+        $fileDataCount = count($fileData);
+        $currentIndex  = 0;
+        foreach ($fileData as $productnumber => $data) {
+            $currentIndex++;
+            $logString = "{$this->getXofY($currentIndex, $fileDataCount)} | handling productnumber {$productnumber}";
+            $this->printProgressInfo("{$logString}");
+            $product = Product::get_by_product_number($productnumber);
+            if ($product instanceof Product
+             && $product->exists()
+            ) {
+                $this->printInfo("{$logString} - found \"{$product->Title}\"", self::$CLI_COLOR_GREEN);
+                $found[] = $productnumber;
+                if ($isImageImport) {
+                    $this->deleteExistingImages($product);
+                    ksort($data);
+                    foreach ($data as $consecutiveNumber => $imageInfo) {
+                        $importedCount++;
+                        $this->addNewImage($product, $imageInfo['filename'], $imageInfo['filepath'], $imageInfo['description'], $consecutiveNumber, $imageInfo['file']);
+                    }
+                } else {
+                    $this->deleteExistingFiles($product);
+                    ksort($data);
+                    foreach ($data as $consecutiveNumber => $imageInfo) {
+                        $importedCount++;
+                        $this->addNewFile($product, $imageInfo['filename'], $imageInfo['filepath'], $imageInfo['description'], $consecutiveNumber, $imageInfo['file']);
+                    }
+                }
+            } else {
+                $notFound[] = $productnumber;
+                $this->printInfo("{$logString} - not found", self::$CLI_COLOR_RED);
+            }
+        }
     }
     
     /**
@@ -201,10 +330,11 @@ class ProductImageImportTask extends BuildTask
      * 
      * @param Product $product           Product to add image to
      * @param string  $filename          Filename
+     * @param string  $filepath          Filepath
      * @param string  $description       Description
      * @param int     $consecutiveNumber Consecutive number
      */
-    protected function addNewImage(Product $product, string $filename, string $description, int $consecutiveNumber, Image $file = null) : void
+    protected function addNewImage(Product $product, string $filename, string $filepath, string $description, int $consecutiveNumber, Image $file = null) : void
     {
         $nameFilter     = FileNameFilter::create();
         $targetFilename = "{$product->ProductNumberShop}-{$nameFilter->filter($product->Title)}-{$consecutiveNumber}.";
@@ -239,6 +369,48 @@ class ProductImageImportTask extends BuildTask
     }
     
     /**
+     * Adds a new file to the given product.
+     * 
+     * @param Product $product           Product to add image to
+     * @param string  $filename          Filename
+     * @param string  $filepath          Filepath
+     * @param string  $description       Description
+     * @param int     $consecutiveNumber Consecutive number
+     */
+    protected function addNewFile(Product $product, string $filename, string $filepath, string $description, int $consecutiveNumber, File $file = null) : void
+    {
+        $nameFilter     = FileNameFilter::create();
+        $targetFilename = "{$product->ProductNumberShop}-{$nameFilter->filter($product->Title)}-{$consecutiveNumber}.";
+        if ($file instanceof File
+         && $file->exists()
+        ) {
+            $this->printInfo("\t   updating existing file #{$file->ID}", self::$CLI_COLOR_GREEN);
+            $fileEnding      = strrev(substr(strrev($file->Name), 0, strpos(strrev($file->Name), '.')));
+            $targetFilename .= $fileEnding;
+            $targetFolder    = Folder::find_or_make(str_replace(ASSETS_PATH, '', self::get_absolute_product_file_folder()));
+            $file->Name      = $targetFilename;
+            $file->ParentID  = $targetFolder->ID;
+            $file->write();
+            $file->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
+        } else {
+            $fileEnding      = strrev(substr(strrev($filename), 0, strpos(strrev($filename), '.')));
+            $targetFilename .= $fileEnding;
+            $originalFile    = "{$filepath}/{$filename}";
+            $targetFile      = self::get_absolute_product_file_folder() . "/{$targetFilename}";
+            $this->printInfo("\t • moving file from {$originalFile}", self::$CLI_COLOR_GREEN);
+            $this->printInfo("\t                 to {$targetFile}", self::$CLI_COLOR_GREEN);
+            $file = ImageExtension::create_from_path($originalFile, self::get_absolute_product_file_folder(), $targetFilename, null, true);
+            unlink($originalFile);
+            $this->printInfo("\t   created new file #{$file->ID}", self::$CLI_COLOR_GREEN);
+        }
+        $silvercartFile = SilverCartFile::create();
+        $silvercartFile->FileID = $file->ID;
+        $silvercartFile->Title  = $description;
+        $silvercartFile->write();
+        $product->Files()->add($silvercartFile);
+    }
+    
+    /**
      * Deletes the existing images of the given product.
      * 
      * @param Product $product Product to delete images for
@@ -261,35 +433,39 @@ class ProductImageImportTask extends BuildTask
     }
     
     /**
+     * Deletes the existing files of the given product.
+     * 
+     * @param Product $product Product to delete files for
+     * 
+     * @return void
+     */
+    protected function deleteExistingFiles(Product $product) : void
+    {
+        if (!$product->Files()->exists()) {
+            return;
+        }
+        $this->printInfo("\t • deleting {$product->Files()->count()} existing files", self::$CLI_COLOR_RED);
+        foreach ($product->Files() as $existingFile) {
+            /* @var $existingFile SilverCart\Model\Product\File */
+            $existingFile->delete();
+        }
+    }
+    
+    /**
      * Returns a list of not yet handled product image uploads.
      * 
      * @return array
      */
     protected function getUploadedFiles() : array
     {
-        $files  = [];
-        $ignore = [
-            '.',
-            '..',
-            '_resampled',
-            self::get_import_is_installed_file_name(),
-            self::get_import_is_running_file_name(),
+        $files = [];
+        $dirs  = [
+            self::get_absolute_upload_folder(),
+            self::get_absolute_protected_upload_folder(),
         ];
-        $dir = self::get_absolute_upload_folder();
-        if (!is_dir($dir)) {
-            mkdir($dir);
+        foreach ($dirs as $dir) {
+            $files = array_merge($files, self::getFilesFromDir($dir));
         }
-        if ($handle = opendir($dir)) {
-            while (false !== ($entry = readdir($handle))) {
-                if (in_array($entry, $ignore)) {
-                    continue;
-                }
-                $files[] = $entry;
-            }
-
-            closedir($handle);
-        }
-        sort($files);
         return $files;
     }
     
@@ -415,6 +591,16 @@ class ProductImageImportTask extends BuildTask
     }
     
     /**
+     * Returns the absolute path to the upload folder.
+     * 
+     * @return string
+     */
+    public static function get_absolute_protected_upload_folder() : string
+    {
+        return Director::publicFolder() . '/assets/.protected/' . self::$relative_upload_folder;
+    }
+    
+    /**
      * Returns the absolute path to the product image folder.
      * 
      * @return string
@@ -422,6 +608,16 @@ class ProductImageImportTask extends BuildTask
     public static function get_absolute_product_image_folder() : string
     {
         return Director::publicFolder() . '/assets/' . Product::DEFAULT_IMAGE_FOLDER;
+    }
+    
+    /**
+     * Returns the absolute path to the product image folder.
+     * 
+     * @return string
+     */
+    public static function get_absolute_product_file_folder() : string
+    {
+        return Director::publicFolder() . '/assets/' . Product::DEFAULT_FILES_FOLDER;
     }
     
     /**
@@ -453,7 +649,7 @@ class ProductImageImportTask extends BuildTask
      */
     public static function get_image_name_separator() : string
     {
-        return self::$image_name_separator;
+        return self::config()->image_name_separator;
     }
     
     /**
@@ -465,6 +661,6 @@ class ProductImageImportTask extends BuildTask
      */
     public static function set_image_name_separator($image_name_separator) : void
     {
-        self::$image_name_separator = $image_name_separator;
+        self::config()->update('image_name_separator', $image_name_separator);
     }
 }

@@ -3,6 +3,7 @@
 namespace SilverCart\Extensions\Assets;
 
 use SilverCart\Dev\Tools;
+use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
@@ -208,13 +209,14 @@ class ImageExtension extends DataExtension
      * @param string $targetFolderPath Absolute target folder path (without file name)
      * @param string $targetFilename   Optional target file name (without path)
      * @param string $targetFileTitle  Optional target file title
+     * @param bool   $useFile          Use file instead of image?
      * 
      * @return Image
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.08.2018
      */
-    public static function create_from_path($sourceFilePath, $targetFolderPath, $targetFilename = null, $targetFileTitle = null)
+    public static function create_from_path($sourceFilePath, $targetFolderPath, $targetFilename = null, $targetFileTitle = null, bool $useFile = false)
     {
         if (is_null($targetFilename)) {
             $targetFilename = basename($sourceFilePath);
@@ -232,20 +234,25 @@ class ImageExtension extends DataExtension
             mkdir($hashPath, 0777, true);
         }
         file_put_contents($targetFilePath, $fileContent);
-        
-        $image = new Image();
-        $image->FileFilename = str_replace('assets/', '', $targetFolder->Filename . $targetFilename);
-        $image->FileHash     = sha1_file($targetFilePath);
-        $image->Name         = $targetFilename;
-        $image->Title        = $targetFileTitle;
-        $image->ParentID     = $targetFolder->ID;
-        $image->write();
-        $image->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
+        if ($useFile) {
+            $file = File::create();
+        } else {
+            $file = Image::create();
+        }
+        $file->FileFilename = str_replace('assets/', '', $targetFolder->Filename . $targetFilename);
+        $file->FileHash     = sha1_file($targetFilePath);
+        $file->Name         = $targetFilename;
+        $file->Title        = $targetFileTitle;
+        $file->ParentID     = $targetFolder->ID;
+        $file->write();
+        $file->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
         if (!file_exists($targetFilePath)) {
-            mkdir($hashPath, 0777, true);
+            if (!is_dir($hashPath)) {
+                mkdir($hashPath, 0777, true);
+            }
             file_put_contents($targetFilePath, $fileContent);
         }
-        return $image;
+        return $file;
     }
     
     /**
