@@ -110,6 +110,7 @@ class ActionHandler extends Controller
         $params         = $request->allParams();
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
+        $position       = null;
         
         if (is_null($productID)
          || is_null($quantity)
@@ -130,9 +131,9 @@ class ActionHandler extends Controller
             $postVars['productQuantity'] = $quantity;
 
             if ($quantity == 0) {
-                ShoppingCart::removeProduct($postVars);
+                ShoppingCart::removeProduct($postVars, $position);
             } else {
-                ShoppingCart::addProduct($postVars);
+                $position = ShoppingCart::addProduct($postVars);
             }
             
             if (Config::getRedirectToCartAfterAddToCartAction()) {
@@ -147,6 +148,10 @@ class ActionHandler extends Controller
             $htmlDropdown         = '';
             $htmlModal            = '';
             if ($product instanceof Product) {
+                if ($position === null) {
+                    $position          = $product;
+                    $position->Product = $product;
+                }
                 $member               = Customer::currentUser();
                 $totalCartQuantity    = $member->getCart()->getQuantity();
                 $quantityInCartString = $product->getQuantityInCartString();
@@ -156,6 +161,7 @@ class ActionHandler extends Controller
                 $htmlModal            = (string) $this->renderWith(ShoppingCart::class . "_AjaxResponse", [
                     'Product'  => $product,
                     'Quantity' => $quantity,
+                    'Position' => $position,
                 ]);
             }
             $json = [

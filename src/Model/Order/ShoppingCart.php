@@ -629,7 +629,7 @@ class ShoppingCart extends DataObject
             $member = Customer::createAnonymousCustomer();
         }
         $overwriteAddProduct = false;
-        $member->getCart()->extend('overwriteAddProduct', $overwriteAddProduct, $formData);
+        $member->getCart()->extend('overwriteAddProduct', $overwriteAddProduct, $formData, $position);
         if (!$overwriteAddProduct
          && $formData['productID']
          && $formData['productQuantity']
@@ -655,14 +655,12 @@ class ShoppingCart extends DataObject
     /**
      * Removes a product out of the cart.
      *
-     * @param array $data Data to use to identify the position.
+     * @param array                $data             Data to use to identify the position.
+     * @param ShoppingCartPosition &$deletedPosition Optional pointer to store the deleted Position in
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
      */
-    public static function removeProduct(array $data) : bool
+    public static function removeProduct(array $data, ShoppingCartPosition &$deletedPosition = null) : bool
     {
         $error  = true;
         $member = Customer::currentUser();
@@ -682,6 +680,7 @@ class ShoppingCart extends DataObject
                 $product->extend('updateRemoveFromCart', $cartID);
             }
             if ($position instanceof ShoppingCartPosition) {
+                $deletedPosition = $position;
                 $position->delete();
                 $error = false;
                 $member->getCart()->extend('onAfterRemoveFromCart', $data);
