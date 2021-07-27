@@ -378,4 +378,25 @@ class DBMigration
             }
         }
     }
+    
+    /**
+     * Returns whether the given $dataObject has the given $fieldName in DB.
+     * 
+     * @param DataObject $dataObject DataObject
+     * @param string     $fieldName  Field name
+     * 
+     * @return bool
+     */
+    public static function has_field(DataObject $dataObject, string $fieldName) : bool
+    {
+        $has       = false;
+        $schema    = DB::get_schema();
+        $tableName = $dataObject->getSchema()->tableName($dataObject->ClassName);
+        if ($tableName !== null
+         && $schema->hasField($tableName, $fieldName)
+        ) {
+            $has = true;
+        }
+        return $has;
+    }
 }
