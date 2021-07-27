@@ -762,6 +762,8 @@ en:
         HASACCEPTEDTERMSANDCONDITIONS: 'Has accepted terms and conditions'
         INVOICE_DATA: 'Invoice address data'
         ISBUSINESSACCOUNT: 'Is business account'
+        LoginAttemptFailed: failed
+        LoginAttemptSucceeded: succeeded
         MarkForDeletion: 'Mark for deletion'
         MarkForDeletionReason: 'Mark for deletion reason'
         NET: net
@@ -783,6 +785,7 @@ en:
         SILVERCART_CUSTOMER_VIEW_HELP: 'Allows an user to view customers. Own customer data can be viewed without this permission.'
         SUBSCRIBEDTONEWSLETTER: 'Subscribed to newsletter'
         TYPE: Type
+        YourPreviousLoginAttempts: 'Your previous login attempts:'
     SilverCart\Model\Customer\DeletedCustomerReason:
         PLURALNAME: 'Account deletion reasons'
         SINGULARNAME: 'Account deletion reason'

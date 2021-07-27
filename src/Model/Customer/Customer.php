@@ -27,6 +27,7 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
 use SilverStripe\ORM\Search\SearchContext;
@@ -37,6 +38,7 @@ use SilverStripe\Security\Security;
 use SilverStripe\View\TemplateGlobalProvider;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\IdentityStore;
+use SilverStripe\Security\LoginAttempt;
 use SilverStripe\Security\PermissionProvider;
 
 /**
@@ -613,6 +615,21 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     {
         return array_key_exists($customerID, $this->getCMSFieldsIsCalled)
             && $this->getCMSFieldsIsCalled[$customerID];
+    }
+    
+    /**
+     * Returns the Member's LoginAttempts.
+     * 
+     * @return DataList
+     */
+    public function getLoginAttempts() : DataList
+    {
+        return LoginAttempt::get()
+                ->filterAny([
+                    'EmailHashed' => sha1($this->owner->Email),
+                    'MemberID'    => $this->owner->ID,
+                ])
+                ->sort('Created', 'DESC');
     }
 
     /**
