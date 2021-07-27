@@ -383,6 +383,7 @@ class PageController extends ContentController
              && !in_array(get_class($this->data()), [CookiePolicyPage::class])
              && !$registeredCustomer->RegistrationOptInConfirmed
              && !($this instanceof RegistrationPageController)
+             && !($this instanceof NewsletterPageController)
             ) {
                 $registrationPage = RegistrationPage::get()->first();
                 if ($registrationPage instanceof RegistrationPage
