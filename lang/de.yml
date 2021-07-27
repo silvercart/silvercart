@@ -6,6 +6,13 @@ de:
         Change: Ändern
         ClickForMore: 'Klicken, um weitere Informationen anzuzeigen'
         Close: Schließen
+        DeleteYourAccount: 'Ihren Webshop-Account löschen'
+        DeleteYourAccountDesc: 'Bitte beachten Sie, dass das Löschen Ihres Webshop-Accounts dauerhaft erfolgt. Sobald Ihr Account geschlossen wurde, steht er Ihnen nicht mehr zur Verfügung und kann nicht wiederhergestellt werden. Wenn Sie sich später entscheiden, wieder Bestellungen bei uns aufzugeben, oder Produkte und Services verwenden möchten, für die ein Webshop-Account erforderlich ist, müssen Sie einen neuen Account erstellen.'
+        DeleteYourAccountErrorConfirm: 'Bitte bestätigen Sie die Löschung Ihres Accounts indem Sie die Checkbox markieren.'
+        DeleteYourAccountErrorPassword: 'Entschuldigung, aber die von Ihnen eingegebenen Zugangsdaten sind nicht korrekt.'
+        DeleteYourAccountSuccess: 'Ihr Account wurde erfolgreich für die Löschung markiert und wird innerhalb der kommenden 24 Stunden gelöscht. Sie erhalten eine E-Mail-Benachrichtigung, sobald die Löschung abgeschlossen wurde. Bis dahin haben Sie die Möglichkeit, den Lösch-Antrag zu widerrufen.'
+        DeleteYourAccountUndo: 'Lösch-Antrag widerrufen'
+        DeleteYourAccountUndone: 'Ihr Lösch-Antrag wurde erfolgreich rückgängig gemacht.'
         Go: Los
         go: los
         NextPage: 'Nächste Seite'
@@ -755,6 +762,8 @@ de:
         HASACCEPTEDTERMSANDCONDITIONS: 'Hat die AGB akzeptiert'
         INVOICE_DATA: Rechnungs-Adressdaten
         ISBUSINESSACCOUNT: 'Ist Geschäftskunden Konto'
+        MarkForDeletion: 'Für Löschung markieren'
+        MarkForDeletionReason: 'Löschungsgrund'
         NET: Netto
         PRICETYPE_GROSS: Brutto
         PRICETYPE_NET: Netto
@@ -774,6 +783,21 @@ de:
         SILVERCART_CUSTOMER_VIEW_HELP: 'Erlaubt einem Benutzer beliebige Kunden anzuschauen. Eigene Kundendaten können auch ohne diese Berechtigung angesehen werden.'
         SUBSCRIBEDTONEWSLETTER: 'Newsletter aboniert'
         TYPE: Typ
+    SilverCart\Model\Customer\DeletedCustomerReason:
+        PLURALNAME: 'Gründe für Account-Löschung'
+        SINGULARNAME: 'Grund für Account-Löschung'
+        CustomReason: Grund
+        Default_NotUsingAnymore: 'Ich verwende dieses Konto nicht mehr'
+        Default_MultiAccount: 'Ich habe ein anderes Konto'
+        Default_NewAccount: 'Ich möchte ein neues Konto erstellen'
+        Default_SecurityMistrust: 'Bedenken zur Kontosicherheit/bezüglich des Datenschutzes'
+        Default_NoReason: 'Ich möchte keinen Grund nennen'
+        DifferentReason: 'Anderer Grund'
+        Reason: Grund
+        Sort: Sortierreihenfolge
+    SilverCart\Model\Customer\DeletedCustomerReasonTranslation:
+        PLURALNAME: Übersetzungen
+        SINGULARNAME: Übersetzung
     SilverCart\Admin\Controllers\CustomerAdmin:
         MENUTITLE: Kunden
     SilverCart\Model\Pages\CustomerDataPage:
@@ -1950,6 +1974,8 @@ de:
         VARIABLES: Variablen
         YOUR_TEAM: 'Ihr SilverCart Webshop Team'
         CustomEmailContent: 'Zusätzlicher E-Mail-Inhalt'
+        CustomerDeletionConfirmationText: 'Ihr Webshop-Account wurde erfolgreich gelöscht.'
+        CustomerDeletionNotificationText: 'Ein Webshop-Account wurde erfolgreich gelöscht.'
         ForgotPasswordNO_CHANGE: 'Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte.'
         ForgotPasswordPASSWORT_RESET_LINK_HINT: 'Falls Sie den Link nicht anklicken können, kopieren Sie diesen bitte in Ihre Zwischenablage und fügen Sie ihn in die Adressleiste Ihres Browsers ein.'
         ForgotPasswordTITLE: 'Passwort zurücksetzen'
@@ -1964,6 +1990,8 @@ de:
         Subject_ChangePassword: 'Passwort zurücksetzen'
         Subject_ContactMessage: 'Anfrage über das Kontaktformular'
         Subject_ContactMessageAcknowledgement: 'Wir haben Ihre Anfrage erhalten'
+        Subject_CustomerDeletionConfirmation: 'Ihr Webshop-Account wurde gelöscht'
+        Subject_CustomerDeletionNotification: 'Webshop-Account wurde gelöscht'
         Subject_ForgotPassword: 'Passwort zurücksetzen'
         Subject_NewsletterOptIn: 'Newsletteranmeldung abschließen'
         Subject_NewsletterOptInConfirmation: 'Newsletteranmeldung erfolgreich abgeschlossen'
@@ -1980,6 +2008,8 @@ de:
         TemplateName_ChangePassword: 'Passwort ändern (Kunde)'
         TemplateName_ContactMessage: 'Kontaktanfrage (Betreiber)'
         TemplateName_ContactMessageAcknowledgement: 'Kontaktanfrage Eingangsbestätigung (Kunde)'
+        TemplateName_CustomerDeletionConfirmation: 'Webshop-Account wurde gelöscht (Kunde)'
+        TemplateName_CustomerDeletionNotification: 'Webshop-Account wurde gelöscht (Betreiber)'
         TemplateName_ForgotPassword: 'Passwort vergessen (Kunde)'
         TemplateName_NewsletterOptIn: 'Newsletter-Opt-In (Kunde)'
         TemplateName_NewsletterOptInConfirmation: 'Newsletter-Opt-In-Bestätigung (Kunde)'
@@ -1994,6 +2024,8 @@ de:
         Title_ChangePassword: 'Passwort ändern'
         Title_ContactMessage: Kontaktanfrage
         Title_ContactMessageAcknowledgement: 'Kontaktanfrage Eingangsbestätigung'
+        Title_CustomerDeletionConfirmation: 'Webshop-Account gelöscht'
+        Title_CustomerDeletionNotification: 'Webshop-Account gelöscht'
         Title_ForgotPassword: 'Passwort vergessen'
         Title_NewsletterOptIn: Newsletter-Opt-In
         Title_NewsletterOptInConfirmation: Newsletter-Opt-In-Bestätigung
@@ -2226,6 +2258,8 @@ de:
         PUBLISHBUTTON: 'Alle Seiten der aktuellen Sprache veröffentlichen'
         TRANSLATION: Übersetzung
         TRANSLATIONS: Übersetzungen
+    SilverCart\Reports\DeletedCustomersReport:
+        Title: 'Gelöschte Kunden'
     SilverCart\Forms\CustomForm:
         DefaultSuccessMessageSave: 'Ihre Daten wurden gespeichert.'
         DefaultSuccessMessageSend: 'Ihre Daten wurden gesendet.'

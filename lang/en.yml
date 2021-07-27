@@ -6,6 +6,13 @@ en:
         Change: Change
         ClickForMore: 'Click for more informationen'
         Close: Close
+        DeleteYourAccount: 'Delete your account'
+        DeleteYourAccountDesc: 'Please note that the deletion of your Webshop account is permanent. Once your account has been closed, it will no longer be available to you and cannot be restored. If you later decide to place orders with us again or want to use products and services that require a webshop account, you will need to create a new account.'
+        DeleteYourAccountErrorConfirm: 'Please confirm the deletion of your account by checking the checkbox.'
+        DeleteYourAccountErrorPassword: 'Sorry, but the login data you entered is not correct.'
+        DeleteYourAccountSuccess: 'Your account was successfully marked for deletion and will be removed within the next 24 hours. You will recieve a notification by email as soon as the deletion is completed. Until then, you still can decide to undo your deletion request.'
+        DeleteYourAccountUndo: 'Undo deletion request'
+        DeleteYourAccountUndone: 'The deletion request for your account was successfully undone.'
         Go: Go
         go: go
         NextPage: 'Next page'
@@ -755,6 +762,8 @@ en:
         HASACCEPTEDTERMSANDCONDITIONS: 'Has accepted terms and conditions'
         INVOICE_DATA: 'Invoice address data'
         ISBUSINESSACCOUNT: 'Is business account'
+        MarkForDeletion: 'Mark for deletion'
+        MarkForDeletionReason: 'Mark for deletion reason'
         NET: net
         PRICETYPE_GROSS: gross
         PRICETYPE_NET: net
@@ -774,6 +783,21 @@ en:
         SILVERCART_CUSTOMER_VIEW_HELP: 'Allows an user to view customers. Own customer data can be viewed without this permission.'
         SUBSCRIBEDTONEWSLETTER: 'Subscribed to newsletter'
         TYPE: Type
+    SilverCart\Model\Customer\DeletedCustomerReason:
+        PLURALNAME: 'Account deletion reasons'
+        SINGULARNAME: 'Account deletion reason'
+        CustomReason: Reason
+        Default_NotUsingAnymore: 'I''m not using this account anymore'
+        Default_MultiAccount: 'I''ve got another account'
+        Default_NewAccount: 'I want to create a new account'
+        Default_SecurityMistrust: 'I''m concerned about the security and/or the data privacy'
+        Default_NoReason: 'I don''t want to tell a reason'
+        DifferentReason: 'Different reason'
+        Reason: Reason
+        Sort: 'Sort order'
+    SilverCart\Model\Customer\DeletedCustomerReasonTranslation:
+        PLURALNAME: Translations
+        SINGULARNAME: Translation
     SilverCart\Admin\Controllers\CustomerAdmin:
         MENUTITLE: Customers
     SilverCart\Model\Pages\CustomerDataPage:
@@ -1948,6 +1972,8 @@ en:
         VARIABLES: Variables
         YOUR_TEAM: 'Your SilverCart ecommerce team'
         CustomEmailContent: 'Custom email content'
+        CustomerDeletionConfirmationText: 'Your webshop account was successfully deleted.'
+        CustomerDeletionNotificationText: 'A webshop account was successfully deleted.'
         ForgotPasswordNO_CHANGE: 'If you do not want to change your password, you may ignore this email.'
         ForgotPasswordPASSWORT_RESET_LINK_HINT: 'If you are not able to click this link, please copy the link to your clipboard and paste it into the address bar of your web browser.'
         ForgotPasswordTITLE: 'Reset Password'
@@ -1962,6 +1988,8 @@ en:
         Subject_ChangePassword: 'Reset Password'
         Subject_ContactMessage: 'Request via contact form'
         Subject_ContactMessageAcknowledgement: 'We received your request'
+        Subject_CustomerDeletionConfirmation: 'Your webshop account was successfully deleted'
+        Subject_CustomerDeletionNotification: 'A webshop account was successfully deleted'
         Subject_ForgotPassword: 'Reset Password'
         Subject_NewsletterOptIn: 'Complete newsletter registration'
         Subject_NewsletterOptInConfirmation: 'Newsletter registration successfully completed'
@@ -1978,6 +2006,8 @@ en:
         TemplateName_ChangePassword: 'Change password (customer)'
         TemplateName_ContactMessage: 'Contact message (shop owner)'
         TemplateName_ContactMessageAcknowledgement: 'Contact message acknowledgement (customer)'
+        TemplateName_CustomerDeletionConfirmation: 'Webshop account was deleted (customer)'
+        TemplateName_CustomerDeletionNotification: 'Webshop account was deleted (shop owner)'
         TemplateName_ForgotPassword: 'Forgot password (customer)'
         TemplateName_NewsletterOptIn: 'Newsletter opt in (customer)'
         TemplateName_NewsletterOptInConfirmation: 'Newsletter opt in confirmation (customer)'
@@ -1992,6 +2022,8 @@ en:
         Title_ChangePassword: 'Change password'
         Title_ContactMessage: 'Contact message'
         Title_ContactMessageAcknowledgement: 'Contact message acknowledgement'
+        Title_CustomerDeletionConfirmation: 'Webshop account deleted'
+        Title_CustomerDeletionNotification: 'Webshop account deleted'
         Title_ForgotPassword: 'Forgot password'
         Title_NewsletterOptIn: 'Newsletter opt in'
         Title_NewsletterOptInConfirmation: 'Newsletter opt in confirmation'
@@ -2224,6 +2256,8 @@ en:
         PUBLISHBUTTON: 'Publish all pages of this translation'
         TRANSLATION: Translation
         TRANSLATIONS: Translations
+    SilverCart\Reports\DeletedCustomersReport:
+        Title: 'Deleted customers'
     SilverCart\Forms\CustomForm:
         DefaultSuccessMessageSave: 'Your data was successfully saved.'
         DefaultSuccessMessageSend: 'Your data was successfully sent.'

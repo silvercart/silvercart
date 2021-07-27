@@ -34,3 +34,4 @@ SilverStripe\Control\Director:
   rules:
     'silvercart/tasks/assign-product-keywords': SilverCart\Dev\Tasks\AssignProductKeywordsTask
     'silvercart/tasks/reset-stock': SilverCart\Dev\Tasks\ResetStockTask
+    'silvercart/tasks/delete-customers': SilverCart\Dev\Tasks\DeleteCustomersTask

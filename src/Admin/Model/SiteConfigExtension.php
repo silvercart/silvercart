@@ -10,6 +10,7 @@ use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Model\CookieConsent\ExternalResource;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Customer\DeletedCustomerReason;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductCondition;
 use SilverCart\Model\Translation\TranslationTools;
@@ -32,6 +33,7 @@ use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DB;
 use SilverStripe\View\ArrayData;
 use SilverStripe\SiteConfig\SiteConfig;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * This class is used to add SilverCart configuration options 
@@ -386,6 +388,16 @@ class SiteConfigExtension extends DataExtension
         
         $fields->findOrMakeTab('Root.ExternalResources', ExternalResource::singleton()->i18n_plural_name());
         $fields->addFieldToTab('Root.ExternalResources', GridField::create('ExternalResources', ExternalResource::singleton()->i18n_plural_name(), ExternalResource::get(), GridFieldConfig_RecordEditor::create()));
+        
+        $fields->findOrMakeTab('Root.CustomerDeletion', DeletedCustomerReason::singleton()->i18n_plural_name());
+        $fields->addFieldToTab('Root.CustomerDeletion', GridField::create('DeletedCustomerReason', DeletedCustomerReason::singleton()->i18n_plural_name(), DeletedCustomerReason::get(), GridFieldConfig_RecordEditor::create()));
+            if (class_exists(GridFieldOrderableRows::class)) {
+                $gridDeletedCustomerReason = $fields->dataFieldByName('DeletedCustomerReason');
+                /* @var $gridDeletedCustomerReason \SilverStripe\Forms\GridField\GridField */
+                if ($gridDeletedCustomerReason !== null) {
+                    $gridDeletedCustomerReason->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+                }
+            }
         
         $this->getCMSFieldsForSilvercart($fields);
     }

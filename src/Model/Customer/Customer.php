@@ -49,6 +49,8 @@ use SilverStripe\Security\PermissionProvider;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property Member $owner Owner
  */
 class Customer extends DataExtension implements TemplateGlobalProvider, PermissionProvider
 {
@@ -126,6 +128,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         'RegistrationOptInConfirmed'        => 'Boolean(0)',
         'Birthday'                          => 'Date',
         'CustomerNumber'                    => 'Varchar(128)',
+        'MarkForDeletion'                   => 'Boolean(0)',
+        'MarkForDeletionDate'               => 'Date',
+        'MarkForDeletionReason'             => 'Text',
+        'MarkForDeletionReasonID'           => 'Int',
     ];
     /**
      * has one attributes
@@ -333,6 +339,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         $fields->removeByName('InvoiceAddressID');
         $fields->removeByName('ShippingAddressID');
         $fields->removeByName('CustomerConfigID');
+        $fields->removeByName('MarkForDeletionReasonID');
         
         if ($this->owner->exists()) {
             //make addresses deletable in the grid field
@@ -392,6 +399,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         $labels = array_merge(
                 $labels,
                 [
+                    'MarkForDeletion'                   => _t(Customer::class . '.MarkForDeletion', 'Mark for deletion'),
+                    'MarkForDeletionReason'             => _t(Customer::class . '.MarkForDeletionReason', 'Mark for deletion reason'),
                     'Customer'                          => _t(Customer::class . '.Customer', 'Customer'),
                     'Salutation'                        => _t(Customer::class . '.SALUTATION', 'salutation'),
                     'SubscribedToNewsletter'            => _t(Customer::class . '.SUBSCRIBEDTONEWSLETTER', 'subscribed to newsletter'),
@@ -967,15 +976,15 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         /**
      * Returns whether this is a valid customer.
      * 
-     * @return boolean
+     * @return bool
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2014
      */
-    public function isValidCustomer() {
+    public function isValidCustomer() : bool
+    {
         $isValidCustomer = false;
         $member          = $this->owner;
-        
         if ($member->Groups()->exists()) {
             $map = $member->Groups()->map('ID', 'Code')->toArray();
             foreach ($map as $groupCode) {
@@ -993,20 +1002,17 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * registered customer who has opted in. Returns the member object or
      * false.
      *
-     * @return mixed Member|boolean(false)
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @return Member|null
      */
-    public static function currentRegisteredCustomer() {
+    public static function currentRegisteredCustomer() : ?Member
+    {
         $member             = self::currentUser();
-        $registeredCustomer = false;
-        
-        if ($member instanceof Member &&
-            $member->isValidCustomer()) {
+        $registeredCustomer = null;
+        if ($member instanceof Member
+         && $member->isValidCustomer()
+        ) {
             $registeredCustomer = $member;
         }
-        
         return $registeredCustomer;
     }
 
@@ -1476,6 +1482,29 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     }
     
     /**
+     * Sends the deletion confirmation/notification to the customer and shop owner.
+     * 
+     * @return void
+     */
+    public function sendDeletionConfirmation() : void
+    {
+        $member    = $this->owner;
+        $variables = ['Member' => $member];
+        ShopEmail::send(
+                'CustomerDeletionConfirmation',
+                $member->Email,
+                $variables,
+                [],
+                $member->Locale
+        );
+        ShopEmail::send(
+                'CustomerDeletionNotification',
+                Config::DefaultMailRegistrationRecipient(),
+                $variables
+        );
+    }
+    
+    /**
      * Creates the change password email in backend.
      * 
      * @return void
@@ -1559,7 +1588,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             $this->owner->RegistrationOptInConfirmed = true;
             $this->owner->write();
             ShopEmail::send('RegistrationOptInConfirmation', $this->owner->Email, ['Customer' => $this->owner], [], $this->owner->Locale);
-            ShopEmail::send('RegistrationOptInNotification', Config::DefaultMailOrderNotificationRecipient(), ['Customer' => $this->owner], [], Tools::default_locale()->getLocale());
+            ShopEmail::send('RegistrationOptInNotification', Config::DefaultMailRegistrationRecipient(), ['Customer' => $this->owner], [], Tools::default_locale()->getLocale());
         }
         return $confirmed;
     }
