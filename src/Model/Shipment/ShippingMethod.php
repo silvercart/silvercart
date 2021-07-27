@@ -936,8 +936,11 @@ class ShippingMethod extends DataObject
                     ->where($filter);
         } else {
             $filter          = "({$shippingTable}_CustomerGroups.SilvercartShippingMethodID IS NULL){$extendedFilter}";
+            $joinTable       = "{$shippingTable}_CustomerGroups";
+            $joinOnClause    = "{$joinTable}.{$shippingTable}ID = {$shippingTable}.ID";
             $shippingMethods = ShippingMethod::get()
                     ->filter('isActive', true)
+                    ->leftJoin($joinTable, $joinOnClause)
                     ->where($filter);
         }
         return $shippingMethods;
