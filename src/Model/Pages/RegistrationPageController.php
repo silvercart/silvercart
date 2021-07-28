@@ -257,9 +257,11 @@ class RegistrationPageController extends PageController
      * 
      * @return SiteTree|null
      */
-    public function RefererPage() : ?SiteTree
+    public function RefererPage(string $link = null) : ?SiteTree
     {
-        $link         = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        if ($link === null) {
+            $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        }
         $originalLink = $link;
         $page         = $this->data();
         $localeCode   = $page->getSourceQueryParam('Fluent.Locale');
