@@ -6,6 +6,7 @@ de:
         Change: Ändern
         ClickForMore: 'Klicken, um weitere Informationen anzuzeigen'
         Close: Schließen
+        DefaultIfEmpty: 'Standard wenn leer: "{default}"'
         DeleteYourAccount: 'Ihren Webshop-Account löschen'
         DeleteYourAccountDesc: 'Bitte beachten Sie, dass das Löschen Ihres Webshop-Accounts dauerhaft erfolgt. Sobald Ihr Account geschlossen wurde, steht er Ihnen nicht mehr zur Verfügung und kann nicht wiederhergestellt werden. Wenn Sie sich später entscheiden, wieder Bestellungen bei uns aufzugeben, oder Produkte und Services verwenden möchten, für die ein Webshop-Account erforderlich ist, müssen Sie einen neuen Account erstellen.'
         DeleteYourAccountErrorConfirm: 'Bitte bestätigen Sie die Löschung Ihres Accounts indem Sie die Checkbox markieren.'
@@ -283,6 +284,8 @@ de:
         I_ACCEPT_REVOCATION: 'Ich akzeptiere die <a href="{link}" target="blank">Widerrufsbelehrung</a>.'
         I_ACCEPT_TERMS: 'Ich akzeptiere die <a href="{link}" target="blank">Allgemeinen Geschäftsbedingungen</a>.'
         I_SUBSCRIBE_NEWSLETTER: 'Ich möchte den Newsletter abonnieren.'
+        NoPaymentMethodText: 'Text wenn keine Zahlart verfügbar ist'
+        NoShippingMethodText: 'Text wenn keine Versandart verfügbar ist'
         ORDER: Bestellung
         ORDER_NOW: 'Jetzt kaufen'
         OVERVIEW: Übersicht

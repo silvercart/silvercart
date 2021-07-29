@@ -9,6 +9,7 @@
     <div class="alert alert-error">
         <p><%t SilverCart\Model\Payment\PaymentMethod.NO_PAYMENT_METHOD_AVAILABLE 'No payment method available.' %></p>
     </div>
+    <div class="alert alert-error">{$CurrentPage.NoPaymentMethodText}</div>
     <% end_if %>
 </div>
 {$CustomOutput}

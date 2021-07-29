@@ -6,6 +6,7 @@ en:
         Change: Change
         ClickForMore: 'Click for more informationen'
         Close: Close
+        DefaultIfEmpty: 'Default if empty: "{default}"'
         DeleteYourAccount: 'Delete your account'
         DeleteYourAccountDesc: 'Please note that the deletion of your Webshop account is permanent. Once your account has been closed, it will no longer be available to you and cannot be restored. If you later decide to place orders with us again or want to use products and services that require a webshop account, you will need to create a new account.'
         DeleteYourAccountErrorConfirm: 'Please confirm the deletion of your account by checking the checkbox.'
@@ -283,6 +284,8 @@ en:
         I_ACCEPT_REVOCATION: 'I accept the <a href="{link}" target="blank">revocation instructions</a>.'
         I_ACCEPT_TERMS: 'I accept the <a href="{link}" target="blank">terms and conditions</a>.'
         I_SUBSCRIBE_NEWSLETTER: 'I want to receive the newsletter'
+        NoPaymentMethodText: 'Text to show if there is no available payment method'
+        NoShippingMethodText: 'Text to show if there is no available shipping method'
         ORDER: Order
         ORDER_NOW: 'Buy now'
         OVERVIEW: Overview
