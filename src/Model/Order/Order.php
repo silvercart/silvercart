@@ -37,9 +37,11 @@ use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_Base;
+use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
@@ -480,6 +482,8 @@ class Order extends DataObject implements PermissionProvider
             'DateFormat'                       => Tools::field_label('DateFormat'),
             'PaymentMethodTitle'               => _t(Order::class . '.PAYMENTMETHODTITLE', 'Payment method'),
             'OrderAmount'                      => _t(Order::class . '.ORDER_VALUE', 'Orderamount'),
+            'ResendOrderConfirmation'          => _t(Order::class . '.ResendOrderConfirmation', 'Resend order confirmation'),
+            'ResendOrderConfirmationDesc'      => _t(Order::class . '.ResendOrderConfirmationDesc', 'Resends the order confirmation email to the customer'),
             self::PERMISSION_VIEW              => _t(Order::class . '.' . self::PERMISSION_VIEW, 'View order'),
             self::PERMISSION_VIEW . '_HELP'    => _t(Order::class . '.' . self::PERMISSION_VIEW . '_HELP', 'Allows an user to view any orders (not only owned ones!). Own orders can be viewed without this permission.'),
             self::PERMISSION_EDIT              => _t(Order::class . '.' . self::PERMISSION_EDIT, 'Edit order'),
@@ -1096,40 +1100,63 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @return FieldList
      */
-    public function getCMSActions()
+    public function getCMSActions() : FieldList
     {
         $this->beforeUpdateCMSActions(function(FieldList $actions) {
-            if ($this->isAdminModeEdit()) {
-                $mode     = self::ADMIN_MODE_VIEW;
-                $btnTitle = _t(self::class . '.AdminModeView', 'View Order Data');
-                $btnIcon  = 'font-icon-eye';
-            } else {
-                $mode     = self::ADMIN_MODE_EDIT;
-                $btnTitle = _t(self::class . '.AdminModeEdit', 'Edit Order Data');
-                $btnIcon  = 'font-icon-edit';
+            if ($this->exists()) {
+                if ($this->isAdminModeEdit()) {
+                    $mode     = self::ADMIN_MODE_VIEW;
+                    $btnTitle = _t(self::class . '.AdminModeView', 'View Order Data');
+                    $btnIcon  = 'font-icon-eye';
+                } else {
+                    $mode     = self::ADMIN_MODE_EDIT;
+                    $btnTitle = _t(self::class . '.AdminModeEdit', 'Edit Order Data');
+                    $btnIcon  = 'font-icon-edit';
+                }
+                $actions->push(
+                    FormAction::create("switcheditmodeto{$mode}", $btnTitle)
+                        ->addExtraClass("btn-outline-info {$mode} {$btnIcon}")
+                        ->setUseButtonTag(true)
+                );
+                $actions->push(
+                    FormAction::create('resendorderconfirmation', $this->fieldLabel('ResendOrderConfirmation'))
+                        ->addExtraClass("btn-outline-info font-icon-p-mail")
+                        ->setUseButtonTag(true)
+                );
             }
-            $actions->push(
-                FormAction::create("switcheditmodeto{$mode}", $btnTitle)
-                    ->addExtraClass("btn-outline-info {$mode} {$btnIcon}")
-                    ->setUseButtonTag(true)
-            );
         });
         return parent::getCMSActions();
     }
     
     /**
+     * Resends the confirmation email to the customer.
+     * 
+     * @param GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param array                           $data        Submitted data
+     * @param Form                            $form        Form
+     * 
+     * @return void
+     */
+    public function resendorderconfirmation(GridFieldDetailForm_ItemRequest $itemRequest, array $data, Form $form)
+    {
+        $this->sendConfirmationMail(false);
+        $message = _t(Order::class . '.ResendOrderConfirmationDone', 'Sent confirmation email to {email}', [
+            'email' => $this->CustomersEmail,
+        ]);
+        $form->sessionMessage($message, \SilverStripe\ORM\ValidationResult::TYPE_GOOD, \SilverStripe\ORM\ValidationResult::CAST_HTML);
+        return $itemRequest->edit(Controller::curr()->getRequest());
+    }
+    
+    /**
      * Switched the admin mode to edit.
      * 
-     * @param \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $itemRequest GridField item request
-     * @param array                                                         $data        Submitted data
-     * @param Form                                                          $form        Form
+     * @param GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param array                           $data        Submitted data
+     * @param Form                            $form        Form
      * 
      * @return ViewableData
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function switcheditmodetoedit($itemRequest, $data, $form)
+    public function switcheditmodetoedit(GridFieldDetailForm_ItemRequest $itemRequest, array $data, Form $form)
     {
         return $this->switcheditmode($itemRequest, self::ADMIN_MODE_EDIT);
     }
@@ -1137,16 +1164,13 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Switched the admin mode to view.
      * 
-     * @param \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $itemRequest GridField item request
-     * @param array                                                         $data        Submitted data
-     * @param Form                                                          $form        Form
+     * @param GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param array                           $data        Submitted data
+     * @param Form                            $form        Form
      * 
      * @return ViewableData
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function switcheditmodetoview($itemRequest, $data, $form)
+    public function switcheditmodetoview(GridFieldDetailForm_ItemRequest $itemRequest, array $data, Form $form)
     {
         return $this->switcheditmode($itemRequest, self::ADMIN_MODE_VIEW);
     }
@@ -1154,15 +1178,12 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Switches the admin mode to view or edit.
      * 
-     * @param \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $itemRequest GridField item request
-     * @param string                                                        $mode        Admin mode
+     * @param GridFieldDetailForm_ItemRequest $itemRequest GridField item request
+     * @param string                          $mode        Admin mode
      * 
      * @return ViewableData
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function switcheditmode($itemRequest, $mode = self::ADMIN_MODE_VIEW)
+    public function switcheditmode(GridFieldDetailForm_ItemRequest $itemRequest, string $mode = self::ADMIN_MODE_VIEW)
     {
         if (is_null($mode)) {
             $mode = self::ADMIN_MODE_VIEW;
@@ -2845,15 +2866,15 @@ class Order extends DataObject implements PermissionProvider
     }
 
     /**
-     * Send a confirmation mail with order details to the customer $member
+     * Send a confirmation mail with order details to the customer. If 
+     * $sendNotification is set to true, the notification email will also be
+     * sent to the shop owner.
+     * 
+     * @param bool $sendNotification Also send the notification email?
      *
      * @return \SilverCart\Model\Order\Order
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.04.2018
      */
-    public function sendConfirmationMail() : Order
+    public function sendConfirmationMail(bool $sendNotification = true) : Order
     {
         $this->extend('onBeforeConfirmationMail');
         $params = [
@@ -2880,9 +2901,7 @@ class Order extends DataObject implements PermissionProvider
                 'Attachments'   => null,
             ],
         ];
-                
         $this->extend('updateConfirmationMail', $params);
-        
         ShopEmail::send(
             $params['OrderConfirmation']['Template'],
             $params['OrderConfirmation']['Recipient'],
@@ -2890,6 +2909,37 @@ class Order extends DataObject implements PermissionProvider
             $params['OrderConfirmation']['Attachments'],
             $this->Member()->Locale
         );
+        if ($sendNotification) {
+            $this->sendNotificationMail($params);
+        }
+        $this->extend('onAfterConfirmationMail', $params);
+        return $this;
+    }
+
+    /**
+     * Send a notification mail with order details to the shop owner.
+     *
+     * @return \SilverCart\Model\Order\Order
+     */
+    public function sendNotificationMail(array $params = []) : Order
+    {
+        $this->extend('onBeforeNotificationMail');
+        if (empty($params)) {
+            $params = [
+                'OrderNotification' => [
+                    'Template'      => 'OrderNotification',
+                    'Recipient'     => Config::DefaultMailOrderNotificationRecipient(),
+                    'Variables'     => [
+                        'FirstName'  => $this->InvoiceAddress()->FirstName,
+                        'Surname'    => $this->InvoiceAddress()->Surname,
+                        'Salutation' => $this->InvoiceAddress()->getSalutationText(),
+                        'Order'      => $this
+                    ],
+                    'Attachments'   => null,
+                ],
+            ];
+        }
+        $this->extend('updateNotificationMail', $params);
         ShopEmail::send(
             $params['OrderNotification']['Template'],
             $params['OrderNotification']['Recipient'],
@@ -2897,7 +2947,7 @@ class Order extends DataObject implements PermissionProvider
             $params['OrderNotification']['Attachments'],
             Tools::default_locale()->getLocale()
         );
-        $this->extend('onAfterConfirmationMail', $params);
+        $this->extend('onAfterNotificationMail', $params);
         return $this;
     }
 

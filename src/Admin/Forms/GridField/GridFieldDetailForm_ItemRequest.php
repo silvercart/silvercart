@@ -12,11 +12,13 @@ use SilverStripe\ORM\DataObject;
  * Extension for SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest.
  *
  * @package SilverCart
- * @subpackage Admin_Forms_GridField
+ * @subpackage Admin\Forms\GridField
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 22.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property \SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest $owner Owner
  */
 class GridFieldDetailForm_ItemRequest extends Extension
 {
@@ -26,41 +28,39 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @var array
      */
     private $actionMap = [];
+    
     /**
      * Updates the item edit form.
      * 
      * @param Form $form Form
      *
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function updateItemEditForm(Form $form)
+    public function updateItemEditForm(Form $form) : void
     {
-        if ($this->owner->record instanceof Member) {
-            $actions = $form->Actions();
-            if ($this->owner->record->ID !== 0) {
+        $record = $this->owner->record;
+        if ($record instanceof DataObject) {
+            if ($record instanceof Member
+             && $record->exists()
+            ) {
+                $actions = $form->Actions();
                 $actions->push(FormAction::create('doSendChangePasswordEmail', _t(GridFieldDetailForm_ItemRequest::class . '.SendChangePasswordEmail', 'Send Change Password Email'))
                                 ->setUseButtonTag(true)
                                 ->addExtraClass('ss-ui-action-constructive')
                                 ->setAttribute('data-icon', 'accept'));
             }
-        }
-        
-        $record = $this->owner->record;
-        if ($record instanceof DataObject
-         && $record->hasMethod('getCMSActions')
-         && $record->getCMSActions()->exists()
-        ) {
-            $index = 1;
-            foreach ($record->getCMSActions() as $action) {
-                /* @var $action FormAction */
-                $this->actionMap[$index] = $action->getName();
-                $action->setFullAction("action_sccustomaction{$index}");
-                $action->setName("action_sccustomaction{$index}");
-                $form->Actions()->push($action);
-                $index++;
+            if ($record->hasMethod('getCMSActions')
+             && $record->getCMSActions()->exists()
+            ) {
+                $index = 1;
+                foreach ($record->getCMSActions() as $action) {
+                    /* @var $action FormAction */
+                    $this->actionMap[$index] = $action->getName();
+                    $action->setFullAction("action_sccustomaction{$index}");
+                    $action->setName("action_sccustomaction{$index}");
+                    $form->Actions()->push($action);
+                    $index++;
+                }
             }
         }
     }
@@ -73,11 +73,8 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form  Form
      * 
      * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    protected function handleSCCustomAction($index, $data, $form)
+    protected function handleSCCustomAction(int $index, array $data, Form $form)
     {
         if (!array_key_exists($index, $this->actionMap)) {
             return;
@@ -99,11 +96,8 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form Form
      * 
      * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function sccustomaction1($data, $form)
+    public function sccustomaction1(array $data, Form $form)
     {
         return $this->handleSCCustomAction(1, $data, $form);
     }
@@ -115,11 +109,8 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form Form
      * 
      * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function sccustomaction2($data, $form)
+    public function sccustomaction2(array $data, Form $form)
     {
         return $this->handleSCCustomAction(2, $data, $form);
     }
@@ -131,11 +122,8 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form Form
      * 
      * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function sccustomaction3($data, $form)
+    public function sccustomaction3(array $data, Form $form)
     {
         return $this->handleSCCustomAction(3, $data, $form);
     }
@@ -147,11 +135,8 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form Form
      * 
      * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function sccustomaction4($data, $form)
+    public function sccustomaction4(array $data, Form $form)
     {
         return $this->handleSCCustomAction(4, $data, $form);
     }
@@ -163,11 +148,8 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form Form
      * 
      * @return mixed
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.09.2018
      */
-    public function sccustomaction5($data, $form)
+    public function sccustomaction5(array $data, Form $form)
     {
         return $this->handleSCCustomAction(5, $data, $form);
     }
@@ -179,14 +161,10 @@ class GridFieldDetailForm_ItemRequest extends Extension
      * @param Form  $form Form
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.01.2017
      */
-    public function doSendChangePasswordEmail($data, $form)
+    public function doSendChangePasswordEmail(array $data, Form $form) : void
     {
         $member = $this->owner->record;
         $member->sendChangePasswordEmail();
     }
-
 }

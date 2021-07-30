@@ -1094,6 +1094,9 @@ de:
         PRICETYPE: Preis-Anzeige-Typ
         PRINT: 'Bestellung drucken'
         PRINT_PREVIEW: Druckvorschau
+        ResendOrderConfirmation: 'Auftragsbestätigung senden'
+        ResendOrderConfirmationDesc: 'Auftragsbestätigung erneut an den Kunden senden'
+        ResendOrderConfirmationDone: 'Die Auftragsbestätigung wurde an {email} gesendet.'
         SEARCHRESULTSLIMIT: Limit
         ShippingDate: 'Versandt am'
         SHIPPINGRATE: Versandkosten

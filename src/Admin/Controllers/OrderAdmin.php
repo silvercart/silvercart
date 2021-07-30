@@ -4,6 +4,7 @@ namespace SilverCart\Admin\Controllers;
 
 use SilverCart\Admin\Controllers\ModelAdmin;
 use SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton;
+use SilverCart\Admin\Forms\GridField\GridFieldResendOrderConfirmationAction;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderStatus;
@@ -140,6 +141,7 @@ class OrderAdmin extends ModelAdmin
     {
         $this->beforeUpdateEditForm(function(Form $form) {
             $config       = $this->getGridFieldConfigFor($form);
+            $config->addComponent(new GridFieldResendOrderConfirmationAction());
             $exportButton = GridFieldOrderExportButton::create();
             $config->addComponent($exportButton);
             $exportButton->setCsvSeparator($this->config()->csv_export_delimiter);

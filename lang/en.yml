@@ -1092,6 +1092,9 @@ en:
         PRICETYPE: Price-Display-Type
         PRINT: 'Print order'
         PRINT_PREVIEW: 'Print preview'
+        ResendOrderConfirmation: 'Resend order confirmation'
+        ResendOrderConfirmationDesc: 'Resends the order confirmation email to the customer'
+        ResendOrderConfirmationDone: 'Sent confirmation email to {email}'
         SEARCHRESULTSLIMIT: Limit
         ShippingDate: 'Shipping date'
         SHIPPINGRATE: 'Shipping rate'
