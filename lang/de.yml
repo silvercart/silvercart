@@ -813,6 +813,7 @@ de:
         SINGULARNAME: Datenseite
         TITLE: 'Meine Daten'
         URL_SEGMENT: meine-daten
+        DeleteAccountContent: 'Information zur Anzeige am Formular für die Account-Löschung'
     SilverCart\Model\Pages\DownloadPage:
         PLURALNAME: Downloadseiten
         SINGULARNAME: Downloadseite

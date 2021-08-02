@@ -813,6 +813,7 @@ en:
         SINGULARNAME: 'Data Page'
         TITLE: 'My data'
         URL_SEGMENT: my-data
+        DeleteAccountContent: 'Information to show at the form to delete a customer account'
     SilverCart\Model\Pages\DownloadPage:
         PLURALNAME: Downloadpages
         SINGULARNAME: Downloadpage

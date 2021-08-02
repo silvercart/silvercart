@@ -70,6 +70,12 @@ class DeletedCustomerReason extends DataObject
         'Reason',
     ];
     /**
+     * DB default sort.
+     * 
+     * @var string
+     */
+    private static $default_sort = 'Sort';
+    /**
      * Extensions.
      * 
      * @var string[]

@@ -3,7 +3,14 @@
 namespace SilverCart\Model\Pages;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Customer\DeletedCustomerReason;
 use SilverCart\Model\Pages\MyAccountHolder;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * Shows customerdata + edit.
@@ -15,22 +22,28 @@ use SilverCart\Model\Pages\MyAccountHolder;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CustomerDataPage extends MyAccountHolder {
-
+class CustomerDataPage extends MyAccountHolder
+{
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartCustomerDataPage';
-    
+    /**
+     * DB attributes.
+     * 
+     * @var string[]
+     */
+    private static $db = [
+        'DeleteAccountContent' => 'HTMLText',
+    ];
     /**
      * Indicates whether this page type can be root
      *
      * @var bool
      */
     private static $can_be_root = false;
-    
     /**
      * The icon to use for this page in the storeadmin sitetree.
      *
@@ -42,12 +55,10 @@ class CustomerDataPage extends MyAccountHolder {
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name() {
+    public function singular_name() : string
+    {
         return Tools::singular_name_for($this);
     }
 
@@ -56,33 +67,67 @@ class CustomerDataPage extends MyAccountHolder {
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name() {
+    public function plural_name() : string
+    {
         return Tools::plural_name_for($this); 
+    }
+    
+    /**
+     * Returns the field labels.
+     * 
+     * @param bool $includerelations Include relations?
+     * 
+     * @return array
+     */
+    public function fieldLabels($includerelations = true) : array
+    {
+        $this->beforeUpdateFieldLabels(function(array &$fields) {
+            $fields['DeleteAccountContent'] = _t(self::class . '.DeleteAccountContent', 'Information to show at the form to delete a customer account');
+        });
+        return parent::fieldLabels($includerelations);
+    }
+    
+    /**
+     * Returns the CMS fields.
+     * 
+     * @return FieldList
+     */
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->findOrMakeTab('Root.CustomerDeletion', DeletedCustomerReason::singleton()->i18n_plural_name());
+            $fields->addFieldToTab('Root.CustomerDeletion', HTMLEditorField::create('DeleteAccountContent', $this->fieldLabel('DeleteAccountContent'), $this->DeleteAccountContent)->setRows(4));
+            $fields->addFieldToTab('Root.CustomerDeletion', GridField::create('DeletedCustomerReason', DeletedCustomerReason::singleton()->i18n_plural_name(), DeletedCustomerReason::get(), GridFieldConfig_RecordEditor::create()));
+            if (class_exists(GridFieldOrderableRows::class)) {
+                $gridDeletedCustomerReason = $fields->dataFieldByName('DeletedCustomerReason');
+                /* @var $gridDeletedCustomerReason \SilverStripe\Forms\GridField\GridField */
+                if ($gridDeletedCustomerReason !== null) {
+                    $gridDeletedCustomerReason->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+                }
+            }
+        });
+        return parent::getCMSFields();
     }
     
     /**
      * Returns whether this page has a summary.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.04.2013
+     * @return bool
      */
-    public function hasSummary() {
+    public function hasSummary() : bool
+    {
         return true;
     }
     
     /**
      * Returns the summary of this page.
      * 
-     * @return string
+     * @return DBHTMLText
      */
-    public function getSummary() {
+    public function getSummary() : DBHTMLText
+    {
         return $this->renderWith('SilverCart/Model/Pages/Includes/CustomerDataSummary');
     }
     
@@ -91,7 +136,8 @@ class CustomerDataPage extends MyAccountHolder {
      * 
      * @return string
      */
-    public function getSummaryTitle() {
+    public function getSummaryTitle() : string
+    {
         return _t(MyAccountHolder::class . '.YOUR_PERSONAL_DATA', 'Your personal data');
     }
 }
