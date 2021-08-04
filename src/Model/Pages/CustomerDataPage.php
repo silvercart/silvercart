@@ -37,6 +37,7 @@ class CustomerDataPage extends MyAccountHolder
      */
     private static $db = [
         'DeleteAccountContent' => 'HTMLText',
+        'LoginAttemptContent'  => 'HTMLText',
     ];
     /**
      * Indicates whether this page type can be root
@@ -85,6 +86,7 @@ class CustomerDataPage extends MyAccountHolder
     {
         $this->beforeUpdateFieldLabels(function(array &$fields) {
             $fields['DeleteAccountContent'] = _t(self::class . '.DeleteAccountContent', 'Information to show at the form to delete a customer account');
+            $fields['LoginAttemptContent']  = _t(self::class . '.LoginAttemptContent', 'Information to show below the login attempt information');
         });
         return parent::fieldLabels($includerelations);
     }
@@ -97,6 +99,7 @@ class CustomerDataPage extends MyAccountHolder
     public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->addFieldToTab('Root.Main', HTMLEditorField::create('LoginAttemptContent', $this->fieldLabel('LoginAttemptContent'), $this->LoginAttemptContent)->setRows(4));
             $fields->findOrMakeTab('Root.CustomerDeletion', DeletedCustomerReason::singleton()->i18n_plural_name());
             $fields->addFieldToTab('Root.CustomerDeletion', HTMLEditorField::create('DeleteAccountContent', $this->fieldLabel('DeleteAccountContent'), $this->DeleteAccountContent)->setRows(4));
             $fields->addFieldToTab('Root.CustomerDeletion', GridField::create('DeletedCustomerReason', DeletedCustomerReason::singleton()->i18n_plural_name(), DeletedCustomerReason::get(), GridFieldConfig_RecordEditor::create()));

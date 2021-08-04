@@ -815,6 +815,7 @@ de:
         TITLE: 'Meine Daten'
         URL_SEGMENT: meine-daten
         DeleteAccountContent: 'Information zur Anzeige am Formular für die Account-Löschung'
+        LoginAttemptContent: 'Information zur Anzeige unterhalb der letzten Login-Versuche'
     SilverCart\Model\Pages\DownloadPage:
         PLURALNAME: Downloadseiten
         SINGULARNAME: Downloadseite

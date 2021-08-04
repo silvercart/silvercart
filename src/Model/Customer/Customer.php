@@ -13,6 +13,7 @@ use SilverCart\Model\Order\NumberRange;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\CheckoutStepController;
+use SilverCart\Model\Pages\CustomerDataPage;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Product;
@@ -28,6 +29,7 @@ use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
 use SilverStripe\ORM\Search\SearchContext;
@@ -615,6 +617,21 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     {
         return array_key_exists($customerID, $this->getCMSFieldsIsCalled)
             && $this->getCMSFieldsIsCalled[$customerID];
+    }
+    
+    /**
+     * Returns the login attempt information.
+     * 
+     * @return DBHTMLText
+     */
+    public function getLoginAttemptInformation() : DBHTMLText
+    {
+        $info = DBHTMLText::create();
+        $page = CustomerDataPage::get()->first();
+        if ($page instanceof CustomerDataPage) {
+            $info->setValue($page->LoginAttemptContent);
+        }
+        return $info;
     }
     
     /**
