@@ -4,6 +4,7 @@ namespace SilverCart\Model\CookieConsent;
 
 use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\ORM\Connect\DBMigration;
+use SilverCart\Security\ExternalResourceValidator;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldList;
@@ -250,10 +251,9 @@ class ExternalResource extends DataObject implements TemplateGlobalProvider
     public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
-            if (empty($this->Name)) {
-                $fields->dataFieldByName('Name')->setDescription($this->fieldLabel('NameDesc'));
-            } else {
-                $fields->removeByName('Name');
+            $fields->dataFieldByName('Name')->setDescription($this->fieldLabel('NameDesc'));
+            if (!empty($this->Name)) {
+                $fields->dataFieldByName('Name')->setReadonly(true);
             }
             $fields->removeByName('URLSegment');
             if ($this->isDefault()) {
@@ -269,6 +269,19 @@ class ExternalResource extends DataObject implements TemplateGlobalProvider
             $fields->dataFieldByName('Position')->setSource($positionSrc);
         });
         return parent::getCMSFields();
+    }
+    
+    /**
+     * Returns the custom ExternalResourceValidator to use for CMS field validation.
+     * 
+     * @return ExternalResourceValidator
+     */
+    public function getCMSValidator() : ExternalResourceValidator
+    {
+        $validator = ExternalResourceValidator::create();
+        $validator->setForExternalResource($this);
+        $this->extend('updateCMSValidator', $validator);
+        return $validator;
     }
     
     /**

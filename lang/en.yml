@@ -98,6 +98,7 @@ en:
         GoogleWebmasterCode_Description: 'HTML-<meta>-tag code to integrate the Google Webmaster Tools.'
         MatomoTrackingCode_Name: 'Matomo Tracking Code'
         MatomoTrackingCode_Description: 'Javascript code to enable Matomo (formerly Piwik) tracking.'
+        ValidationExternalResourceExists: 'A resource already exists with the same {identifier}'
     SilverCart\Model\Customer\Address:
         AcademicTitle: 'Academic title'
         ADDITION: Addition
