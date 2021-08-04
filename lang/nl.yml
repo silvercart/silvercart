@@ -1192,7 +1192,7 @@ nl:
         PASSWORD_WRONG: 'Dit wachtwoord is onjuist.'
         PAYMENT_NOT_WORKING: 'De gekozen betaalmodule werkt niet.'
         PLURALNAME: 'Pagina''s'
-        PLUS_SHIPPING: 'plus verzending'
+        PLUS_SHIPPING: 'excl. verzending'
         PREV: Vorige
         PRODUCTNAME: Productnaam
         REGISTER: Registreer
@@ -1300,7 +1300,7 @@ nl:
         RESTRICTION_LABEL: 'Activeer alleen wanneer aan de volgende criteria wordt voldaan'
         RESTRICT_BY_ORDER_QUANTITY: 'De klant moet het volgende aantal bestellingen hebben voltooid'
         RESTRICT_BY_ORDER_STATUS: 'de status van bestellingen is gemarkeerd in de volgende lijst'
-        SHIPPINGMETHOD: verzendmethode
+        SHIPPINGMETHOD: Verzendmethode
         SHIPPINGMETHOD_DESC: 'Bind de betaalmethode aan de volgende verzendmethoden:'
         SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Toon selectie van formuliervelden betreffende betalingsdiensten'
         SHOW_NOT_FOR_GROUPS_LABEL: 'Deactiveren voor de volgende groepen'
