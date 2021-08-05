@@ -158,6 +158,7 @@ class CheckoutStep extends Page
         if (!($text instanceof DBHTMLText)) {
             $text = DBHTMLText::create()->setValue($text);
         }
+        $text->setProcessShortcodes(true);
         return $text;
     }
     
@@ -181,6 +182,7 @@ class CheckoutStep extends Page
         if (!($text instanceof DBHTMLText)) {
             $text = DBHTMLText::create()->setValue($text);
         }
+        $text->setProcessShortcodes(true);
         return $text;
     }
     
@@ -204,6 +206,7 @@ class CheckoutStep extends Page
         if (!($text instanceof DBHTMLText)) {
             $text = DBHTMLText::create()->setValue($text);
         }
+        $text->setProcessShortcodes(true);
         return $text;
     }
     

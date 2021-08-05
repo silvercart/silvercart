@@ -626,7 +626,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     public function getLoginAttemptInformation() : DBHTMLText
     {
-        $info = DBHTMLText::create();
+        $info = DBHTMLText::create()->setProcessShortcodes(true);
         $page = CustomerDataPage::get()->first();
         if ($page instanceof CustomerDataPage) {
             $info->setValue($page->LoginAttemptContent);
