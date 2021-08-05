@@ -1003,6 +1003,7 @@ da_DK:
         TAXAMOUNTSHIPMENT: 'Forsendelsesmetode skat'
         TAXRATEPAYMENT: 'Afgiftssats for betalingsmetoden'
         TAXRATESHIPMENT: 'Afgiftssats for forsendelsesmetoden'
+        TrackDelivery: 'Spor levering'
         Tracking: Sporing
         TrackingCode: Sporingskode
         TrackingLink: Sporingslink

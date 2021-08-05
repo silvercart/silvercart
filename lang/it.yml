@@ -1007,6 +1007,7 @@ it:
         TAXAMOUNTSHIPMENT: 'Aliquota fiscale in base alla modalità di spedizione'
         TAXRATEPAYMENT: 'Aliquota fiscale in base alla modalità di pagamento'
         TAXRATESHIPMENT: 'Aliquota fiscale in base alla modalità di spedizione'
+        TrackDelivery: 'Traccia la consegna'
         Tracking: 'Segui la spedizione'
         TrackingCode: 'Numero lettera di vettura'
         TrackingLink: 'Link al monitoraggio della spedizione'

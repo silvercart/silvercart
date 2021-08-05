@@ -1003,6 +1003,7 @@ nl_BE:
         TAXAMOUNTSHIPMENT: 'Belasting op de verzendmethode'
         TAXRATEPAYMENT: 'Belastingtarief van de betalingsmethode'
         TAXRATESHIPMENT: 'Belastingtarief van de verzendmethode'
+        TrackDelivery: 'Levering volgen'
         Tracking: 'Zending volgen'
         TrackingCode: 'Trackingscode van de zending'
         TrackingLink: 'Link naar het volgen van de zending'

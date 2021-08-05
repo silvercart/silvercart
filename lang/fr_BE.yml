@@ -1003,6 +1003,7 @@ fr_BE:
         TAXAMOUNTSHIPMENT: 'Taxe de la méthode d’expédition'
         TAXRATEPAYMENT: 'Taux d''imposition du mode de paiement'
         TAXRATESHIPMENT: 'Taux d’imposition de la méthode d’expédition'
+        TrackDelivery: 'Suivre la livraison'
         Tracking: 'Suivi des expéditions'
         TrackingCode: 'Numéro de suivi de l''expédition'
         TrackingLink: 'Lien vers le suivi de l''expédition'

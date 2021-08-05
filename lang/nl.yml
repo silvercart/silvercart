@@ -1008,6 +1008,7 @@ nl:
         TAXAMOUNTSHIPMENT: 'Btw-bedrag verzendkosten'
         TAXRATEPAYMENT: Btw-tarief
         TAXRATESHIPMENT: 'Btw-tarief verzendkosten'
+        TrackDelivery: 'Levering volgen'
         Tracking: Tracking
         TrackingCode: 'Tracking Code'
         TrackingLink: 'Tracking Link'

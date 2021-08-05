@@ -1115,6 +1115,7 @@ de:
         TAXAMOUNTSHIPMENT: 'Steuer der Versandart'
         TAXRATEPAYMENT: 'Steuersatz der Bezahlart'
         TAXRATESHIPMENT: 'Steuersatz der Versandart'
+        TrackDelivery: 'Lieferung verfolgen'
         Tracking: Sendungsverfolgung
         TrackingCode: Sendungsverfolgungsnummer
         TrackingLink: 'Link zur Sendungsverfolgung'
