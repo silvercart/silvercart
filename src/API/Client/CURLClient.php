@@ -86,83 +86,88 @@ class CURLClient extends Client
     /**
      * Sends an API GET request.
      * 
-     * @param string $target API target endpoint
+     * @param string $target                API target endpoint
+     * @param array  $additionalCURLOptions Additional CURL options
      * 
      * @return Response
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2018
      */
-    protected function sendGetRequest(string $target) : Response
+    protected function sendGetRequest(string $target, array $additionalCURLOptions = []) : Response
     {
-        return $this->sendRequest($target, 'GET');
+        return $this->sendRequest($target, 'GET', [], '', $additionalCURLOptions);
     }
     
     /**
      * Sends an API POST request.
      * 
-     * @param string $target        API target endpoint
-     * @param array  $postFields    Post fields to submit
-     * @param string $requestString Request string to use instead of $postFields
+     * @param string $target                API target endpoint
+     * @param array  $postFields            Post fields to submit
+     * @param string $requestString         Request string to use instead of $postFields
+     * @param array  $additionalCURLOptions Additional CURL options
      * 
      * @return Response
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2018
      */
-    protected function sendPostRequest(string $target, array $postFields = [], string $requestString = '') : Response
+    protected function sendPostRequest(string $target, array $postFields = [], string $requestString = '', array $additionalCURLOptions = []) : Response
     {
-        return $this->sendRequest($target, 'POST', $postFields, $requestString);
+        return $this->sendRequest($target, 'POST', $postFields, $requestString, $additionalCURLOptions);
     }
     
     /**
      * Sends an API PUT request.
      * 
-     * @param string $target        API target endpoint
-     * @param array  $postFields    Post fields to submit
-     * @param string $requestString Request string to use instead of $postFields
+     * @param string $target                API target endpoint
+     * @param array  $postFields            Post fields to submit
+     * @param string $requestString         Request string to use instead of $postFields
+     * @param array  $additionalCURLOptions Additional CURL options
      * 
      * @return Response
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2018
      */
-    protected function sendPutRequest(string $target, array $postFields = [], string $requestString = '') : Response
+    protected function sendPutRequest(string $target, array $postFields = [], string $requestString = '', array $additionalCURLOptions = []) : Response
     {
-        return $this->sendRequest($target, 'PUT', $postFields, $requestString);
+        return $this->sendRequest($target, 'PUT', $postFields, $requestString, $additionalCURLOptions);
     }
     
     /**
      * Sends an API DELETE request.
      * 
-     * @param string $target        API target endpoint
-     * @param array  $postFields    Post fields to submit
-     * @param string $requestString Request string to use instead of $postFields
+     * @param string $target                API target endpoint
+     * @param array  $postFields            Post fields to submit
+     * @param string $requestString         Request string to use instead of $postFields
+     * @param array  $additionalCURLOptions Additional CURL options
      * 
      * @return Response
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2018
      */
-    protected function sendDeleteRequest(string $target, array $postFields = [], string $requestString = '') : Response
+    protected function sendDeleteRequest(string $target, array $postFields = [], string $requestString = '', array $additionalCURLOptions = []) : Response
     {
-        return $this->sendRequest($target, 'DELETE', $postFields, $requestString);
+        return $this->sendRequest($target, 'DELETE', $postFields, $requestString, $additionalCURLOptions);
     }
     
     /**
      * Sends an API request.
      * 
-     * @param string $target        API target endpoint
-     * @param string $method        HTTP method (GET/POST/PUT/DELETE)
-     * @param array  $postFields    Post fields to submit
-     * @param string $requestString Request string to use instead of $postFields
+     * @param string $target                API target endpoint
+     * @param string $method                HTTP method (GET/POST/PUT/DELETE)
+     * @param array  $postFields            Post fields to submit
+     * @param string $requestString         Request string to use instead of $postFields
+     * @param array  $additionalCURLOptions Additional CURL options
      * 
      * @return Response
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 27.09.2018
      */
-    protected function sendRequest(string $target, string $method = "GET", array $postFields = [], string $requestString = '') : Response
+    protected function sendRequest(string $target, string $method = "GET", array $postFields = [], string $requestString = '', array $additionalCURLOptions = []) : Response
     {
         if (!self::isEnabled()) {
             $isError      = true;
@@ -201,6 +206,11 @@ class CURLClient extends Client
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
         }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if (!empty($additionalCURLOptions)) {
+            foreach ($additionalCURLOptions as $option => $value) {
+                curl_setopt($ch, $option, $value);
+            }
+        }
         if (Director::isDev()
          || $this->disableSSLVerification()
         ) {
