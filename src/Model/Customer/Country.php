@@ -8,7 +8,6 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\CountryTranslation;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Shipment\Zone;
-use SilverCart\ORM\DataObjectExtension;
 use SilverCart\ORM\FieldType\DBMoney;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
@@ -128,6 +127,18 @@ class Country extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartCountry';
+    /**
+     * Determines to insert the translation CMS fields by TranslatableDataObjectExtension.
+     * 
+     * @var bool
+     */
+    private static $insert_translation_cms_fields = true;
+    /**
+     * Determines to insert the translation CMS fields before this field.
+     * 
+     * @var string
+     */
+    private static $insert_translation_cms_fields_before = 'ISO2';
     /**
      * list of prioritive countries
      *
@@ -290,7 +301,7 @@ class Country extends DataObject
         return (string) $this->freeOfShippingCostsFrom->Nice();
     }
 
-        /**
+    /**
      * Summary fields
      *
      * @return array
@@ -342,34 +353,32 @@ class Country extends DataObject
      */
     public function getCMSFields() : FieldList
     {
-        $fields = DataObjectExtension::getCMSFields($this, 'ISO2', false);
-        if ($this->exists()) {
-            $paymentMethodsTable = $fields->dataFieldByName('PaymentMethods');
-            $paymentMethodsTable->setConfig(GridFieldConfig_RelationEditor::create());
-        } else {
-            $content = _t(self::class . '.AlertWarningCreationContent', 'Do you really want to create a new country? If you want to assign one of the {count} existing countries instead, use the "Link Existing" function (upper right corner of the table).', ['count' => self::get()->count()]);
-            $title   = _t(self::class . '.AlertWarningCreationTitle', 'Caution');
-            $creationWarningField = AlertWarningField::create('CreationWarning', $content, "{$title}:");
-            $fields->insertBefore($creationWarningField, 'Title');
-        }
-        $displayPositionMap = [
-            '0' => Tools::field_label('PleaseChoose'),
-        ];
-        for ($x = 1; $x <= self::getPrioritiveCountryCount(false) + 1; $x++) {
-            $displayPositionMap[$x] = $x;
-        }
-        $displayPositionField = DropdownField::create('DisplayPosition', $this->fieldLabel('DisplayPosition'), $displayPositionMap);
-        $fields->insertAfter($displayPositionField, 'IsPrioritive');
-        return $fields;
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if ($this->exists()) {
+                $paymentMethodsTable = $fields->dataFieldByName('PaymentMethods');
+                $paymentMethodsTable->setConfig(GridFieldConfig_RelationEditor::create());
+            } else {
+                $content = _t(self::class . '.AlertWarningCreationContent', 'Do you really want to create a new country? If you want to assign one of the {count} existing countries instead, use the "Link Existing" function (upper right corner of the table).', ['count' => self::get()->count()]);
+                $title   = _t(self::class . '.AlertWarningCreationTitle', 'Caution');
+                $creationWarningField = AlertWarningField::create('CreationWarning', $content, "{$title}:");
+                $fields->insertBefore($creationWarningField, 'Title');
+            }
+            $displayPositionMap = [
+                '0' => Tools::field_label('PleaseChoose'),
+            ];
+            for ($x = 1; $x <= self::getPrioritiveCountryCount(false) + 1; $x++) {
+                $displayPositionMap[$x] = $x;
+            }
+            $displayPositionField = DropdownField::create('DisplayPosition', $this->fieldLabel('DisplayPosition'), $displayPositionMap);
+            $fields->insertAfter($displayPositionField, 'IsPrioritive');
+        });
+        return parent::getCMSFields();
     }
     
     /**
      * Hook before writing th object
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.12.2012
      */
     public function onBeforeWrite() : void
     {
@@ -411,9 +420,6 @@ class Country extends DataObject
      * Returns the attributed zones as string (limited to 150 chars).
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
      */
     public function AttributedZones() : string
     {
@@ -424,9 +430,6 @@ class Country extends DataObject
      * Returns the attributed payment methods as string (limited to 150 chars).
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.04.2012
      */
     public function AttributedPaymentMethods() : string
     {
@@ -618,9 +621,6 @@ class Country extends DataObject
      * @param string $targetLocale   Target locale (e.g. de_DE)
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.05.2018
      */
     public static function create_translations(string $existingLocale, string $targetLocale = null) : void
     {
