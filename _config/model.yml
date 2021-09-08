@@ -16,7 +16,7 @@ SilverStripe\Core\Injector\Injector:
   StartsWithOrNullFilter: '%$DataListFilter.StartsWithOrNull'
   LowerCaseFilter: '%$DataListFilter.LowerCase'
 ---
-Name: asdaf
+Name: silvercart-customer
 ---
 SilverStripe\Security\Member:
   title_format:
@@ -25,3 +25,8 @@ SilverStripe\Security\Member:
           - Surname
           - FirstName
       sep: ', '
+---
+Name: silvercart-orm-fieldtype
+---
+SilverStripe\ORM\FieldType\DBForeignKey:
+  dropdown_field_threshold: 300
