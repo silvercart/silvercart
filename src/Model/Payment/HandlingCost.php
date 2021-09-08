@@ -26,7 +26,6 @@ use SilverStripe\ORM\FieldType\DBMoney;
  * @property DBMoney $amount        Amount
  * @property string  $handlingcosts Handling costs string
  * 
- * @method Tax           Tax()           Returns the related Tax.
  * @method PaymentMethod PaymentMethod() Returns the related PaymentMethod.
  * @method Zone          Zone()          Returns the related Zone.
  */
@@ -65,6 +64,13 @@ class HandlingCost extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartHandlingCost';
+    /**
+     * Cached Tax object. The related tax object will be stored in
+     * this property after its first call.
+     *
+     * @var Tax
+     */
+    protected $cachedTax = null;
 
     /**
      * Sets the field labels.
@@ -150,6 +156,23 @@ class HandlingCost extends DataObject
             $price = $price - $this->getTaxAmount();
         }
         return $price;
+    }
+
+    /**
+     * Returns the related Tax object.
+     * Provides an extension hook to update the tax object by decorator.
+     * 
+     * @return Tax
+     */
+    public function Tax() : Tax
+    {
+        if (is_null($this->cachedTax)) {
+            $this->cachedTax = $this->getComponent('Tax');
+            if (!$this->getCMSFieldsIsCalled) {
+                $this->extend('updateTax', $this->cachedTax);
+            }
+        }
+        return $this->cachedTax;
     }
 
     /**

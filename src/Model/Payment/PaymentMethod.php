@@ -603,8 +603,9 @@ class PaymentMethod extends DataObject
             if ($this->HandlingCosts()->Count() > 0) {
                 $handlingCostToUse = $this->HandlingCosts()->First();
             } else {
-                $tax                              = Tax::get()->filter('isDefault', 1)->first();
+                $tax                              = Tax::getDefault();
                 $handlingCostToUse                = HandlingCost::create();
+                $handlingCostToUse->extend('updateTax', $tax);
                 $handlingCostToUse->PaymentMethod = $this;
                 $handlingCostToUse->Tax           = $tax;
                 $handlingCostToUse->TaxID         = $tax->ID;

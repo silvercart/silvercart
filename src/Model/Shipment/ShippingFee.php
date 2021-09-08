@@ -57,7 +57,6 @@ use SilverStripe\ORM\Search\SearchContext;
  * 
  * @method Zone           Zone()           Returns the related Zone.
  * @method ShippingMethod ShippingMethod() Returns the related ShippingMethod.
- * @method Tax            Tax()            Returns the related Tax.
  * 
  * @method HasManyList Orders() Returns a list of related Orders.
  */
@@ -133,6 +132,13 @@ class ShippingFee extends DataObject
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
+    /**
+     * Cached Tax object. The related tax object will be stored in
+     * this property after its first call.
+     *
+     * @var Tax
+     */
+    protected $cachedTax = null;
     
     /**
      * Returns the translated singular name of the object.
@@ -404,6 +410,23 @@ class ShippingFee extends DataObject
     public function AttributedShippingMethods() : string
     {
         return Tools::AttributedDataObject($this->ShippingMethod());
+    }
+
+    /**
+     * Returns the related Tax object.
+     * Provides an extension hook to update the tax object by decorator.
+     * 
+     * @return Tax
+     */
+    public function Tax() : Tax
+    {
+        if (is_null($this->cachedTax)) {
+            $this->cachedTax = $this->getComponent('Tax');
+            if (!$this->getCMSFieldsIsCalled) {
+                $this->extend('updateTax', $this->cachedTax);
+            }
+        }
+        return $this->cachedTax;
     }
 
     /**
