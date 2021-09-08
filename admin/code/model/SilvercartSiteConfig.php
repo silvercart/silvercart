@@ -739,4 +739,27 @@ class SilvercartSiteConfig extends DataExtension {
         );
     }
     
+    /**
+     * Returns the ShopCountry with extension support.
+     * 
+     * @return SilvercartCountry
+     */
+    public function ShopCountry()
+    {
+        return $this->getShopCountry();
+    }
+    
+    /**
+     * Returns the ShopCountry with extension support.
+     * 
+     * @return SilvercartCountry
+     */
+    public function getShopCountry()
+    {
+        $value = $this->owner->getComponent('ShopCountry');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->owner->extend("updateShopCountry", $value);
+        }
+        return $value;
+    }
 }
