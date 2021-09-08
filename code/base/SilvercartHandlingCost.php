@@ -18,8 +18,8 @@
  * @since 09.11.2010
  * @license see license file in modules root directory
  */
-class SilvercartHandlingCost extends DataObject {
-
+class SilvercartHandlingCost extends DataObject
+{
     /**
      * Attributes.
      *
@@ -28,7 +28,6 @@ class SilvercartHandlingCost extends DataObject {
     public static $db = array(
         'amount' => 'Money'
     );
-
     /**
      * Casting.
      *
@@ -37,7 +36,6 @@ class SilvercartHandlingCost extends DataObject {
     public static $casting = array(
         'handlingcosts' => 'Text'
     );
-
     /**
      * Has-one relationships.
      *
@@ -48,6 +46,19 @@ class SilvercartHandlingCost extends DataObject {
         'SilvercartPaymentMethod' => 'SilvercartPaymentMethod',
         'SilvercartZone'          => 'SilvercartZone',
     );
+    /**
+     * Marker to check whether the CMS fields are called or not
+     *
+     * @var bool 
+     */
+    protected $getCMSFieldsIsCalled = false;
+    /**
+     * Cached Tax object. The related tax object will be stored in
+     * this property after its first call.
+     *
+     * @var Tax
+     */
+    protected $cachedTax = null;
 
     /**
      * Sets the field labels.
@@ -55,11 +66,9 @@ class SilvercartHandlingCost extends DataObject {
      * @param bool $includerelations set to true to include the DataObjects relations
      * 
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.10.2012
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true)
+    {
         return array_merge(
                 parent::fieldLabels($includerelations),
                 array(
@@ -75,11 +84,9 @@ class SilvercartHandlingCost extends DataObject {
      * the class name will be returned.
      * 
      * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
      */
-    public function singular_name() {
+    public function singular_name()
+    {
         return SilvercartTools::singular_name_for($this);
     }
 
@@ -89,11 +96,9 @@ class SilvercartHandlingCost extends DataObject {
      * the class name will be returned.
      * 
      * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
      */
-    public function plural_name() {
+    public function plural_name()
+    {
         return SilvercartTools::plural_name_for($this); 
     }
 
@@ -101,11 +106,9 @@ class SilvercartHandlingCost extends DataObject {
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.10.2012
      */
-    public function summaryFields() {
+    public function summaryFields()
+    {
         $summaryFields = array(
             'handlingcosts'         => $this->fieldLabel('amount'),
             'SilvercartTax.Rate'    => $this->fieldLabel('SilvercartTax'),
@@ -122,11 +125,10 @@ class SilvercartHandlingCost extends DataObject {
      * @param array $params configuration parameters
      *
      * @return FieldList the fields for the backend
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.10.2012
      */
-    public function getCMSFields($params = null) {
+    public function getCMSFields($params = null)
+    {
+        $this->getCMSFieldsIsCalled = true;
         $fields = parent::getCMSFields(
                 array_merge(
                         array(
@@ -152,25 +154,39 @@ class SilvercartHandlingCost extends DataObject {
      *
      * @return float
      */
-    public function getPriceAmount() {
+    public function getPriceAmount()
+    {
         $price = (float) $this->amount->getAmount();
-
         if (SilvercartConfig::PriceType() == 'net') {
             $price = $price - $this->getTaxAmount();
         }
-
         return $price;
+    }
+
+    /**
+     * Returns the related Tax object.
+     * Provides an extension hook to update the tax object by decorator.
+     * 
+     * @return SilvercartTax
+     */
+    public function Tax()
+    {
+        if (is_null($this->cachedTax)) {
+            $this->cachedTax = $this->getComponent('SilvercartTax');
+            if (!$this->getCMSFieldsIsCalled) {
+                $this->extend('updateTax', $this->cachedTax);
+            }
+        }
+        return $this->cachedTax;
     }
 
     /**
      * Returns the tax rate for this fee.
      * 
      * @return int
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2013
      */
-    public function getTaxRate() {
+    public function getTaxRate()
+    {
         $taxRate = SilvercartShoppingCart::get_most_valuable_tax_rate();
         if ($taxRate === false) {
             $taxRate = $this->SilvercartTax()->getTaxRate();
@@ -183,9 +199,9 @@ class SilvercartHandlingCost extends DataObject {
      *
      * @return float
      */
-    public function getTaxAmount() {
+    public function getTaxAmount()
+    {
         $taxRate = $this->amount->getAmount() - ($this->amount->getAmount() / (100 + $this->getTaxRate()) * 100);
-
         return $taxRate;
     }
 
@@ -193,15 +209,12 @@ class SilvercartHandlingCost extends DataObject {
      * Returns the Price formatted by locale.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 31.01.2011
      */
-    public function PriceFormatted() {
+    public function PriceFormatted()
+    {
         $priceObj = Money::create();
         $priceObj->setAmount($this->getPriceAmount());
         $priceObj->setCurrency($this->price->getCurrency());
-
         return $priceObj->Nice();
     }
 
@@ -209,11 +222,9 @@ class SilvercartHandlingCost extends DataObject {
      * Returns the handling costs for display in tables.
      *
      * @return string
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.03.2012
      */
-    public function handlingcosts() {
+    public function handlingcosts()
+    {
         return $this->amount->Nice();
     }
 }

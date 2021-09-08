@@ -19,8 +19,8 @@
  * @since 06.11.2010
  * @license see license file in modules root directory
  */
-class SilvercartShippingFee extends DataObject {
-
+class SilvercartShippingFee extends DataObject
+{
     /**
      * Attributes.
      *
@@ -38,7 +38,6 @@ class SilvercartShippingFee extends DataObject {
         'DeliveryTimeMax'               => 'Int',
         'DeliveryTimeText'              => 'Varchar(256)',
     );
-
     /**
      * Has-one relationships.
      *
@@ -49,7 +48,6 @@ class SilvercartShippingFee extends DataObject {
         'SilvercartShippingMethod'    => 'SilvercartShippingMethod',
         'SilvercartTax'               => 'SilvercartTax',
     );
-
     /**
      * Has-many Relationship.
      *
@@ -58,7 +56,6 @@ class SilvercartShippingFee extends DataObject {
     public static $has_many = array(
         'SilvercartOrders' => 'SilvercartOrder'
     );
-
     /**
      * Virtual database fields.
      *
@@ -74,20 +71,25 @@ class SilvercartShippingFee extends DataObject {
         'MaximumWeightNice'                 => 'Varchar(255)',
         'getMaximumWeightUnitAbreviation'   => 'Varchar(2)',
     );
-
     /**
      * Default sort field and direction
      *
      * @var string
      */
     public static $default_sort = "priority DESC";
-    
     /**
      * Marker to check whether the CMS fields are called or not
      *
      * @var bool 
      */
     protected $getCMSFieldsIsCalled = false;
+    /**
+     * Cached Tax object. The related tax object will be stored in
+     * this property after its first call.
+     *
+     * @var Tax
+     */
+    protected $cachedTax = null;
     
     /**
      * Returns the translated singular name of the object.
@@ -353,6 +355,23 @@ class SilvercartShippingFee extends DataObject {
      */
     public function AttributedShippingMethods() {
         return SilvercartTools::AttributedDataObject($this->SilvercartShippingMethod());
+    }
+
+    /**
+     * Returns the related Tax object.
+     * Provides an extension hook to update the tax object by decorator.
+     * 
+     * @return SilvercartTax
+     */
+    public function SilvercartTax()
+    {
+        if (is_null($this->cachedTax)) {
+            $this->cachedTax = $this->getComponent('SilvercartTax');
+            if (!$this->getCMSFieldsIsCalled) {
+                $this->extend('updateTax', $this->cachedTax);
+            }
+        }
+        return $this->cachedTax;
     }
 
     /**
