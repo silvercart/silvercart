@@ -37,6 +37,7 @@ use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
+use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\TemplateGlobalProvider;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\IdentityStore;
@@ -66,6 +67,86 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     const PERMISSION_EDIT           = 'SILVERCART_CUSTOMER_EDIT';
     const PERMISSION_DELETE         = 'SILVERCART_CUSTOMER_DELETE';
     const PERMISSION_VIEW           = 'SILVERCART_CUSTOMER_VIEW';
+    const SESSION_KEY_SHIPPING_COUNTRY_ID = 'SilverCart.ShippingCountryID';
+    
+    /**
+     * Returns the current shipping country
+     *
+     * @return Country|null
+     */
+    public static function currentShippingCountry() : ?Country
+    {
+        self::setCurrentShippingCountry();
+        $shippingCountry = Country::get()->filter([
+            'ID'     => (int) Tools::Session()->get(self::SESSION_KEY_SHIPPING_COUNTRY_ID),
+            'Active' => true,
+        ])->first();
+        if ($shippingCountry === null) {
+            $customer = Customer::currentUser();
+            if ($customer) {
+                $shippingCountry = $customer->ShippingAddress()->Country();
+            }
+            if ($shippingCountry === null
+             || !$shippingCountry->exists()
+            ) {
+                $shippingCountry = Country::get()->filter([
+                    'ISO2'   => substr(Tools::current_locale(), 3),
+                    'Active' => 1,
+                ])->first();
+            }
+            if (!($shippingCountry instanceof Country)
+             || !$shippingCountry->exists()
+            ) {
+                $shippingCountry = SiteConfig::current_site_config()->getShopCountry();
+            }
+            if (!($shippingCountry instanceof Country)
+             || !$shippingCountry->exists()
+            ) {
+                $shippingCountry = Country::get()->filter('Active', true)->first();
+            }
+            if ($shippingCountry instanceof Country) {
+                Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, $shippingCountry->ID);
+                Tools::saveSession();
+            }
+        }
+        return $shippingCountry;
+    }
+    
+    /**
+     * Sets the current shipping country context.
+     * 
+     * @param Country|null $country Country
+     * 
+     * @return void
+     */
+    public static function setCurrentShippingCountry(Country $country = null) : void
+    {
+        if (!($country instanceof Country)
+         && Controller::has_curr()
+        ) {
+            $ctrl = Controller::curr();
+            if ($ctrl->hasMethod('getShippingAddress')) {
+                $address = $ctrl->getShippingAddress();
+                if ($address instanceof Address
+                 && $address->Country()->exists()
+                ) {
+                    Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, $address->Country()->ID);
+                    Tools::saveSession();
+                    return;
+                }
+            }
+        }
+        if ($country instanceof Country) {
+            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, $country->ID);
+            Tools::saveSession();
+        } elseif (array_key_exists('ShippingCountryID', $_POST)) {
+            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, (int) $_POST['ShippingCountryID']);
+            Tools::saveSession();
+        } elseif (array_key_exists('scid', $_GET)) {
+            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, (int) $_GET['scid']);
+            Tools::saveSession();
+        }
+    }
 
     /**
      * Returns the registration opt-in confirmation base link.
@@ -1478,6 +1559,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             'CurrentCustomer' => 'currentUser',
             'currentCustomer' => 'currentUser',
             'currentUser'     => 'currentUser',
+            'currentShippingCountry' => 'currentShippingCountry',
+            'CurrentShippingCountry' => 'currentShippingCountry',
         ];
     }
     

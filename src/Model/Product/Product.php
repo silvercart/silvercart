@@ -644,31 +644,11 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns a fallback default country.
      * 
-     * @return Country
+     * @return Country|null
      */
-    public function getDefaultShippingCountry()
+    public function getDefaultShippingCountry() : ?Country
     {
-        $country  = null;
-        $customer = Customer::currentRegisteredCustomer();
-        if ($customer instanceof Member
-         && $customer->exists()
-        ) {
-            $country = $customer->ShippingAddress()->Country();
-        }
-        if (is_null($country)) {
-            $country = SiteConfig::current_site_config()->getShopCountry();
-            if (is_null($country)) {
-                $countryCode = substr(i18n::get_locale(), 3);
-                $country     = Country::get()->filter([
-                    'Active' => true,
-                    'ISO2'   => $countryCode,
-                ])->first();
-                if (is_null($country)) {
-                    $country = Country::get()->filter('Active', true)->first();
-                }
-            }
-        }
-        return $country;
+        return Customer::currentShippingCountry();
     }
     
     /**
@@ -3054,15 +3034,14 @@ class Product extends DataObject implements PermissionProvider
      * Provides an extension hook to update the tax object by decorator.
      * 
      * @return Tax
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.01.2013
      */
     public function Tax() : Tax
     {
         if (is_null($this->cachedTax)) {
             $this->cachedTax = $this->getComponent('Tax');
-            $this->extend('updateTax', $this->cachedTax);
+            if (!$this->getCMSFieldsIsCalled) {
+                $this->extend('updateTax', $this->cachedTax);
+            }
         }
         return $this->cachedTax;
     }

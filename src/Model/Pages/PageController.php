@@ -900,27 +900,11 @@ class PageController extends ContentController
     /**
      * Returns the current shipping country
      *
-     * @return Country
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @return Country|null
      */
     public function ShippingCountry() : ?Country
     {
-        $customer        = Customer::currentUser();
-        $shippingCountry = null;
-        if ($customer) {
-            $shippingCountry = $customer->ShippingAddress()->Country();
-        }
-        if (is_null($shippingCountry)
-         || $shippingCountry->ID == 0
-        ) {
-            $shippingCountry = Country::get()->filter([
-                'ISO2'   => substr(Tools::current_locale(), 3),
-                'Active' => 1,
-            ])->first();
-        }
-        return $shippingCountry;
+        return Customer::currentShippingCountry();
     }
     
     /**

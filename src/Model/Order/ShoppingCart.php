@@ -24,7 +24,6 @@ use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\ReadonlyField;
-use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
@@ -32,7 +31,6 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
-use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
 
@@ -56,8 +54,7 @@ class ShoppingCart extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
-    const SESSION_KEY                  = 'SilverCart.ShoppingCart';
-    const SESSION_KEY_SHIPPING_COUNTRY = 'SilverCart.ShoppingCart.ShippingCountryID';
+    const SESSION_KEY = 'SilverCart.ShoppingCart';
 
     /**
      * Contains all registered modules that get called when the shoppingcart
@@ -1367,13 +1364,7 @@ class ShoppingCart extends DataObject
     public function setShippingCountry(Country $country = null) : ShoppingCart
     {
         $this->shippingCountry = $country;
-        if ($country instanceof Country) {
-            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY, $country->ID);
-            Tools::saveSession();
-        } elseif (array_key_exists('ShippingCountryID', $_POST)) {
-            Tools::Session()->set(self::SESSION_KEY_SHIPPING_COUNTRY, $_POST['ShippingCountryID']);
-            Tools::saveSession();
-        }
+        Customer::setCurrentShippingCountry($country);
         return $this;
     }
     
@@ -1384,28 +1375,7 @@ class ShoppingCart extends DataObject
      */
     public function getShippingCountry() : ?Country
     {
-        $country = $this->shippingCountry;
-        if (is_null($country)) {
-            $countryID = (int) Tools::Session()->get(self::SESSION_KEY_SHIPPING_COUNTRY);
-            $country   = Country::get()->byID($countryID);
-        }
-        if (!($country instanceof Country)
-         || !$country->exists()
-        ) {
-            $countryCode = substr(i18n::get_locale(), 3);
-            $country     = Country::get()->filter('ISO2', $countryCode)->first();
-        }
-        if (!($country instanceof Country)
-         || !$country->exists()
-        ) {
-            $country = SiteConfig::current_site_config()->getShopCountry();
-        }
-        if (!($country instanceof Country)
-         || !$country->exists()
-        ) {
-            $country     = Country::get()->filter('Active', true)->first();
-        }
-        return $country;
+        return Customer::currentShippingCountry();
     }
     
     /**
@@ -1866,8 +1836,9 @@ class ShoppingCart extends DataObject
                      && !$taxes->find('Rate', $taxRate)
                     ) {
                         $taxes->push(ArrayData::create([
-                            'Rate'      => $taxRate,
-                            'AmountRaw' => 0.0,
+                            'Rate'         => $taxRate,
+                            'AmountRaw'    => 0.0,
+                            'OriginalRate' => $taxRate,
                         ]));
                     }
                     $taxSection = $taxes->find('Rate', $taxRate);
@@ -1884,8 +1855,9 @@ class ShoppingCart extends DataObject
                      && !$taxes->find('Rate', $taxRate)
                     ) {
                         $taxes->push(ArrayData::create([
-                            'Rate'      => $taxRate,
-                            'AmountRaw' => 0.0,
+                            'Rate'         => $taxRate,
+                            'AmountRaw'    => 0.0,
+                            'OriginalRate' => $taxRate,
                         ]));
                     }
                     $taxSection             = $taxes->find('Rate', $taxRate);
