@@ -501,8 +501,9 @@ class SilvercartPaymentMethod extends DataObject {
             if ($this->SilvercartHandlingCosts()->Count() > 0) {
                 $handlingCostToUse = $this->SilvercartHandlingCosts()->First();
             } else {
-                $silvercartTax                              = SilvercartTax::get()->filter('isDefault', 1)->first();
-                $handlingCostToUse                          = new SilvercartHandlingCost();
+                $silvercartTax                              = SilvercartTax::getDefault();
+                $handlingCostToUse                          = SilvercartHandlingCost::create();
+                $handlingCostToUse->extend('updateTax', $silvercartTax);
                 $handlingCostToUse->SilvercartPaymentMethod = $this;
                 $handlingCostToUse->SilvercartTax           = $silvercartTax;
                 $handlingCostToUse->SilvercartTaxID         = $silvercartTax->ID;
