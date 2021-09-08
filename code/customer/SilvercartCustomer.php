@@ -19,7 +19,88 @@
  * @license see license file in modules root directory
  * @copyright 2013 pixeltricks GmbH
  */
-class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider {
+class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
+{
+    const SESSION_KEY_SHIPPING_COUNTRY_ID = 'SilverCart.ShippingCountryID';
+    
+    /**
+     * Returns the current shipping country
+     *
+     * @return Country|null
+     */
+    public static function currentShippingCountry()
+    {
+        self::setCurrentShippingCountry();
+        $shippingCountry = SilvercartCountry::get()->filter([
+            'ID'     => (int) Session::get(self::SESSION_KEY_SHIPPING_COUNTRY_ID),
+            'Active' => true,
+        ])->first();
+        if ($shippingCountry === null) {
+            $customer = self::currentUser();
+            if ($customer) {
+                $shippingCountry = $customer->SilvercartShippingAddress()->SilvercartCountry();
+            }
+            if ($shippingCountry === null
+             || !$shippingCountry->exists()
+            ) {
+                $shippingCountry = SilvercartCountry::get()->filter([
+                    'ISO2'   => substr(i18n::get_locale(), 3),
+                    'Active' => 1,
+                ])->first();
+            }
+            if (!($shippingCountry instanceof SilvercartCountry)
+             || !$shippingCountry->exists()
+            ) {
+                $shippingCountry = SiteConfig::current_site_config()->getShopCountry();
+            }
+            if (!($shippingCountry instanceof SilvercartCountry)
+             || !$shippingCountry->exists()
+            ) {
+                $shippingCountry = SilvercartCountry::get()->filter('Active', true)->first();
+            }
+            if ($shippingCountry instanceof SilvercartCountry) {
+                Session::set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, $shippingCountry->ID);
+                Session::save();
+            }
+        }
+        return $shippingCountry;
+    }
+    
+    /**
+     * Sets the current shipping country context.
+     * 
+     * @param SilvercartCountry|null $country Country
+     * 
+     * @return void
+     */
+    public static function setCurrentShippingCountry(SilvercartCountry $country = null)
+    {
+        if (!($country instanceof SilvercartCountry)
+         && Controller::has_curr()
+        ) {
+            $ctrl = Controller::curr();
+            if ($ctrl->hasMethod('getShippingAddress')) {
+                $address = $ctrl->getShippingAddress();
+                if ($address instanceof SilvercartAddress
+                 && $address->SilvercartCountry()->exists()
+                ) {
+                    Session::set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, $address->SilvercartCountry()->ID);
+                    Session::save();
+                    return;
+                }
+            }
+        }
+        if ($country instanceof SilvercartCountry) {
+            Session::set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, $country->ID);
+            Session::save();
+        } elseif (array_key_exists('ShippingCountryID', $_POST)) {
+            Session::set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, (int) $_POST['ShippingCountryID']);
+            Session::save();
+        } elseif (array_key_exists('scid', $_GET)) {
+            Session::set(self::SESSION_KEY_SHIPPING_COUNTRY_ID, (int) $_GET['scid']);
+            Session::save();
+        }
+    }
     
     /**
      * Comma separated string of related group names
@@ -1195,8 +1276,10 @@ class SilvercartCustomer extends DataExtension implements TemplateGlobalProvider
         return array(
             'CurrentMember'   => 'currentUser',
             'CurrentCustomer' => 'currentUser',
-            'currentCustomer',
-            'currentUser',
+            'currentCustomer' => 'currentUser',
+            'currentUser'     => 'currentUser',
+            'currentShippingCountry' => 'currentShippingCountry',
+            'CurrentShippingCountry' => 'currentShippingCountry',
         );
     }
     

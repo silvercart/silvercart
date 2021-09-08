@@ -18,7 +18,9 @@
  * @since 22.11.2010
  * @license see license file in modules root directory
  */
-class SilvercartShoppingCart extends DataObject {
+class SilvercartShoppingCart extends DataObject
+{
+    const SESSION_KEY = 'SilverCart.ShoppingCart';
 
     /**
      * Contains all registered modules that get called when the shoppingcart
@@ -73,7 +75,12 @@ class SilvercartShoppingCart extends DataObject {
      * @var Int
      */
     protected $shippingMethodID;
-
+    /**
+     * Shipping country context to show fees for.
+     *
+     * @var Int
+     */
+    protected $shippingCountry;
     /**
      * Contains the calculated charges and discounts for product values for
      * caching purposes.
@@ -1256,6 +1263,32 @@ class SilvercartShoppingCart extends DataObject {
     }
     
     /**
+     * Sets the shipping country.
+     * If no country is given, the HTTP POST request will be checked for a 
+     * transmitted country ID.
+     * 
+     * @param Country $country Country
+     * 
+     * @return $this
+     */
+    public function setShippingCountry(SilvercartCountry $country = null)
+    {
+        $this->shippingCountry = $country;
+        SilvercartCustomer::setCurrentShippingCountry($country);
+        return $this;
+    }
+    
+    /**
+     * Returns the shipping country context.
+     * 
+     * @return SilvercartCountry|null
+     */
+    public function getShippingCountry()
+    {
+        return SilvercartCustomer::currentShippingCountry();
+    }
+    
+    /**
      * Returns the payment method
      *
      * @return SilvercartPaymentMethod
@@ -1751,14 +1784,11 @@ class SilvercartShoppingCart extends DataObject {
                     if ( $taxRate &&
                         !$taxes->find('Rate', $taxRate)) {
 
-                        $taxes->push(
-                            new DataObject(
-                                array(
-                                    'Rate'      => $taxRate,
-                                    'AmountRaw' => 0.0,
-                                )
-                            )
-                        );
+                        $taxes->push(ArrayData::create(array(
+                            'Rate'         => $taxRate,
+                            'AmountRaw'    => 0.0,
+                            'OriginalRate' => $taxRate,
+                        )));
                     }
                     $taxSection = $taxes->find('Rate', $taxRate);
                     $taxSection->AmountRaw += $shippingFee->getTaxAmount();
@@ -1775,14 +1805,11 @@ class SilvercartShoppingCart extends DataObject {
                         if ( $taxRate &&
                             !$taxes->find('Rate', $taxRate)) {
 
-                            $taxes->push(
-                                new DataObject(
-                                    array(
-                                        'Rate'      => $taxRate,
-                                        'AmountRaw' => 0.0,
-                                    )
-                                )
-                            );
+                            $taxes->push(ArrayData::create(array(
+                                'Rate'         => $taxRate,
+                                'AmountRaw'    => 0.0,
+                                'OriginalRate' => $taxRate,
+                            )));
                         }
                         $taxSection             = $taxes->find('Rate', $taxRate);
                         $taxSection->AmountRaw += $paymentFee->getTaxAmount();

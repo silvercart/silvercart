@@ -488,6 +488,16 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     }
     
     /**
+     * Returns a fallback default country.
+     * 
+     * @return SilvercartCountry|null
+     */
+    public function getDefaultShippingCountry()
+    {
+        return SilvercartCustomer::currentShippingCountry();
+    }
+    
+    /**
      * Returns the default shipping fee for this product
      *
      * @param SilvercartCountry $country       Country to get fee for
@@ -2702,7 +2712,10 @@ class SilvercartProduct extends DataObject implements PermissionProvider {
     public function SilvercartTax() {
         if (is_null($this->cachedSilvercartTax)) {
             $this->cachedSilvercartTax = $this->getComponent('SilvercartTax');
-            $this->extend('updateSilvercartTax', $this->cachedSilvercartTax);
+            if (!$this->getCMSFieldsIsCalled) {
+                $this->extend('updateTax', $this->cachedSilvercartTax);
+                $this->extend('updateSilvercartTax', $this->cachedSilvercartTax);
+            }
         }
         return $this->cachedSilvercartTax;
     }
@@ -3528,5 +3541,4 @@ class SilvercartProductLanguage extends DataObject {
         $this->extend('updateCacheRelevantFields', $cacheRelevantFields);
         return $cacheRelevantFields;
     }
-    
 }
