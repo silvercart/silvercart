@@ -479,6 +479,24 @@ class SilvercartPage extends SiteTree {
         $plainLink    = str_replace('/', '', $relativeLink);
         return $plainLink == Config::inst()->get('RootURLController', 'default_homepage_link');
     }
+    
+    /**
+     * Returns some additional content to insert to the header navigation right 
+     * before the account select item is rendered.
+     * 
+     * @return HTMLText
+     */
+    public function HeaderNavBeforeAccountSelectContent()
+    {
+        $content = '';
+        $this->extend('updateHeaderNavBeforeAccountSelectContent', $content);
+        if (!($content instanceof HTMLText)) {
+            $value = $content;
+            $content = HTMLText::create();
+            $content->setValue($value);
+        }
+        return $content;
+    }
 }
 
 /**
@@ -599,6 +617,24 @@ class SilvercartPage_Controller extends ContentController {
      */
     public function RequireColorSchemeCSS() {
         Requirements::themedCSS('color_' . SilvercartConfig::getConfig()->ColorScheme, 'silvercart');
+    }
+    
+    /**
+     * Returns custom HTML code to place right before the closing </body> tag, 
+     * injected by extensions.
+     * 
+     * @return HTMLText
+     */
+    public function FooterCustomHtmlContent()
+    {
+        $footerCustomHtmlContent = '';
+        $this->extend('updateFooterCustomHtmlContent', $footerCustomHtmlContent);
+        if (!($footerCustomHtmlContent instanceof HTMLText)) {
+            $value = $footerCustomHtmlContent;
+            $footerCustomHtmlContent = HTMLText::create();
+            $footerCustomHtmlContent->setValue($value);
+        }
+        return $footerCustomHtmlContent;
     }
 
     /**
