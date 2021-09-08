@@ -120,6 +120,22 @@ class CheckoutStepController extends \PageController
     }
     
     /**
+     * Returns the accessible steps.
+     * 
+     * @return array
+     */
+    public function getAccessibleSteps() : array
+    {
+        $currentStep     = $this->getCheckout()->getCurrentStep();
+        $completedSteps  = $this->getCheckout()->getCompletedSteps();
+        $accessibleSteps = [$currentStep];
+        foreach ($completedSteps as $completedStep) {
+            $accessibleSteps[] = new $completedStep($this);
+        }
+        return $accessibleSteps;
+    }
+    
+    /**
      * Adds the current checkout step actions to the allowed actions.
      * 
      * @param string $limitToClass Class name to limit actions to
@@ -131,34 +147,36 @@ class CheckoutStepController extends \PageController
      */
     public function allowedActions($limitToClass = null) : array
     {
-        $currentStep    = $this->getCheckout()->getCurrentStep();
-        $allowedActions = parent::allowedActions($limitToClass);
+        $accessibleSteps = $this->getAccessibleSteps();
+        $allowedActions  = parent::allowedActions($limitToClass);
         if (is_null($limitToClass)
          || $limitToClass == get_class($this)
         ) {
             if (!is_array($allowedActions)) {
                 $allowedActions = [];
             }
-            $stepActions = $currentStep->allowedActions();
-            if (is_array($stepActions)) {
-                if (array_key_exists('*', $stepActions)) {
-                    throw new InvalidArgumentException("Invalid allowed_action '*'");
-                }
+            foreach ($accessibleSteps as $accessibleStep) {
+                $stepActions = $accessibleStep->allowedActions();
+                if (is_array($stepActions)) {
+                    if (array_key_exists('*', $stepActions)) {
+                        throw new InvalidArgumentException("Invalid allowed_action '*'");
+                    }
 
-                // convert all keys and values to lowercase to
-                // allow for easier comparison, unless it is a permission code
-                $stepActions = array_change_key_case($stepActions, CASE_LOWER);
+                    // convert all keys and values to lowercase to
+                    // allow for easier comparison, unless it is a permission code
+                    $stepActions = array_change_key_case($stepActions, CASE_LOWER);
 
-                foreach ($stepActions as $key => $value) {
-                    if (is_numeric($key)) {
-                        $stepActions[$key] = strtolower($value);
+                    foreach ($stepActions as $key => $value) {
+                        if (is_numeric($key)) {
+                            $stepActions[$key] = strtolower($value);
+                        }
                     }
                 }
+                $allowedActions = array_merge(
+                        $allowedActions,
+                        $stepActions
+                );
             }
-            $allowedActions = array_merge(
-                    $allowedActions,
-                    $stepActions
-            );
         }
         return $allowedActions;
     }
@@ -169,15 +187,18 @@ class CheckoutStepController extends \PageController
      * @param string $action Action
      * 
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.11.2017
      */
     public function hasAction($action): bool
     {
         $hasAction = parent::hasAction($action);
         if (!$hasAction) {
-            $hasAction = $this->getCheckout()->getCurrentStep()->hasAction($action);
+            $accessibleSteps = $this->getAccessibleSteps();
+            foreach ($accessibleSteps as $accessibleStep) {
+                if ($accessibleStep->hasAction($action)) {
+                    $hasAction = true;
+                    break;
+                }
+            }
         }
         return $hasAction;
     }
@@ -196,9 +217,11 @@ class CheckoutStepController extends \PageController
      */
     protected function handleAction($request, $action)
     {
-        $currentStep = $this->getCheckout()->getCurrentStep();
-        if ($currentStep->hasAction($action)) {
-            return $currentStep->$action($request);
+        $accessibleSteps = $this->getAccessibleSteps();
+        foreach ($accessibleSteps as $accessibleStep) {
+            if ($accessibleStep->hasAction($action)) {
+                return $accessibleStep->$action($request);
+            }
         }
         return parent::handleAction($request, $action);
     }
