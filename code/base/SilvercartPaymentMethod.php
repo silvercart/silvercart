@@ -790,7 +790,9 @@ class SilvercartPaymentMethod extends DataObject {
         $allowedPaymentMethods   = [];
         $allActivePaymentMethods = SilvercartPaymentMethod::get()->filter('isActive', true);
         foreach ($allActivePaymentMethods as $activePaymentMethod) {
-            if ($activePaymentMethod->SilvercartCountries()->count() === 0) {
+            if ($activePaymentMethod->SilvercartCountries()->count() === 0
+             || $activePaymentMethod->SilvercartCountries()->byID($shippingCountry->ID)
+            ) {
                 $paymentMethods->push($activePaymentMethod);
             }
         }
