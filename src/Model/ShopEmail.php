@@ -497,7 +497,7 @@ class ShopEmail extends DataObject
      *
      * @return bool
      */
-    public static function send(string $identifier, string $to, array $variables = [], array $attachments = null, string $locale = null) : bool
+    public static function send(string $identifier, string $to, array $variables = [], array $attachments = null, string $locale = null, array $additionalRecipients = []) : bool
     {
         $originalLocale = null;
         if ($locale !== null) {
@@ -564,20 +564,20 @@ class ShopEmail extends DataObject
         //relation AdditionalReceipients;
         //Email address is validated.
         if ($email->AdditionalReceipients()->exists()) {
-            foreach ($email->AdditionalReceipients() as $additionalReceipient) {
-                if ($additionalReceipient->getEmailAddressWithName()
-                 && Email::is_valid_address($additionalReceipient->Email)
-                ) {
-                    $to = [$additionalReceipient->Email => $additionalReceipient->Name];
-                } elseif ($additionalReceipient->getEmailAddress()
-                 && Email::is_valid_address($additionalReceipient->Email)
-                ) {
-                    $to = $additionalReceipient->getEmailAddress();
-                } else {
+            $additionalRecipients = array_merge($additionalRecipients, $email->AdditionalReceipients()->toArray());
+        }
+        foreach ($additionalRecipients as $additionalRecipient) {
+            if ($additionalRecipient instanceof EmailAddress) {
+                $to = $additionalRecipient->getMailTo();
+                if ($to === null) {
                     continue;
                 }
-                self::send_email($to, $subject, $htmlText, $attachments);
+            } elseif (Email::is_valid_address($additionalRecipient)) {
+                $to = $additionalRecipient;
+            } else {
+                continue;
             }
+            self::send_email($to, $subject, $htmlText, $attachments);
         }
         
         $additionalReceipients = [];
