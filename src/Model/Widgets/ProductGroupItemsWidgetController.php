@@ -204,7 +204,7 @@ class ProductGroupItemsWidgetController extends WidgetController
      */
     public function getElementsByProducts() : DataList
     {
-        return $this->Products()->where(Product::get_frontend_sql_filter());
+        return $this->Products()->where(Product::get_frontend_sql_filter())->sort('Sort');
     }
 
     /**

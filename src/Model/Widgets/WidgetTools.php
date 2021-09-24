@@ -11,6 +11,7 @@ use SilverCart\ORM\DataObjectExtension;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\ {
     CheckboxField,
     DropdownField,
@@ -23,6 +24,7 @@ use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\Map;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\View\Requirements;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * Provides methods for common widget tasks in SilverCart.
@@ -93,13 +95,24 @@ class WidgetTools
                 $toggleFields
         )->setHeadingLevel(4);
         
+        $productsGrid          = $fields->dataFieldByName('Products');
+        /* @var $productsGrid \SilverStripe\Forms\GridField\GridField */
+        $productsGridConfig    = $productsGrid->getConfig();
         $productRelationToggle = ToggleCompositeField::create(
                 'ProductRelationToggle',
                 $widget->fieldLabel('ProductRelationToggle'),
                 [
-                    $fields->dataFieldByName('Products'),
+                    $productsGrid,
                 ]
         )->setHeadingLevel(4);
+        $productsGridConfig->removeComponentsByType(GridFieldAddNewButton::class);
+        $extraFields = $widget->manyManyExtraFields();
+        if (array_key_exists('Products', $extraFields)
+         && array_key_exists('Sort', $extraFields['Products'])
+         && class_exists(GridFieldOrderableRows::class)
+        ) {
+            $productsGridConfig->addComponent(new GridFieldOrderableRows('Sort'));
+        }
         
         $fields->removeByName('numberOfProductsToShow');
         $fields->removeByName('numberOfProductsToFetch');

@@ -55,6 +55,16 @@ class ProductGroupItemsWidget extends Widget {
     private static $many_many = array(
         'Products' => Product::class,
     );
+    /**
+     * Has_many relationships.
+     *
+     * @var array
+     */
+    private static $many_many_extraFields = [
+        'Products' => [
+            'Sort' => 'Int',
+        ],
+    ];
     
     /**
      * field casting
