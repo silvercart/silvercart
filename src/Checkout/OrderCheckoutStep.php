@@ -210,7 +210,7 @@ trait OrderCheckoutStep
                 $anonymousCustomer->write();
             }
             
-            $orders = $this->createOrders($customerNote, $checkoutData, $customerNote);
+            $orders = $this->createOrders($customerEmail, $checkoutData, $customerNote);
             if ($orders === null
              || !$orders->exists()
             ) {
