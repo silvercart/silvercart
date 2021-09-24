@@ -7,6 +7,9 @@ SilverStripe\Control\Controller:
 SilverStripe\Forms\CheckboxSetField:
   extensions:
     - SilverCart\Extensions\Forms\FormFields\CheckboxSetFieldExtension
+SilverStripe\Forms\DropdownField:
+  extensions:
+    - SilverCart\Extensions\Forms\FormFields\DropdownFieldExtension
 SilverStripe\Forms\FormField:
   extensions:
     - SilverCart\Extensions\Forms\FormFields\FormFieldExtension
