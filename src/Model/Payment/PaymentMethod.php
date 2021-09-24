@@ -128,7 +128,8 @@ class PaymentMethod extends DataObject
         'sumModificationValueType'              => "Enum('absolute,percent','absolute')",
         'sumModificationLabel'                  => 'Varchar(255)',
         'sumModificationProductNumber'          => 'Varchar(255)',
-        'useSumModification'                    => 'Boolean(0)'
+        'useSumModification'                    => 'Boolean(0)',
+        'Sort'                                  => 'Int',
     ];
     /**
      * Defines 1:1 relations
@@ -198,6 +199,12 @@ class PaymentMethod extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartPaymentMethod';
+    /*
+     * Default sort order / direction
+     *
+     * @var string
+     */
+    private static $default_sort = 'Sort';
     /**
      * Grant API access on this item.
      *
@@ -1307,6 +1314,7 @@ class PaymentMethod extends DataObject
     {
         $this->getCMSFieldsIsCalled = true;
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->removeByName('Sort');
             if (!$this->exists()) {
                 $paymentMethods = [];
                 $subClasses = ClassInfo::subclassesFor(get_class($this));
