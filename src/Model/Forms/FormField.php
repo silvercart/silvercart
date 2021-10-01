@@ -154,6 +154,12 @@ class FormField extends DataObject
         'FormFieldTranslations' => FormFieldTranslation::class,
     ];
     /**
+     * Default sort
+     *
+     * @var string
+     */
+    private static $default_sort = 'Sort';
+    /**
      * Summary fields.
      *
      * @var string[]
