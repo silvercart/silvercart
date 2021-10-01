@@ -14,6 +14,9 @@ nl_BE:
         ClickForMore: 'Klik om meer informatie weer te geven'
         Close: Afsluiten
         since: sinds
+        Sort: &sc_sort Sorteervolgorde
+        Translation: &sc_translation_singular Vertaling
+        Translations: &sc_translation_plural Vertalingen
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Uitvoeren
         MARK_ALL: 'Alles markeren'
@@ -167,8 +170,8 @@ nl_BE:
         SetForPositiveStockShort: 'Auto. > 0'
         TITLE: Label
     SilverCart\Model\Product\AvailabilityStatusTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\BargainProductsWidget:
         CMSTITLE: 'SilverCart-schuifregelaar voor koopjes'
         DESCRIPTION: 'Deze widget toont een configureerbaar aantal van artikelen met het grootste verschil tussen de adviesprijs en de uiteindelijke prijs.'
@@ -176,8 +179,8 @@ nl_BE:
         FETCHMETHOD_SORTORDERDESC: 'Prijsverschil aflopend'
         TITLE: Koopje
     SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Shipment\Carrier:
         ATTRIBUTED_SHIPPINGMETHODS: 'toegewezen verzendmethode'
         FULL_NAME: 'volledige naam'
@@ -188,8 +191,8 @@ nl_BE:
     SilverCart\Admin\Controllers\CarrierAdmin:
         MENUTITLE: Vervoerder
     SilverCart\Model\Shipment\CarrierTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\CartPage:
         CART_EMPTY: 'De winkelwagen is leeg.'
         DEFAULT_TITLE: Winkelwagen
@@ -359,8 +362,8 @@ nl_BE:
         ShopLogo: logo
         ShopLogoDesc: 'Wordt in het koptekstgebied van de winkel weergegeven'
         TABBED: genesteld
-        TRANSLATION: Vertaling
-        TRANSLATIONS: Vertalingen
+        TRANSLATION: *sc_translation_singular
+        TRANSLATIONS: *sc_translation_plural
         USEFREEOFSHIPPINGCOSTSFROM: 'Instellingen voor gratis verzending gebruiken'
         USEMINIMUMORDERVALUE: 'Minimale bestelwaarde inschakelen'
         USER_AGENT_BLACKLIST: 'Vergrendelde UserAgent-identificatiecodes (één UserAgent per regel)'
@@ -676,8 +679,8 @@ nl_BE:
     SilverCart\Admin\Controllers\CountryAdmin:
         MENUTITLE: Landen
     SilverCart\Model\Customer\CountryTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Customer\Customer:
         ADDRESS_DATA: 'Algemene adresgegevens'
         ANONYMOUSCUSTOMER: 'Anonieme klant'
@@ -737,8 +740,8 @@ nl_BE:
         TITLE: Weergavenaam
         TYPE: Type
     SilverCart\Model\Product\FileTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\FrontPage:
         CONTENT: '<h2>Welkom bij de <strong>SilverCart</strong> webshop!</h2>'
         DEFAULT_CONTENT: '<h2>Welkom bij de <strong>SilverCart</strong> webshop!</h2>'
@@ -784,7 +787,7 @@ nl_BE:
         DESCRIPTION: 'Beschrijving (bv. voor Slidorion-tekstveld)'
         PLURALNAME: Afbeeldingen
         SINGULARNAME: Afbeelding
-        SORTORDER: Sorteervolgorde
+        SORTORDER: *sc_sort
         THUMBNAIL: Voorbeeld
         TITLE: Weergavenaam
     SilverCart\Admin\Controllers\ImageAdmin:
@@ -794,8 +797,8 @@ nl_BE:
         SELECT_PAYMENTMETHOD_IMAGES: 'Afbeeldingen voor betaalmethoden'
         SELECT_PRODUCT_IMAGES: Artikelafbeeldingen
     SilverCart\Model\Product\ImageTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ImageSliderImage:
         AltText: 'Tekst voor de ALT-tag'
         LINKPAGE: 'Pagina waaraan moet worden gekoppeld'
@@ -804,15 +807,15 @@ nl_BE:
         ProductNumberToReferenceInfo: 'Gebruikt in plaats van de pagina.'
         SINGULARNAME: 'Afbeelding van schuifregelaar'
     SilverCart\Model\Widgets\ImageSliderImageTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ImageSliderWidget:
         CMSTITLE: Afbeeldingsschuifregelaar
         DESCRIPTION: 'Biedt een afbeeldingsschuifregelaar die meerdere afbeeldingen in een diavoorstelling weergeeft.'
         TITLE: Afbeeldingen
     SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\LoginWidget:
         CMSTITLE: 'SilverCart Registratie'
         DESCRIPTION: 'Deze widget toont een inlogformulier en links naar de registratiepagina. Als de klant is ingelogd, worden in plaats daarvan links naar de gebieden van zijn klantenaccount weergegeven.'
@@ -827,8 +830,8 @@ nl_BE:
     SilverCart\Admin\Controllers\ManufacturerAdmin:
         MENUTITLE: Fabrikant
     SilverCart\Model\Product\ManufacturerTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\MetaNavigationHolder:
         DEFAULT_TITLE: Juridisch
         DEFAULT_TITLE_ABOUT: 'Over ons'
@@ -1087,8 +1090,8 @@ nl_BE:
     SilverCart\Admin\Controllers\OrderStatusAdmin:
         MENUTITLE: Bestelstatus
     SilverCart\Model\Order\OrderStatusTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
         TITLE: Label
     SilverCart\Model\Pages\Page:
         ABOUT_US: 'Over ons'
@@ -1308,8 +1311,8 @@ nl_BE:
     SilverCart\Admin\Controllers\PaymentMethodAdmin:
         MENUTITLE: Betaalmethoden
     SilverCart\Model\Payment\PaymentMethodTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Payment\PaymentStatus:
         PLURALNAME: Betalingsstatus
         SINGULARNAME: Betalingsstatus
@@ -1318,13 +1321,13 @@ nl_BE:
         DefaultStatusPaid: Betaald
         IsDefault: 'Is standaard'
         Orders: Bestellingen
-        PaymentStatusTranslations: Vertalingen
+        PaymentStatusTranslations: *sc_translation_plural
         Title: Titel
         DefaultStatusCanceled: Geannuleerd
         DefaultStatusPartlyPaid: 'Gedeeltelijk betaald'
     SilverCart\Model\Payment\PaymentStatusTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Controllers\PaymentStatusAdmin:
         MENUTITLE: Betalingsstatus
     SilverCart\Model\Pages\PaymentMethodsPage:
@@ -1467,15 +1470,15 @@ nl_BE:
     SilverCart\Admin\Controllers\ProductConditionAdmin:
         MENUTITLE: Artikelstatussen
     SilverCart\Model\Product\ProductConditionTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
         CMSTITLE: 'SilverCart-weergave van artikelen uit subproductgroepen'
         DESCRIPTION: 'Deze widget toont artikelen van subproductgroepen als er geen artikelen zijn gekoppeld aan de huidige productgroep.'
         TITLE: 'Artikelen van subproductgroepen'
     SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductGroupHolder:
         DEFAULT_TITLE: Productgroepen
         DEFAULT_URLSEGMENT: Productgroepen
@@ -1504,8 +1507,8 @@ nl_BE:
         TITLE: Artikel
         USE_SELECTIONMETHOD: 'Selectiemethode voor artikelen'
     SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
         CMSTITLE: SilverCart-fabrikantenlijst
         DESCRIPTION: 'Deze widget geeft een lijst weer van alle fabrikanten van de betreffende productgroep.'
@@ -1519,15 +1522,15 @@ nl_BE:
         SHOW_ALL_LEVELS: 'Alle niveaus weergeven'
         TITLE: Productgroepnavigatie
     SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupWidget:
         CMSTITLE: Productgroepen
         DESCRIPTION: 'Met deze widget wordt een overzicht gemaakt vane productgroepen naar keuze (optioneel als schuifregelaar).'
         TITLE: Productgroepen
     SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductGroupPage:
         ATTRIBUTES: Kenmerk
         BREADCRUMBS: 'Broodkruimelnavigatie van productgroepen'
@@ -1586,8 +1589,8 @@ nl_BE:
         UploadProductImages: 'Artikelafbeeldingen uploaden'
     SilverCart\Model\Product\ProductTranslation:
         LOCALE: Taal
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductPage:
         OUT_OF_STOCK: 'Dit artikel is uitverkocht'
         PACKAGING_CONTENT: Inhoud
@@ -1640,8 +1643,8 @@ nl_BE:
     SilverCart\Admin\Controllers\QuantityUnitAdmin:
         MENUTITLE: 'Eenheden van hoeveelheid'
     SilverCart\Model\Product\QuantityUnitTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Product\StockItemEntry:
         PLURALNAME: Voorraadtransacties
         SINGULARNAME: Voorraadtransactie
@@ -1814,8 +1817,8 @@ nl_BE:
     SilverCart\Admin\Controllers\ShippingMethodAdmin:
         MENUTITLE: Verzendmethoden
     SilverCart\Model\Shipment\ShippingMethodTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\ShopEmail:
         ADDITIONALS_RECEIPIENTS: 'Extra ontvangers'
         EMAILTEXT: Bericht
@@ -1881,8 +1884,8 @@ nl_BE:
     SilverCart\Admin\Controllers\ShopEmailAdmin:
         MENUTITLE: Winkel-e-mails
     SilverCart\Model\ShopEmailTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Order\ShoppingCart:
         DifferentReleaseDateHint1: 'Uw winkelwagen bevat artikelen met verschillende publicatiedatums.'
         DifferentReleaseDateHint2: 'Houd er rekening mee dat de verzending van artikelen die al beschikbaar zijn, kan worden uitgesteld tot de publicatiedatum van artikelen die nog niet beschikbaar zijn.'
@@ -1972,8 +1975,8 @@ nl_BE:
     SilverCart\Admin\Controllers\TaxAdmin:
         MENUTITLE: Belastingtarieven
     SilverCart\Model\Product\TaxTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Dev\Install\RequireDefaultRecords:
         CURRENCY: EUR
         IMAGEFOLDERNAME: Voorbeeldgegevens
@@ -2012,8 +2015,8 @@ nl_BE:
         IS_CONTENT_VIEW: 'Gebruik de inhoudsweergave in plaats van de widgetweergave'
         TITLE: 'Vrije tekst'
     SilverCart\Model\Widgets\TextWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\TextWithLinkWidget:
         DESCRIPTION: 'Widget om een tekst met titel en link weer te geven.'
         Link: Link
@@ -2022,8 +2025,8 @@ nl_BE:
         SINGULARNAME: 'Vrije tekst met linkwidget'
         TITLE: 'Vrije tekst met link'
     SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\NewProductsWidget:
         CMSTITLE: Nieuwigheden
         DESCRIPTION: 'Deze widget toont een configureerbaar aantal van nieuwe artikelen.'
@@ -2033,8 +2036,8 @@ nl_BE:
         ShowProductsFromUnit: 'Tijdseenheid waarvoor artikelen als nieuw worden beschouwd'
         TITLE: Nieuwigheden
     SilverCart\Model\Widgets\NewProductsWidgetTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\TopsellerProductsWidget:
         CMSTITLE: Bestseller
         DESCRIPTION: 'Deze widget geeft een configureerbaar aantal van best verkochte artikelen weer.'
@@ -2063,8 +2066,8 @@ nl_BE:
     SilverCart\Admin\Controllers\ZoneAdmin:
         MENUTITLE: Zones
     SilverCart\Model\Shipment\ZoneTranslation:
-        PLURALNAME: Vertalingen
-        SINGULARNAME: Vertaling
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SiteConfig:
         SITENAMEDEFAULT: SilverCart
         TAGLINEDEFAULT: 'e-commerce software. Open source. Je zult het geweldig vinden.'
@@ -2091,8 +2094,8 @@ nl_BE:
         EXISTING: 'Beschikbare vertalingen:'
         NEWLANGUAGE: 'Nieuwe taal'
         PUBLISHBUTTON: 'Alle pagina''s van de huidige taal publiceren'
-        TRANSLATION: Vertaling
-        TRANSLATIONS: Vertalingen
+        TRANSLATION: *sc_translation_singular
+        TRANSLATIONS: *sc_translation_plural
     SilverCart\Forms\CustomForm:
         DefaultSuccessMessageSave: 'Uw gegevens werden opgeslagen.'
         DefaultSuccessMessageSend: 'Uw gegevens werden verzonden.'

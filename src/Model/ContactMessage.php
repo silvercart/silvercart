@@ -2,12 +2,14 @@
 
 namespace SilverCart\Model;
 
+use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\BlacklistEntry;
 use SilverCart\Model\Customer\Address;
-use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Forms\FormFieldValue;
+use SilverCart\Model\Pages\ContactFormPage\Subject;
 use SilverCart\Model\ShopEmail;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Forms\DropdownField;
@@ -25,22 +27,20 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
+ * @property string $SubjectText    Subject text
  * @property string $Salutation     Salutation
  * @property string $FirstName      FirstName
  * @property string $Surname        Surname
- * @property string $Street         Street
- * @property string $StreetNumber   StreetNumber
- * @property string $Postcode       Postcode
- * @property string $City           City
  * @property string $Email          Email
- * @property string $Phone          Phone
  * @property string $Message        Message
  * @property bool   $IsSpam         IsSpam
  * @property string $CreatedNice    Created Nice
  * @property string $SalutationText Salutation Text
  * 
- * @method Country Country() Returns the related Country.
- * @method Member  Member()  Returns the related Member.
+ * @method Member  Member()         Returns the related Member.
+ * @method Subject ContactMessage() Returns the related Subject.
+ * 
+ * @method \SilverStripe\ORM\HasManyList FormFieldValues() Returns the related FormFieldValues.
  */
 class ContactMessage extends DataObject
 {
@@ -71,15 +71,11 @@ class ContactMessage extends DataObject
      * @var array
      */
     private static $db = [
+        'SubjectText'   => 'Varchar',
         'Salutation'    => 'Varchar(16)',
         'FirstName'     => 'Varchar(255)',
         'Surname'       => 'Varchar(128)',
-        'Street'        => 'Varchar(255)',
-        'StreetNumber'  => 'Varchar(15)',
-        'Postcode'      => 'Varchar',
-        'City'          => 'Varchar(100)',
         'Email'         => 'Varchar(255)',
-        'Phone'         => 'Varchar(255)',
         'Message'       => 'Text',
         'IsSpam'        => 'Boolean',
     ];
@@ -89,8 +85,16 @@ class ContactMessage extends DataObject
      * @var array
      */
     private static $has_one = [
-        'Country' => Country::class,
-        'Member'  => Member::class,
+        'Member'                => Member::class,
+        'ContactMessageSubject' => Subject::class,
+    ];
+    /**
+     * Has-one relationships.
+     *
+     * @var array
+     */
+    private static $has_many = [
+        'FormFieldValues' => FormFieldValue::class,
     ];
     /**
      * Casting.
@@ -151,12 +155,6 @@ class ContactMessage extends DataObject
             'Surname'      => Member::singleton()->fieldLabel('Surname'),
             'Name'         => Address::singleton()->fieldLabel('Name'),
             'Email'        => Member::singleton()->fieldLabel('Email'),
-            'Street'       => Address::singleton()->fieldLabel('Street'),
-            'StreetNumber' => Address::singleton()->fieldLabel('StreetNumber'),
-            'Postcode'     => Address::singleton()->fieldLabel('Postcode'),
-            'City'         => Address::singleton()->fieldLabel('City'),
-            'Country'      => Country::singleton()->singular_name(),
-            'Phone'        => Address::singleton()->fieldLabel('Phone'),
             'Message'      => _t(ContactMessage::class . '.MESSAGE', 'message'),
             'Member'       => Member::singleton()->fieldLabel('Customer'),
         ]);
@@ -276,13 +274,21 @@ class ContactMessage extends DataObject
         foreach (array_keys($hasOne) as $hasOneName) {
             $fields[$hasOneName] = $this->{$hasOneName}();
         }
-
+        $recipients = [];
+        $to         = Config::DefaultContactMessageRecipient();
+        if ($this->ContactMessageSubject()->exists()
+         && $this->ContactMessageSubject()->Recipients()->exists()
+        ) {
+            $recipients = $this->ContactMessageSubject()->Recipients()->toArray();
+            $to         = array_shift($recipients)->Email;
+        }
         ShopEmail::send(
                 'ContactMessage',
-                Config::DefaultContactMessageRecipient(),
+                $to,
                 $fields,
                 [],
-                Tools::default_locale()->getLocale()
+                Tools::default_locale()->getLocale(),
+                $recipients
         );
         if ($this->config()->send_acknowledgement_of_receipt) {
             ShopEmail::send(
@@ -339,8 +345,44 @@ class ContactMessage extends DataObject
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             $salutationDropdown = DropdownField::create('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
             $fields->insertBefore($salutationDropdown, 'FirstName');
+            if (empty($this->SubjectText)) {
+                $fields->removeByName('SubjectText');
+            } else {
+                $fields->dataFieldByName('SubjectText')->setReadonly(true)->setDisabled(true);
+            }
+            $fields->dataFieldByName('Salutation')->setReadonly(true)->setDisabled(true);
+            $fields->dataFieldByName('FirstName')->setReadonly(true)->setDisabled(true);
+            $fields->dataFieldByName('Surname')->setReadonly(true)->setDisabled(true);
+            $fields->dataFieldByName('Email')->setReadonly(true)->setDisabled(true);
+            $fields->dataFieldByName('Message')->setReadonly(true)->setDisabled(true);
+            $fields->removeByName('FormFieldValues');
+            FormFieldValue::getFormFieldValueCMSFields($fields, $this->FormFieldValues(), 'Email');
             BlacklistEntry::getBlackListCMSFields($fields);
+            if (class_exists(HasOneSelector::class)) {
+                $fields->removeByName('MemberID');
+                $fields->removeByName('ContactMessageSubjectID');
+                $memberField = HasOneSelector::create('Member', $this->fieldLabel('Member'), $this, Member::class)->setLeftTitle($this->fieldLabel('Member'));
+                $memberField->removeAddable();
+                $contactMessageSubjectField = HasOneSelector::create('ContactMessageSubject', $this->fieldLabel('ContactMessageSubject'), $this, Subject::class)->setLeftTitle($this->fieldLabel('ContactMessageSubject'));
+                $contactMessageSubjectField->removeAddable();
+                $fields->insertAfter('IsSpam', $contactMessageSubjectField);
+                $fields->insertAfter('IsSpam', $memberField);
+            }
         });
         return DataObjectExtension::getCMSFields($this);
+    }
+    
+    /**
+     * Returns the title.
+     * 
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        $title = "{$this->FirstName} {$this->Surname} | {$this->Email}";
+        if (!empty($this->SubjectText)) {
+            $title = "{$title} | {$this->SubjectText}";
+        }
+        return $title;
     }
 }

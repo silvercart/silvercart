@@ -8,9 +8,8 @@ use SilverCart\Forms\FormFields\GoogleRecaptchaField;
 use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\ContactMessage;
-use SilverCart\Model\Customer\Address;
-use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Forms\FormFieldValue;
 use SilverCart\Model\Pages\ContactFormPage;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\Forms\DropdownField;
@@ -83,35 +82,13 @@ class ContactForm extends CustomForm
     public function getRequiredFields() : array
     {
         $requiredFields = self::config()->get('requiredFields');
-        if ($this->EnableStreet()
-         && $this->StreetIsRequired()
-        ) {
-            $requiredFields += [
-                'Street',
-                'StreetNumber',
-            ];
-        }
-        if ($this->EnableCity()
-         && $this->CityIsRequired()
-        ) {
-            $requiredFields += [
-                'Postcode',
-                'City',
-            ];
-        }
-        if ($this->EnableCountry()
-         && $this->CountryIsRequired()
-        ) {
-            $requiredFields += [
-                'CountryID',
-            ];
-        }
-        if ($this->EnablePhoneNumber()
-         && $this->PhoneNumberIsRequired()
-        ) {
-            $requiredFields += [
-                'Phone',
-            ];
+        if ($this->HasCustomFormFields()) {
+            foreach ($this->ContactPage()->FormFields() as $dbFormField) {
+                /* @var $dbFormField \SilverCart\Model\Forms\FormField */
+                if ($dbFormField->IsRequired) {
+                    $requiredFields[] = $dbFormField->Name;
+                }
+            }
         }
         self::config()->set('requiredFields', $requiredFields);
         return parent::getRequiredFields();
@@ -125,8 +102,7 @@ class ContactForm extends CustomForm
     public function getCustomFields() : array
     {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            $address = Address::singleton();
-            $member  = Customer::currentUser();
+            $member = Customer::currentUser();
             if (!($member instanceof Member)) {
                 $member = Member::singleton();
             }
@@ -138,15 +114,9 @@ class ContactForm extends CustomForm
                         TextField::create('Surname', $member->fieldLabel('Surname'), $member->Surname),
                         EmailField::create('Email', $member->fieldLabel('EmailAddress'), $member->Email),
                         TextareaField::create('Message', Page::singleton()->fieldLabel('Message')),
-                        TextField::create('Street', $address->fieldLabel('Street'), $address->Street),
-                        TextField::create('StreetNumber', $address->fieldLabel('StreetNumber'), $address->StreetNumber),
-                        TextField::create('Postcode', $address->fieldLabel('Postcode'), $address->Postcode),
-                        TextField::create('City', $address->fieldLabel('City'), $address->City),
                     ],
-                    $this->getStreetFields(),
-                    $this->getCityFields(),
-                    $this->getCountryFields(),
-                    $this->getPhoneFields(),
+                    $this->getCustomFormFields(),
+                    $this->getSubjectFields(),
                     $this->getGoogleRecaptchaFields()
             );
         });
@@ -154,73 +124,37 @@ class ContactForm extends CustomForm
     }
     
     /**
-     * Returns the fields for the city.
+     * Returns the fields for the subject.
      * 
      * @return array
      */
-    protected function getCityFields() : array
+    protected function getCustomFormFields() : array
     {
-        $cityFields = [];
-        if ($this->EnableCity()) {
-            $address = Address::singleton();
-            $cityFields = [
-                TextField::create('Postcode', $address->fieldLabel('Postcode')),
-                TextField::create('City', $address->fieldLabel('City')),
-            ];
+        $fields = [];
+        if ($this->HasCustomFormFields()) {
+            foreach ($this->ContactPage()->FormFields() as $dbFormField) {
+                /* @var $dbFormField \SilverCart\Model\Forms\FormField */
+                $fields[] = $dbFormField->getFormField();
+            }
         }
-        return $cityFields;
+        return $fields;
     }
     
     /**
-     * Returns the fields for the country.
+     * Returns the fields for the subject.
      * 
      * @return array
      */
-    protected function getCountryFields() : array
+    protected function getSubjectFields() : array
     {
-        $countryFields = [];
-        if ($this->EnableCity()) {
-            $address = Address::singleton();
-            $countryFields = [
-                DropdownField::create('CountryID', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose'))),
+        $fields   = [];
+        $subjects = $this->ContactPage()->Subjects();
+        if ($subjects->exists()) {
+            $fields = [
+                DropdownField::create('ContactMessageSubjectID', $this->ContactPage()->fieldLabel('Subject'), $subjects->map('ID', 'Subject')->toArray()),
             ];
         }
-        return $countryFields;
-    }
-    
-    /**
-     * Returns the fields for the phone number.
-     * 
-     * @return array
-     */
-    protected function getPhoneFields() : array
-    {
-        $phoneFields = [];
-        if ($this->EnableCity()) {
-            $address = Address::singleton();
-            $phoneFields = [
-                TextField::create('Phone', $address->fieldLabel('Phone')),
-            ];
-        }
-        return $phoneFields;
-    }
-    
-    /**
-     * Returns the fields for the street.
-     * 
-     * @return array
-     */
-    protected function getStreetFields() : array
-    {
-        $streetFields = [];
-        if ($this->EnableStreet()) {
-            $address = Address::singleton();
-            $streetFields = [
-                TextField::create('Street', $address->fieldLabel('Street') . ' / ' . $address->fieldLabel('StreetNumber')),
-                TextField::create('StreetNumber', $address->fieldLabel('StreetNumber')),
-            ];
-        }
-        return $streetFields;
+        return $fields;
     }
     
     /**
@@ -289,10 +223,31 @@ class ContactForm extends CustomForm
         ) {
             $data['MemberID'] = $customer->ID;
         }
+        if ($this->HasSubjects()
+         && array_key_exists('ContactMessageSubjectID', $data)
+        ) {
+            $subject = $this->ContactPage()->Subjects()->byID((int) $data['ContactMessageSubjectID']);
+            if ($subject instanceof ContactFormPage\Subject) {
+                $data['SubjectText'] = $subject->Subject;
+            }
+        }
         $data['Message'] = str_replace('\r\n', "\n", $data['Message']);
         $contactMessage  = ContactMessage::create();
         $contactMessage->update($data);
         $contactMessage->write();
+        if ($this->HasCustomFormFields()) {
+            foreach ($this->ContactPage()->FormFields() as $dbFormField) {
+                /* @var $dbFormField \SilverCart\Model\Forms\FormField */
+                if (array_key_exists($dbFormField->Name, $data)) {
+                    $value = FormFieldValue::create();
+                    $value->FieldTitle  = $dbFormField->Title;
+                    $value->FieldValue  = $data[$dbFormField->Name];
+                    $value->FormFieldID = $dbFormField->ID;
+                    $value->write();
+                    $contactMessage->FormFieldValues()->add($value);
+                }
+            }
+        }
         $contactMessage->send();
         // redirect a user to the page type for the response or to the root
         $this->getController()->redirect($this->getController()->Link('thanks'));
@@ -342,110 +297,6 @@ class ContactForm extends CustomForm
     }
     
     /**
-     * Returns whether to enable the Street field.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
-     */
-    public function EnableStreet() : bool
-    {
-        return (bool) $this->ContactPage()->EnableStreet;
-    }
-
-    /**
-     * Returns whether to set the Street field as a required one.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
-     */
-    public function StreetIsRequired() : bool
-    {
-        return (bool) $this->ContactPage()->StreetIsRequired;
-    }
-    
-    /**
-     * Returns whether to enable the City field.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
-     */
-    public function EnableCity() : bool
-    {
-        return (bool) $this->ContactPage()->EnableCity;
-    }
-
-    /**
-     * Returns whether to set the City field as a required one.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
-     */
-    public function CityIsRequired() : bool
-    {
-        return (bool) $this->ContactPage()->CityIsRequired;
-    }
-    
-    /**
-     * Returns whether to enable the Country field.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
-     */
-    public function EnableCountry() : bool
-    {
-        return (bool) $this->ContactPage()->EnableCountry;
-    }
-
-    /**
-     * Returns whether to set the Country field as a required one.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.08.2014
-     */
-    public function CountryIsRequired() : bool
-    {
-        return (bool) $this->ContactPage()->CountryIsRequired;
-    }
-    
-    /**
-     * Returns whether to enable the phone number field.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2014
-     */
-    public function EnablePhoneNumber() : bool
-    {
-        return (bool) $this->ContactPage()->EnablePhoneNumber;
-    }
-
-    /**
-     * Returns whether to set the phone number field as a required one.
-     * 
-     * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.06.2014
-     */
-    public function PhoneNumberIsRequired() : bool
-    {
-        return (bool) $this->ContactPage()->PhoneNumberIsRequired;
-    }
-    
-    /**
      * Returns whether Google reCAPTCHA is enabled or not.
      * 
      * @return bool
@@ -454,5 +305,25 @@ class ContactForm extends CustomForm
     {
         return !empty(GoogleRecaptchaField::config()->recaptcha_secret)
             && !empty(GoogleRecaptchaField::config()->recaptcha_site_key);
+    }
+    
+    /**
+     * Returns whether this form has FormFields.
+     * 
+     * @return bool
+     */
+    public function HasCustomFormFields() : bool
+    {
+        return $this->ContactPage()->FormFields()->exists();
+    }
+    
+    /**
+     * Returns whether this form has subjects.
+     * 
+     * @return bool
+     */
+    public function HasSubjects() : bool
+    {
+        return $this->ContactPage()->Subjects()->exists();
     }
 }

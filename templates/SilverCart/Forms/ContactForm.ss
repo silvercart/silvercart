@@ -12,19 +12,13 @@
         {$Fields.dataFieldByName('FirstName').FieldHolder}
         {$Fields.dataFieldByName('Surname').FieldHolder}
         {$Fields.dataFieldByName('Email').FieldHolder}
-    <% if $EnableStreetNumber %>
-        {$Fields.dataFieldByName('Street').FieldHolder}
-        {$Fields.dataFieldByName('StreetNumber').FieldHolder}
+    <% if $ContactPage.FormFields %>
+        <% loop $ContactPage.FormFields %>
+            {$Up.Up.Fields.dataFieldByName($FormField.Name).FieldHolder}
+        <% end_loop %>
     <% end_if %>
-    <% if $EnableCityNumber %>
-        {$Fields.dataFieldByName('Postcode').FieldHolder}
-        {$Fields.dataFieldByName('City').FieldHolder}
-    <% end_if %>
-    <% if $EnableCountryNumber %>
-        {$Fields.dataFieldByName('CountryID').FieldHolder}
-    <% end_if %>
-    <% if $EnablePhoneNumber %>
-        {$Fields.dataFieldByName('Phone').FieldHolder}
+    <% if $HasSubjects %>
+        {$Fields.dataFieldByName('ContactMessageSubjectID').FieldHolder}
     <% end_if %>
         {$Fields.dataFieldByName('Message').FieldHolder}
         {$CustomFormSpecialFields}

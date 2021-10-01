@@ -14,6 +14,9 @@ it:
         ClickForMore: 'Clicca qui per vedere ulteriori informazioni'
         Close: Chiudi
         since: Dal
+        Sort: &sc_sort 'Criterio d''ordine'
+        Translation: &sc_translation_singular Traduzione
+        Translations: &sc_translation_plural Traduzioni
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Esegui
         MARK_ALL: 'Seleziona tutto'
@@ -169,8 +172,8 @@ it:
         SetForPositiveStockShort: 'Auto. > 0'
         TITLE: Titolo
     SilverCart\Model\Product\AvailabilityStatusTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\BargainProductsWidget:
         CMSTITLE: 'Slider SilverCart per prodotti scontati'
         DESCRIPTION: 'Questo widget visualizza un numero configurabile di articoli la cui differenza tra la  UVP e il prezzo finale è maggiore.'
@@ -178,8 +181,8 @@ it:
         FETCHMETHOD_SORTORDERDESC: 'Differenza di prezzo dalla più alla meno elevata'
         TITLE: 'Prodotti scontati'
     SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Shipment\Carrier:
         ATTRIBUTED_SHIPPINGMETHODS: 'tipo di spedizione assegnato'
         FULL_NAME: 'nome completo'
@@ -190,8 +193,8 @@ it:
     SilverCart\Admin\Controllers\CarrierAdmin:
         MENUTITLE: Spedizioniere
     SilverCart\Model\Shipment\CarrierTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\CartPage:
         CART_EMPTY: 'Il carrello è vuoto.'
         DEFAULT_TITLE: Carrello
@@ -361,8 +364,8 @@ it:
         ShopLogo: Logo
         ShopLogoDesc: 'Verrà visualizzato all''interno dell''area principale del Portale Acquisti.'
         TABBED: 'a schede'
-        TRANSLATION: Traduzione
-        TRANSLATIONS: Traduzioni
+        TRANSLATION: *sc_translation_singular
+        TRANSLATIONS: *sc_translation_plural
         USEFREEOFSHIPPINGCOSTSFROM: 'Utilizza le impostazioni per "spedizione gratuita"'
         USEMINIMUMORDERVALUE: 'Attiva il valore minimo dell''ordine'
         USER_AGENT_BLACKLIST: 'Lista nera UserAgent (un solo UserAgent per riga)'
@@ -679,8 +682,8 @@ it:
     SilverCart\Admin\Controllers\CountryAdmin:
         MENUTITLE: Paesi
     SilverCart\Model\Customer\CountryTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Customer\Customer:
         ADDRESS_DATA: 'Dati generici indirizzo'
         ANONYMOUSCUSTOMER: 'Cliente non identificato'
@@ -740,8 +743,8 @@ it:
         TITLE: 'Nome visualizzato a display'
         TYPE: Tipo
     SilverCart\Model\Product\FileTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\FrontPage:
         CONTENT: '<h2>Benvenuti al Portale Acquisti di <strong>SilverCart</strong> webshop!</h2>'
         DEFAULT_CONTENT: '<h2>Benvenuti al Portale Acquisti di <strong>SilverCart</strong> webshop!</h2>'
@@ -787,7 +790,7 @@ it:
         DESCRIPTION: 'Descrizione (ad es. per il campo di testo Slidorion)'
         PLURALNAME: Immagini
         SINGULARNAME: Immagine
-        SORTORDER: 'Criterio d''ordine'
+        SORTORDER: *sc_sort
         THUMBNAIL: Anteprima
         TITLE: 'Nome visualizzato a display'
     SilverCart\Admin\Controllers\ImageAdmin:
@@ -797,8 +800,8 @@ it:
         SELECT_PAYMENTMETHOD_IMAGES: 'Immagini relative alle modalità di pagamento'
         SELECT_PRODUCT_IMAGES: 'Immagini dell''articolo'
     SilverCart\Model\Product\ImageTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ImageSliderImage:
         AltText: 'Testo per Tag-ALT'
         LINKPAGE: 'Pagina che deve essere collegata a'
@@ -807,15 +810,15 @@ it:
         ProductNumberToReferenceInfo: 'Utilizzato al posto della pagina.'
         SINGULARNAME: 'Immagine cursore'
     SilverCart\Model\Widgets\ImageSliderImageTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ImageSliderWidget:
         CMSTITLE: 'Dispositivo di scorrimento immagine'
         DESCRIPTION: 'Fornisce un dispositivo di scorrimento immagine per la visualizzazione di più immagini durante lo slide show.'
         TITLE: Immagini
     SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\LoginWidget:
         CMSTITLE: 'Accesso a SilverCart'
         DESCRIPTION: 'Questo widget mostra il modulo per l''accesso e collega alla pagina di registrazione. Se il cliente è già entrato nel portale ha accesso alle sezioni a lui dedicate.'
@@ -830,8 +833,8 @@ it:
     SilverCart\Admin\Controllers\ManufacturerAdmin:
         MENUTITLE: Produttori
     SilverCart\Model\Product\ManufacturerTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\MetaNavigationHolder:
         DEFAULT_TITLE: Legale
         DEFAULT_TITLE_ABOUT: 'Chi siamo'
@@ -1091,8 +1094,8 @@ it:
     SilverCart\Admin\Controllers\OrderStatusAdmin:
         MENUTITLE: 'Stato dell''ordine'
     SilverCart\Model\Order\OrderStatusTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
         TITLE: Etichetta
     SilverCart\Model\Pages\Page:
         ABOUT_US: 'Chi siamo'
@@ -1312,8 +1315,8 @@ it:
     SilverCart\Admin\Controllers\PaymentMethodAdmin:
         MENUTITLE: 'Modalità di pagamento'
     SilverCart\Model\Payment\PaymentMethodTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Payment\PaymentStatus:
         PLURALNAME: 'Stato del pagamento'
         SINGULARNAME: 'Stato del pagamento'
@@ -1322,13 +1325,13 @@ it:
         DefaultStatusPaid: Pagato
         IsDefault: Predefinito
         Orders: Ordini
-        PaymentStatusTranslations: Traduzioni
+        PaymentStatusTranslations: *sc_translation_plural
         Title: Titolo
         DefaultStatusCanceled: Annullato
         DefaultStatusPartlyPaid: 'Pagamento parziale'
     SilverCart\Model\Payment\PaymentStatusTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Controllers\PaymentStatusAdmin:
         MENUTITLE: 'Stato del pagamento'
     SilverCart\Model\Pages\PaymentMethodsPage:
@@ -1471,15 +1474,15 @@ it:
     SilverCart\Admin\Controllers\ProductConditionAdmin:
         MENUTITLE: 'Stato dell''articolo'
     SilverCart\Model\Product\ProductConditionTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
         CMSTITLE: 'Visualizzazione SilverCart di articoli da gruppi sottoprodotti'
         DESCRIPTION: 'Se non vengono assegnati articoli al gruppo prodotti corrente, questo widget mostra articoli di sottoprodotti.'
         TITLE: 'Articoli da gruppi di sottoprodotti'
     SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductGroupHolder:
         DEFAULT_TITLE: 'Gruppi di prodotti'
         DEFAULT_URLSEGMENT: 'Gruppi di prodotti'
@@ -1508,8 +1511,8 @@ it:
         TITLE: Articolo
         USE_SELECTIONMETHOD: 'Modalità di selezione articolo'
     SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
         CMSTITLE: 'Elenco dei produttori SilverCart'
         DESCRIPTION: 'Questo widget visualizza un elenco di loghi di tutti i produttori del gruppo merci in oggetto.'
@@ -1523,15 +1526,15 @@ it:
         SHOW_ALL_LEVELS: 'Mostra tutti i livelli'
         TITLE: 'Navigazione gruppo prodotti'
     SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupWidget:
         CMSTITLE: 'Gruppi di prodotti'
         DESCRIPTION: 'Questo widget crea una panoramica di qualsiasi gruppo di prodotti (opzionale come slider).'
         TITLE: 'Gruppi di prodotti'
     SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductGroupPage:
         ATTRIBUTES: Attributo
         BREADCRUMBS: 'Gruppi di prodotto'
@@ -1590,8 +1593,8 @@ it:
         UploadProductImages: 'Carica immagini articoli'
     SilverCart\Model\Product\ProductTranslation:
         LOCALE: Lingua
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductPage:
         OUT_OF_STOCK: 'Questo articolo è esaurito.'
         PACKAGING_CONTENT: Contenuto
@@ -1644,8 +1647,8 @@ it:
     SilverCart\Admin\Controllers\QuantityUnitAdmin:
         MENUTITLE: 'Unità di misura'
     SilverCart\Model\Product\QuantityUnitTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Product\StockItemEntry:
         PLURALNAME: 'Operazioni di magazzino'
         SINGULARNAME: 'Operazione di magazzino'
@@ -1818,8 +1821,8 @@ it:
     SilverCart\Admin\Controllers\ShippingMethodAdmin:
         MENUTITLE: 'Modalità di spedizione'
     SilverCart\Model\Shipment\ShippingMethodTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\ShopEmail:
         ADDITIONALS_RECEIPIENTS: 'Destinatari aggiuntivi'
         EMAILTEXT: Messaggio
@@ -1885,8 +1888,8 @@ it:
     SilverCart\Admin\Controllers\ShopEmailAdmin:
         MENUTITLE: 'Email Portale Acquisti'
     SilverCart\Model\ShopEmailTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Order\ShoppingCart:
         DifferentReleaseDateHint1: 'Il carrello include articoli con date di rilascio diverse.'
         DifferentReleaseDateHint2: 'Si prega di notare che la spedizione di articoli che sono già disponibili può essere ritardata fino alla data di rilascio degli articoli che non sono ancora disponibili.'
@@ -1976,8 +1979,8 @@ it:
     SilverCart\Admin\Controllers\TaxAdmin:
         MENUTITLE: 'Aliquote fiscali'
     SilverCart\Model\Product\TaxTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Dev\Install\RequireDefaultRecords:
         CURRENCY: Euro
         IMAGEFOLDERNAME: 'Esempio dati'
@@ -2016,8 +2019,8 @@ it:
         IS_CONTENT_VIEW: 'Usa visualizzazione contenuto invece di visualizzazione widget'
         TITLE: 'Testo libero'
     SilverCart\Model\Widgets\TextWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\TextWithLinkWidget:
         DESCRIPTION: 'Widget per visualizzare un testo con titolo e link.'
         Link: Link
@@ -2026,8 +2029,8 @@ it:
         SINGULARNAME: Testo-con-Link-Widget
         TITLE: 'Testo con link'
     SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\NewProductsWidget:
         CMSTITLE: Novità
         DESCRIPTION: 'Questo widget mostra un numero personalizzato di nuovi prodotti in vendita.'
@@ -2037,8 +2040,8 @@ it:
         ShowProductsFromUnit: 'Periodo di tempo durante il quale gli articoli verranno mostrati come novità'
         TITLE: Novità
     SilverCart\Model\Widgets\NewProductsWidgetTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\TopsellerProductsWidget:
         CMSTITLE: 'Il più venduto'
         DESCRIPTION: 'Questo widget mostra un numero configurabile dei prodotti più venduti.'
@@ -2049,7 +2052,7 @@ it:
         FRONTCONTENT: 'Contenuto da visualizzare nel frontend'
         FRONTTITLE: 'Titolo da visualizzare nel frontend'
         NumberOfProductsToShow: 'Numero di prodotti da mostrare'
-        SORT_ORDER_LABEL: 'Criterio d''ordine'
+        SORT_ORDER_LABEL: *sc_sort
         UseAsSlider: 'Usa come cursore'
     SilverCart\Model\Widgets\WidgetSetExtension:
         MANAGE_WIDGETS_BUTTON: 'Gestisci i set di widget'
@@ -2067,8 +2070,8 @@ it:
     SilverCart\Admin\Controllers\ZoneAdmin:
         MENUTITLE: Zone
     SilverCart\Model\Shipment\ZoneTranslation:
-        PLURALNAME: Traduzioni
-        SINGULARNAME: Traduzione
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SiteConfig:
         SITENAMEDEFAULT: SilverCart
         TAGLINEDEFAULT: 'Software eCommerce. Open-source. Ti piacerà.'
@@ -2095,8 +2098,8 @@ it:
         EXISTING: 'Traduzioni esistenti:'
         NEWLANGUAGE: 'Nuova lingua'
         PUBLISHBUTTON: 'Pubblicare tutte le pagine della lingua corrente'
-        TRANSLATION: Traduzione
-        TRANSLATIONS: Traduzioni
+        TRANSLATION: *sc_translation_singular
+        TRANSLATIONS: *sc_translation_plural
     SilverCart\Forms\CustomForm:
         DefaultSuccessMessageSave: 'I tuoi dati sono stati salvati con successo.'
         DefaultSuccessMessageSend: 'I tuoi dati sono stati inviati con successo.'

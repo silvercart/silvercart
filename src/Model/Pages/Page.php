@@ -22,6 +22,7 @@ use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\Permission;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
@@ -956,5 +957,17 @@ class Page extends SiteTree
                 'content'  => $ogType,
         ]) . PHP_EOL;
         return $tags;        
+    }
+    
+    /**
+     * Returns the current date.
+     * 
+     * @return string
+     */
+    public function getCurrentDate()
+    {
+        $date = DBDatetime::create();
+        $date->setValue(date('Y-m-d H:i:s'));
+        return $date;
     }
 }

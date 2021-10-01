@@ -14,6 +14,9 @@ da_DK:
         ClickForMore: 'Klik for at se flere oplysninger'
         Close: Luk
         since: siden
+        Sort: &sc_sort Sorteringsrækkefølge
+        Translation: &sc_translation_singular Oversættelse
+        Translations: &sc_translation_plural Oversættelser
     SilverCart\Admin\Forms\GridField\GridFieldBatchController:
         EXECUTE: Udfør
         MARK_ALL: 'Vælg alle'
@@ -167,8 +170,8 @@ da_DK:
         SetForPositiveStockShort: 'Automobil. > 0'
         TITLE: Titel
     SilverCart\Model\Product\AvailabilityStatusTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\BargainProductsWidget:
         CMSTITLE: 'SilverCart slider til gode tilbud'
         DESCRIPTION: 'Denne widget viser et konfigurerbart antal varer, hvis forskel mellem den mest solgte og den endelige pris er størst.'
@@ -176,8 +179,8 @@ da_DK:
         FETCHMETHOD_SORTORDERDESC: 'Prisforskel faldende'
         TITLE: 'Produkter til spotpris'
     SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Shipment\Carrier:
         ATTRIBUTED_SHIPPINGMETHODS: 'tildelt forsendelsestype'
         FULL_NAME: 'fulde navn'
@@ -188,8 +191,8 @@ da_DK:
     SilverCart\Admin\Controllers\CarrierAdmin:
         MENUTITLE: Transportør
     SilverCart\Model\Shipment\CarrierTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\CartPage:
         CART_EMPTY: 'Indkøbskurven er tom.'
         DEFAULT_TITLE: Indkøbsvogn
@@ -359,8 +362,8 @@ da_DK:
         ShopLogo: logo
         ShopLogoDesc: 'Vises inde i butikkens hovedområde.'
         TABBED: interlaced
-        TRANSLATION: Oversættelse
-        TRANSLATIONS: Oversættelser
+        TRANSLATION: *sc_translation_singular
+        TRANSLATIONS: *sc_translation_plural
         USEFREEOFSHIPPINGCOSTSFROM: 'Brug indstillingerne for "fri for forsendelsesomkostninger"'
         USEMINIMUMORDERVALUE: 'Aktiver mindste ordreværdi'
         USER_AGENT_BLACKLIST: 'UserAgent blacklist (én UserAgent pr. Linje)'
@@ -676,8 +679,8 @@ da_DK:
     SilverCart\Admin\Controllers\CountryAdmin:
         MENUTITLE: Lande
     SilverCart\Model\Customer\CountryTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Customer\Customer:
         ADDRESS_DATA: 'Grundlæggende adressedata'
         ANONYMOUSCUSTOMER: 'Anonym kunde'
@@ -737,8 +740,8 @@ da_DK:
         TITLE: 'Vis navn'
         TYPE: Type
     SilverCart\Model\Product\FileTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\FrontPage:
         CONTENT: '<h2>Velkommen til <strong>SilverCart</strong> Webshop!</h2>'
         DEFAULT_CONTENT: '<h2>Velkommen til <strong>SilverCart</strong> Webshop!</h2>'
@@ -784,7 +787,7 @@ da_DK:
         DESCRIPTION: 'Beskrivelse (f.eks. for tekstfeltet Slidorion)'
         PLURALNAME: Billeder
         SINGULARNAME: Billede
-        SORTORDER: Sorteringsrækkefølge
+        SORTORDER: *sc_sort
         THUMBNAIL: Forhåndsvisning
         TITLE: 'Vis navn'
     SilverCart\Admin\Controllers\ImageAdmin:
@@ -794,8 +797,8 @@ da_DK:
         SELECT_PAYMENTMETHOD_IMAGES: 'Billeder til betalingsmetoder'
         SELECT_PRODUCT_IMAGES: Produktbilleder
     SilverCart\Model\Product\ImageTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ImageSliderImage:
         AltText: 'Tekst til ALT-tag'
         LINKPAGE: 'Side, der skal linkes til'
@@ -804,15 +807,15 @@ da_DK:
         ProductNumberToReferenceInfo: 'Vil blive brugt i stedet siden.'
         SINGULARNAME: skyderbillede
     SilverCart\Model\Widgets\ImageSliderImageTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ImageSliderWidget:
         CMSTITLE: Billedeskyder
         DESCRIPTION: 'Giver en billedslider, der viser flere billeder i et diasshow.'
         TITLE: Billeder
     SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\LoginWidget:
         CMSTITLE: 'Registrering af SilverCart'
         DESCRIPTION: 'Denne widget viser en loginformular og links til registreringssiden. Hvis kunden allerede er logget ind, vises der i stedet links til hans/hende.'
@@ -827,8 +830,8 @@ da_DK:
     SilverCart\Admin\Controllers\ManufacturerAdmin:
         MENUTITLE: Producenter
     SilverCart\Model\Product\ManufacturerTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\MetaNavigationHolder:
         DEFAULT_TITLE: Metanavigation
         DEFAULT_TITLE_ABOUT: 'Om os'
@@ -1087,8 +1090,8 @@ da_DK:
     SilverCart\Admin\Controllers\OrderStatusAdmin:
         MENUTITLE: 'Status for bestilling'
     SilverCart\Model\Order\OrderStatusTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
         TITLE: Titel
     SilverCart\Model\Pages\Page:
         ABOUT_US: 'om os'
@@ -1308,8 +1311,8 @@ da_DK:
     SilverCart\Admin\Controllers\PaymentMethodAdmin:
         MENUTITLE: Betalingsmetoder
     SilverCart\Model\Payment\PaymentMethodTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Payment\PaymentStatus:
         PLURALNAME: Betalingsstatus
         SINGULARNAME: Betalingsstatus
@@ -1318,13 +1321,13 @@ da_DK:
         DefaultStatusPaid: Betalt
         IsDefault: 'Er standard'
         Orders: Ordrer
-        PaymentStatusTranslations: Oversættelser
+        PaymentStatusTranslations: *sc_translation_plural
         Title: Titel
         DefaultStatusCanceled: Annulleret
         DefaultStatusPartlyPaid: 'Delvist betalt'
     SilverCart\Model\Payment\PaymentStatusTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Controllers\PaymentStatusAdmin:
         MENUTITLE: Betalingsstatus
     SilverCart\Model\Pages\PaymentMethodsPage:
@@ -1467,15 +1470,15 @@ da_DK:
     SilverCart\Admin\Controllers\ProductConditionAdmin:
         MENUTITLE: Produkttilstand
     SilverCart\Model\Product\ProductConditionTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
         CMSTITLE: 'SilverCart viser produkter fra børneproduktgrupper'
         DESCRIPTION: 'Denne widget viser produkter fra en underordnet produktgruppe, hvis der ikke er tildelt produkter til den aktuelle produktgruppe.'
         TITLE: 'Produkter af underordnede produktgrupper'
     SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductGroupHolder:
         DEFAULT_TITLE: Produktgrupper
         DEFAULT_URLSEGMENT: varegrupper
@@ -1504,8 +1507,8 @@ da_DK:
         TITLE: Produkter
         USE_SELECTIONMETHOD: 'Udvælgelsesmetode for produkter'
     SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
         CMSTITLE: 'SilverCart producentliste'
         DESCRIPTION: 'Denne widget viser en liste over alle producenter i den relevante produktgruppe.'
@@ -1519,15 +1522,15 @@ da_DK:
         SHOW_ALL_LEVELS: 'Vis alle niveauer'
         TITLE: 'Produktgruppe navigation'
     SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\ProductGroupWidget:
         CMSTITLE: Produktgrupper
         DESCRIPTION: 'Denne widget skaber en oversigt over alle varegrupper (eventuelt som en skyder).'
         TITLE: Produktgrupper
     SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductGroupPage:
         ATTRIBUTES: Attribut
         BREADCRUMBS: 'Produktgruppe brødkrummer'
@@ -1563,7 +1566,7 @@ da_DK:
         USE_CONTENT_FROM_PARENT: 'Brug indhold fra overordnede sider'
         OK: Okay
         PRODUCTS_PER_PAGE: 'Produkter pr. Side'
-        SORT_ORDER: Sorteringsrækkefølge
+        SORT_ORDER: *sc_sort
         MetaTitleBehavior: 'Adfærd med metatitler'
         MetaTitleBehaviorDesc: 'Hvis denne indstilling er aktiveret, bruges metatitlen på denne produktgruppe som et præfiks eller suffiks for metatitlen til direkte undergrupper'
         MetaTitleBehavior_none: deaktiveret
@@ -1586,8 +1589,8 @@ da_DK:
         UploadProductImages: 'Upload produktbilleder'
     SilverCart\Model\Product\ProductTranslation:
         LOCALE: Sprog
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Pages\ProductPage:
         OUT_OF_STOCK: 'Denne vare er udsolgt.'
         PACKAGING_CONTENT: Indhold
@@ -1640,8 +1643,8 @@ da_DK:
     SilverCart\Admin\Controllers\QuantityUnitAdmin:
         MENUTITLE: 'Antal enheder'
     SilverCart\Model\Product\QuantityUnitTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Product\StockItemEntry:
         PLURALNAME: Lagervareposter
         SINGULARNAME: Lagervarepost
@@ -1814,8 +1817,8 @@ da_DK:
     SilverCart\Admin\Controllers\ShippingMethodAdmin:
         MENUTITLE: Forsendelsesmetoder
     SilverCart\Model\Shipment\ShippingMethodTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\ShopEmail:
         ADDITIONALS_RECEIPIENTS: 'Yderligere modtagere'
         EMAILTEXT: Besked
@@ -1881,8 +1884,8 @@ da_DK:
     SilverCart\Admin\Controllers\ShopEmailAdmin:
         MENUTITLE: 'E-mails fra butikker'
     SilverCart\Model\ShopEmailTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Order\ShoppingCart:
         DifferentReleaseDateHint1: 'Din indkøbskurv indeholder varer med forskellige udgivelsesdatoer.'
         DifferentReleaseDateHint2: 'Bemærk venligst, at forsendelsen af varer, der allerede er tilgængelige, kan blive forsinket indtil udgivelsesdatoen for varer, der endnu ikke er tilgængelige.'
@@ -1972,8 +1975,8 @@ da_DK:
     SilverCart\Admin\Controllers\TaxAdmin:
         MENUTITLE: Skattesatser
     SilverCart\Model\Product\TaxTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Dev\Install\RequireDefaultRecords:
         CURRENCY: EUR
         IMAGEFOLDERNAME: 'Billedmappens navn'
@@ -2012,8 +2015,8 @@ da_DK:
         IS_CONTENT_VIEW: 'Brug indholdsvisning i stedet for widgetvisning'
         TITLE: 'Fri tekst'
     SilverCart\Model\Widgets\TextWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\TextWithLinkWidget:
         DESCRIPTION: 'Widget til at vise en tekst med titel og link.'
         Link: Link
@@ -2022,8 +2025,8 @@ da_DK:
         SINGULARNAME: 'Fri tekst med link widget'
         TITLE: 'Fritekst med link'
     SilverCart\Model\Widgets\TextWithLinkWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\NewProductsWidget:
         CMSTITLE: 'Nyligt tilføjede produkter'
         DESCRIPTION: 'Denne widget viser et tilpasset antal nyligt tilføjede produkter.'
@@ -2033,8 +2036,8 @@ da_DK:
         ShowProductsFromUnit: 'Tidsenhed til at vise produkter i denne widget'
         TITLE: 'Nyligt tilføjede produkter'
     SilverCart\Model\Widgets\NewProductsWidgetTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Model\Widgets\TopsellerProductsWidget:
         CMSTITLE: Bedstsælgende
         DESCRIPTION: 'Denne widget viser et konfigurerbart antal af de bedst sælgende varer.'
@@ -2063,8 +2066,8 @@ da_DK:
     SilverCart\Admin\Controllers\ZoneAdmin:
         MENUTITLE: Zoner
     SilverCart\Model\Shipment\ZoneTranslation:
-        PLURALNAME: Oversættelser
-        SINGULARNAME: Oversættelse
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SiteConfig:
         SITENAMEDEFAULT: SilverCart
         TAGLINEDEFAULT: 'e-handelssoftware. Åben kildekode. Du vil elske det.'
@@ -2091,8 +2094,8 @@ da_DK:
         EXISTING: 'Eksisterende oversættelser:'
         NEWLANGUAGE: 'Nyt sprog'
         PUBLISHBUTTON: 'Offentliggør alle sider i denne oversættelse'
-        TRANSLATION: Oversættelse
-        TRANSLATIONS: Oversættelser
+        TRANSLATION: *sc_translation_singular
+        TRANSLATIONS: *sc_translation_plural
     SilverCart\Forms\CustomForm:
         DefaultSuccessMessageSave: 'Dine data er blevet gemt.'
         DefaultSuccessMessageSend: 'Dine data er blevet sendt.'
