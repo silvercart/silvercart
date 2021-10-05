@@ -85,6 +85,17 @@ class GoogleRecaptchaField extends FormField
     }
     
     /**
+     * Returns whether Google reCAPTCHA is enabled or not.
+     * 
+     * @return bool
+     */
+    public static function isEnabled() : bool
+    {
+        return !empty(self::config()->recaptcha_secret)
+            && !empty(self::config()->recaptcha_site_key);
+    }
+    
+    /**
      * Returns the reCAPTCHA site_key.
      * 
      * @return string

@@ -25,6 +25,9 @@
     <% if $EnableGoogleRecaptcha %>
         {$Fields.dataFieldByName('GoogleRecaptcha').FieldHolder}
     <% end_if %>
+    <% if $EnableHoneyPot %>
+        {$HoneyPotField.FieldHolder}
+    <% end_if %>
     <% loop $Actions %>
         <button class="btn btn-primary pull-right" type="submit" id="{$ID}" title="{$Title}">{$Title}</button>
     <% end_loop %>

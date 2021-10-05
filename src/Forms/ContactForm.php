@@ -2,6 +2,7 @@
 
 namespace SilverCart\Forms;
 
+use Heyday\SilverStripe\HoneyPot\HoneyPotField;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Forms\FormFields\GoogleRecaptchaField;
@@ -73,6 +74,12 @@ class ContactForm extends CustomForm
             'hasMinLength' => 3,
         ],
     ];
+    /**
+     * HoneyPotField
+     * 
+     * @var HoneyPotField|null
+     */
+    protected $honeyPotField = null;
     
     /**
      * Returns the required fields.
@@ -89,6 +96,12 @@ class ContactForm extends CustomForm
                     $requiredFields[] = $dbFormField->Name;
                 }
             }
+        }
+        if ($this->EnableHoneyPot()) {
+            $honeyPotField = $this->getHoneyPotField();
+            $requiredFields[$honeyPotField->Name] = [
+                'isFilledIn' => false,
+            ];
         }
         self::config()->set('requiredFields', $requiredFields);
         return parent::getRequiredFields();
@@ -117,7 +130,8 @@ class ContactForm extends CustomForm
                     ],
                     $this->getCustomFormFields(),
                     $this->getSubjectFields(),
-                    $this->getGoogleRecaptchaFields()
+                    $this->getGoogleRecaptchaFields(),
+                    $this->getHoneyPotFields()
             );
         });
         return parent::getCustomFields();
@@ -169,6 +183,41 @@ class ContactForm extends CustomForm
             $fields[] = GoogleRecaptchaField::create('GoogleRecaptcha', $this->fieldLabel('GoogleRecaptcha'));
         }
         return $fields;
+    }
+    
+    /**
+     * Returns the HoneyPot related form fields.
+     * 
+     * @return array
+     */
+    protected function getHoneyPotFields() : array
+    {
+        $fields = [];
+        if ($this->EnableHoneyPot()) {
+            $fields[] = $this->getHoneyPotField();
+        }
+        return $fields;
+    }
+    
+    /**
+     * Returns the HoneyPot related form fields.
+     * 
+     * @return array
+     */
+    protected function getHoneyPotField() : ?HoneyPotField
+    {
+        if ($this->honeyPotField === null
+         && $this->EnableHoneyPot()
+        ) {
+            $fieldName = 'Website';
+            $index     = 1;
+            while ($this->ContactPage()->FormFields()->filter('Name', $fieldName)->exists()) {
+                $fieldName = "{$fieldName}-{$index}";
+                $index++;
+            }
+            $this->honeyPotField = HoneyPotField::create($fieldName);
+        }
+        return $this->honeyPotField;
     }
     
     /**
@@ -303,8 +352,17 @@ class ContactForm extends CustomForm
      */
     public function EnableGoogleRecaptcha() : bool
     {
-        return !empty(GoogleRecaptchaField::config()->recaptcha_secret)
-            && !empty(GoogleRecaptchaField::config()->recaptcha_site_key);
+        return GoogleRecaptchaField::isEnabled();
+    }
+    
+    /**
+     * Returns whether HoneyPot is enabled.
+     * 
+     * @return bool
+     */
+    public function EnableHoneyPot() : bool
+    {
+        return class_exists(HoneyPotField::class);
     }
     
     /**
