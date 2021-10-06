@@ -1,8 +1,10 @@
-<h1><%t SilverCart\Model\ShopEmail.Title_OrderConfirmation 'Order confirmation' %></h1>
-
+<h1>{$Subject}</h1>
 <p><%t SilverCart\Model\ShopEmail.HELLO 'Hello' %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
-<p><%t SilverCart\Model\ShopEmail.ORDER_ARRIVED 'We confirm your order, many thanks.' %></p>
-
+<% if $CustomContent('HeaderInformationText') %>
+    {$CustomContent('HeaderInformationText')}
+<% else %>
+    <p><%t SilverCart\Model\ShopEmail.ORDER_ARRIVED 'We confirm your order, many thanks.' %></p>
+<% end_if %>
 <% with $Order %>
 <div style="text-align: center; border: 1px solid #ccc; background-color: #fafafa;">
     <div style="display: inline-block; text-align: left; vertical-align: top;">
@@ -54,15 +56,22 @@
             {$InvoiceAddressTable}
         </div>
     </div>
+    <% if $Up.CustomContent('AddressInformationText') %>
+        {$Up.CustomContent('AddressInformationText')}
+    <% end_if %>
 </div>
-
-    <h2><%t SilverCart\Model\Pages\Page.ORDERED_PRODUCTS 'Ordered products' %>:</h2>
+<h2><%t SilverCart\Model\Pages\Page.ORDERED_PRODUCTS 'Ordered products' %>:</h2>
     <% if $IsPriceTypeGross %>
         <% include SilverCart\Email\OrderDetailTableGross %>
     <% else %>
         <% include SilverCart\Email\OrderDetailTableNet %>
     <% end_if %>
 <% end_with %>
-
-<p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
-<p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+<% if $CustomContent('OrderInformationText') %>
+    {$CustomContent('OrderInformationText')}
+<% end_if %>
+<% if $CustomContent('FooterInformationText') %>
+    {$CustomContent('FooterInformationText')}
+<% else %><p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
+    <p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+<% end_if %>

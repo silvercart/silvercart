@@ -1,6 +1,10 @@
+<h1>{$Subject}</h1>
 <% with $Customer %>
-<h1><%t SilverCart\Model\Pages\RegistrationPage.EmailOptInConfirmationTitle 'Email verification completed' %></h1>
-<p><%t SilverCart\Model\Pages\RegistrationPage.EmailOptInConfirmationInfo 'Congratulations and welcome to our shop! Your email address was successfully confirmed and you are now able to use your customer account in our shop.' %></p>
+    <% if $Up.CustomContent('HeaderInformationText') %>
+        {$Up.CustomContent('HeaderInformationText')}
+    <% else %>
+        <p><%t SilverCart\Model\Pages\RegistrationPage.EmailOptInConfirmationInfo 'Congratulations and welcome to our shop! Your email address was successfully confirmed and you are now able to use your customer account in our shop.' %></p>
+    <% end_if %>
 <a style="display: inline-block; padding: 8px 12px 8px 12px;margin: 22px 0px 22px 0px;background-color: #94c11c;color: #ffffff;font-weight: bold;" href="{$PageByIdentifierCode('SilvercartFrontPage').Link}"><%t SilverCart\Model\Pages\RegistrationPage.EmailOptInConfirmationVisit 'Visit our shop' %> &raquo;</a><br/>
 <hr/>
 <h1><%t SilverCart\Model\Pages\RegistrationPage.EmailOptInConfirmationCustomerData 'Your customer data' %></h1>
@@ -25,6 +29,10 @@
 <hr/>
 <a style="display: inline-block; padding: 8px 12px 8px 12px;margin: 22px 0px 22px 0px;background-color: #94c11c;color: #ffffff;font-weight: bold;" href="{$PageByIdentifierCode('SilvercartMyAccountHolder').Link}"><%t SilverCart\Model\Pages\RegistrationPage.OptInGoToMyAccount 'Go to my account' %> &raquo;</a><br/>
 <br/>
-<p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
-<p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+    <% if $Up.CustomContent('FooterInformationText') %>
+        {$Up.CustomContent('FooterInformationText')}
+    <% else %>
+        <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
+        <p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+    <% end_if %>
 <% end_with %>

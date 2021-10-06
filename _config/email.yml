@@ -1,0 +1,42 @@
+---
+Name: silvercart-email-custom-content-blocks
+---
+SilverCart\Model\ShopEmail:
+    custom_content_blocks:
+        ChangePassword:
+            - HeaderInformationText
+            - ButtonInformationText
+            - SecurityInformationText
+            - FooterInformationText
+        ForgotPassword:
+            - HeaderInformationText
+            - ButtonInformationText
+            - SecurityInformationText
+            - FooterInformationText
+        NewsletterOptIn:
+            - HeaderInformationText
+            - IgnoreInformationText
+            - FooterInformationText
+        NewsletterOptInConfirmation:
+            - HeaderInformationText
+            - FooterInformationText
+        OrderConfirmation:
+            - HeaderInformationText
+            - AddressInformationText
+            - OrderInformationText
+            - FooterInformationText
+        OrderShippedNotification:
+            - HeaderInformationText
+            - ButtonInformationText
+            - FooterInformationText
+        OrderTrackingNotification:
+            - HeaderInformationText
+            - ButtonInformationText
+            - FooterInformationText
+        RegistrationOptIn:
+            - HeaderInformationText
+            - IgnoreInformationText
+            - FooterInformationText
+        RegistrationOptInConfirmation:
+            - HeaderInformationText
+            - FooterInformationText

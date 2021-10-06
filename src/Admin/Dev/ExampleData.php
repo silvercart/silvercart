@@ -347,12 +347,6 @@ class ExampleData
                     'Salutation'     => $contactMessage->Salutation,
                     'FirstName'      => $contactMessage->FirstName,
                     'Surname'        => $contactMessage->Surname,
-                    'Street'         => $contactMessage->Street,
-                    'StreetNumber'   => $contactMessage->StreetNumber,
-                    'Postcode'       => $contactMessage->Postcode,
-                    'City'           => $contactMessage->City,
-                    'Country'        => $contactMessage->Country(),
-                    'Phone'          => $contactMessage->Phone,
                     'Email'          => $contactMessage->Email,
                     'Message'        => $contactMessage->Message,
                     'ContactMessage' => $contactMessage,
@@ -404,6 +398,8 @@ class ExampleData
                 break;
             case 'ChangePassword':
             case 'ForgotPassword':
+            case 'CustomerDeletionConfirmation':
+            case 'CustomerDeletionNotification':
                 $address = static::get_address();
                 $data  = [
                     'SalutationText'    => $address->SalutationText,

@@ -7,6 +7,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\EmailAddress;
 use SilverCart\Model\ShopEmailTranslation;
+use SilverCart\Model\ShopEmail\Content;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\View\SCTemplateParser;
 use SilverStripe\CMS\Controllers\RootURLController;
@@ -16,6 +17,8 @@ use SilverStripe\Control\HTTP;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
@@ -24,6 +27,7 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\SSViewer_FromString;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * base class for emails.
@@ -38,9 +42,9 @@ use SilverStripe\View\SSViewer_FromString;
  * @property string $TemplateName                   Template Name
  * @property string $TemplateNameTitle              Template Name Title
  * @property string $Subject                        Subject
- * @property string $CustomEmailContent             Custom Email Content
  * @property string $AdditionalRecipientsHtmlString Additional Recipients Html String
  * 
+ * @method \SilverStripe\ORM\HasManyList  Contents()              Returns the related Contents.
  * @method \SilverStripe\ORM\HasManyList  ShopEmailTranslations() Returns the related ShopEmailTranslations.
  * @method \SilverStripe\ORM\ManyManyList AdditionalReceipients() Returns the related AdditionalReceipients (EmailAddress).
  * @method \SilverStripe\ORM\ManyManyList OrderStatus()           Returns the related OrderStatus.
@@ -62,6 +66,7 @@ class ShopEmail extends DataObject
      * @var type array
      */
     private static $has_many = [
+        'Contents'              => Content::class,
         'ShopEmailTranslations' => ShopEmailTranslation::class,
     ];
     /**
@@ -87,7 +92,6 @@ class ShopEmail extends DataObject
      */
     private static $casting = [
         'Subject'                        => 'Text',
-        'CustomEmailContent'             => 'HTMLText',
         'AdditionalRecipientsHtmlString' => 'HTMLText',
         'TemplateNameTitle'              => 'Text',
     ];
@@ -117,11 +121,11 @@ class ShopEmail extends DataObject
      */
     private static $registered_email_templates = [];
     /**
-     * List of templates using custom email content.
+     * List of custom email content blocks per email template.
      *
      * @var array
      */
-    private static $custom_email_content_templates = [];
+    private static $custom_content_blocks = [];
     /**
      * Determines to insert the translation CMS fields automatically.
      *
@@ -218,6 +222,17 @@ class ShopEmail extends DataObject
     public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if (!$this->hasCustomContentBlocks()) {
+                $fields->removeByName('Contents');
+            } else {
+                $gridContents = $fields->dataFieldByName('Contents');
+                $gridContents->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                $gridContents->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+                $gridContents->getConfig()->addComponent(new GridFieldDeleteAction());
+                if (class_exists(GridFieldOrderableRows::class)) {
+                    $gridContents->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+                }
+            }
             $fields->removeByName('TemplateName');
             $templateNames     = self::get_email_templates();
             $templateNameField = DropdownField::create('TemplateName', $this->fieldLabel('TemplateName'), $templateNames);
@@ -227,11 +242,6 @@ class ShopEmail extends DataObject
                 $fields->findOrMakeTab('Root.Preview', $this->fieldLabel('Preview'));
                 $frame = '<iframe class="full-height" src="' . Director::absoluteURL('example-data/renderemail/' . $this->TemplateName) . '"></iframe>';
                 $fields->addFieldToTab('Root.Preview', LiteralField::create('Preview', $frame));
-            }
-        });
-        $this->afterExtending('updateCMSFields', function(FieldList $fields) {
-            if (!in_array($this->TemplateName, (array) $this->config()->custom_email_content_templates)) {
-                $fields->removeByName('CustomEmailContent');
             }
         });
         return parent::getCMSFields();
@@ -278,6 +288,51 @@ class ShopEmail extends DataObject
             $email->write();
         }
         return $email;
+    }
+    
+    /**
+     * Returns whether this ShopEmail has custom content blocks.
+     * 
+     * @return bool
+     */
+    public function hasCustomContentBlocks() : bool
+    {
+        return array_key_exists($this->TemplateName, (array) self::config()->custom_content_blocks);
+    }
+    
+    /**
+     * Returns whether this ShopEmail has custom content blocks.
+     * 
+     * @return array
+     */
+    public function getCustomContentBlocks() : array
+    {
+        $blocks = [];
+        if ($this->hasCustomContentBlocks()) {
+            foreach (self::config()->custom_content_blocks[$this->TemplateName] as $block) {
+                $blocks[$block] = _t(self::class . ".CustomContent_{$this->TemplateName}_{$block}", $block);
+            }
+        }
+        return $blocks;
+    }
+    
+    /**
+     * Returns the custom content for the given $displayPosition.
+     * 
+     * @param string $displayPosition Display position
+     * 
+     * @return DBHTMLText|null
+     */
+    public function CustomContent(string $displayPosition) : ?DBHTMLText
+    {
+        $content = null;
+        foreach ($this->Contents()->filter('DisplayPosition', $displayPosition) as $customContent) {
+            $content .= (string) $customContent->DisplayContent;
+        }
+        if ($content !== null) {
+            $content = DBHTMLText::create()->setValue($content);
+        }
+        return $content;
     }
     
     /**
@@ -428,16 +483,6 @@ class ShopEmail extends DataObject
     public function getSubject() : string
     {
         return (string) $this->getTranslationFieldValue('Subject');
-    }
-    
-    /**
-     * Returns the CustomEmailContent
-     *
-     * @return string
-     */
-    public function getCustomEmailContent() : string
-    {
-        return (string) $this->getTranslationFieldValue('CustomEmailContent');
     }
     
     /**

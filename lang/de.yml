@@ -2034,7 +2034,34 @@ de:
         SUBJECT: *sc_subject_singular
         VARIABLES: Variablen
         YOUR_TEAM: 'Ihr SilverCart Webshop Team'
-        CustomEmailContent: 'Zusätzlicher E-Mail-Inhalt'
+        CustomContent_ChangePassword_ButtonInformationText: 'Button-Text (unterhalb des Buttons)'
+        CustomContent_ChangePassword_FooterInformationText: 'Abschlusstext (unterhalb des Sicherheits-Infotexts)'
+        CustomContent_ChangePassword_HeaderInformationText: 'Einleitungstext (oberhalb des Buttons)'
+        CustomContent_ChangePassword_SecurityInformationText: 'Sicherheits-Infotext (unterhalb des Button-Texts)'
+        CustomContent_ForgotPassword_ButtonInformationText: 'Button-Text (unterhalb des Buttons)'
+        CustomContent_ForgotPassword_FooterInformationText: 'Abschlusstext (unterhalb des Sicherheits-Infotexts)'
+        CustomContent_ForgotPassword_HeaderInformationText: 'Einleitungstext (oberhalb des Buttons)'
+        CustomContent_ForgotPassword_SecurityInformationText: 'Sicherheits-Infotext (unterhalb des Button-Texts)'
+        CustomContent_NewsletterOptInConfirmation_FooterInformationText: 'Abschlusstext (unterhalb des Shop-Buttons)'
+        CustomContent_NewsletterOptInConfirmation_HeaderInformationText: 'Einleitungstext (oberhalb des Shop-Buttons)'
+        CustomContent_NewsletterOptIn_IgnoreInformationText: 'Button-Text (unterhalb des Opt-In-Buttons)'
+        CustomContent_NewsletterOptIn_FooterInformationText: 'Abschlusstext (unterhalb des Button-Text)'
+        CustomContent_NewsletterOptIn_HeaderInformationText: 'Einleitungstext (oberhalb des Opt-In-Buttons)'
+        CustomContent_OrderConfirmation_AddressInformationText: 'Adresstext (unterhalb der Adressdaten)'
+        CustomContent_OrderConfirmation_FooterInformationText: 'Abschlusstext (unterhalb der Auftragsdaten)'
+        CustomContent_OrderConfirmation_HeaderInformationText: 'Einleitungstext (oberhalb der Adress-/Auftragsdaten)'
+        CustomContent_OrderConfirmation_OrderInformationText: 'Auftragstext (unterhalb der Auftragsdaten)'
+        CustomContent_OrderShippedNotification_ButtonInformationText: 'Button-Text (oberhalb des Tracking-Buttons)'
+        CustomContent_OrderShippedNotification_FooterInformationText: 'Abschlusstext (unterhalb der Auftragsdaten)'
+        CustomContent_OrderShippedNotification_HeaderInformationText: 'Einleitungstext (oberhalb der Auftragsdaten)'
+        CustomContent_OrderTrackingNotification_ButtonInformationText: 'Button-Text (oberhalb des Tracking-Buttons)'
+        CustomContent_OrderTrackingNotification_FooterInformationText: 'Abschlusstext (unterhalb der Auftragsdaten)'
+        CustomContent_OrderTrackingNotification_HeaderInformationText: 'Einleitungstext (oberhalb der Auftragsdaten)'
+        CustomContent_RegistrationOptIn_FooterInformationText: 'Abschlusstext (unterhalb des Button-Text)'
+        CustomContent_RegistrationOptIn_HeaderInformationText: 'Einleitungstext (oberhalb des Opt-In-Buttons)'
+        CustomContent_RegistrationOptIn_IgnoreInformationText: 'Button-Text (unterhalb des Opt-In-Buttons)'
+        CustomContent_RegistrationOptInConfirmation_FooterInformationText: 'Abschlusstext (unterhalb der Kundendaten)'
+        CustomContent_RegistrationOptInConfirmation_HeaderInformationText: 'Einleitungstext (oberhalb der Kundendaten)'
         CustomerDeletionConfirmationText: 'Ihr Webshop-Account wurde erfolgreich gelöscht.'
         CustomerDeletionNotificationText: 'Ein Webshop-Account wurde erfolgreich gelöscht.'
         ForgotPasswordNO_CHANGE: 'Wenn Sie Ihr Passwort nicht ändern möchten, ignorieren Sie diese E-Mail bitte.'
@@ -2077,6 +2104,7 @@ de:
         TemplateName_OrderConfirmation: 'Bestellbestätigung (Kunde)'
         TemplateName_OrderNotification: 'Bestellbenachrichtigung (Betreiber)'
         TemplateName_OrderShippedNotification: 'Lieferbenachrichtigung (Kunde)'
+        TemplateName_OrderTrackingNotification: 'Tracking-Benachrichtigung (Kunde)'
         TemplateName_RegistrationOptIn: 'Registrierung: E-Mail-Adresse bestätigen (Kunde)'
         TemplateName_RegistrationOptInConfirmation: 'Registrierung: Abgeschlossen (Kunde)'
         TemplateName_RegistrationOptInNotification: 'Registrierung: Neuer Kunde (Betreiber)'
@@ -2098,12 +2126,21 @@ de:
         Title_RegistrationOptInNotification: 'Registrierung: Neuer Kunde'
         Title_RevocationConfirmation: 'Bestätigung Ihres Widerrufs'
         Title_RevocationNotification: 'Ein Kunde hat einer Bestellung widerrufen'
+    SilverCart\Model\ShopEmail\Content:
+        PLURALNAME: 'Inhalte'
+        SINGULARNAME: 'Inhalt'
+        ClassName: 'Typ'
+        Content: 'Inhalt'
+        DisplayPosition: 'Anzeigeposition'
+        Sort: *sc_sort
+    SilverCart\Model\ShopEmail\ContentTranslation:
+        PLURALNAME: *sc_translation_plural
+        SINGULARNAME: *sc_translation_singular
     SilverCart\Admin\Controllers\ShopEmailAdmin:
         MENUTITLE: 'Shop E-Mails'
     SilverCart\Model\ShopEmailTranslation:
         PLURALNAME: *sc_translation_plural
         SINGULARNAME: *sc_translation_singular
-        CustomEmailContent: 'Zusätzlicher E-Mail-Inhalt'
     SilverCart\Model\Order\ShoppingCart:
         DifferentReleaseDateHint1: 'Ihr Warenkorb beinhaltet Artikel mit unterschiedlichem Erscheinungsdatum.'
         DifferentReleaseDateHint2: 'Bitte beachten Sie, dass sich der Versand von bereits verfügbaren Artikeln ggf. bis zum Erscheinungsdatum noch nicht verfügbarer Artikel verzögert.'

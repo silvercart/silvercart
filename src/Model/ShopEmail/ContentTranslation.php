@@ -1,50 +1,62 @@
 <?php
 
-namespace SilverCart\Model;
+namespace SilverCart\Model\ShopEmail;
 
 use SilverCart\Dev\Tools;
-use SilverCart\Model\ShopEmail;
+use SilverCart\Model\Translation\TranslationExtension;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
- * ShopEmail Translation.
- *
+ * Shop Email Content Translation.
+ * 
  * @package SilverCart
- * @subpackage Model
+ * @subpackage SubPackage
  * @author Sebastian Diel <sdiel@pixeltricks.de>
- * @since 10.10.2017
- * @copyright 2017 pixeltricks GmbH
+ * @since 05.10.2021
+ * @copyright 2021 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property string $Subject Subject
+ * @property string $Content   Content
+ * @property int    $ContentID Content ID
  * 
- * @method ShopEmail ShopEmail() Returns the related ShopEmail.
+ * @method Content Content() Returns the related Content.
+ * 
+ * @mixin TranslationExtension
  */
-class ShopEmailTranslation extends DataObject
+class ContentTranslation extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
-    /**
-     * Attributes.
-     *
-     * @var array
-     */
-    private static $db = [
-        'Subject' => 'Text',
-    ];
-    /**
-     * 1:1 or 1:n relationships.
-     *
-     * @var array
-     */
-    private static $has_one = [
-        'ShopEmail' => ShopEmail::class,
-    ];
     /**
      * DB table name
      *
      * @var string
      */
-    private static $table_name = 'SilvercartShopEmailTranslation';
+    private static $table_name = 'SilverCart_ShopEmail_ContentTranslation';
+    /**
+     * DB attributes
+     *
+     * @var string[]
+     */
+    private static $db = [
+        'Content' => 'HTMLText',
+    ];
+    /**
+     * Has one relations.
+     * 
+     * @var string[]
+     */
+    private static $has_one = [
+        'Content' => Content::class,
+    ];
+    /**
+     * Extensions
+     * 
+     * @var string[]
+     */
+    private static $extensions = [
+        TranslationExtension::class,
+    ];
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -56,7 +68,6 @@ class ShopEmailTranslation extends DataObject
     {
         return Tools::singular_name_for($this);
     }
-
 
     /**
      * Returns the translated plural name of the object. If no translation exists
@@ -79,8 +90,7 @@ class ShopEmailTranslation extends DataObject
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
-            'Subject'   => ShopEmail::singleton()->fieldLabel('Subject'),
-            'ShopEmail' => ShopEmail::singleton()->singular_name(),
+            'Content' => Content::singleton()->fieldLabel('Content'),
         ]);
     }
 
@@ -92,9 +102,29 @@ class ShopEmailTranslation extends DataObject
     public function summaryFields() : array
     {
         $summaryFields = array_merge(parent::summaryFields(), [
-            'Subject'   => $this->fieldLabel('Subject'),
+            'Title' => $this->fieldLabel('Content'),
         ]);
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * Returns the title.
+     * 
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->getContentSummary();
+    }
+    
+    /**
+     * Returns the title.
+     * 
+     * @return string
+     */
+    public function getContentSummary() : string
+    {
+        return DBHTMLText::create()->setValue($this->Content)->LimitWordCount(10, '...');
     }
 }

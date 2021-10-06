@@ -1,9 +1,11 @@
-<h1><%t SilverCart\Model\ShopEmail.OrderTrackingNotification 'Track your shipment' %></h1>
-
+<h1>{$Subject}</h1>
 <p><%t SilverCart\Model\ShopEmail.HELLO 'Hello' %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
-<p><%t SilverCart\Model\ShopEmail.OrderTrackingMessage1 'Your order has been shipped.' %></p>
-<p><%t SilverCart\Model\ShopEmail.OrderTrackingMessage2 'With this email you are receiving your shipment tracking information.' %></p>
-
+<% if $CustomContent('HeaderInformationText') %>
+    {$CustomContent('HeaderInformationText')}
+<% else %>
+    <p><%t SilverCart\Model\ShopEmail.OrderTrackingMessage1 'Your order has been shipped.' %></p>
+    <p><%t SilverCart\Model\ShopEmail.OrderTrackingMessage2 'With this email you are receiving your shipment tracking information.' %></p>
+<% end_if %>
 <% with $Order %>
     <% if $TrackingCode %>
 <table>
@@ -32,6 +34,12 @@
         <td>&nbsp;</td>
         <td><a href="{$TrackingLink}" target="blank" title="{$fieldLabel('TrackingLinkLabel')}">{$fieldLabel('TrackingLinkLabel')}</a></td>
     </tr>
+            <% if $Up.CustomContent('ButtonInformationText') %>
+    <tr>
+        <td>&nbsp;</td>
+        <td>{$Up.CustomContent('ButtonInformationText')}</td>
+    </tr>
+            <% end_if %>
         <% end_if %>
 </table>
     <% end_if %>
@@ -43,6 +51,9 @@
         <% include SilverCart\Email\OrderDetailTableNet %>
     <% end_if %>
 <% end_with %>
-
-<p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
-<p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+<% if $CustomContent('FooterInformationText') %>
+    {$CustomContent('FooterInformationText')}
+<% else %>
+    <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
+    <p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+<% end_if %>

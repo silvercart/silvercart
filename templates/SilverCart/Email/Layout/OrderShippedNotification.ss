@@ -1,7 +1,13 @@
-<h1><%t SilverCart\Model\ShopEmail.ORDER_SHIPPED_NOTIFICATION 'Shipment notification' %></h1>
-
+<h1>{$Subject}</h1>
 <p><%t SilverCart\Model\ShopEmail.HELLO 'Hello' %> {$SalutationText} {$AcademicTitle} {$FirstName} {$Surname},</p>
-<p><%t SilverCart\Model\ShopEmail.ORDER_SHIPPED_MESSAGE 'Your order has been shipped.' %></p>
+<% if $CustomContent('HeaderInformationText') %>
+    {$CustomContent('HeaderInformationText')}
+<% else %>
+    <p><%t SilverCart\Model\ShopEmail.ORDER_SHIPPED_MESSAGE 'Your order has been shipped.' %></p>
+<% end_if %>
+<% if $TrackingLink && $CustomContent('ButtonInformationText') %>
+    {$CustomContent('ButtonInformationText')}
+<% end_if %>
 <% with $Order %>
 <div style="text-align: center; border: 1px solid #ccc; background-color: #fafafa;">
     <div style="display: inline-block; text-align: left; vertical-align: top;">
@@ -74,6 +80,9 @@
         <% include SilverCart\Email\OrderDetailTableNet %>
     <% end_if %>
 <% end_with %>
-
-<p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
-<p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+<% if $CustomContent('FooterInformationText') %>
+    {$CustomContent('FooterInformationText')}
+<% else %>
+    <p><%t SilverCart\Model\ShopEmail.REGARDS 'Best regards' %>,</p>
+    <p><%t SilverCart\Model\ShopEmail.YOUR_TEAM 'Your SilverCart ecommerce team' %></p>
+<% end_if %>
