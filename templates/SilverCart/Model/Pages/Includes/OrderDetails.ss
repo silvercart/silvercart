@@ -51,6 +51,24 @@
                 <td class="text-left nowrap"><%t SilverCart\Model\Pages\RevocationFormPage.TITLE 'Revocation' %></td>
                 <td class="text-left full"><a class="silvercart-button btn" href="{$CurrentPage.PageByIdentifierCodeLink(SilvercartRevocationFormPage)}?o={$ID}"><%t SilverCart\Forms\RevocationForm.GoTo 'Go to revocation form' %> <i class="icon icon-caret-right"></i></a></td>
             </tr>
+        <% with $CurrentPage %>
+            <% if $AllowReorder %>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="text-left full">
+                    <a class="silvercart-button btn" href="{$ReoderLink}">{$fieldLabel('ButtonReorder')} <i class="icon icon-caret-right"></i></a><br/>
+                    <small><i class="icon icon-info-circle"></i> {$fieldLabel('ButtonReorderDesc')}</small>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td class="text-left full">
+                    <a class="silvercart-button btn" href="{$ReoderFullLink}">{$fieldLabel('ButtonReorderFull')} <i class="icon icon-caret-right"></i></a><br/>
+                    <small><i class="icon icon-info-circle"></i> {$fieldLabel('ButtonReorderFullDesc')}</small>
+                </td>
+            </tr>
+            <% end_if %>
+        <% end_with %>
             {$OrderDetailInformation}
         </tbody>
     </table>

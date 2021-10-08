@@ -1187,6 +1187,12 @@ en:
         DateRangePickerTODAY: Today
         MENUTITLE: Orders
     SilverCart\Model\Pages\OrderHolder:
+        AllowReorder: 'Allow to reorder an already placed order'
+        AllowReorderDesc: 'Adds a button to reorder an order by click to the order detail page within the my account area.'
+        ButtonReorder: 'Add to cart'
+        ButtonReorderDesc: 'Adds this order''s items to the shopping cart again.'
+        ButtonReorderFull: 'Add to cart and checkout'
+        ButtonReorderFullDesc: 'Adds this order''s items to the shopping cart and directs to the checkout process using address, shipment and payment data of this order.'
         DEFAULT_TITLE: 'My orders'
         DEFAULT_URLSEGMENT: my-orders
         OrderDetails: 'Order details'

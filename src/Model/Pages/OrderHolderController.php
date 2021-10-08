@@ -2,13 +2,17 @@
 
 namespace SilverCart\Model\Pages;
 
+use SilverCart\Checkout\Checkout;
+use SilverCart\Checkout\CheckoutStep1;
+use SilverCart\Checkout\CheckoutStep2;
+use SilverCart\Checkout\CheckoutStep3;
+use SilverCart\Checkout\CheckoutStep4;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderInvoiceAddress;
 use SilverCart\Model\Order\OrderShippingAddress;
 use SilverCart\Model\Pages\MyAccountHolderController;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
-use SilverStripe\Core\Convert;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 
@@ -16,11 +20,13 @@ use SilverStripe\Security\Security;
  * OrderHolder Controller class.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @method OrderHolder data() Returns the current page context.
  */
 class OrderHolderController extends MyAccountHolderController
 {
@@ -37,6 +43,8 @@ class OrderHolderController extends MyAccountHolderController
      */
     private static $allowed_actions = [
         'detail',
+        'placeorder',
+        'placeorder_full',
     ];
     
     /**
@@ -45,12 +53,117 @@ class OrderHolderController extends MyAccountHolderController
      * @param HTTPRequest $request HTTP request
      * 
      * @return HTTPResponse
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.06.2018
      */
     public function detail(HTTPRequest $request) : HTTPResponse
+    {
+        $response = $this->handleOrderDetailAction($request);
+        if ($response instanceof HTTPResponse) {
+            return $response;
+        }
+        return HTTPResponse::create($this->render());
+    }
+    
+    /**
+     * Action to re-order.
+     * 
+     * @param HTTPRequest $request HTTP request
+     * 
+     * @return HTTPResponse
+     */
+    public function placeorder(HTTPRequest $request) : HTTPResponse
+    {
+        if (!$this->data()->AllowReorder) {
+            $this->httpError(403);
+        }
+        $response = $this->handleOrderDetailAction($request);
+        if ($response instanceof HTTPResponse) {
+            return $response;
+        }
+        $this->doPlaceOrder();
+        return $this->redirect(CartPage::get()->first()->Link());
+    }
+    
+    /**
+     * Action to re-order with an already filled checkout.
+     * 
+     * @param HTTPRequest $request HTTP request
+     * 
+     * @return HTTPResponse
+     */
+    public function placeorder_full(HTTPRequest $request) : HTTPResponse
+    {
+        if (!$this->data()->AllowReorder) {
+            $this->httpError(403);
+        }
+        $response = $this->handleOrderDetailAction($request);
+        if ($response instanceof HTTPResponse) {
+            return $response;
+        }
+        $this->doPlaceOrder();
+        $customer        = Security::getCurrentUser();
+        $order           = $this->CustomersOrder();
+        $checkout        = Checkout::create_from_session();
+        $invoiceAddress  = null;
+        $shippingAddress = null;
+        foreach ($customer->Addresses() as $address) {
+            if ($order->InvoiceAddress()->isEqual($address)) {
+                $invoiceAddress = $address;
+                break;
+            }
+        }
+        foreach ($customer->Addresses() as $address) {
+            if ($order->ShippingAddress()->isEqual($address)) {
+                $shippingAddress = $address;
+                break;
+            }
+        }
+        $data = [];
+        if ($invoiceAddress !== null) {
+            $data['InvoiceAddress']  = $invoiceAddress->toMap();
+        }
+        if ($shippingAddress !== null) {
+            $data['ShippingAddress'] = $shippingAddress->toMap();
+        }
+        $data['ShippingMethod']  = $order->ShippingMethod()->ID;
+        $data['PaymentMethod']   = $order->PaymentMethod()->ID;
+        $checkout->addData($data);
+        if ($invoiceAddress !== null
+         && $shippingAddress !== null
+        ) {
+            CheckoutStep1::create($this)->complete();
+            CheckoutStep2::create($this)->complete();
+            CheckoutStep3::create($this)->complete();
+            CheckoutStep4::create($this)->complete();
+        }
+        return $this->redirect(CheckoutStep::get()->first()->Link());
+    }
+    
+    /**
+     * Places the current order context positions into the shopping cart.
+     * 
+     * @return void
+     */
+    protected function doPlaceOrder() : void
+    {
+        $customer = Security::getCurrentUser();
+        $order    = $this->CustomersOrder();
+        $cartID   = $customer->getCart()->ID;
+        foreach ($order->OrderPositions() as $orderPosition) {
+            /* @var $orderPosition \SilverCart\Model\Order\OrderPosition */
+            if ($orderPosition->Product()->exists()) {
+                $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
+            }
+        }
+    }
+    
+    /**
+     * Handles an order detail response.
+     * 
+     * @param HTTPRequest $request HTTP request
+     * 
+     * @return HTTPResponse|null
+     */
+    protected function handleOrderDetailAction(HTTPRequest $request) : ?HTTPResponse
     {
         $customer = Security::getCurrentUser();
         if (!($customer instanceof Member)) {
@@ -72,16 +185,13 @@ class OrderHolderController extends MyAccountHolderController
         } else {
             return $this->redirect($this->Link());
         }
-        return HTTPResponse::create($this->render());
+        return null;
     }
 
     /**
      * returns a single order of a logged in member identified by url param id
      *
      * @return Order|null
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.09.2017
      */
     public function CustomersOrder() : ?Order
     {
