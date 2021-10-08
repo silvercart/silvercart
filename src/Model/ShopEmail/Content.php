@@ -2,12 +2,15 @@
 
 namespace SilverCart\Model\ShopEmail;
 
+use SilverCart\Admin\Dev\ExampleData;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\ShopEmail;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
+use SilverStripe\Control\Director;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 
@@ -192,6 +195,12 @@ class Content extends DataObject
             if ($this->ShopEmail()->exists()) {
                 $fields->removeByName('DisplayPosition');
                 $fields->addFieldToTab('Root.Main', DropdownField::create('DisplayPosition', $this->fieldLabel('DisplayPosition'), $this->ShopEmail()->getCustomContentBlocks(), $this->DisplayPosition));
+                $exampleEmail = ExampleData::render_example_email($this->ShopEmail()->TemplateName);
+                if (!empty($exampleEmail)) {
+                    $fields->findOrMakeTab('Root.Preview', $this->ShopEmail()->fieldLabel('Preview'));
+                    $frame = '<iframe class="full-height" src="' . Director::absoluteURL('example-data/renderemail/' . $this->ShopEmail()->TemplateName) . '"></iframe>';
+                    $fields->addFieldToTab('Root.Preview', LiteralField::create('Preview', $frame));
+                }
             }
         });
         return parent::getCMSFields();
