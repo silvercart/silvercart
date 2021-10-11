@@ -42,6 +42,12 @@ class CartPageController extends \PageController
         'RemovePositionForm',
     ];
     /**
+     * Determines whether to show a positions description text in print preview.
+     * 
+     * @var bool
+     */
+    private static $show_description_in_print_preview = false;
+    /**
      * Checkout.
      *
      * @var Checkout
@@ -222,4 +228,13 @@ class CartPageController extends \PageController
         return $form;
     }
 
+    /**
+     * Returns whether to show a positions description text in print preview.
+     * 
+     * @return bool
+     */
+    public function ShowDescriptionInPrintPreview() : bool
+    {
+        return (bool) $this->config()->show_description_in_print_preview;
+    }
 }
