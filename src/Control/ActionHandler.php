@@ -389,6 +389,15 @@ class ActionHandler extends Controller
          && $member instanceof Member
          && $member->exists()
         ) {
+            if ($member->isLockedOut()) {
+                $loginForm->setErrorMessage(_t(
+                    Member::class . '.ERRORLOCKEDOUT2',
+                    'Your account has been temporarily disabled because of too many failed attempts at ' . 'logging in. Please try again in {count} minutes.',
+                    null,
+                    ['count' => Member::config()->get('lock_out_delay_mins')]
+                ));
+                $this->redirectBack($postVars['redirect_to']);
+            }
             $authenticator = new MemberAuthenticator();
             $loginData = [
                 'Email'    => $emailAddress,
@@ -409,7 +418,20 @@ class ActionHandler extends Controller
                 
                 $authenticator->getLoginHandler($postVars['redirect_to'])->performLogin($customer, $loginData, $this->getRequest());
             } else {
-                $loginForm->setErrorMessage(Page::singleton()->fieldLabel('CredentialsWrong'));
+                $failedLoginCount = $member->FailedLoginCount + 1;
+                $addToError       = '';
+                if ($failedLoginCount >= 3
+                 && $failedLoginCount < $member->config()->lock_out_after_incorrect_logins
+                ) {
+                    $attempts   = $member->config()->lock_out_after_incorrect_logins - $failedLoginCount;
+                    $addToError = ' ' . _t(
+                        Member::class . '.FailedLoginCountWarning',
+                        'Please be aware that your account will be temporarily blocked after {attempts} more failed login attempts.',
+                        null,
+                        ['attempts' => $attempts]
+                    );
+                }
+                $loginForm->setErrorMessage(Page::singleton()->fieldLabel('CredentialsWrong') . $addToError);
             }
         } else {
             $loginForm->setErrorMessage(Page::singleton()->fieldLabel('CredentialsWrong'));

@@ -2390,6 +2390,8 @@ de:
         NotDisplayed: 'Wird nicht angezeigt'
         ShowTitleLabel: 'Wird angezeigt'
         TitleLabel: 'Titel (angezeigt, wenn ausgewählt)'
+    SilverStripe\Security\Member:
+        FailedLoginCountWarning: 'Bitte beachten Sie, dass Ihr Account nach {attempts} weiteren fehlerhaften Loginversuchen temporär gesperrt wird.'
     SilverStripe\Security\PasswordValidator:
         STRENGTHTESTLOWERCASE: 'Kleinbuchstaben'
         STRENGTHTESTUPPERCASE: 'Großbuchstaben'

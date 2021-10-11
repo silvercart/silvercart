@@ -5,6 +5,8 @@ namespace SilverCart\Model\Pages;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Dev\SeoTools;
+use SilverCart\Forms\CustomRequiredFields;
+use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Translation\TranslationTools;
@@ -969,5 +971,17 @@ class Page extends SiteTree
         $date = DBDatetime::create();
         $date->setValue(date('Y-m-d H:i:s'));
         return $date;
+    }
+    
+    /**
+     * Returns the password validation hint.
+     * 
+     * @return string
+     */
+    public function PasswordHint() : string
+    {
+        return _t(RegisterRegularCustomerForm::class . '.PasswordHint', 'Create a password for your login. Your password needs at least {minlength} characters and contain at least 1 capital letter, 1 small letter and 1 number.', [
+            'minlength' => CustomRequiredFields::config()->password_minlength,
+        ]);
     }
 }
