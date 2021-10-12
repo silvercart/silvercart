@@ -2321,6 +2321,7 @@ class Product extends DataObject implements PermissionProvider
         }
 
         if ($shoppingCartPosition instanceof ShoppingCartPosition) {
+            $shoppingCartPosition->Quantity = $this->getValidShoppingCartQuantity($shoppingCartPosition->Quantity);
             $shoppingCartPosition->write();
             if (!is_null($positionNotice)) {
                 ShoppingCartPositionNotice::setNotice($shoppingCartPosition->ID, $positionNotice);
@@ -2329,6 +2330,19 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('onAfterAddToCart', $shoppingCartPosition, $isNewPosition);
 
         return $shoppingCartPosition;
+    }
+    
+    /**
+     * Returns a corrected shopping cart quantity dependend on extenal modules.
+     * 
+     * @param float $quantity Quantity to check and correct
+     * 
+     * @return float
+     */
+    public function getValidShoppingCartQuantity(float $quantity) : float
+    {
+        $this->extend('updateValidShoppingCartQuantity', $quantity);
+        return $quantity;
     }
     
     /**
@@ -2410,6 +2424,18 @@ class Product extends DataObject implements PermissionProvider
             $this->extend('updatePositionInCart', $this->positionInCart[$cartID]);
         }
         return $this->positionInCart[$cartID];
+    }
+    
+    /**
+     * Returns the minimum quantity of the product to add to cart.
+     * 
+     * @return float
+     */
+    public function getMinQuantityForCart() : float
+    {
+        $quantity = 1;
+        $this->extend('updateMinQuantityForCart', $quantity);
+        return $quantity;
     }
     
     /**

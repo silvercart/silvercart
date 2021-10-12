@@ -68,7 +68,7 @@ class AddToCartForm extends CustomForm {
             $product = $this->getProduct();
             $quantity = $product->getQuantityInCart();
             if ($quantity == 0) {
-                $quantity = 1;
+                $quantity = $product->getMinQuantityForCart();
             }
             $fields += [
                 HiddenField::create('backLink',  'backLink',  $this->getBackLink()),

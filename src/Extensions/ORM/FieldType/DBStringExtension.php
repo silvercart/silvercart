@@ -3,6 +3,7 @@
 namespace SilverCart\Extensions\ORM\FieldType;
 
 use SilverStripe\Core\Extension;
+use SilverStripe\ORM\FieldType\DBString;
 
 /**
  * Extension for SilverStripe\ORM\FieldType\DBString.
@@ -13,9 +14,11 @@ use SilverStripe\Core\Extension;
  * @since 05.07.2018
  * @copyright 2018 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property DBString $owner Owner
  */
-class DBStringExtension extends Extension {
-
+class DBStringExtension extends Extension
+{
     /**
      * Limit this field's content by a number of words AND line breaks.
      *
@@ -24,11 +27,9 @@ class DBStringExtension extends Extension {
      * @param string $add           Ellipsis to add to the end of truncated string.
      *
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.07.2018
      */
-    public function LimitWordAndLineBreakCount($numWords = 26, $numLineBreaks = 5, $add = '...') {
+    public function LimitWordAndLineBreakCount(int $numWords = 26, int $numLineBreaks = 5, string $add = '...') : string
+    {
         $value     = $this->owner->LimitWordCount($numWords, '');
         $lines     = explode(PHP_EOL, $value);
         $result    = '';
@@ -56,9 +57,6 @@ class DBStringExtension extends Extension {
      * Returns the raw value without any HTML tags.
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.03.2019
      */
     public function StripTags() : string
     {
