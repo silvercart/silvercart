@@ -2389,7 +2389,9 @@ en:
         ShowTitleLabel: Displayed
         TitleLabel: 'Title (displayed if checked)'
     SilverStripe\Security\Member:
-        FailedLoginCountWarning: 'Please be aware that your account will be temporarily blocked after {attempts} more failed login attempts.'
+        FailedLoginCountWarning:
+            one: 'Please be aware that your account will be temporarily blocked after one more failed login attempt.'
+            other: 'Please be aware that your account will be temporarily blocked after {count} more failed login attempts.'
     SilverStripe\Security\PasswordValidator:
         STRENGTHTESTLOWERCASE: 'lower case letters'
         STRENGTHTESTUPPERCASE: 'upper case letters'

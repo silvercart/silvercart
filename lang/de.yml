@@ -2391,7 +2391,9 @@ de:
         ShowTitleLabel: 'Wird angezeigt'
         TitleLabel: 'Titel (angezeigt, wenn ausgewählt)'
     SilverStripe\Security\Member:
-        FailedLoginCountWarning: 'Bitte beachten Sie, dass Ihr Account nach {attempts} weiteren fehlerhaften Loginversuchen temporär gesperrt wird.'
+        FailedLoginCountWarning:
+            one: 'Bitte beachten Sie, dass Ihr Account nach einem weiteren fehlerhaften Loginversuch temporär gesperrt wird.'
+            other: 'Bitte beachten Sie, dass Ihr Account nach {count} weiteren fehlerhaften Loginversuchen temporär gesperrt wird.'
     SilverStripe\Security\PasswordValidator:
         STRENGTHTESTLOWERCASE: 'Kleinbuchstaben'
         STRENGTHTESTUPPERCASE: 'Großbuchstaben'

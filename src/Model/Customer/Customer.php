@@ -23,6 +23,11 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\GridField\GridFieldEditButton;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -449,6 +454,17 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
                 $cartField->removeLinkable();
                 $cartField->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
                 $fields->insertBefore($cartField, 'Locale');
+            }
+            if (!$this->owner->PaymentMethods()->exists()) {
+                $fields->removeByName('PaymentMethods');
+            }
+            if ($this->getLoginAttempts()->exists()) {
+                $attemptField = GridField::create('LoginAttempts', LoginAttempt::singleton()->i18n_plural_name(), $this->getLoginAttempts(), GridFieldConfig_RecordEditor::create());
+                $attemptField->getConfig()->removeComponentsByType(GridFieldAddNewButton::class);
+                $attemptField->getConfig()->removeComponentsByType(GridFieldEditButton::class);
+                $attemptField->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
+                $fields->findOrMakeTab('Root.LoginAttempts', LoginAttempt::singleton()->i18n_plural_name());
+                $fields->addFieldToTab('Root.LoginAttempts', $attemptField);
             }
         }
     }

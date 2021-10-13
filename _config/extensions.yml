@@ -43,6 +43,9 @@ SilverStripe\Assets\Storage\DBFile:
 SilverStripe\Admin\LeftAndMain:
   extensions:
     - SilverCart\Admin\Controllers\LeftAndMainExtension
+SilverStripe\Security\LoginAttempt:
+  extensions:
+    - SilverCart\Extensions\Security\LoginAttemptExtension
 SilverStripe\Security\Member:
   extensions:
     - SilverCart\Model\Customer\Customer
