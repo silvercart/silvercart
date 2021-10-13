@@ -238,7 +238,12 @@ class OrderHolderController extends MyAccountHolderController
      */
     public function getInvoiceAddress() : ?OrderInvoiceAddress
     {
-        return $this->CustomersOrder()->InvoiceAddress();
+        $address = null;
+        $order   = $this->CustomersOrder();
+        if ($order instanceof Order) {
+            $address = $order->InvoiceAddress();
+        }
+        return $address;
     }
     
     /**
@@ -248,6 +253,11 @@ class OrderHolderController extends MyAccountHolderController
      */
     public function getShippingAddress() : ?OrderShippingAddress
     {
-        return $this->CustomersOrder()->ShippingAddress();
+        $address = null;
+        $order   = $this->CustomersOrder();
+        if ($order instanceof Order) {
+            $address = $order->ShippingAddress();
+        }
+        return $address;
     }
 }
