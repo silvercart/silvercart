@@ -2542,6 +2542,17 @@ class Product extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns whether this product is published.
+     * 
+     * @return bool
+     */
+    public function isPublished() : bool
+    {
+        return $this->ProductGroup()->isPublished()
+            && $this->ProductGroup()->canView();
+    }
+    
+    /**
      * Builds the product link with the given parameters.
      * 
      * @param ProductGroupPage $productGroup Base object to build the link
@@ -2609,7 +2620,7 @@ class Product extends DataObject implements PermissionProvider
         if (array_key_exists($locale, $this->i18nLinks)) {
             return $this->i18nLinks[$locale];
         }
-        
+        $i18nLink   = '';
         $controller = Controller::curr();
         if ($controller->hasMethod('data')) {
             $productGroup = $controller->data();
@@ -2642,6 +2653,7 @@ class Product extends DataObject implements PermissionProvider
         }
         if (empty($i18nLink)
          && $this->ProductGroup()
+         && $this->ProductGroup()->isPublished()
         ) {
             $i18nLink = $this->buildLinkWithGroup($this->ProductGroup(), $this->title2urlSegment());
         }
