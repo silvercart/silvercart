@@ -165,9 +165,9 @@ da_DK:
         SeoMicrodataCodePreSale: Forsalg
         SeoMicrodataCodeSoldOut: Udsolgt
         SetForNegativeStock: 'Automatisk tildeling til en vare, når lagerniveauet ændres fra > 0 til 0.'
-        SetForNegativeStockShort: 'Bil. < 1'
+        SetForNegativeStockShort: 'Auto < 1'
         SetForPositiveStock: 'Automatisk tildeling til en vare, når lagerniveauet ændres fra 0 til > 0.'
-        SetForPositiveStockShort: 'Automobil. > 0'
+        SetForPositiveStockShort: 'Auto > 0'
         TITLE: Titel
     SilverCart\Model\Product\AvailabilityStatusTranslation:
         PLURALNAME: *sc_translation_plural
@@ -1383,7 +1383,7 @@ da_DK:
         MirrorPage_SINGULARNAME: Spejl-produktgruppe
         MONTH: Måned
         MONTHS: Måneder
-        MSRP: MSRP
+        MSRP: 'Vejledende pris'
         MSRP_CURRENCY: 'Valuta EIA'
         NAME_DESCRIPTION: 'Navn og beskrivelse'
         New: Ny
