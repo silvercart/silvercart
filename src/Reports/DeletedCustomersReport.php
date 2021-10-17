@@ -24,9 +24,15 @@ use SilverStripe\View\ArrayData;
  */
 class DeletedCustomersReport extends Report
 {
-    const REASON_FILTER_KEY = 'reason';
-    const MONTH_FILTER_KEY  = 'month';
-    const YEAR_FILTER_KEY   = 'year';
+    protected const REASON_FILTER_KEY = 'reason';
+    protected const MONTH_FILTER_KEY  = 'month';
+    protected const YEAR_FILTER_KEY   = 'year';
+    /**
+     * Is filtered by reason?
+     * 
+     * @var bool
+     */
+    protected $isFilteredByReason = false;
     
     /**
      * Returns the title.
@@ -52,6 +58,7 @@ class DeletedCustomersReport extends Report
         $whereParts = [];
         if (isset($params[static::REASON_FILTER_KEY])) {
             $whereParts[] = "ReasonID = {$params[static::REASON_FILTER_KEY]}";
+            $this->setIsFilteredByReason(true);
         }
         if (isset($params[static::YEAR_FILTER_KEY])) {
             if (isset($params[static::MONTH_FILTER_KEY])) {
@@ -71,8 +78,8 @@ class DeletedCustomersReport extends Report
             $output->push(ArrayData::create([
                 'Year'   => $month['CreatedYear'],
                 'Month'  => $month['CreatedMonth'],
-                'Reason' => $month['ReasonID'],
-                'Total'  => $month['TotalCount'],
+                'Reason' => (int) $month['ReasonID'],
+                'Total'  => (int) $month['TotalCount'],
             ]));
         }
         return $output;
@@ -122,14 +129,24 @@ class DeletedCustomersReport extends Report
             'Reason' => [
                 'title'      => DeletedCustomerReason::singleton()->fieldLabel('Reason'),
                 'formatting' => function ($value, $item) use ($report, $reasons) {
-                    $reasonText = array_key_exists($item->Reason, $reasons) ? $reasons[$item->Reason] : _t(DeletedCustomerReason::class . '.DifferentReason', 'Different reason');
+                    $reasonText         = array_key_exists($item->Reason, $reasons) ? $reasons[$item->Reason] : _t(DeletedCustomerReason::class . '.DifferentReason', 'Different reason');
+                    $reasonTextExtended = $reasonText;
+                    if ($this->isFilteredByReason()
+                     && $item->Reason === 0
+                    ) {
+                        $tableDeletedCustomer = DeletedCustomer::config()->table_name;
+                        $customReasons        = DB::query("SELECT ReasonText FROM {$tableDeletedCustomer} WHERE ReasonID = 0 AND YEAR(Created) = {$item->Year} AND MONTH(Created) = {$item->Month}");
+                        foreach ($customReasons as $customReason) {
+                            $reasonTextExtended .= "<br/> • {$customReason['ReasonText']}";
+                        }
+                    }
                     return sprintf(
                         '<a class="grid-field__link" href="%s" title="%s">%s</a>',
                         $report->getLink(
                             '?filters[' . $report::REASON_FILTER_KEY . ']=' . $item->Reason
                         ),
                         $reasonText,
-                        $reasonText
+                        $reasonTextExtended
                     );
                 },
             ],
@@ -137,5 +154,39 @@ class DeletedCustomersReport extends Report
                 'title' => _t(Product::class . '.QUANTITY', 'Quantity'),
             ],
         ];
+    }
+    
+    /**
+     * Returns whether this report is filtered by reason.
+     * 
+     * @return bool
+     */
+    public function getIsFilteredByReason(): bool
+    {
+        return $this->isFilteredByReason;
+    }
+
+    /**
+     * Sets whether this report is filtered by reason.
+     * 
+     * @param bool $isFilteredByReason Is filtered by reason?
+     * 
+     * @return DeletedCustomersReport
+     */
+    public function setIsFilteredByReason(bool $isFilteredByReason) : DeletedCustomersReport
+    {
+        $this->isFilteredByReason = $isFilteredByReason;
+        return $this;
+    }
+    
+    /**
+     * Returns whether this report is filtered by reason.
+     * Alias for @see self::getIsFilteredByReason()
+     * 
+     * @return bool
+     */
+    public function isFilteredByReason() : bool
+    {
+        return $this->getIsFilteredByReason();
     }
 }

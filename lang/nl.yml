@@ -387,7 +387,6 @@ nl:
         EnablePhoneNumber: 'Gebruik veld voor telefoonnummer'
         EnablePostcode: 'Gebruik veld voor postcode'
         EnableStreet: 'Gebruik veld voor straat'
-        FormFieldsTab: Formuliervelden
         PLURALNAME: 'Contactformulier-pagina''s'
         PhoneNumberIsRequired: 'Telefoonnummer invullen is verplicht'
         PostcodeIsRequired: 'Postcode is verplicht'
@@ -1926,11 +1925,6 @@ nl:
         CREATE_TRANSLATION_DESC: 'Er worden nieuwe vertalingen gemaakt voor alle pagina''s van de SiteTree (niet gepubliceerd). Elke pagina wordt gemaakt als een vertaalsjabloon en wordt gevuld met de standaardinhoud van de gekozen talen (indien aanwezig). Als er geen standaardinhoud beschikbaar is voor de gekozen taal, wordt de inhoud van de huidige taal vooraf ingesteld.'
         FACEBOOK_LINK: 'Facebook Link'
         GoogleplusLink: 'Google Plus Link'
-        GOOGLE_ANALYTICS_TRACKING_CODE: 'Google Analytics Tracking Code'
-        GOOGLE_CONVERSION_TRACKING_CODE: 'Google Conversion Tracking Code'
-        GOOGLE_WEBMASTER_CODE: 'Google Webmaster Tools Code'
-        MatomoTrackingCode: 'Matomo Tracking Code'
-        MatomoTrackingCodeDesc: 'Javascript code to enable Matomo (formerly Piwik) tracking.'
         PUBLISHBUTTON: 'Publiceer alle pagina''s van deze vertaling'
         TESTDATA_HEADLINE: Testdata
         TESTDATA_LINKTEXT: 'Spring naar de testdata sectie'

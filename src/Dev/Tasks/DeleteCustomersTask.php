@@ -32,6 +32,9 @@ class DeleteCustomersTask extends Task
         if ($members->exists()) {
             $this->printInfo("found {$members->count()} customer(s) to delete.");
             foreach ($members as $member) {
+                if (!$member->canDeleteAutomatically()) {
+                    continue;
+                }
                 $reason     = DeletedCustomerReason::get()->byID($member->MarkForDeletionReasonID);
                 $reasonText = $member->MarkForDeletionReason;
                 if ($reason instanceof DeletedCustomerReason) {

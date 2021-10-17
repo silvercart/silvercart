@@ -11,6 +11,7 @@ use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\CustomerConfig;
 use SilverCart\Model\Order\NumberRange;
 use SilverCart\Model\Order\Order;
+use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\Model\Pages\CustomerDataPage;
@@ -403,6 +404,27 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     public function canDelete($member = null) : ?bool
     {
         return Permission::checkMember($member, self::PERMISSION_DELETE) ? true : null;
+    }
+
+    /**
+     * Indicates wether this user can be deleted automatically.
+     *
+     * @return bool
+     */
+    public function canBeDeletedAutomatically() : bool
+    {
+        $can     = $this->owner->MarkForDeletion
+                && strtotime("{$this->owner->MarkForDeletionDate} 00:00:00") < strtotime(date('Y-m-d 00:00:00'))
+                && !$this->hasOpenOrders();
+        $results = $this->extend('canBeDeletedAutomatically');
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
     }
  
    /**
@@ -1338,39 +1360,42 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     /**
      * Indicates wether the customer has finished the newsletter opt-in or not.
      *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.10.2011
+     * @return bool
      */
-    public function hasFinishedNewsletterOptIn() {
-        $hasFinishedNewsletterOptIn = false;
-        
-        if ($this->owner->NewsletterOptInStatus) {
-            $hasFinishedNewsletterOptIn = true;
-        }
-        
-        return $hasFinishedNewsletterOptIn;
+    public function hasFinishedNewsletterOptIn() : bool
+    {
+        $has = (bool) $this->owner->NewsletterOptInStatus;
+        $this->owner->extend('updateHasFinishedNewsletterOptIn', $has);
+        return $has;
     }
     
     /**
      * Indicates wether the customer has defined only one address to be both
      * invoice and shipping address.
      *
-     * @return boolean
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 12.10.2011
+     * @return bool
      */
-    public function hasOnlyOneStandardAddress() {
-        $hasOnlyOneStandardAddress = false;
-        
-        if ($this->owner->InvoiceAddressID == $this->owner->ShippingAddressID &&
-            $this->owner->InvoiceAddressID > 0) {
-            $hasOnlyOneStandardAddress = true;
-        }
-        
-        return $hasOnlyOneStandardAddress;
+    public function hasOnlyOneStandardAddress() : bool
+    {
+        $has = $this->owner->InvoiceAddressID === $this->owner->ShippingAddressID
+            && $this->owner->InvoiceAddressID > 0;
+        $this->owner->extend('updateHasOnlyOneStandardAddress', $has);
+        return $has;
+    }
+    
+    /**
+     * Returns whether this customer has open orders.
+     * An open order is not sent to SAP yet or has the order status NEW.
+     * 
+     * @return bool
+     */
+    public function hasOpenOrders() : bool
+    {
+        $has = $this->owner->Orders()->filter([
+            'OrderStatus.Code' => OrderStatus::STATUS_CODE_NEW,
+        ])->exists();
+        $this->owner->extend('updateHasOpenOrders', $has);
+        return $has;
     }
     
     /**

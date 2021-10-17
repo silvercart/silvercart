@@ -385,7 +385,6 @@ da_DK:
         EnablePhoneNumber: 'Brug feltet til telefonnummer'
         EnablePostcode: 'Brug feltet til postnummer'
         EnableStreet: 'Brug feltet til gade navn'
-        FormFieldsTab: Formfelter
         PLURALNAME: Kontaktformular-sider
         PhoneNumberIsRequired: 'Telefonnummer er et obligatorisk felt'
         PostcodeIsRequired: 'Postnummer er et obligatorisk felt'
@@ -1915,11 +1914,6 @@ da_DK:
         CREATE_TRANSLATION_DESC: 'Der oprettes nye oversættelser for hele sidetræet (ikke offentliggjort). Hver side oprettes som en oversættelsesskabelon og udfyldes med standardindhold på det valgte sprog, hvis det er tilgængeligt. Hvis der ikke er noget standardindhold tilgængeligt, udfyldes indholdet på det aktuelt valgte sprog på forhånd.'
         FACEBOOK_LINK: Facebook-link
         GoogleplusLink: 'Google Plus-link'
-        GOOGLE_ANALYTICS_TRACKING_CODE: 'Kode til sporing af Google Analytics'
-        GOOGLE_CONVERSION_TRACKING_CODE: 'Kode til sporing af Google-konverteringer'
-        GOOGLE_WEBMASTER_CODE: 'Kode til Google Webmaster Tools'
-        MatomoTrackingCode: 'Kode til sporing af Matomo'
-        MatomoTrackingCodeDesc: 'Javascript-kode for at aktivere Matomo (tidligere Piwik) sporing.'
         PUBLISHBUTTON: 'Offentliggøre alle sider på det aktuelle sprog'
         TESTDATA_HEADLINE: Testdata
         TESTDATA_LINKTEXT: 'Spring til afsnittet om testdata'

@@ -117,7 +117,7 @@ en_GB:
     SetForNegativeStockDesc: ""
     SetForNegativeStockShort: "Auto. < 1"
     SetForPositiveStock: "Assign automatically when a products stock changes from 0 to > 0."
-    SetForPositiveStockDesc: ""
+    SetForPositiveStockDesc: ''
     SetForPositiveStockShort: "Auto. > 0"
     TITLE: "Title"
   SilverCart\Model\Product\AvailabilityStatusTranslation:
@@ -336,7 +336,6 @@ en_GB:
     EnablePhoneNumber: "Use field for phone number"
     EnablePostcode: "Use field for postcode"
     EnableStreet: "Use field for street"
-    FormFieldsTab: "Form Fields"
     PLURALNAME: "Contact form pages"
     PhoneNumberIsRequired: "Phone number is required"
     PostcodeIsRequired: "Postcode is required"
