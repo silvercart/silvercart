@@ -6,6 +6,7 @@ use DateTime;
 use SilverCart\Admin\Forms\FileUploadField;
 use SilverCart\Admin\Forms\ImageUploadField;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Control\ActionHandler as SilverCartActionHandler;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\AddToCartForm;
@@ -2713,6 +2714,20 @@ class Product extends DataObject implements PermissionProvider
     public function ProductQuestionLink() : string
     {
         return Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_CONTACT_FORM_PAGE) . "productQuestion/{$this->ID}";
+    }
+    
+    /**
+     * Returns the link to add this product to cart.
+     * 
+     * @param int $quantity Quantity
+     * 
+     * @return string
+     */
+    public function AddToCartLink(int $quantity = 1) : string
+    {
+        $urlSegment = SilverCartActionHandler::config()->url_segment;
+        $action     = 'addToCart';
+        return Director::makeRelative("/{$urlSegment}/{$action}/{$this->ID}/{$quantity}");
     }
     
     /**

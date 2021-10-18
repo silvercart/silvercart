@@ -111,9 +111,12 @@ class ActionHandler extends Controller
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
         $position       = null;
-        
-        if (is_null($productID)
-         || is_null($quantity)
+        $redirectToCart = $request->postVar('redirect-to-cart');
+        if ($redirectToCart === null) {
+            $redirectToCart = $request->getVar('redirect-to-cart');
+        }
+        if ($productID === null
+         || $quantity === null
         ) {
             if (array_key_exists('productID',       $postVars)
              && array_key_exists('productQuantity', $postVars)
@@ -125,22 +128,20 @@ class ActionHandler extends Controller
         } else {
             $isValidRequest = true;
         }
-
         if ($isValidRequest) {
             $postVars['productID']       = $productID;
             $postVars['productQuantity'] = $quantity;
-
             if ($quantity == 0) {
                 ShoppingCart::removeProduct($postVars, $position);
             } else {
                 $position = ShoppingCart::addProduct($postVars);
             }
-            
-            if (Config::getRedirectToCartAfterAddToCartAction()) {
+            if (Config::getRedirectToCartAfterAddToCartAction()
+             || $redirectToCart
+            ) {
                 $backLink = Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_CART_PAGE);
             }
         }
-        
         if ($isAjax) {
             $product              = Product::get()->byID($productID);
             $totalCartQuantity    = 0;
