@@ -82,12 +82,19 @@ class OrderHolder extends MyAccountHolder
      */
     public function fieldLabels($includerelations = true) : array
     {
-        return array_merge(parent::fieldLabels($includerelations), Tools::field_labels_for(self::class), [
-            'ButtonReorder'         => _t(self::class . '.ButtonReorder', 'Add to cart'),
-            'ButtonReorderDesc'     => _t(self::class . '.ButtonReorderDesc', 'Adds this order\'s items to the shopping cart again.'),
-            'ButtonReorderFull'     => _t(self::class . '.ButtonReorderFull', 'Add to cart and checkout'),
-            'ButtonReorderFullDesc' => _t(self::class . '.ButtonReorderFullDesc', 'Adds this order\'s items to the shopping cart and directs to the checkout process using address, shipment and payment data of this order.'),
-        ]);
+        $this->beforeUpdateFieldLabels(function(&$labels) {
+            $labels = array_merge(
+                    $labels,
+                    Tools::field_labels_for(self::class),
+                    [
+                        'ButtonReorder'         => _t(self::class . '.ButtonReorder', 'Add to cart'),
+                        'ButtonReorderDesc'     => _t(self::class . '.ButtonReorderDesc', 'Adds this order\'s items to the shopping cart again.'),
+                        'ButtonReorderFull'     => _t(self::class . '.ButtonReorderFull', 'Add to cart and checkout'),
+                        'ButtonReorderFullDesc' => _t(self::class . '.ButtonReorderFullDesc', 'Adds this order\'s items to the shopping cart and directs to the checkout process using address, shipment and payment data of this order.'),
+                    ]
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**
@@ -161,13 +168,17 @@ class OrderHolder extends MyAccountHolder
     /**
      * Returns the link to reoder an order.
      * 
+     * @param int $orderID Order ID
+     * 
      * @return string
      */
-    public function ReoderLink() : string
+    public function ReoderLink(int $orderID = null) : string
     {
         $link = '';
         if (Controller::has_curr()) {
-            $orderID = Controller::curr()->getOrderID();
+            if ($orderID === null) {
+                $orderID = Controller::curr()->getOrderID();
+            }
             $link    = $this->Link("placeorder/{$orderID}");
         }
         return $link;
@@ -176,13 +187,17 @@ class OrderHolder extends MyAccountHolder
     /**
      * Returns the link to reoder an order full.
      * 
+     * @param int $orderID Order ID
+     * 
      * @return string
      */
-    public function ReoderFullLink() : string
+    public function ReoderFullLink(int $orderID = null) : string
     {
         $link = '';
         if (Controller::has_curr()) {
-            $orderID = Controller::curr()->getOrderID();
+            if ($orderID === null) {
+                $orderID = Controller::curr()->getOrderID();
+            }
             $link    = $this->Link("placeorder-full/{$orderID}");
         }
         return $link;

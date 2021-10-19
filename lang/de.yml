@@ -1192,7 +1192,7 @@ de:
     SilverCart\Model\Pages\OrderHolder:
         AllowReorder: 'Erneute Bestellung eines bereits getätigten Auftrags erlauben'
         AllowReorderDesc: 'Fügt der Seite für die Auftragsdetails im Kundenkonto einen Button hinzu, der dem Kunden eine erneute Bestellung per Klick erlaubt.'
-        ButtonReorder: 'In den Warenkorb'
+        ButtonReorder: 'Erneut kaufen'
         ButtonReorderDesc: 'Legt die Artikel dieser Bestellung in den Warenkorb.'
         ButtonReorderFull: 'In den Warenkorb und zur Kasse'
         ButtonReorderFullDesc: 'Legt die Artikel dieser Bestellung in den Warenkorb und leitet unter Verwendung der Adress-, Versand- und Zahlungsinformationen weiter zum Checkout. Der Auftrag kann vor dem Abschluss noch einmal überprüft werden.'
