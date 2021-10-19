@@ -1408,7 +1408,7 @@ fr_BE:
         PRODUCTNUMBER: 'Numéro d''article'
         PRODUCTNUMBER_MANUFACTURER: 'Numéro d''article (fabricant)'
         PRODUCTNUMBER_SHORT: 'Numéro d''article'
-        PRODUCT_QUESTION: 'Veuillez répondre aux questions suivantes concernant l''article {title} ( {productnumber}):'
+        PRODUCT_QUESTION: 'Veuillez répondre aux questions suivantes concernant l''article {title} ({productnumber}):'
         PRODUCT_QUESTION_LABEL: 'Questions sur l''article'
         PURCHASEPRICE: 'Prix d''achat'
         PURCHASEPRICE_CURRENCY: 'Monnaie prix d''achat'

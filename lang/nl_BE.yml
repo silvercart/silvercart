@@ -1709,7 +1709,7 @@ nl_BE:
         URL_SEGMENT: Registreren
         YOUR_REGISTRATION: 'Uw registratie'
     SilverCart\Forms\RegisterRegularCustomerForm:
-        PasswordHint: 'Maak een wachtwoord aan voor uw webshoplogin. Het wachtwoord moet minimaal {minlength} tekens bevatten, waaronder minimaal 1 hoofdletter, 1 kleine letter en 1 cijfer.'
+        PasswordHint: 'Maak een wachtwoord aan voor je webshop login. Het wachtwoord moet minimaal {minlength} tekens bevatten en moet minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer bevatten en 1 speciaal teken (!, #, @, etc.).'
     SilverCart\Forms\RevocationForm:
         AddressOfConsumer: 'Adres van de consument(en)'
         Data: Gegevens
