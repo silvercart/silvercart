@@ -363,8 +363,17 @@ class Order extends DataObject implements PermissionProvider
      */
     public function canCancel($member = null) : bool
     {
-        return $this->canEdit($member)
+        $can = $this->canEdit($member)
             && $this->OrderStatus()->Code !== OrderStatus::STATUS_CODE_CANCELED;
+        $results = $this->extend('canCancel', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
     }
     
     /**
