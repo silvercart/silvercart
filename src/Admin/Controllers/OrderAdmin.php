@@ -12,6 +12,7 @@ use SilverCart\Model\Payment\PaymentStatus;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridFieldImportButton;
 use SilverStripe\Forms\GridField\GridFieldPrintButton;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
@@ -69,12 +70,8 @@ class OrderAdmin extends ModelAdmin
      * and other definitions.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 14.09.2018
      */
-    protected function init()
+    protected function init() : void
     {
         $this->beforeUpdateInit(function() {
             Requirements::javascript('silvercart/silvercart:client/admin/javascript/jquery-ui/jquery.ui.datepicker.js');
@@ -126,7 +123,7 @@ class OrderAdmin extends ModelAdmin
                     )
             );
         });
-        return parent::init();
+        parent::init();
     }
     
     /**
@@ -140,6 +137,9 @@ class OrderAdmin extends ModelAdmin
     public function getEditForm($id = null, $fields = null) : Form
     {
         $this->beforeUpdateEditForm(function(Form $form) {
+            if ($this->modelClass !== Order::class) {
+                return;
+            }
             $config       = $this->getGridFieldConfigFor($form);
             $config->addComponent(new GridFieldResendOrderConfirmationAction());
             $exportButton = GridFieldOrderExportButton::create();
@@ -181,28 +181,33 @@ class OrderAdmin extends ModelAdmin
      * 
      * @return \SilverCart\ORM\DataList
      */
-    protected function getStatusList($tab)
+    protected function getStatusList(string $tab = null) : DataList
     {
-        $list = parent::getList();
-        if (!is_null($tab)
-         && $tab !== 'all'
-        ) {
-            list($statusType, $statusCode) = explode('-', $tab);
-            if ($statusType === 'order') {
-                $orderStatus = OrderStatus::get()->filter('Code', $statusCode)->first();
-                if ($orderStatus instanceof OrderStatus
-                 && $orderStatus->exists()
-                ) {
-                    $list = $list->filter('OrderStatusID', $orderStatus->ID);
-                }
-            } elseif ($statusType === 'payment') {
-                $paymentStatus = PaymentStatus::get()->filter('Code', $statusCode)->first();
-                if ($paymentStatus instanceof PaymentStatus
-                 && $paymentStatus->exists()
-                ) {
-                    $list = $list->filter('PaymentStatusID', $paymentStatus->ID);
+        if ($tab !== null) {
+            $modelClass       = $this->modelClass;
+            $this->modelClass = Order::class;
+            $list = parent::getList();
+            $this->modelClass = $modelClass;
+            if ($tab !== 'all') {
+                list($statusType, $statusCode) = explode('-', $tab);
+                if ($statusType === 'order') {
+                    $orderStatus = OrderStatus::get()->filter('Code', $statusCode)->first();
+                    if ($orderStatus instanceof OrderStatus
+                     && $orderStatus->exists()
+                    ) {
+                        $list = $list->filter('OrderStatusID', $orderStatus->ID);
+                    }
+                } elseif ($statusType === 'payment') {
+                    $paymentStatus = PaymentStatus::get()->filter('Code', $statusCode)->first();
+                    if ($paymentStatus instanceof PaymentStatus
+                     && $paymentStatus->exists()
+                    ) {
+                        $list = $list->filter('PaymentStatusID', $paymentStatus->ID);
+                    }
                 }
             }
+        } else {
+            $list = parent::getList();
         }
         return $list;
     }
@@ -213,36 +218,33 @@ class OrderAdmin extends ModelAdmin
      * 
      * @return \SilverStripe\ORM\ArrayList
      */
-    protected function getManagedModelTabs()
+    protected function getManagedModelTabs() : ArrayList
     {
         $forms = parent::getManagedModelTabs();
         $tabs  = ['order-new', 'order-inprogress', 'payment-open'];
         $link  = $this->Link($this->sanitiseClassName(Order::class));
-        
         if (strpos($link, '?') === false) {
             $link = "{$link}?tab=";
         } else {
             $link = "{$link}&tab=";
         }
-        
         foreach ($forms as $form) {
             if ($form->ClassName === Order::class) {
                 $form->Link          = $link . 'all';
                 $form->LinkOrCurrent = (Order::class == $this->modelClass && $this->getCurrentTab() === 'all') ? 'current' : 'link';
             }
         }
-        
+        $firstTab = $forms->shift();
         foreach ($tabs as $tab) {
             list($statusType, $statusCode) = explode('-', $tab);
-            $forms->push(ArrayData::create([
+            $forms->unshift(ArrayData::create([
                         'Title'         => _t(Order::class . '.ModelAdminTab' . ucfirst($statusType) . ucfirst($statusCode), ucfirst($statusCode)) . " ({$this->getStatusList($tab)->count()})",
                         'ClassName'     => Order::class,
                         'Link'          => $link . $tab,
                         'LinkOrCurrent' => (Order::class == $this->modelClass && $this->getCurrentTab() === $tab) ? 'current' : 'link'
             ]));
         }
-        
-
+        $forms->unshift($firstTab);
         return $forms;
     }
     
@@ -252,8 +254,11 @@ class OrderAdmin extends ModelAdmin
      * 
      * @return string
      */
-    protected function getCurrentTab()
+    protected function getCurrentTab() : ?string
     {
+        if ($this->modelClass !== Order::class) {
+            return null;
+        }
         if (is_null($this->currentTab)) {
             $this->currentTab = $this->getRequest()->getVar('tab');
             if (!is_null($this->currentTab)) {
