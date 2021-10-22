@@ -174,7 +174,7 @@ class ActionHandler extends Controller
             ];
             print json_encode($json);
             exit();
-        } else {
+        } elseif (!$this->redirectedTo()) {
             $this->redirectBack($backLink, '#product' . $productID);
         }
     }
