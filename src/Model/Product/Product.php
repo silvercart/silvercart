@@ -4237,7 +4237,8 @@ class Product extends DataObject implements PermissionProvider
      */
     public function forTemplate(string $templateAddition = '') : DBHTMLText
     {
-        $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
-        return $this->renderWith(static::class . $addition);
+        $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
+        $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
+        return $this->renderWith($templates);
     }
 }
