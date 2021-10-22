@@ -89,11 +89,12 @@ class FormFieldExtension extends Extension
      */
     public function setRequiredForced(bool $isRequired) : FormField
     {
+        $objectID = spl_object_id($this->owner);
         if ($isRequired) {
-            $this->requiredForced[$this->owner->ID()] = true;
+            $this->requiredForced[$objectID] = true;
             $this->owner->setAttribute('required', 'required');
         } else {
-            $this->requiredForced[$this->owner->ID()] = false;
+            $this->requiredForced[$objectID] = false;
         }
         return $this->owner;
     }
@@ -105,9 +106,10 @@ class FormFieldExtension extends Extension
      */
     public function getRequiredForced() : bool
     {
-        $is = false;
-        if (array_key_exists($this->owner->ID(), $this->requiredForced)) {
-            $is = $this->requiredForced[$this->owner->ID()];
+        $is       = false;
+        $objectID = spl_object_id($this->owner);
+        if (array_key_exists($objectID, $this->requiredForced)) {
+            $is = $this->requiredForced[$objectID];
         }
         return $is;
     }
@@ -143,7 +145,7 @@ class FormFieldExtension extends Extension
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 13.07.2018
      */
-    public function updateAttributes(&$attributes) : void
+    public function updateAttributes(array &$attributes) : void
     {
         if ($this->getRequiredForced()) {
             return;
