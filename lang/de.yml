@@ -372,7 +372,7 @@ de:
         GENERAL_MAIN: Hauptteil
         GENERAL_TEST_DATA: Beispieldaten
         GLOBALEMAILRECIPIENT: 'Globaler E-Mail Empfänger'
-        GLOBALEMAILRECIPIENT_INFO: 'Der globale E-Mail Empfänger kann optional gesetzt werden. An diese E-Mail-Adresse werden ALLE E-Mails (Bestellbestätigungen, Kontaktanfragen, etc.) gesendet. Die bei den E-Mail-Templates gesetzten Empfängeradressen bleiben davon unberührt. Diese werden nicht ersetzt, sondern nur ergänzt.'
+        GLOBALEMAILRECIPIENT_INFO: 'Der globale E-Mail Empfänger kann optional gesetzt werden. An diese E-Mail-Adresse werden ALLE E-Mails (Auftragsbestätigungen, Kontaktanfragen, etc.) gesendet. Die bei den E-Mail-Templates gesetzten Empfängeradressen bleiben davon unberührt. Diese werden nicht ersetzt, sondern nur ergänzt.'
         GeneralConfiguration: Grund-Einstellungen
         INTERFACES: Schnittstellen
         InvoiceAddressIsAlwaysShippingAddress: 'Rechnungsadresse entspricht immer Lieferadresse'
@@ -2108,8 +2108,8 @@ de:
         TemplateName_ForgotPassword: 'Passwort vergessen (Kunde)'
         TemplateName_NewsletterOptIn: 'Newsletter-Opt-In (Kunde)'
         TemplateName_NewsletterOptInConfirmation: 'Newsletter-Opt-In-Bestätigung (Kunde)'
-        TemplateName_OrderConfirmation: 'Bestellbestätigung (Kunde)'
-        TemplateName_OrderNotification: 'Bestellbenachrichtigung (Betreiber)'
+        TemplateName_OrderConfirmation: 'Auftragsbestätigung (Kunde)'
+        TemplateName_OrderNotification: 'Auftragsbenachrichtigung (Betreiber)'
         TemplateName_OrderShippedNotification: 'Lieferbenachrichtigung (Kunde)'
         TemplateName_OrderTrackingNotification: 'Tracking-Benachrichtigung (Kunde)'
         TemplateName_RegistrationOptIn: 'Registrierung: E-Mail-Adresse bestätigen (Kunde)'
@@ -2125,7 +2125,7 @@ de:
         Title_ForgotPassword: 'Passwort vergessen'
         Title_NewsletterOptIn: Newsletter-Opt-In
         Title_NewsletterOptInConfirmation: Newsletter-Opt-In-Bestätigung
-        Title_OrderConfirmation: Bestellbestätigung
+        Title_OrderConfirmation: Auftragsbestätigung
         Title_OrderNotification: 'Eine neue Bestellung wurde aufgegeben'
         Title_OrderShippedNotification: Lieferbenachrichtigung
         Title_RegistrationOptIn: 'Registrierung: E-Mail-Adresse bestätigen'
