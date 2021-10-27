@@ -2,6 +2,7 @@
 
 namespace SilverCart\Extensions\TractorCow\Fluent\Model;
 
+use Broarm\CookieConsent\Model\CookieGroup;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataExtension;
@@ -40,6 +41,7 @@ class LocaleExtension extends DataExtension
             $locale->write();
             Locale::clearCached();
             $locale->publishSiteTree();
+            CookieGroup::singleton()->requireDefaultRecords();
         }
     }
 

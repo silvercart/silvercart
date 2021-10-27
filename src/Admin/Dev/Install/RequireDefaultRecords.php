@@ -2,6 +2,8 @@
 
 namespace SilverCart\Admin\Dev\Install;
 
+use Broarm\CookieConsent\CookieConsent;
+use Broarm\CookieConsent\Model\CookiePolicyPage;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
@@ -59,6 +61,7 @@ use SilverStripe\Control\Email\Email;
 use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Group;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -527,6 +530,18 @@ class RequireDefaultRecords
         $dataPrivacyStatementPage->ParentID       = $legalNavigationHolder->ID;
         $dataPrivacyStatementPage->write();
         $dataPrivacyStatementPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
+        
+        
+        if (!CookieConsent::config()->create_default_pages
+         && !CookiePolicyPage::get()->exists()
+        ) {
+            $cookiePolicyPage           = CookiePolicyPage::create();
+            $cookiePolicyPage->ParentID = $legalNavigationHolder->ID;
+            $cookiePolicyPage->write();
+            $cookiePolicyPage->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
+            $cookiePolicyPage->flushCache();
+            DB::alteration_message('Cookie Policy page created', 'created');
+        }
 
         // Sub pages of service node
         $this->createDefaultSiteTreeMyAccountSection($serviceNavigationHolder);
