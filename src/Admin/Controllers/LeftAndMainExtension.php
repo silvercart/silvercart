@@ -23,6 +23,8 @@ use SilverStripe\View\Requirements;
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
  * @license see license file in modules root directory
+ * 
+ * @property \SilverStripe\Admin\LeftAndMain $owner Owner
  */
 class LeftAndMainExtension extends Extension
 {
@@ -87,16 +89,34 @@ class LeftAndMainExtension extends Extension
     }
     
     /**
-     * Returns the used SilverCart version
+     * Returns the full SilverCart version number (e.g. "4.3.0").
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 18.02.2013
      */
-    public function SilvercartVersion()
+    public function SilverCartFullVersionNumber() : string
     {
-        return Config::SilvercartVersion();
+        return Config::SilverCartFullVersion();
+    }
+    
+    /**
+     * Returns the SilverCart minor version number (e.g. "4.3").
+     * 
+     * @return string
+     */
+    public function SilverCartVersionNumber() : string
+    {
+        return Config::SilverCartVersion();
+    }
+    
+    /**
+     * Returns the SilverCart and SilverStripe CMS version string.
+     * 
+     * @return string
+     */
+    public function SilverCartVersion() : string
+    {
+        $cmsVersion = $this->owner->CMSVersion();
+        return "SilverCart {$this->SilverCartFullVersionNumber()}, {$cmsVersion}";
     }
 
     /**

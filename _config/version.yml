@@ -1,0 +1,7 @@
+---
+Name: silvercart-version
+After: 'framework/*'
+---
+SilverStripe\Core\Manifest\VersionProvider:
+  modules:
+    silvercart/silvercart: 'SilverCart'

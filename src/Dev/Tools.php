@@ -893,8 +893,8 @@ class Tools
         try {
             $checkForUpdateUrl = sprintf(
                     'http://www.silvercart.org/scsc/checkForUpdate/%s.%s',
-                    Config::SilvercartVersion(),
-                    Config::SilvercartMinorVersion()
+                    Config::SilverCartVersion(),
+                    Config::SilverCartMinorVersion()
             );
             $ch = curl_init($checkForUpdateUrl);
             curl_setopt($ch, CURLOPT_HEADER, 0);

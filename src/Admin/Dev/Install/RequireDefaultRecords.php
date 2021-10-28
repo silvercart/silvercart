@@ -692,19 +692,14 @@ class RequireDefaultRecords
      * Increases the SilverCart version if necessary.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2013
      */
-    public function increaseSilvercartVersion()
+    public function increaseSilverCartVersion() : void
     {
-        $defaults       = SiteConfig::config()->get('defaults');
-        $minorVersion   = $defaults['SilvercartMinorVersion'];
-        $config         = Config::getConfig();
-        if ($config->SilvercartMinorVersion != $minorVersion) {
-            $config->SilvercartMinorVersion = $minorVersion;
-            $config->write();
-        }
+        $defaults = SiteConfig::config()->defaults;
+        $config   = Config::getConfig();
+        $config->SilvercartVersion      = $defaults['SilvercartVersion'];
+        $config->SilvercartMinorVersion = $defaults['SilvercartMinorVersion'];
+        $config->write();
     }
     
     /**
@@ -762,7 +757,7 @@ class RequireDefaultRecords
         $this->createDefaultNumberRanges();
         $rootPage = $this->createDefaultSiteTree();
         $this->rerenderErrorPages();
-        $this->increaseSilvercartVersion();
+        $this->increaseSilverCartVersion();
 
         $this->extend('updateDefaultRecords', $rootPage);
 

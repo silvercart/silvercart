@@ -113,7 +113,7 @@ if (class_exists("Wilr\\GoogleSitemaps\\GoogleSitemap") &&
 }
 // add silvercart branding if no other branding is set
 if (LeftAndMain::config()->get('application_name') == 'SilverStripe') {
-    LeftAndMain::config()->set('application_name', 'SilverCart - ' . Config::SilvercartFullVersion());
+    LeftAndMain::config()->set('application_name', 'SilverCart');
     LeftAndMain::config()->set('application_link', 'https://www.silvercart.org');
 }
 // Register menus for the storeadmin

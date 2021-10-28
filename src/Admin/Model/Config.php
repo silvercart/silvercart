@@ -11,6 +11,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Email\Email;
 use SilverStripe\Core\Extensible;
+use SilverStripe\Core\Manifest\VersionProvider;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DatabaseAdmin;
@@ -531,57 +532,50 @@ class Config
      * Returns the SilverCart version.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.10.2011
      */
-    public static function SilvercartVersion()
+    public static function SilverCartVersion() : string
     {
         if (is_null(self::$silvercartVersion)) {
-            $defaults                = SiteConfig::config()->get('defaults');
+            $defaults                = SiteConfig::config()->defaults;
             self::$silvercartVersion = $defaults['SilvercartVersion'];
         }
-        return self::$silvercartVersion;
+        return (string) self::$silvercartVersion;
     }
 
     /**
      * Returns the SilverCart minor version.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.01.2013
      */
-    public static function SilvercartMinorVersion()
+    public static function SilverCartMinorVersion() : string
     {
         if (is_null(self::$silvercartMinorVersion)) {
-            $defaults                     = SiteConfig::config()->get('defaults');
+            $defaults                     = SiteConfig::config()->defaults;
             self::$silvercartMinorVersion = $defaults['SilvercartMinorVersion'];
         }
-        return self::$silvercartMinorVersion;
+        return (string) self::$silvercartMinorVersion;
     }
 
     /**
      * Returns the full SilverCart version number.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.01.2013
      */
-    public static function SilvercartFullVersion()
+    public static function SilverCartFullVersion() : string
     {
         if (is_null(self::$silvercartFullVersion)) {
-            $version                     = self::SilvercartVersion();
-            $minorVersion                = self::SilvercartMinorVersion();
-            self::$silvercartFullVersion = $version;
-            if (!is_null($minorVersion)
-                && !empty($minorVersion)
-            ) {
-                self::$silvercartFullVersion .= '.' . $minorVersion;
+            $versionProvider = new VersionProvider();
+            $moduleName      = 'silvercart/silvercart';
+            $lockModules     = $versionProvider->getModuleVersionFromComposer([$moduleName]);
+            if (empty($lockModules)) {
+                $version      = self::SilverCartVersion();
+                $minorVersion = self::SilverCartMinorVersion();
+                self::$silvercartFullVersion = "{$version}.{$minorVersion}";
+            } else {
+                self::$silvercartFullVersion = $lockModules[$moduleName];
             }
         }
-        return self::$silvercartFullVersion;
+        return (string) self::$silvercartFullVersion;
     }
 
     /**
