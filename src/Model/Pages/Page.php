@@ -18,6 +18,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\i18n\i18n;
@@ -169,7 +170,7 @@ class Page extends SiteTree
      */
     public function getCMSFields()
     {
-        $this->beforeUpdateCMSFields(function($fields) {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
             if (Permission::check('ADMIN')) {
                 $fields->addFieldToTab('Root.Main', TextField::create('IdentifierCode', 'IdentifierCode'));
                 $fields->dataFieldByName('IdentifierCode')->setRightTitle($this->fieldLabel('DoNotEdit'));
@@ -181,6 +182,16 @@ class Page extends SiteTree
         $this->getCMSFieldsIsCalled = true;
         return parent::getCMSFields();
     }
+    
+    /**
+     * Returns the getCMSFieldsIsCalled property.
+     * 
+     * @return bool
+     */
+    public function getCMSFieldsIsCalled() : bool
+    {
+        return (bool) $this->getCMSFieldsIsCalled;
+    }
 
     /**
      * Field labels for display in tables.
@@ -188,9 +199,6 @@ class Page extends SiteTree
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2018
      */
     public function fieldLabels($includerelations = true)
     {
@@ -255,9 +263,6 @@ class Page extends SiteTree
      * Handles the UseAsRootForMainNavigation property on before write.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.10.2014
      */
     protected function onBeforeWrite()
     {

@@ -13,6 +13,8 @@ use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
+use SilverCart\Model\Pages\CartPage;
+use SilverCart\Model\Pages\CartPageController;
 use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\ShippingFee;
@@ -32,6 +34,7 @@ use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
+use SilverStripe\View\SSViewer;
 use SilverStripe\View\ViewableData;
 
 /**
@@ -382,6 +385,16 @@ class ShoppingCart extends DataObject
         if (self::getClearCheckoutAfterWrite()) {
             Checkout::clear_session();
         }
+    }
+    
+    /**
+     * Returns the link to the shopping cart page.
+     * 
+     * @return string
+     */
+    public function Link() : string
+    {
+        return CartPageController::PageByIdentifierCodeLink(CartPage::IDENTIFIER_CART_PAGE);
     }
 
     /**
@@ -2306,5 +2319,19 @@ class ShoppingCart extends DataObject
     public function hasNotice() : bool
     {
         return ShoppingCartPositionNotice::hasNotices(0);
+    }
+    
+    /**
+     * Returns the rendered shopping cart.
+     * 
+     * @param string $templateAddition Optional template name addition
+     * 
+     * @return DBHTMLText
+     */
+    public function forTemplate(string $templateAddition = '') : DBHTMLText
+    {
+        $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
+        $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
+        return $this->renderWith($templates);
     }
 }
