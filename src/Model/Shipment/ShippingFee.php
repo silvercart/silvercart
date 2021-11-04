@@ -139,6 +139,18 @@ class ShippingFee extends DataObject
      * @var Tax
      */
     protected $cachedTax = null;
+    /**
+     * Contains all requested free of shipping costs from properties by country.
+     * 
+     * @var DBMoney[]
+     */
+    protected $freeOfShippingCostsFrom = [];
+    /**
+     * Contains all requested shipping is free properties by country.
+     * 
+     * @var bool[]
+     */
+    protected $shippingIsFree = [];
     
     /**
      * Returns the translated singular name of the object.
@@ -583,19 +595,20 @@ class ShippingFee extends DataObject
         }
         return $useFreeOfShippingCostsFrom;
     }
-    
+
     /**
      * Returns needed value for free shipping
      * 
      * @param Country $country Country to get free of shipping costs from value
      * 
      * @return DBMoney
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.09.2018
      */
     public function FreeOfShippingCostsFrom(Country $country = null) : DBMoney
     {
+        $key = $country === null ? 0 : $country->ID;
+        if (array_key_exists($key, $this->freeOfShippingCostsFrom)) {
+            return $this->freeOfShippingCostsFrom[$key];
+        }
         if (is_null($country)) {
             $country = $this->Zone()->Countries()->first();
         }
@@ -607,7 +620,9 @@ class ShippingFee extends DataObject
                 $freeOfShippingCostsFrom = Config::FreeOfShippingCostsFrom($country);
             }
         }
-        return $freeOfShippingCostsFrom;
+        $this->extend('updateFreeOfShippingCostsFrom', $freeOfShippingCostsFrom, $country);
+        $this->freeOfShippingCostsFrom[$key] = $freeOfShippingCostsFrom;
+        return $this->freeOfShippingCostsFrom[$key];
     }
     
     /**
@@ -617,12 +632,13 @@ class ShippingFee extends DataObject
      * @param Country $country Country to get free of shipping info
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.10.2012
      */
     public function ShippingIsFree(float $amount, Country $country = null) : bool
     {
+        $key = ($country === null ? 0 : $country->ID) . "-{$amount}";
+        if (array_key_exists($key, $this->shippingIsFree)) {
+            return $this->shippingIsFree[$key];
+        }
         $shippingIsFree = false;
         if ($this->UseFreeOfShippingCostsFrom()
          && $this->FreeOfShippingCostsFrom($country)->getAmount() > 0
@@ -630,7 +646,9 @@ class ShippingFee extends DataObject
         ) {
             $shippingIsFree = true;
         }
-        return $shippingIsFree;
+        $this->extend('updateShippingIsFree', $shippingIsFree, $amount, $country);
+        $this->shippingIsFree[$key] = $shippingIsFree;
+        return $this->shippingIsFree[$key];
     }
     
     /**
