@@ -1033,6 +1033,8 @@ de:
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: Preistyp
+    ShippingMethodsInfoContent: 'Die hier gelisteten Versandarten sind an diese Kundengruppe gebunden und können nur von Kunden ausgewöhlt werden, die dieser Kundengruppe angehören. Versandarten können mehreren Kundengruppen zugeordnet werden, also ist diese Kundengruppe ggf. nicht die einzige Gruppe, die über diese Zugriffsberechtigung verfügt.'
+    ShippingMethodsInfoTitle: 'An diese Kundengruppe gebundene Versandarten.'
   SilverCart\Model\EmailAddress:
     ContactFormSubjects: Betreffe
     Email: E-Mail
