@@ -154,15 +154,25 @@ nl:
     Actions: Acties
     Buy1: Bestellen
     Buy2: Bestellen
+    Cancel: Annuleren
     Change: Veranderen
     ClickForMore: 'Klik voor meer informatie'
     Close: Sluiten
+    DefaultIfEmpty: 'Standaard indien leeg: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Gelieve de verwijdering van uw account te bevestigen door het selectievakje aan te vinken.'
+    DeleteYourAccountErrorPassword: 'Sorry, maar de door u ingevoerde inloggegevens zijn niet correct.'
+    DeleteYourAccountSuccess: 'Uw verzoek om uw account te verwijderen is succesvol ontvangen. Binnen 24 uur wordt uw account verwijderd. U ontvangt een bericht per e-mail zodra de verwijdering is voltooid. Tot die tijd kunt u uw verwijderingsverzoek ongedaan te maken.'
+    DeleteYourAccountSuccessOpen: 'Uw verzoek om uw account te verwijderen is succesvol ontvangen. Binnen 24 uur wordt uw account verwijderd. U ontvangt een bericht per e-mail zodra de verwijdering is voltooid. Tot die tijd kunt u uw verwijderingsverzoek ongedaan te maken.'
+    DeleteYourAccountUndo: 'Verwijderingsverzoek ongedaan maken'
+    DeleteYourAccountUndone: 'Het verwijderingsverzoek voor uw account is succesvol ongedaan gemaakt.'
     Go: Gaan
     NextPage: 'Volgende pagina'
     PrevPage: 'Volgende pagina'
     ProductAddedToCart: 'Het artikel is aan je winkelwagen toegevoegd.'
     ProductRemovedFromCart: 'Het artikel is uit uw winkelwagen verwijderd.'
     Sort: 'Sorteren op'
+    Subject: Onderwerp
+    Subjects: Onderwerpen
     Translation: Vertaling
     Translations: Vertalingen
     Until: tot
@@ -294,6 +304,8 @@ nl:
     TITLE: 'Wijzig de productgroep in ...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
     TITLE: Deactiveren
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete:
+    TITLE: Verwijderen
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
     TITLE: 'Markeren als niet gezien'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
@@ -310,6 +322,10 @@ nl:
     DUPLICATE_DESCRIPTION: 'Dupliceert dit object'
     Duplicate: Dupliceren
     DuplicatePermissionsFailure: 'Dupliceren niet toegestaan'
+  SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton:
+    Export-current-month: 'Exporteer huidige maand'
+    Export-penultimate-month: 'Exporteer voorlaatste maand'
+    Export-previous-month: 'Exporteer vorige maand'
   SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
     Publish: Publiceren
     PublishDesc: 'Publiceert dit object'
@@ -477,6 +493,12 @@ nl:
     CookiePolicyConfigTxtColor: 'Tekst kleur'
   SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: 'Er worden nieuwe vertalingen gemaakt voor alle pagina''s van de SiteTree (niet gepubliceerd). Elke pagina wordt gemaakt als een vertaalsjabloon en wordt gevuld met de standaardinhoud van de gekozen talen (indien aanwezig). Als er geen standaardinhoud beschikbaar is voor de gekozen taal, wordt de inhoud van de huidige taal vooraf ingesteld.'
+    DefaultMailRegistrationRecipient: 'Mail van ontvanger voor klantregistraties'
+    DefaultMailRevocationRecipient: 'Mailontvanger voor herroeping van bestellingen'
+    DimensionUnit: 'Afmeting eenheid'
+    DimensionUnit_cm: Centimeter
+    DimensionUnit_in: Inch
+    DisableProductLinkInCart: 'Schakel link met productdetails in winkelwagen uit'
     FACEBOOK_LINK: 'Facebook Link'
     GoogleplusLink: 'Google Plus Link'
     PUBLISHBUTTON: 'Publiceer alle pagina''s van deze vertaling'
@@ -485,6 +507,10 @@ nl:
     TESTDATA_TEXT: 'Er zijn nog geen producten, als je wat testdata wilt maken klik je op de volgende link:'
     TWITTER_LINK: 'Twitter Link'
     WELCOME_TO_SILVERCART: 'Welkom bij SilverCart'
+    WeightUnit: Gewichtseenheid
+    WeightUnit_g: Gram
+    WeightUnit_kg: Kilogram
+    WeightUnit_lbs: Pond
     XING_LINK: 'Xing Link'
   SilverCart\Checkout\CheckoutStep1:
     NewCustomer: 'Bent u een nieuwe klant?'
@@ -502,6 +528,8 @@ nl:
     To: Naar
     'YES': Ja
     YESTERDAY: gisteren
+  SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension:
+    DisablePromptCookieConsent: 'Schakel Cookie Toestemming voor deze pagina uit'
   SilverCart\Extensions\Model\FontAwesomeExtension:
     FontAwesomeIcon: 'Pictogram Lettertype geweldig'
     FontAwesomeIconDesc: 'Geavanceerde zoekopdracht op de <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Font Awesome Icon referentiepagina</a> geopend.'
@@ -572,10 +600,22 @@ nl:
     OrderNumber: Bestelnummer
     RevocationDate: 'Datum van intrekking'
     RevocationOrderData: 'Ik / Wij herroep(en) hierbij het gesloten contract voor de aankoop van de volgende goederen / de uitvoering van de volgende diensten'
+  SilverCart\Model\BlacklistEntry:
+    Content: Inhoud
+    ContentDesc: 'Een contactbericht wordt als spam gemarkeerd als de inhoud overeenkomt met deze tekst.'
+    IsPartialMatch: 'Gedeeltelijke overeenkomstmodus gebruiken'
+    IsPartialMatchDesc: 'Indien aangevinkt, wordt een contactbericht gemarkeerd als spam, hoewel de tekstovereenkomst slechts gedeeltelijk en niet exact is.'
+    IsPartialMatchNice: 'Geen exacte overeenkomst'
+    PLURALNAME: 'Invoer op de zwarte lijst'
+    SINGULARNAME: 'Invoer op zwarte lijst'
+    Title: Tekst
   SilverCart\Model\ContactMessage:
+    Blacklist: 'Zwarte lijst'
+    IsSpam: 'Is spam'
     MESSAGE: bericht
     PLURALNAME: Contactberichten
     SINGULARNAME: Contactbericht
+    SubjectText: Onderwerp
     TEXT: Leeg
   SilverCart\Model\CookieConsent\ExternalResource:
     Code: Code
@@ -601,6 +641,7 @@ nl:
     SINGULARNAME: 'Externe referentie'
     Title: Aanwijzing
     URLSegment: URL-segment
+    ValidationExternalResourceExists: 'Er bestaat al een bron met dezelfde {identifier}'
   SilverCart\Model\Customer\Address:
     ADDITION: Toevoeging
     ADDRESSTYPE: 'Type adres'
@@ -943,6 +984,10 @@ nl:
     HASACCEPTEDTERMSANDCONDITIONS: 'Heeft voorwaarden aanvaard'
     INVOICE_DATA: Factuuradresgegevens
     ISBUSINESSACCOUNT: 'Is business account'
+    LoginAttemptFailed: mislukt
+    LoginAttemptSucceeded: geslaagd
+    MarkForDeletion: 'Markeren voor verwijdering'
+    MarkForDeletionReason: 'Reden voor verwijdering markeren'
     NET: netto
     PRICETYPE_GROSS: bruto
     PRICETYPE_NET: netto
@@ -952,15 +997,66 @@ nl:
     RegistrationOptInConfirmed: 'Opt-In voor registratie is voltooid'
     SALUTATION: Aanhef
     SHIPPING_DATA: Verzendadresgegevens
+    SILVERCART_CUSTOMER_CREATE: 'Klanten aanmaken'
+    SILVERCART_CUSTOMER_CREATE_HELP: 'Toestaan dat een gebruiker klanten kan aanmaken'
+    SILVERCART_CUSTOMER_DELETE: 'Klanten verwijderen'
+    SILVERCART_CUSTOMER_DELETE_HELP: 'Hiermee kan een gebruiker klanten verwijderen.'
+    SILVERCART_CUSTOMER_EDIT: 'Klanten bewerken'
+    SILVERCART_CUSTOMER_EDIT_HELP: 'Hiermee kan een gebruiker klanten bewerken. Eigen klantgegevens kunnen zonder deze toestemming worden bewerkt.'
+    SILVERCART_CUSTOMER_VIEW: 'Bekijk klanten'
+    SILVERCART_CUSTOMER_VIEW_HELP: 'Hiermee kan een gebruiker klanten bekijken. Eigen klantgegevens kunnen zonder deze toestemming worden ingezien.'
     SUBSCRIBEDTONEWSLETTER: 'Geabonneerd op de nieuwsbrief'
     TYPE: Type
+    YourPreviousLoginAttempts: 'Uw vorige inlogpogingen:'
+  SilverCart\Model\Customer\DeletedCustomerReason:
+    CustomReason: Reden
+    Default_MultiAccount: 'Ik heb een ander account'
+    Default_NewAccount: 'Ik wil een nieuw account aanmaken'
+    Default_NoReason: 'Ik wil geen reden opgeven'
+    Default_NotUsingAnymore: 'Ik gebruik dit account niet meer'
+    Default_SecurityMistrust: 'Ik maak me zorgen over de veiligheid en/of de gegevensprivacy'
+    DifferentReason: 'Andere reden'
+    PLURALNAME: 'Redenen voor het verwijderen van het account'
+    Reason: Reden
+    SINGULARNAME: 'Reden voor accountverwijdering'
+    Sort: 'Sorteren op'
+  SilverCart\Model\Customer\DeletedCustomerReasonTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: Prijstype
   SilverCart\Model\EmailAddress:
+    ContactFormSubjects: Onderwerpen
+    Email: Email
+    Name: Naam
     PLURALNAME: E-mailadressen
     PLURAlNAME: E-mailadressen
     SINGULARNAME: E-mailadres
+    ShopEmails: 'Winkel e-mails'
+  SilverCart\Model\Forms\FormField:
+    DefaultValue: Standaardwaarde
+    Description: Beschrijving
+    IsRequired: 'Is vereist'
+    Name: Naam
+    PLURALNAME: Invoervelden
+    PresetWith: 'Vullen met'
+    SINGULARNAME: Invoerveld
+    Sort: 'Sorteren op'
+    Title: 'Naam weergeven'
+    Type: Type
+    TypeLabel: Type
+  SilverCart\Model\Forms\FormFieldOption:
+    PLURALNAME: Opties
+    SINGULARNAME: Optie
+    Sort: 'Sorteren op'
+    Title: Titel
+  SilverCart\Model\Forms\FormFieldOptionTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
+  SilverCart\Model\Forms\FormFieldTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
   SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
     PLURALNAME: 'Anonieme nieuwsbriefontvangers'
     SINGULARNAME: 'Anonieme nieuwsbriefontvanger'
@@ -1196,6 +1292,8 @@ nl:
     I_ACCEPT_REVOCATION: 'Ik ga akkoord met de nietigverklaring'
     I_ACCEPT_TERMS: 'Ik ga akkoord met de voorwaarden.'
     I_SUBSCRIBE_NEWSLETTER: 'Ik wil de nieuwsbrief ontvangen'
+    NoPaymentMethodText: 'Tekst om te tonen indien er geen beschikbare betalingsmethode is'
+    NoShippingMethodText: 'Tekst om te tonen als er geen verzendmethode beschikbaar is'
     ORDER: Bestelling
     ORDER_NOW: Bestellen
     OVERVIEW: Overzicht
@@ -1203,6 +1301,7 @@ nl:
     SINGULARNAME: 'Afrekenen Stap'
     StepContent: 'Inhoud voor één stap'
     TaxAndDutyHint: 'Let op: voor leveringen naar niet-EU-landen zijn aanvullende invoerrechten, belastingen en toeslagen van toepassing.'
+    TermsAndConditionsText: 'Juridische informatie voor orderbevestiging'
     TitleStep6: 'Titel Stap 6 - Bevestiging'
     TitleStep6Info: 'Alternatieve titel voor weergave op de orderbevestigingspagina (standaard: " {default} ").'
     URL_SEGMENT: afrekenen
@@ -1218,6 +1317,7 @@ nl:
     EnablePhoneNumber: 'Gebruik veld voor telefoonnummer'
     EnablePostcode: 'Gebruik veld voor postcode'
     EnableStreet: 'Gebruik veld voor straat'
+    FormFields: Invoervelden
     PLURALNAME: 'Contactformulier-pagina''s'
     PhoneNumberIsRequired: 'Telefoonnummer invullen is verplicht'
     PostcodeIsRequired: 'Postcode is verplicht'
@@ -1225,14 +1325,30 @@ nl:
     ResponseContent: 'Inhoud van de antwoordpagina'
     SINGULARNAME: Contactformulier-pagina
     StreetIsRequired: 'Straatnaam is verplicht'
+    Subject: 'Reden voor uw verzoek'
+    Subjects: Onderwerpen
     TITLE: Contact
     ThankYouForYourRequest: 'Bedankt voor uw verzoek. We hebben uw bericht ontvangen en zullen zo spoedig mogelijk reageren.'
     URL_SEGMENT: contact
     WeReceivedYourRequest: 'We hebben uw verzoek ontvangen.'
     YourData: 'Uw gegevens:'
+  SilverCart\Model\Pages\ContactFormPage\Subject:
+    ContactFormPage: 'Contactformulier pagina'
+    PLURALNAME: Onderwerpen
+    Recipients: E-mailontvangers
+    SINGULARNAME: Onderwerp
+    Sort: 'Sorteren op'
+    Subject: Onderwerp
+    SubjectTranslations: Vertalingen
+  SilverCart\Model\Pages\ContactFormPage\SubjectTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
+    Subject: Onderwerp
   SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: 'Mijn gegevens'
     DEFAULT_URLSEGMENT: mijn-gegevens
+    DeleteAccountContent: 'Informatie die moet worden getoond op het formulier om het klantaccount te verwijderen'
+    LoginAttemptContent: 'Informatie die moet worden getoond onder de informatie over de aanmeldingspoging'
     PLURALNAME: 'Gegevenspagina''s'
     SINGULARNAME: Gegevenspagina
     TITLE: 'Mijn gegevens'
@@ -1322,6 +1438,12 @@ nl:
     URL_SEGMENT: nieuwsbrief_nl_nl
     UseDoubleOptIn: 'Gebruik dubbele opt-in'
   SilverCart\Model\Pages\OrderHolder:
+    AllowReorder: 'Toestaan om een reeds geplaatste bestelling opnieuw te bestellen'
+    AllowReorderDesc: 'Voegt een knop toe om een bestelling te herbestellen door te klikken op de detailpagina van de bestelling in het mijn account gedeelte.'
+    ButtonReorder: 'Toevoegen aan winkelwagen'
+    ButtonReorderDesc: 'Voegt de artikelen van deze bestelling weer toe aan de winkelwagen.'
+    ButtonReorderFull: 'Toevoegen aan winkelwagen en afrekenen'
+    ButtonReorderFullDesc: 'Voegt de artikelen van deze bestelling toe aan de winkelwagen en leidt naar het afrekenproces met gebruikmaking van adres-, verzend- en betalingsgegevens van deze bestelling.'
     DEFAULT_TITLE: 'Mijn bestellingen'
     DEFAULT_URLSEGMENT: mijn-bestellingen
     OrderDetails: 'Bestelling details'
@@ -1351,6 +1473,7 @@ nl:
     BACK_TO_DEFAULT: 'vorige pagina'
     BILLING_ADDRESS: Factuuradres
     BIRTHDAY: Geboortedag
+    BrowseOrders: 'Blader door bestellingen...'
     CANCEL: Annuleren
     CART: Winkelwagen
     CATALOG: Catalogus
@@ -1409,6 +1532,7 @@ nl:
     NOT_FOUND: 'De pagina "{title}" is niet gevonden.'
     NOVEMBER: November
     NO_ORDERS: 'U heeft nog geen bestellingen'
+    NO_ORDERS_FOUND: 'Uw zoekopdracht naar "{query}" kwam met geen enkele bestelling overeen.'
     NO_RESULTS: 'Sorry, maar uw zoekopdracht heeft geen resultaten opgeleverd.'
     OCTOBER: Oktober
     OR: of
@@ -1784,9 +1908,12 @@ nl:
     Delivery: Levering
     DeliveryForFree: 'Gratis verzending'
     DeliveryForFreeIsPossible: 'Gratis verzending is mogelijk'
+    Dimensions: Afmetingen
+    DimensionsDesc: 'Lengte x Breedte x Hoogte in decimale vorm'
     EAN: EAN
     ExcludeFromPaymentDiscounts: 'Dit product is uitgesloten van betalingskortingen.'
     FREE_OF_CHARGE: Gratis
+    Height: Hoogte
     IMAGE: Productafbeelding
     IMAGE_NOT_AVAILABLE: 'Productafbeelding niet toegeschreven'
     IMPORTIMAGESFORM_ACTION: 'Importeer afbeeldingen'
@@ -1803,6 +1930,7 @@ nl:
     LIST_PRICE: catalogusprijs
     LaunchDate: Lanceerdatum
     LaunchDateInfo: '<strong> Optioneel </strong> - Stel dit in als <i> releasedatum </i> is ingesteld, maar het item moet worden weergegeven vóór de <i> releasedatum </i> .'
+    Length: Lengte
     MASTERPRODUCT: Hoofdproduct
     METADATA: 'Meta Data'
     METADESCRIPTION: 'Meta omschrijving voor zoekmachines'
@@ -1872,6 +2000,7 @@ nl:
     WEEKS: weken
     WEIGHT: Gewicht
     WIDGETAREA: Widgets
+    Width: Breedte
     YEAR: jaar
     YEARS: Jaar
   SilverCart\Model\Product\ProductCondition:
@@ -2013,6 +2142,36 @@ nl:
     SINGULARNAME: Vertaling
   SilverCart\Model\ShopEmail:
     ADDITIONALS_RECEIPIENTS: 'Extra ontvangers'
+    CustomContent_ChangePassword_ButtonInformationText: 'Knoptekst (onder de knop)'
+    CustomContent_ChangePassword_FooterInformationText: 'Conclusietekst (onder de beveiligingsinfotekst)'
+    CustomContent_ChangePassword_HeaderInformationText: 'Inleidende tekst (boven de knop)'
+    CustomContent_ChangePassword_SecurityInformationText: 'Beveiligingsinfotekst (onder de tekst van de knop)'
+    CustomContent_ForgotPassword_ButtonInformationText: 'Knoptekst (onder de knop)'
+    CustomContent_ForgotPassword_FooterInformationText: 'Conclusietekst (onder de beveiligingsinfotekst)'
+    CustomContent_ForgotPassword_HeaderInformationText: 'Inleidende tekst (boven de knop)'
+    CustomContent_ForgotPassword_SecurityInformationText: 'Beveiligingsinfotekst (onder de tekst van de knop)'
+    CustomContent_NewsletterOptInConfirmation_FooterInformationText: 'Conclusie Tekst (onder de winkelknop)'
+    CustomContent_NewsletterOptInConfirmation_HeaderInformationText: 'Introductietekst (boven de winkelknop)'
+    CustomContent_NewsletterOptIn_FooterInformationText: 'Conclusie Tekst (onder de knoptekst)'
+    CustomContent_NewsletterOptIn_HeaderInformationText: 'Introductietekst (boven de opt-in-knop)'
+    CustomContent_NewsletterOptIn_IgnoreInformationText: 'Knoptekst (onder de opt-in-knop)'
+    CustomContent_OrderConfirmation_AddressInformationText: 'Adrestekst (onder de adresgegevens)'
+    CustomContent_OrderConfirmation_FooterInformationText: 'Conclusie Tekst (onder de bestelgegevens)'
+    CustomContent_OrderConfirmation_HeaderInformationText: 'Introductietekst (boven de adres-/bestelgegevens)'
+    CustomContent_OrderConfirmation_OrderInformationText: 'Ordertekst (onder de ordergegevens)'
+    CustomContent_OrderShippedNotification_ButtonInformationText: 'Knop Tekst (boven de volgknop)'
+    CustomContent_OrderShippedNotification_FooterInformationText: 'Conclusietekst (onder de bestelgegevens)'
+    CustomContent_OrderShippedNotification_HeaderInformationText: 'Inleidende tekst (boven de bestelgegevens)'
+    CustomContent_OrderTrackingNotification_ButtonInformationText: 'Knop Tekst (boven de volgknop)'
+    CustomContent_OrderTrackingNotification_FooterInformationText: 'Conclusietekst (onder de bestelgegevens)'
+    CustomContent_OrderTrackingNotification_HeaderInformationText: 'Inleidende tekst (boven de bestelgegevens)'
+    CustomContent_RegistrationOptInConfirmation_FooterInformationText: 'Conclusietekst (onder de klantgegevens)'
+    CustomContent_RegistrationOptInConfirmation_HeaderInformationText: 'Inleidende tekst (boven de klantgegevens)'
+    CustomContent_RegistrationOptIn_FooterInformationText: 'Conclusie Tekst (onder de knoptekst)'
+    CustomContent_RegistrationOptIn_HeaderInformationText: 'Inleidende tekst (boven de opt-in knop)'
+    CustomContent_RegistrationOptIn_IgnoreInformationText: 'Knoptekst (onder de opt-in-knop)'
+    CustomerDeletionConfirmationText: 'Uw webshop account is succesvol verwijderd.'
+    CustomerDeletionNotificationText: 'Een webshop account is succesvol verwijderd.'
     EMAILTEXT: Bericht
     ForgotPasswordNO_CHANGE: 'Als u uw wachtwoord niet wilt wijzigen, kunt u deze e-mail als niet verzonden beschouwen.'
     ForgotPasswordPASSWORT_RESET_LINK_HINT: 'Als u niet op deze link kunt klikken, kopieer en plak dan de link in de adresbalk van uw webbrowser.'
@@ -2035,6 +2194,8 @@ nl:
     Subject_ChangePassword: 'Reset wachtwoord'
     Subject_ContactMessage: 'Aanvraag via contactformulier'
     Subject_ContactMessageAcknowledgement: 'We hebben uw aanvraag ontvangen'
+    Subject_CustomerDeletionConfirmation: 'Uw webshop account is succesvol verwijderd'
+    Subject_CustomerDeletionNotification: 'Een webshop account is succesvol verwijderd'
     Subject_ForgotPassword: 'Reset wachtwoord'
     Subject_NewsletterOptIn: 'Bevestiging van de nieuwsbriefregistratie'
     Subject_NewsletterOptInConfirmation: 'Nieuwsbriefregistratie succesvol voltooid'
@@ -2051,12 +2212,15 @@ nl:
     TemplateName_ChangePassword: 'Wachtwoord wijzigen (klant)'
     TemplateName_ContactMessage: 'Contactbericht (winkeleigenaar)'
     TemplateName_ContactMessageAcknowledgement: 'Contactverzoek bevestiging van ontvangst (klant)'
+    TemplateName_CustomerDeletionConfirmation: 'Webshop account werd verwijderd (klant)'
+    TemplateName_CustomerDeletionNotification: 'Webshop account werd verwijderd (winkeleigenaar)'
     TemplateName_ForgotPassword: 'Wachtwoord vergeten (klant)'
     TemplateName_NewsletterOptIn: 'Nieuwsbrief opt-in (klant)'
     TemplateName_NewsletterOptInConfirmation: 'Nieuwsbrief opt-in bevestiging (klant)'
     TemplateName_OrderConfirmation: 'Orderbevestiging (klant)'
     TemplateName_OrderNotification: 'Melding van bestelling (winkeleigenaar)'
     TemplateName_OrderShippedNotification: 'Verzendmelding (klant)'
+    TemplateName_OrderTrackingNotification: 'Tracking notificatie (klant)'
     TemplateName_RegistrationOptIn: 'Registratie: bevestig e-mailadres (klant)'
     TemplateName_RegistrationOptInConfirmation: 'Registratie: voltooid (klant)'
     TemplateName_RegistrationOptInNotification: 'Registratie: nieuwe klant (winkeleigenaar)'
@@ -2065,6 +2229,8 @@ nl:
     Title_ChangePassword: 'Wachtwoord wijzigen'
     Title_ContactMessage: Contactbericht
     Title_ContactMessageAcknowledgement: 'Neem contact op met een ontvangstbevestiging'
+    Title_CustomerDeletionConfirmation: 'Webshop account verwijderd'
+    Title_CustomerDeletionNotification: 'Webshop account verwijderd'
     Title_ForgotPassword: 'Wachtwoord vergeten?'
     Title_NewsletterOptIn: 'Nieuwsbrief opt-in (klant)'
     Title_NewsletterOptInConfirmation: 'Nieuwsbrief opt-in bevestiging'
@@ -2077,6 +2243,16 @@ nl:
     Title_RevocationNotification: 'Een klant heeft een bestelling geannuleerd'
     VARIABLES: Variabelen
   SilverCart\Model\ShopEmailTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
+  SilverCart\Model\ShopEmail\Content:
+    ClassName: Type
+    Content: Inhoud
+    DisplayPosition: Weergavepositie
+    PLURALNAME: Inhoud
+    SINGULARNAME: Inhoud
+    Sort: 'Sorteren op'
+  SilverCart\Model\ShopEmail\ContentTranslation:
     PLURALNAME: Vertalingen
     SINGULARNAME: Vertaling
   SilverCart\Model\Translation\TranslationTools:
@@ -2101,6 +2277,8 @@ nl:
     SINGULARNAME: Vertaling
   SilverCart\Model\Widgets\ImageSliderImage:
     AltText: 'Tekst voor ALT-tag'
+    ExternalLink: 'Externe link'
+    ExternalLinkDesc: 'Link/URL naar een externe webpagina.'
     LINKPAGE: 'Pagina die is gekoppeld aan'
     PLURALNAME: slider-afbeeldingen
     ProductNumberToReference: 'Het artikelnummer van het product om naar te linken'
@@ -2306,15 +2484,25 @@ nl:
   SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: 'Beheer widgetsets'
     UseAsSlider: 'Gebruik als een slider'
+  SilverCart\Reports\DeletedCustomersReport:
+    Title: 'Verwijderde klanten'
   SilverCart\View\GroupView\GroupViewBase:
     LIST: Lijst
     TILE: Tegel
   SilverStripe\Security\Member:
+    FailedLoginCountWarning:
+      one: 'Let op, uw account wordt tijdelijk geblokeerd bij een volgende mislukte inlogpoging.'
+      other: 'Let op, uw account wordt tijdelijk geblokeerd na {count} mislukte inlogpogingen.'
     PLURALNAME: Leeg
     PLURALS:
       one: Leeg
       other: Leeg
     SINGULARNAME: leeg
+  SilverStripe\Security\PasswordValidator:
+    STRENGTHTESTDIGITS: cijfers
+    STRENGTHTESTLOWERCASE: 'kleine letters'
+    STRENGTHTESTPUNCTUATION: 'speciale tekens'
+    STRENGTHTESTUPPERCASE: hoofdletters
   SilverStripe\Security\Security:
     CONFIRMLOGOUT: 'Klik op de onderstaande knop om te bevestigen dat u zich wilt uitloggen.'
     NOTERESETLINKINVALID: '<p> De link om uw wachtwoord opnieuw in te stellen is ongeldig of verlopen. </p> <p> U kunt <a href="{link1}"> hier </a> een nieuw wachtwoord aanvragen <a href="{link1}"> of uw wachtwoord wijzigen nadat u zich heeft aangemeld <a href="{link2}"> </a> . </p>'

@@ -1,7 +1,7 @@
 de_DE:
-    SilverStripe\Security\Member:
-        PLURALNAME: Kunden
-        PLURALS:
-          one: 'Ein Kunde'
-          other: '{count} Kunden'
-        SINGULARNAME: Kunde
+  SilverStripe\Security\Member:
+    PLURALNAME: Kunden
+    PLURALS:
+      one: 'Ein Kunde'
+      other: '{count} Kunden'
+    SINGULARNAME: Kunde

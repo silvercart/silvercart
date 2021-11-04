@@ -154,15 +154,25 @@ nl_BE:
     Actions: Acties
     Buy1: '{title} kopen'
     Buy2: '{title1} {title2} kopen'
+    Cancel: Annuleren
     Change: Wijzigen
     ClickForMore: 'Klik om meer informatie weer te geven'
     Close: Afsluiten
+    DefaultIfEmpty: 'Standaard indien leeg: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Gelieve de verwijdering van uw account te bevestigen door het selectievakje aan te vinken.'
+    DeleteYourAccountErrorPassword: 'Sorry, maar de door u ingevoerde inloggegevens zijn niet correct.'
+    DeleteYourAccountSuccess: 'Uw verzoek om uw account te verwijderen is succesvol ontvangen. Binnen 24 uur wordt uw account verwijderd. U ontvangt een bericht per e-mail zodra de verwijdering is voltooid. Tot die tijd kunt u uw verwijderingsverzoek ongedaan te maken.'
+    DeleteYourAccountSuccessOpen: 'Uw account is succesvol gemarkeerd voor verwijdering. Aangezien er nog openstaande orders zijn voor uw klantenrekening, zal uw rekening pas worden verwijderd wanneer alle openstaande orders zijn verwerkt. U ontvangt een e-mailbericht zodra de verwijdering is voltooid. Tot dan hebt u de mogelijkheid om het verwijderingsverzoek in te trekken.'
+    DeleteYourAccountUndo: 'Verwijderingsverzoek ongedaan maken'
+    DeleteYourAccountUndone: 'Het verwijderingsverzoek voor uw account is succesvol ongedaan gemaakt.'
     Go: 'Ga naar'
     NextPage: 'Volgende pagina'
     PrevPage: 'Vorige pagina'
     ProductAddedToCart: 'Het artikel werd aan de winkelwagen toegevoegd.'
     ProductRemovedFromCart: 'Het artikel werd uit uw winkelwagen verwijderd.'
     Sort: Sorteervolgorde
+    Subject: Onderwerp
+    Subjects: Onderwerpen
     Translation: Vertaling
     Translations: Vertalingen
     Until: tot
@@ -287,13 +297,15 @@ nl_BE:
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
     TITLE: 'Fabrikant wijzigen naar ...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
-    TITLE: 'Bestelstatus wijzigen in ...'
+    TITLE: 'Bestelstatus wijzigen in...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
     TITLE: 'Betalingsstatus wijzigen in...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
     TITLE: 'Productgroep wijzigen in...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
     TITLE: Uitschakelen
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete:
+    TITLE: Verwijderen
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
     TITLE: 'Markeer als niet gezien'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
@@ -310,6 +322,10 @@ nl_BE:
     DUPLICATE_DESCRIPTION: 'Dupliceert dit object'
     Duplicate: Dupliceren
     DuplicatePermissionsFailure: 'Dupliceren is niet toegestaan'
+  SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton:
+    Export-current-month: 'Exporteer huidige maand'
+    Export-penultimate-month: 'Exporteer voorlaatste maand'
+    Export-previous-month: 'Exporteer vorige maand'
   SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
     Publish: Publiceren
     PublishDesc: 'Publiceert dit object'
@@ -477,6 +493,12 @@ nl_BE:
     CookiePolicyConfigTxtColor: Tekstkleur
   SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: 'Er werden nieuwe vertalingen aangemaakt voor de gehele paginaboom (niet gepubliceerd). Elke pagina wordt aangemaakt als vertaalsjabloon en vervolledigd met standaardinhoud in de geselecteerde taal, indien beschikbaar. Als er geen standaardinhoud beschikbaar is, wordt de inhoud van de momenteel geselecteerde taal vooraf ingesteld.'
+    DefaultMailRegistrationRecipient: 'Mail van ontvanger voor klantregistraties'
+    DefaultMailRevocationRecipient: 'Mailontvanger voor herroeping van bestellingen'
+    DimensionUnit: 'Afmeting eenheid'
+    DimensionUnit_cm: Centimeter
+    DimensionUnit_in: Inch
+    DisableProductLinkInCart: 'Schakel link met productdetails in winkelwagen uit'
     FACEBOOK_LINK: Facebook-link
     GoogleplusLink: 'Google Plus-link'
     PUBLISHBUTTON: 'Alle pagina''s van de huidige taal publiceren'
@@ -485,6 +507,10 @@ nl_BE:
     TESTDATA_TEXT: 'Er zijn nog geen artikelen opgeslagen; als u testgegevens wilt aanmaken, klik dan op de volgende link:'
     TWITTER_LINK: Twitter-link
     WELCOME_TO_SILVERCART: 'Welkom bij SilverCart'
+    WeightUnit: Gewichtseenheid
+    WeightUnit_g: Gram
+    WeightUnit_kg: Kilogram
+    WeightUnit_lbs: Pond
     XING_LINK: Xing-link
   SilverCart\Checkout\CheckoutStep1:
     NewCustomer: 'Bent u een nieuwe klant?'
@@ -502,6 +528,8 @@ nl_BE:
     To: Naar
     'YES': Ja
     YESTERDAY: gisteren
+  SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension:
+    DisablePromptCookieConsent: 'Schakel Cookie Toestemming voor deze pagina uit'
   SilverCart\Extensions\Model\FontAwesomeExtension:
     FontAwesomeIcon: Awesome-lettertype-pictogram
     FontAwesomeIconDesc: 'Open geavanceerd zoeken op de <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Awesome-lettertype-pictogram referentiepagina</a>.'
@@ -572,10 +600,23 @@ nl_BE:
     OrderNumber: Bestelnummer
     RevocationDate: 'Datum van herroeping'
     RevocationOrderData: 'Hiermee trek ik/trekken wij de overeenkomst in, die ik/wij met betrekking tot de aankoop van de volgende goederen/ het verrichten van de volgende diensten, heb/hebben afgesloten.'
+  SilverCart\Model\BlacklistEntry:
+    Content: Inhoud
+    ContentDesc: 'Een contactbericht wordt als spam gemarkeerd als de inhoud overeenkomt met deze tekst.'
+    IsPartialMatch: 'Gedeeltelijke overeenkomstmodus gebruiken'
+    IsPartialMatchDesc: 'Indien aangevinkt, wordt een contactbericht gemarkeerd als spam, hoewel de tekstovereenkomst slechts gedeeltelijk en niet exact is.'
+    IsPartialMatchNice: 'Geen exacte overeenkomst'
+    PLURALNAME: 'Invoer op de zwarte lijst'
+    SINGULARNAME: 'Invoer op zwarte lijst'
+    Title: Tekst
   SilverCart\Model\ContactMessage:
+    Blacklist: 'Zwarte lijst'
+    IsSpam: 'Is spam'
     MESSAGE: Bericht
     PLURALNAME: Contactverzoeken
     SINGULARNAME: Contactverzoek
+    SubjectText: Onderwerp
+    TEXT: Leeg
   SilverCart\Model\CookieConsent\ExternalResource:
     Code: Code
     CookieGroup: Cookiecategorie
@@ -588,7 +629,7 @@ nl_BE:
     GoogleWebmasterCode_Description: 'HTML<meta>-tagcode om de Google Webmaster Tools-code te integreren.'
     GoogleWebmasterCode_Name: 'Google Webmaster Tools-code'
     MatomoTrackingCode_Description: 'Javascript-code om Matomo-tracking (voorheen Piwik) te activeren.'
-    MatomoTrackingCode_Name: Matomo-trackingscode
+    MatomoTrackingCode_Name: 'Matomo Tracking Code'
     Name: Naam
     NameDesc: 'Unieke naam voor deze resource'
     PLURALNAME: 'Externe resources'
@@ -600,6 +641,7 @@ nl_BE:
     SINGULARNAME: 'Externe resource'
     Title: Omschrijving
     URLSegment: URL-segment
+    ValidationExternalResourceExists: 'Er bestaat al een bron met dezelfde {identifier}'
   SilverCart\Model\Customer\Address:
     ADDITION: Adrestoevoeging
     ADDRESSTYPE: Adrestype
@@ -645,7 +687,7 @@ nl_BE:
     SINGULARNAME: Adres
     STREET: Straat
     STREETNUMBER: Huisnummer
-    SURNAME: Achternaam
+    SURNAME: Familienaam
     ShippingAddress: Leveringsadres
     ShippingAddresses: Leveringsadressen
     TAXIDNUMBER: BTW-nummer
@@ -656,7 +698,7 @@ nl_BE:
     ATTRIBUTED_PAYMENTMETHOD: 'toegewezen betalingsmethode'
     ATTRIBUTED_ZONES: 'toegewezen zones'
     AlertWarningCreationContent: 'Weet u zeker dat u een nieuw land wilt toevoegen? Als u in plaats daarvan een van de {count} beschikbare landen wilt koppelen, gebruik dan de functie "Bestaand record koppelen" in plaats van "Land toevoegen" (meestal in de rechterbovenhoek).'
-    AlertWarningCreationTitle: 'Opgelet:'
+    AlertWarningCreationTitle: Opgelet
     CONTINENT: Continent
     CURRENCY: Valuta
     DISPLAYPOSITION: 'Weergavepositie (indien prioritair)'
@@ -942,6 +984,10 @@ nl_BE:
     HASACCEPTEDTERMSANDCONDITIONS: 'Heeft de algemene verkoopsvoorwaarden geaccepteerd'
     INVOICE_DATA: Factuuradresgegevens
     ISBUSINESSACCOUNT: 'Is zakelijke klantenaccount'
+    LoginAttemptFailed: mislukt
+    LoginAttemptSucceeded: geslaagd
+    MarkForDeletion: 'Markeren voor verwijdering'
+    MarkForDeletionReason: 'Reden voor verwijdering markeren'
     NET: Netto
     PRICETYPE_GROSS: Bruto
     PRICETYPE_NET: Netto
@@ -951,14 +997,66 @@ nl_BE:
     RegistrationOptInConfirmed: 'Opt-In voor registratie werd afgerond.'
     SALUTATION: Aanspreking
     SHIPPING_DATA: Leveringsadresgegevens
+    SILVERCART_CUSTOMER_CREATE: 'Klanten aanmaken'
+    SILVERCART_CUSTOMER_CREATE_HELP: 'Toestaan dat een gebruiker klanten kan aanmaken'
+    SILVERCART_CUSTOMER_DELETE: 'Klanten verwijderen'
+    SILVERCART_CUSTOMER_DELETE_HELP: 'Hiermee kan een gebruiker klanten verwijderen.'
+    SILVERCART_CUSTOMER_EDIT: 'Klanten bewerken'
+    SILVERCART_CUSTOMER_EDIT_HELP: 'Hiermee kan een gebruiker klanten bewerken. Eigen klantgegevens kunnen zonder deze toestemming worden bewerkt.'
+    SILVERCART_CUSTOMER_VIEW: 'Bekijk klanten'
+    SILVERCART_CUSTOMER_VIEW_HELP: 'Hiermee kan een gebruiker klanten bekijken. Eigen klantgegevens kunnen zonder deze toestemming worden ingezien.'
     SUBSCRIBEDTONEWSLETTER: 'Abonneer u op de nieuwsbrief'
     TYPE: Type
+    YourPreviousLoginAttempts: 'Uw vorige inlogpogingen:'
+  SilverCart\Model\Customer\DeletedCustomerReason:
+    CustomReason: Reden
+    Default_MultiAccount: 'Ik heb een ander account'
+    Default_NewAccount: 'Ik wil een nieuw account aanmaken'
+    Default_NoReason: 'Ik wil geen reden opgeven'
+    Default_NotUsingAnymore: 'Ik gebruik dit account niet meer'
+    Default_SecurityMistrust: 'Ik maak me zorgen over de veiligheid en/of de gegevensprivacy'
+    DifferentReason: 'Andere reden'
+    PLURALNAME: 'Redenen voor het verwijderen van het account'
+    Reason: Reden
+    SINGULARNAME: 'Reden voor accountverwijdering'
+    Sort: Sorteervolgorde
+  SilverCart\Model\Customer\DeletedCustomerReasonTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: Prijstype
   SilverCart\Model\EmailAddress:
+    ContactFormSubjects: Onderwerpen
+    Email: Email
+    Name: Naam
     PLURALNAME: E-mailadressen
+    PLURAlNAME: E-mailadressen
     SINGULARNAME: E-mailadres
+    ShopEmails: 'Winkel e-mails'
+  SilverCart\Model\Forms\FormField:
+    DefaultValue: Standaardwaarde
+    Description: Beschrijving
+    IsRequired: 'Verplicht veld'
+    Name: Naam
+    PLURALNAME: Invoervelden
+    PresetWith: 'Vullen met'
+    SINGULARNAME: Invoerveld
+    Sort: Sorteervolgorde
+    Title: Weergavenaam
+    Type: Type
+    TypeLabel: Type
+  SilverCart\Model\Forms\FormFieldOption:
+    PLURALNAME: Opties
+    SINGULARNAME: Optie
+    Sort: Sorteervolgorde
+    Title: Titel
+  SilverCart\Model\Forms\FormFieldOptionTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
+  SilverCart\Model\Forms\FormFieldTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
   SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
     PLURALNAME: 'Anonieme nieuwsbriefontvangers'
     SINGULARNAME: 'Anonieme nieuwsbriefontvanger'
@@ -983,7 +1081,7 @@ nl_BE:
     IDENTIFIER: Identificatie
     INVOICENUMBER: Factuurnummer
     ORDERNUMBER: Bestelnummer
-    PLURALNAME: Nummerreeksen
+    PLURALNAME: Nummerreeks
     PREFIX: Voorvoegsel
     SINGULARNAME: Nummerreeks
     START: Start
@@ -1087,7 +1185,7 @@ nl_BE:
     PRODUCTNUMBER: Artikelnummer
     QUANTITY: Hoeveelheid
     SHORT: Pos.
-    SINGULARNAME: 'Positie van de bestelling'
+    SINGULARNAME: Bestelpositie
     TAX: Btw
     TAXRATE: Belastingtarief
     TAXTOTAL: 'Totaal btw'
@@ -1106,8 +1204,11 @@ nl_BE:
     DefaultStatusNew: Nieuw
     DefaultStatusPreparing-shipment: 'Verzending wordt voorbereid'
     DefaultStatusShipped: 'Bestelling verzonden'
+    INWORK: Leeg
     IsDefault: 'Is standaard'
+    PAID: Leeg
     PLURALNAME: Bestelstatus
+    SHIPPED: Leeg
     SINGULARNAME: Bestelstatus
   SilverCart\Model\Order\OrderStatusTranslation:
     PLURALNAME: Vertalingen
@@ -1191,6 +1292,8 @@ nl_BE:
     I_ACCEPT_REVOCATION: 'Ik accepteer het <a href="{link}" target="blank">herroepingsrecht</a>.'
     I_ACCEPT_TERMS: 'Ik accepteer de <a href="{link}" target="blank">algemene voorwaarden</a>.'
     I_SUBSCRIBE_NEWSLETTER: 'Ik wil me graag abonneren op de nieuwsbrief.'
+    NoPaymentMethodText: 'Tekst om te tonen indien er geen beschikbare betalingsmethode is'
+    NoShippingMethodText: 'Tekst om te tonen als er geen verzendmethode beschikbaar is'
     ORDER: Bestelling
     ORDER_NOW: 'Nu kopen'
     OVERVIEW: Overzicht
@@ -1198,6 +1301,7 @@ nl_BE:
     SINGULARNAME: Afrekenstap
     StepContent: 'Inhoud van de afzonderlijke stappen'
     TaxAndDutyHint: 'Let op: voor leveringen aan niet-EU-landen gelden aanvullende invoerrechten, belastingen en heffingen.'
+    TermsAndConditionsText: 'Juridische informatie voor orderbevestiging'
     TitleStep6: 'Titel Stap 6 - Bevestiging van bestelling'
     TitleStep6Info: 'Alternatieve titel voor de weergave op de pagina van de bestellingsbevestiging (standaard: "{default}").'
     URL_SEGMENT: Afrekenen
@@ -1213,6 +1317,7 @@ nl_BE:
     EnablePhoneNumber: 'Veld voor telefoonnummer inschakelen'
     EnablePostcode: 'Veld voor postcode inschakelen'
     EnableStreet: 'Veld voor straat/huisnummer inschakelen'
+    FormFields: Invoervelden
     PLURALNAME: 'Contactformulierpagina''s'
     PhoneNumberIsRequired: 'Telefoonnummer is een verplicht veld'
     PostcodeIsRequired: 'Postcode is een verplicht veld'
@@ -1220,14 +1325,30 @@ nl_BE:
     ResponseContent: 'Inhoud van de verzendbevestigingspagina'
     SINGULARNAME: Contactformulierpagina
     StreetIsRequired: 'Straat/huisnummer is een verplicht veld'
+    Subject: 'Reden voor uw verzoek'
+    Subjects: Onderwerpen
     TITLE: Contact
     ThankYouForYourRequest: 'Bedankt voor uw verzoek. We hebben uw bericht ontvangen en zullen zo snel mogelijk antwoorden.'
     URL_SEGMENT: contact
     WeReceivedYourRequest: 'We hebben uw verzoek ontvangen.'
     YourData: 'Uw gegevens:'
+  SilverCart\Model\Pages\ContactFormPage\Subject:
+    ContactFormPage: Contactformulierpagina
+    PLURALNAME: Onderwerpen
+    Recipients: E-mailontvangers
+    SINGULARNAME: Onderwerp
+    Sort: Sorteervolgorde
+    Subject: Onderwerp
+    SubjectTranslations: Vertalingen
+  SilverCart\Model\Pages\ContactFormPage\SubjectTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
+    Subject: Onderwerp
   SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: 'Mijn gegevens'
     DEFAULT_URLSEGMENT: mijn-gegevens
+    DeleteAccountContent: 'Informatie die moet worden getoond op het formulier om het klantaccount te verwijderen'
+    LoginAttemptContent: 'Informatie die moet worden getoond onder de informatie over de aanmeldingspoging'
     PLURALNAME: 'Gegevenspagina''s'
     SINGULARNAME: Gegevenspagina
     TITLE: 'Mijn gegevens'
@@ -1264,8 +1385,8 @@ nl_BE:
     DEFAULT_TITLE_IMPRINT: 'Wettelijke vermeldingen'
     DEFAULT_TITLE_PRIVACY: Gegevensbeschermingsverklaring
     DEFAULT_TITLE_REVOCATION: 'Informatie over het herroepingsrecht'
-    DEFAULT_TITLE_TERMS: 'Algemene voorwaarden'
-    DEFAULT_URLSEGMENT_IMPRINT: 'Wettelijke vermeldingen'
+    DEFAULT_TITLE_TERMS: 'Algemene verkoopsvoorwaarden'
+    DEFAULT_URLSEGMENT_IMPRINT: wettelijke-vermeldingen
     DEFAULT_URLSEGMENT_PRIVACY: gegevensbeschermingsverklaring
     DEFAULT_URLSEGMENT_REVOCATION: herroepingsrecht
     DEFAULT_URLSEGMENT_TERMS: algemene-voorwaarden
@@ -1281,7 +1402,7 @@ nl_BE:
     REGISTER_ADVANTAGES_TEXT: 'Als u zich registreert kunt u bij een aankoop gebruik maken van uw gegevens, zoals  een aankoop op uw gegevens, zoals facturatie-en leveringsadres.'
     SINGULARNAME: Accountoverzicht
     TITLE: 'Mijn account'
-    URL_SEGMENT: Mijn-account
+    URL_SEGMENT: mijn-account
     WANTTOREGISTER: 'Wilt u zich registreren?'
     YOUR_CURRENT_ADDRESSES: 'Uw huidig factuur- en leveringsadres'
     YOUR_CUSTOMERNUMBER: 'Uw klantnummer'
@@ -1298,6 +1419,7 @@ nl_BE:
     DefaultConfirmationFailureMessage: '<p> Uw registratie voor de nieuwsbrief kon niet worden voltooid. </p>'
     DefaultConfirmationSuccessMessage: '<p>Uw registratie voor de nieuwsbrief was succesvol!</p><p>Wij wensen u veel plezier en succes met onze aanbiedingen.</p>'
     DefaultConfirmationSuccessSubject: 'Registratie voor de nieuwsbrief werd succesvol afgerond'
+    DefaultEmailConfirmationContent: '<h1>Volledige nieuwsbrief registratie </h1><p> Klik op de activatie link of kopieer de link naar uw de browser van uw keuze</P><a href="$ConfirmationLink">Bevestig nieuwsbrief registratie</a></p><p>Als u nog geen nieuwsbrief wilt ontvangen negeer dan dit email bericht</p><p>Uw webshop team</p>'
     DefaultEmailConfirmationSubject: 'Registratie voor de nieuwsbrief voltooien'
     DefaultOptInPageTitle: 'Registratie voor de nieuwsbrief voltooien'
     EmailConfirmationConfirm: 'Registratie bevestigen'
@@ -1316,6 +1438,12 @@ nl_BE:
     URL_SEGMENT: nieuwsbrief
     UseDoubleOptIn: 'Gebruik dubbele opt-in'
   SilverCart\Model\Pages\OrderHolder:
+    AllowReorder: 'Toestaan om een reeds geplaatste bestelling opnieuw te bestellen'
+    AllowReorderDesc: 'Voegt een knop toe om een bestelling te herbestellen door te klikken op de detailpagina van de bestelling in het mijn account gedeelte.'
+    ButtonReorder: 'Opnieuw kopen'
+    ButtonReorderDesc: 'Voegt de artikelen van deze bestelling weer toe aan de winkelwagen.'
+    ButtonReorderFull: 'Toevoegen aan winkelwagen en afrekenen'
+    ButtonReorderFullDesc: 'Voegt de artikelen van deze bestelling toe aan de winkelwagen en leidt naar het afrekenproces met gebruikmaking van adres-, verzend- en betalingsgegevens van deze bestelling.'
     DEFAULT_TITLE: 'Mijn bestellingen'
     DEFAULT_URLSEGMENT: mijn-bestellingen
     OrderDetails: Bestelgegevens
@@ -1345,6 +1473,7 @@ nl_BE:
     BACK_TO_DEFAULT: 'vorige pagina'
     BILLING_ADDRESS: Factuuradres
     BIRTHDAY: Verjaardag
+    BrowseOrders: 'Blader door bestellingen...'
     CANCEL: Afrekenen
     CART: Winkelwagen
     CATALOG: Catalogus
@@ -1388,7 +1517,7 @@ nl_BE:
     JULY: juli
     JUNE: juni
     LOGIN: Inloggen
-    LOGO: Logo
+    LOGO: logo
     LOGOUT: Uitloggen
     MARCH: maart
     MAY: mei
@@ -1403,6 +1532,7 @@ nl_BE:
     NOT_FOUND: 'De pagina "{title}" kon niet worden gevonden.'
     NOVEMBER: november
     NO_ORDERS: 'U hebt nog geen bestellingen voltooid.'
+    NO_ORDERS_FOUND: 'Uw zoekopdracht naar "{query}" kwam met geen enkele bestelling overeen.'
     NO_RESULTS: 'Onze excuses. Er zijn geen resultaten voor uw zoekterm.'
     OCTOBER: oktober
     OR: of
@@ -1427,7 +1557,7 @@ nl_BE:
     REMARKS: Opmerkingen
     REMOVE_FROM_CART: verwijderen
     RETURNTOPRODUCTGROUP: 'Terug naar "{title}"'
-    REVOCATION: Herroepingsrecht
+    REVOCATION: 'Informatie over het herroepingsrecht'
     REVOCATIONREAD: 'Informatie over het herroepingsrecht gelezen'
     SAVE: Opslaan
     SEPTEMBER: september
@@ -1452,7 +1582,7 @@ nl_BE:
     THE_QUERY: 'De term'
     TITLE: Titel
     TITLE_IMPRINT: 'Wettelijke vermeldingen'
-    TITLE_TERMS: 'Algemene voorwaarden'
+    TITLE_TERMS: 'Algemene verkoopsvoorwaarden'
     TODAY: vandaag
     TOTAL: Totaalbedrag
     URL_SEGMENT_IMPRINT: wettelijke-vermeldingen
@@ -1474,10 +1604,10 @@ nl_BE:
     PLURALNAME: 'Pagina''s met betalingsmethoden'
     SINGULARNAME: 'Pagina met betalingsmethoden'
   SilverCart\Model\Pages\PaymentNotification:
-    DEFAULT_TITLE: Betalingsmelding
-    DEFAULT_URLSEGMENT: Betalingsmelding
+    DEFAULT_TITLE: 'Kennisgeving van betaling'
+    DEFAULT_URLSEGMENT: Kennisgeving-van-betaling
     PLURALNAME: Betalingsmeldingen
-    SINGULARNAME: Betalingsmelding
+    SINGULARNAME: 'Kennisgeving van betaling'
     TEXTBANKACCOUNTINFO: 'Informatie over de betalingswijze vooruitbetaling'
     TITLE: 'Kennisgeving van betaling'
     URL_SEGMENT: Kennisgeving-van-betaling
@@ -1489,7 +1619,7 @@ nl_BE:
     PLURALNAME: 'Overzichten van artikelgroepen'
     RedirectToProductGroup: 'Rechtstreeks doorsturen naar een productgroep'
     RedirectionSettings: Doorsturen
-    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Artikelen weergeven'
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Artikel weergeven'
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Artikel weergeven'
     SINGULARNAME: 'Overzicht van artikelgroepen'
     SUBGROUPS_OF: 'Subgroepen van'
@@ -1590,7 +1720,7 @@ nl_BE:
     SUCCESS_TEXT: '<h1>Registratie succesvol afgerond!</h1><p>Hartelijk dank voor uw registratie.</p><p>Veel plezier in onze winkel!</p><p>Uw webwinkelteam</p>'
     THANKS: 'Hartelijk dank voor uw registratie.'
     TITLE: Registratiepagina
-    URL_SEGMENT: Registreren
+    URL_SEGMENT: registreren
     YOUR_REGISTRATION: 'Uw registratie'
   SilverCart\Model\Pages\RevocationFormPage:
     DEFAULT_TITLE: Annulering
@@ -1725,8 +1855,10 @@ nl_BE:
     SeoMicrodataCodePreSale: Voorverkoop
     SeoMicrodataCodeSoldOut: Uitverkocht
     SetForNegativeStock: 'Automatisch toewijzen aan artikelen als het voorraadniveau wijzigt van > 0 naar 0.'
+    SetForNegativeStockDesc: Leeg
     SetForNegativeStockShort: 'Auto. < 1'
     SetForPositiveStock: 'Automatisch toewijzen aan artikelen als het voorraadniveau wijzigt van 0 naar > 0.'
+    SetForPositiveStockDesc: Leeg
     SetForPositiveStockShort: 'Auto. > 0'
     TITLE: Label
   SilverCart\Model\Product\AvailabilityStatusTranslation:
@@ -1776,9 +1908,12 @@ nl_BE:
     Delivery: Levering
     DeliveryForFree: 'Gratis verzending'
     DeliveryForFreeIsPossible: 'Gratis verzending is mogelijk'
+    Dimensions: Afmetingen
+    DimensionsDesc: 'Lengte x Breedte x Hoogte in decimale vorm'
     EAN: EAN
     ExcludeFromPaymentDiscounts: 'Dit artikel is uitgesloten van kortingen op betalingsmethoden.'
     FREE_OF_CHARGE: 'Gratis verzending'
+    Height: Hoogte
     IMAGE: Artikelafbeelding
     IMAGE_NOT_AVAILABLE: 'Er werd geen artikelafbeelding toegewezen'
     IMPORTIMAGESFORM_ACTION: 'Afbeeldingen importeren'
@@ -1795,6 +1930,7 @@ nl_BE:
     LIST_PRICE: Lijstprijs
     LaunchDate: 'Aankondiging vanaf'
     LaunchDateInfo: '<strong> Optioneel </strong> - Alleen instellen als <i> Verkoop vanaf </i> is ingesteld en de aankondiging reeds voor de start van de verkoop moet plaatsvinden.'
+    Length: Lengte
     MASTERPRODUCT: Basisartikel
     METADATA: Metagegevens
     METADESCRIPTION: 'Metabeschrijving voor zoekmachines'
@@ -1845,7 +1981,7 @@ nl_BE:
     SHORTDESCRIPTION: 'Beschrijving van de lijst'
     SILVERCART_PRODUCT_CREATE: 'Kan artikelen maken.'
     SILVERCART_PRODUCT_CREATE_HELP: 'Hiermee kan een gebruiker artikelen aanmaken.'
-    SINGULARNAME: Artikel
+    SINGULARNAME: Artikelen
     STOCKQUANTITY: Voorraad
     STOCK_QUANTITY: 'Kan de voorraad van dat artikel worden overgeboekt?'
     STOCK_QUANTITY_EXPIRATION_DATE: 'Datum vanaf wanneer de voorraad niet meer kan worden overgeboekt'
@@ -1854,7 +1990,7 @@ nl_BE:
     SalesBanDate: 'Aankondiging tot'
     SalesBanDateInfo: '<strong> Optioneel </strong> - Alleen instellen als de duur van de verkoop beperkt is.'
     StockIsLowOrderNow: 'Binnenkort uitverkocht - nu bestellen'
-    TITLE: Artikel
+    TITLE: Artikelen
     TITLE_ASC: 'Beschrijving oplopend'
     TITLE_DESC: 'Beschrijving aflopend'
     ThisProductWillBeReleasedOn: 'Dat artikel zal verschijnen op {releasedate}'
@@ -1864,6 +2000,7 @@ nl_BE:
     WEEKS: Weken
     WEIGHT: Gewicht
     WIDGETAREA: Widgets
+    Width: Breedte
     YEAR: Jaar
     YEARS: Jaren
   SilverCart\Model\Product\ProductCondition:
@@ -1895,7 +2032,7 @@ nl_BE:
     NAME: Naam
     NUMBER_OF_DECIMAL_PLACES: 'Aantal decimalen'
     PLURALNAME: 'Eenheden van hoeveelheid voor verkoop'
-    SINGULARNAME: 'Eenheid van hoeveelheid voor verkoop'
+    SINGULARNAME: 'Eenheid van verkoophoeveelheid'
   SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: Vertalingen
     SINGULARNAME: Vertaling
@@ -1930,7 +2067,7 @@ nl_BE:
   SilverCart\Model\Shipment\Carrier:
     ATTRIBUTED_SHIPPINGMETHODS: 'toegewezen verzendmethode'
     FULL_NAME: 'volledige naam'
-    PLURALNAME: Vervoerders
+    PLURALNAME: Vervoerder
     SINGULARNAME: Vervoerder
     TrackingLinkBase: Trackingslink
     TrackingLinkBaseDesc: 'Basislink die wordt gebruikt voor toegang tot de online opvolging van de verzending (tracking). Plaats "{TrackingCode}" waar u de trackingscode van de bestelling later wilt plaatsen. Bijvoorbeeld voor particuliere DHL-klanten: "https://www.dhl.de/de/privatkunden/pakete-empfangen/verzen.html?piececode= {TrackingCode}"'
@@ -2005,15 +2142,48 @@ nl_BE:
     SINGULARNAME: Vertaling
   SilverCart\Model\ShopEmail:
     ADDITIONALS_RECEIPIENTS: 'Extra ontvangers'
+    CustomContent_ChangePassword_ButtonInformationText: 'Knoptekst (onder de knop)'
+    CustomContent_ChangePassword_FooterInformationText: 'Conclusietekst (onder de beveiligingsinfotekst)'
+    CustomContent_ChangePassword_HeaderInformationText: 'Inleidende tekst (boven de knop)'
+    CustomContent_ChangePassword_SecurityInformationText: 'Beveiligingsinfotekst (onder de tekst van de knop)'
+    CustomContent_ForgotPassword_ButtonInformationText: 'Knoptekst (onder de knop)'
+    CustomContent_ForgotPassword_FooterInformationText: 'Conclusietekst (onder de beveiligingsinfotekst)'
+    CustomContent_ForgotPassword_HeaderInformationText: 'Inleidende tekst (boven de knop)'
+    CustomContent_ForgotPassword_SecurityInformationText: 'Beveiligingsinfotekst (onder de tekst van de knop)'
+    CustomContent_NewsletterOptInConfirmation_FooterInformationText: 'Conclusie Tekst (onder de winkelknop)'
+    CustomContent_NewsletterOptInConfirmation_HeaderInformationText: 'Introductietekst (boven de winkelknop)'
+    CustomContent_NewsletterOptIn_FooterInformationText: 'Conclusie Tekst (onder de knoptekst)'
+    CustomContent_NewsletterOptIn_HeaderInformationText: 'Introductietekst (boven de opt-in-knop)'
+    CustomContent_NewsletterOptIn_IgnoreInformationText: 'Knoptekst (onder de opt-in-knop)'
+    CustomContent_OrderConfirmation_AddressInformationText: 'Adrestekst (onder de adresgegevens)'
+    CustomContent_OrderConfirmation_FooterInformationText: 'Conclusie Tekst (onder de bestelgegevens)'
+    CustomContent_OrderConfirmation_HeaderInformationText: 'Introductietekst (boven de adres-/bestelgegevens)'
+    CustomContent_OrderConfirmation_OrderInformationText: 'Ordertekst (onder de ordergegevens)'
+    CustomContent_OrderShippedNotification_ButtonInformationText: 'Knop Tekst (boven de volgknop)'
+    CustomContent_OrderShippedNotification_FooterInformationText: 'Conclusietekst (onder de bestelgegevens)'
+    CustomContent_OrderShippedNotification_HeaderInformationText: 'Inleidende tekst (boven de bestelgegevens)'
+    CustomContent_OrderTrackingNotification_ButtonInformationText: 'Knop Tekst (boven de volgknop)'
+    CustomContent_OrderTrackingNotification_FooterInformationText: 'Conclusietekst (onder de bestelgegevens)'
+    CustomContent_OrderTrackingNotification_HeaderInformationText: 'Inleidende tekst (boven de bestelgegevens)'
+    CustomContent_RegistrationOptInConfirmation_FooterInformationText: 'Conclusietekst (onder de klantgegevens)'
+    CustomContent_RegistrationOptInConfirmation_HeaderInformationText: 'Inleidende tekst (boven de klantgegevens)'
+    CustomContent_RegistrationOptIn_FooterInformationText: 'Conclusie Tekst (onder de knoptekst)'
+    CustomContent_RegistrationOptIn_HeaderInformationText: 'Inleidende tekst (boven de opt-in knop)'
+    CustomContent_RegistrationOptIn_IgnoreInformationText: 'Knoptekst (onder de opt-in-knop)'
+    CustomerDeletionConfirmationText: 'Uw webshop account is succesvol verwijderd.'
+    CustomerDeletionNotificationText: 'Een webshop account is succesvol verwijderd.'
     EMAILTEXT: Bericht
     ForgotPasswordNO_CHANGE: 'Als u uw wachtwoord niet wilt wijzigen, negeer dan deze e-mail.'
     ForgotPasswordPASSWORT_RESET_LINK_HINT: 'Als u niet op de link kunt klikken, kopieer die dan naar uw klembord en plak die in de adresbalk van uw browser.'
     ForgotPasswordTITLE: 'Wachtwoord opnieuw instellen'
+    NEW_ORDER_PLACED: Leeg
+    ORDER_ARRIVED_EMAIL_SUBJECT: Leeg
     ORDER_SHIPPED_MESSAGE: 'Uw bestelling werd zojuist door ons verzonden.'
+    ORDER_SHIPPED_NOTIFICATION_SUBJECT: Leeg
     OrderTrackingMessage1: 'Uw bestelling werd door ons verzonden.'
     OrderTrackingMessage2: 'Deze e-mail bevat uw trackinginformatie.'
     OrderTrackingNotification: 'Volg uw zending'
-    PLURALNAME: Winkel-e-mail
+    PLURALNAME: Winkel-e-mails
     Preview: Voorbeeld
     REGARDS: 'Met vriendelijke groeten'
     RevocationConfirmationText: 'Hierbij bevestigen wij de ontvangst van uw annulering met de volgende gegevens:'
@@ -2024,9 +2194,11 @@ nl_BE:
     Subject_ChangePassword: 'Wachtwoord opnieuw instellen'
     Subject_ContactMessage: 'Aanvraag via het contactformulier'
     Subject_ContactMessageAcknowledgement: 'We hebben uw verzoek ontvangen'
+    Subject_CustomerDeletionConfirmation: 'Uw webshop account is succesvol verwijderd'
+    Subject_CustomerDeletionNotification: 'Een webshop account is succesvol verwijderd'
     Subject_ForgotPassword: 'Wachtwoord opnieuw instellen'
-    Subject_NewsletterOptIn: 'Inschrijving voor de nieuwsbrief voltooien'
-    Subject_NewsletterOptInConfirmation: 'Inschrijving voor de nieuwsbrief succesvol afgerond'
+    Subject_NewsletterOptIn: 'Registratie voor de nieuwsbrief voltooien'
+    Subject_NewsletterOptInConfirmation: 'Registratie voor de nieuwsbrief werd succesvol afgerond'
     Subject_OrderConfirmation: 'Uw bestelling in onze webshop'
     Subject_OrderNotification: 'Er werd een nieuwe bestelling geplaatst'
     Subject_OrderShippedNotification: 'Uw bestelling werd zojuist door ons verzonden.'
@@ -2040,20 +2212,25 @@ nl_BE:
     TemplateName_ChangePassword: 'Wachtwoord wijzigen (klant)'
     TemplateName_ContactMessage: 'Contactaanvraag (beheerder)'
     TemplateName_ContactMessageAcknowledgement: 'Contactverzoek Bevestiging van ontvangst (klant)'
+    TemplateName_CustomerDeletionConfirmation: 'Webshop account werd verwijderd (klant)'
+    TemplateName_CustomerDeletionNotification: 'Webshop account werd verwijderd (winkeleigenaar)'
     TemplateName_ForgotPassword: 'Wachtwoord vergeten (klant)'
     TemplateName_NewsletterOptIn: 'Nieuwsbrief opt-in (klant)'
     TemplateName_NewsletterOptInConfirmation: 'Nieuwsbrief opt-in-bevestiging (klant)'
     TemplateName_OrderConfirmation: 'Bevestiging van de bestelling (klant)'
     TemplateName_OrderNotification: 'Kennisgeving van de bestelling (beheerder)'
     TemplateName_OrderShippedNotification: 'Kennisgeving van de levering (klant)'
+    TemplateName_OrderTrackingNotification: 'Tracking notificatie (klant)'
     TemplateName_RegistrationOptIn: 'Registratie: E-mailadres bevestigen (klant)'
     TemplateName_RegistrationOptInConfirmation: 'Registratie: voltooid (klant)'
     TemplateName_RegistrationOptInNotification: 'Registratie: nieuwe klant (beheerder)'
     TemplateName_RevocationConfirmation: 'Bevestiging van de annulering (klant)'
     TemplateName_RevocationNotification: 'Kennisgeving van annulering (beheerder)'
     Title_ChangePassword: 'Wachtwoord wijzigen'
-    Title_ContactMessage: Contactaanvraag
+    Title_ContactMessage: Contactverzoek
     Title_ContactMessageAcknowledgement: 'Contactverzoek Bevestiging van ontvangst'
+    Title_CustomerDeletionConfirmation: 'Webshop account verwijderd'
+    Title_CustomerDeletionNotification: 'Webshop account verwijderd'
     Title_ForgotPassword: 'Wachtwoord vergeten'
     Title_NewsletterOptIn: 'Nieuwsbrief opt-in'
     Title_NewsletterOptInConfirmation: 'Nieuwsbrief opt-in-bevestiging'
@@ -2068,11 +2245,21 @@ nl_BE:
   SilverCart\Model\ShopEmailTranslation:
     PLURALNAME: Vertalingen
     SINGULARNAME: Vertaling
+  SilverCart\Model\ShopEmail\Content:
+    ClassName: Type
+    Content: Inhoud
+    DisplayPosition: Weergavepositie
+    PLURALNAME: Inhoud
+    SINGULARNAME: Inhoud
+    Sort: Sorteervolgorde
+  SilverCart\Model\ShopEmail\ContentTranslation:
+    PLURALNAME: Vertalingen
+    SINGULARNAME: Vertaling
   SilverCart\Model\Translation\TranslationTools:
     CREATE: 'Een nieuwe vertaling aanmaken'
     CREATEBUTTON: Creëren
     CREATEBUTTON_DESC: 'Maakt automatisch een vertaalsjabloon aan van alle pagina''s in de momenteel zichtbare taal.'
-    CREATE_TRANSLATION_DESC: 'Er werden nieuwe vertalingen gemaakt voor de gehele paginaboom (niet gepubliceerd). Elke pagina wordt aangemaakt als vertaalsjabloon en vervolledigd met standaardinhoud in de geselecteerde taal, indien beschikbaar. Als er geen standaardinhoud beschikbaar is, wordt de inhoud van de momenteel geselecteerde taal vooraf ingesteld.'
+    CREATE_TRANSLATION_DESC: 'Er werden nieuwe vertalingen aangemaakt voor de gehele paginaboom (niet gepubliceerd). Elke pagina wordt aangemaakt als vertaalsjabloon en vervolledigd met standaardinhoud in de geselecteerde taal, indien beschikbaar. Als er geen standaardinhoud beschikbaar is, wordt de inhoud van de momenteel geselecteerde taal vooraf ingesteld.'
     CURRENTLOCALE: 'Huidige taal'
     EXISTING: 'Beschikbare vertalingen:'
     NEWLANGUAGE: 'Nieuwe taal'
@@ -2090,6 +2277,8 @@ nl_BE:
     SINGULARNAME: Vertaling
   SilverCart\Model\Widgets\ImageSliderImage:
     AltText: 'Tekst voor de ALT-tag'
+    ExternalLink: 'Externe link'
+    ExternalLinkDesc: 'Link/URL naar een externe webpagina.'
     LINKPAGE: 'Pagina waaraan moet worden gekoppeld'
     PLURALNAME: 'Afbeeldingen van schuifregelaar'
     ProductNumberToReference: 'Artikelnummer van het artikel waaraan moet worden gekoppeld'
@@ -2144,7 +2333,7 @@ nl_BE:
   SilverCart\Model\Widgets\ProductGroupItemsWidget:
     CMSTITLE: 'SilverCart-schuifregelaar voor artikelen'
     CMS_PRODUCTGROUPTABNAME: Productgroep
-    CMS_PRODUCTSTABNAME: Artikel
+    CMS_PRODUCTSTABNAME: Artikelen
     DESCRIPTION: 'Deze widget toont artikelen uit een productgroep. De productgroep van de artikelen en de hoeveelheid van artikelen die moeten worden weergegeven kan worden gedefinieerd.'
     FETCHMETHOD_SORTORDERASC: 'Rangschikking oplopend'
     FETCHMETHOD_SORTORDERDESC: 'Rangschikking aflopend'
@@ -2153,7 +2342,7 @@ nl_BE:
     SELECTIONMETHOD_PRODUCTS: 'Selecteer het artikel handmatig'
     SELECT_PRODUCT_DESCRIPTION: 'Voer de artikelnummers in, gescheiden door puntkomma''s'
     STOREADMIN_FIELDLABEL: 'Selecteer de productgroepen die u wilt weergeven:'
-    TITLE: Artikel
+    TITLE: Artikelen
     USE_SELECTIONMETHOD: 'Selectiemethode voor artikelen'
   SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
     PLURALNAME: Vertalingen
@@ -2295,9 +2484,25 @@ nl_BE:
   SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: 'Widgetsets beheren'
     UseAsSlider: 'Gebruiken als schuifregelaar'
+  SilverCart\Reports\DeletedCustomersReport:
+    Title: 'Verwijderde klanten'
   SilverCart\View\GroupView\GroupViewBase:
     LIST: Lijst
     TILE: Tegels
+  SilverStripe\Security\Member:
+    FailedLoginCountWarning:
+      one: 'Let op, uw account wordt tijdelijk geblokeerd bij een volgende mislukte inlogpoging.'
+      other: 'Let op, uw account wordt tijdelijk geblokeerd na {count} mislukte inlogpogingen.'
+    PLURALNAME: Leeg
+    PLURALS:
+      one: Leeg
+      other: Leeg
+    SINGULARNAME: leeg
+  SilverStripe\Security\PasswordValidator:
+    STRENGTHTESTDIGITS: Nummers
+    STRENGTHTESTLOWERCASE: 'kleine letters'
+    STRENGTHTESTPUNCTUATION: 'speciale tekens'
+    STRENGTHTESTUPPERCASE: hoofdletters
   SilverStripe\Security\Security:
     CONFIRMLOGOUT: 'Klik op de onderstaande knop om te bevestigen dat u zich wilt afmelden.'
     NOTERESETLINKINVALID: '<p> De link voor het opnieuw instellen van het wachtwoord is ongeldig of is verlopen. </p> <p> U kunt <a href="{link1}"> hier </a> een nieuw wachtwoord aanvragen of uw wachtwoord wijzigen nadat u bent <a href="{link2}"> aangemeld. </a> . </p>'

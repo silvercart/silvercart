@@ -154,15 +154,25 @@ da_DK:
     Actions: Handlinger
     Buy1: '{titel} købe'
     Buy2: '{titel1} {titel2} køb'
+    Cancel: Annuller
     Change: Ændre
     ClickForMore: 'Klik for at se flere oplysninger'
     Close: Luk
+    DefaultIfEmpty: 'Standard hvis tom: " {default} "'
+    DeleteYourAccountErrorConfirm: 'Du bedes bekræfte sletningen af din konto ved at sætte kryds i afkrydsningsfeltet.'
+    DeleteYourAccountErrorPassword: 'Beklager, men de adgangsdata, du har indtastet, er ikke korrekte.'
+    DeleteYourAccountSuccess: 'Din konto er blevet markeret til sletning og vil blive slettet inden for de næste 24 timer. Du vil modtage en e-mail, så snart sletningen er afsluttet. Indtil da har du mulighed for at tilbagekalde anmodningen om sletning.'
+    DeleteYourAccountSuccessOpen: 'Din konto er blevet markeret med henblik på sletning. Da der stadig er åbne ordrer på din kundekonto, vil din konto først blive slettet, når alle åbne ordrer er blevet behandlet. Du vil modtage en e-mail, så snart sletningen er afsluttet. Indtil da har du mulighed for at tilbagekalde anmodningen om sletning.'
+    DeleteYourAccountUndo: 'Tilbagekaldelse af anmodning om sletning'
+    DeleteYourAccountUndone: 'Din anmodning om sletning blev vendt med succes.'
     Go: Gå
     NextPage: 'Næste side'
     PrevPage: 'Forrige side'
     ProductAddedToCart: 'Varen blev tilføjet til din indkøbskurv.'
     ProductRemovedFromCart: 'Varen er blevet fjernet fra din indkøbskurv.'
     Sort: Sorteringsrækkefølge
+    Subject: Emneord
+    Subjects: Emneord
     Translation: Oversættelse
     Translations: Oversættelser
     Until: indtil
@@ -294,6 +304,8 @@ da_DK:
     TITLE: 'Ændre materialegruppe til...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
     TITLE: Deaktivere
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete:
+    TITLE: Slet
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
     TITLE: 'Markér som ikke set'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
@@ -310,6 +322,10 @@ da_DK:
     DUPLICATE_DESCRIPTION: 'Duplikerer dette objekt'
     Duplicate: Duplikat
     DuplicatePermissionsFailure: 'Duplikering ikke tilladt'
+  SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton:
+    Export-current-month: 'Eksporter den aktuelle måned'
+    Export-penultimate-month: 'Eksport næstsidste måned'
+    Export-previous-month: 'Eksport i den foregående måned'
   SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
     Publish: Offentliggøre
     PublishDesc: 'Offentliggør dette objekt'
@@ -477,6 +493,12 @@ da_DK:
     CookiePolicyConfigTxtColor: Tekstfarve
   SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: 'Der oprettes nye oversættelser for hele sidetræet (ikke offentliggjort). Hver side oprettes som en oversættelsesskabelon og udfyldes med standardindhold på det valgte sprog, hvis det er tilgængeligt. Hvis der ikke er noget standardindhold tilgængeligt, udfyldes indholdet på det aktuelt valgte sprog på forhånd.'
+    DefaultMailRegistrationRecipient: 'E-mail-modtager til kundetilmeldinger'
+    DefaultMailRevocationRecipient: 'E-mail-modtager for tilbagekaldelse af ordrer'
+    DimensionUnit: 'Dimension enhed'
+    DimensionUnit_cm: Centimeter
+    DimensionUnit_in: Tomme
+    DisableProductLinkInCart: 'Deaktiver produktdetaljlink i indkøbskurv'
     FACEBOOK_LINK: Facebook-link
     GoogleplusLink: 'Google Plus-link'
     PUBLISHBUTTON: 'Offentliggøre alle sider på det aktuelle sprog'
@@ -485,6 +507,10 @@ da_DK:
     TESTDATA_TEXT: 'Der er ingen produkter endnu; Hvis du vil oprette nogle testdata, skal du blot klikke på følgende link:'
     TWITTER_LINK: Twitter-link
     WELCOME_TO_SILVERCART: 'Velkommen til SilverCart'
+    WeightUnit: 'Vægt enhed'
+    WeightUnit_g: Gram
+    WeightUnit_kg: Kilogram
+    WeightUnit_lbs: Pund
     XING_LINK: Xing-link
   SilverCart\Checkout\CheckoutStep1:
     NewCustomer: 'Er du en ny kunde?'
@@ -502,6 +528,8 @@ da_DK:
     To: Til
     'YES': Ja
     YESTERDAY: 'I går'
+  SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension:
+    DisablePromptCookieConsent: 'Deaktiver cookie-samtykke for denne side'
   SilverCart\Extensions\Model\FontAwesomeExtension:
     FontAwesomeIcon: 'Font Awesome Icon'
     FontAwesomeIconDesc: 'Åbn Avanceret søgning på <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">siden Font Awesome Icon Reference</a>.'
@@ -572,10 +600,22 @@ da_DK:
     OrderNumber: Ordrenummer
     RevocationDate: 'Dato for tilbagekaldelse'
     RevocationOrderData: 'Jeg/vi fortryder hermed den kontrakt, som jeg/vi har indgået om køb af følgende varer/ydelse af følgende tjenesteydelse'
+  SilverCart\Model\BlacklistEntry:
+    Content: Indhold
+    ContentDesc: 'Hvis indholdet af en kontaktanmodning svarer til denne tekst, markeres anmodningen som spam.'
+    IsPartialMatch: 'Ingen nøjagtige matches'
+    IsPartialMatchDesc: 'Hvis denne indstilling er aktiveret, markeres anmodninger som spam, hvis indholdet kun delvis og ikke nøjagtigt svarer til den tekst, der er angivet her.'
+    IsPartialMatchNice: 'Ingen præcise hits'
+    PLURALNAME: 'Posteringer på sortlisten'
+    SINGULARNAME: 'Post på sortliste'
+    Title: Tekst
   SilverCart\Model\ContactMessage:
+    Blacklist: Sortliste
+    IsSpam: 'Er spam'
     MESSAGE: Besked
     PLURALNAME: 'Kontakt anmodninger'
     SINGULARNAME: 'Kontakt anmodning'
+    SubjectText: Emneord
   SilverCart\Model\CookieConsent\ExternalResource:
     Code: Kode
     CookieGroup: 'Cookie Gruppe'
@@ -600,6 +640,7 @@ da_DK:
     SINGULARNAME: 'Ekstern ressource'
     Title: Titel
     URLSegment: URL-segment
+    ValidationExternalResourceExists: '{identifier} er allerede tildelt en anden ressource.'
   SilverCart\Model\Customer\Address:
     ADDITION: Tilføjelse
     ADDRESSTYPE: 'Adresse type'
@@ -942,6 +983,10 @@ da_DK:
     HASACCEPTEDTERMSANDCONDITIONS: 'har accepteret vilkårene og betingelserne'
     INVOICE_DATA: Faktureringsadresseoplysninger
     ISBUSINESSACCOUNT: 'Er erhvervskundekonto'
+    LoginAttemptFailed: mislykkedes
+    LoginAttemptSucceeded: vellykkede
+    MarkForDeletion: 'Markere til sletning'
+    MarkForDeletionReason: 'Årsag til sletning'
     NET: Netto
     PRICETYPE_GROSS: Brutto
     PRICETYPE_NET: Netto
@@ -951,14 +996,66 @@ da_DK:
     RegistrationOptInConfirmed: 'Opt-In for registrering er gennemført'
     SALUTATION: Hilsen
     SHIPPING_DATA: 'Data om leveringsadresse'
+    SILVERCART_CUSTOMER_CREATE: 'Opret kunde'
+    SILVERCART_CUSTOMER_CREATE_HELP: 'Giver en bruger mulighed for at oprette nye klienter.'
+    SILVERCART_CUSTOMER_DELETE: 'Slet kunde'
+    SILVERCART_CUSTOMER_DELETE_HELP: 'Giver en bruger mulighed for at slette en kunde.'
+    SILVERCART_CUSTOMER_EDIT: 'Rediger kunde'
+    SILVERCART_CUSTOMER_EDIT_HELP: 'Giver en bruger mulighed for at redigere en hvilken som helst klient. Egne kundedata kan også redigeres uden denne tilladelse.'
+    SILVERCART_CUSTOMER_VIEW: 'Se kunde'
+    SILVERCART_CUSTOMER_VIEW_HELP: 'Giver en bruger mulighed for at se alle klienter. Egne kundedata kan også ses uden denne tilladelse.'
     SUBSCRIBEDTONEWSLETTER: 'Abonner på nyhedsbrev'
     TYPE: Type
+    YourPreviousLoginAttempts: 'Dine seneste loginforsøg:'
+  SilverCart\Model\Customer\DeletedCustomerReason:
+    CustomReason: Begrundelse
+    Default_MultiAccount: 'Jeg har en anden konto'
+    Default_NewAccount: 'Jeg vil gerne oprette en ny konto'
+    Default_NoReason: 'Jeg ønsker ikke at give en begrundelse'
+    Default_NotUsingAnymore: 'Jeg bruger ikke længere denne konto'
+    Default_SecurityMistrust: 'Bekymringer om kontoens sikkerhed/fortrolighed'
+    DifferentReason: 'Anden årsag'
+    PLURALNAME: 'Årsager til sletning af en konto'
+    Reason: Begrundelse
+    SINGULARNAME: 'Årsag til sletning af konto'
+    Sort: Sorteringsrækkefølge
+  SilverCart\Model\Customer\DeletedCustomerReasonTranslation:
+    PLURALNAME: Oversættelser
+    SINGULARNAME: Oversættelse
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: Pristype
   SilverCart\Model\EmailAddress:
+    ContactFormSubjects: Emneord
+    Email: E-mail
+    Name: Navn
     PLURALNAME: 'E-mail adresser'
+    PLURAlNAME: E-mail-adresser
     SINGULARNAME: 'Email adresse'
+    ShopEmails: 'Køb e-mails'
+  SilverCart\Model\Forms\FormField:
+    DefaultValue: Standardværdi
+    Description: Beskrivelse
+    IsRequired: 'Obligatorisk felt'
+    Name: Navn
+    PLURALNAME: Indtastningsfelter
+    PresetWith: 'Forudpåfyldning med'
+    SINGULARNAME: Indtastningsfelt
+    Sort: Sorteringsrækkefølge
+    Title: 'Vis navn'
+    Type: Type
+    TypeLabel: Type
+  SilverCart\Model\Forms\FormFieldOption:
+    PLURALNAME: Indstillinger
+    SINGULARNAME: Mulighed
+    Sort: Sorteringsrækkefølge
+    Title: Titel
+  SilverCart\Model\Forms\FormFieldOptionTranslation:
+    PLURALNAME: Oversættelser
+    SINGULARNAME: Oversættelse
+  SilverCart\Model\Forms\FormFieldTranslation:
+    PLURALNAME: Oversættelser
+    SINGULARNAME: Oversættelse
   SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
     PLURALNAME: 'Anonyme modtagere af nyhedsbreve'
     SINGULARNAME: 'Anonym modtager af nyhedsbrev'
@@ -1191,6 +1288,8 @@ da_DK:
     I_ACCEPT_REVOCATION: 'Jeg accepterer <a href="{link}" target="blank">afbestillingsreglerne</a>.'
     I_ACCEPT_TERMS: 'Jeg accepterer de <a href="{link}" target="blank">generelle vilkår og betingelser</a>.'
     I_SUBSCRIBE_NEWSLETTER: 'Jeg vil gerne abonnere på nyhedsbrevet.'
+    NoPaymentMethodText: 'Tekst, hvis der ikke er nogen betalingsmetode'
+    NoShippingMethodText: 'Tekst, hvis der ikke er nogen forsendelsesmetode'
     ORDER: Bestil
     ORDER_NOW: 'Køb nu'
     OVERVIEW: Oversigt
@@ -1198,6 +1297,7 @@ da_DK:
     SINGULARNAME: 'Trin til udtjekning'
     StepContent: 'Indhold for de enkelte trin'
     TaxAndDutyHint: 'Bemærk: Ved leveringer til lande uden for EU opkræves der ekstra told, skatter og gebyrer.'
+    TermsAndConditionsText: 'Juridisk tekst til ordrebekræftelse'
     TitleStep6: 'Titel Trin 6 - Bekræftelse af bestilling'
     TitleStep6Info: 'Alternativ titel, der skal vises på siden med ordrebekræftelse (standard: "{default}").'
     URL_SEGMENT: 'check ud'
@@ -1213,6 +1313,7 @@ da_DK:
     EnablePhoneNumber: 'Brug feltet til telefonnummer'
     EnablePostcode: 'Brug feltet til postnummer'
     EnableStreet: 'Brug feltet til gade navn'
+    FormFields: Indtastningsfelter
     PLURALNAME: Kontaktformular-sider
     PhoneNumberIsRequired: 'Telefonnummer er et obligatorisk felt'
     PostcodeIsRequired: 'Postnummer er et obligatorisk felt'
@@ -1220,14 +1321,30 @@ da_DK:
     ResponseContent: 'Indholdet af responssiden'
     SINGULARNAME: 'Kontaktformular side'
     StreetIsRequired: 'Gade/husnummer er et obligatorisk felt'
+    Subject: 'Begrundelse for din anmodning'
+    Subjects: Emneord
     TITLE: Kontakt
     ThankYouForYourRequest: 'Tak for din anmodning. Vi har modtaget din besked og vil svare hurtigst muligt.'
     URL_SEGMENT: kontakt
     WeReceivedYourRequest: 'Vi har modtaget din anmodning.'
     YourData: 'Dine data:'
+  SilverCart\Model\Pages\ContactFormPage\Subject:
+    ContactFormPage: 'Kontaktformular side'
+    PLURALNAME: Emneord
+    Recipients: 'Modtager af e-mail'
+    SINGULARNAME: Emneord
+    Sort: Sorteringsrækkefølge
+    Subject: Emneord
+    SubjectTranslations: Oversættelser
+  SilverCart\Model\Pages\ContactFormPage\SubjectTranslation:
+    PLURALNAME: Oversættelser
+    SINGULARNAME: Oversættelse
+    Subject: Emneord
   SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: 'Mine data'
     DEFAULT_URLSEGMENT: mine-data
+    DeleteAccountContent: 'Oplysninger om visningen på formularen til sletning af en konto'
+    LoginAttemptContent: 'Oplysninger på displayet under de seneste loginforsøg'
     PLURALNAME: 'Data sider'
     SINGULARNAME: 'Data side'
     TITLE: 'Mine data'
@@ -1316,6 +1433,12 @@ da_DK:
     URL_SEGMENT: nyhedsbrev
     UseDoubleOptIn: 'Brug Double-Opt-In'
   SilverCart\Model\Pages\OrderHolder:
+    AllowReorder: 'Tillad genbestilling af en allerede afgivet ordre'
+    AllowReorderDesc: 'Tilføjer en knap til siden med ordreoplysninger på kundekontoen, så kunden kan afgive en ny ordre med et klik.'
+    ButtonReorder: 'Køb igen'
+    ButtonReorderDesc: 'Tilføjer varerne i denne ordre til indkøbskurven.'
+    ButtonReorderFull: 'Læg i indkøbskurven og gå til kassen'
+    ButtonReorderFullDesc: 'Føjer denne ordres varer til indkøbskurven og dirigerer til betalingsprocessen ved hjælp af adresse, forsendelse og betalingsdata for denne ordre.'
     DEFAULT_TITLE: 'Mine ordrer'
     DEFAULT_URLSEGMENT: mine-ordrer
     OrderDetails: 'Ordre detaljer'
@@ -1345,6 +1468,7 @@ da_DK:
     BACK_TO_DEFAULT: 'forrige side'
     BILLING_ADDRESS: 'Fakturaens adresse'
     BIRTHDAY: Fødselsdag
+    BrowseOrders: 'Gennemse ordrer...'
     CANCEL: Annuller
     CART: Indkøbsvogn
     CATALOG: Katalog
@@ -1403,6 +1527,7 @@ da_DK:
     NOT_FOUND: 'Siden "{title}" kunne ikke findes.'
     NOVEMBER: November
     NO_ORDERS: 'Du har endnu ikke gennemført nogen ordrer.'
+    NO_ORDERS_FOUND: 'Din søgning efter "{query}" matchede ikke nogen ordre.'
     NO_RESULTS: 'Beklager, men der er ingen resultater for dit søgeord.'
     OCTOBER: Oktober
     OR: eller
@@ -1776,9 +1901,12 @@ da_DK:
     Delivery: Levering
     DeliveryForFree: 'Gratis forsendelse'
     DeliveryForFreeIsPossible: 'Gratis forsendelse er mulig'
+    Dimensions: Dimensioner
+    DimensionsDesc: 'Længde x bredde x højde i decimalform'
     EAN: EAN
     ExcludeFromPaymentDiscounts: 'Dette produkt er udelukket fra betalingsrabatter.'
     FREE_OF_CHARGE: Gratis
+    Height: Højde
     IMAGE: Produktbillede
     IMAGE_NOT_AVAILABLE: 'Produktbillede ikke tildelt'
     IMPORTIMAGESFORM_ACTION: 'Importer billeder'
@@ -1795,6 +1923,7 @@ da_DK:
     LIST_PRICE: Listepris
     LaunchDate: 'Dato for lancering'
     LaunchDateInfo: '<strong> Valgfrit </strong> - Angiv dette, hvis <i> udgivelsesdato </i> er angivet, men elementet skal vises før dets <i> udgivelsesdato </i> .'
+    Length: Længde
     MASTERPRODUCT: Hovedprodukt
     METADATA: Metadata
     METADESCRIPTION: 'Metabeskrivelse til søgemaskiner'
@@ -1864,6 +1993,7 @@ da_DK:
     WEEKS: Uger
     WEIGHT: Vægt
     WIDGETAREA: Widgets
+    Width: Bredde
     YEAR: År
     YEARS: År
   SilverCart\Model\Product\ProductCondition:
@@ -2005,6 +2135,36 @@ da_DK:
     SINGULARNAME: Oversættelse
   SilverCart\Model\ShopEmail:
     ADDITIONALS_RECEIPIENTS: 'Yderligere modtagere'
+    CustomContent_ChangePassword_ButtonInformationText: 'Knappens tekst (under knappen)'
+    CustomContent_ChangePassword_FooterInformationText: 'Afsluttende tekst (under teksten med sikkerhedsinformation)'
+    CustomContent_ChangePassword_HeaderInformationText: 'Introduktionstekst (over knappen)'
+    CustomContent_ChangePassword_SecurityInformationText: 'Sikkerhedsinformationstekst (under knapteksten)'
+    CustomContent_ForgotPassword_ButtonInformationText: 'Knappens tekst (under knappen)'
+    CustomContent_ForgotPassword_FooterInformationText: 'Afsluttende tekst (under teksten med sikkerhedsinformation)'
+    CustomContent_ForgotPassword_HeaderInformationText: 'Introduktionstekst (over knappen)'
+    CustomContent_ForgotPassword_SecurityInformationText: 'Sikkerhedsinformationstekst (under knapteksten)'
+    CustomContent_NewsletterOptInConfirmation_FooterInformationText: 'Afsluttende tekst (under butiksknappen)'
+    CustomContent_NewsletterOptInConfirmation_HeaderInformationText: 'Introduktionstekst (over butiksknappen)'
+    CustomContent_NewsletterOptIn_FooterInformationText: 'Afsluttende tekst (under knapteksten)'
+    CustomContent_NewsletterOptIn_HeaderInformationText: 'Introduktionstekst (over opt-in-knappen)'
+    CustomContent_NewsletterOptIn_IgnoreInformationText: 'Knaptekst (under opt-in-knappen)'
+    CustomContent_OrderConfirmation_AddressInformationText: 'Adressetekst (under adressedata)'
+    CustomContent_OrderConfirmation_FooterInformationText: 'Afsluttende tekst (under ordredata)'
+    CustomContent_OrderConfirmation_HeaderInformationText: 'Introduktionstekst (over ordredata)'
+    CustomContent_OrderConfirmation_OrderInformationText: 'Sluttekst (under ordredata)'
+    CustomContent_OrderShippedNotification_ButtonInformationText: 'Knaptekst (over sporingsknappen)'
+    CustomContent_OrderShippedNotification_FooterInformationText: 'Sluttekst (under ordredata)'
+    CustomContent_OrderShippedNotification_HeaderInformationText: 'Introduktionstekst (over ordredata)'
+    CustomContent_OrderTrackingNotification_ButtonInformationText: 'Knaptekst (over sporingsknappen)'
+    CustomContent_OrderTrackingNotification_FooterInformationText: 'Sluttekst (under kundedata)'
+    CustomContent_OrderTrackingNotification_HeaderInformationText: 'Introduktionstekst (over ordredata)'
+    CustomContent_RegistrationOptInConfirmation_FooterInformationText: 'Sluttekst (under kundedata)'
+    CustomContent_RegistrationOptInConfirmation_HeaderInformationText: 'Introduktionstekst (over kundedata)'
+    CustomContent_RegistrationOptIn_FooterInformationText: 'Sluttekst (under knapteksten)'
+    CustomContent_RegistrationOptIn_HeaderInformationText: 'Introduktionstekst (over opt-in-knappen)'
+    CustomContent_RegistrationOptIn_IgnoreInformationText: 'Knaptekst (under opt-in-knappen)'
+    CustomerDeletionConfirmationText: 'Din webshopkonto blev slettet.'
+    CustomerDeletionNotificationText: 'En webshopkonto blev slettet.'
     EMAILTEXT: Besked
     ForgotPasswordNO_CHANGE: 'Hvis du ikke ønsker at ændre din adgangskode, skal du ignorere denne e-mail.'
     ForgotPasswordPASSWORT_RESET_LINK_HINT: 'Hvis du ikke kan klikke på linket, bedes du kopiere det til din udklipsholder og indsætte det i din browsers adresselinje.'
@@ -2024,6 +2184,8 @@ da_DK:
     Subject_ChangePassword: 'Nulstil adgangskode'
     Subject_ContactMessage: 'Forespørgsel via kontaktformularen'
     Subject_ContactMessageAcknowledgement: 'Vi har modtaget din forespørgsel'
+    Subject_CustomerDeletionConfirmation: 'Din webshopkonto blev slettet'
+    Subject_CustomerDeletionNotification: 'En webshopkonto blev slettet'
     Subject_ForgotPassword: 'Nulstil adgangskode'
     Subject_NewsletterOptIn: 'Fuldfør nyhedsbrevsregistrering'
     Subject_NewsletterOptInConfirmation: 'Registrering af nyhedsbrev gennemført med succes'
@@ -2040,12 +2202,15 @@ da_DK:
     TemplateName_ChangePassword: 'Ændre adgangskode (kunde)'
     TemplateName_ContactMessage: 'Kontaktbesked (butiksindehaver)'
     TemplateName_ContactMessageAcknowledgement: 'Kontaktbesked bekræftelse (kunde)'
+    TemplateName_CustomerDeletionConfirmation: 'Webshop-konto blev slettet (kunde)'
+    TemplateName_CustomerDeletionNotification: 'Webshop konto blev slettet (butiksejer)'
     TemplateName_ForgotPassword: 'Glemt adgangskode (kunde)'
     TemplateName_NewsletterOptIn: 'Tilmelding til nyhedsbrev (kunde)'
     TemplateName_NewsletterOptInConfirmation: 'Nyhedsbrev tilmeld dig bekræftelse (kunde)'
     TemplateName_OrderConfirmation: 'Ordrebekræftelse (kunde)'
     TemplateName_OrderNotification: 'Meddelelse af ordre (operatør)'
     TemplateName_OrderShippedNotification: 'Meddelelse om levering (kunde)'
+    TemplateName_OrderTrackingNotification: 'Meddelelse om sporing (kunde)'
     TemplateName_RegistrationOptIn: 'Registrering: Bekræft e-mail-adresse (kunde)'
     TemplateName_RegistrationOptInConfirmation: 'Registrering: Afsluttet (kunde)'
     TemplateName_RegistrationOptInNotification: 'Registrering: Ny kunde (operatør)'
@@ -2054,6 +2219,8 @@ da_DK:
     Title_ChangePassword: 'Ændre adgangskode'
     Title_ContactMessage: 'Kontakt besked'
     Title_ContactMessageAcknowledgement: 'Kontaktbesked bekræftelse'
+    Title_CustomerDeletionConfirmation: 'Webshop-konto slettet'
+    Title_CustomerDeletionNotification: 'Webshop-konto slettet'
     Title_ForgotPassword: 'Adgangskode glemt'
     Title_NewsletterOptIn: 'Tilmelding til nyhedsbrev'
     Title_NewsletterOptInConfirmation: 'Bekræftelse af tilmelding til nyhedsbrev'
@@ -2066,6 +2233,16 @@ da_DK:
     Title_RevocationNotification: 'En kunde har tilbagekaldt en ordre'
     VARIABLES: Variabler
   SilverCart\Model\ShopEmailTranslation:
+    PLURALNAME: Oversættelser
+    SINGULARNAME: Oversættelse
+  SilverCart\Model\ShopEmail\Content:
+    ClassName: Type
+    Content: Indhold
+    DisplayPosition: 'Vis placering'
+    PLURALNAME: Indhold
+    SINGULARNAME: Indhold
+    Sort: Sorteringsrækkefølge
+  SilverCart\Model\ShopEmail\ContentTranslation:
     PLURALNAME: Oversættelser
     SINGULARNAME: Oversættelse
   SilverCart\Model\Translation\TranslationTools:
@@ -2090,6 +2267,8 @@ da_DK:
     SINGULARNAME: Oversættelse
   SilverCart\Model\Widgets\ImageSliderImage:
     AltText: 'Tekst til ALT-tag'
+    ExternalLink: 'Eksternt link'
+    ExternalLinkDesc: 'Link/URL til et eksternt websted.'
     LINKPAGE: 'Side, der skal linkes til'
     PLURALNAME: skyderbilleder
     ProductNumberToReference: 'Produktnummer på produktet, der skal linkes til'
@@ -2295,9 +2474,20 @@ da_DK:
   SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: 'Administrer Widgets-sæt'
     UseAsSlider: 'Brug som skyder'
+  SilverCart\Reports\DeletedCustomersReport:
+    Title: 'Slettede kunder'
   SilverCart\View\GroupView\GroupViewBase:
     LIST: Liste
     TILE: Flise
+  SilverStripe\Security\Member:
+    FailedLoginCountWarning:
+      one: 'Vær opmærksom på, at din konto midlertidigt vil blive blokeret efter endnu et mislykket loginforsøg.'
+      other: 'Vær opmærksom på, at din konto midlertidigt vil blive blokeret efter {count} mislykkede loginforsøg.'
+  SilverStripe\Security\PasswordValidator:
+    STRENGTHTESTDIGITS: cifre
+    STRENGTHTESTLOWERCASE: 'små bogstaver'
+    STRENGTHTESTPUNCTUATION: specialtegn
+    STRENGTHTESTUPPERCASE: 'store bogstaver'
   SilverStripe\Security\Security:
     CONFIRMLOGOUT: 'Klik på knappen nedenfor for at bekræfte, at du vil logge af.'
     NOTERESETLINKINVALID: '<p> Linket til nulstilling af adgangskode er ugyldigt eller er udløbet. </p> <p> Du kan anmode om en ny adgangskode <a href="{link1}"> her </a> eller ændre din adgangskode, når du har logget <a href="{link2}"> </a> . </p>'

@@ -1,4 +1,155 @@
 en:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Accept all'
+    ManageCookies: 'Manage settings'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>We use cookies to help us optimize our websites, improve our products for you, and display advertisements that are relevant to your interests in conjunction with third parties. Here you can choose which cookies you want to allow and change your selection at any time. You can find more information in our policy on the use of cookies and in our privacy policy. Technically necessary cookies are also set when you choose to reject them.</p><p>By clicking on "Accept all" you accept this processing.</p>'
+    Title: 'This website uses cookies'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'The settings have been saved'
+    Save: 'confirm selection'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Analytics
+    Analytics_Content: '<p>With the help of analysis cookies we are able to technically analyze the use of the site to identify problems and optimize the usability.</p>'
+    Marketing: Marketing
+    Marketing_Content: '<p>With the help of marketing cookies we are able to analyse the success of advertising measures.</p>'
+    Necessary: Necessary
+    Necessary_Content: '<p>Necessary cookies ensure the functional operation of the site and must be set for technical reasons.</p>'
+    Preferences: Configuration
+    Prefrences_Content: '<p>With the help of setting cookies we can tailor the usability of the site to your needs. The site can then remember your preferences the next time you visit.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p> $ CookieConsentForm </p> <p> [cookiegrouptable group = "Necessary"] </p> <p> [cookiegrouptable group = "Analytics"] </p> <p> [cookiegrouptable group = "Marketing"] </p> <p> [cookiegrouptable group = "Preferences"] </p>'
+    Title: 'Cookie Policy'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Fill this page with your privacy policy.</p>'
+    Title: 'Privacy Policy'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Fill this page with your GTC.</p>'
+    Title: 'General Terms and Conditions'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Duration
+    Provider: 'Set by'
+    Purpose: Purpose
+    Title: Cookie
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 year'
+    loc_Purpose: 'Social media sharing buttons'
+    mus_Expiry: '1 year'
+    mus_Purpose: 'Social media sharing buttons'
+    na_id_Expiry: '1 year'
+    na_id_Purpose: 'Social media sharing buttons'
+    na_tc_Expiry: '1 year'
+    na_tc_Purpose: 'Social media sharing buttons'
+    ouid_Expiry: '1 year'
+    ouid_Purpose: 'Social media sharing buttons'
+    uid_Expiry: '1 year'
+    uid_Purpose: 'Social media sharing buttons'
+    uvc_Expiry: '1 year'
+    uvc_Purpose: 'Social media sharing buttons'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 months'
+    BizoID_Purpose: Marketing
+    UserMatchHistory_Expiry: '6 months'
+    UserMatchHistory_Purpose: Marketing
+    lang_Expiry: Session
+    lang_Purpose: 'Language settings'
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 months'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 years'
+    _ga_Purpose: 'Fontawesome analytics'
+    _gid_Expiry: '2 years'
+    _gid_Purpose: 'Fontawesome analytics'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 hours'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 years'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 years'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 years'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 months'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 month'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 years'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 months'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 years'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 years'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 years'
+    bcookie_Purpose: Marketing
+    lidc_Expiry: '2 years'
+    lidc_Purpose: Marketing
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 years'
+    _ga_Purpose: 'Mapbox analytics'
+    _mkto_trk_Expiry: '2 years'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 year'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 year'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 year'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 months'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 year'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 year'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 months'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 year'
+    player_Purpose: 'Video Integration'
+    vuid_Expiry: '1 year'
+    vuid_Purpose: 'Video Integration'
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Session
+    CONSENT_Purpose: 'Video Integration'
+    GPS_Expiry: Session
+    GPS_Purpose: 'Video Integration'
+    NID_Expiry: Session
+    NID_Purpose: 'Video Integration'
+    PREF_Expiry: '2 years'
+    PREF_Purpose: 'Video Integration'
+    VISITOR_INFO1_LIVE_Expiry: '6 months'
+    VISITOR_INFO1_LIVE_Purpose: 'Video Integration'
+    YSC_Expiry: Session
+    YSC_Purpose: 'Video Integration'
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 months'
+    CookieConsent_Purpose: 'Saves your cookie settings'
+    FluentLocale_Expiry: '2 months'
+    FluentLocale_Purpose: 'Saves your language settings'
+    PHPSESSID_Expiry: Session
+    PHPSESSID_Purpose: Session
+    __atuvc_Expiry: '1 year'
+    __atuvc_Purpose: 'Social media sharing buttons'
+    __atuvs_Expiry: '1 year'
+    __atuvs_Purpose: 'Social media sharing buttons'
+    _ga_Expiry: '2 years'
+    _ga_Purpose: Statistics
+    _gat_Expiry: '24 hours'
+    _gat_Purpose: Statistics
+    _gid_Expiry: '24 hours'
+    _gid_Purpose: Statistics
+    _hjIncludedInSample_Expiry: Session
+    _hjIncludedInSample_Purpose: Statistics
+    ipcountry_Expiry: Session
+    ipcountry_Purpose: 'Standard language settings'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 month'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 years'
+    _ga_Purpose: 'reCAPTCHA analytics'
   SilverCart:
     Actions: Actions
     Buy1: 'Buy {title}'
@@ -155,6 +306,8 @@ en:
     TITLE: 'Change product group to...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
     TITLE: Deactivate
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete:
+    TITLE: Delete
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
     TITLE: 'Mark as not seen'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
@@ -383,6 +536,8 @@ en:
     To: To
     'YES': 'Yes'
     YESTERDAY: yesterday
+  SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension:
+    DisablePromptCookieConsent: 'Disable Cookie Consent for this page'
   SilverCart\Extensions\Model\FontAwesomeExtension:
     FontAwesomeIcon: 'Font Awesome Icon'
     FontAwesomeIconDesc: 'Go to the <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Font Awesome icon reference page</a> for an enhanced search filter.'
@@ -883,6 +1038,7 @@ en:
     Email: Email
     Name: Name
     PLURALNAME: 'Email addresses'
+    PLURAlNAME: 'Email addresses'
     SINGULARNAME: 'Email address'
     ShopEmails: 'Shop Emails'
   SilverCart\Model\Forms\FormField:
@@ -1171,6 +1327,7 @@ en:
     EnablePhoneNumber: 'Use field for phone number'
     EnablePostcode: 'Use field for postcode'
     EnableStreet: 'Use field for street'
+    FormFields: 'Input fields'
     PLURALNAME: 'Contact form pages'
     PhoneNumberIsRequired: 'Phone number is required'
     PostcodeIsRequired: 'Postcode is required'
@@ -2361,6 +2518,11 @@ en:
     STRENGTHTESTLOWERCASE: 'lower case letters'
     STRENGTHTESTPUNCTUATION: 'special characters'
     STRENGTHTESTUPPERCASE: 'upper case letters'
+  SilverStripe\Security\Security:
+    CONFIRMLOGOUT: 'Please click on the button below to confirm that you want to log out.'
+    NOTERESETLINKINVALID: '<p> The link to reset your password is invalid or has expired. </p> <p> You can ask for a new password <a href="{link1}"> here </a> or change your password after you have logged in <a href="{link2}"> </a> . </p>'
+    PASSWORDRESETSENTHEADER: 'The link to reset the password has been sent'
+    PASSWORDRESETSENTTEXT: 'Thank you, a reset link has been sent if an account exists for this email address.'
   SiteConfig:
     SITENAMEDEFAULT: SilverCart
     TAGLINEDEFAULT: 'eCommerce software. Open-source. You''ll love it.'

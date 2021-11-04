@@ -1,0 +1,4 @@
+sv:
+  SilverCart\Model\ShopEmail:
+    TemplateName_OrderConfirmation: 'Beställningsbekräftelse (kund)'
+    TemplateName_OrderNotification: 'Meddelande om beställning (operatör)'
