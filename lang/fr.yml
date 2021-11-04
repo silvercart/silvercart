@@ -1,10 +1,10 @@
 fr:
-    SilverCart\Model\Customer\Customer:
-        ADDRESS_DATA: 'Données d''adresse générales'
-        INVOICE_DATA: 'Données d''adresse de facturation'
-        SHIPPING_DATA: 'Données d’adresse de livraison'
-    SilverCart\Model\Pages\Page:
-        ADDRESS_DATA: 'Données d''adresse'
-    SiteConfig:
-        SITENAMEDEFAULT: SilverCart
-        TAGLINEDEFAULT: 'Logiciel de commerce électronique. Open-source. Vous allez l''adorer.'
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Données d''adresse générales'
+    INVOICE_DATA: 'Données d''adresse de facturation'
+    SHIPPING_DATA: 'Données d’adresse de livraison'
+  SilverCart\Model\Pages\Page:
+    ADDRESS_DATA: 'Données d''adresse'
+  SiteConfig:
+    SITENAMEDEFAULT: SilverCart
+    TAGLINEDEFAULT: 'Logiciel de commerce électronique. Open-source. Vous allez l''adorer.'
