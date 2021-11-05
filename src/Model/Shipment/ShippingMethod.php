@@ -17,12 +17,12 @@ use SilverCart\Model\Shipment\Carrier;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethodTranslation;
 use SilverCart\Model\Shipment\Zone;
-use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
@@ -156,6 +156,18 @@ class ShippingMethod extends DataObject
      */
     private static $default_sort = "priority ASC";
     /**
+     * Determines to insert the translation CMS fields by TranslatableDataObjectExtension.
+     * 
+     * @var bool
+     */
+    private static $insert_translation_cms_fields = true;
+    /**
+     * Determines to insert the translation CMS fields before this field.
+     * 
+     * @var string
+     */
+    private static $insert_translation_cms_fields_before = 'CarrierID';
+    /**
      * Shipping address
      *
      * @var Address
@@ -178,11 +190,8 @@ class ShippingMethod extends DataObject
      * Searchable fields
      *
      * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
      */
-    public function searchableFields()
+    public function searchableFields() : array
     {
         $searchableFields = [
             'ShippingMethodTranslations.Title' => [
@@ -216,12 +225,8 @@ class ShippingMethod extends DataObject
      * @param bool $includerelations set to true to include the DataObjects relations
      * 
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2013
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
             'Title'                          => Product::singleton()->fieldLabel('Title'),
@@ -233,11 +238,11 @@ class ShippingMethod extends DataObject
             'ForZones'                       => _t(ShippingMethod::class . '.FOR_ZONES', 'for zones'),
             'isActive'                       => PaymentMethod::singleton()->fieldLabel('isActive'),
             'isPickup'                       => _t(ShippingMethod::class . '.isPickup', 'Is pickup (no active shipping, customer needs to pickup himself)'),
-            'Carrier'                        => Carrier::singleton()->singular_name(),
-            'ShippingFees'                   => ShippingFee::singleton()->plural_name(),
-            'Zones'                          => Zone::singleton()->plural_name(),
-            'CustomerGroups'                 => Group::singleton()->plural_name(),
-            'ShippingMethodTranslations'     => ShippingMethodTranslation::singleton()->plural_name(),
+            'Carrier'                        => Carrier::singleton()->i18n_singular_name(),
+            'ShippingFees'                   => ShippingFee::singleton()->i18n_plural_name(),
+            'Zones'                          => Zone::singleton()->i18n_plural_name(),
+            'CustomerGroups'                 => Group::singleton()->i18n_plural_name(),
+            'ShippingMethodTranslations'     => ShippingMethodTranslation::singleton()->i18n_plural_name(),
             'DoNotShowOnShippingFeesPage'    => _t(ShippingMethod::class . '.DoNotShowOnShippingFeesPage', 'Do not show on Shipping Fees Page'),
             'ExpectedDelivery'               => _t(ShippingMethod::class . '.ExpectedDelivery', 'Expected Delivery'),
             'ReadyForPickup'                 => _t(ShippingMethod::class . '.ReadyForPickup', 'Ready for pickup'),
@@ -266,11 +271,8 @@ class ShippingMethod extends DataObject
      * Sets the summary fields.
      *
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2012
      */
-    public function summaryFields()
+    public function summaryFields() : array
     {
         $summaryFields = [
             'Carrier.Title'             => $this->fieldLabel('Carrier'),
@@ -288,12 +290,9 @@ class ShippingMethod extends DataObject
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function singular_name()
+    public function singular_name() : string
     {
         return Tools::singular_name_for($this);
     }
@@ -303,12 +302,9 @@ class ShippingMethod extends DataObject
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
      * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
+     * @return string
      */
-    public function plural_name()
+    public function plural_name() : string
     {
         return Tools::plural_name_for($this); 
     }
@@ -320,68 +316,56 @@ class ShippingMethod extends DataObject
      * This is a performance friendly way to exclude fields.
      * 
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.02.2013
      */
-    public function excludeFromScaffolding()
+    public function excludeFromScaffolding() : array
     {
         $excludeFromScaffolding = [
             'Countries',
             'PaymentMethods',
             'Orders',
         ];
-        
         $this->extend('updateExcludeFromScaffolding', $excludeFromScaffolding);
-        
         return $excludeFromScaffolding;
     }
 
         /**
      * customizes the backends fields, mainly for ModelAdmin
      *
-     * @return FieldList the fields for the backend
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.06.2014
+     * @return FieldList
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
-        $fields = DataObjectExtension::getCMSFields($this, 'CarrierID', false);
-        
-        $fields->dataFieldByName('DeliveryTimeMin')->setDescription($this->fieldLabel('DeliveryTimeMinDesc'));
-        $fields->dataFieldByName('DeliveryTimeMax')->setDescription($this->fieldLabel('DeliveryTimeMaxDesc'));
-        $fields->dataFieldByName('DeliveryTimeText')->setDescription($this->fieldLabel('DeliveryTimeTextDesc'));
-
-        if ($this->isInDB()) {
-            $feeTable           = $fields->dataFieldByName('ShippingFees');
-            $feesTableConfig    = $feeTable->getConfig();
-            $exportButton       = new GridFieldExportButton();
-            $exportColumsArray  = [
-                'ID',
-                'MaximumWeight',
-                'UnlimitedWeight',
-                'PriceAmount',
-                'PriceCurrency',
-                'ZoneID',
-                'ShippingMethodID',
-                'TaxID',
-            ];
-            $exportButton->setExportColumns($exportColumsArray);
-            $feesTableConfig->addComponent($exportButton);
-            $feesTableConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
-            $feesTableConfig->removeComponentsByType(GridFieldDeleteAction::class);
-            $feesTableConfig->addComponent(new GridFieldDeleteAction());
-            
-            if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
-                $feesTableConfig->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('priority'));
-            } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
-                $feesTableConfig->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('priority'));
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->dataFieldByName('DeliveryTimeMin')->setDescription($this->fieldLabel('DeliveryTimeMinDesc'));
+            $fields->dataFieldByName('DeliveryTimeMax')->setDescription($this->fieldLabel('DeliveryTimeMaxDesc'));
+            $fields->dataFieldByName('DeliveryTimeText')->setDescription($this->fieldLabel('DeliveryTimeTextDesc'));
+            if ($this->exists()) {
+                $feeTable          = $fields->dataFieldByName('ShippingFees');
+                $feesTableConfig   = $feeTable->getConfig();
+                $exportButton      = new GridFieldExportButton();
+                $exportColumsArray = [
+                    'ID',
+                    'MaximumWeight',
+                    'UnlimitedWeight',
+                    'PriceAmount',
+                    'PriceCurrency',
+                    'ZoneID',
+                    'ShippingMethodID',
+                    'TaxID',
+                ];
+                $exportButton->setExportColumns($exportColumsArray);
+                $feesTableConfig->addComponent($exportButton);
+                $feesTableConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                $feesTableConfig->removeComponentsByType(GridFieldDeleteAction::class);
+                $feesTableConfig->addComponent(new GridFieldDeleteAction());
+                if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
+                    $feesTableConfig->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('priority'));
+                } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
+                    $feesTableConfig->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('priority'));
+                }
             }
-        }
-        
-        return $fields;
+        });
+        return parent::getCMSFields();
     }
     
     /**
@@ -389,7 +373,7 @@ class ShippingMethod extends DataObject
      * 
      * @return bool
      */
-    public function getShowOnShippingFeesPage()
+    public function getShowOnShippingFeesPage() : bool
     {
         return !$this->DoNotShowOnShippingFeesPage;
     }
