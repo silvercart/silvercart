@@ -81,6 +81,7 @@ class TranslatableDataObjectExtension extends DataExtension
                 }
             }
         }
+        $this->owner->extend('updateTranslatableCMSFields', $fields);
     }
     
     /**
