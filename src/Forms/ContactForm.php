@@ -164,8 +164,12 @@ class ContactForm extends CustomForm
         $fields   = [];
         $subjects = $this->ContactPage()->Subjects();
         if ($subjects->exists()) {
+            $value = null;
+            if (array_key_exists('SID', $_GET)) {
+                $value = (int) $_GET['SID'];
+            }
             $fields = [
-                DropdownField::create('ContactMessageSubjectID', $this->ContactPage()->fieldLabel('Subject'), $subjects->map('ID', 'Subject')->toArray()),
+                DropdownField::create('ContactMessageSubjectID', $this->ContactPage()->fieldLabel('Subject'), $subjects->map('ID', 'Subject')->toArray(), $value),
             ];
         }
         return $fields;
