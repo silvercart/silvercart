@@ -487,6 +487,9 @@ class ShippingMethod extends DataObject
                     $fee = $fees->first();
                 }
             }
+            if ($fee instanceof ShippingFee) {
+                $fee->setComponent('ShippingMethod', $this);
+            }
         }
         $this->extend('onAfterDetectShippingFee', $fee);
         return $fee;

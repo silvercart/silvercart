@@ -609,8 +609,11 @@ class ShippingFee extends DataObject
         if (array_key_exists($key, $this->freeOfShippingCostsFromCache)) {
             return $this->freeOfShippingCostsFromCache[$key];
         }
-        if (is_null($country)) {
-            $country = $this->Zone()->Countries()->first();
+        if ($country === null) {
+            $country = $this->ShippingMethod()->getShippingCountry();
+            if ($country === null) {
+                $country = $this->Zone()->Countries()->first();
+            }
         }
         $freeOfShippingCostsFrom = DBMoney::create();
         if ($this->UseFreeOfShippingCostsFrom()) {
@@ -640,6 +643,12 @@ class ShippingFee extends DataObject
             return $this->shippingIsFreeCache[$key];
         }
         $shippingIsFree = false;
+        if ($country === null) {
+            $country = $this->ShippingMethod()->getShippingCountry();
+            if ($country === null) {
+                $country = $this->Zone()->Countries()->first();
+            }
+        }
         if ($this->UseFreeOfShippingCostsFrom()
          && $this->FreeOfShippingCostsFrom($country)->getAmount() > 0
          && (float) $this->FreeOfShippingCostsFrom($country)->getAmount() <= $amount
