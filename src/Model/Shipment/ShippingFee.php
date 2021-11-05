@@ -144,13 +144,13 @@ class ShippingFee extends DataObject
      * 
      * @var DBMoney[]
      */
-    protected $freeOfShippingCostsFrom = [];
+    protected $freeOfShippingCostsFromCache = [];
     /**
      * Contains all requested shipping is free properties by country.
      * 
      * @var bool[]
      */
-    protected $shippingIsFree = [];
+    protected $shippingIsFreeCache = [];
     
     /**
      * Returns the translated singular name of the object.
@@ -606,8 +606,8 @@ class ShippingFee extends DataObject
     public function FreeOfShippingCostsFrom(Country $country = null) : DBMoney
     {
         $key = $country === null ? 0 : $country->ID;
-        if (array_key_exists($key, $this->freeOfShippingCostsFrom)) {
-            return $this->freeOfShippingCostsFrom[$key];
+        if (array_key_exists($key, $this->freeOfShippingCostsFromCache)) {
+            return $this->freeOfShippingCostsFromCache[$key];
         }
         if (is_null($country)) {
             $country = $this->Zone()->Countries()->first();
@@ -621,8 +621,8 @@ class ShippingFee extends DataObject
             }
         }
         $this->extend('updateFreeOfShippingCostsFrom', $freeOfShippingCostsFrom, $country);
-        $this->freeOfShippingCostsFrom[$key] = $freeOfShippingCostsFrom;
-        return $this->freeOfShippingCostsFrom[$key];
+        $this->freeOfShippingCostsFromCache[$key] = $freeOfShippingCostsFrom;
+        return $this->freeOfShippingCostsFromCache[$key];
     }
     
     /**
@@ -636,8 +636,8 @@ class ShippingFee extends DataObject
     public function ShippingIsFree(float $amount, Country $country = null) : bool
     {
         $key = ($country === null ? 0 : $country->ID) . "-{$amount}";
-        if (array_key_exists($key, $this->shippingIsFree)) {
-            return $this->shippingIsFree[$key];
+        if (array_key_exists($key, $this->shippingIsFreeCache)) {
+            return $this->shippingIsFreeCache[$key];
         }
         $shippingIsFree = false;
         if ($this->UseFreeOfShippingCostsFrom()
@@ -647,8 +647,8 @@ class ShippingFee extends DataObject
             $shippingIsFree = true;
         }
         $this->extend('updateShippingIsFree', $shippingIsFree, $amount, $country);
-        $this->shippingIsFree[$key] = $shippingIsFree;
-        return $this->shippingIsFree[$key];
+        $this->shippingIsFreeCache[$key] = $shippingIsFree;
+        return $this->shippingIsFreeCache[$key];
     }
     
     /**
