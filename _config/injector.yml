@@ -8,6 +8,8 @@ SilverStripe\Core\Injector\Injector:
     class: SilverCart\ORM\DataList
   SilverStripe\Forms\HiddenField:
     class: SilverCart\Forms\HiddenField
+  SilverStripe\Forms\FormScaffolder:
+    class: SilverCart\Forms\FormScaffolder
   SilverStripe\Security\MemberAuthenticator\LostPasswordHandler:
     class: SilverCart\Security\MemberAuthenticator\LostPasswordHandler
   SilverStripe\View\SSTemplateParser:

@@ -38,7 +38,8 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
      * 
      * @return FieldList
      */
-    public function getFieldList() {
+    public function getFieldList() : FieldList
+    {
         $fields = new FieldList();
         $excludeFromScaffolding = [];
         if ($this->obj->hasMethod('excludeFromScaffolding')) {
@@ -48,13 +49,17 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
         // tabbed or untabbed
         if ($this->tabbed) {
             $fields->push(new TabSet("Root", $mainTab = new Tab("Main")));
-            $mainTab->setTitle(_t(__CLASS__.'.TABMAIN', 'Main'));
+            $mainTab->setTitle(_t(__CLASS__ . '.TABMAIN', 'Main'));
         }
 
         // Add logical fields directly specified in db config
         foreach ($this->obj->config()->get('db') as $fieldName => $fieldType) {
             // Skip restricted fields
-            if (in_array($fieldName, $excludeFromScaffolding) || ($this->restrictFields && !in_array($fieldName, $this->restrictFields))) {
+            if ($this->restrictFields && !in_array($fieldName, $this->restrictFields)) {
+                continue;
+            }
+            // Skip excluded fields
+            if (in_array($fieldName, $excludeFromScaffolding)) {
                 continue;
             }
 
@@ -83,7 +88,11 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
         // add has_one relation fields
         if ($this->obj->hasOne()) {
             foreach ($this->obj->hasOne() as $relationship => $component) {
-                if (in_array($relationship, $excludeFromScaffolding) || ($this->restrictFields && !in_array($relationship, $this->restrictFields))) {
+                if ($this->restrictFields && !in_array($relationship, $this->restrictFields)) {
+                    continue;
+                }
+                // Skip excluded fields
+                if (in_array($relationship, $excludeFromScaffolding)) {
                     continue;
                 }
                 $fieldName = $component === 'SilverStripe\\ORM\\DataObject'
@@ -111,8 +120,10 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
         if ($this->obj->ID) {
             // add has_many relation fields
             if ($this->obj->hasMany()
-                    && ($this->includeRelations === true || isset($this->includeRelations['has_many']))) {
+                && ($this->includeRelations === true || isset($this->includeRelations['has_many']))
+            ) {
                 foreach ($this->obj->hasMany() as $relationship => $component) {
+                    // Skip excluded fields
                     if (in_array($relationship, $excludeFromScaffolding)) {
                         continue;
                     }
@@ -122,7 +133,9 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
                             $this->obj->fieldLabel($relationship)
                         );
                     }
-                    $fieldClass = (isset($this->fieldClasses[$relationship])) ? $this->fieldClasses[$relationship] : GridField::class;
+                    $fieldClass = (isset($this->fieldClasses[$relationship]))
+                        ? $this->fieldClasses[$relationship]
+                        : GridField::class;
                     if (singleton($component) instanceof ModelAdmin_ReadonlyInterface) {
                         $config = GridFieldConfig_Readonly::create();
                     } elseif (singleton($component) instanceof ModelAdmin_ExclusiveRelationInterface ||
@@ -131,16 +144,13 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
                     } else {
                         $config = GridFieldConfig_RelationEditor::create();
                     }
-                    $fieldClass = (isset($this->fieldClasses[$relationship]))
-                        ? $this->fieldClasses[$relationship]
-                        : 'SilverStripe\\Forms\\GridField\\GridField';
                     /** @var GridField $grid */
                     $grid = Injector::inst()->create(
-                            $fieldClass,
-                            $relationship,
-                            $this->obj->fieldLabel($relationship),
-                            $this->obj->$relationship(),
-                            $config
+                        $fieldClass,
+                        $relationship,
+                        $this->obj->fieldLabel($relationship),
+                        $this->obj->$relationship(),
+                        $config
                     );
                     if ($this->tabbed) {
                         $fields->addFieldToTab("Root.$relationship", $grid);
@@ -151,35 +161,21 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
             }
 
             if ($this->obj->manyMany()
-                    && ($this->includeRelations === true || isset($this->includeRelations['many_many']))) {
+                && ($this->includeRelations === true || isset($this->includeRelations['many_many']))
+            ) {
                 foreach ($this->obj->manyMany() as $relationship => $component) {
+                    // Skip excluded fields
                     if (in_array($relationship, $excludeFromScaffolding)) {
                         continue;
                     }
-                    if ($this->tabbed) {
-                        $fields->findOrMakeTab(
-                            "Root.$relationship",
-                            $this->obj->fieldLabel($relationship)
-                        );
-                    }
-
-                    $fieldClass = (isset($this->fieldClasses[$relationship]))
-                        ? $this->fieldClasses[$relationship]
-                        : 'SilverStripe\\Forms\\GridField\\GridField';
-
-                    /** @var GridField $grid */
-                    $grid = Injector::inst()->create(
-                            $fieldClass,
-                            $relationship,
-                            $this->obj->fieldLabel($relationship),
-                            $this->obj->$relationship(),
-                            GridFieldConfig_RelationEditor::create()
+                    static::addManyManyRelationshipFields(
+                        $fields,
+                        $relationship,
+                        (isset($this->fieldClasses[$relationship]))
+                            ? $this->fieldClasses[$relationship] : null,
+                        $this->tabbed,
+                        $this->obj
                     );
-                    if ($this->tabbed) {
-                        $fields->addFieldToTab("Root.$relationship", $grid);
-                    } else {
-                        $fields->push($grid);
-                    }
                 }
             }
         }
@@ -188,19 +184,16 @@ class FormScaffolder extends \SilverStripe\Forms\FormScaffolder {
     }
     
     /**
-	 * Return an array suitable for passing on to {@link DBField->scaffoldFormField()}
-	 * without tying this call to a FormScaffolder interface.
+     * Return an array suitable for passing on to {@link DBField->scaffoldFormField()}
+     * without tying this call to a FormScaffolder interface.
      * Adds a reference to the context object.
-	 * 
-	 * @return array
-	 */
-    protected function getParamsArray() {
-        return array_merge(
-                parent::getParamsArray(),
-                [
-                    'object' => $this->obj
-                ]
-        );
+     * 
+     * @return array
+     */
+    protected function getParamsArray() : array
+    {
+        return array_merge(parent::getParamsArray(), [
+            'object' => $this->obj
+        ]);
     }
-
 }
