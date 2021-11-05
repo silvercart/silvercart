@@ -1180,6 +1180,16 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     }
 
     /**
+     * Returns all customer groups.
+     * 
+     * @return DataList
+     */
+    public static function CustomerGroups() : DataList
+    {
+        return Group::get();
+    }
+
+    /**
      * Returns the currently logged in user's ID.
      * 
      * @return int
@@ -1602,6 +1612,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             'currentUser'     => 'currentUser',
             'currentShippingCountry' => 'currentShippingCountry',
             'CurrentShippingCountry' => 'currentShippingCountry',
+            'CustomerGroups'  => 'CustomerGroups',
         ];
     }
     
