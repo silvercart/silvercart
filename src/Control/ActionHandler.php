@@ -111,6 +111,8 @@ class ActionHandler extends Controller
         $productID      = $params['ID'];
         $quantity       = $params['OtherID'];
         $position       = null;
+        $clearCheckout  = !($request->getVar('cc') === '0'
+                         || $request->postVar('cc') === '0');
         $redirectToCart = $request->postVar('redirect-to-cart');
         if ($redirectToCart === null) {
             $redirectToCart = $request->getVar('redirect-to-cart');
@@ -131,6 +133,7 @@ class ActionHandler extends Controller
         if ($isValidRequest) {
             $postVars['productID']       = $productID;
             $postVars['productQuantity'] = $quantity;
+            ShoppingCart::setClearCheckoutAfterWrite($clearCheckout);
             if ($quantity == 0) {
                 ShoppingCart::removeProduct($postVars, $position);
             } else {
