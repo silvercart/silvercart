@@ -534,6 +534,46 @@ class ShippingFee extends DataObject
         }
         return $price;
     }
+    
+    /**
+     * Returns the fee's original price gross or net dependent on the current 
+     * price type context.
+     * 
+     * @return DBMoney
+     */
+    public function getOriginalPrice() : DBMoney
+    {
+        if (Config::PriceType() === Config::PRICE_TYPE_NET) {
+            return $this->getOriginalPriceNet();
+        }
+        return $this->getOriginalPriceGross();
+    }
+    
+    /**
+     * Returns the fee's original price gross.
+     * 
+     * @return DBMoney
+     */
+    public function getOriginalPriceGross() : DBMoney
+    {
+        return $this->Price;
+    }
+    
+    /**
+     * Returns the fee's original price net.
+     * 
+     * @return DBMoney
+     */
+    public function getOriginalPriceNet() : DBMoney
+    {
+        $priceGross = (float) $this->Price->getAmount();
+        $taxRate    = $this->getTaxRate();
+        $taxAmount  = $priceGross - ($priceGross / (100 + $taxRate) * 100);
+        $priceNet   = $priceGross - $taxAmount;
+        return DBMoney::create()
+                ->setAmount($priceNet)
+                ->setCurrency($this->Price->getCurrency());
+    }
 
     /**
      * Returns the prices amount
