@@ -148,6 +148,12 @@ class ShoppingCart extends DataObject
      */
     protected $shippingMethodID;
     /**
+     * List of already loaded shipping methods.
+     * 
+     * @var ShippingMethod[]
+     */
+    protected $shippingMethod = [];
+    /**
      * Shipping country context to show fees for.
      *
      * @var Int
@@ -270,8 +276,8 @@ class ShoppingCart extends DataObject
                     self::$cartCleaningInProgress = true;
                     $this->cleanUp();
                 }
-                $this->ShippingMethodID = 0;
-                $this->PaymentMethodID  = 0;
+                $this->shippingMethodID = 0;
+                $this->paymentMethodID  = 0;
                 $currentUser            = Security::getCurrentUser();
                 if ($currentUser instanceof Member
                  && self::$loadModules
@@ -1311,8 +1317,11 @@ class ShoppingCart extends DataObject
     public function getShippingMethod() : ?ShippingMethod
     {
         $shippingMethod = null;
-        if (is_numeric($this->ShippingMethodID)) {
-            $shippingMethod = ShippingMethod::get()->byID($this->ShippingMethodID);
+        if (is_numeric($this->shippingMethodID)) {
+            if (!array_key_exists($this->shippingMethodID, $this->shippingMethod)) {
+                $this->shippingMethod[$this->shippingMethodID] = ShippingMethod::get()->byID($this->shippingMethodID);
+            }
+            $shippingMethod = $this->shippingMethod[$this->shippingMethodID];
         }
         return $shippingMethod;
     }
@@ -1399,8 +1408,8 @@ class ShoppingCart extends DataObject
     public function getPaymentMethod() : ?PaymentMethod
     {
         $paymentMethod = null;
-        if (is_numeric($this->PaymentMethodID)) {
-            $paymentMethod = PaymentMethod::get()->byID($this->PaymentMethodID);
+        if (is_numeric($this->paymentMethodID)) {
+            $paymentMethod = PaymentMethod::get()->byID($this->paymentMethodID);
         }
         return $paymentMethod;
     }
@@ -2066,8 +2075,8 @@ class ShoppingCart extends DataObject
     public function getShowFees() : bool
     {
         $showFees = false;
-        if ($this->ShippingMethodID > 0
-         && $this->PaymentMethodID > 0
+        if ($this->shippingMethodID > 0
+         && $this->paymentMethodID > 0
         ) {
             $showFees = true;
         }
@@ -2226,7 +2235,7 @@ class ShoppingCart extends DataObject
      */
     public function setShippingMethodID(int $shippingMethodId) : void
     {
-        $this->ShippingMethodID = $shippingMethodId;
+        $this->shippingMethodID = $shippingMethodId;
     }
 
     /**
@@ -2238,7 +2247,7 @@ class ShoppingCart extends DataObject
      */
     public function setPaymentMethodID(int $paymentMethodId) : void
     {
-        $this->PaymentMethodID = $paymentMethodId;
+        $this->paymentMethodID = $paymentMethodId;
     }
 
     /**
