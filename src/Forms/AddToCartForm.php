@@ -13,8 +13,18 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\Validator;
 
-class AddToCartForm extends CustomForm {
-    
+/**
+ * Form to add a product to the shopping cart.
+ * 
+ * @package SilverCart
+ * @subpackage Forms
+ * @author Sebastian Diel <sdiel@pixeltricks.de>
+ * @since 08.11.2021
+ * @copyright 2021 pixeltricks GmbH
+ * @license see license file in modules root directory
+ */
+class AddToCartForm extends CustomForm
+{
     /**
      * Custom form action path, if not linking to itself.
      * E.g. could be used to post to an external link
@@ -22,19 +32,17 @@ class AddToCartForm extends CustomForm {
      * @var string
      */
     protected $formActionPath = 'sc-action/addToCart';
-    
     /**
      * Product.
      *
-     * @var Product 
+     * @var Product|null
      */
     protected $product = null;
-    
     /**
      * The forms view context.
      * For example 'List', 'Detail', 'Title'.
      *
-     * @var string
+     * @var string|null
      */
     protected $viewContext = null;
     
@@ -49,11 +57,9 @@ class AddToCartForm extends CustomForm {
      * @param Validator      $validator  Override the default validator instance (Default: {@link RequiredFields})
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.11.2017
      */
-    public function __construct(Product $product, RequestHandler $controller = null, $name = self::DEFAULT_NAME, FieldList $fields = null, FieldList $actions = null, Validator $validator = null) {
+    public function __construct(Product $product, RequestHandler $controller = null, $name = self::DEFAULT_NAME, FieldList $fields = null, FieldList $actions = null, Validator $validator = null)
+    {
         $this->setProduct($product);
         parent::__construct($controller, $name, $fields, $actions, $validator);
     }
@@ -63,9 +69,10 @@ class AddToCartForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields() : array
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
-            $product = $this->getProduct();
+            $product  = $this->getProduct();
             $quantity = $product->getQuantityInCart();
             if ($quantity == 0) {
                 $quantity = $product->getMinQuantityForCart();
@@ -84,7 +91,8 @@ class AddToCartForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions() : array
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('addtocart', $this->getSubmitButtonTitle())
@@ -97,9 +105,10 @@ class AddToCartForm extends CustomForm {
     /**
      * Returns the product
      * 
-     * @return Product
+     * @return Product|null
      */
-    public function getProduct() {
+    public function getProduct() : ?Product
+    {
         return $this->product;
     }
 
@@ -108,10 +117,12 @@ class AddToCartForm extends CustomForm {
      * 
      * @param Product $product Product
      * 
-     * @return void
+     * @return AddToCartForm
      */
-    public function setProduct(Product $product) {
+    public function setProduct(Product $product) : AddToCartForm
+    {
         $this->product = $product;
+        return $this;
     }
     
     /**
@@ -119,7 +130,8 @@ class AddToCartForm extends CustomForm {
      * 
      * @return string
      */
-    public function getViewContext() {
+    public function getViewContext() : ?string
+    {
         return $this->viewContext;
     }
 
@@ -128,11 +140,13 @@ class AddToCartForm extends CustomForm {
      * 
      * @param string $viewContext View context
      * 
-     * @return void
+     * @return AddToCartForm
      */
-    public function setViewContext($viewContext) {
+    public function setViewContext(string $viewContext) : AddToCartForm
+    {
         $this->setTemplateBySuffix('_' . $viewContext);
         $this->viewContext = $viewContext;
+        return $this;
     }
     
     /**
@@ -140,7 +154,8 @@ class AddToCartForm extends CustomForm {
      * 
      * @return string
      */
-    protected function getSubmitButtonTitle() {
+    protected function getSubmitButtonTitle() : string
+    {
         $product = $this->getProduct();
         if ($product->HasReleaseDate()) {
             $submitButtonTitle = $product->fieldLabel('PreorderNow');
@@ -157,7 +172,8 @@ class AddToCartForm extends CustomForm {
      * 
      * @return string
      */
-    protected function getBackLink() {
+    protected function getBackLink() : string
+    {
         $backLink = $this->getController()->getRequest()->getURL();
         if (Director::is_relative_url($backLink)) {
             $backLink = Director::absoluteURL($backLink, true);
@@ -170,19 +186,18 @@ class AddToCartForm extends CustomForm {
      * 
      * @return int
      */
-    protected function getQuantityMaxLength() {
+    protected function getQuantityMaxLength() : int
+    {
         $numberOfDecimalPlaces = $this->getProduct()->QuantityUnit()->numberOfDecimalPlaces;
-        $quantityFieldMaxLength = strlen((string) Config::addToCartMaxQuantity());
-        if ($quantityFieldMaxLength == 0) {
-            $quantityFieldMaxLength = 1;
+        $maxLength             = strlen((string) Config::addToCartMaxQuantity());
+        if ($maxLength === 0) {
+            $maxLength++;
         }
-        if ($numberOfDecimalPlaces !== false &&
-            $numberOfDecimalPlaces > 0) {
-            $maxLength = $quantityFieldMaxLength + 1 + $numberOfDecimalPlaces;
-        } else {
-            $maxLength = $quantityFieldMaxLength;
+        if ($numberOfDecimalPlaces !== false
+         && $numberOfDecimalPlaces > 0
+        ) {
+            $maxLength += 1 + $numberOfDecimalPlaces;
         }
         return $maxLength;
     }
-    
 }
