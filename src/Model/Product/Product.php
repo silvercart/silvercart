@@ -2440,6 +2440,18 @@ class Product extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns the minimum quantity of the product to add to cart.
+     * 
+     * @return float
+     */
+    public function getMaxQuantityForCart() : float
+    {
+        $quantity = 0;
+        $this->extend('updateMaxQuantityForCart', $quantity);
+        return $quantity;
+    }
+    
+    /**
      * Returns the quantity of the product in cart
      * 
      * @param int $cartID Cart ID to check positions for

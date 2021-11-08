@@ -77,10 +77,18 @@ class AddToCartForm extends CustomForm
             if ($quantity == 0) {
                 $quantity = $product->getMinQuantityForCart();
             }
+            $quantityField = NumericField::create('productQuantity', $product->fieldLabel('Quantity'), $quantity, $this->getQuantityMaxLength())
+                    ->setAttribute('min', 0);
+            if ($product->getMaxQuantityForCart() > 0) {
+                $quantityField->setAttribute('max', $product->getMaxQuantityForCart());
+                if ($quantity > $product->getMaxQuantityForCart()) {
+                    $quantity = $product->getMaxQuantityForCart();
+                }
+            }
             $fields += [
                 HiddenField::create('backLink',  'backLink',  $this->getBackLink()),
                 HiddenField::create('productID', 'productID', $product->ID),
-                NumericField::create('productQuantity', $product->fieldLabel('Quantity'), $quantity, $this->getQuantityMaxLength())
+                $quantityField,
             ];
         });
         return parent::getCustomFields();
