@@ -1,10 +1,1945 @@
 fr:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Tous acceptent'
+    ManageCookies: 'Paramètres des cookies'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>Nous utilisons des cookies pour concevoir nos sites web de manière optimale pour vous, pour améliorer nos produits pour vous et pour vous montrer de la publicité basée sur les intérêts avec des fournisseurs tiers. Vous pouvez y choisir les cookies que vous souhaitez accepter et modifier votre sélection à tout moment. Vous pouvez trouver plus d''informations dans notre politique d''utilisation des cookies et dans nos informations sur la protection des données. Les cookies techniquement nécessaires sont également définis lorsque vous sélectionnez le rejet.</p><p>En cliquant sur "Accepter tout", vous acceptez ce traitement.</p>'
+    Title: 'Ce site web utilise des cookies'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Les paramètres ont été enregistrés'
+    Save: 'Confirmer la sélection'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Analyse
+    Analytics_Content: '<p>Grâce aux cookies d''analyse, nous sommes en mesure d''analyser techniquement l''utilisation du site afin d''identifier les problèmes et d''optimiser la convivialité.</p>'
+    Marketing: Marketing
+    Marketing_Content: '<p>Grâce aux cookies marketing, nous sommes en mesure d''analyser le succès des mesures publicitaires.</p>'
+    Necessary: Nécessaire
+    Necessary_Content: '<p>Les cookies nécessaires assurent le fonctionnement fonctionnel du site et doivent être définis pour des raisons techniques.</p>'
+    Preferences: Paramètres
+    Prefrences_Content: '<p>Grâce aux cookies de préférence, nous pouvons adapter la convivialité du site à vos besoins. Cela permet au site de se souvenir de vos préférences lors de votre prochaine visite.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p>$CookieConsentForm</p><p>[cookiegrouptable group="Nécessaire"]</p><p>[cookiegrouptable group="Analytics"]</p><p>[cookiegrouptable group="Marketing"]</p><p>[cookiegrouptable group="Préférences"]</p>'
+    Title: 'Politique en matière de cookies'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Remplissez cette page avec votre politique de confidentialité.</p>'
+    Title: 'Directives sur la protection des données'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Remplissez cette page avec vos T&Cs.</p>'
+    Title: 'Conditions générales'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Durée
+    Provider: 'Défini par'
+    Purpose: Objectif
+    Title: Cookie
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 an'
+    loc_Purpose: 'Boutons de partage des médias sociaux'
+    mus_Expiry: '1 an'
+    mus_Purpose: 'Boutons de partage des médias sociaux'
+    na_id_Expiry: '1 an'
+    na_id_Purpose: 'Boutons de partage des médias sociaux'
+    na_tc_Expiry: '1 an'
+    na_tc_Purpose: 'Boutons de partage des médias sociaux'
+    ouid_Expiry: '1 an'
+    ouid_Purpose: 'Boutons de partage des médias sociaux'
+    uid_Expiry: '1 an'
+    uid_Purpose: 'Boutons de partage des médias sociaux'
+    uvc_Expiry: '1 an'
+    uvc_Purpose: 'Boutons de partage des médias sociaux'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 mois'
+    BizoID_Purpose: Marketing
+    UserMatchHistory_Expiry: '6 mois'
+    UserMatchHistory_Purpose: Marketing
+    lang_Expiry: Session
+    lang_Purpose: 'Paramètres linguistiques'
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 mois'
+    fr_Purpose: 'SDK de Facebook'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 ans'
+    _ga_Purpose: 'Les analyses de Fontawesome'
+    _gid_Expiry: '2 ans'
+    _gid_Purpose: 'Les analyses de Fontawesome'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 heures'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 ans'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 ans'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 ans'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 mois'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 mois'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 ans'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 mois'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 ans'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 ans'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 ans'
+    bcookie_Purpose: Marketing
+    lidc_Expiry: '2 ans'
+    lidc_Purpose: Marketing
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 ans'
+    _ga_Purpose: 'Analyse Mapbox'
+    _mkto_trk_Expiry: '2 ans'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 an'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 an'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 an'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 mois'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 an'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 an'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 mois'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 an'
+    player_Purpose: 'Intégration de la vidéo'
+    vuid_Expiry: '1 an'
+    vuid_Purpose: 'Intégration de la vidéo'
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Session
+    CONSENT_Purpose: 'Intégration de la vidéo'
+    GPS_Expiry: Session
+    GPS_Purpose: 'Intégration de la vidéo'
+    NID_Expiry: Session
+    NID_Purpose: 'Intégration de la vidéo'
+    PREF_Expiry: '2 ans'
+    PREF_Purpose: 'Intégration de la vidéo'
+    VISITOR_INFO1_LIVE_Expiry: '6 mois'
+    VISITOR_INFO1_LIVE_Purpose: 'Intégration de la vidéo'
+    YSC_Expiry: Session
+    YSC_Purpose: 'Intégration de la vidéo'
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 mois'
+    CookieConsent_Purpose: 'Sauvegarde vos paramètres de cookies'
+    FluentLocale_Expiry: '2 mois'
+    FluentLocale_Purpose: 'Sauvegarde vos paramètres de langue'
+    PHPSESSID_Expiry: Session
+    PHPSESSID_Purpose: Session
+    __atuvc_Expiry: '1 an'
+    __atuvc_Purpose: 'Boutons de partage des médias sociaux'
+    __atuvs_Expiry: '1 an'
+    __atuvs_Purpose: 'Boutons de partage des médias sociaux'
+    _ga_Expiry: '2 ans'
+    _ga_Purpose: Statistiques
+    _gat_Expiry: '24 heures'
+    _gat_Purpose: Statistiques
+    _gid_Expiry: '24 heures'
+    _gid_Purpose: Statistiques
+    _hjIncludedInSample_Expiry: Session
+    _hjIncludedInSample_Purpose: Statistiques
+    ipcountry_Expiry: Session
+    ipcountry_Purpose: 'Paramètres linguistiques standard'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 mois'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 ans'
+    _ga_Purpose: 'Analyse des reCAPTCHA'
+  SilverCart:
+    Actions: Actions
+    Buy1: '{titre} acheter'
+    Buy2: '{acheter'
+    Cancel: Annuler
+    Change: Changement
+    ClickForMore: 'Cliquez pour voir plus d''informations'
+    Close: Fermer
+    ContactUs: 'Nous contacter'
+    DefaultIfEmpty: 'Par défaut si vide : "{default}"'
+    DeleteYourAccountErrorConfirm: 'Veuillez confirmer la suppression de votre compte en cochant la case.'
+    DeleteYourAccountErrorPassword: 'Désolé, mais les données d''accès que vous avez saisies ne sont pas correctes.'
+    DeleteYourAccountSuccess: 'Votre compte a été marqué avec succès pour être supprimé et sera supprimé dans les prochaines 24 heures. Vous recevrez une notification par courriel dès que la suppression aura été effectuée. D''ici là, vous avez la possibilité de révoquer la demande de suppression.'
+    DeleteYourAccountSuccessOpen: 'Votre compte a été marqué avec succès pour être supprimé. Comme il y a encore des commandes ouvertes pour votre compte client, votre compte ne sera supprimé que lorsque toutes les commandes ouvertes auront été traitées. Vous recevrez une notification par courrier électronique dès que la suppression aura été effectuée. D''ici là, vous avez la possibilité de révoquer la demande de suppression.'
+    DeleteYourAccountUndo: 'Révoquer la demande de suppression'
+    DeleteYourAccountUndone: 'Votre demande de suppression a été annulée avec succès.'
+    Go: 'Allez sur'
+    NextPage: 'Page suivante'
+    PrevPage: 'Page précédente'
+    ProductAddedToCart: 'L''article a été ajouté à votre panier.'
+    ProductRemovedFromCart: 'L''article a été retiré de votre panier.'
+    Sort: 'Ordre de tri'
+    Subject: Sujet
+    Subjects: Sujet
+    Translation: Traduction
+    Translations: Traductions
+    Until: à
+    go: 'Allez sur'
+    since: depuis
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Disponibilité
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Transporteur
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: 'Demandes de contact'
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: Pays
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: Clients
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: Images
+    SELECT_IMAGE_TYPE: 'Sélectionnez le type d''image'
+    SELECT_OTHER_IMAGES: 'Autres images'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Images pour les modes de paiement'
+    SELECT_PRODUCT_IMAGES: 'Images d''articles'
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: Paramètres
+    CUSTOMER: Clients
+    DEFAULT: CMS
+    FILES: Fichiers
+    HANDLING: Traitement
+    MODULES: Modules
+    ORDERS: Commandes
+    PRODUCTS: Article
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: Fabricant
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Veuillez sélectionner le contexte d''exportation et appuyer sur le bouton d''exportation pour télécharger une liste CSV des destinataires des e-mails.'
+    DoExport: 'Exportation en CSV'
+    ExportAll: 'Adresses d''exportation de tous les clients'
+    ExportAllNewsletterRecipients: 'Exportation des adresses de tous les destinataires de la newsletter'
+    ExportAllNewsletterRecipientsWithAccount: 'Exportation des adresses de tous les destinataires de la newsletter avec le compte client'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Exportation des adresses de tous les destinataires de la newsletter sans compte client'
+    ExportAllNonNewsletterRecipients: 'Exportation des adresses de tous les destinataires qui ne sont pas des abonnés à la lettre d''information'
+    ExportContext: 'Contexte d''exportation'
+    MENUTITLE: 'Destinataires du bulletin d''information'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: 'Plages de numéros'
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Tout après'
+    DateRangePickerALL_BEFORE: 'Tout ce qui précède'
+    DateRangePickerDATE: Date
+    DateRangePickerEND_DATE: 'Date de fin'
+    DateRangePickerLAST_7_DAYS: '7 derniers jours'
+    DateRangePickerLAST_MONTH: 'Mois précédent'
+    DateRangePickerNEXT: Suivant
+    DateRangePickerPERIOD: Période
+    DateRangePickerPREVIOUS: Précédent
+    DateRangePickerSTART_DATE: 'Date de début'
+    DateRangePickerTHIS_MONTH: 'Ce mois-ci'
+    DateRangePickerTHIS_YEAR: 'Cette année'
+    DateRangePickerTODAY: 'Aujourd''hui'
+    MENUTITLE: Commandes
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: 'Statut de la commande'
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: 'Méthodes de paiement'
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: 'Statut du paiement'
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: Article
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'L''article stipule'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'L''importation de l''image de l''article est effectuée à ce moment-là.'
+    CronIsRunningTitle: Attention
+    CronNotInstalledDescription: "L'installation de l'importation d'images d'articles n'est pas encore terminée.\nVeuillez ajouter le programme nécessaire (`sake dev/tasks/sc-image-importer`) aux Tâches planifiées de votre serveur.\nContactez votre superviseur d'atelier pour plus de détails.\n"
+    CronNotInstalledTitle: Attention
+    Description: "Utilisez cette fonction de téléchargement pour télécharger plusieurs images de différents articles en une seule fois.\nLes images sont automatiquement attribuées si vous nommez les noms de fichiers comme suit :\n\n[numéro d'article].png/jpg/jpeg\nOU\n[Numéro d'article]-[Numéro consécutif].png/jpg/jpeg\nOU\n[Numéro de l'article]-[Numéro consécutif]-[Brève description - sans espace].png/jpg/jpeg\n\nLa [description courte sans espace] est facultative et est utilisée pour l'optimisation des moteurs de recherche (SEO) afin d'obtenir une meilleure visibilité par les moteurs de recherche tels que Google.\nSi [short description-without-space] n'est pas spécifié, le nom de l'article est utilisé comme paramètre pour l'optimisation du moteur de recherche.\n\nExemple :\nVous souhaitez attribuer 4 images à chacun des deux articles portant les numéros d'article 502.133.66.5 et 758.500.08.9. 3 d'entre eux devraient avoir leur propre description courte.\nUne photo doit être téléchargée pour chacun des articles portant les numéros d'article 128.000.01.7 et 542.550.08.1.\nLes noms de fichiers devraient donc ressembler à ceci :\n\n502.133.66.5-1.png\n502.133.66.5-2-Coffee-Machine-XYZ-Front-View.png\n502.133.66.5-3-Coffee-Machine-XYZ-View-left-side.png\n502.133.66.5-4-Coffee-machine-XYZ-view-right-side.png\n758.500.08.9-1.png\n758.500.08.9-2.png\n758.500.08.9-3.png\n758.500.08.9-4.png\n128.000.01.7.png\n542.550.08.1.png\n\nNotez ici que l'image spécifiée avec le numéro séquentiel 1 est utilisée comme image pour la vue en liste.\nNotez également que les images existantes des éléments concernés seront complètement écrasées si vous utilisez cette fonction.\n"
+    FileInfoTitle: 'Les images des articles suivants n''ont pas encore été traitées :'
+    MENUTITLE: 'Importation d''images d''articles'
+    UploadProductImages: 'Télécharger les images des articles'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: 'Unités de mesure'
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: 'Méthodes d''expédition'
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'Courriels de la boutique'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: 'Taux d''imposition'
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Zones
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: EUR
+    IMAGEFOLDERNAME: 'Exemple de données'
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart est facilement personnalisable à l''aide de widgets.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Adaptable
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: adaptable
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart est facilement extensible grâce à des modules.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Extensible
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: extensible
+    PRODUCTGROUPMARKETING_TITLE: 'Modules de marketing'
+    PRODUCTGROUPMARKETING_URLSEGMENT: 'modules de marketing'
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart est une source ouverte. Cela signifie que vous ne payez que pour la mise en œuvre et l''adaptation du système de boutique à vos souhaits.'
+    PRODUCTGROUPOPEN_TITLE: Ouvrir
+    PRODUCTGROUPOPEN_URLSEGMENT: ouvrir
+    PRODUCTGROUPOTHERS_TITLE: 'Autres modules'
+    PRODUCTGROUPOTHERS_URLSEGMENT: autres-modules
+    PRODUCTGROUPPAYMENT_TITLE: 'Modules de paiement'
+    PRODUCTGROUPPAYMENT_URLSEGMENT: 'modules de paiement'
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> </strong>Attention :<br/>Les modules eux-mêmes sont gratuits. L''offre de prix est utilisée uniquement à des fins de démonstration.</div>'
+    SLIDORION_TITLE: 'Avantages de SilverCart'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p>Découvrez les modules de paiement de SilverCart.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: 'Modules de paiement'
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p>Vous trouverez également des modules dans SilverCart pour de nombreux autres cas d''utilisation.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Autres modules'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Page d''accueil Zone de contenu'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: Activez
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Modifier la disponibilité pour...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Les fabricants changent pour...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Modifier le statut de la commande pour...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Changer le statut du paiement en...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Changer le groupe de produits en...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: Désactiver
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Marquer comme non vu'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Marquer comme vu'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Imprimer les commandes (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchController:
+    EXECUTE: Exécuter
+    MARK_ALL: 'Marquez tous'
+    UNMARK_ALL: 'Ne pas marquer'
+  SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest:
+    SendChangePasswordEmail: 'Envoyer un e-mail pour changer le mot de passe'
+  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
+    DUPLICATE_DESCRIPTION: 'Duplique cet objet'
+    Duplicate: Duplicate
+    DuplicatePermissionsFailure: 'La duplication n''est pas autorisée'
+  SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
+    Publish: Publier
+    PublishDesc: 'Publié cet objet'
+    PublishFailure: 'La publication d''un objet non versionné n''est pas possible.'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: 'Vue d''ensemble'
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: Ajouter
+  SilverCart\Admin\Model\Config:
+    ADDED_EXAMPLE_CONFIGURATION: 'Un exemple de configuration a été créé'
+    ADDED_EXAMPLE_DATA: 'Des exemples de données ont été ajoutés'
+    ADDTOCARTMAXQUANTITY: 'Nombre maximum d''articles autorisés dans le panier'
+    ADD_EXAMPLE_CONFIGURATION: 'Créer un exemple de configuration'
+    ADD_EXAMPLE_CONFIGURATION_DESCRIPTION: 'L''action "Créer une configuration d''exemple" préconfigurera SilverCart afin que le processus de paiement puisse être exécuté complètement. Les données de configuration comprennent la méthode de paiement, le transporteur, la méthode d''expédition, les frais de la méthode d''expédition, l''activation du pays et l''affectation de sa zone. <br/><strong>ATTENTION : Cette action peut prendre quelques minutes !</strong>'
+    ADD_EXAMPLE_DATA: 'Ajouter des données échantillons'
+    ADD_EXAMPLE_DATA_DESCRIPTION: 'L''action "Ajouter des données échantillons" créera un fabricant échantillon et quatre groupes de produits avec 50 articles chacun. <br/><strong>ATTENTION : Cette action peut prendre quelques minutes !</strong>'
+    ALLOW_CART_WEIGHT_TO_BE_ZERO: 'Le poids du panier peut être nul.'
+    BASICCHECKOUT: 'Paramètres de base'
+    CLEAN: Optimisation
+    CLEANED_DATABASE: 'La base de données a été optimisée.'
+    CLEANED_DATABASE_REPORT: '<br/><hr/><br/><h3>%s</h3><strong><br/>%s Les images ont été supprimées. <br/> dont %s dû à une allocation incorrecte de l''élément<br/> dont %s dû à un fichier image incorrect<br/> dont %s dû à une allocation incorrecte du fichier<br/>%s Les images ont été réallouées.</strong><br/><br/><hr/>'
+    CLEAN_DATABASE: 'Optimiser la base de données'
+    CLEAN_DATABASE_DESCRIPTION: 'L''action "Optimiser la base de données" recherche dans la base de données les enregistrements détruits et tente de les réaffecter. Si la réaffectation échoue, l''enregistrement est supprimé. <br/><strong>ATTENTION : Cette action peut prendre plusieurs minutes !</strong>'
+    CLEAN_DATABASE_INPROGRESS: 'La base de données est optimisée... (%s/%s) (%s% complété, environ %s restant)'
+    CLEAN_DATABASE_START_INDEX: 'Indice de départ'
+    CheckoutConfiguration: 'Paramètres du panier et de la caisse'
+    ColorScheme: 'Schéma de couleurs'
+    ColorSchemeConfiguration: 'Titre et schéma de couleurs'
+    ColorSchemeTab: 'Schéma de couleurs'
+    ColorScheme_blue: Bleu
+    ColorScheme_brown: Marron
+    ColorScheme_carmin: Carmine
+    ColorScheme_green: Vert
+    ColorScheme_orange: Orange
+    ColorScheme_red: Rouge
+    CustomerConfiguration: 'Paramètres du client'
+    DEFAULTCURRENCY: 'Monnaie standard'
+    DEFAULTPRICETYPE: 'Type de prix standard'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: 'Destinataire standard de l''e-mail pour les demandes de contact'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: 'Les demandes de contact ne sont plus envoyées au destinataire standard de l''e-mail, mais à l''adresse enregistrée ici.'
+    DEFAULT_IMAGE: 'Image standard de l''article'
+    DEFAULT_LANGUAGE: 'Langue standard'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: 'Destinataire standard de l''e-mail pour les notifications de commande'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: 'Les notifications de commande ne sont plus envoyées au destinataire standard de l''e-mail, mais à l''adresse enregistrée ici.'
+    DEFAULT_MAIL_RECIPIENT: 'Destinataire standard de l''e-mail'
+    DEFAULT_MAIL_RECIPIENT_INFO: 'Les courriers électroniques destinés à l''exploitant du magasin sont envoyés à l''adresse enregistrée ici.'
+    DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: 'Demander la date de naissance lors de l''enregistrement ?'
+    DISPLAYEDPAGINATION: 'Nombre de numéros de page affichés simultanément'
+    DISPLAY_TYPE_OF_PRODUCT_ADMIN: 'Type d''affichage de la gestion des articles'
+    DISPLAY_WEIGHTS_IN_KILOGRAM: 'Afficher les poids en kilogrammes (kg)'
+    ENABLEBUSINESSCUSTOMERS: 'Permettre aux clients professionnels'
+    ENABLEPACKSTATION: 'Activez les champs de saisie de l''adresse pour PACKSTATION'
+    ENABLESSL: 'Utiliser SSL'
+    ENABLESTOCKMANAGEMENT: 'Activer la gestion des stocks'
+    ERROR_MESSAGE: 'Le paramètre "{champ}" n''a pas été configuré. <br/> Veuillez <a href="{baseurl}admin/settings/">vous connecter</a> et configurer le paramètre manquant sous "Paramètres -> Paramètres e-mail".'
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: 'Aucun pays activé n''a été trouvé. <br/> Veuillez <a href="{baseURL}admin/settings/">vous connecter</a> et configurer le paramètre manquant sous "Traitement -> Pays".'
+    ERROR_TITLE: 'Une erreur s''est produite !'
+    EXAMPLE_CONFIGURATION_ALREADY_ADDED: 'L''exemple de configuration a déjà été créé'
+    EXAMPLE_DATA_ALREADY_ADDED: 'Des exemples de données ont déjà été ajoutés'
+    EmailConfiguration: 'Paramètres du courrier électronique'
+    EmailSender: 'Adresse de l''expéditeur du courrier électronique'
+    EmailSenderDesc: 'L''adresse de l''expéditeur de l''e-mail est utilisée comme l''adresse de l''expéditeur de tous les e-mails envoyés par SilverCart.'
+    EmailSenderExample: 'Par exemple, "noreply@example.com"'
+    EmailSenderName: 'Nom de l''expéditeur du courriel'
+    EmailSenderNameDesc: 'Le nom de l''expéditeur de l''e-mail est affiché au destinataire en plus de l''adresse de l''expéditeur de l''e-mail.'
+    EmailSenderNameExample: 'Par exemple, "Le nom de votre magasin'
+    FLAT: plat
+    FREEOFSHIPPINGCOSTSFROM: 'Livraison gratuite à partir de'
+    FREEOFSHIPPINGCOSTSTAB: 'Expédition gratuite'
+    Favicon: Favicon
+    GENERAL: Général
+    GENERAL_MAIN: 'Partie principale'
+    GENERAL_TEST_DATA: 'Exemple de données'
+    GLOBALEMAILRECIPIENT: 'Destinataire global de l''e-mail'
+    GLOBALEMAILRECIPIENT_INFO: 'Le destinataire global de l''e-mail peut être défini de manière facultative. TOUS les courriels (confirmations de commande, demandes de contact, etc.) sont envoyés à cette adresse électronique. Les adresses des destinataires définies dans les modèles d''e-mail ne sont pas affectées. Ils ne sont pas remplacés, mais seulement complétés.'
+    GeneralConfiguration: 'Paramètres de base'
+    INTERFACES: Interfaces
+    InvoiceAddressIsAlwaysShippingAddress: 'L''adresse de facturation correspond toujours à l''adresse de livraison'
+    LAYOUT: 'Mise en page'
+    MINIMUMORDERVALUE: 'Valeur minimale de la commande'
+    MINIMUMORDERVALUE_HEADLINE: 'Valeur minimale de la commande'
+    MinimumAgeToOrder: 'Âge minimum pour les commandes'
+    MinimumAgeToOrderError: 'L''âge minimum pour les commandes est de {âge} ans.'
+    MobileTouchIcon: 'Icône tactile mobile'
+    MobileTouchIconDesc: 'L''icône tactile mobile est utilisée lorsqu''un visiteur place votre boutique en tant que lien sur l''écran d''accueil d''un smartphone ou d''une tablette. L''icône doit avoir des dimensions de 192x192 pixels.'
+    OPEN_RECORD: 'Dossier ouvert'
+    PLURALNAME: 'Configurations générales'
+    PRICETYPEANONYMOUSCUSTOMERS: 'Type de prix pour les clients anonymes'
+    PRICETYPEBUSINESSCUSTOMERS: 'Type de prix pour les clients professionnels'
+    PRICETYPEREGULARCUSTOMERS: 'Type de prix pour les clients finaux'
+    PRICETYPES_HEADLINE: 'Types de prix'
+    PRICETYPE_ANONYMOUS: 'Type de prix pour les clients anonymes'
+    PRICETYPE_BUSINESS: 'Type de prix pour les clients professionnels'
+    PRICETYPE_REGULAR: 'Type de prix pour les clients finaux'
+    PRODUCTGROUPSPERPAGE: 'Groupes de produits par page'
+    PRODUCTSPERPAGE: 'Articles par page'
+    PRODUCTSPERPAGE_ALL: 'Afficher tous'
+    PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Champ pour la description de l''article dans le panier d''achat'
+    ProductConfiguration: 'Paramètres de l''article'
+    QUANTITY_OVERBOOKABLE: 'Le stock peut-il généralement être surbooké ?'
+    REDIRECTTOCARTAFTERADDTOCART: 'Rediriger le client vers le panier après l''action "Ajouter au panier".'
+    SEARCH: Recherche
+    SEO: SEO
+    SERVER: Serveur
+    SHOW_CONFIG: 'Afficher la configuration'
+    SINGULARNAME: 'Configuration générale'
+    SKIP_PAYMENT_STEP_IF_UNIQUE: 'Sauter la sélection du mode de paiement si un seul est sélectionnable.'
+    SKIP_SHIPPING_STEP_IF_UNIQUE: 'Sauter la sélection de la méthode d''expédition si une seule est sélectionnable.'
+    SOCIALMEDIA: 'Médias sociaux'
+    STOCK: Camp
+    SecurityConfiguration: 'Paramètres de sécurité'
+    ShopAdditional2Info: 'Informations complémentaires 2'
+    ShopAdditionalInfo: 'Informations complémentaires'
+    ShopAdditionalInfo2Desc: 'Informations supplémentaires et facultatives sur le client, telles que les informations relatives à l''expédition, les offres spéciales, les caractéristiques particulières de votre offre, ... (Selon le thème, elle est affichée dans l''en-tête/le pied de page de presque toutes les pages, soit environ 220 caractères).'
+    ShopAdditionalInfoDesc: 'Des informations supplémentaires et facultatives sur les clients, telles que d''autres numéros de téléphone (urgence/assistance téléphonique) et les heures d''ouverture. (Selon le thème, affiché dans l''en-tête/le pied de page de presque toutes les pages, environ 120 caractères).'
+    ShopCity: Localisation
+    ShopCountry: Pays
+    ShopData: 'Données de l''opérateur'
+    ShopEmail: 'Adresse électronique'
+    ShopLogo: Logo
+    ShopLogoDesc: 'Affiché dans l''en-tête de la boutique.'
+    ShopName: 'Nom du magasin'
+    ShopOpeningHours: 'Heures d''ouverture'
+    ShopPhone: Téléphone
+    ShopPostcode: 'Code postal'
+    ShopStreet: Rue
+    ShopStreetNumber: 'Numéro de la maison'
+    ShowTaxAndDutyHint: 'Voir la note concernant les frais supplémentaires pour les pays non membres de l''UE.'
+    TABBED: emboîté
+    TRANSLATION: Traduction
+    TRANSLATIONS: Traductions
+    USEFREEOFSHIPPINGCOSTSFROM: 'Utilisez les paramètres pour la livraison gratuite'
+    USEMINIMUMORDERVALUE: 'Activer la valeur minimale de la commande'
+    USER_AGENT_BLACKLIST: 'Identifiants UserAgent verrouillés (un UserAgent par ligne)'
+    USER_AGENT_BLACKLIST_INFO: 'Saisissez un UserAgent par ligne. <br/> Si un visiteur utilise un ID UserAgent de cette liste, la connexion est complètement bloquée pour éviter les attaques de spambots sur les formulaires. <br/><strong>Attention : les identifiants UserAgent sont utilisés par chaque visiteur. Ne spécifiez un identifiant UserAgent que si vous êtes sûr que seuls les bots sont concernés</strong>...'
+    USE_DEFAULT_LANGUAGE: 'Utiliser un langage standard lorsque le langage approprié fait défaut ?'
+    USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Afficher la description de l''article dans le panier'
+    USE_STRICT_SEARCH_RELEVANCE: 'Utilisez une recherche plus stricte. Affiche uniquement les correspondances exactes.'
+    UseMinimumAgeToOrder: 'Utiliser un âge minimum pour les commandes ?'
+    redirectToCheckoutWhenInCart: 'Rediriger immédiatement vers la caisse lorsque le client entre dans le panier.'
+  SilverCart\Admin\Model\CookiePolicyConfig:
+    CookiePolicy: 'Politique en matière de cookies'
+    CookiePolicyConfigBgColor: 'Couleur de fond'
+    CookiePolicyConfigBtnColor: 'Couleur des boutons'
+    CookiePolicyConfigBtnTxtColor: 'Couleur du texte du bouton'
+    CookiePolicyConfigButtonText: 'Étiquetage des boutons'
+    CookiePolicyConfigButtonTextDefault: 'Compris !'
+    CookiePolicyConfigIsActive: 'Activer la politique en matière de cookies'
+    CookiePolicyConfigLayout: 'Mise en page de l''écran'
+    CookiePolicyConfigLayoutBlock: Bloc
+    CookiePolicyConfigLayoutClassic: Classique
+    CookiePolicyConfigLayoutEdgeless: 'Sans bord'
+    CookiePolicyConfigLayoutWire: 'Fil métallique'
+    CookiePolicyConfigMessageText: Texte
+    CookiePolicyConfigMessageTextDefault: 'Afin de concevoir de manière optimale et d''améliorer continuellement notre site web pour vous, nous utilisons des cookies. En continuant à utiliser le site web, vous acceptez l''utilisation de cookies.'
+    CookiePolicyConfigPolicyText: 'Texte "Informations complémentaires'
+    CookiePolicyConfigPolicyTextDefault: 'Plus d''informations'
+    CookiePolicyConfigPosition: 'Position d''affichage'
+    CookiePolicyConfigPositionBannerBottom: 'Bannière en bas de la page'
+    CookiePolicyConfigPositionBannerTop: 'Bannière en haut de la page'
+    CookiePolicyConfigPositionBannerTopPushDown: 'Encadrement en haut de la page (le contenu se déplace vers le bas)'
+    CookiePolicyConfigPositionFloatingLeft: 'Boîte en bas à gauche'
+    CookiePolicyConfigPositionFloatingRight: 'Boîte en bas à droite'
+    CookiePolicyConfigTxtColor: 'Couleur du texte'
+  SilverCart\Checkout\CheckoutStep1:
+    NewCustomer: 'Vous êtes un nouveau client ?'
+    StepTitle: Inscription
+  SilverCart\Checkout\CheckoutStep3:
+    StepTitle: 'Mode d''expédition'
+  SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm:
+    ChoosePaymentMethod: 'Je souhaite payer par {paiement}.'
+  SilverCart\Forms\Checkout\CheckoutLoginForm:
+    SubmitButtonTitle: 'Connectez-vous et continuez'
+  SilverCart\Forms\Checkout\CheckoutNewCustomerForm:
+    ProceedWithRegistration: 'Oui, je souhaite m''inscrire en tant que client afin de pouvoir accéder à mes données lors de mes nouveaux achats.'
+    ProceedWithoutRegistration: 'Non, je voudrais faire mes achats sans m''inscrire.'
+    SubmitButtonTitle: 'Plus d''informations sur'
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Votre terme de recherche...'
+    submitButtonTitle: 'Recherche de téléchargements'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Je souhaite m''abonner à la newsletter'
+    ACTIONFIELD_TITLE: 'Que voulez-vous faire ?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Je souhaite me désinscrire de la newsletter'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: Recherche
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Créez un mot de passe pour votre connexion à la boutique en ligne. Le mot de passe doit comporter au moins {longueur} caractères. Il doit contenir au moins 1 lettre majuscule, 1 lettre minuscule, 1 chiffre et 1 caractère spécial.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Adresse du ou des consommateurs'
+    Data: Données
+    GoTo: 'Vers le formulaire d''annulation'
+    NameOfConsumer: 'Nom du ou des consommateurs'
+    Order: Commandez
+    OrderDate: 'Commandé le / reçu le'
+    OrderHistory: 'Sélectionner la commande'
+    OrderNumber: 'Numéro de commande'
+    RevocationDate: 'Date de la révocation'
+    RevocationOrderData: 'Par la présente, je révoque/nous révoquons le contrat conclu par moi/nous pour l''achat des biens suivants / la prestation du service suivant'
+  SilverCart\Model\ContactMessage:
+    MESSAGE: Message
+    PLURALNAME: 'Demandes de contact'
+    SINGULARNAME: 'Demande de contact'
+  SilverCart\Model\Customer\Address:
+    ADDITION: 'Suffixe de l''adresse'
+    ADDRESSTYPE: 'Type d''adresse'
+    AcademicTitle: Titre
+    CITY: Localisation
+    COMPANY: Entreprise
+    EDITADDRESS: 'Modifier l''adresse'
+    EDITINVOICEADDRESS: 'Modifier l''adresse de facturation'
+    EDITSHIPPINGADDRESS: 'Modifier l''adresse de livraison'
+    EMAIL: 'Adresse électronique'
+    EMAIL_CHECK: 'Répéter l''adresse e-mail'
+    FAX: Fax
+    FIRSTNAME: Prénom
+    ISBUSINESSACCOUNT: 'Est l''adresse de l''entreprise'
+    IS_PACKSTATION: 'L''adresse est Packstation'
+    InvoiceAddress: 'Adresse de la facture'
+    InvoiceAddressAsShippingAddress: 'Utiliser l''adresse de facturation comme adresse de livraison'
+    InvoiceAddresses: 'Adresses de facturation'
+    MISSES: Mme
+    MISTER: M.
+    NAME: Nom
+    NO_ADDRESS_AVAILABLE: 'Aucune adresse disponible'
+    PACKSTATION: 'Station d''emballage (par exemple, "Packstation 105")'
+    PACKSTATION_LABEL: PACKSTATION
+    PACKSTATION_PLAIN: 'Station d''emballage'
+    PHONE: 'Numéro de téléphone'
+    PHONEAREACODE: 'Indicatif régional'
+    PHONE_SHORT: Téléphone
+    PLURALNAME: Adresses
+    POSTCODE: POSTCODE
+    POSTNUMBER: 'Votre numéro de poste'
+    POSTNUMBER_PLAIN: 'Numéro de poste'
+    SALUTATION: Salutation
+    SILVERCART_ADDRESS_CREATE: 'Créer une adresse'
+    SILVERCART_ADDRESS_DELETE: 'Supprimer l''adresse'
+    SILVERCART_ADDRESS_EDIT: 'Modifier l''adresse'
+    SILVERCART_ADDRESS_VIEW: 'Voir l''adresse'
+    SINGULARNAME: Adresse
+    STREET: Rue
+    STREETNUMBER: 'Numéro de la maison'
+    SURNAME: 'Nom de famille'
+    ShippingAddress: 'Adresse de livraison'
+    ShippingAddresses: 'Adresses de livraison'
+    TAXIDNUMBER: 'Numéro d''identification fiscale'
+    USE_ABSOLUTEADDRESS: 'Utiliser l''adresse de la maison comme adresse'
+    USE_PACKSTATION: 'Utiliser Packstation comme adresse'
+  SilverCart\Model\Customer\Country:
+    ACTIVE: Actif
+    ATTRIBUTED_PAYMENTMETHOD: 'type de paiement assigné'
+    ATTRIBUTED_ZONES: 'zones associées'
+    CONTINENT: Continent
+    CURRENCY: Monnaie
+    DISPLAYPOSITION: 'Position d''affichage (si priorité)'
+    FIPS: 'Code FIPS'
+    FREEOFSHIPPINGCOSTSFROM: 'Livraison gratuite à partir de'
+    ISO2: 'ISO Alpha2'
+    ISO3: 'ISO Alpha3'
+    ISON: 'ISO numérique'
+    ISPRIORITIVE: 'Afficher les priorités au début des listes déroulantes ?'
+    ISPRIORITIVE_SHORT: 'Priorité à'
+    IsNonTaxable: 'Exempt d''impôt'
+    PLURALNAME: Pays
+    SINGULARNAME: Pays
+    TITLE: Nom
+    TITLE_AD: Andorre
+    TITLE_AE: 'Émirats arabes unis'
+    TITLE_AF: Afghanistan
+    TITLE_AG: 'Antigua et Barbuda'
+    TITLE_AI: Anguilla
+    TITLE_AL: Albanie
+    TITLE_AM: Arménie
+    TITLE_AN: 'Antilles néerlandaises'
+    TITLE_AO: Angola
+    TITLE_AQ: Antarctique
+    TITLE_AR: Argentine
+    TITLE_AS: 'Samoa américaines'
+    TITLE_AT: Autriche
+    TITLE_AU: Australie
+    TITLE_AW: Aruba
+    TITLE_AX: 'Aland (Îles)'
+    TITLE_AZ: Azerbaïdjan
+    TITLE_BA: Bosnie-Herzégovine
+    TITLE_BB: Barbade
+    TITLE_BD: Bangladesh
+    TITLE_BE: Belgique
+    TITLE_BF: 'Burkina Faso'
+    TITLE_BG: Bulgarie
+    TITLE_BH: Bahreïn
+    TITLE_BI: Burundi
+    TITLE_BJ: Bénin
+    TITLE_BL: 'St Barthélemy'
+    TITLE_BM: Bermudes
+    TITLE_BN: 'Brunei Darussalam'
+    TITLE_BO: Bolivie
+    TITLE_BQ: 'Bonaire, Saint-Eustache et Saba'
+    TITLE_BR: Brésil
+    TITLE_BS: Bahamas
+    TITLE_BT: Bhoutan
+    TITLE_BV: 'Île Bouvet'
+    TITLE_BW: Botswana
+    TITLE_BY: Bélarus
+    TITLE_BZ: Belize
+    TITLE_CA: Canada
+    TITLE_CC: 'Îles Cocos'
+    TITLE_CD: Congo-Kinshasa
+    TITLE_CF: 'République centrafricaine'
+    TITLE_CG: 'Congo [République]'
+    TITLE_CH: Suisse
+    TITLE_CI: 'Côte d''Ivoire'
+    TITLE_CK: 'Îles Cook'
+    TITLE_CL: Chili
+    TITLE_CM: Cameroun
+    TITLE_CN: Chine
+    TITLE_CO: Colombie
+    TITLE_CR: 'Costa Rica'
+    TITLE_CS: 'Serbie et Monténégro'
+    TITLE_CU: Cuba
+    TITLE_CV: Cap-Vert
+    TITLE_CW: Curaçao
+    TITLE_CX: 'Île Christmas'
+    TITLE_CY: Chypre
+    TITLE_CZ: 'République tchèque'
+    TITLE_DE: Allemagne
+    TITLE_DJ: Djibouti
+    TITLE_DK: Danemark
+    TITLE_DM: Dominique
+    TITLE_DO: 'République dominicaine'
+    TITLE_DZ: Algérie
+    TITLE_EC: Équateur
+    TITLE_EE: Estonie
+    TITLE_EG: Égypte
+    TITLE_EH: 'Sahara occidental'
+    TITLE_ER: Érythrée
+    TITLE_ES: Espagne
+    TITLE_ET: Éthiopie
+    TITLE_FI: Finlande
+    TITLE_FJ: Fidji
+    TITLE_FK: 'Îles Falkland'
+    TITLE_FM: Micronésie
+    TITLE_FO: 'Îles Féroé'
+    TITLE_FR: France
+    TITLE_GA: Gabon
+    TITLE_GB: Royaume-Uni
+    TITLE_GD: Grenade
+    TITLE_GE: Géorgie
+    TITLE_GF: 'Guyane française'
+    TITLE_GG: Guernesey
+    TITLE_GH: Ghana
+    TITLE_GI: Gibraltar
+    TITLE_GL: Groenland
+    TITLE_GM: Gambie
+    TITLE_GN: Guinée
+    TITLE_GP: Guadeloupe
+    TITLE_GQ: 'Guinée équatoriale'
+    TITLE_GR: Grèce
+    TITLE_GS: 'Géorgie du Sud et les îles Sandwich du Sud'
+    TITLE_GT: Guatemala
+    TITLE_GU: Guam
+    TITLE_GW: Guinée-Bissau
+    TITLE_GY: Guyane
+    TITLE_HK: 'Hong Kong'
+    TITLE_HM: 'Îles Heard et McDonald'
+    TITLE_HN: Honduras
+    TITLE_HR: Croatie
+    TITLE_HT: Haïti
+    TITLE_HU: Hongrie
+    TITLE_ID: Indonésie
+    TITLE_IE: Irlande
+    TITLE_IL: Israël
+    TITLE_IM: 'Île de Man'
+    TITLE_IN: Inde
+    TITLE_IO: 'Territoire britannique de l''océan Indien'
+    TITLE_IQ: Irak
+    TITLE_IR: Iran
+    TITLE_IS: Islande
+    TITLE_IT: Italie
+    TITLE_JE: Jersey
+    TITLE_JM: Jamaïque
+    TITLE_JO: Jordan
+    TITLE_JP: Japon
+    TITLE_KE: Kenya
+    TITLE_KG: Kirghizistan
+    TITLE_KH: Cambodge
+    TITLE_KI: Kiribati
+    TITLE_KM: Comores
+    TITLE_KN: Saint-Kitts-et-Nevis
+    TITLE_KP: 'Corée du Nord'
+    TITLE_KR: 'Corée du Sud'
+    TITLE_KW: Koweït
+    TITLE_KY: 'Îles Caïmans'
+    TITLE_KZ: Kazakhstan
+    TITLE_LA: Laos
+    TITLE_LB: Liban
+    TITLE_LC: Sainte-Lucie
+    TITLE_LI: Liechtenstein
+    TITLE_LK: 'Sri Lanka'
+    TITLE_LR: Liberia
+    TITLE_LS: Lesotho
+    TITLE_LT: Lituanie
+    TITLE_LU: Luxembourg
+    TITLE_LV: Lettonie
+    TITLE_LY: Libye
+    TITLE_MA: Maroc
+    TITLE_MC: Monaco
+    TITLE_MD: Moldavie
+    TITLE_ME: Monténégro
+    TITLE_MF: 'St. Martin'
+    TITLE_MG: Madagascar
+    TITLE_MH: 'Îles Marshall'
+    TITLE_MK: Macédoine
+    TITLE_ML: Mali
+    TITLE_MM: Birmanie
+    TITLE_MN: Mongolie
+    TITLE_MO: Macao
+    TITLE_MP: 'Îles Mariannes du Nord'
+    TITLE_MQ: Martinique
+    TITLE_MR: Mauritanie
+    TITLE_MS: Montserrat
+    TITLE_MT: Malte
+    TITLE_MU: Maurice
+    TITLE_MV: Maldives
+    TITLE_MW: Malawi
+    TITLE_MX: Mexique
+    TITLE_MY: Malaisie
+    TITLE_MZ: Mozambique
+    TITLE_NA: Namibie
+    TITLE_NC: Nouvelle-Calédonie
+    TITLE_NE: Niger
+    TITLE_NF: 'Île Norfolk'
+    TITLE_NG: Nigeria
+    TITLE_NI: Nicaragua
+    TITLE_NL: Pays-Bas
+    TITLE_NO: Norvège
+    TITLE_NP: Népal
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: Nouvelle-Zélande
+    TITLE_OM: Oman
+    TITLE_PA: Panama
+    TITLE_PE: Pérou
+    TITLE_PF: 'Polynésie française'
+    TITLE_PG: Papouasie-Nouvelle-Guinée
+    TITLE_PH: Philippines
+    TITLE_PK: Pakistan
+    TITLE_PL: Pologne
+    TITLE_PM: 'St Pierre et Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: 'Porto Rico'
+    TITLE_PS: 'Territoires autonomes palestiniens'
+    TITLE_PT: Portugal
+    TITLE_PW: Palau
+    TITLE_PY: Paraguay
+    TITLE_QA: Qatar
+    TITLE_RE: Réunion
+    TITLE_RO: Roumanie
+    TITLE_RS: Serbie
+    TITLE_RU: 'Fédération de Russie'
+    TITLE_RW: Rwanda
+    TITLE_SA: 'Arabie Saoudite'
+    TITLE_SB: 'Îles Salomon'
+    TITLE_SC: Seychelles
+    TITLE_SD: Soudan
+    TITLE_SE: Suède
+    TITLE_SG: Singapour
+    TITLE_SH: Sainte-Hélène
+    TITLE_SI: Slovénie
+    TITLE_SJ: 'Svalbard et Jan Mayen'
+    TITLE_SK: Slovaquie
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: Saint-Marin
+    TITLE_SN: Sénégal
+    TITLE_SO: Somalie
+    TITLE_SR: Suriname
+    TITLE_SS: Sud-Soudan
+    TITLE_ST: 'São Tomé et Príncipe'
+    TITLE_SV: 'El Salvador'
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Syrie
+    TITLE_SZ: Swaziland
+    TITLE_TC: 'Îles Turks et Caicos'
+    TITLE_TD: Chad
+    TITLE_TF: 'Terres australes et antarctiques françaises'
+    TITLE_TG: Togo
+    TITLE_TH: Thaïlande
+    TITLE_TJ: Tadjikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: 'Timor oriental'
+    TITLE_TM: Turkménistan
+    TITLE_TN: Tunisie
+    TITLE_TO: Tonga
+    TITLE_TR: Turquie
+    TITLE_TT: Trinité-et-Tobago
+    TITLE_TV: Tuvalu
+    TITLE_TW: Taiwan
+    TITLE_TZ: Tanzanie
+    TITLE_UA: Ukraine
+    TITLE_UG: Ouganda
+    TITLE_UM: 'Océanie américaine'
+    TITLE_US: États-Unis
+    TITLE_UY: Uruguay
+    TITLE_UZ: Ouzbékistan
+    TITLE_VA: 'Cité du Vatican'
+    TITLE_VC: Saint-Vincent-et-les-Grenadines
+    TITLE_VE: Venezuela
+    TITLE_VG: 'Îles Vierges britanniques'
+    TITLE_VI: 'Îles Vierges américaines'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis et Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosovo
+    TITLE_YE: Yémen
+    TITLE_YT: Mayotte
+    TITLE_ZA: 'Afrique du Sud'
+    TITLE_ZM: Zambie
+    TITLE_ZW: Zimbabwe
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
   SilverCart\Model\Customer\Customer:
     ADDRESS_DATA: 'Données d''adresse générales'
+    ANONYMOUSCUSTOMER: 'Client anonyme'
+    BASIC_DATA: Général
+    BIRTHDAY: Anniversaire
+    BUSINESSCUSTOMER: 'Client d''affaires'
+    CUSTOMERNUMBER: 'Numéro de client'
+    CUSTOMERNUMBER_SHORT: 'Numéro de client.'
+    Customer: Client
+    ERROR_MULTIPLE_PRICETYPES: 'Les groupes de clients avec des types de prix différents ne sont pas autorisés !'
+    FULL_NAME: 'Nom complet'
+    GROSS: Brut
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'a accepté les conditions d''annulation'
+    HASACCEPTEDTERMSANDCONDITIONS: 'A accepté les CGV'
     INVOICE_DATA: 'Données d''adresse de facturation'
+    ISBUSINESSACCOUNT: 'Le compte des clients professionnels'
+    NET: Net
+    PRICETYPE_GROSS: Brut
+    PRICETYPE_NET: Net
+    PRICING: 'Offre de prix'
+    REGULARCUSTOMER: 'Client final'
+    RegistrationOptInConfirmationHash: 'hachage d''opt-in pour l''enregistrement'
+    RegistrationOptInConfirmed: 'L''inscription est terminée'
+    SALUTATION: Salutation
     SHIPPING_DATA: 'Données d’adresse de livraison'
+    SUBSCRIBEDTONEWSLETTER: 'Inscription à la newsletter'
+    TYPE: Type
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    PRICETYPE: 'Type de prix'
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: 'Adresses électroniques'
+    SINGULARNAME: 'Adresse électronique'
+  SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
+    PLURALNAME: 'Destinataires anonymes de la lettre d''information'
+    SINGULARNAME: 'Destinataire anonyme du bulletin d''information'
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Vous ne recevrez la lettre d''information que si vous activez le lien de confirmation figurant dans l''e-mail qui vous a été envoyé.'
+    PLURALNAME: 'Bulletin d''information'
+    SINGULARNAME: 'Bulletin d''information'
+    SUBSCRIBED: 'Vous vous êtes inscrit à la newsletter'
+    StatusALREADY_SUBSCRIBED: 'L''adresse e-mail "{email}" est déjà enregistrée pour recevoir la newsletter.'
+    StatusNO_EMAIL_FOUND: 'L''adresse électronique "{email}" n''a pas été trouvée.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: 'Il existe déjà un client enregistré avec l''adresse électronique "{email}". Veuillez d''abord vous connecter, puis procéder aux réglages nécessaires pour recevoir la lettre d''information : <a href="{link}">Pour se connecter</a>.'
+    StatusSUBSCRIBED_SUCCESSFULLY: 'L''adresse électronique "{email}" a été ajoutée à la liste des destinataires de la newsletter.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: 'Un e-mail contenant des instructions pour la confirmation a été envoyé à l''adresse "{email}".'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: 'L''adresse électronique "{email}" a été retirée de la liste des destinataires de la newsletter.'
+    UNSUBSCRIBED: 'Vous ne vous êtes pas inscrit à la newsletter'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: Actuel
+    ACTUALCOUNT: Actuel
+    CUSTOMERNUMBER: 'Numéro de client'
+    END: Fin
+    ENDCOUNT: Fin
+    IDENTIFIER: Identifiant
+    INVOICENUMBER: 'Numéro de facture'
+    ORDERNUMBER: 'Numéro de commande'
+    PLURALNAME: 'Plages de numéros'
+    PREFIX: Préfixe
+    SINGULARNAME: 'Plage de numéros'
+    START: Début
+    STARTCOUNT: Début
+    SUFFIX: Suffixe
+    TITLE: Titre
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: 'Montant total brut'
+    AMOUNTTOTAL: 'Montant total'
+    AdminModeEdit: 'Passer de la vue au mode d''édition'
+    AdminModeView: 'Changer de mode d''affichage'
+    BASICDATA: 'Données de base'
+    BATCH_CHANGEORDERSTATUS: 'Modifier le statut de la commande pour...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Changer le statut du paiement en...'
+    BATCH_MARKASNOTSEEN: 'Marquer comme non vu'
+    BATCH_MARKASSEEN: 'Marquer comme vu'
+    BATCH_PRINTORDERS: 'Imprimer les commandes (HTML)'
+    CUSTOMER: Client
+    CUSTOMERDATA: 'Données clients'
+    CUSTOMERSEMAIL: 'Adresse électronique du client'
+    ExpectedDelivery: 'Date de livraison prévue'
+    ExpectedDeliveryMax: 'Date de livraison maximale prévue'
+    ExpectedDeliveryMin: 'Date de livraison minimale prévue'
+    HANDLINGCOSTPAYMENT: 'Frais liés aux modes de paiement'
+    HANDLINGCOSTSHIPMENT: 'Frais de la méthode d''expédition'
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'a accepté les conditions d''annulation'
+    HASACCEPTEDTERMSANDCONDITIONS: 'A accepté les CGV'
+    HandlingCost: 'Frais de paiement/expédition'
+    INCLUDED_SHIPPINGRATE: 'Frais d''expédition inclus'
+    INVOICENUMBER: 'Numéro de facture'
+    INVOICENUMBER_SHORT: 'Facture n°.'
+    IS_SEEN: 'Vu sur'
+    MISCDATA: Autre
+    ModelAdminTabOrderInprogress: 'En cours'
+    ModelAdminTabOrderNew: Nouveau
+    ModelAdminTabPaymentOpen: 'Paiement ouvert'
+    NOTE: Commentaire
+    ORDERNUMBER: 'Numéro de commande'
+    ORDERNUMBERSHORT: '-numéro'
+    ORDERPOSITIONDATA: 'Données de position'
+    ORDERPOSITIONISLIMIT: 'L''ordre ne peut contenir que la position spécifiée'
+    ORDERPOSITIONQUANTITY: 'Quantité de postes'
+    ORDER_ID: 'Numéro de commande'
+    ORDER_VALUE: 'Montant total'
+    OrderNumberShort: 'N° de commande'
+    PAYMENTMETHODTITLE: 'Mode de paiement'
+    PLURALNAME: Commandes
+    PRICETYPE: 'Type d''affichage du prix'
+    PRINT: 'Bon à tirer'
+    PRINT_PREVIEW: 'Aperçu avant impression'
+    PaymentDate: 'Payé le'
+    PaymentReferenceData: 'Données de référence du prestataire de paiement'
+    PaymentReferenceID: 'Numéro de référence du prestataire de paiement'
+    PaymentReferenceMessage: 'Informations de référence du prestataire de paiement'
+    PaymentStatus: 'Statut du paiement'
+    SEARCHRESULTSLIMIT: Limite
+    SHIPPINGRATE: 'Frais d''expédition'
+    SILVERCART_ORDER_DELETE: 'Supprimer la commande'
+    SILVERCART_ORDER_EDIT: 'Ordre de modification'
+    SILVERCART_ORDER_VIEW: 'Voir la commande'
+    SINGULARNAME: Commandez
+    STATUS: 'Statut de la commande'
+    ShippingDate: 'Envoyé le'
+    TAXAMOUNTPAYMENT: 'Taxe sur les modes de paiement'
+    TAXAMOUNTSHIPMENT: 'Taxe sur la méthode d''expédition'
+    TAXRATEPAYMENT: 'Taux d''imposition du mode de paiement'
+    TAXRATESHIPMENT: 'Taux d''imposition du mode d''expédition'
+    Tracking: 'Suivi des expéditions'
+    TrackingCode: 'Numéro de suivi'
+    TrackingLink: 'Lien vers le suivi de l''envoi'
+    TrackingLinkLabel: 'Montrer où se trouve mon envoi en ce moment'
+    WEIGHTTOTAL: 'Poids total'
+    YOUR_REMARK: 'Votre commentaire'
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: 'Adresses de commande'
+    SINGULARNAME: 'Adresse de commande'
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Adresses de facturation des commandes'
+    SINGULARNAME: 'Adresse de facturation de la commande'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: Contexte
+    CREATED: Date/heure
+    MESSAGE: Action
+    MESSAGE_CHANGED: 'Changé : {sourcetitle} -> {titre cible}'
+    MESSAGE_CREATED: 'Créé : {contexte} a été créé'
+    MESSAGE_MARKEDASNOTSEEN: 'Marqué comme non vu'
+    MESSAGE_MARKEDASSEEN: 'Marqué comme vu'
+    PLURALNAME: 'Journal des commandes'
+    SINGULARNAME: 'Journal des commandes'
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Type haut/bas'
+    ISCHARGEORDISCOUNT: 'Majoration/moins-value réelle'
+    PLURALNAME: 'Commander des articles'
+    PRICE: Prix
+    PRICETOTAL: 'Prix total'
+    PRODUCTDESCRIPTION: Description
+    PRODUCTNUMBER: 'Numéro d''article'
+    QUANTITY: Quantité
+    SHORT: Pos.
+    SINGULARNAME: 'Poste de commande'
+    TAX: TVA
+    TAXRATE: 'Taux d''imposition'
+    TAXTOTAL: 'Total TVA'
+    TITLE: Nom
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Adresses de livraison de la commande'
+    SINGULARNAME: 'Adresse de livraison de la commande'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Les courriels mis en évidence suivants sont envoyés lorsque ce statut est défini pour une commande :'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'Courriels assignés'
+    BADGECOLOR: 'État des couleurs'
+    CODE: Code
+    DefaultStatusCanceled: Annulé
+    DefaultStatusCompleted: Complété
+    DefaultStatusInprogress: 'En cours'
+    DefaultStatusNew: Nouveau
+    DefaultStatusShipped: 'Commande expédiée'
+    IsDefault: 'Est standard'
+    PLURALNAME: 'Statut de la commande'
+    SINGULARNAME: 'Statut de la commande'
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+    TITLE: Désignation
+  SilverCart\Model\Pages\AddressHolder:
+    ADDED_ADDRESS_FAILURE: 'Votre adresse n''a pas pu être enregistrée.'
+    ADDED_ADDRESS_SUCCESS: 'Votre adresse a été enregistrée.'
+    ADDITIONALADDRESS: 'Adresse supplémentaire'
+    ADDITIONALADDRESSES: 'Adresses supplémentaires'
+    ADDRESS_CANT_BE_DELETED: 'Vous ne pouvez pas supprimer votre seule adresse.'
+    ADDRESS_NOT_FOUND: 'L''adresse n''a pas pu être trouvée.'
+    ADDRESS_SUCCESSFULLY_DELETED: 'Votre adresse a été supprimée avec succès.'
+    CURRENT_DEFAULT_ADDRESSES: 'Votre adresse de facturation et de livraison standard'
+    DEFAULT_INVOICE: 'Adresse de facturation active'
+    DEFAULT_INVOICEADDRESS: 'Adresse de facturation standard'
+    DEFAULT_SHIPPING: 'Adresse de livraison active'
+    DEFAULT_SHIPPINGADDRESS: 'Adresse de livraison standard'
+    DEFAULT_TITLE: 'Aperçu des adresses'
+    DEFAULT_URLSEGMENT: 'aperçu des adresses'
+    DELETE: Supprimer
+    EDIT: Modifier
+    EDIT_ADDRESS: 'Modifier l''adresse'
+    EXCUSE_INVOICEADDRESS: 'Désolé, mais vous n''avez pas encore créé d''adresse de facturation.'
+    EXCUSE_SHIPPINGADDRESS: 'Désolé, mais vous n''avez pas encore créé d''adresse de livraison.'
+    INVOICEADDRESS: 'Adresse de la facture'
+    INVOICEADDRESS_TAB: 'Adresse de la facture'
+    INVOICEANDSHIPPINGADDRESS: 'Adresse de facturation et de livraison'
+    NOT_DEFINED: 'Pas encore défini'
+    PLURALNAME: 'Pages de présentation des adresses'
+    SET_AS: 'Utiliser comme'
+    SET_DEFAULT_INVOICE: 'Utiliser comme adresse de facturation'
+    SET_DEFAULT_SHIPPING: 'Utiliser comme adresse de livraison'
+    SHIPPINGADDRESS: 'Adresse de livraison'
+    SHIPPINGADDRESS_TAB: 'Adresse de livraison'
+    SINGULARNAME: 'Page d''aperçu des adresses'
+    TITLE: 'Aperçu des adresses'
+    UPDATED_INVOICE_ADDRESS: 'Votre adresse de facturation a été mise à jour avec succès.'
+    UPDATED_SHIPPING_ADDRESS: 'Votre adresse de livraison a été mise à jour avec succès.'
+    URL_SEGMENT: 'aperçu des adresses'
+  SilverCart\Model\Pages\CartPage:
+    CART_EMPTY: 'Le panier est vide.'
+    DEFAULT_TITLE: 'Panier d''achat'
+    DEFAULT_URLSEGMENT: 'panier d''achat'
+    PLURALNAME: 'Pages du panier d''achat'
+    SINGULARNAME: 'Pages du panier d''achat'
+    URL_SEGMENT: 'panier d''achat'
+  SilverCart\Model\Pages\CheckoutStep:
+    BACK_TO_SHOPPINGCART: 'Retour au panier d''achat'
+    CHOSEN_PAYMENT: 'méthode de paiement sélectionnée'
+    CHOSEN_SHIPPING: 'méthode de livraison choisie'
+    Change: Changement
+    ContentStep1: 'Contenu Étape 1 - Connexion/enregistrement'
+    ContentStep2: 'Contenu Étape 2 - Livraison/adresse légale'
+    ContentStep3: 'Contenu Étape 3 - Mode d''expédition'
+    ContentStep4: 'Contenu Étape 4 - Mode de paiement'
+    ContentStep5: 'Sommaire Étape 5 - Vue d''ensemble'
+    ContentStep6: 'Contenu Étape 6 - Confirmation de la commande'
+    DEFAULT_URLSEGMENT: caisse
+    FORWARD: 'Plus d''informations sur'
+    I_ACCEPT_REVOCATION: 'J''accepte les <a href="{link}" target="blank">conditions d''annulation</a>.'
+    I_ACCEPT_TERMS: 'J''accepte les <a href="{link}" target="blank">conditions générales</a>.'
+    I_SUBSCRIBE_NEWSLETTER: 'Je souhaite m''abonner à la newsletter.'
+    ORDER: Commandez
+    ORDER_NOW: 'Acheter maintenant'
+    OVERVIEW: 'Vue d''ensemble'
+    PLURALNAME: 'Étapes du paiement'
+    SINGULARNAME: 'Étape de paiement'
+    StepContent: 'Contenu des différentes étapes'
+    TaxAndDutyHint: 'Attention : Pour les livraisons à destination de pays non membres de l''UE, des droits de douane, taxes et frais supplémentaires s''appliquent.'
+    URL_SEGMENT: caisse
+  SilverCart\Model\Pages\ContactFormPage:
+    CityIsRequired: 'Le lieu est un champ obligatoire'
+    CountryIsRequired: 'Le pays est un champ obligatoire'
+    DEFAULT_RESPONSE_CONTENT: 'Merci pour votre message. Nous vous répondrons dans les plus brefs délais.'
+    DEFAULT_TITLE: Contact
+    DEFAULT_URLSEGMENT: contacter
+    EmailContactRequest: 'Un client a envoyé une demande de contact.'
+    EnableCity: 'Activez le champ pour la localisation'
+    EnableCountry: 'Activer le champ pour le pays'
+    EnablePhoneNumber: 'Activer le champ pour le numéro de téléphone'
+    EnablePostcode: 'Activer le champ pour le code postal'
+    EnableStreet: 'Activez le champ pour le numéro de rue/de maison'
+    PLURALNAME: 'Pages de formulaire de contact'
+    PhoneNumberIsRequired: 'Le numéro de téléphone est obligatoire'
+    PostcodeIsRequired: 'Le code postal est un champ obligatoire'
+    REQUEST: 'Demande de renseignements via le formulaire de contact'
+    ResponseContent: 'Contenu de la page de confirmation d''envoi'
+    SINGULARNAME: 'Page du formulaire de contact'
+    StreetIsRequired: 'Le numéro de rue/de maison est un champ obligatoire'
+    TITLE: Contact
+    ThankYouForYourRequest: 'Merci pour votre demande. Nous avons reçu votre message et nous vous répondrons dès que possible.'
+    URL_SEGMENT: contacter
+    WeReceivedYourRequest: 'Nous avons reçu votre demande.'
+    YourData: 'Vos données :'
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Mes données'
+    DEFAULT_URLSEGMENT: mes-données
+    PLURALNAME: 'Pages de données'
+    SINGULARNAME: 'Page de données'
+    TITLE: 'Mes données'
+    URL_SEGMENT: mes-données
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Pages de téléchargement'
+    SINGULARNAME: 'Page de téléchargement'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Télécharger des aperçus de pages'
+    ResultsText: 'Votre recherche de <strong>"{terme}"</strong> a donné <strong>{nombre}</strong> résultats.'
+    SINGULARNAME: 'Aperçu de la page de téléchargement'
+    SearchResults: 'Résultats de la recherche'
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2>Bienvenue dans la boutique en ligne <strong>SilverCart</strong>!</h2>'
+    DEFAULT_CONTENT: '<h2>Bienvenue dans la boutique en ligne <strong>SilverCart</strong>!</h2>'
+    DESCRIPTION: 'Page d''accueil de la boutique en ligne'
+    PLURALNAME: 'Côtés avant'
+    SINGULARNAME: Avant
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: 'Mentions légales'
+    DEFAULT_TITLE_ABOUT: 'A propos de nous'
+    DEFAULT_TITLE_LEGAL: 'Mentions légales'
+    DEFAULT_TITLE_SERVICE: Service
+    DEFAULT_TITLE_SHOP: 'Système de magasin'
+    DEFAULT_URLSEGMENT: légal
+    DEFAULT_URLSEGMENT_ABOUT: 'à propos de nous'
+    DEFAULT_URLSEGMENT_LEGAL: légal
+    DEFAULT_URLSEGMENT_SERVICE: service
+    DEFAULT_URLSEGMENT_SHOP: 'système de magasin'
+    PLURALNAME: 'Aperçu de la métanavigation'
+    SINGULARNAME: 'Aperçu de la métanavigation'
+    URL_SEGMENT: légal
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: Impression
+    DEFAULT_TITLE_PRIVACY: 'Politique de confidentialité'
+    DEFAULT_TITLE_REVOCATION: 'Politique d''annulation'
+    DEFAULT_TITLE_TERMS: 'Conditions générales'
+    DEFAULT_URLSEGMENT_IMPRINT: impression
+    DEFAULT_URLSEGMENT_PRIVACY: 'déclaration de protection des données'
+    DEFAULT_URLSEGMENT_REVOCATION: 'politique d''annulation'
+    DEFAULT_URLSEGMENT_TERMS: 'conditions générales de l''entreprise - information de l''acheteur'
+    PLURALNAME: 'Pages de méta-information'
+    SINGULARNAME: 'Page d''information méta'
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'Vous avez déjà un compte ?'
+    DEFAULT_TITLE: 'Mon compte'
+    DEFAULT_URLSEGMENT: mon-compte
+    GOTO_REGISTRATION: 'Vers le formulaire d''inscription'
+    MORE: 'Plus de'
+    PLURALNAME: 'Aperçu des comptes'
+    REGISTER_ADVANTAGES_TEXT: 'Si vous vous enregistrez, vous pouvez accéder à vos données, telles que l''adresse de facturation et de livraison, lorsque vous effectuez un achat.'
+    SINGULARNAME: 'Aperçu du compte'
+    TITLE: 'Mon compte'
+    URL_SEGMENT: mon-compte
+    WANTTOREGISTER: 'Voulez-vous vous inscrire ?'
+    YOUR_CURRENT_ADDRESSES: 'Votre adresse actuelle de facturation et de livraison'
+    YOUR_CUSTOMERNUMBER: 'Votre numéro de client'
+    YOUR_MOST_CURRENT_ORDERS: 'Vos dernières commandes'
+    YOUR_PERSONAL_DATA: 'Vos données personnelles'
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Notification si l''application existe déjà'
+    AlreadyConfirmedMessageText: 'Message : L''utilisateur a déjà complété l''Opt-In'
+    ConfirmationFailureMessage: 'Notification en cas d''échec de la demande'
+    ConfirmationSuccessMessage: 'Message sur l''enregistrement réussi'
+    DEFAULT_TITLE: 'Bulletin d''information'
+    DEFAULT_URLSEGMENT: 'bulletin d''information'
+    DefaultAlreadyConfirmedMessage: '<p>Vous aviez déjà rempli l''inscription à la newsletter auparavant.</p>'
+    DefaultConfirmationFailureMessage: '<p>Votre abonnement à la newsletter n''a pas pu être complété.</p>'
+    DefaultConfirmationSuccessMessage: '<p>Votre inscription à la newsletter a été réussie !</p><p>Nous vous souhaitons beaucoup de plaisir et de succès avec nos offres.</p>'
+    DefaultConfirmationSuccessSubject: 'L''abonnement à la newsletter a été effectué avec succès'
+    DefaultEmailConfirmationSubject: 'Inscription complète à la newsletter'
+    DefaultOptInPageTitle: 'Inscription complète à la newsletter'
+    EmailConfirmationConfirm: 'Confirmer l''inscription'
+    EmailConfirmationHaveFun: 'Nous vous souhaitons beaucoup de plaisir et de succès avec nos offres.'
+    EmailConfirmationIgnore: 'Si vous n''avez pas demandé à recevoir la lettre d''information, ignorez simplement ce courrier.'
+    EmailConfirmationLinkInfo: 'Veuillez cliquer sur le lien d''activation ou copier le lien dans votre navigateur.'
+    EmailConfirmationSuccessMessage: 'Votre inscription à la newsletter a été réussie !'
+    EmailConfirmationTitle: 'Inscription complète à la newsletter'
+    FailureMessageText: 'Message d''erreur'
+    OptInPageTitle: 'Titre de la page opt-in'
+    PLURALNAME: 'Pages du bulletin d''information'
+    SINGULARNAME: 'Page du bulletin d''information'
+    SuccessMessageText: 'Histoire d''une réussite'
+    THANKS_TITLE: 'Statut du bulletin d''information'
+    TITLE: 'Bulletin d''information'
+    URL_SEGMENT: 'bulletin d''information'
+    UseDoubleOptIn: 'Utiliser le double opt-in'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: 'Mes ordres'
+    DEFAULT_URLSEGMENT: mes-commandes
+    OrderDetails: 'Détails de la commande'
+    PLURALNAME: 'Aperçu des commandes'
+    SINGULARNAME: 'Aperçu de la commande'
+    TITLE: 'Mes ordres'
+    URL_SEGMENT: mes-commandes
   SilverCart\Model\Pages\Page:
+    ABOUT_US: 'à propos de nous'
+    ABOUT_US_URL_SEGMENT: 'à propos de nous'
+    ACCESS_CREDENTIALS_CALL: 'Veuillez entrer vos données d''accès :'
+    ADDRESS: Adresse
+    ADDRESSINFORMATION: 'Informations sur l''adresse'
     ADDRESS_DATA: 'Données d''adresse'
+    ADMIN_AREA: 'Accès Admin'
+    ALREADY_REGISTERED: 'Bonjour {nom}, vous êtes déjà inscrit.'
+    API_CREATE: 'peut créer des objets via l''API'
+    API_DELETE: 'peut supprimer des objets via l''API'
+    API_EDIT: 'peut modifier les objets via l''API'
+    API_VIEW: 'peut lire des objets via l''API'
+    APRIL: Avril
+    AUGUST: Août
+    AllPricesExclVat: 'Tous les prix sont hors TVA.'
+    AllPricesInclVat: 'Tous les prix incluent la TVA.'
+    BACK: Dos
+    BACK_TO: 'Retour à "{title}"'
+    BACK_TO_DEFAULT: 'Page précédente'
+    BILLING_ADDRESS: 'Adresse de la facture'
+    BIRTHDAY: Anniversaire
+    CANCEL: Annuler
+    CART: 'Panier d''achat'
+    CATALOG: Catalogue
+    CHANGE_PAYMENTMETHOD_CALL: 'Veuillez choisir un autre mode de paiement ou contacter l''exploitant du magasin.'
+    CHANGE_PAYMENTMETHOD_LINK: 'Sélectionnez un autre mode de paiement'
+    CHECK_FIELDS_CALL: 'Veuillez vérifier vos entrées dans les champs suivants :'
+    CONTACT_FORM: 'Formulaire de contact'
+    CONTINUESHOPPING: 'Poursuivre les achats'
+    CREDENTIALS_WRONG: 'Vos données d''accès sont incorrectes.'
+    Categories: 'Nos catégories'
+    DAY: Jour
+    DECEMBER: Décembre
+    DECREMENT_POSITION: 'Réduire le nombre'
+    DELETE: Supprimer
+    DETAILS: Détails
+    DETAILS_FOR: 'Détails sur %s'
+    DIDNOT_RETURN_RESULTS: 'n''a donné aucun résultat dans notre boutique.'
+    DO_NOT_EDIT: 'S''il vous plaît, ne changez pas !'
+    EMAIL_ADDRESS: 'Adresse électronique'
+    EMAIL_ALREADY_REGISTERED: 'Un utilisateur s''est déjà inscrit avec cette adresse électronique.'
+    EMAIL_NOT_FOUND: 'Cette adresse e-mail n''a pas pu être trouvée.'
+    EMPTY_CART: vierge
+    ERROR_LISTING: 'Les erreurs suivantes se sont produites :'
+    ERROR_OCCURED: 'Une erreur s''est produite.'
+    FEBRUARY: Février
+    FIND: 'Trouvez :'
+    FORWARD: 'Plus d''informations sur'
+    GOTO: 'aller à {titre} Page'
+    GOTO_CART_SHORT: 'Panier d''achat'
+    GOTO_CONTACT_LINK: 'Vers la page de contact'
+    GOTO_PAGE: 'Aller à la page {count} '
+    HEADERPICTURE: 'Image d''en-tête'
+    HELLO: Bonjour
+    INCLUDED_VAT: 'TVA incluse'
+    INCLUDING_TAX: 'y compris {montant}% de TVA.'
+    INCREMENT_POSITION: 'Augmenter le nombre'
+    ISACTIVE: Actif
+    I_ACCEPT: 'J''accepte le'
+    I_HAVE_READ: 'J''ai le '
+    JANUARY: Janvier
+    JULY: Juillet
+    JUNE: Juin
+    LOGIN: Connectez-vous
+    LOGO: Logo
+    LOGOUT: Déconnexion
+    MARCH: Mars
+    MAY: Mai
+    MESSAGE: Message
+    MONTH: Mois
+    MYACCOUNT: 'Mon compte'
+    MetaTitleAt: 'chez {shopTitle}'
+    NAME: Nom
+    NEWSLETTER: 'Bulletin d''information'
+    NEWSLETTER_FORM: 'Paramètres de la newsletter'
+    NEXT: Avant
+    NOT_FOUND: 'La page "{title}" n''a pas été trouvée.'
+    NOVEMBER: Novembre
+    NO_ORDERS: 'Vous n''avez pas encore effectué de commande.'
+    NO_RESULTS: 'Désolé, mais il n''y a pas de résultats pour votre terme de recherche.'
+    OCTOBER: Octobre
+    OR: ou
+    ORDERED_PRODUCTS: 'Articles commandés'
+    ORDER_COMPLETED: 'Votre commande est terminée.'
+    ORDER_DATE: 'Date de la commande'
+    ORDER_THANKS: 'Merci pour votre commande.'
+    Oclock: Horloge
+    PASSWORD: 'Mot de passe'
+    PASSWORD_CASE_EMPTY: 'Si vous laissez ce champ vide, votre mot de passe ne sera pas modifié.'
+    PASSWORD_CHECK: 'Répéter le mot de passe'
+    PASSWORD_WRONG: 'Ce mot de passe est faux.'
+    PAYMENT_NOT_WORKING: 'Le module de paiement sélectionné ne fonctionne pas.'
+    PLURALNAME: Pages
+    PLUS_SHIPPING: 'plus frais d''expédition'
+    PREV: Dos
+    PRODUCTNAME: 'Description de l''article'
+    PageXofY: 'Page {x} de {y}'
+    REGISTER: Registre
+    REGISTER_HERE: 'Inscrivez-vous ici.'
+    REGISTER_NEW: 'Nouveau client ?'
+    REMARKS: Commentaires
+    REMOVE_FROM_CART: supprimer
+    RETURNTOPRODUCTGROUP: 'Retour à "{title}"'
+    REVOCATION: 'Politique d''annulation'
+    REVOCATIONREAD: 'Politique d''annulation lue'
+    SAVE: Sauvez
+    SEPTEMBER: Septembre
+    SESSION_EXPIRED: 'Votre session a expiré.'
+    SHIPPING_ADDRESS: 'Adresse de livraison'
+    SHIPPING_AND_BILLING: 'Adresse de livraison et de facturation'
+    SHOP_WITHOUT_REGISTRATION: 'Magasin sans inscription'
+    SHOWINPAGE: 'Réglez la langue sur {language}'
+    SHOW_DETAILS: 'Afficher les détails'
+    SHOW_DETAILS_FOR: 'Afficher les détails de {titre}'
+    SINGULARNAME: Page
+    SITMAP_HERE: 'Vous pouvez voir ici un aperçu de notre site.'
+    STEPS: Étapes
+    SUBMIT: Envoyer
+    SUBMIT_MESSAGE: 'Envoyer un message'
+    SUBTOTAL: Sous-total
+    SUBTOTAL_NET: 'Sous-total (net)'
+    SUM: Total
+    Start: Début
+    TAX: 'y compris {montant}% de TVA.'
+    TERMSOFSERVICE_PRIVACY: 'Conditions générales et protection des données'
+    THE_QUERY: 'Le terme'
+    TITLE: Titre
+    TITLE_IMPRINT: Impression
+    TITLE_TERMS: 'Conditions générales'
+    TODAY: 'aujourd''hui'
+    TOTAL: Total
+    URL_SEGMENT_IMPRINT: impression
+    URL_SEGMENT_TERMS: 'conditions générales de l''entreprise - information de l''acheteur'
+    USER_NOT_EXISTING: 'Cet utilisateur n''existe pas.'
+    UseAsRootForMainNavigation: 'Les sous-pages de cette page forment la navigation principale'
+    UseAsRootForMainNavigationDesc: 'La navigation principale, qui contient les groupes de produits de l''installation de base, est formée à partir des sous-pages de cette page. Une seule page peut avoir ce paramètre actif.'
+    VALUE_OF_GOODS: 'Valeur des marchandises'
+    VIEW_ORDERS_TEXT: 'Vérifiez l''état de votre commande dans le'
+    WELCOME_PAGE_TITLE: 'Bienvenue sur'
+    WELCOME_PAGE_URL_SEGMENT: 'bienvenue à'
+    WELCOME_TO: 'Bienvenue à'
+    YEAR: Année
+    YESTERDAY: hier
+    YOUR_REMARKS: 'Votre message à nous'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: 'Méthodes de paiement'
+    DEFAULT_URLSEGMENT: 'les méthodes de paiement'
+    PLURALNAME: 'Pages sur les modes de paiement'
+    SINGULARNAME: 'Page sur les modes de paiement'
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: 'Avis de paiement'
+    DEFAULT_URLSEGMENT: 'notification de paiement'
+    PLURALNAME: 'Notifications de paiement'
+    SINGULARNAME: 'Avis de paiement'
+    TEXTBANKACCOUNTINFO: 'Informations pour le paiement anticipé'
+    TITLE: 'Avis de paiement'
+    URL_SEGMENT: 'notification de paiement'
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: 'Groupes de produits'
+    DEFAULT_URLSEGMENT: 'groupes de produits'
+    LinkTo: 'Groupe de produits vers lequel un transfert doit être effectué.'
+    PAGE_TITLE: 'Groupes de produits'
+    PLURALNAME: 'Aperçu des groupes d''articles'
+    RedirectToProductGroup: 'Transférer directement vers un groupe de produits'
+    RedirectionSettings: Transférer
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Afficher l''article'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Afficher l''article'
+    SINGULARNAME: 'Aperçu du groupe d''articles'
+    SUBGROUPS_OF: 'Sous-groupes de '
+    URL_SEGMENT: 'groupes de produits'
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: Attribut
+    BREADCRUMBS: 'Paniers de la famille de produits'
+    BuyTitle: '{titre} acheter'
+    DEFAULTGROUPHOLDERVIEW: 'Vue standard des groupes de produits'
+    DEFAULTGROUPVIEW: 'Affichage standard de la liste des articles'
+    DEFAULTGROUPVIEW_DEFAULT: 'Adopter le groupe parent/la configuration par défaut'
+    DONOTSHOWPRODUCTS: '<strong>Ne pas</strong> montrer d''articles dans la vue d''ensemble'
+    DisplaySettings: 'Paramètres d''affichage'
+    GROUP_PICTURE: 'Image du groupe'
+    MANAGE_PRODUCTS_BUTTON: 'Gérer les articles'
+    MANUFACTURER_LINK: fabricant
+    NewProducts: Innovations
+    NewProductsIn: '{groupe de produits} Nouveautés'
+    NewProductsLinkTitle: 'Afficher toutes les nouveautés'
+    OK: Ok
+    PLURALNAME: 'Groupes de produits'
+    PRODUCTGROUPSPERPAGE: 'Groupes de produits par page'
+    PRODUCTSPERPAGE: 'Articles par page'
+    PRODUCTSPERPAGEHINT: 'Spécifiez 0 (zéro) pour les articles ou les groupes de marchandises par page pour utiliser le paramètre par défaut.'
+    PRODUCTS_ON_PAGE: 'Article de {nombre de produits} sur la page de {nombre de pages}.'
+    PRODUCTS_ON_PAGES: '{compte de produits} articles sur {compte de pages} pages'
+    PRODUCTS_PER_PAGE: 'Articles par page'
+    PRODUCT_ON_PAGE: 'Article de {nombre de produits} sur la page de {nombre de pages}.'
+    PreorderableProducts: Pré-commande
+    PreorderableProductsIn: '{groupe de produits} Pré-commande'
+    PreorderableProductsLinkTitle: 'Afficher tous les précurseurs'
+    SINGULARNAME: 'Groupe de produits'
+    SORT_ORDER: Triage
+    ShowOffersFor: 'Afficher les offres pour'
+    ShowResultsFor: 'Afficher les résultats pour'
+    ShowResultsForAll: 'Afficher les résultats pour toutes les catégories'
+    ShowResultsForAllMenu: 'Toutes les catégories'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Utilisez uniquement la vue standard des groupes de produits'
+    USEONLYDEFAULTGROUPVIEW: 'Utiliser uniquement la vue de la liste des éléments standard'
+    USE_CONTENT_FROM_PARENT: 'Reprendre le contenu des pages parentales'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Cet article est épuisé.'
+    PACKAGING_CONTENT: Contenu
+    PLURALNAME: 'Pages de détail des articles'
+    PRINT: Imprimer
+    QUANTITY: Numéro
+    SINGULARNAME: 'Page de détail de l''article'
+    URL_SEGMENT: 'détails de l''article'
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1>Inscription complète</h1><p>Veuillez cliquer sur le lien d''activation ou copier le lien dans votre navigateur.</p><p><a href="$ConfirmationLink">Confirmer l''inscription</a></p><p>Si vous n''êtes pas inscrit, ignorez simplement ce courrier.</p><p>Votre équipe Webshop</p>'
+    CUSTOMER_SALUTATION: 'Cher client,'
+    DEFAULT_TITLE: 'Page d''inscription'
+    DEFAULT_URLSEGMENT: enregistrez
+    DEFAULT_WELCOME_CONTENT: '<p>Cher client,</p><p>pour vous épargner du travail, nous vous avons déjà connecté automatiquement.</p><p>Profitez de vos achats dans notre boutique !</p>'
+    EMAIL_EXISTS_ALREADY: 'Cette adresse e-mail est déjà prise.'
+    EmailOptInConfirmYourEmailAddress: 'Confirmez votre adresse électronique'
+    EmailOptInConfirmationCustomerData: 'Vos données clients'
+    EmailOptInConfirmationCustomerDataInfo: 'Vous trouverez ci-dessous les données relatives à vos clients.'
+    EmailOptInConfirmationInfo: 'Félicitations et bienvenue dans notre boutique ! Votre adresse électronique a été confirmée avec succès. A partir de maintenant, vous êtes autorisé à utiliser votre photo de client dans notre boutique.'
+    EmailOptInConfirmationTitle: 'L''adresse électronique a été confirmée'
+    EmailOptInConfirmationVisit: 'Visitez notre boutique'
+    EmailOptInIgnore: 'Si vous n''êtes pas inscrit dans notre boutique, ignorez simplement ce courrier.'
+    EmailOptInLinkInfo: 'Veuillez cliquer sur le lien d''activation ou copier le lien dans votre navigateur.'
+    EmailOptInNotificationCustomerData: Contact
+    EmailOptInNotificationTitle: 'Un client s''est inscrit'
+    EmailOptInTitle: 'Confirmer l''adresse e-mail'
+    OTHERITEMS: Autre
+    OptInFailedMessage: 'Ce lien pour confirmer votre adresse e-mail n''est pas valide.'
+    OptInFailedTitle: 'Échec de l''opt-in'
+    OptInGoToMyAccount: 'Mon compte'
+    OptInGoToShop: 'Continuer vers le magasin'
+    OptInMessage: 'Votre adresse électronique a été confirmée avec succès.'
+    OptInMessageLogin: 'Veuillez vous connecter pour confirmer votre adresse électronique.'
+    OptInPendingMessage: 'Votre courriel de confirmation est toujours en attente. Veuillez vérifier votre boîte de réception et consulter le lien de confirmation.'
+    OptInPendingTitle: 'Opt-in en attente'
+    OptInResend: 'Renvoyer le lien de confirmation'
+    OptInResendMessage: 'L''e-mail contenant le lien de confirmation a été envoyé à {email}.'
+    OptInResendTitle: 'Renvoyer le lien de confirmation'
+    OptInTitle: 'Confirmez votre adresse électronique'
+    OptInWelcomeMessage: 'Félicitations ! Votre enregistrement dans notre boutique a été un succès !'
+    OptInWelcomeMessage2: 'Pour activer votre compte, veuillez confirmer votre adresse e-mail en consultant le lien de confirmation que vous avez reçu par e-mail.'
+    OptInWelcomeMessage3: 'Le lien de confirmation a été envoyé à <strong>{email}</strong>. Veuillez vérifier votre boîte de réception.'
+    OptInWelcomeTitle: 'Confirmez votre adresse électronique'
+    PLEASE_COFIRM: 'Veuillez confirmer votre inscription.'
+    PLURALNAME: 'Pages d''inscription'
+    SINGULARNAME: 'Page d''inscription'
+    SUCCESS_TEXT: '<h1>L''enregistrement a été effectué avec succès !</h1><p>Merci pour votre inscription.</p><p>Amusez-vous bien dans notre boutique !</p><p>Votre équipe Webshop</p>'
+    THANKS: 'Merci pour votre inscription.'
+    TITLE: 'Page d''inscription'
+    URL_SEGMENT: enregistrez
+    YOUR_REGISTRATION: 'Votre inscription'
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: Révocation
+    DEFAULT_URLSEGMENT: révocation
+    PLURALNAME: 'Pages de révocation'
+    SINGULARNAME: 'Page de révocation'
+    Success: 'La révocation a été envoyée avec succès'
+    SuccessText: 'Merci beaucoup ! Nous avons reçu votre révocation et nous allons traiter votre demande.'
+    TITLE: Révocation
+    URL_SEGMENT: révocation
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'Résultats pour'
+    DEFAULT_TITLE: 'Résultats de la recherche'
+    DEFAULT_URLSEGMENT: 'résultats de recherche'
+    PLURALNAME: 'Pages de résultats de recherche'
+    RELEVANCESORT: Pertinence
+    ResultsTextCategory: 'Résultats de la recherche pour la catégorie <strong>"{category}"</strong> ({résultats} occurrences)'
+    ResultsTextQuery: 'Résultats de la recherche pour le terme <strong>"{requête}"</strong> ({résultats} occurrences)'
+    ResultsTextQueryAndCategory: 'Résultats de la recherche pour le terme <strong>"{requête}"</strong> dans la catégorie <strong>"{catégorie}"</strong> ({résultats} occurrences)'
+    SINGULARNAME: 'Page de résultats de recherche'
+    SearchTitle: '{count} Résultats de la recherche pour "{title}"'
+    TITLE: 'Résultats de la recherche'
+    URL_SEGMENT: 'résultats de recherche'
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: Montant
+    PLURALNAME: 'Coûts de traitement'
+    SINGULARNAME: 'Coûts de traitement'
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: Général
+    ACCESS_MANAGEMENT_GROUP_LABEL: 'Par groupe(s)'
+    ACCESS_MANAGEMENT_USER_LABEL: 'Par le(s) client(s)'
+    ACCESS_SETTINGS: 'Gestion de l''accès'
+    ATTRIBUTED_COUNTRIES: 'pays assignés'
+    AddPaymentLogos: 'Ajouter un logo'
+    BASIC_SETTINGS: 'Paramètres de base'
+    ChargeOrDiscountForAmount: 'sur {prix}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Appliquez la règle suivante'
+    ExcludedPosition: 'sauf pour la position {position}'
+    ExcludedPositions: 'sauf pour les positions {positions}'
+    FROM_PURCHASE_VALUE: 'valeur ex des marchandises'
+    HANDLINGCOSTS_SETTINGS: 'Coûts de traitement'
+    LONG_PAYMENT_DESCRIPTION: 'Description à afficher sur la page du type de paiement'
+    MODE: Mode
+    NAME: Nom
+    NO_PAYMENT_METHOD_AVAILABLE: 'Aucune méthode de paiement disponible'
+    PAYMENT_DESCRIPTION: Description
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Absolument
+    PAYMENT_IMPACT_TYPE_PERCENT: Pourcentage
+    PAYMENT_ISACTIVE: active
+    PAYMENT_LOGOS: Logos
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Montant maximal pour le module'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Montant minimum pour le module'
+    PAYMENT_MODE_DEV: 'Développement et test'
+    PAYMENT_MODE_LIVE: 'En direct / en fonctionnement'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Valeur des marchandises'
+    PAYMENT_MODIFY_TOTALVALUE: 'Valeur totale'
+    PAYMENT_MODIFY_TYPE_CHARGE: Impact
+    PAYMENT_MODIFY_TYPE_DISCOUNT: Remise
+    PAYMENT_SUMMODIFICATIONIMPACT: Influences
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Art
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'La valeur est'
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Étiquetage dans le panier/commande'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'Numéro d''article pour l''exportation de la commande XML'
+    PAYMENT_SUMMODIFICATIONVALUE: Valeur
+    PAYMENT_SUMMODIFIERS: 'Primes / remises'
+    PAYMENT_USE_SUMMODIFICATION: Activez
+    PaymentChannel: 'Mode de paiement'
+    PaymentStatus: 'Statut du paiement'
+    PaymentStatusDesc: 'Statut de paiement par défaut pour ce type de paiement'
+    RESTRICTION_LABEL: 'Afficher uniquement pour les clients qui répondent aux critères suivants'
+    RESTRICT_BY_ORDER_QUANTITY: 'Le client doit avoir passé au moins le nombre de commandes suivant'
+    RESTRICT_BY_ORDER_STATUS: 'dont le statut de la commande est marqué dans la liste suivante'
+    SHIPPINGMETHOD: 'Mode d''expédition'
+    SHIPPINGMETHOD_DESC: 'Tie mode de paiement aux méthodes d''expédition suivantes :'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Afficher les champs de saisie déjà lors de la sélection du paiement'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Désactiver pour les groupes suivants'
+    SHOW_NOT_FOR_USERS_LABEL: 'Désactiver pour les utilisateurs suivants'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Activer pour les groupes suivants'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Activer pour les utilisateurs suivants'
+    SHOW_PAYMENT_LOGOS: 'Afficher les logos'
+    STANDARD_ORDER_STATUS: 'Statut par défaut de la commande pour ce mode de paiement'
+    TILL_PURCHASE_VALUE: 'jusqu''à la valeur des marchandises'
+    TITLE: 'Mode de paiement'
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: Code
+    DefaultStatusOpen: Ouvrir
+    DefaultStatusPaid: Payé
+    IsDefault: 'Est standard'
+    Orders: Commandes
+    PLURALNAME: 'Statut du paiement'
+    PaymentStatusTranslations: Traductions
+    SINGULARNAME: 'Statut du paiement'
+    Title: Titre
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\AvailabilityStatus:
+    ADDITIONALTEXT: 'Texte supplémentaire'
+    ISDEFAULT: 'Est standard'
+    PLURALNAME: Disponibilités
+    SINGULARNAME: Disponibilité
+    STATUS_AVAILABLE: 'disponible sur'
+    STATUS_AVAILABLE_IN: 'disponible dans {durée} {unité de temps}n'
+    STATUS_AVAILABLE_IN_MIN_MAX: 'disponible dans {minduration} à {maxduration} {unité de temps}'
+    STATUS_NOT_AVAILABLE: 'non disponible'
+    SeoMicrodataCode: 'Code de microdonnées SEO'
+    SeoMicrodataCodeDescription: 'Attribuez une valeur appropriée ici pour augmenter la visibilité des moteurs de recherche.'
+    SeoMicrodataCodeDiscontinued: 'Sauf commerce'
+    SeoMicrodataCodeInStock: 'En stock'
+    SeoMicrodataCodeInStoreOnly: 'Seulement dans le magasin'
+    SeoMicrodataCodeLimitedAvailability: 'Disponibilité limitée'
+    SeoMicrodataCodeOnlineOnly: 'En ligne uniquement'
+    SeoMicrodataCodeOutOfStock: 'Pas en stock'
+    SeoMicrodataCodePreOrder: 'Disponible en pré-commande'
+    SeoMicrodataCodePreSale: 'Réservation préalable'
+    SeoMicrodataCodeSoldOut: Vendu
+    SetForNegativeStock: 'Affectation automatique à un article lorsque le niveau de stock passe de > 0 à 0.'
+    SetForNegativeStockShort: 'Voiture. < 1'
+    SetForPositiveStock: 'Affectation automatique à un article lorsque le niveau de stock passe de 0 à > 0.'
+    SetForPositiveStockShort: 'Voiture. > 0'
+    TITLE: Désignation
+  SilverCart\Model\Product\AvailabilityStatusTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\File:
+    DESCRIPTION: Description
+    FILE_ATTACHMENTS: 'Fichiers joints'
+    PLURALNAME: Fichiers
+    SINGULARNAME: Fichier
+    SIZE: Taille
+    TITLE: 'Nom d''affichage'
+    TYPE: Type
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\Image:
+    CONTENT: 'Contenu du texte'
+    DESCRIPTION: 'Description (par exemple, pour le champ de texte Slidorion)'
+    PLURALNAME: Images
+    SINGULARNAME: Image
+    SORTORDER: 'Ordre de tri'
+    THUMBNAIL: Prévisualisation
+    TITLE: 'Nom d''affichage'
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: Description
+    ManufacturerNumber: 'Numéro du fabricant'
+    PLURALNAME: Fabricant
+    SINGULARNAME: Fabricant
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: 'Unité de vente'
+    AddFile: 'Ajouter un fichier'
+    AddImage: 'Ajouter une image'
+    BasicData: 'Données de base'
+    CHANGE_QUANTITY_CART: 'Modifier la quantité'
+    CHOOSE_MASTER: '-- Sélectionner le maître --'
+    COLUMN_TITLE: Nom
+    DAY: Jour
+    DAYS: Jours
+    DESCRIPTION: 'Description de l''article'
+    Delivery: Livraison
+    DeliveryForFree: 'Expédition gratuite'
+    DeliveryForFreeIsPossible: 'La livraison gratuite est possible'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Cet article est exclu des remises en raison du mode de paiement.'
+    FREE_OF_CHARGE: 'livraison gratuite'
+    IMAGE: 'Image de l''article'
+    IMAGE_NOT_AVAILABLE: 'Aucune image d''article assignée'
+    IMPORTIMAGESFORM_ACTION: 'Importer des images'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'Le répertoire n''existe pas'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Aucun répertoire n''a été spécifié'
+    IMPORTIMAGESFORM_HEADLINE: 'Importation d''images rétrospectivement'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: Annuaire
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Chemin absolu vers le répertoire sur le serveur web où se trouvent les images. (Exemple : /var/www/silvercart/images/)'
+    IMPORTIMAGESFORM_REPORT: '<p>%d fichiers ont été trouvés.</p><p>%d d''entre eux ont pu être affectés à des articles et ont été importés.</p>'
+    IS_ACTIVE: 'est actif'
+    IsNotBuyable: 'Cet article n''est pas disponible à la vente'
+    Keywords: 'Mots clés pour la recherche'
+    LIST_PRICE: 'Prix de liste'
+    LaunchDate: 'Affichage de'
+    LaunchDateInfo: '<strong>Facultatif</strong> - à définir uniquement si l''option <i>Vente du</i> est activée et que l''affichage doit être effectué avant le début de la vente.'
+    MASTERPRODUCT: 'Articles de base'
+    METADATA: Méta-données
+    METADESCRIPTION: 'Meta description pour les moteurs de recherche'
+    METATITLE: 'Titre méta pour les moteurs de recherche'
+    MONTH: Mois
+    MONTHS: Mois
+    MSRP: MSRP
+    MSRP_CURRENCY: 'Monnaie EIA'
+    MirrorPage_PLURALNAME: 'Groupes de produits en miroir'
+    MirrorPage_SINGULARNAME: 'Groupe de produits Miroir'
+    NAME_DESCRIPTION: 'Nom et description'
+    New: Nouveau
+    NewestArrivals: 'Nouveau dans la boutique'
+    PACKAGING_QUANTITY: 'Volume des ventes'
+    PACKAGING_UNIT: 'Unité d''emballage'
+    PLURALNAME: Article
+    PRICE: Prix
+    PRICES: Prix
+    PRICE_AMOUNT_ASC: 'Prix en hausse'
+    PRICE_AMOUNT_DESC: 'Prix en baisse'
+    PRICE_ENTIRE: 'Prix total'
+    PRICE_GROSS: 'Prix (brut)'
+    PRICE_GROSS_CURRENCY: 'Monnaie (brute)'
+    PRICE_NET: 'Prix (net)'
+    PRICE_NET_CURRENCY: 'Devises (net)'
+    PRICE_SINGLE: 'Prix unitaire'
+    PRICE_SINGLE_NET: 'Prix unitaire (net)'
+    PRODUCTNUMBER: 'Numéro d''article'
+    PRODUCTNUMBER_MANUFACTURER: 'Numéro d''article (fabricant)'
+    PRODUCTNUMBER_SHORT: 'Numéro d''article'
+    PRODUCT_QUESTION: 'Veuillez répondre aux questions suivantes concernant l''article {titre}. ({numéro du produit}) :'
+    PRODUCT_QUESTION_LABEL: 'Questions sur l''article'
+    PURCHASEPRICE: 'Prix d''achat'
+    PURCHASEPRICE_CURRENCY: 'Devise Prix d''achat'
+    PURCHASE_MAX_DURATION: 'Max. Période d''abonnement'
+    PURCHASE_MIN_DURATION: 'Période de référence minimale'
+    PURCHASE_TIME_UNIT: 'Unité (WBZ)'
+    PreorderInfo: 'Cet article ne sera pas disponible avant la {date de sortie}. Veuillez noter que cet article ne peut être expédié avant la date de sortie.'
+    PreorderNow: 'Précommandez maintenant'
+    PreorderToday: 'Pré-commandez cet article dès aujourd''hui'
+    Preorderable: 'disponible en pré-commande'
+    QUANTITY: Numéro
+    QUANTITY_IS_IN_CART: '{quantité} {unité} déjà dans le panier'
+    QUANTITY_SHORT: Anz.
+    RefreshCache: 'Après avoir enregistré, rafraîchissez le cache de cet article.'
+    ReleaseDate: 'Vente à partir de'
+    ReleaseDateInfo: '<strong>Facultatif</strong> - à définir uniquement si le démarrage des ventes doit être retardé.'
+    SHORTDESCRIPTION: 'Description de la liste'
+    SILVERCART_PRODUCT_CREATE: 'Peut créer des articles.'
+    SINGULARNAME: Article
+    STOCKQUANTITY: Stock
+    STOCK_QUANTITY: 'Le stock de cet article peut-il être surbooké ?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Date à partir de laquelle le stock ne peut plus être surbooké'
+    STOCK_QUANTITY_SHORT: 'Est-il surbookable ?'
+    Sale: Offre
+    SalesBanDate: 'Afficher jusqu''à'
+    SalesBanDateInfo: '<strong>Facultatif</strong> - à définir uniquement si la durée de la vente est limitée.'
+    StockIsLowOrderNow: 'Bientôt épuisé - commander maintenant'
+    TITLE: Article
+    TITLE_ASC: 'Désignation ascendante'
+    TITLE_DESC: 'Désignation descendante'
+    ThisProductWillBeReleasedOn: 'Cet article sera publié sur {releasedate}'
+    TimeGroup: 'Contrôle du temps'
+    VAT: TVA
+    WEEK: Semaine
+    WEEKS: Semaines
+    WEIGHT: Poids
+    WIDGETAREA: Widgets
+    YEAR: Année
+    YEARS: Années
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: Endommagé/défectueux
+    DefaultNew: Nouveau
+    DefaultRefurbished: 'Remis à neuf'
+    DefaultUsed: Utilisé
+    PLEASECHOOSE: 'Veuillez sélectionner'
+    PLURALNAME: 'L''article stipule'
+    SINGULARNAME: 'État de l''article'
+    SeoMicrodataCode: 'Code de microdonnées SEO'
+    SeoMicrodataCodeDamaged: Endommagé/défectueux
+    SeoMicrodataCodeDescription: 'Attribuez une valeur appropriée ici pour augmenter la visibilité des moteurs de recherche.'
+    SeoMicrodataCodeNew: Nouveau
+    SeoMicrodataCodeRefurbished: 'Remis à neuf'
+    SeoMicrodataCodeUsed: Utilisé
+    TITLE: État
+    USE_AS_STANDARD_CONDITION: 'Utiliser comme état par défaut si rien n''est défini sur l''élément'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: Langue
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: Abréviation
+    EXPLANATION_TO_DECIMAL_PLACES: 'Définissez-le sur 0 ou laissez-le vide pour ne pas utiliser de décimales. Ce paramètre est utilisé, par exemple, pour les formulaires "ajouter au panier".'
+    NAME: Nom
+    NUMBER_OF_DECIMAL_PLACES: 'Nombre de décimales'
+    PLURALNAME: 'Unités de vente'
+    SINGULARNAME: 'Unité de vente'
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Date
+    Origin: Origine
+    Origin-1: 'Reprise du solde d''ouverture'
+    Origin0: 'Entrée du système non définie plus avant'
+    Origin1: 'L''article a été nouvellement créé'
+    Origin2: 'Entrée directe de l''utilisateur'
+    Origin3: 'La commande a été passée'
+    Origin4: 'L''ordre a été modifié'
+    Origin5: 'La commande a été annulée'
+    Origin6: 'Importation via un système externe'
+    OriginCode: 'Codage de l''origine'
+    PLURALNAME: 'Écritures de stock'
+    Quantity: Quantité
+    QuantityDesc: 'Quantité à ajouter ou à soustraire du stock (par exemple, "2"/"-2").'
+    QuantityRightTitle: 'La quantité ne peut pas être modifiée après la sauvegarde. Pour corriger une entrée en stock, veuillez ajouter une nouvelle entrée avec une note correspondante.'
+    Reason: Raison
+    ReasonDesc: 'Brève description de la raison pour laquelle le stock est modifié (par exemple, "Commande XYZ annulée", "Commande XYZ retournée", "Marchandises reçues").'
+    SINGULARNAME: 'Entrée en stock'
+  SilverCart\Model\Shipment\Carrier:
+    ATTRIBUTED_SHIPPINGMETHODS: 'type d''envoi assigné'
+    FULL_NAME: 'nom complet'
+    PLURALNAME: Transporteur
+    SINGULARNAME: Transporteur
+    TrackingLinkBase: 'Lien de suivi'
+    TrackingLinkBaseDesc: 'Lien de base utilisé pour récupérer le suivi en ligne. Placez "{TrackingCode}" où le code de suivi de la commande doit être placé ultérieurement. Par exemple, pour les clients privés de DHL : "https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode={TrackingCode}".'
+  SilverCart\Model\Shipment\CarrierTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'Types d''expédition assignés'
+    COSTS: Coûts
+    DeliveryTimeHint: 'Informations facultatives sur le délai de livraison. Remplace la spécification de la méthode d''expédition parente.'
+    EMPTYSTRING_CHOOSEZONE: '-Sélectionner la zone...'
+    FOR_SHIPPINGMETHOD: 'pour la méthode d''expédition'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Désactiver la livraison gratuite pour ces frais d''expédition'
+    FREEOFSHIPPINGCOSTSFROM: 'Livraison gratuite à partir de (remplace le paramètre global et spécifique au pays)'
+    FreeFrom: 'libre de'
+    MaximumWeight: 'Poids maximal'
+    MaximumWeightDesc: 'Poids maximal en grammes (g)'
+    PLURALNAME: 'Frais d''expédition'
+    POST_PRICING: 'Détermination ultérieure du prix'
+    POST_PRICING_INFO: 'Les prix d''expédition ne peuvent être déterminés manuellement qu''après réception de la commande.'
+  SilverCart\Model\Widgets\BargainProductsWidget:
+    CMSTITLE: 'SilverCart slider pour les bonnes affaires'
+    DESCRIPTION: 'Ce widget affiche un nombre configurable d''articles dont la différence entre le RRP et le prix final est la plus importante.'
+    FETCHMETHOD_SORTORDERASC: 'Différence de prix ascendante'
+    FETCHMETHOD_SORTORDERDESC: 'Différence de prix en ordre décroissant'
+    TITLE: 'Bonnes affaires'
+  SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'Texte pour la balise ALT'
+    LINKPAGE: 'Page à relier'
+    PLURALNAME: 'Images du curseur'
+    ProductNumberToReference: 'Numéro de l''article vers lequel le lien doit être établi'
+    ProductNumberToReferenceInfo: 'Utilisé à la place de la page.'
+    SINGULARNAME: 'Image du curseur'
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: Imageslider
+    DESCRIPTION: 'Fournit un slider d''images qui affiche plusieurs images dans un diaporama.'
+    TITLE: Images
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: 'Enregistrement de SilverCart'
+    DESCRIPTION: 'Ce widget affiche un formulaire de connexion et des liens vers la page d''enregistrement. Si le client est connecté, les liens vers les zones de son compte client sont affichés à la place.'
+    TITLE: Inscription
+    TITLE_LOGGED_IN: 'Mon compte'
+    TITLE_NOT_LOGGED_IN: Inscription
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: 'Liste des pages'
+    DESCRIPTION: 'Ce widget affiche une liste de pages avec des liens vers les pages respectives.'
+    PAGES: 'Pages assignées'
+    TITLE: 'Liste des pages'
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: Image
+    WIDGET_INFO_TAB: 'Informations sur les widgets'
+    WIDGET_INFO_TAB_EXPLANATION: 'Les données suivantes peuvent être utilisées par certains widgets.'
+    WIDGET_PRIORITY: 'Rang de tri (plus il est élevé, plus il est éloigné)'
+    WIDGET_TEXT: Description
+    WIDGET_TITLE: 'Titre (facultatif)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Affichage des articles des groupes de sous-produits'
+    TITLE: 'Articles de groupes de sous-produits'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'SilverCart slider pour les articles'
+    CMS_PRODUCTGROUPTABNAME: 'Groupe de produits'
+    CMS_PRODUCTSTABNAME: Article
+    DESCRIPTION: 'Ce widget affiche les articles d''un groupe de produits. Il est possible de définir à partir de quel groupe de produits et combien d''articles doivent être affichés.'
+    FETCHMETHOD_SORTORDERASC: 'Disposition ascendante'
+    FETCHMETHOD_SORTORDERDESC: 'Ordre décroissant'
+    ProductGroupPageDescription: 'Ne s''applique que si la "Méthode de sélection des éléments" est réglée sur "Du département".'
+    SELECTIONMETHOD_PRODUCTGROUP: 'Du groupe de produits'
+    SELECTIONMETHOD_PRODUCTS: 'Sélectionner l''article à la main'
+    SELECT_PRODUCT_DESCRIPTION: 'Veuillez entrer les numéros d''articles, séparés par un point-virgule.'
+    STOREADMIN_FIELDLABEL: 'Veuillez sélectionner le groupe de produits à afficher :'
+    TITLE: Article
+    USE_SELECTIONMETHOD: 'Méthode de sélection d''articles'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'Liste des fabricants de SilverCart'
+    DESCRIPTION: 'Ce widget affiche une liste de tous les fabricants de la catégorie de produits concernée.'
+    RESETFILTER: 'Afficher tous'
+    TITLE: 'Liste des fabricants'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: 'Navigation par groupe de produits'
+    DESCRIPTION: 'Ce widget crée une hiérarchie de navigation pour les groupes de produits. Il est possible de spécifier quel groupe de marchandises doit être utilisé comme racine.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Déployer uniquement la branche active'
+    LEVELS_TO_SHOW: 'Montrer les niveaux jusqu''à quelle profondeur'
+    SHOW_ALL_LEVELS: 'Afficher tous les niveaux'
+    TITLE: 'Navigation par groupe de produits'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: 'Groupes de produits'
+    DESCRIPTION: 'Ce widget crée une vue d''ensemble de tous les groupes de produits (éventuellement sous forme de curseur).'
+    TITLE: 'Groupes de produits'
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Traductions
+    SINGULARNAME: Traduction
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Activer le diaporama automatique'
+    AUTOPLAYDELAYED: 'Activation du délai pour le diaporama automatique'
+    AUTOPLAYLOCKED: 'Désactiver le diaporama automatique lorsque l''utilisateur navigue par lui-même'
+    AddImage: 'Ajouter une image'
+    BUILDARROWS: 'Afficher les boutons avant/arrière'
+    BUILDNAVIGATION: 'Afficher la navigation de la page'
+    BUILDSTARTSTOP: 'Afficher le bouton Start/Stop'
+    CMS_BASICTABNAME: 'Paramètres de base'
+    CMS_DISPLAYTABNAME: Représentation
+    CMS_ROUNDABOUTTABNAME: Roundabout
+    CMS_SLIDERIMAGES: 'Diaporama d''images'
+    CMS_SLIDERTABNAME: 'Paramètres du diaporama'
+    FETCHMETHOD: 'Mode de sélection des articles'
+    FETCHMETHOD_RANDOM: Random
+    FRONTCONTENT: 'Texte de description'
+    FRONTTITLE: 'A la une'
+    GROUPVIEW: 'Vue de la liste des articles'
+    IS_CONTENT_VIEW: 'Utiliser la vue normale des éléments au lieu de la vue des widgets'
+    IS_CONTENT_VIEW_INFO: 'Cette option doit être sélectionnée si le widget est destiné à la zone de contenu d''une page.'
+    NUMBEROFPRODUCTSTOFETCH: 'Nombre d''éléments à charger :'
+    NUMBEROFPRODUCTSTOSHOW: 'Nombre d''éléments à afficher'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'seulement pertinent si le curseur a été activé, sinon tous les articles qui sont chargés sont affichés'
+    ProductDataToggle: 'Paramètres des articles'
+    ProductRelationToggle: 'Affectation des articles'
+    SLIDEDELAY: 'Durée d''affichage par image pour le diaporama automatique (en millisecondes)'
+    STOPATEND: 'Arrête le diaporama automatique après le dernier panneau.'
+    TRANSITIONEFFECT: 'Effet de transition'
+    TRANSITION_FADE: 'Fondu enchaîné'
+    TRANSITION_HORIZONTALSLIDE: 'Pousser horizontalement'
+    TRANSITION_VERTICALSLIDE: 'Pousser verticalement'
+    USE_LISTVIEW: 'Utiliser l''affichage de la liste'
+    USE_ROUNDABOUT: 'Utiliser un rond-point'
+    USE_SLIDER: 'Utiliser le curseur'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'Termes de recherche les plus fréquents'
+    DESCRIPTION: 'Ce widget affiche un nuage de tags avec les termes de recherche les plus fréquents.'
+    FONTSIZECOUNT: 'Nombre de degrés de la police'
+    TAGSPERCLOUD: 'Nombre de termes de recherche à afficher'
+    TITLE: 'Les termes de recherche les plus fréquents'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: Recherche
+    DESCRIPTION: 'Ce widget affiche un formulaire de recherche d''articles.'
+    TITLE: 'Formulaire de recherche'
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Veuillez entrer votre terme de recherche :'
+    SUBMITBUTTONTITLE: Recherche
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: Liste
+    TILE: Carreaux
   SiteConfig:
     SITENAMEDEFAULT: SilverCart
     TAGLINEDEFAULT: 'Logiciel de commerce électronique. Open-source. Vous allez l''adorer.'

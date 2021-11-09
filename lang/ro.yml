@@ -1,0 +1,1699 @@
+ro:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Toate acceptă'
+    ManageCookies: 'Setări cookie'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>Utilizăm module cookie pentru a proiecta în mod optim site-urile noastre web pentru dvs., pentru a îmbunătăți produsele noastre pentru dvs. și pentru a vă arăta publicitate bazată pe interese împreună cu furnizori terți. Aici puteți alege ce cookie-uri doriți să acceptați și vă puteți modifica selecția în orice moment. Puteți găsi mai multe informații în politica noastră privind utilizarea modulelor cookie și în informațiile noastre privind protecția datelor. Cookie-urile necesare din punct de vedere tehnic sunt, de asemenea, setate atunci când selectați opțiunea de respingere.</p><p>Prin apăsarea butonului "Acceptă totul", acceptați această prelucrare.</p>'
+    Title: 'Acest site utilizează cookie-uri'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Setările au fost salvate'
+    Save: 'Confirmați selecția'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Analiză
+    Analytics_Content: '<p>Cu ajutorul modulelor cookie de analiză, putem analiza din punct de vedere tehnic utilizarea site-ului pentru a identifica problemele și pentru a optimiza capacitatea de utilizare.</p>'
+    Marketing: Marketing
+    Marketing_Content: '<p>Cu ajutorul cookie-urilor de marketing, putem analiza succesul măsurilor de publicitate.</p>'
+    Necessary: Necesar
+    Necessary_Content: '<p>Cookie-urile necesare asigură funcționarea funcțională a site-ului și trebuie să fie setate din motive tehnice.</p>'
+    Preferences: Setări
+    Prefrences_Content: '<p>Cu ajutorul cookie-urilor de preferințe, putem adapta capacitatea de utilizare a site-ului la nevoile dumneavoastră. Acest lucru permite site-ului să rețină preferințele dumneavoastră la următoarea vizită.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p>$CookieConsentForm</p><p>[cookiegrouptable group="Necesar"]</p><p>[cookiegrouptable group="Analytics"]]</p><p>[cookiegrouptable group="Marketing"]</p><p>[cookiegrouptable group="Preferences"]</p>'
+    Title: 'Politica privind cookie-urile'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Completați această pagină cu politica dumneavoastră de confidențialitate.</p>'
+    Title: 'Orientări privind protecția datelor'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Completați această pagină cu T&C-urile dumneavoastră.</p>'
+    Title: 'Termeni și condiții generale'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Durata
+    Provider: 'Set de'
+    Purpose: Scop
+    Title: Cookie
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 an'
+    loc_Purpose: 'Butoane de partajare în rețelele sociale'
+    mus_Expiry: '1 an'
+    mus_Purpose: 'Butoane de partajare în rețelele sociale'
+    na_id_Expiry: '1 an'
+    na_id_Purpose: 'Butoane de partajare în rețelele sociale'
+    na_tc_Expiry: '1 an'
+    na_tc_Purpose: 'Butoane de partajare în rețelele sociale'
+    ouid_Expiry: '1 an'
+    ouid_Purpose: 'Butoane de partajare în rețelele sociale'
+    uid_Expiry: '1 an'
+    uid_Purpose: 'Butoane de partajare în rețelele sociale'
+    uvc_Expiry: '1 an'
+    uvc_Purpose: 'Butoane de partajare în rețelele sociale'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 luni'
+    BizoID_Purpose: Marketing
+    UserMatchHistory_Expiry: '6 luni'
+    UserMatchHistory_Purpose: Marketing
+    lang_Expiry: Sesiunea
+    lang_Purpose: 'Setări de limbă'
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 luni'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 ani'
+    _ga_Purpose: 'Analize Fontawesome'
+    _gid_Expiry: '2 ani'
+    _gid_Purpose: 'Analize Fontawesome'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 de ore'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 ani'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 de ani'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 ani'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 luni'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 lună'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 ani'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 luni'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 ani'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 ani'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 ani'
+    bcookie_Purpose: Marketing
+    lidc_Expiry: '2 ani'
+    lidc_Purpose: Marketing
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 ani'
+    _ga_Purpose: 'Analizele Mapbox'
+    _mkto_trk_Expiry: '2 ani'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 an'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 an'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 an'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 luni'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 an'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 an'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 luni'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 an'
+    player_Purpose: 'Integrare video'
+    vuid_Expiry: '1 an'
+    vuid_Purpose: 'Integrare video'
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Sesiunea
+    CONSENT_Purpose: 'Integrare video'
+    GPS_Expiry: Sesiunea
+    GPS_Purpose: 'Integrare video'
+    NID_Expiry: Sesiunea
+    NID_Purpose: 'Integrare video'
+    PREF_Expiry: '2 ani'
+    PREF_Purpose: 'Integrare video'
+    VISITOR_INFO1_LIVE_Expiry: '6 luni'
+    VISITOR_INFO1_LIVE_Purpose: 'Integrare video'
+    YSC_Expiry: Sesiunea
+    YSC_Purpose: 'Integrare video'
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 luni'
+    CookieConsent_Purpose: 'Salvează setările cookie-urilor'
+    FluentLocale_Expiry: '2 luni'
+    FluentLocale_Purpose: 'Salvează setările de limbă'
+    PHPSESSID_Expiry: Sesiunea
+    PHPSESSID_Purpose: Sesiunea
+    __atuvc_Expiry: '1 an'
+    __atuvc_Purpose: 'Butoane de partajare în rețelele sociale'
+    __atuvs_Expiry: '1 an'
+    __atuvs_Purpose: 'Butoane de partajare în rețelele sociale'
+    _ga_Expiry: '2 ani'
+    _ga_Purpose: Statistici
+    _gat_Expiry: '24 de ore'
+    _gat_Purpose: Statistici
+    _gid_Expiry: '24 de ore'
+    _gid_Purpose: Statistici
+    _hjIncludedInSample_Expiry: Sesiunea
+    _hjIncludedInSample_Purpose: Statistici
+    ipcountry_Expiry: Sesiunea
+    ipcountry_Purpose: 'Setări standard de limbă'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 lună'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 ani'
+    _ga_Purpose: 'Analiză reCAPTCHA'
+  SilverCart:
+    Actions: Acțiuni
+    Buy1: '{titlu} cumpăra'
+    Buy2: '{titlu1} {titlu2} cumpărați'
+    Cancel: Anulează
+    Change: Schimbare
+    ClickForMore: 'Faceți clic pentru a vedea mai multe informații'
+    Close: Închideți
+    ContactUs: Contactați-ne
+    DefaultIfEmpty: 'Valoarea implicită dacă este goală: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Vă rugăm să confirmați ștergerea contului dvs. prin bifarea căsuței de selectare.'
+    DeleteYourAccountErrorPassword: 'Ne pare rău, dar datele de acces pe care le-ați introdus nu sunt corecte.'
+    DeleteYourAccountSuccess: 'Contul dvs. a fost marcat cu succes pentru ștergere și va fi șters în următoarele 24 de ore. Veți primi o notificare prin e-mail imediat ce ștergerea a fost finalizată. Până atunci, aveți opțiunea de a revoca cererea de ștergere.'
+    DeleteYourAccountSuccessOpen: 'Contul dvs. a fost marcat cu succes pentru ștergere. Deoarece există încă comenzi deschise pentru contul dvs. de client, contul dvs. va fi șters numai după ce toate comenzile deschise vor fi procesate. Veți primi o notificare prin e-mail imediat ce ștergerea a fost finalizată. Până atunci, aveți opțiunea de a revoca cererea de ștergere.'
+    DeleteYourAccountUndo: 'Revocarea cererii de ștergere'
+    DeleteYourAccountUndone: 'Cererea dvs. de ștergere a fost anulată cu succes.'
+    Go: Du-te
+    NextPage: 'Pagina următoare'
+    PrevPage: 'Pagina precedentă'
+    ProductAddedToCart: 'Articolul a fost adăugat în coșul de cumpărături.'
+    ProductRemovedFromCart: 'Articolul a fost eliminat din coșul de cumpărături.'
+    Sort: 'Ordinea de sortare'
+    Subject: Subiect
+    Subjects: Subiect
+    Translation: Traducere
+    Translations: Traduceri
+    Until: la
+    go: du-te
+    since: 'de la'
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Disponibilitate
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Transportator
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: 'Cereri de contact'
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: Țări
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: Clienți
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: Imagini
+    SELECT_IMAGE_TYPE: 'Selectați tipul de imagine'
+    SELECT_OTHER_IMAGES: 'Alte imagini'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Imagini pentru metodele de plată'
+    SELECT_PRODUCT_IMAGES: 'Imagini ale articolului'
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: Setări
+    CUSTOMER: Clienți
+    DEFAULT: CMS
+    FILES: Fișiere
+    HANDLING: Prelucrare
+    MODULES: Module
+    ORDERS: Comenzi
+    PRODUCTS: Articolul
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: Producător
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Vă rugăm să selectați contextul de export și să apăsați butonul de export pentru a descărca o listă CSV a destinatarilor de e-mail.'
+    DoExport: 'Exportați ca CSV'
+    ExportAll: 'Adresele de export ale tuturor clienților'
+    ExportAllNewsletterRecipients: 'Exportul adreselor tuturor destinatarilor buletinului informativ'
+    ExportAllNewsletterRecipientsWithAccount: 'Exportați adresele tuturor destinatarilor newsletter-ului cu contul de client'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Exportați adresele tuturor destinatarilor newsletter-ului fără un cont de client'
+    ExportAllNonNewsletterRecipients: 'Exportul adreselor tuturor destinatarilor care nu sunt destinatari de newsletter'
+    ExportContext: 'Contextul de export'
+    MENUTITLE: 'Destinatarii buletinului informativ'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: 'Intervale de numere'
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Totul după'
+    DateRangePickerALL_BEFORE: 'Totul înainte de'
+    DateRangePickerDATE: Data
+    DateRangePickerEND_DATE: 'Data de încheiere'
+    DateRangePickerLAST_7_DAYS: 'Ultimele 7 zile'
+    DateRangePickerLAST_MONTH: 'Luna precedentă'
+    DateRangePickerNEXT: Următorul
+    DateRangePickerPERIOD: Perioada
+    DateRangePickerPREVIOUS: Anterior
+    DateRangePickerSTART_DATE: 'Data de începere'
+    DateRangePickerTHIS_MONTH: 'Luna aceasta'
+    DateRangePickerTHIS_YEAR: 'În acest an'
+    DateRangePickerTODAY: Astăzi
+    MENUTITLE: Comenzi
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: 'Starea comenzii'
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: 'Metode de plată'
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: 'Starea plății'
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: Articolul
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'Articolul prevede'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'În acest moment se efectuează importul imaginii articolului.'
+    CronIsRunningTitle: Atenție
+    CronNotInstalledDescription: "Instalarea importului de imagini de articole nu a fost încă finalizată.\nVă rugăm să adăugați programul necesar (`sake dev/tasks/sc-image-importer`) la sarcinile programate ale serverului dumneavoastră.\nPentru mai multe detalii, contactați supervizorul de atelier.\n"
+    CronNotInstalledTitle: Atenție
+    Description: "Folosiți această funcție de încărcare pentru a încărca mai multe imagini de articole diferite deodată.\nImaginile sunt atribuite automat dacă denumiți numele fișierelor după cum urmează:\n\n[număr articol].png/jpg/jpeg\nOR\n[Număr articol]-[Număr consecutiv].png/jpg/jpeg\nOR\n[Număr articol]-[Număr consecutiv]-[Scurtă descriere- fără spațiu].png/jpg/jpeg\n\n[Short description-without-space] este opțională și este utilizată pentru optimizarea motoarelor de căutare (SEO) pentru a obține o mai bună vizibilitate în motoarele de căutare, cum ar fi Google.\nDacă nu se specifică [short description-without-space], numele articolului este utilizat ca parametru pentru optimizarea motoarelor de căutare.\n\nExemplu:\nDoriți să atribuiți 4 imagini fiecăruia dintre cele două articole cu numerele de articol 502.133.66.5 și 758.500.08.9. 3 dintre ele ar trebui să aibă propria lor scurtă descriere.\nSe va încărca câte o imagine pentru fiecare dintre articolele cu numerele de articol 128.000.01.7 și 542.550.08.1.\nPrin urmare, numele fișierelor ar trebui să arate astfel:\n\n502.133.66.5-1.png\n502.133.66.5-2-Coffee-Machine-XYZ-Front-View.png\n502.133.66.5-3-Coffee-Machine-XYZ-View-left-side.png\n502.133.66.5-4-Coffee-machine-XYZ-view-right-side.png\n758.500.08.9-1.png\n758.500.08.9-2.png\n758.500.08.9-3.png\n758.500.08.9-4.png\n128.000.01.7.7.png\n542.550.08.1.1.png\n\nRețineți aici că imaginea specificată cu numărul secvențial 1 este utilizată ca imagine pentru vizualizarea listei.\nRețineți, de asemenea, că imaginile existente ale elementelor afectate vor fi complet suprascrise dacă utilizați această funcție.\n"
+    FileInfoTitle: 'Imaginile următoarelor articole nu au fost încă procesate:'
+    MENUTITLE: 'Importul imaginii articolului'
+    UploadProductImages: 'Încărcați imaginile articolului'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: 'Unități de măsură'
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: 'Metode de expediere'
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'Magazin de e-mailuri'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: 'Ratele de impozitare'
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Zonele
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: EUR
+    IMAGEFOLDERNAME: 'Date de probă'
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart este ușor de personalizat cu ajutorul widget-urilor.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Adaptabil
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: adaptabil
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart este ușor de extins prin module.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Extensibil
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: extensibil
+    PRODUCTGROUPMARKETING_TITLE: 'Module de marketing'
+    PRODUCTGROUPMARKETING_URLSEGMENT: 'module de marketing'
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart este open source. Aceasta înseamnă că plătiți doar pentru implementarea și adaptarea sistemului de magazine la dorințele dumneavoastră.'
+    PRODUCTGROUPOPEN_TITLE: Deschideți
+    PRODUCTGROUPOPEN_URLSEGMENT: deschis
+    PRODUCTGROUPOTHERS_TITLE: 'Alte module'
+    PRODUCTGROUPOTHERS_URLSEGMENT: other-modules
+    PRODUCTGROUPPAYMENT_TITLE: 'Module de plată'
+    PRODUCTGROUPPAYMENT_URLSEGMENT: 'module de plată'
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> </strong>Atenție:<br/>Modulele în sine sunt gratuite. Oferta de preț este utilizată doar în scopuri demonstrative.</div>'
+    SLIDORION_TITLE: 'Avantajele SilverCart'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p>Descoperiți modulele de plată SilverCart.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: 'Module de plată'
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p>În SilverCart veți găsi, de asemenea, module pentru multe alte cazuri de utilizare.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Alte module'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Pagina de start Zona de conținut'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: Activați
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Modificați disponibilitatea la...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Producătorii trec la...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Schimbă statutul comenzii în...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Modificați statutul plății în...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Schimbați grupul de produse în...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: Dezactivați
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Marcați ca nevăzut'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Marcați așa cum se vede'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Comenzi de imprimare (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: 'Vizualizare rapidă'
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: Adăugați
+  SilverCart\Admin\Model\Config:
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: 'Destinatarul standard de e-mail pentru solicitările de contact'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: 'Solicitările de contact nu mai sunt trimise la destinatarul standard de e-mail, ci la adresa stocată aici.'
+    DEFAULT_IMAGE: 'Imagine standard a articolului'
+    DEFAULT_LANGUAGE: 'Limba standard'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: 'Destinatarul standard de e-mail pentru notificările de comandă'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: 'Notificările privind comenzile nu mai sunt trimise la destinatarul standard de e-mail, ci la adresa stocată aici.'
+    DEFAULT_MAIL_RECIPIENT: 'Destinatarul standard de e-mail'
+    DEFAULT_MAIL_RECIPIENT_INFO: 'Mesajele electronice destinate operatorului magazinului sunt trimise la adresa stocată aici.'
+    DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: 'Cereți data nașterii atunci când vă înregistrați?'
+    DISPLAYEDPAGINATION: 'Numărul de numere de pagină afișate simultan'
+    DISPLAY_TYPE_OF_PRODUCT_ADMIN: 'Tipul de afișare a gestionării articolelor'
+    DISPLAY_WEIGHTS_IN_KILOGRAM: 'Afișați greutățile în kilograme (kg)'
+    ENABLEBUSINESSCUSTOMERS: 'Permiteți clienților de afaceri'
+    ENABLEPACKSTATION: 'Activați câmpurile de introducere a adreselor pentru PACKSTATION'
+    ENABLESSL: 'Utilizați SSL'
+    ENABLESTOCKMANAGEMENT: 'Activați gestionarea stocurilor'
+    ERROR_MESSAGE: 'Parametrul "{field}" nu a fost configurat. <br/> Vă rugăm să vă <a href="{baseurl}admin/settings/">conectați</a> și să configurați parametrul lipsă în "Setări -> Setări e-mail".'
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: 'Nu a fost găsită nicio țară activată. <br/> Vă rugăm să vă <a href="{baseURL}admin/settings/">autentificați</a> și să configurați parametrul lipsă în "Procesare -> Țări".'
+    ERROR_TITLE: 'A apărut o eroare!'
+    EXAMPLE_CONFIGURATION_ALREADY_ADDED: 'Exemplul de configurare a fost deja creat'
+    EXAMPLE_DATA_ALREADY_ADDED: 'Au fost deja adăugate date de exemplu'
+    EmailConfiguration: 'Setări de e-mail'
+    EmailSender: 'Adresa expeditorului de e-mail'
+    EmailSenderDesc: 'Adresa expeditorului de e-mail este utilizată ca adresă de expeditor a tuturor e-mailurilor trimise de SilverCart.'
+    EmailSenderExample: 'De exemplu, "noreply@example.com"'
+    EmailSenderName: 'Numele expeditorului de e-mail'
+    EmailSenderNameDesc: 'Numele expeditorului de e-mail este afișat destinatarului în plus față de adresa expeditorului de e-mail.'
+    EmailSenderNameExample: 'De exemplu, "Numele magazinului dvs.'
+    FLAT: plat
+    FREEOFSHIPPINGCOSTSFROM: 'Transport gratuit de la'
+    FREEOFSHIPPINGCOSTSTAB: 'Transport gratuit'
+    Favicon: Favicon
+    FaviconDesc: 'Faviconul este o imagine care este de obicei afișată în bara de adrese a unui browser web în stânga URL-ului, în unele browsere și în fila deschisă. Faviconul trebuie să fie pătrat și să aibă dimensiuni de aproximativ 32x32 pixeli.'
+    GENERAL: General
+    GENERAL_MAIN: 'Partea principală'
+    GENERAL_TEST_DATA: 'Date de probă'
+    GLOBALEMAILRECIPIENT: 'Destinatarul global de e-mail'
+    GLOBALEMAILRECIPIENT_INFO: 'Destinatarul global al e-mailului poate fi setat opțional. TOATE e-mailurile (confirmări de comenzi, cereri de contact etc.) sunt trimise la această adresă de e-mail. Adresele destinatarilor setate în șabloanele de e-mail rămân neafectate. Acestea nu sunt înlocuite, ci doar completate.'
+    GeneralConfiguration: 'Setări de bază'
+    INTERFACES: Interfețe
+    InvoiceAddressIsAlwaysShippingAddress: 'Adresa de facturare corespunde întotdeauna cu adresa de livrare'
+    LAYOUT: Layout
+    MINIMUMORDERVALUE: 'Valoarea minimă a comenzii'
+    MINIMUMORDERVALUE_HEADLINE: 'Valoarea minimă a comenzii'
+    MinimumAgeToOrder: 'Vârsta minimă pentru comenzi'
+    MinimumAgeToOrderError: 'Vârsta minimă pentru comenzi este de {vârsta} ani.'
+    MobileTouchIcon: 'Icoana Mobile Touch'
+    MobileTouchIconDesc: 'Pictograma de atingere mobilă este utilizată atunci când un vizitator plasează magazinul dvs. ca link pe ecranul de pornire al unui smartphone sau al unei tablete. Pictograma trebuie să aibă dimensiunile 192x192 pixeli.'
+    OPEN_RECORD: 'Înregistrare deschisă'
+    PLURALNAME: 'Configurații generale'
+    PRICETYPEANONYMOUSCUSTOMERS: 'Tipul de preț pentru clienții anonimi'
+    PRICETYPEBUSINESSCUSTOMERS: 'Tipul de preț pentru clienții de afaceri'
+    PRICETYPEREGULARCUSTOMERS: 'Tipul de preț pentru clienții finali'
+    PRICETYPES_HEADLINE: 'Tipuri de prețuri'
+    PRICETYPE_ANONYMOUS: 'Tipul de preț pentru clienții anonimi'
+    PRICETYPE_BUSINESS: 'Tipul de preț pentru clienții de afaceri'
+    PRICETYPE_REGULAR: 'Tipul de preț pentru clienții finali'
+    PRODUCTGROUPSPERPAGE: 'Grupuri de produse pe pagină'
+    PRODUCTSPERPAGE: 'Articole pe pagină'
+    PRODUCTSPERPAGE_ALL: 'Arată tot'
+    PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Câmp pentru descrierea articolului în coșul de cumpărături'
+    ProductConfiguration: 'Setări ale articolului'
+    QUANTITY_OVERBOOKABLE: 'Poate fi suprarezervat stocul în general?'
+    REDIRECTTOCARTAFTERADDTOCART: 'Redirecționarea clientului către coșul de cumpărături după acțiunea "Adaugă în coșul de cumpărături"'
+    SEARCH: Căutare
+    SEO: SEO
+    SERVER: Server
+    SHOW_CONFIG: 'Afișați configurația'
+    SINGULARNAME: 'Configurație generală'
+    SKIP_PAYMENT_STEP_IF_UNIQUE: 'Treceți peste selectarea metodei de plată dacă se poate selecta doar una.'
+    SKIP_SHIPPING_STEP_IF_UNIQUE: 'Treceți peste selectarea metodei de expediere dacă se poate selecta doar una.'
+    SOCIALMEDIA: 'Social media'
+    STOCK: Tabăra
+    SecurityConfiguration: 'Setări de securitate'
+    ShopAdditional2Info: 'Informații suplimentare 2'
+    ShopAdditionalInfo: 'Informații suplimentare'
+    ShopAdditionalInfo2Desc: 'Informații suplimentare, opționale despre clienți, cum ar fi informații despre expediere, oferte speciale, caracteristici speciale ale ofertei dumneavoastră, ... (În funcție de temă, aceasta este afișată în zona antetului/footer-ului aproape pe fiecare pagină, aproximativ 220 de caractere).'
+    ShopAdditionalInfoDesc: 'Informații suplimentare, opționale pentru clienți, cum ar fi numere de telefon suplimentare (linie telefonică de urgență/suport) cu orele de program. (În funcție de temă, afișat în zona antetului/footer-ului aproape pe fiecare pagină, aproximativ 120 de caractere).'
+    ShopCity: Locație
+    ShopCountry: Țara
+    ShopData: 'Datele operatorului'
+    ShopEmail: 'Adresa de e-mail'
+    ShopLogo: Logo
+    ShopLogoDesc: 'Afișat în antetul magazinului.'
+    ShopName: 'Numele magazinului'
+    ShopOpeningHours: 'Ore de deschidere'
+    ShopPhone: Telefon
+    ShopPostcode: 'Cod poștal'
+    ShopStreet: Strada
+    ShopStreetNumber: 'Numărul casei'
+    ShowTaxAndDutyHint: 'Afișați nota pentru taxe suplimentare pentru țările din afara UE.'
+    TABBED: imbricate
+    TRANSLATION: Traducere
+    TRANSLATIONS: Traduceri
+    USEFREEOFSHIPPINGCOSTSFROM: 'Utilizați setările pentru transport gratuit'
+    USEMINIMUMORDERVALUE: 'Activați valoarea minimă a comenzii'
+    USER_AGENT_BLACKLIST: 'Identificatori UserAgent blocați (un UserAgent pe linie)'
+    USER_AGENT_BLACKLIST_INFO: 'Introduceți un UserAgent pe fiecare linie. <br/> Dacă un vizitator utilizează un ID UserAgent din această listă, conexiunea este complet blocată pentru a preveni atacurile spambot asupra formularelor. <br/><strong>Atenție: Identificatorii UserAgent sunt folosiți de fiecare vizitator. Specificați un identificator UserAgent numai dacă sunteți sigur că numai roboții sunt afectați</strong>...'
+    USE_DEFAULT_LANGUAGE: 'Folosiți un limbaj standard atunci când lipsește limbajul adecvat?'
+    USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Afișați descrierea articolului în coșul de cumpărături'
+    USE_STRICT_SEARCH_RELEVANCE: 'Utilizați o căutare mai strictă. Afișează numai corespondențele exacte.'
+    UseMinimumAgeToOrder: 'Utilizați vârsta minimă pentru comenzi?'
+    redirectToCheckoutWhenInCart: 'Redirecționați imediat la checkout atunci când clientul intră în coșul de cumpărături.'
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Termenul de căutare...'
+    submitButtonTitle: 'Descărcări de căutare'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Aș dori să mă abonez la newsletter'
+    ACTIONFIELD_TITLE: 'Ce vrei să faci?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Doresc să mă dezabonez de la buletinul informativ'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: Căutare
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Creați o parolă pentru conectarea la magazinul dvs. web. Parola trebuie să aibă cel puțin {lungime minimă} caractere. Acesta trebuie să conțină cel puțin 1 literă majusculă, 1 literă minusculă, 1 cifră și 1 caracter special.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Adresa consumatorului (consumatorilor)'
+    Data: Date
+    GoTo: 'La formularul de anulare'
+    NameOfConsumer: 'Numele consumatorului (consumatorilor)'
+    Order: Comandă
+    OrderDate: 'Comandat la / primit la'
+    OrderHistory: 'Selectați comanda'
+    OrderNumber: 'Numărul de ordine'
+    RevocationDate: 'Data revocării'
+    RevocationOrderData: 'Prin prezenta, eu/noi revocăm contractul încheiat de mine/noi pentru achiziționarea următoarelor bunuri/prestarea următorului serviciu'
+  SilverCart\Model\ContactMessage:
+    MESSAGE: Mesaj
+    PLURALNAME: 'Cereri de contact'
+    SINGULARNAME: 'Cerere de contact'
+  SilverCart\Model\Customer\Country:
+    ACTIVE: Activ
+    ATTRIBUTED_PAYMENTMETHOD: 'tipul de plată atribuit'
+    ATTRIBUTED_ZONES: 'zone asociate'
+    CONTINENT: Continent
+    CURRENCY: Monedă
+    DISPLAYPOSITION: 'Poziția de afișare (în cazul în care se acordă prioritate)'
+    FIPS: 'Cod FIPS'
+    FREEOFSHIPPINGCOSTSFROM: 'Transport gratuit de la'
+    ISO2: 'ISO Alpha2'
+    ISO3: 'ISO Alpha3'
+    ISON: 'Numeric ISO'
+    ISPRIORITIVE: 'Afișarea priorităților la începutul listelor derulante?'
+    ISPRIORITIVE_SHORT: Priorități
+    IsNonTaxable: 'Fără taxe'
+    PLURALNAME: Țări
+    SINGULARNAME: Țara
+    TITLE: Nume
+    TITLE_AD: Andorra
+    TITLE_AE: 'Emiratele Arabe Unite'
+    TITLE_AF: Afganistan
+    TITLE_AG: 'Antigua și Barbuda'
+    TITLE_AI: Anguilla
+    TITLE_AL: Albania
+    TITLE_AM: Armenia
+    TITLE_AN: 'Antilele Olandeze'
+    TITLE_AO: Angola
+    TITLE_AQ: Antarctica
+    TITLE_AR: Argentina
+    TITLE_AS: 'Samoa Americană'
+    TITLE_AT: Austria
+    TITLE_AU: Australia
+    TITLE_AW: Aruba
+    TITLE_AX: 'Insulele Aland'
+    TITLE_AZ: Azerbaidjan
+    TITLE_BA: 'Bosnia și Herțegovina'
+    TITLE_BB: Barbados
+    TITLE_BD: Bangladesh
+    TITLE_BE: Belgia
+    TITLE_BF: 'Burkina Faso'
+    TITLE_BG: Bulgaria
+    TITLE_BH: Bahrain
+    TITLE_BI: Burundi
+    TITLE_BJ: Benin
+    TITLE_BL: 'St Barthélemy'
+    TITLE_BM: Bermuda
+    TITLE_BN: 'Brunei Darussalam'
+    TITLE_BO: Bolivia
+    TITLE_BQ: 'Bonaire, Saint Eustatius și Saba'
+    TITLE_BR: Brazilia
+    TITLE_BS: Bahamas
+    TITLE_BT: Bhutan
+    TITLE_BV: 'Insula Bouvet'
+    TITLE_BW: Botswana
+    TITLE_BY: Belarus
+    TITLE_BZ: Belize
+    TITLE_CA: Canada
+    TITLE_CC: 'Insulele Cocos'
+    TITLE_CD: Congo-Kinshasa
+    TITLE_CF: 'Republica Centrafricană'
+    TITLE_CG: 'Congo [Republica]'
+    TITLE_CH: Elveția
+    TITLE_CI: 'Côte d''Ivoire'
+    TITLE_CK: 'Insulele Cook'
+    TITLE_CL: Chile
+    TITLE_CM: Camerun
+    TITLE_CN: China
+    TITLE_CO: Columbia
+    TITLE_CR: 'Costa Rica'
+    TITLE_CS: 'Serbia și Muntenegru'
+    TITLE_CU: Cuba
+    TITLE_CV: 'Capul Verde'
+    TITLE_CW: Curacao
+    TITLE_CX: 'Insula Crăciunului'
+    TITLE_CY: Cipru
+    TITLE_CZ: 'Republica Cehă'
+    TITLE_DE: Germania
+    TITLE_DJ: Djibouti
+    TITLE_DK: Danemarca
+    TITLE_DM: Dominica
+    TITLE_DO: 'Republica Dominicană'
+    TITLE_DZ: Algeria
+    TITLE_EC: Ecuador
+    TITLE_EE: Estonia
+    TITLE_EG: Egipt
+    TITLE_EH: 'Sahara Occidentală'
+    TITLE_ER: Eritreea
+    TITLE_ES: Spania
+    TITLE_ET: Etiopia
+    TITLE_FI: Finlanda
+    TITLE_FJ: Fiji
+    TITLE_FK: 'Insulele Falkland'
+    TITLE_FM: Micronezia
+    TITLE_FO: 'Insulele Feroe'
+    TITLE_FR: Franța
+    TITLE_GA: Gabon
+    TITLE_GB: 'Regatul Unit'
+    TITLE_GD: Grenada
+    TITLE_GE: Georgia
+    TITLE_GF: 'Guiana Franceză'
+    TITLE_GG: Guernsey
+    TITLE_GH: Ghana
+    TITLE_GI: Gibraltar
+    TITLE_GL: Groenlanda
+    TITLE_GM: Gambia
+    TITLE_GN: Guineea
+    TITLE_GP: Guadelupa
+    TITLE_GQ: 'Guineea Ecuatorială'
+    TITLE_GR: Grecia
+    TITLE_GS: 'Georgia de Sud și Insulele Sandwich de Sud'
+    TITLE_GT: Guatemala
+    TITLE_GU: Guam
+    TITLE_GW: Guineea-Bissau
+    TITLE_GY: Guyana
+    TITLE_HK: 'Hong Kong'
+    TITLE_HM: 'Insulele Heard și McDonald'
+    TITLE_HN: Honduras
+    TITLE_HR: Croația
+    TITLE_HT: Haiti
+    TITLE_HU: Ungaria
+    TITLE_ID: Indonezia
+    TITLE_IE: Irlanda
+    TITLE_IL: Israel
+    TITLE_IM: 'Insula Man'
+    TITLE_IN: India
+    TITLE_IO: 'Teritoriul britanic din Oceanul Indian'
+    TITLE_IQ: Irak
+    TITLE_IR: Iran
+    TITLE_IS: Islanda
+    TITLE_IT: Italia
+    TITLE_JE: Jersey
+    TITLE_JM: Jamaica
+    TITLE_JO: Jordan
+    TITLE_JP: Japonia
+    TITLE_KE: Kenya
+    TITLE_KG: Kârgâzstan
+    TITLE_KH: Cambodgia
+    TITLE_KI: Kiribati
+    TITLE_KM: Comore
+    TITLE_KN: 'Sfântul Kitts și Nevis'
+    TITLE_KP: 'Coreea de Nord'
+    TITLE_KR: 'Coreea de Sud'
+    TITLE_KW: Kuweit
+    TITLE_KY: 'Insulele Cayman'
+    TITLE_KZ: Kazahstan
+    TITLE_LA: Laos
+    TITLE_LB: Liban
+    TITLE_LC: 'Sfânta Lucia'
+    TITLE_LI: Liechtenstein
+    TITLE_LK: 'Sri Lanka'
+    TITLE_LR: Liberia
+    TITLE_LS: Lesotho
+    TITLE_LT: Lituania
+    TITLE_LU: Luxemburg
+    TITLE_LV: Letonia
+    TITLE_LY: Libia
+    TITLE_MA: Maroc
+    TITLE_MC: Monaco
+    TITLE_MD: Moldova
+    TITLE_ME: Muntenegru
+    TITLE_MF: 'St. Martin'
+    TITLE_MG: Madagascar
+    TITLE_MH: 'Insulele Marshall'
+    TITLE_MK: Macedonia
+    TITLE_ML: Mali
+    TITLE_MM: Birmania
+    TITLE_MN: Mongolia
+    TITLE_MO: Macao
+    TITLE_MP: 'Insulele Mariane de Nord'
+    TITLE_MQ: Martinica
+    TITLE_MR: Mauritania
+    TITLE_MS: Montserrat
+    TITLE_MT: Malta
+    TITLE_MU: Mauritius
+    TITLE_MV: Maldive
+    TITLE_MW: Malawi
+    TITLE_MX: Mexic
+    TITLE_MY: Malaezia
+    TITLE_MZ: Mozambic
+    TITLE_NA: Namibia
+    TITLE_NC: 'Noua Caledonie'
+    TITLE_NE: Niger
+    TITLE_NF: 'Insula Norfolk'
+    TITLE_NG: Nigeria
+    TITLE_NI: Nicaragua
+    TITLE_NL: Olanda
+    TITLE_NO: Norvegia
+    TITLE_NP: Nepal
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: 'Noua Zeelandă'
+    TITLE_OM: Oman
+    TITLE_PA: Panama
+    TITLE_PE: Peru
+    TITLE_PF: 'Polinezia Franceză'
+    TITLE_PG: 'Papua Noua Guinee'
+    TITLE_PH: Filipine
+    TITLE_PK: Pakistan
+    TITLE_PL: Polonia
+    TITLE_PM: 'St Pierre și Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: 'Puerto Rico'
+    TITLE_PS: 'Teritoriile autonome palestiniene'
+    TITLE_PT: Portugalia
+    TITLE_PW: Palau
+    TITLE_PY: Paraguay
+    TITLE_QA: Qatar
+    TITLE_RE: Réunion
+    TITLE_RO: România
+    TITLE_RS: Serbia
+    TITLE_RU: 'Federația Rusă'
+    TITLE_RW: Rwanda
+    TITLE_SA: 'Arabia Saudită'
+    TITLE_SB: 'Insulele Solomon'
+    TITLE_SC: Seychelles
+    TITLE_SD: Sudan
+    TITLE_SE: Suedia
+    TITLE_SG: Singapore
+    TITLE_SH: 'Sfânta Elena'
+    TITLE_SI: Slovenia
+    TITLE_SJ: 'Svalbard și Jan Mayen'
+    TITLE_SK: Slovacia
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: 'San Marino'
+    TITLE_SN: Senegal
+    TITLE_SO: Somalia
+    TITLE_SR: Surinam
+    TITLE_SS: 'Sudanul de Sud'
+    TITLE_ST: 'São Tomé și Principe'
+    TITLE_SV: 'El Salvador'
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Siria
+    TITLE_SZ: Swaziland
+    TITLE_TC: 'Insulele Turks și Caicos'
+    TITLE_TD: Chad
+    TITLE_TF: 'Teritoriile australe și antarctice franceze'
+    TITLE_TG: Togo
+    TITLE_TH: Thailanda
+    TITLE_TJ: Tadjikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: 'Timorul de Est'
+    TITLE_TM: Turkmenistan
+    TITLE_TN: Tunisia
+    TITLE_TO: Tonga
+    TITLE_TR: Turcia
+    TITLE_TT: 'Trinidad și Tobago'
+    TITLE_TV: Tuvalu
+    TITLE_TW: Taiwan
+    TITLE_TZ: Tanzania
+    TITLE_UA: Ucraina
+    TITLE_UG: Uganda
+    TITLE_UM: 'Oceania americană'
+    TITLE_US: 'Statele Unite ale Americii'
+    TITLE_UY: Uruguay
+    TITLE_UZ: Uzbekistan
+    TITLE_VA: 'Vatican City'
+    TITLE_VC: 'Sfântul Vincent și Grenadine'
+    TITLE_VE: Venezuela
+    TITLE_VG: 'Insulele Virgine Britanice'
+    TITLE_VI: 'Insulele Virgine Americane'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis și Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosovo
+    TITLE_YE: Yemen
+    TITLE_YT: Mayotte
+    TITLE_ZA: 'Africa de Sud'
+    TITLE_ZM: Zambia
+    TITLE_ZW: Zimbabwe
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Date generale privind adresa'
+    ANONYMOUSCUSTOMER: 'Client anonim'
+    BASIC_DATA: General
+    BIRTHDAY: 'Ziua de naștere'
+    BUSINESSCUSTOMER: 'Client de afaceri'
+    CUSTOMERNUMBER: 'Numărul clientului'
+    CUSTOMERNUMBER_SHORT: 'Client nr.'
+    Customer: Client
+    ERROR_MULTIPLE_PRICETYPES: 'Nu sunt permise grupuri de clienți cu diferite tipuri de prețuri!'
+    FULL_NAME: 'Nume și prenume'
+    GROSS: Brut
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'A acceptat politica de anulare'
+    HASACCEPTEDTERMSANDCONDITIONS: 'A acceptat GTC'
+    INVOICE_DATA: 'Date privind adresa de facturare'
+    ISBUSINESSACCOUNT: 'Este contul clienților de afaceri'
+    NET: Net
+    PRICETYPE_GROSS: Brut
+    PRICETYPE_NET: Net
+    PRICING: 'Oferta de preț'
+    REGULARCUSTOMER: 'Client final'
+    RegistrationOptInConfirmationHash: 'Opt-In Hash pentru înregistrare'
+    RegistrationOptInConfirmed: 'Opt-In pentru înregistrare a fost finalizat'
+    SALUTATION: Salutare
+    SHIPPING_DATA: 'Date privind adresa de livrare'
+    SUBSCRIBEDTONEWSLETTER: 'Buletinul informativ abonat'
+    TYPE: Tip
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    PRICETYPE: 'Tipul de preț'
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: 'Adrese de e-mail'
+    SINGULARNAME: 'Adresa de e-mail'
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Veți primi buletinul informativ numai dacă accesați linkul de confirmare din e-mailul care v-a fost trimis.'
+    PLURALNAME: 'Buletin informativ'
+    SINGULARNAME: 'Buletin informativ'
+    SUBSCRIBED: 'V-ați abonat la newsletter'
+    StatusALREADY_SUBSCRIBED: 'Adresa de e-mail "{email}" este deja înregistrată pentru a primi buletinul informativ.'
+    StatusNO_EMAIL_FOUND: 'Adresa de e-mail "{email}" nu a putut fi găsită.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: 'Există deja un client înregistrat cu adresa de e-mail "{email}". Vă rugăm să vă conectați mai întâi și apoi să faceți setările pentru primirea buletinului informativ: <a href="{link}">Pentru a vă conecta</a>.'
+    StatusSUBSCRIBED_SUCCESSFULLY: 'Adresa de e-mail "{email}" a fost adăugată la lista de destinatari ai buletinului informativ.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: 'Un e-mail cu instrucțiuni de confirmare a fost trimis la adresa "{email}".'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: 'Adresa de e-mail "{email}" a fost eliminată din lista de destinatari ai buletinului informativ.'
+    UNSUBSCRIBED: 'Nu v-ați abonat la buletinul informativ'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: Curent
+    ACTUALCOUNT: Curent
+    CUSTOMERNUMBER: 'Numărul clientului'
+    END: Sfârșitul
+    ENDCOUNT: Sfârșitul
+    IDENTIFIER: Identificator
+    INVOICENUMBER: 'Numărul facturii'
+    ORDERNUMBER: 'Numărul de ordine'
+    PLURALNAME: 'Intervale de numere'
+    PREFIX: Prefix
+    SINGULARNAME: 'Intervalul de numere'
+    START: Start
+    STARTCOUNT: Start
+    SUFFIX: Sufix
+    TITLE: Titlu
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: 'Suma totală brută'
+    AMOUNTTOTAL: 'Suma totală'
+    AdminModeEdit: 'Schimbarea vizualizării în modul de editare'
+    AdminModeView: 'Schimbați vizualizarea în modul Vizualizare'
+    BASICDATA: 'Date de bază'
+    BATCH_CHANGEORDERSTATUS: 'Schimbă statutul comenzii în...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Modificați statutul plății în...'
+    BATCH_MARKASNOTSEEN: 'Marcați ca nevăzut'
+    BATCH_MARKASSEEN: 'Marcați așa cum se vede'
+    BATCH_PRINTORDERS: 'Comenzi de imprimare (HTML)'
+    CUSTOMER: Client
+    CUSTOMERDATA: 'Date despre clienți'
+    CUSTOMERSEMAIL: 'Adresa de e-mail a clientului'
+    ExpectedDelivery: 'Data preconizată de livrare'
+    ExpectedDeliveryMax: 'Data maximă de livrare preconizată'
+    ExpectedDeliveryMin: 'Data minimă de livrare preconizată'
+    HANDLINGCOSTPAYMENT: 'Comisioanele pentru metodele de plată'
+    HANDLINGCOSTSHIPMENT: 'Taxe pentru metoda de expediere'
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'A acceptat politica de anulare'
+    HASACCEPTEDTERMSANDCONDITIONS: 'A acceptat GTC'
+    HandlingCost: 'Taxe de plată/expediere'
+    INCLUDED_SHIPPINGRATE: 'Costurile de expediere sunt incluse'
+    INVOICENUMBER: 'Numărul facturii'
+    INVOICENUMBER_SHORT: 'Factura nr.'
+    IS_SEEN: Vizualizat
+    MISCDATA: Altele
+    ModelAdminTabOrderInprogress: 'În curs de desfășurare'
+    ModelAdminTabOrderNew: Nou
+    ModelAdminTabPaymentOpen: 'Plata deschisă'
+    NOTE: Comentariu
+    ORDERNUMBER: 'Numărul de ordine'
+    ORDERNUMBERSHORT: '-număr'
+    ORDERPOSITIONDATA: 'Date de poziție'
+    ORDERPOSITIONISLIMIT: 'Ordinul poate conține numai poziția specificată'
+    ORDERPOSITIONQUANTITY: 'Cantitatea de poziție'
+    ORDER_ID: 'Numărul de ordine'
+    ORDER_VALUE: 'Suma totală'
+    OrderNumberShort: Nr.
+    PAYMENTMETHODTITLE: 'Metoda de plată'
+    PLURALNAME: Comenzi
+    PRICETYPE: 'Tipul de afișare a prețului'
+    PRINT: 'Comanda de imprimare'
+    PRINT_PREVIEW: 'Previzualizare imprimare'
+    PaymentDate: 'Plătită la'
+    PaymentReferenceData: 'Datele de referință ale prestatorului de servicii de plată'
+    PaymentReferenceID: 'Numărul de referință al prestatorului de servicii de plată'
+    PaymentReferenceMessage: 'Informații de referință ale prestatorului de servicii de plată'
+    PaymentStatus: 'Starea plății'
+    SEARCHRESULTSLIMIT: Limitați
+    SHIPPINGRATE: 'Costuri de expediere'
+    SILVERCART_ORDER_DELETE: 'Ștergeți comanda'
+    SILVERCART_ORDER_EDIT: 'Editați comanda'
+    SILVERCART_ORDER_VIEW: 'Vezi comanda'
+    SINGULARNAME: Comandă
+    STATUS: 'Starea comenzii'
+    ShippingDate: 'Trimis pe'
+    TAXAMOUNTPAYMENT: 'Taxa pe metoda de plată'
+    TAXAMOUNTSHIPMENT: 'Taxa pe metoda de expediere'
+    TAXRATEPAYMENT: 'Metoda de plată Rata de impozitare'
+    TAXRATESHIPMENT: 'Rata de impozitare a metodei de expediere'
+    Tracking: 'Urmărirea expedierii'
+    TrackingCode: 'Număr de urmărire'
+    TrackingLink: 'Legătura cu urmărirea expedierii'
+    TrackingLinkLabel: 'Arată unde se află transportul meu în acest moment'
+    WEIGHTTOTAL: 'Greutate totală'
+    YOUR_REMARK: 'Comentariul dumneavoastră'
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: 'Adrese de comandă'
+    SINGULARNAME: 'Adresa de comandă'
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Adresele de facturare a comenzilor'
+    SINGULARNAME: 'Adresa de facturare a comenzii'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: Context
+    CREATED: Data/ora
+    MESSAGE: Acțiune
+    MESSAGE_CHANGED: 'S-a schimbat: {sourcetitle} -> {targettitle}'
+    MESSAGE_CREATED: 'Creat: {context} a fost creat'
+    MESSAGE_MARKEDASNOTSEEN: 'Marcat ca nevăzut'
+    MESSAGE_MARKEDASSEEN: 'Marcat ca fiind văzut'
+    PLURALNAME: 'Jurnal de comandă'
+    SINGULARNAME: 'Jurnal de comandă'
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Tip sus/jos'
+    ISCHARGEORDISCOUNT: 'Majorarea/reducerea reală a valorii'
+    PLURALNAME: 'Comandați articole'
+    PRICE: Preț
+    PRICETOTAL: 'Preț total'
+    PRODUCTDESCRIPTION: Descriere
+    PRODUCTNUMBER: 'Articolul nr.'
+    QUANTITY: Cantitate
+    SHORT: Pos.
+    SINGULARNAME: 'Comandați articolul'
+    TAX: TVA
+    TAXRATE: 'Rata de impozitare'
+    TAXTOTAL: 'Total TVA'
+    TITLE: Nume
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Adresele de livrare a comenzii'
+    SINGULARNAME: 'Adresa de livrare a comenzii'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Următoarele e-mailuri evidențiate sunt trimise atunci când acest statut este setat pentru o comandă:'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'E-mailuri atribuite'
+    BADGECOLOR: 'Starea culorii'
+    CODE: Cod
+    DefaultStatusCanceled: Anulat
+    DefaultStatusCompleted: Completat
+    DefaultStatusInprogress: 'În curs de desfășurare'
+    DefaultStatusNew: Nou
+    DefaultStatusShipped: 'Comandă expediată'
+    IsDefault: 'Este standard'
+    PLURALNAME: 'Starea comenzii'
+    SINGULARNAME: 'Starea comenzii'
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+    TITLE: Desemnare
+  SilverCart\Model\Pages\ContactFormPage:
+    CityIsRequired: 'Locul este un câmp obligatoriu'
+    CountryIsRequired: 'Țara este un câmp obligatoriu'
+    DEFAULT_RESPONSE_CONTENT: 'Vă mulțumim pentru mesajul dumneavoastră. Vă vom răspunde în cel mai scurt timp.'
+    DEFAULT_TITLE: Contactați
+    DEFAULT_URLSEGMENT: contactați
+    EmailContactRequest: 'Un client a trimis o cerere de contact.'
+    EnableCity: 'Activați câmpul pentru locație'
+    EnableCountry: 'Activați câmpul pentru țară'
+    EnablePhoneNumber: 'Activați câmpul pentru numărul de telefon'
+    EnablePostcode: 'Activați câmpul pentru codul poștal'
+    EnableStreet: 'Activați câmpul pentru strada/numărul casei'
+    PLURALNAME: 'Pagini de formulare de contact'
+    PhoneNumberIsRequired: 'Numărul de telefon este obligatoriu'
+    PostcodeIsRequired: 'Codul poștal este un câmp obligatoriu'
+    REQUEST: 'Cerere de informații prin intermediul formularului de contact'
+    ResponseContent: 'Conținutul paginii de confirmare a trimiterii'
+    SINGULARNAME: 'Pagina de formular de contact'
+    StreetIsRequired: 'Strada/numărul casei este un câmp obligatoriu'
+    TITLE: Contactați
+    ThankYouForYourRequest: 'Vă mulțumim pentru solicitarea dumneavoastră. Am primit mesajul dumneavoastră și vă vom răspunde cât mai curând posibil.'
+    URL_SEGMENT: contactați
+    WeReceivedYourRequest: 'Am primit cererea dumneavoastră.'
+    YourData: 'Datele dumneavoastră:'
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Datele mele'
+    DEFAULT_URLSEGMENT: my-data
+    PLURALNAME: 'Pagini de date'
+    SINGULARNAME: 'Pagina de date'
+    TITLE: 'Datele mele'
+    URL_SEGMENT: my-data
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Descărcați pagini'
+    SINGULARNAME: 'Pagina de descărcare'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Descărcați imagini de ansamblu ale paginilor'
+    ResultsText: 'Căutarea dvs. pentru <strong>"{term}"</strong> a avut ca rezultat <strong>{număr} rezultate</strong>.'
+    SINGULARNAME: 'Prezentare generală a paginii de descărcare'
+    SearchResults: 'Rezultatele căutării'
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2>Bine ați venit la <strong>SilverCart</strong> Webshop!</h2>'
+    DEFAULT_CONTENT: '<h2>Bine ați venit la <strong>SilverCart</strong> Webshop!</h2>'
+    DESCRIPTION: 'Prima pagină a magazinului web'
+    PLURALNAME: 'Părțile frontale'
+    SINGULARNAME: 'Partea din față'
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: Legal
+    DEFAULT_TITLE_ABOUT: 'Despre noi'
+    DEFAULT_TITLE_LEGAL: Legal
+    DEFAULT_TITLE_SERVICE: Serviciul
+    DEFAULT_TITLE_SHOP: 'Sistem de magazine'
+    DEFAULT_URLSEGMENT: juridic
+    DEFAULT_URLSEGMENT_ABOUT: 'despre noi'
+    DEFAULT_URLSEGMENT_LEGAL: juridic
+    DEFAULT_URLSEGMENT_SERVICE: serviciu
+    DEFAULT_URLSEGMENT_SHOP: shop-system
+    PLURALNAME: 'Prezentare generală a metanavigației'
+    SINGULARNAME: 'Prezentare generală a metanavigației'
+    URL_SEGMENT: juridic
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: Imprimare
+    DEFAULT_TITLE_PRIVACY: 'Politica de confidențialitate'
+    DEFAULT_TITLE_REVOCATION: 'Politica de anulare'
+    DEFAULT_TITLE_TERMS: 'Termeni și condiții generale'
+    DEFAULT_URLSEGMENT_IMPRINT: amprenta
+    DEFAULT_URLSEGMENT_PRIVACY: 'declarație privind protecția datelor'
+    DEFAULT_URLSEGMENT_REVOCATION: 'politica de anulare'
+    DEFAULT_URLSEGMENT_TERMS: 'termeni și condiții generale de afaceri - informații pentru cumpărători'
+    PLURALNAME: 'Pagini de informații meta'
+    SINGULARNAME: 'Pagina de informații meta'
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'Aveți deja un cont?'
+    DEFAULT_TITLE: 'Contul meu'
+    DEFAULT_URLSEGMENT: my-account
+    GOTO_REGISTRATION: 'La formularul de înregistrare'
+    MORE: 'Mai mult'
+    PLURALNAME: 'Prezentare generală a conturilor'
+    REGISTER_ADVANTAGES_TEXT: 'Dacă vă înregistrați, puteți accesa datele dumneavoastră, cum ar fi adresa de facturare și de livrare, atunci când efectuați o achiziție.'
+    SINGULARNAME: 'Prezentare generală a contului'
+    TITLE: 'Contul meu'
+    URL_SEGMENT: my-account
+    WANTTOREGISTER: 'Doriți să vă înregistrați?'
+    YOUR_CURRENT_ADDRESSES: 'Adresa dvs. actuală de facturare și de livrare'
+    YOUR_CUSTOMERNUMBER: 'Numărul dumneavoastră de client'
+    YOUR_MOST_CURRENT_ORDERS: 'Ultimele dvs. comenzi'
+    YOUR_PERSONAL_DATA: 'Datele dumneavoastră personale'
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Notificare în cazul în care aplicația există deja'
+    AlreadyConfirmedMessageText: 'Mesaj: Utilizatorul a finalizat deja Opt-In'
+    ConfirmationFailureMessage: 'Notificare în caz de eșec al cererii'
+    ConfirmationSuccessMessage: 'Mesaj la înregistrarea cu succes'
+    DEFAULT_TITLE: 'Buletin informativ'
+    DEFAULT_URLSEGMENT: newsletter
+    DefaultAlreadyConfirmedMessage: '<p>Ați completat deja înregistrarea pentru buletinul informativ.</p>'
+    DefaultConfirmationFailureMessage: '<p>Abonarea la newsletter nu a putut fi finalizată.</p>'
+    DefaultConfirmationSuccessMessage: '<p>Abonarea la newsletter a fost un succes!</p><p>Vă dorim multă distracție și succes cu ofertele noastre.</p>'
+    DefaultConfirmationSuccessSubject: 'Abonarea la buletinul informativ a fost finalizată cu succes'
+    DefaultEmailConfirmationSubject: 'Completați înregistrarea la newsletter'
+    DefaultOptInPageTitle: 'Completați înregistrarea la newsletter'
+    EmailConfirmationConfirm: 'Confirmați înregistrarea'
+    EmailConfirmationHaveFun: 'Vă dorim multă distracție și succes cu ofertele noastre.'
+    EmailConfirmationIgnore: 'Dacă nu ați solicitat newsletter-ul, ignorați acest e-mail.'
+    EmailConfirmationLinkInfo: 'Vă rugăm să faceți clic pe link-ul de activare sau să copiați link-ul în browserul dumneavoastră.'
+    EmailConfirmationSuccessMessage: 'Abonarea la newsletter a fost un succes!'
+    EmailConfirmationTitle: 'Completați înregistrarea la newsletter'
+    FailureMessageText: 'Mesaj de eroare'
+    OptInPageTitle: 'Titlul paginii opt-in'
+    PLURALNAME: 'Pagini de newsletter'
+    SINGULARNAME: 'Pagina de newsletter'
+    SuccessMessageText: 'Povestea de succes'
+    THANKS_TITLE: 'Starea buletinului informativ'
+    TITLE: 'Buletin informativ'
+    URL_SEGMENT: newsletter
+    UseDoubleOptIn: 'Utilizați Double-Opt-In'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: 'Comenzile mele'
+    DEFAULT_URLSEGMENT: 'comenzile mele'
+    OrderDetails: 'Detalii de comandă'
+    PLURALNAME: 'Prezentare generală a comenzilor'
+    SINGULARNAME: 'Prezentare generală a comenzilor'
+    TITLE: 'Comenzile mele'
+    URL_SEGMENT: 'comenzile mele'
+  SilverCart\Model\Pages\Page:
+    ABOUT_US: 'despre noi'
+    ABOUT_US_URL_SEGMENT: 'despre noi'
+    ACCESS_CREDENTIALS_CALL: 'Vă rugăm să introduceți datele de acces:'
+    ADDRESS: Adresa
+    ADDRESSINFORMATION: 'Informații privind adresa'
+    ADDRESS_DATA: 'Date de adresă'
+    ADMIN_AREA: 'Acces administrativ'
+    ALREADY_REGISTERED: 'Bună ziua {name}, v-ați înregistrat deja.'
+    API_CREATE: 'poate crea obiecte prin intermediul API'
+    API_DELETE: 'poate șterge obiecte prin intermediul API'
+    API_EDIT: 'poate modifica obiecte prin intermediul API'
+    API_VIEW: 'poate citi obiecte prin intermediul API'
+    APRIL: Aprilie
+    AUGUST: August
+    AllPricesExclVat: 'Toate prețurile se adaugă TVA.'
+    AllPricesInclVat: 'Toate prețurile includ TVA.'
+    BACK: Înapoi
+    BACK_TO: 'Înapoi la "{titlu}"'
+    BACK_TO_DEFAULT: 'Pagina precedentă'
+    BILLING_ADDRESS: 'Adresa facturii'
+    BIRTHDAY: 'Ziua de naștere'
+    CANCEL: Anulează
+    CART: 'Coș de cumpărături'
+    CATALOG: Catalog
+    CHANGE_PAYMENTMETHOD_CALL: 'Vă rugăm să alegeți o altă metodă de plată sau să contactați operatorul magazinului.'
+    CHANGE_PAYMENTMETHOD_LINK: 'Selectați o altă metodă de plată'
+    CHECK_FIELDS_CALL: 'Vă rugăm să verificați datele introduse în următoarele câmpuri:'
+    CONTACT_FORM: 'Formular de contact'
+    CONTINUESHOPPING: 'Continuați cumpărăturile'
+    CREDENTIALS_WRONG: 'Datele dvs. de acces sunt incorecte.'
+    Categories: 'Categoriile noastre'
+    DAY: Ziua
+    DECEMBER: Decembrie
+    DECREMENT_POSITION: 'Reducerea numărului'
+    DELETE: Ștergeți
+    DETAILS: Detalii
+    DETAILS_FOR: 'Detalii despre %s'
+    DIDNOT_RETURN_RESULTS: 'nu a dat niciun rezultat în magazinul nostru.'
+    DO_NOT_EDIT: 'Vă rugăm să nu vă schimbați!'
+    EMAIL_ADDRESS: 'Adresa de e-mail'
+    EMAIL_ALREADY_REGISTERED: 'Un utilizator s-a înregistrat deja cu această adresă de e-mail.'
+    EMAIL_NOT_FOUND: 'Această adresă de e-mail nu a putut fi găsită.'
+    EMPTY_CART: gol
+    ERROR_LISTING: 'Au apărut următoarele erori:'
+    ERROR_OCCURED: 'S-a produs o eroare.'
+    FEBRUARY: Februarie
+    FIND: 'Găsiți:'
+    FORWARD: 'Mai departe'
+    GOTO: 'du-te la {titlu} Pagina'
+    GOTO_CART_SHORT: 'Coș de cumpărături'
+    GOTO_CONTACT_LINK: 'Către pagina de contact'
+    GOTO_PAGE: 'Mergeți la pagina {count} '
+    HEADERPICTURE: 'Imagine de antet'
+    HELLO: 'Bună ziua'
+    INCLUDED_VAT: 'TVA inclus'
+    INCLUDING_TAX: 'inclusiv {import}% TVA.'
+    INCREMENT_POSITION: 'Creșterea numărului'
+    ISACTIVE: Activ
+    I_ACCEPT: Accept
+    I_HAVE_READ: 'Eu am '
+    JANUARY: Ianuarie
+    JULY: Iulie
+    JUNE: Iunie
+    LOGIN: Autentificare
+    LOGO: Logo
+    LOGOUT: Deconectați-vă
+    MARCH: Martie
+    MAY: Mai
+    MESSAGE: Mesaj
+    MONTH: Luna
+    MYACCOUNT: 'Contul meu'
+    MetaTitleAt: 'la {shopTitle}'
+    NAME: Nume
+    NEWSLETTER: 'Buletin informativ'
+    NEWSLETTER_FORM: 'Setări pentru buletinul informativ'
+    NEXT: 'Înainte de'
+    NOT_FOUND: 'Pagina "{titlu}" nu a putut fi găsită.'
+    NOVEMBER: Noiembrie
+    NO_ORDERS: 'Nu ați finalizat încă nicio comandă.'
+    NO_RESULTS: 'Ne pare rău, dar nu există rezultate pentru termenul de căutare.'
+    OCTOBER: Octombrie
+    OR: sau
+    ORDERED_PRODUCTS: 'Articole comandate'
+    ORDER_COMPLETED: 'Comanda dvs. este finalizată.'
+    ORDER_DATE: 'Data comenzii'
+    ORDER_THANKS: 'Vă mulțumim pentru comanda dumneavoastră.'
+    Oclock: Ceas
+    PASSWORD_CASE_EMPTY: 'Dacă lăsați acest câmp gol, parola dvs. nu va fi schimbată.'
+    PASSWORD_CHECK: 'Repetați parola'
+    PASSWORD_WRONG: 'Această parolă este greșită.'
+    PAYMENT_NOT_WORKING: 'Modulul de plată selectat nu funcționează.'
+    PLURALNAME: Pagini
+    PLUS_SHIPPING: 'plus transport'
+    PREV: Înapoi
+    PRODUCTNAME: 'Descrierea articolului'
+    PageXofY: 'Pagina {x} din {y}'
+    REGISTER: Înregistrare
+    REGISTER_HERE: 'Înscrieți-vă aici.'
+    REGISTER_NEW: 'Client nou?'
+    REMARKS: Comentarii
+    REMOVE_FROM_CART: eliminați
+    RETURNTOPRODUCTGROUP: 'Înapoi la "{titlu}"'
+    REVOCATION: 'Politica de anulare'
+    REVOCATIONREAD: 'Politica de anulare citiți'
+    SAVE: Salvați
+    SEPTEMBER: Septembrie
+    SESSION_EXPIRED: 'Sesiunea dvs. a expirat.'
+    SHIPPING_ADDRESS: 'Adresa de livrare'
+    SHIPPING_AND_BILLING: 'Adresa de livrare și de facturare'
+    SHOP_WITHOUT_REGISTRATION: 'Magazin fără înregistrare'
+    SHOWINPAGE: 'Setați limba la {language}'
+    SHOW_DETAILS: 'Arată detalii'
+    SHOW_DETAILS_FOR: 'Afișează detalii despre {titlu}'
+    SINGULARNAME: Pagina
+    SITMAP_HERE: 'Aici puteți vedea o prezentare generală a site-ului nostru.'
+    STEPS: Pași
+    SUBMIT: Trimiteți
+    SUBMIT_MESSAGE: 'Trimiteți un mesaj'
+    SUBTOTAL: Subtotal
+    SUBTOTAL_NET: 'Subtotal (net)'
+    SUM: Total
+    Start: Start
+    TAX: 'inclusiv {import}% TVA.'
+    TERMSOFSERVICE_PRIVACY: 'Termeni și condiții generale și protecția datelor'
+    THE_QUERY: Termenul
+    TITLE: Titlu
+    TITLE_IMPRINT: Imprimare
+    TITLE_TERMS: 'Termeni și condiții generale'
+    TODAY: astăzi
+    TOTAL: Total
+    URL_SEGMENT_IMPRINT: amprenta
+    URL_SEGMENT_TERMS: 'termeni și condiții generale de afaceri - informații pentru cumpărători'
+    USER_NOT_EXISTING: 'Acest utilizator nu există.'
+    UseAsRootForMainNavigation: 'Subpaginile acestei pagini formează navigarea principală'
+    UseAsRootForMainNavigationDesc: 'Navigația principală, care conține grupurile de produse din instalația de bază, este formată din subpaginile acestei pagini. Nu poate exista decât o singură pagină care să aibă această setare activă.'
+    VALUE_OF_GOODS: 'Valoarea bunurilor'
+    VIEW_ORDERS_TEXT: 'Verificați starea comenzii dvs. în secțiunea'
+    WELCOME_PAGE_TITLE: 'Bine ați venit'
+    WELCOME_PAGE_URL_SEGMENT: 'bun venit'
+    WELCOME_TO: 'Bine ați venit la'
+    YEAR: Anul
+    YESTERDAY: ieri
+    YOUR_REMARKS: 'Mesajul dumneavoastră către noi'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: 'Metode de plată'
+    DEFAULT_URLSEGMENT: 'metode de plată'
+    PLURALNAME: 'Pagini cu metode de plată'
+    SINGULARNAME: 'Pagina privind metoda de plată'
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: 'Notificare de plată'
+    DEFAULT_URLSEGMENT: 'notificare de plată'
+    PLURALNAME: 'Notificări de plată'
+    SINGULARNAME: 'Notificare de plată'
+    TEXTBANKACCOUNTINFO: 'Informații pentru plata în avans'
+    TITLE: 'Notificare de plată'
+    URL_SEGMENT: 'notificare de plată'
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: 'Grupuri de produse'
+    DEFAULT_URLSEGMENT: 'grupuri de mărfuri'
+    LinkTo: 'Grupa de produse către care trebuie să se facă o expediere'
+    PAGE_TITLE: 'Grupuri de produse'
+    PLURALNAME: 'Prezentare generală a grupurilor de articole'
+    RedirectToProductGroup: 'Transmiteți direct către un grup de produse'
+    RedirectionSettings: Redirecționare
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Arată articolul'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Arată articolul'
+    SINGULARNAME: 'Prezentare generală a grupului de articole'
+    SUBGROUPS_OF: 'Subgrupuri de '
+    URL_SEGMENT: 'grupuri de mărfuri'
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: Atributul
+    BREADCRUMBS: 'Grupa de produse breadcrumbs'
+    BuyTitle: '{titlu} cumpăra'
+    DEFAULTGROUPHOLDERVIEW: 'Vizualizarea standard a grupului de mărfuri'
+    DEFAULTGROUPVIEW: 'Vizualizare standard a listei de articole'
+    DEFAULTGROUPVIEW_DEFAULT: 'Adoptă din grupul părinte/configurația implicită'
+    DONOTSHOWPRODUCTS: '<strong>Nu</strong> afișați<strong>niciun</strong> articol în prezentarea generală'
+    DisplaySettings: 'Setări de afișare'
+    GROUP_PICTURE: 'Imaginea grupului'
+    MANAGE_PRODUCTS_BUTTON: 'Gestionați articolele'
+    MANUFACTURER_LINK: producător
+    NewProducts: Inovații
+    NewProductsIn: '{productgroup} Noutati'
+    NewProductsLinkTitle: 'Afișați toate noutățile'
+    OK: Ok
+    PLURALNAME: 'Grupuri de produse'
+    PRODUCTGROUPSPERPAGE: 'Grupuri de produse pe pagină'
+    PRODUCTSPERPAGE: 'Articole pe pagină'
+    PRODUCTSPERPAGEHINT: 'Specificați 0 (zero) pentru articole sau grupuri de mărfuri pe pagină pentru a utiliza setarea implicită.'
+    PRODUCTS_ON_PAGE: '{productcount} articol pe pagina {pagecount} pagina'
+    PRODUCTS_ON_PAGES: '{productcount} articole pe {pagecount} pagini'
+    PRODUCTS_PER_PAGE: 'Articole pe pagină'
+    PRODUCT_ON_PAGE: '{productcount} articol pe pagina {pagecount} pagina'
+    PreorderableProducts: Precomandă
+    PreorderableProductsIn: '{productgroup} Precomandă'
+    PreorderableProductsLinkTitle: 'Afișați toți precomandanții'
+    SINGULARNAME: 'Grup de produse'
+    SORT_ORDER: Sortare
+    ShowOffersFor: 'Afișați ofertele pentru'
+    ShowResultsFor: 'Afișați rezultatele pentru'
+    ShowResultsForAll: 'Afișați rezultatele pentru toate categoriile'
+    ShowResultsForAllMenu: 'Toate categoriile'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Utilizați numai vizualizarea standard a grupului de mărfuri'
+    USEONLYDEFAULTGROUPVIEW: 'Utilizați numai vizualizarea standard a listei de articole'
+    USE_CONTENT_FROM_PARENT: 'Preluarea conținutului de pe paginile părintești'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Acest articol este epuizat.'
+    PACKAGING_CONTENT: Conținut
+    PLURALNAME: 'Pagini de detaliu ale articolului'
+    PRINT: Imprimare
+    QUANTITY: Număr
+    SINGULARNAME: 'Pagina detaliată a articolului'
+    URL_SEGMENT: 'detalii despre articol'
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1>Înregistrare completă</h1><p>Vă rugăm să faceți clic pe link-ul de activare sau să copiați link-ul în browserul dumneavoastră.</p><p><a href="$ConfirmationLink">Confirmați înregistrarea</a></p><p>Dacă nu v-ați înregistrat, ignorați pur și simplu acest e-mail.</p><p>Echipa dumneavoastră Webshop</p>'
+    CUSTOMER_SALUTATION: 'Stimate client,'
+    DEFAULT_TITLE: 'Pagina de înregistrare'
+    DEFAULT_URLSEGMENT: registru
+    DEFAULT_WELCOME_CONTENT: '<p>Stimate client,</p><p>pentru a vă scuti de muncă, v-am conectat deja în mod automat.</p><p>Bucurați-vă de cumpărături în magazinul nostru!</p>'
+    EMAIL_EXISTS_ALREADY: 'Această adresă de e-mail este deja ocupată.'
+    EmailOptInConfirmYourEmailAddress: 'Confirmați adresa de e-mail'
+    EmailOptInConfirmationCustomerData: 'Datele dumneavoastră despre clienți'
+    EmailOptInConfirmationCustomerDataInfo: 'Mai jos veți găsi datele dumneavoastră de client.'
+    EmailOptInConfirmationInfo: 'Felicitări și bine ați venit în magazinul nostru! Adresa dvs. de e-mail a fost confirmată cu succes. De acum înainte sunteți autorizat să folosiți fotografia dumneavoastră de client în magazinul nostru.'
+    EmailOptInConfirmationTitle: 'Adresa de e-mail a fost confirmată'
+    EmailOptInConfirmationVisit: 'Vizitați magazinul nostru'
+    EmailOptInIgnore: 'Dacă nu v-ați înregistrat în magazinul nostru, ignorați pur și simplu acest e-mail.'
+    EmailOptInLinkInfo: 'Vă rugăm să faceți clic pe link-ul de activare sau să copiați link-ul în browserul dumneavoastră.'
+    EmailOptInNotificationCustomerData: Contactați
+    EmailOptInNotificationTitle: 'Un client s-a înregistrat'
+    EmailOptInTitle: 'Confirmați adresa de e-mail'
+    OTHERITEMS: Altele
+    OptInFailedMessage: 'Acest link pentru confirmarea adresei de e-mail nu este valid.'
+    OptInFailedTitle: 'Opt-In eșuat'
+    OptInGoToMyAccount: 'Contul meu'
+    OptInGoToShop: 'Continuați la magazin'
+    OptInMessage: 'Adresa dvs. de e-mail a fost confirmată cu succes.'
+    OptInMessageLogin: 'Vă rugăm să vă conectați pentru a vă confirma adresa de e-mail.'
+    OptInPendingMessage: 'Confirmarea dvs. prin e-mail este încă în așteptare. Vă rugăm să vă verificați căsuța de e-mail și să accesați link-ul de confirmare.'
+    OptInPendingTitle: 'Opt-in în așteptare'
+    OptInResend: 'Trimiteți din nou linkul de confirmare'
+    OptInResendMessage: 'E-mailul cu link-ul de confirmare a fost trimis la {email}.'
+    OptInResendTitle: 'Trimiteți din nou linkul de confirmare'
+    OptInTitle: 'Confirmați adresa de e-mail'
+    OptInWelcomeMessage: 'Felicitări! Înregistrarea dvs. în magazinul nostru a avut succes!'
+    OptInWelcomeMessage2: 'Pentru a vă activa contul, vă rugăm să vă confirmați adresa de e-mail vizitând linkul de confirmare pe care l-ați primit prin e-mail.'
+    OptInWelcomeMessage3: 'Linkul de confirmare a fost trimis la <strong>{email}</strong>. Vă rugăm să vă verificați căsuța poștală.'
+    OptInWelcomeTitle: 'Confirmați adresa de e-mail'
+    PLEASE_COFIRM: 'Vă rugăm să confirmați înregistrarea.'
+    PLURALNAME: 'Pagini de înregistrare'
+    SINGULARNAME: 'Pagina de înregistrare'
+    SUCCESS_TEXT: '<h1>Înregistrare finalizată cu succes!</h1><p>Vă mulțumim pentru înregistrare.</p><p>Distracție plăcută în magazinul nostru!</p><p>Echipa dumneavoastră Webshop</p>'
+    THANKS: 'Vă mulțumim pentru înregistrare.'
+    TITLE: 'Pagina de înregistrare'
+    URL_SEGMENT: registru
+    YOUR_REGISTRATION: 'Înregistrarea dvs.'
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: Revocare
+    DEFAULT_URLSEGMENT: revocare
+    PLURALNAME: 'Pagini de revocare'
+    SINGULARNAME: 'Pagina de revocare'
+    Success: 'Revocare trimisă cu succes'
+    SuccessText: 'Vă mulțumesc foarte mult! Am primit revocarea dumneavoastră și vom procesa cererea dumneavoastră.'
+    TITLE: Revocare
+    URL_SEGMENT: revocare
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'Rezultate pentru'
+    DEFAULT_TITLE: 'Rezultatele căutării'
+    DEFAULT_URLSEGMENT: 'rezultate de căutare'
+    PLURALNAME: 'Pagini de rezultate ale căutării'
+    RELEVANCESORT: Relevanță
+    ResultsTextCategory: 'Rezultate căutare pentru categoria <strong>"{category}"</strong> ({rezultate} rezultate)'
+    ResultsTextQuery: 'Rezultatele căutării pentru termenul <strong>"{query}"</strong> ({results} hits)'
+    ResultsTextQueryAndCategory: 'Rezultatele căutării pentru termenul <strong>"{query}"</strong> în categoria <strong>"{category}"</strong> ({rezultate} rezultate)'
+    SINGULARNAME: 'Pagina cu rezultatele căutării'
+    SearchTitle: '{Rezultate căutare pentru "{title}"'
+    TITLE: 'Rezultatele căutării'
+    URL_SEGMENT: 'rezultate de căutare'
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: Suma
+    PLURALNAME: 'Costuri de prelucrare'
+    SINGULARNAME: 'Costuri de prelucrare'
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: General
+    ACCESS_MANAGEMENT_GROUP_LABEL: 'În funcție de grup(e)'
+    ACCESS_MANAGEMENT_USER_LABEL: 'De către client(i)'
+    ACCESS_SETTINGS: 'Gestionarea accesului'
+    ATTRIBUTED_COUNTRIES: 'țările alocate'
+    AddPaymentLogos: 'Adăugați logo-ul'
+    BASIC_SETTINGS: 'Setări de bază'
+    ChargeOrDiscountForAmount: 'la {preț}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Aplicați următoarea regulă'
+    ExcludedPosition: 'cu excepția poziției {position}'
+    ExcludedPositions: 'cu excepția pozițiilor {poziții}'
+    FROM_PURCHASE_VALUE: 'valoarea ex a mărfurilor'
+    HANDLINGCOSTS_SETTINGS: 'Costuri de prelucrare'
+    LONG_PAYMENT_DESCRIPTION: 'Descriere care trebuie afișată pe pagina tipului de plată'
+    MODE: Mod
+    NAME: Nume
+    NO_PAYMENT_METHOD_AVAILABLE: 'Nu sunt disponibile metode de plată'
+    PAYMENT_DESCRIPTION: Descriere
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Absolut
+    PAYMENT_IMPACT_TYPE_PERCENT: Procentul
+    PAYMENT_ISACTIVE: activează
+    PAYMENT_LOGOS: Logouri
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Suma maximă pentru modul'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Suma minimă pentru modul'
+    PAYMENT_MODE_DEV: 'Dezvoltare și testare'
+    PAYMENT_MODE_LIVE: 'Live / în funcțiune'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Valoarea bunurilor'
+    PAYMENT_MODIFY_TOTALVALUE: 'Valoarea totală'
+    PAYMENT_MODIFY_TYPE_CHARGE: Impact
+    PAYMENT_MODIFY_TYPE_DISCOUNT: Reducere
+    PAYMENT_SUMMODIFICATIONIMPACT: Influențe
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Artă
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'Valoarea este'
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Etichetarea în coșul de cumpărături/comandă'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'Numărul articolului pentru exportul de comenzi XML'
+    PAYMENT_SUMMODIFICATIONVALUE: Valoare
+    PAYMENT_SUMMODIFIERS: 'Prime / reduceri'
+    PAYMENT_USE_SUMMODIFICATION: Activați
+    PaymentChannel: 'Metoda de plată'
+    PaymentStatus: 'Starea plății'
+    PaymentStatusDesc: 'Statutul implicit al plății pentru acest tip de plată'
+    RESTRICTION_LABEL: 'Afișați numai pentru clienții care îndeplinesc următoarele criterii'
+    RESTRICT_BY_ORDER_QUANTITY: 'Clientul trebuie să fi plasat cel puțin următorul număr de comenzi'
+    RESTRICT_BY_ORDER_STATUS: 'a căror stare a comenzii este marcată în următoarea listă'
+    SHIPPINGMETHOD: 'Metoda de expediere'
+    SHIPPINGMETHOD_DESC: 'Legați metoda de plată de următoarele metode de expediere:'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Afișarea câmpurilor de intrare deja în timpul selecției plății'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Dezactivare pentru următoarele grupuri'
+    SHOW_NOT_FOR_USERS_LABEL: 'Dezactivați pentru următorii utilizatori'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Activați pentru următoarele grupuri'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Activați pentru următorii utilizatori'
+    SHOW_PAYMENT_LOGOS: 'Arată logo-urile'
+    STANDARD_ORDER_STATUS: 'Statutul implicit al comenzii pentru această metodă de plată'
+    TILL_PURCHASE_VALUE: 'până la valoarea bunurilor'
+    TITLE: 'Metoda de plată'
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: Cod
+    DefaultStatusOpen: Deschideți
+    DefaultStatusPaid: Plătită
+    IsDefault: 'Este standard'
+    Orders: Comenzi
+    PLURALNAME: 'Starea plății'
+    PaymentStatusTranslations: Traduceri
+    SINGULARNAME: 'Starea plății'
+    Title: Titlu
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\File:
+    DESCRIPTION: Descriere
+    FILE_ATTACHMENTS: 'Fișiere atașate'
+    PLURALNAME: Fișiere
+    SINGULARNAME: Fișier
+    SIZE: Dimensiune
+    TITLE: 'Afișați numele'
+    TYPE: Tip
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\Image:
+    CONTENT: 'Conținutul textului'
+    DESCRIPTION: 'Descriere (de exemplu, pentru câmpul de text Slidorion)'
+    PLURALNAME: Imagini
+    SINGULARNAME: Imagine
+    SORTORDER: 'Ordinea de sortare'
+    THUMBNAIL: Previzualizare
+    TITLE: 'Afișați numele'
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: Descriere
+    ManufacturerNumber: 'Numărul producătorului'
+    PLURALNAME: Producător
+    SINGULARNAME: Producător
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: 'Unitatea de vânzare'
+    AddFile: 'Adăugați fișierul'
+    AddImage: 'Adaugă imagine'
+    BasicData: 'Date de bază'
+    CHANGE_QUANTITY_CART: 'Modificarea cantității'
+    CHOOSE_MASTER: '-- Selectați Master --'
+    COLUMN_TITLE: Nume
+    DAY: Ziua
+    DAYS: Zile
+    DESCRIPTION: 'Descrierea articolului'
+    Delivery: Livrare
+    DeliveryForFree: 'Transport gratuit'
+    DeliveryForFreeIsPossible: 'Transportul gratuit este posibil'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Acest articol este exclus din reduceri din cauza metodei de plată.'
+    FREE_OF_CHARGE: 'transport gratuit'
+    IMAGE: 'Imaginea articolului'
+    IMAGE_NOT_AVAILABLE: 'Nu a fost atribuită nicio imagine de articol'
+    IMPORTIMAGESFORM_ACTION: 'Importați imagini'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'Directorul nu există'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Nu a fost specificat niciun director'
+    IMPORTIMAGESFORM_HEADLINE: 'Importul de imagini retrospectiv'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: Director
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Calea absolută către directorul de pe serverul web în care se află imaginile. (Exemplu: /var/www/silvercart/images/)'
+    IMPORTIMAGESFORM_REPORT: '<p>Au fost găsite %d fișiere.</p><p>%d dintre acestea au putut fi atribuite unor articole și au fost importate.</p>'
+    IS_ACTIVE: 'este activă'
+    IsNotBuyable: 'Acest articol nu este disponibil pentru cumpărare'
+    Keywords: 'Cuvinte-cheie pentru căutare'
+    LIST_PRICE: 'Preț de listă'
+    LaunchDate: 'Afișaj din'
+    LaunchDateInfo: '<strong>Opțional</strong> - Se setează numai dacă este setat " <i>Sale from" (Vânzarea de la</i> ) și dacă afișarea trebuie să se facă înainte de începerea vânzării.'
+    MASTERPRODUCT: 'Articole de bază'
+    METADATA: 'Date meta'
+    METADESCRIPTION: 'Meta descriere pentru motoarele de căutare'
+    METATITLE: 'Meta titlu pentru motoarele de căutare'
+    MONTH: Luna
+    MONTHS: Luni
+    MSRP: MSRP
+    MSRP_CURRENCY: 'Monedă EIA'
+    MirrorPage_PLURALNAME: 'Grupuri de produse pentru oglinzi'
+    MirrorPage_SINGULARNAME: 'Grupul de produse Oglindă'
+    NAME_DESCRIPTION: 'Denumire și descriere'
+    New: Nou
+    NewestArrivals: 'Nou în magazin'
+    PACKAGING_QUANTITY: 'Volumul vânzărilor'
+    PACKAGING_UNIT: 'Unitate de ambalare'
+    PLURALNAME: Articolul
+    PRICE: Preț
+    PRICES: Prețuri
+    PRICE_AMOUNT_ASC: 'Preț ascendent'
+    PRICE_AMOUNT_DESC: 'Preț descrescător'
+    PRICE_ENTIRE: 'Preț total'
+    PRICE_GROSS: 'Preț (brut)'
+    PRICE_GROSS_CURRENCY: 'Monedă (brut)'
+    PRICE_NET: 'Preț (net)'
+    PRICE_NET_CURRENCY: 'Valută (net)'
+    PRICE_SINGLE: 'Preț unitar'
+    PRICE_SINGLE_NET: 'Preț unitar (net)'
+    PRODUCTNUMBER: 'Numărul articolului'
+    PRODUCTNUMBER_MANUFACTURER: 'Numărul articolului (producător)'
+    PRODUCTNUMBER_SHORT: 'Articolul nr.'
+    PRODUCT_QUESTION: 'Vă rog să-mi răspundeți la următoarele întrebări despre articolul {titlu}. ({numărul produsului}):'
+    PRODUCT_QUESTION_LABEL: 'Întrebări despre articol'
+    PURCHASEPRICE: 'Prețul de achiziție'
+    PURCHASEPRICE_CURRENCY: 'Monedă Prețul de achiziție'
+    PURCHASE_MAX_DURATION: 'Max. Perioada de abonament'
+    PURCHASE_TIME_UNIT: 'Unitate (WBZ)'
+    PreorderInfo: 'Acest articol nu va fi lansat până la {data lansării}. Vă rugăm să rețineți că acest articol nu poate fi expediat înainte de data lansării.'
+    PreorderNow: 'Precomandă acum'
+    PreorderToday: 'Precomandă acest articol astăzi'
+    Preorderable: 'disponibil pentru precomandă'
+    QUANTITY: Număr
+    QUANTITY_IS_IN_CART: '{cantitate} {unitate} deja în coșul de cumpărături'
+    QUANTITY_SHORT: Anz.
+    RefreshCache: 'După salvare, reîmprospătați memoria cache pentru acest articol'
+    ReleaseDate: 'Vânzare de la'
+    ReleaseDateInfo: '<strong>Opțional</strong> - Se setează numai în cazul în care începerea vânzărilor trebuie să fie amânată.'
+    SHORTDESCRIPTION: 'Descrierea listei'
+    SILVERCART_PRODUCT_CREATE: 'Poate crea articole.'
+    SINGULARNAME: Articolul
+    STOCKQUANTITY: Stoc
+    STOCK_QUANTITY: 'Poate fi suprarezervat stocul acestui articol?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Data de la care stocul nu mai poate fi suprarezervat'
+    STOCK_QUANTITY_SHORT: 'Este overbookable?'
+    Sale: Oferta
+    SalesBanDate: 'Afișare până la'
+    SalesBanDateInfo: '<strong>Opțional</strong> - Se setează numai dacă durata vânzării este limitată.'
+    StockIsLowOrderNow: 'În curând vândut - comandați acum'
+    TITLE: Articolul
+    TITLE_ASC: 'Desemnare ascendentă'
+    TITLE_DESC: 'Denumirea descrescătoare'
+    ThisProductWillBeReleasedOn: 'Acest articol va apărea pe {data lansării}.'
+    TimeGroup: 'Controlul timpului'
+    VAT: TVA
+    WEEK: Săptămâna
+    WEEKS: Săptămâni
+    WEIGHT: Greutate
+    WIDGETAREA: Widgeturi
+    YEAR: Anul
+    YEARS: Ani
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: Deteriorată/defectă
+    DefaultNew: Nou
+    DefaultRefurbished: Recondiționat
+    DefaultUsed: Folosit
+    PLEASECHOOSE: 'Vă rugăm să selectați'
+    PLURALNAME: 'Articolul prevede'
+    SINGULARNAME: 'Starea articolului'
+    SeoMicrodataCode: 'Codul SEO Microdata'
+    SeoMicrodataCodeDamaged: Deteriorată/defectă
+    SeoMicrodataCodeDescription: 'Alocați aici o valoare adecvată pentru a crește vizibilitatea în motoarele de căutare.'
+    SeoMicrodataCodeNew: Nou
+    SeoMicrodataCodeRefurbished: Recondiționat
+    SeoMicrodataCodeUsed: Folosit
+    TITLE: Stat
+    USE_AS_STANDARD_CONDITION: 'Se utilizează ca stare implicită în cazul în care nu se definește nimic pe elementul respectiv'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: Limba
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: Abrevierea
+    EXPLANATION_TO_DECIMAL_PLACES: 'Se setează la 0 sau se lasă în alb pentru a nu utiliza zecimale. Această setare este utilizată, de exemplu, pentru formularele de "adăugare la coș".'
+    NAME: Nume
+    NUMBER_OF_DECIMAL_PLACES: 'Numărul de zecimale'
+    PLURALNAME: 'Unități de vânzare'
+    SINGULARNAME: 'Unitatea de vânzare'
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Data
+    Origin: Origine
+    Origin-1: 'Preluarea soldului de deschidere'
+    Origin0: 'Intrarea sistemului nu este definită mai departe'
+    Origin1: 'Articolul a fost creat recent'
+    Origin2: 'Introducerea directă a utilizatorului'
+    Origin3: 'Comanda a fost plasată'
+    Origin4: 'Ordinea a fost schimbată'
+    Origin5: 'Comanda a fost anulată'
+    Origin6: 'Import prin intermediul unui sistem extern'
+    OriginCode: 'Codare de origine'
+    PLURALNAME: 'Contabilizarea stocurilor'
+    Quantity: Cantitate
+    QuantityDesc: 'Cantitatea care trebuie adăugată sau scăzută din stoc (de exemplu, "2"/"-2").'
+    QuantityRightTitle: 'Cantitatea nu poate fi modificată după salvare. Pentru a corecta o intrare în stoc, vă rugăm să adăugați o nouă intrare cu o notă corespunzătoare.'
+    Reason: Motivul
+    ReasonDesc: 'Scurtă descriere a motivului pentru care s-a modificat stocul (de exemplu, "Comandă XYZ anulată", "Comandă XYZ returnată", "Marfă primită").'
+    SINGULARNAME: 'Intrarea în stoc'
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'Tipuri de expediere atribuite'
+    COSTS: Costuri
+    DeliveryTimeHint: 'Informații opționale privind termenul de livrare. Suprascrie specificația metodei de expediere părinte.'
+    EMPTYSTRING_CHOOSEZONE: 'Selectați zona...'
+    FOR_SHIPPINGMETHOD: 'pentru metoda de expediere'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Dezactivați transportul gratuit pentru această taxă de transport'
+    FREEOFSHIPPINGCOSTSFROM: 'Livrare gratuită de la (înlocuiește setările specifice țării și cele globale)'
+    FreeFrom: 'liber de'
+    MaximumWeight: 'Greutate maximă'
+    MaximumWeightDesc: 'Greutatea maximă în grame (g)'
+    PLURALNAME: 'Taxe de expediere'
+    POST_PRICING: 'Determinarea ulterioară a prețului'
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'Text pentru eticheta ALT'
+    LINKPAGE: 'Pagina către care se face legătura'
+    PLURALNAME: 'Imagini glisante'
+    ProductNumberToReference: 'Numărul articolului la care trebuie să se facă legătura'
+    ProductNumberToReferenceInfo: 'Se utilizează în locul paginii.'
+    SINGULARNAME: 'Imaginea glisantă'
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: Imageslider
+    DESCRIPTION: 'Oferă un cursor de imagine care afișează mai multe imagini într-un slideshow.'
+    TITLE: Imagini
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: 'Înregistrare SilverCart'
+    DESCRIPTION: 'Acest widget afișează un formular de autentificare și trimite la pagina de înregistrare. În cazul în care clientul este autentificat, sunt afișate în schimb linkuri către zonele din contul său de client.'
+    TITLE: Înregistrare
+    TITLE_LOGGED_IN: 'Contul meu'
+    TITLE_NOT_LOGGED_IN: Înregistrare
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: 'Lista de pagini'
+    DESCRIPTION: 'Acest widget afișează o listă de pagini cu linkuri către paginile respective.'
+    PAGES: 'Pagini atribuite'
+    TITLE: 'Lista de pagini'
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: Imagine
+    WIDGET_INFO_TAB: 'Widget Info'
+    WIDGET_INFO_TAB_EXPLANATION: 'Următoarele date pot fi utilizate de unele widget-uri.'
+    WIDGET_PRIORITY: 'Rangul de sortare (cu cât este mai mare, cu atât mai mult în urmă)'
+    WIDGET_TEXT: Descriere
+    WIDGET_TITLE: 'Titlu (opțional)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Afișarea articolelor din grupurile de subproduse'
+    DESCRIPTION: 'Acest widget afișează articole din subgrupuri de mărfuri dacă nu există articole atribuite grupului de mărfuri curent.'
+    TITLE: 'Articole din grupele de subproduse'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'SilverCart slider pentru articole'
+    CMS_PRODUCTGROUPTABNAME: 'Grup de produse'
+    CMS_PRODUCTSTABNAME: Articolul
+    DESCRIPTION: 'Acest widget afișează articolele dintr-un grup de produse. Se poate defini din ce grup de produse și câte articole trebuie afișate.'
+    FETCHMETHOD_SORTORDERASC: 'Aranjament ascendent'
+    FETCHMETHOD_SORTORDERDESC: 'Ordine descrescătoare'
+    ProductGroupPageDescription: 'Relevant numai dacă "Item Selection Method" este setat la "From Department".'
+    SELECTIONMETHOD_PRODUCTGROUP: 'Din grupul de produse'
+    SELECTIONMETHOD_PRODUCTS: 'Selectați elementul cu mâna'
+    SELECT_PRODUCT_DESCRIPTION: 'Vă rugăm să introduceți numerele articolelor, separate prin punct și virgulă'
+    STOREADMIN_FIELDLABEL: 'Vă rugăm să selectați grupul de produse care urmează să fie afișat:'
+    TITLE: Articolul
+    USE_SELECTIONMETHOD: 'Metoda de selecție a articolelor'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'Lista producătorilor SilverCart'
+    DESCRIPTION: 'Acest widget afișează o listă a tuturor producătorilor din grupul de produse relevant.'
+    RESETFILTER: 'Arată tot'
+    TITLE: 'Lista producătorilor'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: 'Navigare pe grupuri de produse'
+    DESCRIPTION: 'Acest widget creează o ierarhie de navigare pentru grupurile de produse. Este posibil să se precizeze ce grup de mărfuri va fi utilizat ca rădăcină.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Desfășurați numai ramura activă'
+    LEVELS_TO_SHOW: 'Afișați nivelurile până la ce adâncime'
+    SHOW_ALL_LEVELS: 'Afișați toate nivelurile'
+    TITLE: 'Navigare pe grupuri de produse'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: 'Grupuri de produse'
+    DESCRIPTION: 'Acest widget creează o imagine de ansamblu a tuturor grupurilor de produse (opțional, sub forma unui cursor).'
+    TITLE: 'Grupuri de produse'
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Traduceri
+    SINGULARNAME: Traducere
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Activați prezentarea automată de diapozitive'
+    AUTOPLAYDELAYED: 'Activați întârzierea pentru prezentarea automată a diapozitivelor'
+    AUTOPLAYLOCKED: 'Dezactivarea prezentării automate de diapozitive atunci când utilizatorul navighează singur'
+    AddImage: 'Adaugă imagine'
+    BUILDARROWS: 'Afișarea butoanelor înainte/înapoi'
+    BUILDNAVIGATION: 'Afișați navigarea paginii'
+    BUILDSTARTSTOP: 'Afișați butonul Start/Stop'
+    CMS_BASICTABNAME: 'Setări de bază'
+    CMS_DISPLAYTABNAME: Reprezentare
+    CMS_ROUNDABOUTTABNAME: 'Sens giratoriu'
+    CMS_SLIDERIMAGES: 'Imagini de diapozitive'
+    CMS_SLIDERTABNAME: 'Setări Slideshow'
+    FETCHMETHOD: 'Modul de selecție pentru articole'
+    FETCHMETHOD_RANDOM: Aleatoriu
+    FRONTCONTENT: 'Text de descriere'
+    FRONTTITLE: Titlul
+    GROUPVIEW: 'Vizualizarea listei de articole'
+    IS_CONTENT_VIEW: 'Utilizați vizualizarea normală a elementelor în loc de vizualizarea widget-urilor'
+    IS_CONTENT_VIEW_INFO: 'Această opțiune trebuie selectată dacă widgetul este destinat zonei de conținut a unei pagini.'
+    NUMBEROFPRODUCTSTOFETCH: 'Numărul de elemente care urmează să fie încărcate:'
+    NUMBEROFPRODUCTSTOSHOW: 'Numărul de elemente care urmează să fie afișate'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'relevant doar dacă sliderul a fost activat, în caz contrar sunt afișate toate articolele care sunt încărcate'
+    ProductDataToggle: 'Setări ale articolului'
+    ProductRelationToggle: 'Atribuirea articolului'
+    SLIDEDELAY: 'Durata de afișare a fiecărei imagini pentru prezentarea automată (în milisecunde)'
+    STOPATEND: 'Oprește prezentarea automată de diapozitive după ultimul panou'
+    TRANSITIONEFFECT: 'Efectul de tranziție'
+    TRANSITION_FADE: Cross-fade
+    TRANSITION_HORIZONTALSLIDE: 'Împingeți orizontal'
+    TRANSITION_VERTICALSLIDE: 'Împingeți pe verticală'
+    USE_LISTVIEW: 'Utilizați afișarea listei'
+    USE_ROUNDABOUT: 'Utilizați sensul giratoriu'
+    USE_SLIDER: 'Utilizați cursorul'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'Cei mai frecvenți termeni de căutare'
+    DESCRIPTION: 'Acest widget afișează un nor de etichete cu cei mai frecvenți termeni de căutare.'
+    FONTSIZECOUNT: 'Numărul de grade de font'
+    TAGSPERCLOUD: 'Numărul de termeni de căutare care trebuie afișați'
+    TITLE: 'Cei mai frecvenți termeni de căutare'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: Căutare
+    DESCRIPTION: 'Acest widget afișează un formular de căutare a unui articol.'
+    TITLE: 'Formular de căutare'
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Vă rugăm să introduceți termenul de căutare:'
+    SUBMITBUTTONTITLE: Căutare
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: Lista
+    TILE: Gresie

@@ -1,4 +1,1945 @@
 sv:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Alla accepterar'
+    ManageCookies: 'Inställningar för cookies'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>Vi använder cookies för att utforma våra webbplatser optimalt för dig, för att förbättra våra produkter för dig och för att visa dig intressebaserad reklam tillsammans med tredjepartsleverantörer. Här kan du välja vilka cookies du vill acceptera och ändra ditt val när som helst. Du hittar mer information i vår policy om användning av cookies och i vår information om dataskydd. Tekniskt nödvändiga cookies sätts också när du väljer att avvisa.</p><p>Genom att klicka på "Acceptera allt" godkänner du denna behandling.</p>'
+    Title: 'Den här webbplatsen använder cookies'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Inställningarna har sparats'
+    Save: 'Bekräfta valet'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Analys
+    Analytics_Content: '<p>Med hjälp av analyscookies kan vi tekniskt analysera användningen av webbplatsen för att identifiera problem och optimera användbarheten.</p>'
+    Marketing: Marknadsföring
+    Marketing_Content: '<p>Med hjälp av marknadsföringscookies kan vi analysera hur framgångsrika reklamåtgärderna är.</p>'
+    Necessary: Nödvändigt
+    Necessary_Content: '<p>Nödvändiga cookies säkerställer att webbplatsen fungerar och måste ställas in av tekniska skäl.</p>'
+    Preferences: Inställningar
+    Prefrences_Content: '<p>Med hjälp av preferenscookies kan vi anpassa webbplatsens användbarhet till dina behov. På så sätt kan webbplatsen komma ihåg dina inställningar nästa gång du besöker den.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p>$CookieConsentForm</p><p>[cookiegrouptable group="Necessary"]</p><p>[cookiegrouptable group="Analytics"]</p><p>[cookiegrouptable group="Marketing"]</p><p>[cookiegrouptable group="Inställningar"]</p>'
+    Title: 'Policy för cookies'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Fyll den här sidan med din integritetspolicy.</p>'
+    Title: 'Riktlinjer för uppgiftsskydd'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Fyll den här sidan med dina villkor.</p>'
+    Title: 'Allmänna villkor'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Varaktighet
+    Provider: 'Ställd av'
+    Purpose: Syfte
+    Title: Cookie
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 år'
+    loc_Purpose: 'Knappar för delning i sociala medier'
+    mus_Expiry: '1 år'
+    mus_Purpose: 'Knappar för delning i sociala medier'
+    na_id_Expiry: '1 år'
+    na_id_Purpose: 'Knappar för delning i sociala medier'
+    na_tc_Expiry: '1 år'
+    na_tc_Purpose: 'Knappar för delning i sociala medier'
+    ouid_Expiry: '1 år'
+    ouid_Purpose: 'Knappar för delning i sociala medier'
+    uid_Expiry: '1 år'
+    uid_Purpose: 'Knappar för delning i sociala medier'
+    uvc_Expiry: '1 år'
+    uvc_Purpose: 'Knappar för delning i sociala medier'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 månader'
+    BizoID_Purpose: Marknadsföring
+    UserMatchHistory_Expiry: '6 månader'
+    UserMatchHistory_Purpose: Marknadsföring
+    lang_Expiry: Session
+    lang_Purpose: Språkinställningar
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 månader'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 år'
+    _ga_Purpose: Fontawesome-analyser
+    _gid_Expiry: '2 år'
+    _gid_Purpose: Fontawesome-analyser
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 timmar'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 år'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 år'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 år'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 månader'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 månad'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 år'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 månader'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 år'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 år'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 år'
+    bcookie_Purpose: Marknadsföring
+    lidc_Expiry: '2 år'
+    lidc_Purpose: Marknadsföring
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 år'
+    _ga_Purpose: Mapbox-analyser
+    _mkto_trk_Expiry: '2 år'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 år'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 år'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 år'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 månader'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 år'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 år'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 månader'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 år'
+    player_Purpose: 'Integrering av video'
+    vuid_Expiry: '1 år'
+    vuid_Purpose: 'Integrering av video'
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Session
+    CONSENT_Purpose: 'Integrering av video'
+    GPS_Expiry: Session
+    GPS_Purpose: 'Integrering av video'
+    NID_Expiry: Session
+    NID_Purpose: 'Integrering av video'
+    PREF_Expiry: '2 år'
+    PREF_Purpose: 'Integrering av video'
+    VISITOR_INFO1_LIVE_Expiry: '6 månader'
+    VISITOR_INFO1_LIVE_Purpose: 'Integrering av video'
+    YSC_Expiry: Session
+    YSC_Purpose: 'Integrering av video'
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 månader'
+    CookieConsent_Purpose: 'Sparar dina cookie-inställningar'
+    FluentLocale_Expiry: '2 månader'
+    FluentLocale_Purpose: 'Sparar dina språkinställningar'
+    PHPSESSID_Expiry: Session
+    PHPSESSID_Purpose: Session
+    __atuvc_Expiry: '1 år'
+    __atuvc_Purpose: 'Knappar för delning i sociala medier'
+    __atuvs_Expiry: '1 år'
+    __atuvs_Purpose: 'Knappar för delning i sociala medier'
+    _ga_Expiry: '2 år'
+    _ga_Purpose: Statistik
+    _gat_Expiry: '24 timmar'
+    _gat_Purpose: Statistik
+    _gid_Expiry: '24 timmar'
+    _gid_Purpose: Statistik
+    _hjIncludedInSample_Expiry: Session
+    _hjIncludedInSample_Purpose: Statistik
+    ipcountry_Expiry: Session
+    ipcountry_Purpose: Standardspråksinställningar
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 månad'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 år'
+    _ga_Purpose: 'analys av reCAPTCHA'
+  SilverCart:
+    Actions: Åtgärder
+    Buy1: '{titel} köpa'
+    Buy2: '{titel1} {titel2} köp'
+    Cancel: Avbryt
+    Change: Ändra
+    ClickForMore: 'Klicka för mer information'
+    Close: Stäng
+    ContactUs: 'Kontakta oss'
+    DefaultIfEmpty: 'Standard om tomt: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Bekräfta att ditt konto är raderat genom att kryssa i kryssrutan.'
+    DeleteYourAccountErrorPassword: 'Tyvärr är de åtkomstuppgifter du angett inte korrekta.'
+    DeleteYourAccountSuccess: 'Ditt konto har markerats för radering och kommer att raderas inom de närmaste 24 timmarna. Du kommer att få ett e-postmeddelande så snart raderingen har slutförts. Fram till dess har du möjlighet att återkalla begäran om radering.'
+    DeleteYourAccountSuccessOpen: 'Ditt konto har markerats för radering. Eftersom det fortfarande finns öppna beställningar på ditt kundkonto kommer ditt konto att raderas först när alla öppna beställningar har behandlats. Du kommer att få ett e-postmeddelande så snart raderingen har slutförts. Fram till dess har du möjlighet att återkalla begäran om radering.'
+    DeleteYourAccountUndo: 'Återkalla begäran om radering'
+    DeleteYourAccountUndone: 'Din begäran om radering har återkallats.'
+    Go: 'Gå till'
+    NextPage: 'Nästa sida'
+    PrevPage: 'Föregående sida'
+    ProductAddedToCart: 'Artikeln lades till i din varukorg.'
+    ProductRemovedFromCart: 'Artikeln har tagits bort från din varukorg.'
+    Sort: Sorteringsordning
+    Subject: Ämne
+    Subjects: Ämne
+    Translation: Översättning
+    Translations: Översättningar
+    Until: till
+    go: 'gå till'
+    since: sedan
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Tillgänglighet
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Bärare
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: 'Förfrågningar om kontakt'
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: Länder
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: Kunder
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: Bilder
+    SELECT_IMAGE_TYPE: 'Välj bildtyp'
+    SELECT_OTHER_IMAGES: 'Andra bilder'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Bilder för betalningsmetoder'
+    SELECT_PRODUCT_IMAGES: 'Bilder från artikeln'
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: Inställningar
+    CUSTOMER: Kunder
+    DEFAULT: CMS
+    FILES: Filer
+    HANDLING: Bearbetning
+    MODULES: Moduler
+    ORDERS: Beställningar
+    PRODUCTS: Artikel
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: Tillverkare
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Välj exportkontext och tryck på exportknappen för att ladda ner en CSV-lista över e-postmottagare.'
+    DoExport: 'Exportera som CSV'
+    ExportAll: 'Exportadresser för alla kunder'
+    ExportAllNewsletterRecipients: 'Exportera adresser till alla mottagare av nyhetsbrev'
+    ExportAllNewsletterRecipientsWithAccount: 'Exportera adresser till alla mottagare av nyhetsbrev med kundkonto'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Exportera adresser till alla mottagare av nyhetsbrev utan ett kundkonto'
+    ExportAllNonNewsletterRecipients: 'Exportera adresser till alla mottagare som inte är nyhetsbrevsmottagare.'
+    ExportContext: Exportsammanhang
+    MENUTITLE: 'Mottagare av nyhetsbrev'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: Antalsintervall
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Allt efter'
+    DateRangePickerALL_BEFORE: 'Allt före'
+    DateRangePickerDATE: Datum
+    DateRangePickerEND_DATE: Slutdatum
+    DateRangePickerLAST_7_DAYS: 'Senaste 7 dagarna'
+    DateRangePickerLAST_MONTH: 'Föregående månad'
+    DateRangePickerNEXT: Nästa
+    DateRangePickerPERIOD: Period
+    DateRangePickerPREVIOUS: Föregående
+    DateRangePickerSTART_DATE: Startdatum
+    DateRangePickerTHIS_MONTH: 'Denna månad'
+    DateRangePickerTHIS_YEAR: 'I år'
+    DateRangePickerTODAY: Idag
+    MENUTITLE: Beställningar
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: Beställningsstatus
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: Betalningsmetoder
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: Betalningsstatus
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: Artikel
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'I artikeln anges följande'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'Importen av artikelbilden utförs i detta ögonblick.'
+    CronIsRunningTitle: Uppmärksamhet
+    CronNotInstalledDescription: "Installationen av import av artikelbilder har ännu inte slutförts.\nLägg till det nödvändiga programmet (`sake dev/tasks/sc-image-importer`) till schemalagda uppgifter på din server.\nKontakta din butiksansvarige för mer information.\n"
+    CronNotInstalledTitle: Uppmärksamhet
+    Description: "Använd den här uppladdningsfunktionen för att ladda upp många bilder av olika artiklar på en gång.\nBilderna tilldelas automatiskt om du namnger filnamnen på följande sätt:\n\n[artikelnummer].png/jpg/jpeg\nELLER\n[Artikelnummer]-[Löpande nummer].png/jpg/jpeg\nELLER\n[Artikelnummer]-[Löpande nummer]-[Kort beskrivning utan mellanslag].png/jpg/jpeg\n\n[Kort beskrivning utan mellanslag] är valfri och används för sökmotoroptimering (SEO) för att få bättre synlighet i sökmotorer som Google.\nOm [short description-without-space] inte anges används artikelnamnet som en parameter för sökmotoroptimering.\n\nExempel:\nDu vill tilldela 4 bilder till var och en av de två artiklarna med artikelnummer 502.133.66.5 och 758.500.08.9. Tre av dem bör ha en egen kort beskrivning.\nEn bild ska laddas upp för varje artikel med artikelnummer 128.000.01.7 och 542.550.08.1.\nFilnamnen bör därför se ut så här:\n\n502.133.66.5-1.png\n502.133.66.5-2-Coffee-Machine-XYZ-Front-View.png\n502.133.66.5-3-Coffee-Machine-XYZ-View-left-side.png\n502.133.66.5-4-Coffee-machine-XYZ-view-right-side.png\n758.500.08.9-1.png\n758.500.08.9-2.png\n758.500.08.9-3.png\n758.500.08.9-4.png\n128.000.01.7.png\n542.550.08.1.1.png\n\nObservera att den bild som anges med löpnummer 1 används som bild för listvyn.\nObservera också att befintliga bilder av berörda objekt kommer att skrivas över helt och hållet om du använder den här funktionen.\n"
+    FileInfoTitle: 'Följande bilder har ännu inte behandlats:'
+    MENUTITLE: 'Import av artikelbilder'
+    UploadProductImages: 'Ladda upp bilder av artiklar'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: Måttenheter
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: Fraktmetoder
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'Handla e-post'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: Skattesatser
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Zoner
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: EUR
+    IMAGEFOLDERNAME: Provuppgifter
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart är lätt att anpassa med hjälp av widgets.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Anpassningsbar
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: anpassningsbar
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart är lätt att utöka genom moduler.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Utökningsbar
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: Utökningsbar
+    PRODUCTGROUPMARKETING_TITLE: Marknadsföringsmoduler
+    PRODUCTGROUPMARKETING_URLSEGMENT: Marknadsföringsmoduler
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart är öppen källkod. Det innebär att du bara betalar för implementeringen och anpassningen av butikssystemet till dina önskemål.'
+    PRODUCTGROUPOPEN_TITLE: Öppna
+    PRODUCTGROUPOPEN_URLSEGMENT: öppna
+    PRODUCTGROUPOTHERS_TITLE: 'Andra moduler'
+    PRODUCTGROUPOTHERS_URLSEGMENT: andra-moduler
+    PRODUCTGROUPPAYMENT_TITLE: Betalningsmoduler
+    PRODUCTGROUPPAYMENT_URLSEGMENT: betalningsmoduler
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> </strong>Uppmärksamhet:<br/>Själva modulerna är kostnadsfria. Prisförslaget används enbart i demonstrationssyfte.</div>'
+    SLIDORION_TITLE: 'Fördelar med SilverCart'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p>Upptäck SilverCarts betalningsmoduler.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: Betalningsmoduler
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p>Du hittar också moduler i SilverCart för många andra användningsområden.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Andra moduler'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Startsida Innehållsområde'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: Aktivera
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Ändra tillgängligheten till...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Tillverkarna byter till...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Ändra orderstatus till...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Ändra betalningsstatus till...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Ändra produktgrupp till...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: Inaktivera
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Markera som ej sett'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Markera som sett'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Utskrift av beställningar (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchController:
+    EXECUTE: Utför
+    MARK_ALL: 'Markera alla'
+    UNMARK_ALL: Avmarkera
+  SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest:
+    SendChangePasswordEmail: 'Skicka e-post för att ändra lösenordet'
+  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
+    DUPLICATE_DESCRIPTION: 'Duplikerar det här objektet'
+    Duplicate: Dubbla
+    DuplicatePermissionsFailure: 'Duplicering är inte tillåten'
+  SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
+    Publish: Publicera
+    PublishDesc: 'Publicerat detta objekt'
+    PublishFailure: 'Det är inte möjligt att publicera ett objekt som inte är versionerat.'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: Snabbvy
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: 'Lägg till'
+  SilverCart\Admin\Model\Config:
+    ADDED_EXAMPLE_CONFIGURATION: 'En exempelkonfiguration skapades'
+    ADDED_EXAMPLE_DATA: 'Exempeluppgifter har lagts till'
+    ADDTOCARTMAXQUANTITY: 'Maximalt antal artiklar som tillåts i kundvagnen'
+    ADD_EXAMPLE_CONFIGURATION: 'Skapa en exempelkonfiguration'
+    ADD_EXAMPLE_CONFIGURATION_DESCRIPTION: 'Åtgärden "Skapa exempelkonfiguration" förkonfigurerar SilverCart så att kassaprocessen kan köras igenom fullständigt. Konfigurationsdata omfattar betalningsmetod, transportör, fraktmetod, fraktmetodavgifter, landaktivering och deras zontilldelning. <br/><strong>UPPMÄRKSAMHET: Denna åtgärd kan ta några minuter!</strong>'
+    ADD_EXAMPLE_DATA: 'Lägg till provuppgifter'
+    ADD_EXAMPLE_DATA_DESCRIPTION: 'Åtgärden "Add sample data" skapar en tillverkare och fyra produktgrupper med 50 artiklar vardera. <br/><strong>UPPMÄRKSAMHET: Denna åtgärd kan ta några minuter!</strong>'
+    ALLOW_CART_WEIGHT_TO_BE_ZERO: 'Vikt på varukorgen får vara noll.'
+    BASICCHECKOUT: 'Grundläggande inställningar'
+    CLEAN: Optimering
+    CLEANED_DATABASE: 'Databasen har optimerats.'
+    CLEANED_DATABASE_REPORT: '<br/><hr/><br/><h3>%s</h3><strong><br/>%s Bilder har raderats. <br/> varav %s på grund av felaktig objektsallokering<br/> varav %s på grund av felaktig bildfil<br/> varav %s på grund av felaktig filallokering<br/>%s Bilderna har omallokerats.</strong><br/><br/><hr/>'
+    CLEAN_DATABASE: 'Optimera databasen'
+    CLEAN_DATABASE_DESCRIPTION: 'Åtgärden "Optimera databasen" söker i databasen efter förstörda poster och försöker att tilldela dem på nytt. Om omplaceringen misslyckas raderas posten. <br/><strong>UPPMÄRKSAMHET: Denna åtgärd kan ta flera minuter!</strong>'
+    CLEAN_DATABASE_INPROGRESS: 'Databasen håller på att optimeras... (%s/%s) (%s%% slutfört, ungefär %s kvar)'
+    CLEAN_DATABASE_START_INDEX: Startindex
+    CheckoutConfiguration: 'Inställningar för kundvagn och kassan'
+    ColorScheme: Färgschema
+    ColorSchemeConfiguration: 'Titel och färgschema'
+    ColorSchemeTab: Färgschema
+    ColorScheme_blue: Blå
+    ColorScheme_brown: Brun
+    ColorScheme_carmin: Carmine
+    ColorScheme_green: Grön
+    ColorScheme_orange: Orange
+    ColorScheme_red: Röd
+    CustomerConfiguration: Kundinställningar
+    DEFAULTCURRENCY: Standardvaluta
+    DEFAULTPRICETYPE: Standardpristyp
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: 'Standard e-postmottagare för kontaktförfrågningar'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: 'Kontaktförfrågningar skickas inte längre till den vanliga e-postmottagaren, utan till den adress som sparats här.'
+    DEFAULT_IMAGE: 'Standard artikel bild'
+    DEFAULT_LANGUAGE: Standardspråk
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: 'Standard e-postmottagare för beställningsmeddelanden'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: 'Beställningsmeddelanden skickas inte längre till den vanliga e-postmottagaren, utan till den adress som sparats här.'
+    DEFAULT_MAIL_RECIPIENT: 'Standard e-postmottagare'
+    DEFAULT_MAIL_RECIPIENT_INFO: 'E-post till butiksoperatören skickas till den adress som sparats här.'
+    DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: 'Be om födelsedatum vid registrering?'
+    DISPLAYEDPAGINATION: 'Antal sidnummer som visas samtidigt'
+    DISPLAY_TYPE_OF_PRODUCT_ADMIN: 'Typ av display för artikelhantering'
+    DISPLAY_WEIGHTS_IN_KILOGRAM: 'Visa vikter i kilogram (kg)'
+    ENABLEBUSINESSCUSTOMERS: 'Tillåt företagskunder'
+    ENABLEPACKSTATION: 'Aktivera adressinmatningsfält för PACKSTATION'
+    ENABLESSL: 'Använd SSL'
+    ENABLESTOCKMANAGEMENT: 'Aktivera lagerhantering'
+    ERROR_MESSAGE: 'Parametern "{field}" har inte konfigurerats. <br/><a href="{baseurl}admin/settings/">Logga in</a> och konfigurera den saknade parametern under "Inställningar -> E-postinställningar".'
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: 'Inget aktiverat land hittades. <br/><a href="{baseURL}admin/settings/">Logga in</a> och konfigurera den saknade parametern under "Processing -> Countries".'
+    ERROR_TITLE: 'Ett fel har inträffat!'
+    EXAMPLE_CONFIGURATION_ALREADY_ADDED: 'En exempelkonfiguration har redan skapats'
+    EXAMPLE_DATA_ALREADY_ADDED: 'Exempeluppgifter har redan lagts till'
+    EmailConfiguration: 'Inställningar för e-post'
+    EmailSender: 'Avsändaradress för e-post'
+    EmailSenderDesc: 'Avsändaradressen för e-post används som avsändaradress för alla e-postmeddelanden som skickas av SilverCart.'
+    EmailSenderExample: 't.ex. "noreply@example.com"'
+    EmailSenderName: 'Namn på avsändaren av e-postmeddelandet'
+    EmailSenderNameDesc: 'E-postens avsändarnamn visas för mottagaren utöver e-postens avsändaradress.'
+    EmailSenderNameExample: 't.ex. "Ditt butiksnamn'
+    FLAT: platt
+    FREEOFSHIPPINGCOSTSFROM: 'Fri frakt från'
+    FREEOFSHIPPINGCOSTSTAB: 'Fri frakt'
+    Favicon: Favicon
+    FaviconDesc: 'En favicon är en bild som vanligtvis visas i webbläsarens adressfält till vänster om webbadressen, i vissa webbläsare även i den öppna fliken. Favicon ska vara fyrkantig och ha måtten cirka 32x32 pixlar.'
+    GENERAL: Allmänt
+    GENERAL_MAIN: Huvuddelen
+    GENERAL_TEST_DATA: Provuppgifter
+    GLOBALEMAILRECIPIENT: 'Global e-postmottagare'
+    GLOBALEMAILRECIPIENT_INFO: 'Den globala e-postmottagaren kan ställas in valfritt. ALLA e-postmeddelanden (orderbekräftelser, kontaktförfrågningar osv.) skickas till denna e-postadress. De mottagaradresser som anges i e-postmallarna påverkas inte. Dessa ersätts inte, utan kompletteras bara.'
+    GeneralConfiguration: 'Grundläggande inställningar'
+    INTERFACES: Gränssnitt
+    InvoiceAddressIsAlwaysShippingAddress: 'Fakturaadressen motsvarar alltid leveransadressen'
+    LAYOUT: Layout
+    MINIMUMORDERVALUE: 'Minsta ordervärde'
+    MINIMUMORDERVALUE_HEADLINE: 'Minsta ordervärde'
+    MinimumAgeToOrder: 'Minimiålder för beställningar'
+    MinimumAgeToOrderError: 'Minimiåldern för beställningar är {ålder} år.'
+    MobileTouchIcon: 'Ikon för mobilt pekfält'
+    MobileTouchIconDesc: 'Mobile Touch Icon används när en besökare placerar din butik som en länk på startskärmen på en smartphone eller surfplatta. Ikonen ska ha måtten 192x192 pixlar.'
+    OPEN_RECORD: 'Öppet register'
+    PLURALNAME: 'Allmänna konfigurationer'
+    PRICETYPEANONYMOUSCUSTOMERS: 'Pristyp för anonyma kunder'
+    PRICETYPEBUSINESSCUSTOMERS: 'Pristyp för företagskunder'
+    PRICETYPEREGULARCUSTOMERS: 'Pristyp för slutkunder'
+    PRICETYPES_HEADLINE: Pristyper
+    PRICETYPE_ANONYMOUS: 'Pristyp för anonyma kunder'
+    PRICETYPE_BUSINESS: 'Pristyp för företagskunder'
+    PRICETYPE_REGULAR: 'Pristyp för slutkunder'
+    PRODUCTGROUPSPERPAGE: 'Produktgrupper per sida'
+    PRODUCTSPERPAGE: 'Artiklar per sida'
+    PRODUCTSPERPAGE_ALL: 'Visa alla'
+    PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Fält för artikelbeskrivning i kundvagnen'
+    ProductConfiguration: Artikelinställningar
+    QUANTITY_OVERBOOKABLE: 'Kan lagret generellt sett vara överbokat?'
+    REDIRECTTOCARTAFTERADDTOCART: 'Omdirigera kunden till kundvagnen efter åtgärden "Lägg i kundvagnen".'
+    SEARCH: 'Sök på'
+    SEO: SEO
+    SERVER: Server
+    SHOW_CONFIG: 'Visa konfiguration'
+    SINGULARNAME: 'Allmän konfiguration'
+    SKIP_PAYMENT_STEP_IF_UNIQUE: 'Hoppa över valet av betalningsmetod om endast en kan väljas.'
+    SKIP_SHIPPING_STEP_IF_UNIQUE: 'Hoppa över valet av fraktmetod om endast en kan väljas.'
+    SOCIALMEDIA: 'Sociala medier'
+    STOCK: Läger
+    SecurityConfiguration: Säkerhetsinställningar
+    ShopAdditional2Info: 'Ytterligare information 2'
+    ShopAdditionalInfo: 'Ytterligare information'
+    ShopAdditionalInfo2Desc: 'Ytterligare, valfri kundinformation, t.ex. leveransinformation, specialerbjudanden, specialfunktioner i ditt erbjudande, ... (Beroende på temat visas detta i rubriken/footer-området på nästan varje sida, ca 220 tecken).'
+    ShopAdditionalInfoDesc: 'Ytterligare, valfri kundinformation, t.ex. ytterligare telefonnummer (nödnummer/supporttelefon) med kontorstider. (Beroende på tema, visas t.ex. i rubriken/footerområdet på nästan varje sida, ca 120 tecken).'
+    ShopCity: Plats
+    ShopCountry: Land
+    ShopData: Operatörsuppgifter
+    ShopEmail: E-postadress
+    ShopLogo: Logotyp
+    ShopLogoDesc: 'Visas i huvudet på butiken.'
+    ShopName: 'Butikens namn'
+    ShopOpeningHours: Öppettider
+    ShopPhone: Telefon
+    ShopPostcode: Postnummer
+    ShopStreet: Street
+    ShopStreetNumber: Husnummer
+    ShowTaxAndDutyHint: 'Visa en anteckning om extra avgifter till länder utanför EU.'
+    TABBED: inbäddad
+    TRANSLATION: Översättning
+    TRANSLATIONS: Översättningar
+    USEFREEOFSHIPPINGCOSTSFROM: 'Använd inställningar för fri frakt'
+    USEMINIMUMORDERVALUE: 'Aktivera minsta ordervärde'
+    USER_AGENT_BLACKLIST: 'Låsta UserAgent-identifierare (en UserAgent per rad)'
+    USER_AGENT_BLACKLIST_INFO: 'Ange en UserAgent per rad. <br/> Om en besökare använder ett UserAgent-ID från den här listan blockeras anslutningen helt för att förhindra spambot-attacker på formulär. <br/><strong>Uppmärksamhet: UserAgent-identifierare används av alla besökare. Ange endast en UserAgent-identifierare om du är säker på att endast robotar påverkas</strong>...'
+    USE_DEFAULT_LANGUAGE: 'Använda standardspråk när det lämpliga språket saknas?'
+    USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Visa artikelbeskrivning i kundvagnen'
+    USE_STRICT_SEARCH_RELEVANCE: 'Använd strängare sökning. Visar endast exakta träffar.'
+    UseMinimumAgeToOrder: 'Använda minimiålder för beställningar?'
+    redirectToCheckoutWhenInCart: 'Omedelbart omdirigera till kassan när kunden går in i kundvagnen.'
+  SilverCart\Admin\Model\CookiePolicyConfig:
+    CookiePolicy: Cookie-policy
+    CookiePolicyConfigBgColor: Bakgrundsfärg
+    CookiePolicyConfigBtnColor: 'Knappens färg'
+    CookiePolicyConfigBtnTxtColor: 'Färg på knappens text'
+    CookiePolicyConfigButtonText: 'Märkning av knappar'
+    CookiePolicyConfigButtonTextDefault: Förstått!
+    CookiePolicyConfigIsActive: 'Aktivera cookiepolicy'
+    CookiePolicyConfigLayout: 'Layout av displayen'
+    CookiePolicyConfigLayoutBlock: Block
+    CookiePolicyConfigLayoutClassic: Klassisk
+    CookiePolicyConfigLayoutEdgeless: Kantlös
+    CookiePolicyConfigLayoutWire: Tråd
+    CookiePolicyConfigMessageText: Text
+    CookiePolicyConfigMessageTextDefault: 'För att kunna utforma vår webbplats optimalt och kontinuerligt förbättra den för dig använder vi cookies. Genom att fortsätta använda webbplatsen godkänner du användningen av cookies.'
+    CookiePolicyConfigPolicyText: 'Text "Ytterligare information'
+    CookiePolicyConfigPolicyTextDefault: 'Ytterligare information'
+    CookiePolicyConfigPosition: 'Position på displayen'
+    CookiePolicyConfigPositionBannerBottom: 'Banderoll längst ner på sidan'
+    CookiePolicyConfigPositionBannerTop: 'Banderoll högst upp på sidan'
+    CookiePolicyConfigPositionBannerTopPushDown: 'Ruta högst upp på sidan (innehållet flyttas nedåt)'
+    CookiePolicyConfigPositionFloatingLeft: 'Rutan längst ner till vänster'
+    CookiePolicyConfigPositionFloatingRight: 'Boxen längst ner till höger'
+    CookiePolicyConfigTxtColor: Textfärg
+  SilverCart\Checkout\CheckoutStep1:
+    NewCustomer: 'Är du en ny kund?'
+    StepTitle: Registrering
+  SilverCart\Checkout\CheckoutStep3:
+    StepTitle: Leveransmetod
+  SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm:
+    ChoosePaymentMethod: 'Jag vill betala med {betalning}'
+  SilverCart\Forms\Checkout\CheckoutLoginForm:
+    SubmitButtonTitle: 'Logga in och fortsätt'
+  SilverCart\Forms\Checkout\CheckoutNewCustomerForm:
+    ProceedWithRegistration: 'Ja, jag vill registrera mig som kund så att jag kan få tillgång till mina uppgifter när jag handlar igen.'
+    ProceedWithoutRegistration: 'Nej, jag vill handla utan att registrera mig.'
+    SubmitButtonTitle: Vidare
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Din sökterm...'
+    submitButtonTitle: 'Sök nedladdningar'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Jag vill prenumerera på nyhetsbrevet'
+    ACTIONFIELD_TITLE: 'Vad vill du göra?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Jag vill avregistrera mig från nyhetsbrevet'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: 'Sök på'
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Skapa ett lösenord för din inloggning till webbutiken. Lösenordet måste ha minst {minlängd} tecken. Det måste innehålla minst 1 stor bokstav, 1 liten bokstav, 1 siffra och 1 specialtecken.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Konsumentens/konsumenternas adress'
+    Data: Uppgifter
+    GoTo: 'Till avbokningsformuläret'
+    NameOfConsumer: 'Konsumentens namn'
+    Order: Beställ
+    OrderDate: 'Beställt den / mottagit den'
+    OrderHistory: 'Välj beställning'
+    OrderNumber: Beställningsnummer
+    RevocationDate: 'Datum för återkallelse'
+    RevocationOrderData: 'Jag/vi återkallar härmed det avtal som jag/vi ingått om köp av följande varor/ tillhandahållande av följande tjänst'
+  SilverCart\Model\ContactMessage:
+    MESSAGE: Meddelande
+    PLURALNAME: 'Förfrågningar om kontakt'
+    SINGULARNAME: 'Förfrågan om kontakt'
+  SilverCart\Model\Customer\Address:
+    ADDITION: 'Suffix för adress'
+    ADDRESSTYPE: 'Typ av adress'
+    AcademicTitle: Titel
+    CITY: Plats
+    COMPANY: Företag
+    EDITADDRESS: 'Redigera adress'
+    EDITINVOICEADDRESS: 'Redigera faktureringsadressen'
+    EDITSHIPPINGADDRESS: 'Redigera leveransadressen'
+    EMAIL: E-postadress
+    EMAIL_CHECK: 'Upprepa e-postadressen'
+    FAX: Fax
+    FIRSTNAME: Förnamn
+    ISBUSINESSACCOUNT: 'Är företagets adress'
+    IS_PACKSTATION: 'Adressen är Packstation'
+    InvoiceAddress: 'Fakturans adress'
+    InvoiceAddressAsShippingAddress: 'Använd faktureringsadress som leveransadress'
+    InvoiceAddresses: Faktureringsadresser
+    NAME: Namn
+    NO_ADDRESS_AVAILABLE: 'Ingen adress tillgänglig'
+    PACKSTATION: 'Packstation (t.ex. "Packstation 105")'
+    PACKSTATION_LABEL: PACKSTATION
+    PACKSTATION_PLAIN: Packstation
+    PHONE: Telefonnummer
+    PHONEAREACODE: Landskod
+    PHONE_SHORT: Telefon
+    PLURALNAME: Adresser
+    POSTCODE: POSTKOD
+    POSTNUMBER: 'Ditt postnummer'
+    POSTNUMBER_PLAIN: PostNumber
+    SALUTATION: Hälsning
+    SILVERCART_ADDRESS_CREATE: 'Skapa en adress'
+    SILVERCART_ADDRESS_DELETE: 'Radera adress'
+    SILVERCART_ADDRESS_EDIT: 'Redigera adress'
+    SILVERCART_ADDRESS_VIEW: 'Visa adress'
+    SINGULARNAME: Adress
+    STREET: Street
+    STREETNUMBER: Husnummer
+    SURNAME: Efternamn
+    ShippingAddress: Leveransadress
+    ShippingAddresses: Leveransadresser
+    TAXIDNUMBER: Skattenummer
+    USE_ABSOLUTEADDRESS: 'Använd husets adress som adress'
+    USE_PACKSTATION: 'Använd Packstation som adress'
+  SilverCart\Model\Customer\Country:
+    ACTIVE: Aktiv
+    ATTRIBUTED_PAYMENTMETHOD: 'tilldelad betalningstyp'
+    ATTRIBUTED_ZONES: 'associerade zoner'
+    CONTINENT: Kontinent
+    CURRENCY: Valuta
+    DISPLAYPOSITION: 'Visningsposition (om den är prioriterad)'
+    FIPS: FIPS-kod
+    FREEOFSHIPPINGCOSTSFROM: 'Fri frakt från'
+    ISO2: 'ISO Alpha2'
+    ISO3: 'ISO Alpha3'
+    ISON: 'ISO numerisk'
+    ISPRIORITIVE: 'Visa prioriterade i början av rullgardinslistor?'
+    ISPRIORITIVE_SHORT: Prioriterat
+    IsNonTaxable: Skattefri
+    PLURALNAME: Länder
+    SINGULARNAME: Land
+    TITLE: Namn
+    TITLE_AD: Andorra
+    TITLE_AE: 'Förenade Arabemiraten'
+    TITLE_AF: Afghanistan
+    TITLE_AG: 'Antigua och Barbuda'
+    TITLE_AI: Anguilla
+    TITLE_AL: Albanien
+    TITLE_AM: Armenien
+    TITLE_AN: 'Nederländska Antillerna'
+    TITLE_AO: Angola
+    TITLE_AQ: Antarktis
+    TITLE_AR: Argentina
+    TITLE_AS: 'Amerikanska Samoa'
+    TITLE_AT: Österrike
+    TITLE_AU: Australien
+    TITLE_AW: Aruba
+    TITLE_AX: Alandöarna
+    TITLE_AZ: Azerbajdzjan
+    TITLE_BA: 'Bosnien och Hercegovina'
+    TITLE_BB: Barbados
+    TITLE_BD: Bangladesh
+    TITLE_BE: Belgien
+    TITLE_BF: 'Burkina Faso'
+    TITLE_BG: Bulgarien
+    TITLE_BH: Bahrain
+    TITLE_BI: Burundi
+    TITLE_BJ: Benin
+    TITLE_BL: 'St Barthélemy'
+    TITLE_BM: Bermuda
+    TITLE_BN: 'Brunei Darussalam'
+    TITLE_BO: Bolivia
+    TITLE_BQ: 'Bonaire, Saint Eustatius och Saba'
+    TITLE_BR: Brasilien
+    TITLE_BS: Bahamas
+    TITLE_BT: Bhutan
+    TITLE_BV: Bouvetön
+    TITLE_BW: Botswana
+    TITLE_BY: Vitryssland
+    TITLE_BZ: Belize
+    TITLE_CA: Kanada
+    TITLE_CC: Kokosöarna
+    TITLE_CD: Kongo-Kinshasa
+    TITLE_CF: 'Centralafrikanska republiken'
+    TITLE_CG: 'Kongo [Republiken]'
+    TITLE_CH: Schweiz
+    TITLE_CI: Elfenbenskusten
+    TITLE_CK: Cooköarna
+    TITLE_CL: Chile
+    TITLE_CM: Kamerun
+    TITLE_CN: Kina
+    TITLE_CO: Colombia
+    TITLE_CR: 'Costa Rica'
+    TITLE_CS: 'Serbien och Montenegro'
+    TITLE_CU: Kuba
+    TITLE_CV: 'Kap Verde'
+    TITLE_CW: Curacao
+    TITLE_CX: Julön
+    TITLE_CY: Cypern
+    TITLE_CZ: Tjeckien
+    TITLE_DE: Tyskland
+    TITLE_DJ: Djibouti
+    TITLE_DK: Danmark
+    TITLE_DM: Dominica
+    TITLE_DO: 'Dominikanska republiken'
+    TITLE_DZ: Algeriet
+    TITLE_EC: Ecuador
+    TITLE_EE: Estland
+    TITLE_EG: Egypten
+    TITLE_EH: Västsahara
+    TITLE_ER: Eritrea
+    TITLE_ES: Spanien
+    TITLE_ET: Etiopien
+    TITLE_FI: Finland
+    TITLE_FJ: Fiji
+    TITLE_FK: Falklandsöarna
+    TITLE_FM: Mikronesien
+    TITLE_FO: Färöarna
+    TITLE_FR: Frankrike
+    TITLE_GA: Gabon
+    TITLE_GB: Storbritannien
+    TITLE_GD: Grenada
+    TITLE_GE: Georgien
+    TITLE_GF: 'Franska Guyana'
+    TITLE_GG: Guernsey
+    TITLE_GH: Ghana
+    TITLE_GI: Gibraltar
+    TITLE_GL: Grönland
+    TITLE_GM: Gambia
+    TITLE_GN: Guinea
+    TITLE_GP: Guadeloupe
+    TITLE_GQ: Ekvatorialguinea
+    TITLE_GR: Grekland
+    TITLE_GS: 'Sydgeorgien och de södra sandwichöarna'
+    TITLE_GT: Guatemala
+    TITLE_GU: Guam
+    TITLE_GW: Guinea-Bissau
+    TITLE_GY: Guyana
+    TITLE_HK: 'Hong Kong'
+    TITLE_HM: 'Heard- och McDonaldöarna'
+    TITLE_HN: Honduras
+    TITLE_HR: Kroatien
+    TITLE_HT: Haiti
+    TITLE_HU: Ungern
+    TITLE_ID: Indonesien
+    TITLE_IE: Irland
+    TITLE_IL: Israel
+    TITLE_IM: 'Isle of Man'
+    TITLE_IN: Indien
+    TITLE_IO: 'Brittiska territoriet i Indiska oceanen'
+    TITLE_IQ: Irak
+    TITLE_IR: Iran
+    TITLE_IS: Island
+    TITLE_IT: Italien
+    TITLE_JE: Jersey
+    TITLE_JM: Jamaica
+    TITLE_JO: Jordanien
+    TITLE_JP: Japan
+    TITLE_KE: Kenya
+    TITLE_KG: Kirgizistan
+    TITLE_KH: Kambodja
+    TITLE_KI: Kiribati
+    TITLE_KM: Komorerna
+    TITLE_KN: 'Saint Kitts och Nevis'
+    TITLE_KP: Nordkorea
+    TITLE_KR: Sydkorea
+    TITLE_KW: Kuwait
+    TITLE_KY: Caymanöarna
+    TITLE_KZ: Kazakstan
+    TITLE_LA: Laos
+    TITLE_LB: Libanon
+    TITLE_LC: 'St Lucia'
+    TITLE_LI: Liechtenstein
+    TITLE_LK: 'Sri Lanka'
+    TITLE_LR: Liberia
+    TITLE_LS: Lesotho
+    TITLE_LT: Litauen
+    TITLE_LU: Luxemburg
+    TITLE_LV: Lettland
+    TITLE_LY: Libyen
+    TITLE_MA: Marocko
+    TITLE_MC: Monaco
+    TITLE_MD: Moldavien
+    TITLE_ME: Montenegro
+    TITLE_MF: 'St. Martin'
+    TITLE_MG: Madagaskar
+    TITLE_MH: Marshallöarna
+    TITLE_MK: Makedonien
+    TITLE_ML: Mali
+    TITLE_MM: Burma
+    TITLE_MN: Mongoliet
+    TITLE_MO: Macao
+    TITLE_MP: 'Norra Marianerna'
+    TITLE_MQ: Martinique
+    TITLE_MR: Mauretanien
+    TITLE_MS: Montserrat
+    TITLE_MT: Malta
+    TITLE_MU: Mauritius
+    TITLE_MV: Maldiverna
+    TITLE_MW: Malawi
+    TITLE_MX: Mexiko
+    TITLE_MY: Malaysia
+    TITLE_MZ: Moçambique
+    TITLE_NA: Namibia
+    TITLE_NC: 'Nya Kaledonien'
+    TITLE_NE: Niger
+    TITLE_NF: Norfolkön
+    TITLE_NG: Nigeria
+    TITLE_NI: Nicaragua
+    TITLE_NL: Nederländerna
+    TITLE_NO: Norge
+    TITLE_NP: Nepal
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: 'Nya Zeeland'
+    TITLE_OM: Oman
+    TITLE_PA: Panama
+    TITLE_PE: Peru
+    TITLE_PF: 'Franska Polynesien'
+    TITLE_PG: 'Papua Nya Guinea'
+    TITLE_PH: Filippinerna
+    TITLE_PK: Pakistan
+    TITLE_PL: Polen
+    TITLE_PM: 'St Pierre och Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: 'Puerto Rico'
+    TITLE_PS: 'Palestinska autonoma territorier'
+    TITLE_PT: Portugal
+    TITLE_PW: Palau
+    TITLE_PY: Paraguay
+    TITLE_QA: Qatar
+    TITLE_RE: Réunion
+    TITLE_RO: Rumänien
+    TITLE_RS: Serbien
+    TITLE_RU: 'Ryska federationen'
+    TITLE_RW: Rwanda
+    TITLE_SA: Saudiarabien
+    TITLE_SB: Salomonöarna
+    TITLE_SC: Seychellerna
+    TITLE_SD: Sudan
+    TITLE_SE: Sverige
+    TITLE_SG: Singapore
+    TITLE_SH: 'St Helena'
+    TITLE_SI: Slovenien
+    TITLE_SJ: 'Svalbard och Jan Mayen'
+    TITLE_SK: Slovakien
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: 'San Marino'
+    TITLE_SN: Senegal
+    TITLE_SO: Somalia
+    TITLE_SR: Surinam
+    TITLE_SS: Sydsudan
+    TITLE_ST: 'São Tomé och Príncipe'
+    TITLE_SV: 'El Salvador'
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Syrien
+    TITLE_SZ: Swaziland
+    TITLE_TC: 'Turks- och Caicosöarna'
+    TITLE_TD: Chad
+    TITLE_TF: 'Franska sydliga och antarktiska territorier'
+    TITLE_TG: Togo
+    TITLE_TH: Thailand
+    TITLE_TJ: Tadzjikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: Östtimor
+    TITLE_TM: Turkmenistan
+    TITLE_TN: Tunisien
+    TITLE_TO: Tonga
+    TITLE_TR: Turkiet
+    TITLE_TT: 'Trinidad och Tobago'
+    TITLE_TV: Tuvalu
+    TITLE_TW: Taiwan
+    TITLE_TZ: Tanzania
+    TITLE_UA: Ukraina
+    TITLE_UG: Uganda
+    TITLE_UM: 'Amerikanska Oceanien'
+    TITLE_US: 'Förenta staterna'
+    TITLE_UY: Uruguay
+    TITLE_UZ: Uzbekistan
+    TITLE_VA: Vatikanstaten
+    TITLE_VC: 'Saint Vincent och Grenadinerna'
+    TITLE_VE: Venezuela
+    TITLE_VG: 'Brittiska Jungfruöarna'
+    TITLE_VI: 'Amerikanska Jungfruöarna'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis och Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosovo
+    TITLE_YE: Jemen
+    TITLE_YT: Mayotte
+    TITLE_ZA: Sydafrika
+    TITLE_ZM: Zambia
+    TITLE_ZW: Zimbabwe
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Adressdata allmänt'
+    ANONYMOUSCUSTOMER: 'Anonym kund'
+    BASIC_DATA: Allmänt
+    BIRTHDAY: Födelsedag
+    BUSINESSCUSTOMER: Företagskunder
+    CUSTOMERNUMBER: Kundnummer
+    CUSTOMERNUMBER_SHORT: 'Kund nr.'
+    Customer: Kund
+    ERROR_MULTIPLE_PRICETYPES: 'Kundgrupper med olika pristyper är inte tillåtna!'
+    FULL_NAME: 'Fullständigt namn'
+    GROSS: Brutto
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'har accepterat avbokningsreglerna'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Har accepterat den allmänna förhandlingsordningen.'
+    INVOICE_DATA: 'Uppgifter om faktureringsadress'
+    ISBUSINESSACCOUNT: 'Är ett konto för företagskunder'
+    NET: Netto
+    PRICETYPE_GROSS: Brutto
+    PRICETYPE_NET: Netto
+    PRICING: Prisuppgift
+    REGULARCUSTOMER: Slutkund
+    RegistrationOptInConfirmationHash: 'Opt-in Hash för registrering'
+    RegistrationOptInConfirmed: 'Opt-in för registrering har slutförts'
+    SALUTATION: Hälsning
+    SHIPPING_DATA: 'Uppgifter om leveransadress'
+    SUBSCRIBEDTONEWSLETTER: 'Prenumererar på nyhetsbrev'
+    TYPE: Typ
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    ShippingMethodsInfoContent: 'De frakttyper som anges här är kopplade till den här kundgruppen och kan endast väljas av kunder som tillhör den här kundgruppen. Frakttyper kan tilldelas flera kundgrupper, så den här kundgruppen kanske inte är den enda gruppen som har den här åtkomstbehörigheten.'
+    ShippingMethodsInfoTitle: 'Fraktmetoder som är kopplade till den här kundgruppen.'
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: E-postadresser
+    SINGULARNAME: E-postadress
+  SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
+    PLURALNAME: 'Anonyma mottagare av nyhetsbrev'
+    SINGULARNAME: 'Anonym mottagare av nyhetsbrev'
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Du får nyhetsbrevet endast när du klickar på bekräftelselänken i det e-postmeddelande som skickats till dig.'
+    PLURALNAME: Nyhetsbrev
+    SINGULARNAME: Nyhetsbrev
+    SUBSCRIBED: 'Du har prenumererat på nyhetsbrevet'
+    StatusALREADY_SUBSCRIBED: 'E-postadressen "{email}" är redan registrerad för att få nyhetsbrevet.'
+    StatusNO_EMAIL_FOUND: 'E-postadressen "{email}" kunde inte hittas.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: 'Det finns redan en kund registrerad med e-postadressen "{email}". Logga in först och gör sedan inställningar för att få nyhetsbrevet: <a href="{link}">För att logga in</a>.'
+    StatusSUBSCRIBED_SUCCESSFULLY: 'E-postadressen "{email}" har lagts till i listan över mottagare av nyhetsbrev.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: 'Ett e-postmeddelande med instruktioner för bekräftelse skickades till adressen "{email}".'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: 'E-postadressen "{email}" har tagits bort från listan över mottagare av nyhetsbrev.'
+    UNSUBSCRIBED: 'Du har inte prenumererat på nyhetsbrevet'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: Aktuell
+    ACTUALCOUNT: Aktuell
+    CUSTOMERNUMBER: Kundnummer
+    END: Slut
+    ENDCOUNT: Slut
+    IDENTIFIER: Identifier
+    INVOICENUMBER: Fakturanummer
+    ORDERNUMBER: Beställningsnummer
+    PLURALNAME: Antalsintervall
+    PREFIX: Prefix
+    SINGULARNAME: Antalsintervall
+    START: Starta
+    STARTCOUNT: Starta
+    SUFFIX: Suffix
+    TITLE: Titel
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: 'Totalt bruttobelopp'
+    AMOUNTTOTAL: 'Totalt belopp'
+    AdminModeEdit: 'Ändra vy till redigeringsläge'
+    AdminModeView: 'Ändra vy till visningsläge'
+    BASICDATA: 'Grundläggande uppgifter'
+    BATCH_CHANGEORDERSTATUS: 'Ändra orderstatus till...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Ändra betalningsstatus till...'
+    BATCH_MARKASNOTSEEN: 'Markera som ej sett'
+    BATCH_MARKASSEEN: 'Markera som sett'
+    BATCH_PRINTORDERS: 'Utskrift av beställningar (HTML)'
+    CUSTOMER: Kund
+    CUSTOMERDATA: Kunduppgifter
+    CUSTOMERSEMAIL: 'Kundens e-postadress'
+    ExpectedDelivery: 'Förväntat leveransdatum'
+    ExpectedDeliveryMax: 'Högsta förväntade leveransdatum'
+    ExpectedDeliveryMin: 'Minsta förväntade leveransdatum'
+    HANDLINGCOSTPAYMENT: 'Avgifter för betalningsmetoder'
+    HANDLINGCOSTSHIPMENT: 'Avgifter för fraktmetod'
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'har accepterat avbokningsreglerna'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Har accepterat den allmänna förhandlingsordningen.'
+    HandlingCost: 'Betalning/avgifter för frakt'
+    INCLUDED_SHIPPINGRATE: 'Fraktkostnader ingår'
+    INVOICENUMBER: 'Fakturans nummer'
+    INVOICENUMBER_SHORT: 'Faktura nr.'
+    IS_SEEN: Besökt
+    MISCDATA: Övriga
+    ModelAdminTabOrderInprogress: 'På gång'
+    ModelAdminTabOrderNew: Ny
+    ModelAdminTabPaymentOpen: 'Betalning öppen'
+    NOTE: Kommentar
+    ORDERNUMBER: Beställningsnummer
+    ORDERNUMBERSHORT: '-nummer'
+    ORDERPOSITIONDATA: Positionsuppgifter
+    ORDERPOSITIONISLIMIT: 'Beställningen får endast innehålla den angivna positionen'
+    ORDERPOSITIONQUANTITY: 'Antal positioner'
+    ORDER_ID: Beställningsnummer
+    ORDER_VALUE: 'Totalt belopp'
+    OrderNumberShort: Beställningsnummer
+    PAYMENTMETHODTITLE: Betalningsmetod
+    PLURALNAME: Beställningar
+    PRICETYPE: 'Typ av prisvisning'
+    PRINT: 'Beställning av utskrift'
+    PRINT_PREVIEW: 'Förhandsgranskning av utskrift'
+    PaymentDate: 'Betalas den'
+    PaymentReferenceData: 'Betalningsleverantörens referensuppgifter'
+    PaymentReferenceID: 'Betalningsleverantörens referensnummer'
+    PaymentReferenceMessage: 'Betalningsleverantörens referensinformation'
+    PaymentStatus: Betalningsstatus
+    SEARCHRESULTSLIMIT: Begränsning
+    SHIPPINGRATE: Försändelsekostnader
+    SILVERCART_ORDER_DELETE: 'Radera beställning'
+    SILVERCART_ORDER_EDIT: 'Redigera ordning'
+    SILVERCART_ORDER_VIEW: 'Visa beställning'
+    SINGULARNAME: Beställ
+    STATUS: Beställningsstatus
+    ShippingDate: 'Avsänds den'
+    TAXAMOUNTPAYMENT: 'Betalningsmetod skatt'
+    TAXAMOUNTSHIPMENT: 'Skatt på fraktmetod'
+    TAXRATEPAYMENT: 'Betalningsmetod skattesats'
+    TAXRATESHIPMENT: 'Skattesats för fraktmetoden'
+    Tracking: 'Spårning av försändelser'
+    TrackingCode: Spårningsnummer
+    TrackingLink: 'Länk till spårning av försändelsen'
+    TrackingLinkLabel: 'Visa var min försändelse befinner sig för tillfället'
+    WEIGHTTOTAL: 'Total vikt'
+    YOUR_REMARK: 'Din kommentar'
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: Beställningsadresser
+    SINGULARNAME: Beställningsadress
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Fakturaadresser för beställningarna'
+    SINGULARNAME: 'Faktureringsadress för beställningen'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: Kontext
+    CREATED: Datum/tid
+    MESSAGE: Åtgärd
+    MESSAGE_CHANGED: 'Ändrad: {sourcetitle} -> {targettitle}'
+    MESSAGE_CREATED: 'Skapad: {context} har skapats'
+    MESSAGE_MARKEDASNOTSEEN: 'Märkt som ej sett'
+    MESSAGE_MARKEDASSEEN: 'Märkt som sett'
+    PLURALNAME: Beställningslogg
+    SINGULARNAME: Beställningslogg
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Typ upp/ner'
+    ISCHARGEORDISCOUNT: 'Faktiskt upp- och nedskrivningsavdrag'
+    PLURALNAME: 'Beställning av artiklar'
+    PRICE: Pris
+    PRICETOTAL: 'Totalt pris'
+    PRODUCTDESCRIPTION: Beskrivning
+    PRODUCTNUMBER: 'Artikel nr.'
+    QUANTITY: Kvantitet
+    SHORT: Pos.
+    SINGULARNAME: Beställningsobjekt
+    TAX: MOMS
+    TAXRATE: Skattesats
+    TAXTOTAL: 'Total mervärdesskatt'
+    TITLE: Namn
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Leveransadresser för beställningen'
+    SINGULARNAME: 'Leveransadress för beställningen'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Följande markerade e-postmeddelanden skickas när denna orderstatus är inställd för en order:'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'Tilldelad e-post'
+    BADGECOLOR: Färgstatus
+    CODE: Kod
+    DefaultStatusCanceled: Avbokad
+    DefaultStatusCompleted: Slutförd
+    DefaultStatusInprogress: 'På gång'
+    DefaultStatusNew: Ny
+    DefaultStatusShipped: 'Beställning skickad'
+    IsDefault: 'Är standard'
+    PLURALNAME: Beställningsstatus
+    SINGULARNAME: Beställningsstatus
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+    TITLE: Benämning
+  SilverCart\Model\Pages\AddressHolder:
+    ADDED_ADDRESS_FAILURE: 'Din adress kunde inte sparas.'
+    ADDED_ADDRESS_SUCCESS: 'Din adress har sparats.'
+    ADDITIONALADDRESS: 'Ytterligare adress'
+    ADDITIONALADDRESSES: 'Ytterligare adresser'
+    ADDRESS_CANT_BE_DELETED: 'Du kan inte radera din enda adress.'
+    ADDRESS_NOT_FOUND: 'Adressen kunde inte hittas.'
+    ADDRESS_SUCCESSFULLY_DELETED: 'Din adress har tagits bort.'
+    CURRENT_DEFAULT_ADDRESSES: 'Din standardfakturerings- och leveransadress'
+    DEFAULT_INVOICE: 'Aktiv faktureringsadress'
+    DEFAULT_INVOICEADDRESS: Standardfaktureringsadress
+    DEFAULT_SHIPPING: 'Aktiv leveransadress'
+    DEFAULT_SHIPPINGADDRESS: Standardleveransadress
+    DEFAULT_TITLE: Adressöversikt
+    DEFAULT_URLSEGMENT: 'översikt över adresser'
+    DELETE: 'Ta bort'
+    EDIT: Redigera
+    EDIT_ADDRESS: 'Redigera adress'
+    EXCUSE_INVOICEADDRESS: 'Tyvärr har du inte skapat någon faktureringsadress ännu.'
+    EXCUSE_SHIPPINGADDRESS: 'Tyvärr har du ännu inte skapat någon leveransadress.'
+    INVOICEADDRESS: 'Fakturans adress'
+    INVOICEADDRESS_TAB: 'Fakturans adress'
+    INVOICEANDSHIPPINGADDRESS: 'Fakturerings- och leveransadress'
+    NOT_DEFINED: 'Ännu inte definierat'
+    PLURALNAME: Adressöversiktssidor
+    SET_AS: 'Används som'
+    SET_DEFAULT_INVOICE: 'Används som faktureringsadress'
+    SET_DEFAULT_SHIPPING: 'Används som leveransadress'
+    SHIPPINGADDRESS: Leveransadress
+    SHIPPINGADDRESS_TAB: Leveransadress
+    SINGULARNAME: 'Översiktssida för adresser'
+    TITLE: Adressöversikt
+    UPDATED_INVOICE_ADDRESS: 'Din faktureringsadress har uppdaterats.'
+    UPDATED_SHIPPING_ADDRESS: 'Din leveransadress har uppdaterats.'
+    URL_SEGMENT: 'översikt över adresser'
+  SilverCart\Model\Pages\CartPage:
+    CART_EMPTY: 'Varukorgen är tom.'
+    DEFAULT_TITLE: Varukorg
+    DEFAULT_URLSEGMENT: kundvagn
+    PLURALNAME: 'Sidor för kundvagn'
+    SINGULARNAME: 'Sidor för kundvagn'
+    URL_SEGMENT: kundvagn
+  SilverCart\Model\Pages\CheckoutStep:
+    BACK_TO_SHOPPINGCART: 'Tillbaka till kundvagnen'
+    CHOSEN_PAYMENT: 'vald betalningsmetod'
+    CHOSEN_SHIPPING: 'vald leveransmetod'
+    Change: Ändra
+    ContentStep1: 'Innehåll Steg 1 - Inloggning/registrering'
+    ContentStep2: 'Innehåll Steg 2 - Leverans/juridisk adress'
+    ContentStep3: 'Innehåll Steg 3 - Leveransmetod'
+    ContentStep4: 'Innehåll Steg 4 - Betalningsmetod'
+    ContentStep5: 'Innehåll Steg 5 - Översikt'
+    ContentStep6: 'Innehåll Steg 6 - Beställningsbekräftelse'
+    DEFAULT_URLSEGMENT: kassan
+    FORWARD: Vidare
+    I_ACCEPT_REVOCATION: 'Jag accepterar <a href="{link}" target="blank">avbokningsreglerna</a>.'
+    I_ACCEPT_TERMS: 'Jag godkänner de <a href="{link}" target="blank">allmänna</a> villkoren.'
+    I_SUBSCRIBE_NEWSLETTER: 'Jag vill prenumerera på nyhetsbrevet.'
+    ORDER: Beställ
+    ORDER_NOW: 'Köp nu'
+    OVERVIEW: Översikt
+    PLURALNAME: 'Steg i kassan'
+    SINGULARNAME: 'Steg i kassan'
+    StepContent: 'Innehållet i de enskilda stegen'
+    TaxAndDutyHint: 'Observera: Vid leveranser till länder utanför EU tillkommer ytterligare tullar, skatter och avgifter.'
+    URL_SEGMENT: kassan
+  SilverCart\Model\Pages\ContactFormPage:
+    CityIsRequired: 'Plats är ett obligatoriskt fält'
+    CountryIsRequired: 'Land är ett obligatoriskt fält'
+    DEFAULT_RESPONSE_CONTENT: 'Tack för ditt meddelande. Vi kommer att svara dig inom kort.'
+    DEFAULT_TITLE: Kontakta
+    DEFAULT_URLSEGMENT: kontakta
+    EmailContactRequest: 'En kund har skickat en kontaktförfrågan.'
+    EnableCity: 'Aktivera fältet för plats'
+    EnableCountry: 'Aktivera fältet för land'
+    EnablePhoneNumber: 'Aktivera fältet för telefonnummer'
+    EnablePostcode: 'Aktivera fältet för postnummer'
+    EnableStreet: 'Aktivera fältet för gatu-/husnummer'
+    PLURALNAME: 'Sidor med kontaktformulär'
+    PhoneNumberIsRequired: 'Telefonnummer är obligatoriskt.'
+    PostcodeIsRequired: 'Postnummer är ett obligatoriskt fält'
+    REQUEST: 'Förfrågan via kontaktformuläret'
+    ResponseContent: 'Innehållet på sidan för bekräftelse av sändning'
+    SINGULARNAME: 'Sidan med kontaktformulär'
+    StreetIsRequired: 'Gatu- och husnummer är ett obligatoriskt fält.'
+    TITLE: Kontakta
+    ThankYouForYourRequest: 'Tack för din begäran. Vi har mottagit ditt meddelande och kommer att svara så snart som möjligt.'
+    URL_SEGMENT: kontakta
+    WeReceivedYourRequest: 'Vi har mottagit din begäran.'
+    YourData: 'Dina uppgifter:'
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Mina uppgifter'
+    DEFAULT_URLSEGMENT: mina-data
+    PLURALNAME: Datasidor
+    SINGULARNAME: Uppgiftssida
+    TITLE: 'Mina uppgifter'
+    URL_SEGMENT: mina-data
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Ladda ner sidor'
+    SINGULARNAME: Nedladdningssida
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Översikter över sidor att ladda ner'
+    ResultsText: 'Din sökning på <strong>"{term}"</strong> resulterade i <strong>{count} träffar</strong>.'
+    SINGULARNAME: 'Översikt över nedladdningssidan'
+    SearchResults: Sökresultat
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2>Välkommen till <strong>SilverCart</strong> Webshop!</h2>'
+    DEFAULT_CONTENT: '<h2>Välkommen till <strong>SilverCart</strong> Webshop!</h2>'
+    DESCRIPTION: 'Framsidan av webbutiken'
+    PLURALNAME: Framsidor
+    SINGULARNAME: Framsida
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: Juridisk
+    DEFAULT_TITLE_ABOUT: 'Om oss'
+    DEFAULT_TITLE_LEGAL: Juridisk
+    DEFAULT_TITLE_SERVICE: Service
+    DEFAULT_TITLE_SHOP: Butikssystem
+    DEFAULT_URLSEGMENT: Juridisk
+    DEFAULT_URLSEGMENT_ABOUT: 'om oss'
+    DEFAULT_URLSEGMENT_LEGAL: Juridisk
+    DEFAULT_URLSEGMENT_SERVICE: service
+    DEFAULT_URLSEGMENT_SHOP: shop-system
+    PLURALNAME: 'Översikter om metanavigation'
+    SINGULARNAME: 'Översikt över metanavigation'
+    URL_SEGMENT: Juridisk
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: Tryck
+    DEFAULT_TITLE_PRIVACY: Integritetspolicy
+    DEFAULT_TITLE_REVOCATION: Avbokningspolicy
+    DEFAULT_TITLE_TERMS: 'Allmänna villkor'
+    DEFAULT_URLSEGMENT_IMPRINT: 'tryck på'
+    DEFAULT_URLSEGMENT_PRIVACY: 'förklaring om uppgiftsskydd'
+    DEFAULT_URLSEGMENT_REVOCATION: Avbokningsregler
+    DEFAULT_URLSEGMENT_TERMS: 'allmänna affärsvillkor - information till köparen'
+    PLURALNAME: 'Sidor med metainformation'
+    SINGULARNAME: Metainformationssida
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'Har du redan ett konto?'
+    DEFAULT_TITLE: 'Mitt konto'
+    DEFAULT_URLSEGMENT: 'Mitt konto'
+    GOTO_REGISTRATION: 'Till registreringsformuläret'
+    MORE: Mer
+    PLURALNAME: 'Översikter över konton'
+    REGISTER_ADVANTAGES_TEXT: 'Om du registrerar dig kan du få tillgång till dina uppgifter, t.ex. fakturerings- och leveransadress, när du gör ett köp.'
+    SINGULARNAME: 'Översikt över kontot'
+    TITLE: 'Mitt konto'
+    URL_SEGMENT: 'Mitt konto'
+    WANTTOREGISTER: 'Vill du registrera dig?'
+    YOUR_CURRENT_ADDRESSES: 'Din nuvarande fakturerings- och leveransadress'
+    YOUR_CUSTOMERNUMBER: 'Ditt kundnummer'
+    YOUR_MOST_CURRENT_ORDERS: 'Dina senaste beställningar'
+    YOUR_PERSONAL_DATA: 'Dina personuppgifter'
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Meddelande om ansökan redan finns'
+    AlreadyConfirmedMessageText: 'Meddelande: Användaren har redan slutfört opt-in'
+    ConfirmationFailureMessage: 'Meddelande om ansökan misslyckas'
+    ConfirmationSuccessMessage: 'Meddelande om lyckad registrering'
+    DEFAULT_TITLE: Nyhetsbrev
+    DEFAULT_URLSEGMENT: nyhetsbrev
+    DefaultAlreadyConfirmedMessage: '<p>Du har redan tidigare registrerat dig för nyhetsbrevet.</p>'
+    DefaultConfirmationFailureMessage: '<p>Din prenumeration på nyhetsbrevet kunde inte slutföras.</p>'
+    DefaultConfirmationSuccessMessage: '<p>Din prenumeration på nyhetsbrevet har lyckats!</p><p>Vi önskar dig mycket nöje och framgång med våra erbjudanden.</p>'
+    DefaultConfirmationSuccessSubject: 'Prenumeration på nyhetsbrev har slutförts'
+    DefaultEmailConfirmationSubject: 'Fullständig registrering av nyhetsbrev'
+    DefaultOptInPageTitle: 'Fullständig registrering av nyhetsbrev'
+    EmailConfirmationConfirm: 'Bekräfta registreringen'
+    EmailConfirmationHaveFun: 'Vi önskar dig mycket nöje och framgång med våra erbjudanden.'
+    EmailConfirmationIgnore: 'Om du inte har begärt att få nyhetsbrevet kan du ignorera det här meddelandet.'
+    EmailConfirmationLinkInfo: 'Klicka på aktiveringslänken eller kopiera länken till din webbläsare.'
+    EmailConfirmationSuccessMessage: 'Din prenumeration på nyhetsbrevet har lyckats!'
+    EmailConfirmationTitle: 'Fullständig registrering av nyhetsbrev'
+    FailureMessageText: Felmeddelande
+    OptInPageTitle: 'Titeln på opt-in-sidan'
+    PLURALNAME: 'Sidor i nyhetsbrevet'
+    SINGULARNAME: Nyhetsbrev
+    SuccessMessageText: Framgångshistoria
+    THANKS_TITLE: 'Status för nyhetsbrev'
+    TITLE: Nyhetsbrev
+    URL_SEGMENT: nyhetsbrev
+    UseDoubleOptIn: 'Använd Double-Opt-In'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: 'Mina beställningar'
+    DEFAULT_URLSEGMENT: 'Mina beställningar'
+    OrderDetails: Beställningsuppgifter
+    PLURALNAME: Beställningsöversikter
+    SINGULARNAME: Beställningsöversikt
+    TITLE: 'Mina beställningar'
+    URL_SEGMENT: 'Mina beställningar'
+  SilverCart\Model\Pages\Page:
+    ABOUT_US: 'om oss'
+    ABOUT_US_URL_SEGMENT: 'om oss'
+    ACCESS_CREDENTIALS_CALL: 'Ange dina åtkomstuppgifter:'
+    ADDRESS: Adress
+    ADDRESSINFORMATION: Adressuppgifter
+    ADDRESS_DATA: Adressuppgifter
+    ADMIN_AREA: Admin-åtkomst
+    ALREADY_REGISTERED: 'Hej {name}, du har redan registrerat dig.'
+    API_CREATE: 'kan skapa objekt via API:et'
+    API_DELETE: 'kan ta bort objekt via API:et'
+    API_EDIT: 'kan ändra objekt via API:et'
+    API_VIEW: 'kan läsa objekt via API:et'
+    APRIL: April
+    AUGUST: augusti
+    AllPricesExclVat: 'Alla priser är plus moms.'
+    AllPricesInclVat: 'Alla priser är inklusive moms.'
+    BACK: Tillbaka
+    BACK_TO: 'Tillbaka till "{title}"'
+    BACK_TO_DEFAULT: 'Föregående sida'
+    BILLING_ADDRESS: 'Fakturans adress'
+    BIRTHDAY: Födelsedag
+    CANCEL: Avbryt
+    CART: Varukorg
+    CATALOG: Katalog
+    CHANGE_PAYMENTMETHOD_CALL: 'Välj en annan betalningsmetod eller kontakta butiksoperatören.'
+    CHANGE_PAYMENTMETHOD_LINK: 'Välj en annan betalningsmetod'
+    CHECK_FIELDS_CALL: 'Kontrollera dina uppgifter i följande fält:'
+    CONTACT_FORM: Kontaktformulär
+    CONTINUESHOPPING: 'Fortsätt handla'
+    CREDENTIALS_WRONG: 'Dina åtkomstuppgifter är felaktiga.'
+    Categories: 'Våra kategorier'
+    DAY: Dag
+    DECEMBER: December
+    DECREMENT_POSITION: 'Minska antalet'
+    DELETE: 'Ta bort'
+    DETAILS: Detaljer
+    DETAILS_FOR: 'Detaljer om %s'
+    DIDNOT_RETURN_RESULTS: 'gav inga resultat i vår butik.'
+    DO_NOT_EDIT: 'Vänligen ändra inte!'
+    EMAIL_ADDRESS: E-postadress
+    EMAIL_ALREADY_REGISTERED: 'En användare har redan registrerat sig med denna e-postadress.'
+    EMAIL_NOT_FOUND: 'Den här e-postadressen kunde inte hittas.'
+    EMPTY_CART: tomt
+    ERROR_LISTING: 'Följande fel inträffade:'
+    ERROR_OCCURED: 'Ett fel har inträffat.'
+    FEBRUARY: Februari
+    FIND: 'Hitta:'
+    FORWARD: Vidare
+    GOTO: 'gå till {titel} Sidan'
+    GOTO_CART_SHORT: Varukorg
+    GOTO_CONTACT_LINK: 'Till kontaktsidan'
+    GOTO_PAGE: 'Gå till sidan {count} '
+    HEADERPICTURE: Huvudbild
+    HELLO: Hej
+    INCLUDED_VAT: 'Inklusive moms'
+    INCLUDING_TAX: 'inkl. {amount}% moms.'
+    INCREMENT_POSITION: 'Öka antalet'
+    ISACTIVE: Aktiv
+    I_ACCEPT: 'Jag accepterar'
+    I_HAVE_READ: 'Jag har '
+    JANUARY: Januari
+    JULY: Juli
+    JUNE: Juni
+    LOGIN: 'Logga in'
+    LOGO: Logotyp
+    LOGOUT: 'Logga ut'
+    MARCH: Mars
+    MAY: Maj
+    MESSAGE: Meddelande
+    MONTH: Månad
+    MYACCOUNT: 'Mitt konto'
+    MetaTitleAt: 'på {shopTitle}'
+    NAME: Namn
+    NEWSLETTER: Nyhetsbrev
+    NEWSLETTER_FORM: 'Inställningar för nyhetsbrev'
+    NEXT: Före
+    NOT_FOUND: 'Sidan "{title}" kunde inte hittas.'
+    NOVEMBER: November
+    NO_ORDERS: 'Du har ännu inte slutfört några beställningar.'
+    NO_RESULTS: 'Tyvärr finns det inga resultat för din sökning.'
+    OCTOBER: Oktober
+    OR: 'eller .'
+    ORDERED_PRODUCTS: 'Beställda artiklar'
+    ORDER_COMPLETED: 'Din beställning är slutförd.'
+    ORDER_DATE: Beställningsdatum
+    ORDER_THANKS: 'Tack för din beställning.'
+    Oclock: Klockan
+    PASSWORD: Lösenord
+    PASSWORD_CASE_EMPTY: 'Om du lämnar det här fältet tomt kommer ditt lösenord inte att ändras.'
+    PASSWORD_CHECK: 'Upprepa lösenordet'
+    PASSWORD_WRONG: 'Det här lösenordet är fel.'
+    PAYMENT_NOT_WORKING: 'Den valda betalningsmodulen fungerar inte.'
+    PLURALNAME: Sidor
+    PLUS_SHIPPING: 'plus frakt'
+    PREV: Tillbaka
+    PRODUCTNAME: Artikelbeskrivning
+    PageXofY: 'Sidan {x} av {y}'
+    REGISTER: Registrera
+    REGISTER_HERE: 'Registrera dig här.'
+    REGISTER_NEW: 'Ny kund?'
+    REMARKS: Kommentarer
+    REMOVE_FROM_CART: 'ta bort'
+    RETURNTOPRODUCTGROUP: 'Tillbaka till "{title}"'
+    REVOCATION: Avbokningspolicy
+    REVOCATIONREAD: Avbokningspolicy
+    SAVE: Spara
+    SEPTEMBER: September
+    SESSION_EXPIRED: 'Din session har gått ut.'
+    SHIPPING_ADDRESS: Leveransadress
+    SHIPPING_AND_BILLING: 'Leverans- och faktureringsadress'
+    SHOP_WITHOUT_REGISTRATION: 'Handla utan registrering'
+    SHOWINPAGE: 'Ställ in språk till {language}'
+    SHOW_DETAILS: 'Visa detaljer'
+    SHOW_DETAILS_FOR: 'Visa detaljer om {titel}'
+    SINGULARNAME: Sidan
+    SITMAP_HERE: 'Här kan du se en översikt över vår webbplats.'
+    STEPS: Steg
+    SUBMIT: Skicka
+    SUBMIT_MESSAGE: 'Skicka meddelande'
+    SUBTOTAL: Delsumma
+    SUBTOTAL_NET: 'Delsumma (netto)'
+    SUM: Totalt
+    Start: Starta
+    TAX: 'inkl. {amount}% moms.'
+    TERMSOFSERVICE_PRIVACY: 'Allmänna villkor och dataskydd'
+    THE_QUERY: Begreppet
+    TITLE: Titel
+    TITLE_IMPRINT: Tryck
+    TITLE_TERMS: 'Allmänna villkor'
+    TODAY: idag
+    TOTAL: Totalt
+    URL_SEGMENT_IMPRINT: 'tryck på'
+    URL_SEGMENT_TERMS: 'allmänna affärsvillkor - information till köparen'
+    USER_NOT_EXISTING: 'Den här användaren finns inte.'
+    UseAsRootForMainNavigation: 'Undersidor till denna sida utgör huvudnavigering'
+    UseAsRootForMainNavigationDesc: 'Huvudnavigationen, som innehåller produktgrupperna i grundinstallationen, består av undersidorna på denna sida. Det kan bara finnas en sida som har den här inställningen aktiv.'
+    VALUE_OF_GOODS: 'Varornas värde'
+    VIEW_ORDERS_TEXT: 'Kontrollera statusen för din beställning i'
+    WELCOME_PAGE_TITLE: Välkommen
+    WELCOME_PAGE_URL_SEGMENT: Välkommen
+    WELCOME_TO: 'Välkommen till'
+    YEAR: År
+    YESTERDAY: igår
+    YOUR_REMARKS: 'Ditt meddelande till oss'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: Betalningsmetoder
+    DEFAULT_URLSEGMENT: Betalningsmetoder
+    PLURALNAME: 'Sidor om betalningsmetoder'
+    SINGULARNAME: 'Sidan med betalningsmetoder'
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: 'Meddelande om betalning'
+    DEFAULT_URLSEGMENT: Betalningsanmälan
+    PLURALNAME: Betalningsmeddelanden
+    SINGULARNAME: 'Meddelande om betalning'
+    TEXTBANKACCOUNTINFO: 'Information om förskottsbetalning'
+    TITLE: 'Meddelande om betalning'
+    URL_SEGMENT: Betalningsanmälan
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: Produktgrupper
+    DEFAULT_URLSEGMENT: Varugrupper.
+    LinkTo: 'Produktgrupp till vilken en vidarebefordran ska göras.'
+    PAGE_TITLE: Produktgrupper
+    PLURALNAME: 'Översikter över artikelgrupper'
+    RedirectToProductGroup: 'Vidarebefordra direkt till en produktgrupp'
+    RedirectionSettings: Vidarebefordran
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Visa artikel'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Visa artikel'
+    SINGULARNAME: 'Översikt över artikelgrupper'
+    SUBGROUPS_OF: 'Undergrupper till '
+    URL_SEGMENT: Varugrupper.
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: Attribut
+    BREADCRUMBS: 'Produktgruppens brödsmulor'
+    BuyTitle: '{titel} köpa'
+    DEFAULTGROUPHOLDERVIEW: 'Standardvy för varugrupper'
+    DEFAULTGROUPVIEW: 'Standardiserad artikelförteckningsvy'
+    DEFAULTGROUPVIEW_DEFAULT: 'Överta från föräldragrupp/standardkonfiguration'
+    DONOTSHOWPRODUCTS: 'Visa<strong>inga</strong> artiklar i översikten'
+    DisplaySettings: 'Inställningar för displayen'
+    GROUP_PICTURE: 'Bilden av gruppen'
+    MANAGE_PRODUCTS_BUTTON: 'Hantera artiklar'
+    MANUFACTURER_LINK: tillverkare
+    NewProducts: Innovationer
+    NewProductsIn: '{productgroup} Nyheter'
+    NewProductsLinkTitle: 'Visa alla nyheter'
+    OK: Ok
+    PLURALNAME: Produktgrupper
+    PRODUCTGROUPSPERPAGE: 'Produktgrupper per sida'
+    PRODUCTSPERPAGE: 'Artiklar per sida'
+    PRODUCTSPERPAGEHINT: 'Ange 0 (noll) för artiklar eller varugrupper per sida för att använda standardinställningen.'
+    PRODUCTS_ON_PAGE: '{productcount} artikel på {pagecount} sida'
+    PRODUCTS_ON_PAGES: '{productcount} artiklar på {pagecount} sidor'
+    PRODUCTS_PER_PAGE: 'Artiklar per sida'
+    PRODUCT_ON_PAGE: '{productcount} artikel på {pagecount} sida'
+    PreorderableProducts: Förhandsbeställning
+    PreorderableProductsIn: '{productgroup} Förbeställning'
+    PreorderableProductsLinkTitle: 'Visa alla förhandsbeställare'
+    SINGULARNAME: Produktgrupp
+    SORT_ORDER: Sortering
+    ShowOffersFor: 'Visa erbjudanden för'
+    ShowResultsFor: 'Visa resultat för'
+    ShowResultsForAll: 'Visa resultat för alla kategorier'
+    ShowResultsForAllMenu: 'Alla kategorier'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Använd endast standardvyn för varugrupper'
+    USEONLYDEFAULTGROUPVIEW: 'Använd endast den standardiserade listorna för objekt'
+    USE_CONTENT_FROM_PARENT: 'Ta över innehåll från överordnade sidor'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Den här produkten är slutsåld.'
+    PACKAGING_CONTENT: Innehåll
+    PLURALNAME: 'Detaljerade sidor för artiklar'
+    PRINT: 'Skriv ut'
+    QUANTITY: Antal
+    SINGULARNAME: 'Detaljerad sida för artikeln'
+    URL_SEGMENT: 'detaljer om objektet'
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1>Slutföra registreringen</h1><p>Klicka på aktiveringslänken eller kopiera länken till din webbläsare.</p><p><a href="$ConfirmationLink">Bekräfta registreringen</a></p><p>Om du inte har anmält dig, strunta i det här meddelandet.</p><p>Ditt webbshop-team</p>'
+    CUSTOMER_SALUTATION: 'Kära kund,'
+    DEFAULT_TITLE: Registreringssida
+    DEFAULT_URLSEGMENT: register
+    DEFAULT_WELCOME_CONTENT: '<p>Kära kund,</p><p>För att spara arbete har vi redan loggat in dig automatiskt.</p><p>Njut av att handla i vår butik!</p>'
+    EMAIL_EXISTS_ALREADY: 'Denna e-postadress är redan upptagen.'
+    EmailOptInConfirmYourEmailAddress: 'Bekräfta din e-postadress'
+    EmailOptInConfirmationCustomerData: 'Dina kunduppgifter'
+    EmailOptInConfirmationCustomerDataInfo: 'Nedan hittar du dina kunduppgifter.'
+    EmailOptInConfirmationInfo: 'Grattis och välkommen till vår butik! Din e-postadress har bekräftats. Från och med nu har du rätt att använda ditt kundfoto i vår butik.'
+    EmailOptInConfirmationTitle: 'E-postadressen har bekräftats'
+    EmailOptInConfirmationVisit: 'Besök vår butik'
+    EmailOptInIgnore: 'Om du inte har registrerat dig i vår butik kan du ignorera det här meddelandet.'
+    EmailOptInLinkInfo: 'Klicka på aktiveringslänken eller kopiera länken till din webbläsare.'
+    EmailOptInNotificationCustomerData: Kontakta
+    EmailOptInNotificationTitle: 'En kund har registrerat sig'
+    EmailOptInTitle: 'Bekräfta e-postadress'
+    OTHERITEMS: Övriga
+    OptInFailedMessage: 'Länken för att bekräfta din e-postadress är ogiltig.'
+    OptInFailedTitle: 'Opt-in misslyckades'
+    OptInGoToMyAccount: 'Mitt konto'
+    OptInGoToShop: 'Fortsätt till butiken'
+    OptInMessage: 'Din e-postadress har bekräftats.'
+    OptInMessageLogin: 'Logga in för att bekräfta din e-postadress.'
+    OptInPendingMessage: 'Din e-postbekräftelse väntar fortfarande på att bli bekräftad. Kontrollera din inkorg och besök bekräftelselänken.'
+    OptInPendingTitle: 'Opt-in väntar'
+    OptInResend: 'Skicka tillbaka länken för bekräftelse'
+    OptInResendMessage: 'E-postmeddelandet med bekräftelselänken har skickats till {email}.'
+    OptInResendTitle: 'Skicka tillbaka länken för bekräftelse'
+    OptInTitle: 'Bekräfta din e-postadress'
+    OptInWelcomeMessage: 'Grattis! Din registrering i vår butik var framgångsrik!'
+    OptInWelcomeMessage2: 'För att aktivera ditt konto måste du bekräfta din e-postadress genom att gå till bekräftelselänken som du fick via e-post.'
+    OptInWelcomeMessage3: 'Bekräftelselänken har skickats till <strong>{email}</strong>. Kontrollera din inkorg.'
+    OptInWelcomeTitle: 'Bekräfta din e-postadress'
+    PLEASE_COFIRM: 'Bekräfta din anmälan.'
+    PLURALNAME: Registreringssidor
+    SINGULARNAME: Registreringssida
+    SUCCESS_TEXT: '<h1>Registreringen har slutförts med framgång!</h1><p>Tack för din anmälan.</p><p>Ha kul i vår butik!</p><p>Ditt webbshop-team</p>'
+    THANKS: 'Tack för din anmälan.'
+    TITLE: Registreringssida
+    URL_SEGMENT: register
+    YOUR_REGISTRATION: 'Din registrering'
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: Återkallelse
+    DEFAULT_URLSEGMENT: återkallelse
+    PLURALNAME: 'Sidor för återkallelse'
+    SINGULARNAME: 'Sidan för återkallelse'
+    Success: 'Återkallelse skickad med framgång'
+    SuccessText: 'Tack så mycket! Vi har mottagit din återkallelse och kommer att behandla din begäran.'
+    TITLE: Återkallelse
+    URL_SEGMENT: återkallelse
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'Resultat för'
+    DEFAULT_TITLE: Sökresultat
+    DEFAULT_URLSEGMENT: Sökresultat
+    PLURALNAME: 'Söksidor med sökresultat'
+    RELEVANCESORT: Relevans
+    ResultsTextCategory: 'Sökresultat för kategorin <strong>"{category}"</strong> ({results} träffar)'
+    ResultsTextQuery: 'Sökresultat för termen <strong>"{query}"</strong> ({results} träffar)'
+    ResultsTextQueryAndCategory: 'Sökresultat för termen <strong>"{query}"</strong> i kategorin <strong>"{category}"</strong> ({results} träffar)'
+    SINGULARNAME: 'Sida med sökresultat'
+    SearchTitle: '{count} Sökresultat för "{title}"'
+    TITLE: Sökresultat
+    URL_SEGMENT: Sökresultat
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: Belopp
+    PLURALNAME: Bearbetningskostnader
+    SINGULARNAME: Bearbetningskostnader
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: Allmänt
+    ACCESS_MANAGEMENT_GROUP_LABEL: 'Av grupp(er)'
+    ACCESS_MANAGEMENT_USER_LABEL: 'Av kund(er)'
+    ACCESS_SETTINGS: 'Förvaltning av åtkomst'
+    ATTRIBUTED_COUNTRIES: 'tilldelade länder'
+    AddPaymentLogos: 'Lägg till logotyp'
+    BASIC_SETTINGS: 'Grundläggande inställningar'
+    ChargeOrDiscountForAmount: 'på {priset}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Tillämpa följande regel'
+    ExcludedPosition: 'utom för position {position}'
+    ExcludedPositions: 'med undantag för positionerna {positioner}'
+    FROM_PURCHASE_VALUE: 'Varornas värde fritt fabrik'
+    HANDLINGCOSTS_SETTINGS: Bearbetningskostnader
+    LONG_PAYMENT_DESCRIPTION: 'Beskrivning som ska visas på sidan för betalningstyp'
+    MODE: Läge
+    NAME: Namn
+    NO_PAYMENT_METHOD_AVAILABLE: 'Inga betalningsmetoder finns tillgängliga'
+    PAYMENT_DESCRIPTION: Beskrivning
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Absolut
+    PAYMENT_IMPACT_TYPE_PERCENT: 'Procentuell andel'
+    PAYMENT_ISACTIVE: aktiverar
+    PAYMENT_LOGOS: Logotyper
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Högsta belopp för modulen'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Minimibelopp för modulen'
+    PAYMENT_MODE_DEV: 'Utveckling och test'
+    PAYMENT_MODE_LIVE: 'Levande / i drift'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Varornas värde'
+    PAYMENT_MODIFY_TOTALVALUE: 'Totalt värde'
+    PAYMENT_MODIFY_TYPE_CHARGE: Påverkan
+    PAYMENT_MODIFY_TYPE_DISCOUNT: Rabatt
+    PAYMENT_SUMMODIFICATIONIMPACT: Influenser
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Konst
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'Värdet är'
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Märkning i kundvagn/beställning'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'Artikelnummer för export av XML-order'
+    PAYMENT_SUMMODIFICATIONVALUE: Värde
+    PAYMENT_SUMMODIFIERS: Bidrag/rabatter
+    PAYMENT_USE_SUMMODIFICATION: Aktivera
+    PaymentChannel: Betalningsmetod
+    PaymentStatus: Betalningsstatus
+    PaymentStatusDesc: 'Standardbetalningsstatus för den här betalningstypen'
+    RESTRICTION_LABEL: 'Visa endast för kunder som uppfyller följande kriterier'
+    RESTRICT_BY_ORDER_QUANTITY: 'Kunden måste ha gjort minst följande antal beställningar'
+    RESTRICT_BY_ORDER_STATUS: 'vars beställningsstatus är markerad i följande lista'
+    SHIPPINGMETHOD: Leveransmetod
+    SHIPPINGMETHOD_DESC: 'Bind betalningsmetoden till följande fraktmetoder:'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Visa inmatningsfält redan vid val av betalning'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Inaktivera för följande grupper'
+    SHOW_NOT_FOR_USERS_LABEL: 'Inaktivera för följande användare'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Aktivera för följande grupper'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Aktivera för följande användare'
+    SHOW_PAYMENT_LOGOS: 'Visa logotyper'
+    STANDARD_ORDER_STATUS: 'Standardbeställningsstatus för denna betalningsmetod'
+    TILL_PURCHASE_VALUE: 'tills varornas värde'
+    TITLE: Betalningsmetod
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: Kod
+    DefaultStatusOpen: Öppna
+    DefaultStatusPaid: Betald
+    IsDefault: 'Är standard'
+    Orders: Beställningar
+    PLURALNAME: Betalningsstatus
+    PaymentStatusTranslations: Översättningar
+    SINGULARNAME: Betalningsstatus
+    Title: Titel
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\AvailabilityStatus:
+    ADDITIONALTEXT: Tilläggstext
+    ISDEFAULT: 'Är standard'
+    PLURALNAME: Tillgängligheter
+    SINGULARNAME: Tillgänglighet
+    STATUS_AVAILABLE: tillgänglig
+    STATUS_AVAILABLE_IN: 'tillgänglig i {duration} {tidsenhet}n'
+    STATUS_AVAILABLE_IN_MIN_MAX: 'tillgänglig i {minduration} till {maxduration} {tidsenhet}'
+    STATUS_NOT_AVAILABLE: 'inte tillgänglig'
+    SeoMicrodataCode: 'SEO Microdata-kod'
+    SeoMicrodataCodeDescription: 'Ge ett lämpligt värde här för att öka sökmotorernas synlighet.'
+    SeoMicrodataCodeDiscontinued: 'Utom handel'
+    SeoMicrodataCodeInStock: 'I lager'
+    SeoMicrodataCodeInStoreOnly: 'Endast i butiken'
+    SeoMicrodataCodeLimitedAvailability: 'Begränsad tillgänglighet'
+    SeoMicrodataCodeOnlineOnly: 'Endast online'
+    SeoMicrodataCodeOutOfStock: 'Finns inte i lager'
+    SeoMicrodataCodePreOrder: 'Tillgänglig för förhandsbeställning'
+    SeoMicrodataCodePreSale: Förhandsbokning
+    SeoMicrodataCodeSoldOut: Slutsålt
+    SetForNegativeStock: 'Tilldela automatiskt en artikel när lagernivån ändras från > 0 till 0.'
+    SetForNegativeStockShort: 'Bil. < 1'
+    SetForPositiveStock: 'Tilldela automatiskt en artikel när lagernivån ändras från 0 till > 0.'
+    SetForPositiveStockShort: 'Bil. > 0'
+    TITLE: Benämning
+  SilverCart\Model\Product\AvailabilityStatusTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\File:
+    DESCRIPTION: Beskrivning
+    FILE_ATTACHMENTS: Filbilagor
+    PLURALNAME: Filer
+    SINGULARNAME: Fil
+    SIZE: Storlek
+    TITLE: Visningsnamn
+    TYPE: Typ
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\Image:
+    CONTENT: Textinnehåll
+    DESCRIPTION: 'Beskrivning (t.ex. för textfältet Slidorion)'
+    PLURALNAME: Bilder
+    SINGULARNAME: Bild
+    SORTORDER: Sorteringsordning
+    THUMBNAIL: Förhandsgranska
+    TITLE: Visningsnamn
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: Beskrivning
+    ManufacturerNumber: 'Tillverkarens nummer'
+    PLURALNAME: Tillverkare
+    SINGULARNAME: Tillverkare
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: Försäljningsenhet
+    AddFile: 'Lägg till en fil'
+    AddImage: 'Lägg till en bild'
+    BasicData: 'Grundläggande uppgifter'
+    CHANGE_QUANTITY_CART: 'Ändra kvantitet'
+    CHOOSE_MASTER: '-- Välj Master --'
+    COLUMN_TITLE: Namn
+    DAY: Dag
+    DAYS: Dagar
+    DESCRIPTION: Artikelbeskrivning
+    Delivery: Leverans
+    DeliveryForFree: 'Fri frakt'
+    DeliveryForFreeIsPossible: 'Gratis frakt är möjlig'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Den här artikeln är utesluten från rabatter på grund av betalningsmetod.'
+    FREE_OF_CHARGE: 'fri frakt'
+    IMAGE: Artikelbild
+    IMAGE_NOT_AVAILABLE: 'Ingen artikelbild har tilldelats'
+    IMPORTIMAGESFORM_ACTION: 'Importera bilder'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'Katalogen finns inte'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Ingen katalog angavs'
+    IMPORTIMAGESFORM_HEADLINE: 'Importera bilder i efterhand'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: Katalog
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Absolut sökväg till den katalog på webbservern där bilderna finns. (Exempel: /var/www/silvercart/images/)'
+    IMPORTIMAGESFORM_REPORT: '<p>%d filer hittades.</p><p>%d av dem kunde tilldelas artiklar och importerades.</p>'
+    IS_ACTIVE: 'är aktiv.'
+    IsNotBuyable: 'Denna artikel är inte tillgänglig för köp'
+    Keywords: 'Nyckelord för sökningen'
+    LIST_PRICE: Listpris
+    LaunchDate: 'Visa från'
+    LaunchDateInfo: '<strong>Valfritt</strong> - Ange endast om <i>Försäljning från</i> har angetts och visningen ska göras innan försäljningen börjar.'
+    MASTERPRODUCT: 'Grundläggande artiklar'
+    METADATA: Metadata
+    METADESCRIPTION: 'Metabeskrivning för sökmotorer'
+    METATITLE: 'Metatitel för sökmotorer'
+    MONTH: Månad
+    MONTHS: Månader
+    MSRP: 'ORDINARIE PRISLISTA'
+    MSRP_CURRENCY: 'Valuta EIA'
+    MirrorPage_PLURALNAME: 'Produktgrupper för speglar'
+    MirrorPage_SINGULARNAME: 'Produktgrupp för speglar'
+    NAME_DESCRIPTION: 'Namn och beskrivning'
+    New: Ny
+    NewestArrivals: 'Nytt i butiken'
+    PACKAGING_QUANTITY: Försäljningsvolym
+    PACKAGING_UNIT: Förpackningsenhet
+    PLURALNAME: Artikel
+    PRICE: Pris
+    PRICES: Priser
+    PRICE_AMOUNT_ASC: 'Pris stigande'
+    PRICE_AMOUNT_DESC: 'Pris på nedåtgående'
+    PRICE_ENTIRE: 'Totalt pris'
+    PRICE_GROSS: 'Pris (brutto)'
+    PRICE_GROSS_CURRENCY: 'Valuta (brutto)'
+    PRICE_NET: 'Pris (netto)'
+    PRICE_NET_CURRENCY: 'Valuta (netto)'
+    PRICE_SINGLE: 'Pris per enhet'
+    PRICE_SINGLE_NET: 'Pris per enhet (netto)'
+    PRODUCTNUMBER: Artikelnummer
+    PRODUCTNUMBER_MANUFACTURER: 'Artikelnummer (tillverkare)'
+    PRODUCTNUMBER_SHORT: 'Artikel nr.'
+    PRODUCT_QUESTION: 'Var vänlig och svara på följande frågor om artikeln {titel} ({produktnummer}):'
+    PRODUCT_QUESTION_LABEL: 'Frågor om artikeln'
+    PURCHASEPRICE: Inköpspris
+    PURCHASEPRICE_CURRENCY: 'Valuta Inköpspris'
+    PURCHASE_MAX_DURATION: 'Max. Prenumerationsperiod'
+    PURCHASE_MIN_DURATION: 'Min. referensperiod'
+    PURCHASE_TIME_UNIT: 'Enhet (WBZ)'
+    PreorderInfo: 'Den här produkten kommer inte att släppas förrän {releasedatum}. Observera att denna artikel inte kan skickas före utgivningsdatumet.'
+    PreorderNow: 'Förbeställ nu'
+    PreorderToday: 'Förbeställ den här artikeln i dag'
+    Preorderable: 'tillgänglig för förhandsbeställning'
+    QUANTITY: Antal
+    QUANTITY_IS_IN_CART: '{kvantitet} {enhet} finns redan i kundvagnen'
+    QUANTITY_SHORT: Anz.
+    RefreshCache: 'När du har sparat, uppdatera cacheminnet för denna artikel.'
+    ReleaseDate: 'Försäljning från'
+    ReleaseDateInfo: '<strong>Valfritt</strong> - Ange endast om försäljningsstarten ska försenas.'
+    SHORTDESCRIPTION: 'Beskrivning av listan'
+    SILVERCART_PRODUCT_CREATE: 'Kan skapa artiklar.'
+    SINGULARNAME: Artikel
+    STOCKQUANTITY: Lager
+    STOCK_QUANTITY: 'Kan lagret av den här produkten överbokas?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Datum från och med vilket lagret inte längre kan överbokas'
+    STOCK_QUANTITY_SHORT: 'Är det överbokningsbart?'
+    Sale: Erbjudande
+    SalesBanDate: 'Visa tills'
+    SalesBanDateInfo: '<strong>Valfritt</strong> - Ange endast om försäljningens varaktighet är begränsad.'
+    StockIsLowOrderNow: 'Snart slutsåld - beställ nu'
+    TITLE: Artikel
+    TITLE_ASC: 'Beteckning stigande'
+    TITLE_DESC: 'Beteckning i fallande ordning'
+    ThisProductWillBeReleasedOn: 'Denna artikel kommer att publiceras på {releasedate}'
+    TimeGroup: Tidskontroll
+    VAT: MOMS
+    WEEK: Vecka
+    WEEKS: Veckor
+    WEIGHT: Vikt
+    WIDGETAREA: Widgets
+    YEAR: År
+    YEARS: År
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: Skadad/felaktig
+    DefaultNew: Ny
+    DefaultRefurbished: Renoverad
+    DefaultUsed: Används
+    PLEASECHOOSE: 'Vänligen välj'
+    PLURALNAME: 'I artikeln anges följande'
+    SINGULARNAME: 'Artikelns skick'
+    SeoMicrodataCode: 'SEO Microdata-kod'
+    SeoMicrodataCodeDamaged: Skadad/felaktig
+    SeoMicrodataCodeDescription: 'Ge ett lämpligt värde här för att öka sökmotorernas synlighet.'
+    SeoMicrodataCodeNew: Ny
+    SeoMicrodataCodeRefurbished: Renoverad
+    SeoMicrodataCodeUsed: Används
+    TITLE: Stat
+    USE_AS_STANDARD_CONDITION: 'Används som standardtillstånd om inget är definierat för objektet.'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: Språk
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: Förkortning
+    EXPLANATION_TO_DECIMAL_PLACES: 'Ställ in 0 eller lämna tomt om du inte vill använda decimaler. Den här inställningen används till exempel för formulär för att lägga till i kundvagnen.'
+    NAME: Namn
+    NUMBER_OF_DECIMAL_PLACES: 'Antal decimaler'
+    PLURALNAME: Försäljningsenheter
+    SINGULARNAME: Försäljningsenhet
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Datum
+    Origin: Ursprung
+    Origin-1: 'Övertagande av ingående balans'
+    Origin0: 'Systeminmatning inte närmare definierad'
+    Origin1: 'Artikeln har skapats nyligen'
+    Origin2: 'Direkt användarinmatning'
+    Origin3: 'Beställningen gjordes'
+    Origin4: 'Beställningen ändrades'
+    Origin5: 'Beställningen har avbrutits'
+    Origin6: 'Import via ett externt system'
+    OriginCode: 'Kodning av ursprung'
+    PLURALNAME: 'Bokföring av aktier'
+    Quantity: Kvantitet
+    QuantityDesc: 'Kvantitet som ska läggas till eller dras av från lagret (t.ex. "2"/"-2").'
+    QuantityRightTitle: 'Kvantiteten kan inte ändras efter att den har sparats. Om du vill korrigera en lagerpost, lägg till en ny post med en motsvarande anteckning.'
+    Reason: Motivering
+    ReasonDesc: 'Kort beskrivning av varför lagret har ändrats (t.ex. "Order XYZ annullerad", "Order XYZ returnerad", "Varor mottagna").'
+    SINGULARNAME: Lagerbokföring
+  SilverCart\Model\Shipment\Carrier:
+    ATTRIBUTED_SHIPPINGMETHODS: 'tilldelad sändningstyp'
+    FULL_NAME: 'fullständigt namn'
+    PLURALNAME: Bärare
+    SINGULARNAME: Bärare
+    TrackingLinkBase: Spårningslänk
+    TrackingLinkBaseDesc: 'Grundläggande länk som används för att hämta spårning online. Placera "{TrackingCode}" där beställningens spårningskod ska placeras senare. Till exempel för DHL:s privatkunder: "https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode={TrackingCode}".'
+  SilverCart\Model\Shipment\CarrierTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'Tilldelade frakttyper'
+    COSTS: Kostnader
+    DeliveryTimeHint: 'Valfri information om leveranstid. Skriver över specifikationen för den överordnade fraktmetoden.'
+    EMPTYSTRING_CHOOSEZONE: '--Välja zon--'
+    FOR_SHIPPINGMETHOD: 'för fraktmetod'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Inaktivera fri frakt för denna fraktkostnad'
+    FREEOFSHIPPINGCOSTSFROM: 'Fri frakt från (åsidosätter landspecifik och global inställning)'
+    FreeFrom: 'fri från'
+    MaximumWeight: 'Högsta vikt'
+    MaximumWeightDesc: 'Högsta vikt i gram (g)'
+    PLURALNAME: Fraktkostnader
+    POST_PRICING: 'Fastställande av pris i efterhand'
   SilverCart\Model\ShopEmail:
     TemplateName_OrderConfirmation: 'Beställningsbekräftelse (kund)'
     TemplateName_OrderNotification: 'Meddelande om beställning (operatör)'
+  SilverCart\Model\Widgets\BargainProductsWidget:
+    CMSTITLE: 'SilverCart glidare för fynd'
+    DESCRIPTION: 'Den här widgeten visar ett konfigurerbart antal artiklar vars skillnad mellan det högsta prisbasbeloppet och slutpriset är störst.'
+    FETCHMETHOD_SORTORDERASC: 'Prisskillnad stigande'
+    FETCHMETHOD_SORTORDERDESC: 'Prisskillnad i fallande skala'
+    TITLE: Fynd
+  SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'Text för ALT-taggen'
+    LINKPAGE: 'Sidan som ska länkas till'
+    PLURALNAME: 'Bilder från bildskärmen'
+    ProductNumberToReference: 'Artikelnummer för den artikel som ska länkas till.'
+    ProductNumberToReferenceInfo: 'Används i stället för sidan.'
+    SINGULARNAME: 'Bild för bildspridare'
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: Bildrullare
+    DESCRIPTION: 'Ger en bildslider som visar flera bilder i ett bildspel.'
+    TITLE: Bilder
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: SilverCart-registrering
+    DESCRIPTION: 'Den här widgeten visar ett inloggningsformulär och länkar till registreringssidan. Om kunden är inloggad visas i stället länkar till områden i kundkontot.'
+    TITLE: Registrering
+    TITLE_LOGGED_IN: 'Mitt konto'
+    TITLE_NOT_LOGGED_IN: Registrering
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: Sidförteckning
+    DESCRIPTION: 'Den här widgeten visar en lista över sidor med länkar till respektive sida.'
+    PAGES: 'Tilldelade sidor'
+    TITLE: Sidförteckning
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: Bild
+    WIDGET_INFO_TAB: 'Info om widget'
+    WIDGET_INFO_TAB_EXPLANATION: 'Följande uppgifter kan användas av vissa widgets.'
+    WIDGET_PRIORITY: 'Sorteringsklass (ju högre desto längre bak)'
+    WIDGET_TEXT: Beskrivning
+    WIDGET_TITLE: 'Titel (valfritt)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Visning av artiklar från underproduktgrupper'
+    DESCRIPTION: 'Den här widgeten visar artiklar från undervarugrupper om inga artiklar har tilldelats den aktuella varugruppen.'
+    TITLE: 'Artiklar från underproduktgrupper'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'SilverCart glidare för artiklar'
+    CMS_PRODUCTGROUPTABNAME: Produktgrupp
+    CMS_PRODUCTSTABNAME: Artikel
+    DESCRIPTION: 'Den här widgeten visar artiklar från en produktgrupp. Det kan definieras från vilken produktgrupp och hur många artiklar som ska visas.'
+    FETCHMETHOD_SORTORDERASC: 'Ordning stigande'
+    FETCHMETHOD_SORTORDERDESC: 'Ordning i fallande ordning'
+    ProductGroupPageDescription: 'Endast relevant om "Metod för urval av objekt" är inställd på "Från avdelning".'
+    SELECTIONMETHOD_PRODUCTGROUP: 'Från produktgrupp'
+    SELECTIONMETHOD_PRODUCTS: 'Välj objekt för hand'
+    SELECT_PRODUCT_DESCRIPTION: 'Ange artikelnummer, separerade med semikolon.'
+    STOREADMIN_FIELDLABEL: 'Välj den produktgrupp som ska visas:'
+    TITLE: Artikel
+    USE_SELECTIONMETHOD: 'Metod för urval av artiklar'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'SilverCart tillverkarförteckning'
+    DESCRIPTION: 'Den här widgeten visar en lista över alla tillverkare i den aktuella produktgruppen.'
+    RESETFILTER: 'Visa alla'
+    TITLE: 'Lista över tillverkare'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: 'Navigering i produktgrupper'
+    DESCRIPTION: 'Den här widgeten skapar en navigeringshierarki för produktgrupper. Det är möjligt att ange vilken varugrupp som ska användas som rot.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Endast den aktiva grenen ska vecklas ut'
+    LEVELS_TO_SHOW: 'Visa nivåer till vilket djup'
+    SHOW_ALL_LEVELS: 'Visa alla nivåer'
+    TITLE: 'Navigering i produktgrupper'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: Produktgrupper
+    DESCRIPTION: 'Den här widgeten skapar en översikt över alla produktgrupper (eventuellt som ett reglage).'
+    TITLE: Produktgrupper
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Översättningar
+    SINGULARNAME: Översättning
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Aktivera automatiskt bildspel'
+    AUTOPLAYDELAYED: 'Aktivera fördröjning för automatiskt bildspel'
+    AUTOPLAYLOCKED: 'Inaktivera det automatiska bildspelet när användaren navigerar själv'
+    AddImage: 'Lägg till en bild'
+    BUILDARROWS: 'Visa knapparna framåt/bakåt'
+    BUILDNAVIGATION: 'Visa sidnavigering'
+    BUILDSTARTSTOP: 'Visa Start/Stop-knappen'
+    CMS_BASICTABNAME: 'Grundläggande inställningar'
+    CMS_DISPLAYTABNAME: Representation
+    CMS_ROUNDABOUTTABNAME: Karusell
+    CMS_SLIDERIMAGES: 'Bildspel med bilder'
+    CMS_SLIDERTABNAME: 'Inställningar för bildspel'
+    FETCHMETHOD: 'Urvalsläge för artiklar'
+    FETCHMETHOD_RANDOM: Slumpmässig
+    FRONTCONTENT: Beskrivningstext
+    FRONTTITLE: Rubriken
+    GROUPVIEW: 'Visa artikelförteckningen'
+    IS_CONTENT_VIEW: 'Använd normal objektvy i stället för widget-vy'
+    IS_CONTENT_VIEW_INFO: 'Det här alternativet bör väljas om widgeten är avsedd för innehållsytan på en sida.'
+    NUMBEROFPRODUCTSTOFETCH: 'Antal objekt som ska laddas:'
+    NUMBEROFPRODUCTSTOSHOW: 'Antal objekt som ska visas'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'Endast relevant om skjutreglaget har aktiverats, annars visas alla artiklar som laddas.'
+    ProductDataToggle: 'Inställningar för artiklar'
+    ProductRelationToggle: 'Artikel Uppdrag'
+    SLIDEDELAY: 'Visningstid per bild för det automatiska bildspelet (i millisekunder).'
+    STOPATEND: 'Stoppar det automatiska bildspelet efter den sista panelen'
+    TRANSITIONEFFECT: Övergångseffekt
+    TRANSITION_FADE: Korsfade
+    TRANSITION_HORIZONTALSLIDE: 'Skjut horisontellt'
+    TRANSITION_VERTICALSLIDE: 'Skjut vertikalt'
+    USE_LISTVIEW: 'Använd listvisning'
+    USE_ROUNDABOUT: 'Använd rondell'
+    USE_SLIDER: 'Använd skjutreglaget'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'De vanligaste sökorden'
+    DESCRIPTION: 'Den här widgeten visar ett taggmoln med de vanligaste sökorden.'
+    FONTSIZECOUNT: 'Antal grader av teckensnitt'
+    TAGSPERCLOUD: 'Antal söktermer som ska visas'
+    TITLE: 'De mest frekventa sökorden'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: 'Sök på'
+    DESCRIPTION: 'Den här widgeten visar ett sökformulär för objekt.'
+    TITLE: Sökformulär
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Ange ditt sökord:'
+    SUBMITBUTTONTITLE: 'Sök på'
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: Lista
+    TILE: Plattor

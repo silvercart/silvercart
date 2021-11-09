@@ -1,0 +1,1399 @@
+tr_TR:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Hepsini kabul et'
+    ManageCookies: 'Çerez ayarları'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p> Çerezleri, web sitemizi sizin için optimize etmek, ürünlerimizi sizin için geliştirmek ve üçüncü taraf sağlayıcılarla birlikte size ilgi alanlarınıza uygun reklamlar göstermek için kullanıyoruz. Burada, hangi çerezlere izin vermek istediğinizi seçebilir ve seçiminizi istediğiniz zaman değiştirebilirsiniz. Çerezlerin kullanımına ilişkin politikamızda ve veri koruma bilgilerimizde daha fazla bilgi bulabilirsiniz. Reddetmeyi seçtiğinizde teknik olarak gerekli çerezler de ayarlanır. </p> <p> "Tümünü kabul et"i tıklayarak bu işlemi kabul etmiş olursunuz. </p>'
+    Title: 'Bu web sitesi çerezleri kullanır'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Ayarlar kaydedildi'
+    Save: 'seçimi onayla'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: analiz
+    Analytics_Content: '<p> Analiz çerezlerinin yardımıyla, sorunları tespit etmek ve kullanılabilirliği optimize etmek için sitenin kullanımını teknik olarak analiz edebiliyoruz. </p>'
+    Marketing: pazarlama
+    Marketing_Content: '<p> Pazarlama çerezlerinin yardımıyla, reklam önlemlerinin başarısını analiz edebiliyoruz. </p>'
+    Necessary: Gerekli
+    Necessary_Content: '<p> Gerekli çerezler sitenin işlevsel çalışmasını garanti eder ve teknik nedenlerle ayarlanmalıdır. </p>'
+    Preferences: ayarlar
+    Prefrences_Content: '<p> Çerezlerin ayarlanması yardımıyla sitenin kullanılabilirliğini ihtiyaçlarınıza göre uyarlayabiliriz. Bu, sitenin bir sonraki ziyaretinizde tercihlerinizi hatırlamasını sağlar. </p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p> $ CookieConsentForm </p> <p> [cookiegrouptable group = "Gerekli"] </p> <p> [cookiegrouptable group = "Analytics"] </p> <p> [cookiegrouptable group = "Pazarlama"] </p> <p> [cookiegrouptable group = "Tercihler"] </p>'
+    Title: 'Çerez politikası'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p> Bu sayfayı gizlilik politikanızla doldurun. </p>'
+    Title: 'Gizlilik Politikası'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p> Bu sayfayı şartlar ve koşullarınızla doldurun. </p>'
+    Title: 'Kullanım Şartları'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: süre
+    Provider: 'Olarak ayarla'
+    Purpose: amaç
+    Title: Kurabiye
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 yıl'
+    loc_Purpose: 'Sosyal medya paylaşım butonları'
+    mus_Expiry: '1 yıl'
+    mus_Purpose: 'Sosyal medya paylaşım butonları'
+    na_id_Expiry: '1 yıl'
+    na_id_Purpose: 'Sosyal medya paylaşım butonları'
+    na_tc_Expiry: '1 yıl'
+    na_tc_Purpose: 'Sosyal medya paylaşım butonları'
+    ouid_Expiry: '1 yıl'
+    ouid_Purpose: 'Sosyal medya paylaşım butonları'
+    uid_Expiry: '1 yıl'
+    uid_Purpose: 'Sosyal medya paylaşım butonları'
+    uvc_Expiry: '1 yıl'
+    uvc_Purpose: 'Sosyal medya paylaşım butonları'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 ay'
+    BizoID_Purpose: pazarlama
+    UserMatchHistory_Expiry: '6 ay'
+    UserMatchHistory_Purpose: pazarlama
+    lang_Expiry: 'oturum, toplantı, celse'
+    lang_Purpose: 'Dil ayarları'
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 ay'
+    fr_Purpose: 'Facebook SDK''sı'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 yıl'
+    _ga_Purpose: 'Harika analitik'
+    _gid_Expiry: '2 yıl'
+    _gid_Purpose: 'Harika analitik'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 saat'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 yıl'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 yıl'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 yıl'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 ay'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 ay'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 yıl'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 ay'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 yıl'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 yıl'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 yıl'
+    bcookie_Purpose: pazarlama
+    lidc_Expiry: '2 yıl'
+    lidc_Purpose: pazarlama
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 yıl'
+    _ga_Purpose: 'Harita kutusu analitiği'
+    _mkto_trk_Expiry: '2 yıl'
+    _mkto_trk_Purpose: 'harita kutusu'
+    ajs_anonymous_id_Expiry: '1 yıl'
+    ajs_anonymous_id_Purpose: 'harita kutusu'
+    ajs_group_id_Expiry: '1 yıl'
+    ajs_group_id_Purpose: 'harita kutusu'
+    ajs_user_id_Expiry: '1 yıl'
+    ajs_user_id_Purpose: 'harita kutusu'
+    intercom-id-wg57poe2_Expiry: '9 ay'
+    intercom-id-wg57poe2_Purpose: 'harita kutusu'
+    mkjs_group_id_Expiry: '1 yıl'
+    mkjs_group_id_Purpose: 'harita kutusu'
+    mkjs_user_id_Expiry: '1 yıl'
+    mkjs_user_id_Purpose: 'harita kutusu'
+    optimizelyEndUserId_Expiry: '6 ay'
+    optimizelyEndUserId_Purpose: 'harita kutusu'
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 yıl'
+    player_Purpose: 'Video entegrasyonu'
+    vuid_Expiry: '1 yıl'
+    vuid_Purpose: 'Video entegrasyonu'
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: 'oturum, toplantı, celse'
+    CONSENT_Purpose: 'Video entegrasyonu'
+    GPS_Expiry: 'oturum, toplantı, celse'
+    GPS_Purpose: 'Video entegrasyonu'
+    NID_Expiry: 'oturum, toplantı, celse'
+    NID_Purpose: 'Video entegrasyonu'
+    PREF_Expiry: '2 yıl'
+    PREF_Purpose: 'Video entegrasyonu'
+    VISITOR_INFO1_LIVE_Expiry: '6 ay'
+    VISITOR_INFO1_LIVE_Purpose: 'Video entegrasyonu'
+    YSC_Expiry: 'oturum, toplantı, celse'
+    YSC_Purpose: 'Video entegrasyonu'
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 ay'
+    CookieConsent_Purpose: 'Çerez ayarlarınızı kaydeder'
+    FluentLocale_Expiry: '2 ay'
+    FluentLocale_Purpose: 'Dil ayarlarınızı kaydeder'
+    PHPSESSID_Expiry: 'oturum, toplantı, celse'
+    PHPSESSID_Purpose: 'oturum, toplantı, celse'
+    __atuvc_Expiry: '1 yıl'
+    __atuvc_Purpose: 'Sosyal medya paylaşım butonları'
+    __atuvs_Expiry: '1 yıl'
+    __atuvs_Purpose: 'Sosyal medya paylaşım butonları'
+    _ga_Expiry: '2 yıl'
+    _ga_Purpose: İstatistik
+    _gat_Expiry: '24 saat'
+    _gat_Purpose: İstatistik
+    _gid_Expiry: '24 saat'
+    _gid_Purpose: İstatistik
+    _hjIncludedInSample_Expiry: 'oturum, toplantı, celse'
+    _hjIncludedInSample_Purpose: İstatistik
+    ipcountry_Expiry: 'oturum, toplantı, celse'
+    ipcountry_Purpose: 'Standart dil ayarları'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 ay'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 yıl'
+    _ga_Purpose: 'reCAPTCHA analizi'
+  SilverCart:
+    Actions: Hareketler
+    Buy1: '{title} satın al'
+    Buy2: '{title1} {title2}'
+    Cancel: İptal
+    Change: Değiştirmek
+    ClickForMore: 'Daha fazla bilgi için tıklayın'
+    Close: Sonuçlandırmak
+    ContactUs: 'Bize Ulaşın'
+    DefaultIfEmpty: 'Boşsa varsayılan: " {default} "'
+    DeleteYourAccountErrorConfirm: 'Lütfen onay kutusunu işaretleyerek hesabınızın silinmesini onaylayın.'
+    DeleteYourAccountErrorPassword: 'Üzgünüz, ancak girdiğiniz giriş bilgileri yanlış.'
+    DeleteYourAccountSuccess: 'Hesabınız başarıyla silinmek üzere işaretlendi ve önümüzdeki 24 saat içinde silinecek. Silme işlemi tamamlandıktan sonra bir e-posta bildirimi alacaksınız. O zamana kadar silme talebini geri çekme seçeneğiniz vardır.'
+    DeleteYourAccountSuccessOpen: 'Hesabınız başarıyla silinmek üzere işaretlendi. Müşteri hesabınız için hala açık siparişler bulunduğundan, hesabınız ancak tüm açık siparişler işlendikten sonra silinecektir. Silme işlemi tamamlandıktan sonra bir e-posta bildirimi alacaksınız. O zamana kadar silme talebini geri çekme seçeneğiniz vardır.'
+    DeleteYourAccountUndo: 'Silme isteğini iptal et'
+    DeleteYourAccountUndone: 'Silme isteğiniz başarıyla iptal edildi.'
+    Go: Haydi
+    NextPage: 'Sonraki Sayfa'
+    PrevPage: 'Önceki sayfa'
+    ProductAddedToCart: 'Ürün alışveriş sepetinize eklendi.'
+    ProductRemovedFromCart: 'Ürün alışveriş sepetinizden kaldırıldı.'
+    Sort: 'Sıralama düzeni'
+    Subject: referans
+    Subjects: Ders
+    Translation: tercüme
+    Translations: Çeviriler
+    Until: 'a kadar'
+    go: Haydi
+    since: 'dan beri'
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: kullanılabilirlik
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Taşıyıcı
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: 'İletişim istekleri'
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: ülkeler
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: müşteriler
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: resimler
+    SELECT_IMAGE_TYPE: 'Görüntü türünü seçin'
+    SELECT_OTHER_IMAGES: 'Diğer resimler'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Ödeme yöntemleri için resimler'
+    SELECT_PRODUCT_IMAGES: 'Öğe resimleri'
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: ayarlar
+    CUSTOMER: müşteriler
+    DEFAULT: İYS
+    FILES: Dosyalar
+    HANDLING: tamamlama
+    MODULES: Modüller
+    ORDERS: Emirler
+    PRODUCTS: öğeler
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: 'Üretici firma'
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Lütfen dışa aktarma bağlamını seçin ve e-posta alıcılarının CSV listesini indirmek için dışa aktar düğmesine basın.'
+    DoExport: 'CSV olarak dışa aktar'
+    ExportAll: 'Tüm müşterilerin ihracat adresleri'
+    ExportAllNewsletterRecipients: 'Tüm bülten alıcılarının adreslerini dışa aktar'
+    ExportAllNewsletterRecipientsWithAccount: 'Müşteri hesapları olan tüm bülten alıcılarının adreslerini dışa aktarın'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Müşteri hesabı olmayan tüm bülten alıcılarının adreslerini dışa aktarın'
+    ExportAllNonNewsletterRecipients: 'Bülten olmayan tüm alıcıların adreslerini dışa aktarın'
+    ExportContext: 'Bağlamı dışa aktar'
+    MENUTITLE: 'Bülten alıcısı'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: 'Sayı aralıkları'
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'sonra her şey'
+    DateRangePickerALL_BEFORE: 'Daha önce her şey'
+    DateRangePickerDATE: tarih
+    DateRangePickerEND_DATE: 'Bitiş tarihi'
+    DateRangePickerLAST_7_DAYS: 'Son 7 gün'
+    DateRangePickerLAST_MONTH: 'Geçen ay'
+    DateRangePickerNEXT: 'en yakın'
+    DateRangePickerPERIOD: dönem
+    DateRangePickerPREVIOUS: Öncesi
+    DateRangePickerSTART_DATE: 'Başlangıç tarihi'
+    DateRangePickerTHIS_MONTH: 'Bu ay'
+    DateRangePickerTHIS_YEAR: 'Bu yıl'
+    DateRangePickerTODAY: bugün
+    MENUTITLE: Emirler
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: 'Sipariş durumu'
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: 'Ödeme metodları'
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: 'Ödeme durumu'
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: öğeler
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'Madde durumları'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'Makale görüntüsünü içe aktarma şu anda gerçekleştirilir.'
+    CronIsRunningTitle: Dikkat
+    CronNotInstalledDescription: "Makale görüntüsünü içe aktarmanın kurulumu henüz tam olarak tamamlanmadı.\n Lütfen sunucunuzun zaman kontrollü görevlerine gerekli programı (`sake dev / görevler / sc-image-importer`) ekleyin.\n Daha fazla ayrıntı için mağaza yöneticinizle iletişime geçin.\n"
+    CronNotInstalledTitle: Dikkat
+    Description: "Aynı anda farklı öğelerin birçok görüntüsünü yüklemek için bu yükleme özelliğini kullanın.\n Dosya adlarını aşağıdaki gibi adlandırırsanız görüntüler otomatik olarak atanır: \n\n [Ürün numarası] .png / jpg / jpeg\n VEYA\n [Makale numarası] - [ardışık numara] .png / jpg / jpeg\n VEYA\n [Makale numarası] - [Ardışık numara] - [Kısa açıklama-boşluksuz] .png / jpg / jpeg \n\n [Kısa açıklama-boşluksuz] belirtimi isteğe bağlıdır ve Google gibi arama motorları tarafından daha iyi görünürlük elde etmek için arama motoru optimizasyonu (SEO) için kullanılır.\n [Boşluksuz kısa açıklama] belirtilmezse, makale adı arama motoru optimizasyonu için bir parametre olarak kullanılır. \n\n Örnek:\n 502.133.66.5 ve 758.500.08.9 numaralı makalelere sahip iki makalenin her birine 4 adet resim atamak istiyorsunuz. 3 tanesinin kendi kısa açıklaması olmalıdır.\n 128.000.01.7 ve 542.550.08.1 numaralı makaleler için görsel yüklenmelidir.\n Bu nedenle dosya adları şöyle görünmelidir: \n\n 502.133.66.5-1.png\n 502.133.66.5-2-kahve makinesi-XYZ-önden görünüm.png\n 502.133.66.5-3-kahve makinesi-XYZ-view-sol-side.png\n 502.133.66.5-4-kahve makinesi-XYZ-view-right-side.png\n 758.500.08.9-1.png\n 758.500.08.9-2.png\n 758.500.08.9-3.png\n 758.500.08.9-4.png\n 128.000.01.7.png\n 542.550.08.1.png \n\n Liste görünümü için resim olarak ardışık 1 rakamı ile verilen resmin kullanıldığını unutmayınız.\n Bu işlevi kullandığınızda, etkilenen makalelerin mevcut resimlerinin tamamen üzerine yazılacağını lütfen unutmayın.\n"
+    FileInfoTitle: 'Aşağıdaki öğe resimleri henüz işlenmedi:'
+    MENUTITLE: 'Makale resmi içe aktarma'
+    UploadProductImages: 'Makale resimlerini yükleyin'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: 'Ölçü birimleri'
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: 'Nakliye Yöntemleri'
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'Alışveriş e-postaları'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: 'Vergi oranları'
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Bölgeler
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: avro
+    IMAGEFOLDERNAME: 'Örnek veri'
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart, widget''ların yardımıyla kolayca uyarlanabilir.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: özelleştirilebilir
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: özelleştirilebilir
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart, modüller kullanılarak kolayca genişletilebilir.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Genişletilebilir
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: genişletilebilir
+    PRODUCTGROUPMARKETING_TITLE: 'Pazarlama modülleri'
+    PRODUCTGROUPMARKETING_URLSEGMENT: 'pazarlama modülleri'
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart açık kaynak kodludur. Bu, yalnızca mağaza sisteminin ihtiyaçlarınıza göre uygulanması ve uyarlanması için ödeme yaptığınız anlamına gelir.'
+    PRODUCTGROUPOPEN_TITLE: 'Açık görüşlü'
+    PRODUCTGROUPOPEN_URLSEGMENT: 'açık görüşlü'
+    PRODUCTGROUPOTHERS_TITLE: 'Diğer modüller'
+    PRODUCTGROUPOTHERS_URLSEGMENT: 'diğer modüller'
+    PRODUCTGROUPPAYMENT_TITLE: 'Ödeme modülleri'
+    PRODUCTGROUPPAYMENT_URLSEGMENT: 'ödeme modülleri'
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"> <strong> <span class="fa fa-info-circle"> </span> Dikkat: </strong> <br/> Modüllerin kendileri ücretsizdir. Fiyat bilgisi tamamen demo amaçlı kullanılmaktadır. </div>'
+    SLIDORION_TITLE: 'SilverCart''ın Avantajları'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p> SilverCart ödeme modüllerini keşfedin. </p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: 'Ödeme modülleri'
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p> SilverCart''ta diğer birçok uygulama için modüller de bulacaksınız. </p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Diğer modüller'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Ana içerik alanı'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: etkinleştir
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Müsaitliği şu şekilde değiştir:'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Üreticiyi değiştir...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Sipariş durumunu şu şekilde değiştir...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Ödeme durumunu şu şekilde değiştir...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Departmanı değiştir...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: 'Devre dışı bırakmak'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Görülmedi olarak işaretle'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Görüldüğü gibi işaretle'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Baskı siparişleri (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: 'Hızlı Görünüm'
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: 'a ekle'
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Arama teriminiz...'
+    submitButtonTitle: 'İndirilenlere göz atın'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Bültene kaydolmak istiyorum'
+    ACTIONFIELD_TITLE: 'Ne yapmak istiyorsun?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Bülten aboneliğinden çıkmak istiyorum'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: Aramak
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Web mağazası girişiniz için bir şifre oluşturun. Şifre en az {minlength} karakter içermelidir. Bu en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Tüketicinin/tüketicilerin adresi'
+    Data: veri
+    GoTo: 'Para çekme formuna'
+    NameOfConsumer: 'Tüketicinin/tüketicilerin adı'
+    Order: Emir
+    OrderDate: 'Sipariş verildi / alındı'
+    OrderHistory: 'Sipariş seçin'
+    OrderNumber: 'Sipariş numarası'
+    RevocationDate: 'Çekilme tarihi'
+    RevocationOrderData: 'Ben / işbu belge ile aşağıdaki malların satın alınması / aşağıdaki hizmetin sağlanması için tarafımdan / tarafımızdan yapılan sözleşmeyi iptal ediyoruz'
+  SilverCart\Model\Customer\Country:
+    TITLE_MS: Montserrat
+    TITLE_MT: Malta
+    TITLE_MU: Mauritius
+    TITLE_MV: Maldivler
+    TITLE_MW: Malawi
+    TITLE_MX: Meksika
+    TITLE_MY: Malezya
+    TITLE_MZ: Mozambik
+    TITLE_NA: Namibya
+    TITLE_NC: 'Yeni Kaledonya'
+    TITLE_NE: Nijer
+    TITLE_NF: 'Norfolk Adası'
+    TITLE_NG: Nijerya
+    TITLE_NI: Nikaragua
+    TITLE_NL: Hollanda
+    TITLE_NO: Norveç
+    TITLE_NP: Nepal
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: 'Yeni Zelanda'
+    TITLE_OM: Umman
+    TITLE_PA: Panama
+    TITLE_PE: Peru
+    TITLE_PF: 'Fransız Polinezyası'
+    TITLE_PG: 'Papua Yeni Gine'
+    TITLE_PH: Filipinler
+    TITLE_PK: Pakistan
+    TITLE_PL: Polonya
+    TITLE_PM: 'Aziz Pierre ve Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: 'Porto Riko'
+    TITLE_PS: 'Filistin Bölgesi'
+    TITLE_PT: Portekiz
+    TITLE_PW: Palau
+    TITLE_PY: Paraguay
+    TITLE_QA: Katar
+    TITLE_RE: 'yeniden birleşme'
+    TITLE_RO: Romanya
+    TITLE_RS: Sırbistan
+    TITLE_RU: 'Rusya Federasyonu'
+    TITLE_RW: Ruanda
+    TITLE_SA: 'Suudi Arabistan'
+    TITLE_SB: 'Solomon Adaları'
+    TITLE_SC: Seyşeller
+    TITLE_SD: Sudan
+    TITLE_SE: İsveç
+    TITLE_SG: Singapur
+    TITLE_SH: 'Aziz Helena'
+    TITLE_SI: Slovenya
+    TITLE_SJ: 'Svalbard ve Jan Mayen'
+    TITLE_SK: Slovakya
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: 'San Marino'
+    TITLE_SN: Senegal
+    TITLE_SO: Somali
+    TITLE_SR: Surinam
+    TITLE_SS: 'Güney Sudan'
+    TITLE_ST: 'Sao Tome ve Principe'
+    TITLE_SV: 'El Salvador'
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Suriye
+    TITLE_SZ: Svaziland
+    TITLE_TC: 'Turks ve Caicos Adaları'
+    TITLE_TD: Çad
+    TITLE_TF: 'Fransız Güney ve Antarktika Toprakları'
+    TITLE_TG: Gitmek
+    TITLE_TH: Tayland
+    TITLE_TJ: Tacikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: 'Doğu Timor'
+    TITLE_TM: Türkmenistan
+    TITLE_TN: Tunus
+    TITLE_TO: Tonga
+    TITLE_TR: Türkiye
+    TITLE_TT: 'Trinidad ve Tobago'
+    TITLE_TV: Tuvalu
+    TITLE_TW: Tayvan
+    TITLE_TZ: Tanzanya
+    TITLE_UA: Ukrayna
+    TITLE_UG: Uganda
+    TITLE_UM: 'Amerikan Okyanusya'
+    TITLE_US: 'Amerika Birleşik Devletleri'
+    TITLE_UY: Uruguay
+    TITLE_UZ: Özbekistan
+    TITLE_VA: 'Vatikan Şehri'
+    TITLE_VC: 'Saint Vincent ve Grenadinler'
+    TITLE_VE: Venezuela
+    TITLE_VG: 'Britanya Virjin Adaları'
+    TITLE_VI: 'Amerikan Virjin Adaları'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis ve Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosova
+    TITLE_YE: Yemen
+    TITLE_YT: mayo
+    TITLE_ZA: 'Güney Afrika'
+    TITLE_ZM: Zambiya
+    TITLE_ZW: Zimbabve
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Genel adres verileri'
+    ANONYMOUSCUSTOMER: 'anonim müşteri'
+    BASIC_DATA: 'Genel olarak'
+    BIRTHDAY: 'doğum tarihi'
+    BUSINESSCUSTOMER: 'iş müşterisi'
+    CUSTOMERNUMBER: 'Müşteri numarası'
+    CUSTOMERNUMBER_SHORT: 'Müşteri numarası.'
+    Customer: müşteri
+    ERROR_MULTIPLE_PRICETYPES: 'Farklı fiyat tiplerine sahip müşteri grupları kabul edilmemektedir!'
+    FULL_NAME: 'Ad Soyad'
+    GROSS: Brüt
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'İptal politikasını kabul etti'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Şartları ve koşulları kabul etti'
+    INVOICE_DATA: 'Fatura adresi verileri'
+    ISBUSINESSACCOUNT: 'Bir ticari müşteri hesabıdır'
+    NET: ağ
+    PRICETYPE_GROSS: Brüt
+    PRICETYPE_NET: ağ
+    PRICING: 'fiyat teklifi'
+    REGULARCUSTOMER: 'Son müşteri'
+    RegistrationOptInConfirmationHash: 'Kayıt için etkinleştirme karma'
+    RegistrationOptInConfirmed: 'Kayıt seçeneği tamamlandı'
+    SALUTATION: selamlama
+    SHIPPING_DATA: 'Teslimat adresi verileri'
+    SUBSCRIBEDTONEWSLETTER: 'Bülten abone oldu'
+    TYPE: Tip
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    PRICETYPE: 'Oran kodu'
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: E
+    SINGULARNAME: E
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Bülteni yalnızca size gönderilen e-postadaki onay bağlantısını aradığınızda alacaksınız.'
+    PLURALNAME: Bülten
+    SINGULARNAME: Bülten
+    SUBSCRIBED: 'Bültene abone oldunuz'
+    StatusALREADY_SUBSCRIBED: '{email} " e-posta adresi haber bültenini almak için zaten kayıtlı.'
+    StatusNO_EMAIL_FOUND: '{email} " e-posta adresi bulunamadı.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: '{email} " e-posta adresine sahip bir müşteri zaten kayıtlı. Lütfen önce giriş yapın ve ardından <a href="{link}"> Giriş yapmak için </a> .'
+    StatusSUBSCRIBED_SUCCESSFULLY: '{email} " e-posta adresi bülten alıcıları listesine eklendi.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: '{email} " adresine onay talimatlarını içeren bir e-posta gönderildi.'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: '{email} " e-posta adresi, bülten alıcıları listesinden kaldırıldı.'
+    UNSUBSCRIBED: 'Bültene abone olmadınız'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: 'Şu anda'
+    ACTUALCOUNT: 'Şu anda'
+    CUSTOMERNUMBER: 'Müşteri numarası'
+    END: son
+    ENDCOUNT: son
+    IDENTIFIER: tanımlayıcı
+    INVOICENUMBER: 'fatura numarası'
+    ORDERNUMBER: 'Sipariş numarası'
+    PLURALNAME: 'Sayı aralıkları'
+    PREFIX: Önek
+    SINGULARNAME: 'Sayı aralığı'
+    START: başlamak
+    STARTCOUNT: başlamak
+    SUFFIX: sonek
+    TITLE: Başlık
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: 'Brüt toplam'
+    AMOUNTTOTAL: 'Toplam tutar'
+    AdminModeEdit: 'Görünümü düzenleme moduna değiştir'
+    AdminModeView: 'Görünümü görüntüleme moduna değiştir'
+    BASICDATA: 'Temel veri'
+    BATCH_CHANGEORDERSTATUS: 'Sipariş durumunu şu şekilde değiştir...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Ödeme durumunu şu şekilde değiştir...'
+    BATCH_MARKASNOTSEEN: 'Görülmedi olarak işaretle'
+    BATCH_MARKASSEEN: 'Görüldüğü gibi işaretle'
+    BATCH_PRINTORDERS: 'Baskı siparişleri (HTML)'
+    CUSTOMER: müşteri
+    CUSTOMERDATA: 'Müşteri bilgisi'
+    CUSTOMERSEMAIL: 'Müşteri e-posta adresi'
+    ExpectedDelivery: 'Beklenen Teslim Tarihi'
+    ExpectedDeliveryMax: 'Maksimum beklenen teslim tarihi'
+    ExpectedDeliveryMin: 'Minimum beklenen teslim tarihi'
+    HANDLINGCOSTPAYMENT: 'Ödeme yöntemi ücretleri'
+    HANDLINGCOSTSHIPMENT: 'Nakliye yöntemi ücretleri'
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'İptal politikasını kabul etti'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Şartları ve koşulları kabul etti'
+    HandlingCost: 'Ödeme / Nakliye Ücretleri'
+    INCLUDED_SHIPPINGRATE: 'Nakliye masrafları dahil'
+    INVOICENUMBER: 'fatura numarası'
+    INVOICENUMBER_SHORT: 'fatura numarası'
+    IS_SEEN: Görülen
+    MISCDATA: çeşitli
+    ModelAdminTabOrderInprogress: İşlemde
+    ModelAdminTabOrderNew: Yeni
+    ModelAdminTabPaymentOpen: 'ödeme Açık'
+    NOTE: Yorum
+    ORDERNUMBER: 'Sipariş numarası'
+    ORDERNUMBERSHORT: '-sayı'
+    ORDERPOSITIONDATA: 'Konum verileri'
+    ORDERPOSITIONISLIMIT: 'Sipariş yalnızca belirtilen öğeyi içerebilir'
+    ORDERPOSITIONQUANTITY: 'Öğe Miktarı'
+    ORDER_ID: 'Sipariş numarası'
+    ORDER_VALUE: 'Toplam tutar'
+    OrderNumberShort: 'Sipariş numarası'
+    PAYMENTMETHODTITLE: 'Ödeme şekli'
+    PLURALNAME: Emirler
+    PRICETYPE: 'Fiyat görüntüleme türü'
+    PRINT: 'yazdırma emri'
+    PRINT_PREVIEW: 'Baskı Önizleme'
+    PaymentDate: ödendi
+    PaymentReferenceData: 'Ödeme sağlayıcısının referans verileri'
+    PaymentReferenceID: 'Ödeme sağlayıcısının referans numarası'
+    PaymentReferenceMessage: 'Ödeme sağlayıcısından referans bilgileri'
+    PaymentStatus: 'Ödeme durumu'
+    SEARCHRESULTSLIMIT: sınır
+    SHIPPINGRATE: Nakliye
+    SILVERCART_ORDER_DELETE: 'İsteği sil'
+    SILVERCART_ORDER_EDIT: 'Siparişinizi Düzenleyin'
+    SILVERCART_ORDER_VIEW: 'Siparişi görüntüle'
+    SINGULARNAME: Emir
+    STATUS: 'Sipariş durumu'
+    ShippingDate: 'sevk edildi'
+    TAXAMOUNTPAYMENT: 'Ödeme yöntemi vergisi'
+    TAXAMOUNTSHIPMENT: 'Gönderim yöntemi vergisi'
+    TAXRATEPAYMENT: 'Ödeme yönteminin vergi oranı'
+    TAXRATESHIPMENT: 'Gönderim yönteminin vergi oranı'
+    Tracking: 'gönderi takibi'
+    TrackingCode: 'Takip numarası'
+    TrackingLink: 'İzleme bağlantısı'
+    TrackingLinkLabel: 'Gönderimin şu anda nerede olduğunu göster'
+    WEIGHTTOTAL: 'toplam ağırlık'
+    YOUR_REMARK: 'senin yorumun'
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: 'Sipariş adresleri'
+    SINGULARNAME: 'Sipariş adresi'
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Siparişlerin fatura adresleri'
+    SINGULARNAME: 'Siparişin fatura adresi'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: bağlam
+    CREATED: 'Tarih / saat'
+    MESSAGE: eylem
+    MESSAGE_CHANGED: 'Değiştirildi: {sourcetitle} - > {targettitle}'
+    MESSAGE_CREATED: 'Oluşturuldu: {context} oluşturuldu'
+    MESSAGE_MARKEDASNOTSEEN: 'Görülmedi olarak işaretlendi'
+    MESSAGE_MARKEDASSEEN: 'Görüldüğü gibi işaretlendi'
+    PLURALNAME: 'Sipariş günlüğü'
+    SINGULARNAME: 'Sipariş günlüğü'
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Ek ücret / indirim türü'
+    ISCHARGEORDISCOUNT: 'Ek ücret / indirim'
+    PLURALNAME: 'Sipariş öğeleri'
+    PRICE: fiyat
+    PRICETOTAL: 'Toplam tutar'
+    PRODUCTDESCRIPTION: tanım
+    PRODUCTNUMBER: 'Makale numarası.'
+    QUANTITY: 'çok güzelsin'
+    SHORT: Kalem
+    SINGULARNAME: 'Sipariş öğesi'
+    TAX: KDV
+    TAXRATE: 'vergi oranı'
+    TAXTOTAL: 'KDV toplamı'
+    TITLE: Soyadı
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Siparişin teslimat adresleri'
+    SINGULARNAME: 'Siparişin teslimat adresi'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Bu sipariş durumu bir sipariş için ayarlandığında aşağıdaki işaretli e-postalar gönderilir:'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'ilişkili e-postalar'
+    BADGECOLOR: 'Renk durumu'
+    CODE: kod
+    DefaultStatusCanceled: 'İptal edildi'
+    DefaultStatusCompleted: Kapalı
+    DefaultStatusInprogress: İşlemde
+    DefaultStatusNew: Yeni
+    DefaultStatusShipped: 'sipariş gönderildi'
+    IsDefault: standart
+    PLURALNAME: 'Sipariş durumu'
+    SINGULARNAME: 'Sipariş durumu'
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+    TITLE: tanım
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Benim verim'
+    DEFAULT_URLSEGMENT: 'benim verim'
+    PLURALNAME: 'Veri sayfaları'
+    SINGULARNAME: 'Veri sayfası'
+    TITLE: 'Benim verim'
+    URL_SEGMENT: 'benim verim'
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Sayfaları indir'
+    SINGULARNAME: 'İndirme sayfası'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Sayfa haritalarını indirin'
+    ResultsText: '<strong> " aramanız {term} " </strong> , <strong> {count} isabet </strong> sonuçlandı.'
+    SINGULARNAME: 'İndirilenler sayfasına genel bakış'
+    SearchResults: 'Arama Sonuçları'
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2> <strong> SilverCart </strong> web mağazasına hoş geldiniz! </h2>'
+    DEFAULT_CONTENT: '<h2> <strong> SilverCart </strong> web mağazasına hoş geldiniz! </h2>'
+    DESCRIPTION: 'Web mağazasının ön sayfası (ana sayfası)'
+    PLURALNAME: cepheler
+    SINGULARNAME: Ön
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: Yasal
+    DEFAULT_TITLE_ABOUT: Hakkımızda
+    DEFAULT_TITLE_LEGAL: Yasal
+    DEFAULT_TITLE_SERVICE: hizmet
+    DEFAULT_TITLE_SHOP: 'Mağaza sistemi'
+    DEFAULT_URLSEGMENT: yasal
+    DEFAULT_URLSEGMENT_ABOUT: Hakkımızda
+    DEFAULT_URLSEGMENT_LEGAL: yasal
+    DEFAULT_URLSEGMENT_SERVICE: hizmet
+    DEFAULT_URLSEGMENT_SHOP: 'mağaza sistemi'
+    PLURALNAME: 'Meta gezinmeye genel bakış'
+    SINGULARNAME: 'Meta gezinmeye genel bakış'
+    URL_SEGMENT: yasal
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: damga
+    DEFAULT_TITLE_PRIVACY: 'Veri koruması'
+    DEFAULT_TITLE_REVOCATION: 'Vazgeçme hakkı'
+    DEFAULT_TITLE_TERMS: 'Kullanım Şartları'
+    DEFAULT_URLSEGMENT_IMPRINT: damga
+    DEFAULT_URLSEGMENT_PRIVACY: 'Veri koruması'
+    DEFAULT_URLSEGMENT_REVOCATION: 'Vazgeçme hakkı'
+    DEFAULT_URLSEGMENT_TERMS: genel-şartlar-ve-koşullar-alıcı-bilgi
+    PLURALNAME: 'Meta bilgi sayfaları'
+    SINGULARNAME: 'Meta bilgi sayfası'
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'zaten bir hesabın var mı?'
+    DEFAULT_TITLE: Hesabım
+    DEFAULT_URLSEGMENT: hesabım
+    GOTO_REGISTRATION: 'Kayıt formuna'
+    MORE: Daha
+    PLURALNAME: 'Hesaba genel bakış'
+    REGISTER_ADVANTAGES_TEXT: 'Kaydolursanız, alışveriş yaparken fatura ve teslimat adresleri gibi verilerinize erişebilirsiniz.'
+    SINGULARNAME: 'Hesap özeti'
+    TITLE: Hesabım
+    URL_SEGMENT: hesabım
+    WANTTOREGISTER: 'Kayıt olmak istiyor musunuz?'
+    YOUR_CURRENT_ADDRESSES: 'Mevcut fatura ve teslimat adresiniz'
+    YOUR_CUSTOMERNUMBER: 'müşteri numaranız'
+    YOUR_MOST_CURRENT_ORDERS: 'En son siparişleriniz'
+    YOUR_PERSONAL_DATA: 'kişisel bilgilerin'
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Kayıt zaten varsa mesaj atın'
+    AlreadyConfirmedMessageText: 'Mesaj: Kullanıcı katılımı zaten tamamladı'
+    ConfirmationFailureMessage: 'Kayıt başarısız olursa mesaj'
+    ConfirmationSuccessMessage: 'Kayıt başarılı olduysa mesaj'
+    DEFAULT_TITLE: Bülten
+    DEFAULT_URLSEGMENT: Bülten
+    DefaultAlreadyConfirmedMessage: '<p> Bültene önceden kaydolmuştunuz. </p>'
+    DefaultConfirmationFailureMessage: '<p> Bülten kaydınız tamamlanamadı. </p>'
+    DefaultConfirmationSuccessMessage: '<p> Bülten kaydınız başarılı oldu! </p> <p> Tekliflerimizle size bol eğlence ve başarılar dileriz. </p>'
+    DefaultConfirmationSuccessSubject: 'Bülten kaydı başarıyla tamamlandı'
+    DefaultEmailConfirmationSubject: 'Bülten kaydını tamamlayın'
+    DefaultOptInPageTitle: 'Bülten kaydını tamamlayın'
+    EmailConfirmationConfirm: 'girişi onayla'
+    EmailConfirmationHaveFun: 'Tekliflerimizle size bol eğlence ve başarılar dileriz.'
+    EmailConfirmationIgnore: 'Haber bültenini talep etmediyseniz, bu e-postayı dikkate almayın.'
+    EmailConfirmationLinkInfo: 'Lütfen aktivasyon bağlantısına tıklayın veya bağlantıyı tarayıcınıza kopyalayın.'
+    EmailConfirmationSuccessMessage: 'Bülten kaydınız başarılı oldu!'
+    EmailConfirmationTitle: 'Bülten kaydını tamamlayın'
+    FailureMessageText: 'hata mesajı'
+    OptInPageTitle: 'Katılım sayfasının başlığı'
+    PLURALNAME: 'Bülten sayfaları'
+    SINGULARNAME: 'Bülten sayfası'
+    SuccessMessageText: 'Başarı mesajı'
+    THANKS_TITLE: 'Bülten durumu'
+    TITLE: Bülten
+    URL_SEGMENT: Bülten
+    UseDoubleOptIn: 'Çift katılım kullan'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: Siparişlerim
+    DEFAULT_URLSEGMENT: Siparişlerim
+    OrderDetails: 'Sipariş detayları'
+    PLURALNAME: 'Siparişe genel bakış'
+    SINGULARNAME: 'Siparişe genel bakış'
+    TITLE: Siparişlerim
+    URL_SEGMENT: Siparişlerim
+  SilverCart\Model\Pages\Page:
+    ABOUT_US: Hakkımızda
+    ABOUT_US_URL_SEGMENT: Hakkımızda
+    ACCESS_CREDENTIALS_CALL: 'Lütfen giriş bilgilerinizi giriniz:'
+    ADDRESS: adres
+    ADDRESSINFORMATION: 'Adres bilgisi'
+    ADDRESS_DATA: 'Adres verileri'
+    ADMIN_AREA: 'Yönetici erişimi'
+    ALREADY_REGISTERED: 'Merhaba {name} , zaten kayıt oldunuz.'
+    API_CREATE: 'API aracılığıyla nesneler oluşturabilir'
+    API_DELETE: 'API aracılığıyla nesneleri silebilir'
+    API_EDIT: 'API aracılığıyla nesneleri değiştirebilir'
+    API_VIEW: 'API aracılığıyla nesneleri okuyabilir'
+    APRIL: Nisan
+    AUGUST: Ağustos
+    AllPricesExclVat: 'Tüm fiyatlar artı KDV.'
+    AllPricesInclVat: 'Tüm fiyatlara vergiler dahildir.'
+    BACK: Dönüş
+    BACK_TO: '" {title} "'
+    BACK_TO_DEFAULT: 'önceki sayfa'
+    BILLING_ADDRESS: 'Fatura Adresi'
+    BIRTHDAY: 'doğum tarihi'
+    CANCEL: iptal
+    CART: 'alışveriş Sepeti'
+    CATALOG: Katalog
+    CHANGE_PAYMENTMETHOD_CALL: 'Lütfen farklı bir ödeme yöntemi seçin veya mağaza operatörüyle iletişime geçin.'
+    CHANGE_PAYMENTMETHOD_LINK: 'başka bir ödeme yöntemi seçin'
+    CHECK_FIELDS_CALL: 'Lütfen aşağıdaki alanlardaki girişlerinizi kontrol edin:'
+    CONTACT_FORM: 'İletişim Formu'
+    CONTINUESHOPPING: 'Alışverişe devam'
+    CREDENTIALS_WRONG: 'Giriş bilgileriniz yanlış.'
+    Categories: Kategorilerimiz
+    DAY: Gün
+    DECEMBER: Aralık
+    DECREMENT_POSITION: 'Sayıyı azalt'
+    DELETE: Söndürmek
+    DETAILS: Detaylar
+    DETAILS_FOR: '%s'
+    DIDNOT_RETURN_RESULTS: 'mağazamızda herhangi bir sonuç vermedi.'
+    DO_NOT_EDIT: 'Lütfen değiştirmeyin!'
+    EMAIL_ADDRESS: E
+    EMAIL_ALREADY_REGISTERED: 'Bir kullanıcı bu e-posta adresiyle zaten kaydoldu.'
+    EMAIL_NOT_FOUND: 'Bu e-posta adresi bulunamadı.'
+    EMPTY_CART: 'boşaltmak için'
+    ERROR_LISTING: 'şu hatalar oluştu:'
+    ERROR_OCCURED: 'Bir hata oluştu.'
+    FEBRUARY: Şubat
+    FIND: 'Bulmak:'
+    FORWARD: 'Daha öte'
+    GOTO: '{title} sayfasına git'
+    GOTO_CART_SHORT: 'alışveriş Sepeti'
+    GOTO_CONTACT_LINK: 'iletişim sayfasına'
+    GOTO_PAGE: '{count} sayfasına git'
+    HEADERPICTURE: 'Başlık görüntü'
+    HELLO: Merhaba
+    INCLUDED_VAT: 'KDV dahil.'
+    INCLUDING_TAX: '{amount} % KDV dahil'
+    INCREMENT_POSITION: 'Sayıyı artır'
+    ISACTIVE: aktif
+    I_ACCEPT: 'kabul ediyorum'
+    I_HAVE_READ: Sahibim
+    JANUARY: Ocak
+    JULY: Temmuz
+    JUNE: Haziran
+    LOGIN: 'Kayıt olmak'
+    LOGO: logo
+    LOGOUT: 'oturumu Kapat'
+    MARCH: Mart
+    MAY: Mayıs
+    MESSAGE: Haberler
+    MONTH: ay
+    MYACCOUNT: Hesabım
+    MetaTitleAt: '{shopTitle}'
+    NAME: Soyadı
+    NEWSLETTER: Bülten
+    NEWSLETTER_FORM: 'Bülten ayarları'
+    NEXT: önce
+    NOT_FOUND: '" {title} " sayfası bulunamadı.'
+    NOVEMBER: Kasım
+    NO_ORDERS: 'Henüz herhangi bir siparişi tamamlamadınız.'
+    NO_RESULTS: 'Üzgünüz, ancak arama teriminiz için hiçbir sonuç bulunamadı.'
+    OCTOBER: Ekim
+    OR: veya
+    ORDERED_PRODUCTS: 'Sipariş edilen ürünler'
+    ORDER_COMPLETED: 'Siparişiniz tamamlandı.'
+    ORDER_DATE: 'Sipariş tarihi'
+    ORDER_THANKS: 'Siparişiniz için teşekkür ederiz.'
+    Oclock: saat
+    PASSWORD: parola
+    PASSWORD_CASE_EMPTY: 'Bu alanı boş bırakırsanız şifreniz değişmeyecektir.'
+    PASSWORD_CHECK: 'Şifreyi tekrar girin'
+    PASSWORD_WRONG: 'Bu şifre yanlış.'
+    PAYMENT_NOT_WORKING: 'Seçilen ödeme modülü çalışmıyor.'
+    PLURALNAME: sayfalar
+    PLUS_SHIPPING: 'nakliye masrafları hariç'
+    PREV: Dönüş
+    PRODUCTNAME: 'Makale adı'
+    PageXofY: 'Sayfa {x} / {y}'
+    REGISTER: 'Kayıt olmak'
+    REGISTER_HERE: 'Buradan kaydolun.'
+    REGISTER_NEW: 'Yeni müşteri?'
+    REMARKS: Uyarılar
+    REMOVE_FROM_CART: kaldırmak
+    RETURNTOPRODUCTGROUP: '{title} " sayfasına geri dön'
+    REVOCATION: 'Vazgeçme hakkı'
+    REVOCATIONREAD: 'İptal talimatı okundu'
+    SAVE: 'Bilgisayara kaydet'
+    SEPTEMBER: Eylül
+    SESSION_EXPIRED: 'Oturumunuz sona erdi.'
+    SHIPPING_ADDRESS: 'teslimat adresi'
+    SHIPPING_AND_BILLING: 'Teslimat ve fatura adresi'
+    SHOP_WITHOUT_REGISTRATION: 'Kayıt olmadan alışveriş yapın'
+    SHOWINPAGE: 'Dili {language}'
+    SHOW_DETAILS: 'Detayları göster'
+    SHOW_DETAILS_FOR: '{title} ilgili ayrıntıları göster'
+    SINGULARNAME: sayfa
+    SITMAP_HERE: 'Burada web sitemize genel bir bakış görebilirsiniz.'
+    STEPS: adımlar
+    SUBMIT: Göndermek
+    SUBMIT_MESSAGE: 'mesaj gönder'
+    SUBTOTAL: 'ara toplam'
+    SUBTOTAL_NET: 'Ara toplam net)'
+    SUM: Toplam
+    Start: başlamak
+    TAX: '{amount} % KDV dahil'
+    TERMSOFSERVICE_PRIVACY: 'Genel şartlar ve koşullar ve veri koruma'
+    THE_QUERY: Dönem
+    TITLE: Başlık
+    TITLE_IMPRINT: damga
+    TITLE_TERMS: 'Kullanım Şartları'
+    TODAY: bugün
+    TOTAL: Toplam
+    URL_SEGMENT_IMPRINT: damga
+    URL_SEGMENT_TERMS: genel-şartlar-ve-koşullar-alıcı-bilgi
+    USER_NOT_EXISTING: 'Böyle bir kullanıcı yoktur.'
+    UseAsRootForMainNavigation: 'Bu sayfanın alt sayfaları ana gezinmeyi oluşturur'
+    UseAsRootForMainNavigationDesc: 'Temel kurulumda yer alan ürün gruplarını içeren ana navigasyon bu sayfanın alt sayfalarından oluşmaktadır. Bu ayarın etkin olduğu yalnızca bir taraf olabilir.'
+    VALUE_OF_GOODS: 'Malların değeri'
+    VIEW_ORDERS_TEXT: 'Siparişinizin durumunu şuradan kontrol edin:'
+    WELCOME_PAGE_TITLE: 'Hoş geldin'
+    WELCOME_PAGE_URL_SEGMENT: Hoşgeldiniz
+    WELCOME_TO: Hoşgeldiniz
+    YEAR: yıl
+    YESTERDAY: dün
+    YOUR_REMARKS: 'bize mesajınız'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: 'Ödeme metodları'
+    DEFAULT_URLSEGMENT: 'Ödeme metodları'
+    PLURALNAME: 'Ödeme yöntemi sayfaları'
+    SINGULARNAME: 'Ödeme yöntemi sayfası'
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: 'Ödeme bildirimi'
+    DEFAULT_URLSEGMENT: 'ödeme bildirimi'
+    PLURALNAME: 'Ödeme bildirimleri'
+    SINGULARNAME: 'Ödeme bildirimi'
+    TEXTBANKACCOUNTINFO: 'Peşin ödeme yöntemi için bilgi'
+    TITLE: 'Ödeme bildirimi'
+    URL_SEGMENT: 'ödeme bildirimi'
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: 'Ürün grupları'
+    DEFAULT_URLSEGMENT: 'mal grupları'
+    LinkTo: 'Yönlendirmenin yapılması gereken mal grubu'
+    PAGE_TITLE: 'Ürün grupları'
+    PLURALNAME: 'Makale grubuna genel bakış'
+    RedirectToProductGroup: 'Doğrudan bir ürün grubuna ilet'
+    RedirectionSettings: Yönlendirme
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} makaleyi göster'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} makaleyi göster'
+    SINGULARNAME: 'Makale grubuna genel bakış'
+    SUBGROUPS_OF: 'alt kümeleri'
+    URL_SEGMENT: 'mal grupları'
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: bağlanmak
+    BREADCRUMBS: 'Bölüm kırıntıları'
+    BuyTitle: '{title} satın al'
+    DEFAULTGROUPHOLDERVIEW: 'Standart ürün grubu görünümü'
+    DEFAULTGROUPVIEW: 'Standart makale listesi görünümü'
+    DEFAULTGROUPVIEW_DEFAULT: 'Üst gruptan / standart konfigürasyondan devralın'
+    DONOTSHOWPRODUCTS: '<strong> hiçbir </strong> makale gösterme'
+    DisplaySettings: 'Görüntü ayarları'
+    GROUP_PICTURE: 'Grubun resmi'
+    MANAGE_PRODUCTS_BUTTON: 'Makaleleri yönet'
+    MANUFACTURER_LINK: 'Üretici firma'
+    NewProducts: 'yeni hitler'
+    NewProductsIn: '{productgroup} yenilikleri'
+    NewProductsLinkTitle: 'Tüm haberleri göster'
+    OK: Tamam
+    PLURALNAME: 'Ürün grupları'
+    PRODUCTGROUPSPERPAGE: 'Sayfa başına ürün grupları'
+    PRODUCTSPERPAGE: 'Sayfa başına öğe'
+    PRODUCTSPERPAGEHINT: 'Makaleler veya departmanlar için standart ayarı kullanmak üzere sayfa başına 0 (sıfır) girin.'
+    PRODUCTS_ON_PAGE: '{productcount} pagecount} sayfasındaki {pagecount} makalesi'
+    PRODUCTS_ON_PAGES: '{productcount} pagecount} sayfalarında {pagecount} makale'
+    PRODUCTS_PER_PAGE: 'Sayfa başına öğe'
+    PRODUCT_ON_PAGE: '{productcount} pagecount} sayfasındaki {pagecount} makalesi'
+    PreorderableProducts: 'Ön sipariş'
+    PreorderableProductsIn: '{productgroup} ön siparişi'
+    PreorderableProductsLinkTitle: 'Tüm ön siparişleri göster'
+    SINGULARNAME: 'Ürün grubu'
+    SORT_ORDER: sıralama
+    ShowOffersFor: 'Şunun için teklifleri göster:'
+    ShowResultsFor: 'için sonuçları göster'
+    ShowResultsForAll: 'Tüm kategoriler için sonuçları göster'
+    ShowResultsForAllMenu: 'Tüm Kategoriler'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Yalnızca standart ürün grubu görünümünü kullanın'
+    USEONLYDEFAULTGROUPVIEW: 'Yalnızca standart makale listesi görünümünü kullanın'
+    USE_CONTENT_FROM_PARENT: 'Daha yüksek seviyeli sayfalardan içerik benimseyin'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Bu makale tükendi.'
+    PACKAGING_CONTENT: içindekiler
+    PLURALNAME: 'Öğe ayrıntı sayfaları'
+    PRINT: Bastırmak
+    QUANTITY: sayı
+    SINGULARNAME: 'Ürün detay sayfası'
+    URL_SEGMENT: 'öğe ayrıntıları'
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1> Kaydı tamamlayın </h1> <p> Lütfen etkinleştirme bağlantısını tıklayın veya bağlantıyı tarayıcınıza kopyalayın. </p> <p> <a href="$ConfirmationLink"> </a> </p> <p> Kaydolmadıysanız, bu e-postayı dikkate almayın. </p> <p> mağazası ekibiniz </p>'
+    CUSTOMER_SALUTATION: 'Sayın Müşteri,'
+    DEFAULT_TITLE: 'Kayıt sayfası'
+    DEFAULT_URLSEGMENT: 'Kayıt olmak'
+    DEFAULT_WELCOME_CONTENT: '<p> Sayın müşterimiz, </p> <p> işinizden tasarruf etmek için, otomatik olarak girişinizi zaten yaptık. </p> <p> Mağazamızda iyi eğlenceler! </p>'
+    EMAIL_EXISTS_ALREADY: 'Bu e-posta adresi zaten alınmış.'
+    EmailOptInConfirmYourEmailAddress: 'Email adresini onayla'
+    EmailOptInConfirmationCustomerData: 'Müşteri verileriniz'
+    EmailOptInConfirmationCustomerDataInfo: 'Müşteri verilerinizi aşağıda bulabilirsiniz.'
+    EmailOptInConfirmationInfo: 'Tebrikler ve mağazamıza hoş geldiniz! E-posta adresiniz onaylanmıştır. Artık müşteri fotoğrafınızı mağazamızda kullanma hakkına sahipsiniz.'
+    EmailOptInConfirmationTitle: 'E-posta adresi onaylandı'
+    EmailOptInConfirmationVisit: 'Mağazamızı ziyaret edin'
+    EmailOptInIgnore: 'Mağazamıza kaydolmadıysanız, bu e-postayı dikkate almayın.'
+    EmailOptInLinkInfo: 'Lütfen aktivasyon bağlantısına tıklayın veya bağlantıyı tarayıcınıza kopyalayın.'
+    EmailOptInNotificationCustomerData: 'İlgili kişi'
+    EmailOptInNotificationTitle: 'Bir müşteri kaydetti'
+    EmailOptInTitle: E
+    OTHERITEMS: çeşitli
+    OptInFailedMessage: 'E-posta adresinizi onaylamak için bu bağlantı geçersiz.'
+    OptInFailedTitle: 'Kaydolma başarısız oldu'
+    OptInGoToMyAccount: Hesabım
+    OptInGoToShop: 'dükkana devam et'
+    OptInMessage: 'E-posta adresiniz onaylanmıştır.'
+    OptInMessageLogin: 'E-posta adresinizi onaylamak için lütfen giriş yapın.'
+    OptInPendingMessage: 'E-posta onayınız beklemede. Lütfen gelen kutunuzu kontrol edin ve onay bağlantısını ziyaret edin.'
+    OptInPendingTitle: 'Kaydolma bekleniyor'
+    OptInResend: 'Onay bağlantısını tekrar gönder'
+    OptInResendMessage: 'Onay {email} e-posta {email} adresine gönderildi.'
+    OptInResendTitle: 'Onay bağlantısını tekrar gönder'
+    OptInTitle: 'Email adresini onayla'
+    OptInWelcomeMessage: 'Tebrikler! Mağazamıza kaydınız başarılı oldu!'
+    OptInWelcomeMessage2: 'Müşteri hesabınızı etkinleştirmek için lütfen e-posta ile aldığınız onay bağlantısını ziyaret ederek e-posta adresinizi onaylayın.'
+    OptInWelcomeMessage3: 'Onay bağlantısı <strong> {email} </strong> adresine gönderildi. Lütfen gelen kutunuzu kontrol edin.'
+    OptInWelcomeTitle: 'Email adresini onayla'
+    PLEASE_COFIRM: 'Lütfen kaydınızı onaylayın.'
+    PLURALNAME: 'Kayıt sayfaları'
+    SINGULARNAME: 'Kayıt sayfası'
+    SUCCESS_TEXT: '<h1> Kayıt başarıyla tamamlandı! </h1> <p> Kaydınız için teşekkür ederiz. </p> <p> Mağazamızda iyi eğlenceler! </p> <p> mağazası ekibiniz </p>'
+    THANKS: 'kaydınız için teşekkür ederiz.'
+    TITLE: 'Kayıt sayfası'
+    URL_SEGMENT: 'Kayıt olmak'
+    YOUR_REGISTRATION: Kaydınız
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: iptal
+    DEFAULT_URLSEGMENT: iptal
+    PLURALNAME: 'İptal Sayfaları'
+    SINGULARNAME: 'İptal sayfası'
+    Success: 'İptal başarıyla gönderildi'
+    SuccessText: 'Çok teşekkürler! İptalinizi aldık ve talebinizi işleme koyacağız.'
+    TITLE: iptal
+    URL_SEGMENT: iptal
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'için sonuçlar'
+    DEFAULT_TITLE: 'Arama Sonuçları'
+    DEFAULT_URLSEGMENT: 'Arama Sonuçları'
+    PLURALNAME: 'Arama sonuçları sayfaları'
+    RELEVANCESORT: alaka
+    ResultsTextCategory: '<strong> kategorisi için arama sonuçları ” {category} ” </strong> ( {results} isabet)'
+    ResultsTextQuery: '<strong> ” terimi için arama sonuçları {query} ” </strong> ( {results} isabet)'
+    ResultsTextQueryAndCategory: '<strong> ” terimi için arama sonuçları {query} ” </strong> kategorisinde <strong> ” {category} ” </strong> ( {results} isabet)'
+    SINGULARNAME: 'Arama sonuçları sayfası'
+    SearchTitle: '{title} " {count} arama sonucu'
+    TITLE: 'Arama Sonuçları'
+    URL_SEGMENT: 'Arama Sonuçları'
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: Miktar
+    PLURALNAME: 'İşleme maliyetleri'
+    SINGULARNAME: 'İşleme maliyetleri'
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: 'Genel olarak'
+    ACCESS_MANAGEMENT_GROUP_LABEL: 'Grup(lar)a göre'
+    ACCESS_MANAGEMENT_USER_LABEL: 'Müşteri(ler)e göre'
+    ACCESS_SETTINGS: 'Erişim yönetimi'
+    ATTRIBUTED_COUNTRIES: 'atanan ülkeler'
+    AddPaymentLogos: 'Logo ekle'
+    BASIC_SETTINGS: 'Temel ayarlar'
+    ChargeOrDiscountForAmount: '{price}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Aşağıdaki kuralı uygulayın'
+    ExcludedPosition: '{position} için geçerli değildir'
+    ExcludedPositions: 'pozisyonların istisnası {positions}'
+    FROM_PURCHASE_VALUE: 'malların değerinden'
+    HANDLINGCOSTS_SETTINGS: 'İşleme maliyetleri'
+    LONG_PAYMENT_DESCRIPTION: 'Ödeme yöntemi sayfasında görüntülenecek açıklama'
+    MODE: mod
+    NAME: Soyadı
+    NO_PAYMENT_METHOD_AVAILABLE: 'Kullanılabilir ödeme yöntemi yok'
+    PAYMENT_DESCRIPTION: tanım
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Kesinlikle
+    PAYMENT_IMPACT_TYPE_PERCENT: Yüzde
+    PAYMENT_ISACTIVE: Aktif
+    PAYMENT_LOGOS: Logolar
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Modül için maksimum miktar'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Modül için minimum miktar'
+    PAYMENT_MODE_DEV: 'Geliştirme ve test'
+    PAYMENT_MODE_LIVE: 'Canlı / çalışır durumda'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Malların değeri'
+    PAYMENT_MODIFY_TOTALVALUE: 'Toplam değer'
+    PAYMENT_MODIFY_TYPE_CHARGE: 'ek ücret'
+    PAYMENT_MODIFY_TYPE_DISCOUNT: İndirim
+    PAYMENT_SUMMODIFICATIONIMPACT: Etkilenen
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Sanat
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: değer
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Alışveriş sepetinde/siparişte etiketleme'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'XML siparişi dışa aktarma için makale numarası'
+    PAYMENT_SUMMODIFICATIONVALUE: değer
+    PAYMENT_SUMMODIFIERS: 'Ek ücretler / indirimler'
+    PAYMENT_USE_SUMMODIFICATION: etkinleştir
+    PaymentChannel: 'Ödeme şekli'
+    PaymentStatus: 'Ödeme durumu'
+    PaymentStatusDesc: 'Bu ödeme yöntemi için standart ödeme durumu'
+    RESTRICTION_LABEL: 'Yalnızca aşağıdaki kriterleri karşılayan müşterilere göster'
+    RESTRICT_BY_ORDER_QUANTITY: 'Müşteri en az aşağıdaki sayıda sipariş vermiş olmalıdır'
+    RESTRICT_BY_ORDER_STATUS: 'sipariş durumu aşağıdaki listede işaretlenmiş olan'
+    SHIPPINGMETHOD: 'Nakliye Yöntemi'
+    SHIPPINGMETHOD_DESC: 'Ödeme yöntemini aşağıdaki gönderim yöntemlerine bağlayın:'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Ödemeyi seçerken giriş alanlarını zaten göster'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Aşağıdaki gruplar için devre dışı bırak'
+    SHOW_NOT_FOR_USERS_LABEL: 'Aşağıdaki kullanıcılar için devre dışı bırak'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Aşağıdaki gruplar için etkinleştirin'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Aşağıdaki kullanıcılar için etkinleştirin'
+    SHOW_PAYMENT_LOGOS: 'Logoları göster'
+    STANDARD_ORDER_STATUS: 'Bu ödeme yöntemi için standart sipariş durumu'
+    TILL_PURCHASE_VALUE: 'malın değerine kadar'
+    TITLE: 'Ödeme şekli'
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: kod
+    DefaultStatusOpen: 'Açık görüşlü'
+    DefaultStatusPaid: Paralı
+    IsDefault: standart
+    Orders: Emirler
+    PLURALNAME: 'Ödeme durumu'
+    PaymentStatusTranslations: Çeviriler
+    SINGULARNAME: 'Ödeme durumu'
+    Title: Başlık
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\File:
+    DESCRIPTION: tanım
+    FILE_ATTACHMENTS: 'Dosya ekleri'
+    PLURALNAME: Dosyalar
+    SINGULARNAME: dosya
+    SIZE: boy
+    TITLE: 'ekran adı'
+    TYPE: Tip
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\Image:
+    CONTENT: 'Metin içeriği'
+    DESCRIPTION: 'Açıklama (ör. Slidorion metin alanı için)'
+    PLURALNAME: resimler
+    SINGULARNAME: resim
+    SORTORDER: 'Sıralama düzeni'
+    THUMBNAIL: 'Ön izleme'
+    TITLE: 'ekran adı'
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: tanım
+    ManufacturerNumber: 'Üretici numarası'
+    PLURALNAME: 'Üretici firma'
+    SINGULARNAME: 'Üretici firma'
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: 'Satış birimi'
+    AddFile: 'Dosya Ekle'
+    AddImage: 'resim ekle'
+    BasicData: 'Temel veri'
+    CHANGE_QUANTITY_CART: 'Miktarı değiştir'
+    CHOOSE_MASTER: '- ustayı seç -'
+    COLUMN_TITLE: Soyadı
+    DAY: Gün
+    DAYS: Günler
+    DESCRIPTION: 'Ürün Açıklaması'
+    Delivery: teslimat
+    DeliveryForFree: 'Ücretsiz kargo'
+    DeliveryForFreeIsPossible: 'Ücretsiz nakliye mümkündür'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Bu makale, ödeme yöntemi nedeniyle indirimlerden hariç tutulmuştur.'
+    FREE_OF_CHARGE: 'ücretsiz kargo'
+    IMAGE: 'Ürün resmi'
+    IMAGE_NOT_AVAILABLE: 'Hiçbir makale resmi atanmadı'
+    IMPORTIMAGESFORM_ACTION: 'Resimleri içe aktar'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'dizin mevcut değil'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Dizin belirtilmedi'
+    IMPORTIMAGESFORM_HEADLINE: 'Resimleri daha sonra içe aktar'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: dizin
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Görüntülerin bulunduğu web sunucusundaki dizine giden mutlak yol. (Örnek: / var / www / silvercart / resimler /)'
+    IMPORTIMAGESFORM_REPORT: '<p> %d dosya bulundu. </p> <p> %d makalelere atanabildi ve içe aktarıldı. </p>'
+    IS_ACTIVE: aktif
+    IsNotBuyable: 'Bu makale satın alınamaz'
+    Keywords: 'Arama için anahtar kelimeler'
+    LIST_PRICE: 'Liste fiyatı'
+    LaunchDate: Sergilemek
+    LaunchDateInfo: '<strong> İsteğe bağlı </strong> - Yalnızca <i> </i> ayarlıysa ve gösterim satış başlamadan önce yapılacaksa ayarlanır.'
+    MASTERPRODUCT: 'Temel öğe'
+    METADATA: 'Meta veri'
+    METADESCRIPTION: 'Arama motorları için meta açıklama'
+    METATITLE: 'Arama motorları için meta başlık'
+    MONTH: ay
+    MONTHS: aylar
+    MSRP: RRP
+    MSRP_CURRENCY: 'para birimi RRP'
+    MirrorPage_PLURALNAME: 'Spiegel ürün grupları'
+    MirrorPage_SINGULARNAME: 'Ayna ürün grubu'
+    NAME_DESCRIPTION: 'Ad & Açıklama'
+    New: Yeni
+    NewestArrivals: 'dükkanda yeni'
+    PACKAGING_QUANTITY: 'Satış miktarı'
+    PACKAGING_UNIT: 'Paketleme ünitesi'
+    PLURALNAME: öğeler
+    PRICE: fiyat
+    PRICES: 'Fiyat:% s'
+    PRICE_AMOUNT_ASC: 'artan fiyat'
+    PRICE_AMOUNT_DESC: 'azalan fiyat'
+    PRICE_ENTIRE: 'toplam fiyat'
+    PRICE_GROSS: 'Brüt fiyat)'
+    PRICE_GROSS_CURRENCY: 'Para birimi (brüt)'
+    PRICE_NET: 'Net fiyat)'
+    PRICE_NET_CURRENCY: 'Para birimi (net)'
+    PRICE_SINGLE: 'Birim fiyat'
+    PRICE_SINGLE_NET: 'Birim fiyat (net)'
+    PRODUCTNUMBER: 'ürün numarası'
+    PRODUCTNUMBER_MANUFACTURER: 'Ürün numarası (üretici)'
+    PRODUCTNUMBER_SHORT: 'Eşya yok.'
+    PRODUCT_QUESTION: '{title} ( {productnumber} ) makalesiyle ilgili aşağıdaki soruları yanıtlayın:'
+    PRODUCT_QUESTION_LABEL: 'Makale ile ilgili sorular'
+    PURCHASEPRICE: 'satın alma fiyatı'
+    PURCHASEPRICE_CURRENCY: 'Döviz alış fiyatı'
+    PURCHASE_MAX_DURATION: 'Maksimum Abonelik süresi'
+    PURCHASE_MIN_DURATION: 'Asgari Abonelik süresi'
+    PURCHASE_TIME_UNIT: 'Birim (WBZ)'
+    PreorderInfo: 'Bu makale yalnızca {releasedate} tarihinde görünecek. Lütfen bu makalenin yayın tarihinden önce gönderilemeyeceğini unutmayın.'
+    PreorderNow: 'Ön sipariş ver'
+    PreorderToday: 'Bu öğeyi bugün ön sipariş verin'
+    Preorderable: 'ön sipariş verilebilir'
+    QUANTITY: sayı
+    QUANTITY_IS_IN_CART: '{quantity} {unit} zaten alışveriş sepetinde'
+    QUANTITY_SHORT: Sayı
+    RefreshCache: 'Kaydettikten sonra bu makalenin önbelleğini yenileyin'
+    ReleaseDate: Satış
+    ReleaseDateInfo: '<strong> İsteğe bağlı </strong> - Yalnızca satışların başlaması ertelenecekse ayarlanır.'
+    SHORTDESCRIPTION: 'Liste açıklaması'
+    SILVERCART_PRODUCT_CREATE: 'Makaleler oluşturabilir.'
+    SINGULARNAME: öğeler
+    STOCKQUANTITY: Stoklamak
+    STOCK_QUANTITY: 'Bu makalenin stoğu çifte rezerve edilebilir mi?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Stokun artık çifte rezervasyon yapılamayacağı tarih'
+    STOCK_QUANTITY_SHORT: 'Fazla rezervasyon yapmak mümkün mü?'
+    Sale: teklif
+    SalesBanDate: 'yukarı göster'
+    SalesBanDateInfo: '<strong> İsteğe bağlı </strong> - Yalnızca indirim süresi sınırlıysa bahis yapın.'
+    StockIsLowOrderNow: 'Stokta yok - şimdi sipariş verin'
+    TITLE: öğeler
+    TITLE_ASC: 'Artan düzende isim'
+    TITLE_DESC: 'Azalan ad'
+    ThisProductWillBeReleasedOn: 'Bu makale {releasedate}'
+    TimeGroup: 'Zaman kontrolü'
+    VAT: KDV
+    WEEK: hafta
+    WEEKS: Haftalar
+    WEIGHT: ağırlık
+    WIDGETAREA: 'Widget''lar'
+    YEAR: yıl
+    YEARS: yıllar
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: 'Hasarlı / kusurlu'
+    DefaultNew: Yeni
+    DefaultRefurbished: 'Tamamen elden geçirildi'
+    DefaultUsed: 'İkinci el'
+    PLEASECHOOSE: 'Lütfen seç'
+    PLURALNAME: 'Madde durumları'
+    SINGULARNAME: 'Ürün durumu'
+    SeoMicrodataCode: 'SEO Mikro Veri Kodu'
+    SeoMicrodataCodeDamaged: 'Hasarlı / kusurlu'
+    SeoMicrodataCodeDescription: 'Arama motorlarında görünürlüğü artırmak için buraya uygun bir değer atayın.'
+    SeoMicrodataCodeNew: Yeni
+    SeoMicrodataCodeRefurbished: 'Tamamen elden geçirildi'
+    SeoMicrodataCodeUsed: 'İkinci el'
+    TITLE: Durum
+    USE_AS_STANDARD_CONDITION: 'Makalede hiçbir şey tanımlanmamışsa varsayılan durum olarak kullan'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: dilim
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: kısaltma
+    EXPLANATION_TO_DECIMAL_PLACES: '0''a ayarlayın veya ondalık basamakları kullanmaktan kaçınmak için boş bırakın. Bu ayar, örneğin "alışveriş sepetine ekle" formları için kullanılır.'
+    NAME: Soyadı
+    NUMBER_OF_DECIMAL_PLACES: 'Ondalık basamak sayısı'
+    PLURALNAME: 'Satış birimleri'
+    SINGULARNAME: 'Satış birimi'
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Product\StockItemEntry:
+    Created: tarih
+    Origin: Menşei
+    Origin-1: 'Devralma açılış bakiyesi'
+    Origin0: 'Sistem girişi daha fazla tanımlanmadı'
+    Origin1: 'Makale yeni oluşturuldu'
+    Origin2: 'Doğrudan kullanıcı girişi'
+    Origin3: 'sipariş verildi'
+    Origin4: 'Sipariş değiştirildi'
+    Origin5: 'sipariş iptal edildi'
+    Origin6: 'Harici sistem aracılığıyla içe aktarma'
+    OriginCode: 'köken kodlaması'
+    PLURALNAME: 'Envanter kayıtları'
+    Quantity: 'çok güzelsin'
+    QuantityDesc: 'Stoka eklenecek veya stoktan çıkarılacak miktar (örn. "2" / "- 2").'
+    QuantityRightTitle: 'Kaydettikten sonra miktar değiştirilemez. Bir stok rezervasyonunu düzeltmek için lütfen ilgili notla yeni bir rezervasyon ekleyin.'
+    Reason: sebep
+    ReasonDesc: 'Envanterin neden değiştirildiğine ilişkin kısa açıklama (örneğin, "XYZ siparişi iptal edildi", "XYZ siparişi iade edildi", "mal girişi").'
+    SINGULARNAME: 'Envanter kaydı'
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'atanan nakliye yöntemleri'
+    COSTS: maliyetler
+    DeliveryTimeHint: 'Teslimat süresi hakkında isteğe bağlı bilgiler. Daha yüksek seviyeli gönderim yönteminin spesifikasyonunun üzerine yazar.'
+    EMPTYSTRING_CHOOSEZONE: '--Bölge seçin--'
+    FOR_SHIPPINGMETHOD: 'nakliye yöntemi için'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Bu gönderim ücreti için ücretsiz gönderimi devre dışı bırakın'
+    FREEOFSHIPPINGCOSTSFROM: 'Ücretsiz gönderim (ülkeye özgü ve global ayarların üzerine yazar)'
+    FreeFrom: ücretsiz
+    MaximumWeight: 'Azami ağırlık'
+    MaximumWeightDesc: 'Gram cinsinden maksimum ağırlık (g)'
+    PLURALNAME: 'nakliye ücretleri'
+    POST_PRICING: 'sonraki fiyatlandırma'
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'ALT etiketi için metin'
+    LINKPAGE: 'Bağlantı kurulacak sayfa'
+    PLURALNAME: 'Kaydırıcı resimleri'
+    ProductNumberToReference: 'Bağlantı kurulacak makalenin makale numarası'
+    ProductNumberToReferenceInfo: 'Sayfa yerine kullanılır.'
+    SINGULARNAME: 'kaydırıcı resmi'
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: 'Görüntü kaydırıcısı'
+    DESCRIPTION: 'Bir slayt gösterisinde birkaç resmi görüntüleyen bir resim kaydırıcısı sağlar.'
+    TITLE: resimler
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: 'SilverCart kaydı'
+    DESCRIPTION: 'Bu pencere öğesi, bir oturum açma formu ve kayıt sayfasına bağlantılar gösterir. Müşteri oturum açtıysa, bunun yerine müşteri hesabının alanlarına bağlantılar gösterilir.'
+    TITLE: 'Üye olmak'
+    TITLE_LOGGED_IN: Hesabım
+    TITLE_NOT_LOGGED_IN: 'Üye olmak'
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: 'Sayfa listesi'
+    DESCRIPTION: 'Bu widget, ilgili sayfalara bağlantı içeren sayfaların bir listesini gösterir.'
+    PAGES: 'İlişkili Sayfalar'
+    TITLE: 'Sayfa listesi'
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: resim
+    WIDGET_INFO_TAB: 'Widget bilgisi'
+    WIDGET_INFO_TAB_EXPLANATION: 'Aşağıdaki veriler bazı widget''lar tarafından kullanılabilir.'
+    WIDGET_PRIORITY: 'Sıralama sıralaması (ne kadar yüksekse o kadar geride)'
+    WIDGET_TEXT: tanım
+    WIDGET_TITLE: 'Başlık (isteğe bağlı)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Alt ürün gruplarından makalelerin görüntülenmesi'
+    DESCRIPTION: 'Bu pencere öğesi, geçerli kategoriye hiçbir makale atanmamışsa alt kategorilerdeki makaleleri gösterir.'
+    TITLE: 'Alt kategorilerden makaleler'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'Makaleler için SilverCart kaydırıcısı'
+    CMS_PRODUCTGROUPTABNAME: 'Ürün grubu'
+    CMS_PRODUCTSTABNAME: öğeler
+    DESCRIPTION: 'Bu pencere öğesi, bir ürün grubundan makaleleri gösterir. Hangi ürün grubundan ve kaç adet makalenin gösterileceği tanımlanabilir.'
+    FETCHMETHOD_SORTORDERASC: 'Artan düzende sırala'
+    FETCHMETHOD_SORTORDERDESC: 'Azalan düzende sırala'
+    ProductGroupPageDescription: 'Yalnızca "Ürün seçim yöntemi", "Ürün grubundan" olarak ayarlandığında geçerlidir.'
+    SELECTIONMETHOD_PRODUCTGROUP: 'Ürün grubundan'
+    SELECTIONMETHOD_PRODUCTS: 'Öğeleri elle seçin'
+    SELECT_PRODUCT_DESCRIPTION: 'Lütfen makale numaralarını noktalı virgülle ayırarak girin'
+    STOREADMIN_FIELDLABEL: 'Lütfen görüntülenecek ürün grubunu seçin:'
+    TITLE: öğeler
+    USE_SELECTIONMETHOD: 'Öğeler için seçim yöntemi'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'SilverCart üretici listesi'
+    DESCRIPTION: 'Bu pencere öğesi, ilgili ürün grubundaki tüm üreticilerin bir listesini görüntüler.'
+    RESETFILTER: 'Hepsini Göster ↓'
+    TITLE: 'Üretici listesi'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: 'Departman navigasyonu'
+    DESCRIPTION: 'Bu pencere öğesi, ürün grupları için bir gezinme hiyerarşisi oluşturur. Kök olarak hangi ürün grubunun kullanılacağını belirleyebilirsiniz.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Yalnızca etkin dalı genişlet'
+    LEVELS_TO_SHOW: 'Seviyeleri hangi derinliğe kadar göster'
+    SHOW_ALL_LEVELS: 'Tüm seviyeleri göster'
+    TITLE: 'Departman navigasyonu'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: 'Ürün grupları'
+    DESCRIPTION: 'Bu pencere öğesi, herhangi bir ürün grubuna genel bir bakış oluşturur (isteğe bağlı olarak kaydırıcı olarak).'
+    TITLE: 'Ürün grupları'
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Çeviriler
+    SINGULARNAME: tercüme
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Otomatik slayt gösterisini etkinleştir'
+    AUTOPLAYDELAYED: 'Otomatik slayt gösterisi için gecikmeyi etkinleştir'
+    AUTOPLAYLOCKED: 'Kullanıcı kendi başına gezinirken otomatik slayt gösterisini devre dışı bırak'
+    AddImage: 'resim ekle'
+    BUILDARROWS: 'İleri / geri düğmelerini göster'
+    BUILDNAVIGATION: 'Sayfa gezinmesini göster'
+    BUILDSTARTSTOP: 'Başlat / durdur düğmesini göster'
+    CMS_BASICTABNAME: 'Temel ayarlar'
+    CMS_DISPLAYTABNAME: tasvir
+    CMS_ROUNDABOUTTABNAME: 'Dönel kavşak'
+    CMS_SLIDERIMAGES: 'Slayt gösterisi resimleri'
+    CMS_SLIDERTABNAME: 'Slayt gösterisi ayarları'
+    FETCHMETHOD: 'Makaleler için seçim yöntemi'
+    FETCHMETHOD_RANDOM: Tesadüfen
+    FRONTCONTENT: 'Açıklama metni'
+    FRONTTITLE: başlık
+    GROUPVIEW: 'Öğe listesi görünümü'
+    IS_CONTENT_VIEW: 'Widget görünümü yerine normal makale görünümünü kullanın'
+    IS_CONTENT_VIEW_INFO: 'Widget bir sayfanın içerik alanına yönelikse bu seçenek seçilmelidir.'
+    NUMBEROFPRODUCTSTOFETCH: 'Yüklenecek makale sayısı:'
+    NUMBEROFPRODUCTSTOSHOW: 'Görüntülenecek makale sayısı'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'yalnızca kaydırıcı etkinleştirildiğinde geçerlidir, aksi takdirde yüklenen tüm makaleler görüntülenir'
+    ProductDataToggle: 'Öğe ayarları'
+    ProductRelationToggle: 'makale atama'
+    SLIDEDELAY: 'Otomatik slayt gösterisi için görüntü başına görüntüleme süresi (milisaniye olarak)'
+    STOPATEND: 'Son panelden sonra otomatik slayt gösterisini durdurur'
+    TRANSITIONEFFECT: 'geçiş efekti'
+    TRANSITION_FADE: 'çapraz geçiş'
+    TRANSITION_HORIZONTALSLIDE: 'Yatay olarak kaydırın'
+    TRANSITION_VERTICALSLIDE: 'Dikey olarak kaydırın'
+    USE_LISTVIEW: 'Liste görünümünü kullan'
+    USE_ROUNDABOUT: 'Döner kavşağı kullan'
+    USE_SLIDER: 'Kaydırıcıyı kullan'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'En sık arama terimleri'
+    DESCRIPTION: 'Bu pencere öğesi, en sık görülen arama terimlerini içeren bir TagCloud''u gösterir.'
+    FONTSIZECOUNT: 'Yazı tipi boyutu sayısı'
+    TAGSPERCLOUD: 'Görüntülenecek arama terimlerinin sayısı'
+    TITLE: 'En yaygın arama terimleri'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: aramak
+    DESCRIPTION: 'Bu pencere öğesi, öğe araması için bir arama formu görüntüler.'
+    TITLE: 'Arama Formu'
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Lütfen arama teriminizi girin:'
+    SUBMITBUTTONTITLE: Aramak
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: liste
+    TILE: Fayans

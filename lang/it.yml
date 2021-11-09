@@ -154,15 +154,26 @@ it:
     Actions: Azioni
     Buy1: 'Acquista {title}'
     Buy2: 'Acquista {title1} {title2}'
+    Cancel: Cancella
     Change: Modifica
     ClickForMore: 'Clicca qui per vedere ulteriori informazioni'
     Close: Chiudi
+    ContactUs: Contattateci
+    DefaultIfEmpty: 'Predefinito se vuoto: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Per favore, conferma la cancellazione del tuo account spuntando la casella di controllo.'
+    DeleteYourAccountErrorPassword: 'Spiacente, ma i dati di accesso che hai inserito non sono corretti.'
+    DeleteYourAccountSuccess: 'Il tuo account è stato contrassegnato con successo per la cancellazione e sarà cancellato entro le prossime 24 ore. Riceverai un''email di notifica non appena la cancellazione è stata completata. Fino ad allora, hai la possibilità di revocare la richiesta di cancellazione.'
+    DeleteYourAccountSuccessOpen: 'Il tuo account è stato selezionato con successo per la sua eliminazione. Poichè per il tuo account ci sono ancora ordini aperti, l''account verrà eliminato non appena tutti gli ordini aperti saranno stati conclusi. Riceverai un''e-mail di notifica una volta completata l''eliminazione. Fino ad allora, hai la possibilità di ritirare la tua richiesta di cancellazione.'
+    DeleteYourAccountUndo: 'Revoca richiesta di cancellazione'
+    DeleteYourAccountUndone: 'La richiesta di eliminazione è stata annullata con successo.'
     Go: Vai
     NextPage: 'Pagina successiva'
     PrevPage: 'Pagina precedente'
     ProductAddedToCart: 'L''articolo è stato aggiunto al tuo carrello.'
     ProductRemovedFromCart: 'L''articolo è stato rimosso dal carrello.'
     Sort: 'Criterio d''ordine'
+    Subject: Oggetto
+    Subjects: Oggetto
     Translation: Traduzione
     Translations: Traduzioni
     Until: 'Fino a'
@@ -294,6 +305,8 @@ it:
     TITLE: 'Cambia gruppo di prodotti in...'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
     TITLE: Disattivare
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_Delete:
+    TITLE: Cancella
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
     TITLE: 'Segna come non visto'
   SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
@@ -310,6 +323,10 @@ it:
     DUPLICATE_DESCRIPTION: 'Duplica questo oggetto'
     Duplicate: Duplicare
     DuplicatePermissionsFailure: 'Duplicazione non consentita'
+  SilverCart\Admin\Forms\GridField\GridFieldOrderExportButton:
+    Export-current-month: 'Esportazione del mese corrente'
+    Export-penultimate-month: 'Esportazione penultimo mese'
+    Export-previous-month: 'Esportazione mese precedente'
   SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
     Publish: Pubblicare
     PublishDesc: 'Pubblica questo oggetto'
@@ -477,6 +494,12 @@ it:
     CookiePolicyConfigTxtColor: 'Colore testo'
   SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: 'Vengono create nuove traduzioni per l''intero sito (non pubblicato). Ogni pagina viene creata come modello di traduzione e, se disponibile, viene riempita con il contenuto standard della lingua selezionata. Se non è presente alcun contenuto standard, viene utilizzato il contenuto della lingua corrente selezionata.'
+    DefaultMailRegistrationRecipient: 'E-Mail destinatario registrazione clienti'
+    DefaultMailRevocationRecipient: 'E-Mail destinatario cancellazione ordine'
+    DimensionUnit: 'Unità di misura'
+    DimensionUnit_cm: Centimetri
+    DimensionUnit_in: Pollici/pollici
+    DisableProductLinkInCart: 'Disattivazione link all''articolo nel cestino'
     FACEBOOK_LINK: 'Link Facebook'
     GoogleplusLink: 'Link Google Plus'
     PUBLISHBUTTON: 'Pubblicare tutte le pagine di questa traduzione'
@@ -485,6 +508,10 @@ it:
     TESTDATA_TEXT: 'Non ci sono ancora prodotti; se vuoi creare alcuni data-test fai semplicemente clic sul seguente link:'
     TWITTER_LINK: 'Link Twitter'
     WELCOME_TO_SILVERCART: 'Benvenuti su SilverCart'
+    WeightUnit: 'Unità di misura peso'
+    WeightUnit_g: Grammi
+    WeightUnit_kg: "Chilogrammi\n"
+    WeightUnit_lbs: Libbre
     XING_LINK: 'Link Xing '
   SilverCart\Checkout\CheckoutStep1:
     NewCustomer: "Non sei ancora registrato?\n"
@@ -502,6 +529,8 @@ it:
     To: A
     'YES': Sì
     YESTERDAY: Ieri
+  SilverCart\Extensions\Model\CookieConsent\BroarmSiteTreeExtension:
+    DisablePromptCookieConsent: 'Disattivare consenso cookies per questa pagina'
   SilverCart\Extensions\Model\FontAwesomeExtension:
     FontAwesomeIcon: 'Icona Font Awesome'
     FontAwesomeIconDesc: 'Aprire la ricerca avanzata nella <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">pagina di riferimento dell''icona Font Awesome</a>.'
@@ -572,10 +601,22 @@ it:
     OrderNumber: 'Numero ordine'
     RevocationDate: 'Data revoca'
     RevocationOrderData: 'Con la presente intendo annullare il contratto da me/noi sottoscritto per l''acquisto dei seguenti beni / della fornitura del seguente servizio'
+  SilverCart\Model\BlacklistEntry:
+    Content: Contenuto
+    ContentDesc: 'Se il contenuto di una richiesta di contatto corrisponde a questo testo, la richiesta viene contrassegnata come spam.'
+    IsPartialMatch: 'Nessuna corrispondenza esatta'
+    IsPartialMatchDesc: 'Se attivato, le richieste saranno contrassegnate come spam nel caso in cui il contenuto corrisponda solo in parte e non esattamente al testo inserito qui.'
+    IsPartialMatchNice: 'Nessuna corrispondenza esatta'
+    PLURALNAME: 'Inserimenti nella blacklist'
+    SINGULARNAME: 'Inserimento nella blacklist'
+    Title: Testo
   SilverCart\Model\ContactMessage:
+    Blacklist: Blacklist
+    IsSpam: 'È spam'
     MESSAGE: Messaggio
     PLURALNAME: 'Richieste di contatto'
     SINGULARNAME: 'Richiesta di contatto'
+    SubjectText: Oggetto
     TEXT: ''
   SilverCart\Model\CookieConsent\ExternalResource:
     Code: Codice
@@ -601,6 +642,7 @@ it:
     SINGULARNAME: 'Risorsa esterna'
     Title: Designazione
     URLSegment: 'Segmento URL'
+    ValidationExternalResourceExists: '{identifier} è già stato assegnato a un''altra risorsa.'
   SilverCart\Model\Customer\Address:
     ADDITION: 'Indirizzo supplementare'
     ADDRESSTYPE: 'Tipo d''indirizzo'
@@ -943,6 +985,10 @@ it:
     HASACCEPTEDTERMSANDCONDITIONS: 'Ha accettato i termini e le condizioni generali di vendita'
     INVOICE_DATA: 'Dati per l''indirizzo di fatturazione'
     ISBUSINESSACCOUNT: 'Si tratta di credenziali di accesso di un''azienda cliente'
+    LoginAttemptFailed: fallito
+    LoginAttemptSucceeded: riuscito
+    MarkForDeletion: 'Seleziona per l''eliminazione'
+    MarkForDeletionReason: 'Contrassegna per il motivo dell''eliminazione'
     NET: Netto
     PRICETYPE_GROSS: Lordo
     PRICETYPE_NET: Netto
@@ -952,14 +998,68 @@ it:
     RegistrationOptInConfirmed: 'Opt-in per la registrazione completata'
     SALUTATION: Titolo
     SHIPPING_DATA: 'Dati dell''indirizzo di consegna'
+    SILVERCART_CUSTOMER_CREATE: 'Crea clienti'
+    SILVERCART_CUSTOMER_CREATE_HELP: 'Consente a un utente di creare nuovi clienti.'
+    SILVERCART_CUSTOMER_DELETE: 'Elimina cliente'
+    SILVERCART_CUSTOMER_DELETE_HELP: 'Consente ad un utente di eliminare qualsiasi cliente.'
+    SILVERCART_CUSTOMER_EDIT: 'Modifica cliente'
+    SILVERCART_CUSTOMER_EDIT_HELP: 'Consente a un utente di modificare qualsiasi cliente. I dati dei propri clienti possono anche essere modificati senza questa autorizzazione.'
+    SILVERCART_CUSTOMER_VIEW: 'Visualizza cliente'
+    SILVERCART_CUSTOMER_VIEW_HELP: 'Consente a un utente di guardare qualsiasi cliente. I dati dei propri clienti possono essere visualizzati anche senza questa autorizzazione.'
     SUBSCRIBEDTONEWSLETTER: 'Iscriviti alla newsletter'
     TYPE: Tipo
+    YourPreviousLoginAttempts: 'I tuoi ultimi tentativi di accesso:'
+  SilverCart\Model\Customer\DeletedCustomerReason:
+    CustomReason: Motivo
+    Default_MultiAccount: 'Ho un altro account'
+    Default_NewAccount: 'Desidero aprire un nuovo account'
+    Default_NoReason: 'Non desidero comunicare il motivo'
+    Default_NotUsingAnymore: 'Non uso più questo account'
+    Default_SecurityMistrust: 'Problemi relativi alla sicurezza/privacy dell''account'
+    DifferentReason: 'Altro motivo'
+    PLURALNAME: 'Motivi per la cancellazione dell''account'
+    Reason: Motivo
+    SINGULARNAME: 'Motivo per la cancellazione dell''account'
+    Sort: Ordinamento
+  SilverCart\Model\Customer\DeletedCustomerReasonTranslation:
+    PLURALNAME: Traduzioni
+    SINGULARNAME: Traduzione
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: 'Tipo di prezzo'
+    ShippingMethodsInfoContent: 'Le modalità di spedizione sotto elencate sono vincolate a questo gruppo clienti e possono essere scelte solo dai clienti appartenenti a questo gruppo. I metodi di spedizione possono essere correlati a più gruppi clienti, quindi questo gruppo clienti potrebbe non essere l''unico con l''autorizzazione a utilizzare i metodi di spedizione elencati.'
+    ShippingMethodsInfoTitle: 'Modalità di spedizione legate a questo gruppo clienti.'
   SilverCart\Model\EmailAddress:
+    ContactFormSubjects: Oggetto
+    Email: E-mail
+    Name: Nome
     PLURALNAME: 'Indirizzi email'
+    PLURAlNAME: 'Indirizzi e-mail'
     SINGULARNAME: 'Indirizzo email'
+    ShopEmails: 'Email Portale Acquisti'
+  SilverCart\Model\Forms\FormField:
+    DefaultValue: 'Valore predefinito'
+    Description: Descrizione
+    IsRequired: 'Campo obbligatorio'
+    Name: Nome
+    PLURALNAME: 'Campi di inserimento dati'
+    PresetWith: 'Pre-compilare con'
+    SINGULARNAME: 'Campo per l''inserimento dati'
+    Sort: Ordinamento
+    Title: 'Nome visualizzato'
+    Type: Tipo
+    TypeLabel: Tipo
+  SilverCart\Model\Forms\FormFieldOption:
+    PLURALNAME: Opzioni
+    SINGULARNAME: Opzione
+    Sort: Ordinamento
+    Title: Titolo
+  SilverCart\Model\Forms\FormFieldOptionTranslation:
+    PLURALNAME: Traduzioni
+    SINGULARNAME: Traduzione
+  SilverCart\Model\Forms\FormFieldTranslation:
+    PLURALNAME: Traduzioni
+    SINGULARNAME: Traduzione
   SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
     PLURALNAME: 'Destinatari non identificati della newsletter '
     SINGULARNAME: 'Destinatario non identificato della newsletter '
@@ -1192,6 +1292,8 @@ it:
     I_ACCEPT_REVOCATION: 'Accetto la <a href="{link}" target="blank"> policy di cancellazione</a>.'
     I_ACCEPT_TERMS: 'Accetto i <a href="{link}" target="blank">termini e le condizioni generali di vendita</a>.'
     I_SUBSCRIBE_NEWSLETTER: 'Desidero iscrivermi alla newsletter.'
+    NoPaymentMethodText: 'Testo nel caso in cui nessun metodo di pagamento sia disponibile'
+    NoShippingMethodText: 'Testo se non è disponibile alcun metodo di spedizione'
     ORDER: Ordine
     ORDER_NOW: 'Acquista ora'
     OVERVIEW: Panoramica
@@ -1199,6 +1301,7 @@ it:
     SINGULARNAME: 'Fase pagamento'
     StepContent: 'Contenuto per ogni singola fase'
     TaxAndDutyHint: 'Attenzione: per le consegne in paesi extra UE si applicano i dazi doganali, tasse e spese aggiuntive.'
+    TermsAndConditionsText: 'Testo legale per la conferma dell''ordine'
     TitleStep6: 'Titolo Passo 6 - Conferma dell''ordine'
     TitleStep6Info: 'Titolo alternativo da visualizzare nella pagina di conferma dell''ordine (impostazione predefinita: " {default} ").'
     URL_SEGMENT: Cassa
@@ -1214,6 +1317,7 @@ it:
     EnablePhoneNumber: 'Attivare campo Numero di telefono'
     EnablePostcode: 'Attivare campo CAP'
     EnableStreet: 'Attivare campo per via/numero civico'
+    FormFields: 'Campi di inserimento dati'
     PLURALNAME: 'Pagine del modulo richiesta di contatto'
     PhoneNumberIsRequired: 'Il numero di telefono è  un campo obbligatorio'
     PostcodeIsRequired: 'Il CAP è un campo obbligatorio'
@@ -1221,14 +1325,30 @@ it:
     ResponseContent: 'Contenuto della pagina di conferma dell''invio'
     SINGULARNAME: 'Pagina del modulo richiesta di contatto'
     StreetIsRequired: 'Il via e numero civico è un campo obbligatorio'
+    Subject: 'Motivo della tua richiesta'
+    Subjects: Oggetto
     TITLE: Contatto
     ThankYouForYourRequest: 'Grazie per la tua richiesta. Abbiamo ricevuto il tuo messaggio e ti risponderemo il prima possibile.'
     URL_SEGMENT: Contatto
     WeReceivedYourRequest: 'Abbiamo ricevuto la tua richiesta.'
     YourData: 'I tuoi dati:'
+  SilverCart\Model\Pages\ContactFormPage\Subject:
+    ContactFormPage: 'Pagina del modulo richiesta di contatto'
+    PLURALNAME: Oggetto
+    Recipients: 'Destinatario e-mail'
+    SINGULARNAME: Oggetto
+    Sort: Ordinamento
+    Subject: Oggetto
+    SubjectTranslations: Traduzioni
+  SilverCart\Model\Pages\ContactFormPage\SubjectTranslation:
+    PLURALNAME: Traduzioni
+    SINGULARNAME: Traduzione
+    Subject: Oggetto
   SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: 'I miei dati'
     DEFAULT_URLSEGMENT: 'I miei dati'
+    DeleteAccountContent: 'Informazioni da visualizzare nel modulo di cancellazione dell''account'
+    LoginAttemptContent: 'Informazioni da visualizzare sotto gli ultimi tentativi di accesso'
     PLURALNAME: 'Pagine dati'
     SINGULARNAME: 'Pagina dati'
     TITLE: 'I miei dati'
@@ -1318,6 +1438,12 @@ it:
     URL_SEGMENT: Newsletter
     UseDoubleOptIn: 'Uso Doppio-Opt-In'
   SilverCart\Model\Pages\OrderHolder:
+    AllowReorder: 'Consente di effettuare il riordino di un ordine che è già stato effettuato in passato'
+    AllowReorderDesc: 'Aggiunge un pulsante alla pagina dei dettagli dell''ordine nell''account cliente che gli consente di effettuare un nuovo ordine con un clic.'
+    ButtonReorder: 'Acquista di nuovo'
+    ButtonReorderDesc: 'Inserisce gli articoli di questo ordine nel carrello.'
+    ButtonReorderFull: 'Aggiungi al carrello e poi vai alla cassa'
+    ButtonReorderFullDesc: 'Aggiunge gli articoli di questo ordine al carrello e procede al checkout utilizzando l''indirizzo, la modalità di spedizione e le informazioni di pagamento. Prima della sua conclusione l''ordine può essere ricontrollato ancora una volta.'
     DEFAULT_TITLE: 'I miei ordini'
     DEFAULT_URLSEGMENT: 'i miei ordini'
     OrderDetails: 'Dettagli dell''ordine'
@@ -1347,6 +1473,7 @@ it:
     BACK_TO_DEFAULT: 'pagina precedente'
     BILLING_ADDRESS: 'Indirizzo di fatturazione'
     BIRTHDAY: 'Data di nascita'
+    BrowseOrders: 'Sfoglia gli ordini'
     CANCEL: Annulla
     CART: Carrello
     CATALOG: Catalogo
@@ -1405,6 +1532,7 @@ it:
     NOT_FOUND: 'Impossibile trovare la pagina "{title}".'
     NOVEMBER: Novembre
     NO_ORDERS: 'Non hai ancora completato alcun ordine.'
+    NO_ORDERS_FOUND: 'La tua ricerca "{query}" non ha prodotto alcun risultato'
     NO_RESULTS: 'Per il termine di ricerca utilizzato, ci scusiamo ma non ci sono risultati.'
     OCTOBER: Ottobre
     OR: o
@@ -1780,9 +1908,12 @@ it:
     Delivery: Consegna
     DeliveryForFree: 'Spedizione gratuita'
     DeliveryForFreeIsPossible: 'Spedizione gratuita possibile'
+    Dimensions: Dimensioni
+    DimensionsDesc: 'Lunghezza x Larghezza x Altezza in forma decimale'
     EAN: EAN
     ExcludeFromPaymentDiscounts: 'Questo articolo è escluso dagli sconti condizionati al tipo di pagamento.'
     FREE_OF_CHARGE: Gratuito
+    Height: Altezza
     IMAGE: 'Immagine del prodotto'
     IMAGE_NOT_AVAILABLE: 'Immagine del prodotto non attribuita'
     IMPORTIMAGESFORM_ACTION: 'Importa immagini'
@@ -1799,6 +1930,7 @@ it:
     LIST_PRICE: 'prezzo di listino'
     LaunchDate: 'Data di lancio'
     LaunchDateInfo: '<strong>Opzionale</strong> - Imposta questo se<i>la data d''inizio vendita</i>è impostata e l''articolo dovrebbe essere visibile prima della data d''inizio vendita.'
+    Length: Lunghezza
     MASTERPRODUCT: 'Prodotto principale'
     METADATA: 'Meta dati'
     METADESCRIPTION: 'Meta description per i motori di ricerca'
@@ -1868,6 +2000,7 @@ it:
     WEEKS: Settimane
     WEIGHT: Peso
     WIDGETAREA: widgets
+    Width: Larghezza
     YEAR: Anno
     YEARS: Anni
   SilverCart\Model\Product\ProductCondition:
@@ -2009,6 +2142,36 @@ it:
     SINGULARNAME: Traduzione
   SilverCart\Model\ShopEmail:
     ADDITIONALS_RECEIPIENTS: 'Destinatari aggiuntivi'
+    CustomContent_ChangePassword_ButtonInformationText: 'Testo pulsante (sotto il pulsante)'
+    CustomContent_ChangePassword_FooterInformationText: 'Testo conclusivo (sotto il testo informazioni sicurezza)'
+    CustomContent_ChangePassword_HeaderInformationText: 'Testo introduttivo (sopra al pulsante)'
+    CustomContent_ChangePassword_SecurityInformationText: 'Testo informazioni sicurezza (sotto il testo del pulsante)'
+    CustomContent_ForgotPassword_ButtonInformationText: 'Testo pulsante (sotto il pulsante)'
+    CustomContent_ForgotPassword_FooterInformationText: 'Testo conclusivo (sotto il testo informazioni sicurezza)'
+    CustomContent_ForgotPassword_HeaderInformationText: 'Testo introduttivo (sopra il tasto)'
+    CustomContent_ForgotPassword_SecurityInformationText: 'Testo informazioni sicurezza (sotto il tasto testo)'
+    CustomContent_NewsletterOptInConfirmation_FooterInformationText: 'Testo conclusivo (sotto il tasto shop)'
+    CustomContent_NewsletterOptInConfirmation_HeaderInformationText: 'Testo introduttivo (sopra il tasto shop)'
+    CustomContent_NewsletterOptIn_FooterInformationText: 'Testo conclusivo (utto il tasto testo)'
+    CustomContent_NewsletterOptIn_HeaderInformationText: 'Testo introduttivo (sopra il tasto Opt-in)'
+    CustomContent_NewsletterOptIn_IgnoreInformationText: 'Tasto testo (sotto il tasto Opt-in)'
+    CustomContent_OrderConfirmation_AddressInformationText: 'Testo indirizzo ( sotto i dati dell''indirizzo)'
+    CustomContent_OrderConfirmation_FooterInformationText: 'Testo conclusivo (sotto i dati dell''ordine)'
+    CustomContent_OrderConfirmation_HeaderInformationText: 'Testo introduttivo (sopra l''indirizzo / dati dell''ordine)'
+    CustomContent_OrderConfirmation_OrderInformationText: 'Testo dell''ordine (sotto i dati dell''ordine)'
+    CustomContent_OrderShippedNotification_ButtonInformationText: 'Pulsante testo (sopra il pulsante del tracciamento)'
+    CustomContent_OrderShippedNotification_FooterInformationText: 'Testo conclusivo (sotto i dati dell''ordine)'
+    CustomContent_OrderShippedNotification_HeaderInformationText: 'Testo introduttivo (sopra i dati dell''ordine)'
+    CustomContent_OrderTrackingNotification_ButtonInformationText: 'Pulsante testo (sopra il pulsante del tracciamento)'
+    CustomContent_OrderTrackingNotification_FooterInformationText: 'Testo conclusivo (sotto i dati dell''ordine)'
+    CustomContent_OrderTrackingNotification_HeaderInformationText: 'Testo introduttivo (sopra i dati dell''ordine)'
+    CustomContent_RegistrationOptInConfirmation_FooterInformationText: 'Testo conclusivo (sotto i dati del cliente)'
+    CustomContent_RegistrationOptInConfirmation_HeaderInformationText: 'Testo introduttivo (sopra i dati del cliente)'
+    CustomContent_RegistrationOptIn_FooterInformationText: 'Testo conclusivo (sotto il pulsante testo)'
+    CustomContent_RegistrationOptIn_HeaderInformationText: 'Testo introduttivo (sopra il pulsante opt-in)'
+    CustomContent_RegistrationOptIn_IgnoreInformationText: 'Tasto testo (sotto il tasto Opt-In)'
+    CustomerDeletionConfirmationText: 'Il tuo account portale acquisti è stato cancellato con successo'
+    CustomerDeletionNotificationText: 'Il tuo account portale acquisti è stato cancellato con successo'
     EMAILTEXT: Messaggio
     ForgotPasswordNO_CHANGE: 'Se non desideri modificare la password, ignora questa email.'
     ForgotPasswordPASSWORT_RESET_LINK_HINT: 'Se non riesci ad aprire questo link, prova a copiarlo negli appunti e incollarlo nella barra indirizzi web del tuo browser.'
@@ -2028,6 +2191,8 @@ it:
     Subject_ChangePassword: 'Reimpostare la password'
     Subject_ContactMessage: 'Richiesta di contatto tramite modulo richiesta contatto'
     Subject_ContactMessageAcknowledgement: 'Abbiamo ricevuto la tua richiesta'
+    Subject_CustomerDeletionConfirmation: 'Il tuo account portale acquisti è stato cancellato'
+    Subject_CustomerDeletionNotification: 'Account cliente portale acquisti è stato cancellato'
     Subject_ForgotPassword: 'Reimposta password'
     Subject_NewsletterOptIn: 'Completare la registrazione alla ns. newsletter'
     Subject_NewsletterOptInConfirmation: 'Iscrizione alla newsletter completata con successo'
@@ -2044,12 +2209,15 @@ it:
     TemplateName_ChangePassword: 'Cambia password (cliente)'
     TemplateName_ContactMessage: 'Richiesta di contatto (operatore)'
     TemplateName_ContactMessageAcknowledgement: 'Contatto per richiesta conferma di ricezione (cliente)'
+    TemplateName_CustomerDeletionConfirmation: 'Account cliente portale acquisti è stato cancellato (Cliente)'
+    TemplateName_CustomerDeletionNotification: 'Account cliente portale acquisti è stato cancellato (Operatore)'
     TemplateName_ForgotPassword: 'Password dimenticata (cliente)'
     TemplateName_NewsletterOptIn: 'Opt-In Newsletter (cliente)'
     TemplateName_NewsletterOptInConfirmation: 'Conferma Opt-In Newsletter (cliente)'
     TemplateName_OrderConfirmation: 'Conferma d''ordine (cliente)'
     TemplateName_OrderNotification: 'Notifica ordine (operatore)'
     TemplateName_OrderShippedNotification: 'Notifica di consegna (cliente)'
+    TemplateName_OrderTrackingNotification: 'Notifica di tracciamento (Cliente)'
     TemplateName_RegistrationOptIn: 'Registrazione: Conferma l''indirizzo email (cliente)'
     TemplateName_RegistrationOptInConfirmation: 'Registrazione: Completata (Cliente)'
     TemplateName_RegistrationOptInNotification: 'Registrazione: nuovo cliente (operatore)'
@@ -2058,6 +2226,8 @@ it:
     Title_ChangePassword: 'Cambia la password'
     Title_ContactMessage: Contattare
     Title_ContactMessageAcknowledgement: 'Conferma di ricezione richiesta di contatto'
+    Title_CustomerDeletionConfirmation: 'Account cliente portale acquisti cancellato'
+    Title_CustomerDeletionNotification: 'Account cliente portale acquisti cancellato'
     Title_ForgotPassword: 'Password dimenticata'
     Title_NewsletterOptIn: 'Opt- In Newsletter'
     Title_NewsletterOptInConfirmation: 'Conferma Opt-In Newsletter'
@@ -2070,6 +2240,16 @@ it:
     Title_RevocationNotification: 'Un cliente ha cancellato un ordine'
     VARIABLES: Variabili
   SilverCart\Model\ShopEmailTranslation:
+    PLURALNAME: Traduzioni
+    SINGULARNAME: Traduzione
+  SilverCart\Model\ShopEmail\Content:
+    ClassName: Tipo
+    Content: Contenuto
+    DisplayPosition: 'Posizione di visualizzazione'
+    PLURALNAME: Contenuti
+    SINGULARNAME: Contenuto
+    Sort: Ordinamento
+  SilverCart\Model\ShopEmail\ContentTranslation:
     PLURALNAME: Traduzioni
     SINGULARNAME: Traduzione
   SilverCart\Model\Translation\TranslationTools:
@@ -2094,6 +2274,8 @@ it:
     SINGULARNAME: Traduzione
   SilverCart\Model\Widgets\ImageSliderImage:
     AltText: 'Testo per Tag-ALT'
+    ExternalLink: 'Link esterno'
+    ExternalLinkDesc: 'Link/URL a un sito internet esterno'
     LINKPAGE: 'Pagina che deve essere collegata a'
     PLURALNAME: 'Immagini del cursore'
     ProductNumberToReference: 'Codice prodotto da collegare a'
@@ -2299,9 +2481,20 @@ it:
   SilverCart\Model\Widgets\WidgetSetExtension:
     MANAGE_WIDGETS_BUTTON: 'Gestisci i set di widget'
     UseAsSlider: 'Utilizzare come dispositivo di scorrimento'
+  SilverCart\Reports\DeletedCustomersReport:
+    Title: 'Clienti eliminati'
   SilverCart\View\GroupView\GroupViewBase:
     LIST: Lista
     TILE: Piastrelle
+  SilverStripe\Security\Member:
+    FailedLoginCountWarning:
+      one: 'Attenzione! Dopo un ulteriore tentativo di login errato il tuo account verrà tempraneamente bloccato.'
+      other: 'Attenzione! Dopo '
+  SilverStripe\Security\PasswordValidator:
+    STRENGTHTESTDIGITS: Pagare
+    STRENGTHTESTLOWERCASE: 'Lettere minuscole'
+    STRENGTHTESTPUNCTUATION: 'Carattere speciale'
+    STRENGTHTESTUPPERCASE: 'Lettere maiuscole'
   SilverStripe\Security\Security:
     CONFIRMLOGOUT: 'Clicca il tasto qui sotto per confermare che vuoi procedere con il log-out.'
     NOTERESETLINKINVALID: '<p>Il link del reset password non è valido o è scaduto.</p><p>Puoi riceverne uno nuovo cliccando qui <a href="{link1}">here</a> oppure cambia la tua password dopo il tuo <a href="{link2}">log-in</a>.</p>'

@@ -1,0 +1,1399 @@
+nb_NO:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Aksepter alt'
+    ManageCookies: Cookie-innstillinger
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p> Vi bruker informasjonskapsler for å optimalisere nettstedet vårt for deg, for å forbedre produktene våre for deg og for å vise deg, sammen med tredjepartsleverandører, annonser som er skreddersydd for dine interesser. Her kan du til enhver tid velge hvilke informasjonskapsler du vil tillate og endre valget ditt. Du finner mer informasjon i våre retningslinjer for bruk av informasjonskapsler og i vår databeskyttelsesinformasjon. Teknisk nødvendige informasjonskapsler settes også når du velger avvis. </p> <p> Ved å klikke på "Godta alle" godtar du denne behandlingen. </p>'
+    Title: 'Denne nettsiden bruker informasjonskapsler'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Innstillingene er lagret'
+    Save: 'bekrefte valget'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: analyse
+    Analytics_Content: '<p> Ved hjelp av analyseinformasjonskapsler er vi i stand til teknisk å analysere bruken av nettstedet for å identifisere problemer og optimere brukervennligheten. </p>'
+    Marketing: markedsføring
+    Marketing_Content: '<p> Ved hjelp av markedsføringsinformasjonskapsler er vi i stand til å analysere suksessen til reklametiltak. </p>'
+    Necessary: Nødvendig
+    Necessary_Content: '<p> Nødvendige informasjonskapsler garanterer funksjonen til nettstedet og må settes av tekniske årsaker. </p>'
+    Preferences: innstillinger
+    Prefrences_Content: '<p> Ved hjelp av å sette informasjonskapsler kan vi tilpasse brukervennligheten til nettstedet til dine behov. Dette lar nettstedet huske innstillingene dine neste gang du besøker det. </p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p> $ CookieConsentForm </p> <p> [cookiegrouptable group = "Nødvendig"] </p> <p> [cookiegrouptable group = "Analytics"] </p> <p> [cookiegrouptable group = "Markedsføring"] </p> <p> [cookiegrouptable group = "Innstillinger"] </p>'
+    Title: 'Retningslinjer for informasjonskapsler'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p> Fyll ut denne siden med personvernreglene dine. </p>'
+    Title: Personvernerklæring
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p> Fyll ut denne siden med dine vilkår og betingelser. </p>'
+    Title: 'Vilkår for bruk'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: varighet
+    Provider: 'Sett av'
+    Purpose: hensikt
+    Title: Kjeks
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 år'
+    loc_Purpose: 'Deleknapper for sosiale medier'
+    mus_Expiry: '1 år'
+    mus_Purpose: 'Deleknapper for sosiale medier'
+    na_id_Expiry: '1 år'
+    na_id_Purpose: 'Deleknapper for sosiale medier'
+    na_tc_Expiry: '1 år'
+    na_tc_Purpose: 'Deleknapper for sosiale medier'
+    ouid_Expiry: '1 år'
+    ouid_Purpose: 'Deleknapper for sosiale medier'
+    uid_Expiry: '1 år'
+    uid_Purpose: 'Deleknapper for sosiale medier'
+    uvc_Expiry: '1 år'
+    uvc_Purpose: 'Deleknapper for sosiale medier'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 måneder'
+    BizoID_Purpose: markedsføring
+    UserMatchHistory_Expiry: '6 måneder'
+    UserMatchHistory_Purpose: markedsføring
+    lang_Expiry: økt
+    lang_Purpose: Språkinnstillinger
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 måneder'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 år'
+    _ga_Purpose: 'Fantastiske analyser'
+    _gid_Expiry: '2 år'
+    _gid_Purpose: 'Fantastiske analyser'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 timer'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 år'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 år'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 år'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 måneder'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 måned'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 år'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 måneder'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 år'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 år'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 år'
+    bcookie_Purpose: markedsføring
+    lidc_Expiry: '2 år'
+    lidc_Purpose: markedsføring
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 år'
+    _ga_Purpose: Mapbox-analyse
+    _mkto_trk_Expiry: '2 år'
+    _mkto_trk_Purpose: Kartboks
+    ajs_anonymous_id_Expiry: '1 år'
+    ajs_anonymous_id_Purpose: Kartboks
+    ajs_group_id_Expiry: '1 år'
+    ajs_group_id_Purpose: Kartboks
+    ajs_user_id_Expiry: '1 år'
+    ajs_user_id_Purpose: Kartboks
+    intercom-id-wg57poe2_Expiry: '9 måneder'
+    intercom-id-wg57poe2_Purpose: Kartboks
+    mkjs_group_id_Expiry: '1 år'
+    mkjs_group_id_Purpose: Kartboks
+    mkjs_user_id_Expiry: '1 år'
+    mkjs_user_id_Purpose: Kartboks
+    optimizelyEndUserId_Expiry: '6 måneder'
+    optimizelyEndUserId_Purpose: Kartboks
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 år'
+    player_Purpose: Videointegrasjon
+    vuid_Expiry: '1 år'
+    vuid_Purpose: Videointegrasjon
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: økt
+    CONSENT_Purpose: Videointegrasjon
+    GPS_Expiry: økt
+    GPS_Purpose: Videointegrasjon
+    NID_Expiry: økt
+    NID_Purpose: Videointegrasjon
+    PREF_Expiry: '2 år'
+    PREF_Purpose: Videointegrasjon
+    VISITOR_INFO1_LIVE_Expiry: '6 måneder'
+    VISITOR_INFO1_LIVE_Purpose: Videointegrasjon
+    YSC_Expiry: økt
+    YSC_Purpose: Videointegrasjon
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 måneder'
+    CookieConsent_Purpose: 'Lagrer innstillingene for informasjonskapsler'
+    FluentLocale_Expiry: '2 måneder'
+    FluentLocale_Purpose: 'Lagrer språkinnstillingene dine'
+    PHPSESSID_Expiry: økt
+    PHPSESSID_Purpose: økt
+    __atuvc_Expiry: '1 år'
+    __atuvc_Purpose: 'Deleknapper for sosiale medier'
+    __atuvs_Expiry: '1 år'
+    __atuvs_Purpose: 'Deleknapper for sosiale medier'
+    _ga_Expiry: '2 år'
+    _ga_Purpose: statistikk
+    _gat_Expiry: '24 timer'
+    _gat_Purpose: statistikk
+    _gid_Expiry: '24 timer'
+    _gid_Purpose: statistikk
+    _hjIncludedInSample_Expiry: økt
+    _hjIncludedInSample_Purpose: statistikk
+    ipcountry_Expiry: økt
+    ipcountry_Purpose: 'Standard språkinnstillinger'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 måned'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 år'
+    _ga_Purpose: reCAPTCHA-analyse
+  SilverCart:
+    Actions: Handlinger
+    Buy1: '{title} kjøp'
+    Buy2: '{title1} {title2}'
+    Cancel: Avbryt
+    Change: Endring
+    ClickForMore: 'Klikk for mer informasjon'
+    Close: Konkludere
+    ContactUs: 'Kontakt oss'
+    DefaultIfEmpty: 'Standard hvis tom: " {default} "'
+    DeleteYourAccountErrorConfirm: 'Vennligst bekreft slettingen av kontoen din ved å krysse av i boksen.'
+    DeleteYourAccountErrorPassword: 'Beklager, men påloggingsdetaljene du skrev inn er feil.'
+    DeleteYourAccountSuccess: 'Kontoen din har blitt merket for sletting og vil bli slettet i løpet av de neste 24 timene. Du vil motta et e-postvarsel når slettingen er fullført. Inntil da har du mulighet til å trekke tilbake anmodningen om sletting.'
+    DeleteYourAccountSuccessOpen: 'Kontoen din er merket for sletting. Siden det fortsatt er åpne bestillinger for din kundekonto, slettes kontoen din først så snart alle åpne bestillinger er behandlet. Du vil motta et e-postvarsel når slettingen er fullført. Inntil da har du mulighet til å trekke tilbake anmodningen om sletting.'
+    DeleteYourAccountUndo: 'Tilbakekall sletteforespørselen'
+    DeleteYourAccountUndone: 'Din forespørsel om sletting har blitt kansellert.'
+    Go: 'Kom igjen'
+    NextPage: 'Neste side'
+    PrevPage: 'Forrige side'
+    ProductAddedToCart: 'Varen er lagt i handlekurven din.'
+    ProductRemovedFromCart: 'Varen er fjernet fra handlekurven din.'
+    Sort: Sorteringsrekkefølge
+    Subject: henvisning
+    Subjects: Emne
+    Translation: oversettelse
+    Translations: Oversettelser
+    Until: før
+    go: 'Kom igjen'
+    since: siden
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Tilgjengelighet
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Transportør
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: Kontaktforespørsler
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: land
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: Kunder
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: bilder
+    SELECT_IMAGE_TYPE: 'Velg bildetype'
+    SELECT_OTHER_IMAGES: 'Andre bilder'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Bilder for betalingsmåter'
+    SELECT_PRODUCT_IMAGES: Varebilder
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: innstillinger
+    CUSTOMER: Kunder
+    DEFAULT: CMS
+    FILES: Filer
+    HANDLING: ferdigstillelse
+    MODULES: Moduler
+    ORDERS: Ordrene
+    PRODUCTS: gjenstander
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: Produsent
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Velg eksportkonteksten og trykk på eksportknappen for å laste ned en CSV-liste over e-postmottakerne.'
+    DoExport: 'Eksporter som CSV'
+    ExportAll: 'Eksporter adresser til alle kunder'
+    ExportAllNewsletterRecipients: 'Eksporter adresser til alle nyhetsbrevmottakere'
+    ExportAllNewsletterRecipientsWithAccount: 'Eksporter adresser til alle nyhetsbrevmottakere med kundekontoer'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Eksporter adresser til alle nyhetsbrevmottakere uten kundekonto'
+    ExportAllNonNewsletterRecipients: 'Eksporter adresser til alle mottakere som ikke er nyhetsbrev'
+    ExportContext: 'Eksporter kontekst'
+    MENUTITLE: 'Mottaker av nyhetsbrev'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: Tallområder
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Alt etterpå'
+    DateRangePickerALL_BEFORE: 'Alt før'
+    DateRangePickerDATE: Dato
+    DateRangePickerEND_DATE: Sluttdato
+    DateRangePickerLAST_7_DAYS: 'Siste 7 dager'
+    DateRangePickerLAST_MONTH: 'Forrige måned'
+    DateRangePickerNEXT: nærmeste
+    DateRangePickerPERIOD: periode
+    DateRangePickerPREVIOUS: Tidligere
+    DateRangePickerSTART_DATE: Startdato
+    DateRangePickerTHIS_MONTH: 'Denne måneden'
+    DateRangePickerTHIS_YEAR: 'I år'
+    DateRangePickerTODAY: 'i dag'
+    MENUTITLE: Ordrene
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: 'ordre status'
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: Betalingsmetoder
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: Betalingsstatus
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: gjenstander
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'Artikkelen sier'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'Artikkelbildeimporten utføres for øyeblikket.'
+    CronIsRunningTitle: 'Merk følgende'
+    CronNotInstalledDescription: "Installasjonen av artikkelbildeimporten er ennå ikke fullstendig fullført.\n Vennligst legg til det nødvendige programmet (`sake dev / tasks / sc-image-importer`) til de tidskontrollerte oppgavene til serveren din.\n Kontakt butikksjefen din for mer informasjon.\n"
+    CronNotInstalledTitle: 'Merk følgende'
+    Description: "Bruk denne opplastingsfunksjonen til å laste opp mange bilder av forskjellige elementer samtidig.\n Bildene tildeles automatisk hvis du navngir filnavnene som følger: \n\n [Varenummer] .png / jpg / jpeg\n ELLER\n [Artikkelnummer] - [følgenummer] .png / jpg / jpeg\n ELLER\n [Artikkelnummer] - [Fortløpende nummer] - [Kort beskrivelse-uten-mellomrom] .png / jpg / jpeg \n\n Spesifikasjonen [kort beskrivelse-uten-mellomrom] er valgfri og brukes til søkemotoroptimalisering (SEO) for å oppnå bedre synlighet av søkemotorer som Google.\n Hvis [kort beskrivelse-uten-mellomrom] ikke er spesifisert, brukes artikkelnavnet som en parameter for søkemotoroptimalisering. \n\n Eksempel:\n Du ønsker å tilordne 4 bilder til hver av de to artiklene med artikkelnummer 502.133.66.5 og 758.500.08.9. 3 av dem bør ha sin egen korte beskrivelse.\n Det bør lastes opp et bilde for artiklene med artikkelnumrene 128.000.01.7 og 542.550.08.1.\n Filnavnene skal derfor se slik ut: \n\n 502.133.66.5-1.png\n 502.133.66.5-2-kaffemaskin-XYZ-front view.png\n 502.133.66.5-3-kaffemaskin-XYZ-view-left-side.png\n 502.133.66.5-4-kaffemaskin-XYZ-view-right-side.png\n 758.500.08.9-1.png\n 758.500.08.9-2.png\n 758.500.08.9-3.png\n 758.500.08.9-4.png\n 128.000.01.7.png\n 542.550.08.1.png \n\n Vær oppmerksom på at bildet som er gitt med fortløpende nummer 1 brukes som bilde for listevisningen.\n Vær også oppmerksom på at eksisterende bilder av berørte artikler vil bli fullstendig overskrevet når du bruker denne funksjonen.\n"
+    FileInfoTitle: 'Følgende varebilder er ennå ikke behandlet:'
+    MENUTITLE: 'Import av artikkelbilde'
+    UploadProductImages: 'Last opp artikkelbilder'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: Måleenheter
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: Fraktmetoder
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'Handle e-poster'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: Skattesatser
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Soner
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: EUR
+    IMAGEFOLDERNAME: Eksempeldata
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart kan enkelt tilpasses ved hjelp av widgets.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Tilpassbar
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: 'kan tilpasses'
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart kan enkelt utvides ved hjelp av moduler.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Utvidbar
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: utvidbar
+    PRODUCTGROUPMARKETING_TITLE: Markedsføringsmoduler
+    PRODUCTGROUPMARKETING_URLSEGMENT: markedsføringsmoduler
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart er åpen kildekode. Det betyr at du kun betaler for implementering og tilpasning av butikksystemet til dine behov.'
+    PRODUCTGROUPOPEN_TITLE: 'Åpen sinn'
+    PRODUCTGROUPOPEN_URLSEGMENT: åpensinnet
+    PRODUCTGROUPOTHERS_TITLE: 'Andre moduler'
+    PRODUCTGROUPOTHERS_URLSEGMENT: andre-moduler
+    PRODUCTGROUPPAYMENT_TITLE: Betalingsmoduler
+    PRODUCTGROUPPAYMENT_URLSEGMENT: betalingsmoduler
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"> <strong> <span class="fa fa-info-circle"> </span> OBS: </strong> <br/> Selve modulene er gratis. Prisinformasjonen brukes utelukkende til demoformål. </div>'
+    SLIDORION_TITLE: 'Fordeler med SilverCart'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p> Oppdag SilverCart-betalingsmodulene. </p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: Betalingsmoduler
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p> Du vil også finne moduler for mange andre applikasjoner i SilverCart. </p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Andre moduler'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Innholdsområde for hjemmet'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: Aktiver
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Endre tilgjengelighet til ...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Bytt produsent til...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Endre ordrestatus til ...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Endre betalingsstatus til ...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Bytt avdeling til...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: Deaktiver
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Merk som ikke sett'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Merk som sett'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Utskriftsbestillinger (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: Hurtigvisning
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: 'Legge til'
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Søket ditt...'
+    submitButtonTitle: 'Bla gjennom nedlastinger'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Jeg ønsker å melde meg på nyhetsbrevet'
+    ACTIONFIELD_TITLE: 'Hva vil du gjøre?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Jeg vil gjerne melde meg av nyhetsbrevet'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: Søke
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Lag et passord for din nettbutikkpålogging. Passordet må ha minst {minlength} tegn. Denne må inneholde minst 1 stor bokstav, 1 liten bokstav, 1 tall og 1 spesialtegn.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Adresse til forbrukeren(e)'
+    Data: data
+    GoTo: 'Til angrerettskjemaet'
+    NameOfConsumer: 'Navnet på forbrukeren(e)'
+    Order: Rekkefølge
+    OrderDate: 'Bestilt på / mottatt på'
+    OrderHistory: 'Velg rekkefølge'
+    OrderNumber: Ordrenummer
+    RevocationDate: 'Dato for tilbaketrekning'
+    RevocationOrderData: 'Jeg/vi opphever herved kontrakten inngått av meg/oss for kjøp av følgende varer/levering av følgende tjeneste'
+  SilverCart\Model\Customer\Country:
+    TITLE_MS: Montserrat
+    TITLE_MT: Malta
+    TITLE_MU: Mauritius
+    TITLE_MV: Maldivene
+    TITLE_MW: Malawi
+    TITLE_MX: Mexico
+    TITLE_MY: Malaysia
+    TITLE_MZ: Mosambik
+    TITLE_NA: Namibia
+    TITLE_NC: 'Ny Caledonia'
+    TITLE_NE: Niger
+    TITLE_NF: Norfolkøya
+    TITLE_NG: Nigeria
+    TITLE_NI: Nicaragua
+    TITLE_NL: Nederland
+    TITLE_NO: Norge
+    TITLE_NP: Nepal
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: 'New Zealand'
+    TITLE_OM: Oman
+    TITLE_PA: Panama
+    TITLE_PE: Peru
+    TITLE_PF: 'Fransk Polynesia'
+    TITLE_PG: 'Papua Ny-Guinea'
+    TITLE_PH: Filippinene
+    TITLE_PK: Pakistan
+    TITLE_PL: Polen
+    TITLE_PM: 'St. Pierre og Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: 'Puerto Rico'
+    TITLE_PS: 'Palestinske områder'
+    TITLE_PT: Portugal
+    TITLE_PW: Palau
+    TITLE_PY: Paraguay
+    TITLE_QA: Qatar
+    TITLE_RE: Gjenforening
+    TITLE_RO: Romania
+    TITLE_RS: Serbia
+    TITLE_RU: 'Den russiske føderasjonen'
+    TITLE_RW: Rwanda
+    TITLE_SA: Saudi-Arabia
+    TITLE_SB: 'Solomon øyene'
+    TITLE_SC: Seychellene
+    TITLE_SD: Sudan
+    TITLE_SE: Sverige
+    TITLE_SG: Singapore
+    TITLE_SH: 'St. Helena'
+    TITLE_SI: Slovenia
+    TITLE_SJ: 'Svalbard og Jan Mayen'
+    TITLE_SK: Slovakia
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: 'San Marino'
+    TITLE_SN: Senegal
+    TITLE_SO: Somalia
+    TITLE_SR: Surinam
+    TITLE_SS: Sør-Sudan
+    TITLE_ST: 'Sao Tome og Principe'
+    TITLE_SV: 'El Salvador'
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Syria
+    TITLE_SZ: Swaziland
+    TITLE_TC: 'Turks- og Caicosøyene'
+    TITLE_TD: Tsjad
+    TITLE_TF: 'Franske sørlige og antarktiske land'
+    TITLE_TG: 'Å gå'
+    TITLE_TH: Thailand
+    TITLE_TJ: Tadsjikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: Øst-Timor
+    TITLE_TM: Turkmenistan
+    TITLE_TN: Tunisia
+    TITLE_TO: Tonga
+    TITLE_TR: Tyrkia
+    TITLE_TT: 'Trinidad og Tobago'
+    TITLE_TV: Tuvalu
+    TITLE_TW: Taiwan
+    TITLE_TZ: Tanzania
+    TITLE_UA: Ukraina
+    TITLE_UG: Uganda
+    TITLE_UM: 'Amerikansk Oseania'
+    TITLE_US: 'forente stater'
+    TITLE_UY: Uruguay
+    TITLE_UZ: Usbekistan
+    TITLE_VA: Vatikanet
+    TITLE_VC: 'St. Vincent og Grenadinene'
+    TITLE_VE: Venezuela
+    TITLE_VG: 'De britiske jomfruøyene'
+    TITLE_VI: 'Amerikanske Jomfruøyer'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis og Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosovo
+    TITLE_YE: Jemen
+    TITLE_YT: Mayotte
+    TITLE_ZA: Sør-Afrika
+    TITLE_ZM: Zambia
+    TITLE_ZW: Zimbabwe
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Generelle adressedata'
+    ANONYMOUSCUSTOMER: 'Anonym kunde'
+    BASIC_DATA: 'Som regel'
+    BIRTHDAY: fødselsdato
+    BUSINESSCUSTOMER: Bedriftskunde
+    CUSTOMERNUMBER: Kundenummer
+    CUSTOMERNUMBER_SHORT: Kundenummer.
+    Customer: kunde
+    ERROR_MULTIPLE_PRICETYPES: 'Kundegrupper med ulike pristyper tillates ikke!'
+    FULL_NAME: 'Fullt navn'
+    GROSS: Ekkelt
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'Har akseptert avbestillingsreglene'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Har akseptert vilkårene'
+    INVOICE_DATA: Faktureringsadressedata
+    ISBUSINESSACCOUNT: 'Er en bedriftskundekonto'
+    NET: nett
+    PRICETYPE_GROSS: Ekkelt
+    PRICETYPE_NET: nett
+    PRICING: pristilbud
+    REGULARCUSTOMER: Forbruker
+    RegistrationOptInConfirmationHash: 'Opt-in hash for registrering'
+    RegistrationOptInConfirmed: 'Registreringsopt-in er fullført'
+    SALUTATION: hilsen
+    SHIPPING_DATA: Leveringsadressedata
+    SUBSCRIBEDTONEWSLETTER: 'Nyhetsbrev abonnert'
+    TYPE: Type
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    PRICETYPE: Priskode
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: Epostadresse
+    SINGULARNAME: Epostadresse
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Du vil først motta nyhetsbrevet når du ringer opp bekreftelseslenken i e-posten som er sendt til deg.'
+    PLURALNAME: Nyhetsbrev
+    SINGULARNAME: Nyhetsbrev
+    SUBSCRIBED: 'Du har abonnert på nyhetsbrevet'
+    StatusALREADY_SUBSCRIBED: 'E-postadressen " {email} " er allerede registrert for å motta nyhetsbrevet.'
+    StatusNO_EMAIL_FOUND: 'E-postadressen " {email} " ble ikke funnet.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: 'En kunde med e-postadressen " {email} " er allerede registrert. Logg inn først og foreta deretter innstillingene for <a href="{link}"> For å logge inn </a> .'
+    StatusSUBSCRIBED_SUCCESSFULLY: 'E-postadressen " {email} " er lagt til listen over mottakere av nyhetsbrev.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: 'En e-post med instruksjoner for bekreftelse er sendt til adressen " {email} ".'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: 'E-postadressen " {email} " er fjernet fra listen over mottakere av nyhetsbrev.'
+    UNSUBSCRIBED: 'Du har ikke abonnert på nyhetsbrevet'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: 'For tiden'
+    ACTUALCOUNT: 'For tiden'
+    CUSTOMERNUMBER: Kundenummer
+    END: slutt
+    ENDCOUNT: slutt
+    IDENTIFIER: Identifikator
+    INVOICENUMBER: regningsnummer
+    ORDERNUMBER: Ordrenummer
+    PLURALNAME: Tallområder
+    PREFIX: Prefiks
+    SINGULARNAME: Tallområde
+    START: begynne
+    STARTCOUNT: begynne
+    SUFFIX: suffiks
+    TITLE: tittel
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: 'Brutto totalt'
+    AMOUNTTOTAL: 'Totale mengden'
+    AdminModeEdit: 'Bytt visning til redigeringsmodus'
+    AdminModeView: 'Bytt visning til visningsmodus'
+    BASICDATA: 'Grunnleggende data'
+    BATCH_CHANGEORDERSTATUS: 'Endre ordrestatus til ...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Endre betalingsstatus til ...'
+    BATCH_MARKASNOTSEEN: 'Merk som ikke sett'
+    BATCH_MARKASSEEN: 'Merk som sett'
+    BATCH_PRINTORDERS: 'Utskriftsbestillinger (HTML)'
+    CUSTOMER: kunde
+    CUSTOMERDATA: 'Kunde Data'
+    CUSTOMERSEMAIL: 'Kundens e-postadresse'
+    ExpectedDelivery: 'Forventet leveransedato'
+    ExpectedDeliveryMax: 'Maksimal forventet leveringsdato'
+    ExpectedDeliveryMin: 'Minimum forventet leveringsdato'
+    HANDLINGCOSTPAYMENT: Betalingsmåtegebyrer
+    HANDLINGCOSTSHIPMENT: Fraktmetodegebyrer
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'Har akseptert avbestillingsreglene'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Har akseptert vilkårene'
+    HandlingCost: Betaling/fraktgebyr
+    INCLUDED_SHIPPINGRATE: 'Fraktkostnader inkludert'
+    INVOICENUMBER: regningsnummer
+    INVOICENUMBER_SHORT: 'Faktura nr.'
+    IS_SEEN: Sett
+    MISCDATA: Diverse
+    ModelAdminTabOrderInprogress: 'I bearbeiding'
+    ModelAdminTabOrderNew: Ny
+    ModelAdminTabPaymentOpen: 'betaling Åpen'
+    NOTE: kommentar
+    ORDERNUMBER: Ordrenummer
+    ORDERNUMBERSHORT: '-Nummer'
+    ORDERPOSITIONDATA: Posisjonsdata
+    ORDERPOSITIONISLIMIT: 'Bestillingen kan kun inneholde den angitte varen'
+    ORDERPOSITIONQUANTITY: Vareantall
+    ORDER_ID: Ordrenummer
+    ORDER_VALUE: 'Totale mengden'
+    OrderNumberShort: Best.nr.
+    PAYMENTMETHODTITLE: Betalingsmetode
+    PLURALNAME: Ordrene
+    PRICETYPE: Prisvisningstype
+    PRINT: utskriftsbestilling
+    PRINT_PREVIEW: 'Forhåndsvisning av utskrift'
+    PaymentDate: 'Betalt videre'
+    PaymentReferenceData: 'Referansedata til betalingsleverandøren'
+    PaymentReferenceID: 'Referansenummeret til betalingsleverandøren'
+    PaymentReferenceMessage: 'Referanseinformasjon fra betalingsleverandøren'
+    PaymentStatus: Betalingsstatus
+    SEARCHRESULTSLIMIT: grense
+    SHIPPINGRATE: Shipping
+    SILVERCART_ORDER_DELETE: 'slette forespørsel'
+    SILVERCART_ORDER_EDIT: 'Rediger bestillingen din'
+    SILVERCART_ORDER_VIEW: 'Se bestilling'
+    SINGULARNAME: Rekkefølge
+    STATUS: 'ordre status'
+    ShippingDate: 'Sendes videre'
+    TAXAMOUNTPAYMENT: 'Betalingsmåte skatt'
+    TAXAMOUNTSHIPMENT: Fraktmetodeavgift
+    TAXRATEPAYMENT: 'Skattesatsen for betalingsmåten'
+    TAXRATESHIPMENT: 'Avgiftssats for fraktmetoden'
+    Tracking: 'Pakke sporing'
+    TrackingCode: Sporingsnummer
+    TrackingLink: Sporingslenke
+    TrackingLinkLabel: 'Vis hvor sendingen min er for øyeblikket'
+    WEIGHTTOTAL: 'Total vekt'
+    YOUR_REMARK: 'din kommentar'
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: Bestillingsadresser
+    SINGULARNAME: Bestillingsadresse
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Faktureringsadresser til bestillingene'
+    SINGULARNAME: 'Faktureringsadresse for bestillingen'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: kontekst
+    CREATED: 'Dato tid'
+    MESSAGE: handling
+    MESSAGE_CHANGED: 'Endret: {sourcetitle} - > {targettitle}'
+    MESSAGE_CREATED: 'Opprettet: {context} ble opprettet'
+    MESSAGE_MARKEDASNOTSEEN: 'Merket som ikke sett'
+    MESSAGE_MARKEDASSEEN: 'Merket som sett'
+    PLURALNAME: Bestillingslogg
+    SINGULARNAME: Bestillingslogg
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Tillegg / rabatt type'
+    ISCHARGEORDISCOUNT: 'Er tillegg/rabatt'
+    PLURALNAME: 'Bestill varer'
+    PRICE: pris
+    PRICETOTAL: Totalkostnad
+    PRODUCTDESCRIPTION: beskrivelse
+    PRODUCTNUMBER: Artikkelnr.
+    QUANTITY: mye
+    SHORT: Punkt
+    SINGULARNAME: Bestillingsvare
+    TAX: mva
+    TAXRATE: skattesats
+    TAXTOTAL: 'mva totalt'
+    TITLE: Etternavn
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Leveringsadresser for bestillingen'
+    SINGULARNAME: 'Leveringsadresse for bestillingen'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Følgende merkede e-poster sendes når denne ordrestatusen er satt for en ordre:'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'Tilknyttede e-poster'
+    BADGECOLOR: Fargestatus
+    CODE: kode
+    DefaultStatusCanceled: Kansellert
+    DefaultStatusCompleted: Lukket
+    DefaultStatusInprogress: 'I bearbeiding'
+    DefaultStatusNew: Ny
+    DefaultStatusShipped: 'Bestilling sendt'
+    IsDefault: 'Er standard'
+    PLURALNAME: 'ordre status'
+    SINGULARNAME: 'ordre status'
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+    TITLE: beskrivelse
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Mine data'
+    DEFAULT_URLSEGMENT: 'mine data'
+    PLURALNAME: Datasider
+    SINGULARNAME: Dataside
+    TITLE: 'Mine data'
+    URL_SEGMENT: 'mine data'
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Last ned sider'
+    SINGULARNAME: 'Last ned siden'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Last ned sidekart'
+    ResultsText: 'Ditt søk etter <strong> " {term} " </strong> resulterte i <strong> {count} treff </strong> .'
+    SINGULARNAME: 'Oversikt over nedlastinger'
+    SearchResults: Søkeresultater
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2> Velkommen til <strong> SilverCart </strong> nettbutikken! </h2>'
+    DEFAULT_CONTENT: '<h2> Velkommen til <strong> SilverCart </strong> nettbutikken! </h2>'
+    DESCRIPTION: 'Forsiden (hjemmesiden) til nettbutikken'
+    PLURALNAME: Fronter
+    SINGULARNAME: Front
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: Lovlig
+    DEFAULT_TITLE_ABOUT: 'om oss'
+    DEFAULT_TITLE_LEGAL: Lovlig
+    DEFAULT_TITLE_SERVICE: service
+    DEFAULT_TITLE_SHOP: Butikksystem
+    DEFAULT_URLSEGMENT: lovlig
+    DEFAULT_URLSEGMENT_ABOUT: 'om oss'
+    DEFAULT_URLSEGMENT_LEGAL: lovlig
+    DEFAULT_URLSEGMENT_SERVICE: service
+    DEFAULT_URLSEGMENT_SHOP: butikksystem
+    PLURALNAME: Meta-navigasjonsoversikter
+    SINGULARNAME: Meta-navigasjonsoversikt
+    URL_SEGMENT: lovlig
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: avtrykk
+    DEFAULT_TITLE_PRIVACY: 'Data beskyttelse'
+    DEFAULT_TITLE_REVOCATION: Angrerett
+    DEFAULT_TITLE_TERMS: 'Vilkår for bruk'
+    DEFAULT_URLSEGMENT_IMPRINT: avtrykk
+    DEFAULT_URLSEGMENT_PRIVACY: 'Data beskyttelse'
+    DEFAULT_URLSEGMENT_REVOCATION: Angrerett
+    DEFAULT_URLSEGMENT_TERMS: generelle-vilkår-og-betingelser-kjøpere-informasjon
+    PLURALNAME: Metainformasjonssider
+    SINGULARNAME: Metainformasjonsside
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'Har du allerede en konto?'
+    DEFAULT_TITLE: 'Min konto'
+    DEFAULT_URLSEGMENT: 'min konto'
+    GOTO_REGISTRATION: 'Til registreringsskjemaet'
+    MORE: Mer
+    PLURALNAME: Kontooversikter
+    REGISTER_ADVANTAGES_TEXT: 'Hvis du registrerer deg, kan du få tilgang til dataene dine, for eksempel fakturerings- og leveringsadresser, når du handler.'
+    SINGULARNAME: Konto-oversikt
+    TITLE: 'Min konto'
+    URL_SEGMENT: 'min konto'
+    WANTTOREGISTER: 'Vil du registrere deg?'
+    YOUR_CURRENT_ADDRESSES: 'Din nåværende fakturerings- og leveringsadresse'
+    YOUR_CUSTOMERNUMBER: 'Ditt kundenummer'
+    YOUR_MOST_CURRENT_ORDERS: 'Dine siste bestillinger'
+    YOUR_PERSONAL_DATA: 'Din personlige informasjon'
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Send melding hvis registreringen allerede eksisterer'
+    AlreadyConfirmedMessageText: 'Melding: Brukeren har allerede fullført påmeldingen'
+    ConfirmationFailureMessage: 'Melding hvis registrering mislykkes'
+    ConfirmationSuccessMessage: 'Send melding om registreringen var vellykket'
+    DEFAULT_TITLE: Nyhetsbrev
+    DEFAULT_URLSEGMENT: Nyhetsbrev
+    DefaultAlreadyConfirmedMessage: '<p> Du hadde allerede registrert deg for nyhetsbrevet på forhånd. </p>'
+    DefaultConfirmationFailureMessage: '<p> av nyhetsbrevet ditt kunne ikke fullføres. </p>'
+    DefaultConfirmationSuccessMessage: '<p> av nyhetsbrevet var vellykket! </p> <p> Vi ønsker deg mye moro og suksess med våre tilbud. </p>'
+    DefaultConfirmationSuccessSubject: 'Nyhetsbrevregistrering fullført'
+    DefaultEmailConfirmationSubject: 'Fullfør registrering av nyhetsbrev'
+    DefaultOptInPageTitle: 'Fullfør registrering av nyhetsbrev'
+    EmailConfirmationConfirm: 'bekrefte pålogging'
+    EmailConfirmationHaveFun: 'Vi ønsker deg mye moro og suksess med våre tilbud.'
+    EmailConfirmationIgnore: 'Hvis du ikke har bedt om nyhetsbrevet, ignorer denne e-posten.'
+    EmailConfirmationLinkInfo: 'Vennligst klikk på aktiveringslenken eller kopier lenken til nettleseren din.'
+    EmailConfirmationSuccessMessage: 'Registreringen av nyhetsbrevet var vellykket!'
+    EmailConfirmationTitle: 'Fullfør registrering av nyhetsbrev'
+    FailureMessageText: feilmelding
+    OptInPageTitle: 'Tittel på påmeldingssiden'
+    PLURALNAME: Nyhetsbrevsider
+    SINGULARNAME: Nyhetsbrevside
+    SuccessMessageText: 'Melding om suksess'
+    THANKS_TITLE: Nyhetsbrevstatus
+    TITLE: Nyhetsbrev
+    URL_SEGMENT: Nyhetsbrev
+    UseDoubleOptIn: 'Bruk dobbel opt-in'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: 'mine bestillinger'
+    DEFAULT_URLSEGMENT: 'mine bestillinger'
+    OrderDetails: 'Ordre detaljer'
+    PLURALNAME: Bestillingsoversikter
+    SINGULARNAME: Bestillingsoversikt
+    TITLE: 'mine bestillinger'
+    URL_SEGMENT: 'mine bestillinger'
+  SilverCart\Model\Pages\Page:
+    ABOUT_US: 'om oss'
+    ABOUT_US_URL_SEGMENT: 'om oss'
+    ACCESS_CREDENTIALS_CALL: 'Vennligst skriv inn påloggingsinformasjonen din:'
+    ADDRESS: adresse
+    ADDRESSINFORMATION: Adresseinformasjon
+    ADDRESS_DATA: Adressedata
+    ADMIN_AREA: Administratortilgang
+    ALREADY_REGISTERED: 'Hei {name} , du har allerede registrert deg.'
+    API_CREATE: 'kan lage objekter via API'
+    API_DELETE: 'kan slette objekter via API'
+    API_EDIT: 'kan endre objekter via API'
+    API_VIEW: 'kan lese objekter via API'
+    APRIL: april
+    AUGUST: august
+    AllPricesExclVat: 'Alle priser pluss mva.'
+    AllPricesInclVat: 'Alle priser inkl. avgifter.'
+    BACK: 'Komme tilbake'
+    BACK_TO: 'Tilbake til " {title} "'
+    BACK_TO_DEFAULT: 'forrige side'
+    BILLING_ADDRESS: Fakturaadresse
+    BIRTHDAY: fødselsdato
+    CANCEL: Avbryte
+    CART: handlevogn
+    CATALOG: Katalog
+    CHANGE_PAYMENTMETHOD_CALL: 'Velg en annen betalingsmetode eller kontakt butikkoperatøren.'
+    CHANGE_PAYMENTMETHOD_LINK: 'velg en annen betalingsmåte'
+    CHECK_FIELDS_CALL: 'Vennligst sjekk oppføringene dine i følgende felt:'
+    CONTACT_FORM: 'Kontakt skjema'
+    CONTINUESHOPPING: 'Fortsette å handle'
+    CREDENTIALS_WRONG: 'Påloggingsopplysningene dine er feil.'
+    Categories: 'Våre kategorier'
+    DAY: Dag
+    DECEMBER: desember
+    DECREMENT_POSITION: 'Reduser antall'
+    DELETE: Slukke
+    DETAILS: Detaljer
+    DETAILS_FOR: 'Detaljer om %s'
+    DIDNOT_RETURN_RESULTS: 'leverte ingen resultater i butikken vår.'
+    DO_NOT_EDIT: 'Vennligst ikke endre!'
+    EMAIL_ADDRESS: Epostadresse
+    EMAIL_ALREADY_REGISTERED: 'En bruker har allerede registrert seg med denne e-postadressen.'
+    EMAIL_NOT_FOUND: 'Denne e-postadressen ble ikke funnet.'
+    EMPTY_CART: 'å tømme'
+    ERROR_LISTING: 'Følgende feil oppstod:'
+    ERROR_OCCURED: 'Det har vært en feil.'
+    FEBRUARY: februar
+    FIND: 'Finne:'
+    FORWARD: Lengre
+    GOTO: 'gå til {title} -siden'
+    GOTO_CART_SHORT: handlevogn
+    GOTO_CONTACT_LINK: 'Til kontaktsiden'
+    GOTO_PAGE: 'Gå til side {count}'
+    HEADERPICTURE: Overskriftsbilde
+    HELLO: Hallo
+    INCLUDED_VAT: 'VAT inkludert.'
+    INCLUDING_TAX: 'inkl. {amount} % mva'
+    INCREMENT_POSITION: 'Øk antall'
+    ISACTIVE: aktiv
+    I_ACCEPT: 'Jeg aksepterer'
+    I_HAVE_READ: 'jeg har'
+    JANUARY: januar
+    JULY: juli
+    JUNE: juni
+    LOGIN: Registrere
+    LOGO: logo
+    LOGOUT: 'Logg ut'
+    MARCH: mars
+    MAY: Kan
+    MESSAGE: nyheter
+    MONTH: måned
+    MYACCOUNT: 'Min konto'
+    MetaTitleAt: 'på {shopTitle}'
+    NAME: Etternavn
+    NEWSLETTER: Nyhetsbrev
+    NEWSLETTER_FORM: Nyhetsbrevinnstillinger
+    NEXT: før
+    NOT_FOUND: 'Siden " {title} " ble ikke funnet.'
+    NOVEMBER: november
+    NO_ORDERS: 'Du har ikke fullført noen bestillinger ennå.'
+    NO_RESULTS: 'Beklager, men ingen resultater ble funnet for søkeordet ditt.'
+    OCTOBER: oktober
+    OR: eller
+    ORDERED_PRODUCTS: 'Bestilte varer'
+    ORDER_COMPLETED: 'Bestillingen din er fullført.'
+    ORDER_DATE: Bestillingsdato
+    ORDER_THANKS: 'Takk for din bestilling.'
+    Oclock: klokke
+    PASSWORD: passord
+    PASSWORD_CASE_EMPTY: 'Hvis du lar dette feltet stå tomt, endres ikke passordet ditt.'
+    PASSWORD_CHECK: 'Gjenta passord'
+    PASSWORD_WRONG: 'Dette passordet er feil.'
+    PAYMENT_NOT_WORKING: 'Den valgte betalingsmodulen fungerer ikke.'
+    PLURALNAME: sider
+    PLUS_SHIPPING: 'eks. fraktkostnader'
+    PREV: 'Komme tilbake'
+    PRODUCTNAME: Artikkelnavn
+    PageXofY: 'Side {x} av {y}'
+    REGISTER: 'å registrere'
+    REGISTER_HERE: 'Registrer her.'
+    REGISTER_NEW: 'Ny kunde?'
+    REMARKS: Merknader
+    REMOVE_FROM_CART: 'ta bort'
+    RETURNTOPRODUCTGROUP: 'Tilbake til " {title} "'
+    REVOCATION: Angrerett
+    REVOCATIONREAD: 'Tilbakekallingsinstruks lest'
+    SAVE: 'Lagre på datamaskinen'
+    SEPTEMBER: september
+    SESSION_EXPIRED: 'Økten din har utløpt.'
+    SHIPPING_ADDRESS: Sendingsadresse
+    SHIPPING_AND_BILLING: 'Leverings- og faktureringsadresse'
+    SHOP_WITHOUT_REGISTRATION: 'Handle uten registrering'
+    SHOWINPAGE: 'Sett språket til {language}'
+    SHOW_DETAILS: 'Vis detaljer'
+    SHOW_DETAILS_FOR: 'Vis detaljer om {title}'
+    SINGULARNAME: side
+    SITMAP_HERE: 'Her kan du se en oversikt over nettsiden vår.'
+    STEPS: trinn
+    SUBMIT: Sende
+    SUBMIT_MESSAGE: 'sende melding'
+    SUBTOTAL: Delsum
+    SUBTOTAL_NET: 'Subtotal netto)'
+    SUM: Total
+    Start: begynne
+    TAX: 'inkl. {amount} % mva'
+    TERMSOFSERVICE_PRIVACY: 'Generelle vilkår og databeskyttelse'
+    THE_QUERY: Begrepet
+    TITLE: tittel
+    TITLE_IMPRINT: avtrykk
+    TITLE_TERMS: 'Vilkår for bruk'
+    TODAY: 'i dag'
+    TOTAL: Total
+    URL_SEGMENT_IMPRINT: avtrykk
+    URL_SEGMENT_TERMS: generelle-vilkår-og-betingelser-kjøpere-informasjon
+    USER_NOT_EXISTING: 'Denne brukeren eksisterer ikke.'
+    UseAsRootForMainNavigation: 'Undersider til denne siden utgjør hovednavigasjonen'
+    UseAsRootForMainNavigationDesc: 'Hovednavigasjonen, som inneholder produktgruppene i grunninstallasjonen, er dannet fra undersidene til denne siden. Det kan bare være én side som har denne innstillingen aktiv.'
+    VALUE_OF_GOODS: 'Verdi av varer'
+    VIEW_ORDERS_TEXT: 'Sjekk statusen til bestillingen din i'
+    WELCOME_PAGE_TITLE: Velkommen
+    WELCOME_PAGE_URL_SEGMENT: Velkommen
+    WELCOME_TO: 'Velkommen til'
+    YEAR: år
+    YESTERDAY: 'i går'
+    YOUR_REMARKS: 'Din melding til oss'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: betalingsmetoder
+    DEFAULT_URLSEGMENT: betalingsmetoder
+    PLURALNAME: 'Sider for betalingsmåter'
+    SINGULARNAME: 'Siden for betalingsmåte'
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: Betalingsmelding
+    DEFAULT_URLSEGMENT: betalingsvarsel
+    PLURALNAME: Betalingsvarsler
+    SINGULARNAME: Betalingsmelding
+    TEXTBANKACCOUNTINFO: 'Informasjon om betalingsmåte på forhånd'
+    TITLE: Betalingsmelding
+    URL_SEGMENT: betalingsvarsel
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: Produktgrupper
+    DEFAULT_URLSEGMENT: varegrupper
+    LinkTo: 'Varegruppe som videresending skal skje til'
+    PAGE_TITLE: Produktgrupper
+    PLURALNAME: Artikkelgruppeoversikter
+    RedirectToProductGroup: 'Videresend direkte til en produktgruppe'
+    RedirectionSettings: Videresending
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} artikkel'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} artikkel'
+    SINGULARNAME: Artikkelgruppeoversikt
+    SUBGROUPS_OF: 'Delmengder av'
+    URL_SEGMENT: varegrupper
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: Egenskap
+    BREADCRUMBS: 'Avdeling brødsmuler'
+    BuyTitle: '{title} kjøp'
+    DEFAULTGROUPHOLDERVIEW: 'Standard produktgruppevisning'
+    DEFAULTGROUPVIEW: 'Standard artikkellistevisning'
+    DEFAULTGROUPVIEW_DEFAULT: 'Ta over fra foreldregruppe / standard konfigurasjon'
+    DONOTSHOWPRODUCTS: '<strong> ingen </strong> artikler i oversikten'
+    DisplaySettings: Skjerminnstillinger
+    GROUP_PICTURE: 'Bilde av gruppen'
+    MANAGE_PRODUCTS_BUTTON: 'Administrer artikler'
+    MANUFACTURER_LINK: Produsent
+    NewProducts: 'nye hits'
+    NewProductsIn: '{productgroup} innovasjoner'
+    NewProductsLinkTitle: 'Vis alle nyheter'
+    OK: OK
+    PLURALNAME: Produktgrupper
+    PRODUCTGROUPSPERPAGE: 'Produktgrupper per side'
+    PRODUCTSPERPAGE: 'Elementer per side'
+    PRODUCTSPERPAGEHINT: 'For artikler eller avdelinger, skriv inn 0 (null) per side for å bruke standardinnstillingen.'
+    PRODUCTS_ON_PAGE: '{productcount} artikkel på siden {pagecount}'
+    PRODUCTS_ON_PAGES: '{productcount} artikkel på {pagecount} sider'
+    PRODUCTS_PER_PAGE: 'Elementer per side'
+    PRODUCT_ON_PAGE: '{productcount} artikkel på siden {pagecount}'
+    PreorderableProducts: Forhåndsbestille
+    PreorderableProductsIn: '{productgroup} forhåndsbestilling'
+    PreorderableProductsLinkTitle: 'Vis alle forhåndsbestillinger'
+    SINGULARNAME: Produktgruppe
+    SORT_ORDER: Sortering
+    ShowOffersFor: 'Vis tilbud for'
+    ShowResultsFor: 'Vis resultater for'
+    ShowResultsForAll: 'Vis resultater for alle kategorier'
+    ShowResultsForAllMenu: 'Alle Kategorier'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Bruk kun standard produktgruppevisning'
+    USEONLYDEFAULTGROUPVIEW: 'Bruk bare standard artikkellistevisning'
+    USE_CONTENT_FROM_PARENT: 'Adopter innhold fra sider på høyere nivå'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Denne artikkelen er utsolgt.'
+    PACKAGING_CONTENT: innhold
+    PLURALNAME: 'Vare detaljsider'
+    PRINT: 'Å trykke'
+    QUANTITY: Nummer
+    SINGULARNAME: 'Vare detaljside'
+    URL_SEGMENT: varedetaljer
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1> Fullfør registreringen </h1> <p> Klikk på aktiveringslenken eller kopier lenken til nettleseren din. </p> <p> <a href="$ConfirmationLink"> registrering </a> </p> <p> Hvis du ikke har registrert deg, bare ignorer denne e-posten. </p> <p> Nettbutikkteamet ditt </p>'
+    CUSTOMER_SALUTATION: 'Kjære kunde,'
+    DEFAULT_TITLE: Registreringsside
+    DEFAULT_URLSEGMENT: 'å registrere'
+    DEFAULT_WELCOME_CONTENT: '<p> Kjære kunde, </p> <p> å spare deg for arbeid, har vi allerede logget deg på automatisk. </p> <p> Ha det gøy med shopping i butikken vår! </p>'
+    EMAIL_EXISTS_ALREADY: 'Denne e-postadressen er allerede tatt.'
+    EmailOptInConfirmYourEmailAddress: 'Bekreft din e-postadresse'
+    EmailOptInConfirmationCustomerData: 'Dine kundedata'
+    EmailOptInConfirmationCustomerDataInfo: 'Du finner kundedataene dine nedenfor.'
+    EmailOptInConfirmationInfo: 'Gratulerer og velkommen til butikken vår! Din e-postadresse er bekreftet. Fra nå av har du rett til å bruke ditt kundebilde i butikken vår.'
+    EmailOptInConfirmationTitle: 'E-postadressen er bekreftet'
+    EmailOptInConfirmationVisit: 'Besøk vår butikk'
+    EmailOptInIgnore: 'Hvis du ikke har registrert deg i butikken vår, bare ignorer denne e-posten.'
+    EmailOptInLinkInfo: 'Vennligst klikk på aktiveringslenken eller kopier lenken til nettleseren din.'
+    EmailOptInNotificationCustomerData: Kontaktperson
+    EmailOptInNotificationTitle: 'En kunde har registrert seg'
+    EmailOptInTitle: 'Bekreft e-postadresse'
+    OTHERITEMS: Diverse
+    OptInFailedMessage: 'Denne lenken for å bekrefte e-postadressen din er ugyldig.'
+    OptInFailedTitle: 'Registrering mislyktes'
+    OptInGoToMyAccount: 'Min konto'
+    OptInGoToShop: 'Fortsett til butikken'
+    OptInMessage: 'Din e-postadresse er bekreftet.'
+    OptInMessageLogin: 'Logg på for å bekrefte e-postadressen din.'
+    OptInPendingMessage: 'E-postbekreftelsen din venter. Vennligst sjekk innboksen din og besøk bekreftelseslenken.'
+    OptInPendingTitle: 'Påmelding venter'
+    OptInResend: 'Send bekreftelseslenken på nytt'
+    OptInResendMessage: 'E-posten med bekreftelseslenken {email} sendt til {email}.'
+    OptInResendTitle: 'Send bekreftelseslenken på nytt'
+    OptInTitle: 'Bekreft din e-postadresse'
+    OptInWelcomeMessage: 'Gratulerer! Din registrering i butikken vår var vellykket!'
+    OptInWelcomeMessage2: 'For å aktivere kundekontoen din, vennligst bekreft e-postadressen din ved å gå til bekreftelseslenken du mottok på e-post.'
+    OptInWelcomeMessage3: 'Bekreftelseslenken er sendt til <strong> {email} </strong> . Vennligst sjekk innboksen din.'
+    OptInWelcomeTitle: 'Bekreft din e-postadresse'
+    PLEASE_COFIRM: 'Vennligst bekreft registreringen.'
+    PLURALNAME: Registreringssider
+    SINGULARNAME: Registreringsside
+    SUCCESS_TEXT: '<h1> Registrering fullført! </h1> <p> Takk for registreringen. </p> <p> Ha det gøy i butikken vår! </p> <p> Nettbutikkteamet ditt </p>'
+    THANKS: 'Takk for registreringen.'
+    TITLE: Registreringsside
+    URL_SEGMENT: 'å registrere'
+    YOUR_REGISTRATION: 'Din registrering'
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: tilbakekall
+    DEFAULT_URLSEGMENT: tilbakekall
+    PLURALNAME: Tilbakekallingssider
+    SINGULARNAME: Tilbakekallingsside
+    Success: 'Tilbakekallingen er sendt'
+    SuccessText: 'Tusen takk! Vi har mottatt tilbakekallingen din og vil behandle forespørselen din.'
+    TITLE: tilbakekall
+    URL_SEGMENT: tilbakekall
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'Resultater for'
+    DEFAULT_TITLE: Søkeresultater
+    DEFAULT_URLSEGMENT: Søkeresultater
+    PLURALNAME: Søkeresultatsider
+    RELEVANCESORT: relevans
+    ResultsTextCategory: 'Søkeresultater for kategorien <strong> ” {category} ” </strong> ( {results} treff)'
+    ResultsTextQuery: 'Søkeresultater for begrepet <strong> ” {query} ” </strong> ( {results} treff)'
+    ResultsTextQueryAndCategory: 'Søkeresultater for begrepet <strong> ” {query} ” </strong> i kategorien <strong> ” {category} ” </strong> ( {results} treff)'
+    SINGULARNAME: Søkeresultatsiden
+    SearchTitle: '{count} søkeresultater for " {title} "'
+    TITLE: Søkeresultater
+    URL_SEGMENT: Søkeresultater
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: beløp
+    PLURALNAME: Behandlingskostnader
+    SINGULARNAME: Behandlingskostnader
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: 'Som regel'
+    ACCESS_MANAGEMENT_GROUP_LABEL: 'I henhold til gruppe(r)'
+    ACCESS_MANAGEMENT_USER_LABEL: 'I følge kunden(e)'
+    ACCESS_SETTINGS: Tilgangsadministrasjon
+    ATTRIBUTED_COUNTRIES: 'tildelte land'
+    AddPaymentLogos: 'Legg til logo'
+    BASIC_SETTINGS: 'Grunnleggende innstillinger'
+    ChargeOrDiscountForAmount: 'på {price}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Bruk følgende regel'
+    ExcludedPosition: 'dette gjelder ikke posisjon {position}'
+    ExcludedPositions: 'unntak av posisjonene er {positions}'
+    FROM_PURCHASE_VALUE: 'fra varens verdi'
+    HANDLINGCOSTS_SETTINGS: Behandlingskostnader
+    LONG_PAYMENT_DESCRIPTION: 'Beskrivelse for visning på betalingsmåtesiden'
+    MODE: modus
+    NAME: Etternavn
+    NO_PAYMENT_METHOD_AVAILABLE: 'Ingen betalingsmetoder tilgjengelig'
+    PAYMENT_DESCRIPTION: beskrivelse
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Absolutt
+    PAYMENT_IMPACT_TYPE_PERCENT: Prosentdel
+    PAYMENT_ISACTIVE: aktivert
+    PAYMENT_LOGOS: Logoer
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Maksimumsbeløp for modul'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Minimumsbeløp for modul'
+    PAYMENT_MODE_DEV: 'Utvikling og test'
+    PAYMENT_MODE_LIVE: 'Live / i drift'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Verdi av varer'
+    PAYMENT_MODIFY_TOTALVALUE: Totalsum
+    PAYMENT_MODIFY_TYPE_CHARGE: tilleggsavgift
+    PAYMENT_MODIFY_TYPE_DISCOUNT: Rabatt
+    PAYMENT_SUMMODIFICATIONIMPACT: Påvirket
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Kunst
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'Verdien er'
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Merking i handlekurv/bestilling'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'Artikkelnummer for XML ordreeksport'
+    PAYMENT_SUMMODIFICATIONVALUE: verdi
+    PAYMENT_SUMMODIFIERS: 'Tillegg / rabatter'
+    PAYMENT_USE_SUMMODIFICATION: Aktiver
+    PaymentChannel: Betalingsmetode
+    PaymentStatus: Betalingsstatus
+    PaymentStatusDesc: 'Standard betalingsstatus for denne betalingsmåten'
+    RESTRICTION_LABEL: 'Vis kun for kunder som oppfyller følgende kriterier'
+    RESTRICT_BY_ORDER_QUANTITY: 'Kunden må ha lagt inn minst følgende antall bestillinger'
+    RESTRICT_BY_ORDER_STATUS: 'hvis ordrestatus er merket i følgende liste'
+    SHIPPINGMETHOD: Forsendelsesmetode
+    SHIPPINGMETHOD_DESC: 'Bind betalingsmåten til følgende forsendelsesmetoder:'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Vis inndatafelt allerede ved valg av betaling'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Deaktiver for følgende grupper'
+    SHOW_NOT_FOR_USERS_LABEL: 'Deaktiver for følgende brukere'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Aktiver for følgende grupper'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Aktiver for følgende brukere'
+    SHOW_PAYMENT_LOGOS: 'Vis logoer'
+    STANDARD_ORDER_STATUS: 'Standard ordrestatus for denne betalingsmåten'
+    TILL_PURCHASE_VALUE: 'opp til varens verdi'
+    TITLE: Betalingsmetode
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: kode
+    DefaultStatusOpen: 'Åpen sinn'
+    DefaultStatusPaid: Betalt
+    IsDefault: 'Er standard'
+    Orders: Ordrene
+    PLURALNAME: Betalingsstatus
+    PaymentStatusTranslations: Oversettelser
+    SINGULARNAME: Betalingsstatus
+    Title: tittel
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\File:
+    DESCRIPTION: beskrivelse
+    FILE_ATTACHMENTS: Filvedlegg
+    PLURALNAME: Filer
+    SINGULARNAME: fil
+    SIZE: størrelse
+    TITLE: visningsnavn
+    TYPE: Type
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\Image:
+    CONTENT: Tekstinnhold
+    DESCRIPTION: 'Beskrivelse (f.eks. for Slidorion-tekstfelt)'
+    PLURALNAME: bilder
+    SINGULARNAME: bilde
+    SORTORDER: Sorteringsrekkefølge
+    THUMBNAIL: forhåndsvisning
+    TITLE: visningsnavn
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: beskrivelse
+    ManufacturerNumber: Produsentnummer
+    PLURALNAME: Produsent
+    SINGULARNAME: Produsent
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: Salgsenhet
+    AddFile: 'Legg til fil'
+    AddImage: 'legg til et bilde'
+    BasicData: 'Grunnleggende data'
+    CHANGE_QUANTITY_CART: 'Endre beløp'
+    CHOOSE_MASTER: '- velg master -'
+    COLUMN_TITLE: Etternavn
+    DAY: Dag
+    DAYS: Dager
+    DESCRIPTION: Varebeskrivelse
+    Delivery: leveranse
+    DeliveryForFree: 'Gratis frakt'
+    DeliveryForFreeIsPossible: 'Gratis frakt er mulig'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Denne artikkelen er ekskludert fra rabatter på grunn av betalingsmåten.'
+    FREE_OF_CHARGE: 'gratis frakt'
+    IMAGE: Varebilde
+    IMAGE_NOT_AVAILABLE: 'Ingen artikkelbilde tilordnet'
+    IMPORTIMAGESFORM_ACTION: 'Importer bilder'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'Katalogen eksisterer ikke'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Ingen katalog ble spesifisert'
+    IMPORTIMAGESFORM_HEADLINE: 'Importer bilder senere'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: katalog
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Absolutt bane til katalogen på webserveren der bildene er plassert. (Eksempel: / var / www / sølvvogn / bilder /)'
+    IMPORTIMAGESFORM_REPORT: '<p> %d filer ble funnet. </p> <p> %d dem kunne tilordnes artikler og ble importert. </p>'
+    IS_ACTIVE: 'er aktiv'
+    IsNotBuyable: 'Denne artikkelen kan ikke kjøpes'
+    Keywords: 'Nøkkelord for søket'
+    LIST_PRICE: Listepris
+    LaunchDate: 'Skjerm av'
+    LaunchDateInfo: '<strong> Valgfritt </strong> – Angis kun hvis <i> Salg fra </i> angitt og visningen skal skje før salgsstart.'
+    MASTERPRODUCT: 'Grunnleggende element'
+    METADATA: Metadata
+    METADESCRIPTION: 'Metabeskrivelse for søkemotorer'
+    METATITLE: 'Metatittel for søkemotorer'
+    MONTH: måned
+    MONTHS: måneder
+    MSRP: 'Veiledende pris'
+    MSRP_CURRENCY: 'Valuta RRP'
+    MirrorPage_PLURALNAME: 'Spiegel produktgrupper'
+    MirrorPage_SINGULARNAME: 'Speil produktgruppe'
+    NAME_DESCRIPTION: 'Navn og beskrivelse'
+    New: Ny
+    NewestArrivals: 'Nytt i butikken'
+    PACKAGING_QUANTITY: Salgsmengde
+    PACKAGING_UNIT: Emballasjeenhet
+    PLURALNAME: gjenstander
+    PRICE: pris
+    PRICES: Priser
+    PRICE_AMOUNT_ASC: 'pris stigende'
+    PRICE_AMOUNT_DESC: 'Synkende pris'
+    PRICE_ENTIRE: totalpris
+    PRICE_GROSS: 'Brutto pris)'
+    PRICE_GROSS_CURRENCY: 'Valuta (brutto)'
+    PRICE_NET: Nettpris)
+    PRICE_NET_CURRENCY: 'Valuta (netto)'
+    PRICE_SINGLE: Enhetspris
+    PRICE_SINGLE_NET: 'Enhetspris (netto)'
+    PRODUCTNUMBER: artikkelnummer
+    PRODUCTNUMBER_MANUFACTURER: 'Artikkelnummer (produsent)'
+    PRODUCTNUMBER_SHORT: Varenr.
+    PRODUCT_QUESTION: 'Vennligst svar på følgende spørsmål om artikkelen {title} ( {productnumber} ):'
+    PRODUCT_QUESTION_LABEL: 'Spørsmål om artikkelen'
+    PURCHASEPRICE: innkjøpspris
+    PURCHASEPRICE_CURRENCY: 'Valuta kjøpesum'
+    PURCHASE_MAX_DURATION: 'Maks abonnementsperiode'
+    PURCHASE_MIN_DURATION: 'Minimum abonnementsperiode'
+    PURCHASE_TIME_UNIT: 'Enhet (WBZ)'
+    PreorderInfo: 'Denne artikkelen vil kun vises på {releasedate} . Vær oppmerksom på at denne artikkelen ikke kan sendes før utgivelsesdatoen.'
+    PreorderNow: 'Forhåndsbestill nå'
+    PreorderToday: 'Forhåndsbestill denne varen i dag'
+    Preorderable: 'kan forhåndsbestilles'
+    QUANTITY: Nummer
+    QUANTITY_IS_IN_CART: '{quantity} {unit} allerede i handlekurven'
+    QUANTITY_SHORT: Nummer
+    RefreshCache: 'Etter å ha lagret, oppdater hurtigbufferen for denne artikkelen'
+    ReleaseDate: 'Salg fra'
+    ReleaseDateInfo: '<strong> Valgfritt </strong> – Angis kun hvis salgsstarten skal utsettes.'
+    SHORTDESCRIPTION: Listebeskrivelse
+    SILVERCART_PRODUCT_CREATE: 'Kan lage artikler.'
+    SINGULARNAME: gjenstander
+    STOCKQUANTITY: Lager
+    STOCK_QUANTITY: 'Kan beholdningen av denne artikkelen overbookes?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Dato som lageret ikke lenger kan overbookes fra'
+    STOCK_QUANTITY_SHORT: 'Er det mulig å overbooke?'
+    Sale: 'by på'
+    SalesBanDate: 'Vis opp'
+    SalesBanDateInfo: '<strong> Valgfritt </strong> – Spill kun hvis varigheten av salget er begrenset.'
+    StockIsLowOrderNow: 'Ikke på lager - bestill nå'
+    TITLE: gjenstander
+    TITLE_ASC: 'Navn i stigende rekkefølge'
+    TITLE_DESC: 'Synkende navn'
+    ThisProductWillBeReleasedOn: 'Denne artikkelen vil vises på {releasedate}'
+    TimeGroup: Tidskontroll
+    VAT: mva
+    WEEK: uke
+    WEEKS: Uker
+    WEIGHT: vekt
+    WIDGETAREA: Widgets
+    YEAR: år
+    YEARS: år
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: 'Skadet / defekt'
+    DefaultNew: Ny
+    DefaultRefurbished: 'Totalt overhalt'
+    DefaultUsed: Brukt
+    PLEASECHOOSE: 'Vennligst velg'
+    PLURALNAME: 'Artikkelen sier'
+    SINGULARNAME: 'Varens tilstand'
+    SeoMicrodataCode: 'SEO mikrodatakode'
+    SeoMicrodataCodeDamaged: 'Skadet / defekt'
+    SeoMicrodataCodeDescription: 'Tildel en passende verdi her for å øke synligheten på søkemotorer.'
+    SeoMicrodataCodeNew: Ny
+    SeoMicrodataCodeRefurbished: 'Totalt overhalt'
+    SeoMicrodataCodeUsed: Brukt
+    TITLE: Stat
+    USE_AS_STANDARD_CONDITION: 'Bruk som standardstatus hvis ingenting er definert på artikkelen'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: Språk
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: forkortelse
+    EXPLANATION_TO_DECIMAL_PLACES: 'Sett til 0 eller la stå tomt for å unngå å bruke desimaler. Denne innstillingen brukes for eksempel for "legg til i handlekurv"-skjemaer.'
+    NAME: Etternavn
+    NUMBER_OF_DECIMAL_PLACES: 'Antall desimaler'
+    PLURALNAME: Salgsenheter
+    SINGULARNAME: Salgsenhet
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Dato
+    Origin: opprinnelse
+    Origin-1: 'Overtakelse åpningsbalanse'
+    Origin0: 'Systeminngang ikke nærmere definert'
+    Origin1: 'Artikkelen ble nylig opprettet'
+    Origin2: 'Direkte brukerinnspill'
+    Origin3: 'Bestillingen er lagt inn'
+    Origin4: 'Rekkefølgen ble endret'
+    Origin5: 'Bestillingen ble kansellert'
+    Origin6: 'Importer via eksternt system'
+    OriginCode: Opprinnelseskoding
+    PLURALNAME: Inventarposteringer
+    Quantity: mye
+    QuantityDesc: 'Mengde som skal legges til eller trekkes fra beholdningen (f.eks. "2" / "- 2").'
+    QuantityRightTitle: 'Antall kan ikke endres etter lagring. For å korrigere en lagerbestilling, vennligst legg til en ny bestilling med en tilsvarende merknad.'
+    Reason: Årsaken
+    ReasonDesc: 'Kort beskrivelse av hvorfor beholdningen endres (f.eks. "ordre XYZ kansellert", "ordre XYZ retur", "varemottak").'
+    SINGULARNAME: Inventarpostering
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'tildelte forsendelsesmetoder'
+    COSTS: kostnader
+    DeliveryTimeHint: 'Valgfri informasjon om leveringstid. Overskriver spesifikasjonen for fraktmetoden på høyere nivå.'
+    EMPTYSTRING_CHOOSEZONE: '--Velg sone--'
+    FOR_SHIPPINGMETHOD: 'for fraktmetode'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Deaktiver gratis frakt for denne fraktavgiften'
+    FREEOFSHIPPINGCOSTSFROM: 'Gratis frakt fra (overskriver landsspesifikke og globale innstillinger)'
+    FreeFrom: 'fri fra'
+    MaximumWeight: 'Maksimal vekt'
+    MaximumWeightDesc: 'Maksimal vekt i gram (g)'
+    PLURALNAME: Fraktkostnader
+    POST_PRICING: 'Påfølgende prissetting'
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'Tekst for ALT-taggen'
+    LINKPAGE: 'Side som skal lenkes til'
+    PLURALNAME: Skyvebilder
+    ProductNumberToReference: 'Artikkelnummer på artikkelen som skal lenkes til'
+    ProductNumberToReferenceInfo: 'Brukes i stedet for siden.'
+    SINGULARNAME: Skyvebilde
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: Imageslider
+    DESCRIPTION: 'Gir en bildeglidebryter som viser flere bilder i en lysbildefremvisning.'
+    TITLE: bilder
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: 'SilverCart registrering'
+    DESCRIPTION: 'Denne widgeten viser et påloggingsskjema og lenker til registreringssiden. Hvis kunden er pålogget, vil han i stedet bli vist lenker til områdene på kundekontoen sin.'
+    TITLE: 'Melde deg på'
+    TITLE_LOGGED_IN: 'Min konto'
+    TITLE_NOT_LOGGED_IN: 'Melde deg på'
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: Sideliste
+    DESCRIPTION: 'Denne widgeten viser en liste over sider med lenker til de respektive sidene.'
+    PAGES: 'Tilknyttede sider'
+    TITLE: Sideliste
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: bilde
+    WIDGET_INFO_TAB: Widget-informasjon
+    WIDGET_INFO_TAB_EXPLANATION: 'Følgende data kan brukes av enkelte widgets.'
+    WIDGET_PRIORITY: 'Sorteringsrangering (jo høyere jo lenger bak)'
+    WIDGET_TEXT: beskrivelse
+    WIDGET_TITLE: 'Tittel (valgfritt)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Visning av artikler fra underproduktgrupper'
+    DESCRIPTION: 'Denne widgeten viser artikler fra underkategorier hvis ingen artikler er tilordnet den gjeldende kategorien.'
+    TITLE: 'Artikler fra underkategorier'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'SilverCart-glidebryter for artikler'
+    CMS_PRODUCTGROUPTABNAME: Produktgruppe
+    CMS_PRODUCTSTABNAME: gjenstander
+    DESCRIPTION: 'Denne widgeten viser artikler fra en produktgruppe. Det kan defineres fra hvilken produktgruppe og hvor mange artikler som skal vises.'
+    FETCHMETHOD_SORTORDERASC: 'Rekkefølge i stigende rekkefølge'
+    FETCHMETHOD_SORTORDERDESC: 'Rekkefølge i synkende rekkefølge'
+    ProductGroupPageDescription: 'Kun relevant hvis "Varevalgsmetode" er satt til "Fra produktgruppe".'
+    SELECTIONMETHOD_PRODUCTGROUP: 'Fra produktgruppe'
+    SELECTIONMETHOD_PRODUCTS: 'Velg varer for hånd'
+    SELECT_PRODUCT_DESCRIPTION: 'Vennligst skriv inn artikkelnumre, atskilt med semikolon'
+    STOREADMIN_FIELDLABEL: 'Velg produktgruppen som skal vises:'
+    TITLE: gjenstander
+    USE_SELECTIONMETHOD: 'Valgmetode for varer'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'SilverCart produsentliste'
+    DESCRIPTION: 'Denne widgeten viser en liste over alle produsenter i den aktuelle produktgruppen.'
+    RESETFILTER: 'Vis alt'
+    TITLE: Produsentliste
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: Avdelingsnavigasjon
+    DESCRIPTION: 'Denne widgeten oppretter et navigasjonshierarki for produktgrupper. Du kan angi hvilken produktgruppe som skal brukes som rot.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Utvid bare aktiv gren'
+    LEVELS_TO_SHOW: 'Vis nivåer til hvilken dybde'
+    SHOW_ALL_LEVELS: 'Vis alle nivåer'
+    TITLE: Avdelingsnavigasjon
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: Produktgrupper
+    DESCRIPTION: 'Denne widgeten skaper en oversikt over enhver produktgruppe (valgfritt som glidebryter).'
+    TITLE: Produktgrupper
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Oversettelser
+    SINGULARNAME: oversettelse
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Aktiver automatisk lysbildefremvisning'
+    AUTOPLAYDELAYED: 'Aktiver forsinkelse for automatisk lysbildefremvisning'
+    AUTOPLAYLOCKED: 'Deaktiver automatisk lysbildefremvisning når brukeren navigerer selv'
+    AddImage: 'legg til et bilde'
+    BUILDARROWS: 'Vis frem/tilbake-knapper'
+    BUILDNAVIGATION: 'Vis sidenavigering'
+    BUILDSTARTSTOP: 'Vis start/stopp-knapp'
+    CMS_BASICTABNAME: 'Grunnleggende innstillinger'
+    CMS_DISPLAYTABNAME: fremstilling
+    CMS_ROUNDABOUTTABNAME: Rundkjøring
+    CMS_SLIDERIMAGES: 'Slideshow bilder'
+    CMS_SLIDERTABNAME: 'Innstillinger for lysbildefremvisning'
+    FETCHMETHOD: 'Valgmetode for artikler'
+    FETCHMETHOD_RANDOM: Tilfeldigvis
+    FRONTCONTENT: Beskrivelsestekst
+    FRONTTITLE: overskrift
+    GROUPVIEW: Varelistevisning
+    IS_CONTENT_VIEW: 'Bruk vanlig artikkelvisning i stedet for widgetvisning'
+    IS_CONTENT_VIEW_INFO: 'Dette alternativet bør velges hvis widgeten er ment for innholdsområdet på en side.'
+    NUMBEROFPRODUCTSTOFETCH: 'Antall artikler som skal lastes:'
+    NUMBEROFPRODUCTSTOSHOW: 'Antall artikler som skal vises'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'kun aktuelt hvis skyveknappen er aktivert, ellers vises alle artikler som er lastet'
+    ProductDataToggle: Elementinnstillinger
+    ProductRelationToggle: Artikkeloppgave
+    SLIDEDELAY: 'Varigheten av visningen per bilde for den automatiske lysbildefremvisningen (i millisekunder)'
+    STOPATEND: 'Stopper den automatiske lysbildefremvisningen etter det siste panelet'
+    TRANSITIONEFFECT: Overgangseffekt
+    TRANSITION_FADE: Crossfade
+    TRANSITION_HORIZONTALSLIDE: 'Skyv horisontalt'
+    TRANSITION_VERTICALSLIDE: 'Skyv vertikalt'
+    USE_LISTVIEW: 'Bruk listevisning'
+    USE_ROUNDABOUT: 'Bruk rundkjøring'
+    USE_SLIDER: 'Bruk glidebryteren'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'Mest hyppige søkeord'
+    DESCRIPTION: 'Denne widgeten viser en TagCloud med de oftest forekommende søkeordene.'
+    FONTSIZECOUNT: 'Antall skriftstørrelser'
+    TAGSPERCLOUD: 'Antall søkeord som skal vises'
+    TITLE: 'De vanligste søkeordene'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: søke
+    DESCRIPTION: 'Denne widgeten viser et søkeskjema for varesøk.'
+    TITLE: Søkeskjema
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Vennligst skriv inn søkeordet ditt:'
+    SUBMITBUTTONTITLE: Søke
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: liste
+    TILE: Fliser

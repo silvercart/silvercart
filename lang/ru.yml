@@ -1,4 +1,186 @@
 ru:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Все принимают'
+    ManageCookies: 'Настройки файлов cookie'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>Мы используем файлы cookie для оптимального оформления наших веб-сайтов для вас, для улучшения наших продуктов для вас и для показа вам рекламы на основе интересов совместно со сторонними поставщиками. Здесь вы можете выбрать, какие файлы cookie вы хотите принимать, и изменить свой выбор в любое время. Более подробную информацию вы можете найти в нашей политике использования файлов cookie и в нашей информации о защите данных. Технически необходимые файлы cookie также устанавливаются, когда вы выбираете опцию отклонить.</p><p>Нажав на кнопку "Принять все", вы соглашаетесь с этой обработкой.</p>'
+    Title: 'На этом сайте используются файлы cookie'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Настройки были сохранены'
+    Save: 'Подтверждение выбора'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Анализ
+    Analytics_Content: '<p>С помощью аналитических файлов cookie мы можем технически анализировать использование сайта, чтобы выявить проблемы и оптимизировать удобство использования.</p>'
+    Marketing: Маркетинг
+    Marketing_Content: '<p>С помощью маркетинговых файлов cookie мы можем анализировать успешность рекламных мероприятий.</p>'
+    Necessary: Необходимо
+    Necessary_Content: '<p>Необходимые файлы cookie обеспечивают функциональную работу сайта и должны быть установлены по техническим причинам.</p>'
+    Preferences: Настройки
+    Prefrences_Content: '<p>С помощью файлов cookie предпочтений мы можем адаптировать удобство использования сайта к вашим потребностям. Это позволяет сайту запомнить ваши предпочтения при следующем посещении.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p>$CookieConsentForm</p><p>[cookiegrouptable group="Необходимые"]</p><p>[cookiegrouptable group="Analytics"]</p><p>[cookiegrouptable group="Маркетинг"]</p><p>[cookiegrouptable group="Preferences"]</p>'
+    Title: 'Политика использования файлов cookie'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Заполните эту страницу своей политикой конфиденциальности.</p>'
+    Title: 'Рекомендации по защите данных'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Заполните эту страницу своими условиями и правилами.</p>'
+    Title: 'Общие положения и условия'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Продолжительность
+    Provider: Установлено
+    Purpose: Назначение
+    Title: Печенье
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 год'
+    loc_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    mus_Expiry: '1 год'
+    mus_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    na_id_Expiry: '1 год'
+    na_id_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    na_tc_Expiry: '1 год'
+    na_tc_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    ouid_Expiry: '1 год'
+    ouid_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    uid_Expiry: '1 год'
+    uid_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    uvc_Expiry: '1 год'
+    uvc_Purpose: 'Кнопки обмена информацией в социальных сетях'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 месяцев'
+    BizoID_Purpose: Маркетинг
+    UserMatchHistory_Expiry: '6 месяцев'
+    UserMatchHistory_Purpose: Маркетинг
+    lang_Expiry: Сессия
+    lang_Purpose: 'Языковые настройки'
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 месяца'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 года'
+    _ga_Purpose: 'Шрифтовая аналитика'
+    _gid_Expiry: '2 года'
+    _gid_Purpose: 'Шрифтовая аналитика'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 часа'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 года'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 лет'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 года'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 месяцев'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 месяц'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 года'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 месяца'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 года'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 года'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 года'
+    bcookie_Purpose: Маркетинг
+    lidc_Expiry: '2 года'
+    lidc_Purpose: Маркетинг
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 года'
+    _ga_Purpose: 'Аналитика Mapbox'
+    _mkto_trk_Expiry: '2 года'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 год'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 год'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 год'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 месяцев'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 год'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 год'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 месяцев'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 год'
+    player_Purpose: Видеоинтеграция
+    vuid_Expiry: '1 год'
+    vuid_Purpose: Видеоинтеграция
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Сессия
+    CONSENT_Purpose: Видеоинтеграция
+    GPS_Expiry: Сессия
+    GPS_Purpose: Видеоинтеграция
+    NID_Expiry: Сессия
+    NID_Purpose: Видеоинтеграция
+    PREF_Expiry: '2 года'
+    PREF_Purpose: Видеоинтеграция
+    VISITOR_INFO1_LIVE_Expiry: '6 месяцев'
+    VISITOR_INFO1_LIVE_Purpose: Видеоинтеграция
+    YSC_Expiry: Сессия
+    YSC_Purpose: Видеоинтеграция
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 месяца'
+    CookieConsent_Purpose: 'Сохранение настроек cookie'
+    FluentLocale_Expiry: '2 месяца'
+    FluentLocale_Purpose: 'Сохранение языковых настроек'
+    PHPSESSID_Expiry: Сессия
+    PHPSESSID_Purpose: Сессия
+    __atuvc_Expiry: '1 год'
+    __atuvc_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    __atuvs_Expiry: '1 год'
+    __atuvs_Purpose: 'Кнопки обмена информацией в социальных сетях'
+    _ga_Expiry: '2 года'
+    _ga_Purpose: Статистика
+    _gat_Expiry: '24 часа'
+    _gat_Purpose: Статистика
+    _gid_Expiry: '24 часа'
+    _gid_Purpose: Статистика
+    _hjIncludedInSample_Expiry: Сессия
+    _hjIncludedInSample_Purpose: Статистика
+    ipcountry_Expiry: Сессия
+    ipcountry_Purpose: 'Стандартные языковые настройки'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 месяц'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 года'
+    _ga_Purpose: 'Аналитика reCAPTCHA'
+  SilverCart:
+    Actions: Действия
+    Buy1: '{купить'
+    Buy2: '{title1} {title2} купить'
+    Cancel: Отмена
+    Change: Изменить
+    ClickForMore: 'Нажмите для просмотра дополнительной информации'
+    Close: Закрыть
+    ContactUs: 'Свяжитесь с нами'
+    DefaultIfEmpty: 'По умолчанию, если пусто: "{default}".'
+    DeleteYourAccountErrorConfirm: 'Пожалуйста, подтвердите удаление вашей учетной записи, поставив галочку.'
+    DeleteYourAccountErrorPassword: 'Извините, но введенные вами данные доступа не верны.'
+    DeleteYourAccountSuccess: 'Ваша учетная запись была успешно помечена для удаления и будет удалена в течение следующих 24 часов. Вы получите уведомление по электронной почте, как только удаление будет завершено. До этого момента у вас есть возможность отозвать запрос на удаление.'
+    DeleteYourAccountSuccessOpen: 'Ваша учетная запись была успешно помечена для удаления. Поскольку для вашего клиентского счета все еще есть открытые заказы, ваш счет будет удален только после того, как все открытые заказы будут обработаны. Вы получите уведомление по электронной почте, как только удаление будет завершено. До этого момента у вас есть возможность отозвать запрос на удаление.'
+    DeleteYourAccountUndo: 'Отозвать запрос на удаление'
+    DeleteYourAccountUndone: 'Ваш запрос на удаление был успешно отменен.'
+    Go: Перейти
+    NextPage: 'Следующая страница'
+    PrevPage: 'Предыдущая страница'
+    ProductAddedToCart: 'Товар был добавлен в вашу корзину.'
+    ProductRemovedFromCart: 'Товар был удален из вашей корзины.'
+    Sort: 'Порядок сортировки'
+    Subject: Тема
+    Subjects: Тема
+    Translation: Перевод
+    Translations: Переводы
+    Until: на
+    go: перейти
+    since: с
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Доступность
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: фрахтовщик
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -9,25 +191,67 @@ ru:
     MENUTITLE: колиенты
   SilverCart\Admin\Controllers\ImageAdmin:
     MENUTITLE: фотографии
+    SELECT_IMAGE_TYPE: 'Выберите тип изображения'
+    SELECT_OTHER_IMAGES: 'Другие изображения'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Изображения для способов оплаты'
+    SELECT_PRODUCT_IMAGES: 'Изображения статей'
   SilverCart\Admin\Controllers\LeftAndMainExtension:
     CONFIG: Настройки
+    CUSTOMER: Клиенты
+    DEFAULT: CMS
+    FILES: Файлы
+    HANDLING: Обработка
     MODULES: модули
     ORDERS: Заказы
     PRODUCTS: Артикул
   SilverCart\Admin\Controllers\ManufacturerAdmin:
     MENUTITLE: производитель
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Пожалуйста, выберите контекст экспорта и нажмите кнопку экспорта, чтобы загрузить список получателей электронной почты в формате CSV.'
+    DoExport: 'Экспорт в CSV'
+    ExportAll: 'Экспортные адреса всех клиентов'
+    ExportAllNewsletterRecipients: 'Экспорт адресов всех получателей рассылки'
+    ExportAllNewsletterRecipientsWithAccount: 'Экспорт адресов всех получателей рассылки с учетной записью клиента'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Экспорт адресов всех получателей рассылки без учетной записи клиента'
+    ExportAllNonNewsletterRecipients: 'Экспорт адресов всех получателей, не входящих в рассылку'
+    ExportContext: 'Контекст экспорта'
+    MENUTITLE: 'Получатели рассылки'
   SilverCart\Admin\Controllers\NumberRangeAdmin:
     MENUTITLE: 'диапазоны номеров'
   SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Все после'
+    DateRangePickerALL_BEFORE: 'Все до'
+    DateRangePickerDATE: Дата
+    DateRangePickerEND_DATE: 'Дата окончания'
+    DateRangePickerLAST_7_DAYS: 'Последние 7 дней'
+    DateRangePickerLAST_MONTH: 'Предыдущий месяц'
+    DateRangePickerNEXT: Следующий
+    DateRangePickerPERIOD: Период
+    DateRangePickerPREVIOUS: Предыдущий
+    DateRangePickerSTART_DATE: 'Дата начала'
+    DateRangePickerTHIS_MONTH: 'В этом месяце'
+    DateRangePickerTHIS_YEAR: 'В этом году'
+    DateRangePickerTODAY: Сегодня
     MENUTITLE: заказы
   SilverCart\Admin\Controllers\OrderStatusAdmin:
     MENUTITLE: 'статус заказа'
   SilverCart\Admin\Controllers\PaymentMethodAdmin:
     MENUTITLE: 'виды оплаты'
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: 'Статус платежа'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: артикул
   SilverCart\Admin\Controllers\ProductConditionAdmin:
     MENUTITLE: 'состояние товара'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'В этот момент происходит импорт изображения статьи.'
+    CronIsRunningTitle: Внимание
+    CronNotInstalledDescription: "Установка импорта изображений статей еще не завершена.\nПожалуйста, добавьте необходимую программу (`sake dev/tasks/sc-image-importer`) в запланированные задачи вашего сервера.\nДля получения более подробной информации обратитесь к начальнику цеха.\n"
+    CronNotInstalledTitle: Внимание
+    Description: "Используйте эту функцию загрузки, чтобы загрузить сразу много изображений разных статей.\nИзображения назначаются автоматически, если имена файлов названы следующим образом:\n\n[номер элемента].png/jpg/jpeg\nИЛИ\n[Номер элемента]-[Порядковый номер].png/jpg/jpeg\nИЛИ\n[Номер позиции]-[Порядковый номер]-[Краткое описание без пробелов].png/jpg/jpeg\n\n[Краткое описание без пробелов] является необязательным и используется для оптимизации поисковых систем (SEO), чтобы получить лучшую видимость в поисковых системах, таких как Google.\nЕсли [short description-without-space] не указан, название статьи используется в качестве параметра для оптимизации поисковых систем.\n\nПример:\nВы хотите присвоить по 4 изображения каждой из двух статей с номерами 502.133.66.5 и 758.500.08.9. 3 из них должны иметь собственное краткое описание.\nДля каждой из статей с номерами 128.000.01.7 и 542.550.08.1 необходимо загрузить по одной фотографии.\nПоэтому имена файлов должны выглядеть следующим образом:\n\n502.133.66.5-1.png\n502.133.66.5-2-Coffee-Machine-XYZ-Front-View.png\n502.133.66.5-3-Coffee-Machine-XYZ-View-left-side.png\n502.133.66.5-4-Coffee-machine-XYZ-view-right-side.png\n758.500.08.9-1.png\n758.500.08.9-2.png\n758.500.08.9-3.png\n758.500.08.9-4.png\n128.000.01.7.png\n542.550.08.1.png\n\nОбратите внимание, что изображение, указанное с порядковым номером 1, используется в качестве изображения для представления списка.\nТакже обратите внимание, что существующие изображения затронутых элементов будут полностью перезаписаны при использовании этой функции.\n"
+    FileInfoTitle: 'Изображения следующих предметов еще не обработаны:'
+    MENUTITLE: 'Импорт изображения статьи'
+    UploadProductImages: 'Загрузка изображений элементов'
   SilverCart\Admin\Controllers\QuantityUnitAdmin:
     MENUTITLE: 'единицы измерения количества'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
@@ -41,13 +265,23 @@ ru:
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:
     CURRENCY: Евро
     IMAGEFOLDERNAME: Демо-данные
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart легко настраивается с помощью виджетов.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Адаптируемый
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: адаптируемый
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart легко расширяется с помощью модулей.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Расширяемый
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: расширяемый
     PRODUCTGROUPMARKETING_TITLE: 'модули маркетинга'
     PRODUCTGROUPMARKETING_URLSEGMENT: 'модули маркетинга'
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart имеет открытый исходный код. Это означает, что вы платите только за внедрение и адаптацию системы магазина к вашим пожеланиям.'
+    PRODUCTGROUPOPEN_TITLE: Открыть
+    PRODUCTGROUPOPEN_URLSEGMENT: открыть
     PRODUCTGROUPOTHERS_TITLE: 'другие модули'
     PRODUCTGROUPOTHERS_URLSEGMENT: 'другие модули'
     PRODUCTGROUPPAYMENT_TITLE: 'модули оплаты'
     PRODUCTGROUPPAYMENT_URLSEGMENT: 'модули оплаты'
     PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> Внимание:</strong><br/>Модули бесплатны. Значения цен приведены в качестве примера.</div>'
+    SLIDORION_TITLE: 'Преимущества SilverCart'
     WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p>Определите модули оплаты SilverCart.</p>'
     WIDGETSET_FRONTPAGE_CONTENT1_TITLE: 'модули оплаты'
     WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p>Вы найдёте модули и для многих возможностей применения</p>'
@@ -55,11 +289,44 @@ ru:
     WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'стартовая страница содержимого'
     WIDGETSET_FRONTPAGE_SIDEBAR_TITLE: 'стартовая страница панели инструментов'
     WIDGETSET_PRODUCTGROUPPAGES_SIDEBAR_TITLE: 'панель инструментов групп товаров'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: Активировать
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Изменить доступность...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Производители меняют...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Изменить статус заказа на...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Изменить статус платежа на...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Измените группу товаров на...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: Деактивировать
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Отметить как не замеченный'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Отметить, как видно'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Заказы на печать (HTML)'
   SilverCart\Admin\Forms\GridField\GridFieldBatchController:
+    EXECUTE: Выполнить
     MARK_ALL: 'все маркировать'
     UNMARK_ALL: 'убрать маркировку'
   SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest:
     SendChangePasswordEmail: 'Send Change Password Email'
+  SilverCart\Admin\Forms\GridField\GridFieldDuplicateAction:
+    DUPLICATE_DESCRIPTION: 'Дублирует этот объект'
+    Duplicate: Дубликат
+    DuplicatePermissionsFailure: 'Дублирование не допускается'
+  SilverCart\Admin\Forms\GridField\GridFieldPublishAction:
+    Publish: Опубликовать
+    PublishDesc: 'Опубликован данный объект'
+    PublishFailure: 'Публикация неверсированного объекта невозможна.'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: 'Быстрый просмотр'
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: Добавить
   SilverCart\Admin\Model\Config:
     ADDED_EXAMPLE_CONFIGURATION: 'Демо-конфигурация установлена'
     ADDED_EXAMPLE_DATA: 'Демо-данные установлены'
@@ -77,13 +344,33 @@ ru:
     CLEAN_DATABASE_DESCRIPTION: 'Команда „оптимизация базы данных“ проверяет и восстанавливает повреждённые записи.При невозможности восстановления повреждённая запись удаляется..<br/><strong>ВНИМАНИЕ: Восстановление может занять несколько минут!</strong>'
     CLEAN_DATABASE_INPROGRESS: 'Оптимизация базы данных... (%s/%s) (%s%% окончено, осталось %s )'
     CLEAN_DATABASE_START_INDEX: 'начальный индекс'
+    CheckoutConfiguration: 'Настройки корзины и оформления заказа'
+    ColorScheme: 'Цветовая схема'
+    ColorSchemeConfiguration: 'Название и цветовая схема'
+    ColorSchemeTab: 'Цветовая схема'
+    ColorScheme_blue: Голубой
+    ColorScheme_brown: Коричневый
+    ColorScheme_carmin: Кармин
+    ColorScheme_green: Зеленый
+    ColorScheme_orange: Апельсин
+    ColorScheme_red: Красный
+    CustomerConfiguration: 'Настройки клиента'
     DEFAULTCURRENCY: 'стандартная валюта'
     DEFAULTPRICETYPE: 'стандартная цена'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: 'Стандартный получатель электронной почты для запросов о контактах'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: 'Контактные запросы больше не отправляются стандартному получателю электронной почты, а на адрес, сохраненный здесь.'
     DEFAULT_IMAGE: 'фото артикула'
     DEFAULT_LANGUAGE: 'стандартный язык'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: 'Стандартный получатель электронной почты для уведомлений о заказах'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: 'Уведомления о заказах больше не отправляются стандартному адресату электронной почты, а на адрес, сохраненный здесь.'
+    DEFAULT_MAIL_RECIPIENT: 'Стандартный получатель электронной почты'
+    DEFAULT_MAIL_RECIPIENT_INFO: 'Электронные сообщения, предназначенные для оператора магазина, отправляются на адрес, сохраненный здесь.'
     DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: 'запросить при регистрации дату рождения?'
+    DISPLAYEDPAGINATION: 'Количество одновременно отображаемых номеров страниц'
     DISPLAY_TYPE_OF_PRODUCT_ADMIN: 'шаблон управления товарами'
+    DISPLAY_WEIGHTS_IN_KILOGRAM: 'Показать вес в килограммах (кг)'
     ENABLEBUSINESSCUSTOMERS: 'разрешить оптовых клиентов'
+    ENABLEPACKSTATION: 'Активируйте поля ввода адреса для PACKSTATION'
     ENABLESSL: 'Использовать SSL'
     ENABLESTOCKMANAGEMENT: 'включить контроль наличия'
     ERROR_MESSAGE: 'Параметр "{field}" не опрделён.<br/>Войдите<a href="{baseurl}admin/settings/">в систему</a>определите параметр в "SC Konfig -> Allgemeine Konfiguration".'
@@ -91,6 +378,7 @@ ru:
     ERROR_TITLE: ошибка!
     EXAMPLE_CONFIGURATION_ALREADY_ADDED: 'доставка бесплатно от'
     EXAMPLE_DATA_ALREADY_ADDED: 'Демо-данные добавлены'
+    EmailConfiguration: 'Настройки электронной почты'
     EmailSender: 'адрес эл.почты отправителя'
     EmailSenderDesc: 'Адрес отправителя будет использован для эл.почты, которая отправляется с SilverCart.'
     EmailSenderExample: 'e.g. "noreply@example.com"'
@@ -100,15 +388,23 @@ ru:
     FLAT: flach
     FREEOFSHIPPINGCOSTSFROM: 'бесплатная доставка от '
     FREEOFSHIPPINGCOSTSTAB: 'бесплатная доставка'
+    Favicon: Фавикон
+    FaviconDesc: 'Фавикон - это изображение, которое обычно отображается в адресной строке веб-браузера слева от URL, в некоторых браузерах также на открытой вкладке. Фавикон должен быть квадратным и иметь размеры примерно 32x32 пикселя.'
     GENERAL: общее
     GENERAL_MAIN: 'основная часть'
     GENERAL_TEST_DATA: демо-данные
     GLOBALEMAILRECIPIENT: 'глобальный сборщик эл. Почты'
     GLOBALEMAILRECIPIENT_INFO: 'Глобальный сборщик почты может быть отдельно сконфигурирован. На этот адрес будет будет отправляться вся   корреспонденция.Адреса получателей, сохранённые в шаблонах сохраняться и будут дополнены.'
+    GeneralConfiguration: 'Основные настройки'
     INTERFACES: интерфейсы
+    InvoiceAddressIsAlwaysShippingAddress: 'Адрес счета-фактуры всегда соответствует адресу доставки'
     LAYOUT: вид
     MINIMUMORDERVALUE: 'Минимальное количество заказываемого товара'
     MINIMUMORDERVALUE_HEADLINE: 'минимальная сумма заказа'
+    MinimumAgeToOrder: 'Минимальный возраст для заказов'
+    MinimumAgeToOrderError: 'Минимальный возраст для заказов составляет {возраст} лет.'
+    MobileTouchIcon: 'Значок прикосновения к мобильному телефону'
+    MobileTouchIconDesc: 'Значок Mobile Touch Icon используется, когда посетитель размещает ваш магазин в качестве ссылки на главном экране смартфона или планшета. Иконка должна иметь размеры 192x192 пикселей.'
     OPEN_RECORD: 'показать данные'
     PLURALNAME: 'общая конфигурация'
     PRICETYPEANONYMOUSCUSTOMERS: 'тип цен для анонимных клиентов'
@@ -121,6 +417,8 @@ ru:
     PRODUCTGROUPSPERPAGE: 'групп на страницу'
     PRODUCTSPERPAGE: 'количество артикулов на странице'
     PRODUCTSPERPAGE_ALL: 'показать все'
+    PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Поле для описания товара в корзине'
+    ProductConfiguration: 'Параметры статьи'
     QUANTITY_OVERBOOKABLE: 'Ist der Lagerbestand generell überbuchbar?'
     REDIRECTTOCARTAFTERADDTOCART: 'показывать корзину после команды "положить в корзину"'
     SEARCH: поиск
@@ -128,13 +426,64 @@ ru:
     SERVER: сервер
     SHOW_CONFIG: 'показать конфигурацию'
     SINGULARNAME: 'общая конфигурация'
+    SKIP_PAYMENT_STEP_IF_UNIQUE: 'Пропустите выбор способа оплаты, если можно выбрать только один.'
+    SKIP_SHIPPING_STEP_IF_UNIQUE: 'Пропустить выбор способа доставки, если можно выбрать только один.'
+    SOCIALMEDIA: 'Социальные сети'
     STOCK: склад
+    SecurityConfiguration: 'Настройки безопасности'
+    ShopAdditional2Info: 'Дополнительная информация 2'
+    ShopAdditionalInfo: 'Дополнительная информация'
+    ShopAdditionalInfo2Desc: 'Дополнительная, необязательная информация о клиенте, такая как информация о доставке, специальные предложения, особенности вашего предложения, ... (В зависимости от темы отображается в области header/footer почти каждой страницы, примерно 220 символов).'
+    ShopAdditionalInfoDesc: 'Дополнительная, необязательная информация о клиенте, например, дополнительные номера телефонов (горячая линия экстренной помощи/поддержки) с указанием часов работы. (В зависимости от темы отображается в области header/footer почти на каждой странице, около 120 символов).'
+    ShopCity: Местонахождение
+    ShopCountry: Страна
+    ShopData: 'Данные оператора'
+    ShopEmail: 'Адрес электронной почты'
+    ShopLogo: Логотип
+    ShopLogoDesc: 'Отображается в заголовке магазина.'
+    ShopName: 'Название магазина'
+    ShopOpeningHours: 'Часы работы'
+    ShopPhone: Телефон
+    ShopPostcode: 'Почтовый индекс'
+    ShopStreet: Улица
+    ShopStreetNumber: 'Номер дома'
+    ShowTaxAndDutyHint: 'Обратите внимание на дополнительные сборы для стран, не входящих в ЕС.'
     TABBED: вложение
     TRANSLATION: перевод
     TRANSLATIONS: переводы
     USEFREEOFSHIPPINGCOSTSFROM: 'использовать настройки бесплатной доставки '
     USEMINIMUMORDERVALUE: 'активировать минимальную сумму заказа'
+    USER_AGENT_BLACKLIST: 'Заблокированные идентификаторы UserAgent (один UserAgent на строку)'
+    USER_AGENT_BLACKLIST_INFO: 'Введите по одному UserAgent на строку. <br/> Если посетитель использует UserAgent ID из этого списка, соединение полностью блокируется для предотвращения атак спам-ботов на формы. <br/><strong>Внимание: идентификаторы UserAgent используются каждым посетителем. Указывайте идентификатор UserAgent, только если вы уверены, что затронуты только боты</strong>...'
     USE_DEFAULT_LANGUAGE: 'использовать язык по умолчанию, если нет подходящего'
+    USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Показать описание товара в корзине'
+    USE_STRICT_SEARCH_RELEVANCE: 'Используйте более строгий поиск. Отображает только точные совпадения.'
+    UseMinimumAgeToOrder: 'Использовать минимальный возраст для заказов?'
+    redirectToCheckoutWhenInCart: 'Немедленное перенаправление на оформление заказа, когда покупатель заходит в корзину.'
+  SilverCart\Admin\Model\CookiePolicyConfig:
+    CookiePolicy: 'Политика использования файлов cookie'
+    CookiePolicyConfigBgColor: 'Цвет фона'
+    CookiePolicyConfigBtnColor: 'Цвет пуговиц'
+    CookiePolicyConfigBtnTxtColor: 'Цвет текста кнопки'
+    CookiePolicyConfigButtonText: 'Маркировка кнопок'
+    CookiePolicyConfigButtonTextDefault: Понятно!
+    CookiePolicyConfigIsActive: 'Активировать политику использования файлов cookie'
+    CookiePolicyConfigLayout: 'Расположение дисплея'
+    CookiePolicyConfigLayoutBlock: Блок
+    CookiePolicyConfigLayoutClassic: Классика
+    CookiePolicyConfigLayoutEdgeless: 'Без края'
+    CookiePolicyConfigLayoutWire: Провод
+    CookiePolicyConfigMessageText: Текст
+    CookiePolicyConfigMessageTextDefault: 'Для того чтобы оптимально разработать и постоянно улучшать наш сайт для вас, мы используем файлы cookie. Продолжая пользоваться сайтом, вы соглашаетесь с использованием файлов cookie.'
+    CookiePolicyConfigPolicyText: 'Текст "Дополнительная информация'
+    CookiePolicyConfigPolicyTextDefault: 'Дополнительная информация'
+    CookiePolicyConfigPosition: 'Положение дисплея'
+    CookiePolicyConfigPositionBannerBottom: 'Баннер в нижней части страницы'
+    CookiePolicyConfigPositionBannerTop: 'Баннер в верхней части страницы'
+    CookiePolicyConfigPositionBannerTopPushDown: 'Блок в верхней части страницы (содержимое перемещается вниз)'
+    CookiePolicyConfigPositionFloatingLeft: 'Коробка нижняя левая'
+    CookiePolicyConfigPositionFloatingRight: 'Коробка нижняя правая'
+    CookiePolicyConfigTxtColor: 'Цвет текста'
   SilverCart\Admin\Model\SiteConfigExtension:
     CREATE_TRANSLATION_DESC: 'Новый перевод будет действителен для всей иерархии страниц. Каждая страница будет создана как шаблон, и при наличии стандартного содержимого будет показана на выбранном языке. Если нет стандартного содержимого будут выбраны актуальные настройки.'
     PUBLISHBUTTON: 'Опубликовать все страницы данного языка. '
@@ -142,6 +491,11 @@ ru:
     TESTDATA_LINKTEXT: 'Перейти с секции тестовых данных.'
     TESTDATA_TEXT: 'Ещё не создан ни один артикул, для наполнения тестовыми данными, нажмите здесь.'
     WELCOME_TO_SILVERCART: 'Добро пюожаловать в SilverCart!'
+  SilverCart\Checkout\CheckoutStep1:
+    NewCustomer: 'Вы новый клиент?'
+    StepTitle: Регистрация
+  SilverCart\Checkout\CheckoutStep3:
+    StepTitle: 'Способ доставки'
   SilverCart\Dev\Tools:
     DATE: дата
     'NO': нет
@@ -150,12 +504,36 @@ ru:
   SilverCart\Forms\ChangeLanguageForm:
     CHOOSE: выбрать
     LANGUAGE: язык
+  SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm:
+    ChoosePaymentMethod: 'Я хотел бы оплатить по {платеж}'
+  SilverCart\Forms\Checkout\CheckoutLoginForm:
+    SubmitButtonTitle: 'Войдите в систему и продолжите'
+  SilverCart\Forms\Checkout\CheckoutNewCustomerForm:
+    ProceedWithRegistration: 'Да, я хотел бы зарегистрироваться в качестве покупателя, чтобы иметь доступ к своим данным при повторных покупках.'
+    ProceedWithoutRegistration: 'Нет, я хотел бы совершать покупки без регистрации.'
+    SubmitButtonTitle: Далее
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Ваш поисковый запрос...'
+    submitButtonTitle: 'Поиск загрузок'
   SilverCart\Forms\NewsletterForm:
     ACTIONFIELD_SUBSCRIBE: 'Я хочу подписаться на рассылку.'
     ACTIONFIELD_TITLE: 'Что Вы хотите сделать?'
     ACTIONFIELD_UNSUBSCRIBE: 'Я хочу отказаться от подписки на Newsletter'
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: искать
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Создайте пароль для входа в веб-магазин. Пароль должен содержать не менее {minlength} символов. Он должен содержать как минимум 1 букву верхнего регистра, 1 букву нижнего регистра, 1 цифру и 1 специальный символ.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Адрес потребителя(ей)'
+    Data: Данные
+    GoTo: 'К форме отмены'
+    NameOfConsumer: 'Имя потребителя(ей)'
+    Order: Заказ
+    OrderDate: 'Заказано на / получено на'
+    OrderHistory: 'Выберите заказ'
+    OrderNumber: 'Номер заказа'
+    RevocationDate: 'Дата отзыва'
+    RevocationOrderData: 'Настоящим я/мы отзываем заключенный мной/нами договор на приобретение следующих товаров/оказание следующих услуг'
   SilverCart\Model\ContactMessage:
     MESSAGE: новость
     PLURALNAME: 'запросы контакта'
@@ -163,6 +541,8 @@ ru:
     TEXT: '<h1>Запрос через контактный формуляр</h1><h2>Добрый день,</h2><p>мы плучили запрос с нашей вебстраницы.<br />Клиент <strong>"$FirstName $Surname"</strong> отправил запрос <strong>"$Email"</strong> .</p><h2>Сообщение</h2><p>$Message</p>'
   SilverCart\Model\Customer\Address:
     ADDITION: 'доп. адрес'
+    ADDRESSTYPE: 'Тип адреса'
+    AcademicTitle: Название
     CITY: город
     COMPANY: фирма
     EDITADDRESS: 'изменить адрес'
@@ -172,18 +552,30 @@ ru:
     EMAIL_CHECK: 'подтвердить адрес электронной почты'
     FAX: факс
     FIRSTNAME: имя
+    ISBUSINESSACCOUNT: 'Адрес предприятия'
+    IS_PACKSTATION: 'Адрес - Packstation'
     InvoiceAddress: 'адрес счета'
     InvoiceAddressAsShippingAddress: 'использовать адрес как адрес доставки '
     InvoiceAddresses: 'адреса счетов'
     MISSES: госпожа
     MISTER: господин
+    NAME: Имя
     NO_ADDRESS_AVAILABLE: 'адрес отсутствует'
+    PACKSTATION: 'Packstation (например, "Packstation 105")'
+    PACKSTATION_LABEL: ПАКСТАЦИЯ
+    PACKSTATION_PLAIN: Packstation
     PHONE: 'номер телефона'
     PHONEAREACODE: 'код страны/города'
     PHONE_SHORT: телефон
     PLURALNAME: 'адреса '
     POSTCODE: индекс
+    POSTNUMBER: 'Ваш номер сообщения'
+    POSTNUMBER_PLAIN: PostNumber
     SALUTATION: обращение
+    SILVERCART_ADDRESS_CREATE: 'Создать адрес'
+    SILVERCART_ADDRESS_DELETE: 'Удалить адрес'
+    SILVERCART_ADDRESS_EDIT: 'Редактировать адрес'
+    SILVERCART_ADDRESS_VIEW: 'Посмотреть адрес'
     SINGULARNAME: адрес
     STREET: улица
     STREETNUMBER: 'номер дома'
@@ -191,81 +583,321 @@ ru:
     ShippingAddress: 'адрес доставки заказа'
     ShippingAddresses: 'адреса доставки заказа'
     TAXIDNUMBER: ИНН
+    USE_ABSOLUTEADDRESS: 'Используйте домашний адрес в качестве адреса'
+    USE_PACKSTATION: 'Используйте Packstation в качестве адреса'
   SilverCart\Model\Customer\Country:
     ACTIVE: актив
     ATTRIBUTED_PAYMENTMETHOD: 'способ оплаты'
     ATTRIBUTED_ZONES: 'выбранные зоны'
     CONTINENT: Континент
     CURRENCY: Валюта
+    DISPLAYPOSITION: 'Положение дисплея (если приоритет установлен)'
     FIPS: 'FIPS Code'
+    FREEOFSHIPPINGCOSTSFROM: 'Бесплатная доставка из'
     ISO2: 'ISO Alpha2'
     ISO3: 'ISO Alpha3'
     ISON: 'ISO numerisch'
+    ISPRIORITIVE: 'Показывать приоритеты в начале выпадающих списков?'
+    ISPRIORITIVE_SHORT: Приоритетные
+    IsNonTaxable: 'Без налогов'
     PLURALNAME: страны
     SINGULARNAME: страна
+    TITLE: Имя
+    TITLE_AD: Андорра
+    TITLE_AE: 'Объединенные Арабские Эмираты'
+    TITLE_AF: Афганистан
+    TITLE_AG: 'Антигуа и Барбуда'
+    TITLE_AI: Ангилья
+    TITLE_AL: Албания
     TITLE_AM: Армения
+    TITLE_AN: 'Нидерландские Антильские острова'
+    TITLE_AO: Ангола
+    TITLE_AQ: Антарктида
+    TITLE_AR: Аргентина
+    TITLE_AS: 'Американское Самоа'
     TITLE_AT: Австрия
+    TITLE_AU: Австралия
+    TITLE_AW: Аруба
+    TITLE_AX: 'Аландские острова'
+    TITLE_AZ: Азербайджан
     TITLE_BA: 'Босния и Герцеговина'
+    TITLE_BB: Барбадос
+    TITLE_BD: Бангладеш
     TITLE_BE: Бельгия
+    TITLE_BF: Буркина-Фасо
     TITLE_BG: Болгария
+    TITLE_BH: Бахрейн
+    TITLE_BI: Бурунди
+    TITLE_BJ: Бенин
+    TITLE_BL: Сен-Бартелеми
+    TITLE_BM: Бермуды
+    TITLE_BN: Бруней-Даруссалам
+    TITLE_BO: Боливия
+    TITLE_BQ: 'Бонайре, Синт-Эстатиус и Саба'
+    TITLE_BR: Бразилия
+    TITLE_BS: 'Багамские острова'
+    TITLE_BT: Бутан
+    TITLE_BV: 'Остров Буве'
+    TITLE_BW: Ботсвана
     TITLE_BY: Белоруссия
+    TITLE_BZ: Белиз
+    TITLE_CA: Канада
+    TITLE_CC: 'Кокосовые острова'
+    TITLE_CD: Конго-Киншаса
+    TITLE_CF: 'Центральноафриканская Республика'
+    TITLE_CG: 'Конго [Республика]'
     TITLE_CH: Швейцария
+    TITLE_CI: 'Кот-д''Ивуар'
+    TITLE_CK: 'Острова Кука'
+    TITLE_CL: Чили
+    TITLE_CM: Камерун
+    TITLE_CN: Китай
+    TITLE_CO: Колумбия
+    TITLE_CR: Коста-Рика
     TITLE_CS: 'Сербия и Монтенегро'
+    TITLE_CU: Куба
+    TITLE_CV: Кабо-Верде
+    TITLE_CW: Кюрасао
+    TITLE_CX: 'Остров Рождества'
     TITLE_CY: Кипр
     TITLE_CZ: Чехия
     TITLE_DE: Германия
+    TITLE_DJ: Джибути
     TITLE_DK: Дания
+    TITLE_DM: Доминика
+    TITLE_DO: 'Доминиканская республика'
+    TITLE_DZ: Алжир
+    TITLE_EC: Эквадор
     TITLE_EE: Эстония
+    TITLE_EG: Египет
+    TITLE_EH: 'Западная Сахара'
+    TITLE_ER: Эритрея
     TITLE_ES: Испания
+    TITLE_ET: Эфиопия
     TITLE_FI: Финляндия
+    TITLE_FJ: Фиджи
+    TITLE_FK: 'Фолклендские острова'
+    TITLE_FM: Микронезия
+    TITLE_FO: 'Фарерские острова'
     TITLE_FR: Франция
+    TITLE_GA: Габон
     TITLE_GB: Англия
+    TITLE_GD: Гренада
+    TITLE_GE: Грузия
+    TITLE_GF: 'Французская Гвиана'
+    TITLE_GG: Гернси
+    TITLE_GH: Гана
+    TITLE_GI: Гибралтар
+    TITLE_GL: Гренландия
+    TITLE_GM: Гамбия
+    TITLE_GN: Гвинея
+    TITLE_GP: Гваделупа
+    TITLE_GQ: 'Экваториальная Гвинея'
     TITLE_GR: Греция
+    TITLE_GS: 'Южная Георгия и Южные Сандвичевы острова'
+    TITLE_GT: Гватемала
+    TITLE_GU: Гуам
+    TITLE_GW: Гвинея-Бисау
+    TITLE_GY: Гайана
+    TITLE_HK: Гонконг
+    TITLE_HM: 'Острова Херд и Макдональд'
+    TITLE_HN: Гондурас
     TITLE_HR: Хорватия
+    TITLE_HT: Гаити
     TITLE_HU: Венгрия
+    TITLE_ID: Индонезия
     TITLE_IE: Ирландия
+    TITLE_IL: Израиль
+    TITLE_IM: 'Остров Мэн'
+    TITLE_IN: Индия
+    TITLE_IO: 'Британская территория в Индийском океане'
+    TITLE_IQ: Ирак
+    TITLE_IR: Иран
+    TITLE_IS: Исландия
     TITLE_IT: Италия
+    TITLE_JE: Джерси
+    TITLE_JM: Ямайка
+    TITLE_JO: Джордан
+    TITLE_JP: Япония
+    TITLE_KE: Кения
+    TITLE_KG: Кыргызстан
+    TITLE_KH: Камбоджа
+    TITLE_KI: Кирибати
+    TITLE_KM: 'Коморские острова'
+    TITLE_KN: 'Сент-Китс и Невис'
+    TITLE_KP: 'Северная Корея'
+    TITLE_KR: 'Южная Корея'
+    TITLE_KW: Кувейт
+    TITLE_KY: 'Каймановы острова'
+    TITLE_KZ: Казахстан
+    TITLE_LA: Лаос
+    TITLE_LB: Ливан
+    TITLE_LC: Сент-Люсия
     TITLE_LI: Лихтенштейн
+    TITLE_LK: Шри-Ланка
+    TITLE_LR: Либерия
+    TITLE_LS: Лесото
     TITLE_LT: Литва
     TITLE_LU: Люксембург
     TITLE_LV: Латвия
+    TITLE_LY: Ливия
+    TITLE_MA: Марокко
     TITLE_MC: Монако
+    TITLE_MD: Молдова
     TITLE_ME: Монтенегро
+    TITLE_MF: Сент-Мартин
+    TITLE_MG: Мадагаскар
+    TITLE_MH: 'Маршалловы острова'
+    TITLE_MK: Македония
+    TITLE_ML: Мали
+    TITLE_MM: Бирма
+    TITLE_MN: Монголия
+    TITLE_MO: Макао
+    TITLE_MP: 'Северные Марианские острова'
+    TITLE_MQ: Мартиника
+    TITLE_MR: Мавритания
+    TITLE_MS: Монтсеррат
+    TITLE_MT: Мальта
+    TITLE_MU: Маврикий
+    TITLE_MV: Мальдивы
+    TITLE_MW: Малави
+    TITLE_MX: Мексика
+    TITLE_MY: Малайзия
+    TITLE_MZ: Мозамбик
+    TITLE_NA: Намибия
+    TITLE_NC: 'Новая Каледония'
+    TITLE_NE: Нигер
+    TITLE_NF: 'Остров Норфолк'
+    TITLE_NG: Нигерия
+    TITLE_NI: Никарагуа
     TITLE_NL: Нидерланды
     TITLE_NO: Норвегия
+    TITLE_NP: Непал
+    TITLE_NR: Науру
+    TITLE_NU: Ниуэ
+    TITLE_NZ: 'Новая Зеландия'
+    TITLE_OM: Оман
+    TITLE_PA: Панама
+    TITLE_PE: Перу
+    TITLE_PF: 'Французская Полинезия'
+    TITLE_PG: 'Папуа-Новая Гвинея'
+    TITLE_PH: Филиппины
+    TITLE_PK: Пакистан
     TITLE_PL: Польша
+    TITLE_PM: 'Сен-Пьер и Микелон'
+    TITLE_PN: Питкэрн
+    TITLE_PR: Пуэрто-Рико
+    TITLE_PS: 'Палестинские автономные территории'
     TITLE_PT: Португалия
+    TITLE_PW: Палау
+    TITLE_PY: Парагвай
+    TITLE_QA: Катар
+    TITLE_RE: Реюньон
     TITLE_RO: Румыния
+    TITLE_RS: Сербия
     TITLE_RU: Россия
+    TITLE_RW: Руанда
+    TITLE_SA: 'Саудовская Аравия'
+    TITLE_SB: 'Соломоновы острова'
+    TITLE_SC: 'Сейшельские острова'
+    TITLE_SD: Судан
     TITLE_SE: Швеция
+    TITLE_SG: Сингапур
+    TITLE_SH: 'Святая Елена'
     TITLE_SI: Словения
+    TITLE_SJ: 'Шпицберген и Ян-Майен'
     TITLE_SK: Словакия
+    TITLE_SL: Сьерра-Леоне
+    TITLE_SM: Сан-Марино
+    TITLE_SN: Сенегал
+    TITLE_SO: Сомали
+    TITLE_SR: Суринам
+    TITLE_SS: 'Южный Судан'
+    TITLE_ST: 'Сан-Томе и Принсипи'
+    TITLE_SV: Сальвадор
+    TITLE_SX: Синт-Мартен
+    TITLE_SY: Сирия
+    TITLE_SZ: Свазиленд
+    TITLE_TC: 'Острова Теркс и Кайкос'
+    TITLE_TD: Чад
+    TITLE_TF: 'Французские южные и антарктические территории'
+    TITLE_TG: Того
+    TITLE_TH: Таиланд
+    TITLE_TJ: Таджикистан
+    TITLE_TK: Токелау
+    TITLE_TL: 'Восточный Тимор'
+    TITLE_TM: Туркменистан
+    TITLE_TN: Тунис
+    TITLE_TO: Тонга
+    TITLE_TR: Индейка
+    TITLE_TT: 'Тринидад и Тобаго'
+    TITLE_TV: Тувалу
+    TITLE_TW: Тайвань
+    TITLE_TZ: Танзания
     TITLE_UA: Украина
+    TITLE_UG: Уганда
+    TITLE_UM: 'Американская Океания'
     TITLE_US: Америка
+    TITLE_UY: Уругвай
+    TITLE_UZ: Узбекистан
+    TITLE_VA: Ватикан
+    TITLE_VC: 'Сент-Винсент и Гренадины'
+    TITLE_VE: Венесуэла
+    TITLE_VG: 'Британские Виргинские острова'
+    TITLE_VI: 'Американские Виргинские острова'
+    TITLE_VN: Вьетнам
+    TITLE_VU: Вануату
+    TITLE_WF: 'Уоллис и Футуна'
+    TITLE_WS: Самоа
+    TITLE_XK: Косово
+    TITLE_YE: Йемен
+    TITLE_YT: Майотта
+    TITLE_ZA: 'Южная Африка'
+    TITLE_ZM: Замбия
+    TITLE_ZW: Зимбабве
   SilverCart\Model\Customer\CountryTranslation:
     PLURALNAME: переводы
     SINGULARNAME: перевод
   SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Адресные данные общие'
     ANONYMOUSCUSTOMER: 'анонимный клиент'
+    BASIC_DATA: Общий
     BIRTHDAY: 'день рождения'
     BUSINESSCUSTOMER: 'деловой клиент'
     CUSTOMERNUMBER: 'номер клиента'
     CUSTOMERNUMBER_SHORT: 'клиент №'
+    Customer: Клиент
     ERROR_MULTIPLE_PRICETYPES: 'группы контактов с разными типами прайслистов не допустимы!'
+    FULL_NAME: 'Полное имя'
     GROSS: брутто
     HASACCEPTEDREVOCATIONINSTRUCTION: 'согалсен с условиями возврата'
     HASACCEPTEDTERMSANDCONDITIONS: 'согалсен с условиями сделки'
+    INVOICE_DATA: 'Данные биллингового адреса'
     ISBUSINESSACCOUNT: 'учётная запись оптового клиента'
     NET: нетто
+    PRICETYPE_GROSS: Брутто
+    PRICETYPE_NET: Чистая
     PRICING: 'указание цены'
     REGULARCUSTOMER: 'конечный покупатель'
+    RegistrationOptInConfirmationHash: 'Opt-In Hash для регистрации'
+    RegistrationOptInConfirmed: 'Отказ от регистрации завершен'
     SALUTATION: обращение
+    SHIPPING_DATA: 'Данные об адресе доставки'
     SUBSCRIBEDTONEWSLETTER: 'уже подписан на рассылку'
     TYPE: тип
   SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
     PRICETYPE: 'тип прайлиста'
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: 'Адреса электронной почты'
+    SINGULARNAME: 'Адрес электронной почты'
+  SilverCart\Model\Newsletter\AnonymousNewsletterRecipient:
+    PLURALNAME: 'Анонимные получатели информационного бюллетеня'
+    SINGULARNAME: 'Анонимный получатель рассылки'
   SilverCart\Model\Newsletter\Newsletter:
     OPTIN_NOT_FINISHED_MESSAGE: 'Вы будете плчать нашу рассылку после активации по эл.почте'
+    PLURALNAME: 'Информационный бюллетень'
+    SINGULARNAME: 'Информационный бюллетень'
     SUBSCRIBED: 'Вы подписались на Newsletter'
     StatusALREADY_SUBSCRIBED: 'этот адрес "{email}" уже зарегистрирован.'
     StatusNO_EMAIL_FOUND: '"{email}" адрес не найден'
@@ -293,33 +925,68 @@ ru:
   SilverCart\Model\Order\Order:
     AMOUNTGROSSTOTAL: 'сумма брутто'
     AMOUNTTOTAL: сумма
+    AdminModeEdit: 'Изменить вид в режим редактирования'
+    AdminModeView: 'Изменить вид на режим просмотра'
+    BASICDATA: 'Основные данные'
+    BATCH_CHANGEORDERSTATUS: 'Изменить статус заказа на...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Изменить статус платежа на...'
+    BATCH_MARKASNOTSEEN: 'Отметить как не замеченный'
+    BATCH_MARKASSEEN: 'Отметить, как видно'
+    BATCH_PRINTORDERS: 'Заказы на печать (HTML)'
     CUSTOMER: 'клиент '
+    CUSTOMERDATA: 'Данные о клиентах'
     CUSTOMERSEMAIL: 'электронный адрес клиента'
+    ExpectedDelivery: 'Ожидаемая дата поставки'
+    ExpectedDeliveryMax: 'Максимальный ожидаемый срок поставки'
+    ExpectedDeliveryMin: 'Минимальная ожидаемая дата поставки'
     HANDLINGCOSTPAYMENT: 'сбор на вид оплаты'
     HANDLINGCOSTSHIPMENT: 'сбор на вид доставки'
     HASACCEPTEDREVOCATIONINSTRUCTION: 'согласен с условиями сделки'
     HASACCEPTEDTERMSANDCONDITIONS: 'согласен с условиями сделки'
+    HandlingCost: 'Оплата/почтовые сборы'
     INCLUDED_SHIPPINGRATE: 'стоимость доставки'
     INVOICENUMBER: 'номер счета'
     INVOICENUMBER_SHORT: 'счет №'
+    IS_SEEN: Просмотрено
+    MISCDATA: Другое
+    ModelAdminTabOrderInprogress: 'В процессе выполнения'
+    ModelAdminTabOrderNew: Новый
+    ModelAdminTabPaymentOpen: 'Оплата открыта'
     NOTE: примечание
     ORDERNUMBER: 'номер заказа'
     ORDERNUMBERSHORT: '-номер'
+    ORDERPOSITIONDATA: 'Данные о положении'
+    ORDERPOSITIONISLIMIT: 'Заказ может содержать только указанную позицию'
+    ORDERPOSITIONQUANTITY: 'Количество позиций'
     ORDER_ID: 'номер заказа'
     ORDER_VALUE: сумма
+    OrderNumberShort: 'Заказ №.'
     PAYMENTMETHODTITLE: 'способ оплаты'
     PLURALNAME: заказы
+    PRICETYPE: 'Тип отображения цены'
     PRINT: 'распечатать заказ'
+    PRINT_PREVIEW: 'Предварительный просмотр печати'
+    PaymentDate: Оплачено
+    PaymentReferenceData: 'Справочные данные провайдера платежей'
+    PaymentReferenceID: 'Справочный номер провайдера платежа'
+    PaymentReferenceMessage: 'Справочная информация провайдера платежей'
+    PaymentStatus: 'Статус платежа'
+    SEARCHRESULTSLIMIT: Ограничение
     SHIPPINGRATE: 'стоимость доставки'
     SILVERCART_ORDER_DELETE: 'удалить заказ'
     SILVERCART_ORDER_EDIT: 'изменить заказ'
     SILVERCART_ORDER_VIEW: 'посмотреть заказ'
     SINGULARNAME: заказ
     STATUS: 'статус заказа'
+    ShippingDate: 'Отправлен на'
     TAXAMOUNTPAYMENT: 'налог на вид оплаты'
     TAXAMOUNTSHIPMENT: 'налог на вид доставки'
     TAXRATEPAYMENT: 'размер налога на вид оплаты'
     TAXRATESHIPMENT: 'рамер налога на вид доставки'
+    Tracking: 'Отслеживание груза'
+    TrackingCode: 'Номер отслеживания'
+    TrackingLink: 'Ссылка на отслеживание груза'
+    TrackingLinkLabel: 'Показать, где в данный момент находится мой груз'
     WEIGHTTOTAL: 'общий вес'
     YOUR_REMARK: примечание
   SilverCart\Model\Order\OrderAddress:
@@ -328,7 +995,18 @@ ru:
   SilverCart\Model\Order\OrderInvoiceAddress:
     PLURALNAME: 'адрес счёта за заказ'
     SINGULARNAME: 'адрес счета за заказ'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: Контекст
+    CREATED: Дата/время
+    MESSAGE: Действие
+    MESSAGE_CHANGED: 'Изменилось: {sourcetitle} -> {targettitle}'
+    MESSAGE_CREATED: 'Создан: {контекст} был создан'
+    MESSAGE_MARKEDASNOTSEEN: 'Отмечен как не просмотренный'
+    MESSAGE_MARKEDASSEEN: 'Отмечено как увиденное'
+    PLURALNAME: 'Журнал регистрации заказов'
+    SINGULARNAME: 'Журнал регистрации заказов'
   SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Тип вверх/вниз'
     ISCHARGEORDISCOUNT: 'скидка / наценка'
     PLURALNAME: 'Заказываемые позиции'
     PRICE: цена
@@ -348,8 +1026,15 @@ ru:
   SilverCart\Model\Order\OrderStatus:
     ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Отмеченные сообщения будут отправлены, если состояние заказа будет установлено как:'
     ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'выбранные сообщения'
+    BADGECOLOR: 'Состояние цвета'
     CODE: код
+    DefaultStatusCanceled: Отменено
+    DefaultStatusCompleted: Завершено
+    DefaultStatusInprogress: 'В процессе выполнения'
+    DefaultStatusNew: Новый
+    DefaultStatusShipped: 'Заказ отправлен'
     INWORK: 'в обработке'
+    IsDefault: 'Является стандартным'
     PAID: оплачено
     PLURALNAME: 'статус заказа'
     SHIPPED: 'заказ отправлен'
@@ -415,6 +1100,13 @@ ru:
     BACK_TO_SHOPPINGCART: 'назад к корзине'
     CHOSEN_PAYMENT: 'выбранный способ оплаты'
     CHOSEN_SHIPPING: 'выбранный способ доставки'
+    Change: Изменить
+    ContentStep1: 'Содержание Шаг 1 - Вход/регистрация'
+    ContentStep2: 'Содержание Шаг 2 - Доставка/юридический адрес'
+    ContentStep3: 'Содержание Шаг 3 - Способ доставки'
+    ContentStep4: 'Содержание Шаг 4 - Способ оплаты'
+    ContentStep5: 'Содержание Шаг 5 - Обзор'
+    ContentStep6: 'Содержание Шаг 6 - Подтверждение заказа'
     DEFAULT_URLSEGMENT: выход
     FORWARD: дальше
     I_ACCEPT_REVOCATION: 'Я согласен с условиями возврата.'
@@ -425,17 +1117,33 @@ ru:
     OVERVIEW: 'обзор '
     PLURALNAME: 'шаги заказа'
     SINGULARNAME: 'шаг заказа'
+    StepContent: 'Содержание отдельных этапов'
+    TaxAndDutyHint: 'Внимание: При доставке в страны, не входящие в ЕС, применяются дополнительные таможенные пошлины, налоги и сборы.'
     URL_SEGMENT: заказ
   SilverCart\Model\Pages\ContactFormPage:
+    CityIsRequired: 'Место - обязательное поле'
+    CountryIsRequired: 'Страна является обязательным полем'
     DEFAULT_RESPONSE_CONTENT: 'спасибо за сообщение, мы ответим в ближайшее время'
     DEFAULT_TITLE: контакт
     DEFAULT_URLSEGMENT: контакт
+    EmailContactRequest: 'Клиент отправил запрос на контакт.'
+    EnableCity: 'Активируйте поле для определения местоположения'
+    EnableCountry: 'Активируйте поле для страны'
+    EnablePhoneNumber: 'Активируйте поле для телефонного номера'
+    EnablePostcode: 'Активируйте поле для почтового индекса'
+    EnableStreet: 'Активируйте поле для номера улицы/дома'
     PLURALNAME: 'контактный формуляр'
+    PhoneNumberIsRequired: 'Номер телефона обязателен'
+    PostcodeIsRequired: 'Почтовый индекс является обязательным полем'
     REQUEST: 'запрос через контактный формуляр'
     ResponseContent: 'Content of the response page'
     SINGULARNAME: 'контактный формуляр'
+    StreetIsRequired: 'Номер улицы/дома является обязательным полем'
     TITLE: контакт
+    ThankYouForYourRequest: 'Спасибо за ваш запрос. Мы получили ваше сообщение и ответим как можно скорее.'
     URL_SEGMENT: контакт
+    WeReceivedYourRequest: 'Мы получили ваш запрос.'
+    YourData: 'Ваши данные:'
   SilverCart\Model\Pages\CustomerDataPage:
     DEFAULT_TITLE: 'мои данные'
     DEFAULT_URLSEGMENT: 'мои данные'
@@ -443,23 +1151,42 @@ ru:
     SINGULARNAME: 'информационная страница'
     TITLE: 'мои данные'
     URL_SEGMENT: 'мои данные'
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Страницы скачивания'
+    SINGULARNAME: 'Страница скачивания'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Загрузить обзоры страниц'
+    ResultsText: 'Ваш поиск <strong>"{термин}"</strong> привел к <strong>{количеству} совпадений</strong>.'
+    SINGULARNAME: 'Обзор страницы загрузки'
+    SearchResults: 'Результаты поиска'
   SilverCart\Model\Pages\FrontPage:
     CONTENT: '<h2>Добро пожаловать в<strong>SilverCart</strong> Webshop!</h2>'
     DEFAULT_CONTENT: '<h2>Добро пожаловать в<strong>SilverCart</strong> Webshop!</h2>'
+    DESCRIPTION: 'Первая страница интернет-магазина'
     PLURALNAME: 'пользовательские страницы'
     SINGULARNAME: 'пользовательская страница'
   SilverCart\Model\Pages\MetaNavigationHolder:
     DEFAULT_TITLE: 'метанавигазия обзор'
+    DEFAULT_TITLE_ABOUT: 'О нас'
+    DEFAULT_TITLE_LEGAL: Юридический
+    DEFAULT_TITLE_SERVICE: Сервис
+    DEFAULT_TITLE_SHOP: 'Система магазинов'
     DEFAULT_URLSEGMENT: метанавигация
+    DEFAULT_URLSEGMENT_ABOUT: 'о нас'
+    DEFAULT_URLSEGMENT_LEGAL: юридический
+    DEFAULT_URLSEGMENT_SERVICE: сервис
+    DEFAULT_URLSEGMENT_SHOP: 'система магазинов'
     PLURALNAME: 'обзоры метанавидации'
     SINGULARNAME: 'метанавигазия обзор'
     URL_SEGMENT: метанавигация
   SilverCart\Model\Pages\MetaNavigationPage:
     DEFAULT_TITLE_IMPRINT: 'о фирме'
     DEFAULT_TITLE_PRIVACY: 'о защите данных'
+    DEFAULT_TITLE_REVOCATION: 'Правила аннулирования'
     DEFAULT_TITLE_TERMS: 'общие условия заключения сделки'
     DEFAULT_URLSEGMENT_IMPRINT: 'о фирме'
     DEFAULT_URLSEGMENT_PRIVACY: 'о защите данных'
+    DEFAULT_URLSEGMENT_REVOCATION: 'политика отмены'
     DEFAULT_URLSEGMENT_TERMS: 'усливия заключения сделки'
     PLURALNAME: 'страницы метаинформации'
     SINGULARNAME: 'страница метаинформации'
@@ -493,6 +1220,12 @@ ru:
     DefaultEmailConfirmationContent: '<h1>Закончить регистрацию на получение рассылки.</h1><p>Нажмите на ссылку активации или скопируйте в адресную строку браузера.</p><p><a href="$ConfirmationLink">Подтвердить регистрацию</a></p><p>Если Вы не подписывались на рассылку, проигнорируйте это сообщение.</p><p>Администрация магазина.</p>'
     DefaultEmailConfirmationSubject: 'завершить регистрацию на рассылку'
     DefaultOptInPageTitle: 'подписаться на рассылку'
+    EmailConfirmationConfirm: 'Подтвердить регистрацию'
+    EmailConfirmationHaveFun: 'Мы желаем вам много удовольствия и успеха с нашими предложениями.'
+    EmailConfirmationIgnore: 'Если вы не запрашивали рассылку, просто проигнорируйте это письмо.'
+    EmailConfirmationLinkInfo: 'Пожалуйста, нажмите на ссылку активации или скопируйте ее в свой браузер.'
+    EmailConfirmationSuccessMessage: 'Ваша подписка на рассылку прошла успешно!'
+    EmailConfirmationTitle: 'Завершить регистрацию информационного бюллетеня'
     FailureMessageText: ошибка
     OptInPageTitle: 'Opt-in page title'
     PLURALNAME: 'страницы рассылки'
@@ -501,6 +1234,7 @@ ru:
     THANKS_TITLE: 'статус рассылки'
     TITLE: рассылка
     URL_SEGMENT: рассылка
+    UseDoubleOptIn: 'Используйте двойной вход'
   SilverCart\Model\Pages\OrderHolder:
     DEFAULT_TITLE: 'мои заказы'
     DEFAULT_URLSEGMENT: 'мои заказы'
@@ -524,8 +1258,11 @@ ru:
     API_VIEW: 'Возможно чтение при помоши API объектов'
     APRIL: апрель
     AUGUST: Август
+    AllPricesExclVat: 'Все цены плюс НДС.'
+    AllPricesInclVat: 'Все цены с учетом НДС.'
     BACK: 'назад '
     BACK_TO: 'Назад к  &quot;{title}&quot;'
+    BACK_TO_DEFAULT: 'Предыдущая страница'
     BILLING_ADDRESS: 'адрес счета'
     BIRTHDAY: 'День рождения'
     CANCEL: отменить
@@ -537,8 +1274,11 @@ ru:
     CONTACT_FORM: 'контактный формуляр'
     CONTINUESHOPPING: 'дальше покупать'
     CREDENTIALS_WRONG: 'введены неверные данные'
+    Categories: 'Наши категории'
     DAY: 'день '
     DECEMBER: Декабрь
+    DECREMENT_POSITION: 'Уменьшить количество'
+    DELETE: Удалить
     DETAILS: 'детали '
     DETAILS_FOR: 'детали к  %s'
     DIDNOT_RETURN_RESULTS: 'не дал результатов'
@@ -557,8 +1297,10 @@ ru:
     GOTO_CONTACT_LINK: 'на страницу контакта'
     GOTO_PAGE: 'перейти к {count} странице'
     HEADERPICTURE: 'рисунок заголовка'
+    HELLO: Здравствуйте
     INCLUDED_VAT: 'вкл. НДС'
     INCLUDING_TAX: 'вкл. {amount}% НДС'
+    INCREMENT_POSITION: 'Увеличить количество'
     ISACTIVE: актив
     I_ACCEPT: 'я принимаю'
     I_HAVE_READ: 'я уже'
@@ -573,27 +1315,35 @@ ru:
     MESSAGE: сообщение
     MONTH: месяц
     MYACCOUNT: 'мои данные'
+    MetaTitleAt: 'в {shopTitle}'
     NAME: имя
     NEWSLETTER: рассылка
     NEWSLETTER_FORM: рассылка
     NEXT: перед
+    NOT_FOUND: 'Страница "{title}" не может быть найдена.'
     NOVEMBER: ноябрь
     NO_ORDERS: 'Вы не сделали заказ.'
     NO_RESULTS: 'Извините, по Вашему запросу результат не найден.'
     OCTOBER: октябрь
+    OR: или
     ORDERED_PRODUCTS: 'заказанный артикул'
     ORDER_COMPLETED: 'Ваш заказ завершён.'
     ORDER_DATE: 'дата заказа'
     ORDER_THANKS: 'благодарим за Ваш заказ.'
+    Oclock: Часы
     PASSWORD: пароль
     PASSWORD_CASE_EMPTY: 'если это поле оставить свободным, пароль не будет изменён'
     PASSWORD_CHECK: 'контроль пароля'
     PASSWORD_WRONG: 'пароль неверный'
     PAYMENT_NOT_WORKING: 'выбранный модуль оплаты не работает'
+    PLURALNAME: Страницы
     PLUS_SHIPPING: 'стоимость доставки не включена'
     PREV: 'назад '
     PRODUCTNAME: 'описание товара'
+    PageXofY: 'Страница {x} из {y}'
     REGISTER: 'регистрация '
+    REGISTER_HERE: 'Зарегистрируйтесь здесь.'
+    REGISTER_NEW: 'Новый клиент?'
     REMARKS: замечание
     REMOVE_FROM_CART: удалить
     RETURNTOPRODUCTGROUP: 'назад к "{title}"'
@@ -608,6 +1358,7 @@ ru:
     SHOWINPAGE: 'установить язык {language}  '
     SHOW_DETAILS: 'показать детали'
     SHOW_DETAILS_FOR: 'показать подробности {title}'
+    SINGULARNAME: Страница
     SITMAP_HERE: 'Обзор нашей страницы.'
     STEPS: шаги
     SUBMIT: отправить
@@ -615,21 +1366,28 @@ ru:
     SUBTOTAL: сумма
     SUBTOTAL_NET: 'сумма нетто'
     SUM: сумма
+    Start: Начало
     TAX: 'вкл.{amount}% НДС'
     TERMSOFSERVICE_PRIVACY: 'Условия заказа'
     THE_QUERY: запрос
     TITLE: заголовок
     TITLE_IMPRINT: 'о фирме'
     TITLE_TERMS: 'условия заключения сделки'
+    TODAY: сегодня
     TOTAL: 'общая сумма'
     URL_SEGMENT_IMPRINT: 'о фирме'
     URL_SEGMENT_TERMS: 'пользовательское соглашение,  информация о продавце'
     USER_NOT_EXISTING: 'этого пользователя не существует'
+    UseAsRootForMainNavigation: 'Подстраницы этой страницы формируют основную навигацию'
+    UseAsRootForMainNavigationDesc: 'Основная навигация, содержащая группы продуктов в базовой установке, формируется из подстраниц этой страницы. Эта настройка может быть активна только на одной странице.'
     VALUE_OF_GOODS: 'стоимость товара'
     VIEW_ORDERS_TEXT: 'проверьте состояние Вашего заказа'
     WELCOME_PAGE_TITLE: 'добро пожаловать'
     WELCOME_PAGE_URL_SEGMENT: 'добро пожаловать'
+    WELCOME_TO: 'Добро пожаловать в'
     YEAR: год
+    YESTERDAY: вчера
+    YOUR_REMARKS: 'Ваше обращение к нам'
   SilverCart\Model\Pages\PaymentMethodsPage:
     DEFAULT_TITLE: 'способы оплаты'
     DEFAULT_URLSEGMENT: 'способы оплаты'
@@ -646,8 +1404,11 @@ ru:
   SilverCart\Model\Pages\ProductGroupHolder:
     DEFAULT_TITLE: 'товарные группы'
     DEFAULT_URLSEGMENT: 'товарные группы'
+    LinkTo: 'Группа продуктов, в которую должна быть сделана переадресация'
     PAGE_TITLE: 'товарные группы'
     PLURALNAME: 'Обзоры групп артиклей'
+    RedirectToProductGroup: 'Перенаправить непосредственно в группу продуктов'
+    RedirectionSettings: Переадресация
     SHOW_PRODUCTS_WITH_COUNT_PLURAL: 'показать {count} артикулов '
     SHOW_PRODUCTS_WITH_COUNT_SINGULAR: 'показать {count} артикулов '
     SINGULARNAME: 'обзор группы артикулов товара'
@@ -655,16 +1416,38 @@ ru:
     URL_SEGMENT: 'товарные группы'
   SilverCart\Model\Pages\ProductGroupPage:
     ATTRIBUTES: атрибут
+    BREADCRUMBS: 'Панировочные сухари группы продуктов'
+    BuyTitle: '{купить'
+    DEFAULTGROUPHOLDERVIEW: 'Стандартный вид товарной группы'
     DEFAULTGROUPVIEW: 'стандартный список товара'
     DEFAULTGROUPVIEW_DEFAULT: 'применить настройки вышестоящих групп или стандартные настройки'
+    DONOTSHOWPRODUCTS: '<strong>Не</strong> показывать статьи в обзоре'
+    DisplaySettings: 'Настройки дисплея'
     GROUP_PICTURE: 'изображение для группы товаров'
+    MANAGE_PRODUCTS_BUTTON: 'Управление статьями'
     MANUFACTURER_LINK: производитель
+    NewProducts: Инновации
+    NewProductsIn: '{productgroup} Новинки'
+    NewProductsLinkTitle: 'Показать все новинки'
     OK: ок
     PLURALNAME: 'товарные группы'
     PRODUCTGROUPSPERPAGE: 'групп на страницу'
     PRODUCTSPERPAGE: 'артикулов на страницу'
+    PRODUCTSPERPAGEHINT: 'Укажите 0 (ноль) для товаров или товарных групп на страницу, чтобы использовать настройку по умолчанию.'
+    PRODUCTS_ON_PAGE: '{productcount} статья на {pagecount} странице'
+    PRODUCTS_ON_PAGES: '{productcount} статей на {pagecount} страницах'
     PRODUCTS_PER_PAGE: 'артикул на странице'
+    PRODUCT_ON_PAGE: '{productcount} статья на {pagecount} странице'
+    PreorderableProducts: 'Предварительный заказ'
+    PreorderableProductsIn: '{productgroup} Предзаказ'
+    PreorderableProductsLinkTitle: 'Показать все преордеры'
     SINGULARNAME: 'товарная группа'
+    SORT_ORDER: Сортировка
+    ShowOffersFor: 'Показать предложения для'
+    ShowResultsFor: 'Показать результаты для'
+    ShowResultsForAll: 'Показать результаты для всех категорий'
+    ShowResultsForAllMenu: 'Все категории'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Используйте только стандартное представление товарной группы'
     USEONLYDEFAULTGROUPVIEW: 'использовать стандартный вид списка'
     USE_CONTENT_FROM_PARENT: 'переименовать содержимое вышестоящих страниц'
   SilverCart\Model\Pages\ProductPage:
@@ -682,7 +1465,34 @@ ru:
     DEFAULT_URLSEGMENT: регистрировать
     DEFAULT_WELCOME_CONTENT: '<p>Уважаемый клиент,</p><p>для экономии Вашего времени, Вы вошли в систему автоматически.</p><p>Желаем приятных покупок!</p>'
     EMAIL_EXISTS_ALREADY: 'этот эелетронный адрес уже занят.'
+    EmailOptInConfirmYourEmailAddress: 'Подтвердите свой адрес электронной почты'
+    EmailOptInConfirmationCustomerData: 'Данные о ваших клиентах'
+    EmailOptInConfirmationCustomerDataInfo: 'Ниже вы найдете данные о ваших клиентах.'
+    EmailOptInConfirmationInfo: 'Поздравляем и добро пожаловать в наш магазин! Ваш адрес электронной почты успешно подтвержден. С этого момента вы имеете право использовать фотографию вашего клиента в нашем магазине.'
+    EmailOptInConfirmationTitle: 'Адрес электронной почты подтвержден'
+    EmailOptInConfirmationVisit: 'Посетите наш магазин'
+    EmailOptInIgnore: 'Если вы не зарегистрированы в нашем магазине, просто проигнорируйте это письмо.'
+    EmailOptInLinkInfo: 'Пожалуйста, нажмите на ссылку активации или скопируйте ее в свой браузер.'
+    EmailOptInNotificationCustomerData: 'Связаться с'
+    EmailOptInNotificationTitle: 'Клиент зарегистрировался'
+    EmailOptInTitle: 'Подтвердите адрес электронной почты'
     OTHERITEMS: прочие
+    OptInFailedMessage: 'Эта ссылка для подтверждения вашего адреса электронной почты недействительна.'
+    OptInFailedTitle: 'Opt-In не удался'
+    OptInGoToMyAccount: 'Мой счет'
+    OptInGoToShop: 'Продолжайте посещать магазин'
+    OptInMessage: 'Ваш адрес электронной почты успешно подтвержден.'
+    OptInMessageLogin: 'Пожалуйста, войдите в систему, чтобы подтвердить свой адрес электронной почты.'
+    OptInPendingMessage: 'Ваше подтверждение по электронной почте еще не получено. Пожалуйста, проверьте свой почтовый ящик и перейдите по ссылке для подтверждения.'
+    OptInPendingTitle: 'Ожидается подписка'
+    OptInResend: 'Повторная отправка ссылки для подтверждения'
+    OptInResendMessage: 'Письмо со ссылкой для подтверждения было отправлено на {email}.'
+    OptInResendTitle: 'Повторная отправка ссылки для подтверждения'
+    OptInTitle: 'Подтвердите свой адрес электронной почты'
+    OptInWelcomeMessage: 'Поздравляю! Ваша регистрация в нашем магазине прошла успешно!'
+    OptInWelcomeMessage2: 'Чтобы активировать свой аккаунт, пожалуйста, подтвердите свой адрес электронной почты, перейдя по ссылке подтверждения, которую вы получили по электронной почте.'
+    OptInWelcomeMessage3: 'Ссылка для подтверждения была отправлена на <strong>{email}</strong>. Пожалуйста, проверьте свой почтовый ящик.'
+    OptInWelcomeTitle: 'Подтвердите свой адрес электронной почты'
     PLEASE_COFIRM: 'Пожалуйста, подтвердите Вашу регистрацию.'
     PLURALNAME: 'страницы для регистрации'
     SINGULARNAME: 'страница для регистрации'
@@ -691,14 +1501,26 @@ ru:
     TITLE: 'страница регистрации'
     URL_SEGMENT: 'зарегистрировать '
     YOUR_REGISTRATION: 'ваша регистрация'
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: Отзыв
+    DEFAULT_URLSEGMENT: отзыв
+    PLURALNAME: 'Страницы отзыва'
+    SINGULARNAME: 'Страница отзыва'
+    Success: 'Отзыв успешно отправлен'
+    SuccessText: 'Большое спасибо! Мы получили ваш отзыв и обработаем ваш запрос.'
+    TITLE: Отзыв
+    URL_SEGMENT: отзыв
   SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'Результаты для'
     DEFAULT_TITLE: 'резултаты поиска'
     DEFAULT_URLSEGMENT: 'результат поиска'
     PLURALNAME: 'стараниицы результатов поиска'
+    RELEVANCESORT: Актуальность
     ResultsTextCategory: 'Search results for the category <strong>&rdquo;{category}&rdquo;</strong> ({results} results)'
     ResultsTextQuery: 'Результаты поиска по запросу: <b>&rdquo;{query}&rdquo;</b> ({results} совпадение)'
     ResultsTextQueryAndCategory: 'Search results for query <strong>&rdquo;{query}&rdquo;</strong> within the category <strong>&rdquo;{category}&rdquo;</strong> ({results} results)'
     SINGULARNAME: 'страница ресультатов поиска'
+    SearchTitle: '{Результаты поиска для "{title}"'
     TITLE: 'результаты поиска'
     URL_SEGMENT: 'резултаты поиска'
   SilverCart\Model\Pages\ShippingFeesPage:
@@ -721,10 +1543,15 @@ ru:
     ACCESS_MANAGEMENT_USER_LABEL: 'по клиентам'
     ACCESS_SETTINGS: 'управление доступом'
     ATTRIBUTED_COUNTRIES: 'выбранные страны'
+    AddPaymentLogos: 'Добавить логотип'
     BASIC_SETTINGS: 'Основные настройки'
+    ChargeOrDiscountForAmount: 'по {цене}'
     ENABLE_RESTRICTION_BY_ORDER_LABEL: 'использовать следующие правила'
+    ExcludedPosition: 'за исключением позиции {позиции}'
+    ExcludedPositions: 'за исключением позиций {позиций}'
     FROM_PURCHASE_VALUE: 'от суммы заказа'
     HANDLINGCOSTS_SETTINGS: 'Стоимость обработки'
+    LONG_PAYMENT_DESCRIPTION: 'Описание, которое будет отображаться на странице типа платежа'
     MODE: модус
     NAME: имя
     NO_PAYMENT_METHOD_AVAILABLE: 'нет рассрочки оплаты'
@@ -745,13 +1572,18 @@ ru:
     PAYMENT_SUMMODIFICATIONIMPACTTYPE: вид
     PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'суммм равна'
     PAYMENT_SUMMODIFICATIONLABELFIELD: 'надпись на корзине/заказе'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'Номер статьи для экспорта XML-заказа'
     PAYMENT_SUMMODIFICATIONVALUE: сумма
     PAYMENT_SUMMODIFIERS: скидки/наценки
     PAYMENT_USE_SUMMODIFICATION: активировать
+    PaymentChannel: 'Способ оплаты'
+    PaymentStatus: 'Статус платежа'
+    PaymentStatusDesc: 'Статус платежа по умолчанию для данного типа платежа'
     RESTRICTION_LABEL: 'показать клиентов, соответствующих критериям'
     RESTRICT_BY_ORDER_QUANTITY: 'клиент должен сделать не менее означенного количества заказов'
     RESTRICT_BY_ORDER_STATUS: 'состояние заказов отмечено в списке'
     SHIPPINGMETHOD: 'Способ доставки'
+    SHIPPINGMETHOD_DESC: 'Привяжите способ оплаты к следующим способам доставки:'
     SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Показать поля ввода после выбора способа оплаты'
     SHOW_NOT_FOR_GROUPS_LABEL: 'деактивировать группы'
     SHOW_NOT_FOR_USERS_LABEL: 'деактивировать клиентов'
@@ -764,13 +1596,43 @@ ru:
   SilverCart\Model\Payment\PaymentMethodTranslation:
     PLURALNAME: переводы
     SINGULARNAME: перевод
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: Код
+    DefaultStatusOpen: Открыть
+    DefaultStatusPaid: Оплачивается
+    IsDefault: 'Является стандартным'
+    Orders: Заказы
+    PLURALNAME: 'Статус платежа'
+    PaymentStatusTranslations: Переводы
+    SINGULARNAME: 'Статус платежа'
+    Title: Название
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Переводы
+    SINGULARNAME: Перевод
   SilverCart\Model\Product\AvailabilityStatus:
+    ADDITIONALTEXT: 'Дополнительный текст'
+    ISDEFAULT: 'Является стандартным'
     PLURALNAME: наличие
     SINGULARNAME: наличие
     STATUS_AVAILABLE: 'в наличие'
     STATUS_AVAILABLE_IN: 'наличие в {duration} {timeunit}'
     STATUS_AVAILABLE_IN_MIN_MAX: 'наличие в {minduration} - {maxduration} {timeunit}'
     STATUS_NOT_AVAILABLE: 'нет в наличие'
+    SeoMicrodataCode: 'Код микроданных SEO'
+    SeoMicrodataCodeDescription: 'Присвойте здесь подходящее значение, чтобы повысить видимость в поисковых системах.'
+    SeoMicrodataCodeDiscontinued: 'За исключением торговли'
+    SeoMicrodataCodeInStock: 'В наличии'
+    SeoMicrodataCodeInStoreOnly: 'Только в магазине'
+    SeoMicrodataCodeLimitedAvailability: 'Ограниченная доступность'
+    SeoMicrodataCodeOnlineOnly: 'Только онлайн'
+    SeoMicrodataCodeOutOfStock: 'Нет в наличии'
+    SeoMicrodataCodePreOrder: 'Доступно для предварительного заказа'
+    SeoMicrodataCodePreSale: 'Предварительное бронирование'
+    SeoMicrodataCodeSoldOut: Продано
+    SetForNegativeStock: 'Автоматическое назначение товара при изменении уровня запасов с > 0 на 0.'
+    SetForNegativeStockShort: 'Автомобиль. < 1'
+    SetForPositiveStock: 'Автоматическое назначение товара при изменении уровня запасов с 0 до > 0.'
+    SetForPositiveStockShort: 'Автомобиль. > 0'
     TITLE: название
   SilverCart\Model\Product\AvailabilityStatusTranslation:
     PLURALNAME: переводы
@@ -780,29 +1642,47 @@ ru:
     FILE_ATTACHMENTS: вложение
     PLURALNAME: файлы
     SINGULARNAME: файлы
+    SIZE: Размер
     TITLE: 'имя пользователя'
+    TYPE: Тип
   SilverCart\Model\Product\FileTranslation:
     PLURALNAME: переводы
     SINGULARNAME: перевод
   SilverCart\Model\Product\Image:
+    CONTENT: 'Текстовое содержание'
     DESCRIPTION: описание
     PLURALNAME: 'фотографии '
     SINGULARNAME: фото
+    SORTORDER: 'Порядок сортировки'
+    THUMBNAIL: 'Предварительный просмотр'
     TITLE: 'имя пользователя'
   SilverCart\Model\Product\ImageTranslation:
     PLURALNAME: переводы
     SINGULARNAME: перевод
   SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: Описание
+    ManufacturerNumber: 'Номер производителя'
     PLURALNAME: производитель
     SINGULARNAME: производитель
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Переводы
+    SINGULARNAME: Перевод
   SilverCart\Model\Product\Product:
     AMOUNT_UNIT: 'единица измерения'
+    AddFile: 'Добавить файл'
+    AddImage: 'Добавить изображение'
+    BasicData: 'Основные данные'
+    CHANGE_QUANTITY_CART: 'Изменение количества'
     CHOOSE_MASTER: 'выбрать мастер'
     COLUMN_TITLE: имя
     DAY: день
     DAYS: дни
     DESCRIPTION: название
+    Delivery: Доставка
+    DeliveryForFree: 'Бесплатная доставка'
+    DeliveryForFreeIsPossible: 'Возможна бесплатная доставка'
     EAN: 'европейский номер товара'
+    ExcludeFromPaymentDiscounts: 'На данный товар не распространяются скидки в связи со способом оплаты.'
     FREE_OF_CHARGE: 'бесплатная доставка'
     IMAGE: фото
     IMAGE_NOT_AVAILABLE: 'не выбрано фото артикула'
@@ -814,7 +1694,11 @@ ru:
     IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Абсолютный путь к файалам изображений на сервере. (напр: /var/www/silvercart/images/)'
     IMPORTIMAGESFORM_REPORT: '<p>Найдены %d файлов.</p><p>%d к которым могут быть ассоциированы тожары и и.</p>'
     IS_ACTIVE: актив
+    IsNotBuyable: 'Этот товар недоступен для покупки'
+    Keywords: 'Ключевые слова для поиска'
     LIST_PRICE: цена
+    LaunchDate: 'Отображение от'
+    LaunchDateInfo: '<strong>Необязательно</strong> - устанавливается только в том случае, если задан параметр <i>Sale from</i> и отображение должно быть сделано до начала продажи.'
     MASTERPRODUCT: 'базовый артикул'
     METADATA: 'мета тэги'
     METADESCRIPTION: 'мета описание для поисковых систем'
@@ -822,42 +1706,83 @@ ru:
     MONTH: месяц
     MONTHS: месяцы
     MSRP: 'рекомендованная цена производителя'
+    MSRP_CURRENCY: 'Валюта ОВОС'
     MirrorPage_PLURALNAME: '„зеракальные“ группы товаров'
     MirrorPage_SINGULARNAME: ' „зеркальная“ группа товаров'
     NAME_DESCRIPTION: 'имя & описание'
+    New: Новый
+    NewestArrivals: 'Новое в магазине'
     PACKAGING_QUANTITY: 'количество проданного товара'
     PACKAGING_UNIT: 'единица упаковки'
     PLURALNAME: артикул
     PRICE: цена
     PRICES: цена
+    PRICE_AMOUNT_ASC: 'Восходящая цена'
+    PRICE_AMOUNT_DESC: 'Цена снижается'
     PRICE_ENTIRE: 'общая сумма'
     PRICE_GROSS: 'цена (брутто)'
+    PRICE_GROSS_CURRENCY: 'Валюта (брутто)'
     PRICE_NET: 'цена (нетто)'
+    PRICE_NET_CURRENCY: 'Валюта (нетто)'
     PRICE_SINGLE: 'цена за единицу товара'
     PRICE_SINGLE_NET: 'цена за единицу товара (нетто)'
     PRODUCTNUMBER: артикул
     PRODUCTNUMBER_MANUFACTURER: 'артикул (производитель)'
     PRODUCTNUMBER_SHORT: 'арт. №'
+    PRODUCT_QUESTION: 'Пожалуйста, ответьте мне на следующие вопросы о товаре {заголовок} ({productnumber}):'
+    PRODUCT_QUESTION_LABEL: 'Вопросы по статье'
     PURCHASEPRICE: 'закупочная цена'
+    PURCHASEPRICE_CURRENCY: 'Валюта Покупная цена'
     PURCHASE_MAX_DURATION: 'максимальное время заказа'
     PURCHASE_MIN_DURATION: 'минимальное время заказа'
     PURCHASE_TIME_UNIT: 'единица '
+    PreorderInfo: 'Этот товар не будет выпущен до {дата выпуска}. Обратите внимание, что эта статья не может быть отправлена до даты выпуска.'
+    PreorderNow: 'Предзаказ сейчас'
+    PreorderToday: 'Сделайте предварительный заказ на этот товар сегодня'
+    Preorderable: 'доступен для предварительного заказа'
     QUANTITY: 'количество '
+    QUANTITY_IS_IN_CART: '{количество} {единица} уже в корзине'
     QUANTITY_SHORT: кол-во
+    RefreshCache: 'После сохранения обновите кэш для этой статьи'
+    ReleaseDate: 'Продажа от'
+    ReleaseDateInfo: '<strong>Необязательно</strong> - Устанавливается только в том случае, если начало продаж должно быть отложено.'
     SHORTDESCRIPTION: описание
+    SILVERCART_PRODUCT_CREATE: 'Может создавать статьи.'
     SINGULARNAME: артикул
     STOCKQUANTITY: 'складской запас'
     STOCK_QUANTITY: 'Ist der Lagerbestand dieses Artikels überbuchbar?'
     STOCK_QUANTITY_EXPIRATION_DATE: 'Datum, ab welchem Lagerbestand nicht mehr überbuchbar ist'
+    STOCK_QUANTITY_SHORT: 'Можно ли забронировать номер?'
+    Sale: Предложение
+    SalesBanDate: 'Отображать до'
+    SalesBanDateInfo: '<strong>Необязательно</strong> - устанавливается только в том случае, если продолжительность продажи ограничена.'
+    StockIsLowOrderNow: 'Скоро распроданы - заказывайте сейчас'
     TITLE: артикул
+    TITLE_ASC: 'Обозначение по возрастанию'
+    TITLE_DESC: 'Обозначение по убыванию'
+    ThisProductWillBeReleasedOn: 'Эта статья появится на {releasedate}'
+    TimeGroup: 'Контроль времени'
     VAT: НДС
     WEEK: неделя
     WEEKS: недели
     WEIGHT: вес
+    WIDGETAREA: Виджеты
+    YEAR: Год
+    YEARS: Годы
   SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: Поврежденные/дефектные
+    DefaultNew: Новый
+    DefaultRefurbished: Восстановленный
+    DefaultUsed: Используется
     PLEASECHOOSE: 'пожалуйста выберите'
     PLURALNAME: 'состояние товара'
     SINGULARNAME: 'состояние товара'
+    SeoMicrodataCode: 'Код микроданных SEO'
+    SeoMicrodataCodeDamaged: Поврежденные/дефектные
+    SeoMicrodataCodeDescription: 'Присвойте здесь подходящее значение, чтобы повысить видимость в поисковых системах.'
+    SeoMicrodataCodeNew: Новый
+    SeoMicrodataCodeRefurbished: Восстановленный
+    SeoMicrodataCodeUsed: Используется
     TITLE: 'состояние '
     USE_AS_STANDARD_CONDITION: 'использовать как шаблон состояния, если не уакзан для артикула'
   SilverCart\Model\Product\ProductConditionTranslation:
@@ -869,12 +1794,33 @@ ru:
     SINGULARNAME: перевод
   SilverCart\Model\Product\QuantityUnit:
     ABBREVIATION: сокращение
+    EXPLANATION_TO_DECIMAL_PLACES: 'Установите значение 0 или оставьте пустым, чтобы не использовать десятичные знаки. Эта настройка используется, например, для форм "Добавить в корзину".'
     NAME: имя
+    NUMBER_OF_DECIMAL_PLACES: 'Количество знаков после запятой'
     PLURALNAME: 'единицы измерения количества'
     SINGULARNAME: 'единица измерения количаества'
   SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: переводы
     SINGULARNAME: перевод
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Дата
+    Origin: Происхождение
+    Origin-1: 'Поглощение начального баланса'
+    Origin0: 'Вход системы не определен дополнительно'
+    Origin1: 'Статья была создана недавно'
+    Origin2: 'Прямой ввод данных пользователем'
+    Origin3: 'Заказ был сделан'
+    Origin4: 'Порядок был изменен'
+    Origin5: 'Заказ был отменен'
+    Origin6: 'Импорт через внешнюю систему'
+    OriginCode: 'Кодирование происхождения'
+    PLURALNAME: 'Проводки по акциям'
+    Quantity: Количество
+    QuantityDesc: 'Количество, которое необходимо добавить или вычесть из запаса (например, "2"/"-2").'
+    QuantityRightTitle: 'Количество не может быть изменено после сохранения. Чтобы исправить запись о запасах, добавьте новую запись с соответствующим примечанием.'
+    Reason: Причина
+    ReasonDesc: 'Краткое описание причины изменения запаса (например, "Заказ XYZ отменен", "Заказ XYZ возвращен", "Товар получен").'
+    SINGULARNAME: 'Ввод запасов'
   SilverCart\Model\Product\Tax:
     LABEL: название
     PLURALNAME: 'размер налогов'
@@ -888,14 +1834,20 @@ ru:
     FULL_NAME: 'полное имя'
     PLURALNAME: фрахтовщик
     SINGULARNAME: фрахтовщик
+    TrackingLinkBase: 'Ссылка для отслеживания'
+    TrackingLinkBaseDesc: 'Основная ссылка, используемая для получения онлайн-слежения. Поместите "{TrackingCode}" туда, где впоследствии будет размещен код отслеживания заказа. Например, для частных клиентов DHL: "https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?piececode={TrackingCode}".'
   SilverCart\Model\Shipment\CarrierTranslation:
     PLURALNAME: Переводы
     SINGULARNAME: Перевод
   SilverCart\Model\Shipment\ShippingFee:
     ATTRIBUTED_SHIPPINGMETHOD: 'выбранные способы доставки'
     COSTS: затраты
+    DeliveryTimeHint: 'Дополнительная информация о времени доставки. Перезаписывает спецификацию родительского метода доставки.'
     EMPTYSTRING_CHOOSEZONE: '--выбрать зону'
     FOR_SHIPPINGMETHOD: 'для доставки'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Отключить бесплатную доставку для данной стоимости доставки'
+    FREEOFSHIPPINGCOSTSFROM: 'Бесплатная доставка из (отменяет настройки для конкретной страны и глобальные настройки)'
+    FreeFrom: 'свободный от'
     MaximumWeight: 'максимальный вес'
     MaximumWeightDesc: 'Maximum weight in gram (g)'
     PLURALNAME: 'стоимость доставки'
@@ -959,8 +1911,11 @@ ru:
     PLURALNAME: переводы
     SINGULARNAME: перевод
   SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'Текст для тега ALT'
     LINKPAGE: 'ссылка на страницу'
     PLURALNAME: слайд-изображения
+    ProductNumberToReference: 'Номер статьи, на которую необходимо дать ссылку'
+    ProductNumberToReferenceInfo: 'Используется вместо страницы.'
     SINGULARNAME: Слайд-изображение
   SilverCart\Model\Widgets\ImageSliderImageTranslation:
     PLURALNAME: переводы
@@ -978,6 +1933,25 @@ ru:
     TITLE: ргистрация
     TITLE_LOGGED_IN: 'Мой профиль'
     TITLE_NOT_LOGGED_IN: регистрация
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: 'Список страниц'
+    DESCRIPTION: 'Этот виджет показывает список страниц со ссылками на соответствующие страницы.'
+    PAGES: 'Назначенные страницы'
+    TITLE: 'Список страниц'
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: Изображение
+    WIDGET_INFO_TAB: 'Информация о виджете'
+    WIDGET_INFO_TAB_EXPLANATION: 'Следующие данные могут использоваться некоторыми виджетами.'
+    WIDGET_PRIORITY: 'Ранг сортировки (чем выше, тем дальше назад)'
+    WIDGET_TEXT: Описание
+    WIDGET_TITLE: 'Название (необязательно)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Отображение статей из групп подпродуктов'
+    DESCRIPTION: 'Этот виджет показывает товары из подтоварных групп, если в текущей товарной группе нет товаров.'
+    TITLE: 'Статьи из групп субпродуктов'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Переводы
+    SINGULARNAME: Перевод
   SilverCart\Model\Widgets\ProductGroupItemsWidget:
     CMSTITLE: 'слидер продуктов'
     CMS_PRODUCTGROUPTABNAME: 'товарная группа'
@@ -985,36 +1959,63 @@ ru:
     DESCRIPTION: 'Этот виджет показывает группу товаров. Можно настроить какие группы и какие артикулы будут показаны.'
     FETCHMETHOD_SORTORDERASC: 'по возрастанию'
     FETCHMETHOD_SORTORDERDESC: 'по убыванию'
+    ProductGroupPageDescription: 'Актуально, только если для параметра "Метод выбора элементов" установлено значение "Из отдела".'
     SELECTIONMETHOD_PRODUCTGROUP: 'из группы товара'
     SELECTIONMETHOD_PRODUCTS: 'выбрать продукты вручную'
+    SELECT_PRODUCT_DESCRIPTION: 'Пожалуйста, введите номера статей, разделенные точкой с запятой'
     STOREADMIN_FIELDLABEL: 'пожалуйста, выберите группу товара:'
     TITLE: 'слайдер товаров'
     USE_SELECTIONMETHOD: 'метод выбора товаров'
   SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
     PLURALNAME: переводы
     SINGULARNAME: перевод
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'Список производителей SilverCart'
+    DESCRIPTION: 'Этот виджет отображает список всех производителей в соответствующей группе товаров.'
+    RESETFILTER: 'Показать все'
+    TITLE: 'Список производителей'
   SilverCart\Model\Widgets\ProductGroupNavigationWidget:
     CMSTITLE: 'SilverCart навигация по группам товаров'
     DESCRIPTION: 'Этот виджет создаёт навигацию для групп товаров. ВОзможно установить какая группа будет выбрана как корневая.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Развернуть только активную ветвь'
+    LEVELS_TO_SHOW: 'Показать уровни до какой глубины'
+    SHOW_ALL_LEVELS: 'Показать все уровни'
     TITLE: 'навигация по товарной группе'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Переводы
+    SINGULARNAME: Перевод
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: 'Группы продуктов'
+    DESCRIPTION: 'Этот виджет создает обзор любых групп товаров (по желанию в виде слайдера).'
+    TITLE: 'Группы продуктов'
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Переводы
+    SINGULARNAME: Перевод
   SilverCart\Model\Widgets\ProductSliderWidget:
     AUTOPLAY: 'активировать слайд-шоу'
     AUTOPLAYDELAYED: 'активировать задержку слайд-шоу'
     AUTOPLAYLOCKED: 'выключить слайд-шоу, если пользователь меняет слайды вручную'
+    AddImage: 'Добавить изображение'
     BUILDARROWS: 'показать кнопки вперёд/назад'
     BUILDNAVIGATION: 'показывать панель навигации страницы'
     BUILDSTARTSTOP: 'показывать кнопки старт / стоп'
     CMS_BASICTABNAME: 'основные настройки'
     CMS_DISPLAYTABNAME: изображение
     CMS_ROUNDABOUTTABNAME: 'обходной путь'
+    CMS_SLIDERIMAGES: 'Слайд-шоу изображений'
     CMS_SLIDERTABNAME: слайд-шоу
     FETCHMETHOD: 'метод выбора товара'
     FETCHMETHOD_RANDOM: случайно
     FRONTCONTENT: 'текст описания'
     FRONTTITLE: обзор
+    GROUPVIEW: 'Просмотр списка статей'
     IS_CONTENT_VIEW: 'выключить показ в виджете'
+    IS_CONTENT_VIEW_INFO: 'Этот параметр следует выбрать, если виджет предназначен для области содержимого страницы.'
     NUMBEROFPRODUCTSTOFETCH: 'количество артикулов, которые должны быть загружены'
     NUMBEROFPRODUCTSTOSHOW: 'количество показываемых артикулов'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'имеет значение, только если слайдер был активирован, в противном случае отображаются все загруженные статьи'
+    ProductDataToggle: 'Настройки статьи'
+    ProductRelationToggle: 'Статья Задание'
     SLIDEDELAY: 'время показа изображения слайд-шоу'
     STOPATEND: 'остановить слайд-шоу на последнем изображении'
     TRANSITIONEFFECT: 'эффект перехода'
@@ -1024,6 +2025,12 @@ ru:
     USE_LISTVIEW: 'в виде списка'
     USE_ROUNDABOUT: 'ипользовать обходной путь'
     USE_SLIDER: 'использовать слайдер'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'Наиболее частые поисковые запросы'
+    DESCRIPTION: 'Этот виджет отображает облако тегов с наиболее часто встречающимися поисковыми терминами.'
+    FONTSIZECOUNT: 'Количество степеней шрифта'
+    TAGSPERCLOUD: 'Количество отображаемых поисковых запросов'
+    TITLE: 'Наиболее часто встречающиеся поисковые запросы'
   SilverCart\Model\Widgets\SearchWidget:
     CMSTITLE: 'поиск SilverCart'
     DESCRIPTION: 'Этот виджет показывает форму поиска артикулов.'

@@ -158,6 +158,7 @@ da_DK:
     Change: Ændre
     ClickForMore: 'Klik for at se flere oplysninger'
     Close: Luk
+    ContactUs: 'Kontakt os'
     DefaultIfEmpty: 'Standard hvis tom: " {default} "'
     DeleteYourAccountErrorConfirm: 'Du bedes bekræfte sletningen af din konto ved at sætte kryds i afkrydsningsfeltet.'
     DeleteYourAccountErrorPassword: 'Beklager, men de adgangsdata, du har indtastet, er ikke korrekte.'
@@ -1025,6 +1026,8 @@ da_DK:
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: Pristype
+    ShippingMethodsInfoContent: 'De forsendelsestyper, der er anført her, er knyttet til denne kundegruppe og kan kun vælges af kunder, der tilhører denne kundegruppe. Forsendelsestyper kan tildeles flere kundegrupper, så denne kundegruppe er måske ikke den eneste gruppe med denne adgangstilladelse.'
+    ShippingMethodsInfoTitle: 'Forsendelsesmetoder, der er knyttet til denne kundegruppe.'
   SilverCart\Model\EmailAddress:
     ContactFormSubjects: Emneord
     Email: E-mail

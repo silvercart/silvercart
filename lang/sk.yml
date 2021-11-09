@@ -1,0 +1,1700 @@
+sk:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Všetci akceptujú'
+    ManageCookies: 'Nastavenia súborov cookie'
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>Súbory cookie používame na to, aby sme pre vás optimálne navrhli naše webové stránky, aby sme pre vás zlepšili naše produkty a aby sme vám spolu s poskytovateľmi tretích strán zobrazovali reklamu založenú na záujmoch. Tu si môžete vybrať, ktoré súbory cookie chcete akceptovať, a svoj výber kedykoľvek zmeniť. Viac informácií nájdete v našich zásadách používania súborov cookie a v našich informáciách o ochrane údajov. Technicky nevyhnutné súbory cookie sa nastavia aj vtedy, keď vyberiete možnosť odmietnuť.</p><p>Kliknutím na "Akceptovať všetko" súhlasíte s týmto spracovaním.</p>'
+    Title: 'Táto webová lokalita používa súbory cookie'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Nastavenia boli uložené'
+    Save: 'Potvrdenie výberu'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Analýza
+    Analytics_Content: '<p>Pomocou analytických súborov cookie môžeme technicky analyzovať používanie stránky s cieľom identifikovať problémy a optimalizovať použiteľnosť.</p>'
+    Marketing: Marketing
+    Marketing_Content: '<p>Pomocou marketingových súborov cookie môžeme analyzovať úspešnosť reklamných opatrení.</p>'
+    Necessary: Potrebné
+    Necessary_Content: '<p>Nevyhnutné súbory cookie zabezpečujú funkčnosť stránky a musia byť nastavené z technických dôvodov.</p>'
+    Preferences: Nastavenia
+    Prefrences_Content: '<p>Pomocou preferenčných súborov cookie môžeme prispôsobiť použiteľnosť stránky vašim potrebám. Vďaka tomu si stránka pri ďalšej návšteve zapamätá vaše nastavenia.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p>$CookieConsentForm</p><p>[cookiegrouptable group="Nutné"]</p><p>[cookiegrouptable group="Analytics"]</p><p>[cookiegrouptable group="Marketing"]</p><p>[cookiegrouptable group="Predvoľby"]</p>'
+    Title: 'Zásady používania súborov cookie'
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Vyplňte túto stránku svojimi zásadami ochrany osobných údajov.</p>'
+    Title: 'Usmernenia o ochrane údajov'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Vyplňte túto stránku svojimi podmienkami.</p>'
+    Title: 'Všeobecné podmienky'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Trvanie
+    Provider: 'Nastavenie podľa'
+    Purpose: Účel
+    Title: Cookie
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 rok'
+    loc_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    mus_Expiry: '1 rok'
+    mus_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    na_id_Expiry: '1 rok'
+    na_id_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    na_tc_Expiry: '1 rok'
+    na_tc_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    ouid_Expiry: '1 rok'
+    ouid_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    uid_Expiry: '1 rok'
+    uid_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    uvc_Expiry: '1 rok'
+    uvc_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 mesiacov'
+    BizoID_Purpose: Marketing
+    UserMatchHistory_Expiry: '6 mesiacov'
+    UserMatchHistory_Purpose: Marketing
+    lang_Expiry: Zasadnutie
+    lang_Purpose: 'Nastavenia jazyka'
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 mesiace'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 roky'
+    _ga_Purpose: 'Analýza Fontawesome'
+    _gid_Expiry: '2 roky'
+    _gid_Purpose: 'Analýza Fontawesome'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 hodín'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 roky'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 rokov'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 roky'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 mesiacov'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 mesiac'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 roky'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 mesiace'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 roky'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 roky'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 roky'
+    bcookie_Purpose: Marketing
+    lidc_Expiry: '2 roky'
+    lidc_Purpose: Marketing
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 roky'
+    _ga_Purpose: 'Analytika Mapbox'
+    _mkto_trk_Expiry: '2 roky'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 rok'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 rok'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 rok'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 mesiacov'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 rok'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 rok'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 mesiacov'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 rok'
+    player_Purpose: 'Integrácia videa'
+    vuid_Expiry: '1 rok'
+    vuid_Purpose: 'Integrácia videa'
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Zasadnutie
+    CONSENT_Purpose: 'Integrácia videa'
+    GPS_Expiry: Zasadnutie
+    GPS_Purpose: 'Integrácia videa'
+    NID_Expiry: Zasadnutie
+    NID_Purpose: 'Integrácia videa'
+    PREF_Expiry: '2 roky'
+    PREF_Purpose: 'Integrácia videa'
+    VISITOR_INFO1_LIVE_Expiry: '6 mesiacov'
+    VISITOR_INFO1_LIVE_Purpose: 'Integrácia videa'
+    YSC_Expiry: Zasadnutie
+    YSC_Purpose: 'Integrácia videa'
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 mesiace'
+    CookieConsent_Purpose: 'Uloží nastavenia súborov cookie'
+    FluentLocale_Expiry: '2 mesiace'
+    FluentLocale_Purpose: 'Uloží vaše jazykové nastavenia'
+    PHPSESSID_Expiry: Zasadnutie
+    PHPSESSID_Purpose: Zasadnutie
+    __atuvc_Expiry: '1 rok'
+    __atuvc_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    __atuvs_Expiry: '1 rok'
+    __atuvs_Purpose: 'Tlačidlá na zdieľanie v sociálnych médiách'
+    _ga_Expiry: '2 roky'
+    _ga_Purpose: Štatistika
+    _gat_Expiry: '24 hodín'
+    _gat_Purpose: Štatistika
+    _gid_Expiry: '24 hodín'
+    _gid_Purpose: Štatistika
+    _hjIncludedInSample_Expiry: Zasadnutie
+    _hjIncludedInSample_Purpose: Štatistika
+    ipcountry_Expiry: Zasadnutie
+    ipcountry_Purpose: 'Štandardné nastavenia jazyka'
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 mesiac'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 roky'
+    _ga_Purpose: 'Analýza reCAPTCHA'
+  SilverCart:
+    Actions: Činnosti
+    Buy1: '{title} kúpiť'
+    Buy2: '{title1} {title2} kúpiť'
+    Cancel: Zrušiť
+    Change: Zmena
+    ClickForMore: 'Kliknutím zobrazíte ďalšie informácie'
+    Close: Zatvoriť
+    ContactUs: 'Kontaktujte nás'
+    DefaultIfEmpty: 'Predvolené nastavenie, ak je prázdne: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Potvrďte vymazanie svojho konta zaškrtnutím políčka.'
+    DeleteYourAccountErrorPassword: 'Je nám ľúto, ale prístupové údaje, ktoré ste zadali, nie sú správne.'
+    DeleteYourAccountSuccess: 'Vaše konto bolo úspešne označené na vymazanie a bude vymazané v priebehu nasledujúcich 24 hodín. Hneď po dokončení vymazania dostanete e-mailové upozornenie. Dovtedy máte možnosť žiadosť o vymazanie odvolať.'
+    DeleteYourAccountSuccessOpen: 'Vaše konto bolo úspešne označené na vymazanie. Keďže na vašom zákazníckom účte sú stále otvorené objednávky, váš účet bude vymazaný až po spracovaní všetkých otvorených objednávok. Hneď po dokončení vymazania dostanete e-mailové upozornenie. Dovtedy máte možnosť žiadosť o vymazanie odvolať.'
+    DeleteYourAccountUndo: 'Odvolanie žiadosti o vymazanie'
+    DeleteYourAccountUndone: 'Vaša žiadosť o vymazanie bola úspešne zrušená.'
+    Go: 'Prejsť na stránku'
+    NextPage: 'Ďalšia stránka'
+    PrevPage: 'Predchádzajúca stránka'
+    ProductAddedToCart: 'Položka bola pridaná do nákupného košíka.'
+    ProductRemovedFromCart: 'Položka bola odstránená z nákupného košíka.'
+    Sort: 'Poradie triedenia'
+    Subject: Predmet
+    Subjects: Predmet
+    Translation: Preklad
+    Translations: Preklady
+    Until: na
+    go: 'prejdite na stránku .'
+    since: od
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Dostupnosť
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Nosič
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: 'Kontaktné požiadavky'
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: Krajiny
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: Zákazníci
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: Obrázky
+    SELECT_IMAGE_TYPE: 'Výber typu obrázka'
+    SELECT_OTHER_IMAGES: 'Ostatné obrázky'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Obrázky pre spôsoby platby'
+    SELECT_PRODUCT_IMAGES: 'Obrázky v článku'
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: Nastavenia
+    CUSTOMER: Zákazníci
+    DEFAULT: CMS
+    FILES: Súbory
+    HANDLING: Spracovanie
+    MODULES: Moduly
+    ORDERS: Objednávky
+    PRODUCTS: Článok
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: Výrobca
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Vyberte kontext exportu a stlačením tlačidla export stiahnite zoznam príjemcov e-mailov vo formáte CSV.'
+    DoExport: 'Exportovať ako CSV'
+    ExportAll: 'Exportné adresy všetkých zákazníkov'
+    ExportAllNewsletterRecipients: 'Exportovanie adries všetkých príjemcov informačného bulletinu'
+    ExportAllNewsletterRecipientsWithAccount: 'Exportovanie adries všetkých príjemcov informačného bulletinu so zákazníckym účtom'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Exportovanie adries všetkých príjemcov informačného bulletinu bez zákazníckeho účtu'
+    ExportAllNonNewsletterRecipients: 'Exportovanie adries všetkých príjemcov, ktorí nie sú príjemcami noviniek'
+    ExportContext: 'Kontext exportu'
+    MENUTITLE: 'Príjemcovia informačného bulletinu'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: 'Rozsahy čísel'
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Všetko po'
+    DateRangePickerALL_BEFORE: 'Všetko pred'
+    DateRangePickerDATE: Dátum
+    DateRangePickerEND_DATE: 'Dátum ukončenia'
+    DateRangePickerLAST_7_DAYS: 'Posledných 7 dní'
+    DateRangePickerLAST_MONTH: 'Predchádzajúci mesiac'
+    DateRangePickerNEXT: Ďalšie
+    DateRangePickerPERIOD: Obdobie
+    DateRangePickerPREVIOUS: Predchádzajúci
+    DateRangePickerSTART_DATE: 'Dátum začiatku'
+    DateRangePickerTHIS_MONTH: 'Tento mesiac'
+    DateRangePickerTHIS_YEAR: 'Tento rok'
+    DateRangePickerTODAY: Dnes
+    MENUTITLE: Objednávky
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: 'Stav objednávky'
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: 'Spôsoby platby'
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: 'Stav platby'
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: Článok
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'Článok uvádza'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'V tomto okamihu sa vykoná import obrázku článku.'
+    CronIsRunningTitle: Pozor
+    CronNotInstalledDescription: "Inštalácia importu obrázkov článkov ešte nebola dokončená.\nProsím, pridajte potrebný program (`sake dev/tasks/sc-image-importer`) do Naplánovaných úloh vášho servera.\nĎalšie informácie vám poskytne vedúci predajne.\n"
+    CronNotInstalledTitle: Pozor
+    Description: "Pomocou tejto funkcie nahrávania môžete naraz nahrať veľa obrázkov rôznych článkov.\nObrázky sa automaticky priradia, ak názvy súborov pomenujete takto:\n\n[číslo položky].png/jpg/jpeg\nALEBO\n[Číslo položky]-[Poradové číslo].png/jpg/jpeg\nALEBO\n[Číslo položky]-[Poradové číslo]-[Krátky popis - bez medzery].png/jpg/jpeg\n\n[Short description-without-space] je nepovinný a používa sa na optimalizáciu pre vyhľadávače (SEO) na dosiahnutie lepšej viditeľnosti vo vyhľadávačoch, ako je napríklad Google.\nAk nie je zadaný [short description-without-space], názov článku sa použije ako parameter na optimalizáciu pre vyhľadávače.\n\nPríklad:\nKu každému z dvoch článkov s číslami 502.133.66.5 a 758.500.08.9 chcete priradiť 4 obrázky. 3 z nich by mali mať vlastný krátky popis.\nPre každý z článkov s číslami 128.000.01.7 a 542.550.08.1 je potrebné nahrať jeden obrázok.\nNázvy súborov by preto mali vyzerať takto:\n\n502.133.66.5-1.png\n502.133.66.5-2-Coffee-Machine-XYZ-Front-View.png\n502.133.66.5-3-Coffee-Machine-XYZ-View-left-side.png\n502.133.66.5-4-Coffee-machine-XYZ-view-right-side.png\n758.500.08.9-1.png\n758.500.08.9-2.png\n758.500.08.9-3.png\n758.500.08.9-4.png\n128.000.01.7.png\n542.550.08.1.png\n\nVšimnite si, že obrázok zadaný s poradovým číslom 1 sa použije ako obrázok pre zobrazenie zoznamu.\nUpozorňujeme tiež, že pri použití tejto funkcie sa úplne prepíšu existujúce obrázky dotknutých položiek.\n"
+    FileInfoTitle: 'Nasledujúce obrázky položiek ešte neboli spracované:'
+    MENUTITLE: 'Import obrázkov do článku'
+    UploadProductImages: 'Nahrávanie obrázkov položiek'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: 'Merné jednotky'
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: 'Spôsoby prepravy'
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'E-maily z obchodu'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: 'Daňové sadzby'
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Zóny
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: EUR
+    IMAGEFOLDERNAME: 'Ukážkové údaje'
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart je ľahko prispôsobiteľný pomocou widgetov.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Prispôsobiteľné
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: prispôsobiteľné
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart je ľahko rozšíriteľný pomocou modulov.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Rozšíriteľný
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: rozšíriteľný
+    PRODUCTGROUPMARKETING_TITLE: 'Marketingové moduly'
+    PRODUCTGROUPMARKETING_URLSEGMENT: 'marketingové moduly'
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart je open source. To znamená, že platíte len za implementáciu a prispôsobenie systému obchodu vašim želaniam.'
+    PRODUCTGROUPOPEN_TITLE: 'Otvorte stránku'
+    PRODUCTGROUPOPEN_URLSEGMENT: otvoriť
+    PRODUCTGROUPOTHERS_TITLE: 'Ostatné moduly'
+    PRODUCTGROUPOTHERS_URLSEGMENT: 'iné moduly'
+    PRODUCTGROUPPAYMENT_TITLE: 'Platobné moduly'
+    PRODUCTGROUPPAYMENT_URLSEGMENT: 'platobné moduly'
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> </strong>Pozor:<br/>Samotné moduly sú bezplatné. Cenová ponuka sa používa výlučne na demonštračné účely.</div>'
+    SLIDORION_TITLE: 'Výhody SilverCart'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p>Objavte platobné moduly SilverCart.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: 'Platobné moduly'
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p>V systéme SilverCart nájdete aj moduly pre mnohé ďalšie prípady použitia.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Ostatné moduly'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Úvodná stránka Oblasť obsahu'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: 'Aktivácia stránky'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Zmena dostupnosti na...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Výrobcovia prechádzajú na...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Zmena stavu objednávky na...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Zmena stavu platby na...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Zmena skupiny produktov na...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: 'Deaktivácia stránky'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Označiť ako nevidené'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Označiť, ako je vidieť'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Objednávky na tlač (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: 'Rýchle zobrazenie'
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: Pridať
+  SilverCart\Admin\Model\Config:
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: 'Štandardný príjemca e-mailu pre žiadosti o kontakt'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: 'Žiadosti o kontakt sa už neodosielajú štandardnému príjemcovi e-mailu, ale na tu uloženú adresu.'
+    DEFAULT_IMAGE: 'Štandardný obrázok článku'
+    DEFAULT_LANGUAGE: 'Štandardný jazyk'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: 'Štandardný príjemca e-mailu pre oznámenia o objednávkach'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: 'Oznámenia o objednávkach sa už neposielajú na štandardný e-mail, ale na adresu uloženú tu.'
+    DEFAULT_MAIL_RECIPIENT: 'Štandardný príjemca e-mailu'
+    DEFAULT_MAIL_RECIPIENT_INFO: 'E-maily určené prevádzkovateľovi obchodu sa odosielajú na tu uloženú adresu.'
+    DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: 'Pýtate sa pri registrácii na dátum narodenia?'
+    DISPLAYEDPAGINATION: 'Počet súčasne zobrazených čísel strán'
+    DISPLAY_TYPE_OF_PRODUCT_ADMIN: 'Typ zobrazenia správy článkov'
+    DISPLAY_WEIGHTS_IN_KILOGRAM: 'Zobrazenie hmotnosti v kilogramoch (kg)'
+    ENABLEBUSINESSCUSTOMERS: 'Umožniť firemným zákazníkom'
+    ENABLEPACKSTATION: 'Aktivácia vstupných polí adresy pre PACKSTATION'
+    ENABLESSL: 'Používanie protokolu SSL'
+    ENABLESTOCKMANAGEMENT: 'Aktivácia správy zásob'
+    ERROR_MESSAGE: 'Parameter "{pole}" nebol nakonfigurovaný. <br/><a href="{baseurl}admin/settings/">Prihláste sa</a> a nakonfigurujte chýbajúci parameter v časti "Nastavenia -> Nastavenia e-mailu".'
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: 'Nebola nájdená žiadna aktivovaná krajina. <br/><a href="{baseURL}admin/settings/">Prihláste sa</a> a nakonfigurujte chýbajúci parameter v časti "Spracovanie -> Krajiny".'
+    ERROR_TITLE: 'Vyskytla sa chyba!'
+    EXAMPLE_CONFIGURATION_ALREADY_ADDED: 'Príklad konfigurácie už bol vytvorený'
+    EXAMPLE_DATA_ALREADY_ADDED: 'Príklady údajov už boli pridané'
+    EmailConfiguration: 'Nastavenia e-mailu'
+    EmailSender: 'E-mailová adresa odosielateľa'
+    EmailSenderDesc: 'Adresa odosielateľa e-mailu sa používa ako adresa odosielateľa všetkých e-mailov odoslaných aplikáciou SilverCart.'
+    EmailSenderExample: 'napr. "noreply@example.com"'
+    EmailSenderName: 'Meno odosielateľa e-mailu'
+    EmailSenderNameDesc: 'Okrem adresy odosielateľa e-mailu sa príjemcovi zobrazí aj meno odosielateľa.'
+    EmailSenderNameExample: 'napr. "Názov vášho obchodu'
+    FLAT: ploché
+    FREEOFSHIPPINGCOSTSFROM: 'Doprava zdarma od'
+    FREEOFSHIPPINGCOSTSTAB: 'Doprava zadarmo'
+    Favicon: Favicon
+    FaviconDesc: 'Favicon je obrázok, ktorý sa zvyčajne zobrazuje v adresnom riadku webového prehliadača naľavo od adresy URL, v niektorých prehliadačoch aj na otvorenej karte. Favicon by mal byť štvorcový a mať rozmery približne 32x32 pixelov.'
+    GENERAL: Všeobecné
+    GENERAL_MAIN: 'Hlavná časť'
+    GENERAL_TEST_DATA: 'Ukážkové údaje'
+    GLOBALEMAILRECIPIENT: 'Globálny príjemca e-mailu'
+    GLOBALEMAILRECIPIENT_INFO: 'Globálneho príjemcu e-mailu je možné nastaviť voliteľne. Všetky e-maily (potvrdenia objednávok, žiadosti o kontakt atď.) sa posielajú na túto e-mailovú adresu. Adresy príjemcov nastavené v šablónach e-mailov zostávajú nedotknuté. Tie sa nenahrádzajú, ale iba dopĺňajú.'
+    GeneralConfiguration: 'Základné nastavenia'
+    INTERFACES: Rozhrania
+    InvoiceAddressIsAlwaysShippingAddress: 'Fakturačná adresa vždy zodpovedá dodacej adrese'
+    LAYOUT: Rozloženie
+    MINIMUMORDERVALUE: 'Minimálna hodnota objednávky'
+    MINIMUMORDERVALUE_HEADLINE: 'Minimálna hodnota objednávky'
+    MinimumAgeToOrder: 'Minimálny vek pre objednávky'
+    MinimumAgeToOrderError: 'Minimálny vek pre objednávky je {vek} rokov.'
+    MobileTouchIcon: 'Ikona dotykového mobilného telefónu'
+    MobileTouchIconDesc: 'Ikona Mobile Touch sa používa, keď návštevník umiestni váš obchod ako odkaz na domovskú obrazovku smartfónu alebo tabletu. Ikona by mala mať rozmery 192x192 pixelov.'
+    OPEN_RECORD: 'Otvorený záznam'
+    PLURALNAME: 'Všeobecné konfigurácie'
+    PRICETYPEANONYMOUSCUSTOMERS: 'Typ ceny pre anonymných zákazníkov'
+    PRICETYPEBUSINESSCUSTOMERS: 'Typ ceny pre firemných zákazníkov'
+    PRICETYPEREGULARCUSTOMERS: 'Typ ceny pre koncových zákazníkov'
+    PRICETYPES_HEADLINE: 'Typy cien'
+    PRICETYPE_ANONYMOUS: 'Typ ceny pre anonymných zákazníkov'
+    PRICETYPE_BUSINESS: 'Typ ceny pre firemných zákazníkov'
+    PRICETYPE_REGULAR: 'Typ ceny pre koncových zákazníkov'
+    PRODUCTGROUPSPERPAGE: 'Skupiny výrobkov na stránku'
+    PRODUCTSPERPAGE: 'Články na stránku'
+    PRODUCTSPERPAGE_ALL: 'Zobraziť všetky'
+    PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Pole pre popis položky v nákupnom košíku'
+    ProductConfiguration: 'Nastavenia článku'
+    QUANTITY_OVERBOOKABLE: 'Môžu byť zásoby všeobecne preplnené?'
+    REDIRECTTOCARTAFTERADDTOCART: 'Presmerovanie zákazníka do nákupného košíka po akcii "Pridať do nákupného košíka"'
+    SEARCH: Vyhľadávanie
+    SEO: SEO
+    SERVER: Server
+    SHOW_CONFIG: 'Zobraziť konfiguráciu'
+    SINGULARNAME: 'Všeobecná konfigurácia'
+    SKIP_PAYMENT_STEP_IF_UNIQUE: 'Preskočiť výber spôsobu platby, ak je možné vybrať len jeden.'
+    SKIP_SHIPPING_STEP_IF_UNIQUE: 'Preskočiť výber spôsobu dopravy, ak je možné vybrať len jeden.'
+    SOCIALMEDIA: 'Sociálne médiá'
+    STOCK: Tábor
+    SecurityConfiguration: 'Nastavenia zabezpečenia'
+    ShopAdditional2Info: 'Ďalšie informácie 2'
+    ShopAdditionalInfo: 'Ďalšie informácie'
+    ShopAdditionalInfo2Desc: 'Ďalšie nepovinné informácie o zákazníkovi, ako sú informácie o preprave, špeciálne ponuky, špeciálne funkcie vašej ponuky, ... (V závislosti od témy sa zobrazuje v záhlaví/záložke takmer každej stránky, približne 220 znakov).'
+    ShopAdditionalInfoDesc: 'Ďalšie, nepovinné informácie pre zákazníkov, ako sú ďalšie telefónne čísla (tiesňová linka) s úradnými hodinami. (V závislosti od témy sa zobrazuje v záhlaví/záložke takmer každej stránky, približne 120 znakov).'
+    ShopCity: Umiestnenie
+    ShopCountry: Krajina
+    ShopData: 'Údaje o prevádzkovateľovi'
+    ShopEmail: 'E-mailová adresa'
+    ShopLogo: Logo
+    ShopLogoDesc: 'Zobrazuje sa v záhlaví obchodu.'
+    ShopName: 'Názov obchodu'
+    ShopOpeningHours: 'Otváracie hodiny'
+    ShopPhone: Telefón
+    ShopPostcode: 'Poštové smerovacie číslo'
+    ShopStreet: Ulica
+    ShopStreetNumber: 'Číslo domu'
+    ShowTaxAndDutyHint: 'Upozornenie na dodatočné poplatky do krajín mimo EÚ.'
+    TABBED: vnorené
+    TRANSLATION: Preklad
+    TRANSLATIONS: Preklady
+    USEFREEOFSHIPPINGCOSTSFROM: 'Použite nastavenia pre bezplatnú dopravu'
+    USEMINIMUMORDERVALUE: 'Aktivácia minimálnej hodnoty objednávky'
+    USER_AGENT_BLACKLIST: 'Uzamknuté identifikátory UserAgent (jeden UserAgent na riadok)'
+    USER_AGENT_BLACKLIST_INFO: 'Na každý riadok zadajte jedného UserAgent. <br/> Ak návštevník použije ID UserAgent z tohto zoznamu, spojenie sa úplne zablokuje, aby sa zabránilo útokom spambotov na formuláre. <br/><strong>Pozor: Identifikátory UserAgent používa každý návštevník. Identifikátor UserAgent zadajte len vtedy, ak ste si istí, že sa to týka len botov</strong>...'
+    USE_DEFAULT_LANGUAGE: 'Používať štandardný jazyk, keď chýba vhodný jazyk?'
+    USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Zobraziť popis položky v nákupnom košíku'
+    USE_STRICT_SEARCH_RELEVANCE: 'Používajte prísnejšie vyhľadávanie. Zobrazí len presné zhody.'
+    UseMinimumAgeToOrder: 'Používanie minimálneho veku pre objednávky?'
+    redirectToCheckoutWhenInCart: 'Okamžité presmerovanie na pokladňu, keď zákazník vstúpi do nákupného košíka.'
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: 'Váš hľadaný výraz...'
+    submitButtonTitle: 'Vyhľadávanie stiahnutých súborov'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Chcel by som sa prihlásiť na odber noviniek'
+    ACTIONFIELD_TITLE: 'Čo chcete robiť?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Chcem sa odhlásiť z odberu noviniek'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: Vyhľadávanie
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Vytvorte heslo pre prihlásenie do webového obchodu. Heslo musí mať aspoň {minlength} znakov. Musí obsahovať aspoň 1 veľké písmeno, 1 malé písmeno, 1 číslicu a 1 špeciálny znak.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Adresa spotrebiteľa (spotrebiteľov)'
+    Data: Údaje
+    GoTo: 'K formuláru na zrušenie'
+    NameOfConsumer: 'Meno spotrebiteľa(ov)'
+    Order: Objednávka
+    OrderDate: 'Objednané dňa / prijaté dňa'
+    OrderHistory: 'Vyberte objednávku'
+    OrderNumber: 'Objednávacie číslo'
+    RevocationDate: 'Dátum zrušenia'
+    RevocationOrderData: 'Odvolávam/odvolávame zmluvu, ktorú som/jeme uzavrel/uzavreli na nákup nasledujúceho tovaru/poskytnutie nasledujúcej služby'
+  SilverCart\Model\ContactMessage:
+    MESSAGE: Správa
+    PLURALNAME: 'Kontaktné požiadavky'
+    SINGULARNAME: 'Žiadosť o kontakt'
+  SilverCart\Model\Customer\Country:
+    ACTIVE: Aktívne
+    ATTRIBUTED_PAYMENTMETHOD: 'priradený typ platby'
+    ATTRIBUTED_ZONES: 'pridružené zóny'
+    CONTINENT: Kontinent
+    CURRENCY: Mena
+    DISPLAYPOSITION: 'Pozícia na displeji (ak má prioritu)'
+    FIPS: 'Kód FIPS'
+    FREEOFSHIPPINGCOSTSFROM: 'Doprava zdarma od'
+    ISO2: 'ISO Alpha2'
+    ISO3: 'ISO Alpha3'
+    ISON: 'Číselný kód ISO'
+    ISPRIORITIVE: 'Zobrazenie priorít na začiatku rozbaľovacích zoznamov?'
+    ISPRIORITIVE_SHORT: Prioritizované
+    IsNonTaxable: Nezdanené
+    PLURALNAME: Krajiny
+    SINGULARNAME: Krajina
+    TITLE: Názov
+    TITLE_AD: Andorra
+    TITLE_AE: 'Spojené arabské emiráty'
+    TITLE_AF: Afganistan
+    TITLE_AG: 'Antigua a Barbuda'
+    TITLE_AI: Anguilla
+    TITLE_AL: Albánsko
+    TITLE_AM: Arménsko
+    TITLE_AN: 'Holandské Antily'
+    TITLE_AO: Angola
+    TITLE_AQ: Antarktída
+    TITLE_AR: Argentína
+    TITLE_AS: 'Americká Samoa'
+    TITLE_AT: Rakúsko
+    TITLE_AU: Austrália
+    TITLE_AW: Aruba
+    TITLE_AX: 'Alandské ostrovy'
+    TITLE_AZ: Azerbajdžan
+    TITLE_BA: 'Bosna a Hercegovina'
+    TITLE_BB: Barbados
+    TITLE_BD: Bangladéš
+    TITLE_BE: Belgicko
+    TITLE_BF: 'Burkina Faso'
+    TITLE_BG: Bulharsko
+    TITLE_BH: Bahrajn
+    TITLE_BI: Burundi
+    TITLE_BJ: Benin
+    TITLE_BL: 'St Barthélemy'
+    TITLE_BM: Bermudy
+    TITLE_BN: 'Brunej Darussalam'
+    TITLE_BO: Bolívia
+    TITLE_BQ: 'Bonaire, Svätý Eustach a Saba'
+    TITLE_BR: Brazília
+    TITLE_BS: Bahamy
+    TITLE_BT: Bhután
+    TITLE_BV: 'Bouvetov ostrov'
+    TITLE_BW: Botswana
+    TITLE_BY: Bielorusko
+    TITLE_BZ: Belize
+    TITLE_CA: Kanada
+    TITLE_CC: 'Kokosové ostrovy'
+    TITLE_CD: Kongo-Kinšasa
+    TITLE_CF: 'Stredoafrická republika'
+    TITLE_CG: 'Kongo [republika]'
+    TITLE_CH: Švajčiarsko
+    TITLE_CI: 'Pobrežie Slonoviny'
+    TITLE_CK: 'Cookove ostrovy'
+    TITLE_CL: Čile
+    TITLE_CM: Kamerun
+    TITLE_CN: Čína
+    TITLE_CO: Kolumbia
+    TITLE_CR: Kostarika
+    TITLE_CS: 'Srbsko a Čierna Hora'
+    TITLE_CU: Kuba
+    TITLE_CV: Kapverdy
+    TITLE_CW: Curacao
+    TITLE_CX: 'Vianočný ostrov'
+    TITLE_CY: Cyprus
+    TITLE_CZ: 'Česká republika'
+    TITLE_DE: Nemecko
+    TITLE_DJ: Džibutsko
+    TITLE_DK: Dánsko
+    TITLE_DM: Dominika
+    TITLE_DO: 'Dominikánska republika'
+    TITLE_DZ: Alžírsko
+    TITLE_EC: Ekvádor
+    TITLE_EE: Estónsko
+    TITLE_EG: Egypt
+    TITLE_EH: 'Západná Sahara'
+    TITLE_ER: Eritrea
+    TITLE_ES: Španielsko
+    TITLE_ET: Etiópia
+    TITLE_FI: Fínsko
+    TITLE_FJ: Fidži
+    TITLE_FK: 'Falklandské ostrovy'
+    TITLE_FM: Mikronézia
+    TITLE_FO: 'Faerské ostrovy'
+    TITLE_FR: Francúzsko
+    TITLE_GA: Gabon
+    TITLE_GB: 'Spojené kráľovstvo'
+    TITLE_GD: Grenada
+    TITLE_GE: Georgia
+    TITLE_GF: 'Francúzska Guyana'
+    TITLE_GG: Guernsey
+    TITLE_GH: Ghana
+    TITLE_GI: Gibraltár
+    TITLE_GL: Grónsko
+    TITLE_GM: Gambia
+    TITLE_GN: Guinea
+    TITLE_GP: Guadeloupe
+    TITLE_GQ: 'Rovníková Guinea'
+    TITLE_GR: Grécko
+    TITLE_GS: 'Južná Georgia a Južné Sandwichove ostrovy'
+    TITLE_GT: Guatemala
+    TITLE_GU: Guam
+    TITLE_GW: Guinea-Bissau
+    TITLE_GY: Guyana
+    TITLE_HK: Hongkong
+    TITLE_HM: 'Heardove a McDonaldove ostrovy'
+    TITLE_HN: Honduras
+    TITLE_HR: Chorvátsko
+    TITLE_HT: Haiti
+    TITLE_HU: Maďarsko
+    TITLE_ID: Indonézia
+    TITLE_IE: Írsko
+    TITLE_IL: Izrael
+    TITLE_IM: 'Ostrov Man'
+    TITLE_IN: India
+    TITLE_IO: 'Britské územie v Indickom oceáne'
+    TITLE_IQ: Irak
+    TITLE_IR: Irán
+    TITLE_IS: Island
+    TITLE_IT: Taliansko
+    TITLE_JE: Jersey
+    TITLE_JM: Jamajka
+    TITLE_JO: Jordan
+    TITLE_JP: Japonsko
+    TITLE_KE: Keňa
+    TITLE_KG: Kirgizsko
+    TITLE_KH: Kambodža
+    TITLE_KI: Kiribati
+    TITLE_KM: Komory
+    TITLE_KN: 'Svätý Krištof a Nevis'
+    TITLE_KP: 'Severná Kórea'
+    TITLE_KR: 'Južná Kórea'
+    TITLE_KW: Kuvajt
+    TITLE_KY: 'Kajmanské ostrovy'
+    TITLE_KZ: Kazachstan
+    TITLE_LA: Laos
+    TITLE_LB: Libanon
+    TITLE_LC: 'Svätá Lucia'
+    TITLE_LI: Lichtenštajnsko
+    TITLE_LK: 'Srí Lanka'
+    TITLE_LR: Libéria
+    TITLE_LS: Lesotho
+    TITLE_LT: Litva
+    TITLE_LU: Luxembursko
+    TITLE_LV: Lotyšsko
+    TITLE_LY: Líbya
+    TITLE_MA: Maroko
+    TITLE_MC: Monaco
+    TITLE_MD: Moldavsko
+    TITLE_ME: 'Čierna Hora'
+    TITLE_MF: 'Svätý Martin'
+    TITLE_MG: Madagaskar
+    TITLE_MH: 'Marshallove ostrovy'
+    TITLE_MK: Macedónsko
+    TITLE_ML: Mali
+    TITLE_MM: Barma
+    TITLE_MN: Mongolsko
+    TITLE_MO: Macao
+    TITLE_MP: 'Severné Mariány'
+    TITLE_MQ: Martinik
+    TITLE_MR: Mauritánia
+    TITLE_MS: Montserrat
+    TITLE_MT: Malta
+    TITLE_MU: Maurícius
+    TITLE_MV: Maldivy
+    TITLE_MW: Malawi
+    TITLE_MX: Mexiko
+    TITLE_MY: Malajzia
+    TITLE_MZ: Mozambik
+    TITLE_NA: Namíbia
+    TITLE_NC: 'Nová Kaledónia'
+    TITLE_NE: Niger
+    TITLE_NF: 'Ostrov Norfolk'
+    TITLE_NG: Nigéria
+    TITLE_NI: Nikaragua
+    TITLE_NL: Holandsko
+    TITLE_NO: Nórsko
+    TITLE_NP: Nepál
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: 'Nový Zéland'
+    TITLE_OM: Omán
+    TITLE_PA: Panama
+    TITLE_PE: Peru
+    TITLE_PF: 'Francúzska Polynézia'
+    TITLE_PG: 'Papua Nová Guinea'
+    TITLE_PH: Filipíny
+    TITLE_PK: Pakistan
+    TITLE_PL: Poľsko
+    TITLE_PM: 'St Pierre a Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: Portoriko
+    TITLE_PS: 'Palestínske autonómne územia'
+    TITLE_PT: Portugalsko
+    TITLE_PW: Palau
+    TITLE_PY: Paraguaj
+    TITLE_QA: Katar
+    TITLE_RE: Réunion
+    TITLE_RO: Rumunsko
+    TITLE_RS: Srbsko
+    TITLE_RU: 'Ruská federácia'
+    TITLE_RW: Rwanda
+    TITLE_SA: 'Saudská Arábia'
+    TITLE_SB: 'Šalamúnove ostrovy'
+    TITLE_SC: Seychely
+    TITLE_SD: Sudán
+    TITLE_SE: Švédsko
+    TITLE_SG: Singapur
+    TITLE_SH: 'Svätá Helena'
+    TITLE_SI: Slovinsko
+    TITLE_SJ: 'Špicbergy a Jan Mayen'
+    TITLE_SK: Slovensko
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: 'San Maríno'
+    TITLE_SN: Senegal
+    TITLE_SO: Somálsko
+    TITLE_SR: Surinam
+    TITLE_SS: 'Južný Sudán'
+    TITLE_ST: 'Svätý Tomáš a Princov ostrov'
+    TITLE_SV: Salvádor
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Sýria
+    TITLE_SZ: Svazijsko
+    TITLE_TC: 'Ostrovy Turks a Caicos'
+    TITLE_TD: Chad
+    TITLE_TF: 'Francúzske južné a antarktické územia'
+    TITLE_TG: Togo
+    TITLE_TH: Thajsko
+    TITLE_TJ: Tadžikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: 'Východný Timor'
+    TITLE_TM: Turkménsko
+    TITLE_TN: Tunisko
+    TITLE_TO: Tonga
+    TITLE_TR: Turecko
+    TITLE_TT: 'Trinidad a Tobago'
+    TITLE_TV: Tuvalu
+    TITLE_TW: Taiwan
+    TITLE_TZ: Tanzánia
+    TITLE_UA: Ukrajina
+    TITLE_UG: Uganda
+    TITLE_UM: 'Americká Oceánia'
+    TITLE_US: 'Spojené štáty americké'
+    TITLE_UY: Uruguaj
+    TITLE_UZ: Uzbekistan
+    TITLE_VA: Vatikán
+    TITLE_VC: 'Svätý Vincent a Grenadíny'
+    TITLE_VE: Venezuela
+    TITLE_VG: 'Britské Panenské ostrovy'
+    TITLE_VI: 'Americké Panenské ostrovy'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis a Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosovo
+    TITLE_YE: Jemen
+    TITLE_YT: Mayotte
+    TITLE_ZA: 'Južná Afrika'
+    TITLE_ZM: Zambia
+    TITLE_ZW: Zimbabwe
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Všeobecné údaje o adrese'
+    ANONYMOUSCUSTOMER: 'Anonymný zákazník'
+    BASIC_DATA: Všeobecné
+    BIRTHDAY: Narodeniny
+    BUSINESSCUSTOMER: 'Obchodný zákazník'
+    CUSTOMERNUMBER: 'Číslo zákazníka'
+    CUSTOMERNUMBER_SHORT: 'Zákazník č.'
+    Customer: Zákazník
+    ERROR_MULTIPLE_PRICETYPES: 'Skupiny zákazníkov s rôznymi typmi cien nie sú povolené!'
+    FULL_NAME: 'Celé meno'
+    GROSS: Hrubý
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'akceptoval zásady zrušenia'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Prijal GTC'
+    INVOICE_DATA: 'Údaje o fakturačnej adrese'
+    ISBUSINESSACCOUNT: 'Je účet firemných klientov'
+    NET: Net
+    PRICETYPE_GROSS: Hrubý
+    PRICETYPE_NET: Net
+    PRICING: 'Cenová ponuka'
+    REGULARCUSTOMER: 'Koncový zákazník'
+    RegistrationOptInConfirmationHash: 'Opt-In Hash pre registráciu'
+    RegistrationOptInConfirmed: 'Opt-In pre registráciu bol dokončený'
+    SALUTATION: Pozdrav
+    SHIPPING_DATA: 'Údaje o dodacej adrese'
+    SUBSCRIBEDTONEWSLETTER: 'Odber noviniek'
+    TYPE: Typ
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    PRICETYPE: 'Typ ceny'
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: 'E-mailové adresy'
+    SINGULARNAME: 'E-mailová adresa'
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Informačný bulletin dostanete až po vyvolaní potvrdzujúceho odkazu v zaslanom e-maile.'
+    PLURALNAME: Newsletter
+    SINGULARNAME: Newsletter
+    SUBSCRIBED: 'Prihlásili ste sa na odber noviniek'
+    StatusALREADY_SUBSCRIBED: 'E-mailová adresa "{email}" je už zaregistrovaná na odber noviniek.'
+    StatusNO_EMAIL_FOUND: 'E-mailovú adresu "{email}" sa nepodarilo nájsť.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: 'Už je zaregistrovaný zákazník s e-mailovou adresou "{email}". Najskôr sa prihláste a potom vykonajte nastavenia na prijímanie noviniek: <a href="{link}">Prihlásenie</a>.'
+    StatusSUBSCRIBED_SUCCESSFULLY: 'E-mailová adresa "{email}" bola pridaná do zoznamu príjemcov noviniek.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: 'Na adresu "{email}" bol zaslaný e-mail s pokynmi na potvrdenie.'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: 'E-mailová adresa "{email}" bola odstránená zo zoznamu príjemcov informačného bulletinu.'
+    UNSUBSCRIBED: 'Neprihlásili ste sa na odber noviniek'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: Aktuálne
+    ACTUALCOUNT: Aktuálne
+    CUSTOMERNUMBER: 'Číslo zákazníka'
+    END: Koniec
+    ENDCOUNT: Koniec
+    IDENTIFIER: Identifikátor
+    INVOICENUMBER: 'Číslo faktúry'
+    ORDERNUMBER: 'Objednávacie číslo'
+    PLURALNAME: 'Rozsahy čísel'
+    PREFIX: Predpona
+    SINGULARNAME: 'Rozsah čísel'
+    START: Štart
+    STARTCOUNT: Štart
+    SUFFIX: Sufix
+    TITLE: Názov
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: 'Celková suma v hrubom'
+    AMOUNTTOTAL: 'Celková suma'
+    AdminModeEdit: 'Zmena zobrazenia na režim úprav'
+    AdminModeView: 'Zmena zobrazenia na režim zobrazenia'
+    BASICDATA: 'Základné údaje'
+    BATCH_CHANGEORDERSTATUS: 'Zmena stavu objednávky na...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Zmena stavu platby na...'
+    BATCH_MARKASNOTSEEN: 'Označiť ako nevidené'
+    BATCH_MARKASSEEN: 'Označiť, ako je vidieť'
+    BATCH_PRINTORDERS: 'Objednávky na tlač (HTML)'
+    CUSTOMER: Zákazník
+    CUSTOMERDATA: 'Údaje o zákazníkoch'
+    CUSTOMERSEMAIL: 'E-mailová adresa zákazníka'
+    ExpectedDelivery: 'Predpokladaný dátum dodania'
+    ExpectedDeliveryMax: 'Maximálny očakávaný dátum dodania'
+    ExpectedDeliveryMin: 'Minimálny očakávaný dátum dodania'
+    HANDLINGCOSTPAYMENT: 'Poplatky za spôsob platby'
+    HANDLINGCOSTSHIPMENT: 'Poplatky za spôsob prepravy'
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'akceptoval zásady zrušenia'
+    HASACCEPTEDTERMSANDCONDITIONS: 'Prijal GTC'
+    HandlingCost: 'Platobné/odosielacie poplatky'
+    INCLUDED_SHIPPINGRATE: 'Vrátane nákladov na dopravu'
+    INVOICENUMBER: 'Číslo faktúry'
+    INVOICENUMBER_SHORT: 'Faktúra č.'
+    IS_SEEN: 'Zobrazené na'
+    MISCDATA: Iné
+    ModelAdminTabOrderInprogress: Prebieha
+    ModelAdminTabOrderNew: Nový
+    ModelAdminTabPaymentOpen: 'Otvorená platba'
+    NOTE: Komentár
+    ORDERNUMBER: 'Objednávacie číslo'
+    ORDERNUMBERSHORT: '-číslo'
+    ORDERPOSITIONDATA: 'Údaje o polohe'
+    ORDERPOSITIONISLIMIT: 'Objednávka môže obsahovať len zadanú pozíciu'
+    ORDERPOSITIONQUANTITY: 'Množstvo pozícií'
+    ORDER_ID: 'Objednávacie číslo'
+    ORDER_VALUE: 'Celková suma'
+    OrderNumberShort: 'Objednávacie číslo.'
+    PAYMENTMETHODTITLE: 'Spôsob platby'
+    PLURALNAME: Objednávky
+    PRICETYPE: 'Typ zobrazenia ceny'
+    PRINT: 'Objednávka tlače'
+    PRINT_PREVIEW: 'Náhľad tlače'
+    PaymentDate: 'Zaplatené dňa'
+    PaymentReferenceData: 'Referenčné údaje poskytovateľa platby'
+    PaymentReferenceID: 'Referenčné číslo poskytovateľa platby'
+    PaymentReferenceMessage: 'Referenčné údaje poskytovateľa platby'
+    PaymentStatus: 'Stav platby'
+    SEARCHRESULTSLIMIT: Limit
+    SHIPPINGRATE: 'Náklady na dopravu'
+    SILVERCART_ORDER_DELETE: 'Vymazať objednávku'
+    SILVERCART_ORDER_EDIT: 'Upraviť poradie'
+    SILVERCART_ORDER_VIEW: 'Zobraziť objednávku'
+    SINGULARNAME: Objednávka
+    STATUS: 'Stav objednávky'
+    ShippingDate: 'Odoslané dňa'
+    TAXAMOUNTPAYMENT: 'Spôsob platby dane'
+    TAXAMOUNTSHIPMENT: 'Spôsob dopravy daň'
+    TAXRATEPAYMENT: 'Spôsob platby sadzba dane'
+    TAXRATESHIPMENT: 'Daňová sadzba spôsobu dopravy'
+    Tracking: 'Sledovanie zásielok'
+    TrackingCode: 'Sledovacie číslo'
+    TrackingLink: 'Prepojenie na sledovanie zásielky'
+    TrackingLinkLabel: 'Ukáž, kde sa momentálne nachádza moja zásielka'
+    WEIGHTTOTAL: 'Celková hmotnosť'
+    YOUR_REMARK: 'Váš komentár'
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: 'Adresy objednávok'
+    SINGULARNAME: 'Adresa objednávky'
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Fakturačné adresy objednávok'
+    SINGULARNAME: 'Fakturačná adresa objednávky'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: Kontext
+    CREATED: Dátum/čas
+    MESSAGE: Akcia
+    MESSAGE_CHANGED: 'Zmenené: {názov zdroja} -> {cieľový názov}'
+    MESSAGE_CREATED: 'Vytvorené: {kontext} bol vytvorený'
+    MESSAGE_MARKEDASNOTSEEN: 'Označené ako nevidené'
+    MESSAGE_MARKEDASSEEN: 'Označené ako videné'
+    PLURALNAME: 'Denník objednávok'
+    SINGULARNAME: 'Denník objednávok'
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Typ hore/dole'
+    ISCHARGEORDISCOUNT: 'Skutočná prirážka/zníženie prirážky'
+    PLURALNAME: 'Položky objednávky'
+    PRICE: Cena
+    PRICETOTAL: 'Celková cena'
+    PRODUCTDESCRIPTION: Popis
+    PRODUCTNUMBER: 'Položka č.'
+    QUANTITY: Množstvo
+    SHORT: Poz.
+    SINGULARNAME: 'Položka objednávky'
+    TAX: DPH
+    TAXRATE: 'Sadzba dane'
+    TAXTOTAL: 'DPH spolu'
+    TITLE: Názov
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Dodacie adresy objednávky'
+    SINGULARNAME: 'Adresa doručenia objednávky'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Keď je pre objednávku nastavený tento stav, odošlú sa nasledujúce zvýraznené e-maily:'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'Priradené e-maily'
+    BADGECOLOR: 'Stav farby'
+    CODE: Kód
+    DefaultStatusCanceled: Zrušené
+    DefaultStatusCompleted: Dokončené
+    DefaultStatusInprogress: Prebieha
+    DefaultStatusNew: Nový
+    DefaultStatusShipped: 'Objednávka bola odoslaná'
+    IsDefault: 'Je štandardná'
+    PLURALNAME: 'Stav objednávky'
+    SINGULARNAME: 'Stav objednávky'
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+    TITLE: Označenie
+  SilverCart\Model\Pages\ContactFormPage:
+    CityIsRequired: 'Miesto je povinné pole'
+    CountryIsRequired: 'Krajina je povinné pole'
+    DEFAULT_RESPONSE_CONTENT: 'Ďakujeme za vašu správu. Čoskoro vám odpovieme.'
+    DEFAULT_TITLE: Kontakt
+    DEFAULT_URLSEGMENT: kontakt
+    EmailContactRequest: 'Zákazník odoslal žiadosť o kontakt.'
+    EnableCity: 'Aktivácia poľa pre umiestnenie'
+    EnableCountry: 'Aktivácia poľa pre krajinu'
+    EnablePhoneNumber: 'Aktivácia poľa pre telefónne číslo'
+    EnablePostcode: 'Aktivácia poľa pre PSČ'
+    EnableStreet: 'Aktivácia poľa pre ulicu/číslo domu'
+    PLURALNAME: 'Stránky kontaktného formulára'
+    PhoneNumberIsRequired: 'Telefónne číslo je povinné'
+    PostcodeIsRequired: 'Poštové smerovacie číslo je povinné pole'
+    REQUEST: 'Požiadavka prostredníctvom kontaktného formulára'
+    ResponseContent: 'Obsah stránky s potvrdením o odoslaní'
+    SINGULARNAME: 'Stránka s kontaktným formulárom'
+    StreetIsRequired: 'Ulica/číslo domu je povinné pole'
+    TITLE: Kontakt
+    ThankYouForYourRequest: 'Ďakujeme za vašu žiadosť. Dostali sme vašu správu a čo najskôr vám odpovieme.'
+    URL_SEGMENT: kontakt
+    WeReceivedYourRequest: 'Dostali sme vašu žiadosť.'
+    YourData: 'Vaše údaje:'
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Moje údaje'
+    DEFAULT_URLSEGMENT: my-data
+    PLURALNAME: 'Stránky s údajmi'
+    SINGULARNAME: 'Stránka s údajmi'
+    TITLE: 'Moje údaje'
+    URL_SEGMENT: my-data
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Stiahnite si stránky'
+    SINGULARNAME: 'Stránka na stiahnutie'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Prehľad stránok na stiahnutie'
+    ResultsText: 'Výsledkom vášho vyhľadávania <strong>"{termín}"</strong> je <strong>{počet} zobrazení</strong>.'
+    SINGULARNAME: 'Prehľad stránok na stiahnutie'
+    SearchResults: 'Výsledky vyhľadávania'
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2>Vitajte v internetovom obchode <strong>SilverCart</strong>!</h2>'
+    DEFAULT_CONTENT: '<h2>Vitajte v internetovom obchode <strong>SilverCart</strong>!</h2>'
+    DESCRIPTION: 'Úvodná stránka internetového obchodu'
+    PLURALNAME: 'Predné strany'
+    SINGULARNAME: 'Predná strana'
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: 'Právna stránka'
+    DEFAULT_TITLE_ABOUT: 'O nás'
+    DEFAULT_TITLE_LEGAL: 'Právna stránka'
+    DEFAULT_TITLE_SERVICE: Služba
+    DEFAULT_TITLE_SHOP: 'Systém obchodu'
+    DEFAULT_URLSEGMENT: právne
+    DEFAULT_URLSEGMENT_ABOUT: 'o nás'
+    DEFAULT_URLSEGMENT_LEGAL: právne
+    DEFAULT_URLSEGMENT_SERVICE: služba
+    DEFAULT_URLSEGMENT_SHOP: shop-system
+    PLURALNAME: 'Prehľady metanavigácie'
+    SINGULARNAME: 'Prehľad metanavigácie'
+    URL_SEGMENT: právne
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: Odtlačok
+    DEFAULT_TITLE_PRIVACY: 'Zásady ochrany osobných údajov'
+    DEFAULT_TITLE_REVOCATION: 'Zásady zrušenia'
+    DEFAULT_TITLE_TERMS: 'Všeobecné podmienky'
+    DEFAULT_URLSEGMENT_IMPRINT: odtlačok
+    DEFAULT_URLSEGMENT_PRIVACY: 'vyhlásenie o ochrane údajov'
+    DEFAULT_URLSEGMENT_REVOCATION: 'zásady zrušenia'
+    DEFAULT_URLSEGMENT_TERMS: 'všeobecné obchodné podmienky - informácie pre kupujúceho'
+    PLURALNAME: 'Stránky s metainformáciami'
+    SINGULARNAME: 'Meta informačná stránka'
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'Už máte účet?'
+    DEFAULT_TITLE: 'Moje konto'
+    DEFAULT_URLSEGMENT: 'môj účet'
+    GOTO_REGISTRATION: 'K registračnému formuláru'
+    MORE: 'Viac na'
+    PLURALNAME: 'Prehľady účtov'
+    REGISTER_ADVANTAGES_TEXT: 'Ak sa zaregistrujete, môžete pri nákupe získať prístup k svojim údajom, ako je fakturačná a dodacia adresa.'
+    SINGULARNAME: 'Prehľad účtov'
+    TITLE: 'Moje konto'
+    URL_SEGMENT: 'môj účet'
+    WANTTOREGISTER: 'Chcete sa zaregistrovať?'
+    YOUR_CURRENT_ADDRESSES: 'Vaša aktuálna fakturačná a doručovacia adresa'
+    YOUR_CUSTOMERNUMBER: 'Vaše zákaznícke číslo'
+    YOUR_MOST_CURRENT_ORDERS: 'Vaše najnovšie objednávky'
+    YOUR_PERSONAL_DATA: 'Vaše osobné údaje'
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Oznámenie, ak aplikácia už existuje'
+    AlreadyConfirmedMessageText: 'Správa: Používateľ už dokončil prihlásenie'
+    ConfirmationFailureMessage: 'Oznámenie v prípade neúspechu aplikácie'
+    ConfirmationSuccessMessage: 'Správa o úspešnej registrácii'
+    DEFAULT_TITLE: Newsletter
+    DEFAULT_URLSEGMENT: newsletter
+    DefaultAlreadyConfirmedMessage: '<p>Už predtým ste dokončili registráciu na odber noviniek.</p>'
+    DefaultConfirmationFailureMessage: '<p>Váš odber noviniek sa nepodarilo dokončiť.</p>'
+    DefaultConfirmationSuccessMessage: '<p>Vaše prihlásenie na odber noviniek bolo úspešné!</p><p>Prajeme vám veľa zábavy a úspechov s našimi ponukami.</p>'
+    DefaultConfirmationSuccessSubject: 'Odber noviniek bol úspešne dokončený'
+    DefaultEmailConfirmationSubject: 'Dokončenie registrácie na odber noviniek'
+    DefaultOptInPageTitle: 'Dokončenie registrácie na odber noviniek'
+    EmailConfirmationConfirm: 'Potvrdenie registrácie'
+    EmailConfirmationHaveFun: 'Prajeme vám veľa zábavy a úspechov s našimi ponukami.'
+    EmailConfirmationIgnore: 'Ak ste si newsletter nevyžiadali, tento mail jednoducho ignorujte.'
+    EmailConfirmationLinkInfo: 'Kliknite na aktivačné prepojenie alebo ho skopírujte do prehliadača.'
+    EmailConfirmationSuccessMessage: 'Vaše prihlásenie na odber noviniek bolo úspešné!'
+    EmailConfirmationTitle: 'Dokončenie registrácie na odber noviniek'
+    FailureMessageText: 'Chybová správa'
+    OptInPageTitle: 'Názov stránky s možnosťou prihlásenia'
+    PLURALNAME: 'Stránky bulletinu'
+    SINGULARNAME: 'Stránka s novinkami'
+    SuccessMessageText: 'Úspešný príbeh'
+    THANKS_TITLE: 'Stav bulletinu'
+    TITLE: Newsletter
+    URL_SEGMENT: newsletter
+    UseDoubleOptIn: 'Používanie funkcie Double-Opt-In'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: 'Moje objednávky'
+    DEFAULT_URLSEGMENT: moje-objednávky
+    OrderDetails: 'Podrobnosti o objednávke'
+    PLURALNAME: 'Prehľady objednávok'
+    SINGULARNAME: 'Prehľad objednávok'
+    TITLE: 'Moje objednávky'
+    URL_SEGMENT: moje-objednávky
+  SilverCart\Model\Pages\Page:
+    ABOUT_US: 'o nás'
+    ABOUT_US_URL_SEGMENT: 'o nás'
+    ACCESS_CREDENTIALS_CALL: 'Zadajte svoje prístupové údaje:'
+    ADDRESS: Adresa
+    ADDRESSINFORMATION: 'Informácie o adrese'
+    ADDRESS_DATA: 'Údaje o adrese'
+    ADMIN_AREA: 'Prístup správcu'
+    ALREADY_REGISTERED: 'Dobrý deň {meno}, už ste sa zaregistrovali.'
+    API_CREATE: 'môžu vytvárať objekty prostredníctvom rozhrania API'
+    API_DELETE: 'môže vymazať objekty prostredníctvom rozhrania API'
+    API_EDIT: 'môže meniť objekty prostredníctvom rozhrania API'
+    API_VIEW: 'môže čítať objekty prostredníctvom rozhrania API'
+    APRIL: apríl
+    AUGUST: August
+    AllPricesExclVat: 'Všetky ceny plus DPH.'
+    AllPricesInclVat: 'Všetky ceny sú vrátane DPH.'
+    BACK: Späť
+    BACK_TO: 'Späť na "{title}"'
+    BACK_TO_DEFAULT: 'Predchádzajúca stránka'
+    BILLING_ADDRESS: 'Adresa faktúry'
+    BIRTHDAY: Narodeniny
+    CANCEL: Zrušiť
+    CART: 'Nákupný košík'
+    CATALOG: Katalóg
+    CHANGE_PAYMENTMETHOD_CALL: 'Vyberte si iný spôsob platby alebo kontaktujte prevádzkovateľa obchodu.'
+    CHANGE_PAYMENTMETHOD_LINK: 'Výber iného spôsobu platby'
+    CHECK_FIELDS_CALL: 'Skontrolujte svoje údaje v nasledujúcich poliach:'
+    CONTACT_FORM: 'Kontaktný formulár'
+    CONTINUESHOPPING: 'Pokračovať v nakupovaní'
+    CREDENTIALS_WRONG: 'Vaše prístupové údaje sú nesprávne.'
+    Categories: 'Naše kategórie'
+    DAY: Deň
+    DECEMBER: December
+    DECREMENT_POSITION: 'Zníženie počtu'
+    DELETE: Odstrániť
+    DETAILS: 'Podrobnosti na'
+    DETAILS_FOR: 'Podrobnosti o %s'
+    DIDNOT_RETURN_RESULTS: 'nevrátil v našom obchode žiadne výsledky.'
+    DO_NOT_EDIT: 'Prosím, nemeňte to!'
+    EMAIL_ADDRESS: 'E-mailová adresa'
+    EMAIL_ALREADY_REGISTERED: 'Používateľ sa už zaregistroval pod touto e-mailovou adresou.'
+    EMAIL_NOT_FOUND: 'Túto e-mailovú adresu sa nepodarilo nájsť.'
+    EMPTY_CART: 'prázdne stránky'
+    ERROR_LISTING: 'Vyskytli sa nasledujúce chyby:'
+    ERROR_OCCURED: 'Vyskytla sa chyba.'
+    FEBRUARY: Február
+    FIND: 'Nájsť:'
+    FORWARD: 'Ďalšie informácie na'
+    GOTO: 'prejsť na {titul} Strana'
+    GOTO_CART_SHORT: 'Nákupný košík'
+    GOTO_CONTACT_LINK: 'Na stránku s kontaktmi'
+    GOTO_PAGE: 'Prejsť na stránku {count} '
+    HEADERPICTURE: 'Obrázok v záhlaví'
+    HELLO: 'Dobrý deň,'
+    INCLUDED_VAT: 'Vrátane DPH'
+    INCLUDING_TAX: 'vrátane {čiastky}% DPH.'
+    INCREMENT_POSITION: 'Zvýšenie počtu'
+    ISACTIVE: Aktívne
+    I_ACCEPT: Prijímam
+    I_HAVE_READ: 'Mám '
+    JANUARY: Január
+    JULY: Júl
+    JUNE: jún
+    LOGIN: 'Prihlásiť sa'
+    LOGO: Logo
+    LOGOUT: Odhlásenie
+    MARCH: Marec
+    MAY: Máj
+    MESSAGE: Správa
+    MONTH: Mesiac
+    MYACCOUNT: 'Moje konto'
+    MetaTitleAt: 'na {shopTitle}'
+    NAME: Názov
+    NEWSLETTER: Newsletter
+    NEWSLETTER_FORM: 'Nastavenia bulletinu'
+    NEXT: Pred
+    NOT_FOUND: 'Stránku "{title}" sa nepodarilo nájsť.'
+    NOVEMBER: November
+    NO_ORDERS: 'Zatiaľ ste nevykonali žiadne objednávky.'
+    NO_RESULTS: 'Je nám ľúto, ale pre váš hľadaný výraz neboli nájdené žiadne výsledky.'
+    OCTOBER: Október
+    OR: alebo
+    ORDERED_PRODUCTS: 'Objednané články'
+    ORDER_COMPLETED: 'Vaša objednávka je dokončená.'
+    ORDER_DATE: 'Dátum objednávky'
+    ORDER_THANKS: 'Ďakujeme vám za vašu objednávku.'
+    Oclock: Hodiny
+    PASSWORD_CASE_EMPTY: 'Ak necháte toto pole prázdne, vaše heslo sa nezmení.'
+    PASSWORD_CHECK: 'Opakovanie hesla'
+    PASSWORD_WRONG: 'Toto heslo je nesprávne.'
+    PAYMENT_NOT_WORKING: 'Vybraný platobný modul nefunguje.'
+    PLURALNAME: Stránky
+    PLUS_SHIPPING: 'plus doprava'
+    PREV: Späť
+    PRODUCTNAME: 'Popis článku'
+    PageXofY: 'Strana {x} z {y}'
+    REGISTER: Registrácia
+    REGISTER_HERE: 'Zaregistrujte sa tu.'
+    REGISTER_NEW: 'Nový zákazník?'
+    REMARKS: Komentáre
+    REMOVE_FROM_CART: odstrániť
+    RETURNTOPRODUCTGROUP: 'Späť na "{title}"'
+    REVOCATION: 'Zásady zrušenia'
+    REVOCATIONREAD: 'Storno podmienky čítajte'
+    SAVE: Uložiť
+    SEPTEMBER: September
+    SESSION_EXPIRED: 'Vaša relácia vypršala.'
+    SHIPPING_ADDRESS: 'Dodacia adresa'
+    SHIPPING_AND_BILLING: 'Dodacia a fakturačná adresa'
+    SHOP_WITHOUT_REGISTRATION: 'Obchod bez registrácie'
+    SHOWINPAGE: 'Nastavenie jazyka na {jazyk}'
+    SHOW_DETAILS: 'Zobraziť podrobnosti'
+    SHOW_DETAILS_FOR: 'Zobraziť podrobnosti o {title}'
+    SINGULARNAME: Strana
+    SITMAP_HERE: 'Tu si môžete pozrieť prehľad našich stránok.'
+    STEPS: Kroky
+    SUBMIT: Odoslať
+    SUBMIT_MESSAGE: 'Odoslať správu'
+    SUBTOTAL: Medzisúčet
+    SUBTOTAL_NET: 'Medzisúčet (netto)'
+    SUM: Celkom
+    Start: Štart
+    TAX: 'vrátane {čiastky}% DPH.'
+    TERMSOFSERVICE_PRIVACY: 'Všeobecné zmluvné podmienky a ochrana údajov'
+    THE_QUERY: Termín
+    TITLE: Názov
+    TITLE_IMPRINT: Odtlačok
+    TITLE_TERMS: 'Všeobecné podmienky'
+    TODAY: dnes
+    TOTAL: Celkom
+    URL_SEGMENT_IMPRINT: odtlačok
+    URL_SEGMENT_TERMS: 'všeobecné obchodné podmienky - informácie pre kupujúceho'
+    USER_NOT_EXISTING: 'Tento používateľ neexistuje.'
+    UseAsRootForMainNavigation: 'Podstránky tejto stránky tvoria hlavnú navigáciu'
+    UseAsRootForMainNavigationDesc: 'Hlavná navigácia, ktorá obsahuje skupiny produktov v základnej inštalácii, je vytvorená z podstránok tejto stránky. Toto nastavenie môže byť aktívne len na jednej stránke.'
+    VALUE_OF_GOODS: 'Hodnota tovaru'
+    VIEW_ORDERS_TEXT: 'Skontrolujte stav svojej objednávky v'
+    WELCOME_PAGE_TITLE: 'Vitajte na'
+    WELCOME_PAGE_URL_SEGMENT: Vitajte
+    WELCOME_TO: 'Vitajte v'
+    YEAR: Rok
+    YESTERDAY: včera
+    YOUR_REMARKS: 'Vaša správa pre nás'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: 'Spôsoby platby'
+    DEFAULT_URLSEGMENT: 'spôsoby platby'
+    PLURALNAME: 'Stránky s platobnými metódami'
+    SINGULARNAME: 'Stránka spôsobu platby'
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: 'Oznámenie o platbe'
+    DEFAULT_URLSEGMENT: 'oznámenie o platbe'
+    PLURALNAME: 'Oznámenia o platbách'
+    SINGULARNAME: 'Oznámenie o platbe'
+    TEXTBANKACCOUNTINFO: 'Informácie o platbe vopred'
+    TITLE: 'Oznámenie o platbe'
+    URL_SEGMENT: 'oznámenie o platbe'
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: 'Skupiny výrobkov'
+    DEFAULT_URLSEGMENT: 'komoditné skupiny'
+    LinkTo: 'Skupina výrobkov, do ktorej sa má uskutočniť presmerovanie'
+    PAGE_TITLE: 'Skupiny výrobkov'
+    PLURALNAME: 'Prehľady skupín článkov'
+    RedirectToProductGroup: 'Priame presmerovanie do skupiny produktov'
+    RedirectionSettings: Preposielanie
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Zobraziť článok'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Zobraziť článok'
+    SINGULARNAME: 'Prehľad skupín článkov'
+    SUBGROUPS_OF: 'Podskupiny '
+    URL_SEGMENT: 'komoditné skupiny'
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: Atribút
+    BREADCRUMBS: 'Drobky skupiny produktov'
+    BuyTitle: '{title} kúpiť'
+    DEFAULTGROUPHOLDERVIEW: 'Štandardné zobrazenie skupiny komodít'
+    DEFAULTGROUPVIEW: 'Štandardné zobrazenie zoznamu článkov'
+    DEFAULTGROUPVIEW_DEFAULT: 'Prevzatie z nadradenej skupiny/ predvolenej konfigurácie'
+    DONOTSHOWPRODUCTS: '<strong>Nezobrazovať žiadne</strong> články v prehľade'
+    DisplaySettings: 'Nastavenia displeja'
+    GROUP_PICTURE: 'Obrázok skupiny'
+    MANAGE_PRODUCTS_BUTTON: 'Správa článkov'
+    MANUFACTURER_LINK: výrobca
+    NewProducts: Inovácie
+    NewProductsIn: '{skupina produktov} Novinky'
+    NewProductsLinkTitle: 'Zobraziť všetky novinky'
+    OK: Ok
+    PLURALNAME: 'Skupiny výrobkov'
+    PRODUCTGROUPSPERPAGE: 'Skupiny výrobkov na stránku'
+    PRODUCTSPERPAGE: 'Články na stránku'
+    PRODUCTSPERPAGEHINT: 'Ak chcete použiť predvolené nastavenie, zadajte 0 (nula) pre položky alebo skupiny tovaru na stránku.'
+    PRODUCTS_ON_PAGE: '{productcount} článok na {pagecount} stránke'
+    PRODUCTS_ON_PAGES: '{počet produktov} článkov na {počet stránok} stránkach'
+    PRODUCTS_PER_PAGE: 'Články na stránku'
+    PRODUCT_ON_PAGE: '{productcount} článok na {pagecount} stránke'
+    PreorderableProducts: Predobjednávka
+    PreorderableProductsIn: '{productgroup} Predobjednávka'
+    PreorderableProductsLinkTitle: 'Zobraziť všetkých predobjednávateľov'
+    SINGULARNAME: 'Skupina produktov'
+    SORT_ORDER: Triedenie
+    ShowOffersFor: 'Zobraziť ponuky pre'
+    ShowResultsFor: 'Zobraziť výsledky pre'
+    ShowResultsForAll: 'Zobraziť výsledky pre všetky kategórie'
+    ShowResultsForAllMenu: 'Všetky kategórie'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Používajte iba štandardné zobrazenie skupiny komodít'
+    USEONLYDEFAULTGROUPVIEW: 'Používajte iba štandardné zobrazenie zoznamu položiek'
+    USE_CONTENT_FROM_PARENT: 'Prevzatie obsahu z nadradených stránok'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Táto položka je vypredaná.'
+    PACKAGING_CONTENT: Obsah
+    PLURALNAME: 'Stránky s podrobnosťami o článku'
+    PRINT: Tlač
+    QUANTITY: Číslo
+    SINGULARNAME: 'Detail článku'
+    URL_SEGMENT: 'Podrobnosti o položke'
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1>Dokončenie registrácie</h1><p>Kliknite na aktivačné prepojenie alebo ho skopírujte do prehliadača.</p><p><a href="$ConfirmationLink">Potvrdenie registrácie</a></p><p>Ak ste sa nezaregistrovali, tento mail jednoducho ignorujte.</p><p>Váš tím webového obchodu</p>'
+    CUSTOMER_SALUTATION: 'Vážený zákazník,'
+    DEFAULT_TITLE: 'Registračná stránka'
+    DEFAULT_URLSEGMENT: registrácia
+    DEFAULT_WELCOME_CONTENT: '<p>Vážený zákazník,</p><p>aby sme vám ušetrili prácu, už sme vás automaticky prihlásili.</p><p>Užite si nakupovanie v našom obchode!</p>'
+    EMAIL_EXISTS_ALREADY: 'Táto e-mailová adresa je už obsadená.'
+    EmailOptInConfirmYourEmailAddress: 'Potvrďte svoju e-mailovú adresu'
+    EmailOptInConfirmationCustomerData: 'Údaje o vašich zákazníkoch'
+    EmailOptInConfirmationCustomerDataInfo: 'Nižšie nájdete údaje o svojich zákazníkoch.'
+    EmailOptInConfirmationInfo: 'Gratulujeme a vítame vás v našom obchode! Vaša e-mailová adresa bola úspešne potvrdená. Odteraz ste oprávnení používať fotografie svojich zákazníkov v našom obchode.'
+    EmailOptInConfirmationTitle: 'E-mailová adresa bola potvrdená'
+    EmailOptInConfirmationVisit: 'Navštívte náš obchod'
+    EmailOptInIgnore: 'Ak ste sa v našom obchode nezaregistrovali, tento mail jednoducho ignorujte.'
+    EmailOptInLinkInfo: 'Kliknite na aktivačné prepojenie alebo ho skopírujte do prehliadača.'
+    EmailOptInNotificationCustomerData: Kontakt
+    EmailOptInNotificationTitle: 'Zákazník sa zaregistroval'
+    EmailOptInTitle: 'Potvrdenie e-mailovej adresy'
+    OTHERITEMS: Iné
+    OptInFailedMessage: 'Toto prepojenie na potvrdenie vašej e-mailovej adresy je neplatné.'
+    OptInFailedTitle: 'Opt-In zlyhal'
+    OptInGoToMyAccount: 'Moje konto'
+    OptInGoToShop: 'Pokračujte do obchodu'
+    OptInMessage: 'Vaša e-mailová adresa bola úspešne potvrdená.'
+    OptInMessageLogin: 'Prihláste sa a potvrďte svoju e-mailovú adresu.'
+    OptInPendingMessage: 'Potvrdenie e-mailu sa ešte očakáva. Skontrolujte si doručenú poštu a navštívte odkaz na potvrdenie.'
+    OptInPendingTitle: 'Čaká sa na prihlásenie'
+    OptInResend: 'Opätovné odoslanie potvrdzujúceho odkazu'
+    OptInResendMessage: 'E-mail s potvrdzujúcim odkazom bol odoslaný na adresu {email}.'
+    OptInResendTitle: 'Opätovné odoslanie potvrdzujúceho odkazu'
+    OptInTitle: 'Potvrďte svoju e-mailovú adresu'
+    OptInWelcomeMessage: 'Gratulujeme! Vaša registrácia v našom obchode bola úspešná!'
+    OptInWelcomeMessage2: 'Ak chcete aktivovať svoje konto, potvrďte svoju e-mailovú adresu prostredníctvom potvrdzujúceho odkazu, ktorý ste dostali e-mailom.'
+    OptInWelcomeMessage3: 'Odkaz na potvrdenie bol odoslaný na adresu <strong>{email}</strong>. Skontrolujte si doručenú poštu.'
+    OptInWelcomeTitle: 'Potvrďte svoju e-mailovú adresu'
+    PLEASE_COFIRM: 'Potvrďte svoju registráciu.'
+    PLURALNAME: 'Registračné stránky'
+    SINGULARNAME: 'Registračná stránka'
+    SUCCESS_TEXT: '<h1>Registrácia bola úspešne dokončená!</h1><p>Ďakujeme za vašu registráciu.</p><p>Bavte sa v našom obchode!</p><p>Váš tím webového obchodu</p>'
+    THANKS: 'Ďakujeme za vašu registráciu.'
+    TITLE: 'Registračná stránka'
+    URL_SEGMENT: registrácia
+    YOUR_REGISTRATION: 'Vaša registrácia'
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: Odvolanie
+    DEFAULT_URLSEGMENT: odvolanie
+    PLURALNAME: 'Strany s odvolaním'
+    SINGULARNAME: 'Stránka s odvolaním'
+    Success: 'Odvolanie bolo úspešne odoslané'
+    SuccessText: 'Ďakujem veľmi pekne! Dostali sme vaše odvolanie a vašu žiadosť spracujeme.'
+    TITLE: Odvolanie
+    URL_SEGMENT: odvolanie
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: 'Výsledky pre'
+    DEFAULT_TITLE: 'Výsledky vyhľadávania'
+    DEFAULT_URLSEGMENT: 'Výsledky vyhľadávania'
+    PLURALNAME: 'Stránky s výsledkami vyhľadávania'
+    RELEVANCESORT: Relevantnosť
+    ResultsTextCategory: 'Výsledky vyhľadávania pre kategóriu <strong>"{kategória}"</strong> ({výsledky} hits)'
+    ResultsTextQuery: 'Výsledky vyhľadávania pre výraz <strong>"{query}"</strong> ({results} hits)'
+    ResultsTextQueryAndCategory: 'Výsledky vyhľadávania pre výraz <strong>"{query}"</strong> v kategórii <strong>"{category}</strong> " ({results} hits)'
+    SINGULARNAME: 'Stránka s výsledkami vyhľadávania'
+    SearchTitle: '{count} Výsledky vyhľadávania pre "{title}"'
+    TITLE: 'Výsledky vyhľadávania'
+    URL_SEGMENT: 'Výsledky vyhľadávania'
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: Suma
+    PLURALNAME: 'Náklady na spracovanie'
+    SINGULARNAME: 'Náklady na spracovanie'
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: Všeobecné
+    ACCESS_MANAGEMENT_GROUP_LABEL: 'Podľa skupiny (skupín)'
+    ACCESS_MANAGEMENT_USER_LABEL: 'Podľa zákazníka(ov)'
+    ACCESS_SETTINGS: 'Riadenie prístupu'
+    ATTRIBUTED_COUNTRIES: 'pridelené krajiny'
+    AddPaymentLogos: 'Pridať logo'
+    BASIC_SETTINGS: 'Základné nastavenia'
+    ChargeOrDiscountForAmount: 'na {cena}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Použite nasledujúce pravidlo'
+    ExcludedPosition: 'okrem pozície {pozícia}'
+    ExcludedPositions: 'okrem pozícií {pozície}'
+    FROM_PURCHASE_VALUE: 'ex hodnota tovaru'
+    HANDLINGCOSTS_SETTINGS: 'Náklady na spracovanie'
+    LONG_PAYMENT_DESCRIPTION: 'Popis, ktorý sa zobrazí na stránke typu platby'
+    MODE: Režim
+    NAME: Názov
+    NO_PAYMENT_METHOD_AVAILABLE: 'Nie sú k dispozícii žiadne spôsoby platby'
+    PAYMENT_DESCRIPTION: Popis
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Absolútne
+    PAYMENT_IMPACT_TYPE_PERCENT: Percento
+    PAYMENT_ISACTIVE: aktivuje
+    PAYMENT_LOGOS: Logá
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Maximálna suma pre modul'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Minimálna suma pre modul'
+    PAYMENT_MODE_DEV: 'Vývoj a testovanie'
+    PAYMENT_MODE_LIVE: 'V prevádzke / v prevádzke'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Hodnota tovaru'
+    PAYMENT_MODIFY_TOTALVALUE: 'Celková hodnota'
+    PAYMENT_MODIFY_TYPE_CHARGE: Impact
+    PAYMENT_MODIFY_TYPE_DISCOUNT: Zľava
+    PAYMENT_SUMMODIFICATIONIMPACT: Vplyvy
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Art
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'Hodnota je'
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Označenie v nákupnom košíku/objednávke'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'Číslo článku pre export objednávky XML'
+    PAYMENT_SUMMODIFICATIONVALUE: Hodnota
+    PAYMENT_SUMMODIFIERS: Prémie/zľavy
+    PAYMENT_USE_SUMMODIFICATION: 'Aktivácia stránky'
+    PaymentChannel: 'Spôsob platby'
+    PaymentStatus: 'Stav platby'
+    PaymentStatusDesc: 'Predvolený stav platby pre tento typ platby'
+    RESTRICTION_LABEL: 'Zobraziť len pre zákazníkov, ktorí spĺňajú nasledujúce kritériá'
+    RESTRICT_BY_ORDER_QUANTITY: 'Zákazník musí mať zadaný aspoň nasledujúci počet objednávok'
+    RESTRICT_BY_ORDER_STATUS: 'ktorých stav objednávky je označený v nasledujúcom zozname'
+    SHIPPINGMETHOD: 'Spôsob prepravy'
+    SHIPPINGMETHOD_DESC: 'Spôsob platby viažte na nasledujúce spôsoby dopravy:'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Zobrazenie vstupných polí už počas výberu platby'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Deaktivácia pre nasledujúce skupiny'
+    SHOW_NOT_FOR_USERS_LABEL: 'Deaktivácia pre nasledujúcich používateľov'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Aktivácia pre nasledujúce skupiny'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Povolenie pre týchto používateľov'
+    SHOW_PAYMENT_LOGOS: 'Zobraziť logá'
+    STANDARD_ORDER_STATUS: 'Predvolený stav objednávky pre tento spôsob platby'
+    TILL_PURCHASE_VALUE: 'do hodnoty tovaru'
+    TITLE: 'Spôsob platby'
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: Kód
+    DefaultStatusOpen: 'Otvorte stránku'
+    DefaultStatusPaid: Platené
+    IsDefault: 'Je štandardná'
+    Orders: Objednávky
+    PLURALNAME: 'Stav platby'
+    PaymentStatusTranslations: Preklady
+    SINGULARNAME: 'Stav platby'
+    Title: Názov
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\File:
+    DESCRIPTION: Popis
+    FILE_ATTACHMENTS: 'Prílohy súborov'
+    PLURALNAME: Súbory
+    SINGULARNAME: Súbor
+    SIZE: Veľkosť
+    TITLE: 'Zobrazenie názvu'
+    TYPE: Typ
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\Image:
+    CONTENT: 'Obsah textu'
+    DESCRIPTION: 'Popis (napr. pre textové pole Slidorion)'
+    PLURALNAME: Obrázky
+    SINGULARNAME: Obrázok
+    SORTORDER: 'Poradie triedenia'
+    THUMBNAIL: Náhľad
+    TITLE: 'Zobrazenie názvu'
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: Popis
+    ManufacturerNumber: 'Číslo výrobcu'
+    PLURALNAME: Výrobca
+    SINGULARNAME: Výrobca
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: 'Predajná jednotka'
+    AddFile: 'Pridať súbor'
+    AddImage: 'Pridať obrázok'
+    BasicData: 'Základné údaje'
+    CHANGE_QUANTITY_CART: 'Zmena množstva'
+    CHOOSE_MASTER: '-- Select Master --'
+    COLUMN_TITLE: Názov
+    DAY: Deň
+    DAYS: Dni
+    DESCRIPTION: 'Popis článku'
+    Delivery: Dodávka
+    DeliveryForFree: 'Doprava zadarmo'
+    DeliveryForFreeIsPossible: 'Doprava zadarmo je možná'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Táto položka je vylúčená zo zliav z dôvodu spôsobu platby.'
+    FREE_OF_CHARGE: 'doprava zadarmo'
+    IMAGE: 'Obrázok článku'
+    IMAGE_NOT_AVAILABLE: 'Nepriradený obrázok článku'
+    IMPORTIMAGESFORM_ACTION: 'Import obrázkov'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'Adresár neexistuje'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Nebol zadaný žiadny adresár'
+    IMPORTIMAGESFORM_HEADLINE: 'Spätný import obrázkov'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: Adresár
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Absolútna cesta k adresáru na webovom serveri, v ktorom sa nachádzajú obrázky. (Príklad: /var/www/silvercart/images/)'
+    IMPORTIMAGESFORM_REPORT: '<p>Bolo nájdených %d súborov.</p><p>%d z nich bolo možné priradiť k článkom a boli importované.</p>'
+    IS_ACTIVE: 'je aktívny'
+    IsNotBuyable: 'Táto položka nie je k dispozícii na zakúpenie'
+    Keywords: 'Kľúčové slová pre vyhľadávanie'
+    LIST_PRICE: 'Cenníková cena'
+    LaunchDate: 'Zobrazenie z'
+    LaunchDateInfo: '<strong>Nepovinné</strong> - nastavuje sa len vtedy, ak je nastavená možnosť <i>Predaj od</i> a zobrazenie sa má uskutočniť pred začatím predaja.'
+    MASTERPRODUCT: 'Základné články'
+    METADATA: Metaúdaje
+    METADESCRIPTION: 'Meta popis pre vyhľadávače'
+    METATITLE: 'Meta názov pre vyhľadávače'
+    MONTH: Mesiac
+    MONTHS: Mesiace
+    MSRP: MSRP
+    MSRP_CURRENCY: 'Mena EIA'
+    MirrorPage_PLURALNAME: 'Zrkadlové skupiny produktov'
+    MirrorPage_SINGULARNAME: 'Skupina produktov Zrkadlo'
+    NAME_DESCRIPTION: 'Názov a opis'
+    New: Nový
+    NewestArrivals: 'Novinky v obchode'
+    PACKAGING_QUANTITY: 'Objem predaja'
+    PACKAGING_UNIT: 'Baliaca jednotka'
+    PLURALNAME: Článok
+    PRICE: Cena
+    PRICES: Ceny
+    PRICE_AMOUNT_ASC: 'Vzostupná cena'
+    PRICE_AMOUNT_DESC: 'Klesajúca cena'
+    PRICE_ENTIRE: 'Celková cena'
+    PRICE_GROSS: 'Cena (brutto)'
+    PRICE_GROSS_CURRENCY: 'Mena (brutto)'
+    PRICE_NET: 'Cena (netto)'
+    PRICE_NET_CURRENCY: 'Mena (netto)'
+    PRICE_SINGLE: 'Jednotková cena'
+    PRICE_SINGLE_NET: 'Jednotková cena (netto)'
+    PRODUCTNUMBER: 'Číslo článku'
+    PRODUCTNUMBER_MANUFACTURER: 'Číslo článku (výrobca)'
+    PRODUCTNUMBER_SHORT: 'Položka č.'
+    PRODUCT_QUESTION: 'Prosím, odpovedzte mi na nasledujúce otázky týkajúce sa položky {title} ({číslo produktu}):'
+    PRODUCT_QUESTION_LABEL: 'Otázky k článku'
+    PURCHASEPRICE: 'Nákupná cena'
+    PURCHASEPRICE_CURRENCY: 'Mena Nákupná cena'
+    PURCHASE_MAX_DURATION: 'Max. Obdobie predplatného'
+    PURCHASE_MIN_DURATION: 'Min. referenčné obdobie'
+    PURCHASE_TIME_UNIT: 'Jednotka (WBZ)'
+    PreorderInfo: 'Táto položka bude vydaná až po {dátum vydania}. Upozorňujeme, že tento článok nie je možné odoslať pred dátumom vydania.'
+    PreorderNow: 'Predobjednajte si teraz'
+    PreorderToday: 'Predobjednajte si túto položku ešte dnes'
+    Preorderable: 'k dispozícii na predobjednávku'
+    QUANTITY: Číslo
+    QUANTITY_IS_IN_CART: '{množstvo} {jednotka} už je v košíku'
+    QUANTITY_SHORT: Anz.
+    RefreshCache: 'Po uložení obnovte vyrovnávaciu pamäť tohto článku'
+    ReleaseDate: 'Predaj od'
+    ReleaseDateInfo: '<strong>Nepovinné</strong> - nastavuje sa len vtedy, ak sa má začiatok predaja odložiť.'
+    SHORTDESCRIPTION: 'Popis zoznamu'
+    SILVERCART_PRODUCT_CREATE: 'Môže vytvárať články.'
+    SINGULARNAME: Článok
+    STOCKQUANTITY: Zásoby
+    STOCK_QUANTITY: 'Môžu byť zásoby tejto položky prečerpané?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Dátum, od ktorého už nie je možné prečerpať zásoby'
+    STOCK_QUANTITY_SHORT: 'Je preplnená?'
+    Sale: Ponuka
+    SalesBanDate: 'Zobrazenie až do'
+    SalesBanDateInfo: '<strong>Nepovinné</strong> - nastavte len vtedy, ak je trvanie predaja obmedzené.'
+    StockIsLowOrderNow: 'Čoskoro vypredané - objednajte teraz'
+    TITLE: Článok
+    TITLE_ASC: 'Označenie vzostupne'
+    TITLE_DESC: 'Označenie zostupne'
+    ThisProductWillBeReleasedOn: 'Tento článok sa objaví v {dátum vydania}'
+    TimeGroup: 'Kontrola času'
+    VAT: DPH
+    WEEK: Týždeň
+    WEEKS: Týždne
+    WEIGHT: Hmotnosť
+    WIDGETAREA: Widgety
+    YEAR: Rok
+    YEARS: Roky
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: Poškodené/nefunkčné
+    DefaultNew: Nový
+    DefaultRefurbished: Repasované
+    DefaultUsed: Použité
+    PLEASECHOOSE: 'Prosím, vyberte'
+    PLURALNAME: 'Článok uvádza'
+    SINGULARNAME: 'Stav položky'
+    SeoMicrodataCode: 'Kód mikrodát SEO'
+    SeoMicrodataCodeDamaged: Poškodené/nefunkčné
+    SeoMicrodataCodeDescription: 'Priraďte sem vhodnú hodnotu, aby ste zvýšili viditeľnosť vo vyhľadávačoch.'
+    SeoMicrodataCodeNew: Nový
+    SeoMicrodataCodeRefurbished: Repasované
+    SeoMicrodataCodeUsed: Použité
+    TITLE: Štát
+    USE_AS_STANDARD_CONDITION: 'Použiť ako predvolený stav, ak nie je na položke nič definované'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: Jazyk
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: Skratka
+    EXPLANATION_TO_DECIMAL_PLACES: 'Nastavte na 0 alebo nechajte prázdne, aby sa nepoužívali desatinné miesta. Toto nastavenie sa používa napríklad pre formuláre "pridať do košíka".'
+    NAME: Názov
+    NUMBER_OF_DECIMAL_PLACES: 'Počet desatinných miest'
+    PLURALNAME: 'Predajné jednotky'
+    SINGULARNAME: 'Predajná jednotka'
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Dátum
+    Origin: Pôvod
+    Origin-1: 'Prevzatie počiatočného zostatku'
+    Origin0: 'Vstup systému nie je bližšie definovaný'
+    Origin1: 'Článok bol novo vytvorený'
+    Origin2: 'Priamy vstup používateľa'
+    Origin3: 'Objednávka bola zadaná'
+    Origin4: 'Poradie bolo zmenené'
+    Origin5: 'Objednávka bola zrušená'
+    Origin6: 'Import cez externý systém'
+    OriginCode: 'Kódovanie pôvodu'
+    PLURALNAME: 'Vysielanie zásob'
+    Quantity: Množstvo
+    QuantityDesc: 'Množstvo, ktoré sa má pripočítať alebo odčítať od zásoby (napr. "2"/"-2").'
+    QuantityRightTitle: 'Množstvo nie je možné po uložení zmeniť. Ak chcete opraviť skladovú položku, pridajte novú položku so zodpovedajúcou poznámkou.'
+    Reason: Dôvod
+    ReasonDesc: 'Krátky popis, prečo sa zásoba zmenila (napr. "Objednávka XYZ zrušená", "Objednávka XYZ vrátená", "Tovar prijatý").'
+    SINGULARNAME: 'Vstup na sklad'
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'Priradené typy prepravy'
+    COSTS: Náklady
+    DeliveryTimeHint: 'Nepovinné informácie o dodacej lehote. Prepíše špecifikáciu nadradenej metódy prepravy.'
+    EMPTYSTRING_CHOOSEZONE: '--Vyberte zónu--'
+    FOR_SHIPPINGMETHOD: 'pre spôsob dopravy'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Deaktivácia bezplatnej dopravy pre tento poplatok za dopravu'
+    FREEOFSHIPPINGCOSTSFROM: 'Doprava zadarmo z (má prednosť pred nastavením pre konkrétnu krajinu a globálnym nastavením)'
+    FreeFrom: bez
+    MaximumWeight: 'Maximálna hmotnosť'
+    MaximumWeightDesc: 'Maximálna hmotnosť v gramoch (g)'
+    PLURALNAME: 'Prepravné poplatky'
+    POST_PRICING: 'Následné určenie ceny'
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'Text pre značku ALT'
+    LINKPAGE: 'Stránka, na ktorú sa má odkazovať'
+    PLURALNAME: 'Obrázky posuvníka'
+    ProductNumberToReference: 'Číslo článku, na ktorý sa má odkazovať'
+    ProductNumberToReferenceInfo: 'Používa sa namiesto stránky.'
+    SINGULARNAME: 'Obrázok posuvníka'
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: 'Posuvník obrázkov'
+    DESCRIPTION: 'Poskytuje posuvník obrázkov, ktorý zobrazuje viacero obrázkov v prezentácii.'
+    TITLE: Obrázky
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: 'Registrácia SilverCart'
+    DESCRIPTION: 'Tento widget zobrazuje prihlasovací formulár a odkazy na stránku s registráciou. Ak je zákazník prihlásený, namiesto toho sa zobrazia odkazy na oblasti jeho zákazníckeho účtu.'
+    TITLE: Registrácia
+    TITLE_LOGGED_IN: 'Moje konto'
+    TITLE_NOT_LOGGED_IN: Registrácia
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: 'Zoznam stránok'
+    DESCRIPTION: 'Tento widget zobrazuje zoznam stránok s odkazmi na príslušné stránky.'
+    PAGES: 'Priradené stránky'
+    TITLE: 'Zoznam stránok'
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: Obrázok
+    WIDGET_INFO_TAB: 'Informácie o widgetoch'
+    WIDGET_INFO_TAB_EXPLANATION: 'Niektoré widgety môžu používať tieto údaje.'
+    WIDGET_PRIORITY: 'Poradie triedenia (čím vyššie, tým viac vzadu)'
+    WIDGET_TEXT: Popis
+    WIDGET_TITLE: 'Názov (nepovinné)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Zobrazenie článkov zo skupín podproduktov'
+    DESCRIPTION: 'Tento widget zobrazuje položky z podskupín tovaru, ak k aktuálnej skupine tovaru nie sú priradené žiadne položky.'
+    TITLE: 'Články z podskupín produktov'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'Posuvník SilverCart pre články'
+    CMS_PRODUCTGROUPTABNAME: 'Skupina produktov'
+    CMS_PRODUCTSTABNAME: Článok
+    DESCRIPTION: 'Tento widget zobrazuje položky zo skupiny produktov. Je možné definovať, z ktorej skupiny produktov a koľko článkov sa má zobraziť.'
+    FETCHMETHOD_SORTORDERASC: 'Usporiadanie vzostupne'
+    FETCHMETHOD_SORTORDERDESC: 'Poradie zostupne'
+    ProductGroupPageDescription: 'Relevantné len vtedy, ak je položka "Spôsob výberu položky" nastavená na "Z oddelenia".'
+    SELECTIONMETHOD_PRODUCTGROUP: 'Zo skupiny produktov'
+    SELECTIONMETHOD_PRODUCTS: 'Vyberte položku ručne'
+    SELECT_PRODUCT_DESCRIPTION: 'Zadajte čísla článkov oddelené bodkočiarkou'
+    STOREADMIN_FIELDLABEL: 'Vyberte skupinu produktov, ktorá sa má zobraziť:'
+    TITLE: Článok
+    USE_SELECTIONMETHOD: 'Metóda výberu článkov'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'Zoznam výrobcov SilverCart'
+    DESCRIPTION: 'Tento widget zobrazuje zoznam všetkých výrobcov v príslušnej skupine produktov.'
+    RESETFILTER: 'Zobraziť všetky'
+    TITLE: 'Zoznam výrobcov'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: 'Navigácia v skupine produktov'
+    DESCRIPTION: 'Tento widget vytvára navigačnú hierarchiu pre skupiny produktov. Je možné určiť, ktorá skupina tovaru sa má použiť ako koreňová.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Rozloženie iba aktívnej vetvy'
+    LEVELS_TO_SHOW: 'Zobrazte úrovne, do akej hĺbky'
+    SHOW_ALL_LEVELS: 'Zobraziť všetky úrovne'
+    TITLE: 'Navigácia v skupine produktov'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: 'Skupiny výrobkov'
+    DESCRIPTION: 'Tento widget vytvára prehľad všetkých skupín produktov (voliteľne ako posuvník).'
+    TITLE: 'Skupiny výrobkov'
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Preklady
+    SINGULARNAME: Preklad
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Aktivácia automatickej prezentácie'
+    AUTOPLAYDELAYED: 'Aktivácia oneskorenia pre automatickú prezentáciu'
+    AUTOPLAYLOCKED: 'Deaktivácia automatickej prezentácie, keď používateľ naviguje sám'
+    AddImage: 'Pridať obrázok'
+    BUILDARROWS: 'Zobrazenie tlačidiel vpred/vzad'
+    BUILDNAVIGATION: 'Zobrazenie navigácie na stránke'
+    BUILDSTARTSTOP: 'Zobraziť tlačidlo Štart/Stop'
+    CMS_BASICTABNAME: 'Základné nastavenia'
+    CMS_DISPLAYTABNAME: Zastúpenie
+    CMS_ROUNDABOUTTABNAME: 'Kruhový objazd'
+    CMS_SLIDERIMAGES: 'Prezentácia obrázkov'
+    CMS_SLIDERTABNAME: 'Nastavenia prezentácie'
+    FETCHMETHOD: 'Režim výberu článkov'
+    FETCHMETHOD_RANDOM: Náhodné
+    FRONTCONTENT: 'Text popisu'
+    FRONTTITLE: Titulok
+    GROUPVIEW: 'Zobrazenie zoznamu článkov'
+    IS_CONTENT_VIEW: 'Použitie normálneho zobrazenia položky namiesto zobrazenia widgetu'
+    IS_CONTENT_VIEW_INFO: 'Túto možnosť je potrebné vybrať, ak je widget určený pre oblasť obsahu stránky.'
+    NUMBEROFPRODUCTSTOFETCH: 'Počet položiek, ktoré sa majú načítať:'
+    NUMBEROFPRODUCTSTOSHOW: 'Počet položiek, ktoré sa majú zobraziť'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'relevantné len vtedy, ak bol aktivovaný posuvník, inak sa zobrazia všetky načítané články'
+    ProductDataToggle: 'Nastavenia článku'
+    ProductRelationToggle: 'Zadanie článku'
+    SLIDEDELAY: 'Trvanie zobrazenia každého obrázka pre automatickú prezentáciu (v milisekundách)'
+    STOPATEND: 'Zastaví automatickú prezentáciu po poslednom paneli'
+    TRANSITIONEFFECT: 'Efekt prechodu'
+    TRANSITION_FADE: Cross-fade
+    TRANSITION_HORIZONTALSLIDE: 'Tlačte vodorovne'
+    TRANSITION_VERTICALSLIDE: 'Tlačte vertikálne'
+    USE_LISTVIEW: 'Použitie zobrazenia zoznamu'
+    USE_ROUNDABOUT: 'Použitie kruhového objazdu'
+    USE_SLIDER: 'Použitie posuvníka'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'Najčastejšie vyhľadávané výrazy'
+    DESCRIPTION: 'Tento widget zobrazuje mrak značiek s najčastejšie sa vyskytujúcimi vyhľadávanými výrazmi.'
+    FONTSIZECOUNT: 'Počet stupňov písma'
+    TAGSPERCLOUD: 'Počet vyhľadávaných výrazov, ktoré sa majú zobraziť'
+    TITLE: 'Najčastejšie vyhľadávané výrazy'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: Vyhľadávanie
+    DESCRIPTION: 'Tento widget zobrazuje formulár na vyhľadávanie položiek.'
+    TITLE: 'Vyhľadávací formulár'
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Zadajte svoj vyhľadávací výraz:'
+    SUBMITBUTTONTITLE: Vyhľadávanie
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: Zoznam
+    TILE: Dlaždice

@@ -154,15 +154,26 @@ fr_BE:
     Actions: Actions
     Buy1: 'Acheter {title}'
     Buy2: 'Acheter {title1} {title2}'
+    Cancel: Annuler
     Change: Changer
     ClickForMore: 'Cliquez pour afficher plus d''informations'
     Close: Fermer
+    ContactUs: 'Nous contacter'
+    DefaultIfEmpty: 'Par défaut si vide : "{default}"'
+    DeleteYourAccountErrorConfirm: 'Veuillez confirmer la suppression de votre compte en cochant la case.'
+    DeleteYourAccountErrorPassword: 'Désolé, mais les données d''accès que vous avez saisies ne sont pas correctes.'
+    DeleteYourAccountSuccess: 'Votre compte a été marqué avec succès pour être supprimé et sera supprimé dans les prochaines 24 heures. Vous recevrez une notification par courriel dès que la suppression aura été effectuée. D''ici là, vous avez la possibilité de révoquer la demande de suppression.'
+    DeleteYourAccountSuccessOpen: 'Votre compte a été marqué avec succès pour être supprimé. Comme il y a encore des commandes ouvertes pour votre compte client, votre compte ne sera supprimé que lorsque toutes les commandes ouvertes auront été traitées. Vous recevrez une notification par courrier électronique dès que la suppression aura été effectuée. D''ici là, vous avez la possibilité de révoquer la demande de suppression.'
+    DeleteYourAccountUndo: 'Révoquer la demande de suppression'
+    DeleteYourAccountUndone: 'Votre demande de suppression a été annulée avec succès.'
     Go: Allons-y
     NextPage: 'Page suivante'
     PrevPage: 'Page précédente'
     ProductAddedToCart: 'L''article a été ajouté à votre panier.'
     ProductRemovedFromCart: 'L''article a été retiré de votre panier.'
     Sort: 'Ordre de tri'
+    Subject: Sujet
+    Subjects: Sujet
     Translation: Traduction
     Translations: Traductions
     Until: 'jusqu''à'
@@ -956,6 +967,8 @@ fr_BE:
   SilverCart\Model\Customer\GroupExtension:
     NO_PRICETYPE: '---'
     PRICETYPE: 'Type de prix'
+    ShippingMethodsInfoContent: 'Les types d''expédition énumérés ici sont liés à ce groupe de clients et ne peuvent être sélectionnés que par les clients qui appartiennent à ce groupe de clients. Les types d''expédition peuvent être affectés à plusieurs groupes de clients, de sorte que ce groupe de clients peut ne pas être le seul à disposer de cette autorisation d''accès.'
+    ShippingMethodsInfoTitle: 'Méthodes d''expédition liées à ce groupe de clients.'
   SilverCart\Model\EmailAddress:
     PLURALNAME: 'Adresses électroniques'
     SINGULARNAME: 'Adresse électronique'

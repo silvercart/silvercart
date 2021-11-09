@@ -158,6 +158,7 @@ nl:
     Change: Veranderen
     ClickForMore: 'Klik voor meer informatie'
     Close: Sluiten
+    ContactUs: 'Contacteer ons'
     DefaultIfEmpty: 'Standaard indien leeg: "{default}"'
     DeleteYourAccountErrorConfirm: 'Gelieve de verwijdering van uw account te bevestigen door het selectievakje aan te vinken.'
     DeleteYourAccountErrorPassword: 'Sorry, maar de door u ingevoerde inloggegevens zijn niet correct.'

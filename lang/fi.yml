@@ -1,0 +1,1701 @@
+fi:
+  Broarm\CookieConsent\CookieConsent:
+    AcceptAllCookies: 'Kaikki hyväksyvät'
+    ManageCookies: Evästeasetukset
+  Broarm\CookieConsent\Extensions\SiteConfigExtension:
+    Content: '<p>Käytämme evästeitä suunnitellaksemme verkkosivustomme optimaalisesti sinulle, parantaaksemme tuotteitamme sinulle ja näyttääksemme sinulle kiinnostukseen perustuvaa mainontaa yhdessä kolmannen osapuolen palveluntarjoajien kanssa. Täällä voit valita, mitkä evästeet haluat hyväksyä, ja muuttaa valintaasi milloin tahansa. Löydät lisätietoja evästeiden käyttöä koskevasta käytännöstämme ja tietosuojaa koskevista tiedoistamme. Teknisesti välttämättömät evästeet asetetaan myös, kun valitset hylkäämisen.</p><p>Klikkaamalla "Hyväksy kaikki" hyväksyt tämän käsittelyn.</p>'
+    Title: 'Tämä sivusto käyttää evästeitä'
+  Broarm\CookieConsent\Forms\CookieConsentForm:
+    FormMessage: 'Asetukset on tallennettu'
+    Save: 'Vahvista valinta'
+  Broarm\CookieConsent\Model\CookieGroup:
+    Analytics: Analyysi
+    Analytics_Content: '<p>Analyysievästeiden avulla voimme analysoida sivuston käyttöä teknisesti ongelmien tunnistamiseksi ja käytettävyyden optimoimiseksi.</p>'
+    Marketing: Markkinointi
+    Marketing_Content: '<p>Markkinointievästeiden avulla voimme analysoida mainostoimenpiteiden onnistumista.</p>'
+    Necessary: Tarvittavat
+    Necessary_Content: '<p>Välttämättömät evästeet varmistavat sivuston toimivuuden, ja ne on asetettava teknisistä syistä.</p>'
+    Preferences: Asetukset
+    Prefrences_Content: '<p>Suositusevästeiden avulla voimme räätälöidä sivuston käytettävyyden tarpeittesi mukaan. Näin sivusto voi muistaa asetuksesi, kun vierailet sivustolla seuraavan kerran.</p>'
+  Broarm\CookieConsent\Model\CookiePolicyPage:
+    Content: '<p>$CookieConsentForm</p><p>[cookiegrouptable group="Tarpeellinen"]</p><p>[cookiegrouptable group="Analytics"]</p><p>[cookiegrouptable group="Markkinointi"]</p><p>[cookiegrouptable group="Preferences"]</p>'
+    Title: Evästekäytäntö
+  Broarm\CookieConsent\Model\PrivacyPolicyPage:
+    Content: '<p>Täytä tämä sivu tietosuojaselosteellasi.</p>'
+    Title: 'Tietosuojaa koskevat suuntaviivat'
+  Broarm\CookieConsent\Model\TermsAndConditionsPage:
+    Content: '<p>Täytä tämä sivu käyttöehdoillasi.</p>'
+    Title: 'Yleiset ehdot'
+  Broarm\CookieConsent\Shortcode\CookieGroupTable:
+    Expiry: Kesto
+    Provider: 'Set by'
+    Purpose: Käyttötarkoitus
+    Title: Cookie
+  CookieConsent__addthis_com:
+    loc_Expiry: '1 vuosi'
+    loc_Purpose: 'Sosiaalisen median jakopainikkeet'
+    mus_Expiry: '1 vuosi'
+    mus_Purpose: 'Sosiaalisen median jakopainikkeet'
+    na_id_Expiry: '1 vuosi'
+    na_id_Purpose: 'Sosiaalisen median jakopainikkeet'
+    na_tc_Expiry: '1 vuosi'
+    na_tc_Purpose: 'Sosiaalisen median jakopainikkeet'
+    ouid_Expiry: '1 vuosi'
+    ouid_Purpose: 'Sosiaalisen median jakopainikkeet'
+    uid_Expiry: '1 vuosi'
+    uid_Purpose: 'Sosiaalisen median jakopainikkeet'
+    uvc_Expiry: '1 vuosi'
+    uvc_Purpose: 'Sosiaalisen median jakopainikkeet'
+  CookieConsent__ads_linkedin_com:
+    BizoID_Expiry: '6 kuukautta'
+    BizoID_Purpose: Markkinointi
+    UserMatchHistory_Expiry: '6 kuukautta'
+    UserMatchHistory_Purpose: Markkinointi
+    lang_Expiry: Istunto
+    lang_Purpose: Kieliasetukset
+  CookieConsent__facebook_com:
+    fr_Expiry: '2 kuukautta'
+    fr_Purpose: 'Facebook SDK'
+  CookieConsent__fontawesome_com:
+    _ga_Expiry: '2 vuotta'
+    _ga_Purpose: 'Fontawesome analytiikka'
+    _gid_Expiry: '2 vuotta'
+    _gid_Purpose: 'Fontawesome analytiikka'
+  CookieConsent__google_com:
+    1P_JAR_Expiry: '24 tuntia'
+    1P_JAR_Purpose: reCAPTCHA
+    APISID_Expiry: '2 vuotta'
+    APISID_Purpose: reCAPTCHA
+    CONSENT_Expiry: '20 vuotta'
+    CONSENT_Purpose: reCAPTCHA
+    HSID_Expiry: '2 vuotta'
+    HSID_Purpose: reCAPTCHA
+    NID_Expiry: '6 kuukautta'
+    NID_Purpose: reCAPTCHA
+    OGPC_Expiry: '1 kuukausi'
+    OGPC_Purpose: reCAPTCHA
+    SAPISID_Expiry: '2 vuotta'
+    SAPISID_Purpose: reCAPTCHA
+    SIDCC_Expiry: '3 kuukautta'
+    SIDCC_Purpose: reCAPTCHA
+    SID_Expiry: '2 vuotta'
+    SID_Purpose: reCAPTCHA
+    SSID_Expiry: '2 vuotta'
+    SSID_Purpose: reCAPTCHA
+  CookieConsent__linkedin_com:
+    bcookie_Expiry: '2 vuotta'
+    bcookie_Purpose: Markkinointi
+    lidc_Expiry: '2 vuotta'
+    lidc_Purpose: Markkinointi
+  CookieConsent__mapbox_com:
+    _ga_Expiry: '2 vuotta'
+    _ga_Purpose: Mapbox-analytiikka
+    _mkto_trk_Expiry: '2 vuotta'
+    _mkto_trk_Purpose: Mapbox
+    ajs_anonymous_id_Expiry: '1 vuosi'
+    ajs_anonymous_id_Purpose: Mapbox
+    ajs_group_id_Expiry: '1 vuosi'
+    ajs_group_id_Purpose: Mapbox
+    ajs_user_id_Expiry: '1 vuosi'
+    ajs_user_id_Purpose: Mapbox
+    intercom-id-wg57poe2_Expiry: '9 kuukautta'
+    intercom-id-wg57poe2_Purpose: Mapbox
+    mkjs_group_id_Expiry: '1 vuosi'
+    mkjs_group_id_Purpose: Mapbox
+    mkjs_user_id_Expiry: '1 vuosi'
+    mkjs_user_id_Purpose: Mapbox
+    optimizelyEndUserId_Expiry: '6 kuukautta'
+    optimizelyEndUserId_Purpose: Mapbox
+  CookieConsent__vimeo_com:
+    player_Expiry: '1 vuosi'
+    player_Purpose: Videointegraatio
+    vuid_Expiry: '1 vuosi'
+    vuid_Purpose: Videointegraatio
+  CookieConsent__youtube_com:
+    CONSENT_Expiry: Istunto
+    CONSENT_Purpose: Videointegraatio
+    GPS_Expiry: Istunto
+    GPS_Purpose: Videointegraatio
+    NID_Expiry: Istunto
+    NID_Purpose: Videointegraatio
+    PREF_Expiry: '2 vuotta'
+    PREF_Purpose: Videointegraatio
+    VISITOR_INFO1_LIVE_Expiry: '6 kuukautta'
+    VISITOR_INFO1_LIVE_Purpose: Videointegraatio
+    YSC_Expiry: Istunto
+    YSC_Purpose: Videointegraatio
+  CookieConsent_local:
+    CookieConsent_Expiry: '2 kuukautta'
+    CookieConsent_Purpose: 'Tallentaa evästeasetukset'
+    FluentLocale_Expiry: '2 kuukautta'
+    FluentLocale_Purpose: 'Tallentaa kieliasetukset'
+    PHPSESSID_Expiry: Istunto
+    PHPSESSID_Purpose: Istunto
+    __atuvc_Expiry: '1 vuosi'
+    __atuvc_Purpose: 'Sosiaalisen median jakopainikkeet'
+    __atuvs_Expiry: '1 vuosi'
+    __atuvs_Purpose: 'Sosiaalisen median jakopainikkeet'
+    _ga_Expiry: '2 vuotta'
+    _ga_Purpose: Tilastot
+    _gat_Expiry: '24 tuntia'
+    _gat_Purpose: Tilastot
+    _gid_Expiry: '24 tuntia'
+    _gid_Purpose: Tilastot
+    _hjIncludedInSample_Expiry: Istunto
+    _hjIncludedInSample_Purpose: Tilastot
+    ipcountry_Expiry: Istunto
+    ipcountry_Purpose: Vakiokieliasetukset
+  CookieConsent_www_google_com:
+    OTZ_Expiry: '1 kuukausi'
+    OTZ_Purpose: reCAPTCHA
+    _ga_Expiry: '2 vuotta'
+    _ga_Purpose: reCAPTCHA-analytiikka
+  SilverCart:
+    Actions: Toimet
+    Buy1: '{title} osta'
+    Buy2: '{title1} {title2} osta'
+    Cancel: Peruuta
+    Change: Muuta
+    ClickForMore: 'Klikkaa nähdäksesi lisätietoja'
+    Close: Sulje
+    ContactUs: 'Ota yhteyttä'
+    DefaultIfEmpty: 'Oletusarvo, jos tyhjä: "{default}"'
+    DeleteYourAccountErrorConfirm: 'Vahvista tilisi poistaminen rastittamalla valintaruutu.'
+    DeleteYourAccountErrorPassword: 'Anteeksi, mutta antamasi käyttöoikeustiedot eivät ole oikein.'
+    DeleteYourAccountSuccess: 'Tilisi on onnistuneesti merkitty poistettavaksi, ja se poistetaan seuraavan 24 tunnin kuluessa. Saat sähköposti-ilmoituksen heti, kun poisto on suoritettu. Siihen asti sinulla on mahdollisuus peruuttaa poistopyyntö.'
+    DeleteYourAccountSuccessOpen: 'Tilisi on onnistuneesti merkitty poistettavaksi. Koska asiakastililläsi on vielä avoimia tilauksia, tilisi poistetaan vasta, kun kaikki avoimet tilaukset on käsitelty. Saat sähköposti-ilmoituksen heti, kun poisto on suoritettu. Siihen asti sinulla on mahdollisuus peruuttaa poistopyyntö.'
+    DeleteYourAccountUndo: 'Poistopyynnön peruuttaminen'
+    DeleteYourAccountUndone: 'Poistopyyntösi peruutettiin onnistuneesti.'
+    Go: Mene
+    NextPage: 'Seuraava sivu'
+    PrevPage: 'Edellinen sivu'
+    ProductAddedToCart: 'Tuote on lisätty ostoskoriin.'
+    ProductRemovedFromCart: 'Tuote on poistettu ostoskorista.'
+    Sort: Lajittelujärjestys
+    Subject: Aihe
+    Subjects: Aihe
+    Translation: Käännös
+    Translations: Käännökset
+    Until: osoitteeseen
+    go: go
+    since: koska
+  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
+    MENUTITLE: Saatavuus
+  SilverCart\Admin\Controllers\CarrierAdmin:
+    MENUTITLE: Kantaja
+  SilverCart\Admin\Controllers\ContactMessageAdmin:
+    MENUTITLE: Yhteydenottopyynnöt
+  SilverCart\Admin\Controllers\CountryAdmin:
+    MENUTITLE: Maat
+  SilverCart\Admin\Controllers\CustomerAdmin:
+    MENUTITLE: Asiakkaat
+  SilverCart\Admin\Controllers\ImageAdmin:
+    MENUTITLE: Kuvat
+    SELECT_IMAGE_TYPE: 'Valitse kuvatyyppi'
+    SELECT_OTHER_IMAGES: 'Muut kuvat'
+    SELECT_PAYMENTMETHOD_IMAGES: 'Kuvat maksutapoja varten'
+    SELECT_PRODUCT_IMAGES: 'Artikkelin kuvat'
+  SilverCart\Admin\Controllers\LeftAndMainExtension:
+    CONFIG: Asetukset
+    CUSTOMER: Asiakkaat
+    DEFAULT: CMS
+    FILES: Tiedostot
+    HANDLING: Käsittely
+    MODULES: Moduulit
+    ORDERS: Tilaukset
+    PRODUCTS: Artikkeli
+  SilverCart\Admin\Controllers\ManufacturerAdmin:
+    MENUTITLE: Valmistaja
+  SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
+    Description: 'Valitse vientiyhteys ja paina vientipainiketta ladataksesi CSV-luettelon sähköpostin vastaanottajista.'
+    DoExport: 'Vie CSV-muodossa'
+    ExportAll: 'Kaikkien asiakkaiden vientiosoitteet'
+    ExportAllNewsletterRecipients: 'Vie kaikkien uutiskirjeen vastaanottajien osoitteet'
+    ExportAllNewsletterRecipientsWithAccount: 'Vie kaikkien uutiskirjeen vastaanottajien osoitteet asiakastilin avulla.'
+    ExportAllNewsletterRecipientsWithoutAccount: 'Vie kaikkien uutiskirjeen vastaanottajien osoitteet ilman asiakastiliä.'
+    ExportAllNonNewsletterRecipients: 'Vie kaikkien muiden kuin uutiskirjeen vastaanottajien osoitteet.'
+    ExportContext: Vientikonteksti
+    MENUTITLE: 'Uutiskirjeen vastaanottajat'
+  SilverCart\Admin\Controllers\NumberRangeAdmin:
+    MENUTITLE: Numeroalueet
+  SilverCart\Admin\Controllers\OrderAdmin:
+    DateRangePickerALL_AFTER: 'Kaikki sen jälkeen'
+    DateRangePickerALL_BEFORE: 'Kaikki ennen'
+    DateRangePickerDATE: Päivämäärä
+    DateRangePickerEND_DATE: Loppupäivä
+    DateRangePickerLAST_7_DAYS: 'Viimeiset 7 päivää'
+    DateRangePickerLAST_MONTH: 'Edellinen kuukausi'
+    DateRangePickerNEXT: Seuraava
+    DateRangePickerPERIOD: Jakso
+    DateRangePickerPREVIOUS: Edellinen
+    DateRangePickerSTART_DATE: Aloituspäivä
+    DateRangePickerTHIS_MONTH: 'Tässä kuussa'
+    DateRangePickerTHIS_YEAR: 'Tänä vuonna'
+    DateRangePickerTODAY: Tänään
+    MENUTITLE: Tilaukset
+  SilverCart\Admin\Controllers\OrderStatusAdmin:
+    MENUTITLE: 'Tilauksen tila'
+  SilverCart\Admin\Controllers\PaymentMethodAdmin:
+    MENUTITLE: Maksutavat
+  SilverCart\Admin\Controllers\PaymentStatusAdmin:
+    MENUTITLE: 'Maksun tila'
+  SilverCart\Admin\Controllers\ProductAdmin:
+    MENUTITLE: Artikkeli
+  SilverCart\Admin\Controllers\ProductConditionAdmin:
+    MENUTITLE: 'Artiklassa todetaan'
+  SilverCart\Admin\Controllers\ProductImageAdmin:
+    CronIsRunningDescription: 'Artikkelikuvan tuonti suoritetaan tällä hetkellä.'
+    CronIsRunningTitle: Huomio
+    CronNotInstalledDescription: "Artikkelikuvien tuonnin asennusta ei ole vielä saatu päätökseen.\nLisää tarvittava ohjelma (`sake dev/tasks/sc-image-importer`) palvelimesi ajastettuihin tehtäviin.\nLisätietoja saat myymälän esimieheltäsi.\n"
+    CronNotInstalledTitle: Huomio
+    Description: "Tämän lataustoiminnon avulla voit ladata useita kuvia eri artikkeleista kerralla.\nKuvat määritetään automaattisesti, jos nimeät tiedostonimet seuraavasti:\n\n[kohteen numero].png/jpg/jpeg\nTAI\n[Nimikkeen numero]-[Juokseva numero].png/jpg/jpeg\nTAI\n[Tuotteen numero]-[Juokseva numero]-[Lyhyt kuvaus - ilman välilyöntiä].png/jpg/jpeg\n\nLyhyt kuvaus ilman välilyöntiä] on valinnainen, ja sitä käytetään hakukoneoptimoinnissa (SEO) hakukoneiden, kuten Googlen, paremman näkyvyyden saavuttamiseksi.\nJos [short description-without-space] ei ole määritetty, artikkelin nimeä käytetään parametrina hakukoneoptimointia varten.\n\nEsimerkki:\nHaluat määrittää 4 kuvaa kummallekin artikkelille, joiden artikkelinumerot ovat 502.133.66.5 ja 758.500.08.9. Kolmella niistä pitäisi olla oma lyhyt kuvaus.\nKustakin artikkelista, jonka artikkelinumerot ovat 128.000.01.7 ja 542.550.08.1, on lähetettävä yksi kuva.\nTiedostojen nimien pitäisi siis näyttää seuraavalta:\n\n502.133.66.5-1.png\n502.133.66.5-2-Coffee-Machine-XYZ-Front-View.png\n502.133.66.5-3-Coffee-Machine-XYZ-View-left-side.png\n502.133.66.5-4-Coffee-machine-XYZ-view-right-side.png\n758.500.08.9-1.png\n758.500.08.9-2.png\n758.500.08.9-3.png\n758.500.08.9-4.png\n128.000.01.7.png\n542.550.08.1.png\n\nHuomaa, että luettelonäkymän kuvana käytetään kuvaa, joka on määritetty juoksevalla numerolla 1.\nHuomaa myös, että jos käytät tätä toimintoa, kyseisten kohteiden olemassa olevat kuvat korvataan kokonaan.\n"
+    FileInfoTitle: 'Seuraavien kohteiden kuvia ei ole vielä käsitelty:'
+    MENUTITLE: 'Artikkelin kuvan tuonti'
+    UploadProductImages: 'Lataa kohteen kuvia'
+  SilverCart\Admin\Controllers\QuantityUnitAdmin:
+    MENUTITLE: Mittayksiköt
+  SilverCart\Admin\Controllers\ShippingMethodAdmin:
+    MENUTITLE: Toimitusmenetelmät
+  SilverCart\Admin\Controllers\ShopEmailAdmin:
+    MENUTITLE: 'Osta sähköposteja'
+  SilverCart\Admin\Controllers\TaxAdmin:
+    MENUTITLE: Verokannat
+  SilverCart\Admin\Controllers\ZoneAdmin:
+    MENUTITLE: Vyöhykkeet
+  SilverCart\Admin\Dev\Install\RequireDefaultRecords:
+    CURRENCY: EUR
+    IMAGEFOLDERNAME: Esimerkkitiedot
+    PRODUCTGROUPCUSTOMISABLE_CONTENT: 'SilverCart on helposti muokattavissa widgettien avulla.'
+    PRODUCTGROUPCUSTOMISABLE_TITLE: Mukautuva
+    PRODUCTGROUPCUSTOMISABLE_URLSEGMENT: mukautuva
+    PRODUCTGROUPEXTENDABLE_CONTENT: 'SilverCart on helposti laajennettavissa moduulien avulla.'
+    PRODUCTGROUPEXTENDABLE_TITLE: Laajennettava
+    PRODUCTGROUPEXTENDABLE_URLSEGMENT: laajennettavissa
+    PRODUCTGROUPMARKETING_TITLE: Markkinointimoduulit
+    PRODUCTGROUPMARKETING_URLSEGMENT: markkinointimoduulit
+    PRODUCTGROUPOPEN_CONTENT: 'SilverCart on avointa lähdekoodia. Tämä tarkoittaa, että maksat vain myymäläjärjestelmän käyttöönotosta ja mukauttamisesta toiveidesi mukaisesti.'
+    PRODUCTGROUPOPEN_TITLE: Avaa
+    PRODUCTGROUPOPEN_URLSEGMENT: avoin
+    PRODUCTGROUPOTHERS_TITLE: 'Muut moduulit'
+    PRODUCTGROUPOTHERS_URLSEGMENT: other-modules
+    PRODUCTGROUPPAYMENT_TITLE: Maksumoduulit
+    PRODUCTGROUPPAYMENT_URLSEGMENT: maksumoduulit
+    PRODUCTGROUP_CONTENT: '<div class="alert alert-warning"><strong><span class="fa fa-info-circle"></span> </strong>Huomio:<br/>Itse moduulit ovat maksuttomia<strong>.</strong>Hintanoteerausta käytetään pelkästään esittelytarkoituksessa.</div>'
+    SLIDORION_TITLE: 'SilverCartin edut'
+    WIDGETSET_FRONTPAGE_CONTENT1_CONTENT: '<p>Tutustu SilverCartin maksumoduuleihin.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT1_TITLE: Maksumoduulit
+    WIDGETSET_FRONTPAGE_CONTENT2_CONTENT: '<p>SilverCartista löytyy myös moduuleja moniin muihin käyttötarkoituksiin.</p>'
+    WIDGETSET_FRONTPAGE_CONTENT2_TITLE: 'Muut moduulit'
+    WIDGETSET_FRONTPAGE_CONTENT_TITLE: 'Kotisivu Sisältöalue'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject:
+    TITLE: Aktivoi
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus:
+    TITLE: 'Muuta saatavuus...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeManufacturer:
+    TITLE: 'Valmistajat vaihtavat...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeOrderStatus:
+    TITLE: 'Muuta tilauksen tila...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangePaymentStatus:
+    TITLE: 'Vaihda maksun tila...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeProductGroup:
+    TITLE: 'Vaihda tuoteryhmä...'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_DeactivateDataObject:
+    TITLE: Deaktivoi
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsNotSeen:
+    TITLE: 'Merkitse ei nähty'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_MarkAsSeen:
+    TITLE: 'Merkitse kuten nähty'
+  SilverCart\Admin\Forms\GridField\GridFieldBatchAction_PrintOrders:
+    TITLE: 'Tulosta tilaukset (HTML)'
+  SilverCart\Admin\Forms\GridField\GridFieldQuickAccessController:
+    QUICKACCESSLABEL: Pikakatselu
+  SilverCart\Admin\Forms\GridField\GridFieldSubObjectHandler:
+    AddSubObjectColumnTitle: Lisää
+  SilverCart\Admin\Model\Config:
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT: 'Yhteydenottopyyntöjen vakiosähköpostivastaanottaja'
+    DEFAULT_CONTACT_MESSAGE_RECIPIENT_INFO: 'Yhteydenottopyyntöjä ei enää lähetetä tavalliseen sähköpostin vastaanottajaan, vaan tähän tallennettuun osoitteeseen.'
+    DEFAULT_IMAGE: 'Tavallinen artikkelikuva'
+    DEFAULT_LANGUAGE: Vakiokieli
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT: 'Tilausilmoitusten vakiosähköpostivastaanottaja'
+    DEFAULT_MAIL_ORDER_NOTIFICATION_RECIPIENT_INFO: 'Tilausilmoituksia ei enää lähetetä tavalliseen sähköpostiviestin vastaanottajaan, vaan tähän tallennettuun osoitteeseen.'
+    DEFAULT_MAIL_RECIPIENT: 'Tavallinen sähköpostin vastaanottaja'
+    DEFAULT_MAIL_RECIPIENT_INFO: 'Myymälän ylläpitäjälle tarkoitetut sähköpostit lähetetään tähän tallennettuun osoitteeseen.'
+    DEMAND_BIRTHDAY_DATE_ON_REGISTRATION: 'Pyydetäänkö rekisteröinnin yhteydessä syntymäaikaa?'
+    DISPLAYEDPAGINATION: 'Samanaikaisesti näytettävien sivunumeroiden määrä'
+    DISPLAY_TYPE_OF_PRODUCT_ADMIN: 'Artikkelien hallinnan näyttötyyppi'
+    DISPLAY_WEIGHTS_IN_KILOGRAM: 'Näytä painot kilogrammoina (kg).'
+    ENABLEBUSINESSCUSTOMERS: 'Salli yritysasiakkaiden'
+    ENABLEPACKSTATION: 'Aktivoi osoitteen syöttökentät PACKSTATIONia varten.'
+    ENABLESSL: 'Käytä SSL:ää'
+    ENABLESTOCKMANAGEMENT: 'Aktivoi varastonhallinta'
+    ERROR_MESSAGE: 'Parametria "{field}" ei ole määritetty. <br/><a href="{baseurl}admin/settings/">Kirjaudu sisään</a> ja määritä puuttuva parametri kohdassa "Asetukset -> Sähköpostiasetukset".'
+    ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: 'Aktivoitua maata ei löytynyt. <br/><a href="{baseURL}admin/settings/">Kirjaudu sisään</a> ja määritä puuttuva parametri kohdassa "Processing -> Countries".'
+    ERROR_TITLE: 'On tapahtunut virhe!'
+    EXAMPLE_CONFIGURATION_ALREADY_ADDED: 'Esimerkkikonfiguraatio on jo luotu'
+    EXAMPLE_DATA_ALREADY_ADDED: 'Esimerkkitiedot on jo lisätty'
+    EmailConfiguration: Sähköpostiasetukset
+    EmailSender: 'Sähköpostin lähettäjän osoite'
+    EmailSenderDesc: 'Sähköpostin lähettäjän osoitetta käytetään kaikkien SilverCartin lähettämien sähköpostiviestien lähettäjän osoitteena.'
+    EmailSenderExample: 'esim. "noreply@example.com"'
+    EmailSenderName: 'Sähköpostin lähettäjän nimi'
+    EmailSenderNameDesc: 'Sähköpostin lähettäjän nimi näytetään vastaanottajalle sähköpostin lähettäjän osoitteen lisäksi.'
+    EmailSenderNameExample: 'esim. "Myymälänne nimi'
+    FLAT: tasainen
+    FREEOFSHIPPINGCOSTSFROM: 'Ilmainen toimitus alkaen'
+    FREEOFSHIPPINGCOSTSTAB: 'Ilmainen toimitus'
+    Favicon: Favicon
+    FaviconDesc: 'Favicon on kuva, joka yleensä näytetään verkkoselaimen osoiterivillä URL-osoitteen vasemmalla puolella, joissakin selaimissa myös avoimessa välilehdessä. Favicon-kuvan pitäisi olla neliönmuotoinen ja kooltaan noin 32x32 pikseliä.'
+    GENERAL: Yleistä
+    GENERAL_MAIN: Pääosa
+    GENERAL_TEST_DATA: Esimerkkitiedot
+    GLOBALEMAILRECIPIENT: 'Maailmanlaajuinen sähköpostin vastaanottaja'
+    GLOBALEMAILRECIPIENT_INFO: 'Yleinen sähköpostin vastaanottaja voidaan asettaa valinnaisesti. KAIKKI sähköpostit (tilausvahvistukset, yhteydenottopyynnöt jne.) lähetetään tähän sähköpostiosoitteeseen. Sähköpostimalleissa määritetyt vastaanottajaosoitteet eivät vaikuta. Niitä ei korvata, vaan ainoastaan täydennetään.'
+    GeneralConfiguration: Perusasetukset
+    INTERFACES: Liitännät
+    InvoiceAddressIsAlwaysShippingAddress: 'Laskun osoite vastaa aina toimitusosoitetta'
+    LAYOUT: Asettelu
+    MINIMUMORDERVALUE: 'Tilauksen vähimmäisarvo'
+    MINIMUMORDERVALUE_HEADLINE: 'Tilauksen vähimmäisarvo'
+    MinimumAgeToOrder: 'Tilausten alaikäraja'
+    MinimumAgeToOrderError: 'Tilausten alaikäraja on {ikä} vuotta.'
+    MobileTouchIcon: 'Mobiilin kosketuskuvake'
+    MobileTouchIconDesc: 'Mobiilikosketuskuvaketta käytetään, kun kävijä sijoittaa kauppasi linkkinä älypuhelimen tai tabletin aloitusnäyttöön. Kuvakkeen on oltava kooltaan 192x192 pikseliä.'
+    OPEN_RECORD: 'Avoin ennätys'
+    PLURALNAME: 'Yleiset kokoonpanot'
+    PRICETYPEANONYMOUSCUSTOMERS: 'Hintatyyppi anonyymeille asiakkaille'
+    PRICETYPEBUSINESSCUSTOMERS: 'Hintatyyppi yritysasiakkaille'
+    PRICETYPEREGULARCUSTOMERS: 'Hintatyyppi loppuasiakkaille'
+    PRICETYPES_HEADLINE: Hintatyypit
+    PRICETYPE_ANONYMOUS: 'Hintatyyppi anonyymeille asiakkaille'
+    PRICETYPE_BUSINESS: 'Hintatyyppi yritysasiakkaille'
+    PRICETYPE_REGULAR: 'Hintatyyppi loppuasiakkaille'
+    PRODUCTGROUPSPERPAGE: 'Tuoteryhmät per sivu'
+    PRODUCTSPERPAGE: 'Artikkelit per sivu'
+    PRODUCTSPERPAGE_ALL: 'Näytä kaikki'
+    PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Kenttä kohteen kuvausta varten ostoskorissa'
+    ProductConfiguration: 'Artikkelin asetukset'
+    QUANTITY_OVERBOOKABLE: 'Voiko varastoa yleensä varata liikaa?'
+    REDIRECTTOCARTAFTERADDTOCART: 'Ohjaa asiakas uudelleen ostoskoriin "Lisää ostoskoriin" -toiminnon jälkeen.'
+    SEARCH: Etsi
+    SEO: SEO
+    SERVER: Palvelin
+    SHOW_CONFIG: 'Näytä kokoonpano'
+    SINGULARNAME: 'Yleinen kokoonpano'
+    SKIP_PAYMENT_STEP_IF_UNIQUE: 'Ohita maksutavan valinta, jos vain yksi on valittavissa.'
+    SKIP_SHIPPING_STEP_IF_UNIQUE: 'Ohita toimitustavan valinta, jos vain yksi on valittavissa.'
+    SOCIALMEDIA: 'Sosiaalinen media'
+    STOCK: Leiri
+    SecurityConfiguration: Turvallisuusasetukset
+    ShopAdditional2Info: 'Lisätietoja 2'
+    ShopAdditionalInfo: Lisätietoja
+    ShopAdditionalInfo2Desc: 'Asiakkaan valinnaiset lisätiedot, kuten toimitustiedot, erikoistarjoukset, tarjouksenne erityispiirteet, ... (Teemasta riippuen tämä näytetään lähes jokaisen sivun otsikossa/alkusivulla, noin 220 merkkiä).'
+    ShopAdditionalInfoDesc: 'Valinnaiset lisätiedot asiakkaalle, kuten muut puhelinnumerot (hätäpuhelinnumerot/tukipuhelinnumerot) ja toimistoaika. (Teemasta riippuen näytetään lähes jokaisen sivun otsikossa/alkusivulla, noin 120 merkkiä).'
+    ShopCity: Sijainti
+    ShopCountry: Maa
+    ShopData: 'Operaattorin tiedot'
+    ShopEmail: Sähköpostiosoite
+    ShopLogo: Logo
+    ShopLogoDesc: 'Näytetään kaupan otsikossa.'
+    ShopName: 'Kaupan nimi'
+    ShopOpeningHours: Aukioloajat
+    ShopPhone: Puhelin
+    ShopPostcode: Postinumero
+    ShopStreet: Street
+    ShopStreetNumber: 'Talon numero'
+    ShowTaxAndDutyHint: 'Näytä huomautus lisämaksuista EU:n ulkopuolisiin maihin.'
+    TABBED: sisäkkäiset
+    TRANSLATION: Käännös
+    TRANSLATIONS: Käännökset
+    USEFREEOFSHIPPINGCOSTSFROM: 'Käytä asetuksia ilmaista toimitusta varten'
+    USEMINIMUMORDERVALUE: 'Aktivoi vähimmäistilausarvo'
+    USER_AGENT_BLACKLIST: 'Lukitut UserAgent-tunnisteet (yksi UserAgent per rivi)'
+    USER_AGENT_BLACKLIST_INFO: 'Kirjoita yksi UserAgent per rivi. <br/> Jos kävijä käyttää UserAgent-tunnusta tästä luettelosta, yhteys estetään kokonaan, jotta estetään roskapostihyökkäykset lomakkeille. <br/><strong>Huomio: Jokainen kävijä käyttää UserAgent-tunnisteita. Määritä UserAgent-tunniste vain, jos olet varma, että se koskee vain botteja...</strong>'
+    USE_DEFAULT_LANGUAGE: 'Käytä standardikieltä, kun asianmukainen kieli puuttuu?'
+    USE_PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Näytä kohteen kuvaus ostoskorissa'
+    USE_STRICT_SEARCH_RELEVANCE: 'Käytä tiukempaa hakua. Näyttää vain tarkat osumat.'
+    UseMinimumAgeToOrder: 'Käytetäänkö tilausten alaikärajaa?'
+    redirectToCheckoutWhenInCart: 'Ohjaa välittömästi kassalle, kun asiakas tulee ostoskoriin.'
+  SilverCart\Forms\DownloadSearchForm:
+    SearchQuery: Hakusanasi...
+    submitButtonTitle: 'Etsi latauksia'
+  SilverCart\Forms\NewsletterForm:
+    ACTIONFIELD_SUBSCRIBE: 'Haluaisin tilata uutiskirjeen'
+    ACTIONFIELD_TITLE: 'Mitä haluat tehdä?'
+    ACTIONFIELD_UNSUBSCRIBE: 'Haluan peruuttaa uutiskirjeen tilauksen.'
+  SilverCart\Forms\QuickSearchForm:
+    SUBMITBUTTONTITLE: Etsi
+  SilverCart\Forms\RegisterRegularCustomerForm:
+    PasswordHint: 'Luo salasana verkkokaupan kirjautumista varten. Salasanassa on oltava vähintään {minlength} merkkiä. Sen on sisällettävä vähintään 1 iso kirjain, 1 pieni kirjain, 1 numero ja 1 erikoismerkki.'
+  SilverCart\Forms\RevocationForm:
+    AddressOfConsumer: 'Kuluttajan (kuluttajien) osoite'
+    Data: Tiedot
+    GoTo: Peruutuslomakkeeseen
+    NameOfConsumer: 'Kuluttajan (kuluttajien) nimi'
+    Order: Tilaa
+    OrderDate: 'Tilattu / vastaanotettu'
+    OrderHistory: 'Valitse tilaus'
+    OrderNumber: Tilausnumero
+    RevocationDate: Peruuttamispäivä
+    RevocationOrderData: 'Peruutan täten sopimuksen, jonka olen tehnyt seuraavien tavaroiden ostamisesta / seuraavan palvelun tarjoamisesta.'
+  SilverCart\Model\ContactMessage:
+    MESSAGE: Viesti
+    PLURALNAME: Yhteydenottopyynnöt
+    SINGULARNAME: Yhteydenottopyyntö
+  SilverCart\Model\Customer\Country:
+    ACTIVE: Aktiivinen
+    ATTRIBUTED_PAYMENTMETHOD: 'määritetty maksutyyppi'
+    ATTRIBUTED_ZONES: liitännäisvyöhykkeet
+    CONTINENT: Maanosa
+    CURRENCY: Valuutta
+    DISPLAYPOSITION: 'Näytön sijainti (jos priorisoitu)'
+    FIPS: FIPS-koodi
+    FREEOFSHIPPINGCOSTSFROM: 'Ilmainen toimitus alkaen'
+    ISO2: 'ISO Alpha2'
+    ISO3: 'ISO Alpha3'
+    ISON: ISO-numeerinen
+    ISPRIORITIVE: 'Näytä priorisoidut luettelot pudotusvalikoiden alussa?'
+    ISPRIORITIVE_SHORT: Priorisoitu
+    IsNonTaxable: Verovapaa
+    PLURALNAME: Maat
+    SINGULARNAME: Maa
+    TITLE: Nimi
+    TITLE_AD: Andorra
+    TITLE_AE: 'Yhdistyneet arabiemiirikunnat'
+    TITLE_AF: Afganistan
+    TITLE_AG: 'Antigua ja Barbuda'
+    TITLE_AI: Anguilla
+    TITLE_AL: Albania
+    TITLE_AM: Armenia
+    TITLE_AN: 'Alankomaiden Antillit'
+    TITLE_AO: Angola
+    TITLE_AQ: Etelämanner
+    TITLE_AR: Argentiina
+    TITLE_AS: 'Amerikan Samoa'
+    TITLE_AT: Itävalta
+    TITLE_AU: Australia
+    TITLE_AW: Aruba
+    TITLE_AX: 'Ahvenanmaan saaret'
+    TITLE_AZ: Azerbaidžan
+    TITLE_BA: 'Bosnia ja Hertsegovina'
+    TITLE_BB: Barbados
+    TITLE_BD: Bangladesh
+    TITLE_BE: Belgia
+    TITLE_BF: 'Burkina Faso'
+    TITLE_BG: Bulgaria
+    TITLE_BH: Bahrain
+    TITLE_BI: Burundi
+    TITLE_BJ: Benin
+    TITLE_BL: 'St Barthélemy'
+    TITLE_BM: Bermuda
+    TITLE_BN: 'Brunei Darussalam'
+    TITLE_BO: Bolivia
+    TITLE_BQ: 'Bonaire, Saint Eustatius ja Saba'
+    TITLE_BR: Brasilia
+    TITLE_BS: Bahama
+    TITLE_BT: Bhutan
+    TITLE_BV: 'Bouvetin saari'
+    TITLE_BW: Botswana
+    TITLE_BY: Valko-Venäjä
+    TITLE_BZ: Belize
+    TITLE_CA: Kanada
+    TITLE_CC: Kookossaaret
+    TITLE_CD: Kongo-Kinshasa
+    TITLE_CF: 'Keski-Afrikan tasavalta'
+    TITLE_CG: 'Kongon [tasavalta]'
+    TITLE_CH: Sveitsi
+    TITLE_CI: Norsunluurannikko
+    TITLE_CK: Cookinsaaret
+    TITLE_CL: Chile
+    TITLE_CM: Kamerun
+    TITLE_CN: Kiina
+    TITLE_CO: Kolumbia
+    TITLE_CR: 'Costa Rica'
+    TITLE_CS: 'Serbia ja Montenegro'
+    TITLE_CU: Kuuba
+    TITLE_CV: 'Kap Verde'
+    TITLE_CW: Curacao
+    TITLE_CX: Joulusaari
+    TITLE_CY: Kypros
+    TITLE_CZ: 'Tšekin tasavalta'
+    TITLE_DE: Saksa
+    TITLE_DJ: Djibouti
+    TITLE_DK: Tanska
+    TITLE_DM: Dominica
+    TITLE_DO: 'Dominikaaninen tasavalta'
+    TITLE_DZ: Algeria
+    TITLE_EC: Ecuador
+    TITLE_EE: Viro
+    TITLE_EG: Egypti
+    TITLE_EH: Länsi-Sahara
+    TITLE_ER: Eritrea
+    TITLE_ES: Espanja
+    TITLE_ET: Etiopia
+    TITLE_FI: Suomi
+    TITLE_FJ: Fidži
+    TITLE_FK: Falklandinsaaret
+    TITLE_FM: Mikronesia
+    TITLE_FO: Färsaaret
+    TITLE_FR: Ranska
+    TITLE_GA: Gabon
+    TITLE_GB: 'Yhdistynyt kuningaskunta'
+    TITLE_GD: Grenada
+    TITLE_GE: Georgia
+    TITLE_GF: 'Ranskan Guayana'
+    TITLE_GG: Guernsey
+    TITLE_GH: Ghana
+    TITLE_GI: Gibraltar
+    TITLE_GL: Grönlanti
+    TITLE_GM: Gambia
+    TITLE_GN: Guinea
+    TITLE_GP: Guadeloupe
+    TITLE_GQ: 'Päiväntasaajan Guinea'
+    TITLE_GR: Kreikka
+    TITLE_GS: 'Etelä-Georgia ja Eteläiset Sandwichsaaret'
+    TITLE_GT: Guatemala
+    TITLE_GU: Guam
+    TITLE_GW: Guinea-Bissau
+    TITLE_GY: Guyana
+    TITLE_HK: 'Hong Kong'
+    TITLE_HM: 'Heardin ja McDonaldin saaret'
+    TITLE_HN: Honduras
+    TITLE_HR: Kroatia
+    TITLE_HT: Haiti
+    TITLE_HU: Unkari
+    TITLE_ID: Indonesia
+    TITLE_IE: Irlanti
+    TITLE_IL: Israel
+    TITLE_IM: Mansaari
+    TITLE_IN: Intia
+    TITLE_IO: 'Britannian Intian valtameren alue'
+    TITLE_IQ: Irak
+    TITLE_IR: Iran
+    TITLE_IS: Islanti
+    TITLE_IT: Italia
+    TITLE_JE: Jersey
+    TITLE_JM: Jamaika
+    TITLE_JO: Jordan
+    TITLE_JP: Japani
+    TITLE_KE: Kenia
+    TITLE_KG: Kirgisia
+    TITLE_KH: Kambodža
+    TITLE_KI: Kiribati
+    TITLE_KM: Komorit
+    TITLE_KN: 'Saint Kitts ja Nevis'
+    TITLE_KP: Pohjois-Korea
+    TITLE_KR: Etelä-Korea
+    TITLE_KW: Kuwait
+    TITLE_KY: Caymansaaret
+    TITLE_KZ: Kazakstan
+    TITLE_LA: Laos
+    TITLE_LB: Libanon
+    TITLE_LC: 'St Lucia'
+    TITLE_LI: Liechtenstein
+    TITLE_LK: 'Sri Lanka'
+    TITLE_LR: Liberia
+    TITLE_LS: Lesotho
+    TITLE_LT: Liettua
+    TITLE_LU: Luxemburg
+    TITLE_LV: Latvia
+    TITLE_LY: Libya
+    TITLE_MA: Marokko
+    TITLE_MC: Monaco
+    TITLE_MD: Moldova
+    TITLE_ME: Montenegro
+    TITLE_MF: 'St. Martin'
+    TITLE_MG: Madagaskar
+    TITLE_MH: Marshallinsaaret
+    TITLE_MK: Makedonia
+    TITLE_ML: Mali
+    TITLE_MM: Burma
+    TITLE_MN: Mongolia
+    TITLE_MO: Macao
+    TITLE_MP: Pohjois-Mariaanit
+    TITLE_MQ: Martinique
+    TITLE_MR: Mauritania
+    TITLE_MS: Montserrat
+    TITLE_MT: Malta
+    TITLE_MU: Mauritius
+    TITLE_MV: Malediivit
+    TITLE_MW: Malawi
+    TITLE_MX: Meksiko
+    TITLE_MY: Malesia
+    TITLE_MZ: Mosambik
+    TITLE_NA: Namibia
+    TITLE_NC: Uusi-Kaledonia
+    TITLE_NE: Niger
+    TITLE_NF: 'Norfolkin saari'
+    TITLE_NG: Nigeria
+    TITLE_NI: Nicaragua
+    TITLE_NL: Alankomaat
+    TITLE_NO: Norja
+    TITLE_NP: Nepal
+    TITLE_NR: Nauru
+    TITLE_NU: Niue
+    TITLE_NZ: Uusi-Seelanti
+    TITLE_OM: Oman
+    TITLE_PA: Panama
+    TITLE_PE: Peru
+    TITLE_PF: 'Ranskan Polynesia'
+    TITLE_PG: Papua-Uusi-Guinea
+    TITLE_PH: Filippiinit
+    TITLE_PK: Pakistan
+    TITLE_PL: Puola
+    TITLE_PM: 'St. Pierre ja Miquelon'
+    TITLE_PN: Pitcairn
+    TITLE_PR: 'Puerto Rico'
+    TITLE_PS: 'Palestiinan itsehallintoalueet'
+    TITLE_PT: Portugali
+    TITLE_PW: Palau
+    TITLE_PY: Paraguay
+    TITLE_QA: Qatar
+    TITLE_RE: Réunion
+    TITLE_RO: Romania
+    TITLE_RS: Serbia
+    TITLE_RU: 'Venäjän federaatio'
+    TITLE_RW: Ruanda
+    TITLE_SA: Saudi-Arabia
+    TITLE_SB: Salomonsaaret
+    TITLE_SC: Seychellit
+    TITLE_SD: Sudan
+    TITLE_SE: Ruotsi
+    TITLE_SG: Singapore
+    TITLE_SH: 'Saint Helena'
+    TITLE_SI: Slovenia
+    TITLE_SJ: 'Huippuvuoret ja Jan Mayen'
+    TITLE_SK: Slovakia
+    TITLE_SL: 'Sierra Leone'
+    TITLE_SM: 'San Marino'
+    TITLE_SN: Senegal
+    TITLE_SO: Somalia
+    TITLE_SR: Suriname
+    TITLE_SS: Etelä-Sudan
+    TITLE_ST: 'São Tomé ja Príncipe'
+    TITLE_SV: 'El Salvador'
+    TITLE_SX: 'Sint Maarten'
+    TITLE_SY: Syyria
+    TITLE_SZ: Swazimaa
+    TITLE_TC: 'Turks- ja Caicossaaret'
+    TITLE_TD: Chad
+    TITLE_TF: 'Ranskan eteläiset ja Etelämantereen alueet'
+    TITLE_TG: Togo
+    TITLE_TH: Thaimaa
+    TITLE_TJ: Tadžikistan
+    TITLE_TK: Tokelau
+    TITLE_TL: Itä-Timor
+    TITLE_TM: Turkmenistan
+    TITLE_TN: Tunisia
+    TITLE_TO: Tonga
+    TITLE_TR: Turkki
+    TITLE_TT: 'Trinidad ja Tobago'
+    TITLE_TV: Tuvalu
+    TITLE_TW: Taiwan
+    TITLE_TZ: Tansania
+    TITLE_UA: Ukraina
+    TITLE_UG: Uganda
+    TITLE_UM: 'Amerikan Oseania'
+    TITLE_US: Yhdysvallat
+    TITLE_UY: Uruguay
+    TITLE_UZ: Uzbekistan
+    TITLE_VA: Vatikaani
+    TITLE_VC: 'Saint Vincent ja Grenadiinit'
+    TITLE_VE: Venezuela
+    TITLE_VG: 'Brittiläiset Neitsytsaaret'
+    TITLE_VI: 'Amerikan Neitsytsaaret'
+    TITLE_VN: Vietnam
+    TITLE_VU: Vanuatu
+    TITLE_WF: 'Wallis ja Futuna'
+    TITLE_WS: Samoa
+    TITLE_XK: Kosovo
+    TITLE_YE: Jemen
+    TITLE_YT: Mayotte
+    TITLE_ZA: Etelä-Afrikka
+    TITLE_ZM: Sambia
+    TITLE_ZW: Zimbabwe
+  SilverCart\Model\Customer\CountryTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Customer\Customer:
+    ADDRESS_DATA: 'Osoitetiedot yleisesti'
+    ANONYMOUSCUSTOMER: 'Anonyymi asiakas'
+    BASIC_DATA: Yleistä
+    BIRTHDAY: Syntymäpäivä
+    BUSINESSCUSTOMER: Yritysasiakas
+    CUSTOMERNUMBER: 'Asiakkaan numero'
+    CUSTOMERNUMBER_SHORT: 'Asiakas nro.'
+    Customer: Asiakas
+    ERROR_MULTIPLE_PRICETYPES: 'Asiakasryhmät, joilla on eri hintatyypit, eivät ole sallittuja!'
+    FULL_NAME: 'Koko nimi'
+    GROSS: Brutto
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'on hyväksynyt peruutusehdot'
+    HASACCEPTEDTERMSANDCONDITIONS: 'On hyväksynyt GTC:n'
+    INVOICE_DATA: Laskutusosoitetiedot
+    ISBUSINESSACCOUNT: 'Onko yritysasiakkaiden tili'
+    NET: Net
+    PRICETYPE_GROSS: Brutto
+    PRICETYPE_NET: Net
+    PRICING: Hintanoteeraus
+    REGULARCUSTOMER: Loppuasiakas
+    RegistrationOptInConfirmationHash: 'Opt-In Hash rekisteröintiä varten'
+    RegistrationOptInConfirmed: 'Opt-In rekisteröintiä varten on suoritettu'
+    SALUTATION: Tervehdys
+    SHIPPING_DATA: 'Toimitusosoitteen tiedot'
+    SUBSCRIBEDTONEWSLETTER: 'Uutiskirje tilattu'
+    TYPE: Tyyppi
+  SilverCart\Model\Customer\GroupExtension:
+    NO_PRICETYPE: '---'
+    PRICETYPE: Hintatyyppi
+  SilverCart\Model\EmailAddress:
+    PLURALNAME: Sähköpostiosoitteet
+    SINGULARNAME: Sähköpostiosoite
+  SilverCart\Model\Newsletter\Newsletter:
+    OPTIN_NOT_FINISHED_MESSAGE: 'Saat uutiskirjeen vain, kun avaat sinulle lähetetyssä sähköpostissa olevan vahvistuslinkin.'
+    PLURALNAME: Uutiskirje
+    SINGULARNAME: Uutiskirje
+    SUBSCRIBED: 'Olet tilannut uutiskirjeen'
+    StatusALREADY_SUBSCRIBED: 'Sähköpostiosoite "{email}" on jo rekisteröitynyt vastaanottamaan uutiskirjeen.'
+    StatusNO_EMAIL_FOUND: 'Sähköpostiosoitetta "{email}" ei löytynyt.'
+    StatusREGULAR_CUSTOMER_WITH_SAME_EMAIL_EXISTS: 'Asiakas on jo rekisteröitynyt sähköpostiosoitteella "{email}". Kirjaudu ensin sisään ja tee sitten asetukset uutiskirjeen vastaanottamista varten: <a href="{link}">Kirjautuminen.</a>'
+    StatusSUBSCRIBED_SUCCESSFULLY: 'Sähköpostiosoite "{email}" on lisätty uutiskirjeen vastaanottajien luetteloon.'
+    StatusSUBSCRIBED_SUCCESSFULLY_FOR_OPT_IN: 'Vahvistusohjeet sisältävä sähköposti lähetettiin osoitteeseen "{email}".'
+    StatusUNSUBSCRIBED_SUCCESSFULLY: 'Sähköpostiosoite "{email}" on poistettu uutiskirjeen vastaanottajien listalta.'
+    UNSUBSCRIBED: 'Et ole tilannut uutiskirjettä'
+  SilverCart\Model\Order\NumberRange:
+    ACTUAL: Nykyinen
+    ACTUALCOUNT: Nykyinen
+    CUSTOMERNUMBER: 'Asiakkaan numero'
+    END: End
+    ENDCOUNT: End
+    IDENTIFIER: Tunniste
+    INVOICENUMBER: 'Laskun numero'
+    ORDERNUMBER: Tilausnumero
+    PLURALNAME: Numeroalueet
+    PREFIX: Etuliite
+    SINGULARNAME: Numeroalue
+    START: Aloita
+    STARTCOUNT: Aloita
+    SUFFIX: Suffiksi
+    TITLE: Otsikko
+  SilverCart\Model\Order\Order:
+    AMOUNTGROSSTOTAL: Kokonaisbruttomäärä
+    AMOUNTTOTAL: Kokonaismäärä
+    AdminModeEdit: 'Vaihda näkymä muokkaustilaan'
+    AdminModeView: 'Vaihda näkymä näkymätilaan'
+    BASICDATA: Perustiedot
+    BATCH_CHANGEORDERSTATUS: 'Muuta tilauksen tila...'
+    BATCH_CHANGEPAYMENTSTATUS: 'Vaihda maksun tila...'
+    BATCH_MARKASNOTSEEN: 'Merkitse ei nähty'
+    BATCH_MARKASSEEN: 'Merkitse kuten nähty'
+    BATCH_PRINTORDERS: 'Tulosta tilaukset (HTML)'
+    CUSTOMER: Asiakas
+    CUSTOMERDATA: Asiakastiedot
+    CUSTOMERSEMAIL: 'Asiakkaan sähköpostiosoite'
+    ExpectedDelivery: 'Odotettu toimituspäivä'
+    ExpectedDeliveryMax: 'Odotettu enimmäistoimitusaika'
+    ExpectedDeliveryMin: 'Odotettu vähimmäistoimitusaika'
+    HANDLINGCOSTPAYMENT: Maksutapamaksut
+    HANDLINGCOSTSHIPMENT: 'Toimitusmenetelmän maksut'
+    HASACCEPTEDREVOCATIONINSTRUCTION: 'on hyväksynyt peruutusehdot'
+    HASACCEPTEDTERMSANDCONDITIONS: 'On hyväksynyt GTC:n'
+    HandlingCost: Maksu/kuljetusmaksut
+    INCLUDED_SHIPPINGRATE: 'Toimituskulut sisältyvät'
+    INVOICENUMBER: 'Laskun numero'
+    INVOICENUMBER_SHORT: 'Laskun nro.'
+    IS_SEEN: Katsottu
+    MISCDATA: Muut
+    ModelAdminTabOrderInprogress: Käynnissä
+    ModelAdminTabOrderNew: Uusi
+    ModelAdminTabPaymentOpen: 'Maksu auki'
+    NOTE: Kommentti
+    ORDERNUMBER: Tilausnumero
+    ORDERNUMBERSHORT: '-luku'
+    ORDERPOSITIONDATA: Sijaintitiedot
+    ORDERPOSITIONISLIMIT: 'Tilaus voi sisältää vain määritellyn sijainnin'
+    ORDERPOSITIONQUANTITY: 'Paikan määrä'
+    ORDER_ID: Tilausnumero
+    ORDER_VALUE: Kokonaismäärä
+    OrderNumberShort: Tilausnumero
+    PAYMENTMETHODTITLE: Maksutapa
+    PLURALNAME: Tilaukset
+    PRICETYPE: 'Hintanäytön tyyppi'
+    PRINT: 'Tulosta tilaus'
+    PRINT_PREVIEW: 'Tulosta esikatselu'
+    PaymentDate: Maksettu
+    PaymentReferenceData: 'Maksupalveluntarjoajan viitetiedot'
+    PaymentReferenceID: 'Maksupalveluntarjoajan viitenumero'
+    PaymentReferenceMessage: 'Maksupalveluntarjoajan viitetiedot'
+    PaymentStatus: 'Maksun tila'
+    SEARCHRESULTSLIMIT: Raja
+    SHIPPINGRATE: Toimituskulut
+    SILVERCART_ORDER_DELETE: 'Poista tilaus'
+    SILVERCART_ORDER_EDIT: 'Muokkaa järjestystä'
+    SILVERCART_ORDER_VIEW: 'Näytä tilaus'
+    SINGULARNAME: Tilaa
+    STATUS: 'Tilauksen tila'
+    ShippingDate: Lähetetty
+    TAXAMOUNTPAYMENT: 'Maksutapa vero'
+    TAXAMOUNTSHIPMENT: 'Toimitusmenetelmän vero'
+    TAXRATEPAYMENT: 'Maksutapa verokanta'
+    TAXRATESHIPMENT: 'Toimitusmenetelmän verokanta'
+    Tracking: 'Lähetyksen seuranta'
+    TrackingCode: Seurantanumero
+    TrackingLink: 'Linkki lähetyksen seurantaan'
+    TrackingLinkLabel: 'Näytä missä lähetykseni on tällä hetkellä'
+    WEIGHTTOTAL: Kokonaispaino
+    YOUR_REMARK: Kommenttisi
+  SilverCart\Model\Order\OrderAddress:
+    PLURALNAME: Tilausosoitteet
+    SINGULARNAME: Tilausosoite
+  SilverCart\Model\Order\OrderInvoiceAddress:
+    PLURALNAME: 'Tilausten laskutusosoitteet'
+    SINGULARNAME: 'Tilauksen laskutusosoite'
+  SilverCart\Model\Order\OrderLog:
+    CONTEXT: Konteksti
+    CREATED: Päiväys/aika
+    MESSAGE: Toiminta
+    MESSAGE_CHANGED: 'Muuttunut: {sourcetitle} -> {targettitle}'
+    MESSAGE_CREATED: 'Luotu: {context} luotiin'
+    MESSAGE_MARKEDASNOTSEEN: 'Merkitty ei nähty'
+    MESSAGE_MARKEDASSEEN: 'Merkitty nähdyksi'
+    PLURALNAME: Tilauspäiväkirja
+    SINGULARNAME: Tilauspäiväkirja
+  SilverCart\Model\Order\OrderPosition:
+    CHARGEORDISCOUNTMODIFICATIONIMPACT: Ylös/alas-tyyppi
+    ISCHARGEORDISCOUNT: 'Tosiasiallinen lisäys/alennus'
+    PLURALNAME: 'Tilaa kohteita'
+    PRICE: Hinta
+    PRICETOTAL: Kokonaishinta
+    PRODUCTDESCRIPTION: Kuvaus
+    PRODUCTNUMBER: Tuotenro.
+    QUANTITY: Määrä
+    SHORT: Pos.
+    SINGULARNAME: 'Tilaa tuote'
+    TAX: ALV
+    TAXRATE: Verokanta
+    TAXTOTAL: 'ALV yhteensä'
+    TITLE: Nimi
+  SilverCart\Model\Order\OrderShippingAddress:
+    PLURALNAME: 'Tilauksen toimitusosoitteet'
+    SINGULARNAME: 'Tilauksen toimitusosoite'
+  SilverCart\Model\Order\OrderStatus:
+    ATTRIBUTED_SHOPEMAILS_LABEL_DESC: 'Seuraavat korostetut sähköpostiviestit lähetetään, kun tilaukselle on asetettu tämä tilaustila:'
+    ATTRIBUTED_SHOPEMAILS_LABEL_TITLE: 'Myönnetyt sähköpostit'
+    BADGECOLOR: 'Värin tila'
+    CODE: Koodi
+    DefaultStatusCanceled: Peruutettu
+    DefaultStatusCompleted: Valmistunut
+    DefaultStatusInprogress: Käynnissä
+    DefaultStatusNew: Uusi
+    DefaultStatusShipped: 'Tilaus lähetetty'
+    IsDefault: 'Onko vakio'
+    PLURALNAME: 'Tilauksen tila'
+    SINGULARNAME: 'Tilauksen tila'
+  SilverCart\Model\Order\OrderStatusTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+    TITLE: Nimitys
+  SilverCart\Model\Pages\ContactFormPage:
+    CityIsRequired: 'Paikka on pakollinen kenttä'
+    CountryIsRequired: 'Maa on pakollinen kenttä'
+    DEFAULT_RESPONSE_CONTENT: 'Kiitos viestistäsi. Vastaamme sinulle pian.'
+    DEFAULT_TITLE: 'Ota yhteyttä'
+    DEFAULT_URLSEGMENT: 'Ota yhteyttä'
+    EmailContactRequest: 'Asiakas on lähettänyt yhteydenottopyynnön.'
+    EnableCity: 'Aktivoi sijaintikenttä'
+    EnableCountry: 'Aktivoi maata koskeva kenttä'
+    EnablePhoneNumber: 'Aktivoi puhelinnumeron kenttä'
+    EnablePostcode: 'Aktivoi postinumerokenttä'
+    EnableStreet: 'Aktivoi katu-/talonumerokenttä'
+    PLURALNAME: 'Yhteydenottolomakkeen sivut'
+    PhoneNumberIsRequired: 'Puhelinnumero on pakollinen'
+    PostcodeIsRequired: 'Postinumero on pakollinen kenttä'
+    REQUEST: 'Tiedustelu yhteydenottolomakkeen kautta'
+    ResponseContent: 'Lähetysvahvistussivun sisältö'
+    SINGULARNAME: 'Yhteydenottolomakkeen sivu'
+    StreetIsRequired: 'Katu/talon numero on pakollinen kenttä'
+    TITLE: 'Ota yhteyttä'
+    ThankYouForYourRequest: 'Kiitos pyynnöstäsi. Olemme vastaanottaneet viestisi ja vastaamme siihen mahdollisimman pian.'
+    URL_SEGMENT: 'Ota yhteyttä'
+    WeReceivedYourRequest: 'Olemme vastaanottaneet pyyntösi.'
+    YourData: 'Sinun tietosi:'
+  SilverCart\Model\Pages\CustomerDataPage:
+    DEFAULT_TITLE: 'Minun tietoni'
+    DEFAULT_URLSEGMENT: my-data
+    PLURALNAME: Tietosivut
+    SINGULARNAME: Tietosivu
+    TITLE: 'Minun tietoni'
+    URL_SEGMENT: my-data
+  SilverCart\Model\Pages\DownloadPage:
+    PLURALNAME: 'Lataa sivuja'
+    SINGULARNAME: 'Lataa sivu'
+  SilverCart\Model\Pages\DownloadPageHolder:
+    PLURALNAME: 'Lataa sivujen yleiskatsauksia'
+    ResultsText: 'Hakusi <strong>"{termi}"</strong> tuotti <strong>{lukumäärä} osumia</strong>.'
+    SINGULARNAME: 'Lataa sivun yleiskatsaus'
+    SearchResults: Hakutulokset
+  SilverCart\Model\Pages\FrontPage:
+    CONTENT: '<h2>Tervetuloa <strong>SilverCart</strong> verkkokauppaan!</h2>'
+    DEFAULT_CONTENT: '<h2>Tervetuloa <strong>SilverCart</strong> verkkokauppaan!</h2>'
+    DESCRIPTION: 'Verkkokaupan etusivu'
+    PLURALNAME: Etupuolet
+    SINGULARNAME: Edessä
+  SilverCart\Model\Pages\MetaNavigationHolder:
+    DEFAULT_TITLE: Oikeudellinen
+    DEFAULT_TITLE_ABOUT: 'Tietoa meistä'
+    DEFAULT_TITLE_LEGAL: Oikeudellinen
+    DEFAULT_TITLE_SERVICE: Palvelu
+    DEFAULT_TITLE_SHOP: Myymäläjärjestelmä
+    DEFAULT_URLSEGMENT: oikeudellinen
+    DEFAULT_URLSEGMENT_ABOUT: meistä
+    DEFAULT_URLSEGMENT_LEGAL: oikeudellinen
+    DEFAULT_URLSEGMENT_SERVICE: palvelu
+    DEFAULT_URLSEGMENT_SHOP: shop-system
+    PLURALNAME: 'Metanavigoinnin yleiskatsaukset'
+    SINGULARNAME: 'Metanavigoinnin yleiskatsaus'
+    URL_SEGMENT: oikeudellinen
+  SilverCart\Model\Pages\MetaNavigationPage:
+    DEFAULT_TITLE_IMPRINT: Jälki
+    DEFAULT_TITLE_PRIVACY: Tietosuojakäytäntö
+    DEFAULT_TITLE_REVOCATION: Peruutusehdot
+    DEFAULT_TITLE_TERMS: 'Yleiset ehdot'
+    DEFAULT_URLSEGMENT_IMPRINT: painatus
+    DEFAULT_URLSEGMENT_PRIVACY: tietosuojaseloste
+    DEFAULT_URLSEGMENT_REVOCATION: peruutusehdot
+    DEFAULT_URLSEGMENT_TERMS: 'yleiset sopimusehdot - ostajan tiedot'
+    PLURALNAME: Metatietosivut
+    SINGULARNAME: Metatietosivu
+  SilverCart\Model\Pages\MyAccountHolder:
+    ALREADY_HAVE_AN_ACCOUNT: 'Onko sinulla jo tili?'
+    DEFAULT_TITLE: Tilini
+    DEFAULT_URLSEGMENT: my-account
+    GOTO_REGISTRATION: Rekisteröintilomakkeeseen
+    MORE: Lisää
+    PLURALNAME: 'Tilin yleiskatsaukset'
+    REGISTER_ADVANTAGES_TEXT: 'Jos rekisteröidyt, voit käyttää tietojasi, kuten laskutus- ja toimitusosoitetta, kun teet ostoksen.'
+    SINGULARNAME: 'Tilin yleiskatsaus'
+    TITLE: Tilini
+    URL_SEGMENT: my-account
+    WANTTOREGISTER: 'Haluatko rekisteröityä?'
+    YOUR_CURRENT_ADDRESSES: 'Nykyinen laskutus- ja toimitusosoitteesi'
+    YOUR_CUSTOMERNUMBER: Asiakasnumerosi
+    YOUR_MOST_CURRENT_ORDERS: 'Viimeisimmät tilauksesi'
+    YOUR_PERSONAL_DATA: Henkilötietosi
+  SilverCart\Model\Pages\NewsletterPage:
+    AlreadyConfirmedMessage: 'Ilmoitus, jos sovellus on jo olemassa'
+    AlreadyConfirmedMessageText: 'Viesti: Käyttäjä on jo suorittanut Opt-In-toiminnon'
+    ConfirmationFailureMessage: 'Ilmoitus, jos hakemus epäonnistuu'
+    ConfirmationSuccessMessage: 'Viesti onnistuneesta rekisteröinnistä'
+    DEFAULT_TITLE: Uutiskirje
+    DEFAULT_URLSEGMENT: uutiskirje
+    DefaultAlreadyConfirmedMessage: '<p>Olit jo aiemmin suorittanut uutiskirjeen rekisteröinnin.</p>'
+    DefaultConfirmationFailureMessage: '<p>Uutiskirjeen tilaustasi ei voitu suorittaa loppuun.</p>'
+    DefaultConfirmationSuccessMessage: '<p>Uutiskirjeen tilauksesi onnistui!</p><p>Toivotamme sinulle paljon hauskaa ja menestystä tarjouksiemme avulla.</p>'
+    DefaultConfirmationSuccessSubject: 'Uutiskirjeen tilaus onnistuneesti suoritettu'
+    DefaultEmailConfirmationSubject: 'Täytä uutiskirjeen rekisteröinti'
+    DefaultOptInPageTitle: 'Täytä uutiskirjeen rekisteröinti'
+    EmailConfirmationConfirm: 'Vahvista rekisteröinti'
+    EmailConfirmationHaveFun: 'Toivotamme sinulle paljon hauskaa ja menestystä tarjouksiemme avulla.'
+    EmailConfirmationIgnore: 'Jos et ole pyytänyt uutiskirjettä, jätä tämä sähköposti huomiotta.'
+    EmailConfirmationLinkInfo: 'Klikkaa aktivointilinkkiä tai kopioi linkki selaimeesi.'
+    EmailConfirmationSuccessMessage: 'Uutiskirjeen tilauksesi onnistui!'
+    EmailConfirmationTitle: 'Täytä uutiskirjeen rekisteröinti'
+    FailureMessageText: Virheilmoitus
+    OptInPageTitle: 'Opt-in-sivun otsikko'
+    PLURALNAME: 'Uutiskirjeen sivut'
+    SINGULARNAME: 'Uutiskirjeen sivu'
+    SuccessMessageText: Menestystarina
+    THANKS_TITLE: 'Uutiskirjeen tila'
+    TITLE: Uutiskirje
+    URL_SEGMENT: uutiskirje
+    UseDoubleOptIn: 'Käytä Double-Opt-In-toimintoa'
+  SilverCart\Model\Pages\OrderHolder:
+    DEFAULT_TITLE: Tilaukseni
+    DEFAULT_URLSEGMENT: my-orders
+    OrderDetails: 'Tilauksen tiedot'
+    PLURALNAME: Tilauskatsaukset
+    SINGULARNAME: 'Tilaus yleiskatsaus'
+    TITLE: Tilaukseni
+    URL_SEGMENT: my-orders
+  SilverCart\Model\Pages\Page:
+    ABOUT_US: meistä
+    ABOUT_US_URL_SEGMENT: meistä
+    ACCESS_CREDENTIALS_CALL: 'Syötä käyttöoikeustietosi:'
+    ADDRESS: Osoite
+    ADDRESSINFORMATION: Osoitetiedot
+    ADDRESS_DATA: Osoitetiedot
+    ADMIN_AREA: 'Pääkäyttäjän oikeudet'
+    ALREADY_REGISTERED: 'Hei {nimi}, olet jo rekisteröitynyt.'
+    API_CREATE: 'voi luoda objekteja API:n kautta'
+    API_DELETE: 'voi poistaa objekteja API:n kautta'
+    API_EDIT: 'voi muuttaa objekteja API:n kautta'
+    API_VIEW: 'voi lukea objekteja API:n kautta'
+    APRIL: Huhtikuu
+    AUGUST: Elokuu
+    AllPricesExclVat: 'Kaikkiin hintoihin lisätään arvonlisävero.'
+    AllPricesInclVat: 'Kaikki hinnat sisältävät arvonlisäveron.'
+    BACK: Takaisin
+    BACK_TO: 'Takaisin sivulle "{title}"'
+    BACK_TO_DEFAULT: 'Edellinen sivu'
+    BILLING_ADDRESS: 'Laskun osoite'
+    BIRTHDAY: Syntymäpäivä
+    CANCEL: Peruuta
+    CART: Ostoskori
+    CATALOG: Luettelo
+    CHANGE_PAYMENTMETHOD_CALL: 'Valitse toinen maksutapa tai ota yhteyttä myymälän ylläpitäjään.'
+    CHANGE_PAYMENTMETHOD_LINK: 'Valitse toinen maksutapa'
+    CHECK_FIELDS_CALL: 'Tarkistakaa seuraavat kentät:'
+    CONTACT_FORM: Yhteydenottolomake
+    CONTINUESHOPPING: 'Jatka ostoksia'
+    CREDENTIALS_WRONG: 'Käyttöoikeustietosi ovat virheelliset.'
+    Categories: Luokkamme
+    DAY: Päivä
+    DECEMBER: Joulukuu
+    DECREMENT_POSITION: 'Vähennä määrää'
+    DELETE: Poista
+    DETAILS: Yksityiskohdat
+    DETAILS_FOR: 'Yksityiskohdat %s:stä'
+    DIDNOT_RETURN_RESULTS: 'ei tuottanut mitään tuloksia kaupassamme.'
+    DO_NOT_EDIT: 'Älkää muuttako!'
+    EMAIL_ADDRESS: Sähköpostiosoite
+    EMAIL_ALREADY_REGISTERED: 'Käyttäjä on jo rekisteröitynyt tällä sähköpostiosoitteella.'
+    EMAIL_NOT_FOUND: 'Tätä sähköpostiosoitetta ei löytynyt.'
+    EMPTY_CART: tyhjä
+    ERROR_LISTING: 'Tapahtui seuraavat virheet:'
+    ERROR_OCCURED: 'On tapahtunut virhe.'
+    FEBRUARY: Helmikuu
+    FIND: 'Etsi:'
+    FORWARD: Lisätietoja
+    GOTO: 'Siirry osoitteeseen {title} Sivu'
+    GOTO_CART_SHORT: Ostoskori
+    GOTO_CONTACT_LINK: Yhteydenottosivulle
+    GOTO_PAGE: 'Siirry sivulle {count} '
+    HEADERPICTURE: 'Otsikon kuva'
+    HELLO: Hei
+    INCLUDED_VAT: 'Sisältää arvonlisäveron'
+    INCLUDING_TAX: 'sis. {summa}% alv.'
+    INCREMENT_POSITION: 'Lukumäärän lisääminen'
+    ISACTIVE: Aktiivinen
+    I_ACCEPT: Hyväksyn
+    I_HAVE_READ: 'Minulla on '
+    JANUARY: Tammikuu
+    JULY: Heinäkuu
+    JUNE: Kesäkuu
+    LOGIN: 'Kirjaudu sisään'
+    LOGO: Logo
+    LOGOUT: 'Kirjaudu ulos'
+    MARCH: Maaliskuu
+    MAY: Toukokuu
+    MESSAGE: Viesti
+    MONTH: Kuukausi
+    MYACCOUNT: Tilini
+    MetaTitleAt: 'at {shopTitle}'
+    NAME: Nimi
+    NEWSLETTER: Uutiskirje
+    NEWSLETTER_FORM: 'Uutiskirjeen asetukset'
+    NEXT: Ennen
+    NOT_FOUND: 'Sivua "{title}" ei löytynyt.'
+    NOVEMBER: Marraskuu
+    NO_ORDERS: 'Et ole vielä tehnyt yhtään tilausta.'
+    NO_RESULTS: 'Valitettavasti hakusanalla ei ole tuloksia.'
+    OCTOBER: Lokakuu
+    OR: tai
+    ORDERED_PRODUCTS: 'Tilatut artikkelit'
+    ORDER_COMPLETED: 'Tilauksesi on valmis.'
+    ORDER_DATE: Tilauspäivä
+    ORDER_THANKS: 'Kiitos tilauksestanne.'
+    Oclock: Kello
+    PASSWORD: Salasana
+    PASSWORD_CASE_EMPTY: 'Jos jätät tämän kentän tyhjäksi, salasanaasi ei muuteta.'
+    PASSWORD_CHECK: 'Toista salasana'
+    PASSWORD_WRONG: 'Tämä salasana on väärä.'
+    PAYMENT_NOT_WORKING: 'Valittu maksumoduuli ei toimi.'
+    PLURALNAME: Sivut
+    PLUS_SHIPPING: 'plus toimituskulut'
+    PREV: Takaisin
+    PRODUCTNAME: 'Artikkelin kuvaus'
+    PageXofY: 'Sivu {x} of {y}'
+    REGISTER: Rekisteröi
+    REGISTER_HERE: 'Rekisteröidy täällä.'
+    REGISTER_NEW: 'Uusi asiakas?'
+    REMARKS: Kommentit
+    REMOVE_FROM_CART: poista
+    RETURNTOPRODUCTGROUP: 'Takaisin sivulle "{title}"'
+    REVOCATION: Peruutusehdot
+    REVOCATIONREAD: 'Peruutusehdot luettu'
+    SAVE: Tallenna
+    SEPTEMBER: Syyskuu
+    SESSION_EXPIRED: 'Istuntosi on päättynyt.'
+    SHIPPING_ADDRESS: Toimitusosoite
+    SHIPPING_AND_BILLING: 'Toimitus- ja laskutusosoite'
+    SHOP_WITHOUT_REGISTRATION: 'Osta ilman rekisteröintiä'
+    SHOWINPAGE: 'Aseta kieli {kieli}'
+    SHOW_DETAILS: 'Näytä tiedot'
+    SHOW_DETAILS_FOR: 'Näytä tiedot {title}'
+    SINGULARNAME: Sivu
+    SITMAP_HERE: 'Täältä näet yleiskatsauksen sivustostamme.'
+    STEPS: Askeleet
+    SUBMIT: Lähetä
+    SUBMIT_MESSAGE: 'Lähetä viesti'
+    SUBTOTAL: Yhteensä
+    SUBTOTAL_NET: 'Välisumma (netto)'
+    SUM: Yhteensä
+    Start: Aloita
+    TAX: 'sis. {summa}% alv.'
+    TERMSOFSERVICE_PRIVACY: 'Yleiset ehdot ja tietosuoja'
+    THE_QUERY: Termi
+    TITLE: Otsikko
+    TITLE_IMPRINT: Jälki
+    TITLE_TERMS: 'Yleiset ehdot'
+    TODAY: tänään
+    TOTAL: Yhteensä
+    URL_SEGMENT_IMPRINT: painatus
+    URL_SEGMENT_TERMS: 'yleiset sopimusehdot - ostajan tiedot'
+    USER_NOT_EXISTING: 'Tätä käyttäjää ei ole olemassa.'
+    UseAsRootForMainNavigation: 'Tämän sivun alasivut muodostavat päänavigoinnin'
+    UseAsRootForMainNavigationDesc: 'Päänavigaatio, joka sisältää perusasennuksen tuoteryhmät, muodostuu tämän sivun alasivuista. Tämä asetus voi olla käytössä vain yhdellä sivulla.'
+    VALUE_OF_GOODS: 'Tavaroiden arvo'
+    VIEW_ORDERS_TEXT: 'Tarkista tilauksesi tilauksen tila'
+    WELCOME_PAGE_TITLE: Tervetuloa
+    WELCOME_PAGE_URL_SEGMENT: Tervetuloa
+    WELCOME_TO: Tervetuloa
+    YEAR: Vuosi
+    YESTERDAY: eilen
+    YOUR_REMARKS: 'Viestisi meille'
+  SilverCart\Model\Pages\PaymentMethodsPage:
+    DEFAULT_TITLE: Maksutavat
+    DEFAULT_URLSEGMENT: maksutavat
+    PLURALNAME: Maksutapa-sivut
+    SINGULARNAME: Maksutapa-sivu
+  SilverCart\Model\Pages\PaymentNotification:
+    DEFAULT_TITLE: Maksuilmoitus
+    DEFAULT_URLSEGMENT: maksuilmoitus
+    PLURALNAME: Maksuilmoitukset
+    SINGULARNAME: Maksuilmoitus
+    TEXTBANKACCOUNTINFO: 'Ennakkomaksua koskevat tiedot'
+    TITLE: Maksuilmoitus
+    URL_SEGMENT: maksuilmoitus
+  SilverCart\Model\Pages\ProductGroupHolder:
+    DEFAULT_TITLE: Tuoteryhmät
+    DEFAULT_URLSEGMENT: hyödykeryhmät
+    LinkTo: 'Tuoteryhmä, johon edelleenlähetys on tarkoitus tehdä.'
+    PAGE_TITLE: Tuoteryhmät
+    PLURALNAME: 'Artikkeliryhmien yleiskatsaukset'
+    RedirectToProductGroup: 'Välitä suoraan tuoteryhmään'
+    RedirectionSettings: Edelleenlähetys
+    SHOW_PRODUCTS_WITH_COUNT_PLURAL: '{count} Näytä artikkeli'
+    SHOW_PRODUCTS_WITH_COUNT_SINGULAR: '{count} Näytä artikkeli'
+    SINGULARNAME: 'Artikkeliryhmän yleiskatsaus'
+    SUBGROUPS_OF: 'Seuraavat alaryhmät '
+    URL_SEGMENT: hyödykeryhmät
+  SilverCart\Model\Pages\ProductGroupPage:
+    ATTRIBUTES: Attribuutti
+    BREADCRUMBS: 'Tuoteryhmän leivänmurut'
+    BuyTitle: '{title} osta'
+    DEFAULTGROUPHOLDERVIEW: 'Tavallinen hyödykeryhmänäkymä'
+    DEFAULTGROUPVIEW: 'Tavallinen artikkeliluettelonäkymä'
+    DEFAULTGROUPVIEW_DEFAULT: 'Hyväksytään vanhempien ryhmästä/ oletuskokoonpanosta'
+    DONOTSHOWPRODUCTS: 'Näytä<strong>ei</strong> artikkeleita yleiskatsauksessa'
+    DisplaySettings: 'Näytön asetukset'
+    GROUP_PICTURE: 'Ryhmän kuva'
+    MANAGE_PRODUCTS_BUTTON: 'Hallitse artikkeleita'
+    MANUFACTURER_LINK: valmistaja
+    NewProducts: Innovaatiot
+    NewProductsIn: '{productgroup} Uutuudet'
+    NewProductsLinkTitle: 'Näytä kaikki uutuudet'
+    OK: Ok
+    PLURALNAME: Tuoteryhmät
+    PRODUCTGROUPSPERPAGE: 'Tuoteryhmät per sivu'
+    PRODUCTSPERPAGE: 'Artikkelit per sivu'
+    PRODUCTSPERPAGEHINT: 'Määritä 0 (nolla) tuotteille tai tavararyhmille sivua kohti, jos haluat käyttää oletusasetusta.'
+    PRODUCTS_ON_PAGE: '{productcount} artikkeli {pagecount} sivulla'
+    PRODUCTS_ON_PAGES: '{productcount} artikkelit {pagecount} sivuilla'
+    PRODUCTS_PER_PAGE: 'Artikkelit per sivu'
+    PRODUCT_ON_PAGE: '{productcount} artikkeli {pagecount} sivulla'
+    PreorderableProducts: Ennakkotilaus
+    PreorderableProductsIn: '{productgroup} Ennakkotilaus'
+    PreorderableProductsLinkTitle: 'Näytä kaikki ennakkotilaajat'
+    SINGULARNAME: Tuoteryhmä
+    SORT_ORDER: Lajittelu
+    ShowOffersFor: 'Näytä tarjoukset tuotteelle'
+    ShowResultsFor: 'Näytä tulokset for'
+    ShowResultsForAll: 'Näytä kaikkien luokkien tulokset'
+    ShowResultsForAllMenu: 'Kaikki luokat'
+    USEONLYDEFAULTGROUPHOLDERVIEW: 'Käytä vain tavallista hyödykeryhmänäkymää'
+    USEONLYDEFAULTGROUPVIEW: 'Käytä vain tavallista kohdeluettelonäkymää'
+    USE_CONTENT_FROM_PARENT: 'Ota haltuun vanhemmilta sivuilta tuleva sisältö'
+  SilverCart\Model\Pages\ProductPage:
+    OUT_OF_STOCK: 'Tämä tuote on loppuunmyyty.'
+    PACKAGING_CONTENT: Sisältö
+    PLURALNAME: 'Artikkelin yksityiskohtaiset sivut'
+    PRINT: Tulosta
+    QUANTITY: Numero
+    SINGULARNAME: 'Artikkelin yksityiskohtainen sivu'
+    URL_SEGMENT: 'tuotteen tiedot'
+  SilverCart\Model\Pages\RegistrationPage:
+    CONFIRMATION_TEXT: '<h1>Täydellinen rekisteröinti</h1><p>Klikkaa aktivointilinkkiä tai kopioi linkki selaimeesi.</p><p><a href="$ConfirmationLink">Vahvista rekisteröinti</a></p><p>Jos et ole rekisteröitynyt, jätä tämä sähköposti huomiotta.</p><p>Webshop-tiimisi</p>'
+    CUSTOMER_SALUTATION: 'Hyvä asiakas,'
+    DEFAULT_TITLE: Rekisteröintisivu
+    DEFAULT_URLSEGMENT: Rekisteröi
+    DEFAULT_WELCOME_CONTENT: '<p>Hyvä asiakas,</p><p>säästääksesi työtäsi, olemme jo kirjautuneet sisään automaattisesti.</p><p>Nauti ostoksista myymälässämme!</p>'
+    EMAIL_EXISTS_ALREADY: 'Tämä sähköpostiosoite on jo varattu.'
+    EmailOptInConfirmYourEmailAddress: 'Vahvista sähköpostiosoitteesi'
+    EmailOptInConfirmationCustomerData: Asiakastietosi
+    EmailOptInConfirmationCustomerDataInfo: 'Alta löydät asiakastietosi.'
+    EmailOptInConfirmationInfo: 'Onnittelut ja tervetuloa myymäläämme! Sähköpostiosoitteesi on vahvistettu onnistuneesti. Tästä lähtien olet oikeutettu käyttämään asiakaskuvasi myymälässämme.'
+    EmailOptInConfirmationTitle: 'Sähköpostiosoite on vahvistettu'
+    EmailOptInConfirmationVisit: 'Käy myymälässämme'
+    EmailOptInIgnore: 'Jos et ole rekisteröitynyt myymäläämme, jätä tämä sähköposti huomiotta.'
+    EmailOptInLinkInfo: 'Klikkaa aktivointilinkkiä tai kopioi linkki selaimeesi.'
+    EmailOptInNotificationCustomerData: 'Ota yhteyttä'
+    EmailOptInNotificationTitle: 'Asiakas on rekisteröitynyt'
+    EmailOptInTitle: 'Vahvista sähköpostiosoite'
+    OTHERITEMS: Muut
+    OptInFailedMessage: 'Tämä linkki sähköpostiosoitteesi vahvistamiseksi on virheellinen.'
+    OptInFailedTitle: 'Opt-In epäonnistui'
+    OptInGoToMyAccount: Tilini
+    OptInGoToShop: 'Jatka kauppaan'
+    OptInMessage: 'Sähköpostiosoitteesi on vahvistettu onnistuneesti.'
+    OptInMessageLogin: 'Kirjaudu sisään vahvistaaksesi sähköpostiosoitteesi.'
+    OptInPendingMessage: 'Sähköpostivahvistuksesi on edelleen odottamassa. Tarkista postilaatikkosi ja käy vahvistuslinkissä.'
+    OptInPendingTitle: 'Opt-in vireillä'
+    OptInResend: 'Lähetä vahvistuslinkki uudelleen'
+    OptInResendMessage: 'Vahvistuslinkin sisältävä sähköposti on lähetetty osoitteeseen {email}.'
+    OptInResendTitle: 'Lähetä vahvistuslinkki uudelleen'
+    OptInTitle: 'Vahvista sähköpostiosoitteesi'
+    OptInWelcomeMessage: 'Onnittelut! Rekisteröitymisesi kaupassamme onnistui!'
+    OptInWelcomeMessage2: 'Vahvista sähköpostiosoitteesi sähköpostitse saamasi vahvistuslinkin kautta, jotta voit aktivoida tilisi.'
+    OptInWelcomeMessage3: 'Vahvistuslinkki on lähetetty osoitteeseen <strong>{email}</strong>. Tarkista postilaatikkosi.'
+    OptInWelcomeTitle: 'Vahvista sähköpostiosoitteesi'
+    PLEASE_COFIRM: 'Vahvistakaa ilmoittautumisenne.'
+    PLURALNAME: Rekisteröintisivut
+    SINGULARNAME: Rekisteröintisivu
+    SUCCESS_TEXT: '<h1>Rekisteröinti onnistuneesti suoritettu!</h1><p>Kiitos ilmoittautumisestanne.</p><p>Pidä hauskaa kaupassamme!</p><p>Webshop-tiimisi</p>'
+    THANKS: 'Kiitos ilmoittautumisestanne.'
+    TITLE: Rekisteröintisivu
+    URL_SEGMENT: Rekisteröi
+    YOUR_REGISTRATION: Rekisteröinti
+  SilverCart\Model\Pages\RevocationFormPage:
+    DEFAULT_TITLE: Peruuttaminen
+    DEFAULT_URLSEGMENT: peruuttaminen
+    PLURALNAME: Peruutussivut
+    SINGULARNAME: Peruutussivu
+    Success: 'Peruuttaminen onnistuneesti lähetetty'
+    SuccessText: 'Kiitos paljon! Olemme vastaanottaneet peruutuksesi ja käsittelemme pyyntöäsi.'
+    TITLE: Peruuttaminen
+    URL_SEGMENT: peruuttaminen
+  SilverCart\Model\Pages\SearchResultsPage:
+    CHOOSE_CONTEXT: Tulokset
+    DEFAULT_TITLE: Hakutulokset
+    DEFAULT_URLSEGMENT: hakutulokset
+    PLURALNAME: Hakutulossivut
+    RELEVANCESORT: Merkitys
+    ResultsTextCategory: 'Hakutulokset kategoriassa <strong>"{kategoria}"</strong> ({tulokset} osumia)'
+    ResultsTextQuery: 'Hakutulokset termillä <strong>"{query}"</strong> ({results} osumia)'
+    ResultsTextQueryAndCategory: 'Hakutulokset termillä <strong>"{kysely}"</strong> kategoriassa <strong>"{kategoria}</strong> " ({tuloksia} osumia)'
+    SINGULARNAME: Hakutulossivu
+    SearchTitle: '{count} Hakutulokset "{title}"'
+    TITLE: Hakutulokset
+    URL_SEGMENT: hakutulokset
+  SilverCart\Model\Payment\HandlingCost:
+    AMOUNT: Määrä
+    PLURALNAME: Käsittelykustannukset
+    SINGULARNAME: Käsittelykustannukset
+  SilverCart\Model\Payment\PaymentMethod:
+    ACCESS_MANAGEMENT_BASIC_LABEL: Yleistä
+    ACCESS_MANAGEMENT_GROUP_LABEL: Ryhmittäin
+    ACCESS_MANAGEMENT_USER_LABEL: 'Asiakkaan (asiakkaiden) mukaan'
+    ACCESS_SETTINGS: Pääsynhallinta
+    ATTRIBUTED_COUNTRIES: 'osoitetut maat'
+    AddPaymentLogos: 'Lisää logo'
+    BASIC_SETTINGS: Perusasetukset
+    ChargeOrDiscountForAmount: 'on {hinta}'
+    ENABLE_RESTRICTION_BY_ORDER_LABEL: 'Sovelletaan seuraavaa sääntöä'
+    ExcludedPosition: 'paitsi sijainti {position}'
+    ExcludedPositions: 'lukuun ottamatta asemia {positions}'
+    FROM_PURCHASE_VALUE: 'tavaroiden vapaasti tehtaalla -arvo'
+    HANDLINGCOSTS_SETTINGS: Käsittelykustannukset
+    LONG_PAYMENT_DESCRIPTION: 'Maksutyyppi-sivulla näytettävä kuvaus'
+    MODE: Tila
+    NAME: Nimi
+    NO_PAYMENT_METHOD_AVAILABLE: 'Maksutapoja ei ole saatavilla'
+    PAYMENT_DESCRIPTION: Kuvaus
+    PAYMENT_IMPACT_TYPE_ABSOLUTE: Ehdottomasti
+    PAYMENT_IMPACT_TYPE_PERCENT: Prosenttiosuus
+    PAYMENT_ISACTIVE: aktivoi
+    PAYMENT_LOGOS: Logot
+    PAYMENT_MAXAMOUNTFORACTIVATION: 'Moduulin enimmäismäärä'
+    PAYMENT_MINAMOUNTFORACTIVATION: 'Moduulin vähimmäismäärä'
+    PAYMENT_MODE_DEV: 'Kehitys ja testaus'
+    PAYMENT_MODE_LIVE: 'Live / toiminnassa'
+    PAYMENT_MODIFY_PRODUCTVALUE: 'Tavaroiden arvo'
+    PAYMENT_MODIFY_TOTALVALUE: Kokonaisarvo
+    PAYMENT_MODIFY_TYPE_CHARGE: Vaikutus
+    PAYMENT_MODIFY_TYPE_DISCOUNT: Alennus
+    PAYMENT_SUMMODIFICATIONIMPACT: Vaikutukset
+    PAYMENT_SUMMODIFICATIONIMPACTTYPE: Art
+    PAYMENT_SUMMODIFICATIONIMPACTVALUETYPE: 'Arvo on'
+    PAYMENT_SUMMODIFICATIONLABELFIELD: 'Merkinnät ostoskärryyn/tilaisuuteen'
+    PAYMENT_SUMMODIFICATIONPRODUCTNUMBERFIELD: 'XML-tilauksen viennissä käytettävä artikkelinumero'
+    PAYMENT_SUMMODIFICATIONVALUE: Arvo
+    PAYMENT_SUMMODIFIERS: 'Palkkiot / alennukset'
+    PAYMENT_USE_SUMMODIFICATION: Aktivoi
+    PaymentChannel: Maksutapa
+    PaymentStatus: 'Maksun tila'
+    PaymentStatusDesc: 'Tämän maksutyypin oletusmaksutila'
+    RESTRICTION_LABEL: 'Näytä vain asiakkaille, jotka täyttävät seuraavat kriteerit'
+    RESTRICT_BY_ORDER_QUANTITY: 'Asiakkaan on täytynyt tehdä vähintään seuraava määrä tilauksia'
+    RESTRICT_BY_ORDER_STATUS: 'joiden tilauksen tila on merkitty seuraavaan luetteloon'
+    SHIPPINGMETHOD: Toimitustapa
+    SHIPPINGMETHOD_DESC: 'Sido maksutapa seuraaviin toimitustapoihin:'
+    SHOW_FORM_FIELDS_ON_PAYMENT_SELECTION: 'Näytä syöttökentät jo maksun valinnan aikana'
+    SHOW_NOT_FOR_GROUPS_LABEL: 'Deaktivoi seuraavat ryhmät'
+    SHOW_NOT_FOR_USERS_LABEL: 'Deaktivoi seuraavat käyttäjät'
+    SHOW_ONLY_FOR_GROUPS_LABEL: 'Aktivoi seuraavat ryhmät'
+    SHOW_ONLY_FOR_USERS_LABEL: 'Ota käyttöön seuraaville käyttäjille'
+    SHOW_PAYMENT_LOGOS: 'Näytä logot'
+    STANDARD_ORDER_STATUS: 'Tilauksen oletustila tälle maksutavalle'
+    TILL_PURCHASE_VALUE: 'kunnes tavaroiden arvo'
+    TITLE: Maksutapa
+  SilverCart\Model\Payment\PaymentMethodTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Payment\PaymentStatus:
+    Code: Koodi
+    DefaultStatusOpen: Avaa
+    DefaultStatusPaid: Maksettu
+    IsDefault: 'Onko vakio'
+    Orders: Tilaukset
+    PLURALNAME: 'Maksun tila'
+    PaymentStatusTranslations: Käännökset
+    SINGULARNAME: 'Maksun tila'
+    Title: Otsikko
+  SilverCart\Model\Payment\PaymentStatusTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\File:
+    DESCRIPTION: Kuvaus
+    FILE_ATTACHMENTS: 'Tiedoston liitetiedostot'
+    PLURALNAME: Tiedostot
+    SINGULARNAME: Tiedosto
+    SIZE: Koko
+    TITLE: 'Näytä nimi'
+    TYPE: Tyyppi
+  SilverCart\Model\Product\FileTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\Image:
+    CONTENT: 'Teksti Sisältö'
+    DESCRIPTION: 'Kuvaus (esim. Slidorion-tekstikenttä)'
+    PLURALNAME: Kuvat
+    SINGULARNAME: Kuva
+    SORTORDER: Lajittelujärjestys
+    THUMBNAIL: Esikatselu
+    TITLE: 'Näytön nimi'
+  SilverCart\Model\Product\ImageTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\Manufacturer:
+    DESCRIPTION: Kuvaus
+    ManufacturerNumber: 'Valmistajan numero'
+    PLURALNAME: Valmistaja
+    SINGULARNAME: Valmistaja
+  SilverCart\Model\Product\ManufacturerTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\Product:
+    AMOUNT_UNIT: Myyntiyksikkö
+    AddFile: 'Lisää tiedosto'
+    AddImage: 'Lisää kuva'
+    BasicData: Perustiedot
+    CHANGE_QUANTITY_CART: Muutosmäärä
+    CHOOSE_MASTER: '-- Valitse Master --'
+    COLUMN_TITLE: Nimi
+    DAY: Päivä
+    DAYS: Päivät
+    DESCRIPTION: 'Artikkelin kuvaus'
+    Delivery: Toimitus
+    DeliveryForFree: 'Ilmainen toimitus'
+    DeliveryForFreeIsPossible: 'Ilmainen toimitus on mahdollista'
+    EAN: EAN
+    ExcludeFromPaymentDiscounts: 'Tämä tuote ei kuulu alennusten piiriin maksutavan vuoksi.'
+    FREE_OF_CHARGE: 'ilmainen toimitus'
+    IMAGE: 'Artikkelin kuva'
+    IMAGE_NOT_AVAILABLE: 'Artikkelin kuvaa ei ole määritetty'
+    IMPORTIMAGESFORM_ACTION: 'Tuo kuvia'
+    IMPORTIMAGESFORM_ERROR_DIRECTORYNOTVALID: 'Hakemistoa ei ole olemassa'
+    IMPORTIMAGESFORM_ERROR_NOIMAGEDIRECTORYGIVEN: 'Hakemistoa ei määritetty'
+    IMPORTIMAGESFORM_HEADLINE: 'Kuvien tuominen jälkikäteen'
+    IMPORTIMAGESFORM_IMAGEDIRECTORY: Hakemisto
+    IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Absoluuttinen polku verkkopalvelimen hakemistoon, jossa kuvat sijaitsevat. (Esimerkki: /var/www/silvercart/images/)'
+    IMPORTIMAGESFORM_REPORT: '<p>Löytyi %d tiedostoa.</p><p>%d niistä voitiin määrittää artikkeleihin ja ne tuotiin maahan.</p>'
+    IS_ACTIVE: 'on aktiivinen'
+    IsNotBuyable: 'Tämä tuote ei ole ostettavissa'
+    Keywords: 'Hakusanat hakua varten'
+    LIST_PRICE: Listahinta
+    LaunchDate: 'Näyttö alkaen'
+    LaunchDateInfo: '<strong>Valinnainen</strong> - Asetetaan vain, jos <i>Myynti alkaen</i> on asetettu ja näyttö on tarkoitus tehdä ennen myynnin alkamista<strong>.</strong> '
+    MASTERPRODUCT: Perusartikkelit
+    METADATA: Metatiedot
+    METADESCRIPTION: 'Meta description hakukoneita varten'
+    METATITLE: 'Metaotsikko hakukoneita varten'
+    MONTH: Kuukausi
+    MONTHS: Kuukaudet
+    MSRP: MSRP
+    MSRP_CURRENCY: 'Valuutta EIA'
+    MirrorPage_PLURALNAME: Peilituoteryhmät
+    MirrorPage_SINGULARNAME: Peili-tuoteryhmä
+    NAME_DESCRIPTION: 'Nimi ja kuvaus'
+    New: Uusi
+    NewestArrivals: 'Uutta kaupassa'
+    PACKAGING_QUANTITY: 'Myynnin määrä'
+    PACKAGING_UNIT: Pakkausyksikkö
+    PLURALNAME: Artikkeli
+    PRICE: Hinta
+    PRICES: Hinnat
+    PRICE_AMOUNT_ASC: 'Hinta nouseva'
+    PRICE_AMOUNT_DESC: 'Hinta laskeva'
+    PRICE_ENTIRE: Kokonaishinta
+    PRICE_GROSS: 'Hinta (brutto)'
+    PRICE_GROSS_CURRENCY: 'Valuutta (brutto)'
+    PRICE_NET: 'Hinta (netto)'
+    PRICE_NET_CURRENCY: 'Valuutta (netto)'
+    PRICE_SINGLE: Yksikköhinta
+    PRICE_SINGLE_NET: 'Yksikköhinta (netto)'
+    PRODUCTNUMBER: 'Artikkelin numero'
+    PRODUCTNUMBER_MANUFACTURER: 'Tuotenumero (valmistaja)'
+    PRODUCTNUMBER_SHORT: Tuotenro.
+    PRODUCT_QUESTION: 'Vastaa seuraaviin kysymyksiin tuotteesta {nimike}. ({tuotenumero}):'
+    PRODUCT_QUESTION_LABEL: 'Artikkelia koskevat kysymykset'
+    PURCHASEPRICE: Ostohinta
+    PURCHASEPRICE_CURRENCY: 'Valuutta Ostohinta'
+    PURCHASE_MAX_DURATION: 'Max. Tilausaika'
+    PURCHASE_MIN_DURATION: Vähimmäisviitekausi
+    PURCHASE_TIME_UNIT: 'Yksikkö (WBZ)'
+    PreorderInfo: 'Tätä tuotetta ei julkaista ennen {julkaisupäivää}. Huomaa, että tätä tuotetta ei voi toimittaa ennen julkaisupäivää.'
+    PreorderNow: 'Ennakkotilaa nyt'
+    PreorderToday: 'Ennakkotilaa tämä tuote tänään'
+    Preorderable: ennakkotilattavissa
+    QUANTITY: Numero
+    QUANTITY_IS_IN_CART: '{quantity} {unit} jo ostoskorissa'
+    QUANTITY_SHORT: Anz.
+    RefreshCache: 'Tallennuksen jälkeen päivitä välimuisti tämän artikkelin osalta.'
+    ReleaseDate: 'Myynti alkaen'
+    ReleaseDateInfo: '<strong>Valinnainen</strong> - Asetetaan vain, jos myynnin alkamista halutaan viivästyttää.'
+    SHORTDESCRIPTION: 'Luettelon kuvaus'
+    SILVERCART_PRODUCT_CREATE: 'Voi luoda artikkeleita.'
+    SINGULARNAME: Artikkeli
+    STOCKQUANTITY: Varasto
+    STOCK_QUANTITY: 'Voiko tämän tuotteen varasto olla ylivarattu?'
+    STOCK_QUANTITY_EXPIRATION_DATE: 'Päivämäärä, josta alkaen varastoa ei voi enää ylivarata.'
+    STOCK_QUANTITY_SHORT: 'Onko ylivarattavissa?'
+    Sale: Tarjous
+    SalesBanDate: 'Näyttö kunnes'
+    SalesBanDateInfo: '<strong>Valinnainen</strong> - Asetetaan vain, jos myynnin kesto on rajoitettu.'
+    StockIsLowOrderNow: 'Pian loppuunmyyty - tilaa nyt'
+    TITLE: Artikkeli
+    TITLE_ASC: 'Nimitys nouseva'
+    TITLE_DESC: 'Nimitys laskeva'
+    ThisProductWillBeReleasedOn: 'Tämä artikkeli ilmestyy {releasedate}'
+    TimeGroup: 'Ajan valvonta'
+    VAT: ALV
+    WEEK: Viikko
+    WEEKS: Viikot
+    WEIGHT: Paino
+    WIDGETAREA: Widgetit
+    YEAR: Vuosi
+    YEARS: Vuodet
+  SilverCart\Model\Product\ProductCondition:
+    DefaultDamaged: Vaurioitunut/viallinen
+    DefaultNew: Uusi
+    DefaultRefurbished: Kunnostettu
+    DefaultUsed: Käytetty
+    PLEASECHOOSE: Valitse
+    PLURALNAME: 'Artiklassa todetaan'
+    SINGULARNAME: 'Tuotteen kunto'
+    SeoMicrodataCode: 'SEO Microdata -koodi'
+    SeoMicrodataCodeDamaged: Vaurioitunut/viallinen
+    SeoMicrodataCodeDescription: 'Määritä tähän sopiva arvo hakukonenäkyvyyden lisäämiseksi.'
+    SeoMicrodataCodeNew: Uusi
+    SeoMicrodataCodeRefurbished: Kunnostettu
+    SeoMicrodataCodeUsed: Käytetty
+    TITLE: Valtio
+    USE_AS_STANDARD_CONDITION: 'Käytetään oletustilana, jos kohteelle ei ole määritelty mitään.'
+  SilverCart\Model\Product\ProductConditionTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\ProductTranslation:
+    LOCALE: Kieli
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\QuantityUnit:
+    ABBREVIATION: Lyhenne
+    EXPLANATION_TO_DECIMAL_PLACES: 'Aseta arvoksi 0 tai jätä tyhjäksi, jos et halua käyttää desimaaleja. Tätä asetusta käytetään esimerkiksi "Lisää ostoskoriin" -lomakkeissa.'
+    NAME: Nimi
+    NUMBER_OF_DECIMAL_PLACES: 'Desimaalien määrä'
+    PLURALNAME: Myyntiyksiköt
+    SINGULARNAME: Myyntiyksikkö
+  SilverCart\Model\Product\QuantityUnitTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Product\StockItemEntry:
+    Created: Päivämäärä
+    Origin: Alkuperä
+    Origin-1: 'Alkusaldon haltuunotto'
+    Origin0: 'Järjestelmän syöttö ei ole tarkemmin määritelty'
+    Origin1: 'Artikkeli luotiin äskettäin'
+    Origin2: 'Suora käyttäjän syöttö'
+    Origin3: 'Tilaus tehtiin'
+    Origin4: 'Järjestystä muutettiin'
+    Origin5: 'Tilaus peruttiin'
+    Origin6: 'Tuo ulkoisen järjestelmän kautta'
+    OriginCode: 'Alkuperän koodaus'
+    PLURALNAME: Varastokirjeet
+    Quantity: Määrä
+    QuantityDesc: 'Varastosta lisättävä tai vähennettävä määrä (esim. "2"/"-2").'
+    QuantityRightTitle: 'Määrää ei voi muuttaa tallennuksen jälkeen. Jos haluat korjata varastokirjauksen, lisää uusi kirjaus ja vastaava huomautus.'
+    Reason: Syy
+    ReasonDesc: 'Lyhyt kuvaus siitä, miksi varastoa on muutettu (esim. "Tilaus XYZ peruutettu", "Tilaus XYZ palautettu", "Tavarat vastaanotettu").'
+    SINGULARNAME: 'Varastoon merkintä'
+  SilverCart\Model\Shipment\ShippingFee:
+    ATTRIBUTED_SHIPPINGMETHOD: 'Määritetyt lähetystyypit'
+    COSTS: Kustannukset
+    DeliveryTimeHint: 'Valinnaiset tiedot toimitusajasta. Korvaa vanhemman lähetysmenetelmän määrityksen.'
+    EMPTYSTRING_CHOOSEZONE: 'Valitse vyöhyke...'
+    FOR_SHIPPINGMETHOD: 'toimitustapaa varten'
+    FREEOFSHIPPINGCOSTSDISABLED: 'Deaktivoi ilmainen toimitus tämän toimitusmaksun osalta'
+    FREEOFSHIPPINGCOSTSFROM: 'Ilmainen toimitus osoitteesta (ohittaa maakohtaisen ja globaalin asetuksen)'
+    FreeFrom: vapaana
+    MaximumWeight: Enimmäispaino
+    MaximumWeightDesc: 'Enimmäispaino grammoina (g)'
+    PLURALNAME: Toimituskulut
+    POST_PRICING: 'Myöhemmin määritettävä hinta'
+  SilverCart\Model\Widgets\ImageSliderImage:
+    AltText: 'ALT-tunnisteen teksti'
+    LINKPAGE: 'Sivu, johon linkitetään'
+    PLURALNAME: Slider-kuvat
+    ProductNumberToReference: 'Linkitettävän artikkelin numero'
+    ProductNumberToReferenceInfo: 'Käytetään sivun sijasta.'
+    SINGULARNAME: 'Slider kuva'
+  SilverCart\Model\Widgets\ImageSliderImageTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Widgets\ImageSliderWidget:
+    CMSTITLE: Imageslider
+    DESCRIPTION: 'Tarjoaa kuvan liukusäätimen, joka näyttää useita kuvia diaesityksessä.'
+    TITLE: Kuvat
+  SilverCart\Model\Widgets\ImageSliderWidgetTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Widgets\LoginWidget:
+    CMSTITLE: 'SilverCart rekisteröinti'
+    DESCRIPTION: 'Tämä widget näyttää kirjautumislomakkeen ja linkit rekisteröintisivulle. Jos asiakas on kirjautunut sisään, sen sijaan näytetään linkit asiakastilin alueille.'
+    TITLE: Rekisteröinti
+    TITLE_LOGGED_IN: Tilini
+    TITLE_NOT_LOGGED_IN: Rekisteröinti
+  SilverCart\Model\Widgets\PageListWidget:
+    CMSTITLE: Sivuluettelo
+    DESCRIPTION: 'Tämä widget näyttää luettelon sivuista, joissa on linkit kyseisille sivuille.'
+    PAGES: 'Myönnetyt sivut'
+    TITLE: Sivuluettelo
+  SilverCart\Model\Widgets\PageListWidgetPage:
+    WIDGET_IMAGE: Kuva
+    WIDGET_INFO_TAB: 'Widget Info'
+    WIDGET_INFO_TAB_EXPLANATION: 'Jotkin widgetit voivat käyttää seuraavia tietoja.'
+    WIDGET_PRIORITY: 'Lajittelujärjestys (mitä korkeampi, sitä kauempana takana)'
+    WIDGET_TEXT: Kuvaus
+    WIDGET_TITLE: 'Otsikko (valinnainen)'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidget:
+    CMSTITLE: 'SilverCart Alatuoteryhmien artikkeleiden näyttäminen'
+    DESCRIPTION: 'Tämä widget näyttää alatuoteryhmien nimikkeet, jos nykyiseen tuoteryhmään ei ole määritetty nimikkeitä.'
+    TITLE: 'Alatuoteryhmien artikkelit'
+  SilverCart\Model\Widgets\ProductGroupChildProductsWidgetTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Widgets\ProductGroupItemsWidget:
+    CMSTITLE: 'SilverCart liukusäädin artikkeleille'
+    CMS_PRODUCTGROUPTABNAME: Tuoteryhmä
+    CMS_PRODUCTSTABNAME: Artikkeli
+    DESCRIPTION: 'Tämä widget näyttää kohteita tuoteryhmästä. Voidaan määritellä, mistä tuoteryhmästä ja kuinka monta artikkelia näytetään.'
+    FETCHMETHOD_SORTORDERASC: 'Järjestely nouseva'
+    FETCHMETHOD_SORTORDERDESC: 'Järjestys laskeva'
+    ProductGroupPageDescription: 'Vain jos "Kohteen valintamenetelmä" on asetettu "Osastolta".'
+    SELECTIONMETHOD_PRODUCTGROUP: Tuoteryhmästä
+    SELECTIONMETHOD_PRODUCTS: 'Valitse kohde käsin'
+    SELECT_PRODUCT_DESCRIPTION: 'Kirjoita artikkelien numerot puolipisteellä erotettuna.'
+    STOREADMIN_FIELDLABEL: 'Valitse näytettävä tuoteryhmä:'
+    TITLE: Artikkeli
+    USE_SELECTIONMETHOD: 'Artikkelien valintamenetelmä'
+  SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Widgets\ProductGroupManufacturersWidget:
+    CMSTITLE: 'SilverCartin valmistajien luettelo'
+    DESCRIPTION: 'Tämä widget näyttää luettelon kaikista kyseisen tuoteryhmän valmistajista.'
+    RESETFILTER: 'Näytä kaikki'
+    TITLE: 'Valmistajan luettelo'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidget:
+    CMSTITLE: 'Tuoteryhmän navigointi'
+    DESCRIPTION: 'Tämä widget luo tuoteryhmien navigointihierarkian. On mahdollista määrittää, mitä tavararyhmää käytetään juurena.'
+    EXPAND_ACTIVE_SECTION_ONLY: 'Avaa vain aktiivinen haara'
+    LEVELS_TO_SHOW: 'Näytä tasot mihin syvyyteen asti'
+    SHOW_ALL_LEVELS: 'Näytä kaikki tasot'
+    TITLE: 'Tuoteryhmän navigointi'
+  SilverCart\Model\Widgets\ProductGroupNavigationWidgetTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Widgets\ProductGroupWidget:
+    CMSTITLE: Tuoteryhmät
+    DESCRIPTION: 'Tämä widget luo yleiskatsauksen kaikista tuoteryhmistä (valinnaisesti liukusäätimenä).'
+    TITLE: Tuoteryhmät
+  SilverCart\Model\Widgets\ProductGroupWidgetTranslation:
+    PLURALNAME: Käännökset
+    SINGULARNAME: Käännös
+  SilverCart\Model\Widgets\ProductSliderWidget:
+    AUTOPLAY: 'Aktivoi automaattinen diaesitys'
+    AUTOPLAYDELAYED: 'Automaattisen diaesityksen viiveen aktivointi'
+    AUTOPLAYLOCKED: 'Automaattisen diaesityksen poistaminen käytöstä, kun käyttäjä navigoi itse.'
+    AddImage: 'Lisää kuva'
+    BUILDARROWS: 'Näytä eteenpäin/taaksepäin-painikkeet'
+    BUILDNAVIGATION: 'Näytä sivun navigointi'
+    BUILDSTARTSTOP: 'Näytä Start/Stop-painike'
+    CMS_BASICTABNAME: Perusasetukset
+    CMS_DISPLAYTABNAME: Edustus
+    CMS_ROUNDABOUTTABNAME: Roundabout
+    CMS_SLIDERIMAGES: 'Diaesityksen kuvat'
+    CMS_SLIDERTABNAME: 'Diaesityksen asetukset'
+    FETCHMETHOD: 'Artikkelien valintatila'
+    FETCHMETHOD_RANDOM: Satunnainen
+    FRONTCONTENT: 'Kuvaus teksti'
+    FRONTTITLE: Otsikko
+    GROUPVIEW: 'Artikkeliluettelon näkymä'
+    IS_CONTENT_VIEW: 'Käytä normaalia kohteen näkymää widget-näkymän sijaan'
+    IS_CONTENT_VIEW_INFO: 'Tämä vaihtoehto on valittava, jos widget on tarkoitettu sivun sisältöalueelle.'
+    NUMBEROFPRODUCTSTOFETCH: 'Ladattavien kohteiden määrä:'
+    NUMBEROFPRODUCTSTOSHOW: 'Näytettävien kohteiden määrä'
+    NUMBEROFPRODUCTSTOSHOW_INFO: 'Vain jos liukusäädin on aktivoitu, muuten kaikki ladatut artikkelit näytetään.'
+    ProductDataToggle: 'Artikkelin asetukset'
+    ProductRelationToggle: 'Artikkeli Toimeksianto'
+    SLIDEDELAY: 'Automaattisen diaesityksen kuvakohtaisen näytön kesto (millisekunteina).'
+    STOPATEND: 'Pysäyttää automaattisen diaesityksen viimeisen paneelin jälkeen.'
+    TRANSITIONEFFECT: Siirtymävaikutus
+    TRANSITION_FADE: Cross-fade
+    TRANSITION_HORIZONTALSLIDE: 'Työnnä vaakasuoraan'
+    TRANSITION_VERTICALSLIDE: 'Työnnä pystysuoraan'
+    USE_LISTVIEW: 'Käytä luettelonäyttöä'
+    USE_ROUNDABOUT: 'Käytä liikenneympyrää'
+    USE_SLIDER: 'Käytä liukusäädintä'
+  SilverCart\Model\Widgets\SearchCloudWidget:
+    CMSTITLE: 'Yleisimmät hakusanat'
+    DESCRIPTION: 'Tämä widget näyttää tagipilven, jossa on useimmin esiintyvät hakusanat.'
+    FONTSIZECOUNT: 'Fonttiasteiden määrä'
+    TAGSPERCLOUD: 'Näytettävien hakusanojen määrä'
+    TITLE: 'Yleisimmät hakusanat'
+  SilverCart\Model\Widgets\SearchWidget:
+    CMSTITLE: Etsi
+    DESCRIPTION: 'Tämä widget näyttää kohteen hakulomakkeen.'
+    TITLE: Hakulomake
+  SilverCart\Model\Widgets\SearchWidgetForm:
+    SEARCHLABEL: 'Kirjoita hakusana:'
+    SUBMITBUTTONTITLE: Etsi
+  SilverCart\View\GroupView\GroupViewBase:
+    LIST: Luettelo
+    TILE: Laatat
