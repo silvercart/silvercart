@@ -28,6 +28,9 @@ SilverStripe\ORM\FieldType\DBString:
 SilverStripe\ORM\PaginatedList:
   extensions:
     - SilverCart\Extensions\ORM\PaginatedListExtension
+SilverStripe\Forms\GridField\GridField:
+  extensions:
+    - SilverCart\Extensions\Forms\GridField\GridFieldExtension
 SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
     - SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest
