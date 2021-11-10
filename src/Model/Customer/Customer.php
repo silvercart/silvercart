@@ -293,7 +293,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      *
      * @var array
      */
-    public static $valid_customer_group_codes = [
+    private static $valid_customer_group_codes = [
         self::GROUP_CODE_B2C,
         self::GROUP_CODE_B2B,
         self::GROUP_CODE_ADMINISTRATORS,
@@ -1141,7 +1141,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         if ($member->Groups()->exists()) {
             $map = $member->Groups()->map('ID', 'Code')->toArray();
             foreach ($map as $groupCode) {
-                if (in_array($groupCode, self::$valid_customer_group_codes)) {
+                if (in_array($groupCode, (array) Member::config()->valid_customer_group_codes)) {
                     $isValidCustomer = true;
                     break;
                 }
