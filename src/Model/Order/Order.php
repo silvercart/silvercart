@@ -2966,22 +2966,44 @@ class Order extends DataObject implements PermissionProvider
         return $this;
     }
     
+    /**
+     * Returns whether this order has positions with order email text.
+     * 
+     * @return bool
+     */
     public function HasPositionsWithOrderEmailText() : bool
     {
         return $this->PositionsWithOrderEmailText()->exists();
     }
     
+    /**
+     * Returns all positions with order email text.
+     * 
+     * @return DataList
+     */
     public function PositionsWithOrderEmailText() : DataList
     {
         return $this->OrderPositions()
                 ->exclude('Product.ProductTranslations.OrderEmailText', ['', null]);
     }
     
+    /**
+     * Returns whether this order has positions with order email text to show on 
+     * order confirmation page.
+     * 
+     * @return bool
+     */
     public function HasPositionsWithOrderConfirmationPageText() : bool
     {
         return $this->PositionsWithOrderConfirmationPageText()->exists();
     }
     
+    /**
+     * Returns all positions with order email text to show on order confirmation 
+     * page.
+     * 
+     * @return DataList
+     */
     public function PositionsWithOrderConfirmationPageText() : DataList
     {
         return $this->OrderPositions()
