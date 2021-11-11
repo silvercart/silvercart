@@ -3,7 +3,7 @@
 namespace SilverCart\Extensions\Forms\GridField;
 
 use SilverStripe\Core\Extension;
-use SilverStripe\ORM\DataObject;
+use SilverStripe\View\ViewableData;
 
 /**
  * Extension for SilverStripe GridField.
@@ -20,14 +20,14 @@ class GridFieldExtension extends Extension
     /**
      * Adds new row $classes for the given $record.
      * 
-     * @param array      &$classes Classes to update
-     * @param int        $total    Total records
-     * @param int        $index    Current index
-     * @param DataObject $record   Record
+     * @param array        &$classes Classes to update
+     * @param int          $total    Total records
+     * @param int          $index    Current index
+     * @param ViewableData $record   Record
      * 
      * @return void
      */
-    public function updateNewRowClasses(array &$classes, int $total, int $index, DataObject $record) : void
+    public function updateNewRowClasses(array &$classes, int $total, int $index, ViewableData $record) : void
     {
         if ($record->hasMethod('getGridFieldRowClasses')) {
             $classes = array_merge($classes, $record->getGridFieldRowClasses());
