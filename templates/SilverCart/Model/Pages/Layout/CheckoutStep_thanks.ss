@@ -11,14 +11,16 @@
                 <a class="btn btn-success btn-block-sm pull-right" href="{$PageByIdentifierCodeLink(SilvercartOrderHolder)}"><%t SilverCart\Model\Pages\OrderHolder.SINGULARNAME 'Order overview' %></a>
             <% end_if %>
         </div>
-
         {$PaymentConfirmationText}
-
+        <% if $CustomersOrder.HasPositionsWithOrderConfirmationPageText %>
+            <% loop $CustomersOrder.PositionsWithOrderConfirmationPageText %>
+                {$Product.OrderEmailText}
+            <% end_loop %>
+        <% end_if %>
         <% if $CustomersOrder %>
             <h1><%t SilverCart\Model\Pages\OrderHolder.OrderDetails 'Order Details' %></h1>
             <% include SilverCart/Model/Pages/OrderDetails %>
         <% end_if %>
-
         <div class="silvercartWidgetHolder">
             {$InsertWidgetArea(Content)}
         </div>

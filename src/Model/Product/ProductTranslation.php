@@ -40,6 +40,7 @@ class ProductTranslation extends DataObject
         'LongDescription'  => 'HTMLText',
         'MetaDescription'  => 'Varchar(255)',
         'MetaTitle'        => 'Varchar(64)', //search engines use only 64 chars
+        'OrderEmailText'   => 'HTMLText',
     ];
     /**
      * 1:1 or 1:n relationships.
@@ -127,6 +128,7 @@ class ProductTranslation extends DataObject
                         'MetaDescription'  => _t(Product::class . '.METADESCRIPTION', 'Meta description for search engines'),
                         'MetaTitle'        => _t(Product::class . '.METATITLE', 'Meta title for search engines'),
                         'Locale'           => _t(Product::class . '.LOCALE', 'Locale'),
+                        'OrderEmailText'   => _t(Product::class . '.OrderEmailText', 'Order Confirmation Email Information'),
                     ]
             );
         });

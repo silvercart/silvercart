@@ -138,31 +138,32 @@ class Product extends DataObject implements PermissionProvider
      * @var array
      */
     private static $db = [
-        'isActive'                    => 'Boolean(1)',
-        'ProductNumberShop'           => 'Varchar(50)',
-        'ProductNumberManufacturer'   => 'Varchar(50)',
-        'EANCode'                     => 'Varchar(13)',
-        'PriceGross'                  => DBMoney::class, //price taxes including
-        'PriceNet'                    => DBMoney::class, //price taxes excluded
-        'MSRPrice'                    => DBMoney::class, //manufacturers recommended price
-        'PurchasePrice'               => DBMoney::class, //the price the shop owner bought the product for
-        'PurchaseMinDuration'         => 'Int',
-        'PurchaseMaxDuration'         => 'Int',
-        'PurchaseTimeUnit'            => 'Enum(",Days,Weeks,Months","")',
-        'StockQuantity'               => 'Int',
-        'StockQuantityOverbookable'   => 'Boolean(0)',
-        'StockQuantityExpirationDate' => DBDate::class,
-        'PackagingQuantity'           => 'Int',
-        'Weight'                      => 'Float', //unit is gramm
-        'Width'                       => 'Float',
-        'Length'                      => 'Float',
-        'Height'                      => 'Float',
-        'ReleaseDate'                 => DBDatetime::class,
-        'LaunchDate'                  => DBDatetime::class,
-        'SalesBanDate'                => DBDatetime::class,
-        'ExcludeFromPaymentDiscounts' => 'Boolean(0)',
-        'IsNotBuyable'                => 'Boolean(0)',
-        'Keywords'                    => DBText::class,
+        'isActive'                        => 'Boolean(1)',
+        'ProductNumberShop'               => 'Varchar(50)',
+        'ProductNumberManufacturer'       => 'Varchar(50)',
+        'EANCode'                         => 'Varchar(13)',
+        'PriceGross'                      => DBMoney::class, //price taxes including
+        'PriceNet'                        => DBMoney::class, //price taxes excluded
+        'MSRPrice'                        => DBMoney::class, //manufacturers recommended price
+        'PurchasePrice'                   => DBMoney::class, //the price the shop owner bought the product for
+        'PurchaseMinDuration'             => 'Int',
+        'PurchaseMaxDuration'             => 'Int',
+        'PurchaseTimeUnit'                => 'Enum(",Days,Weeks,Months","")',
+        'StockQuantity'                   => 'Int',
+        'StockQuantityOverbookable'       => 'Boolean(0)',
+        'StockQuantityExpirationDate'     => DBDate::class,
+        'PackagingQuantity'               => 'Int',
+        'Weight'                          => 'Float', //unit is gramm
+        'Width'                           => 'Float',
+        'Length'                          => 'Float',
+        'Height'                          => 'Float',
+        'ReleaseDate'                     => DBDatetime::class,
+        'LaunchDate'                      => DBDatetime::class,
+        'SalesBanDate'                    => DBDatetime::class,
+        'ExcludeFromPaymentDiscounts'     => 'Boolean(0)',
+        'IsNotBuyable'                    => 'Boolean(0)',
+        'Keywords'                        => DBText::class,
+        'ShowOrderEmailTextAfterCheckout' => 'Boolean(0)',
     ];
     /**
      * 1:n relations
@@ -241,6 +242,7 @@ class Product extends DataObject implements PermissionProvider
         'MSRPriceNice'                => 'Text',
         'BeforeProductHtmlInjections' => 'HTMLText',
         'AfterProductHtmlInjections'  => 'HTMLText',
+        'OrderEmailText'              => 'HTMLText',
     ];
     /**
      * The default sorting.
@@ -626,6 +628,23 @@ class Product extends DataObject implements PermissionProvider
             $this->extend('updateMetaTitle', $metaTitle);
         }
         return $metaTitle;
+    }
+    
+    /**
+     * Returns the OrderEmailText (multilingual).
+     * 
+     * @return DBHTMLText
+     */
+    public function getOrderEmailText() : DBHTMLText
+    {
+        $text = $this->getTranslationFieldValue('OrderEmailText');
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateOrderEmailText', $text);
+        }
+        if (!($text instanceof DBHTMLText)) {
+            $text = DBHTMLText::create()->setValue($text);
+        }
+        return $text;
     }
 
     /**
@@ -1750,6 +1769,8 @@ class Product extends DataObject implements PermissionProvider
         $miscGroup->push(           $fields->dataFieldByName('Height'));
         $miscGroup->push(           LiteralField::create('DimensionInfo', "<br/><br/>{$siteConfig->DimensionUnitNice}"));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('ProductConditionID'));
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('OrderEmailText')->setDescription($this->fieldLabel('OrderEmailTextDesc')));
+        $miscGroup->breakAndPush(   $fields->dataFieldByName('ShowOrderEmailTextAfterCheckout'));
         $miscGroupToggle = ToggleCompositeField::create(
                 'AvailabilityGroupToggle',
                 $this->fieldLabel('MiscGroup'),

@@ -1964,6 +1964,8 @@ en:
     NAME_DESCRIPTION: 'Name & Description'
     New: New
     NewestArrivals: 'Newest Arrivals'
+    OrderEmailText: 'Order Confirmation Email Information'
+    OrderEmailTextDesc: 'If set, this information will be displayed in the order confirmation email when this product is bought.'
     PACKAGING_QUANTITY: 'purchase quantity'
     PACKAGING_UNIT: 'packaging unit'
     PLURALNAME: Products
@@ -2009,6 +2011,7 @@ en:
     Sale: Sale
     SalesBanDate: 'Sales ban date'
     SalesBanDateInfo: '<strong>Optional</strong> - Set this if there is a sales ban date.'
+    ShowOrderEmailTextAfterCheckout: 'Show the Order Confirmation Email Information on the order confirmation page after checkout.'
     StockIsLowOrderNow: 'Sold out soon - order now'
     TITLE: Product
     TITLE_ASC: 'Title ascending'

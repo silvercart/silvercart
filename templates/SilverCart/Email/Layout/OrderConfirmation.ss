@@ -66,6 +66,11 @@
     <% else %>
         <% include SilverCart\Email\OrderDetailTableNet %>
     <% end_if %>
+    <% if $HasPositionsWithOrderEmailText %>
+        <% loop $PositionsWithOrderEmailText %>
+            {$Product.OrderEmailText}
+        <% end_loop %>
+    <% end_if %>
 <% end_with %>
 <% if $CustomContent('OrderInformationText') %>
     {$CustomContent('OrderInformationText')}

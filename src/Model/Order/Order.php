@@ -46,6 +46,7 @@ use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\FieldType\DBHTMLText;
@@ -2963,6 +2964,28 @@ class Order extends DataObject implements PermissionProvider
         );
         $this->extend('onAfterNotificationMail', $params);
         return $this;
+    }
+    
+    public function HasPositionsWithOrderEmailText() : bool
+    {
+        return $this->PositionsWithOrderEmailText()->exists();
+    }
+    
+    public function PositionsWithOrderEmailText() : DataList
+    {
+        return $this->OrderPositions()
+                ->exclude('Product.ProductTranslations.OrderEmailText', ['', null]);
+    }
+    
+    public function HasPositionsWithOrderConfirmationPageText() : bool
+    {
+        return $this->PositionsWithOrderConfirmationPageText()->exists();
+    }
+    
+    public function PositionsWithOrderConfirmationPageText() : DataList
+    {
+        return $this->OrderPositions()
+                ->filter('Product.ShowOrderEmailTextAfterCheckout', true);
     }
 
     /**

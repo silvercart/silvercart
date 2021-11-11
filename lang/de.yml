@@ -1963,6 +1963,8 @@ de:
     NAME_DESCRIPTION: 'Name & Beschreibung'
     New: Neu
     NewestArrivals: 'Neu im Shop'
+    OrderEmailText: 'Auftragsbestätigungs-E-Mail Information'
+    OrderEmailTextDesc: 'Diese Information wird in der Auftragsbestätigungs-E-Mail angezeigt, wenn dieser Artikel gekauft wird.'
     PACKAGING_QUANTITY: Verkaufsmenge
     PACKAGING_UNIT: Verpackungseinheit
     PLURALNAME: Artikel
@@ -2008,6 +2010,7 @@ de:
     Sale: Angebot
     SalesBanDate: 'Anzeige bis'
     SalesBanDateInfo: '<strong>Optional</strong> - Nur setzen, wenn die Dauer des Verkaufs begrenzt ist.'
+    ShowOrderEmailTextAfterCheckout: 'Auftragsbestätigungs-E-Mail Information auch auf der Auftragsbestätigungs-Seite nach dem Checkout anzeigen.'
     StockIsLowOrderNow: 'Bald ausverkauft- jetzt bestellen'
     TITLE: Artikel
     TITLE_ASC: 'Bezeichnung aufsteigend'
