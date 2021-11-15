@@ -168,6 +168,7 @@ en:
     DeleteYourAccountSuccessOpen: 'Your account was successfully marked for deletion. Since there are open orders related to your customer account, your account will be deleted after all open orders are processed. You will recieve a notification by email as soon as the deletion is completed. Until then, you still can decide to undo your deletion request.'
     DeleteYourAccountUndo: 'Undo deletion request'
     DeleteYourAccountUndone: 'The deletion request for your account was successfully undone.'
+    Empty: Empty
     Go: Go
     NextPage: 'Next page'
     PrevPage: 'Previous page'
