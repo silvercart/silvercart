@@ -13,6 +13,7 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\Validator;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\ValidationResult;
 
 /**
  * custom form definition.
@@ -256,7 +257,7 @@ class CustomForm extends Form
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.11.2017
      */
-    protected function markFieldValidationError($fieldName, $errorMessage, $messageType, $messageCast)
+    public function markFieldValidationError($fieldName, $errorMessage, $messageType = ValidationResult::TYPE_ERROR, $messageCast = ValidationResult::CAST_TEXT)
     {
         $messageType .= ' error';
         $field = $this->Fields()->dataFieldByName($fieldName);
@@ -325,6 +326,28 @@ class CustomForm extends Form
             $this->extend('updateFields', $fields);
         }
         return $fields;
+    }
+    
+    /**
+     * Fills the form fields with the posted data.
+     * 
+     * @return CustomForm
+     */
+    public function fillWithPostedValues() : CustomForm
+    {
+        $request = $this->getRequest();
+        if ($request->isPOST()) {
+            foreach ($this->Fields() as $field) {
+                /* @var $field \SilverStripe\Forms\FormField */
+                if ($field instanceof \SilverStripe\Forms\PasswordField
+                 || $request->postVar($field->getName()) === null
+                ) {
+                    continue;
+                }
+                $field->setValue($request->postVar($field->getName()));
+            }
+        }
+        return $this;
     }
 
     /**

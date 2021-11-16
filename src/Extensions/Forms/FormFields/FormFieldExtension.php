@@ -5,6 +5,7 @@ namespace SilverCart\Extensions\Forms\FormFields;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormField;
+use SilverStripe\ORM\ValidationResult;
 use SilverStripe\View\SSViewer;
 
 /** 
@@ -64,6 +65,9 @@ class FormFieldExtension extends Extension
      */
     public function getValidationFailed() : bool
     {
+        if (!property_exists($this->owner, 'validationFailed')) {
+            $this->owner->validationFailed = false;
+        }
         return (bool) $this->owner->validationFailed;
     }
 
@@ -126,10 +130,7 @@ class FormFieldExtension extends Extension
      */
     public function addErrorClass(string $class) : FormField
     {
-        $form = $this->owner->getForm();
-        if ($form instanceof Form
-         && $form->getMessageType() == 'error'
-        ) {
+        if ($this->owner->getMessageType() === ValidationResult::TYPE_ERROR) {
             $this->owner->addExtraClass($class);
         }
         return $this->owner;
