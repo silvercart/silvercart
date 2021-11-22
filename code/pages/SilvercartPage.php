@@ -584,7 +584,6 @@ class SilvercartPage_Controller extends ContentController {
             'silvercart/javascript/jquery.cycle2.min.js',
             'silvercart/javascript/jquery.cycle2.carousel.min.js',
             'silvercart/javascript/jquery.cycle2.swipe.min.js',
-            'silvercart/javascript/jquery.tweet.js',
             'silvercart/javascript/fancybox/jquery.fancybox.js',
             'silvercart/javascript/custom.js',
             'silvercart/javascript/silvercart.js',
