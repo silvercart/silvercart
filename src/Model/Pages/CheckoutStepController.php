@@ -421,9 +421,9 @@ class CheckoutStepController extends \PageController
     /**
      * Returns the invoice address set in checkout
      *
-     * @return Address 
+     * @return Address|null
      */
-    public function getInvoiceAddress()
+    public function getInvoiceAddress() : ?Address
     {
         return $this->getAddress('InvoiceAddress');
     }
@@ -431,9 +431,9 @@ class CheckoutStepController extends \PageController
     /**
      * Returns the shipping address set in checkout
      *
-     * @return Address
+     * @return Address|null
      */
-    public function getShippingAddress()
+    public function getShippingAddress() : ?Address
     {
         return $this->getAddress('ShippingAddress');
     }
@@ -443,11 +443,11 @@ class CheckoutStepController extends \PageController
      *
      * @param string $type The type to use
      * 
-     * @return \SilverCart\Model\Customer\Address
+     * @return Address|null
      */
-    public function getAddress(string $type)
+    public function getAddress(string $type) : ?Address
     {
-        $address  = false;
+        $address  = null;
         $checkout = $this->getCheckout();
         /* @var $checkout \SilverCart\Checkout\Checkout */
         $addressData = $checkout->getDataValue($type);
