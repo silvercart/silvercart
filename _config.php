@@ -11,6 +11,7 @@
 
 use Broarm\CookieConsent\CookieConsent;
 use Broarm\CookieConsent\Model\CookieGroup;
+use DNADesign\Elemental\Models\BaseElement;
 use SilverCart\Admin\Controllers\LeftAndMainExtension;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ActivateDataObject;
 use SilverCart\Admin\Forms\GridField\GridFieldBatchAction_ChangeAvailabilityStatus;
@@ -70,6 +71,9 @@ if (class_exists(CookieConsent::class)) {
     ContentController::add_extension(BroarmContentControllerExtension::class);
     CookieGroup::add_extension(CookieGroupExtension::class);
     CookieGroup::add_extension(FluentExtension::class);
+}
+if (class_exists(BaseElement::class)) {
+    BaseElement::add_extension(FluentExtension::class);
 }
 // Define required attributes to display a product in frontend
 Product::addRequiredAttribute("Price");
