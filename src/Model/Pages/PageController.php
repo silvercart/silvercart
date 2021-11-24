@@ -90,6 +90,16 @@ class PageController extends ContentController
     }
     
     /**
+     * Blocks the requirement with the given $fileOrID.
+     * 
+     * @param string|int $fileOrID File name or ID to block
+     */
+    public function BlockRequirement(string $fileOrID) : void
+    {
+        Requirements::block($fileOrID);
+    }
+    
+    /**
      * Loads all PHP side SilverCart JS requirements.
      * Additional JS files can still be loaded elsewhere.
      * 
