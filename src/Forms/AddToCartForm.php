@@ -208,4 +208,16 @@ class AddToCartForm extends CustomForm
         }
         return $maxLength;
     }
+    
+    /**
+     * Returns the max length for the add-to-cart-form quantity field.
+     * 
+     * @param int $add Integer value to add
+     * 
+     * @return int
+     */
+    protected function getQuantityWidth(int $add = 0) : int
+    {
+        return (strlen((string) Config::addToCartMaxQuantity()) * 10) + $add;
+    }
 }

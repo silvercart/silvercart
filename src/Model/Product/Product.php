@@ -2467,7 +2467,7 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getMaxQuantityForCart() : float
     {
-        $quantity = 0;
+        $quantity = Config::addToCartMaxQuantity();
         $this->extend('updateMaxQuantityForCart', $quantity);
         return $quantity;
     }
