@@ -29,7 +29,7 @@ class DropdownFieldExtension extends Extension
     {
         Requirements::themedCSS('client/css/chosen.min');
         Requirements::themedJavascript('client/javascript/chosen.jquery.min');
-        Requirements::customScript('$("select.chosen-select").chosen({disable_search_threshold: 10});', 'sc-chosen');
+        Requirements::customScript('$("select.chosen-select").chosen({disable_search_threshold: 10,search_contains: true});', 'sc-chosen');
         $this->owner->addExtraClass('chosen-select');
         return $this->owner;
     }
