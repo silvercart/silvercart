@@ -487,6 +487,14 @@ class FormField extends DataObject
                     $contextSource["{$contextObjectName}.{$relationName}.Title"] = "{$contextObject->fieldLabel($relationName)} ({$singlton->fieldLabel('Title')})";
                 }
             }
+            foreach ($whitelist as $whitelistEntry) {
+                if (array_key_exists("{$contextObjectName}.{$whitelistEntry}.ID", $contextSource)) {
+                    continue;
+                }
+                if ($contextObject->hasMethod("get{$whitelistEntry}")) {
+                    $contextSource["{$contextObjectName}.{$whitelistEntry}"] = $contextObject->fieldLabel($whitelistEntry);
+                }
+            }
             $source[$contextObject->i18n_singular_name()] = $contextSource;
         }
         return $source;
