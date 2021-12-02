@@ -169,6 +169,7 @@ fi:
     Go: Mene
     NextPage: 'Seuraava sivu'
     PrevPage: 'Edellinen sivu'
+    Print: Tulosta
     ProductAddedToCart: 'Tuote on lisätty ostoskoriin.'
     ProductRemovedFromCart: 'Tuote on poistettu ostoskorista.'
     Sort: Lajittelujärjestys

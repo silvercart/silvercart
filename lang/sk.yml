@@ -169,6 +169,7 @@ sk:
     Go: 'Prejsť na stránku'
     NextPage: 'Ďalšia stránka'
     PrevPage: 'Predchádzajúca stránka'
+    Print: Tlač
     ProductAddedToCart: 'Položka bola pridaná do nákupného košíka.'
     ProductRemovedFromCart: 'Položka bola odstránená z nákupného košíka.'
     Sort: 'Poradie triedenia'

@@ -172,6 +172,7 @@ en:
     Go: Go
     NextPage: 'Next page'
     PrevPage: 'Previous page'
+    Print: Print
     ProductAddedToCart: 'The product was added to your cart.'
     ProductRemovedFromCart: 'The product was removed from your cart.'
     Sort: 'Sort order'
