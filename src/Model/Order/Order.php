@@ -18,7 +18,7 @@ use SilverCart\Model\Order\OrderShippingAddress;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\AddressHolder;
-use SilverCart\Model\Pages\Page;
+use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Payment\PaymentStatus;
@@ -432,7 +432,7 @@ class Order extends DataObject implements PermissionProvider
     {
         return $this->defaultFieldLabels($includerelations, [
             'ID'                               => _t(Order::class . '.ORDER_ID', 'Ordernumber'),
-            'Created'                          => _t(Page::class . '.ORDER_DATE', 'Order date'),
+            'Created'                          => _t(SilverCartPage::class . '.ORDER_DATE', 'Order date'),
             'OrderNumber'                      => _t(Order::class . '.ORDERNUMBER', 'ordernumber'),
             'OrderNumberShort'                 => _t(Order::class . '.OrderNumberShort', 'Orderno.'),
             'ShippingFee'                      => _t(Order::class . '.SHIPPINGRATE', 'shipping costs'),
@@ -448,7 +448,7 @@ class Order extends DataObject implements PermissionProvider
             'ShippingAddressFirstName'         => _t(Address::class . '.FIRSTNAME', 'Firstname'),
             'ShippingAddressSurname'           => _t(Address::class . '.SURNAME', 'Surname'),
             'ShippingAddressCountry'           => Country::singleton()->singular_name(),
-            'ShippingAndInvoiceAddress'        => _t(Page::class . '.SHIPPING_AND_BILLING', 'Shipping and invoice address'),
+            'ShippingAndInvoiceAddress'        => _t(SilverCartPage::class . '.SHIPPING_AND_BILLING', 'Shipping and invoice address'),
             'InvoiceAddress'                   => _t(Address::class . '.InvoiceAddress', 'Invoice address'),
             'OrderStatus'                      => _t(Order::class . '.STATUS', 'order status'),
             'AmountTotal'                      => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
@@ -483,7 +483,7 @@ class Order extends DataObject implements PermissionProvider
             'ChangePaymentStatus'              => _t(Order::class . '.BATCH_CHANGEPAYMENTSTATUS', 'Change payment status to...'),
             'IsSeen'                           => _t(Order::class . '.IS_SEEN', 'Seen'),
             'OrderLogs'                        => OrderLog::singleton()->plural_name(),
-            'ValueOfGoods'                     => _t(Page::class . '.VALUE_OF_GOODS', 'Value of goods'),
+            'ValueOfGoods'                     => _t(SilverCartPage::class . '.VALUE_OF_GOODS', 'Value of goods'),
             'Tracking'                         => _t(Order::class . '.Tracking', 'Tracking'),
             'TrackingCode'                     => _t(Order::class . '.TrackingCode', 'Tracking Code'),
             'TrackingLink'                     => _t(Order::class . '.TrackingLink', 'Tracking Link'),
@@ -3469,6 +3469,21 @@ class Order extends DataObject implements PermissionProvider
             $this->write();
             OrderLog::addMarkedAsNotSeenLog($this, Order::class);
         }
+    }
+    
+    /**
+     * Returns the link to show this complaint.
+     * 
+     * @return string
+     */
+    public function Link() : string
+    {
+        $link        = '';
+        $orderHolder = SilverCartPage::PageByIdentifierCode(SilverCartPage::IDENTIFIER_ORDER_HOLDER);
+        if ($orderHolder instanceof SilverCartPage) {
+            $link = $orderHolder->Link("detail/{$this->ID}");
+        }
+        return $link;
     }
     
     /**
