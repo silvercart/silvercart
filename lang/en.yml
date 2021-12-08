@@ -2303,6 +2303,25 @@ en:
   SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
     PLURALNAME: Translations
     SINGULARNAME: Translation
+  SilverCart\Model\Widgets\HTMLSliderWidget:
+    DESCRIPTION: 'This widget displays customizable HTML content as a slider (just like the slider for products).'
+    PLURALNAME: 'HTML Content Slider'
+    SINGULARNAME: 'HTML Content Slider'
+    TITLE: 'HTML Content Slider'
+  SilverCart\Model\Widgets\HTMLSliderWidgetSlide:
+    PLURALNAME: 'HTML Slides'
+    SINGULARNAME: 'HTML Slide'
+    FrontContent: Content
+    FrontTitle: Headline
+    HTMLContent: 'HTML Content'
+    Sort: 'Sort Order'
+    Title: 'Title (internal)'
+  SilverCart\Model\Widgets\HTMLSliderWidgetSlideTranslation:
+    PLURALNAME: Translations
+    SINGULARNAME: Translation
+  SilverCart\Model\Widgets\HTMLSliderWidgetTranslation:
+    PLURALNAME: Translations
+    SINGULARNAME: Translation
   SilverCart\Model\Widgets\ImageSliderImage:
     AltText: 'Text for ALT-Tag'
     ExternalLink: 'External Link'
