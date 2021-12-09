@@ -2648,18 +2648,27 @@ class Order extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns extension injected order detail actions.
+     *
+     * @return DBHTMLText
+     */
+    public function OrderDetailActions() : DBHTMLText
+    {
+        $actions = '';
+        $this->extend('updateOrderDetailActions', $actions);
+        return DBHTMLText::create()->setValue($actions);
+    }
+    
+    /**
      * Returns plugin output.
      *
-     * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 23.04.2018
+     * @return DBHTMLText
      */
-    public function OrderDetailInformation()
+    public function OrderDetailInformation() : DBHTMLText
     {
         $orderDetailInformation = '';
         $this->extend('updateOrderDetailInformation', $orderDetailInformation);
-        return Tools::string2html($orderDetailInformation);
+        return DBHTMLText::create()->setValue($orderDetailInformation);
     }
     
     /**
