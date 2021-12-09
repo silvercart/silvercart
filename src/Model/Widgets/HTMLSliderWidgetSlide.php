@@ -141,6 +141,7 @@ class HTMLSliderWidgetSlide extends DataObject
         if (!($htmlContent instanceof DBHTMLText)) {
             $htmlContent = DBHTMLText::create()->setValue($htmlContent);
         }
+        $htmlContent->setProcessShortcodes(true);
         return $htmlContent;
     }
 }
