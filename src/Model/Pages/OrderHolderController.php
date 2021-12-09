@@ -9,6 +9,7 @@ use SilverCart\Checkout\CheckoutStep3;
 use SilverCart\Checkout\CheckoutStep4;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderInvoiceAddress;
+use SilverCart\Model\Order\OrderPosition;
 use SilverCart\Model\Order\OrderShippingAddress;
 use SilverCart\Model\Pages\MyAccountHolderController;
 use SilverStripe\Control\HTTPRequest;
@@ -44,6 +45,7 @@ class OrderHolderController extends MyAccountHolderController
     private static $allowed_actions = [
         'detail',
         'placeorder',
+        'placeorderposition',
         'placeorder_full',
     ];
     
@@ -139,38 +141,73 @@ class OrderHolderController extends MyAccountHolderController
     }
     
     /**
+     * Action to re-order a single position.
+     * 
+     * @param HTTPRequest $request HTTP request
+     * 
+     * @return HTTPResponse
+     */
+    public function placeorderposition(HTTPRequest $request) : HTTPResponse
+    {
+        if (!$this->data()->AllowReorder) {
+            $this->httpError(403);
+        }
+        $orderPosition = null;
+        $response      = $this->handleOrderDetailAction($request, true, $orderPosition);
+        if ($response instanceof HTTPResponse) {
+            return $response;
+        }
+        $this->doPlaceOrder($orderPosition);
+        return $this->redirect(CartPage::get()->first()->Link());
+    }
+    
+    /**
      * Places the current order context positions into the shopping cart.
      * 
      * @return void
      */
-    protected function doPlaceOrder() : void
+    protected function doPlaceOrder(OrderPosition $orderPosition = null) : void
     {
         $customer = Security::getCurrentUser();
         $order    = $this->CustomersOrder();
         $cartID   = $customer->getCart()->ID;
-        foreach ($order->OrderPositions() as $orderPosition) {
-            /* @var $orderPosition \SilverCart\Model\Order\OrderPosition */
-            if ($orderPosition->Product()->exists()) {
-                $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
+        if ($orderPosition === null) {
+            foreach ($order->OrderPositions() as $orderPosition) {
+                /* @var $orderPosition \SilverCart\Model\Order\OrderPosition */
+                if ($orderPosition->Product()->exists()) {
+                    $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
+                }
             }
+        } elseif ($orderPosition->Product()->exists()) {
+            $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
         }
     }
     
     /**
      * Handles an order detail response.
      * 
-     * @param HTTPRequest $request HTTP request
+     * @param HTTPRequest $request          HTTP request
+     * @param bool        $useOrderPosition URL ID is targeting an order position?
      * 
      * @return HTTPResponse|null
      */
-    protected function handleOrderDetailAction(HTTPRequest $request) : ?HTTPResponse
+    protected function handleOrderDetailAction(HTTPRequest $request, bool $useOrderPosition = false, OrderPosition &$orderPosition = null) : ?HTTPResponse
     {
         $customer = Security::getCurrentUser();
         if (!($customer instanceof Member)) {
             // there is no logged in customer
             return $this->redirect($this->Link());
         }
-        $orderID = (int) $request->param('ID');
+        $orderID = 0;
+        if ($useOrderPosition) {
+            $orderPositionID = (int) $request->param('ID');
+            $orderPosition   = OrderPosition::get()->byID($orderPositionID);
+            if ($orderPosition instanceof OrderPosition) {
+                $orderID = (int) $orderPosition->OrderID;
+            }
+        } else {
+            $orderID = (int) $request->param('ID');
+        }
         $this->setOrderID($orderID);
         // get the order to check whether it is related to the actual customer or not.
         $order = Order::get()->byID($this->getOrderID());
