@@ -169,6 +169,7 @@ it:
     Go: Vai
     NextPage: 'Pagina successiva'
     PrevPage: 'Pagina precedente'
+    Print: Stampare
     ProductAddedToCart: 'L''articolo è stato aggiunto al tuo carrello.'
     ProductRemovedFromCart: 'L''articolo è stato rimosso dal carrello.'
     Sort: 'Criterio d''ordine'

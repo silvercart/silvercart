@@ -169,6 +169,7 @@ cs:
     Go: 'Přejít na'
     NextPage: 'Další stránka'
     PrevPage: 'Předchozí stránka'
+    Print: Tisk
     ProductAddedToCart: 'Položka byla přidána do nákupního košíku.'
     ProductRemovedFromCart: 'Položka byla odstraněna z nákupního košíku.'
     Sort: 'Pořadí řazení'

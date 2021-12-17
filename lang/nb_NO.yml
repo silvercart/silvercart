@@ -169,6 +169,7 @@ nb_NO:
     Go: 'Kom igjen'
     NextPage: 'Neste side'
     PrevPage: 'Forrige side'
+    Print: 'Å trykke'
     ProductAddedToCart: 'Varen er lagt i handlekurven din.'
     ProductRemovedFromCart: 'Varen er fjernet fra handlekurven din.'
     Sort: Sorteringsrekkefølge

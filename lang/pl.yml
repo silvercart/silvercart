@@ -169,6 +169,7 @@ pl:
     Go: 'Wejdź na stronę'
     NextPage: 'Następna strona'
     PrevPage: 'Poprzednia strona'
+    Print: Drukuj
     ProductAddedToCart: 'Artykuł został dodany do koszyka.'
     ProductRemovedFromCart: 'Pozycja została usunięta z Twojego koszyka.'
     Sort: 'Kolejność sortowania'

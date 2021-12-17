@@ -202,4 +202,20 @@ class OrderHolder extends MyAccountHolder
         }
         return $link;
     }
+    
+    /**
+     * Returns the link to reoder an order position.
+     * 
+     * @param int $orderPositionID Order position ID
+     * 
+     * @return string
+     */
+    public function ReoderPositionLink(int $orderPositionID) : string
+    {
+        $link = '';
+        if (Controller::has_curr()) {
+            $link = $this->Link("placeorderposition/{$orderPositionID}");
+        }
+        return $link;
+    }
 }

@@ -130,6 +130,31 @@ class Page extends SiteTree
         }
         return $robotsTag;
     }
+
+    /**
+     * returns a single page by IdentifierCode
+     * used to retrieve links dynamically
+     *
+     * @param string $identifierCode the classes name
+     * 
+     * @return SiteTree|null
+     */
+    public static function PageByIdentifierCode(string $identifierCode = self::IDENTIFIER_FRONT_PAGE) : ?SiteTree
+    {
+        return Tools::PageByIdentifierCode($identifierCode);
+    }
+
+    /**
+     * returns a page link by IdentifierCode
+     *
+     * @param string $identifierCode the DataObjects IdentifierCode
+     *
+     * @return string
+     */
+    public static function PageByIdentifierCodeLink(string $identifierCode = self::IDENTIFIER_FRONT_PAGE) : string
+    {
+        return Tools::PageByIdentifierCodeLink($identifierCode);
+    }
     
     /**
      * Returns the translated singular name of the object. If no translation exists

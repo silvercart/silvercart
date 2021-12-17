@@ -172,6 +172,7 @@ de:
     Go: Los
     NextPage: 'Nächste Seite'
     PrevPage: 'Vorherige Seite'
+    Print: Drucken
     ProductAddedToCart: 'Der Artikel wurde Ihrem Warenkorb hinzugefügt.'
     ProductRemovedFromCart: 'Der Artikel wurde aus Ihrem Warenkorb entfernt.'
     Sort: Sortierreihenfolge
@@ -2299,6 +2300,25 @@ de:
     FETCHMETHOD_SORTORDERDESC: 'Preisdifferenz absteigend'
     TITLE: Schnäppchen
   SilverCart\Model\Widgets\BargainProductsWidgetTranslation:
+    PLURALNAME: Übersetzungen
+    SINGULARNAME: Übersetzung
+  SilverCart\Model\Widgets\HTMLSliderWidget:
+    DESCRIPTION: 'Dieses Widget zeigt beliebige HTML basierte Slides an (ähnlich wie der Slider für Artikel).'
+    PLURALNAME: 'Slider für HTML-Inhalte'
+    SINGULARNAME: 'Slider für HTML-Inhalte'
+    TITLE: HTML-Slider
+  SilverCart\Model\Widgets\HTMLSliderWidgetSlide:
+    PLURALNAME: HTML-Slides
+    SINGULARNAME: HTML-Slide
+    FrontContent: Beschreibungstext
+    FrontTitle: Überschrift
+    HTMLContent: HTML-Inhalt
+    Sort: Sortierreihenfolge
+    Title: 'Titel (intern)'
+  SilverCart\Model\Widgets\HTMLSliderWidgetSlideTranslation:
+    PLURALNAME: Übersetzungen
+    SINGULARNAME: Übersetzung
+  SilverCart\Model\Widgets\HTMLSliderWidgetTranslation:
     PLURALNAME: Übersetzungen
     SINGULARNAME: Übersetzung
   SilverCart\Model\Widgets\ImageSliderImage:

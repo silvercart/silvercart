@@ -169,6 +169,7 @@ es:
     Go: 'Ir a'
     NextPage: 'Página siguiente'
     PrevPage: 'Página anterior'
+    Print: Imprimir
     ProductAddedToCart: 'El artículo se ha añadido a su cesta de la compra.'
     ProductRemovedFromCart: 'El artículo ha sido eliminado de su cesta de la compra.'
     Sort: 'Orden de clasificación'
