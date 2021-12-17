@@ -136,7 +136,11 @@ class CheckoutChooseShippingMethodForm extends CustomForm
      */
     public function getShippingAddress() : ?Address
     {
-        return $this->getController()->getShippingAddress();
+        $shippingAddress = $this->getController()->getShippingAddress();
+        if (!($shippingAddress instanceof Address)) {
+            $shippingAddress = null;
+        }
+        return $shippingAddress;
     }
 
     /**
