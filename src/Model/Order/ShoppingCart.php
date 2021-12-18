@@ -1563,12 +1563,15 @@ class ShoppingCart extends DataObject
     /**
      * Returns the minimum delivery time as date string YYYY-MM-DD.
      * 
-     * @param int  $shippingMethodID   ID of the shipping method to use for delivery
-     * @param bool $forceDisplayInDays Force displaying the delivery time in days
+     * @param int|string $shippingMethodID   ID of the shipping method to use for 
+     *                                       delivery. Should always be of type 
+     *                                       integer, but it's possible to be 
+     *                                       string when called out of template.
+     * @param bool       $forceDisplayInDays Force displaying the delivery time in days
      * 
      * @return DBHTMLText
      */
-    public function getDeliveryTime(int $shippingMethodID = 0, bool $forceDisplayInDays = false) : DBHTMLText
+    public function getDeliveryTime($shippingMethodID = 0, bool $forceDisplayInDays = false) : DBHTMLText
     {
         $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
         $deliveryTime     = ShippingMethod::get_delivery_time(
