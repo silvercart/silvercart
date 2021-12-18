@@ -1573,7 +1573,7 @@ class ShoppingCart extends DataObject
      */
     public function getDeliveryTime($shippingMethodID = 0, bool $forceDisplayInDays = false) : DBHTMLText
     {
-        $deliveryTimeData = $this->getDeliveryTimeData($shippingMethodID, $forceDisplayInDays);
+        $deliveryTimeData = $this->getDeliveryTimeData((int) $shippingMethodID, $forceDisplayInDays);
         $deliveryTime     = ShippingMethod::get_delivery_time(
                 $deliveryTimeData->Min,
                 $deliveryTimeData->Max,
