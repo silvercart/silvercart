@@ -1971,6 +1971,7 @@ de:
     PACKAGING_UNIT: Verpackungseinheit
     PLURALNAME: Artikel
     PRICE: Preis
+    PriceFrom: 'ab {price}'
     PRICES: Preise
     PRICE_AMOUNT_ASC: 'Preis aufsteigend'
     PRICE_AMOUNT_DESC: 'Preis absteigend'

@@ -1972,6 +1972,7 @@ en:
     PACKAGING_UNIT: 'packaging unit'
     PLURALNAME: Products
     PRICE: Price
+    PriceFrom: 'from {price}'
     PRICES: Prices
     PRICE_AMOUNT_ASC: 'Price ascending'
     PRICE_AMOUNT_DESC: 'Price descending'
