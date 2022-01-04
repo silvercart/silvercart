@@ -170,6 +170,7 @@ en:
     DeleteYourAccountUndone: 'The deletion request for your account was successfully undone.'
     Empty: Empty
     Go: Go
+    IncludingTax: 'incl. VAT'
     NextPage: 'Next page'
     PrevPage: 'Previous page'
     Print: Print

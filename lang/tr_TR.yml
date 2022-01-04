@@ -167,6 +167,7 @@ tr_TR:
     DeleteYourAccountUndo: 'Silme isteğini iptal et'
     DeleteYourAccountUndone: 'Silme isteğiniz başarıyla iptal edildi.'
     Go: Haydi
+    IncludingTax: 'KDV dahil.'
     NextPage: 'Sonraki Sayfa'
     PrevPage: 'Önceki sayfa'
     Print: Bastırmak

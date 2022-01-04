@@ -167,6 +167,7 @@ es:
     DeleteYourAccountUndo: 'Revocar la solicitud de borrado'
     DeleteYourAccountUndone: 'Su solicitud de borrado ha sido anulada con éxito.'
     Go: 'Ir a'
+    IncludingTax: 'incl. IVA.'
     NextPage: 'Página siguiente'
     PrevPage: 'Página anterior'
     Print: Imprimir

@@ -167,6 +167,7 @@ sk:
     DeleteYourAccountUndo: 'Odvolanie žiadosti o vymazanie'
     DeleteYourAccountUndone: 'Vaša žiadosť o vymazanie bola úspešne zrušená.'
     Go: 'Prejsť na stránku'
+    IncludingTax: 'vrátane DPH.'
     NextPage: 'Ďalšia stránka'
     PrevPage: 'Predchádzajúca stránka'
     Print: Tlač

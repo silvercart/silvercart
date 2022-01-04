@@ -167,6 +167,7 @@ nl_BE:
     DeleteYourAccountUndo: 'Verwijderingsverzoek ongedaan maken'
     DeleteYourAccountUndone: 'Het verwijderingsverzoek voor uw account is succesvol ongedaan gemaakt.'
     Go: 'Ga naar'
+    IncludingTax: 'incl. Btw'
     NextPage: 'Volgende pagina'
     PrevPage: 'Vorige pagina'
     Print: Afdrukken

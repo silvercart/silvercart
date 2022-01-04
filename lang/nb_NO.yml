@@ -167,6 +167,7 @@ nb_NO:
     DeleteYourAccountUndo: 'Tilbakekall sletteforespørselen'
     DeleteYourAccountUndone: 'Din forespørsel om sletting har blitt kansellert.'
     Go: 'Kom igjen'
+    IncludingTax: 'inkl. mva'
     NextPage: 'Neste side'
     PrevPage: 'Forrige side'
     Print: 'Å trykke'

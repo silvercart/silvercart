@@ -167,6 +167,7 @@ ro:
     DeleteYourAccountUndo: 'Revocarea cererii de ștergere'
     DeleteYourAccountUndone: 'Cererea dvs. de ștergere a fost anulată cu succes.'
     Go: Du-te
+    IncludingTax: 'inclusiv TVA.'
     NextPage: 'Pagina următoare'
     PrevPage: 'Pagina precedentă'
     Print: Imprimare
@@ -1065,14 +1066,14 @@ ro:
     FEBRUARY: Februarie
     FIND: 'Găsiți:'
     FORWARD: 'Mai departe'
-    GOTO: 'du-te la {titlu} Pagina'
+    GOTO: 'du-te la {title} Pagina'
     GOTO_CART_SHORT: 'Coș de cumpărături'
     GOTO_CONTACT_LINK: 'Către pagina de contact'
     GOTO_PAGE: 'Mergeți la pagina {count} '
     HEADERPICTURE: 'Imagine de antet'
     HELLO: 'Bună ziua'
     INCLUDED_VAT: 'TVA inclus'
-    INCLUDING_TAX: 'inclusiv {import}% TVA.'
+    INCLUDING_TAX: 'inclusiv {amount}% TVA.'
     INCREMENT_POSITION: 'Creșterea numărului'
     ISACTIVE: Activ
     I_ACCEPT: Accept
