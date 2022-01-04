@@ -1273,17 +1273,17 @@ class ProductGroupPage extends \Page
     /**
      * Returns the DoNotShowProducts setting.
      * 
-     * @return string
+     * @return bool
      */
-    public function getDoNotShowProducts()
+    public function getDoNotShowProducts() : bool
     {
-        $doNotShowProducts = $this->getField('DoNotShowProducts');
+        $doNotShowProducts = (bool) $this->getField('DoNotShowProducts');
         if (!$this->getCMSFieldsIsCalled
          && !Tools::isBackendEnvironment()
         ) {
             $this->extend('updateDoNotShowProducts', $doNotShowProducts);
         }
-        return $doNotShowProducts;
+        return (bool) $doNotShowProducts;
     }
     
     /**
