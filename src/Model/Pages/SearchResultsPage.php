@@ -248,13 +248,17 @@ class SearchResultsPage extends ProductGroupPage
      */
     public static function getCurrentSearchQuery() : string
     {
-        $searchQueryByRequest = Controller::curr()->getRequest()->getVar('q');
+        $searchQuery          = '';
+        $searchQueryByRequest = null;
+        if (Controller::has_curr()) {
+            $searchQueryByRequest = Controller::curr()->getRequest()->getVar('q');
+        }
         if (!is_null($searchQueryByRequest)) {
             $searchQuery = $searchQueryByRequest;
         } else {
             $searchQuery = trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_QUERY));
         }
-        return $searchQuery;
+        return (string) $searchQuery;
     }
     
     /**
