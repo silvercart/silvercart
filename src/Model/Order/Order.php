@@ -53,6 +53,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
@@ -2990,7 +2991,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @return DataList
      */
-    public function PositionsWithOrderEmailText() : DataList
+    public function PositionsWithOrderEmailText() : SS_List
     {
         return $this->OrderPositions()
                 ->exclude('Product.ProductTranslations.OrderEmailText', ['', null]);

@@ -111,21 +111,23 @@ class CheckoutConfirmOrderForm extends CustomForm
      * The newsletter checkbox should not be shown if a registered customer has
      * already subscribed to the newsletter.
      * 
-     * @return boolean answer 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 12.04.2018
+     * @return bool
      */
-    public function ShowNewsletterCheckbox()
+    public function ShowNewsletterCheckbox() : bool
     {
-        $customer = Customer::currentRegisteredCustomer();
-        if ($customer instanceof Member
-         && $customer->SubscribedToNewsletter == 1
-        ) {
-            return false;
+        $show           = true;
+        $newsletterPage = Page::PageByIdentifierCode(Page::IDENTIFIER_NEWSLETTER_PAGE);
+        if (!($newsletterPage instanceof Page)) {
+            $show = false;
+        } else {
+            $customer = Customer::currentRegisteredCustomer();
+            if ($customer instanceof Member
+             && $customer->SubscribedToNewsletter == 1
+            ) {
+                $show = false;
+            }
         }
-        return true;
+        return $show;
     }
     
     /**
