@@ -252,11 +252,11 @@ class SearchResultsPage extends ProductGroupPage
         $searchQueryByRequest = null;
         if (Controller::has_curr()) {
             $searchQueryByRequest = Controller::curr()->getRequest()->getVar('q');
-        }
-        if (!is_null($searchQueryByRequest)) {
-            $searchQuery = $searchQueryByRequest;
-        } else {
-            $searchQuery = trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_QUERY));
+            if (!is_null($searchQueryByRequest)) {
+                $searchQuery = $searchQueryByRequest;
+            } else {
+                $searchQuery = trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_QUERY));
+            }
         }
         return (string) $searchQuery;
     }
