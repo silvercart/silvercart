@@ -362,8 +362,9 @@ class ProductImageImportTask extends BuildTask
             $this->printInfo("\t   created new image #{$image->ID}", self::$CLI_COLOR_GREEN);
         }
         $silvercartImage = SilverCartImage::create();
-        $silvercartImage->ImageID = $image->ID;
-        $silvercartImage->Title   = $description;
+        $silvercartImage->ImageID   = $image->ID;
+        $silvercartImage->Title     = $description;
+        $silvercartImage->SortOrder = $consecutiveNumber;
         $silvercartImage->write();
         $product->Images()->add($silvercartImage);
     }
