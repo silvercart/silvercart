@@ -8,7 +8,7 @@
             <span class="icon-groupview-{$Code}"></span>
         </a>
                 <% else %>
-        <a class="btn btn-small" href="{$CurrentPage.Link}switchGroupView/{$Code}" title="{$Label}">
+        <a class="btn btn-small" href="{$CurrentPage.Link($Action)}" title="{$Label}">
             <span class="icon-groupview-{$Code}"></span>
         </a>
             <% end_if %>
@@ -24,7 +24,7 @@
             <span class="icon-groupview-{$Code}"></span>
         </a>
                 <% else %>
-        <a class="btn btn-small" href="{$CurrentPage.Link}switchGroupView/{$Code}" title="{$Label}">
+        <a class="btn btn-small" href="{$CurrentPage.Link($Action)}" title="{$Label}">
             <span class="icon-groupview-{$Code}"></span>
         </a>
     </div>

@@ -8,7 +8,7 @@ use SilverCart\View\GroupView\GroupViewBase;
  * Provides a listed group view for products and productgroups.
  *
  * @package SilverCart
- * @subpackage View_GroupView
+ * @subpackage View\GroupView
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 11.10.2017
  * @copyright 2017 pixeltricks GmbH
@@ -18,17 +18,15 @@ use SilverCart\View\GroupView\GroupViewBase;
  * @see ProductGroupHolderList.ss (template file)
  * @see ProductGroupPageList.ss (template file)
  */
-class GroupViewList extends GroupViewBase {
-
+class GroupViewList extends GroupViewBase
+{
     /**
      * main preferences of the group view
      *
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.02.2011
      */
-    protected function preferences() {
+    protected function preferences() : array
+    {
         $preferences = parent::preferences();
         $preferences['code']            = 'list';
         $preferences['i18n_key']        = GroupViewBase::class . '.LIST';
