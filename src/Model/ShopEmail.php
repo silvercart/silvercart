@@ -535,14 +535,18 @@ class ShopEmail extends DataObject
     /**
      * sends email to defined address
      *
-     * @param string $identifier  identifier for email template
-     * @param string $to          recipients email address
-     * @param array  $variables   array with template variables that can be called in the template
-     * @param array  $attachments absolute filename to an attachment file
+     * @param string $identifier           identifier for email template
+     * @param string $to                   recipients email address
+     * @param array  $variables            array with template variables that can be called in the template
+     * @param array  $attachments          absolute filename to an attachment file
+     * @param string $locale               Locale to use
+     * @param array  $additionalRecipients Additional recipients list
+     * @param string $replyTo              Reply to address
+     * @param string $replyToName          Reply to name
      *
      * @return bool
      */
-    public static function send(string $identifier, string $to, array $variables = [], array $attachments = null, string $locale = null, array $additionalRecipients = []) : bool
+    public static function send(string $identifier, string $to, array $variables = [], array $attachments = null, string $locale = null, array $additionalRecipients = [], string $replyTo = null, string $replyToName = null) : bool
     {
         $originalLocale = null;
         if ($locale !== null) {
@@ -599,7 +603,7 @@ class ShopEmail extends DataObject
             $plainText = strip_tags($htmlText);
         }
         
-        $result = self::send_email($to, $subject, $htmlText, $attachments);
+        $result = self::send_email($to, $subject, $htmlText, $attachments, $replyTo, $replyToName);
         
         if (Config::GlobalEmailRecipient() != '') {
             self::send_email(Config::GlobalEmailRecipient(), $subject, $htmlText);
@@ -622,14 +626,14 @@ class ShopEmail extends DataObject
             } else {
                 continue;
             }
-            self::send_email($to, $subject, $htmlText, $attachments);
+            self::send_email($to, $subject, $htmlText, $attachments, $replyTo, $replyToName);
         }
         
         $additionalReceipients = [];
         ShopEmail::singleton()->extend('addAdditionalRecipients', $additionalReceipients);
         if (is_array($additionalReceipients)) {
             foreach ($additionalReceipients as $recipient) {
-                self::send_email($recipient, $subject, $htmlText, $attachments);
+                self::send_email($recipient, $subject, $htmlText, $attachments, $replyTo, $replyToName);
             }
         }
         if ($originalLocale !== null) {
@@ -646,13 +650,12 @@ class ShopEmail extends DataObject
      * @param string $subject     Subject
      * @param string $content     Content
      * @param array  $attachments Attachments
+     * @param string $replyTo     Reply to address
+     * @param string $replyToName Reply to name
      * 
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 31.08.2018
      */
-    public static function send_email($recipient, string $subject, string $content, array $attachments = null) : bool
+    public static function send_email($recipient, string $subject, string $content, array $attachments = null, string $replyTo = null, string $replyToName = null) : bool
     {
         if (Director::isDev()) {
             $devEmailRecipient = self::config()->get('dev_email_recipient');
@@ -681,6 +684,9 @@ class ShopEmail extends DataObject
             $subject,
             $content
         );
+        if ($replyTo !== null) {
+            $email->setReplyTo($replyTo, $replyToName);
+        }
         $email->setFrom(Config::EmailSender(), Config::EmailSenderName());
         if (!is_null($attachments)) {
             self::attachFiles($email, $attachments);

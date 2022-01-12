@@ -282,13 +282,34 @@ class ContactMessage extends DataObject
             $recipients = $this->ContactMessageSubject()->Recipients()->toArray();
             $to         = array_shift($recipients)->Email;
         }
+        $replyTo     = null;
+        $replyToName = null;
+        if (!empty($this->Email)) {
+            $replyTo = $this->Email;
+            if (!empty($this->Salutation)
+             && !empty($this->FirstName)
+             && !empty($this->Surname)
+            ) {
+                $replyToName = "{$this->Salutation} {$this->FirstName} {$this->Surname}";
+            } elseif (!empty($this->Salutation)
+                   && !empty($this->Surname)
+            ) {
+                $replyToName = "{$this->Salutation} {$this->Surname}";
+            } elseif (!empty($this->FirstName)
+                   && !empty($this->Surname)
+            ) {
+                $replyToName = "{$this->FirstName} {$this->Surname}";
+            }
+        }
         ShopEmail::send(
                 'ContactMessage',
                 $to,
                 $fields,
                 [],
                 Tools::default_locale()->getLocale(),
-                $recipients
+                $recipients,
+                $replyTo,
+                $replyToName
         );
         if ($this->config()->send_acknowledgement_of_receipt) {
             ShopEmail::send(
