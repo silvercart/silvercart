@@ -43,11 +43,10 @@ use SilverStripe\Forms\TreeMultiselectField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
-use SilverStripe\i18n\i18n;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\DB;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\FieldType\DBDate;
@@ -1795,6 +1794,7 @@ class Product extends DataObject implements PermissionProvider
             /* @var $gf \SilverStripe\Forms\GridField\GridField */
             $gf->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
             $gf->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+            $gf->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
             $fields->addFieldToTab('Root.StockItemEntries', ReadonlyField::create('StockQuantityRO', $this->fieldLabel('StockQuantity'), $this->StockQuantity), 'StockItemEntries');
         }
     }
@@ -1855,6 +1855,7 @@ class Product extends DataObject implements PermissionProvider
         $imageGridField = $fields->dataFieldByName('Images');
         $imageGridField->getConfig()->removeComponentsByType(GridFieldAddNewButton::class);
         $imageGridField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+        $imageGridField->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
         $imageGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
         if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
@@ -1881,6 +1882,7 @@ class Product extends DataObject implements PermissionProvider
         $fileGridField = $fields->dataFieldByName('Files');
         $fileGridField->getConfig()->removeComponentsByType(GridFieldAddNewButton::class);
         $fileGridField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+        $fileGridField->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
         $fileGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
         $fileUploadField = FileUploadField::create('UploadFiles', $this->fieldLabel('AddFile'));

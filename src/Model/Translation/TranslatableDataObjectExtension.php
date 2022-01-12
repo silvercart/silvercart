@@ -8,6 +8,7 @@ use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataQuery;
@@ -47,6 +48,9 @@ class TranslatableDataObjectExtension extends DataExtension
      */
     public function updateCMSFields(FieldList $fields) : void
     {
+        $translationsField       = $fields->dataFieldByName($this->getTranslationRelationName());
+        $translationsFieldConfig = $translationsField->getConfig();
+        $translationsFieldConfig->removeComponentsByType(GridFieldFilterHeader::class);
         $insertFields = (bool) $this->owner->config()->insert_translation_cms_fields;
         if (!$insertFields) {
             return;
