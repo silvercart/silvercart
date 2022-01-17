@@ -62,4 +62,17 @@ class DBStringExtension extends Extension
     {
         return strip_tags($this->owner->RAW());
     }
+
+    /**
+     * Replaces $search with $replace and returns the resulting string.
+     * 
+     * @param array|string $search  The value being searched for, otherwise known as the needle. An array may be used to designate multiple needles.
+     * @param array|string $replace The replacement value that replaces found search values. An array may be used to designate multiple replacements.
+     * @param int          $count   If passed, this will be set to the number of replacements performed.
+     * @return string
+     */
+    public function Replace($search, $replace, int $count = null) : DBString
+    {
+        return $this->owner->setValue(str_replace($search, $replace, $this->owner->getValue(), $count));
+    }
 }
