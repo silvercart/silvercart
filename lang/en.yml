@@ -1035,6 +1035,10 @@ en:
     PLURALNAME: Translations
     SINGULARNAME: Translation
   SilverCart\Model\Customer\GroupExtension:
+    HidePrices: 'Hide prices'
+    HidePricesDesc: 'If selected, customers belonging to this group won''t see any product prices.'
+    HidePricesInfo: 'Information text when hiding prices'
+    HidePricesInfoDesc: 'This optional information text will be displayed if the "Hide rpeices" option is set.'
     NO_PRICETYPE: '---'
     PRICETYPE: Pricetype
     ShippingMethodsInfoContent: 'The shipping methods listed below are bound to this customer group and can only be chosen by customers belonging to this group. Shipping methods can be related to multiple customer groups, so this customer group might not be the only group with the permission to use the listed shipping methods.'

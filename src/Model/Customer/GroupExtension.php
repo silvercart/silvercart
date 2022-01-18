@@ -7,8 +7,10 @@ use SilverCart\Admin\Forms\AlertInfoField;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Shipment\ShippingMethod;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\ORM\DataExtension;
@@ -34,7 +36,9 @@ class GroupExtension extends DataExtension
      * @var string[]
      */
     private static $db = [
-        'Pricetype' => 'Enum("---,gross,net","---")'
+        'Pricetype'      => 'Enum("---,gross,net","---")',
+        'HidePrices'     => 'Boolean',
+        'HidePricesInfo' => 'HTMLText',
     ];
     /**
      * Belongs many many relations
@@ -72,8 +76,12 @@ class GroupExtension extends DataExtension
         foreach ($enumValues as $value => $label) {
             $i18nSource[$value] = _t(Customer::class . '.' . strtoupper($label), $label);
         }
-        $pricetypeField = DropdownField::create('Pricetype', $this->owner->fieldLabel('Pricetype'), $i18nSource, $this->owner->Pricetype);
+        $pricetypeField      = DropdownField::create('Pricetype', $this->owner->fieldLabel('Pricetype'), $i18nSource, $this->owner->Pricetype);
+        $hidePricesField     = CheckboxField::create('HidePrices', $this->owner->fieldLabel('HidePrices'), $this->owner->HidePrices)->setDescription($this->owner->fieldLabel('HidePricesDesc'));
+        $hidePricesInfoField = HTMLEditorField::create('HidePricesInfo', $this->owner->fieldLabel('HidePricesInfo'), $this->owner->HidePricesInfo)->setRightTitle($this->owner->fieldLabel('HidePricesInfoDesc'))->setRows(3);
         $fields->addFieldToTab("Root.Members", $pricetypeField, 'Members');
+        $fields->addFieldToTab("Root.Members", $hidePricesField, 'Members');
+        $fields->addFieldToTab("Root.Members", $hidePricesInfoField, 'Members');
     }
     
     /**
@@ -86,6 +94,10 @@ class GroupExtension extends DataExtension
     public function updateFieldLabels(&$labels) : void
     {
         $labels = array_merge($labels, [
+            'HidePrices'                 => _t(GroupExtension::class . '.HidePrices', 'Hide prices'),
+            'HidePricesDesc'             => _t(GroupExtension::class . '.HidePricesDesc', 'If selected, customers belonging to this group won\'t see any product prices.'),
+            'HidePricesInfo'             => _t(GroupExtension::class . '.HidePricesInfo', 'Information text when hiding prices'),
+            'HidePricesInfoDesc'         => _t(GroupExtension::class . '.HidePricesInfoDesc', 'This optional information text will be displayed if the "Hide rpeices" option is set.'),
             'Pricetype'                  => _t(GroupExtension::class . '.PRICETYPE', 'Pricetype'),
             'PaymentMethods'             => PaymentMethod::singleton()->plural_name(),
             'ShippingMethods'            => ShippingMethod::singleton()->plural_name(),

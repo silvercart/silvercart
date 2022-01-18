@@ -180,6 +180,41 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     }
     
     /**
+     * Returns whether to hide prices for the current customer context.
+     * 
+     * @return bool
+     */
+    public static function hidePrices() : bool
+    {
+        $hide = self::getCustomerGroups()->filter('HidePrices', true)->exists();
+        Member::singleton()->extend('updateHidePrices', $hide);
+        return $hide;
+    }
+    
+    /**
+     * Returns an optional information HTML content to show when hiding prices.
+     * 
+     * @return DBHTMLText
+     */
+    public static function hidePricesInfo() : DBHTMLText
+    {
+        $info = DBHTMLText::create();
+        if (self::hidePrices()) {
+            $groups = self::getCustomerGroups()->filter('HidePrices', true);
+            $html   = '';
+            foreach ($groups as $group) {
+                /* @var $group Group */
+                if ((string) $group->HidePricesInfo === '') {
+                    continue;
+                }
+                $html .= $group->HidePricesInfo;
+            }
+            $info->setValue($html);
+        }
+        return $info;
+    }
+
+    /**
      * Comma separated string of related group names
      *
      * @var string[]

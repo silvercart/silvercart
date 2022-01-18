@@ -659,6 +659,43 @@ class Product extends DataObject implements PermissionProvider
         }
         return $stockQuantity;
     }
+
+    /**
+     * Returns whether this product is buyable.
+     * 
+     * @return bool
+     */
+    public function getIsNotBuyable() : bool
+    {
+        $is = $this->getField('IsNotBuyable');
+        if (!$this->getCMSFieldsIsCalled) {
+            if ($this->HidePrices()) {
+                $is = true;
+            }
+            $this->extend('updateIsNotBuyable', $is);
+        }
+        return $is;
+    }
+    
+    /**
+     * Returns whether to hide prices for this product.
+     * 
+     * @return bool
+     */
+    public function HidePrices() : bool
+    {
+        return Customer::hidePrices();
+    }
+    
+    /**
+     * Returns an optional information HTML content to show when hiding prices.
+     * 
+     * @return DBHTMLText
+     */
+    public function HidePricesInfo() : DBHTMLText
+    {
+        return Customer::hidePricesInfo();
+    }
     
     /**
      * Returns a fallback default country.
@@ -710,6 +747,9 @@ class Product extends DataObject implements PermissionProvider
     {
         $msrPrice = $this->getField('MSRPrice');
         if (!$this->getCMSFieldsIsCalled) {
+            if ($this->HidePrices()) {
+                $msrPrice->setAmount(0);
+            }
             $this->extend('updateMSRPrice', $msrPrice);
         }
         return $msrPrice;
@@ -2054,6 +2094,9 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getPriceNice() : DBHTMLText
     {
+        if (Customer::hidePrices()) {
+            return DBHTMLText::create();
+        }
         $priceNice = '';
         $price     = $this->getPrice();
 
