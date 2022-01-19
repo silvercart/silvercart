@@ -24,7 +24,8 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * @copyright 2021 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property string $DisplayPosition     DisplayPosition
+ * @property string $DisplayPosition     Display Position
+ * @property int    $DisplayPositionSort Display Position Sort Order
  * @property int    $Sort                Sort Order
  * @property string $ClassNameNice       ClassName Nice
  * @property string $Content             Content
@@ -87,8 +88,9 @@ class Content extends DataObject
      * @var string[]
      */
     private static $db = [
-        'DisplayPosition' => 'Varchar',
-        'Sort'            => 'Int',
+        'DisplayPosition'     => 'Varchar',
+        'DisplayPositionSort' => 'Int',
+        'Sort'                => 'Int',
     ];
     /**
      * Has one relations.
@@ -106,6 +108,12 @@ class Content extends DataObject
     private static $has_many = [
         'ContentTranslations' => ContentTranslation::class,
     ];
+    /**
+     * Default DB sort fields and direction.
+     * 
+     * @var string
+     */
+    private static $default_sort = 'DisplayPositionSort, Sort';
     /**
      * Casted properties
      *
@@ -186,6 +194,7 @@ class Content extends DataObject
                 $fields->removeByName('ContentTranslations');
             }
             $fields->removeByName('Sort');
+            $fields->removeByName('DisplayPositionSort');
             $fields->dataFieldByName('ShopEmailID')->setReadonly(true)->setDisabled(true);
             if ($this->exists()
              && count(self::content_type_classes()) > 1
@@ -205,6 +214,20 @@ class Content extends DataObject
         });
         return parent::getCMSFields();
     }
+    
+    /**
+     * Rewrites the display position sort value if not happened yet.
+     * 
+     * @return void
+     */
+    public function requireDefaultRecords() : void
+    {
+        $unsortedContentBlocks = self::get()->filter('DisplayPositionSort', 0);
+        foreach ($unsortedContentBlocks as $contentBlock) {
+            $contentBlock->DisplayPositionSort = $contentBlock->getDefaultDisplayPositionSort();
+            $contentBlock->write();
+        }
+    }
 
     /**
      * Summary fields
@@ -222,6 +245,35 @@ class Content extends DataObject
         }
         $this->extend('updateSummaryFields', $summaryFields);
         return $summaryFields;
+    }
+    
+    /**
+     * On before write.
+     * 
+     * @return void
+     */
+    protected function onBeforeWrite() : void
+    {
+        parent::onBeforeWrite();
+        if ((int) $this->DisplayPositionSort === 0) {
+            $this->DisplayPositionSort = $this->getDefaultDisplayPositionSort();
+        }
+    }
+    
+    /**
+     * Returns the default display position sort value.
+     * 
+     * @return int
+     */
+    public function getDefaultDisplayPositionSort() : int
+    {
+        $sort   = 0;
+        $blocks = $this->ShopEmail()->getCustomContentBlocks();
+        $index  = array_search($this->DisplayPosition, array_keys($blocks));
+        if (is_int($index)) {
+            $sort = $index + 1;
+        }
+        return $sort;
     }
 
     /**

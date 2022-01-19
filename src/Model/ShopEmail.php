@@ -230,7 +230,7 @@ class ShopEmail extends DataObject
                 $gridContents->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
                 $gridContents->getConfig()->addComponent(new GridFieldDeleteAction());
                 if (class_exists(GridFieldOrderableRows::class)) {
-                    $gridContents->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+                    $gridContents->getConfig()->addComponent(GridFieldOrderableRows::create('Sort')->setExtraSortFields('DisplayPositionSort'));
                 }
             }
             $fields->removeByName('TemplateName');
