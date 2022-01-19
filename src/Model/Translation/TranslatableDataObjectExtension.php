@@ -48,7 +48,10 @@ class TranslatableDataObjectExtension extends DataExtension
      */
     public function updateCMSFields(FieldList $fields) : void
     {
-        $translationsField       = $fields->dataFieldByName($this->getTranslationRelationName());
+        $translationsField = $fields->dataFieldByName($this->getTranslationRelationName());
+        if ($translationsField === null) {
+            return;
+        }
         $translationsFieldConfig = $translationsField->getConfig();
         $translationsFieldConfig->removeComponentsByType(GridFieldFilterHeader::class);
         $insertFields = (bool) $this->owner->config()->insert_translation_cms_fields;
