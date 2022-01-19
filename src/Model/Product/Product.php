@@ -674,7 +674,7 @@ class Product extends DataObject implements PermissionProvider
             }
             $this->extend('updateIsNotBuyable', $is);
         }
-        return $is;
+        return (bool) $is;
     }
     
     /**
