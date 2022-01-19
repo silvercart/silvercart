@@ -341,6 +341,7 @@ class Content extends DataObject
         if (!($content instanceof DBHTMLText)) {
             $content = DBHTMLText::create()->setValue($content);
         }
+        $content->setProcessShortcodes(true);
         return $content;
     }
     
