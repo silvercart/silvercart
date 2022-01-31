@@ -152,6 +152,7 @@ de:
     _ga_Purpose: 'reCAPTCHA analytics'
   SilverCart:
     Actions: Aktionen
+    Add: Hinzufügen
     Buy1: '{title} kaufen'
     Buy2: '{title1} {title2} kaufen'
     Cancel: Stornieren
@@ -170,6 +171,7 @@ de:
     DeleteYourAccountUndone: 'Ihr Lösch-Antrag wurde erfolgreich rückgängig gemacht.'
     Empty: Leer
     Go: Los
+    GoToTop: 'Nach oben'
     IncludingTax: 'inkl. MwSt.'
     NextPage: 'Nächste Seite'
     PrevPage: 'Vorherige Seite'

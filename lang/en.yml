@@ -152,6 +152,7 @@ en:
     _ga_Purpose: 'reCAPTCHA analytics'
   SilverCart:
     Actions: Actions
+    Add: Add
     Buy1: 'Buy {title}'
     Buy2: 'Buy {title1} {title2}'
     Cancel: Cancel
@@ -170,6 +171,7 @@ en:
     DeleteYourAccountUndone: 'The deletion request for your account was successfully undone.'
     Empty: Empty
     Go: Go
+    GoToTop: 'Go to top'
     IncludingTax: 'incl. VAT'
     NextPage: 'Next page'
     PrevPage: 'Previous page'
