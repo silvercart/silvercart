@@ -53,8 +53,12 @@ class FontAwesomeExtension extends DataExtension
     public function updateCMSFields(FieldList $fields) : void
     {
         if (class_exists(FAPickerField::class)) {
+            $insertAfter = $this->owner->config()->insert_fa_field_after;
+            if ($insertAfter === null) {
+                $insertAfter = 'Title';
+            }
             $fields->removeByName('FontAwesomeIcon');
-            $fields->insertAfter('Title', FAPickerField::create('FontAwesomeIcon', $this->owner->fieldLabel('FontAwesomeIcon'))
+            $fields->insertAfter($insertAfter, FAPickerField::create('FontAwesomeIcon', $this->owner->fieldLabel('FontAwesomeIcon'))
                     ->setDescription($this->owner->fieldLabel('FontAwesomeIconDesc'))
                     ->setRightTitle($this->owner->fieldLabel('FontAwesomeIconRightTitle'))
             );
