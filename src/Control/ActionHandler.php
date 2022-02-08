@@ -39,6 +39,7 @@ use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
  */
 class ActionHandler extends Controller
 {
+    use \SilverCart\View\MessageProvider;
     /**
      * Allowed actions
      *
@@ -174,6 +175,7 @@ class ActionHandler extends Controller
                 'HTMLDropdown'         => $htmlDropdown,
                 'HTMLModal'            => $htmlModal,
                 'Redirect'             => $this->redirectedTo() ? $this->getResponse()->getHeader('Location') : '',
+                'ErrorMessage'         => (string) $this->getErrorMessage(),
             ];
             print json_encode($json);
             exit();
