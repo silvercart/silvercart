@@ -108,6 +108,8 @@ class SiteConfigExtension extends DataExtension
         'useProductDescriptionFieldForCart'     => 'Boolean(1)',
         'DisableProductLinkInCart'              => 'Boolean(0)',
         'useStrictSearchRelevance'              => 'Boolean(0)',
+        'ShowPaymentMethodsInFooter'            => 'Boolean(1)',
+        'ShowShippingMethodsInFooter'           => 'Boolean(1)',
         'userAgentBlacklist'                    => 'Text',
         'ColorScheme'                           => 'Varchar(256)',
         'GoogleplusLink'                => 'Text',
@@ -151,6 +153,8 @@ class SiteConfigExtension extends DataExtension
         'DefaultLocale'                 => 'de_DE',
         'userAgentBlacklist'            => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',
         'ColorScheme'                   => 'blue',
+        'ShowPaymentMethodsInFooter'    => true,
+        'ShowShippingMethodsInFooter'   => true,
     ];
     /**
      * Indicator to check whether getCMSFields is called
@@ -248,7 +252,7 @@ class SiteConfigExtension extends DataExtension
                     'ShopOpeningHours'                      => _t(Config::class . '.ShopOpeningHours', 'Opening hours'),
                     'ShopAdditionalInfo'                    => _t(Config::class . '.ShopAdditionalInfo', 'Additional Information'),
                     'ShopAdditionalInfoDesc'                => _t(Config::class . '.ShopAdditionalInfoDesc', 'Additional Information'),
-                    'ShopAdditionalInfo2'                   => _t(Config::class . '.ShopAdditionalInfo2', 'Additional Information 2'),
+                    'ShopAdditionalInfo2'                   => _t(Config::class . '.ShopAdditional2Info', 'Additional Information 2'),
                     'ShopAdditionalInfo2Desc'               => _t(Config::class . '.ShopAdditionalInfo2Desc', 'Additional Information 2'),
                     'addToCartMaxQuantity'                  => _t(Config::class . '.ADDTOCARTMAXQUANTITY', 'Maximum allowed quantity of a single product in the shopping cart'),
                     'DefaultCurrency'                       => _t(Config::class . '.DEFAULTCURRENCY', 'Default currency'),
@@ -342,6 +346,8 @@ class SiteConfigExtension extends DataExtension
                     'ColorScheme'              => _t(Config::class . '.ColorScheme', 'Color scheme'),
                     'ColorSchemeTab'           => _t(Config::class . '.ColorSchemeTab', 'Color scheme'),
                     'ColorSchemeConfiguration' => _t(Config::class . '.ColorSchemeConfiguration', 'Title & color scheme'),
+                    'ShowPaymentMethodsInFooter'  => _t(Config::class . '.ShowPaymentMethodsInFooter', 'Show payment methods (logos) in footer'),
+                    'ShowShippingMethodsInFooter' => _t(Config::class . '.ShowShippingMethodsInFooter', 'Show shipping methods (logos) in footer'),
                 ]
         );
     }
@@ -631,14 +637,13 @@ class SiteConfigExtension extends DataExtension
                 }
                 closedir($handle);
             }
-            
             $colorSchemes->sort('Title');
-
             $fields->removeByName('ColorScheme');
-            
-            $logoField      = UploadField::create('ShopLogo',        $this->owner->fieldLabel('ShopLogo'));
-            $faviconField   = UploadField::create('Favicon',         $this->owner->fieldLabel('Favicon'));
-            $touchIconField = UploadField::create('MobileTouchIcon', $this->owner->fieldLabel('MobileTouchIcon'));
+            $showPaymentMethodsInFooterField  = CheckboxField::create('ShowPaymentMethodsInFooter', $this->owner->fieldLabel('ShowPaymentMethodsInFooter'));
+            $showShippingMethodsInFooterField = CheckboxField::create('ShowShippingMethodsInFooter', $this->owner->fieldLabel('ShowShippingMethodsInFooter'));
+            $logoField                        = UploadField::create('ShopLogo',        $this->owner->fieldLabel('ShopLogo'));
+            $faviconField                     = UploadField::create('Favicon',         $this->owner->fieldLabel('Favicon'));
+            $touchIconField                   = UploadField::create('MobileTouchIcon', $this->owner->fieldLabel('MobileTouchIcon'));
             $logoField->setDescription($this->owner->fieldLabel('ShopLogoDesc'));
             $faviconField->setDescription($this->owner->fieldLabel('FaviconDesc'));
             $touchIconField->setDescription($this->owner->fieldLabel('MobileTouchIconDesc'));
@@ -649,6 +654,8 @@ class SiteConfigExtension extends DataExtension
                     [
                         $fields->dataFieldByName('Title'),
                         $fields->dataFieldByName('Tagline'),
+                        $showPaymentMethodsInFooterField,
+                        $showShippingMethodsInFooterField,
                         $logoField,
                         $faviconField,
                         $touchIconField,

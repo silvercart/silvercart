@@ -174,6 +174,8 @@ en:
     GoToTop: 'Go to top'
     IncludingTax: 'incl. VAT'
     NextPage: 'Next page'
+    OurPaymentPartners: 'Our payment methods'
+    OurShipmentPartners: 'Our shipment partners'
     PrevPage: 'Previous page'
     Print: Print
     ProductAddedToCart: 'The product was added to your cart.'
@@ -462,6 +464,8 @@ en:
     ShopPostcode: Postcode
     ShopStreet: Street
     ShopStreetNumber: 'Street number'
+    ShowPaymentMethodsInFooter: 'Show payment methods (logos) in footer'
+    ShowShippingMethodsInFooter: 'Show shipping methods (logos) in footer'
     ShowTaxAndDutyHint: 'Show hint for additional taxes and duty for non EU countries.'
     TABBED: tabbed
     TRANSLATION: Translation
