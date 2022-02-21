@@ -108,15 +108,19 @@ class BadgeColorExtension extends DataExtension
      */
     public function getBadgeColorDropdownMap() : array
     {
+        $title = $this->owner->Title;
+        if (empty($title)) {
+            $title = $this->owner->singular_name();
+        }
         return [
-            'primary'   => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#007bff\">{$this->owner->Title}</span>"),
-            'secondary' => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#6c757d\">{$this->owner->Title}</span>"),
-            'success'   => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#28a745\">{$this->owner->Title}</span>"),
-            'danger'    => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#dc3545\">{$this->owner->Title}</span>"),
-            'warning'   => Tools::string2html("<span style=\"padding: 4px 8px; color: #212529; background-color:#ffc107\">{$this->owner->Title}</span>"),
-            'info'      => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#17a2b8\">{$this->owner->Title}</span>"),
-            'light'     => Tools::string2html("<span style=\"padding: 4px 8px; color: #212529; background-color:#f8f9fa\">{$this->owner->Title}</span>"),
-            'dark'      => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#343a40\">{$this->owner->Title}</span>"),
+            'primary'   => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#007bff\">{$title}</span>"),
+            'secondary' => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#6c757d\">{$title}</span>"),
+            'success'   => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#28a745\">{$title}</span>"),
+            'danger'    => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#dc3545\">{$title}</span>"),
+            'warning'   => Tools::string2html("<span style=\"padding: 4px 8px; color: #212529; background-color:#ffc107\">{$title}</span>"),
+            'info'      => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#17a2b8\">{$title}</span>"),
+            'light'     => Tools::string2html("<span style=\"padding: 4px 8px; color: #212529; background-color:#f8f9fa\">{$title}</span>"),
+            'dark'      => Tools::string2html("<span style=\"padding: 4px 8px; color: #ffffff; background-color:#343a40\">{$title}</span>"),
         ];
     }
     
