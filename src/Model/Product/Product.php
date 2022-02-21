@@ -788,6 +788,30 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAfterProductHtmlInjections', $afterProductHtmlInjections);
         return $afterProductHtmlInjections;
     }
+    
+    /**
+     * Returns some injected markup to display after the products title.
+     * 
+     * @return DBHTMLText
+     */
+    public function getAfterProductTitle() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterProductTitle', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
+    
+    /**
+     * Returns some injected markup to display after the products title.
+     * 
+     * @return DBHTMLText
+     */
+    public function getAfterProductMetaData() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterProductMetaData', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
 
     /**
      * Returns if the MSR price is greater than 0
@@ -4310,13 +4334,14 @@ class Product extends DataObject implements PermissionProvider
      * Returns the rendered position.
      * 
      * @param string $templateAddition Optional template name addition
+     * @param array  $customFields     Optional template custom fields
      * 
      * @return DBHTMLText
      */
-    public function forTemplate(string $templateAddition = '') : DBHTMLText
+    public function forTemplate(string $templateAddition = '', array $customFields = []) : DBHTMLText
     {
         $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
         $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
-        return $this->renderWith($templates);
+        return $this->renderWith($templates, $customFields);
     }
 }
