@@ -157,6 +157,8 @@ de:
     Buy2: '{title1} {title2} kaufen'
     Cancel: Stornieren
     Change: Ändern
+    Choose: Auswählen
+    Chosen: Ausgewählt
     ClickForMore: 'Klicken, um weitere Informationen anzuzeigen'
     Close: Schließen
     ContactUs: 'Kontaktieren Sie uns'
@@ -169,6 +171,7 @@ de:
     DeleteYourAccountSuccessOpen: 'Ihr Account wurde erfolgreich für die Löschung markiert. Da für Ihr Kundenkonto noch offene Bestellungen vorliegen, wird Ihr Account erst gelöscht, sobald alle offenen Bestellungen bearbeitet wurden. Sie erhalten eine E-Mail-Benachrichtigung, sobald die Löschung abgeschlossen wurde. Bis dahin haben Sie die Möglichkeit, den Lösch-Antrag zu widerrufen.'
     DeleteYourAccountUndo: 'Lösch-Antrag widerrufen'
     DeleteYourAccountUndone: 'Ihr Lösch-Antrag wurde erfolgreich rückgängig gemacht.'
+    Done: Fertig
     Empty: Leer
     Go: Los
     GoToTop: 'Nach oben'
