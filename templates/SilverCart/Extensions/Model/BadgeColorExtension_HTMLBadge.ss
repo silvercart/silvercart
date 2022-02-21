@@ -1,1 +1,1 @@
-<span class="badge badge-{$badgeColor} {$CSSClasses}">{$Title}</span>
+<span class="badge badge-{$badgeColor} {$CSSClasses}"><% if $FontAwesomeIcon %>{$FontAwesomeIconHTML} <% end_if %>{$Title}</span>
