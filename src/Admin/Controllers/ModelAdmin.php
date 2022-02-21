@@ -165,14 +165,16 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
         $this->beforeUpdateEditForm(function(\SilverStripe\Forms\Form $form) {
             $config         = $this->getGridFieldConfigFor($form);
             $sortable_field = $this->stat('sortable_field');
-            if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')
-             && !empty($sortable_field)
-            ) {
-                $config->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows($sortable_field));
-            } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')
-             && !empty($sortable_field)
-            ) {
-                $config->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
+            if (singleton($this->modelClass)->hasField($sortable_field)) {
+                if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')
+                 && !empty($sortable_field)
+                ) {
+                    $config->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows($sortable_field));
+                } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')
+                 && !empty($sortable_field)
+                ) {
+                    $config->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows($sortable_field));
+                }
             }
             if (GridFieldBatchController::hasBatchActionsFor($this->modelClass)) {
                 $config->addComponent(new GridFieldBatchController($this->modelClass, 'buttons-before-left'));
