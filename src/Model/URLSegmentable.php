@@ -3,6 +3,7 @@
 namespace SilverCart\Model;
 
 use SilverCart\Dev\Tools;
+use SilverStripe\ORM\DataObject;
 
 /**
  * 
@@ -24,6 +25,23 @@ trait URLSegmentable
      */
     protected static $generatedURLSegment = [];
     
+    /**
+     * Returns the matching object with the given URL segment
+     * 
+     * @param string $urlSegment URL segment
+     * @param array  $filter     Additional filter
+     * 
+     * @return $this|null
+     */
+    public static function getByURLSegment(string $urlSegment, array $filter = []) : ?DataObject
+    {
+        $filter = array_merge($filter, [
+            'URLSegment' => $urlSegment,
+        ]);
+        return self::get()->filter($filter)->first();
+    }
+
+
     /**
      * Requires the default records.
      * 
@@ -47,10 +65,13 @@ trait URLSegmentable
         $index      = 2;
         $urlSegment = $urlSegmentBase = Tools::string2urlSegment($this->Title);
         do {
-            $existing = self::get()
+            $records  = self::get()
                     ->exclude('ID', $this->ID)
-                    ->filter('URLSegment', $urlSegment)
-                    ->count();
+                    ->filter('URLSegment', $urlSegment);
+            if ($this->hasMethod('updateGenerateURLSegmentRecords')) {
+                $this->updateGenerateURLSegmentRecords($records);
+            }
+            $existing = $records->count();
             if ($existing > 0) {
                 $urlSegment = "{$urlSegmentBase}-{$index}";
                 $index++;
