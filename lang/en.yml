@@ -1950,6 +1950,7 @@ en:
     ExcludeFromPaymentDiscounts: 'This product is excluded from payment discounts.'
     FREE_OF_CHARGE: 'Free of charge'
     Height: Height
+    HideFromSearchResults: 'Hide from search results'
     IMAGE: 'Product image'
     IMAGE_NOT_AVAILABLE: 'Product image not attributed'
     IMPORTIMAGESFORM_ACTION: 'Import images'

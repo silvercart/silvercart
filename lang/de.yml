@@ -1949,6 +1949,7 @@ de:
     ExcludeFromPaymentDiscounts: 'Dieser Artikel ist von Zahlungsart bedingten Abschlägen (Rabatten) ausgeschlossen.'
     FREE_OF_CHARGE: versandkostenfrei
     Height: Höhe
+    HideFromSearchResults: 'Aus den Suchergebnissen verbergen'
     IMAGE: Artikelbild
     IMAGE_NOT_AVAILABLE: 'Kein Artikelbild zugeordnet'
     IMPORTIMAGESFORM_ACTION: 'Bilder importieren'

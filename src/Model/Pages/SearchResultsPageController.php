@@ -449,7 +449,7 @@ class SearchResultsPageController extends ProductGroupPageController
             }
             
             $searchResultProductsRaw = Product::getProductsList(
-                $filter,
+                "{$productTable}.HideFromSearchResults = false AND ({$filter})",
                 $sort,
                 [
                     [

@@ -77,6 +77,8 @@ use WidgetSets\Model\WidgetSet;
  * @license see license file in modules root directory
  * 
  * @property bool       $isActive                    Is this product active?
+ * @property bool       $HideFromSearchResults       Hide from search results?
+ * @property bool       $IsNotBuyable                Is Not Buyable
  * @property string     $ProductNumberShop Product   Number Shop
  * @property string     $ProductNumberManufacturer   Product Number Manufacturer
  * @property string     $EANCode                     EAN Code
@@ -96,7 +98,6 @@ use WidgetSets\Model\WidgetSet;
  * @property DBDatetime $LaunchDate                  Launch Date
  * @property DBDatetime $SalesBanDate                Sales Ban Date
  * @property bool       $ExcludeFromPaymentDiscounts Exclude From Payment Discounts
- * @property bool       $IsNotBuyable                Is Not Buyable
  * @property DBText     $Keywords                    Keywords
  *
  * @property int $TaxID                Tax ID
@@ -113,15 +114,15 @@ use WidgetSets\Model\WidgetSet;
  * @method ProductCondition   ProductCondition()   Return Product Condition
  * @method QuantityUnit       QuantityUnit()       Return Quantity Unit
  * 
- * @method HasManyList ProductTranslations()   List of Product Translations
- * @method HasManyList StockItemEntries()      List of Stock Item Entries
- * @method HasManyList Images()                List of Images
- * @method HasManyList Files()                 List of Files
- * @method HasManyList ShoppingCartPositions() List of Shopping Cart Positions
+ * @method \SilverStripe\ORM\HasManyList ProductTranslations()   List of Product Translations
+ * @method \SilverStripe\ORM\HasManyList StockItemEntries()      List of Stock Item Entries
+ * @method \SilverStripe\ORM\HasManyList Images()                List of Images
+ * @method \SilverStripe\ORM\HasManyList Files()                 List of Files
+ * @method \SilverStripe\ORM\HasManyList ShoppingCartPositions() List of Shopping Cart Positions
  * 
- * @method ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
- * @method ManyManyList ShoppingCarts()            List of Shopping Carts
- * @method ManyManyList ProductGroupItemsWidgets() List of Product Group Items Widgets
+ * @method \SilverStripe\ORM\ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
+ * @method \SilverStripe\ORM\ManyManyList ShoppingCarts()            List of Shopping Carts
+ * @method \SilverStripe\ORM\ManyManyList ProductGroupItemsWidgets() List of Product Group Items Widgets
  */
 class Product extends DataObject implements PermissionProvider
 {
@@ -138,6 +139,8 @@ class Product extends DataObject implements PermissionProvider
      */
     private static $db = [
         'isActive'                        => 'Boolean(1)',
+        'HideFromSearchResults'           => 'Boolean(0)',
+        'IsNotBuyable'                    => 'Boolean(0)',
         'ProductNumberShop'               => 'Varchar(50)',
         'ProductNumberManufacturer'       => 'Varchar(50)',
         'EANCode'                         => 'Varchar(13)',
@@ -160,7 +163,6 @@ class Product extends DataObject implements PermissionProvider
         'LaunchDate'                      => DBDatetime::class,
         'SalesBanDate'                    => DBDatetime::class,
         'ExcludeFromPaymentDiscounts'     => 'Boolean(0)',
-        'IsNotBuyable'                    => 'Boolean(0)',
         'Keywords'                        => DBText::class,
         'ShowOrderEmailTextAfterCheckout' => 'Boolean(0)',
     ];
@@ -1758,11 +1760,13 @@ class Product extends DataObject implements PermissionProvider
                 $this->fieldLabel('BasicData'),
                 [
                     $fields->dataFieldByName('isActive'),
+                    $fields->dataFieldByName('HideFromSearchResults'),
                     $fields->dataFieldByName('IsNotBuyable'),
                     $productNumberGroup,
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->removeByName('isActive');
+        $fields->removeByName('HideFromSearchResults');
         $fields->removeByName('IsNotBuyable');
         $fields->insertBefore($baseDataToggle, 'Title');
         if ($this->exists()) {
@@ -3256,19 +3260,10 @@ class Product extends DataObject implements PermissionProvider
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        
-        if ($this->ProductGroup()) {
-            $translations = Tools::get_translations($this->ProductGroup());
-            if ($translations) {
-                foreach ($translations as $translation) {
-                    if ($this->ProductGroupMirrorPages()->find('ID', $translation->ID)) {
-                        continue;
-                    }
-                    $this->ProductGroupMirrorPages()->add($translation);
-                }
-            }
+        $productGroup = $this->ProductGroup();
+        if ($productGroup->exists()) {
+            $this->ProductGroupMirrorPages()->removeByID($productGroup->ID);
         }
-        
         if (array_key_exists('StockQuantity', $this->original)) {
             $stockQuantityBefore = $this->original['StockQuantity'];
             $this->checkForAvailabilityStatusChange($stockQuantityBefore, false);
