@@ -22,6 +22,8 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
@@ -541,14 +543,8 @@ class ProductGroupPage extends \Page
             $fields->insertAfter($displaySettingsToggle, 'Content');
 
             if ($this->drawCMSFields()) {
-                $productAdminLink     = Director::baseURL().'admin/silvercart-products';
-                $manageProductsButton = LiteralField::create(
-                    'ManageProductsButton',
-                    "<a href=\"{$productAdminLink}?q[ProductGroup__ID]={$this->ID}\">{$this->fieldLabel('ManageProductsButton')}</a>"
-                );
-                $fields->findOrMakeTab('Root.Products', Product::singleton()->plural_name());
-                $fields->addFieldToTab('Root.Products', $manageProductsButton);
-
+                $this->getCMSFieldsForProducts($fields);
+                $this->getCMSFieldsForMirrorProducts($fields);
                 $imageUploadField = UploadField::create('GroupPicture', $this->fieldLabel('GroupPicture'));
                 $imageUploadField->setFolderName('assets/productgroup-images');
                 $fields->addFieldToTab('Root.Main', $imageUploadField, 'Content');
@@ -584,6 +580,49 @@ class ProductGroupPage extends \Page
         });
         $this->getCMSFieldsIsCalled = true;
         return parent::getCMSFields();
+    }
+    
+    /**
+     * Adds the product management fields to the given CMS $fields.
+     * 
+     * @param FieldList $fields CMS field lists to add fields to
+     * 
+     * @return void
+     */
+    public function getCMSFieldsForProducts(FieldList $fields) : void
+    {
+        $name    = 'Products';
+        $tabName = "Root.{$name}";
+        $list    = $this->Products();
+        $grid    = GridField::create($name, $this->fieldLabel($name), $list, GridFieldConfig_RelationEditor::create());
+        $fields->findOrMakeTab($tabName, $this->fieldLabel($name));
+        $fields->addFieldToTab($tabName, $grid);
+        /**
+        if (class_exists(GridFieldOrderableRows::class)) {
+            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+        }
+        /**/
+    }
+    
+    /**
+     * Adds the mirror product management fields to the given CMS $fields.
+     * 
+     * @param FieldList $fields CMS field lists to add fields to
+     * 
+     * @return void
+     */
+    public function getCMSFieldsForMirrorProducts(FieldList $fields) : void
+    {
+        $name    = 'MirrorProducts';
+        $tabName = "Root.Products";
+        $list    = $this->MirrorProducts();
+        $grid    = GridField::create($name, $this->fieldLabel($name), $list, GridFieldConfig_RelationEditor::create());
+        $fields->addFieldToTab($tabName, $grid);
+        /**
+        if (class_exists(GridFieldOrderableRows::class)) {
+            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+        }
+        /**/
     }
 
     /**
