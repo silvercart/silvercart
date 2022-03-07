@@ -2,6 +2,7 @@
 
 namespace SilverCart\Admin\Controllers;
 
+use BucklesHusky\FontAwesomeIconPicker\Forms\FAPickerField;
 use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
@@ -83,6 +84,9 @@ class LeftAndMainExtension extends Extension
         }
         Requirements::javascript('silvercart/silvercart:client/admin/javascript/LeftAndMainExtension.js');
         Requirements::css('silvercart/silvercart:client/admin/css/LeftAndMainExtension.css');
+        if (class_exists(FAPickerField::class)) {
+            Requirements::css("buckleshusky/fontawesomeiconpicker:external/css/all.min.css");
+        }
         foreach (self::$additional_css_files as $css_file) {
             Requirements::css($css_file);
         }
