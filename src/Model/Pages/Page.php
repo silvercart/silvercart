@@ -26,6 +26,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Permission;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
@@ -93,6 +94,7 @@ class Page extends SiteTree
      * @var array
      */
     private static $db = [
+        'DisplayBreadcrumbs'         => 'Boolean(1)',
         'UseAsRootForMainNavigation' => 'Boolean(0)',
         'IdentifierCode'             => 'Varchar(50)',
     ];
@@ -206,6 +208,19 @@ class Page extends SiteTree
         });
         $this->getCMSFieldsIsCalled = true;
         return parent::getCMSFields();
+    }
+    
+    /**
+     * Returns the setting fields for CMS.
+     * 
+     * @return FieldList
+     */
+    public function getSettingsFields()
+    {
+        $this->beforeExtending('updateSettingsFields', function(FieldList $fields) {
+            $fields->insertAfter('ShowInSearch', CheckboxField::create("DisplayBreadcrumbs", $this->fieldLabel('DisplayBreadcrumbs')));
+        });
+        return parent::getSettingsFields();
     }
     
     /**
@@ -855,6 +870,54 @@ class Page extends SiteTree
         $content = '';
         $this->extend('updateHeaderNavBeforeCartSelectContent', $content);
         return Tools::string2html($content);
+    }
+    
+    /**
+     * Returns some additional content to insert before the header.
+     * 
+     * @return DBHTMLText
+     */
+    public function BeforeHeaderContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforeHeaderContent', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
+    
+    /**
+     * Returns some additional content to insert after the header.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterHeaderContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterHeaderContent', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
+    
+    /**
+     * Returns some additional content to insert before the breadcrumnbs.
+     * 
+     * @return DBHTMLText
+     */
+    public function BeforeBreadcrumbsContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforeBreadcrumbsContent', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
+    
+    /**
+     * Returns some additional content to insert after the breadcrumnbs.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterBreadcrumbsContent() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateAfterBreadcrumbsContent', $content);
+        return DBHTMLText::create()->setValue($content);
     }
 
     /**
