@@ -181,8 +181,6 @@ cs:
     Until: na
     go: 'přejít na'
     since: od
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Dostupnost
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Nosič
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ cs:
     MODULES: Moduly
     ORDERS: Objednávky
     PRODUCTS: Článek
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Výrobce
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Vyberte kontext exportu a stiskněte tlačítko export pro stažení seznamu příjemců e-mailů ve formátu CSV.'
     DoExport: 'Exportovat jako CSV'
@@ -243,8 +239,6 @@ cs:
     MENUTITLE: 'Stav platby'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Článek
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'Článek uvádí'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'V tomto okamžiku se provede import obrázku článku.'
     CronIsRunningTitle: Pozor
@@ -254,14 +248,10 @@ cs:
     FileInfoTitle: 'Následující obrázky položek ještě nebyly zpracovány:'
     MENUTITLE: 'Import obrázků do článku'
     UploadProductImages: 'Nahrání obrázků položek'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Měrné jednotky'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: 'Způsoby přepravy'
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'E-maily z obchodu'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: 'Daňové sazby'
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zóny
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

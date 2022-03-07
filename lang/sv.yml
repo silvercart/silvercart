@@ -181,8 +181,6 @@ sv:
     Until: till
     go: 'gå till'
     since: sedan
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Tillgänglighet
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Bärare
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ sv:
     MODULES: Moduler
     ORDERS: Beställningar
     PRODUCTS: Artikel
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Tillverkare
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Välj exportkontext och tryck på exportknappen för att ladda ner en CSV-lista över e-postmottagare.'
     DoExport: 'Exportera som CSV'
@@ -243,8 +239,6 @@ sv:
     MENUTITLE: Betalningsstatus
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Artikel
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'I artikeln anges följande'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Importen av artikelbilden utförs i detta ögonblick.'
     CronIsRunningTitle: Uppmärksamhet
@@ -254,14 +248,10 @@ sv:
     FileInfoTitle: 'Följande bilder har ännu inte behandlats:'
     MENUTITLE: 'Import av artikelbilder'
     UploadProductImages: 'Ladda upp bilder av artiklar'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: Måttenheter
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: Fraktmetoder
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Handla e-post'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: Skattesatser
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zoner
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

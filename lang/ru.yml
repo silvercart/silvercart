@@ -181,8 +181,6 @@ ru:
     Until: на
     go: перейти
     since: с
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Доступность
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: фрахтовщик
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ ru:
     MODULES: модули
     ORDERS: Заказы
     PRODUCTS: Артикул
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: производитель
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Пожалуйста, выберите контекст экспорта и нажмите кнопку экспорта, чтобы загрузить список получателей электронной почты в формате CSV.'
     DoExport: 'Экспорт в CSV'
@@ -243,8 +239,6 @@ ru:
     MENUTITLE: 'Статус платежа'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: артикул
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'состояние товара'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'В этот момент происходит импорт изображения статьи.'
     CronIsRunningTitle: Внимание
@@ -254,14 +248,10 @@ ru:
     FileInfoTitle: 'Изображения следующих предметов еще не обработаны:'
     MENUTITLE: 'Импорт изображения статьи'
     UploadProductImages: 'Загрузка изображений элементов'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'единицы измерения количества'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: 'Способы отправки'
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Shop E-Mail'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: 'размер налогов'
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: зоны
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

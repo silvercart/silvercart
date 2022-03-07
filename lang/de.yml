@@ -191,8 +191,6 @@ de:
     Until: bis
     go: los
     since: seit
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Verfügbarkeit
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Frachtführer
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -216,8 +214,6 @@ de:
     MODULES: Module
     ORDERS: Bestellungen
     PRODUCTS: Artikel
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Hersteller
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Bitte wählen Sie den Export-Kontext und betätigen Sie den Export-Button um eine CSV-Liste der E-Mail-Empfänger herunterzuladen.'
     DoExport: 'Als CSV exportieren'
@@ -253,8 +249,6 @@ de:
     MENUTITLE: Zahlungs-Status
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Artikel
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: Artikelzustände
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Der Artikelbild-Import wird in diesem Moment durchgeführt.'
     CronIsRunningTitle: Achtung
@@ -264,14 +258,12 @@ de:
     FileInfoTitle: 'Die folgenden Artikelbilder wurden noch nicht verarbeitet:'
     MENUTITLE: Artikelbild-Import
     UploadProductImages: 'Artikelbilder hochladen'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: Mengeneinheiten
+  SilverCart\Admin\Controllers\ProductPropertiesAdmin:
+    MENUTITLE: 'Artikel-Eigenschaften'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: Versandarten
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Shop E-Mails'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: Steuersätze
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zonen
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:
@@ -1521,6 +1513,7 @@ de:
     DETAILS: Details
     DETAILS_FOR: 'Details zu %s'
     DIDNOT_RETURN_RESULTS: 'hat in unserem Shop keine Ergebnisse geliefert.'
+    DisplayBreadcrumbs: 'Breadcrumbs anzeigen'
     DO_NOT_EDIT: 'Bitte nicht ändern!'
     EMAIL_ADDRESS: E-Mail-Adresse
     EMAIL_ALREADY_REGISTERED: 'Ein Nutzer hat sich bereits mit dieser E-Mail-Adresse registriert.'

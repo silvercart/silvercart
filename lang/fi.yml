@@ -181,8 +181,6 @@ fi:
     Until: osoitteeseen
     go: go
     since: koska
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Saatavuus
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Kantaja
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ fi:
     MODULES: Moduulit
     ORDERS: Tilaukset
     PRODUCTS: Artikkeli
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Valmistaja
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Valitse vientiyhteys ja paina vientipainiketta ladataksesi CSV-luettelon sähköpostin vastaanottajista.'
     DoExport: 'Vie CSV-muodossa'
@@ -243,8 +239,6 @@ fi:
     MENUTITLE: 'Maksun tila'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Artikkeli
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'Artiklassa todetaan'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Artikkelikuvan tuonti suoritetaan tällä hetkellä.'
     CronIsRunningTitle: Huomio
@@ -254,14 +248,10 @@ fi:
     FileInfoTitle: 'Seuraavien kohteiden kuvia ei ole vielä käsitelty:'
     MENUTITLE: 'Artikkelin kuvan tuonti'
     UploadProductImages: 'Lataa kohteen kuvia'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: Mittayksiköt
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: Toimitusmenetelmät
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Osta sähköposteja'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: Verokannat
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Vyöhykkeet
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

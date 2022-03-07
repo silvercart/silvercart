@@ -181,8 +181,6 @@ fr:
     Until: à
     go: 'Allez sur'
     since: depuis
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Disponibilité
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Transporteur
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ fr:
     MODULES: Modules
     ORDERS: Commandes
     PRODUCTS: Article
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Fabricant
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Veuillez sélectionner le contexte d''exportation et appuyer sur le bouton d''exportation pour télécharger une liste CSV des destinataires des e-mails.'
     DoExport: 'Exportation en CSV'
@@ -243,8 +239,6 @@ fr:
     MENUTITLE: 'Statut du paiement'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Article
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'L''article stipule'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'L''importation de l''image de l''article est effectuée à ce moment-là.'
     CronIsRunningTitle: Attention
@@ -254,14 +248,10 @@ fr:
     FileInfoTitle: 'Les images des articles suivants n''ont pas encore été traitées :'
     MENUTITLE: 'Importation d''images d''articles'
     UploadProductImages: 'Télécharger les images des articles'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Unités de mesure'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: 'Méthodes d''expédition'
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Courriels de la boutique'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: 'Taux d''imposition'
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zones
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

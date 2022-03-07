@@ -37,7 +37,7 @@ class ProductImageAdmin extends LeftAndMain
      * 
      * @var string
      */
-    private static $menuSortIndex = 11;
+    private static $menuSortIndex = 500;
     /**
      * The URL segment
      *

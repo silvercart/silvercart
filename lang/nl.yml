@@ -181,8 +181,6 @@ nl:
     Until: tot
     go: Gaan
     since: sinds
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Beschikbaarheid
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Vervoerder
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ nl:
     MODULES: Modules
     ORDERS: Orders
     PRODUCTS: Producten
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Fabrikanten
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Kies uw exportcontext en druk op de exportknop om een CSV-lijst met e-mailontvangers te downloaden.'
     DoExport: 'Exporteer als CSV'
@@ -243,8 +239,6 @@ nl:
     MENUTITLE: Betalingsstatus
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Producten
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: Productvoorwaarde
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Het importeren van de productafbeelding wordt momenteel uitgevoerd.'
     CronIsRunningTitle: 'Let op:'
@@ -254,14 +248,10 @@ nl:
     FileInfoTitle: 'De volgende productafbeeldingen worden nog niet verwerkt:'
     MENUTITLE: 'Productafbeelding importeren'
     UploadProductImages: 'Productafbeeldingen uploaden'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Hoeveelheid eenheden'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: Verzendopties
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Winkel e-mails'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: Belastingtarieven
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zones
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

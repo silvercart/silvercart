@@ -181,8 +181,6 @@ nb_NO:
     Until: før
     go: 'Kom igjen'
     since: siden
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Tilgjengelighet
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Transportør
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ nb_NO:
     MODULES: Moduler
     ORDERS: Ordrene
     PRODUCTS: gjenstander
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Produsent
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Velg eksportkonteksten og trykk på eksportknappen for å laste ned en CSV-liste over e-postmottakerne.'
     DoExport: 'Eksporter som CSV'
@@ -243,8 +239,6 @@ nb_NO:
     MENUTITLE: Betalingsstatus
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: gjenstander
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'Artikkelen sier'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Artikkelbildeimporten utføres for øyeblikket.'
     CronIsRunningTitle: 'Merk følgende'
@@ -254,14 +248,10 @@ nb_NO:
     FileInfoTitle: 'Følgende varebilder er ennå ikke behandlet:'
     MENUTITLE: 'Import av artikkelbilde'
     UploadProductImages: 'Last opp artikkelbilder'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: Måleenheter
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: Fraktmetoder
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Handle e-poster'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: Skattesatser
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Soner
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

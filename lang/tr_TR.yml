@@ -181,8 +181,6 @@ tr_TR:
     Until: 'a kadar'
     go: Haydi
     since: 'dan beri'
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: kullanılabilirlik
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Taşıyıcı
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ tr_TR:
     MODULES: Modüller
     ORDERS: Emirler
     PRODUCTS: öğeler
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: 'Üretici firma'
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Lütfen dışa aktarma bağlamını seçin ve e-posta alıcılarının CSV listesini indirmek için dışa aktar düğmesine basın.'
     DoExport: 'CSV olarak dışa aktar'
@@ -243,8 +239,6 @@ tr_TR:
     MENUTITLE: 'Ödeme durumu'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: öğeler
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'Madde durumları'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Makale görüntüsünü içe aktarma şu anda gerçekleştirilir.'
     CronIsRunningTitle: Dikkat
@@ -254,14 +248,10 @@ tr_TR:
     FileInfoTitle: 'Aşağıdaki öğe resimleri henüz işlenmedi:'
     MENUTITLE: 'Makale resmi içe aktarma'
     UploadProductImages: 'Makale resimlerini yükleyin'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Ölçü birimleri'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: 'Nakliye Yöntemleri'
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Alışveriş e-postaları'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: 'Vergi oranları'
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Bölgeler
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

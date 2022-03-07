@@ -181,8 +181,6 @@ ro:
     Until: la
     go: du-te
     since: 'de la'
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Disponibilitate
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Transportator
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ ro:
     MODULES: Module
     ORDERS: Comenzi
     PRODUCTS: Articolul
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Producător
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Vă rugăm să selectați contextul de export și să apăsați butonul de export pentru a descărca o listă CSV a destinatarilor de e-mail.'
     DoExport: 'Exportați ca CSV'
@@ -243,8 +239,6 @@ ro:
     MENUTITLE: 'Starea plății'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Articolul
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'Articolul prevede'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'În acest moment se efectuează importul imaginii articolului.'
     CronIsRunningTitle: Atenție
@@ -254,14 +248,10 @@ ro:
     FileInfoTitle: 'Imaginile următoarelor articole nu au fost încă procesate:'
     MENUTITLE: 'Importul imaginii articolului'
     UploadProductImages: 'Încărcați imaginile articolului'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Unități de măsură'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: 'Metode de expediere'
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Magazin de e-mailuri'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: 'Ratele de impozitare'
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zonele
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

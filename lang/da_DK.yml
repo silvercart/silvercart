@@ -181,8 +181,6 @@ da_DK:
     Until: indtil
     go: gå
     since: siden
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Tilgængelighed
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Transportør
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ da_DK:
     MODULES: Moduler
     ORDERS: Ordrer
     PRODUCTS: Produkter
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Producenter
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Vælg din eksportkontekst, og tryk på eksportknappen for at downloade en CSV -liste over e -mail -modtagere.'
     DoExport: 'Eksporter som CSV'
@@ -243,8 +239,6 @@ da_DK:
     MENUTITLE: Betalingsstatus
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Produkter
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: Produkttilstand
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Import af produktbilleder er i gang.'
     CronIsRunningTitle: 'Forsigtig:'
@@ -254,14 +248,10 @@ da_DK:
     FileInfoTitle: 'Følgende produktbilleder håndteres endnu ikke:'
     MENUTITLE: 'Import af produktbillede'
     UploadProductImages: 'Upload produktbilleder'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Antal enheder'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: Forsendelsesmetoder
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'E-mails fra butikker'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: Skattesatser
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zoner
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

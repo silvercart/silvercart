@@ -322,20 +322,8 @@ input[type="color"] {
 .icon.icon-16.icon-silvercart-admin-controllers-productadmin {
     background-position: -454px -24px !important;
 }
-.icon.icon-16.icon-silvercart-admin-controllers-manufactureradmin {
+.icon.icon-16.icon-silvercart-admin-controllers-productpropertiesadmin {
     background-position: -310px -24px !important;
-}
-.icon.icon-16.icon-silvercart-admin-controllers-productconditionadmin {
-    background-position: -70px -144px !important;
-}
-.icon.icon-16.icon-silvercart-admin-controllers-availabilitystatusadmin {
-    background-position: -334px -168px !important;
-}
-.icon.icon-16.icon-silvercart-admin-controllers-quantityunitadmin {
-    background-position: -454px -96px !important;
-}
-.icon.icon-16.icon-silvercart-admin-controllers-taxadmin {
-    background-position: -406px -96px !important;
 }
 .icon.icon-16.icon-silvercart-admin-controllers-paymentmethodadmin {
     background-position: -144px -168px !important;

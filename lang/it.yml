@@ -181,8 +181,6 @@ it:
     Until: 'Fino a'
     go: vai
     since: Dal
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: Disponibilità
   SilverCart\Admin\Controllers\CarrierAdmin:
     MENUTITLE: Spedizioniere
   SilverCart\Admin\Controllers\ContactMessageAdmin:
@@ -206,8 +204,6 @@ it:
     MODULES: Moduli
     ORDERS: Ordini
     PRODUCTS: Articoli
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: Produttori
   SilverCart\Admin\Controllers\NewsletterRecipientsAdmin:
     Description: 'Seleziona il contesto di esportazione e premi il pulsante esporta per scaricare l''elenco CSV di destinatari email.'
     DoExport: 'Esporta come CSV'
@@ -243,8 +239,6 @@ it:
     MENUTITLE: 'Stato del pagamento'
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: Articoli
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: 'Stato dell''articolo'
   SilverCart\Admin\Controllers\ProductImageAdmin:
     CronIsRunningDescription: 'Importazione immagine articolo effettuata in questo momento.'
     CronIsRunningTitle: 'Attenzione:'
@@ -254,14 +248,10 @@ it:
     FileInfoTitle: 'Le seguenti foto articoli non sono ancora state elaborate:'
     MENUTITLE: 'Importazione immagine articolo'
     UploadProductImages: 'Carica immagini articoli'
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: 'Unità di misura'
   SilverCart\Admin\Controllers\ShippingMethodAdmin:
     MENUTITLE: 'Modalità di spedizione'
   SilverCart\Admin\Controllers\ShopEmailAdmin:
     MENUTITLE: 'Email Portale Acquisti'
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: 'Aliquote fiscali'
   SilverCart\Admin\Controllers\ZoneAdmin:
     MENUTITLE: Zone
   SilverCart\Admin\Dev\Install\RequireDefaultRecords:

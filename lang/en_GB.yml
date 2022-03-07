@@ -767,8 +767,6 @@ en_GB:
     ManufacturerNumber: "Manufacturer Number"
     PLURALNAME: "Manufacturers"
     SINGULARNAME: "Manufacturer"
-  SilverCart\Admin\Controllers\ManufacturerAdmin:
-    MENUTITLE: "Manufacturers"
   SilverCart\Model\Product\ManufacturerTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
@@ -1331,8 +1329,6 @@ en_GB:
     WIDGETAREA: "Widgets"
   SilverCart\Admin\Controllers\ProductAdmin:
     MENUTITLE: "Products"
-  SilverCart\Admin\Controllers\AvailabilityStatusAdmin:
-    MENUTITLE: "Availability"
   SilverCart\Model\Product\ProductCondition:
     DefaultDamaged: "Damaged"
     DefaultNew: "New"
@@ -1349,8 +1345,6 @@ en_GB:
     SINGULARNAME: "Product condition"
     TITLE: "Condition"
     USE_AS_STANDARD_CONDITION: "Use as default condition if not defined at the product"
-  SilverCart\Admin\Controllers\ProductConditionAdmin:
-    MENUTITLE: "Product Condition"
   SilverCart\Model\Product\ProductConditionTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
@@ -1527,8 +1521,6 @@ en_GB:
     NUMBER_OF_DECIMAL_PLACES: "Number of decimal places"
     PLURALNAME: "quantity units"
     SINGULARNAME: "quantity unit"
-  SilverCart\Admin\Controllers\QuantityUnitAdmin:
-    MENUTITLE: "Quantity Units"
   SilverCart\Model\Product\QuantityUnitTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
@@ -1778,8 +1770,6 @@ en_GB:
     PLURALNAME: "Rates"
     RATE_IN_PERCENT: "Rate in %"
     SINGULARNAME: "Rate"
-  SilverCart\Admin\Controllers\TaxAdmin:
-    MENUTITLE: "Tax Rates"
   SilverCart\Model\Product\TaxTranslation:
     PLURALNAME: "Translations"
     SINGULARNAME: "Translation"
