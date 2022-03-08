@@ -167,6 +167,7 @@ da_DK:
     DeleteYourAccountUndo: 'Tilbagekaldelse af anmodning om sletning'
     DeleteYourAccountUndone: 'Din anmodning om sletning blev vendt med succes.'
     Go: Gå
+    InclTax: 'inkl. {beløb}% moms'
     IncludingTax: 'inkl. moms'
     NextPage: 'Næste side'
     PrevPage: 'Forrige side'

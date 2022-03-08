@@ -167,6 +167,7 @@ nl:
     DeleteYourAccountUndo: 'Verwijderingsverzoek ongedaan maken'
     DeleteYourAccountUndone: 'Het verwijderingsverzoek voor uw account is succesvol ongedaan gemaakt.'
     Go: Gaan
+    InclTax: 'incl. {amount}% btw'
     IncludingTax: 'incl. btw'
     NextPage: 'Volgende pagina'
     PrevPage: 'Volgende pagina'

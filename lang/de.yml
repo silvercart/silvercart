@@ -175,10 +175,12 @@ de:
     Empty: Leer
     Go: Los
     GoToTop: 'Nach oben'
+    InclTax: 'inkl. {amount}% MwSt.'
     IncludingTax: 'inkl. MwSt.'
     NextPage: 'Nächste Seite'
     OurPaymentPartners: 'Ihre Zahlungsmöglichkeiten'
     OurShipmentPartners: 'Unsere Versandpartner'
+    PlusTax: 'zzgl. {amount}% MwSt.'
     PrevPage: 'Vorherige Seite'
     Print: Drucken
     ProductAddedToCart: 'Der Artikel wurde Ihrem Warenkorb hinzugefügt.'

@@ -167,6 +167,7 @@ ro:
     DeleteYourAccountUndo: 'Revocarea cererii de ștergere'
     DeleteYourAccountUndone: 'Cererea dvs. de ștergere a fost anulată cu succes.'
     Go: Du-te
+    InclTax: 'inclusiv {amount}% TVA.'
     IncludingTax: 'inclusiv TVA.'
     NextPage: 'Pagina următoare'
     PrevPage: 'Pagina precedentă'

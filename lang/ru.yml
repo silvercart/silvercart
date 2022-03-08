@@ -167,6 +167,7 @@ ru:
     DeleteYourAccountUndo: 'Отозвать запрос на удаление'
     DeleteYourAccountUndone: 'Ваш запрос на удаление был успешно отменен.'
     Go: Перейти
+    InclTax: 'вкл. {amount}% НДС'
     IncludingTax: 'вкл. НДС'
     NextPage: 'Следующая страница'
     PrevPage: 'Предыдущая страница'

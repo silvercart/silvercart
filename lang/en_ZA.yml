@@ -167,6 +167,7 @@ en_ZA:
     DeleteYourAccountUndo: 'Revoke deletion request'
     DeleteYourAccountUndone: 'Your deletion request was successfully reversed.'
     Go: Go
+    InclTax: 'incl. {amount}% VAT.'
     IncludingTax: 'incl. VAT.'
     NextPage: 'Next page'
     PrevPage: 'Previous page'

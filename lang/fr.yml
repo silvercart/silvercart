@@ -167,6 +167,7 @@ fr:
     DeleteYourAccountUndo: 'Révoquer la demande de suppression'
     DeleteYourAccountUndone: 'Votre demande de suppression a été annulée avec succès.'
     Go: 'Allez sur'
+    InclTax: 'y compris {montant}% de TVA.'
     IncludingTax: 'TVA. incluse'
     NextPage: 'Page suivante'
     PrevPage: 'Page précédente'

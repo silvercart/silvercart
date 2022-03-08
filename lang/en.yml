@@ -175,10 +175,12 @@ en:
     Empty: Empty
     Go: Go
     GoToTop: 'Go to top'
+    InclTax: 'incl. {amount}% VAT'
     IncludingTax: 'incl. VAT'
     NextPage: 'Next page'
     OurPaymentPartners: 'Our payment methods'
     OurShipmentPartners: 'Our shipment partners'
+    PlusTax: 'plus {amount}% VAT'
     PrevPage: 'Previous page'
     Print: Print
     ProductAddedToCart: 'The product was added to your cart.'

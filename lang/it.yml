@@ -167,6 +167,7 @@ it:
     DeleteYourAccountUndo: 'Revoca richiesta di cancellazione'
     DeleteYourAccountUndone: 'La richiesta di eliminazione è stata annullata con successo.'
     Go: Vai
+    InclTax: 'incl. {amount}% IVA'
     IncludingTax: 'incl. IVA'
     NextPage: 'Pagina successiva'
     PrevPage: 'Pagina precedente'

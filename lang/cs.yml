@@ -167,6 +167,7 @@ cs:
     DeleteYourAccountUndo: 'Odvolání žádosti o vymazání'
     DeleteYourAccountUndone: 'Váš požadavek na smazání byl úspěšně zrušen.'
     Go: 'Přejít na'
+    InclTax: 'včetně {částky}% DPH.'
     IncludingTax: 'včetně DPH.'
     NextPage: 'Další stránka'
     PrevPage: 'Předchozí stránka'

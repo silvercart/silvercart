@@ -167,6 +167,7 @@ fi:
     DeleteYourAccountUndo: 'Poistopyynnön peruuttaminen'
     DeleteYourAccountUndone: 'Poistopyyntösi peruutettiin onnistuneesti.'
     Go: Mene
+    InclTax: 'sis. {summa}% alv.'
     IncludingTax: 'sis. alv.'
     NextPage: 'Seuraava sivu'
     PrevPage: 'Edellinen sivu'

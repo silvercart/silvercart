@@ -167,6 +167,7 @@ sv:
     DeleteYourAccountUndo: 'Återkalla begäran om radering'
     DeleteYourAccountUndone: 'Din begäran om radering har återkallats.'
     Go: 'Gå till'
+    InclTax: 'inkl. {amount}% moms.'
     IncludingTax: 'inkl. moms.'
     NextPage: 'Nästa sida'
     PrevPage: 'Föregående sida'

@@ -167,6 +167,7 @@ pl:
     DeleteYourAccountUndo: 'Cofnięcie wniosku o usunięcie'
     DeleteYourAccountUndone: 'Twoja prośba o usunięcie została pomyślnie cofnięta.'
     Go: 'Wejdź na stronę'
+    InclTax: 'w tym {kwota}% VAT.'
     IncludingTax: 'w tym VAT.'
     NextPage: 'Następna strona'
     PrevPage: 'Poprzednia strona'
