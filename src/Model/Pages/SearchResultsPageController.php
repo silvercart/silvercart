@@ -14,6 +14,7 @@ use SilverCart\Model\Pages\SearchResultsPage;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductTranslation;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Convert;
 use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\ORM\ArrayList;
@@ -119,9 +120,6 @@ class SearchResultsPageController extends ProductGroupPageController
      * @param string $objectClass classname of the object to search for
      *
      * @return void
-     *
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 07.06.2013
      */
     public static function addSearchContext(strng $objectClass) : void
     {
@@ -204,9 +202,6 @@ class SearchResultsPageController extends ProductGroupPageController
      * Returns whether the default search context is active.
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 12.06.2013
      */
     public function IsDefaultSearchContext() : bool
     {
@@ -221,9 +216,6 @@ class SearchResultsPageController extends ProductGroupPageController
      * @param string $plugin The filter plugin object name
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 24.05.2012
      */
     public static function registerFilterPlugin(string $plugin) : void
     {
@@ -237,9 +229,6 @@ class SearchResultsPageController extends ProductGroupPageController
      * Indicates wether a filter plugin can be registered for the current view.
      *
      * @return bool
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 29.08.2011
      */
     public function canRegisterFilterPlugin() : bool
     {
@@ -247,16 +236,12 @@ class SearchResultsPageController extends ProductGroupPageController
     }
     
     /**
-     * Diese Funktion wird beim Initialisieren ausgeführt
+     * Initializes this controller.
      * 
      * @param string $skip param only added because it exists on parent::init()
      *                     to avoid strict notice
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.09.2018
      */
     protected function init(bool $skip = false) : void
     {
@@ -286,8 +271,25 @@ class SearchResultsPageController extends ProductGroupPageController
         if ($getCategory != $sessionCategory) {
             SearchResultsPage::setCurrentSearchCategory($getCategory);
         }
-       
+        
         $this->searchObjectHandler();
+    }
+    
+    /**
+     * Index action. Will redirect to a product detail if a matching product 
+     * number was searched for.
+     * 
+     * @return HTTPResponse
+     */
+    public function index() : HTTPResponse
+    {
+        $product = Product::get_by_product_number((string) $this->getSearchQuery());
+        if ($product instanceof Product
+         && $product->exists()
+        ) {
+            return $this->redirect($product->Link());
+        }
+        return HTTPResponse::create($this->render());
     }
     
     /**
@@ -295,25 +297,19 @@ class SearchResultsPageController extends ProductGroupPageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return DBHTMLText
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.06.2013
+     * @return HTTPResponse
      */
-    public function cc(HTTPRequest $request) : DBHTMLText
+    public function cc(HTTPRequest $request) : HTTPResponse
     {
         $newContext = $request->param('ID');
         $this->setCurrentSearchContext($newContext);
-        return $this->render();
+        return HTTPResponse::create($this->render());
     }
 
     /**
      * Search object handler
      *
      * @return void
-     *
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 07.06.2013
      */
     protected function searchObjectHandler() : void
     {
@@ -339,9 +335,6 @@ class SearchResultsPageController extends ProductGroupPageController
      * Builds the DataObject of filtered products
      *
      * @return PaginatedList
-     * 
-     * @author Sebastian Diel <sdiel@πixeltricks.de>
-     * @since 23.09.2014
      */
     public function buildSearchResultProducts() : PaginatedList
     {
