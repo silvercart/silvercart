@@ -293,7 +293,7 @@ class ExternalResource extends DataObject implements TemplateGlobalProvider
     {
         parent::onBeforeWrite();
         if (empty($this->URLSegment)) {
-            $this->generateURLSegment();
+            $this->generateURLSegment(false);
         }
         if (!$this->exists()) {
             $index    = 2;

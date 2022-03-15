@@ -58,9 +58,11 @@ trait URLSegmentable
     /**
      * Generates the URL segment.
      * 
+     * @param bool $write Write object after generating the URL segment? (default: true)
+     * 
      * @return string
      */
-    public function generateURLSegment() : string
+    public function generateURLSegment(bool $write = true) : string
     {
         $index      = 2;
         $urlSegment = $urlSegmentBase = Tools::string2urlSegment($this->Title);
@@ -78,8 +80,11 @@ trait URLSegmentable
             }
         } while ($existing > 0);
         self::$generatedURLSegment[$this->ID] = $urlSegment;
+        $this->URLSegment = $urlSegment;
         $this->setField('URLSegment', $urlSegment);
-        $this->write();
+        if ($write) {
+            $this->write();
+        }
         return $urlSegment;
     }
 
