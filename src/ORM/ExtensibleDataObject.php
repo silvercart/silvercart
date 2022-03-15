@@ -159,7 +159,7 @@ trait ExtensibleDataObject
                         if ($fieldLabels[$fieldname] === $fieldname) {
                             if ($param === 'has_one') {
                                 $className = $source[$fieldname];
-                                $fieldLabels[$fieldname] = $className::singleton()->singular_name();
+                                $fieldLabels[$fieldname] = $className::singleton()->i18n_singular_name();
                             } elseif ($param === 'has_many'
                                    || $param === 'many_many'
                                    || $param === 'belongs_many_many'
@@ -169,7 +169,7 @@ trait ExtensibleDataObject
                                     $parts = explode('.', $className);
                                     $className = array_shift($parts);
                                 }
-                                $fieldLabels[$fieldname] = $className::singleton()->plural_name();
+                                $fieldLabels[$fieldname] = $className::singleton()->i18n_plural_name();
                             }
                         }
                     }
