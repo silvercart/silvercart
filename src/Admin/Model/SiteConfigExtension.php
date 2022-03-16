@@ -418,6 +418,7 @@ class SiteConfigExtension extends DataExtension
                     DropdownField::create('DefaultPriceType',             $this->owner->fieldLabel('DefaultPriceType')),
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
+        $this->owner->extend('updateCMSFieldsGeneralConfiguration', $generalConfigurationField);
 
         // Build email toggle group
         $emailConfigurationField = ToggleCompositeField::create(
@@ -434,6 +435,7 @@ class SiteConfigExtension extends DataExtension
                     TextField::create('DefaultContactMessageRecipient',        $this->owner->fieldLabel('DefaultContactMessageRecipient'))
                 ]
         )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsEmailConfiguration', $emailConfigurationField);
 
         // Build customer toggle group
         $customerConfigurationField = ToggleCompositeField::create(
@@ -445,6 +447,7 @@ class SiteConfigExtension extends DataExtension
                     CheckboxField::create('demandBirthdayDateOnRegistration', $this->owner->fieldLabel('demandBirthdayDateOnRegistration')),
                 ]
         )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsCustomerConfiguration', $customerConfigurationField);
 
         // Build product toggle group
         $productConfigurationField = ToggleCompositeField::create(
@@ -461,6 +464,7 @@ class SiteConfigExtension extends DataExtension
                     DropdownField::create('StandardProductConditionID',    $this->owner->fieldLabel('StandardProductConditionID')),
                 ]
         )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsProductConfiguration', $productConfigurationField);
 
         // Build checkout toggle group
         $checkoutConfigurationField = ToggleCompositeField::create(
@@ -487,7 +491,8 @@ class SiteConfigExtension extends DataExtension
                     CheckboxField::create('InvoiceAddressIsAlwaysShippingAddress', $this->owner->fieldLabel('InvoiceAddressIsAlwaysShippingAddress')),
                 ]
         )->setHeadingLevel(4);
-
+        $this->owner->extend('updateCMSFieldsCheckoutConfiguration', $checkoutConfigurationField);
+        
         // Build shop data toggle group
         $shopDataConfigurationField = ToggleCompositeField::create(
                 'ShopDataConfiguration',
@@ -506,6 +511,7 @@ class SiteConfigExtension extends DataExtension
                     TextareaField::create('ShopAdditionalInfo2', $this->owner->fieldLabel('ShopAdditionalInfo2')),
                 ]
         )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsShopDataConfiguration', $shopDataConfigurationField);
 
         // Build security toggle group
         $securityConfigurationField = ToggleCompositeField::create(
@@ -515,6 +521,7 @@ class SiteConfigExtension extends DataExtension
                     TextareaField::create('userAgentBlacklist', $this->owner->fieldLabel('userAgentBlacklist')),
                 ]
         )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsSecurityConfiguration', $securityConfigurationField);
 
         // Build example data toggle group
         $addExampleDataButton   = FormAction::create('add_example_data',   $this->owner->fieldLabel('addExampleData'));
@@ -527,6 +534,7 @@ class SiteConfigExtension extends DataExtension
                     $addExampleConfigButton,
                 ]
         )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsExampleData', $exampleDataField);
         
         $addExampleDataButton->setRightTitle($this->owner->fieldLabel('addExampleDataDesc'));
         $addExampleDataButton->setAttribute('data-icon', 'addpage');
@@ -585,6 +593,7 @@ class SiteConfigExtension extends DataExtension
 
         $this->getCMSFieldsForColorScheme($fields);
         
+        $this->owner->extend('updateSilverCartCMSFields', $fields);
         return $fields;
     }
     
@@ -662,6 +671,7 @@ class SiteConfigExtension extends DataExtension
                         LiteralField::create('ColorScheme', $this->owner->customise(['ColorSchemes' => $colorSchemes])->renderWith('SilverCart/Admin/Forms/ColorSchemeField'))
                     ]
             )->setHeadingLevel(4)->setStartClosed(true);
+            $this->owner->extend('updateCMSFieldsColorSchemeConfiguration', $colorSchemeConfigurationField);
             
             $fields->removeByName('Title');
             $fields->removeByName('Tagline');
