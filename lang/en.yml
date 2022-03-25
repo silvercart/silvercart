@@ -1311,6 +1311,7 @@ en:
     ContentStep6: 'Content Step 6 - Confirmation'
     DEFAULT_TITLE: Checkout
     DEFAULT_URLSEGMENT: checkout
+    EnableTermsAndConditionsCheckbox: 'The customer has to use a checkbox to confirm the terms and conditions.'
     FORWARD: Next
     I_ACCEPT_REVOCATION: 'I accept the <a href="{link}" target="blank">revocation instructions</a>.'
     I_ACCEPT_TERMS: 'I accept the <a href="{link}" target="blank">terms and conditions</a>.'

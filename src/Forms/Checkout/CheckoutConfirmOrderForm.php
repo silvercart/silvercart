@@ -46,10 +46,26 @@ class CheckoutConfirmOrderForm extends CustomForm
                 $notesField = TextareaField::create('Note', ''),
                 CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter')),
             ];
-            
+            if ($this->getController()->EnableTermsAndConditionsCheckbox) {
+                $fields[] = CheckboxField::create('AcceptTermsAndConditions', $this->getController()->data()->AcceptTermsAndConditionsText);
+            }
             $notesField->setPlaceholder(Page::singleton()->fieldLabel('YourRemarks') . '...');
         });
         return parent::getCustomFields();
+    }
+
+    /**
+     * Returns the required fields.
+     * 
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        $requiredFields = parent::getRequiredFields();
+        if ($this->getController()->EnableTermsAndConditionsCheckbox) {
+            $requiredFields[] = 'AcceptTermsAndConditions';
+        }
+        return $requiredFields;
     }
     
     /**

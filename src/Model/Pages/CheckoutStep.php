@@ -10,6 +10,7 @@ use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverStripe\Control\Controller;
+use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
@@ -25,14 +26,17 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property string $TermsAndConditionsText Terms And Conditions Text
- * @property string $ContentStep1           Content Step 1
- * @property string $ContentStep2           Content Step 2
- * @property string $ContentStep3           Content Step 3
- * @property string $ContentStep4           Content Step 4
- * @property string $ContentStep5           Content Step 5
- * @property string $ContentStep6           Content Step 6
- * @property string $TitleStep6             Title Step 6
+ * @property string $ContentStep1                     Content Step 1
+ * @property string $ContentStep2                     Content Step 2
+ * @property string $ContentStep3                     Content Step 3
+ * @property string $ContentStep4                     Content Step 4
+ * @property string $ContentStep5                     Content Step 5
+ * @property string $ContentStep6                     Content Step 6
+ * @property bool   $EnableTermsAndConditionsCheckbox Enable Terms And Conditions Checkbox
+ * @property string $NoPaymentMethodText              No Payment Method Text
+ * @property string $NoShippingMethodText             No Shipping Method Text
+ * @property string $TermsAndConditionsText           Terms And Conditions Text
+ * @property string $TitleStep6                       Title Step 6
  */
 class CheckoutStep extends Page
 {
@@ -43,16 +47,17 @@ class CheckoutStep extends Page
      * @var array
      */
     private static $db = [
-        'ContentStep1'           => 'HTMLText',
-        'ContentStep2'           => 'HTMLText',
-        'ContentStep3'           => 'HTMLText',
-        'ContentStep4'           => 'HTMLText',
-        'ContentStep5'           => 'HTMLText',
-        'NoPaymentMethodText'    => 'HTMLText',
-        'NoShippingMethodText'   => 'HTMLText',
-        'TermsAndConditionsText' => 'HTMLText',
-        'TitleStep6'             => 'Varchar',
-        'ContentStep6'           => 'HTMLText',
+        'ContentStep1'                     => 'HTMLText',
+        'ContentStep2'                     => 'HTMLText',
+        'ContentStep3'                     => 'HTMLText',
+        'ContentStep4'                     => 'HTMLText',
+        'ContentStep5'                     => 'HTMLText',
+        'NoPaymentMethodText'              => 'HTMLText',
+        'NoShippingMethodText'             => 'HTMLText',
+        'TermsAndConditionsText'           => 'HTMLText',
+        'EnableTermsAndConditionsCheckbox' => 'Boolean',
+        'TitleStep6'                       => 'Varchar',
+        'ContentStep6'                     => 'HTMLText',
     ];
     /**
      * DB table name
@@ -132,6 +137,7 @@ class CheckoutStep extends Page
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('NoPaymentMethodText', $this->fieldLabel('NoPaymentMethodText'))->setDescription($noPaymentMethodTextDefault)->addExtraClass('stacked')->setRows(3));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep5', $this->fieldLabel('ContentStep5'))->addExtraClass('stacked')->setRows(8));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('TermsAndConditionsText', $this->fieldLabel('TermsAndConditionsText'))->addExtraClass('stacked')->setRows(6)->setDescription($this->getDefaultTermsAndConditionsText()));
+            $fields->addFieldToTab('Root.StepContent', CheckboxField::create('EnableTermsAndConditionsCheckbox', $this->fieldLabel('EnableTermsAndConditionsCheckbox')));
             $fields->addFieldToTab('Root.StepContent', TextField::create('TitleStep6', $this->fieldLabel('TitleStep6'))->setAttribute('placeholder', $titleStep6Default)->setDescription(_t(self::class . '.TitleStep6Info', 'Alternative title to display on the order confirmation page (default: "{default}").', ['default' => $titleStep6Default])));
             $fields->addFieldToTab('Root.StepContent', HTMLEditorField::create('ContentStep6', $this->fieldLabel('ContentStep6'))->addExtraClass('stacked')->setRows(8));
         });

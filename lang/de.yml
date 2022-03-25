@@ -1310,6 +1310,7 @@ de:
     ContentStep6: 'Inhalt Schritt 6 - Bestellbestätigung'
     DEFAULT_TITLE: 'zur Kasse'
     DEFAULT_URLSEGMENT: checkout
+    EnableTermsAndConditionsCheckbox: 'Kunde muss eine Checkbox bestätigen, um den Rechtstext zu akzeptieren.'
     FORWARD: Weiter
     I_ACCEPT_REVOCATION: 'Ich akzeptiere die <a href="{link}" target="blank">Widerrufsbelehrung</a>.'
     I_ACCEPT_TERMS: 'Ich akzeptiere die <a href="{link}" target="blank">Allgemeinen Geschäftsbedingungen</a>.'
