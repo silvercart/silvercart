@@ -29,6 +29,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ErrorPage\ErrorPage;
+use SilverStripe\ErrorPage\ErrorPageController;
 use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
 use SilverStripe\ORM\ArrayList;
@@ -356,6 +357,9 @@ class PageController extends ContentController
             if (Config::isUserAgentBlacklisted($_SERVER['HTTP_USER_AGENT'])) {
                 $this->httpError(403);
             }
+        }
+        if ($this->SiteConfig()->MaintenanceModeIsEnabled(true)) {
+            $this->httpError(503);
         }
         if (array_key_exists($this->ID, self::$instanceMemorizer)) {
             parent::init();

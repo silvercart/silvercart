@@ -3,6 +3,7 @@
 namespace SilverCart\Admin\Model;
 
 use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
+use SilverCart\Admin\Forms\AlertInfoField;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\TextField;
@@ -20,6 +21,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
@@ -30,9 +32,10 @@ use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DB;
-use SilverStripe\View\ArrayData;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
-use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use SilverStripe\View\ArrayData;
 
 /**
  * This class is used to add SilverCart configuration options 
@@ -123,6 +126,9 @@ class SiteConfigExtension extends DataExtension
         'TumblrLink'                    => 'Text',
         'RSSLink'                       => 'Text',
         'EmailLink'                     => 'Text',
+        'MaintenanceMode'               => 'Boolean(0)',
+        'MaintenanceStart'              => 'Datetime',
+        'MaintenanceEnd'                => 'Datetime',
     ];
     /**
      * Has-one relationships.
@@ -168,6 +174,12 @@ class SiteConfigExtension extends DataExtension
      * @var string
      */
     private static $duplicate_config_locale = null;
+    /**
+     * Disables the maintenance mode
+     * 
+     * @var bool
+     */
+    protected static $maintenanceModeIsDisabled = false;
     
     /**
      * Workaround to add a custom callback method for ShopState if possible.
@@ -302,6 +314,8 @@ class SiteConfigExtension extends DataExtension
                     'CheckoutConfiguration'                 => _t(Config::class . '.CheckoutConfiguration', 'Checkout Configuration'),
                     'ShopDataConfiguration'                 => _t(Config::class . '.ShopData', 'Shop Data Configuration'),
                     'SecurityConfiguration'                 => _t(Config::class . '.SecurityConfiguration', 'Security Configuration'),
+                    'MaintenanceConfiguration'              => _t(self::class . '.MaintenanceConfiguration', 'Maintenance Configuration'),
+                    'MaintenanceInfo'                       => _t(self::class . '.MaintenanceInfo', 'To run the maintenance mode, the creation of a status 503 error page in CMS is required.'),
                     'SkipPaymentStepIfUnique'               => _t(Config::class . '.SKIP_PAYMENT_STEP_IF_UNIQUE', 'Skip payment step if there is only one selection.'),
                     'SkipShippingStepIfUnique'              => _t(Config::class . '.SKIP_SHIPPING_STEP_IF_UNIQUE', 'Skip shipping step if there is only one selection.'),
                     'InvoiceAddressIsAlwaysShippingAddress' => _t(Config::class . '.InvoiceAddressIsAlwaysShippingAddress', 'Invoice address is always shipping address'),
@@ -522,6 +536,19 @@ class SiteConfigExtension extends DataExtension
                 ]
         )->setHeadingLevel(4);
         $this->owner->extend('updateCMSFieldsSecurityConfiguration', $securityConfigurationField);
+        
+        // Build maintenance toggle group
+        $maintenanceConfigurationField = ToggleCompositeField::create(
+                'MaintenanceConfiguration',
+                $this->owner->fieldLabel('MaintenanceConfiguration'),
+                [
+                    AlertInfoField::create('MaintenanceInfo', $this->owner->fieldLabel('MaintenanceInfo')),//503
+                    CheckboxField::create('MaintenanceMode', $this->owner->fieldLabel('MaintenanceMode'))->setDescription($this->owner->fieldLabel('MaintenanceModeDesc')),
+                    DatetimeField::create('MaintenanceStart', $this->owner->fieldLabel('MaintenanceStart'))->setDescription($this->owner->fieldLabel('MaintenanceStartDesc')),
+                    DatetimeField::create('MaintenanceEnd', $this->owner->fieldLabel('MaintenanceEnd'))->setDescription($this->owner->fieldLabel('MaintenanceEndDesc')),
+                ]
+        )->setHeadingLevel(4);
+        $this->owner->extend('updateCMSFieldsMaintenanceConfiguration', $maintenanceConfigurationField);
 
         // Build example data toggle group
         $addExampleDataButton   = FormAction::create('add_example_data',   $this->owner->fieldLabel('addExampleData'));
@@ -549,6 +576,7 @@ class SiteConfigExtension extends DataExtension
         $fields->addFieldToTab('Root.Main', $checkoutConfigurationField);
         $fields->addFieldToTab('Root.Main', $shopDataConfigurationField);
         $fields->addFieldToTab('Root.Main', $securityConfigurationField);
+        $fields->addFieldToTab('Root.Main', $maintenanceConfigurationField);
         $fields->addFieldToTab('Root.Main', $exampleDataField);
 
         // Modify field data
@@ -760,6 +788,46 @@ class SiteConfigExtension extends DataExtension
             DB::query('DROP TABLE SilvercartConfig');
         }
         
+    }
+
+    /**
+     * Returns whether the maintenance mode is enabled.
+     * 
+     * @param bool $disable Disable maintenance  mode flag to prevent infinite loops when triggering the HTTP error?
+     * 
+     * @return bool
+     */
+    public function MaintenanceModeIsEnabled(bool $disable = false) : bool
+    {
+        if (Controller::curr() instanceof Security) {
+            return false;
+        }
+        $customer = Security::getCurrentUser();
+        if ($customer instanceof Member
+         && $customer->isAdmin()
+        ) {
+            return false;
+        }
+        if (self::$maintenanceModeIsDisabled) {
+            return false;
+        }
+        if ($disable) {
+            self::$maintenanceModeIsDisabled = true;
+        }
+        $enabled = false;
+        if ($this->owner->MaintenanceMode) {
+            if ($this->owner->MaintenanceStart === null
+             || strtotime($this->owner->MaintenanceStart) < time()
+            ) {
+                $enabled = true;
+            }
+            if ($this->owner->MaintenanceEnd !== null
+             && strtotime($this->owner->MaintenanceEnd) < time()
+            ) {
+                $enabled = false;
+            }
+        }
+        return $enabled;
     }
     
     /**

@@ -510,6 +510,16 @@ de:
     DisableProductLinkInCart: 'Artikel-Verlinkung im Warenkorb deaktivieren'
     FACEBOOK_LINK: 'Facebook Link'
     GoogleplusLink: 'Google Plus Link'
+    MaintenanceConfiguration: Wartungsmodus-Einstellungen
+    MaintenanceEnd: 'Wartungsmodus Ende'
+    MaintenanceEndDesc: 'End-Datum und Uhrzeit des Wartungsmodus.'
+    MaintenanceInfo: 'Um den Wartungsmodus zu verwenden, sollte im CMS eine Status 503 Fehlerseite angelegt werden.'
+    MaintenanceMode: 'Wartungsmodus aktivieren'
+    MaintenanceModeDesc: 'Wenn aktiviert, wird die verknüpfte Wartungsseite angezeigt. Wenn kein Start-Datum angegeben wird, tritt der Wartungsmodus sofort in Kraft. Wenn kein End-Datum angegeben ist, ist der Wartungsmodus aktiv, solange die Checkbox aktiviert ist.'
+    MaintenancePage: Wartungsseite
+    MaintenancePageDesc: 'Seite, die im Wartungsmodus angezeigt werden soll.'
+    MaintenanceStart: 'Wartungsmodus Start'
+    MaintenanceStartDesc: 'Start-Datum und Uhrzeit des Wartungsmodus.'
     PUBLISHBUTTON: 'Alle Seiten der aktuellen Sprache veröffentlichen'
     TESTDATA_HEADLINE: Testdaten
     TESTDATA_LINKTEXT: 'Zur Testdaten-Sektion springen'
