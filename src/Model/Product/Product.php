@@ -700,6 +700,28 @@ class Product extends DataObject implements PermissionProvider
     }
     
     /**
+     * Returns the product prices as a JSON string.
+     * 
+     * @return string
+     */
+    public function PricesJSON() : string
+    {
+        $prices = [];
+        if (!$this->HidePrices()) {
+            $price    = $this->getPrice();
+            $prices[] = [
+                'Amount'   => $price->getAmount(),
+                'Currency' => $price->getCurrency(),
+                'Symbol'   => $price->getSymbol(),
+                'Nice'     => $price->Nice(),
+                'Interval' => '',
+            ];
+        }
+        $this->extend('updatePricesJSON', $prices);
+        return json_encode($prices);
+    }
+    
+    /**
      * Returns a fallback default country.
      * 
      * @return Country|null
