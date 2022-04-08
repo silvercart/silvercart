@@ -2334,6 +2334,26 @@ class ShoppingCart extends DataObject
     }
     
     /**
+     * Returns the product cart descriptions.
+     * 
+     * @return ArrayList
+     */
+    public function ProductCartDescriptions() : ArrayList
+    {
+        $descriptions = ArrayList::create();
+        foreach ($this->ShoppingCartPositions() as $position) {
+            $description = $position->Product()->CartDescription;
+            if (empty($description)) {
+                continue;
+            }
+            $descriptions->push(ArrayData::create([
+                'CartDescription' => DBHTMLText::create()->setValue($description),
+            ]));
+        }
+        return $descriptions;
+    }
+    
+    /**
      * Returns the rendered shopping cart.
      * 
      * @param string $templateAddition Optional template name addition

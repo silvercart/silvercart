@@ -21,8 +21,10 @@ use SilverStripe\ORM\DataObject;
  * @property string $Title            Title
  * @property string $ShortDescription Short Description
  * @property string $LongDescription  Long Description
+ * @property string $CartDescription  Cart Description
  * @property string $MetaDescription  Meta Description
  * @property string $MetaTitle        Meta Title
+ * @property string $OrderEmailText   Order Email Text
  * 
  * @method Product Product() Returns the related Product.
  */
@@ -38,6 +40,7 @@ class ProductTranslation extends DataObject
         'Title'            => 'Varchar(255)',
         'ShortDescription' => 'Text',
         'LongDescription'  => 'HTMLText',
+        'CartDescription'  => 'HTMLText',
         'MetaDescription'  => 'Varchar(255)',
         'MetaTitle'        => 'Varchar(64)', //search engines use only 64 chars
         'OrderEmailText'   => 'HTMLText',
@@ -125,6 +128,7 @@ class ProductTranslation extends DataObject
                         'Title'            => _t(Product::class . '.COLUMN_TITLE', 'Title'),
                         'ShortDescription' => _t(Product::class . '.SHORTDESCRIPTION', 'Listdescription'),
                         'LongDescription'  => _t(Product::class . '.DESCRIPTION', 'Description'),
+                        'CartDescription'  => _t(Product::class . '.CartDescription', 'Cart description'),
                         'MetaDescription'  => _t(Product::class . '.METADESCRIPTION', 'Meta description for search engines'),
                         'MetaTitle'        => _t(Product::class . '.METATITLE', 'Meta title for search engines'),
                         'Locale'           => _t(Product::class . '.LOCALE', 'Locale'),

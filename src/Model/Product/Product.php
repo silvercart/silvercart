@@ -76,6 +76,13 @@ use WidgetSets\Model\WidgetSet;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
+ * @property string     $Title                       Title
+ * @property string     $ShortDescription            Short Description
+ * @property string     $LongDescription             Long Description
+ * @property string     $CartDescription             Cart Description
+ * @property string     $MetaDescription             Meta Description
+ * @property string     $MetaTitle                   Meta Title
+ * @property string     $OrderEmailText              Order Email Text
  * @property bool       $isActive                    Is this product active?
  * @property bool       $HideFromSearchResults       Hide from search results?
  * @property bool       $IsNotBuyable                Is Not Buyable
@@ -235,6 +242,7 @@ class Product extends DataObject implements PermissionProvider
         'Title'                       => 'Text',
         'ShortDescription'            => 'Text',
         'LongDescription'             => 'HTMLText',
+        'CartDescription'             => 'HTMLText',
         'MetaDescription'             => 'Text',
         'MetaTitle'                   => 'Text',
         'Link'                        => 'Text',
@@ -590,6 +598,25 @@ class Product extends DataObject implements PermissionProvider
             $this->extend('updateLongDescription', $longDescription);
         }
         return $longDescription;
+    }
+    
+    /**
+     * Returns the translated CartDescription.
+     * 
+     * @param bool $includeHtml include html tags or remove them from description
+     * 
+     * @return string
+     */
+    public function getCartDescription(bool $includeHtml = true) : string
+    {
+        $value = $this->getTranslationFieldValue('CartDescription');
+        if (!$this->getCMSFieldsIsCalled) {
+            if (!$includeHtml) {
+                $value = utf8_encode(html_entity_decode(strip_tags($value)));
+            }
+            $this->extend('updateCartDescription', $value);
+        }
+        return (string) $value;
     }
     
     /**
@@ -1664,6 +1691,7 @@ class Product extends DataObject implements PermissionProvider
                 'Title',
                 'ShortDescription',
                 'LongDescription',
+                'CartDescription',
                 'MetaDescription',
                 'MetaTitle',
                 'ProductNumberShop',
@@ -1819,11 +1847,13 @@ class Product extends DataObject implements PermissionProvider
                     $fields->dataFieldByName('Title'),
                     $fields->dataFieldByName('ShortDescription'),
                     $fields->dataFieldByName('LongDescription'),
+                    $fields->dataFieldByName('CartDescription')->setRows(3),
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->removeByName('Title');
         $fields->removeByName('ShortDescription');
         $fields->removeByName('LongDescription');
+        $fields->removeByName('CartDescription');
         $fields->insertAfter($descriptionToggle, 'AvailabilityGroupToggle');
         
         $timeGroup = FieldGroup::create('TimeGroup', '', $fields);

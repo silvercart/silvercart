@@ -1939,6 +1939,8 @@ en:
     AddFile: 'Add File'
     AddImage: 'Add Image'
     BasicData: 'Basic data'
+    CartDescription: 'Cart description'
+    CartDescriptionDesc: 'The cart description will be displayed as an information message above the shopping cart table.'
     CHANGE_QUANTITY_CART: 'Change quantity'
     CHOOSE_MASTER: '-- choose master --'
     COLUMN_TITLE: Name
