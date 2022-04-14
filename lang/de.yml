@@ -2558,6 +2558,7 @@ de:
     Title: 'Gelöschte Kunden'
   SilverCart\View\GroupView\GroupViewBase:
     LIST: Liste
+    TABLE: Tabelle
     TILE: Kacheln
   SilverStripe\Security\Member:
     FailedLoginCountWarning:

@@ -2557,6 +2557,7 @@ en:
     Title: 'Deleted customers'
   SilverCart\View\GroupView\GroupViewBase:
     LIST: List
+    TABLE: Table
     TILE: Tile
   SilverStripe\Security\Member:
     FailedLoginCountWarning:
