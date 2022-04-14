@@ -30,7 +30,8 @@ use SilverStripe\Control\Director;
  */
 class CartPageController extends \PageController
 {
-    const SESSION_KEY_CONTINUE_SHOPPING_LINK = 'SilverCart.CartPage.ContinueShoppingLink';
+    const SESSION_KEY_CONTINUE_SHOPPING_LINK  = 'SilverCart.CartPage.ContinueShoppingLink';
+    const SESSION_KEY_CONTINUE_SHOPPING_LABEL = 'SilverCart.CartPage.ContinueShoppingLabel';
     /**
      * List of allowed actions.
      *
@@ -82,6 +83,33 @@ class CartPageController extends \PageController
             }
         }
         return (string) $link;
+    }
+    
+    /**
+     * Sets the Continue Shopping Label.
+     * 
+     * @param string $label Label
+     * 
+     * @return void
+     */
+    public static function setContinueShoppingLabel(string $label) : void
+    {
+        Tools::Session()->set(self::SESSION_KEY_CONTINUE_SHOPPING_LABEL, $label);
+        Tools::saveSession();
+    }
+    
+    /**
+     * Returns the Continue Shopping Label.
+     * 
+     * @return string
+     */
+    public static function getContinueShoppingLabel() : string
+    {
+        $label = Tools::Session()->get(self::SESSION_KEY_CONTINUE_SHOPPING_LABEL);
+        if ($label === null) {
+            $label = _t(Page::class . '.CONTINUESHOPPING', 'Continue shopping');
+        }
+        return (string) $label;
     }
 
     /**
