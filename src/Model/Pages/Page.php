@@ -5,6 +5,7 @@ namespace SilverCart\Model\Pages;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Dev\SeoTools;
+use SilverCart\Extensions\Model\LinkBehaviorExtension;
 use SilverCart\Forms\CustomRequiredFields;
 use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Customer\Address;
@@ -52,29 +53,29 @@ class Page extends SiteTree
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
-    const IDENTIFIER_ADDRESS_HOLDER              = 'SilvercartAddressHolder';
-    const IDENTIFIER_CART_PAGE                   = 'SilvercartCartPage';
-    const IDENTIFIER_CHECKOUT_PAGE               = 'SilvercartCheckoutStep';
-    const IDENTIFIER_CONTACT_FORM_PAGE           = 'SilvercartContactFormPage';
-    const IDENTIFIER_CUSTOMER_DATA_PAGE          = 'SilvercartCustomerDataPage';
-    const IDENTIFIER_DATA_PRIVACY_PAGE           = 'DataPrivacyStatementPage';
-    const IDENTIFIER_FRONT_PAGE                  = 'SilvercartFrontPage';
-    const IDENTIFIER_IMPRINT_PAGE                = 'ImprintPage';
-    const IDENTIFIER_META_ABOUT_HOLDER           = 'SilvercartMetaNavigationHolderAbout';
-    const IDENTIFIER_META_LEGAL_HOLDER           = 'SilvercartMetaNavigationHolderLegal';
-    const IDENTIFIER_META_SERVICE_HOLDER         = 'SilvercartMetaNavigationHolderService';
-    const IDENTIFIER_META_SHOP_HOLDER            = 'SilvercartMetaNavigationHolderShop';
-    const IDENTIFIER_MY_ACCOUNT_HOLDER           = 'SilvercartMyAccountHolder';
-    const IDENTIFIER_NEWSLETTER_PAGE             = 'SilvercartNewsletterPage';
-    const IDENTIFIER_ORDER_HOLDER                = 'SilvercartOrderHolder';
-    const IDENTIFIER_PAYMENT_METHODS_PAGE        = 'SilvercartPaymentMethodsPage';
-    const IDENTIFIER_PRODUCT_GROUP_HOLDER        = 'SilvercartProductGroupHolder';
-    const IDENTIFIER_REGISTRATION_PAGE           = 'SilvercartRegistrationPage';
-    const IDENTIFIER_REVOCATION_FORM_PAGE        = 'SilvercartRevocationFormPage';
-    const IDENTIFIER_REVOCATION_INSTRUCTION_PAGE = 'SilvercartRevocationInstructionPage';
-    const IDENTIFIER_SEARCH_RESULTS_PAGE         = 'SilvercartSearchResultsPage';
-    const IDENTIFIER_SHIPPING_FEES_PAGE          = 'SilvercartShippingFeesPage';
-    const IDENTIFIER_TERMS_OF_SERVICE_PAGE       = 'TermsOfServicePage';
+    public const IDENTIFIER_ADDRESS_HOLDER              = 'SilvercartAddressHolder';
+    public const IDENTIFIER_CART_PAGE                   = 'SilvercartCartPage';
+    public const IDENTIFIER_CHECKOUT_PAGE               = 'SilvercartCheckoutStep';
+    public const IDENTIFIER_CONTACT_FORM_PAGE           = 'SilvercartContactFormPage';
+    public const IDENTIFIER_CUSTOMER_DATA_PAGE          = 'SilvercartCustomerDataPage';
+    public const IDENTIFIER_DATA_PRIVACY_PAGE           = 'DataPrivacyStatementPage';
+    public const IDENTIFIER_FRONT_PAGE                  = 'SilvercartFrontPage';
+    public const IDENTIFIER_IMPRINT_PAGE                = 'ImprintPage';
+    public const IDENTIFIER_META_ABOUT_HOLDER           = 'SilvercartMetaNavigationHolderAbout';
+    public const IDENTIFIER_META_LEGAL_HOLDER           = 'SilvercartMetaNavigationHolderLegal';
+    public const IDENTIFIER_META_SERVICE_HOLDER         = 'SilvercartMetaNavigationHolderService';
+    public const IDENTIFIER_META_SHOP_HOLDER            = 'SilvercartMetaNavigationHolderShop';
+    public const IDENTIFIER_MY_ACCOUNT_HOLDER           = 'SilvercartMyAccountHolder';
+    public const IDENTIFIER_NEWSLETTER_PAGE             = 'SilvercartNewsletterPage';
+    public const IDENTIFIER_ORDER_HOLDER                = 'SilvercartOrderHolder';
+    public const IDENTIFIER_PAYMENT_METHODS_PAGE        = 'SilvercartPaymentMethodsPage';
+    public const IDENTIFIER_PRODUCT_GROUP_HOLDER        = 'SilvercartProductGroupHolder';
+    public const IDENTIFIER_REGISTRATION_PAGE           = 'SilvercartRegistrationPage';
+    public const IDENTIFIER_REVOCATION_FORM_PAGE        = 'SilvercartRevocationFormPage';
+    public const IDENTIFIER_REVOCATION_INSTRUCTION_PAGE = 'SilvercartRevocationInstructionPage';
+    public const IDENTIFIER_SEARCH_RESULTS_PAGE         = 'SilvercartSearchResultsPage';
+    public const IDENTIFIER_SHIPPING_FEES_PAGE          = 'SilvercartShippingFeesPage';
+    public const IDENTIFIER_TERMS_OF_SERVICE_PAGE       = 'TermsOfServicePage';
     
     /**
      * The robots tag content for dev mode or sensible content.
@@ -525,6 +526,18 @@ class Page extends SiteTree
         ]) . PHP_EOL;
         $tags        .= $this->OpenGraphMetaTags();
         return $tags;
+    }
+
+    /**
+     * Returns the linking target for foreign links on this page.
+     * 
+     * @param bool $plain Plain target value or as HTMNL attribute (default)
+     * 
+     * @return string
+     */
+    public function ForeignLinkTarget(bool $plain = false) : string
+    {
+        return LinkBehaviorExtension::ForeignLinkTarget($this, $plain);
     }
     
     /**

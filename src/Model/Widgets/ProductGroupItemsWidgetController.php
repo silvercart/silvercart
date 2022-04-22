@@ -148,12 +148,10 @@ class ProductGroupItemsWidgetController extends WidgetController
      * Returns the elements for the static slider view.
      * 
      * @return ArrayList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.02.2013
      */
     public function Elements() : ArrayList
     {
+        Product::setLinkBehavior($this->getWidget()->LinkBehavior);
         if (is_null($this->elements)) {
             switch ($this->useSelectionMethod) {
                 case 'products':

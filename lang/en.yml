@@ -557,6 +557,11 @@ en:
     FontAwesomeIcon: 'Font Awesome Icon'
     FontAwesomeIconDesc: 'Go to the <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">Font Awesome icon reference page</a> for an enhanced search filter.'
     FontAwesomeIconRightTitle: 'The Font Awesome icon will be displayed on promotionally effective places like a CMS page for a package selection.'
+  SilverCart\Extensions\Model\LinkBehaviorExtension:
+    LinkBehavior: 'Link behavior'
+    LinkBehavior_nolink: 'Don''t use links'
+    LinkBehavior_page: 'Open details on a new page'
+    LinkBehavior_popup: 'Open details in a popup'
   SilverCart\Extensions\ORM\PaginatedListExtension:
     Info: 'Page {currentPage}, item {firstItem}'
     Info2Plural: '{totalItems} items on {totalPages} pages'

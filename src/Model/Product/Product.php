@@ -9,6 +9,7 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Control\ActionHandler as SilverCartActionHandler;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\LinkBehaviorExtension;
 use SilverCart\Forms\AddToCartForm;
 use SilverCart\Forms\FormFields\FieldGroup;
 use SilverCart\Model\Customer\Country;
@@ -333,6 +334,15 @@ class Product extends DataObject implements PermissionProvider
      * @var array
      */
     protected static $extendedSortableFrontendFields = [];
+    /**
+     * The current link behavior.
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_PAGE
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_POPUP
+     * 
+     * @var string
+     */
+    protected static $linkBehavior = LinkBehaviorExtension::LINK_BEHAVIOR_PAGE;
     /**
      * Contains hashes for caching.
      *
@@ -2359,6 +2369,64 @@ class Product extends DataObject implements PermissionProvider
     public static function resetRequiredAttributes() : void
     {
         self::$requiredAttributes = [];
+    }
+    
+    /**
+     * Returns the current link behavior.
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_PAGE
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_POPUP
+     * 
+     * @return string
+     */
+    public static function getLinkBehavior() : string
+    {
+        return self::$linkBehavior;
+    }
+    
+    /**
+     * Sets the current link behavior.
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_PAGE
+     * @see LinkBehaviorExtension::LINK_BEHAVIOR_POPUP
+     * 
+     * @param string $linkBehavior Link behavior
+     * 
+     * @return void
+     */
+    public static function setLinkBehavior(string $linkBehavior) : void
+    {
+        self::$linkBehavior = $linkBehavior;
+    }
+    
+    /**
+     * Returns whether the current link behavior is the nolink link behavior.
+     * 
+     * @return bool
+     */
+    public static function LinkBehaviorNoLink() : bool
+    {
+        return self::$linkBehavior === LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK;
+    }
+    
+    /**
+     * Returns whether the current link behavior is the page link behavior.
+     * 
+     * @return bool
+     */
+    public static function LinkBehaviorPage() : bool
+    {
+        return self::$linkBehavior === LinkBehaviorExtension::LINK_BEHAVIOR_PAGE;
+    }
+    
+    /**
+     * Returns whether the current link behavior is the popup link behavior.
+     * 
+     * @return bool
+     */
+    public static function LinkBehaviorPopup() : bool
+    {
+        return self::$linkBehavior === LinkBehaviorExtension::LINK_BEHAVIOR_POPUP;
     }
 
     /**
