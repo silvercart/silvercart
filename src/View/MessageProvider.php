@@ -22,6 +22,13 @@ trait MessageProvider
     public static $MESSAGE_TYPE_SUCCESS = 'success';
     public static $MESSAGE_TYPE_WARNING = 'warning';
     /**
+     * Already provided messages.
+     * 
+     * @var string[]
+     */
+    protected $messageProviderMessages = [];
+    
+    /**
      * Append the message with the given $sessionKey with the given $message.
      * 
      * @param string $sessionKey Session key
@@ -84,7 +91,7 @@ trait MessageProvider
     {
         return $this->appendMessage(Tools::SESSION_KEY_MESSAGE_WARNING, $message);
     }
-    
+
     /**
      * Get the message with the given $sessionKey out of session and delete it (from session).
      * 
@@ -97,6 +104,11 @@ trait MessageProvider
         $message = Tools::Session()->get($sessionKey);
         Tools::Session()->clear($sessionKey);
         Tools::saveSession();
+        if (!empty($message)) {
+            $this->messageProviderMessages[$sessionKey] = $message;
+        } elseif (array_key_exists($sessionKey, $this->messageProviderMessages)) {
+            $message = $this->messageProviderMessages[$sessionKey];
+        }
         return DBHTMLText::create()->setValue($message);
     }
     
