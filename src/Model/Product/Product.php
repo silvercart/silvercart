@@ -1857,7 +1857,9 @@ class Product extends DataObject implements PermissionProvider
                     $fields->dataFieldByName('Title'),
                     $fields->dataFieldByName('ShortDescription'),
                     $fields->dataFieldByName('LongDescription'),
-                    $fields->dataFieldByName('CartDescription')->setRows(3),
+                    $fields->dataFieldByName('CartDescription')
+                        ->setDescription($this->fieldLabel('CartDescriptionDesc'))
+                        ->setRows(3),
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->removeByName('Title');
@@ -3381,7 +3383,9 @@ class Product extends DataObject implements PermissionProvider
     {
         parent::onBeforeWrite();
         $productGroup = $this->ProductGroup();
-        if ($productGroup->exists()) {
+        if ($productGroup->exists()
+         && $this->ProductGroupMirrorPages()->hasMethod('removeByID')
+        ) {
             $this->ProductGroupMirrorPages()->removeByID($productGroup->ID);
         }
         if (array_key_exists('StockQuantity', $this->original)) {
