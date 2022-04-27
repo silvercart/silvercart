@@ -299,19 +299,20 @@ class ProductGroupPage extends \Page
      * @param string $action Action to call. Will be ignored for product detail views.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.03.2015
      */
     public function Link($action = null) : string
     {
-        $controller = Controller::curr();
-        if ($controller->hasMethod('isProductDetailView')
-         && $controller->isProductDetailView()
-         && $controller->data()->ID === $this->ID
-        ) {
-            $product = $controller->getDetailViewProduct();
-            $link    = $product->Link($this->Locale);
+        if (Controller::has_curr()) {
+            $controller = Controller::curr();
+            if ($controller->hasMethod('isProductDetailView')
+             && $controller->isProductDetailView()
+             && $controller->data()->ID === $this->ID
+            ) {
+                $product = $controller->getDetailViewProduct();
+                $link    = $product->Link($this->Locale);
+            } else {
+                $link = parent::Link($action);
+            }
         } else {
             $link = parent::Link($action);
         }
