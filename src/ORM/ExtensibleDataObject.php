@@ -104,6 +104,12 @@ trait ExtensibleDataObject
                 $labels = array_merge(
                         $labels,
                         $this->scaffoldFieldLabels(),
+                        [
+                            'Created'         => _t('SilverCart.Created', 'Created'),
+                            'Created.Date'    => _t('SilverCart.Created', 'Created'),
+                            'LastEdited'      => _t('SilverCart.LastEdited', 'Last edited'),
+                            'LastEdited.Date' => _t('SilverCart.LastEdited', 'Last edited'),
+                        ],
                         $additionalLabels
                 );
             });
