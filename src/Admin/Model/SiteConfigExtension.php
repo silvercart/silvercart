@@ -40,6 +40,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\ArrayData;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
  * This class is used to add SilverCart configuration options 
@@ -376,8 +377,12 @@ class SiteConfigExtension extends DataExtension
     public function updateCMSFields(FieldList $fields) : void
     {
         $this->getCMSFieldsIsCalled = true;
+        $gridExternalLinks = GridField::create('ExternalLinks', $this->owner->fieldLabel('ExternalLinks'), $this->owner->ExternalLinks(), GridFieldConfig_RelationEditor::create());
+        if (class_exists(GridFieldOrderableRows::class)) {
+            $gridExternalLinks->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+        }
         $fields->findOrMakeTab('Root.ExternalLinks')->setTitle($this->owner->fieldLabel('ExternalLinks'));
-        $fields->addFieldToTab('Root.ExternalLinks', GridField::create('ExternalLinks', $this->owner->fieldLabel('ExternalLinks'), $this->owner->ExternalLinks(), GridFieldConfig_RelationEditor::create()));
+        $fields->addFieldToTab('Root.ExternalLinks', $gridExternalLinks);
         
         $fields->findOrMakeTab('Root.ExternalResources', ExternalResource::singleton()->i18n_plural_name());
         $fields->addFieldToTab('Root.ExternalResources', GridField::create('ExternalResources', ExternalResource::singleton()->i18n_plural_name(), ExternalResource::get(), GridFieldConfig_RecordEditor::create()));

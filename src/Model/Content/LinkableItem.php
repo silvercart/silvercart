@@ -8,6 +8,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Extensions\Model\FontAwesomeExtension;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -28,6 +29,8 @@ use SilverStripe\View\SSViewer;
  * @property string $CustomIconHTML Custom Icon HTML
  * @property string $ExtraClasses   ExtraClasses
  * @property int    $Sort           Sort
+ * @property int    $LinkID         Related Link ID
+ * @property int    $SiteConfigID   Related SiteConfig ID
  * 
  * @method Link       Link()       Returns the related Link.
  * @method SiteConfig SiteConfig() Returns the related SiteConfig.
@@ -183,6 +186,9 @@ class LinkableItem extends DataObject
                     ->setAllowedTypes([])
             );
             $fields->dataFieldByName('ExtraClasses')->setDescription($this->owner->fieldLabel('ExtraClassesDesc'));
+            if ($this->SiteConfig()->exists()) {
+                $fields->replaceField('SiteConfigID', HiddenField::create('SiteConfigID', '', $this->SiteConfigID));
+            }
         });
         return parent::getCMSFields();
     }
