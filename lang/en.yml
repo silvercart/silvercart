@@ -162,6 +162,7 @@ en:
     ClickForMore: 'Click for more informationen'
     Close: Close
     ContactUs: 'Contact us'
+    Created: 'Created'
     DefaultIfEmpty: 'Default if empty: "{default}"'
     DeleteYourAccount: 'Delete your account'
     DeleteYourAccountDesc: 'Please note that the deletion of your Webshop account is permanent. Once your account has been closed, it will no longer be available to you and cannot be restored. If you later decide to place orders with us again or want to use products and services that require a webshop account, you will need to create a new account.'
@@ -177,6 +178,7 @@ en:
     GoToTop: 'Go to top'
     InclTax: 'incl. {amount}% VAT'
     IncludingTax: 'incl. VAT'
+    LastEdited: 'Last edited'
     NextPage: 'Next page'
     OurPaymentPartners: 'Our payment methods'
     OurShipmentPartners: 'Our shipment partners'
@@ -508,6 +510,7 @@ en:
     DimensionUnit_cm: Centimeter
     DimensionUnit_in: Inch
     DisableProductLinkInCart: 'Disable product detail link in shopping cart'
+    ExternalLinks: 'External Links'
     FACEBOOK_LINK: 'Facebook Link'
     GoogleplusLink: 'Google Plus Link'
     MaintenanceConfiguration: 'Maintenance Settings'
@@ -644,6 +647,20 @@ en:
     PLURALNAME: 'Contact messages'
     SINGULARNAME: 'Contact message'
     SubjectText: Subject
+  SilverCart\Model\Content\LinkableItem:
+    CustomIconHTML: 'Alternative Icon'
+    CustomIconHTMLDesc: 'HTML code to use as an alternative icon.'
+    Description: Description
+    DescriptionDesc: 'Wird je nach Anzeigeposition des Link-Elements zum Beispiel als Tooltip angezeigt. Die Anzeige variiert je nach Kontext.'
+    ExtraClasses: 'Additional CSS classes'
+    ExtraClassesDesc: 'E.g. to customize padding, margin or font.'
+    PLURALNAME: 'Link Elements'
+    SINGULARNAME: 'Link Element'
+    Sort: 'Sort order'
+    Title: 'Display title'
+  SilverCart\Model\Content\LinkableItemTranslation:
+    PLURALNAME: Translations
+    SINGULARNAME: Translation
   SilverCart\Model\CookieConsent\ExternalResource:
     Code: Code
     CookieGroup: 'Cookie Group'

@@ -6,17 +6,19 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Forms\AlertInfoField;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Forms\FormFields\MoneyField;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Forms\FormFields\TextareaField;
+use SilverCart\Model\Content\LinkableItem;
 use SilverCart\Model\CookieConsent\ExternalResource;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductCondition;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverCart\ORM\Connect\DBMigration;
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
-use SilverCart\Forms\FormFields\MoneyField;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -27,10 +29,12 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
@@ -115,17 +119,6 @@ class SiteConfigExtension extends DataExtension
         'ShowShippingMethodsInFooter'           => 'Boolean(1)',
         'userAgentBlacklist'                    => 'Text',
         'ColorScheme'                           => 'Varchar(256)',
-        'GoogleplusLink'                => 'Text',
-        'FacebookLink'                  => 'Text',
-        'TwitterLink'                   => 'Text',
-        'XingLink'                      => 'Text',
-        'InstagramLink'                 => 'Text',
-        'BloglovinLink'                 => 'Text',
-        'PinterestLink'                 => 'Text',
-        'YouTubeLink'                   => 'Text',
-        'TumblrLink'                    => 'Text',
-        'RSSLink'                       => 'Text',
-        'EmailLink'                     => 'Text',
         'MaintenanceMode'               => 'Boolean(0)',
         'MaintenanceStart'              => 'Datetime',
         'MaintenanceEnd'                => 'Datetime',
@@ -142,6 +135,14 @@ class SiteConfigExtension extends DataExtension
         'MobileTouchIcon'           => Image::class,
         'StandardProductCondition'  => ProductCondition::class,
         'ShopCountry'               => Country::class,
+    ];
+    /**
+     * Has many relations.
+     *
+     * @var string[]
+     */
+    private static $has_many = [
+        'ExternalLinks' => LinkableItem::class,
     ];
     /**
      * Defaults for empty fields.
@@ -342,7 +343,6 @@ class SiteConfigExtension extends DataExtension
                     'RSSLink'                       => _t(SiteConfigExtension::class . '.RSSLink', 'RSS Link'),
                     'EmailLink'                     => _t(SiteConfigExtension::class . '.EmailLink', 'Contact Email Address'),
                     'SeoTab'                        => _t(Config::class . '.SEO', 'SEO'),
-                    'SocialMediaTab'                => _t(Config::class . '.SOCIALMEDIA', 'Social Media'),
                     'TranslationsTab'               => _t(TranslationTools::class . '.TRANSLATIONS', 'Translations'),
                     'CreateTransHeader'             => _t(TranslationTools::class . '.CREATE', 'Create new translation'),
                     'CreateTransDescription'        => _t(TranslationTools::class . '.CREATE_TRANSLATION_DESC', 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.'),
@@ -372,43 +372,30 @@ class SiteConfigExtension extends DataExtension
      * @param FieldList $fields The FieldList
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2013
      */
     public function updateCMSFields(FieldList $fields) : void
     {
         $this->getCMSFieldsIsCalled = true;
-        $fields->findOrMakeTab('Root.SocialMedia')->setTitle($this->owner->fieldLabel('SocialMediaTab'));
-        
-        $facebookLinkField   = TextField::create('FacebookLink',   $this->owner->fieldLabel('FacebookLink'));
-        $twitterLinkField    = TextField::create('TwitterLink',    $this->owner->fieldLabel('TwitterLink'));
-        $googleplusLinkField = TextField::create('GoogleplusLink', $this->owner->fieldLabel('GoogleplusLink'));
-        $xingLinkField       = TextField::create('XingLink',       $this->owner->fieldLabel('XingLink'));
-        $instagramLinkField  = TextField::create('InstagramLink',  $this->owner->fieldLabel('InstagramLink'));
-        $bloglovinLinkField  = TextField::create('BloglovinLink',  $this->owner->fieldLabel('BloglovinLink'));
-        $pinterestLinkField  = TextField::create('PinterestLink',  $this->owner->fieldLabel('PinterestLink'));
-        $youTubeLinkField    = TextField::create('YouTubeLink',    $this->owner->fieldLabel('YouTubeLink'));
-        $tumblrLinkField     = TextField::create('TumblrLink',     $this->owner->fieldLabel('TumblrLink'));
-        $rssLinkField        = TextField::create('RSSLink',        $this->owner->fieldLabel('RSSLink'));
-        $emailLinkField      = TextField::create('EmailLink',      $this->owner->fieldLabel('EmailLink'));
-        
-        $fields->addFieldToTab('Root.SocialMedia', $facebookLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $twitterLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $googleplusLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $xingLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $instagramLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $bloglovinLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $pinterestLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $youTubeLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $tumblrLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $rssLinkField);
-        $fields->addFieldToTab('Root.SocialMedia', $emailLinkField);
+        $fields->findOrMakeTab('Root.ExternalLinks')->setTitle($this->owner->fieldLabel('ExternalLinks'));
+        $fields->addFieldToTab('Root.ExternalLinks', GridField::create('ExternalLinks', $this->owner->fieldLabel('ExternalLinks'), $this->owner->ExternalLinks(), GridFieldConfig_RelationEditor::create()));
         
         $fields->findOrMakeTab('Root.ExternalResources', ExternalResource::singleton()->i18n_plural_name());
         $fields->addFieldToTab('Root.ExternalResources', GridField::create('ExternalResources', ExternalResource::singleton()->i18n_plural_name(), ExternalResource::get(), GridFieldConfig_RecordEditor::create()));
         
         $this->getCMSFieldsForSilvercart($fields);
+    }
+    
+    /**
+     * Returns the ExternalLinks with icons.
+     * 
+     * @return \SilverStripe\ORM\DataList
+     */
+    public function ExternalLinksWithIcon() : DataList
+    {
+        return $this->owner->ExternalLinks()->exclude([
+            'CustomIconHTML'  => ['', null],
+            'FontAwesomeIcon' => ['', null],
+        ]);
     }
     
     /**
@@ -767,10 +754,10 @@ class SiteConfigExtension extends DataExtension
      */
     public function requireDefaultRecords()
     {
+        $config = Config::getConfig();
         RequireDefaultRecords::require_default_records();
         $result = DB::query('SHOW TABLES LIKE \'SilvercartConfig\'');
         if ($result->numRecords() > 0) {
-            $config           = Config::getConfig();
             $skipFields       = ['ID', 'ClassName', 'Created', 'LastEdited'];
             $silvercartConfig = DB::query('SELECT * FROM SilvercartConfig;');
             foreach ($silvercartConfig as $row) {
@@ -787,7 +774,36 @@ class SiteConfigExtension extends DataExtension
             }
             DB::query('DROP TABLE SilvercartConfig');
         }
-        
+        // Remove deprecated social media fields and add ExternalItems instead.
+        $externalLinkFields = [
+            'GoogleplusLink',
+            'FacebookLink',
+            'TwitterLink',
+            'XingLink',
+            'InstagramLink',
+            'BloglovinLink',
+            'PinterestLink',
+            'YouTubeLink',
+            'TumblrLink',
+            'RSSLink',
+            'EmailLink',
+        ];
+        $sort = 0;
+        foreach ($externalLinkFields as $externalLinkField) {
+            $externalLink = DBMigration::get_field_value_and_remove_field($config, $externalLinkField);
+            if (empty($externalLink)) {
+                continue;
+            }
+            $item               = LinkableItem::create();
+            $item->Title        = $config->fieldLabel($externalLinkField);
+            $item->Sort         = $sort++;
+            $item->SiteConfigID = $config->ID;
+            if ($externalLinkField === 'EmailLink') {
+                $item->addEmailLink($externalLink);
+            } else {
+                $item->addExternalLink($externalLink);
+            }
+        }
     }
 
     /**

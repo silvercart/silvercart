@@ -162,6 +162,7 @@ de:
     ClickForMore: 'Klicken, um weitere Informationen anzuzeigen'
     Close: Schließen
     ContactUs: 'Kontaktieren Sie uns'
+    Created: 'Angelegt am'
     DefaultIfEmpty: 'Standard wenn leer: "{default}"'
     DeleteYourAccount: 'Ihren Webshop-Account löschen'
     DeleteYourAccountDesc: 'Bitte beachten Sie, dass das Löschen Ihres Webshop-Accounts dauerhaft erfolgt. Sobald Ihr Account geschlossen wurde, steht er Ihnen nicht mehr zur Verfügung und kann nicht wiederhergestellt werden. Wenn Sie sich später entscheiden, wieder Bestellungen bei uns aufzugeben, oder Produkte und Services verwenden möchten, für die ein Webshop-Account erforderlich ist, müssen Sie einen neuen Account erstellen.'
@@ -177,6 +178,7 @@ de:
     GoToTop: 'Nach oben'
     InclTax: 'inkl. {amount}% MwSt.'
     IncludingTax: 'inkl. MwSt.'
+    LastEdited: 'Zuletzt geändert am'
     NextPage: 'Nächste Seite'
     OurPaymentPartners: 'Ihre Zahlungsmöglichkeiten'
     OurShipmentPartners: 'Unsere Versandpartner'
@@ -508,6 +510,7 @@ de:
     DimensionUnit_cm: Zentimeter
     DimensionUnit_in: Inch/Zoll
     DisableProductLinkInCart: 'Artikel-Verlinkung im Warenkorb deaktivieren'
+    ExternalLinks: 'Externe Links'
     FACEBOOK_LINK: 'Facebook Link'
     GoogleplusLink: 'Google Plus Link'
     MaintenanceConfiguration: Wartungsmodus-Einstellungen
@@ -646,6 +649,20 @@ de:
     PLURALNAME: Kontaktanfragen
     SINGULARNAME: Kontaktanfrage
     SubjectText: Betreff
+  SilverCart\Model\Content\LinkableItem:
+    CustomIconHTML: 'Alternatives Icon'
+    CustomIconHTMLDesc: 'HTML-Code zur Verwendung eines alternativen Icons.'
+    Description: Beschreibung
+    DescriptionDesc: 'Wird je nach Anzeigeposition des Link-Elements zum Beispiel als Tooltip angezeigt. Die Anzeige variiert je nach Kontext.'
+    ExtraClasses: 'Zusätzliche CSS Klassen'
+    ExtraClassesDesc: 'Z.B. um innere Abstände, äußere Abstände oder Schrift anzupassen.'
+    PLURALNAME: Link-Elemente
+    SINGULARNAME: Link-Element
+    Sort: Sortierreihenfolge
+    Title: Anzeigetitel
+  SilverCart\Model\Content\LinkableItemTranslation:
+    PLURALNAME: Übersetzungen
+    SINGULARNAME: Übersetzung
   SilverCart\Model\CookieConsent\ExternalResource:
     Code: Code
     CookieGroup: 'Cookie Kategorie'
