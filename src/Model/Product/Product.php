@@ -317,6 +317,13 @@ class Product extends DataObject implements PermissionProvider
      */
     private static $keyword_map = [];
     /**
+     * Set to true to automatically set the availability status to not-available
+     * if a product's IsNotBuyable property is set to true.
+     * 
+     * @var bool
+     */
+    private static $is_not_available_if_not_buyable = false;
+    /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
      * @var array
@@ -3163,7 +3170,7 @@ class Product extends DataObject implements PermissionProvider
     {
         $output = DBHTMLText::create();
         if ($this->AvailabilityStatus()) {
-            if ($this->AvailabilityStatus()->Code == 'not-available'
+            if ($this->AvailabilityStatus()->Code === AvailabilityStatus::STATUS_CODE_NOT_AVAILABLE
              && !empty($this->PurchaseTimeUnit)
              && (!empty($this->PurchaseMinDuration)
               || !empty($this->PurchaseMaxDuration))
@@ -3254,6 +3261,13 @@ class Product extends DataObject implements PermissionProvider
                     }
                     $this->cachedAvailabilityStatus = $default;
                 }
+            }
+            if ($this->IsNotBuyable
+             && $this->config()->is_not_available_if_not_buyable
+             && (!($this->cachedAvailabilityStatus instanceof AvailabilityStatus)
+              || $this->cachedAvailabilityStatus->Code !== AvailabilityStatus::STATUS_CODE_NOT_AVAILABLE)
+            ) {
+                $this->cachedAvailabilityStatus = AvailabilityStatus::getByCode(AvailabilityStatus::STATUS_CODE_NOT_AVAILABLE);
             }
         }
         return $this->cachedAvailabilityStatus;
