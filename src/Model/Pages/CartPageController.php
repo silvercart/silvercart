@@ -30,8 +30,9 @@ use SilverStripe\Control\Director;
  */
 class CartPageController extends \PageController
 {
-    const SESSION_KEY_CONTINUE_SHOPPING_LINK  = 'SilverCart.CartPage.ContinueShoppingLink';
-    const SESSION_KEY_CONTINUE_SHOPPING_LABEL = 'SilverCart.CartPage.ContinueShoppingLabel';
+    public const SESSION_KEY_CONTINUE_SHOPPING_LINK  = 'SilverCart.CartPage.ContinueShoppingLink';
+    public const SESSION_KEY_CONTINUE_SHOPPING_LABEL = 'SilverCart.CartPage.ContinueShoppingLabel';
+    public const SESSION_KEY_SHOPPING_CONTEXT        = 'SilverCart.CartPage.ShoppingContext';
     /**
      * List of allowed actions.
      *
@@ -54,6 +55,52 @@ class CartPageController extends \PageController
      * @var Checkout
      */
     protected $checkout = null;
+    
+    /**
+     * Adds a Shopping Context $key.
+     * 
+     * @param string $key Context key
+     * 
+     * @return void
+     */
+    public static function addShoppingContext(string $key) : void
+    {
+        $context = (array) Tools::Session()->get(self::SESSION_KEY_SHOPPING_CONTEXT);
+        $context[] = $key;
+        Tools::Session()->set(self::SESSION_KEY_SHOPPING_CONTEXT, array_unique($context));
+        Tools::saveSession();
+    }
+    
+    /**
+     * Returns whether the given Shopping Context $key exists.
+     * 
+     * @param string $key Context key
+     * 
+     * @return bool
+     */
+    public static function hasShoppingContext(string $key) : bool
+    {
+        $context = (array) Tools::Session()->get(self::SESSION_KEY_SHOPPING_CONTEXT);
+        return in_array($key, $context);
+    }
+    
+    /**
+     * Removes a Shopping Context $key.
+     * 
+     * @param string $key Context key
+     * 
+     * @return void
+     */
+    public static function removeShoppingContext(string $key) : void
+    {
+        $context = (array) Tools::Session()->get(self::SESSION_KEY_SHOPPING_CONTEXT);
+        $index   = array_search($key, $context);
+        if ($index !== false) {
+            unset($context[$index]);
+        }
+        Tools::Session()->set(self::SESSION_KEY_SHOPPING_CONTEXT, array_unique($context));
+        Tools::saveSession();
+    }
     
     /**
      * Sets the Continue Shopping Link.
