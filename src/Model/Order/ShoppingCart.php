@@ -112,6 +112,12 @@ class ShoppingCart extends DataObject
         'ShoppingCartPositions.count',
     ];
     /**
+     * Increment quantity when calling @see $this->addaddProduct() ?
+     * 
+     * @var bool
+     */
+    private static $increment_add_product = false;
+    /**
      * Indicates wether the registered modules should be loaded.
      *
      * @var boolean
@@ -625,11 +631,12 @@ class ShoppingCart extends DataObject
     {
         self::$createForms = $doCreate;
     }
-
+    
     /**
      * adds a product to the cart
      *
-     * @param array $formData the sended form data
+     * @param array $formData  the sended form data
+     * @param bool  $increment Increment quantity?
      *
      * @return ShoppingCartPosition
      *
@@ -637,7 +644,7 @@ class ShoppingCart extends DataObject
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 15.11.2014
      */
-    public static function addProduct(array $formData) : ?ShoppingCartPosition
+    public static function addProduct(array $formData, bool $increment = false) : ?ShoppingCartPosition
     {
         $position = null;
         $member   = Customer::currentUser();
@@ -660,7 +667,7 @@ class ShoppingCart extends DataObject
                 ) {
                     $quantity = (float) str_replace(',', '.', $formData['productQuantity']);
                     if ($quantity > 0) {
-                        $position = $product->addToCart($cart->ID, $quantity);
+                        $position = $product->addToCart($cart->ID, $quantity, $increment);
                     }
                 }
             }

@@ -138,7 +138,11 @@ class ActionHandler extends Controller
             if ($quantity == 0) {
                 ShoppingCart::removeProduct($postVars, $position);
             } else {
-                $position = ShoppingCart::addProduct($postVars);
+                $increment = (bool) ShoppingCart::config()->increment_add_product;
+                if (array_key_exists('Increment', $postVars)) {
+                    $increment = $postVars['Increment'] === '1';
+                }
+                $position = ShoppingCart::addProduct($postVars, $increment);
             }
             if (Config::getRedirectToCartAfterAddToCartAction()
              || $redirectToCart
