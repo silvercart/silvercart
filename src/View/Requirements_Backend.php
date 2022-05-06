@@ -44,6 +44,12 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     private static $force_combine_files_async = true;
     /**
+     * Determines whether to disable minify.
+     *
+     * @var bool
+     */
+    private static $disable_minify = false;
+    /**
      * List of file names to skip combining files for.
      *
      * @var string[]
@@ -75,6 +81,9 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
         if (Director::isDev()) {
             $this->setMinifyCombinedFiles(false);
             $this->setWriteHeaderComment(true);
+        }
+        if ((bool) $this->config()->disable_minify) {
+            $this->setMinifyCombinedFiles(false);
         }
         $this->setMinifier(Requirements_Minifier::create());
     }
