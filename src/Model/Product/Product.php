@@ -2519,17 +2519,23 @@ class Product extends DataObject implements PermissionProvider
         }
         
         if ($shoppingCartPosition->Quantity < $quantity) {
-            $quantityToAdd = $quantity - $shoppingCartPosition->Quantity;
+            if ($increment) {
+                $quantityToAdd  = $quantity;
+                $targetQuantity = $quantity + $shoppingCartPosition->Quantity;
+            } else {
+                $quantityToAdd  = $quantity - $shoppingCartPosition->Quantity;
+                $targetQuantity = $quantity;
+            }
             if ($shoppingCartPosition->isQuantityIncrementableBy($quantityToAdd)) {
-                if ($quantity > Config::addToCartMaxQuantity()) {
+                if ($targetQuantity > Config::addToCartMaxQuantity()) {
                     $shoppingCartPosition->Quantity = Config::addToCartMaxQuantity();
                     $positionNotice = ShoppingCartPositionNotice::NOTICE_CODE_MAX_QUANTITY_REACHED;
                 } else {
-                    $shoppingCartPosition->Quantity = $quantity;
+                    $shoppingCartPosition->Quantity = $targetQuantity;
                 }
             } elseif ($this->StockQuantity > 0) {
                 if (Config::addToCartMaxQuantity() < $this->StockQuantity
-                 && $shoppingCartPosition->Quantity + $quantityToAdd > Config::addToCartMaxQuantity()
+                 && $targetQuantity > Config::addToCartMaxQuantity()
                 ) {
                     $shoppingCartPosition->Quantity = Config::addToCartMaxQuantity();
                     $positionNotice = ShoppingCartPositionNotice::NOTICE_CODE_MAX_QUANTITY_REACHED;
