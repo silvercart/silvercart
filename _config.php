@@ -103,6 +103,8 @@ GroupViewHandler::addGroupView(GroupViewList::class);
 GroupViewHandler::addGroupView(GroupViewTile::class);
 GroupViewHandler::addGroupHolderView(GroupViewList::class);
 GroupViewHandler::addGroupHolderView(GroupViewTile::class);
+GroupViewHandler::addWidgetGroupView(GroupViewList::class);
+GroupViewHandler::addWidgetGroupView(GroupViewTile::class);
 // set default group view if not done in project yet
 if (is_null(GroupViewHandler::getDefaultGroupView())) {
     GroupViewHandler::setDefaultGroupView(GroupViewTile::class);

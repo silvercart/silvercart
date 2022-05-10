@@ -125,7 +125,7 @@ class BargainProductsWidget extends Widget
         ];
         $fetchMethodsField = $fields->dataFieldByName('fetchMethod');
         $fetchMethodsField->setSource($fetchMethods);
-        $fields->replaceField('GroupView', GroupViewHandler::getGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView')));
+        $fields->replaceField('GroupView', GroupViewHandler::getWidgetGroupViewDropdownField('GroupView', $this->fieldLabel('GroupView')));
         
         return $fields;
     }

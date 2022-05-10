@@ -71,7 +71,7 @@ class WidgetTools
             $fields->dataFieldByName('numberOfProductsToShow'),
             $fields->dataFieldByName('numberOfProductsToFetch'),
             $fields->dataFieldByName('fetchMethod'),
-            GroupViewHandler::getGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView),
+            GroupViewHandler::getWidgetGroupViewDropdownField('GroupView', $widget->fieldLabel('GroupView'), $widget->GroupView),
         ];
         
         $fields->dataFieldByName('fetchMethod')->setSource($fetchMethods);
