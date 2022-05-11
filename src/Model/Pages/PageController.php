@@ -29,7 +29,6 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ErrorPage\ErrorPage;
-use SilverStripe\ErrorPage\ErrorPageController;
 use SilverStripe\i18n\i18n;
 use SilverStripe\i18n\Messages\Symfony\FlushInvalidatedResource;
 use SilverStripe\ORM\ArrayList;
@@ -39,6 +38,7 @@ use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
+use TractorCow\Fluent\Model\Locale;
 
 /**
  * Standard Controller
@@ -53,6 +53,8 @@ use SilverStripe\View\Requirements;
 class PageController extends ContentController
 {
     use \SilverCart\View\MessageProvider;
+    
+    public const SESSION_KEY_HTTP_REFERER = 'SilverCart.HttpReferer';
     /**
      * Prevents recurring rendering of this page's controller.
      *
@@ -360,6 +362,13 @@ class PageController extends ContentController
         }
         if ($this->SiteConfig()->MaintenanceModeIsEnabled(true)) {
             $this->httpError(503);
+        }
+        $referer = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        if ($referer === null
+         && $this->getReferer() !== null
+        ) {
+            Tools::Session()->set(self::SESSION_KEY_HTTP_REFERER, $this->getReferer());
+            Tools::saveSession();
         }
         if (array_key_exists($this->ID, self::$instanceMemorizer)) {
             parent::init();
@@ -1022,5 +1031,61 @@ class PageController extends ContentController
     public function LoginForm() : LoginForm
     {
         return LoginForm::create($this);
+    }
+    
+    /**
+     * Returns the referer link.
+     * The referer link is the link to the page the customer visited right before
+     * accessing the registration page.
+     * 
+     * @return string
+     */
+    public function RefererLink() : string
+    {
+        $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        return (string) $link;
+    }
+    
+    /**
+     * Returns the referer page.
+     * 
+     * @return SiteTree|null
+     */
+    public function RefererPage(string $link = null) : ?SiteTree
+    {
+        if ($link === null) {
+            $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        }
+        $originalLink = $link;
+        $page         = $this->data();
+        $localeCode   = $page->getSourceQueryParam('Fluent.Locale');
+        $localeObj    = null;
+        if (is_string($localeCode)
+         && !empty($localeCode)
+        ) {
+            $localeObj = Locale::getByLocale($localeCode);
+        }
+        if (!($localeObj instanceof Locale)) {
+            $localeObj = Locale::getCurrentLocale();
+        }
+        if ($localeObj instanceof Locale) {
+            $URLSegment = $localeObj->getURLSegment();
+            if (!empty($URLSegment)) {
+                $relativeLink = Director::makeRelative($link);
+                if (strpos($relativeLink, "{$URLSegment}/") === 0) {
+                    $originalLink = substr($relativeLink, strlen("{$URLSegment}/"));
+                }
+            }
+
+        }
+        do {
+            $refererPage  = SiteTree::get_by_link($originalLink);
+            $parts        = explode('/', $originalLink);
+            array_pop($parts);
+            $originalLink = implode('/', $parts);
+        } while ($refererPage === null
+              && !empty($originalLink)
+        );
+        return $refererPage;
     }
 }

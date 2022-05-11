@@ -8,13 +8,11 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\LoginForm;
 use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Pages\Page as SilverCartPage;
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
-use TractorCow\Fluent\Model\Locale;
 
 /**
  * RegistrationPage Controller class.
@@ -28,7 +26,6 @@ use TractorCow\Fluent\Model\Locale;
  */
 class RegistrationPageController extends PageController
 {
-    const SESSION_KEY_HTTP_REFERER = 'SilverCart.RegistrationPage.HttpReferer';
     /**
      * List of allowed actions.
      *
@@ -56,13 +53,6 @@ class RegistrationPageController extends PageController
     {
         if (Config::EnableSSL()) {
             Director::forceSSL();
-        }
-        $referer = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
-        if ($referer === null
-         && $this->getReferer() !== null
-        ) {
-            Tools::Session()->set(self::SESSION_KEY_HTTP_REFERER, $this->getReferer());
-            Tools::saveSession();
         }
         parent::init();
     }
@@ -242,7 +232,7 @@ class RegistrationPageController extends PageController
      */
     public function RefererLink() : string
     {
-        $link        = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+        $link        = parent::RefererLink();
         $refererPage = $this->RefererPage();
         if (empty($link)
          || $refererPage instanceof MyAccountHolder
@@ -250,47 +240,5 @@ class RegistrationPageController extends PageController
             $link = $this->getDefaultHomepage()->Link();
         }
         return (string) $link;
-    }
-    
-    /**
-     * Returns the referer page.
-     * 
-     * @return SiteTree|null
-     */
-    public function RefererPage(string $link = null) : ?SiteTree
-    {
-        if ($link === null) {
-            $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
-        }
-        $originalLink = $link;
-        $page         = $this->data();
-        $localeCode   = $page->getSourceQueryParam('Fluent.Locale');
-        if (is_string($localeCode)
-         && !empty($localeCode)
-        ) {
-            $localeObj = Locale::getByLocale($localeCode);
-        }
-        if (!($localeObj instanceof Locale)) {
-            $localeObj = Locale::getCurrentLocale();
-        }
-        if ($localeObj instanceof Locale) {
-            $URLSegment = $localeObj->getURLSegment();
-            if (!empty($URLSegment)) {
-                $relativeLink = Director::makeRelative($link);
-                if (strpos($relativeLink, "{$URLSegment}/") === 0) {
-                    $originalLink = substr($relativeLink, strlen("{$URLSegment}/"));
-                }
-            }
-
-        }
-        do {
-            $refererPage  = SiteTree::get_by_link($originalLink);
-            $parts        = explode('/', $originalLink);
-            array_pop($parts);
-            $originalLink = implode('/', $parts);
-        } while ($refererPage === null
-              && !empty($originalLink)
-        );
-        return $refererPage;
     }
 }
