@@ -1054,6 +1054,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         
         if (!$member) {
             $member = new Member();
+            $member->URLSegment = uniqid('anonymous-');
             $member->write();
             
             // Add customer to intermediate group
@@ -1063,7 +1064,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
                 $member->Groups()->add($customerGroup);
             }
             
-            $member->logIn(true);
+            Security::setCurrentUser($member);
             /** @var IdentityStore $identityStore */
             $identityStore = Injector::inst()->get(IdentityStore::class);
             $identityStore->logIn($member, false, Controller::curr()->getRequest());
