@@ -142,8 +142,8 @@ class GroupViewBase extends ViewableData
                 $this->preferences['image'] = Director::absoluteBaseURL() . '/' . $this->preferences['image_' . $highlightStatus];
             } elseif (is_file(Director::baseFolder() . '/' . $project . '/img/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
                 $this->preferences['image'] = Director::absoluteBaseURL() . $project . '/img/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
-            } elseif (is_file(Director::publicFolder() . '/resources/vendor/silvercart/silvercart/client/img/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
-                $this->preferences['image'] = Director::absoluteBaseURL() . 'resources/vendor/silvercart/silvercart/client/img/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
+            } elseif (is_file(Director::publicFolder() . '/' . RESOURCES_DIR . '/vendor/silvercart/silvercart/client/img/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png')) {
+                $this->preferences['image'] = Director::absoluteBaseURL() . '/' . RESOURCES_DIR . '/vendor/silvercart/silvercart/client/img/icons/20x20_group_view_' . $this->preferences['code'] . '_' . $highlightStatus . '.png';
             } else {
                 $this->preferences['image'] = '';
             }

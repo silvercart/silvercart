@@ -40,7 +40,7 @@
             } else {
                 languageCssClass    = 'selectable';
             }
-            var img = '<img src="/resources/vendor/silvercart/silvercart/client/img/icons/flags/' + iso2 + '.png" alt="' + locale + '" />';
+            var img = '<img src="/_resources/vendor/silvercart/silvercart/client/img/icons/flags/' + iso2 + '.png" alt="' + locale + '" />';
             markup += '<li class="' + locale + ' ' + languageCssClass + '"><a title="' + text + '" hreflang="' + locale + '" href="' + link + '">' + img + text + '</a></li>';
         });
         

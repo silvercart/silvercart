@@ -629,7 +629,7 @@ class SiteConfigExtension extends DataExtension
      */
     public function getCMSFieldsForColorScheme(FieldList $fields)
     {
-        $colorSchemePath = Director::publicFolder() . '/resources/vendor/silvercart/silvercart/client/css';
+        $colorSchemePath = Director::publicFolder() . '/' . RESOURCES_DIR . '/vendor/silvercart/silvercart/client/css';
         if (is_dir($colorSchemePath)) {
             if ($handle = opendir($colorSchemePath)) {
                 $colorSchemes = ArrayList::create();

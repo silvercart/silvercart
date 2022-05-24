@@ -22,7 +22,7 @@
 <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-        <link rel="stylesheet" href="{$BaseHref}resources/vendor/silvercart/silvercart/client/css/font-awesome-ie7.css">
+        <link rel="stylesheet" href="{$BaseHref}_resources/vendor/silvercart/silvercart/client/css/font-awesome-ie7.css">
 <![endif]-->
 <% require javascript(silvercart/silvercart:client/javascript/LanguageDropdownField.js) %>
 <% require javascript(silvercart/silvercart:client/javascript/slidorion/jquery.slidorion.min.js) %>
@@ -42,6 +42,6 @@
 <% if $SiteConfig.ShopLogo %>
 <style>#main-header .siteLogo a{background-image:url('{$SiteConfig.ShopLogo.Link}')!important;}</style>
 <% else %>
-<style>#main-header .siteLogo a{background-image:url('/resources/vendor/silvercart/silvercart/client/img/logo.png')!important;}</style>
+<style>#main-header .siteLogo a{background-image:url('/_resources/vendor/silvercart/silvercart/client/img/logo.png')!important;}</style>
 <% end_if %>
 <% include SilverCart/Model/Pages/HeadCustomHtml %>
