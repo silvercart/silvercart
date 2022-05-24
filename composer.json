@@ -14,14 +14,17 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "silverstripe/cms": "^4.9",
-        "silverstripe/widgets": "^2.1",
+        "silverstripe/cms": "^4.10",
+        "silverstripe/widgets": "^2.2",
         "silvercart/widgetsets": "^4",
         "silvercart/payment-prepayment": "^4",
-        "tractorcow/silverstripe-fluent": "^4.5",
+        "tractorcow/silverstripe-fluent": "^6.0",
         "tractorcow/silverstripe-robots": "^4.0",
         "matthiasmullie/minify": "^1.3",
-        "google/recaptcha": "^1.2"
+        "google/recaptcha": "^1.2",
+        "moo/hasoneselector": "^2.3",
+        "bramdeleeuw/cookieconsent": "^3.1",
+        "dynamic/silverstripe-linkable": "^1.0"
     },
     "extra": {
         "expose": [
