@@ -82,6 +82,9 @@ class OrderHolderController extends MyAccountHolderController
             return $response;
         }
         $this->doPlaceOrder();
+        if ($this->redirectedTo()) {
+            return $this->getResponse();
+        }
         return $this->redirect(CartPage::get()->first()->Link());
     }
     
