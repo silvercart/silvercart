@@ -6,6 +6,7 @@ use ReflectionClass;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomRequiredFields;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Control\RequestHandler;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FileField;
@@ -480,12 +481,9 @@ class CustomForm extends Form
      * @param array      $data Submitted data
      * @param CustomForm $form Form
      * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2017
+     * @return HTTPResponse
      */
-    public function submit($data, CustomForm $form)
+    public function submit($data, CustomForm $form) : HTTPResponse
     {
         $overwritten = false;
         $this->prepareSubmittedData($data);
@@ -495,7 +493,10 @@ class CustomForm extends Form
             $this->doSubmit($data, $form);
         }
         $this->extend('onAfterSubmit', $data, $form);
-        return $this->getController()->render();
+        if ($this->getController()->redirectedTo()) {
+            return $this->getController()->getResponse();
+        }
+        return HTTPResponse::create($this->getController()->render());
     }
     
     /**
