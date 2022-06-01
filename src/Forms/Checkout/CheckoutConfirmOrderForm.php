@@ -2,7 +2,6 @@
 
 namespace SilverCart\Forms\Checkout;
 
-use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Model\Customer\Customer;
@@ -11,6 +10,7 @@ use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 
 /**
@@ -158,5 +158,53 @@ class CheckoutConfirmOrderForm extends CustomForm
             $checkoutStep = CheckoutStep::get()->first();
         }
         return $checkoutStep->TermsAndConditionsText;
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the invoice
+     * address field.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterInvoiceAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateAfterInvoiceAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the invoice
+     * address field.
+     * 
+     * @return DBHTMLText
+     */
+    public function BeforeInvoiceAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateBeforeInvoiceAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * address field.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterShippingAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateAfterShippingAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * address field.
+     * 
+     * @return DBHTMLText
+     */
+    public function BeforeShippingAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateBeforeShippingAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
     }
 }

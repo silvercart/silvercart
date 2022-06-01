@@ -13,6 +13,7 @@ use SilverCart\Model\Pages\Page;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 
 /**
@@ -25,8 +26,8 @@ use SilverStripe\Security\Member;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class CheckoutRegularCustomerAddressForm extends CustomForm {
-    
+class CheckoutRegularCustomerAddressForm extends CustomForm
+{
     /**
      * Custom extra CSS classes.
      *
@@ -35,7 +36,6 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
     protected $customExtraClasses = [
         'form-horizontal',
     ];
-    
     /**
      * List of required fields.
      *
@@ -51,12 +51,13 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomFields() {
+    public function getCustomFields() : array
+    {
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $registeredCustomer = Customer::currentRegisteredCustomer();
             if (!($registeredCustomer instanceof Member) ||
                 !$registeredCustomer->exists()) {
-                return;
+                return [];
             }
             $invoiceAddressFieldValue = [];
             $this->extend('overwriteInvoiceAddressFieldValue', $invoiceAddressFieldValue, $registeredCustomer);
@@ -116,7 +117,8 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
      * 
      * @return array
      */
-    public function getCustomActions() {
+    public function getCustomActions() : array
+    {
         $this->beforeUpdateCustomActions(function (array &$actions) {
             $actions += [
                 FormAction::create('submit', CheckoutStep::singleton()->fieldLabel('Forward'))
@@ -133,26 +135,24 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
      * @param CustomForm $form Form
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.11.2017
      */
-    public function doSubmit($data, CustomForm $form) {
+    public function doSubmit($data, CustomForm $form) : void
+    {
         // Set invoice address as shipping address if desired
-        if (array_key_exists('InvoiceAddressAsShippingAddress', $data) &&
-            $data['InvoiceAddressAsShippingAddress'] == '1') {
+        if (array_key_exists('InvoiceAddressAsShippingAddress', $data)
+         && $data['InvoiceAddressAsShippingAddress'] == '1'
+        ) {
             $data['ShippingAddress'] = $data['InvoiceAddress'];
         }
-        
-        if (Customer::currentUser()->Addresses()->find('ID', $data['InvoiceAddress']) &&
-            Customer::currentUser()->Addresses()->find('ID', $data['ShippingAddress'])) {
-            $invoiceAddress  = Address::get()->byID($data['InvoiceAddress']);
-            $shippingAddress = Address::get()->byID($data['ShippingAddress']);
+        if (Customer::currentUser()->Addresses()->find('ID', $data['InvoiceAddress'])
+         && Customer::currentUser()->Addresses()->find('ID', $data['ShippingAddress'])
+        ) {
+            $invoiceAddress          = Address::get()->byID($data['InvoiceAddress']);
+            $shippingAddress         = Address::get()->byID($data['ShippingAddress']);
             $data['InvoiceAddress']  = $invoiceAddress->toMap();
             $data['ShippingAddress'] = $shippingAddress->toMap();
-            
-            $checkout = $this->getController()->getCheckout();
-            $currentStep = $checkout->getCurrentStep();
+            $checkout                = $this->getController()->getCheckout();
+            $currentStep             = $checkout->getCurrentStep();
             /* @var $checkout \SilverCart\Checkout\Checkout */
             $checkout->addData($data);
             $currentStep->complete();
@@ -171,11 +171,9 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
      * Returns whether invoice address is always shipping address.
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.07.2014
      */
-    public function InvoiceAddressIsAlwaysShippingAddress() {
+    public function InvoiceAddressIsAlwaysShippingAddress() : bool
+    {
         return Config::InvoiceAddressIsAlwaysShippingAddress();
     }
     
@@ -183,28 +181,47 @@ class CheckoutRegularCustomerAddressForm extends CustomForm {
      * Executed an extension hook to add some HTML content after the invoice
      * address field.
      * 
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.07.2016
+     * @return DBHTMLText
      */
-    public function AfterInvoiceAddressContent() {
+    public function AfterInvoiceAddressContent() : DBHTMLText
+    {
         $contentParts = $this->extend('updateAfterInvoiceAddressContent');
-        return implode(PHP_EOL, $contentParts);
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
     }
     
     /**
      * Executed an extension hook to add some HTML content after the invoice
      * address field.
      * 
-     * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 29.07.2016
+     * @return DBHTMLText
      */
-    public function BeforeInvoiceAddressContent() {
+    public function BeforeInvoiceAddressContent() : DBHTMLText
+    {
         $contentParts = $this->extend('updateBeforeInvoiceAddressContent');
-        return implode(PHP_EOL, $contentParts);
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
     }
     
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * address field.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterShippingAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateAfterShippingAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the shipping
+     * address field.
+     * 
+     * @return DBHTMLText
+     */
+    public function BeforeShippingAddressContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateBeforeShippingAddressContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
 }
