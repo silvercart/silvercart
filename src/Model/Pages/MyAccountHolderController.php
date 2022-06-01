@@ -50,8 +50,9 @@ class MyAccountHolderController extends \PageController
     public function getSubNavigation($identifierCode = Page::IDENTIFIER_MY_ACCOUNT_HOLDER) : DBHTMLText
     {
         $elements = [
-            'SubElementsTitle' => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->MenuTitle,
-            'SubElements'      => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Children(),
+            'SubElementsTitle'     => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->MenuTitle,
+            'SubElementsTitleLink' => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Link(),
+            'SubElements'          => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Children(),
         ];
         $this->extend('updateSubNavigation', $elements);
         $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
