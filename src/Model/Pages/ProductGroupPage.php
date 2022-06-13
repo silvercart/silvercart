@@ -1570,6 +1570,28 @@ class ProductGroupPage extends \Page
     }
 
     /**
+     * Returns a human-readable, flattened representation of the path to the object, using its {@link Title} attribute.
+     *
+     * @param string $separator Separator
+     * 
+     * @return string
+     */
+    public function getProductGroupBreadcrumbs(string $separator = ' &raquo; ') : string
+    {
+        $crumbs = [];
+        $ancestors = array_reverse($this->owner->getAncestors()->toArray());
+        /** @var DataObject $ancestor */
+        foreach ($ancestors as $ancestor) {
+            if (!($ancestor instanceof ProductGroupPage)) {
+                continue;
+            }
+            $crumbs[] = $ancestor->getTitle();
+        }
+        $crumbs[] = $this->owner->getTitle();
+        return implode($separator, $crumbs);
+    }
+
+    /**
      * Returns the cache key parts for this product group
      * 
      * @return array
