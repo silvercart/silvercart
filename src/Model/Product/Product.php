@@ -2801,13 +2801,21 @@ class Product extends DataObject implements PermissionProvider
      * @param string           $urlSegment   URL segment
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.04.2018
      */
     public function buildLinkWithGroup($productGroup, $urlSegment) : string
     {
-        return $this->buildLink($productGroup->OriginalLink(), $urlSegment);
+        $groupLink = $productGroup->OriginalLink();
+        if (strpos($groupLink, '?') === false) {
+            $groupLink = $this->buildLink($groupLink, $urlSegment);
+        } else {
+            list($link, $queryargs) = explode('?', $groupLink);
+            $groupLink = Controller::join_links(
+                    $this->buildLink($link, $urlSegment),
+                    "?{$queryargs}"
+            );
+            
+        }
+        return $groupLink;
     }
     
     /**
