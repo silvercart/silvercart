@@ -108,6 +108,7 @@ class Address extends DataObject implements PermissionProvider
         'FullName'       => 'Text',
         'SalutationText' => 'Varchar',
         'Summary'        => 'Text',
+        'SummaryHTML'    => 'HTMLText',
         'CountryISO2'    => 'Text',
         'CountryISO3'    => 'Text',
         'CountryISON'    => 'Text',
@@ -848,6 +849,23 @@ class Address extends DataObject implements PermissionProvider
         $summary .= $this->Postcode . ' ' . $this->City;
         $this->extend('updateSummary', $summary);
         return $summary;
+    }
+
+    /**
+     * Returns an address summary as HTML.
+     * 
+     * @return DBHTMLText
+     */
+    public function getSummaryHTML() : DBHTMLText
+    {
+        $summary = ""
+                . (empty($this->Company) ? '' : "{$this->Company}<br/>" . PHP_EOL)
+                . "{$this->FirstName} {$this->Surname}<br/>" . PHP_EOL
+                . "{$this->Street} {$this->StreetNumber}<br/>" . PHP_EOL
+                . (empty($this->Addition) ? '' : "{$this->Addition}<br/>" . PHP_EOL)
+                . "{$this->Country()->ISO2}-{$this->Postcode} {$this->City}<br/>" . PHP_EOL;
+        $this->extend('updateSummaryHTML', $summary);
+        return DBHTMLText::create()->setValue($summary );
     }
     
     /**

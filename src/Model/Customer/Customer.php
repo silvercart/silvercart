@@ -822,12 +822,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
     public function getShippingAddressSummary() {
-        $shippingAddressSummary = '';
-        $shippingAddressSummary .= $this->owner->ShippingAddress()->FirstName . ' ' . $this->owner->ShippingAddress()->Surname . "<br/>" . PHP_EOL;
-        $shippingAddressSummary .= $this->owner->ShippingAddress()->Street . ' ' . $this->owner->ShippingAddress()->StreetNumber . "<br/>" . PHP_EOL;
-        $shippingAddressSummary .= $this->owner->ShippingAddress()->Addition == '' ? '' : $this->owner->ShippingAddress()->Addition . "<br/>" . PHP_EOL;
-        $shippingAddressSummary .= strtoupper($this->owner->ShippingAddress()->Country()->ISO2) . '-' . $this->owner->ShippingAddress()->Postcode . ' ' . $this->owner->ShippingAddress()->City . "<br/>" . PHP_EOL;
-        return Tools::string2html($shippingAddressSummary);
+        return $this->owner->ShippingAddress()->SummaryHTML;
     }
 
     /**
@@ -835,13 +830,9 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      *
      * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
-    public function getInvoiceAddressSummary() {
-        $invoiceAddressSummary = '';
-        $invoiceAddressSummary .= $this->owner->InvoiceAddress()->FirstName . ' ' . $this->owner->InvoiceAddress()->Surname . "<br/>" . PHP_EOL;
-        $invoiceAddressSummary .= $this->owner->InvoiceAddress()->Street . ' ' . $this->owner->InvoiceAddress()->StreetNumber . "<br/>" . PHP_EOL;
-        $invoiceAddressSummary .= $this->owner->InvoiceAddress()->Addition == '' ? '' : $this->owner->InvoiceAddress()->Addition . "<br/>" . PHP_EOL;
-        $invoiceAddressSummary .= strtoupper($this->owner->InvoiceAddress()->Country()->ISO2) . '-' . $this->owner->InvoiceAddress()->Postcode . ' ' . $this->owner->InvoiceAddress()->City . "<br/>" . PHP_EOL;
-        return Tools::string2html($invoiceAddressSummary);
+    public function getInvoiceAddressSummary() : DBHTMLText
+    {
+        return $this->owner->InvoiceAddress()->SummaryHTML;
     }
     
     // ------------------------------------------------------------------------
