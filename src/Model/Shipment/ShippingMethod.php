@@ -2,7 +2,7 @@
 
 namespace SilverCart\Model\Shipment;
 
-use SilverCart\Admin\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverCart\Admin\Forms\GridField\GridFieldAddExistingAutocompleter as SilverCartGridFieldAddExistingAutocompleter;
 use SilverCart\Dev\DateTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
@@ -20,6 +20,7 @@ use SilverCart\Model\Shipment\Zone;
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\Forms\FieldList;
@@ -362,6 +363,13 @@ class ShippingMethod extends DataObject
                     $feesTableConfig->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('priority'));
                 } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
                     $feesTableConfig->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('priority'));
+                }
+                $replaceAddExistingAutocompleter = ['Zones', 'CustomerGroups'];
+                foreach ($replaceAddExistingAutocompleter as $fieldName) {
+                    $grid       = $fields->dataFieldByName($fieldName);
+                    $gridConfig = $grid->getConfig();
+                    $gridConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                    $gridConfig->addComponent(new SilverCartGridFieldAddExistingAutocompleter('buttons-before-right'));
                 }
             }
         });

@@ -77,7 +77,14 @@ class Zone extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartZone';
-    
+    /**
+     * Insert translation CMS fields.
+     * 
+     * @var bool
+     */
+    private static $insert_translation_cms_fields = true;
+
+
     /**
      * Field labels for display in tables.
      *
@@ -112,10 +119,13 @@ class Zone extends DataObject
             if ($this->isInDB()) {
                 $useAllCountries = CheckboxField::create('UseAllCountries', $this->fieldLabel('UseAllCountries'));
                 $fields->addFieldToTab('Root.Main', $useAllCountries);
-                $countryGrid       = $fields->dataFieldByName('Countries');
-                $countryGridConfig = $countryGrid->getConfig();
-                $countryGridConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
-                $countryGridConfig->addComponent(new SilverCartGridFieldAddExistingAutocompleter('buttons-before-right'));
+                $replaceAddExistingAutocompleter = ['Countries', 'Carriers', 'ShippingMethods'];
+                foreach ($replaceAddExistingAutocompleter as $fieldName) {
+                    $grid       = $fields->dataFieldByName($fieldName);
+                    $gridConfig = $grid->getConfig();
+                    $gridConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                    $gridConfig->addComponent(new SilverCartGridFieldAddExistingAutocompleter('buttons-before-right'));
+                }
             }
         });
         return parent::getCMSFields();

@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Shipment;
 
+use SilverCart\Admin\Forms\GridField\GridFieldAddExistingAutocompleter as SilverCartGridFieldAddExistingAutocompleter;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Shipment\ShippingMethod;
@@ -9,6 +10,7 @@ use SilverCart\Model\Shipment\CarrierTranslation;
 use SilverCart\Model\Shipment\Zone;
 use SilverCart\ORM\DataObjectExtension;
 use SilverStripe\Assets\Image;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
@@ -155,6 +157,15 @@ class Carrier extends DataObject
     {
         $this->beforeUpdateCMSFields(function(\SilverStripe\Forms\FieldList $fields) {
             $fields->dataFieldByName('TrackingLinkBase')->setDescription($this->fieldLabel('TrackingLinkBaseDesc'));
+            if ($this->exists()) {
+                $replaceAddExistingAutocompleter = ['ShippingMethods', 'Zones'];
+                foreach ($replaceAddExistingAutocompleter as $fieldName) {
+                    $grid       = $fields->dataFieldByName($fieldName);
+                    $gridConfig = $grid->getConfig();
+                    $gridConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
+                    $gridConfig->addComponent(new SilverCartGridFieldAddExistingAutocompleter('buttons-before-right'));
+                }
+            }
         });
         return DataObjectExtension::getCMSFields($this);
     }
