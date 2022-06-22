@@ -137,6 +137,19 @@ class CustomForm extends Form
         }
         return $this;
     }
+
+    /**
+     * Allows user code to hook into CustomForm::getCustomFields prior to updateCustomFields
+     * being called on extensions
+     *
+     * @param callable $callback The callback to execute
+     * 
+     * @return void
+     */
+    protected function beforeUpdateRequiredFields(callable $callback) : void
+    {
+        $this->beforeExtending('updateRequiredFields', $callback);
+    }
     
     /**
      * Returns the required fields.
@@ -293,11 +306,8 @@ class CustomForm extends Form
      * @param callable $callback The callback to execute
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.11.2017
      */
-    protected function beforeUpdateFields($callback)
+    protected function beforeUpdateFields(callable $callback) : void
     {
         $this->beforeExtending('updateFields', $callback);
     }
@@ -358,11 +368,8 @@ class CustomForm extends Form
      * @param callable $callback The callback to execute
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.11.2017
      */
-    protected function beforeUpdateActions($callback)
+    protected function beforeUpdateActions(callable $callback) : void
     {
         $this->beforeExtending('updateActions', $callback);
     }
@@ -394,11 +401,8 @@ class CustomForm extends Form
      * @param callable $callback The callback to execute
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.11.2017
      */
-    protected function beforeUpdateCustomFields($callback)
+    protected function beforeUpdateCustomFields(callable $callback) : void
     {
         $this->beforeExtending('updateCustomFields', $callback);
     }
@@ -422,11 +426,8 @@ class CustomForm extends Form
      * @param callable $callback The callback to execute
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.11.2017
      */
-    protected function beforeUpdateCustomActions($callback)
+    protected function beforeUpdateCustomActions(callable $callback) : void
     {
         $this->beforeExtending('updateCustomActions', $callback);
     }
@@ -522,11 +523,8 @@ class CustomForm extends Form
      * @param callable $callback The callback to execute
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.11.2017
      */
-    protected function beforeUpdateFieldLabels($callback)
+    protected function beforeUpdateFieldLabels(callable $callback) : void
     {
         $this->beforeExtending('updateFieldLabels', $callback);
     }

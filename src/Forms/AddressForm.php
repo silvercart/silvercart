@@ -51,15 +51,15 @@ class AddressForm extends CustomForm
      */
     public function getRequiredFields()
     {
-        $originalFields    = parent::getRequiredFields();
-        $packstationFields = $this->getRequiredPackstationFields($originalFields);
-        $requiredFields = array_merge(
-                $originalFields,
-                $this->getRequiredBusinessFields(),
-                $packstationFields
-        );
-        
-        return $requiredFields;
+        $this->beforeUpdateRequiredFields(function(array &$requiredFields) {
+            $packstationFields = $this->getRequiredPackstationFields($requiredFields);
+            $requiredFields = array_merge(
+                    $requiredFields,
+                    $this->getRequiredBusinessFields(),
+                    $packstationFields
+            );
+        });
+        return parent::getRequiredFields();
     }
     
     /**
