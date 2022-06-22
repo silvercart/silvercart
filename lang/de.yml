@@ -528,6 +528,7 @@ de:
     TESTDATA_LINKTEXT: 'Zur Testdaten-Sektion springen'
     TESTDATA_TEXT: 'Es sind noch keine Artikel hinterlegt; wenn Sie Testdaten anlegen wollen, klicken Sie bitte auf den folgenden Link:'
     TWITTER_LINK: 'Twitter Link'
+    useProductDescriptionFieldForCartPrintPreview: 'Artikelbeschreibung in Warenkorb Druckansicht anzeigen'
     WELCOME_TO_SILVERCART: 'Willkommen bei SilverCart'
     WeightUnit: 'Einheit für Gewichte'
     WeightUnit_g: Gramm

@@ -526,6 +526,7 @@ en:
     TESTDATA_LINKTEXT: 'Jump to the testdata section'
     TESTDATA_TEXT: 'There are no products yet; if you want to create some testdata just click on the following link:'
     TWITTER_LINK: 'Twitter Link'
+    useProductDescriptionFieldForCartPrintPreview: 'Display product description in shopping cart print preview'
     WELCOME_TO_SILVERCART: 'Welcome to SilverCart'
     WeightUnit: 'Weight unit'
     WeightUnit_g: Gram

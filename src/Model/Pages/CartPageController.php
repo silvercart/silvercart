@@ -44,12 +44,6 @@ class CartPageController extends \PageController
         'RemovePositionForm',
     ];
     /**
-     * Determines whether to show a positions description text in print preview.
-     * 
-     * @var bool
-     */
-    private static $show_description_in_print_preview = false;
-    /**
      * Checkout.
      *
      * @var Checkout
@@ -207,7 +201,8 @@ class CartPageController extends \PageController
      *
      * @return boolean true
      */
-    public function getEditableShoppingCart() {
+    public function getEditableShoppingCart() : bool
+    {
         return true;
     }
 
@@ -216,7 +211,8 @@ class CartPageController extends \PageController
      * 
      * @return Checkout
      */
-    public function getCheckout() {
+    public function getCheckout() : Checkout
+    {
         if (is_null($this->checkout)) {
             $this->checkout = Checkout::create_from_session($this);
         }
@@ -229,11 +225,12 @@ class CartPageController extends \PageController
      * 
      * @return CheckoutFormStep2
      */
-    public function getCheckoutContext() {
+    public function getCheckoutContext() : CheckoutFormStep2
+    {
         $checkoutStepPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CHECKOUT_PAGE);
         $checkoutStepPageController = ModelAsController::controller_for($checkoutStepPage);
         $checkoutStepPageController->handleRequest($this->getRequest());
-        return new CheckoutFormStep2($checkoutStepPageController);
+        return CheckoutFormStep2::create($checkoutStepPageController);
     }
     
     /**
@@ -243,7 +240,8 @@ class CartPageController extends \PageController
      * 
      * @return ShoppingCartPosition
      */
-    protected function getPositionByID($positionID) {
+    protected function getPositionByID(int $positionID) : ShoppingCartPosition
+    {
         if (is_null($positionID)) {
             $position = ShoppingCartPosition::singleton();
         } else {
@@ -262,13 +260,10 @@ class CartPageController extends \PageController
      * @var int         $positionID ID of the context shopping cart position.
      *
      * @return IncrementPositionQuantityForm
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2017
      */
-    public function IncrementPositionQuantityForm(HTTPRequest $request, $positionID = null) {
-        $form = new IncrementPositionQuantityForm($this->getPositionByID($positionID), $this);
-        return $form;
+    public function IncrementPositionQuantityForm(HTTPRequest $request, int $positionID = null) : IncrementPositionQuantityForm
+    {
+        return IncrementPositionQuantityForm::create($this->getPositionByID($positionID), $this);
     }
 
     /**
@@ -278,13 +273,10 @@ class CartPageController extends \PageController
      * @var int         $positionID ID of the context shopping cart position.
      *
      * @return DecrementPositionQuantityForm
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2017
      */
-    public function DecrementPositionQuantityForm(HTTPRequest $request, $positionID = null) {
-        $form = new DecrementPositionQuantityForm($this->getPositionByID($positionID), $this);
-        return $form;
+    public function DecrementPositionQuantityForm(HTTPRequest $request, int $positionID = null) : DecrementPositionQuantityForm
+    {
+        return DecrementPositionQuantityForm::create($this->getPositionByID($positionID), $this);
     }
 
     /**
@@ -294,13 +286,10 @@ class CartPageController extends \PageController
      * @var int         $positionID ID of the context shopping cart position.
      *
      * @return RemovePositionForm
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2017
      */
-    public function RemovePositionForm(HTTPRequest $request, $positionID = null) {
-        $form = new RemovePositionForm($this->getPositionByID($positionID), $this);
-        return $form;
+    public function RemovePositionForm(HTTPRequest $request, int $positionID = null) : RemovePositionForm
+    {
+        return RemovePositionForm::create($this->getPositionByID($positionID), $this);
     }
 
     /**
@@ -310,6 +299,6 @@ class CartPageController extends \PageController
      */
     public function ShowDescriptionInPrintPreview() : bool
     {
-        return (bool) $this->config()->show_description_in_print_preview;
+        return (bool) Config::getConfig()->useProductDescriptionFieldForCartPrintPreview;
     }
 }
