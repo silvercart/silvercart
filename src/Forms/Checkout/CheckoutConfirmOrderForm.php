@@ -207,4 +207,16 @@ class CheckoutConfirmOrderForm extends CustomForm
         $contentParts = $this->extend('updateBeforeShippingAddressContent');
         return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
     }
+    
+    /**
+     * Executed an extension hook to add some HTML content after the payment
+     * method content.
+     * 
+     * @return DBHTMLText
+     */
+    public function AfterPaymentMethodContent() : DBHTMLText
+    {
+        $contentParts = $this->extend('updateAfterPaymentMethodContent');
+        return DBHTMLText::create()->setValue(implode(PHP_EOL, $contentParts));
+    }
 }
