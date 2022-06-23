@@ -236,11 +236,11 @@ class CartPageController extends \PageController
     /**
      * Returns the shopping cart position by the given ID
      * 
-     * @param int $positionID Shopping cart position ID
+     * @param int|null $positionID Shopping cart position ID
      * 
      * @return ShoppingCartPosition
      */
-    protected function getPositionByID(int $positionID) : ShoppingCartPosition
+    protected function getPositionByID(?int $positionID) : ShoppingCartPosition
     {
         if (is_null($positionID)) {
             $position = ShoppingCartPosition::singleton();
