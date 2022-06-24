@@ -2,6 +2,7 @@
 
 namespace SilverCart\Dev;
 
+use DateInterval;
 use DateTime;
 use SilverCart\Dev\Tools;
 
@@ -186,5 +187,31 @@ class DateTools extends Tools
             } while ($addedBusinessDays < $totalDays);
         }
         return $totalDays;
+    }
+    
+    /**
+     * Returns a time duration in hours, minutes and seconds.
+     * 
+     * @param string $start Start date yyyy-mm-dd hh:mm:ss
+     * @param string $end   End date yyyy-mm-dd hh:mm:ss
+     * 
+     * @return string
+     */
+    public static function getDuration(string $start, string $end) : string
+    {
+        $startTime = strtotime($start);
+        $endTime   = strtotime($end);
+        $seconds   = $endTime - $startTime;
+        $dt = new DateTime();
+        $dt->add(new DateInterval("PT{$seconds}S"));
+        $interval = $dt->diff(new DateTime());
+        if ($seconds > 60 * 60) {
+            $format = '%Hh %Im %Ss';
+        } elseif ($seconds > 60) {
+            $format = '%Im %Ss';
+        } else {
+            $format = '%Ss';
+        }
+        return $interval->format($format);
     }
 }
