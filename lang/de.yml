@@ -738,6 +738,7 @@ de:
     ShippingAddress: Lieferadresse
     ShippingAddresses: Lieferadressen
     TAXIDNUMBER: Steuernummer
+    TaxIdNumberShort: 'USt-IdNr.'
     USE_ABSOLUTEADDRESS: 'Hausanschrift als Adresse verwenden'
     USE_PACKSTATION: 'Packstation als Adresse verwenden'
   SilverCart\Model\Customer\Country:

@@ -736,6 +736,7 @@ en:
     ShippingAddress: 'Shipping address'
     ShippingAddresses: 'Shipping addresses'
     TAXIDNUMBER: 'Tax ID number'
+    TaxIdNumberShort: 'Tax ID'
     USE_ABSOLUTEADDRESS: 'This is an absolute address'
     USE_PACKSTATION: 'This is a PACKSTATION address'
   SilverCart\Model\Customer\Country:

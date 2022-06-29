@@ -729,6 +729,7 @@ class Address extends DataObject implements PermissionProvider
             'FirstName'          => _t(Address::class . '.FIRSTNAME', 'Firstname'),
             'Surname'            => _t(Address::class . '.SURNAME', 'Surname'),
             'TaxIdNumber'        => _t(Address::class . '.TAXIDNUMBER', 'Tax ID number'),
+            'TaxIdNumberShort'   => _t(Address::class . '.TaxIdNumberShort', 'Tax ID'),
             'Company'            => _t(Address::class . '.COMPANY', 'Company'),
             'IsBusinessAccount'  => _t(Address::class . '.ISBUSINESSACCOUNT', 'Is business address'),
             'Name'               => _t(Address::class . '.NAME', 'Name'),
