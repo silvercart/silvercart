@@ -1346,6 +1346,8 @@ de:
     ContentStep6: 'Inhalt Schritt 6 - Bestellbestätigung'
     DEFAULT_TITLE: 'zur Kasse'
     DEFAULT_URLSEGMENT: checkout
+    EnableNote: 'Kunden-Notiz aktivieren'
+    EnableNoteDesc: 'Wenn aktiviert, kann der Kunde am Auftrag eine individuelle Notiz hinzufügen.'
     EnableTermsAndConditionsCheckbox: 'Kunde muss eine Checkbox bestätigen, um den Rechtstext zu akzeptieren.'
     FORWARD: Weiter
     I_ACCEPT_REVOCATION: 'Ich akzeptiere die <a href="{link}" target="blank">Widerrufsbelehrung</a>.'
