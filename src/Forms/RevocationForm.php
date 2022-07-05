@@ -139,17 +139,15 @@ class RevocationForm extends CustomForm
      * @param CustomForm $form Form
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.11.2017
      */
-    public function doSubmit($data, CustomForm $form)
+    public function doSubmit($data, CustomForm $form) : void
     {
         $data['RevocationOrderData'] = str_replace('\r\n', "\n", $data['RevocationOrderData']);
-
+        $customer  = Customer::currentRegisteredCustomer();
         $config    = Config::getConfig();
         $country   = Country::get()->byID($data['Country']);
         $variables = [
+            'Customer'            => $customer,
             'Email'               => $data['Email'],
             'Salutation'          => $data['Salutation'],
             'FirstName'           => $data['FirstName'],

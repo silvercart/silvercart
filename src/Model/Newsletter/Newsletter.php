@@ -91,7 +91,7 @@ class Newsletter {
                 // Opt-in has to be done first
                 $confirmationHash = self::createConfirmationHash($member->Salutation, $member->FirstName, $member->Surname, $member->Email);
                 $member->setField('NewsletterConfirmationHash', Convert::raw2sql($confirmationHash));
-                self::sendOptInEmailTo($member->Salutation, $member->FirstName, $member->Surname, $member->Email, $confirmationHash, $member->Locale);
+                self::sendOptInEmailTo($member->Salutation, $member->FirstName, $member->Surname, $member->Email, $confirmationHash, $member->Locale, $member);
             }
             $member->write();
             $subscribed = true;
@@ -226,15 +226,17 @@ class Newsletter {
      * @param string $email            The email address to use
      * @param string $confirmationHash The hash value to use for identification
      * @param string $locale           Locale
+     * @param Member $member           Member
      * 
      * @return void
      */
-    public static function sendOptInEmailTo(string $salutation, string $firstName, string $surName, string $email, string $confirmationHash, string $locale = null) : void
+    public static function sendOptInEmailTo(string $salutation, string $firstName, string $surName, string $email, string $confirmationHash, ?string $locale = null, ?Member $member = null) : void
     {
         ShopEmail::send(
                 'NewsletterOptIn',
                 $email,
                 [
+                    'Member'            => $member,
                     'Salutation'        => $salutation,
                     'FirstName'         => $firstName,
                     'Surname'           => $surName,

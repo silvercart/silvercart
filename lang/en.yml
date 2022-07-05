@@ -163,6 +163,8 @@ en:
     Close: Close
     ContactUs: 'Contact us'
     Created: 'Created'
+    CreatedDate: 'Date'
+    CreatedTime: 'Time'
     DefaultIfEmpty: 'Default if empty: "{default}"'
     DeleteYourAccount: 'Delete your account'
     DeleteYourAccountDesc: 'Please note that the deletion of your Webshop account is permanent. Once your account has been closed, it will no longer be available to you and cannot be restored. If you later decide to place orders with us again or want to use products and services that require a webshop account, you will need to create a new account.'

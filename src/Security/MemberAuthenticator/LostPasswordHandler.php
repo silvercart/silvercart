@@ -28,13 +28,11 @@ class LostPasswordHandler extends SilverStripeLostPasswordHandler
      * @param string $token  Token
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.05.2019
      */
     protected function sendEmail($member, $token) : bool
     {
         $variables                      = $member->toMap();
+        $variables['Member']            = $member;
         $variables['PasswordResetLink'] = Director::absoluteURL(Security::getPasswordResetLink($member, $token));
         $memberDbFields                 = (array) $member->config()->db;
         foreach ($memberDbFields as $dbFieldName => $dbFieldType) {

@@ -8,6 +8,7 @@ use SilverCart\Model\ShopEmail;
 use SilverCart\Model\Newsletter\AnonymousNewsletterRecipient;
 use SilverCart\Model\Pages\MetaNavigationHolderController;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 
@@ -15,25 +16,24 @@ use SilverStripe\Security\Member;
  * NewsletterPage Controller class.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class NewsletterPageController extends MetaNavigationHolderController {
-
+class NewsletterPageController extends MetaNavigationHolderController
+{
     /**
      * List of allowed actions.
      *
      * @var array
      */
-    private static $allowed_actions = array(
+    private static $allowed_actions = [
         'NewsletterForm',
         'optin',
         'thanks',
-    );
-    
+    ];
     /**
      * Opt-In message.
      *
@@ -45,12 +45,10 @@ class NewsletterPageController extends MetaNavigationHolderController {
      * Returns the NewsletterForm.
      *
      * @return NewsletterForm
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.11.2017
      */
-    public function NewsletterForm() {
-        $form = new NewsletterForm($this);
+    public function NewsletterForm() : NewsletterForm
+    {
+        $form = NewsletterForm::create($this);
         return $form;
     }
     
@@ -59,28 +57,29 @@ class NewsletterPageController extends MetaNavigationHolderController {
      * 
      * @param HTTPRequest $request HTTP request
      * 
-     * @return string
+     * @return HTTPResponse
      */
-    public function optin(HTTPRequest $request) {
+    public function optin(HTTPRequest $request) : HTTPResponse
+    {
         $newsletterPage      = $this->data();
         $statusMessage       = $newsletterPage->ConfirmationFailureMessage;
         $isAnonymousCustomer = true;
         $optInHash           = $request->getVar('h');
-
         if (!is_null($optInHash)) {
             $recipient = AnonymousNewsletterRecipient::getByHash($optInHash);
-
-            if (!($recipient instanceof AnonymousNewsletterRecipient) ||
-                !$recipient->exists()) {
+            if (!($recipient instanceof AnonymousNewsletterRecipient)
+             || !$recipient->exists()
+            ) {
                 $recipient = Member::get()->filter('NewsletterConfirmationHash', $optInHash)->first();
-                if ($recipient instanceof Member &&
-                    $recipient->exists()) {
+                if ($recipient instanceof Member
+                 && $recipient->exists()
+                ) {
                     $isAnonymousCustomer = false;
                 }
             }
-
-            if ($recipient instanceof DataObject &&
-                $recipient->exists()) {
+            if ($recipient instanceof DataObject
+             && $recipient->exists()
+            ) {
                 if ($recipient->NewsletterOptInStatus) {
                     $statusMessage = $newsletterPage->AlreadyConfirmedMessage;
                 } else {
@@ -92,19 +91,18 @@ class NewsletterPageController extends MetaNavigationHolderController {
                         $recipient->write();
                     }
                     $statusMessage = $newsletterPage->ConfirmationSuccessMessage;
-
                     $this->sendConfirmationMail(
                         $recipient->Salutation,
                         $recipient->FirstName,
                         $recipient->Surname,
-                        $recipient->Email
+                        $recipient->Email,
+                        $recipient
                     );
                 }
             }
         }
-
         $this->setOptInMessage(Tools::string2html($statusMessage));
-        return $this->render();
+        return HTTPResponse::create($this->render());
     }
     
     /**
@@ -112,8 +110,9 @@ class NewsletterPageController extends MetaNavigationHolderController {
      * 
      * @return string
      */
-    public function getOptInMessage() {
-        return $this->optInMessage;
+    public function getOptInMessage() : string
+    {
+        return (string) $this->optInMessage;
     }
 
     /**
@@ -123,34 +122,34 @@ class NewsletterPageController extends MetaNavigationHolderController {
      * 
      * @return void
      */
-    public function setOptInMessage($optInMessage) {
+    public function setOptInMessage(string $optInMessage) : void
+    {
         $this->optInMessage = $optInMessage;
     }
 
     /**
      * Send confirmation mail to customer
      *
-     * @param string $salutation Salutation
-     * @param string $firstname  Firstname
-     * @param string $surname    Surname
-     * @param string $email      Email
+     * @param string                              $salutation Salutation
+     * @param string                              $firstname  Firstname
+     * @param string                              $surname    Surname
+     * @param string                              $email      Email
+     * @param AnonymousNewsletterRecipient|Member $recipient  Recipient
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.10.2010
      */
-    public function sendConfirmationMail($salutation, $firstname, $surname, $email) {
+    public function sendConfirmationMail(string $salutation, string $firstname, string $surname, string $email, AnonymousNewsletterRecipient|Member $recipient = null) : void
+    {
         ShopEmail::send(
             'NewsletterOptInConfirmation',
             $email,
-            array(
+            [
+                'Member'     => $recipient,
                 'Salutation' => $salutation,
                 'FirstName'  => $firstname,
                 'Surname'    => $surname,
                 'Email'      => $email
-            )
+            ]
         );
     }
-    
 }

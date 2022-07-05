@@ -144,7 +144,13 @@ class ShopEmail extends DataObject
      * @var array
      */
     protected static $style = [];
-    
+    /**
+     * Template variables.
+     * 
+     * @var array
+     */
+    protected $variables = [];
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
@@ -555,7 +561,7 @@ class ShopEmail extends DataObject
             Tools::set_current_locale($locale);
         }
         $email = ShopEmail::get()->filter('TemplateName', $identifier)->first();
-
+        /* @var $email ShopEmail */
         if (!($email instanceof ShopEmail)
          || !$email->exists()
         ) {
@@ -589,6 +595,7 @@ class ShopEmail extends DataObject
         SSViewer::set_themes($frontendThemes);
         $subject = HTTP::absoluteURLs(SSViewer_FromString::create($rawSubject)->process(ArrayData::create($variables)));
         $variables['ShopEmailSubject'] = $subject;
+        $email->setVariables($variables);
         $htmlText = $email->customise($variables)->renderWith(['SilverCart/Email/' . $identifier, 'SilverCart/Email/ShopEmail']);
         if (SSViewer::hasTemplate(['SilverCart/Email/Layout/' . $identifier . 'Plain'])) {
             $plainText = $email->customise($variables)->renderWith(['SilverCart/Email/' . $identifier . 'Plain', 'SilverCart/Email/ShopEmailPlain']);
@@ -602,18 +609,15 @@ class ShopEmail extends DataObject
         if (empty($plainText)) {
             $plainText = strip_tags($htmlText);
         }
-        
+        if ($email->AdditionalReceipients()->exists()) {
+            $additionalRecipients = array_merge($additionalRecipients, $email->AdditionalReceipients()->toArray());
+        }
+        $email->extend('onBeforeSendEmail', $to, $subject, $htmlText, $attachments, $replyTo, $replyToName, $additionalRecipients);
         $result = self::send_email($to, $subject, $htmlText, $attachments, $replyTo, $replyToName);
+        $email->extend('onAfterSendEmail', $to, $subject, $htmlText, $attachments, $replyTo, $replyToName, $additionalRecipients);
         
         if (Config::GlobalEmailRecipient() != '') {
             self::send_email(Config::GlobalEmailRecipient(), $subject, $htmlText);
-        }
-
-        //Send the email to additional standard receipients from the n:m
-        //relation AdditionalReceipients;
-        //Email address is validated.
-        if ($email->AdditionalReceipients()->exists()) {
-            $additionalRecipients = array_merge($additionalRecipients, $email->AdditionalReceipients()->toArray());
         }
         foreach ($additionalRecipients as $additionalRecipient) {
             if ($additionalRecipient instanceof EmailAddress) {
@@ -835,5 +839,28 @@ class ShopEmail extends DataObject
             }
         }
         return $finalStyle;
+    }
+    
+    /**
+     * Returns the template variables.
+     * 
+     * @return array
+     */
+    public function getVariables() : array
+    {
+        return $this->variables;
+    }
+    
+    /**
+     * Sets the template variables.
+     * 
+     * @param array $variables Template variables
+     * 
+     * @return ShopEmail
+     */
+    public function setVariables(array $variables) : ShopEmail
+    {
+        $this->variables = $variables;
+        return $this;
     }
 }

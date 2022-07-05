@@ -1655,6 +1655,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         /* @var $member Member */
         $member                         = $this->owner;
         $variables                      = $member->toMap();
+        $variables['Member']            = $member;
         $token                          = $member->generateAutologinTokenAndStoreHash();
         $variables['PasswordResetLink'] = Director::absoluteURL(Security::getPasswordResetLink($member, $token));
         

@@ -286,7 +286,8 @@ class EditProfileForm extends CustomForm {
                 $member->Surname,
                 $member->Email,
                 $confirmationHash,
-                $member->Locale
+                $member->Locale,
+                $member
             );
         }
         
