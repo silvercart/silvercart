@@ -9,6 +9,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\MoneyField;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Forms\FormFields\TextareaField;
+use SilverCart\Model\Content\BrandNavigationItem;
 use SilverCart\Model\Content\LinkableItem;
 use SilverCart\Model\CookieConsent\ExternalResource;
 use SilverCart\Model\Customer\Country;
@@ -145,7 +146,8 @@ class SiteConfigExtension extends DataExtension
      * @var string[]
      */
     private static $has_many = [
-        'ExternalLinks' => LinkableItem::class,
+        'BrandNavigation'   => BrandNavigationItem::class,
+        'ExternalLinks'     => LinkableItem::class,
     ];
     /**
      * Defaults for empty fields.
@@ -385,6 +387,13 @@ class SiteConfigExtension extends DataExtension
         }
         $fields->findOrMakeTab('Root.ExternalLinks')->setTitle($this->owner->fieldLabel('ExternalLinks'));
         $fields->addFieldToTab('Root.ExternalLinks', $gridExternalLinks);
+
+        $gridBrandNavigation = GridField::create('BrandNavigation', $this->owner->fieldLabel('BrandNavigation'), $this->owner->BrandNavigation(), GridFieldConfig_RelationEditor::create());
+        if (class_exists(GridFieldOrderableRows::class)) {
+            $gridBrandNavigation->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+        }
+        $fields->findOrMakeTab('Root.BrandNavigation')->setTitle($this->owner->fieldLabel('BrandNavigation'));
+        $fields->addFieldToTab('Root.BrandNavigation', $gridBrandNavigation);
         
         $fields->findOrMakeTab('Root.ExternalResources', ExternalResource::singleton()->i18n_plural_name());
         $fields->addFieldToTab('Root.ExternalResources', GridField::create('ExternalResources', ExternalResource::singleton()->i18n_plural_name(), ExternalResource::get(), GridFieldConfig_RecordEditor::create()));
