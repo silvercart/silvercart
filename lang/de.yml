@@ -505,6 +505,7 @@ de:
     CookiePolicyConfigPositionFloatingRight: 'Kästchen rechts unten'
     CookiePolicyConfigTxtColor: Textfarbe
   SilverCart\Admin\Model\SiteConfigExtension:
+    BrandNavigation: 'Brand-Navigation'
     CREATE_TRANSLATION_DESC: 'Neue Übersetzungen werden für den gesamten Seitenbaum (unveröffentlicht) erstellt. Jede Seite wird als Übersetzungs-Vorlage angelegt und wenn vorhanden mit Standard-Inhalten der gewählten Sprache befüllt. Sind keine Standard-Inhalte vorhanden, werden die Inhalte der Sprache vorbelegt, die aktuell gewählt ist.'
     DefaultMailRegistrationRecipient: 'E-Mail-Empfänger für Kunden-Registrierungen'
     DefaultMailRevocationRecipient: 'E-Mail-Empfänger für Auftragswiderruf'
@@ -652,6 +653,14 @@ de:
     PLURALNAME: Kontaktanfragen
     SINGULARNAME: Kontaktanfrage
     SubjectText: Betreff
+  SilverCart\Model\Content\BrandNavigationItem:
+    Image: Logo
+    IsActive: 'Ist Aktiv'
+    LinkType: Link-Typ
+    LinkURL: Link-Url
+    PLURALNAME: 'Brand Navigations-Elemtente'
+    SINGULARNAME: 'Brand Navigations-Element'
+    Title: Titel    
   SilverCart\Model\Content\LinkableItem:
     CustomIconHTML: 'Alternatives Icon'
     CustomIconHTMLDesc: 'HTML-Code zur Verwendung eines alternativen Icons.'

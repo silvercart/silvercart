@@ -505,6 +505,7 @@ en:
     CookiePolicyConfigPositionFloatingRight: 'Floating box bottom right'
     CookiePolicyConfigTxtColor: 'Text Color'
   SilverCart\Admin\Model\SiteConfigExtension:
+    BrandNavigation: 'Brand Navigation'
     CREATE_TRANSLATION_DESC: 'New translations will be created for all pages of the SiteTree (unpublished). Every page will be created as a translation template and will be filled with the chosen languages default content (if exists). If no default content is available for the chosen language, the content of the current language will be preset.'
     DefaultMailRegistrationRecipient: 'Email recipient for customer registrations'
     DefaultMailRevocationRecipient: 'Email recipient for order revocations'
@@ -650,6 +651,14 @@ en:
     PLURALNAME: 'Contact messages'
     SINGULARNAME: 'Contact message'
     SubjectText: Subject
+  SilverCart\Model\Content\BrandNavigationItem:
+    Image: Logo
+    IsActive: 'Is Active'
+    LinkType: 'Link Type'
+    LinkURL: 'Link Url'
+    PLURALNAME: 'Brand Navigation Items'
+    SINGULARNAME: 'Brand Navigations Item'
+    Title: Title    
   SilverCart\Model\Content\LinkableItem:
     CustomIconHTML: 'Alternative Icon'
     CustomIconHTMLDesc: 'HTML code to use as an alternative icon.'
