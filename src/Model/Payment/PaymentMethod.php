@@ -337,13 +337,16 @@ class PaymentMethod extends DataObject
      */
     public function getName() : string
     {
-        $name = '';     
+        $value = '';     
         if ($this->isExtendingPaymentMethod()
          && $this->hasMethod('getTranslationFieldValue')
         ) {
-            $name = $this->getTranslationFieldValue('Name');
+            $value = (string) $this->getTranslationFieldValue('Name');
         }
-        return (string) $name;
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateName', $value);
+        }
+        return (string) $value;
     }
     
     /**
@@ -353,13 +356,16 @@ class PaymentMethod extends DataObject
      */
     public function getpaymentDescription() : string
     {
-        $paymentDescription = '';
+        $value = '';
         if ($this->isExtendingPaymentMethod()
          && $this->hasMethod('getTranslationFieldValue')
         ) {
-            $paymentDescription = $this->getTranslationFieldValue('paymentDescription');
+            $value = (string) $this->getTranslationFieldValue('paymentDescription');
         }
-        return (string) $paymentDescription;
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updatePaymentDescription', $value);
+        }
+        return (string) $value;
     }
     
     /**
@@ -369,13 +375,16 @@ class PaymentMethod extends DataObject
      */
     public function getLongPaymentDescription() : string
     {
-        $LongPaymentDescription = '';
+        $value = '';
         if ($this->isExtendingPaymentMethod()
          && $this->hasMethod('getTranslationFieldValue')
         ) {
-            $LongPaymentDescription = $this->getTranslationFieldValue('LongPaymentDescription');
+            $value = (string) $this->getTranslationFieldValue('LongPaymentDescription');
         }
-        return (string) $LongPaymentDescription;
+        if (!$this->getCMSFieldsIsCalled) {
+            $this->extend('updateLongPaymentDescription', $value);
+        }
+        return (string) $value;
     }
     
     // ------------------------------------------------------------------------
