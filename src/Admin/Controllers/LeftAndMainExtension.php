@@ -8,8 +8,10 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverStripe\Admin\CMSMenu;
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config as SilverStripeConfig;
 use SilverStripe\Core\Convert;
 use SilverStripe\Core\Extension;
+use SilverStripe\Core\Manifest\ModuleResourceLoader;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\View\ArrayData;
@@ -84,8 +86,13 @@ class LeftAndMainExtension extends Extension
         }
         Requirements::javascript('silvercart/silvercart:client/admin/javascript/LeftAndMainExtension.js');
         Requirements::css('silvercart/silvercart:client/admin/css/LeftAndMainExtension.css');
-        if (class_exists(FAPickerField::class)) {
-            Requirements::css("buckleshusky/fontawesomeiconpicker:external/css/all.min.css");
+        if (class_exists(FAPickerField::class)
+         && !SilverStripeConfig::inst()->get('FontawesomeIcons', 'disable_builtin_fontawesome')
+        ) {
+            $file = ModuleResourceLoader::singleton()->resolvePath("buckleshusky/fontawesomeiconpicker:external/css/all.min.css");
+            if (file_exists(PUBLIC_PATH . '/' . RESOURCES_DIR . "/{$file}")) {
+                Requirements::css("buckleshusky/fontawesomeiconpicker:external/css/all.min.css");
+            }
         }
         foreach (self::$additional_css_files as $css_file) {
             Requirements::css($css_file);
