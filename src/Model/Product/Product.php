@@ -2563,6 +2563,18 @@ class Product extends DataObject implements PermissionProvider
     }
     
     /**
+     * Remose this product from the current member's cart.
+     * 
+     * @param ShoppingCartPosition|null &$deletedPosition Position reference
+     * 
+     * @return bool
+     */
+    public function removeFromCart(?ShoppingCartPosition &$deletedPosition = null) : bool
+    {
+        return ShoppingCart::removeProduct(['productID' => $this->ID], $deletedPosition);
+    }
+    
+    /**
      * Returns a corrected shopping cart quantity dependend on extenal modules.
      * 
      * @param float $quantity Quantity to check and correct
