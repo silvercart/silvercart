@@ -73,10 +73,6 @@ SilverStripe\Security\MemberAuthenticator\LogoutHandler:
 SilverCart\Model\Pages\Page:
   extensions:
     - SilverCart\Model\Widgets\PageListWidgetPage
-SilverCart\Model\Product\Product:
-  extensions:
-    - SilverCart\ORM\DataObjectCacheExtension
-    - SilverCart\Model\Translation\TranslatableDataObjectExtension
 SilverStripe\ErrorPage\ErrorPageController:
   extensions:
     - SilverCart\Extensions\Pages\ErrorPageControllerExtension

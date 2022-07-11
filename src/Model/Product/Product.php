@@ -25,7 +25,9 @@ use SilverCart\Model\Pages\RegistrationPage;
 use SilverCart\Model\Pages\SearchResultsPageController;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
+use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverCart\Model\Widgets\ProductGroupItemsWidget;
+use SilverCart\ORM\DataObjectCacheExtension;
 use SilverCart\ORM\DataObjectExtension;
 use SilverCart\ORM\FieldType\DBMoney;
 use SilverStripe\Assets\Folder;
@@ -131,6 +133,8 @@ use WidgetSets\Model\WidgetSet;
  * @method \SilverStripe\ORM\ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
  * @method \SilverStripe\ORM\ManyManyList ShoppingCarts()            List of Shopping Carts
  * @method \SilverStripe\ORM\ManyManyList ProductGroupItemsWidgets() List of Product Group Items Widgets
+ * 
+ * @mixin TranslatableDataObjectExtension
  */
 class Product extends DataObject implements PermissionProvider
 {
@@ -266,6 +270,15 @@ class Product extends DataObject implements PermissionProvider
      * @var string
      */
     private static $table_name = 'SilvercartProduct';
+    /**
+     * Extensions
+     * 
+     * @var string[]
+     */
+    private static $extensions = [
+        DataObjectCacheExtension::class,
+        TranslatableDataObjectExtension::class,
+    ];
     /**
      * Grant API access on this item.
      *
