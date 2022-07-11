@@ -13,11 +13,13 @@ use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverCart\Model\Translation\TranslationTools;
 use SilverStripe\CMS\Model\RedirectorPage;
 use SilverStripe\Control\Controller;
+use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\MoneyField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\View\ViewableData;
 
 /**
  * Extension for every DataObject.
@@ -407,8 +409,22 @@ class DataObjectExtension extends DataExtension
                 $this->fieldMapDropdownSourceAddRelations($dropdownSource, $singleton, $relationName);
             }
             $this->fieldMapDropdownSourceAddSubRelations($dropdownSource);
-            // Todo: Add support for has-many
-            // Todo: Add support for many-many
+            $hasManyRelations = $targetObject->hasMany();
+            foreach ($hasManyRelations as $relationName => $className) {
+                $singleton = singleton($className);
+                $this->fieldMapDropdownSourceAddRelations($dropdownSource, $singleton, $relationName);
+            }
+            $manyManyRelations = $targetObject->manyMany();
+            foreach ($manyManyRelations as $relationName => $className) {
+                if (is_array($className)) {
+                    $className = $className['through'];
+                }
+                if (strpos($className, '.') !== false) {
+                    $className = substr($className, 0, strpos($className, '.'));
+                }
+                $singleton = singleton($className);
+                $this->fieldMapDropdownSourceAddRelations($dropdownSource, $singleton, $relationName);
+            }
         }
         if (method_exists($this, 'get_dropdown_source_callbacks')) {
             $callbacks = self::get_dropdown_source_callbacks();
@@ -479,8 +495,17 @@ class DataObjectExtension extends DataExtension
     {
         $targetObject   = $this->owner;
         $relationFields = (array) $targetObject->config()->general_relation_fields;
-        if (array_key_exists($singleton->ClassName, (array) $targetObject->config()->object_relation_fields)) {
-            $relationFields = array_merge($relationFields, $targetObject->config()->object_relation_fields[$singleton->ClassName]);
+        $ancestry       = ClassInfo::ancestry($singleton);
+        foreach ($ancestry as $className) {
+            if (in_array($className, [DataObject::class, ViewableData::class])) {
+                continue;
+            }
+            if (array_key_exists($className, (array) $targetObject->config()->object_relation_fields)) {
+                $relationFields = array_merge($relationFields, $targetObject->config()->object_relation_fields[$className]);
+            }
+            if ($className === $singleton->ClassName) {
+                break;
+            }
         }
         foreach ($relationFields as $relationField) {
             if ($singleton->hasField($relationField)
