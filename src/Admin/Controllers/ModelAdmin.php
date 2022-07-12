@@ -10,6 +10,7 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\ORM\ArrayList;
 
 /**
  * ModelAdmin extension for SilverCart.
@@ -190,6 +191,18 @@ class ModelAdmin extends \SilverStripe\Admin\ModelAdmin
             }
         });
         return parent::getEditForm($id, $fields);
+    }
+    
+    /**
+     * Adds the possibility to update the tabs by decorator.
+     * 
+     * @return ArrayList
+     */
+    protected function getManagedModelTabs() : ArrayList
+    {
+        $forms = parent::getManagedModelTabs();
+        $this->extend('updateManagedModelTabs', $forms);
+        return $forms;
     }
     
     /**
