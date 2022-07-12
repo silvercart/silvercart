@@ -85,12 +85,18 @@ class CustomerAdmin extends ModelAdmin
     /**
      * Removes anonymous customers out of the list.
      * 
-     * @return \SilverStripe\ORM\SS_List
+     * @return DataList
      */
     public function getList() : DataList
     {
-        /* @var $list DataList */
-        $list = parent::getList();
-        return $list->where('"Member"."ID" NOT IN (SELECT "Group_Members"."MemberID" FROM "Group_Members" WHERE "Group_Members"."GroupID" = (SELECT "Group"."ID" FROM "Group" WHERE "Group"."Code" = \'' . Customer::GROUP_CODE_ANONYMOUS . '\'))');
+        $this->beforeExtending('updateList', function(DataList &$list) {
+            $list = $list->exclude([
+                'Groups.Code' => [
+                    Customer::GROUP_CODE_ANONYMOUS,
+                    null
+                ],
+            ]);
+        });
+        return parent::getList();
     }
 }
