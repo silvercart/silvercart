@@ -2,6 +2,7 @@
 
 namespace SilverCart\ORM;
 
+use SilverCart\Model\Translation\TranslationExtension;
 use SilverStripe\Core\Config\Config as SilverStripeConfig;
 use SilverStripe\Forms\FormField;
 
@@ -163,7 +164,15 @@ trait ExtensibleDataObject
                         $fieldLabels["{$fieldname}Default"]    = _t("{$objectName}.{$fieldname}Default", FormField::name_to_label("{$fieldname}Default"));
                         $fieldLabels["{$fieldname}RightTitle"] = _t("{$objectName}.{$fieldname}RightTitle", FormField::name_to_label("{$fieldname}RightTitle"));
                         if ($fieldLabels[$fieldname] === $fieldname) {
-                            if ($param === 'has_one') {
+                            if ($param === 'db'
+                             && $this->hasExtension(TranslationExtension::class)
+                            ) {
+                                $className = $this->getRelationClassName();
+                                $fieldLabels[$fieldname]               = _t("{$className}.{$fieldname}", $fieldname);
+                                $fieldLabels["{$fieldname}Desc"]       = _t("{$className}.{$fieldname}Desc", FormField::name_to_label("{$fieldname}Desc"));
+                                $fieldLabels["{$fieldname}Default"]    = _t("{$className}.{$fieldname}Default", FormField::name_to_label("{$fieldname}Default"));
+                                $fieldLabels["{$fieldname}RightTitle"] = _t("{$className}.{$fieldname}RightTitle", FormField::name_to_label("{$fieldname}RightTitle"));
+                            } elseif ($param === 'has_one') {
                                 $className = $source[$fieldname];
                                 $fieldLabels[$fieldname] = $className::singleton()->i18n_singular_name();
                             } elseif ($param === 'has_many'
