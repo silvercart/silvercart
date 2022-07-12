@@ -60,12 +60,19 @@ class ShoppingCart extends DataObject
     const SESSION_KEY = 'SilverCart.ShoppingCart';
 
     /**
-     * Contains all registered modules that get called when the shoppingcart
+     * Contains all publicly registered modules that get called when the shoppingcart
      * is displayed.
      *
      * @var array
      */
     public static $registeredModules = [];
+    /**
+     * Contains all YAML (Configurable) registered modules that get called when 
+     * the shoppingcart is displayed.
+     *
+     * @var array
+     */
+    private static $registered_modules = [];
     /**
      * Module list to exclude from most valuable tax rate calculation.
      *
@@ -1084,7 +1091,7 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountGrossWithoutFeesAndChargesAndModules(array $excludeShoppingCartPositions = []) : DBMoney
     {
-        return $this->getTaxableAmountGrossWithoutFeesAndCharges(self::$registeredModules, $excludeShoppingCartPositions);
+        return $this->getTaxableAmountGrossWithoutFeesAndCharges(self::getRegisteredModules(), $excludeShoppingCartPositions);
     }
 
     /**
@@ -1125,7 +1132,7 @@ class ShoppingCart extends DataObject
      */
     public function getTaxableAmountNetWithoutFeesAndChargesAndModules(array $excludeShoppingCartPositions = []) : DBMoney
     {
-        return $this->getTaxableAmountNetWithoutFeesAndCharges(self::$registeredModules, $excludeShoppingCartPositions);
+        return $this->getTaxableAmountNetWithoutFeesAndCharges(self::getRegisteredModules(), $excludeShoppingCartPositions);
     }
 
     /**
@@ -2144,6 +2151,16 @@ class ShoppingCart extends DataObject
     /**
      * Returns all registered modules.
      *
+     * @return array
+     */
+    public static function getRegisteredModules() : array
+    {
+        return array_merge(self::$registeredModules, (array) self::config()->registered_modules);
+    }
+
+    /**
+     * Returns all registered modules.
+     *
      * Every module contains two keys for further iteration inside templates:
      *      - ShoppingCartPositions
      *      - ShoppingCartActions
@@ -2155,7 +2172,7 @@ class ShoppingCart extends DataObject
         if (is_null($this->registeredModulesSet)) {
             $customer          = Customer::currentUser();
             $modules           = [];
-            $registeredModules = self::$registeredModules;
+            $registeredModules = self::getRegisteredModules();
             $hookMethods       = [
                 'NonTaxableShoppingCartPositions',
                 'TaxableShoppingCartPositions',
@@ -2200,7 +2217,7 @@ class ShoppingCart extends DataObject
      */
     public function callMethodOnRegisteredModules(string $methodName, array $parameters = [], array $excludeModules = [], array $excludeShoppingCartPositions = []) : array
     {
-        $registeredModules = self::$registeredModules;
+        $registeredModules = self::getRegisteredModules();
         $outputOfModules   = [];
         foreach ($registeredModules as $registeredModule) {
             // Skip excluded modules
