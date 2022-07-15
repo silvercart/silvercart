@@ -19,6 +19,7 @@ use SilverStripe\Forms\MoneyField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\Security\Member;
 use SilverStripe\View\ViewableData;
 
 /**
@@ -72,6 +73,12 @@ class DataObjectExtension extends DataExtension
             'Member',
         ],
     ];
+    /**
+     * Dropdown source.
+     * 
+     * @var array[]
+     */
+    protected $dropdownSource = [];
     
     /**
      * Handles UseAsRootForMainNavigation property (can only be set for a single 
@@ -389,7 +396,6 @@ class DataObjectExtension extends DataExtension
         return $fieldLabels;
     }
 
-    
     /**
      * Returns the field map dropdown source.
      * 
@@ -399,20 +405,24 @@ class DataObjectExtension extends DataExtension
      */
     public function getFieldMapDropdownSource(bool $includeRelations = true) : array
     {
-        $targetObject   = $this->owner;
-        $dropdownSource = ['' => ''];
-        $this->fieldMapDropdownSourceAddDBFields($dropdownSource);
+        $key = get_class($this->owner);
+        if (array_key_exists($key, $this->dropdownSource)) {
+            return $this->dropdownSource[$key];
+        }
+        $targetObject               = $this->owner;
+        $this->dropdownSource[$key] = ['' => ''];
+        $this->fieldMapDropdownSourceAddDBFields();
         if ($includeRelations) {
             $hasOneRelations = $targetObject->hasOne();
             foreach ($hasOneRelations as $relationName => $className) {
                 $singleton = singleton($className);
-                $this->fieldMapDropdownSourceAddRelations($dropdownSource, $singleton, $relationName);
+                $this->fieldMapDropdownSourceAddRelations($singleton, $relationName);
             }
-            $this->fieldMapDropdownSourceAddSubRelations($dropdownSource);
+            $this->fieldMapDropdownSourceAddSubRelations();
             $hasManyRelations = $targetObject->hasMany();
             foreach ($hasManyRelations as $relationName => $className) {
                 $singleton = singleton($className);
-                $this->fieldMapDropdownSourceAddRelations($dropdownSource, $singleton, $relationName);
+                $this->fieldMapDropdownSourceAddRelations($singleton, $relationName);
             }
             $manyManyRelations = $targetObject->manyMany();
             foreach ($manyManyRelations as $relationName => $className) {
@@ -423,45 +433,42 @@ class DataObjectExtension extends DataExtension
                     $className = substr($className, 0, strpos($className, '.'));
                 }
                 $singleton = singleton($className);
-                $this->fieldMapDropdownSourceAddRelations($dropdownSource, $singleton, $relationName);
+                $this->fieldMapDropdownSourceAddRelations($singleton, $relationName);
             }
         }
         if (method_exists($this, 'get_dropdown_source_callbacks')) {
             $callbacks = self::get_dropdown_source_callbacks();
             if (array_key_exists($targetObject->ClassName, $callbacks)) {
-                $dropdownSource = array_merge(
-                        $dropdownSource,
+                $this->dropdownSource[$key] = array_merge(
+                        $this->dropdownSource[$key],
                         $callbacks[$targetObject->ClassName]
                 );
             }
         }
-        unset($dropdownSource['PriceGross']);
-        unset($dropdownSource['PriceNet']);
-        unset($dropdownSource['MSRPrice']);
-        unset($dropdownSource['PurchasePrice']);
-        asort($dropdownSource);
-        return $dropdownSource;
+        unset($this->dropdownSource[$key]['PriceGross']);
+        unset($this->dropdownSource[$key]['PriceNet']);
+        unset($this->dropdownSource[$key]['MSRPrice']);
+        unset($this->dropdownSource[$key]['PurchasePrice']);
+        asort($this->dropdownSource[$key]);
+        return $this->dropdownSource[$key];
     }
     
     /**
      * Adds the db fields to the field map dropdown fields.
      * 
-     * @param array  $dropdownSource Dropdown source to extend
-     * @param string $relationName   Relation name
-     * @param string $labelPrefix    Label prefix
-     * 
      * @return DataObject
      */
-    public function fieldMapDropdownSourceAddDBFields(array &$dropdownSource, string $relationName = null, string $labelPrefix = '') : DataObject
+    public function fieldMapDropdownSourceAddDBFields(string $labelPrefix = '') : DataObject
     {
+        $key          = get_class($this->owner);
         $targetObject = $this->owner;
-        $db = array_merge(
+        $db           = array_merge(
                 ['Created' => 'DBDatetime'],
                 $targetObject->config()->db
         );
         if ($targetObject->hasExtension(TranslatableDataObjectExtension::class)) {
             $languageTargetObject = singleton("{$targetObject->ClassName}Translation");
-            $db = array_merge(
+            $db                   = array_merge(
                     $languageTargetObject->config()->db,
                     $db
             );
@@ -469,13 +476,13 @@ class DataObjectExtension extends DataExtension
         $labelAmount   = _t(MoneyField::class . '.FIELDLABELAMOUNT', 'Amount');
         $labelCurrency = _t(MoneyField::class . '.FIELDLABELCURRENCY', 'Currency');
         foreach ($db as $fieldName => $fieldType) {
-            $arrayKey = $relationName === null ? $fieldName : "{$relationName}.{$fieldName}";
+            $arrayKey = $fieldName;
             if ($targetObject->dbObject($fieldName) instanceof DBMoney) {
-                $dropdownSource["{$arrayKey}Amount"]   = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)} {$labelAmount}";
-                $dropdownSource["{$arrayKey}Currency"] = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)} {$labelCurrency}";
-                $dropdownSource[$arrayKey]             = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)}";
+                $this->dropdownSource[$key]["{$arrayKey}Amount"]   = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)} {$labelAmount}";
+                $this->dropdownSource[$key]["{$arrayKey}Currency"] = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)} {$labelCurrency}";
+                $this->dropdownSource[$key][$arrayKey]             = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)}";
             } else {
-                $dropdownSource[$arrayKey] = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)}";
+                $this->dropdownSource[$key][$arrayKey] = "{$labelPrefix}{$targetObject->fieldLabel($fieldName)}";
             }
         }
         return $this->owner;
@@ -484,16 +491,17 @@ class DataObjectExtension extends DataExtension
     /**
      * Adds the relations to the field map dropdown fields.
      * 
-     * @param array      $dropdownSource Dropdown source to extend
-     * @param DataObject $singleton      Relation singleton
-     * @param string     $relationName   Relation name
-     * @param string     $labelPrefix    Label prefix
+     * @param DataObject      $singleton    Relation singleton
+     * @param string          $relationName Relation name
+     * @param string          $labelPrefix  Label prefix
+     * @param DataObject|null $relation     Relation target object
      * 
      * @return DataObject
      */
-    public function fieldMapDropdownSourceAddRelations(array &$dropdownSource, DataObject $singleton, string $relationName, string $labelPrefix = '') : DataObject
+    public function fieldMapDropdownSourceAddRelations(DataObject $singleton, string $relationName, string $labelPrefix = '', ?DataObject $relation = null) : DataObject
     {
-        $targetObject   = $this->owner;
+        $key            = get_class($this->owner);
+        $targetObject   = $relation === null ? $this->owner : $relation;
         $relationFields = (array) $targetObject->config()->general_relation_fields;
         $ancestry       = ClassInfo::ancestry($singleton);
         foreach ($ancestry as $className) {
@@ -517,7 +525,7 @@ class DataObjectExtension extends DataExtension
                     $parts = explode('.', $i18nKey);
                     $i18nKey = array_pop($parts);
                 }
-                $dropdownSource["{$relationName}.{$relationField}"] = "{$labelPrefix}{$targetObject->fieldLabel($i18nKey)} ({$singleton->fieldLabel($relationField)})";
+                $this->dropdownSource[$key]["{$relationName}.{$relationField}"] = "{$labelPrefix}{$targetObject->fieldLabel($i18nKey)} ({$singleton->fieldLabel($relationField)})";
             }
         }
         return $this->owner;
@@ -526,15 +534,15 @@ class DataObjectExtension extends DataExtension
     /**
      * Adds the sub relations to the field map dropdown fields.
      * 
-     * @param array  $dropdownSource     Dropdown source to extend
-     * @param string $labelPrefix        Label prefix
-     * @param string $parentRelationName Parent relation name
+     * @param string          $labelPrefix        Label prefix
+     * @param string          $parentRelationName Parent relation name
+     * @param DataObject|null $relation           Relation target object
      * 
      * @return DataObject
      */
-    public function fieldMapDropdownSourceAddSubRelations(array &$dropdownSource, string $labelPrefix = '', string $parentRelationName = null) : DataObject
+    public function fieldMapDropdownSourceAddSubRelations(string $labelPrefix = '', string $parentRelationName = null, ?DataObject $relation = null) : DataObject
     {
-        $targetObject = $this->owner;
+        $targetObject = $relation === null ? $this->owner : $relation;
         if (!array_key_exists($targetObject->ClassName, (array) $targetObject->config()->sub_relations)) {
             return $this->owner;
         }
@@ -543,16 +551,44 @@ class DataObjectExtension extends DataExtension
                 $hasOneRelation = $targetObject->getComponent($subRelation);
                 if ($hasOneRelation instanceof DataObject) {
                     $fullRelationName = $parentRelationName === null ? $subRelation : "{$parentRelationName}.{$subRelation}";
-                    $hasOneRelation->fieldMapDropdownSourceAddDBFields($dropdownSource, $fullRelationName, "{$labelPrefix}{$hasOneRelation->i18n_singular_name()}: ");
+                    $this->fieldMapDropdownSourceAddRelationDBFields($hasOneRelation, $fullRelationName, "{$labelPrefix}{$hasOneRelation->i18n_singular_name()}: ");
                     $hasOneRelations = $hasOneRelation->hasOne();
                     foreach ($hasOneRelations as $relationName => $className) {
                         $subSingleton = singleton($className);
-                        $hasOneRelation->fieldMapDropdownSourceAddRelations($dropdownSource, $subSingleton, "{$subRelation}.{$relationName}", "{$labelPrefix}{$hasOneRelation->i18n_singular_name()} > {$subSingleton->i18n_singular_name()}: ");
+                        $this->fieldMapDropdownSourceAddRelations($subSingleton, "{$subRelation}.{$relationName}", "{$labelPrefix}{$hasOneRelation->i18n_singular_name()} > {$subSingleton->i18n_singular_name()}: ", $hasOneRelation);
                     }
-                    $hasOneRelation->fieldMapDropdownSourceAddSubRelations($dropdownSource, "{$labelPrefix}{$hasOneRelation->i18n_singular_name()} > ", $subRelation);
+                    $this->fieldMapDropdownSourceAddSubRelations("{$labelPrefix}{$hasOneRelation->i18n_singular_name()} > ", $subRelation, $hasOneRelation);
                 }
             } catch(InvalidArgumentException $e) {
                 continue;
+            }
+        }
+        return $this->owner;
+    }
+    
+    /**
+     * Adds the DB fields of the given $relation.
+     * 
+     * @param DataObject $relation     Relation
+     * @param string     $relationName Relation name
+     * @param string     $labelPrefix  Label prefix
+     * 
+     * @return DataObject
+     */
+    public function fieldMapDropdownSourceAddRelationDBFields(DataObject $relation, string $relationName, string $labelPrefix = '') : DataObject
+    {
+        $key           = get_class($this->owner);
+        $relationDB    = $relation->getFieldMapDropdownSource(false);
+        $labelAmount   = _t(MoneyField::class . '.FIELDLABELAMOUNT', 'Amount');
+        $labelCurrency = _t(MoneyField::class . '.FIELDLABELCURRENCY', 'Currency');
+        foreach ($relationDB as $fieldName => $fieldType) {
+            $arrayKey = "{$relationName}.{$fieldName}";
+            if ($relation->dbObject($fieldName) instanceof DBMoney) {
+                $this->dropdownSource[$key]["{$arrayKey}Amount"]   = "{$labelPrefix}{$relation->fieldLabel($fieldName)} {$labelAmount}";
+                $this->dropdownSource[$key]["{$arrayKey}Currency"] = "{$labelPrefix}{$relation->fieldLabel($fieldName)} {$labelCurrency}";
+                $this->dropdownSource[$key][$arrayKey]             = "{$labelPrefix}{$relation->fieldLabel($fieldName)}";
+            } else {
+                $this->dropdownSource[$key][$arrayKey] = "{$labelPrefix}{$relation->fieldLabel($fieldName)}";
             }
         }
         return $this->owner;
