@@ -12,6 +12,7 @@ use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Extension;
 use SilverStripe\i18n\i18n;
+use SilverStripe\Security\Member;
 
 /**
  * Extension for the Security controller.
@@ -69,7 +70,10 @@ class SecurityExtension extends Extension
         $member  = $this->owner->getCurrentUser();
         $request = $this->owner->getRequest();
         $action  = $request->param('Action');
-        if ($action === 'login') {
+        if ($action === 'login'
+         && $member instanceof Member
+         && $member->exists()
+        ) {
             $backURL = $request->getVar('BackURL');
             if (!empty($backURL)) {
                 if (strpos($backURL, 'admin') !== 0
