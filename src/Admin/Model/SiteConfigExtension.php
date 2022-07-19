@@ -408,10 +408,12 @@ class SiteConfigExtension extends DataExtension
      */
     public function ExternalLinksWithIcon() : DataList
     {
-        return $this->owner->ExternalLinks()->exclude([
+        $links = $this->owner->ExternalLinks()->exclude([
             'CustomIconHTML'  => ['', null],
             'FontAwesomeIcon' => ['', null],
         ]);
+        $this->owner->extend('updateExternalLinksWithIcon', $links);
+        return $links;
     }
     
     /**
