@@ -449,6 +449,20 @@ class ShoppingCartPosition extends DataObject
     }
     
     /**
+     * Returns the max length for the add-to-cart-form quantity field.
+     * 
+     * @param int $add Integer value to add
+     * @param int $min Minimum value
+     * @param int $max Maximum value
+     * 
+     * @return int
+     */
+    public function getQuantityFieldWidth(int $add = 0, int $min = 30, int $max = 9999) : int
+    {
+        return $this->ShoppingCart()->getQuantityFieldWidth($add, $min, $max);
+    }
+    
+    /**
      * returns a string with notices. Notices are seperated by <br />
      * 
      * @return DBHTMLText

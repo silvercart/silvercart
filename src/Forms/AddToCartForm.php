@@ -216,7 +216,7 @@ class AddToCartForm extends CustomForm
      * 
      * @return int
      */
-    protected function getQuantityWidth(int $add = 0) : int
+    public function getQuantityWidth(int $add = 0) : int
     {
         return (strlen((string) Config::addToCartMaxQuantity()) * 10) + $add;
     }
