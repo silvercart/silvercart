@@ -1235,6 +1235,7 @@ de:
   SilverCart\Model\Order\OrderLog:
     CONTEXT: Kontext
     CREATED: Datum/Uhrzeit
+    Message: 'Weitere Informationen'
     MESSAGE: Aktion
     MESSAGE_CHANGED: 'Verändert: {sourcetitle} -> {targettitle}'
     MESSAGE_CREATED: 'Erstellt: {context} wurde erstellt'
@@ -2597,6 +2598,8 @@ de:
     LIST: Liste
     TABLE: Tabelle
     TILE: Kacheln
+  SilverStripe\MimeValidator\MimeUploadValidator:
+    INVALIDMIME: 'Dateiendung (.{extension}) entspricht keinem bekannten MIME-Typ'
   SilverStripe\Security\Member:
     FailedLoginCountWarning:
       one: 'Bitte beachten Sie, dass Ihr Account nach einem weiteren fehlerhaften Loginversuch temporär gesperrt wird.'

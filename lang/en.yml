@@ -1235,6 +1235,7 @@ en:
     CONTEXT: Context
     CREATED: Date/Time
     MESSAGE: Action
+    Message: 'Additional information'
     MESSAGE_CHANGED: 'Changed: {sourcetitle} -> {targettitle}'
     MESSAGE_CREATED: 'Created: {context} was created'
     MESSAGE_MARKEDASNOTSEEN: 'Marked as not seen'
