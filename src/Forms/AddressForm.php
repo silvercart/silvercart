@@ -184,7 +184,7 @@ class AddressForm extends CustomForm
             $address = Address::singleton();
             $businessFields = [
                 CheckboxField::create('IsBusinessAccount', $address->fieldLabel('IsBusinessAccount')),
-                TextField::create('TaxIdNumber', $address->fieldLabel('TaxIdNumber'), '', 30),
+                TextField::create('TaxIdNumber', $address->fieldLabel('TaxIdNumber'), '', 30)->setAttribute('pattern', '[A-Z|0-9]{7,12}'),
                 TextField::create('Company', $address->fieldLabel('Company'), '', 50),
             ];
         }

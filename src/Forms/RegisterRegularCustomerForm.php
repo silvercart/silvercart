@@ -220,7 +220,7 @@ class RegisterRegularCustomerForm extends CustomForm
         if ($this->EnableBusinessCustomers()) {
             $businessFields = [
                 CheckboxField::create('IsBusinessAccount', Member::singleton()->fieldLabel('IsBusinessAccount')),
-                TextField::create('TaxIdNumber', Address::singleton()->fieldLabel('TaxIdNumber'), '', 30),
+                TextField::create('TaxIdNumber', Address::singleton()->fieldLabel('TaxIdNumber'), '', 30)->setAttribute('pattern', '[A-Z|0-9]{7,12}'),
                 TextField::create('Company', Address::singleton()->fieldLabel('Company'), '', 50),
             ];
         }
