@@ -102,7 +102,7 @@ class DeletedCustomersReport extends Report
                         . "FROM {$tableDeletedCustomer} "
                         . "LEFT JOIN {$tableDeletedCustomerReason} ON ({$tableDeletedCustomerReason}.DeletedCustomerReasonID = {$tableDeletedCustomer}.ReasonID)"
                         . "{$where} "
-                        . "GROUP BY CreatedYear, CreatedMonth, ReasonID "
+                        . "GROUP BY CreatedYear, CreatedMonth, ReasonID, ReasonTitle "
                         . "ORDER BY CreatedYear DESC, CreatedMonth DESC");
         $output = ArrayList::create();
         foreach ($months as $month) {
