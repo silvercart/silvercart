@@ -220,6 +220,7 @@ class PageController extends ContentController
         ) {
             return;
         }
+        $this->RequireCustomScript();
         $jsFilesExt = [];
         $this->extend('updateRequireExtendedJavaScript', $jsFilesExt);
         
@@ -228,6 +229,16 @@ class PageController extends ContentController
                 Requirements::javascript($file);
             }
         }
+    }
+    
+    /**
+     * Requires some custom JS script.
+     * 
+     * @return void
+     */
+    public function RequireCustomScript() : void
+    {
+        Requirements::customScript($this->renderWith(self::class . '_CustomScript', ['ResourcesDir' => RESOURCES_DIR]), 'SilverCart-Custom-Script');
     }
     
     /**
