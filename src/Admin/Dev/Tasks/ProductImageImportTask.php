@@ -98,6 +98,16 @@ class ProductImageImportTask extends BuildTask
     private static $image_endings = ['jpg', 'jpeg', 'png'];
     
     /**
+     * Constructor.
+     * 
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->initArgs();
+    }
+    
+    /**
      * Returns the files (including drafts) from the given $dir.
      * 
      * @param string $dir        Directory
@@ -167,7 +177,9 @@ class ProductImageImportTask extends BuildTask
     public function run($request) : void
     {
         self::$log_file_name = 'ProductImageImportTask';
-        if (self::is_running()) {
+        if (self::is_running()
+         && $this->getCliArg('force-run') !== '1'
+        ) {
             $this->printInfo('quit, import is already running.');
             return;
         }
@@ -197,7 +209,7 @@ class ProductImageImportTask extends BuildTask
                 $this->printProgressInfo("{$logString}");
                 $consecutiveNumber = 1;
                 $nameWithoutEnding = strrev(substr(strrev($uploadedFile), strpos(strrev($uploadedFile), '.') + 1));
-                $ending            = substr($uploadedFile, strpos($uploadedFile, '.') + 1);
+                $ending            = strrev(substr(strrev($uploadedFile), 0, strpos(strrev($uploadedFile), '.')));
                 $description       = '';
                 $separator         = self::get_image_name_separator();
                 $file              = $folder->myChildren()->filter('FileHash:StartsWith', $nameWithoutEnding)->first();
