@@ -15,45 +15,38 @@ use SilverCart\Model\Order\NumberRange;
  * @since 22.09.2017
  * @license see license file in modules root directory
  */
-class NumberRangeAdmin extends ModelAdmin {
-
+class NumberRangeAdmin extends ModelAdmin
+{
     /**
      * The code of the menu under which this admin should be shown.
      * 
      * @var string
      */
     private static $menuCode = 'orders';
-
     /**
      * The section of the menu under which this admin should be grouped.
      * 
      * @var string
      */
     private static $menuSortIndex = 30;
-
     /**
      * The URL segment
      *
      * @var string
      */
     private static $url_segment = 'silvercart-number-ranges';
-
     /**
      * The menu title
      *
      * @var string
      */
     private static $menu_title = 'Number Ranges';
-
     /**
      * Managed models
      *
      * @var array
      */
-    private static $managed_models = array(
+    private static $managed_models = [
         NumberRange::class,
-    );
-    
+    ];
 }
-
-
