@@ -36,6 +36,7 @@ use SilverStripe\Security\Security;
  */
 class RegisterRegularCustomerForm extends CustomForm
 {
+    use HoneyPotable;
     /**
      * List of required fields.
      *
@@ -128,6 +129,12 @@ class RegisterRegularCustomerForm extends CustomForm
             ];
             self::config()->set('requiredFields', $requiredFields);
         }
+        if ($this->EnableHoneyPot()) {
+            $honeyPotField = $this->getHoneyPotField();
+            $requiredFields[$honeyPotField->Name] = [
+                'isFilledIn' => false,
+            ];
+        }
         return parent::getRequiredFields();
     }
 
@@ -158,6 +165,7 @@ class RegisterRegularCustomerForm extends CustomForm
                     $fields,
                     $this->getBirthdayFields(),
                     $this->getBusinessFields(),
+                    $this->getHoneyPotFields(),
                     [
                         DropdownField::create('Salutation', Address::singleton()->fieldLabel('Salutation'), Tools::getSalutationMap()),
                         TextField::create('AcademicTitle', Address::singleton()->fieldLabel('AcademicTitle')),

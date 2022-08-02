@@ -2,7 +2,6 @@
 
 namespace SilverCart\Forms;
 
-use Heyday\SilverStripe\HoneyPot\HoneyPotField;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
 use SilverCart\Forms\FormFields\GoogleRecaptchaField;
@@ -30,6 +29,7 @@ use SilverStripe\Security\Member;
  */
 class ContactForm extends CustomForm
 {
+    use HoneyPotable;
     /**
      * Spam check parameter for equal firstname and surname.
      * Contact messages with an equal firstname and surname will be ignored.
@@ -74,12 +74,6 @@ class ContactForm extends CustomForm
             'hasMinLength' => 3,
         ],
     ];
-    /**
-     * HoneyPotField
-     * 
-     * @var HoneyPotField|null
-     */
-    protected $honeyPotField = null;
     
     /**
      * Returns the required fields.
@@ -187,41 +181,6 @@ class ContactForm extends CustomForm
             $fields[] = GoogleRecaptchaField::create('GoogleRecaptcha', $this->fieldLabel('GoogleRecaptcha'));
         }
         return $fields;
-    }
-    
-    /**
-     * Returns the HoneyPot related form fields.
-     * 
-     * @return array
-     */
-    protected function getHoneyPotFields() : array
-    {
-        $fields = [];
-        if ($this->EnableHoneyPot()) {
-            $fields[] = $this->getHoneyPotField();
-        }
-        return $fields;
-    }
-    
-    /**
-     * Returns the HoneyPot related form fields.
-     * 
-     * @return array
-     */
-    protected function getHoneyPotField() : ?HoneyPotField
-    {
-        if ($this->honeyPotField === null
-         && $this->EnableHoneyPot()
-        ) {
-            $fieldName = 'Website';
-            $index     = 1;
-            while ($this->ContactPage()->FormFields()->filter('Name', $fieldName)->exists()) {
-                $fieldName = "{$fieldName}-{$index}";
-                $index++;
-            }
-            $this->honeyPotField = HoneyPotField::create($fieldName);
-        }
-        return $this->honeyPotField;
     }
     
     /**
@@ -357,16 +316,6 @@ class ContactForm extends CustomForm
     public function EnableGoogleRecaptcha() : bool
     {
         return GoogleRecaptchaField::isEnabled();
-    }
-    
-    /**
-     * Returns whether HoneyPot is enabled.
-     * 
-     * @return bool
-     */
-    public function EnableHoneyPot() : bool
-    {
-        return class_exists(HoneyPotField::class);
     }
     
     /**
