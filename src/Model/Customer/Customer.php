@@ -965,33 +965,22 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     
     /**
      * Returns whether the current customer is a registered one.
+     * Alias for @see $this->isValidCustomer()
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.04.2015
+     * @return bool
      */
-    public function isRegisteredCustomer()
+    public function isRegisteredCustomer() : bool
     {
-        $isRegisteredCustomer = false;
-        if ($this->owner->Groups()->find('Code', self::default_customer_group_code())
-         || $this->owner->Groups()->find('Code', self::default_customer_group_code_b2b())
-         || $this->owner->Groups()->find('Code', self::GROUP_CODE_ADMINISTRATORS)
-        ) {
-            $isRegisteredCustomer = true;
-        }
-        return $isRegisteredCustomer;
+        return $this->isValidCustomer();
     }
     
     /**
      * Returns whether the current customer is a anonymous one.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
+     * @return bool
      */
-    public function isAnonymousCustomer() {
+    public function isAnonymousCustomer() : bool
+    {
         $isAnonymousCustomer = false;
         if ($this->owner->Groups()->find('Code', self::GROUP_CODE_ANONYMOUS)) {
             $isAnonymousCustomer = true;
@@ -1004,25 +993,24 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * 
      * @var \SilverCart\Model\Shipment\Zone $zone Zone
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.04.2018
+     * @return bool
      */
-    public function isInZone($zone) {
+    public function isInZone(Zone $zone) : bool
+    {
         $isInZone = true;
-        if ($zone instanceof Zone &&
-            $zone->exists()) {
-            $isInZone = false;
-            
+        if ($zone instanceof Zone
+         && $zone->exists()
+        ) {
+            $isInZone        = false;
             $shippingAddress = $this->owner->ShippingAddress();
             $shippingCountry = $shippingAddress->Country();
             if ($shippingCountry->exists()) {
                 $matchingZones = Zone::getZonesFor($shippingCountry->ID);
                 if ($matchingZones->exists()) {
                     $foundZone = $matchingZones->byID($zone->ID);
-                    if ($foundZone instanceof Zone &&
-                        $foundZone->exists()) {
+                    if ($foundZone instanceof Zone
+                     && $foundZone->exists()
+                    ) {
                         $isInZone = true;
                     }
                 }
@@ -1035,32 +1023,24 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * Creates an anonymous customer if there's no currentMember object.
      *
      * @return Member
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
      */
-    public static function createAnonymousCustomer() {
+    public static function createAnonymousCustomer() : Member
+    {
         $member = self::currentUser();
-        
         if (!$member) {
-            $member = new Member();
+            $member = Member::create();
             $member->URLSegment = uniqid('anonymous-');
             $member->write();
-            
             // Add customer to intermediate group
-            $customerGroup = Group::get()->filter('Code', self::GROUP_CODE_ANONYMOUS)->first();
-            
+            $customerGroup = Group::get()->filter('Code', self::GROUP_CODE_ANONYMOUS)->first();        
             if ($customerGroup) {
                 $member->Groups()->add($customerGroup);
             }
-            
             Security::setCurrentUser($member);
             /** @var IdentityStore $identityStore */
             $identityStore = Injector::inst()->get(IdentityStore::class);
             $identityStore->logIn($member, false, Controller::curr()->getRequest());
         }
-        
         return $member;
     }
     
@@ -1070,22 +1050,17 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * If the user is not logged in or the Member is not anonymous boolean
      * false will be returned.
      *
-     * @return mixed Member|boolean false
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 15.11.2014
+     * @return Member|bool
      */
-    public static function currentAnonymousCustomer() {
+    public static function currentAnonymousCustomer()
+    {
         $member = self::currentUser();
-        
-        if ($member instanceof Member &&
-            $member->exists() &&
-            $member->isAnonymousCustomer()) {
-            
+        if ($member instanceof Member
+         && $member->exists()
+         && $member->isAnonymousCustomer()
+        ) {
             return $member;
         }
-        
         return false;
     }
     
@@ -1093,59 +1068,49 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * Returns the default customer group code.
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
      */
-    public static function default_customer_group_code() {
-        return Member::config()->default_customer_group_code;
+    public static function default_customer_group_code() : string
+    {
+        return (string) Member::config()->default_customer_group_code;
     }
     
     /**
      * Returns the default customer group code B2B.
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
      */
-    public static function default_customer_group_code_b2b() {
-        return Member::config()->default_customer_group_code_b2b;
+    public static function default_customer_group_code_b2b() : string
+    {
+        return (string) Member::config()->default_customer_group_code_b2b;
     }
     
     /**
      * Returns the default B2C group.
      * 
-     * @return Group
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
+     * @return Group|null
      */
-    public static function default_customer_group() {
+    public static function default_customer_group() : ?Group
+    {
         return Group::get()->filter('Code', self::default_customer_group_code())->first();
     }
     
     /**
      * Returns the default B2B group.
      * 
-     * @return Group
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
+     * @return Group|null
      */
-    public static function default_customer_group_b2b() {
+    public static function default_customer_group_b2b() : ?Group
+    {
         return Group::get()->filter('Code', self::default_customer_group_code_b2b())->first();
     }
     
     /**
      * Returns whether this customer is a B2B customer.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.04.2015
+     * @return bool
      */
-    public function isB2BCustomer() {
+    public function isB2BCustomer() : bool
+    {
         $isB2BCustomer = false;
         if ($this->owner->Groups()->find('Code', self::default_customer_group_code_b2b())) {
             $isB2BCustomer = true;
@@ -1157,24 +1122,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * Returns whether this is a valid customer.
      * 
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 08.04.2014
      */
     public function isValidCustomer() : bool
     {
-        $isValidCustomer = false;
-        $member          = $this->owner;
-        if ($member->Groups()->exists()) {
-            $map = $member->Groups()->map('ID', 'Code')->toArray();
-            foreach ($map as $groupCode) {
-                if (in_array($groupCode, (array) Member::config()->valid_customer_group_codes)) {
-                    $isValidCustomer = true;
-                    break;
-                }
-            }
-        }
-        return $isValidCustomer;
+        return $this->owner->Groups()->filterAny('Code', (array) Member::config()->valid_customer_group_codes)->exists();
     }
 
     /**
