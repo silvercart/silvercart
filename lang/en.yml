@@ -1985,6 +1985,7 @@ en:
     DAY: day
     DAYS: days
     DESCRIPTION: 'Product description'
+    DefaultSortOrder: 'Default sort'
     Delivery: Delivery
     DeliveryForFree: 'Free shipping'
     DeliveryForFreeIsPossible: 'Delivery for free is possible'

@@ -1986,6 +1986,7 @@ de:
     DAY: Tag
     DAYS: Tage
     DESCRIPTION: Artikelbeschreibung
+    DefaultSortOrder: Katalogsortierung
     Delivery: Lieferung
     DeliveryForFree: 'Kostenloser Versand'
     DeliveryForFreeIsPossible: 'Kostenloser Versand ist möglich'

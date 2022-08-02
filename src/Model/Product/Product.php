@@ -109,6 +109,7 @@ use WidgetSets\Model\WidgetSet;
  * @property DBDatetime $SalesBanDate                Sales Ban Date
  * @property bool       $ExcludeFromPaymentDiscounts Exclude From Payment Discounts
  * @property DBText     $Keywords                    Keywords
+ * @property int        $DefaultSortOrder            Default Sort Order
  *
  * @property int $TaxID                Tax ID
  * @property int $ManufacturerID       Manufacturer ID
@@ -177,6 +178,7 @@ class Product extends DataObject implements PermissionProvider
         'ExcludeFromPaymentDiscounts'     => 'Boolean(0)',
         'Keywords'                        => DBText::class,
         'ShowOrderEmailTextAfterCheckout' => 'Boolean(0)',
+        'DefaultSortOrder'                => 'Int',
     ];
     /**
      * 1:n relations
@@ -263,7 +265,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var string
      */
-    private static $default_sort = 'ProductNumberShop';
+    private static $default_sort = 'DefaultSortOrder,ProductNumberShop';
     /**
      * DB table name
      *
@@ -1157,6 +1159,7 @@ class Product extends DataObject implements PermissionProvider
 
             $sortableFrontendFields = array_merge(
                     [
+                        "{$productTable}.DefaultSortOrder ASC"         => $this->fieldLabel('DefaultSortOrder'),
                         "{$productTable}.Created DESC"                 => $this->fieldLabel('NewestArrivals'),
                         "{$translationTable}.Title ASC"                => $this->fieldLabel('TitleAsc'),
                         "{$translationTable}.Title DESC"               => $this->fieldLabel('TitleDesc'),
@@ -1338,10 +1341,6 @@ class Product extends DataObject implements PermissionProvider
      * Returns the default sort order and direction.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@œÄixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 26.09.2018
      */
     public static function defaultSort() : string
     {
@@ -1353,7 +1352,7 @@ class Product extends DataObject implements PermissionProvider
              || !is_string($sort)
              || !array_key_exists($sort, $sortableFrontendFields)
             ) {
-                $sort = Product::config()->get('default_sort');
+                $sort = Product::config()->default_sort;
                 if (!array_key_exists($sort, $sortableFrontendFields)) {
                     $sortKeys = array_keys($sortableFrontendFields);
                     $sort     = array_shift($sortKeys);
@@ -1375,7 +1374,7 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return void
      */
-    public static function setDefaultSort($defaultSort) : void
+    public static function setDefaultSort(string $defaultSort) : void
     {
         Tools::Session()->set('SilvercartProduct.defaultSort', $defaultSort);
         Tools::saveSession();
@@ -2055,6 +2054,7 @@ class Product extends DataObject implements PermissionProvider
             $fields->removeByName('ProductGroupItemsWidgets');
             $fields->removeByName('MasterProductID');
             $fields->removeByName('Keywords');
+            $fields->removeByName('DefaultSortOrder');
             $this->getFieldsForMain($fields);
             $this->getFieldsForStock($fields);
             $this->getFieldsForPrices($fields);

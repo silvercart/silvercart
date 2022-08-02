@@ -20,6 +20,12 @@ use SilverStripe\Forms\Form;
 class ProductAdmin extends ModelAdmin
 {
     /**
+     * Name of DB field to make records sortable by.
+     *
+     * @var string
+     */
+    private static $sortable_field = 'DefaultSortOrder';
+    /**
      * The code of the menu under which this admin should be shown.
      * 
      * @var string

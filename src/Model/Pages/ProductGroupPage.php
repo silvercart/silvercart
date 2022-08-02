@@ -36,6 +36,7 @@ use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WidgetSets\Model\WidgetSet;
 
 /**
@@ -598,11 +599,9 @@ class ProductGroupPage extends \Page
         $grid    = GridField::create($name, $this->fieldLabel($name), $list, GridFieldConfig_RelationEditor::create());
         $fields->findOrMakeTab($tabName, $this->fieldLabel($name));
         $fields->addFieldToTab($tabName, $grid);
-        /**
         if (class_exists(GridFieldOrderableRows::class)) {
-            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('DefaultSortOrder'));
         }
-        /**/
     }
     
     /**
@@ -619,11 +618,9 @@ class ProductGroupPage extends \Page
         $list    = $this->MirrorProducts();
         $grid    = GridField::create($name, $this->fieldLabel($name), $list, GridFieldConfig_RelationEditor::create());
         $fields->addFieldToTab($tabName, $grid);
-        /**
         if (class_exists(GridFieldOrderableRows::class)) {
-            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
+            $grid->getConfig()->addComponent(GridFieldOrderableRows::create('DefaultSortOrder'));
         }
-        /**/
     }
 
     /**
