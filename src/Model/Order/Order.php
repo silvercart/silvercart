@@ -1571,6 +1571,9 @@ class Order extends DataObject implements PermissionProvider
                         $orderPosition->ProductDescription  = $modulePosition->LongDescription;
                         $orderPosition->Quantity            = $modulePosition->Quantity;
                         $orderPosition->Title               = (string) $modulePosition->Name;
+                        if (property_exists($modulePosition, 'ProductNumber')) {
+                            $orderPosition->ProductNumber = $modulePosition->ProductNumber;
+                        }
                         if ($modulePosition->isChargeOrDiscount) {
                             $orderPosition->isChargeOrDiscount                  = true;
                             $orderPosition->chargeOrDiscountModificationImpact  = $modulePosition->chargeOrDiscountModificationImpact;
