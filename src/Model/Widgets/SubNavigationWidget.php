@@ -100,7 +100,11 @@ class SubNavigationWidget extends Widget
         if (Tools::isBackendEnvironment()) {
             return;
         }
-        $this->pageHierarchy = Tools::getPageHierarchy(Controller::curr()->data());
+        if (Controller::has_curr()
+         && Controller::curr()->hasMethod('data')
+        ) {
+            $this->pageHierarchy = Tools::getPageHierarchy(Controller::curr()->data());
+        }
     }
 
     /**
