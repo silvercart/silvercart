@@ -50,10 +50,12 @@ trait HoneyPotable
          && $this->EnableHoneyPot()
         ) {
             $fieldName = 'Website';
-            $index     = 1;
-            while ($this->ContactPage()->FormFields()->filter('Name', $fieldName)->exists()) {
-                $fieldName = "{$fieldName}-{$index}";
-                $index++;
+            if ($this->hasMethod('ContactPage')) {
+                $index     = 1;
+                while ($this->ContactPage()->FormFields()->filter('Name', $fieldName)->exists()) {
+                    $fieldName = "{$fieldName}-{$index}";
+                    $index++;
+                }
             }
             $this->honeyPotField = HoneyPotField::create($fieldName);
         }
