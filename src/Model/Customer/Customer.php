@@ -20,6 +20,7 @@ use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Shipment\Zone;
 use SilverStripe\Admin\SecurityAdmin;
+use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\DropdownField;
@@ -39,6 +40,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
 use SilverStripe\ORM\Search\SearchContext;
+use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
@@ -1549,6 +1551,30 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             }
         }
     }
+    
+    /**
+     * Adds a message to inform the customer about the successfull password change
+     * while being locked out due to security settings.
+     * 
+     * @param string           $password Password
+     * @param ValidationResult $result   Result
+     * 
+     * @return void
+     */
+    public function onAfterChangePassword(string $password, ValidationResult $result) : void
+    {
+        if ($this->owner->isLockedOut()) {
+            $ctrl    = ModelAsController::controller_for(Page::singleton());
+            $message = _t(
+                    Member::class . '.MessageChangePasswordLockedOut',
+                    'Congratulations! Your password was changed successfully. Please be aware that your account still has been temporarily disabled because of too many failed attempts at logging in. Please try again in {count} minutes.',
+                    null,
+                    ['count' => Member::config()->lock_out_delay_mins]
+            );
+            $result->addMessage($message);
+            $ctrl->setSuccessMessage($message);
+        }
+    }
 
     /**
      * Returns true if this user is an administrator.
@@ -1701,13 +1727,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * Sends the registration opt in email.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2019
      */
     public function sendRegistrationOptInEmail() : void
     {
-        if (!$this->owner->RegistrationOptInConfirmed) {
+        if (!$this->owner->RegistrationOptInConfirmed
+         && !empty($this->owner->Email)
+        ) {
             if (empty($this->owner->RegistrationOptInConfirmationHash)) {
                 $this->owner->RegistrationOptInConfirmationHash = $this->createOptInConfirmationHash();
                 $this->owner->write();

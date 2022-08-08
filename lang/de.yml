@@ -2605,6 +2605,7 @@ de:
     FailedLoginCountWarning:
       one: 'Bitte beachten Sie, dass Ihr Account nach einem weiteren fehlerhaften Loginversuch temporär gesperrt wird.'
       other: 'Bitte beachten Sie, dass Ihr Account nach {count} weiteren fehlerhaften Loginversuchen temporär gesperrt wird.'
+    MessageChangePasswordLockedOut: 'Glückwunsch! Sie haben Ihr Passwort erfolgreich geändert. Bitte beachten Sie dennoch, dass Ihr Account auf Grund von einer zuvor unzulässig hohen Anzahl von falschen Zugangsversuchen weiterhin gesperrt ist. Bitte versuchen Sie es daher erst in {count} Minuten noch einmal.'
   SilverStripe\Security\PasswordValidator:
     STRENGTHTESTDIGITS: Zahlen
     STRENGTHTESTLOWERCASE: Kleinbuchstaben

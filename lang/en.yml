@@ -2602,6 +2602,7 @@ en:
     FailedLoginCountWarning:
       one: 'Please be aware that your account will be temporarily blocked after one more failed login attempt.'
       other: 'Please be aware that your account will be temporarily blocked after {count} more failed login attempts.'
+    MessageChangePasswordLockedOut: 'Congratulations! Your password was changed successfully. Please be aware that your account still has been temporarily disabled because of too many failed attempts at logging in. Please try again in {count} minutes.'
   SilverStripe\Security\PasswordValidator:
     STRENGTHTESTDIGITS: digits
     STRENGTHTESTLOWERCASE: 'lower case letters'
