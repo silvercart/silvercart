@@ -19,6 +19,7 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
+use SilverStripe\View\TemplateGlobalProvider;
 use TractorCow\Fluent\Model\Locale;
 use TractorCow\Fluent\State\FluentState;
 
@@ -32,7 +33,7 @@ use TractorCow\Fluent\State\FluentState;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class Tools
+class Tools implements TemplateGlobalProvider
 {
     use \SilverStripe\Core\Config\Configurable;
     use \SilverStripe\Core\Extensible;
@@ -104,6 +105,19 @@ class Tools
      * @var array
      */
     protected static $fieldLabels = [];
+    
+    /**
+     * Returns the globals to use in template.
+     * Overwrites the default globals for Member.
+     * 
+     * @return array
+     */
+    public static function get_template_global_variables() {
+        return [
+            'PageByIdentifierCode'     => 'PageByIdentifierCode',
+            'PageByIdentifierCodeLink' => 'PageByIdentifierCodeLink',
+        ];
+    }
 
     /**
      * Initializes silvercart specific session data.
