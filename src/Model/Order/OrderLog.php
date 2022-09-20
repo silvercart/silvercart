@@ -34,6 +34,7 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
     
     const ACTION_CHANGED            = 'Changed';
     const ACTION_CREATED            = 'Created';
+    const ACTION_INFO               = 'Info';
     const ACTION_MARKED_AS_SEEN     = 'MarkedAsSeen';
     const ACTION_MARKED_AS_NOT_SEEN = 'MarkedAsNotSeen';
     
@@ -44,7 +45,7 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
      */
     private static $db = [
         'Context'  => 'Varchar(1024)',
-        'Action'   => 'Enum("Created,Changed,MarkedAsSeen,MarkedAsNotSeen","Changed")',
+        'Action'   => 'Enum("Created,Changed,Info,MarkedAsSeen,MarkedAsNotSeen","Changed")',
         'Message'  => 'Text',
         'SourceID' => 'Int',
         'TargetID' => 'Int',
@@ -104,6 +105,27 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
         $orderLog->TargetID = $targetID;
         $orderLog->OrderID  = $order->ID;
         $orderLog->setChangedAction();
+        $orderLog->write();
+        return $orderLog;
+    }
+    
+    /**
+     * Adds an log with the action Info
+     * 
+     * @param Order  $order   Order to add log for
+     * @param string $message Message
+     * 
+     * @return OrderLog
+     */
+    public static function addInfoLog(Order $order, string $message) : OrderLog
+    {
+        $orderLog = OrderLog::create();
+        $orderLog->Context  = $order->ClassName;
+        $orderLog->Message  = $message;
+        $orderLog->SourceID = $order->ID;
+        $orderLog->TargetID = $order->ID;
+        $orderLog->OrderID  = $order->ID;
+        $orderLog->setChangedInfo();
         $orderLog->write();
         return $orderLog;
     }
@@ -198,6 +220,17 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
         $this->Action = self::ACTION_CREATED;
         return $this;
     }
+
+    /**
+     * Sets the action to Info.
+     * 
+     * @return OrderLog
+     */
+    public function setChangedInfo() : OrderLog
+    {
+        $this->Action = self::ACTION_INFO;
+        return $this;
+    }
     
     /**
      * Sets the action to MarkedAsSeen.
@@ -261,6 +294,7 @@ class OrderLog extends DataObject implements ModelAdmin_ReadonlyInterface
             case self::ACTION_MARKED_AS_NOT_SEEN:
                 $message = $this->fieldLabel('MarkedAsNotSeen');
                 break;
+            case self::ACTION_INFO:
             case self::ACTION_CHANGED:
             default:
                 if ($this->Context !== Order::class) {
