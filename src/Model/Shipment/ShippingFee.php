@@ -651,7 +651,9 @@ class ShippingFee extends DataObject
         }
         if ($country === null) {
             $country = $this->ShippingMethod()->getShippingCountry();
-            if ($country === null) {
+            if ($country === null
+             && $this->Zone()->Countries()->exists()
+            ) {
                 $country = $this->Zone()->Countries()->first();
             }
         }
@@ -685,7 +687,9 @@ class ShippingFee extends DataObject
         $shippingIsFree = false;
         if ($country === null) {
             $country = $this->ShippingMethod()->getShippingCountry();
-            if ($country === null) {
+            if ($country === null
+             && $this->Zone()->Countries()->exists()
+            ) {
                 $country = $this->Zone()->Countries()->first();
             }
         }
