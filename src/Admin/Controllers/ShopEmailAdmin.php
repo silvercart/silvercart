@@ -43,6 +43,18 @@ class ShopEmailAdmin extends ModelAdmin
      */
     private static $menu_title = 'Shop Emails';
     /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-p-mail';
+    /**
      * Managed models
      *
      * @var string[]

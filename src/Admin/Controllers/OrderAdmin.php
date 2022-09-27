@@ -21,7 +21,7 @@ use SilverStripe\View\Requirements;
  * ModelAdmin for Orders.
  * 
  * @package SilverCart
- * @subpackage Admin_Controllers
+ * @subpackage Admin\Controllers
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
@@ -50,6 +50,18 @@ class OrderAdmin extends ModelAdmin
      * @var string
      */
     private static $url_segment = 'silvercart-orders';
+    /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-p-shop';
     /**
      * Managed models
      *

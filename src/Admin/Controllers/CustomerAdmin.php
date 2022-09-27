@@ -12,7 +12,7 @@ use SilverStripe\Security\Member;
  * ModelAdmin for Members.
  * 
  * @package SilverCart
- * @subpackage Admin_Controllers
+ * @subpackage Admin\Controllers
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
@@ -45,33 +45,41 @@ class CustomerAdmin extends ModelAdmin
      */
     private static $menu_title = 'Customers';
     /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-address-card';
+    /**
      * Managed models
      *
      * @var array
      */
-    private static $managed_models = array(
+    private static $managed_models = [
         Member::class,
-    );
+    ];
     
     /**
      * Manipulate search form to add some grouping.
      * 
-     * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.06.2014
+     * @return \SilverStripe\Forms\Form|bool
      */
     public function SearchForm()
     {
-        $searchForm             = parent::SearchForm();
-        $fields                 = $searchForm->Fields();
-        $customer               = Member::singleton();
-        
-        $basicLabelField        = HeaderField::create('BasicLabelField',    $customer->fieldLabel('BasicData'));
-        $addressLabelField      = HeaderField::create('AddressLabelField',  $customer->fieldLabel('AddressData'));
-        $invoiceLabelField      = HeaderField::create('InvoiceLabelField',  $customer->fieldLabel('InvoiceData'));
-        $shippingLabelField     = HeaderField::create('ShippingLabelField', $customer->fieldLabel('ShippingData'));
-        
+        $searchForm         = parent::SearchForm();
+        $fields             = $searchForm->Fields();
+        $customer           = Member::singleton();
+        $basicLabelField    = HeaderField::create('BasicLabelField', $customer->fieldLabel('BasicData'));
+        $addressLabelField  = HeaderField::create('AddressLabelField', $customer->fieldLabel('AddressData'));
+        $invoiceLabelField  = HeaderField::create('InvoiceLabelField', $customer->fieldLabel('InvoiceData'));
+        $shippingLabelField = HeaderField::create('ShippingLabelField', $customer->fieldLabel('ShippingData'));
+
         $fields->insertBefore($basicLabelField,                              'q[FirstName]');
         $fields->insertBefore($fields->dataFieldByName('q[CustomerNumber]'), 'q[FirstName]');
         $fields->insertBefore($fields->dataFieldByName('q[Email]'),          'q[FirstName]');

@@ -1,0 +1,6 @@
+SilverStripe\Admin\SecurityAdmin:
+    menu_icon: ''
+    menu_icon_class: 'font-icon-user-lock'
+SilverStripe\SiteConfig\SiteConfigLeftAndMain:
+    menu_icon: ''
+    menu_icon_class: 'font-icon-menu-settings'

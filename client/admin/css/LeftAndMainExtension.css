@@ -235,10 +235,13 @@ input[type="color"] {
 .cms-menu__list li ul.collapse li a:hover {
     background-color: #ffffff;
 }
-.cms-menu__list li a .menu__icon {
+.cms-menu__list li a .menu__icon.icon-16 {
     margin-top: 2px;
 }
 .cms-menu__list li ul.collapse li a .menu__icon {
+    left: 19px;
+}
+.cms-menu__list li ul.collapse li a .menu__icon.icon-16 {
     left: 21px;
 }
 .cms-menu__list li ul.collapsed-flyout li a .menu__icon {
@@ -287,7 +290,6 @@ input[type="color"] {
     height: 16px;
 }
 
-.menu__icon.font-icon-database,
 .icon.icon-16.icon-default {
     background-position: -22px -24px !important;
 }
@@ -353,41 +355,18 @@ input[type="color"] {
     background-position: -72px 0 !important;
 }
 
-.menu__icon.font-icon-database:before,
-.menu__icon.font-icon-sitemap:before,
-.menu__icon.font-icon-chart-line:before,
-.menu__icon.font-icon-image:before,
-.menu__icon.font-icon-torsos-all:before,
-.menu__icon.font-icon-cog:before {
-    content: '';
-}
-.menu__icon.font-icon-database,
-.menu__icon.font-icon-sitemap,
-.menu__icon.font-icon-chart-line,
-.menu__icon.font-icon-image,
-.menu__icon.font-icon-torsos-all,
-.menu__icon.font-icon-cog {
-    width: 16px;
-    height: 16px;
-    background-image: url("../../img/glyphicons-halflings.png") !important;
-}
-.menu__icon.font-icon-sitemap,
 .icon.icon-16.icon-cmspagescontroller {
     background-position: -22px -24px !important;
 }
-.menu__icon.font-icon-chart-line,
 .icon.icon-16.icon-reportadmin {
     background-position: -264px -24px !important;
 }
-.menu__icon.font-icon-image,
 .icon.icon-16.icon-assetadmin {
     background-position: -384px -120px !important;
 }
-.menu__icon.font-icon-torsos-all,
 .icon.icon-16.icon-securityadmin {
     background-position: -288px -24px !important;
 }
-.menu__icon.font-icon-cog,
 .icon.icon-16.icon-cmssettingscontroller {
     background-position: -432px 0 !important;
 }

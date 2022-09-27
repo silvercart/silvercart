@@ -17,7 +17,7 @@ use SilverStripe\ORM\DB;
  * Provides a form to export newsletter recipients including anonymous ones.
  * 
  * @package SilverCart
- * @subpackage Admin_Controllers
+ * @subpackage Admin\Controllers
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
@@ -57,6 +57,18 @@ class NewsletterRecipientsAdmin extends LeftAndMain
      * @var string
      */
     private static $menu_title = 'Newsletter Recipients';
+    /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-p-mail';
     
     /**
      * Returns the edit form for this admin.

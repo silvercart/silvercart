@@ -4,6 +4,7 @@ namespace SilverCart\Admin\Controllers;
 
 use SilverCart\Admin\Controllers\ModelAdmin;
 use SilverCart\Model\Payment\PaymentMethod;
+use SilverCart\Model\Payment\PaymentStatus;
 
 /**
  * ModelAdmin for PaymentMethods.
@@ -42,6 +43,18 @@ class PaymentMethodAdmin extends ModelAdmin
      */
     private static $menu_title = 'Payment Methods';
     /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-credit-card';
+    /**
      * Name of DB field to make records sortable by.
      *
      * @var string
@@ -54,5 +67,6 @@ class PaymentMethodAdmin extends ModelAdmin
      */
     private static $managed_models = [
         PaymentMethod::class,
+        PaymentStatus::class,
     ];
 }

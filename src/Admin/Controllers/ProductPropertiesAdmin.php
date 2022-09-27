@@ -53,6 +53,18 @@ class ProductPropertiesAdmin extends ModelAdmin
      */
     private static $menu_title = 'Properties';
     /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-tags';
+    /**
      * Managed models
      *
      * @var array

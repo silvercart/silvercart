@@ -18,7 +18,7 @@ use SilverStripe\Forms\Form;
  * Provides a form to upload multiple images for different products at once.
  * 
  * @package SilverCart
- * @subpackage Admin_Controllers
+ * @subpackage Admin\Controllers
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
@@ -50,6 +50,18 @@ class ProductImageAdmin extends LeftAndMain
      * @var string
      */
     private static $menu_title = 'Product Images';
+    /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-image';
     
     /**
      * Returns the edit form for this admin.

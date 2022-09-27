@@ -14,7 +14,7 @@ use SilverStripe\View\ArrayData;
  * ModelAdmin for ContactMessages
  * 
  * @package SilverCart
- * @subpackage Admin_Controllers
+ * @subpackage Admin\Controllers
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @copyright 2017 pixeltricks GmbH
  * @since 22.09.2017
@@ -49,6 +49,18 @@ class ContactMessageAdmin extends ModelAdmin
      * @var string
      */
     private static $menu_title = 'Contact Messages';
+    /**
+     * Menu icon
+     * 
+     * @var string
+     */
+    private static $menu_icon = null;
+    /**
+     * Menu icon CSS class
+     * 
+     * @var string
+     */
+    private static $menu_icon_class = 'font-icon-comment';
     /**
      * Managed models
      *
