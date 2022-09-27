@@ -2,7 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
-use SilverCart\Dev\Tools;
+use Page;
 
 /**
  * FrontPage.
@@ -14,47 +14,18 @@ use SilverCart\Dev\Tools;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class FrontPage extends \Page {
-
+class FrontPage extends Page
+{
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartFrontPage';
-    
     /**
-     * icon for site tree
-     *
-     * @var array
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
+     * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/silvercartlogo-file.gif";
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function singular_name() {
-        return Tools::singular_name_for($this);
-    }
-
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function plural_name() {
-        return Tools::plural_name_for($this); 
-    }
-
+    private static $icon_class = 'font-icon-p-shop';
 }

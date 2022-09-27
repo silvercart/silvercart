@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
+use Page;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\FieldGroup;
@@ -12,6 +13,7 @@ use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\TreeDropdownField;
@@ -22,13 +24,22 @@ use SilverStripe\ORM\Map;
  * Page to display a group of products.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property int    $productGroupsPerPage          product Groups Per Page
+ * @property string $DefaultGroupHolderView        Default Group Holder View
+ * @property string $UseOnlyDefaultGroupHolderView Use Only Default Group Holder View
+ * @property string $DefaultGroupView              Default Group View
+ * @property string $UseOnlyDefaultGroupView       Use Only Default Group View
+ * @property bool   $RedirectToProductGroup        Redirect To Product Group
+ * 
+ * @method SiteTree LinkTo() Returns the related page to link to.
  */
-class ProductGroupHolder extends \Page
+class ProductGroupHolder extends Page
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
@@ -69,11 +80,11 @@ class ProductGroupHolder extends \Page
         RedirectorPage::class,
     ];
     /**
-     * Icon to use in SiteTree
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/product_group_holder-file.gif";
+    private static $icon_class = 'font-icon-p-gallery';
     /**
      * Indicator to check whether getCMSFields is called
      *
@@ -94,36 +105,13 @@ class ProductGroupHolder extends \Page
     protected $cacheKey = null;
 
     /**
-     * Singular name for this object
-     *
-     * @return string
-     */
-    public function singular_name()
-    {
-        return Tools::singular_name_for($this);
-    }
-    
-    /**
-     * Plural name for this object
-     *
-     * @return string
-     */
-    public function plural_name()
-    {
-        return Tools::plural_name_for($this);
-    }
-
-    /**
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.06.2012
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         $this->beforeUpdateFieldLabels(function(&$labels) {
             $labels = array_merge(
@@ -153,9 +141,9 @@ class ProductGroupHolder extends \Page
      *
      * @return FieldList Fields of the CMS
      */
-    public function getCMSFields()
+    public function getCMSFields() : FieldList
     {
-        $this->beforeUpdateCMSFields(function($fields) {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
             $useOnlydefaultGroupviewSource  = [
                 'inherit' => $this->fieldLabel('DefaultGroupViewInherit'),
                 'yes'     => $this->fieldLabel('Yes'),
@@ -240,9 +228,6 @@ class ProductGroupHolder extends \Page
      * Only return a value if there is a legal redirection destination.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.070.2014
      */
     public function redirectionLink()
     {
@@ -263,27 +248,18 @@ class ProductGroupHolder extends \Page
      * Checks if ProductGroup has children or products.
      *
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 01.02.2011
      */
-    public function hasProductsOrChildren()
+    public function hasProductsOrChildren() : bool
     {
-        if (count($this->Children()) > 0) {
-            return true;
-        }
-        return false;
+        return count($this->Children()) > 0;
     }
 
     /**
      * Returns the cache key parts for this product group holder
      * 
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2018
      */
-    public function CacheKeyParts()
+    public function CacheKeyParts() : array
     {
         if (is_null($this->cacheKeyParts)) {
             $lastEditedChildID = 0;
@@ -303,33 +279,30 @@ class ProductGroupHolder extends \Page
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;
         }
-        return $this->cacheKeyParts;
+        return (array) $this->cacheKeyParts;
     }
     
     /**
      * Returns the cache key for this product group holder
      * 
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.03.2018
      */
-    public function CacheKey()
+    public function CacheKey() : string
     {
         if (is_null($this->cacheKey)) {
             $cacheKey = implode('_', $this->CacheKeyParts());
             $this->extend('updateCacheKey', $cacheKey);
             $this->cacheKey = $cacheKey;
         }
-        return $this->cacheKey;
+        return (string) $this->cacheKey;
     }
     
     /**
      * Returns whether this is a ProductGroupHolder, so true..
      * 
-     * @return boolean
+     * @return bool
      */
-    public function IsProductGroupHolder()
+    public function IsProductGroupHolder() : bool
     {
         return true;
     }

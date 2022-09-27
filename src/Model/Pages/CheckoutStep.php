@@ -20,7 +20,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * Checkout step page.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
@@ -76,11 +76,11 @@ class CheckoutStep extends Page
      */
     private static $table_name = 'SilvercartCheckoutStep';
     /**
-     * icon for site tree
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/checkout_page-file.gif";
+    private static $icon_class = 'font-icon-credit-card';
     
     /**
      * Field labels
@@ -101,29 +101,6 @@ class CheckoutStep extends Page
             'ThanksForYourOrder'  => _t(SilverCartPage::class . '.ORDER_THANKS', 'Many thanks for your order'),
             'Register'            => _t(SilverCartPage::class . '.REGISTER', 'Register'),
         ]);
-    }
-
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function singular_name() : string
-    {
-        return Tools::singular_name_for($this);
-    }
-
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function plural_name() : string
-    {
-        return Tools::plural_name_for($this); 
     }
     
     /**

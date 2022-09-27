@@ -13,7 +13,7 @@ use SilverStripe\Forms\FieldList;
  * page type to display search results.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
@@ -38,11 +38,11 @@ class SearchResultsPage extends ProductGroupPage
      */
     private static $allowed_children = 'none';
     /**
-     * We set a custom icon for this page type here
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/metanavigation_page_search-file.gif";
+    private static $icon_class = 'font-icon-p-search';
     /**
      * Attributes.
      *
@@ -51,28 +51,6 @@ class SearchResultsPage extends ProductGroupPage
     private static $db = [
         'productsPerPage' => 'Int'
     ];
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function singular_name() : string
-    {
-        return Tools::singular_name_for($this);
-    }
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function plural_name() : string
-    {
-        return Tools::plural_name_for($this); 
-    }
 
     /**
      * Field labels for display in tables.
@@ -80,9 +58,6 @@ class SearchResultsPage extends ProductGroupPage
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2018
      */
     public function fieldLabels($includerelations = true) : array
     {

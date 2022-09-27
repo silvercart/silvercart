@@ -2,7 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
-use SilverCart\Dev\Tools;
+use Page;
 use SilverCart\Model\Pages\DownloadPage;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ArrayList;
@@ -13,13 +13,13 @@ use SilverStripe\View\ArrayData;
  * DownloadPageHolder.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DownloadPageHolder extends \Page
+class DownloadPageHolder extends Page
 {
     /**
      * Configuration property to enable the download search.
@@ -41,26 +41,12 @@ class DownloadPageHolder extends \Page
     private static $allowed_children = [
         DownloadPage::class,
     ];
-    
     /**
-     * returns the singular name
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
      * 
-     * @return string
+     * @var string
      */
-    public function singular_name() : string
-    {
-        return Tools::singular_name_for($this);
-    }
-    
-    /**
-     * returns the plural name
-     * 
-     * @return string
-     */
-    public function plural_name() : string
-    {
-        return Tools::plural_name_for($this);
-    }
+    private static $icon_class = 'font-icon-p-download';
     
     /**
      * Returns a list of breadcrumbs for the current page.

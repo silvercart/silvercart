@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Pages;
 
+use Page;
 use SilverCart\Dev\Tools;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
@@ -10,13 +11,13 @@ use SilverStripe\View\ArrayData;
  * holder for customers private area.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class MyAccountHolder extends \Page
+class MyAccountHolder extends Page
 {
     const SESSION_KEY               = 'SilverCart.MyAccountHolder';
     const INFO_MESSAGE_SESSION_KEY  = 'SilverCart.MyAccountHolder.InfoMessages';
@@ -31,46 +32,17 @@ class MyAccountHolder extends \Page
      */
     private static $table_name = 'SilvercartMyAccountHolder';
     /**
-     * Icon to display in CMS site tree
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/my_account_holder-file.gif";
+    private static $icon_class = 'font-icon-p-profile';
     /**
      * Optional list of info messages to show above the login form.
      *
      * @var array
      */
     private static $info_messages = [];
-
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function singular_name()
-    {
-        return Tools::singular_name_for($this);
-    }
-
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function plural_name()
-    {
-        return Tools::plural_name_for($this); 
-    }
 
     /**
      * Adds the given message to the info messages.
@@ -88,11 +60,8 @@ class MyAccountHolder extends \Page
      * @param string $info_message_type Info message type
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.08.2018
      */
-    public static function add_info_message($info_message, $info_message_type = self::INFO_MESSAGE_TYPE_INFO)
+    public static function add_info_message(string $info_message, string $info_message_type = self::INFO_MESSAGE_TYPE_INFO) : void
     {
         self::$info_messages[] = ArrayData::create([
             'Text' => $info_message,
@@ -106,7 +75,7 @@ class MyAccountHolder extends \Page
      * 
      * @return array
      */
-    public static function get_info_messages()
+    public static function get_info_messages() : array
     {
         if (empty(self::$info_messages)) {
             self::$info_messages = Tools::Session()->get(self::INFO_MESSAGE_SESSION_KEY);
@@ -121,7 +90,7 @@ class MyAccountHolder extends \Page
      * 
      * @return void
      */
-    public static function set_info_messages($info_messages)
+    public static function set_info_messages(array $info_messages) : void
     {
         self::$info_messages = $info_messages;
         self::save_info_messages();
@@ -132,7 +101,7 @@ class MyAccountHolder extends \Page
      * 
      * @return void
      */
-    public static function save_info_messages()
+    public static function save_info_messages() : void
     {
         Tools::Session()->set(self::INFO_MESSAGE_SESSION_KEY, self::$info_messages);
         Tools::saveSession();
@@ -142,11 +111,9 @@ class MyAccountHolder extends \Page
      * Clears the info message data out of session.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.08.2018
      */
-    public static function reset_info_messages() {
+    public static function reset_info_messages() : void
+    {
         Tools::Session()->set(self::INFO_MESSAGE_SESSION_KEY, null);
         Tools::saveSession();
     }
@@ -156,7 +123,7 @@ class MyAccountHolder extends \Page
      * 
      * @return ArrayList
      */
-    public function InfoMessages()
+    public function InfoMessages() : ArrayList
     {
         return ArrayList::create(self::get_info_messages());
     }

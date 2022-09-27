@@ -3,6 +3,7 @@
 namespace SilverCart\Model\Pages;
 
 use DateTime;
+use Page;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
@@ -43,7 +44,7 @@ use WidgetSets\Model\WidgetSet;
  * Displays products with similar attributes.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
@@ -65,7 +66,7 @@ use WidgetSets\Model\WidgetSet;
  * @method \SilverStripe\ORM\HasManyList  Products()       Returns the related products.
  * @method \SilverStripe\ORM\ManyManyList MirrorProducts() Returns the related products.
  */
-class ProductGroupPage extends \Page
+class ProductGroupPage extends Page
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     const META_TITLE_BEHAVIOR_NONE   = 'none';
@@ -93,11 +94,11 @@ class ProductGroupPage extends \Page
      */
     private static $can_be_root = false;
     /**
-     * The icon for this page type in the backend sitetree.
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
      * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/product_group-file.gif";
+    private static $icon_class = 'font-icon-p-articles';
     /**
      * Attributes.
      *
@@ -240,28 +241,6 @@ class ProductGroupPage extends \Page
         if ($this->GroupPictureID > 0) {
             $this->GroupPicture()->Title = $this->Title;
         }
-    }
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function singular_name() : string
-    {
-        return Tools::singular_name_for($this);
-    }
-    
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function plural_name() : string
-    {
-        return Tools::plural_name_for($this);
     }
     
     /**

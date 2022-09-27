@@ -2,9 +2,9 @@
 
 namespace SilverCart\Model\Pages;
 
-use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
 
@@ -12,99 +12,75 @@ use SilverStripe\Forms\TextField;
  * Page for newsletter (un)subscription.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property bool   $UseDoubleOptIn             Use Double Opt In
+ * @property string $OptInPageTitle             Opt In Page Title
+ * @property string $ConfirmationFailureMessage Confirmation Failure Message
+ * @property string $ConfirmationSuccessMessage Confirmation Success Message
+ * @property string $AlreadyConfirmedMessage    Already Confirmed Message
  */
-class NewsletterPage extends MetaNavigationHolder {
-    
+class NewsletterPage extends MetaNavigationHolder
+{
     /**
      * DB attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static $db = [
         'UseDoubleOptIn'             => 'Boolean',
         'OptInPageTitle'             => 'Varchar',
         'ConfirmationFailureMessage' => 'HTMLText',
         'ConfirmationSuccessMessage' => 'HTMLText',
         'AlreadyConfirmedMessage'    => 'HTMLText'
-    );
-    
+    ];
     /**
      * default values for DB attributes
      *
      * @var array
      */
-    private static $defaults = array(
+    private static $defaults = [
         'UseDoubleOptIn' => true,
-    );
-
+    ];
     /**
      * DB table name
      *
      * @var string
      */
     private static $table_name = 'SilvercartNewsletterPage';
-    
     /**
-     * We set a custom icon for this page type here
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/metanavigation_page-file.gif";
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function singular_name() {
-        return Tools::singular_name_for($this);
-    }
-
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function plural_name() {
-        return Tools::plural_name_for($this); 
-    }
+    private static $icon_class = 'font-icon-p-mail';
     
     /**
      * Returns the CMS fields.
      * 
      * @return FieldList
      */
-    public function getCMSFields() {
-        $fields = parent::getCMSFields();
-        
-        $useDoubleOptInField = new CheckboxField('UseDoubleOptIn', $this->fieldLabel('UseDoubleOptIn'));
-        $fields->insertAfter('MenuTitle', $useDoubleOptInField);
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $useDoubleOptInField = CheckboxField::create('UseDoubleOptIn', $this->fieldLabel('UseDoubleOptIn'));
+            $fields->insertAfter('MenuTitle', $useDoubleOptInField);
 
-        $optInPageTitleField = new TextField('OptInPageTitle', $this->fieldLabel('OptInPageTitle'));
-        $confirmationFailureMessageTextField = new HTMLEditorField('ConfirmationFailureMessage', $this->fieldLabel('FailureMessageText'), 20);
-        $confirmationSuccessMessageTextField = new HTMLEditorField('ConfirmationSuccessMessage', $this->fieldLabel('SuccessMessageText'), 20);
-        $alreadyConfirmedMessageTextField    = new HTMLEditorField('AlreadyConfirmedMessage',    $this->fieldLabel('AlreadyConfirmedMessageText'), 20);
+            $optInPageTitleField = TextField::create('OptInPageTitle', $this->fieldLabel('OptInPageTitle'));
+            $confirmationFailureMessageTextField = HTMLEditorField::create('ConfirmationFailureMessage', $this->fieldLabel('FailureMessageText'), 20);
+            $confirmationSuccessMessageTextField = HTMLEditorField::create('ConfirmationSuccessMessage', $this->fieldLabel('SuccessMessageText'), 20);
+            $alreadyConfirmedMessageTextField    = HTMLEditorField::create('AlreadyConfirmedMessage',    $this->fieldLabel('AlreadyConfirmedMessageText'), 20);
 
-        $fields->addFieldToTab('Root.Main', $optInPageTitleField);
-        $fields->addFieldToTab('Root.Main', $confirmationFailureMessageTextField);
-        $fields->addFieldToTab('Root.Main', $confirmationSuccessMessageTextField);
-        $fields->addFieldToTab('Root.Main', $alreadyConfirmedMessageTextField);
-        
-        return $fields;
+            $fields->addFieldToTab('Root.Main', $optInPageTitleField);
+            $fields->addFieldToTab('Root.Main', $confirmationFailureMessageTextField);
+            $fields->addFieldToTab('Root.Main', $confirmationSuccessMessageTextField);
+            $fields->addFieldToTab('Root.Main', $alreadyConfirmedMessageTextField);
+        });
+        return parent::getCMSFields();
     }
     
     /**
@@ -114,10 +90,11 @@ class NewsletterPage extends MetaNavigationHolder {
      * 
      * @return array
      */
-    public function fieldLabels($includerelations = true) {
+    public function fieldLabels($includerelations = true) : array
+    {
         return array_merge(
                 parent::fieldLabels($includerelations),
-                array(
+                [
                     'UseDoubleOptIn'                    => _t(NewsletterPage::class . '.UseDoubleOptIn', 'Use double opt-in'),
                     'DefaultOptInPageTitle'             => _t(NewsletterPage::class . '.DefaultOptInPageTitle', 'Complete newsletter registration'),
                     'DefaultConfirmationFailureMessage' => _t(NewsletterPage::class . '.DefaultConfirmationFailureMessage', 'Your newsletter registration couldn\'t be completed.'),
@@ -131,8 +108,7 @@ class NewsletterPage extends MetaNavigationHolder {
                     'FailureMessageText'                => _t(NewsletterPage::class . '.FailureMessageText', 'Failure message'),
                     'SuccessMessageText'                => _t(NewsletterPage::class . '.SuccessMessageText', 'Success message'),
                     'AlreadyConfirmedMessageText'       => _t(NewsletterPage::class . '.AlreadyConfirmedMessageText', 'Message: user completed opt-in already'),
-                )
+                ]
         );
     }
-    
 }

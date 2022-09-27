@@ -2,15 +2,15 @@
 
 namespace SilverCart\Model\Pages;
 
-use SilverCart\Dev\Tools;
 use SilverCart\Model\Pages\MetaNavigationHolder;
 use SilverCart\Model\Shipment\Carrier;
+use SilverStripe\ORM\DataList;
 
 /**
  * shows the shipping fee matrix.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
@@ -31,52 +31,19 @@ class ShippingFeesPage extends MetaNavigationHolder
      */
     private static $allowed_children = 'none';
     /**
-     * We set a custom icon for this page type here
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/metanavigation_page-file.gif";
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string The objects singular name 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function singular_name()
-    {
-        return Tools::singular_name_for($this);
-    }
-
+    private static $icon_class = 'font-icon-p-posts';
 
     /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string the objects plural name
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 13.07.2012
-     */
-    public function plural_name()
-    {
-        return Tools::plural_name_for($this); 
-    }
-
-    /**
-     * get all carriers; for the frontend
+     * Returns all carriers.
      *
-     * @return DataList all carriers or empty DataList
-     * 
-     * @since 18.11.10
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
+     * @return DataList
      */
-    public function Carriers()
+    public function Carriers() : DataList
     {
-        $carriers = Carrier::get()->sort(['priority' => 'DESC']);
-        return $carriers;
+        return Carrier::get()->sort(['priority' => 'DESC']);
     }
 }

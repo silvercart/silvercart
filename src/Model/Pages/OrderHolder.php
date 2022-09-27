@@ -21,6 +21,8 @@ use SilverStripe\View\ArrayData;
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property bool $AllowReorder Allow Reorder
  */
 class OrderHolder extends MyAccountHolder
 {
@@ -45,33 +47,11 @@ class OrderHolder extends MyAccountHolder
      */
     private static $can_be_root = false;
     /**
-     * The icon to use for this page in the storeadmin sitetree.
-     *
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
+     * 
      * @var string
      */
-    private static $icon = "silvercart/silvercart:client/img/page_icons/my_account_holder-file.gif";
-    
-    /**
-     * Returns the translated singular name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function singular_name() : string
-    {
-        return Tools::singular_name_for($this);
-    }
-
-    /**
-     * Returns the translated plural name of the object. If no translation exists
-     * the class name will be returned.
-     * 
-     * @return string
-     */
-    public function plural_name() : string
-    {
-        return Tools::plural_name_for($this); 
-    }
+    private static $icon_class = 'font-icon-p-list';
 
     /**
      * Field labels for display in tables.
@@ -125,7 +105,8 @@ class OrderHolder extends MyAccountHolder
      * 
      * @return DBHTMLText
      */
-    public function getSummary() : DBHTMLText {
+    public function getSummary() : DBHTMLText
+    {
         return $this->renderWith('SilverCart/Model/Pages/Includes/OrderSummary');
     }
     

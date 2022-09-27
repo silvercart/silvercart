@@ -14,7 +14,7 @@ use SilverStripe\ORM\HasManyList;
  * DownloadPage.
  *
  * @package SilverCart
- * @subpackage Model_Pages
+ * @subpackage Model\Pages
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
@@ -39,26 +39,12 @@ class DownloadPage extends \Page
     private static $has_many = [
         'Files' => File::class,
     ];
-
     /**
-     * returns the singular name
+     * Class attached to page icons in the CMS page tree. Also supports font-icon set.
      * 
-     * @return string
+     * @var string
      */
-    public function singular_name() : string
-    {
-        return Tools::singular_name_for($this);
-    }
-    
-    /**
-     * returns the plural name
-     * 
-     * @return string
-     */
-    public function plural_name() : string
-    {
-        return Tools::plural_name_for($this);
-    }
+    private static $icon_class = 'font-icon-p-download';
     
     /**
      * adds a Files Tab to the page with a GridField
@@ -86,10 +72,7 @@ class DownloadPage extends \Page
      * 
      * @param bool $includerelations A boolean value to indicate if the labels returned include relation fields
      * 
-     * @return array 
-     * 
-     * @author Patrick Schneider <pschneider@pixeltricks.de>
-     * @since 12.07.2012
+     * @return array
      */
     public function fieldLabels($includerelations = true) : array
     {
