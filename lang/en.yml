@@ -1028,6 +1028,7 @@ en:
   SilverCart\Model\Customer\Customer:
     ADDRESS_DATA: 'Basic address data'
     ANONYMOUSCUSTOMER: 'Anonymous customer'
+    AllAddresses: 'All addresses'
     BASIC_DATA: Basics
     BIRTHDAY: Birthday
     BUSINESSCUSTOMER: 'Business customer'

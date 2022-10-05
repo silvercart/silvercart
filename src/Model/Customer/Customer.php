@@ -559,6 +559,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         $labels = array_merge(
                 $labels,
                 [
+                    'AllAddresses'                      => _t(Customer::class . '.AllAddresses', 'All addresses'),
                     'MarkForDeletion'                   => _t(Customer::class . '.MarkForDeletion', 'Mark for deletion'),
                     'MarkForDeletionReason'             => _t(Customer::class . '.MarkForDeletionReason', 'Mark for deletion reason'),
                     'Customer'                          => _t(Customer::class . '.Customer', 'Customer'),
@@ -607,29 +608,19 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * @param array &$fields The searchable fields from the decorated object
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 25.06.2014
      */
-    public function updateSearchableFields(&$fields) {
-        $address = new Address();
-        
-        $addressesCountryFilter = [
-            'Addresses.CountryID' => [
-                'title'     => $address->fieldLabel('Country'),
-                'filter'    => ExactMatchFilter::class,
-                'field'     => new DropdownField('Addresses.CountryID', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(false, '')),
-            ],
-        ];
-        
-        $fields = array_merge(
-                $fields,
+    public function updateSearchableFields(array &$fields) : void
+    {
+        $address = Address::singleton();
+        $fields  = array_merge(
                 [
                     'CustomerNumber' => [
                         'title'     => $this->owner->fieldLabel('CustomerNumber'),
                         'filter'    => PartialMatchFilter::class,
                     ],
+                ],
+                $fields,
+                [
                     'FirstName' => [
                         'title'     => $this->owner->fieldLabel('FirstName'),
                         'filter'    => PartialMatchFilter::class,
@@ -642,89 +633,106 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
                         'title'     => $this->owner->fieldLabel('SubscribedToNewsletter'),
                         'filter'    => ExactMatchFilter::class,
                     ],
+                    'Addresses.Company' => [
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('Company')}",
+                        'filter'    => PartialMatchFilter::class,
+                    ],
                     'Addresses.FirstName' => [
-                        'title'     => $address->fieldLabel('FirstName'),
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('FirstName')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'Addresses.Surname' => [
-                        'title'     => $address->fieldLabel('Surname'),
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('Surname')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'Addresses.Street' => [
-                        'title'     => $address->fieldLabel('Street'),
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('Street')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'Addresses.StreetNumber' => [
-                        'title'     => $address->fieldLabel('StreetNumber'),
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('StreetNumber')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'Addresses.Postcode' => [
-                        'title'     => $address->fieldLabel('Postcode'),
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('Postcode')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'Addresses.City' => [
-                        'title'     => $address->fieldLabel('City'),
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('City')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
+                    'Addresses.CountryID' => [
+                        'title'     => "{$this->owner->fieldLabel('AllAddresses')}: {$address->fieldLabel('Country')}",
+                        'filter'    => ExactMatchFilter::class,
+                        'field'     => DropdownField::create('Addresses.CountryID', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(false, '')),
+                    ],
                 ],
-                $addressesCountryFilter,
                 [
+                    'InvoiceAddress.Company' => [
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('Company')}",
+                        'filter'    => PartialMatchFilter::class,
+                    ],
                     'InvoiceAddress.FirstName' => [
-                        'title'     => $address->fieldLabel('FirstName'),
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('FirstName')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'InvoiceAddress.Surname' => [
-                        'title'     => $address->fieldLabel('Surname'),
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('Surname')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'InvoiceAddress.Street' => [
-                        'title'     => $address->fieldLabel('Street'),
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('Street')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'InvoiceAddress.StreetNumber' => [
-                        'title'     => $address->fieldLabel('StreetNumber'),
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('StreetNumber')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'InvoiceAddress.Postcode' => [
-                        'title'     => $address->fieldLabel('Postcode'),
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('Postcode')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'InvoiceAddress.City' => [
-                        'title'     => $address->fieldLabel('City'),
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('City')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
-                    'InvoiceAddress.Country.ID' => [
-                        'title'     => $address->fieldLabel('Country'),
+                    'InvoiceAddress.CountryID' => [
+                        'title'     => "{$this->owner->fieldLabel('InvoiceAddress')}: {$address->fieldLabel('Country')}",
                         'filter'    => ExactMatchFilter::class,
+                        'field'     => DropdownField::create('InvoiceAddress.CountryID', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(false, '')),
                     ],
-                    
+                    'ShippingAddress.Company' => [
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('Company')}",
+                        'filter'    => PartialMatchFilter::class,
+                    ],
                     'ShippingAddress.FirstName' => [
-                        'title'     => $address->fieldLabel('FirstName'),
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('FirstName')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'ShippingAddress.Surname' => [
-                        'title'     => $address->fieldLabel('Surname'),
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('Surname')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'ShippingAddress.Street' => [
-                        'title'     => $address->fieldLabel('Street'),
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('Street')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'ShippingAddress.StreetNumber' => [
-                        'title'     => $address->fieldLabel('StreetNumber'),
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('StreetNumber')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'ShippingAddress.Postcode' => [
-                        'title'     => $address->fieldLabel('Postcode'),
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('Postcode')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
                     'ShippingAddress.City' => [
-                        'title'     => $address->fieldLabel('City'),
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('City')}",
                         'filter'    => PartialMatchFilter::class,
                     ],
-                    'ShippingAddress.Country.ID' => [
-                        'title'     => $address->fieldLabel('Country'),
+                    'ShippingAddress.CountryID' => [
+                        'title'     => "{$this->owner->fieldLabel('ShippingAddress')}: {$address->fieldLabel('Country')}",
                         'filter'    => ExactMatchFilter::class,
+                        'field'     => DropdownField::create('ShippingAddress.CountryID', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(false, '')),
                     ],
                 ]
         );
@@ -1747,9 +1755,6 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * @param string $hash Hash to confirm
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.07.2019
      */
     public function confirmRegistrationOptIn(string $hash) : bool
     {
@@ -1760,8 +1765,15 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             $confirmed = true;
             $this->owner->RegistrationOptInConfirmed = true;
             $this->owner->write();
-            ShopEmail::send('RegistrationOptInConfirmation', $this->owner->Email, ['Customer' => $this->owner], [], $this->owner->Locale);
-            ShopEmail::send('RegistrationOptInNotification', Config::DefaultMailRegistrationRecipient(), ['Customer' => $this->owner], [], Tools::default_locale()->getLocale());
+            $customFields          = ['Customer' => $this->owner];
+            $confirmationRecipient = $this->owner->Email;
+            $confirmationLocale    = $this->owner->Locale;
+            $notificationRecipient = Config::DefaultMailRegistrationRecipient();
+            $notificationLocale    = Tools::default_locale()->getLocale();
+            $this->owner->extend('onBeforeSendRegistrationOptInConfirmation', $confirmationRecipient, $customFields, $confirmationLocale);
+            ShopEmail::send('RegistrationOptInConfirmation', $confirmationRecipient, $customFields, [], $confirmationLocale);
+            $this->owner->extend('onBeforeSendRegistrationOptInNotification', $notificationRecipient, $customFields, $notificationLocale);
+            ShopEmail::send('RegistrationOptInNotification', $notificationRecipient, $customFields, [], $notificationLocale);
         }
         return $confirmed;
     }
