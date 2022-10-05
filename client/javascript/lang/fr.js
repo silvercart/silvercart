@@ -6,6 +6,8 @@ if (typeof (ss) === 'undefined' || typeof (ss.i18n) === 'undefined') {
     ss.i18n.addDictionary('fr', {
         'Boolean.NO':                                           'Non',
         'Boolean.YES':                                          'Oui',
+        'SilverCart.AnErrorOccurred' :                          'Une erreur inattendue s\'est produite. Veuillez réessayer. ',
+        'SilverCart.PleaseChoosePaymentMethod':                 'Veuillez choisir un mode de paiement !',
         'Silvercart.ShowAll':                                   'Afficher tous',
         'SilvercartRegistrationPage.EMAIL_EXISTS_ALREADY':      'Cette adresse email existe déjà.',
         'SilvercartGridFieldBatchController.BATCH_FAILED':      'Action par lots a échoué!',
