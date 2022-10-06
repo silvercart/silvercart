@@ -2219,6 +2219,18 @@ class Product extends DataObject implements PermissionProvider
 
         return Tools::string2html($priceNice);
     }
+    
+    /**
+     * Returns the product price addition injected by extensions.
+     * 
+     * @return DBHTMLText
+     */
+    public function PriceAddition() : DBHTMLText
+    {
+        $add = '';
+        $this->extend('updatePriceAddition', $add);
+        return DBHTMLText::create()->setValue($add);
+    }
 
     /**
      * define the searchable fields and search methods for the frontend

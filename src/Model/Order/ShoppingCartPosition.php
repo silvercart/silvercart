@@ -18,6 +18,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
+use SilverStripe\View\SSViewer;
 
 /**
  * abstract for shopping cart positions.
@@ -299,7 +300,8 @@ class ShoppingCartPosition extends DataObject
             $priceNice = DBHTMLText::create()->setValue($price->Nice());
         }
         $this->extend('updatePriceNice', $priceNice);
-        return $priceNice;
+        return DBHTMLText::create()->setValue($priceNice);
+        
     }
 
     /**
@@ -315,7 +317,7 @@ class ShoppingCartPosition extends DataObject
             $priceNice = DBHTMLText::create()->setValue($price->Nice());
         }
         $this->extend('updateSinglePriceNice', $priceNice);
-        return $priceNice;
+        return DBHTMLText::create()->setValue($priceNice);
     }
 
     /**
@@ -650,4 +652,20 @@ class ShoppingCartPosition extends DataObject
     {
         $this->extend('updateTransferToNewPosition', $newShoppingCartPosition);
     }
+    
+    /**
+     * Returns the rendered DataObject.
+     * 
+     * @param string $templateAddition Optional template name addition
+     * @param array  $customFields     Optional template custom fields
+     * 
+     * @return DBHTMLText
+     */
+    public function forTemplate(string $templateAddition = '', array $customFields = []) : DBHTMLText
+    {
+        $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
+        $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
+        return $this->renderWith($templates, $customFields);
+    }
+
 }
