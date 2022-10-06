@@ -1571,16 +1571,19 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     public function onAfterChangePassword(string $password, ValidationResult $result) : void
     {
+        $ctrl    = ModelAsController::controller_for(Page::singleton());
+        $message = _t(Member::class . '.MessageChangePasswordSuccess', 'Congratulations! Your password was changed successfully.');
+        $result->addMessage($message);
+        $ctrl->setSuccessMessage($message);
         if ($this->owner->isLockedOut()) {
-            $ctrl    = ModelAsController::controller_for(Page::singleton());
             $message = _t(
                     Member::class . '.MessageChangePasswordLockedOut',
-                    'Congratulations! Your password was changed successfully. Please be aware that your account still has been temporarily disabled because of too many failed attempts at logging in. Please try again in {count} minutes.',
+                    'Please be aware that your account still has been temporarily disabled because of too many failed attempts at logging in. Please try again in {count} minutes.',
                     null,
                     ['count' => Member::config()->lock_out_delay_mins]
             );
             $result->addMessage($message);
-            $ctrl->setSuccessMessage($message);
+            $ctrl->setInfoMessage($message);
         }
     }
 
