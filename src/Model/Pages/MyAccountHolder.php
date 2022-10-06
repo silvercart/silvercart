@@ -4,6 +4,8 @@ namespace SilverCart\Model\Pages;
 
 use Page;
 use SilverCart\Dev\Tools;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 
@@ -31,6 +33,14 @@ class MyAccountHolder extends Page
      * @var string
      */
     private static $table_name = 'SilvercartMyAccountHolder';
+    /**
+     * DB properties.
+     * 
+     * @var string[]
+     */
+    private static $db = [
+        'ChangePasswordInfo' => 'HTMLText',
+    ];
     /**
      * Class attached to page icons in the CMS page tree. Also supports font-icon set.
      * 
@@ -116,6 +126,40 @@ class MyAccountHolder extends Page
     {
         Tools::Session()->set(self::INFO_MESSAGE_SESSION_KEY, null);
         Tools::saveSession();
+    }
+    
+    /**
+     * Returns the CMS fields.
+     * 
+     * @return FieldList
+     */
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if ($this->IdentifierCode !== self::IDENTIFIER_MY_ACCOUNT_HOLDER) {
+                return;
+            }
+            $fields->insertAfter('Content', HTMLEditorField::create('ChangePasswordInfo', $this->fieldLabel('ChangePasswordInfo'))->setDescription($this->fieldLabel('ChangePasswordInfoDesc'))->addExtraClass('stacked')->setRows(3));
+        });
+        return parent::getCMSFields();
+    }
+
+    /**
+     * Field labels for display in tables.
+     *
+     * @param bool $includerelations Include relation fields?
+     *
+     * @return array
+     */
+    public function fieldLabels($includerelations = true)
+    {
+        $this->beforeUpdateFieldLabels(function(&$labels) {
+            $labels = array_merge(
+                    $labels,
+                    Tools::field_labels_for(self::class),
+            );
+        });
+        return parent::fieldLabels($includerelations);
     }
     
     /**

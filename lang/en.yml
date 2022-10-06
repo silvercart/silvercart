@@ -1465,6 +1465,8 @@ en:
     SINGULARNAME: 'Information Page'
   SilverCart\Model\Pages\MyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: 'Do you already have an account?'
+    ChangePasswordInfo: '"Forgot password"-Info'
+    ChangePasswordInfoDesc: 'Displayed to the customer after the "Forgot password" function was used.'
     DEFAULT_TITLE: 'My account'
     DEFAULT_URLSEGMENT: my-account
     GOTO_REGISTRATION: 'Go to the registration form'
