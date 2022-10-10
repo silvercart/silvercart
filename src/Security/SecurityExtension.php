@@ -87,6 +87,17 @@ class SecurityExtension extends Extension
     }
     
     /**
+     * Returns whether the current view is the lostpassword view.
+     * 
+     * @return bool
+     */
+    public function IsLostPasswordView() : bool
+    {
+        return $this->owner->getRequest()->param('Action') === 'lostpassword'
+            && $this->owner->getRequest()->param('ID') !== 'passwordsent';
+    }
+    
+    /**
      * Returns whether the current view is the passwordsent view.
      * 
      * @return bool

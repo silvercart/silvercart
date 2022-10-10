@@ -1466,6 +1466,8 @@ de:
     SINGULARNAME: Informations-Seite
   SilverCart\Model\Pages\MyAccountHolder:
     ALREADY_HAVE_AN_ACCOUNT: 'Sie haben schon ein Konto?'
+    ChangePasswordContent: '"Passwort vergessen"-Inhalt'
+    ChangePasswordContentDesc: 'Wird dem Kunden über dem E-Mail-Eingabefeld angezeigt, wenn die Funktion "Passwort vergessen" verwendet wird.'
     ChangePasswordInfo: '"Passwort vergessen"-Info'
     ChangePasswordInfoDesc: 'Wird dem Kunden angezeigt, nachdem die Funktion "Passwort vergessen" verwendet wurde.'
     DEFAULT_TITLE: 'Mein Konto'

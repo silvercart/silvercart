@@ -39,7 +39,8 @@ class MyAccountHolder extends Page
      * @var string[]
      */
     private static $db = [
-        'ChangePasswordInfo' => 'HTMLText',
+        'ChangePasswordContent' => 'HTMLText',
+        'ChangePasswordInfo'    => 'HTMLText',
     ];
     /**
      * Class attached to page icons in the CMS page tree. Also supports font-icon set.
@@ -139,7 +140,9 @@ class MyAccountHolder extends Page
             if ($this->IdentifierCode !== self::IDENTIFIER_MY_ACCOUNT_HOLDER) {
                 return;
             }
-            $fields->insertAfter('Content', HTMLEditorField::create('ChangePasswordInfo', $this->fieldLabel('ChangePasswordInfo'))->setDescription($this->fieldLabel('ChangePasswordInfoDesc'))->addExtraClass('stacked')->setRows(3));
+            $default = _t('SilverStripe\\Security\\Security.NOTERESETPASSWORD', 'Enter your e-mail address and we will send you a link with which you can reset your password');
+            $fields->insertAfter('Content', HTMLEditorField::create('ChangePasswordContent', $this->fieldLabel('ChangePasswordContent'))->setDescription("{$this->fieldLabel('ChangePasswordContentDesc')} (\"{$default}\")")->addExtraClass('stacked')->setRows(3));
+            $fields->insertAfter('ChangePasswordContent', HTMLEditorField::create('ChangePasswordInfo', $this->fieldLabel('ChangePasswordInfo'))->setDescription($this->fieldLabel('ChangePasswordInfoDesc'))->addExtraClass('stacked')->setRows(3));
         });
         return parent::getCMSFields();
     }
