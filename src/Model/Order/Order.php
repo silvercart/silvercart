@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Order;
 
+use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Admin\Forms\TableField;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
@@ -41,6 +42,7 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_Base;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
@@ -391,7 +393,7 @@ class Order extends DataObject implements PermissionProvider
     public function exportColumns() : array
     {
         $exportColumns = [];
-        $this->owner->extend('updateExportColumns', $exportColumns);
+        $this->extend('updateExportColumns', $exportColumns);
         if (empty($exportColumns)) {
             $exportColumns = $this->summaryFields();
         }
@@ -1108,6 +1110,28 @@ class Order extends DataObject implements PermissionProvider
         $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__City',                  $address->fieldLabel('City'),               $this->InvoiceAddress()->City));
         $fields->addFieldToTab('Root.InvoiceAddressTab', DropdownField::create('ia__Country',           $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->InvoiceAddress()->Country()->ID));
         $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Phone',                 $address->fieldLabel('Phone'),              $this->InvoiceAddress()->Phone));
+        
+        if (class_exists(HasOneSelector::class)) {
+            $saField = HasOneSelector::create('ShippingAddress', $this->fieldLabel('ShippingAddress'), $this, OrderShippingAddress::class)
+                    ->setLeftTitle($this->fieldLabel('ShippingAddress'));
+            $saField->removeLinkable();
+            $saField->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+            if ($this->ShippingAddress()->exists()) {
+                $saField->removeAddable();
+            }
+            $fields->addFieldToTab('Root.ShippingAddressTab', $saField, 'sa__Preview');
+            $fields->removeByName('sa__Preview');
+            
+            $iaField = HasOneSelector::create('InvoiceAddress', $this->fieldLabel('InvoiceAddress'), $this, OrderInvoiceAddress::class)
+                    ->setLeftTitle($this->fieldLabel('InvoiceAddress'))
+                    ->removeLinkable();
+            $iaField->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+            if ($this->InvoiceAddress()->exists()) {
+                $iaField->removeAddable();
+            }
+            $fields->addFieldToTab('Root.InvoiceAddressTab', $iaField, 'ia__Preview');
+            $fields->removeByName('ia__Preview');
+        }
         return $this;
     }
     
@@ -3028,9 +3052,6 @@ class Order extends DataObject implements PermissionProvider
      * ShopEmails.
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
     protected function onBeforeWrite() : void
     {
@@ -3042,27 +3063,37 @@ class Order extends DataObject implements PermissionProvider
         $this->handleTrackingCodeChange();
         $this->handleOrderStatusChange();
         $this->handlePaymentStatusChange();
-        if (array_key_exists('sa__FirstName', $_POST)
-         && $this->ShippingAddress()->ID > 0
-        ) {
+        if (array_key_exists('sa__FirstName', $_POST)) {
+            if ($this->ShippingAddress()->exists()) {
+                $shippingAddress = $this->ShippingAddress();
+            } else {
+                $shippingAddress = OrderShippingAddress::create();
+                $shippingAddress->write();
+                $this->ShippingAddressID = $shippingAddress->ID;
+            }
             foreach ($_POST as $paramName => $paramValue) {
                 if (strpos($paramName, 'sa__') === 0) {
                     $addressParamName = str_replace('sa__', '', $paramName);
-                    $this->ShippingAddress()->{$addressParamName} = $paramValue;
+                    $shippingAddress->{$addressParamName} = $paramValue;
                 }
             }
-            $this->ShippingAddress()->write();
+            $shippingAddress->write();
         }
-        if (array_key_exists('ia__FirstName', $_POST)
-         && $this->InvoiceAddress()->ID > 0
-        ) {
+        if (array_key_exists('ia__FirstName', $_POST)) {
+            if ($this->InvoiceAddress()->exists()) {
+                $invoiceAddress = $this->InvoiceAddress();
+            } else {
+                $invoiceAddress = OrderInvoiceAddress::create();
+                $invoiceAddress->write();
+                $this->InvoiceAddressID = $invoiceAddress->ID;
+            }
             foreach ($_POST as $paramName => $paramValue) {
                 if (strpos($paramName, 'ia__') === 0) {
                     $addressParamName = str_replace('ia__', '', $paramName);
-                    $this->InvoiceAddress()->{$addressParamName} = $paramValue;
+                    $invoiceAddress->{$addressParamName} = $paramValue;
                 }
             }
-            $this->InvoiceAddress()->write();
+            $invoiceAddress->write();
         }
         $this->extend('updateOnBeforeWrite');
     }

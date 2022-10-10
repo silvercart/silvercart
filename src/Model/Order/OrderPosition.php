@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Order;
 
+use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Pages\Page;
@@ -10,11 +11,13 @@ use SilverCart\Model\Product\QuantityUnit;
 use SilverCart\ORM\DataObjectExtension;
 use SilverCart\ORM\Filters\DateRangeSearchFilter;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
 
 /**
  * The OrderPosition object.
@@ -233,7 +236,7 @@ class OrderPosition extends DataObject
     public function exportColumns() : array
     {
         $exportColumns = [];
-        $this->owner->extend('updateExportColumns', $exportColumns);
+        $this->extend('updateExportColumns', $exportColumns);
         if (empty($exportColumns)) {
             $exportColumns = $this->summaryFields();
         }
@@ -485,26 +488,26 @@ class OrderPosition extends DataObject
      */
     public function getCMSFields() : FieldList
     {
-        $fields = DataObjectExtension::getCMSFields($this);
-        if ($this->exists()) {
-            $fields->makeFieldReadonly('Price');
-            $fields->makeFieldReadonly('PriceTotal');
-            $fields->makeFieldReadonly('Tax');
-            $fields->makeFieldReadonly('TaxTotal');
-            $fields->makeFieldReadonly('TaxRate');
-            $fields->makeFieldReadonly('Quantity');
-            $fields->makeFieldReadonly('ProductDescription');
-            $fields->makeFieldReadonly('Title');
-            $fields->makeFieldReadonly('ProductNumber');
-            $fields->makeFieldReadonly('isChargeOrDiscount');
-            $fields->makeFieldReadonly('chargeOrDiscountModificationImpact');
-            $fields->makeFieldReadonly('OrderID');
-            $fields->makeFieldReadonly('ProductID');
-            $fields->removeByName('isIncludedInTotal');
-            $fields->removeByName('numberOfDecimalPlaces');
-            $fields->removeByName('IsNonTaxable');
-        }
-        return $fields;
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if (class_exists(HasOneSelector::class)) {
+                $orderField = HasOneSelector::create('Order', $this->fieldLabel('Order'), $this, Order::class)
+                        ->setLeftTitle($this->fieldLabel('Order'))
+                        ->removeAddable()
+                        ->removeLinkable();
+                $orderField->getConfig()
+                        ->removeComponentsByType(GridFieldDeleteAction::class)
+                        ->addComponent(new GridFieldTitleHeader());
+                $fields->replaceField('OrderID', $orderField);
+                $productField = HasOneSelector::create('Product', $this->fieldLabel('Product'), $this, Product::class)
+                        ->setLeftTitle($this->fieldLabel('Product'))
+                        ->removeAddable();
+                $productField->getConfig()
+                        ->removeComponentsByType(GridFieldDeleteAction::class)
+                        ->addComponent(new GridFieldTitleHeader());
+                $fields->replaceField('ProductID', $productField);
+            }
+        });
+        return parent::getCMSFields();
     }
 
     /**
