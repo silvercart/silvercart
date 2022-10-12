@@ -421,7 +421,7 @@ nl_BE:
     PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Veld voor artikelomschrijving in de winkelwagen'
     ProductConfiguration: Artikelinstellingen
     QUANTITY_OVERBOOKABLE: 'Kan de voorraad over het algemeen overgeboekt worden?'
-    REDIRECTTOCARTAFTERADDTOCART: 'Klant doorsturen naar de winkelwagen na de actie "Toevoegen aan winkelwagen"'
+    REDIRECTTOCARTAFTERADDTOCART: 'Klant doorsturen naar de winkelwagen na de actie "in winkelwagen"'
     SEARCH: Zoeken
     SEO: SEO
     SERVER: Server
@@ -1438,7 +1438,7 @@ nl_BE:
     AllowReorderDesc: 'Voegt een knop toe om een bestelling te herbestellen door te klikken op de detailpagina van de bestelling in het mijn account gedeelte.'
     ButtonReorder: 'Opnieuw kopen'
     ButtonReorderDesc: 'Voegt de artikelen van deze bestelling weer toe aan de winkelwagen.'
-    ButtonReorderFull: 'Toevoegen aan winkelwagen en afrekenen'
+    ButtonReorderFull: 'In winkelwagen en afrekenen'
     ButtonReorderFullDesc: 'Voegt de artikelen van deze bestelling toe aan de winkelwagen en leidt naar het afrekenproces met gebruikmaking van adres-, verzend- en betalingsgegevens van deze bestelling.'
     DEFAULT_TITLE: 'Mijn bestellingen'
     DEFAULT_URLSEGMENT: mijn-bestellingen
@@ -2024,7 +2024,7 @@ nl_BE:
     SINGULARNAME: Vertaling
   SilverCart\Model\Product\QuantityUnit:
     ABBREVIATION: Afkorting
-    EXPLANATION_TO_DECIMAL_PLACES: 'Stel in op 0 of laat leeg om geen decimalen te gebruiken. Deze instelling wordt bijvoorbeeld gebruikt voor formulieren "toevoegen aan winkelwagen".'
+    EXPLANATION_TO_DECIMAL_PLACES: 'Stel in op 0 of laat leeg om geen decimalen te gebruiken. Deze instelling wordt bijvoorbeeld gebruikt voor formulieren "in winkelwagen"'
     NAME: Naam
     NUMBER_OF_DECIMAL_PLACES: 'Aantal decimalen'
     PLURALNAME: 'Eenheden van hoeveelheid voor verkoop'

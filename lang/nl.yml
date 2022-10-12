@@ -421,7 +421,7 @@ nl:
     PRODUCT_DESCRIPTION_FIELD_FOR_CART: 'Veld voor productbeschrijving in winkelwagen'
     ProductConfiguration: Productinstellingen
     QUANTITY_OVERBOOKABLE: 'Is de voorraad hoeveelheid van een product over het algemeen overboekbaar?'
-    REDIRECTTOCARTAFTERADDTOCART: 'Doorsturen klant naar winkelwagen na "Toevoegen winkelwagen"-actie'
+    REDIRECTTOCARTAFTERADDTOCART: 'Doorsturen klant naar winkelwagen na "In winkelwagen"-actie'
     SEARCH: Zoeken
     SEO: SEO
     SERVER: Server
@@ -1434,9 +1434,9 @@ nl:
   SilverCart\Model\Pages\OrderHolder:
     AllowReorder: 'Toestaan om een reeds geplaatste bestelling opnieuw te bestellen'
     AllowReorderDesc: 'Voegt een knop toe om een bestelling te herbestellen door te klikken op de detailpagina van de bestelling in het mijn account gedeelte.'
-    ButtonReorder: 'Toevoegen aan winkelwagen'
+    ButtonReorder: 'In winkelwagen'
     ButtonReorderDesc: 'Voegt de artikelen van deze bestelling weer toe aan de winkelwagen.'
-    ButtonReorderFull: 'Toevoegen aan winkelwagen en afrekenen'
+    ButtonReorderFull: 'In winkelwagen en afrekenen'
     ButtonReorderFullDesc: 'Voegt de artikelen van deze bestelling toe aan de winkelwagen en leidt naar het afrekenproces met gebruikmaking van adres-, verzend- en betalingsgegevens van deze bestelling.'
     DEFAULT_TITLE: 'Mijn bestellingen'
     DEFAULT_URLSEGMENT: mijn-bestellingen
@@ -2022,7 +2022,7 @@ nl:
     SINGULARNAME: Vertaling
   SilverCart\Model\Product\QuantityUnit:
     ABBREVIATION: Afkorting
-    EXPLANATION_TO_DECIMAL_PLACES: 'Laat leeg of stel in op 0 om geen decimalen te gebruiken. Deze instelling wordt bijvoorbeeld gebruikt voor ''aan winkelwagen toevoegen''-formulieren.'
+    EXPLANATION_TO_DECIMAL_PLACES: 'Laat leeg of stel in op 0 om geen decimalen te gebruiken. Deze instelling wordt bijvoorbeeld gebruikt voor ''in winkelwagen''-formulieren.'
     NAME: Naam
     NUMBER_OF_DECIMAL_PLACES: 'Aantal decimalen'
     PLURALNAME: 'aantal eenheden'

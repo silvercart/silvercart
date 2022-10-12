@@ -582,7 +582,7 @@ it:
   SilverCart\Forms\QuickSearchForm:
     SUBMITBUTTONTITLE: Cerca
   SilverCart\Forms\RegisterRegularCustomerForm:
-    PasswordHint: 'Crea una password per il tuo login al nostro Portale Acquisti. La password deve avere almeno {minlength} caratteri. Deve comprendere almeno 1 lettera maiuscola, 1 lettera minuscola e 1 cifra.'
+    PasswordHint: 'Crea una password per il tuo login al nostro Portale Acquisti. La password deve avere almeno {minlength} caratteri. Deve comprendere almeno 1 lettera maiuscola, 1 lettera minuscola, 1 cifra e un carattere speciale.'
   SilverCart\Forms\RevocationForm:
     AddressOfConsumer: 'Indirizzo del/dei consumatore/i'
     Data: Dati

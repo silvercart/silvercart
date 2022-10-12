@@ -447,7 +447,7 @@ da_DK:
     ShopPhone: Telefon
     ShopPostcode: Postnummer
     ShopStreet: Gade
-    ShopStreetNumber: gadenummer
+    ShopStreetNumber: Husnummer
     ShowTaxAndDutyHint: 'Vis note om ekstra gebyrer til lande uden for EU.'
     TABBED: interlaced
     TRANSLATION: Oversættelse
@@ -679,7 +679,7 @@ da_DK:
     SILVERCART_ADDRESS_VIEW_HELP: 'Tillader en bruger at se alle adresser (ikke kun egne!). Egne adresser kan ses uden denne tilladelse.'
     SINGULARNAME: Adresse
     STREET: Gade
-    STREETNUMBER: gadenummer
+    STREETNUMBER: Husnummer
     SURNAME: Efternavn
     ShippingAddress: Leveringsadresse
     ShippingAddresses: Leveringsadresser

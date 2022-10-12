@@ -362,7 +362,7 @@ sv:
     DISPLAY_WEIGHTS_IN_KILOGRAM: 'Visa vikter i kilogram (kg)'
     ENABLEBUSINESSCUSTOMERS: 'Tillåt företagskunder'
     ENABLEPACKSTATION: 'Aktivera adressinmatningsfält för PACKSTATION'
-    ENABLESSL: 'Använd SSL'
+    ENABLESSL: 'Aktivera SSL'
     ENABLESTOCKMANAGEMENT: 'Aktivera lagerhantering'
     ERROR_MESSAGE: 'Parametern "{field}" har inte konfigurerats. <br/><a href="{baseurl}admin/settings/">Logga in</a> och konfigurera den saknade parametern under "Inställningar -> E-postinställningar".'
     ERROR_MESSAGE_NO_ACTIVATED_COUNTRY: 'Inget aktiverat land hittades. <br/><a href="{baseURL}admin/settings/">Logga in</a> och konfigurera den saknade parametern under "Processing -> Countries".'
@@ -1144,7 +1144,7 @@ sv:
     DEFAULT_TITLE_PRIVACY: Integritetspolicy
     DEFAULT_TITLE_REVOCATION: Avbokningspolicy
     DEFAULT_TITLE_TERMS: 'Allmänna villkor'
-    DEFAULT_URLSEGMENT_IMPRINT: 'tryck på'
+    DEFAULT_URLSEGMENT_IMPRINT: 'avtryck'
     DEFAULT_URLSEGMENT_PRIVACY: 'förklaring om uppgiftsskydd'
     DEFAULT_URLSEGMENT_REVOCATION: Avbokningsregler
     DEFAULT_URLSEGMENT_TERMS: 'allmänna affärsvillkor - information till köparen'
@@ -1334,7 +1334,7 @@ sv:
     TITLE_TERMS: 'Allmänna villkor'
     TODAY: idag
     TOTAL: Totalt
-    URL_SEGMENT_IMPRINT: 'tryck på'
+    URL_SEGMENT_IMPRINT: 'avtryck'
     URL_SEGMENT_TERMS: 'allmänna affärsvillkor - information till köparen'
     USER_NOT_EXISTING: 'Den här användaren finns inte.'
     UseAsRootForMainNavigation: 'Undersidor till denna sida utgör huvudnavigering'
@@ -1641,7 +1641,7 @@ sv:
     IMPORTIMAGESFORM_HEADLINE: 'Importera bilder i efterhand'
     IMPORTIMAGESFORM_IMAGEDIRECTORY: Katalog
     IMPORTIMAGESFORM_IMAGEDIRECTORY_DESC: 'Absolut sökväg till den katalog på webbservern där bilderna finns. (Exempel: /var/www/silvercart/images/)'
-    IMPORTIMAGESFORM_REPORT: '<p>%d filer hittades.</p><p>%d av dem kunde tilldelas artiklar och importerades.</p>'
+    IMPORTIMAGESFORM_REPORT: '<p> Hittade %d filer. </p> <p> %d kunde tillskrivas produkter och importerades. </p>'
     IS_ACTIVE: 'är aktiv.'
     IsNotBuyable: 'Denna artikel är inte tillgänglig för köp'
     Keywords: 'Nyckelord för sökningen'
@@ -1754,7 +1754,7 @@ sv:
   SilverCart\Model\Product\StockItemEntry:
     Created: Datum
     Origin: Ursprung
-    Origin-1: 'Övertagande av ingående balans'
+    Origin-1: 'Tillagd ursprunglig inventering.'
     Origin0: 'Systeminmatning inte närmare definierad'
     Origin1: 'Artikeln har skapats nyligen'
     Origin2: 'Direkt användarinmatning'
@@ -1859,7 +1859,7 @@ sv:
     SELECTIONMETHOD_PRODUCTS: 'Välj objekt för hand'
     SELECT_PRODUCT_DESCRIPTION: 'Ange artikelnummer, separerade med semikolon.'
     STOREADMIN_FIELDLABEL: 'Välj den produktgrupp som ska visas:'
-    TITLE: Artikel
+    TITLE: Produkter
     USE_SELECTIONMETHOD: 'Metod för urval av artiklar'
   SilverCart\Model\Widgets\ProductGroupItemsWidgetTranslation:
     PLURALNAME: Översättningar
