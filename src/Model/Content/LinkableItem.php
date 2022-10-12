@@ -12,7 +12,6 @@ use SilverStripe\Forms\HiddenField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\SiteConfig\SiteConfig;
-use SilverStripe\View\SSViewer;
 
 /**
  * A linkable item to use for display purposes.
@@ -43,6 +42,7 @@ use SilverStripe\View\SSViewer;
 class LinkableItem extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    use \SilverCart\View\RenderableDataObject;
     /**
      * Table name
      * 
@@ -306,19 +306,5 @@ class LinkableItem extends DataObject
             $icon = DBHTMLText::create()->setValue($this->CustomIconHTML);
         }
         return $icon;
-    }
-    
-    /**
-     * Returns the rendered object.
-     * 
-     * @param string $templateAddition Optional template name addition
-     * 
-     * @return DBHTMLText
-     */
-    public function forTemplate(string $templateAddition = '') : DBHTMLText
-    {
-        $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
-        $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
-        return $this->renderWith($templates);
     }
 }

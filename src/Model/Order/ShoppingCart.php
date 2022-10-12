@@ -34,7 +34,6 @@ use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
-use SilverStripe\View\SSViewer;
 use SilverStripe\View\ViewableData;
 
 /**
@@ -56,6 +55,7 @@ use SilverStripe\View\ViewableData;
 class ShoppingCart extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    use \SilverCart\View\RenderableDataObject;
     
     const SESSION_KEY = 'SilverCart.ShoppingCart';
 
@@ -2396,19 +2396,5 @@ class ShoppingCart extends DataObject
             ]));
         }
         return $descriptions;
-    }
-    
-    /**
-     * Returns the rendered shopping cart.
-     * 
-     * @param string $templateAddition Optional template name addition
-     * 
-     * @return DBHTMLText
-     */
-    public function forTemplate(string $templateAddition = '') : DBHTMLText
-    {
-        $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
-        $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
-        return $this->renderWith($templates);
     }
 }

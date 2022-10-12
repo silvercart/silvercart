@@ -140,6 +140,7 @@ use WidgetSets\Model\WidgetSet;
 class Product extends DataObject implements PermissionProvider
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    use \SilverCart\View\RenderableDataObject;
     
     const DEFAULT_IMAGE_FOLDER = 'product-images';
     const DEFAULT_FILES_FOLDER = 'product-files';
@@ -4512,20 +4513,5 @@ class Product extends DataObject implements PermissionProvider
     public function getUpdateStockQuantityReason() : string
     {
         return $this->updateStockQuantityReason;
-    }
-    
-    /**
-     * Returns the rendered position.
-     * 
-     * @param string $templateAddition Optional template name addition
-     * @param array  $customFields     Optional template custom fields
-     * 
-     * @return DBHTMLText
-     */
-    public function forTemplate(string $templateAddition = '', array $customFields = []) : DBHTMLText
-    {
-        $addition  = empty($templateAddition) ? '' : "_{$templateAddition}";
-        $templates = SSViewer::get_templates_by_class(static::class, $addition, __CLASS__);
-        return $this->renderWith($templates, $customFields);
     }
 }

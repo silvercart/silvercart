@@ -52,6 +52,7 @@ use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
 class OrderPosition extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    use \SilverCart\View\RenderableDataObject;
     /**
      * Indicates whether changes and creations of order positions should
      * be logged or not.
@@ -682,18 +683,5 @@ class OrderPosition extends DataObject
         $addToTitle = '';
         $this->extend('addToTitle', $addToTitle);
         return Tools::string2html($addToTitle);
-    }
-    
-    /**
-     * Returns the rendered position.
-     * 
-     * @param string $templateAddition Optional template name addition
-     * 
-     * @return DBHTMLText
-     */
-    public function forTemplate(string $templateAddition = '') : DBHTMLText
-    {
-        $addition = empty($templateAddition) ? '' : "_{$templateAddition}";
-        return $this->renderWith(static::class . $addition);
     }
 }
