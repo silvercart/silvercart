@@ -40,6 +40,7 @@ use SilverStripe\View\SSViewer;
 class ShoppingCartPosition extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
+    use \SilverCart\View\RenderableDataObject;
     /**
      * attributes
      *
@@ -286,6 +287,27 @@ class ShoppingCartPosition extends DataObject
         }
         return $this->prices[$priceKey];
     }
+    
+    /**
+     * Returns the price without tax.
+     * 
+     * @param bool     $forSingleProduct Get the price for the single product or for all?
+     * @param int|null $precision        Precision for rounding
+     * 
+     * @return DBMoney
+     */
+    public function getPriceWithoutTax(bool $forSingleProduct = false, ?int $precision = null) : DBMoney
+    {
+        $priceType = Config::PriceType();
+        $price     = $this->getPrice($forSingleProduct);
+        $amount    = $price->getAmount();
+        if ($priceType === Config::PRICE_TYPE_GROSS) {
+            $amount -= $this->getTaxAmount($forSingleProduct, $precision);
+        }
+        return DBMoney::create()
+                ->setAmount($amount)
+                ->setCurrency($price->getCurrency());
+    }
 
     /**
      * Returns the formatted (Nice) summed price.
@@ -525,13 +547,14 @@ class ShoppingCartPosition extends DataObject
     /**
      * returns the tax amount included in $this
      *
-     * @param boolean $forSingleProduct Indicates wether the price for the total
-     *                                  quantity of products should be returned
-     *                                  or for one product only.
+     * @param bool $forSingleProduct Indicates wether the price for the total
+     *                               quantity of products should be returned
+     *                               or for one product only.
+     * @param int  $precision        Optional precision for rounding the tax rate
      * 
      * @return float
      */
-    public function getTaxAmount($forSingleProduct = false) : float
+    public function getTaxAmount(bool $forSingleProduct = false, ?int $precision = null) : float
     {
         if (Config::PriceType() === Config::PRICE_TYPE_GROSS) {
             $taxRate = $this->getPrice($forSingleProduct)->getAmount() -
@@ -540,6 +563,9 @@ class ShoppingCartPosition extends DataObject
         } else {
             $taxRate = $this->getPrice($forSingleProduct)->getAmount() *
                        ($this->Product()->getTaxRate() / 100);
+        }
+        if ($precision !== null) {
+            $taxRate = round($taxRate, $precision);
         }
         return $taxRate;
     }
