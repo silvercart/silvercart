@@ -658,19 +658,20 @@ class Product extends DataObject implements PermissionProvider
      * 
      * @return string
      */
-    public function getMetaDescription()
+    public function getMetaDescription() : string
     {
         $metaDescription = $this->getTranslationFieldValue('MetaDescription');
         if (!$this->getCMSFieldsIsCalled) {
             if (empty($metaDescription)) {
                 $metaDescription = SeoTools::extractMetaDescriptionOutOfArray([
                     $this->getTitle(),
+                    $this->ProductNumberShop,
                     $this->getLongDescription(),
                 ]);
             }
             $this->extend('updateMetaDescription', $metaDescription);
         }
-        return $metaDescription;
+        return (string) $metaDescription;
     }
     
     /**

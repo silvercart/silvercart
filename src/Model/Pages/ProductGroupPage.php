@@ -5,6 +5,7 @@ namespace SilverCart\Model\Pages;
 use DateTime;
 use Page;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\CacheTools;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\FieldGroup;
@@ -1098,45 +1099,62 @@ class ProductGroupPage extends Page
      */
     public function getMetaDescription() : string
     {
-        $metaDescription = $this->getField('MetaDescription');
-        if (!$this->getCMSFieldsIsCalled
-         && !Tools::isBackendEnvironment()
+        if ($this->getCMSFieldsIsCalled
+         || Tools::isBackendEnvironment()
         ) {
-            $ctrl = Controller::curr();
-            if ($ctrl instanceof ProductGroupPageController
-             && $ctrl->isProductDetailView()
-            ) {
-                $metaDescription = $ctrl->getDetailViewProduct()->MetaDescription;
-            } elseif ($ctrl instanceof ProductGroupPageController) {
-                if (empty($metaDescription)
-                 || (int) $ctrl->getRequest()->getVar('start') > 0
-                 || mb_strlen($metaDescription) < SeoTools::$metaDescriptionMaxLength
-                ) {
-                    if ((int) $ctrl->getRequest()->getVar('start') <= 0) {
-                        if (empty($metaDescription)) {
-                            $descriptionArray = [$this->Title];
-                        } else {
-                            $descriptionArray = [$metaDescription];
-                        }
-                        $children = $this->Children();
-                        if ($children->count() > 0) {
-                            $descriptionArray = array_merge($descriptionArray, $children->map()->toArray());
-                        }
-                    } else {
-                        $descriptionArray = [$this->Title];
-                    }
-                    $products = $this->getProductsToDisplay();
-                    if ($products->count() > 0) {
-                        $currOffset       = $ctrl->CurrentOffset();
-                        $sqlOffset        = $ctrl->getProductsPerPageSetting();
-                        $products         = array_slice($products->map()->toArray(), $currOffset, $sqlOffset);
-                        $descriptionArray = array_merge($descriptionArray, $products);
-                    }
-                    $metaDescription = SeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
-                }
-            }
-            $this->extend('updateMetaDescription', $metaDescription);
+            return $this->getField('MetaDescription');
         }
+        $ctrl            = Controller::curr();
+        $pageStart       = (int) $ctrl->getRequest()->getVar('start');
+        $currOffset      = $ctrl->CurrentOffset();
+        $sqlOffset       = $ctrl->getProductsPerPageSetting();
+        $isDetailView    = $ctrl instanceof ProductGroupPageController
+                        && $ctrl->isProductDetailView();
+        $cacheKeyParts   = [
+            $this->ID,
+            $this->Locale,
+            $isDetailView,
+            $pageStart,
+            $currOffset,
+            $sqlOffset,
+        ];
+        $this->extend('updateMetaDescriptionCacheKeyParts', $cacheKeyParts);
+        $cacheKey        = implode('-', $cacheKeyParts);
+        $metaDescription = CacheTools::get($cacheKey);
+        if (!empty($metaDescription)) {
+            return (string) $metaDescription;
+        }
+        $metaDescription = $this->getField('MetaDescription');
+        if ($isDetailView) {
+            $metaDescription = $ctrl->getDetailViewProduct()->MetaDescription;
+        } elseif ($ctrl instanceof ProductGroupPageController) {
+            if (empty($metaDescription)
+             || $pageStart > 0
+             || mb_strlen($metaDescription) < SeoTools::$metaDescriptionMaxLength
+            ) {
+                if ($pageStart <= 0) {
+                    if (empty($metaDescription)) {
+                        $descriptionArray = [$this->Title];
+                    } else {
+                        $descriptionArray = [$metaDescription];
+                    }
+                    $children = $this->Children();
+                    if ($children->count() > 0) {
+                        $descriptionArray = array_merge($descriptionArray, $children->map()->toArray());
+                    }
+                } else {
+                    $descriptionArray = [$this->Title];
+                }
+                $products = $this->getProductsToDisplay();
+                if ($products->count() > 0) {
+                    $products         = $products->limit($sqlOffset, $currOffset)->map()->toArray();
+                    $descriptionArray = array_merge($descriptionArray, $products);
+                }
+                $metaDescription = SeoTools::extractMetaDescriptionOutOfArray($descriptionArray);
+            }
+        }
+        $this->extend('updateMetaDescription', $metaDescription);
+        CacheTools::set($cacheKey, (string) $metaDescription);
         return (string) $metaDescription;
     }
     

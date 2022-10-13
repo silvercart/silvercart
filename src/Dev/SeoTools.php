@@ -102,11 +102,8 @@ class SeoTools extends Tools
      * @param array $array List of strings to extract meta description out of
      * 
      * @return string
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 05.06.2012
      */
-    public static function extractMetaDescriptionOutOfArray($array)
+    public static function extractMetaDescriptionOutOfArray(array $array) : string
     {
         $metaDescription      = '';
         $metaDescriptionParts = [];
@@ -114,11 +111,14 @@ class SeoTools extends Tools
             if (mb_strlen($metaDescription) >= self::$metaDescriptionMaxLength) {
                 break;
             }
+            if (empty($string)) {
+                continue;
+            }
             $metaDescriptionParts[] = self::extractMetaDescription($string);
         }
         $metaDescription = implode(' ' . self::$metaDescriptionConnector . ' ', $metaDescriptionParts);
         $metaDescription = self::trimMetaDescription($metaDescription);
-        return $metaDescription;
+        return (string) $metaDescription;
     }
     
     /**
