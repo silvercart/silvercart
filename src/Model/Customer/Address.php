@@ -3,7 +3,6 @@
 namespace SilverCart\Model\Customer;
 
 use SilverCart\Dev\Tools;
-use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;

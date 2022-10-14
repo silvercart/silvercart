@@ -19,7 +19,6 @@ use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\Model\Payment\HandlingCost;
-use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Payment\PaymentMethodTranslation;
 use SilverCart\Model\Product\Image;
 use SilverCart\Model\Product\Product;
