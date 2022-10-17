@@ -1571,6 +1571,9 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     public function onAfterChangePassword(string $password, ValidationResult $result) : void
     {
+        if (!$result->isValid()) {
+            return;
+        }
         $ctrl    = ModelAsController::controller_for(Page::singleton());
         $message = _t(Member::class . '.MessageChangePasswordSuccess', 'Congratulations! Your password was changed successfully.');
         $result->addMessage($message);
