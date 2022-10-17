@@ -485,7 +485,10 @@ class ActionHandler extends Controller
      */
     public function cookieManager(HTTPRequest $request) : HTTPResponse
     {
-        $cookiePolicyPage           = CookiePolicyPage::instance();
+        $cookiePolicyPage = CookiePolicyPage::instance();
+        if ($cookiePolicyPage === null) {
+            $this->httpError(404);
+        }
         $cookiePolicyPageController = ModelAsController::controller_for($cookiePolicyPage);
         /* @var $cookiePolicyPageController \Broarm\CookieConsent\Control\CookiePolicyPageController */
         return HTTPResponse::create($cookiePolicyPageController->renderWith(CookiePolicyPage::class . '_ajax', $cookiePolicyPageController->index($request)));
