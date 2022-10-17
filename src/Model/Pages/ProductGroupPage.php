@@ -1106,10 +1106,14 @@ class ProductGroupPage extends Page
         }
         $ctrl            = Controller::curr();
         $pageStart       = (int) $ctrl->getRequest()->getVar('start');
-        $currOffset      = $ctrl->CurrentOffset();
-        $sqlOffset       = $ctrl->getProductsPerPageSetting();
-        $isDetailView    = $ctrl instanceof ProductGroupPageController
-                        && $ctrl->isProductDetailView();
+        $currOffset      = 0;
+        $sqlOffset       = 0;
+        $isDetailView    = false;
+        if ($ctrl instanceof ProductGroupPageController) {
+            $currOffset      = $ctrl->CurrentOffset();
+            $sqlOffset       = $ctrl->getProductsPerPageSetting();
+            $isDetailView    = $ctrl->isProductDetailView();
+        }
         $cacheKeyParts   = [
             $this->ID,
             $this->Locale,
