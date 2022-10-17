@@ -1995,13 +1995,16 @@ class Order extends DataObject implements PermissionProvider
     /**
      * The shipping method is a relation + an attribte of the order
      *
-     * @param int $shippingMethodID the ID of the shipping method
+     * @param int|ShippingMethod $shippingMethod The shipping method object or its ID
      *
      * @return Order
      */
-    public function setShippingMethod(int $shippingMethodID) : Order
+    public function setShippingMethod(int|ShippingMethod $shippingMethod) : Order
     {
-        $selectedShippingMethod = ShippingMethod::get()->byID($shippingMethodID);
+        $selectedShippingMethod = $shippingMethod;
+        if (is_int($selectedShippingMethod)) {
+            $selectedShippingMethod = ShippingMethod::get()->byID($selectedShippingMethod);
+        }
         if ($selectedShippingMethod instanceof ShippingMethod
          && $selectedShippingMethod->getShippingFee() instanceof ShippingFee
         ) {
