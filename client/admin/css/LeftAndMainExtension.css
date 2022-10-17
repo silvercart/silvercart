@@ -29,7 +29,8 @@ input[type="color"] {
     width: 100%;
     height: 100%;
 }
-#Form_EditForm_error {
+#Form_EditForm_error,
+#Form_ItemEditForm_error {
     position: fixed;
     z-index: 5;
     right: 1em;
