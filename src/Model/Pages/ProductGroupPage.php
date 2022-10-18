@@ -1102,7 +1102,7 @@ class ProductGroupPage extends Page
         if ($this->getCMSFieldsIsCalled
          || Tools::isBackendEnvironment()
         ) {
-            return $this->getField('MetaDescription');
+            return (string) $this->getField('MetaDescription');
         }
         $ctrl            = Controller::curr();
         $pageStart       = (int) $ctrl->getRequest()->getVar('start');
