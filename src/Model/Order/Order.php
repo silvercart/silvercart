@@ -1326,7 +1326,7 @@ class Order extends DataObject implements PermissionProvider
      *
      * @param array $addressData Address data from checkout
      *
-     * @return void
+     * @return object
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      *         Roland Lehmann <rlehmann@pixeltricks.de>
@@ -1469,6 +1469,7 @@ class Order extends DataObject implements PermissionProvider
             $orderPosition->log                     = false;
             $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
             $orderPosition->write();
+            $this->OrderPositions()->add($orderPosition);
             // Call hook method on product if available
             if ($product->hasMethod('ShoppingCartConvert')) {
                 $product->ShoppingCartConvert($this, $orderPosition);
@@ -2022,9 +2023,9 @@ class Order extends DataObject implements PermissionProvider
     /**
      * returns tax included in $this
      *
-     * @return float
+     * @return DBMoney
      */
-    public function getTax()
+    public function getTax() : DBMoney
     {
         $tax = 0.0;
 
