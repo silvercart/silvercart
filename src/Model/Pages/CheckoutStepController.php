@@ -479,14 +479,25 @@ class CheckoutStepController extends \PageController
     }
     
     /**
+     * Returns the step number for the given $stepClassName.
+     * 
+     * @param string $stepClassName Step class name
+     * 
+     * @return int
+     */
+    public function getStepNumberFor(string $stepClassName) : int
+    {
+        return (int) array_search($stepClassName, $this->getCheckout()->getStepList()) + 1;
+    }
+    
+    /**
      * Returns the address step number.
      * 
      * @return int
      */
     public function getAddressStepNumber() : int
     {
-        $stepNumber = 2;
-        return $stepNumber;
+        return $this->getStepNumberFor(CheckoutStep2::class);
     }
     
     /**
@@ -496,8 +507,7 @@ class CheckoutStepController extends \PageController
      */
     public function getShipmentStepNumber() : int
     {
-        $stepNumber = 3;
-        return $stepNumber;
+        return $this->getStepNumberFor(CheckoutStep3::class);
     }
     
     /**
@@ -507,8 +517,7 @@ class CheckoutStepController extends \PageController
      */
     public function getPaymentStepNumber() : int
     {
-        $stepNumber = 4;
-        return $stepNumber;
+        return $this->getStepNumberFor(CheckoutStep4::class);
     }
     
     /**
@@ -518,8 +527,7 @@ class CheckoutStepController extends \PageController
      */
     public function getLastStepNumber() : int
     {
-        $stepNumber = 5;
-        return $stepNumber;
+        return $this->getStepNumberFor(CheckoutStep5::class);
     }
     
     /**
@@ -529,7 +537,7 @@ class CheckoutStepController extends \PageController
      */
     public function getAddressStepLink() : string
     {
-        return $this->Link('step/' . $this->getAddressStepNumber());
+        return $this->Link("step/{$this->getAddressStepNumber()}");
     }
     
     /**
@@ -539,7 +547,7 @@ class CheckoutStepController extends \PageController
      */
     public function getShipmentStepLink() : string
     {
-        return $this->Link('step/' . $this->getShipmentStepNumber());
+        return $this->Link("step/{$this->getShipmentStepNumber()}");
     }
     
     /**
@@ -549,7 +557,7 @@ class CheckoutStepController extends \PageController
      */
     public function getPaymentStepLink() : string
     {
-        return $this->Link('step/' . $this->getPaymentStepNumber());
+        return $this->Link("step/{$this->getPaymentStepNumber()}");
     }
     
     /**
@@ -559,7 +567,7 @@ class CheckoutStepController extends \PageController
      */
     public function getLastStepLink() : string
     {
-        return $this->Link('step/' . $this->getLastStepNumber());
+        return $this->Link("step/{$this->getLastStepNumber()}");
     }
     
     /**
@@ -597,7 +605,7 @@ class CheckoutStepController extends \PageController
      * During the checkout process the user may not be able to alter the
      * shopping cart.
      *
-     * @return boolean false
+     * @return bool
      */
     public function getEditableShoppingCart() : bool
     {
