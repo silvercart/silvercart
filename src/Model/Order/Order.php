@@ -593,6 +593,12 @@ class Order extends DataObject implements PermissionProvider
                 'filter' => PartialMatchFilter::class,
             ],
         ];
+        foreach (parent::searchableFields() as $key => $value) {
+            if (array_key_exists($key, $searchableFields)) {
+                continue;
+            }
+            $searchableFields[$key] = $value;
+        }
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
