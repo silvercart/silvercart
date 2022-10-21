@@ -21,6 +21,7 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField as SilverStripeFormField;
 use SilverStripe\Forms\GroupedDropdownField;
+use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\OptionsetField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TextareaField;
@@ -62,6 +63,10 @@ class FormField extends DataObject
 {
     use \SilverCart\ORM\ExtensibleDataObject;
     
+    public const PRESET_WITH_GENERAL_DATA = 'GeneralData';
+    public const PRESET_WITH_GENERAL_DATA_DATE_TIME  = self::PRESET_WITH_GENERAL_DATA . '.DateTime';
+    public const PRESET_WITH_GENERAL_DATA_IP_ADDRESS = self::PRESET_WITH_GENERAL_DATA . '.IPAddress';
+
     /**
      * Sets the custom form data.
      * 
@@ -250,6 +255,7 @@ class FormField extends DataObject
                 $reflection   = new ReflectionClass($type);
                 $types[$type] = $this->fieldLabel("Type_{$reflection->getShortName()}");
             }
+            asort($types);
             $fields->removeByName('Type');
             $fields->insertAfter('IsRequired', DropdownField::create('Type', $this->fieldLabel('Type'), $types, $this->Type));
             $typesWithOptions = [
@@ -324,6 +330,7 @@ class FormField extends DataObject
             DateField::class,
             DatetimeField::class,
             DropdownField::class,
+            HiddenField::class,
             OptionsetField::class,
             TextField::class,
             TextareaField::class,
@@ -368,6 +375,9 @@ class FormField extends DataObject
             $relationName = '';
             $property     = array_shift($parts);
             switch ($className) {
+                case self::PRESET_WITH_GENERAL_DATA:
+                    $value = $this->presetWithGeneralData($property, $parts);
+                    break;
                 case Member::class:
                     $object = Customer::currentUser();
                     break;
@@ -408,6 +418,30 @@ class FormField extends DataObject
                 }
             }
         }
+        return $value;
+    }
+    
+    /**
+     * Returns the geneal data preset value.
+     * 
+     * @param array $parts Parts
+     * 
+     * @return string
+     */
+    public function presetWithGeneralData(string $property, array $parts) : string
+    {
+        $value = '';
+        if (count($parts) === 0) {
+            switch ($property) {
+                case 'IPAddress':
+                    $value = $_SERVER['REMOTE_ADDR'];
+                    break;
+                case 'DateTime':
+                    $value = date('Y-m-d H:i:s');
+                    break;
+            }
+        }
+        $this->extend('presetWithGeneralData', $value, $property, $parts);
         return $value;
     }
     
@@ -454,7 +488,13 @@ class FormField extends DataObject
             'TrackingCode',
             'TrackingLink',
         ];
+        $generalData = [
+            self::PRESET_WITH_GENERAL_DATA_IP_ADDRESS => _t(self::class . '.GeneralData_IPAddress', 'Customer IP Address'),
+            self::PRESET_WITH_GENERAL_DATA_DATE_TIME  => _t(self::class . '.GeneralData_DateTime', 'Date and Time'),
+        ];
+        $this->extend('updatePresetWithSourceGeneralData', $generalData);
         $this->extend('updatePresetWithSourceWhitelist', $whitelist);
+        $source[_t(self::class . '.GeneralData', 'General Data')] = $generalData;
         foreach ($contextObjectNames as $contextObjectName) {
             $contextObject = singleton($contextObjectName);
             /* @var $contextObject \SilverStripe\ORM\DataObject */

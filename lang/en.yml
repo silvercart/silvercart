@@ -1101,6 +1101,9 @@ en:
   SilverCart\Model\Forms\FormField:
     DefaultValue: 'Default value'
     Description: Description
+    GeneralData: 'General Data'
+    GeneralData_DateTime: 'Date and Time'
+    GeneralData_IPAddress: 'Customer IP Address'
     IsRequired: 'Is required'
     Name: Name
     PLURALNAME: 'Input fields'
@@ -1110,6 +1113,15 @@ en:
     Title: 'Display name'
     Type: Type
     TypeLabel: Type
+    Type_CheckboxField: Checkbox
+    Type_DateField: Date
+    Type_DatetimeField: 'Date / Time'
+    Type_DropdownField: Dropdown
+    Type_HiddenField: Hidden
+    Type_OptionsetField: Radio-Buttons 
+    Type_TextField: Text
+    Type_TextareaField: 'Text (multiple lines)'
+    Type_TimeField: Time
   SilverCart\Model\Forms\FormFieldOption:
     PLURALNAME: Options
     SINGULARNAME: Option
