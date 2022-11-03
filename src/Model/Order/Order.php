@@ -593,8 +593,16 @@ class Order extends DataObject implements PermissionProvider
                 'filter' => PartialMatchFilter::class,
             ],
         ];
+        $summaryFields = $this->summaryFields();
         foreach (parent::searchableFields() as $key => $value) {
-            if (array_key_exists($key, $searchableFields)) {
+            if (array_key_exists($key, $summaryFields)) {
+                continue;
+            }
+            if (array_key_exists($key, $searchableFields)
+             || array_key_exists($key, $summaryFields)
+             || (strpos($key, '.') === false
+              && !$this->hasDatabaseField($key))
+            ) {
                 continue;
             }
             $searchableFields[$key] = $value;
