@@ -713,6 +713,7 @@ de:
     EMAIL_CHECK: 'E-Mail-Adresse wiederholen'
     FAX: Fax
     FIRSTNAME: Vorname
+    FullName: 'Vorname + Nachname'
     ISBUSINESSACCOUNT: 'Ist Geschäftskunden Adresse'
     IS_PACKSTATION: 'Adresse ist Packstation'
     InvoiceAddress: Rechnungsadresse
@@ -731,6 +732,7 @@ de:
     PHONE_SHORT: Telefon
     PLURALNAME: Adressen
     POSTCODE: PLZ
+    PostcodeWithCity: 'PLZ + Ort'
     POSTNUMBER: 'Ihre PostNummer'
     POSTNUMBER_PLAIN: PostNummer
     SALUTATION: Anrede
@@ -745,6 +747,7 @@ de:
     SINGULARNAME: Adresse
     STREET: Straße
     STREETNUMBER: Hausnummer
+    StreetWithNumber: 'Straße + Hausnummer'
     SURNAME: Nachname
     ShippingAddress: Lieferadresse
     ShippingAddresses: Lieferadressen

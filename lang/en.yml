@@ -711,6 +711,7 @@ en:
     EMAIL_CHECK: 'Email address check'
     FAX: Fax
     FIRSTNAME: 'First name'
+    FullName: 'First name + surname'
     ISBUSINESSACCOUNT: 'Is business address'
     IS_PACKSTATION: 'Address is PACKSTATION'
     InvoiceAddress: 'Invoice address'
@@ -729,6 +730,7 @@ en:
     PHONE_SHORT: Phone
     PLURALNAME: Addresses
     POSTCODE: Postcode
+    PostcodeWithCity: 'Postcode + City'
     POSTNUMBER: 'Your PostNumber'
     POSTNUMBER_PLAIN: PostNumber
     SALUTATION: Salutation
@@ -743,6 +745,7 @@ en:
     SINGULARNAME: Address
     STREET: Street
     STREETNUMBER: 'Street number'
+    StreetWithNumber: 'Street + number'
     SURNAME: Surname
     ShippingAddress: 'Shipping address'
     ShippingAddresses: 'Shipping addresses'

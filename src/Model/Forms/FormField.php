@@ -466,17 +466,21 @@ class FormField extends DataObject
             'CustomerNumber',
             'FirstName',
             'Surname',
+            'Name',
             // Address
             'Company',
             'Salutation',
             'AcademicTitle',
             'FirstName',
             'Surname',
+            'FullName',
             'Addition',
             'Street',
             'StreetNumber',
+            'StreetWithNumber',
             'Postcode',
             'City',
+            'PostcodeWithCity',
             'Phone',
             'Fax',
             'State',
@@ -498,7 +502,10 @@ class FormField extends DataObject
         foreach ($contextObjectNames as $contextObjectName) {
             $contextObject = singleton($contextObjectName);
             /* @var $contextObject \SilverStripe\ORM\DataObject */
-            $contextSource = $contextObject->config()->db;
+            $contextSource = array_merge(
+                    $contextObject->config()->db,
+                    $contextObject->config()->casting,
+            );
             if ($contextObject->hasExtension(TranslatableDataObjectExtension::class)) {
                 $languageContextObject = singleton("{$contextObjectName}Translation");
                 $contextSource = array_merge(

@@ -54,6 +54,17 @@ use SilverStripe\Security\PermissionProvider;
  * @property int    $MemberID      Member ID
  * @property int    $CountryID     Country ID
  * 
+ * @property string $FullName         Full Name
+ * @property string $CountryISO2      Country ISO2
+ * @property string $CountryISO3      Country ISO3
+ * @property string $CountryISON      Country ISON
+ * @property string $CountryFIPS      Country FIPS
+ * @property string $PostcodeWithCity Postcode With City
+ * @property string $SalutationText   Salutation Text
+ * @property string $StreetWithNumber Street With Number
+ * @property string $Summary          Summary
+ * @property string $SummaryHTML      Summary HTML
+ * 
  * @method Member  Member()  Returns the related Member.
  * @method Country Country() Returns the related Country.
  */
@@ -104,14 +115,16 @@ class Address extends DataObject implements PermissionProvider
      * @var array
      */
     private static $casting = [
-        'FullName'       => 'Text',
-        'SalutationText' => 'Varchar',
-        'Summary'        => 'Text',
-        'SummaryHTML'    => 'HTMLText',
-        'CountryISO2'    => 'Text',
-        'CountryISO3'    => 'Text',
-        'CountryISON'    => 'Text',
-        'CountryFIPS'    => 'Text',
+        'CountryISO2'      => 'Text',
+        'CountryISO3'      => 'Text',
+        'CountryISON'      => 'Text',
+        'CountryFIPS'      => 'Text',
+        'FullName'         => 'Text',
+        'PostcodeWithCity' => 'Text',
+        'SalutationText'   => 'Varchar',
+        'StreetWithNumber' => 'Text',
+        'Summary'          => 'Text',
+        'SummaryHTML'      => 'HTMLText',
     ];
     /**
      * Defaults for attributes.
@@ -1060,6 +1073,26 @@ class Address extends DataObject implements PermissionProvider
     public function getFullName() : string
     {
         return "{$this->FirstName} {$this->Surname}";
+    }
+
+    /**
+     * Returns the Street with StreetNumber.
+     * 
+     * @return string
+     */
+    public function getStreetWithNumber() : string
+    {
+        return "{$this->Street} {$this->StreetNumber}";
+    }
+
+    /**
+     * Returns the Postcode with City.
+     * 
+     * @return string
+     */
+    public function getPostcodeWithCity() : string
+    {
+        return "{$this->Postcode} {$this->City}";
     }
 
     /**
