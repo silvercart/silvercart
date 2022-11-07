@@ -434,7 +434,13 @@ class FormField extends DataObject
         if (count($parts) === 0) {
             switch ($property) {
                 case 'IPAddress':
-                    $value = $_SERVER['REMOTE_ADDR'];
+                    if (array_key_exists('HTTP_X_REAL_IP', $_SERVER)) {
+                        $value = $_SERVER['HTTP_X_REAL_IP'];
+                    } elseif (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+                        $value = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                    } elseif (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+                        $value = $_SERVER['REMOTE_ADDR'];
+                    }
                     break;
                 case 'DateTime':
                     $value = date('Y-m-d H:i:s');
