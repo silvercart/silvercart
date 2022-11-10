@@ -161,26 +161,27 @@ class RegisterRegularCustomerForm extends CustomForm
                     'minlength' => $passwordMinlength,
                 ]));
             }
-            $fields = array_merge(
+            $address = Address::singleton();
+            $fields  = array_merge(
                     $fields,
                     $this->getBirthdayFields(),
                     $this->getBusinessFields(),
                     $this->getHoneyPotFields(),
                     [
-                        DropdownField::create('Salutation', Address::singleton()->fieldLabel('Salutation'), Tools::getSalutationMap()),
-                        TextField::create('AcademicTitle', Address::singleton()->fieldLabel('AcademicTitle')),
-                        TextField::create('FirstName', Address::singleton()->fieldLabel('FirstName')),
-                        TextField::create('Surname', Address::singleton()->fieldLabel('Surname')),
-                        TextField::create('Addition', Address::singleton()->fieldLabel('Addition')),
-                        TextField::create('Street', Address::singleton()->fieldLabel('Street')),
-                        TextField::create('StreetNumber', Address::singleton()->fieldLabel('StreetNumber'), '', 10),
-                        TextField::create('Postcode', Address::singleton()->fieldLabel('Postcode'), '', 10),
-                        TextField::create('City', Address::singleton()->fieldLabel('City')),
-                        DropdownField::create('Country', Address::singleton()->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose'))),
-                        TextField::create('Phone', Address::singleton()->fieldLabel('Phone')),
-                        TextField::create('Fax', Address::singleton()->fieldLabel('Fax')),
-                        EmailField::create('Email', Address::singleton()->fieldLabel('Email')),
-                        EmailField::create('EmailCheck', Address::singleton()->fieldLabel('EmailCheck')),
+                        DropdownField::create('Salutation',    $address->fieldLabel('Salutation'),    Tools::getSalutationMap()),
+                        TextField::create(    'AcademicTitle', $address->fieldLabel('AcademicTitle'), '', $address->config()->max_length_academic_title),
+                        TextField::create(    'FirstName',     $address->fieldLabel('FirstName'),     '', $address->config()->max_length_first_name),
+                        TextField::create(    'Surname',       $address->fieldLabel('Surname'),       '', $address->config()->max_length_surname),
+                        TextField::create(    'Addition',      $address->fieldLabel('Addition'),      '', $address->config()->max_length_addition),
+                        TextField::create(    'Street',        $address->fieldLabel('Street'),        '', $address->config()->max_length_street),
+                        TextField::create(    'StreetNumber',  $address->fieldLabel('StreetNumber'),  '', $address->config()->max_length_street_number),
+                        TextField::create(    'Postcode',      $address->fieldLabel('Postcode'),      '', $address->config()->max_length_postcode),
+                        TextField::create(    'City',          $address->fieldLabel('City'),          '', $address->config()->max_length_city),
+                        DropdownField::create('Country',       $address->fieldLabel('Country'),       Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose'))),
+                        TextField::create(    'Phone',         $address->fieldLabel('Phone')),
+                        TextField::create(    'Fax',           $address->fieldLabel('Fax')),
+                        EmailField::create(   'Email',         $address->fieldLabel('Email')),
+                        EmailField::create(   'EmailCheck',    $address->fieldLabel('EmailCheck')),
                         $passwordField,
                         $passwordCheckField,
                         $newsletterField = CheckboxField::create('SubscribedToNewsletter', CheckoutStep::singleton()->fieldLabel('SubscribeNewsletter')),
@@ -226,10 +227,11 @@ class RegisterRegularCustomerForm extends CustomForm
     {
         $businessFields = [];
         if ($this->EnableBusinessCustomers()) {
+            $address        = Address::singleton();
             $businessFields = [
-                CheckboxField::create('IsBusinessAccount', Member::singleton()->fieldLabel('IsBusinessAccount')),
-                TextField::create('TaxIdNumber', Address::singleton()->fieldLabel('TaxIdNumber'), '', 30)->setAttribute('pattern', '[A-Z|0-9]{7,12}'),
-                TextField::create('Company', Address::singleton()->fieldLabel('Company'), '', 50),
+                CheckboxField::create('IsBusinessAccount', $address->fieldLabel('IsBusinessAccount')),
+                TextField::create(    'TaxIdNumber',       $address->fieldLabel('TaxIdNumber'),       '', $address->config()->max_length_tax_id_number)->setAttribute('pattern', '[A-Z|0-9]{7,12}'),
+                TextField::create(    'Company',           $address->fieldLabel('Company'),           '', $address->config()->max_length_company),
             ];
         }
         return $businessFields;

@@ -146,21 +146,23 @@ class AddressForm extends CustomForm
      */
     public function getCustomFields()
     {
+        $test = new TextField($name);
+        $test->setMaxLength(10);
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $address = Address::singleton();
             $formFields = [
-                DropdownField::create('Salutation', $address->fieldLabel('Salutation'), Tools::getSalutationMap())->setHasEmptyDefault(true),
-                TextField::create('AcademicTitle', $address->fieldLabel('AcademicTitle')),
-                TextField::create('FirstName', $address->fieldLabel('FirstName')),
-                TextField::create('Surname', $address->fieldLabel('Surname')),
-                TextField::create('Addition', $address->fieldLabel('Addition')),
-                TextField::create('Street', $address->fieldLabel('Street')),
-                TextField::create('StreetNumber', $address->fieldLabel('StreetNumber')),
-                TextField::create('Postcode', $address->fieldLabel('Postcode')),
-                TextField::create('City', $address->fieldLabel('City')),
-                DropdownField::create('Country', $address->fieldLabel('Country'), Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose')))->setHasEmptyDefault(true),
-                TextField::create('Phone', $address->fieldLabel('Phone')),
-                TextField::create('Fax', $address->fieldLabel('Fax')),
+                DropdownField::create('Salutation',     $address->fieldLabel('Salutation'),    Tools::getSalutationMap())->setHasEmptyDefault(true),
+                TextField::create(    'AcademicTitle',  $address->fieldLabel('AcademicTitle'), '', $address->config()->max_length_academic_title),
+                TextField::create(    'FirstName',      $address->fieldLabel('FirstName'),     '', $address->config()->max_length_first_name),
+                TextField::create(    'Surname',        $address->fieldLabel('Surname'),       '', $address->config()->max_length_surname),
+                TextField::create(    'Addition',       $address->fieldLabel('Addition'),      '', $address->config()->max_length_addition),
+                TextField::create(    'Street',         $address->fieldLabel('Street'),        '', $address->config()->max_length_street),
+                TextField::create(    'StreetNumber',   $address->fieldLabel('StreetNumber'),  '', $address->config()->max_length_street_number),
+                TextField::create(    'Postcode',       $address->fieldLabel('Postcode'),      '', $address->config()->max_length_postcode),
+                TextField::create(    'City',           $address->fieldLabel('City'),          '', $address->config()->max_length_city),
+                DropdownField::create('Country',        $address->fieldLabel('Country'),       Country::getPrioritiveDropdownMap(true, Tools::field_label('PleaseChoose')))->setHasEmptyDefault(true),
+                TextField::create(    'Phone',          $address->fieldLabel('Phone')),
+                TextField::create(    'Fax',            $address->fieldLabel('Fax')),
             ];
             $fields = array_merge(
                     $fields,
@@ -181,11 +183,11 @@ class AddressForm extends CustomForm
     {
         $businessFields = [];
         if ($this->EnableBusinessCustomers()) {
-            $address = Address::singleton();
+            $address        = Address::singleton();
             $businessFields = [
                 CheckboxField::create('IsBusinessAccount', $address->fieldLabel('IsBusinessAccount')),
-                TextField::create('TaxIdNumber', $address->fieldLabel('TaxIdNumber'), '', 30)->setAttribute('pattern', '[A-Z|0-9]{7,12}'),
-                TextField::create('Company', $address->fieldLabel('Company'), '', 50),
+                TextField::create(    'TaxIdNumber',       $address->fieldLabel('TaxIdNumber'),       '', $address->config()->max_length_tax_id_number)->setAttribute('pattern', '[A-Z|0-9]{7,12}'),
+                TextField::create(    'Company',           $address->fieldLabel('Company'),           '', $address->config()->max_length_company),
             ];
         }
         return $businessFields;

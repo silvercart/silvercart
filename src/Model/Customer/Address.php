@@ -164,6 +164,66 @@ class Address extends DataObject implements PermissionProvider
      */
     private static $invoice_address_is_readonly = false;
     /**
+     * Maximum character length of Company
+     * 
+     * @var int
+     */
+    private static $max_length_company = 50;
+    /**
+     * Maximum character length of TaxIdNumber
+     * 
+     * @var int
+     */
+    private static $max_length_tax_id_number = 30;
+    /**
+     * Maximum character length of AcademicTitle
+     * 
+     * @var int
+     */
+    private static $max_length_academic_title = 50;
+    /**
+     * Maximum character length of FirstName
+     * 
+     * @var int
+     */
+    private static $max_length_first_name = 50;
+    /**
+     * Maximum character length of Surname
+     * 
+     * @var int
+     */
+    private static $max_length_surname = 50;
+    /**
+     * Maximum character length of Addition
+     * 
+     * @var int
+     */
+    private static $max_length_addition = 255;
+    /**
+     * Maximum character length of Street
+     * 
+     * @var int
+     */
+    private static $max_length_street = 255;
+    /**
+     * Maximum character length of StreetNumber
+     * 
+     * @var int
+     */
+    private static $max_length_street_number = 10;
+    /**
+     * Maximum character length of Postcode
+     * 
+     * @var int
+     */
+    private static $max_length_postcode = 10;
+    /**
+     * Maximum character length of City
+     * 
+     * @var int
+     */
+    private static $max_length_city = 100;
+    /**
      * Property to indicate whether this is an anonymous address
      *
      * @var bool
