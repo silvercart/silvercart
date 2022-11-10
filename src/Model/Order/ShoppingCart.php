@@ -2386,7 +2386,11 @@ class ShoppingCart extends DataObject
     public function ProductCartDescriptions() : ArrayList
     {
         $descriptions = ArrayList::create();
+        $productIDs   = [];
         foreach ($this->ShoppingCartPositions() as $position) {
+            if (in_array($position->Product()->ID, $productIDs)) {
+                continue;
+            }
             $description = $position->Product()->CartDescription;
             if (empty($description)) {
                 continue;
@@ -2394,6 +2398,7 @@ class ShoppingCart extends DataObject
             $descriptions->push(ArrayData::create([
                 'CartDescription' => DBHTMLText::create()->setValue($description),
             ]));
+            $productIDs[] = $position->Product()->ID;
         }
         return $descriptions;
     }
