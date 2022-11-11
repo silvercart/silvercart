@@ -6,9 +6,8 @@ use PageController;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
-use SilverCart\Model\Customer\Customer;
 use SilverCart\Forms\ProductGroupPageSelectorsForm;
-use SilverCart\Model\Pages\Page as SilverCartPage;
+use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Pages\ProductGroupPage;
 use SilverCart\Model\Product\Manufacturer;
@@ -19,12 +18,14 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
+use SilverStripe\View\ViewableData_Customised;
 
 /**
  * ProductGroupPage Controller class.
@@ -261,39 +262,6 @@ class ProductGroupPageController extends PageController
     {
         $this->totalNumberOfProducts += $numberOfProducts;
         return $this;
-    }
-
-    /**
-     * Uses the children of MyAccountHolder to render a subnavigation
-     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
-     * 
-     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
-     *                               to avoid strict notice
-     *
-     * @return DBHTMLText
-     */
-    public function getSubNavigation(string $identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
-    {
-        $cachekey = 'SilverCart_Model_Pages_Includes_SubNavigation'.$this->ID;
-        $cache    = Injector::inst()->get(CacheInterface::class . '.ProductGroupPageController_getSubNavigation');
-        $result   = $cache->get($cachekey);
-        if ($result) {
-            $output = unserialize($result);
-        } else {
-            $menuElements   = $this->getTopProductGroup($this)->Children();
-            $extendedOutput = $this->extend('getSubNavigation', $menuElements);
-            if (empty ($extendedOutput)) {
-                $output = $this->customise([
-                    'SubElements' => $menuElements,
-                ])->renderWith([
-                    'SilverCart/Model/Pages/Includes/SubNavigation',
-                ]);
-            } else {
-                $output = $extendedOutput[0];
-            }
-            $cache->set(serialize($output));
-        }
-        return Tools::string2html($output);
     }
 
     /**

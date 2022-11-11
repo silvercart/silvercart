@@ -3,15 +3,17 @@
 namespace SilverCart\Model\Pages;
 
 use SilverCart\Admin\Model\Config;
-use SilverCart\Dev\Tools;
 use SilverCart\Dev\SeoTools;
+use SilverCart\Dev\Tools;
 use SilverCart\Extensions\Model\LinkBehaviorExtension;
 use SilverCart\Forms\CustomRequiredFields;
 use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Assets\Image;
+use SilverStripe\CMS\Controllers\ModelAsController;
 use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
@@ -33,8 +35,11 @@ use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\HTML;
+use SilverStripe\View\Parsers\ShortcodeParser;
 use TractorCow\Fluent\Extension\FluentDirectorExtension;
+use TractorCow\Fluent\Extension\FluentExtension;
 use TractorCow\Fluent\State\FluentState;
+use function _t;
 
 /**
  * Standard Page.
@@ -51,7 +56,7 @@ use TractorCow\Fluent\State\FluentState;
  */
 class Page extends SiteTree
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     
     public const IDENTIFIER_ADDRESS_HOLDER              = 'SilvercartAddressHolder';
     public const IDENTIFIER_CART_PAGE                   = 'SilvercartCartPage';
@@ -352,6 +357,57 @@ class Page extends SiteTree
     {
         return (string) $this->getField('Title');
     }
+
+    /**
+     * Uses the children of the page with the given $identifierCode to render a 
+     * subnavigation with the SilverCart/Model/Pages/Includes/SubNavigation.ss 
+     * template. This is the default sub navigation.
+     * If the current page is a child of a MetaNavigationHolder, the navigation 
+     * will be build with all siblings and first level children of 
+     * MetaNavigationHolders.
+     *
+     * @param string $identifierCode The code of the parent page.
+     *
+     * @return DBHTMLText
+     */
+    public function getSubNavigation(string $identifierCode = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    {
+        $output = '';
+        $this->extend('overwriteSubNavigation', $output);
+        if (empty($output)) {
+            $isInformationPage = false;
+            $page              = $this;
+            do {
+                if ($page instanceof MetaNavigationHolder) {
+                    $isInformationPage = true;
+                } else {
+                    $page = $page->Parent();
+                }
+            } while ($page->Parent()->exists()
+                  && !$isInformationPage);
+            if ($isInformationPage) {
+                $output = (string) $page->getSubNavigation();
+            } else {
+                $items            = [];
+                $productGroupPage = Tools::PageByIdentifierCode($identifierCode);
+                if ($productGroupPage) {
+                    foreach ($productGroupPage->Children() as $child) {
+                        if ($child->hasmethod('hasProductsOrChildren')
+                         && $child->hasProductsOrChildren()
+                        ) {
+                            $items[] = $child;
+                        }
+                    }
+                    $elements = [
+                        'SubElements' => ArrayList::create($items),
+                    ];
+                    $this->extend('updateSubNavigation', $elements);
+                    $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
+                }
+            }
+        }
+        return DBHTMLText::create()->setValue($output);
+    }
     
     /**
      * Returns the main navigation root page (set in backend).
@@ -578,7 +634,7 @@ class Page extends SiteTree
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.04.2018
-     * @see \TractorCow\Fluent\Extension\FluentExtension::LocaleLink()
+     * @see FluentExtension::LocaleLink()
      */
     public function LocaleOriginalLink($locale)
     {
@@ -812,7 +868,7 @@ class Page extends SiteTree
      * Returns some additional content to insert to the header navigation right 
      * before the translation select item is rendered.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.08.2018
@@ -828,7 +884,7 @@ class Page extends SiteTree
      * Returns some additional content to insert to the header navigation right 
      * before the account select item is rendered.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.08.2018
@@ -844,7 +900,7 @@ class Page extends SiteTree
      * Returns some additional content to insert to the header navigation right 
      * before the cart select item is rendered.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.08.2018

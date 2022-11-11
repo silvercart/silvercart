@@ -20,6 +20,7 @@ use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Widgets\Widget;
+use SilverCart\View\MessageProvider;
 use SilverCart\View\Requirements_Backend;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Controllers\ModelAsController;
@@ -35,10 +36,13 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 use TractorCow\Fluent\Model\Locale;
+use const RESOURCES_DIR;
+use function _t;
 
 /**
  * Standard Controller
@@ -52,7 +56,7 @@ use TractorCow\Fluent\Model\Locale;
  */
 class PageController extends ContentController
 {
-    use \SilverCart\View\MessageProvider;
+    use MessageProvider;
     
     public const SESSION_KEY_HTTP_REFERER = 'SilverCart.HttpReferer';
     /**
@@ -280,7 +284,7 @@ class PageController extends ContentController
      * Returns custom HTML code to place within the <head> tag, injected by
      * extensions.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
@@ -296,7 +300,7 @@ class PageController extends ContentController
      * Returns custom HTML code to place right after the <body> tag, injected by
      * extensions.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
@@ -312,7 +316,7 @@ class PageController extends ContentController
      * Returns custom HTML code to place right before the footer (first line in
      * Footer.ss) injected by extensions.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
@@ -328,7 +332,7 @@ class PageController extends ContentController
      * Returns custom HTML code to place right before the closing </body> tag, 
      * injected by extensions.
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      * 
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.08.2018
@@ -473,7 +477,7 @@ class PageController extends ContentController
     {
         $form         = null;
         $translations = Tools::get_translations($this->data());
-        if ($translations instanceof \SilverStripe\ORM\SS_List
+        if ($translations instanceof SS_List
          && $translations->exists()
         ) {
             $form = ChangeLanguageForm::create($this);
@@ -729,54 +733,6 @@ class PageController extends ContentController
     public static function PageByIdentifierCodeLink(string $identifierCode = Page::IDENTIFIER_FRONT_PAGE) : string
     {
         return Tools::PageByIdentifierCodeLink($identifierCode);
-    }
-
-    /**
-     * Uses the children of ProductGroupHolder to render a subnavigation
-     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template. This is the default sub-
-     * navigation.
-     *
-     * @param string $identifierCode The code of the parent page.
-     *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
-     */
-    public function getSubNavigation(string $identifierCode = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
-    {
-        $output = '';
-        $this->extend('updateSubNavigation', $output);
-        if (empty($output)) {
-            $isInformationPage = false;
-            $page = $this->data();
-            do {
-                if ($page instanceof MetaNavigationHolder) {
-                    $isInformationPage = true;
-                } else {
-                    $page = $page->Parent();
-                }
-            } while ($page->Parent()->exists()
-                  && !$isInformationPage);
-            if ($isInformationPage) {
-                $output = (string) ModelAsController::controller_for($page)->getSubNavigation();
-            } else {
-                $items            = [];
-                $productGroupPage = Tools::PageByIdentifierCode($identifierCode);
-
-                if ($productGroupPage) {
-                    foreach ($productGroupPage->Children() as $child) {
-                        if ($child->hasmethod('hasProductsOrChildren')
-                         && $child->hasProductsOrChildren()
-                        ) {
-                            $items[] = $child;
-                        }
-                    }
-                    $elements = [
-                        'SubElements' => ArrayList::create($items),
-                    ];
-                    $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
-                }
-            }
-        }
-        return Tools::string2html($output);
     }
 
     /**

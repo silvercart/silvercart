@@ -7,7 +7,9 @@ use SilverCart\Dev\Tools;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\ArrayData;
+use function _t;
 
 /**
  * holder for customers private area.
@@ -173,5 +175,46 @@ class MyAccountHolder extends Page
     public function InfoMessages() : ArrayList
     {
         return ArrayList::create(self::get_info_messages());
+    }
+
+    /**
+     * Uses the children of MyAccountHolder to render a subnavigation
+     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
+     * 
+     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
+     *                               to avoid strict notice
+     *
+     * @return DBHTMLText
+     */
+    public function getSubNavigation($identifierCode = Page::IDENTIFIER_MY_ACCOUNT_HOLDER) : DBHTMLText
+    {
+        $output = $this->customise($this->getSubNavigationElements())->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
+        return DBHTMLText::create()->setValue($output);
+    }
+    
+    /**
+     * Returns the sub navigation elements.
+     * 
+     * @return array
+     */
+    public function getSubNavigationElements() : array
+    {
+        $elements = [
+            'SubElementsTitle'     => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->MenuTitle,
+            'SubElementsTitleLink' => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Link(),
+            'SubElements'          => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Children(),
+        ];
+        $this->extend('updateSubNavigation', $elements);
+        return $elements;
+    }
+    
+    /**
+     * Returns the sub navigation elements for template.
+     * 
+     * @return ArrayData
+     */
+    public function getSubNavigationElementsForTemplate() : ArrayData
+    {
+        return ArrayData::create($this->getSubNavigationElements());
     }
 }

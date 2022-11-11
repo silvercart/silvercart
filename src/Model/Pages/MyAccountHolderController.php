@@ -2,12 +2,12 @@
 
 namespace SilverCart\Model\Pages;
 
+use PageController;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\LoginForm;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\Director;
-use SilverStripe\ORM\FieldType\DBHTMLText;
 
 /**
  * MyAccountHolder Controller class.
@@ -19,7 +19,7 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class MyAccountHolderController extends \PageController
+class MyAccountHolderController extends PageController
 {
     /**
      * statements to be called on object initialisation
@@ -36,27 +36,6 @@ class MyAccountHolderController extends \PageController
         }
         Tools::Session()->clear("redirect"); //if customer has been to the checkout yet this is set to direct him back to the checkout after address editing
         parent::init();
-    }
-
-    /**
-     * Uses the children of MyAccountHolder to render a subnavigation
-     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
-     * 
-     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
-     *                               to avoid strict notice
-     *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
-     */
-    public function getSubNavigation($identifierCode = Page::IDENTIFIER_MY_ACCOUNT_HOLDER) : DBHTMLText
-    {
-        $elements = [
-            'SubElementsTitle'     => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->MenuTitle,
-            'SubElementsTitleLink' => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Link(),
-            'SubElements'          => Tools::PageByIdentifierCode(Page::IDENTIFIER_MY_ACCOUNT_HOLDER)->Children(),
-        ];
-        $this->extend('updateSubNavigation', $elements);
-        $output = $this->customise($elements)->renderWith('SilverCart/Model/Pages/Includes/SubNavigation');
-        return Tools::string2html($output);
     }
 
     /**

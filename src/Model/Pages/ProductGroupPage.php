@@ -4,6 +4,7 @@ namespace SilverCart\Model\Pages;
 
 use DateTime;
 use Page;
+use Psr\SimpleCache\CacheInterface;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\CacheTools;
 use SilverCart\Dev\SeoTools;
@@ -13,13 +14,15 @@ use SilverCart\Model\Pages\ProductGroupHolder;
 use SilverCart\Model\Pages\ProductGroupPageController;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\ProductTranslation;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\View\GroupView\GroupViewHandler;
-use SilverStripe\Assets\Image;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Convert;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
@@ -31,15 +34,21 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
-use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBText;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\Queries\SQLSelect;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ArrayData;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WidgetSets\Model\WidgetSet;
+use function _t;
+use function mb_strlen;
 
 /**
  * Displays products with similar attributes.
@@ -64,12 +73,12 @@ use WidgetSets\Model\WidgetSet;
  * @property string $ProductsOnPagesString         Products on pages string
  * 
  * @method Image                          GroupPicture()   Returns the related GroupPicture.
- * @method \SilverStripe\ORM\HasManyList  Products()       Returns the related products.
- * @method \SilverStripe\ORM\ManyManyList MirrorProducts() Returns the related products.
+ * @method HasManyList  Products()       Returns the related products.
+ * @method ManyManyList MirrorProducts() Returns the related products.
  */
 class ProductGroupPage extends Page
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     const META_TITLE_BEHAVIOR_NONE   = 'none';
     const META_TITLE_BEHAVIOR_PREFIX = 'prefix';
     const META_TITLE_BEHAVIOR_SUFFIX = 'suffix';
@@ -604,6 +613,39 @@ class ProductGroupPage extends Page
     }
 
     /**
+     * Uses the children of MyAccountHolder to render a subnavigation
+     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
+     * 
+     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
+     *                               to avoid strict notice
+     *
+     * @return DBHTMLText
+     */
+    public function getSubNavigation(string $identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    {
+        $cachekey = "SilverCart_Model_Pages_Includes_SubNavigation{$this->ID}";
+        $cache    = Injector::inst()->get(CacheInterface::class . '.ProductGroupPageController_getSubNavigation');
+        $result   = $cache->get($cachekey);
+        if ($result) {
+            $output = unserialize($result);
+        } else {
+            $menuElements   = $this->getTopProductGroup($this)->Children();
+            $extendedOutput = $this->extend('getSubNavigation', $menuElements);
+            if (empty ($extendedOutput)) {
+                $output = $this->customise([
+                    'SubElements' => $menuElements,
+                ])->renderWith([
+                    'SilverCart/Model/Pages/Includes/SubNavigation',
+                ]);
+            } else {
+                $output = $extendedOutput[0];
+            }
+            $cache->set(serialize($output));
+        }
+        return DBHTMLText::create()->setValue($output);
+    }
+
+    /**
      * Returns all Product IDs that have this group set as mirror
      * group.
      *
@@ -905,7 +947,7 @@ class ProductGroupPage extends Page
     /**
      * Returns the products of all children (recursively) of the current product group page.
      *
-     * @return \SilverStripe\ORM\SS_List
+     * @return SS_List
      */
     public function getProductsFromChildrenList()
     {
@@ -1405,8 +1447,8 @@ class ProductGroupPage extends Page
     {
         $group = $this->owner;
         $ctrl  = Controller::curr();
-        /* @var $group \SilverCart\Model\Pages\ProductGroupPage */
-        /* @var $ctrl \SilverCart\Model\Pages\ProductGroupPageController */
+        /* @var $group ProductGroupPage */
+        /* @var $ctrl ProductGroupPageController */
         $items = $group->getBreadcrumbItems(20, ProductGroupHolder::class);
         $map   = $items->map('ID', 'Title')->toArray();
         if ($ctrl->hasMethod('isProductDetailView')

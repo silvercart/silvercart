@@ -6,8 +6,10 @@ use Page;
 use SilverCart\Model\Pages\DownloadPage;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\View\ArrayData;
+use function _t;
 
 /**
  * DownloadPageHolder.
@@ -89,6 +91,33 @@ class DownloadPageHolder extends Page
             );
         }
         return ArrayList::create(array_reverse($pages));
+    }
+    
+    /**
+     * Uses the children of MetaNavigationHolder to render a subnavigation
+     * with the SilverCart/Model/Pages/Includes/SubNavigation.ss template.
+     * 
+     * @param string $identifierCode param only added because it exists on parent::getSubNavigation
+     *                               to avoid strict notice
+     *
+     * @return DBHTMLText
+     */
+    public function getSubNavigation(string $identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    {
+        $subNavigation = null;
+        $parent        = $this->Parent();
+        while (is_null($subNavigation)
+            && $parent->exists()
+        ) {
+            if ($parent instanceof MyAccountHolder) {
+                $subNavigation = $parent->getSubNavigation($identifierCode);
+            }
+            $parent = $parent->Parent();
+        }
+        if (is_null($subNavigation)) {
+            $subNavigation = parent::getSubNavigation($identifierCode);
+        }
+        return $subNavigation;
     }
     
     /**
