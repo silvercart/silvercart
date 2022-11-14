@@ -80,4 +80,17 @@ class CartPage extends Page
         $this->extend('updateAfterShoppingCartFull', $content);
         return DBHTMLText::create()->setValue($content);
     }
+    
+    /**
+     * Returns some additional content to insert before the ShoppingCartFull
+     * template.
+     * 
+     * @return DBHTMLText
+     */
+    public function BeforeCheckoutCartFull() : DBHTMLText
+    {
+        $content = '';
+        $this->extend('updateBeforeCheckoutCartFull', $content);
+        return DBHTMLText::create()->setValue($content);
+    }
 }

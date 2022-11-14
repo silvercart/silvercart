@@ -1593,6 +1593,7 @@ de:
     ERROR_LISTING: 'Folgende Fehler sind aufgetreten:'
     ERROR_OCCURED: 'Es ist ein Fehler aufgetreten.'
     EXCLUDING_TAX: 'exkl. MwSt.'
+    EXPRESS_CHECKOUT: 'Express Checkout'
     FEBRUARY: Februar
     FIND: 'Finden:'
     FORWARD: Weiter

@@ -1592,6 +1592,7 @@ en:
     ERROR_LISTING: 'The following errors have occured:'
     ERROR_OCCURED: 'An error has occured.'
     EXCLUDING_TAX: 'plus VAT'
+    EXPRESS_CHECKOUT: 'Express Checkout'
     FEBRUARY: February
     FIND: 'Find:'
     FORWARD: Next
