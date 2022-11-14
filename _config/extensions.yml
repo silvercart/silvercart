@@ -88,10 +88,6 @@ SilverCart\Model\Pages\ProductGroupPage:
 SilverCart\Model\Pages\ProductGroupPageController:
   extensions:
     - SilverCart\View\GroupView\GroupViewExtension
-SilverCart\Model\Product\ProductTranslation:
-  extensions:
-    - SilverCart\ORM\DataObjectCacheExtension
-    - SilverCart\Model\Translation\TranslationExtension
 SilverCart\Model\Pages\SearchResultsPageController:
   extensions:
     - SilverCart\View\GroupView\GroupViewExtension

@@ -4,9 +4,13 @@ namespace SilverCart\Model\Product;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Translation\TranslationExtension;
+use SilverCart\ORM\DataObjectCacheExtension;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
+use function _t;
 
 /**
  * Translations for a product.
@@ -27,10 +31,13 @@ use SilverStripe\ORM\DataObject;
  * @property string $OrderEmailText   Order Email Text
  * 
  * @method Product Product() Returns the related Product.
+ * 
+ * @mixin TranslationExtension
+ * @mixin DataObjectCacheExtension
  */
 class ProductTranslation extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     /**
      * Attributes.
      *
@@ -59,6 +66,15 @@ class ProductTranslation extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartProductTranslation';
+    /**
+     * Extensions
+     * 
+     * @var string[]
+     */
+    private static $extensions = [
+        TranslationExtension::class,
+        DataObjectCacheExtension::class,
+    ];
     
     /**
      * Returns the translated singular name of the object. If no translation exists
@@ -89,9 +105,6 @@ class ProductTranslation extends DataObject
      * This is a performance friendly way to exclude fields.
      * 
      * @return array
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 27.02.2013
      */
     public function excludeFromScaffolding() : array
     {
