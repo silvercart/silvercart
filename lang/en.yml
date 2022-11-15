@@ -1659,6 +1659,7 @@ en:
     SAVE: Save
     SEPTEMBER: September
     SESSION_EXPIRED: 'Your session has expired.'
+    SHIPPINGRATE: 'Shipping'
     SHIPPING_ADDRESS: 'Shipping address'
     SHIPPING_AND_BILLING: 'Shipping and invoice address'
     SHOP_WITHOUT_REGISTRATION: 'Shop without registration'
