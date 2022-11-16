@@ -621,7 +621,7 @@ class ProductGroupPage extends Page
      *
      * @return DBHTMLText
      */
-    public function getSubNavigation(string $identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    public function getSubNavigation(string $identifierCode = self::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $cachekey = "SilverCart_Model_Pages_Includes_SubNavigation{$this->ID}";
         $cache    = Injector::inst()->get(CacheInterface::class . '.ProductGroupPageController_getSubNavigation');

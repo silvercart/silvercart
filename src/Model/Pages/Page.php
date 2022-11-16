@@ -370,7 +370,7 @@ class Page extends SiteTree
      *
      * @return DBHTMLText
      */
-    public function getSubNavigation(string $identifierCode = Page::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    public function getSubNavigation(string $identifierCode = self::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $output = '';
         $this->extend('overwriteSubNavigation', $output);

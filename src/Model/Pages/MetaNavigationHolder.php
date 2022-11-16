@@ -42,7 +42,7 @@ class MetaNavigationHolder extends Page
      *
      * @return DBHTMLText
      */
-    public function getSubNavigation($identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    public function getSubNavigation($identifierCode = self::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $root   = $this;
         $output = '';

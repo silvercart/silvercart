@@ -102,7 +102,7 @@ class DownloadPageHolder extends Page
      *
      * @return DBHTMLText
      */
-    public function getSubNavigation(string $identifierCode = SilverCartPage::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
+    public function getSubNavigation(string $identifierCode = self::IDENTIFIER_PRODUCT_GROUP_HOLDER) : DBHTMLText
     {
         $subNavigation = null;
         $parent        = $this->Parent();

@@ -234,9 +234,9 @@ class CheckoutStep extends Page
         return Tools::string2html(_t(CheckoutStep::class . '.AcceptTermsAndConditionsText',
                     'With your order you agree with our <a class="text-primary font-weight-bold" href="{termsAndConditionsLink}" target="blank">terms and conditions</a>. Please read and take note of our <a class="text-primary font-weight-bold" href="{privacyLink}" target="blank">data privacy statement</a> and <a class="text-primary font-weight-bold" href="{revocationLink}" target="blank">revocation instructions</a>',
                     [
-                        'termsAndConditionsLink' => Tools::PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_TERMS_OF_SERVICE_PAGE),
-                        'privacyLink'            => Tools::PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_DATA_PRIVACY_PAGE),
-                        'revocationLink'         => Tools::PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_REVOCATION_INSTRUCTION_PAGE),
+                        'termsAndConditionsLink' => Tools::PageByIdentifierCodeLink(self::IDENTIFIER_TERMS_OF_SERVICE_PAGE),
+                        'privacyLink'            => Tools::PageByIdentifierCodeLink(self::IDENTIFIER_DATA_PRIVACY_PAGE),
+                        'revocationLink'         => Tools::PageByIdentifierCodeLink(self::IDENTIFIER_REVOCATION_INSTRUCTION_PAGE),
                     ]
         ));
     }
