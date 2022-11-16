@@ -1017,9 +1017,13 @@ class ShoppingCart extends DataObject
             $includeModules
         );
         $cacheKey = 'ggetTaxableShoppingcartPositions_'.$cacheHash;
+        // WORKAROUND: Temporarily disable caching because of a tax calculation
+        // bug when using Paypal together with non-domestic tax rates.
+        /*
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
             return $this->cacheHashes[$cacheKey];
         }
+        */
         foreach ($this->ShoppingCartPositions() as $position) {
             $cartPositions->push($position);
         }
