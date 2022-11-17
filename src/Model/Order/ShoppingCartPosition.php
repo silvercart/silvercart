@@ -304,7 +304,7 @@ class ShoppingCartPosition extends DataObject
         if ($priceType === Config::PRICE_TYPE_GROSS) {
             $amount -= $this->getTaxAmount($forSingleProduct, $precision);
         }
-        elseif ($precision !== null) {
+        if ($precision !== null) {
             $amount = round($amount, $precision);
         }
         return DBMoney::create()
