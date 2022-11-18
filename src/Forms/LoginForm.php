@@ -111,7 +111,11 @@ class LoginForm extends CustomForm {
                             list($name, $value) = explode('=', $queryPart);
                             $backURL = urldecode($value);
                             if (strpos($backURL, $baseURL) !== 0) {
-                                $backURL = $baseURL . substr($backURL, 1);
+                                if (strpos($backURL, '/') === 0) {
+                                    $backURL = $baseURL . substr($backURL, 1);
+                                } else {
+                                    $backURL = "{$baseURL}{$backURL}";
+                                }
                             }
                             $newValue     = urlencode($backURL);
                             $newQueryPart = "{$name}={$newValue}";
