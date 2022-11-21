@@ -301,6 +301,13 @@ class ShoppingCart extends DataObject
                     ]);
                     $this->callMethodOnRegisteredModules('ShoppingCartInit', [$this]);
                 }
+                $this->callMethodOnRegisteredModules('ShoppingCartPositions', [
+                    $this,
+                    Customer::currentUser(),
+                    true,
+                    [],
+                    false
+                ], []);
             }
         }
     }
