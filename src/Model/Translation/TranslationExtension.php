@@ -6,8 +6,16 @@ use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Product\ProductTranslation;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverCart\ORM\FieldType\DBLocale;
+use SilverStripe\Core\Config\Config as Config2;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DB;
+use function _t;
 
 /** 
  * Adds methods that are common to all language classes e.g. ProductTranslation
@@ -20,50 +28,46 @@ use SilverStripe\ORM\DataExtension;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class TranslationExtension extends DataExtension {
-    
+class TranslationExtension extends DataExtension
+{
     /**
      * Extends the database fields
      *
      * @var array
      */
-    private static $db = array(
-        'Locale' => \SilverCart\ORM\FieldType\DBLocale::class,
-    );
-    
+    private static $db = [
+        'Locale' => DBLocale::class,
+    ];
     /**
      * Extends the db indexes
      *
      * @var array
      */
-    private static $indexes = array(
+    private static $indexes = [
         'Locale' => '("Locale")',
-    );
+    ];
     
     /**
      * Field lable for Locale should always be multilingual
      *
      * @param array &$labels Lables to update
      *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.05.2012
+     * @return void
      */
-    public function updateFieldLabels(&$labels) {
+    public function updateFieldLabels(&$labels) : void
+    {
         parent::updateFieldLabels($labels);
-        $labels['Locale'] = _t(ProductTranslation::class . '.LOCALE', 'Language');
+        $labels['Locale']              = _t(ProductTranslation::class . '.LOCALE', 'Language');
+        $labels['NativeNameForLocale'] = _t(Config::class . '.TRANSLATION', 'Translation');
     }
     
     /**
      * must return true for the LanguageDropdown field to work properly
      *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.05.2012
+     * @return bool
      */
-    public function canTranslate() {
+    public function canTranslate() : bool
+    {
         return true;
     }
     
@@ -72,18 +76,13 @@ class TranslationExtension extends DataExtension {
      * 
      * @param array &$fields Fields to update
      *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.05.2012
+     * @return void
      */
-    public function updateSummaryFields(&$fields) {
-        $fields = array_merge(
-                array(
-                    'NativeNameForLocale' => _t(Config::class . '.TRANSLATION', 'Translation'),
-                ),
-                $fields
-        );
+    public function updateSummaryFields(&$fields) : void
+    {
+        $fields = array_merge([
+            'NativeNameForLocale' => _t(Config::class . '.TRANSLATION', 'Translation'),
+        ], $fields);
     }
     
     /**
@@ -91,13 +90,11 @@ class TranslationExtension extends DataExtension {
      *
      * @param FieldList $fields the FieldList from getCMSFields()
      *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @return void
      */
-    public function updateCMSFields(FieldList $fields) {
-        $fields = TranslationTools::prepare_cms_fields(get_class($this->owner));
+    public function updateCMSFields(FieldList $fields) : void
+    {
+        $fields         = TranslationTools::prepare_cms_fields(get_class($this->owner));
         $localeDropdown = TranslationTools::prepare_translation_dropdown_field($this->owner);
         $fields->push($localeDropdown);
     }
@@ -107,8 +104,9 @@ class TranslationExtension extends DataExtension {
      *
      * @return string native name for the locale 
      */
-    public function getNativeNameForLocale() {
-        return $this->owner->dbObject('Locale')->getNativeName();
+    public function getNativeNameForLocale() : string
+    {
+        return (string) $this->owner->dbObject('Locale')->getNativeName();
     }
     
     /**
@@ -116,9 +114,9 @@ class TranslationExtension extends DataExtension {
      *
      * @return string 
      */
-    public function getRelationClassName() {
-        $relationClassName = substr($this->owner->ClassName, 0, -11);
-        return $relationClassName;
+    public function getRelationClassName() : string
+    {
+        return substr($this->owner->ClassName, 0, -11);
     }
     
     /**
@@ -126,8 +124,9 @@ class TranslationExtension extends DataExtension {
      *
      * @return string 
      */
-    public function getRelationFieldName() {
-        $reflection = new ReflectionClass($this->owner->ClassName);
+    public function getRelationFieldName() : string
+    {
+        $reflection        = new ReflectionClass($this->owner->ClassName);
         $relationFieldName = substr($reflection->getShortName(), 0, -11) . 'ID';
         return $relationFieldName;
     }
@@ -145,8 +144,9 @@ class TranslationExtension extends DataExtension {
      * 
      * @return array
      */
-    public function getTranslatedLocales() {
-        $langs        = array();
+    public function getTranslatedLocales() : array
+    {
+        $langs        = [];
         $translations = $this->getTranslations();
         if ($translations) {
             foreach ($translations as $translation) {
@@ -161,17 +161,40 @@ class TranslationExtension extends DataExtension {
      *
      * @return DataList 
      */
-    public function getTranslations() {
+    public function getTranslations() : DataList
+    {
+        $value              = $this->owner->{$relationFieldName};
         $relationFieldName  = $this->getRelationFieldName();
         $translations       = DataObject::get(
                 $this->owner->ClassName,
-                sprintf(
-                        "\"%s\" = '%s'",
-                        $relationFieldName,
-                        $this->owner->{$relationFieldName}
-                )
+                "{$relationFieldName} = '{$value}'",
         );
         return $translations;
+    }
+    
+    /**
+     * Will add missing translations and therefore repair broken objects.
+     * 
+     * @return void
+     */
+    public function requireDefaultTranslations() : void
+    {
+        $tableName            = Config2::inst()->get($this->getRelationClassName(), 'table_name');
+        $translationTableName = $this->owner->config()->table_name;
+        $relationIDName       = $this->getRelationFieldName();
+        $objects              = DB::query("SELECT {$tableName}.ID as OID, {$translationTableName}.{$relationIDName} as TOID FROM {$tableName} LEFT JOIN {$translationTableName} ON ({$tableName}.ID = {$translationTableName}.{$relationIDName}) WHERE {$translationTableName}.{$relationIDName} IS NULL");
+        if ($objects->numRecords() === 0) {
+            return;
+        }
+        foreach ($objects as $object) {
+            if ($object['TOID'] !== null) {
+                continue;
+            }
+            $translation = Injector::inst()->createWithArgs($this->owner->ClassName, []);
+            $translation->{$relationIDName} = $object['OID'];
+            $translation->Locale            = i18n::get_locale();
+            $translation->write();
+        }
     }
 }
 
