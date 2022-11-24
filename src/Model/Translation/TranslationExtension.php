@@ -196,5 +196,18 @@ class TranslationExtension extends DataExtension
             $translation->write();
         }
     }
+    
+    /**
+     * Will delete broken objects (DataObjects without any translation object).
+     * 
+     * @return void
+     */
+    public function deleteBrokenDataObjects() : void
+    {
+        $tableName            = Config2::inst()->get($this->getRelationClassName(), 'table_name');
+        $translationTableName = $this->owner->config()->table_name;
+        $relationIDName       = $this->getRelationFieldName();
+        DB::query("DELETE {$tableName} FROM {$tableName} LEFT JOIN {$translationTableName} ON ({$tableName}.ID = {$translationTableName}.{$relationIDName}) WHERE {$translationTableName}.{$relationIDName} IS NULL");
+    }
 }
 
