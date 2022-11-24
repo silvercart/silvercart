@@ -3040,14 +3040,15 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * returns the tax amount included in $this
+     * 
+     * @param float $quantity Quantity to get tax amount for
      *
      * @return float
      */
-    public function getTaxAmount() : float
+    public function getTaxAmount(float $quantity = 1) : float
     {
         $showPricesGross = false;
         $member          = Customer::currentUser();
-
         if ($member) {
             if ($member->showPricesGross(true)) {
                 $showPricesGross = true;
@@ -3059,11 +3060,12 @@ class Product extends DataObject implements PermissionProvider
             }
         }
         if ($showPricesGross) {
-            $taxRate = $this->getPrice()->getAmount() - ($this->getPrice()->getAmount() / (100 + $this->getTaxRate()) * 100);
+            $taxAmount = ($this->getPrice()->getAmount() * $quantity) - (($this->getPrice()->getAmount() * $quantity) / (100 + $this->getTaxRate()) * 100);
         } else {
-            $taxRate = $this->getPrice()->getAmount() * ($this->getTaxRate() / 100);
+            $taxAmount = $this->getPrice()->getAmount() * $quantity * ($this->getTaxRate() / 100);
         }
-        return $taxRate;
+        $this->extend('updateTaxAmount', $taxAmount, $quantity, $showPricesGross);
+        return $taxAmount;
     }
 
     /**
