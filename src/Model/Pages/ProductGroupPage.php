@@ -5,7 +5,7 @@ namespace SilverCart\Model\Pages;
 use DateTime;
 use Page;
 use Psr\SimpleCache\CacheInterface;
-use SilverCart\Admin\Model\Config;
+use SilverCart\Admin\Model\Config as SilverCartConfig;
 use SilverCart\Dev\CacheTools;
 use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
@@ -32,6 +32,7 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
+use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
@@ -747,10 +748,6 @@ class ProductGroupPage extends Page
      * Returns the active products for this page.
      *
      * @return ArrayData
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 27.07.2015
      */
     public function ActiveProducts() : ArrayData
     {
@@ -781,7 +778,7 @@ class ProductGroupPage extends Page
                     ) {
                         if ($requiredAttribute == "Price") {
                             // Gross price as default if not defined
-                            if (Config::Pricetype() == "net") {
+                            if (SilverCartConfig::Pricetype() == "net") {
                                 $filter[] = '("PriceNetAmount" != 0.0)';
                             } else {
                                 $filter[] = '("PriceGrossAmount" != 0.0)';
@@ -802,14 +799,18 @@ class ProductGroupPage extends Page
             if (count($filter) == 1) {
                 $filter = [];
             }
-            $productTable       = Tools::get_table_name(Product::class);
-            $productGroupTable  = Tools::get_table_name(ProductGroupPage::class);
+            $productTable       = Product::config()->table_name;
+            $productTransTable  = ProductTranslation::config()->table_name;
+            $productGroupTable  = ProductGroupPage::config()->table_name;
             $filterList         = implode(' AND ', $filter);
             $productGroupIDList = implode(',', $productGroupIDs);
             $mirrorQuery        = "SELECT {$productTable}ID FROM {$productTable}_ProductGroupMirrorPages WHERE {$productGroupTable}ID IN ({$productGroupIDList})";
-            $filterString       = "isActive = 1 AND (ProductGroupID IN ({$productGroupIDList}) OR ID IN ($mirrorQuery)) {$filterList}";
+            $defaultLocale      = SilverCartConfig::Locale();
+            $currentLocale      = i18n::get_locale();
+            $localeList         = $defaultLocale === $currentLocale ? "'{$currentLocale}'" : "'{$currentLocale}','{$defaultLocale}'";
+            $filterString       = "SP.isActive = 1 AND SPT.Locale IN ({$localeList}) AND (SP.ProductGroupID IN ({$productGroupIDList}) OR SP.ID IN ($mirrorQuery)) {$filterList}";
             $this->extend('updateActiveProductsFilter', $filterString);
-            $records            = DB::query("SELECT ID FROM {$productTable} WHERE {$filterString}");
+            $records            = DB::query("SELECT DISTINCT(SP.ID) FROM {$productTable} SP LEFT JOIN {$productTransTable} SPT ON (SP.ID = SPT.ProductID) WHERE SPT.ProductID IS NOT NULL AND {$filterString}");
             
             foreach ($records as $record) {
                 $activeProducts[] = $record['ID'];
