@@ -146,8 +146,6 @@ class AddressForm extends CustomForm
      */
     public function getCustomFields()
     {
-        $test = new TextField($name);
-        $test->setMaxLength(10);
         $this->beforeUpdateCustomFields(function (array &$fields) {
             $address = Address::singleton();
             $formFields = [
