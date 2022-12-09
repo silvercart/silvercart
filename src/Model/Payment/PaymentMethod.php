@@ -2184,6 +2184,7 @@ class PaymentMethod extends DataObject
             $formName = CheckoutChoosePaymentMethodForm::class;
         }
         $form = new $formName($this, $controller);
+        $form->setTemplate(static::class . '_ChoosePaymentMethodForm');
         return $form;
     }
 
