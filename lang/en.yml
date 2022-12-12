@@ -175,6 +175,8 @@ en:
     DeleteYourAccountUndo: 'Undo deletion request'
     DeleteYourAccountUndone: 'The deletion request for your account was successfully undone.'
     Done: Done
+    EditPage: 'Edit page'
+    EditProduct: 'Edit product'
     Empty: Empty
     Go: Go
     GoToTop: 'Go to top'

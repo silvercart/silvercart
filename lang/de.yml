@@ -175,6 +175,8 @@ de:
     DeleteYourAccountUndo: 'Lösch-Antrag widerrufen'
     DeleteYourAccountUndone: 'Ihr Lösch-Antrag wurde erfolgreich rückgängig gemacht.'
     Done: Fertig
+    EditPage: 'Seite bearbeiten'
+    EditProduct: 'Artikel bearbeiten'
     Empty: Leer
     Go: Los
     GoToTop: 'Nach oben'
