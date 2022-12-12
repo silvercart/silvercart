@@ -525,7 +525,7 @@ class Page extends SiteTree
      * 
      * @return string The XHTML metatags
      */
-    public function MetaTags($includeTitle = true) : string
+    public function MetaTags($includeTitle = true)
     {
         $originalTags = parent::MetaTags($includeTitle);
         $tags         = str_replace('SilverStripe - http://silverstripe.org', 'SilverCart - http://www.silvercart.org - SilverStripe - http://silverstripe.org', $originalTags);
