@@ -44,6 +44,12 @@ class Requirements_Backend extends SilverStripeRequirements_Backend
      */
     private static $force_combine_files_async = true;
     /**
+     * Determines whether to require JS files no async.
+     *
+     * @var bool
+     */
+    private static $force_combine_files_not_async = false;
+    /**
      * Determines whether to disable minify.
      *
      * @var bool
@@ -418,6 +424,10 @@ MESSAGE
             if (Director::isLive()
              && self::config()->get('force_combine_files_async')) {
                 $attributes['async'] = true;
+            } elseif (Director::isLive()
+                   && self::config()->get('force_combine_files_not_async')
+            ) {
+                $attributes['async'] = false;
             }
             if (!empty($attributes['async'])) {
                 $jsAttributes['async'] = $attributes['async'];
