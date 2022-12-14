@@ -3534,9 +3534,6 @@ class Product extends DataObject implements PermissionProvider
      * Assigns matching keywords from $this->config()->get('keyword_map').
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.10.2018
      */
     public function assignKeywords() : bool
     {
@@ -3545,8 +3542,8 @@ class Product extends DataObject implements PermissionProvider
         foreach ($map as $titlePart => $keywords) {
             $titleParts = explode('|', $titlePart);
             foreach ($titleParts as $part) {
-                if (strpos(strtolower($this->Title), strtolower($part)) !== false
-                 && strpos(strtolower($this->Keywords), strtolower($keywords)) === false
+                if (strpos(strtolower((string) $this->Title), strtolower((string) $part)) !== false
+                 && strpos(strtolower((string) $this->Keywords), strtolower((string) $keywords)) === false
                 ) {
                     $this->Keywords = trim("{$this->Keywords} {$keywords}");
                     $assigned = true;
