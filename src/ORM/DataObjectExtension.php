@@ -11,6 +11,7 @@ use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverCart\View\IteratorSupport;
 use SilverStripe\Admin\CMSMenu;
 use SilverStripe\CMS\Model\RedirectorPage;
 use SilverStripe\Control\Controller;
@@ -43,6 +44,7 @@ use function singleton;
  */
 class DataObjectExtension extends DataExtension
 {
+    use IteratorSupport;
     /**
      * General import field names for has one relations.
      * 
