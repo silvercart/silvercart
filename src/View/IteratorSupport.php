@@ -40,15 +40,48 @@ trait IteratorSupport
         $this->iteratorPos        = $pos;
         $this->iteratorTotalItems = $totalItems;
     }
+
+    /**
+     * Returns true if this object is the first in a set.
+     *
+     * @return bool
+     */
+    public function IsIteratorFirst()
+    {
+        return $this->iteratorPos == 0;
+    }
+
+    /**
+     * Returns true if this object is the last in a set.
+     *
+     * @return bool
+     */
+    public function IsIteratorLast()
+    {
+        return $this->iteratorPos == $this->iteratorTotalItems - 1;
+    }
+
+    /**
+     * Return the numerical position of this object in the container set. The count starts at $startIndex.
+     * The default is the give the position using a 1-based index.
+     *
+     * @param int $startIndex Number to start count from.
+     * 
+     * @return int
+     */
+    public function IteratorPos(int $startIndex = 1)
+    {
+        return $this->getIteratorPos($startIndex);
+    }
     
     /**
      * Returns the iterator position.
      * 
      * @return int
      */
-    public function getIteratorPos() : int
+    public function getIteratorPos($startIndex = 1) : int
     {
-        return (int) $this->iteratorPos;
+        return (int) $this->iteratorPos + $startIndex;
     }
     
     /**
