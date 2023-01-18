@@ -1048,10 +1048,15 @@ class Page extends SiteTree
         if ($image instanceof Image 
          && $image->exists()
         ) {
-            $tags  .= HTML::createTag('meta', [
-                'property' => 'og:image',
-                'content'  => $image->Pad(250,250)->getAbsoluteURL(),
-            ]) . PHP_EOL;
+            $padded = $image->Pad(250,250);
+            if (is_object($padded)
+             && $padded->hasMethod('getAbsoluteURL')
+            ) {
+                $tags  .= HTML::createTag('meta', [
+                    'property' => 'og:image',
+                    'content'  => $image->Pad(250,250)->getAbsoluteURL(),
+                ]) . PHP_EOL;
+            }
         }
             $tags  .= HTML::createTag('meta', [
                 'property' => 'og:type',
