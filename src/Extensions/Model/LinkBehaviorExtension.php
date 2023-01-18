@@ -2,12 +2,15 @@
 
 namespace SilverCart\Extensions\Model;
 
-use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverCart\Model\Pages\CartPage;
 use SilverCart\Model\Pages\CheckoutStep;
+use SilverCart\Model\Pages\Page as SilverCartPage;
+use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataExtension;
-use SilverStripe\Forms\DropdownField;
+use SilverStripe\ORM\DataObject;
+use function _t;
 
 /**
  * Extension to add the LinkBehavior property and CMS fields to a DataObject.
@@ -19,11 +22,11 @@ use SilverStripe\Forms\DropdownField;
  * @copyright 2022 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property \SilverStripe\ORM\DataObject $owner Owner
+ * @property DataObject $owner Owner
  */
 class LinkBehaviorExtension extends DataExtension
 {
-    use \SilverStripe\Core\Config\Configurable;
+    use Configurable;
     
     public const LINK_BEHAVIOR_NO_LINK = 'nolink';
     public const LINK_BEHAVIOR_PAGE    = 'page';
@@ -132,5 +135,25 @@ class LinkBehaviorExtension extends DataExtension
     public function LinkBehaviorPopup() : bool
     {
         return $this->owner->LinkBehavior === self::LINK_BEHAVIOR_POPUP;
+    }
+    
+    /**
+     * Returns whether the owner of this extension has an empty link behavior.
+     * 
+     * @return bool
+     */
+    public function LinkBehaviorEmpty() : bool
+    {
+        return empty($this->owner->LinkBehavior);
+    }
+    
+    /**
+     * Returns the default link behavior.
+     * 
+     * @return string
+     */
+    public function LinkBehaviorDefault() : string
+    {
+        return self::LINK_BEHAVIOR_PAGE;;
     }
 }
