@@ -435,7 +435,6 @@ class Order extends DataObject implements PermissionProvider
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
-            'ID'                               => _t(Order::class . '.ORDER_ID', 'Ordernumber'),
             'Created'                          => _t(SilverCartPage::class . '.ORDER_DATE', 'Order date'),
             'OrderNumber'                      => _t(Order::class . '.ORDERNUMBER', 'ordernumber'),
             'OrderNumberShort'                 => _t(Order::class . '.OrderNumberShort', 'Orderno.'),
