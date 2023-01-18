@@ -441,6 +441,7 @@ class DataObjectExtension extends DataExtension
                 );
             }
         }
+        $this->owner->extend('updateFieldMapDropdownSource', $this->dropdownSource[$key]);
         unset($this->dropdownSource[$key]['PriceGross']);
         unset($this->dropdownSource[$key]['PriceNet']);
         unset($this->dropdownSource[$key]['MSRPrice']);
