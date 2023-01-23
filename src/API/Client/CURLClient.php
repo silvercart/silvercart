@@ -33,6 +33,12 @@ class CURLClient extends Client
      */
     private static $headers = [];
     /**
+     * Optional list of HTTP response code to trigger an error before handling the request.
+     *
+     * @var array
+     */
+    private static $error_http_codes = [];
+    /**
      * Use the HTTP based authentification using the CURL parameter CURLOPT_USERPWD.
      *
      * @var bool
@@ -239,6 +245,8 @@ class CURLClient extends Client
      */
     protected function handleResponse(string $response = null) : Response
     {
+        $info         = $this->getLastResponseInfo();
+        $httpCode     = array_key_exists('http_code', $info) ? $info['http_code'] : null;
         $data         = null;
         $isError      = false;
         $errorMessage = '';
@@ -247,7 +255,13 @@ class CURLClient extends Client
         $diffJSON     = array_diff($headers, self::HEADERS_JSON_CONTENT);
         $diffXML      = array_diff($headers, self::HEADERS_XML_CONTENT);
         if (!empty($response)) {
-            if (empty($diffJSON)) {
+            if (in_array($httpCode, (array) $this->config()->error_http_codes)) {
+                $isError       = true;
+                $errorMessage  = "Error: Remote responded with HTTP code {$httpCode}." . PHP_EOL;
+                $errorMessage .= "Raw response output (tags removed):" . PHP_EOL;
+                $errorMessage .= strip_tags($response) . PHP_EOL;
+                $errorCode     = 'HNDL-0002';
+            } elseif (empty($diffJSON)) {
                 $data = json_decode($response);
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     $isError      = true;
