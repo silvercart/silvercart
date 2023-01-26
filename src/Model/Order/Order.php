@@ -3256,7 +3256,9 @@ class Order extends DataObject implements PermissionProvider
                 return;
             }
             $this->didHandleOrderStatusChange = true;
-            $this->extend('onBeforeOrderStatusChange', (int) $changed['before'], (int) $changed['after']);
+            $before = (int) $changed['before'];
+            $after  = (int) $changed['after'];
+            $this->extend('onBeforeOrderStatusChange', $before, $after);
             if (method_exists($this->PaymentMethod(), 'handleOrderStatusChange')) {
                 $this->PaymentMethod()->handleOrderStatusChange($this);
             }
