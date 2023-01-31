@@ -8,6 +8,36 @@ SilverStripe\Core\Injector\Injector:
     class: SilverCart\ORM\Filters\StartsWithOrNullFilter
   DataListFilter.LowerCase:
     class: SilverCart\ORM\Filters\LowerCaseFilter
+  DataListFilter.SilverCart\ORM\Filters\PartialMatchOrNull:
+    class: SilverCart\ORM\Filters\PartialMatchOrNullFilter
+  DataListFilter.SilverCart\ORM\Filters\StartsWithOrNull:
+    class: SilverCart\ORM\Filters\StartsWithOrNullFilter
+  DataListFilter.SilverCart\ORM\Filters\LowerCase:
+    class: SilverCart\ORM\Filters\LowerCaseFilter
+---
+Name: coresearchfilterfixes
+---
+SilverStripe\Core\Injector\Injector:
+  DataListFilter.SilverStripe\ORM\Filters\EndsWith:
+    class: SilverStripe\ORM\Filters\EndsWithFilter
+  DataListFilter.SilverStripe\ORM\Filters\ExactMatch:
+    class: SilverStripe\ORM\Filters\ExactMatchFilter
+  DataListFilter.SilverStripe\ORM\Filters\Fulltext:
+    class: SilverStripe\ORM\Filters\FulltextFilter
+  DataListFilter.SilverStripe\ORM\Filters\GreaterThan:
+    class: SilverStripe\ORM\Filters\GreaterThanFilter
+  DataListFilter.SilverStripe\ORM\Filters\GreaterThanOrEqual:
+    class: SilverStripe\ORM\Filters\GreaterThanOrEqualFilter
+  DataListFilter.SilverStripe\ORM\Filters\LessThan:
+    class: SilverStripe\ORM\Filters\LessThanFilter
+  DataListFilter.SilverStripe\ORM\Filters\LessThanOrEqual:
+    class: SilverStripe\ORM\Filters\LessThanOrEqualFilter
+  DataListFilter.SilverStripe\ORM\Filters\PartialMatch:
+    class: SilverStripe\ORM\Filters\PartialMatchFilter
+  DataListFilter.SilverStripe\ORM\Filters\StartsWith:
+    class: SilverStripe\ORM\Filters\StartsWithFilter
+  DataListFilter.SilverStripe\ORM\Filters\WithinRange:
+    class: SilverStripe\ORM\Filters\WithinRangeFilter
 ---
 Name: silvercartsearchaliases
 ---
