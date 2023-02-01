@@ -70,13 +70,15 @@ class FormField extends DataObject
     /**
      * Sets the custom form data.
      * 
-     * @param array $data Data
+     * @param array $data           Data
+     * @param bool  $excludePresets Set to true to exclude all fields with a PresetWith option
      * 
      * @return void
      */
-    public static function setCustomFormData(array $data) : void
+    public static function setCustomFormData(array $data, bool $excludePresets = false) : void
     {
-        self::$customFormData = $data;
+        self::$customFormData               = $data;
+        self::$customFormDataExcludePresets = $excludePresets;
     }
     
     /**
@@ -201,6 +203,12 @@ class FormField extends DataObject
      * @var array
      */
     protected static $customFormData = [];
+    /**
+     * Custom form data exclude presets.
+     * 
+     * @var bool
+     */
+    protected static $customFormDataExcludePresets = false;
     
     /**
      * Returns the translated singular name.
@@ -361,6 +369,16 @@ class FormField extends DataObject
     {
         $value      = '';
         $customData = self::getCustomFormData();
+        if (!empty($this->PresetWith)
+         && self::$customFormDataExcludePresets
+        ) {
+            foreach ($customData as $fieldName => $fieldValue) {
+                if ($fieldName !== $this->Name) {
+                    continue;
+                }
+                unset($customData[$fieldName]);
+            }
+        }
         if (array_key_exists($this->Name, $_POST)) {
             $value = $_POST[$this->Name];
         } elseif (array_key_exists($this->Name, $customData)) {
