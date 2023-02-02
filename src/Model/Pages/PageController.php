@@ -423,12 +423,16 @@ class PageController extends ContentController
              && !($this instanceof RegistrationPageController)
              && !($this instanceof NewsletterPageController)
             ) {
-                $registrationPage = RegistrationPage::get()->first();
-                if ($registrationPage instanceof RegistrationPage
-                 && $registrationPage->exists()
-                 && !$this->redirectedTo()
-                ) {
-                    $this->redirect($registrationPage->Link('optinpending'));
+                $owerwriteOptInPending = false;
+                $this->extend('overwriteOptInPending', $owerwriteOptInPending);
+                if (!$owerwriteOptInPending) {
+                    $registrationPage = RegistrationPage::get()->first();
+                    if ($registrationPage instanceof RegistrationPage
+                     && $registrationPage->exists()
+                     && !$this->redirectedTo()
+                    ) {
+                        $this->redirect($registrationPage->Link('optinpending'));
+                    }
                 }
             } elseif ($registeredCustomer->Locale !== Tools::current_locale()) {
                 $registeredCustomer->Locale = Tools::current_locale();
