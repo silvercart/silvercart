@@ -745,7 +745,7 @@ class Page extends SiteTree
         if (!$this->getCMSFieldsIsCalled) {
             $this->extend('updateContent', $content);
         }
-        return DBHTMLText::create()->setValue($content);
+        return DBHTMLText::create()->setValue($content)->setProcessShortcodes(true);
     }
     
     /**
