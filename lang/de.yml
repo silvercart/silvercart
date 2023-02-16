@@ -2632,6 +2632,7 @@ de:
     MessageChangePasswordSuccess: 'Glückwunsch! Sie haben Ihr Passwort erfolgreich geändert.'
     MessageChangePasswordLockedOut: 'Bitte beachten Sie dennoch, dass Ihr Account auf Grund von einer zuvor unzulässig hohen Anzahl von falschen Zugangsversuchen weiterhin gesperrt ist. Bitte versuchen Sie es daher erst in {count} Minuten noch einmal.'
   SilverStripe\Security\PasswordValidator:
+    PREVPASSWORD: 'Sie haben dieses Passwort schon einmal verwendet. Bitte wählen Sie ein neues Passwort.'
     STRENGTHTESTDIGITS: Zahlen
     STRENGTHTESTLOWERCASE: Kleinbuchstaben
     STRENGTHTESTPUNCTUATION: Sonderzeichen
