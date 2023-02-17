@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Translation;
 
+use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslationTools;
@@ -16,7 +17,7 @@ use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Versioned\ReadingMode;
 use SilverStripe\Versioned\Versioned;
-use ReflectionClass;
+use function singleton;
 
 /** 
  * Extends DataObjects to make them multilingual.
@@ -64,7 +65,7 @@ class TranslatableDataObjectExtension extends DataExtension
         $insertAfter  = $this->owner->config()->insert_translation_cms_fields_after;
         $languageFields = TranslationTools::prepare_cms_fields($this->owner->getTranslationClassName());
         foreach ($languageFields as $languageField) {
-            /* @var $languageField \SilverStripe\Forms\FormField */
+            /* @var $languageField FormField */
             if ($insertBefore === null
              && $insertAfter === null
             ) {
@@ -99,9 +100,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * @param SQLSelect $query Query to manipulate
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.05.2012
      */
     public function augmentSQL(SQLSelect $query, DataQuery $dataQuery = null) : void
     {
@@ -399,9 +397,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * @param string $fieldName Field name to check change for
      * 
      * @return bool
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 21.10.2014
      */
     public function translationFieldValueIsChanged($fieldName) : bool
     {
@@ -423,9 +418,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * @param string $locale Locale to check
      * 
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2012
      */
     public function hasTranslation($locale) : bool
     {
@@ -441,9 +433,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * Returns if there's a translation for the current locale.
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.09.2017
      */
     public function hasCurrentTranslation() : bool
     {
@@ -461,9 +450,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * @param string $locale Locale to get translation for
      * 
      * @return DataObject
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.09.2017
      */
     public function getTranslationFor($locale)
     {
@@ -477,7 +463,7 @@ class TranslatableDataObjectExtension extends DataExtension
     /**
      * Returns the translations for the extended object.
      * 
-     * @return \SilverStripe\ORM\HasManyList
+     * @return HasManyList
      */
     public function getTranslations() : HasManyList
     {
@@ -487,11 +473,7 @@ class TranslatableDataObjectExtension extends DataExtension
     /**
      * hook
      *
-     * @return void 
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 09.02.2017
+     * @return void
      */
     public function onBeforeWrite() : void
     {
@@ -511,10 +493,7 @@ class TranslatableDataObjectExtension extends DataExtension
      * augments the hook of the decorated object so that the input in the fields
      * that are multilingual gets written to the related translation object
      *
-     * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 06.01.2012
+     * @return void
      */
     public function onAfterWrite() : void
     {
@@ -525,9 +504,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * Deletes some relations
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 10.05.2012 
      */
     public function onBeforeDelete() : void
     {
@@ -543,9 +519,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * @param bool       &$doWrite Write clone to database?
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 14.03.2013
      */
     public function onBeforeDuplicate(DataObject $original, bool &$doWrite) : void
     {
@@ -559,9 +532,6 @@ class TranslatableDataObjectExtension extends DataExtension
      * @param bool       &$doWrite Write clone to database?
      * 
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.01.2015
      */
     public function onAfterDuplicate(DataObject $original, bool &$doWrite) : void
     {
@@ -577,7 +547,7 @@ class TranslatableDataObjectExtension extends DataExtension
             $clonedTranslation->castedUpdate($translation->toMap());
             $clonedTranslation->ID = 0;
             $clonedTranslation->write();
-            $this->owner->getTranslationRelation()->add($translation);
+            $this->owner->getTranslationRelation()->add($clonedTranslation);
         }
     }
     
@@ -585,10 +555,7 @@ class TranslatableDataObjectExtension extends DataExtension
      * determin wether all multilingual attributes for all existing translations
      * are empty
      *
-     * @return bool 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 16.07.2012
+     * @return bool
      */
     public function isEmptyMultilingualAttributes() : bool
     {
