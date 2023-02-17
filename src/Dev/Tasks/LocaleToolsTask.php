@@ -2,18 +2,24 @@
 
 namespace SilverCart\Dev\Tasks;
 
+use SilverCart\Dev\ExtendedBuildTask;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
-use SilverStripe\Dev\BuildTask;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Dev\BuildTask;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\DataObjectSchema;
+use SilverStripe\ORM\DB;
+use SilverStripe\ORM\FieldType\DBComposite;
+use function singleton;
 
 class LocaleToolsTask extends BuildTask
 {
-    use \SilverCart\Dev\ExtendedBuildTask;
+    use ExtendedBuildTask;
     /**
      * Set a custom url segment (to follow dev/tasks/)
      *
@@ -41,6 +47,7 @@ class LocaleToolsTask extends BuildTask
      */
     private static $allowed_actions = [
         'addMissingLocaleEntries',
+        'repair_translatable_data_objects',
     ];
 
     /****************************************************************************/
@@ -57,9 +64,6 @@ class LocaleToolsTask extends BuildTask
      * @param HTTPRequest $request Request
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.09.2019
      */
     public function run($request) : void
     {
@@ -72,9 +76,6 @@ class LocaleToolsTask extends BuildTask
      * @param HTTPRequest $request Request
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.09.2019
      */
     public function runDefault(HTTPRequest $request) : void
     {
@@ -91,9 +92,6 @@ class LocaleToolsTask extends BuildTask
      * @param HTTPRequest $request Request
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.09.2019
      */
     public function addMissingLocaleEntries(HTTPRequest $request) : void
     {
@@ -160,14 +158,65 @@ class LocaleToolsTask extends BuildTask
     }
     
     /**
+     * Action to repair translatable DataObjects.
+     * 
+     * @param HTTPRequest $request Request
+     * 
+     * @return HTTPResponse
+     */
+    public function repair_translatable_data_objects(HTTPRequest $request) : HTTPResponse
+    {
+        $allClasses        = ClassInfo::allClasses();
+        $translatedClasses = [];
+        foreach ($allClasses as $class) {
+            $extensions = Config::forClass($class)->extensions;
+            if (is_array($extensions)
+             && in_array(TranslatableDataObjectExtension::class, $extensions)
+            ) {
+                $translatedClasses[] = $class;
+            }
+        }
+        $tables = DB::table_list();
+        foreach ($translatedClasses as $translatedClass) {
+            /* @var $translatedObject DataObject */
+            $translatedObject   = singleton($translatedClass);
+            $translatedTable    = $translatedObject->config()->table_name;
+            $translationClass   = $translatedObject->getTranslationClassName();
+            $translationObject  = singleton($translationClass);
+            $translationTable   = $translationObject->config()->table_name;
+            $relationFieldName  = $translatedObject->getRelationFieldName();
+            $tRelationFieldName = $translationObject->getRelationFieldName();
+            if (!in_array($translatedTable, $tables)
+             || !in_array($translationTable, $tables)
+            ) {
+                continue;
+            }
+            $brokenObjects      = DB::query("SELECT Original.* FROM {$translatedTable} AS Original"
+                    . " LEFT JOIN {$translationTable} AS Translation ON (Original.ID = Translation.{$relationFieldName})"
+                    . " WHERE Original.ID IS NOT NULL AND Translation.ID IS NULL");
+            $this->printMessage("found {$brokenObjects->numRecords()} broken record(s) for {$translatedClass}.");
+            foreach ($brokenObjects as $index => $brokenObject) {
+                $skip = false;
+                $this->extend('updateRepairTranslatableDataObject_BrokenObject', $brokenObject, $skip);
+                if ($skip) {
+                    continue;
+                }
+                $this->printMessage(" - adding {$translationClass} with {$tRelationFieldName}: {$brokenObject['ID']}");
+                $translation = new $translationClass();
+                $translation->{$tRelationFieldName} = $brokenObject['ID'];
+                $translation->write();
+                $this->extend('onAfterRepairTranslatableDataObject_BrokenObject', $brokenObject, $translation);
+            }
+        }
+        return HTTPResponse::create();
+    }
+    
+    /**
      * Renders the AddMissingLocaleEntriesForm.
      * 
      * @param HTTPRequest $request Request
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.09.2019
      */
     protected function renderAddMissingLocaleEntriesForm(HTTPRequest $request) : void
     {
