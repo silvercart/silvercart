@@ -15,6 +15,7 @@ use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\Security\Member;
 use function _t;
 
 /** 
@@ -59,6 +60,22 @@ class TranslationExtension extends DataExtension
         parent::updateFieldLabels($labels);
         $labels['Locale']              = _t(ProductTranslation::class . '.LOCALE', 'Language');
         $labels['NativeNameForLocale'] = _t(Config::class . '.TRANSLATION', 'Translation');
+    }
+    
+    /**
+     * 
+     * @param Member|null $member Member
+     * 
+     * @return bool|null
+     */
+    public function canDelete($member) : bool|null
+    {
+        if ($this->owner->Locale === Config::DefaultLanguage()
+         || $this->getTranslations()->count() === 1
+        ) {
+            return false;
+        }
+        return null;
     }
     
     /**
@@ -163,8 +180,8 @@ class TranslationExtension extends DataExtension
      */
     public function getTranslations() : DataList
     {
-        $value              = $this->owner->{$relationFieldName};
         $relationFieldName  = $this->getRelationFieldName();
+        $value              = $this->owner->{$relationFieldName};
         $translations       = DataObject::get(
                 $this->owner->ClassName,
                 "{$relationFieldName} = '{$value}'",
