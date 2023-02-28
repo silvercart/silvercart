@@ -4,10 +4,13 @@ namespace SilverCart\Model\Forms;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\SS_List;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
@@ -28,11 +31,11 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * 
  * @method FormField FormField() Returns the related FormField.
  * 
- * @method \SilverStripe\ORM\HasManyList FormFieldOptionTranslations() Return the related FormFieldOptionTranslations.
+ * @method HasManyList FormFieldOptionTranslations() Return the related FormFieldOptionTranslations.
  */
 class FormFieldOption extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     
     /**
      * Adds the blacklist management fields to the given CMS $fields.
@@ -77,7 +80,8 @@ class FormFieldOption extends DataObject
      * @var string[]
      */
     private static $casting = [
-        'Title' => 'Varchar',
+        'Title'   => 'Varchar',
+        'Content' => 'HTMLText',
     ];
     /**
      * Has one relations.
@@ -94,6 +98,7 @@ class FormFieldOption extends DataObject
      */
     private static $has_many = [
         'FormFieldOptionTranslations' => FormFieldOptionTranslation::class,
+        'DependentFormFields'         => FormField::class . '.ParentOption',
     ];
     /**
      * Default sort
@@ -183,5 +188,15 @@ class FormFieldOption extends DataObject
     public function getTitle() : string
     {
         return (string) $this->getTranslationFieldValue('Title');
+    }
+    
+    /**
+     * Returns the translated content.
+     * 
+     * @return DBHTMLText
+     */
+    public function getContent() : DBHTMLText
+    {
+        return DBHTMLText::create()->setValue($this->getTranslationFieldValue('Content'));
     }
 }

@@ -1111,6 +1111,7 @@ en:
     GeneralData_IPAddress: 'Customer IP Address'
     IsRequired: 'Is required'
     Name: Name
+    ParentOption: 'Parent option'
     PLURALNAME: 'Input fields'
     PresetWith: 'Fill with'
     SINGULARNAME: 'Input field'
@@ -1123,11 +1124,15 @@ en:
     Type_DatetimeField: 'Date / Time'
     Type_DropdownField: Dropdown
     Type_HiddenField: Hidden
+    Type_LiteralField: Text-Information
+    Type_NumericField: 'Numeric Field'
     Type_OptionsetField: Radio-Buttons 
     Type_TextField: Text
     Type_TextareaField: 'Text (multiple lines)'
     Type_TimeField: Time
   SilverCart\Model\Forms\FormFieldOption:
+    Content: 'Message (if picked)'
+    DependentFormFields: 'Dependent form fields'
     PLURALNAME: Options
     SINGULARNAME: Option
     Sort: 'Sort order'

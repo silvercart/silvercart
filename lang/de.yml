@@ -1112,6 +1112,7 @@ de:
     GeneralData_IPAddress: 'IP-Adresse des Kunden'
     IsRequired: Pflichtfeld
     Name: Name
+    ParentOption: Ausgangsoption
     PLURALNAME: Eingabefelder
     PresetWith: 'Vorbefüllen mit'
     SINGULARNAME: Eingabefeld
@@ -1124,11 +1125,15 @@ de:
     Type_DatetimeField: 'Datum / Uhrzeit'
     Type_DropdownField: Dropdown
     Type_HiddenField: Versteckt
+    Type_LiteralField: Text-Information
+    Type_NumericField: 'Nummerisches Feld'
     Type_OptionsetField: Radio-Buttons 
     Type_TextField: Textfeld
     Type_TextareaField: 'Textfeld (mehrzeilig)'
     Type_TimeField: Uhrzeit
   SilverCart\Model\Forms\FormFieldOption:
+    Content: 'Meldung, wenn ausgewählt'
+    DependentFormFields: 'Abhängige Eingabefelder'
     PLURALNAME: Optionen
     SINGULARNAME: Option
     Sort: Sortierreihenfolge

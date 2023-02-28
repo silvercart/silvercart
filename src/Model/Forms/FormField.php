@@ -2,7 +2,6 @@
 
 namespace SilverCart\Model\Forms;
 
-
 use ReflectionClass;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\Address;
@@ -10,6 +9,7 @@ use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Pages\ContactFormPage;
 use SilverCart\Model\Translation\TranslatableDataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\Security\FormFieldValidator;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
@@ -20,19 +20,24 @@ use SilverStripe\Forms\DatetimeField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\FormField as SilverStripeFormField;
-use SilverStripe\Forms\GroupedDropdownField;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\OptionsetField;
-use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\TextareaField;
-use SilverStripe\Forms\TimeField;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\GroupedDropdownField;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\OptionsetField;
+use SilverStripe\Forms\TextareaField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\TimeField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use function _t;
+use function singleton;
 
 /**
  * Custom form field.
@@ -54,14 +59,15 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * @property string $PresetWith   Preset With
  * @property int    $Sort         Sort order
  * 
+ * @method FormFieldOption ParentOption() Returns the related ParentOption.
  * @method ContactFormPage ContactFormPage() Returns the related ContactFormPage.
  * 
- * @method \SilverStripe\ORM\HasManyList FormFieldOptions()      Return the related FormFieldOptions.
- * @method \SilverStripe\ORM\HasManyList FormFieldTranslations() Return the related FormFieldTranslations.
+ * @method HasManyList FormFieldOptions()      Return the related FormFieldOptions.
+ * @method HasManyList FormFieldTranslations() Return the related FormFieldTranslations.
  */
 class FormField extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     
     public const PRESET_WITH_GENERAL_DATA = 'GeneralData';
     public const PRESET_WITH_GENERAL_DATA_DATE_TIME  = self::PRESET_WITH_GENERAL_DATA . '.DateTime';
@@ -96,19 +102,27 @@ class FormField extends DataObject
      * 
      * @param FieldList $fields     CMS fields to add blacklis entry fields to
      * @param SS_List   $formFields FormFields
-     * @param string    $name       Field / tab name
+     * @param string    $name       Field name
+     * @param string    $tabName    Tab name
      * 
      * @return void
      */
-    public static function getFormFieldCMSFields(FieldList $fields, SS_List $formFields = null, string $name = 'FormFields') : void
+    public static function getFormFieldCMSFields(FieldList $fields, SS_List $formFields = null, string $name = 'FormFields', string $tabName = '') : void
     {
         if ($formFields === null) {
             $formFields = self::get();
         }
+        $tabTitle = '';
+        if ($tabName === '') {
+            $tabName  = "Root.{$name}";
+            $tabTitle = self::singleton()->i18n_plural_name();
+        }
         $grid       = GridField::create($name, self::singleton()->i18n_plural_name(), $formFields, GridFieldConfig_RecordEditor::create());
-        $subjectTab = $fields->findOrMakeTab("Root.{$name}", self::singleton()->i18n_plural_name());
-        $subjectTab->setTitle(self::singleton()->i18n_plural_name());
-        $fields->addFieldToTab("Root.{$name}", $grid);
+        $subjectTab = $fields->findOrMakeTab($tabName, self::singleton()->i18n_plural_name());
+        if (!empty($tabTitle)) {
+            $subjectTab->setTitle($tabTitle);
+        }
+        $fields->addFieldToTab($tabName, $grid);
         if (class_exists(GridFieldOrderableRows::class)) {
             $grid->getConfig()->addComponent(GridFieldOrderableRows::create('Sort'));
         }
@@ -149,6 +163,7 @@ class FormField extends DataObject
      * @var string[]
      */
     private static $has_one = [
+        'ParentOption'    => FormFieldOption::class,
         'ContactFormPage' => ContactFormPage::class,
     ];
     /**
@@ -271,6 +286,9 @@ class FormField extends DataObject
                 OptionsetField::class,
             ];
             $fields->removeByName('FormFieldOptions');
+            if (!$this->ParentOption()->exists()) {
+                $fields->removeByName('ParentOptionID');
+            }
             if (in_array($this->Type, $typesWithOptions)) {
                 FormFieldOption::getFormFieldOptionCMSFields($fields, $this->FormFieldOptions());
             }
@@ -339,6 +357,8 @@ class FormField extends DataObject
             DatetimeField::class,
             DropdownField::class,
             HiddenField::class,
+            LiteralField::class,
+            NumericField::class,
             OptionsetField::class,
             TextField::class,
             TextareaField::class,
@@ -525,7 +545,7 @@ class FormField extends DataObject
         $source[_t(self::class . '.GeneralData', 'General Data')] = $generalData;
         foreach ($contextObjectNames as $contextObjectName) {
             $contextObject = singleton($contextObjectName);
-            /* @var $contextObject \SilverStripe\ORM\DataObject */
+            /* @var $contextObject DataObject */
             $contextSource = array_merge(
                     $contextObject->config()->db,
                     $contextObject->config()->casting,
@@ -603,6 +623,11 @@ class FormField extends DataObject
                 $this->Title,
                 $this->FormFieldOptions()->map('ID', 'Title')->toArray(),
                 $this->getFormFieldValue(),
+            ];
+        } elseif ($this->Type === LiteralField::class) {
+            $args = [
+                $this->Name,
+                $this->Description,
             ];
         } else {
             $args = [
