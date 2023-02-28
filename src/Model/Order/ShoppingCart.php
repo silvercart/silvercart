@@ -385,7 +385,6 @@ class ShoppingCart extends DataObject
             if ($positionsField instanceof GridField) {
                 $positionFieldConfig = $positionsField->getConfig();
                 $positionFieldConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
-                $positionFieldConfig->removeComponentsByType(GridFieldAddNewButton::class);
                 $deleteAction        = $positionFieldConfig->getComponentByType(GridFieldDeleteAction::class);
                 /* @var $deleteAction GridFieldDeleteAction */
                 $deleteAction->setRemoveRelation(false);
@@ -411,6 +410,16 @@ class ShoppingCart extends DataObject
         if (self::getClearCheckoutAfterWrite()) {
             Checkout::clear_session();
         }
+    }
+    
+    /**
+     * Returns a human readable title.
+     * 
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return "{$this->i18n_singular_name()} #{$this->ID}, {$this->Member()->i18n_singular_name()} {$this->Member()->CustomerNumber} (#{$this->Member()->ID})";
     }
     
     /**
