@@ -281,14 +281,15 @@ class Checkout extends ViewableData
      * Returns the current checkout step to use in template.
      * 
      * @return CheckoutStep
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.11.2017
      */
     public function CurrentStep() : CheckoutStep
     {
         if (is_null($this->currentStep)) {
             $currentStepName   = $this->getCurrentStepName();
+            if (empty($currentStepName)) {
+                $list            = (array) $this->getStepList();
+                $currentStepName = array_shift($list);
+            }
             $this->currentStep = new $currentStepName($this->getController());
         }
         return $this->currentStep;
