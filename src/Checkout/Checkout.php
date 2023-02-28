@@ -643,7 +643,7 @@ class Checkout extends ViewableData
      */
     public function getCurrentStepName() : string
     {
-        return $this->currentStepName;
+        return (string) $this->currentStepName;
     }
 
     /**
