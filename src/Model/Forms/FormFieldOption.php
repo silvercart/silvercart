@@ -175,7 +175,9 @@ class FormFieldOption extends DataObject
     public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
-            
+            FormField::getFormFieldCMSFields($fields, $this->DependentFormFields(), 'DependentFormFields');
+            $tab = $fields->findOrMakeTab('Root.DependentFormFields');
+            $tab->setTitle($this->fieldLabel('DependentFormFields'));
         });
         return parent::getCMSFields();
     }
