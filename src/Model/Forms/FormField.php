@@ -404,7 +404,19 @@ class FormField extends DataObject
         } elseif (array_key_exists($this->Name, $customData)) {
             $value = $customData[$this->Name];
         } elseif (!empty($this->DefaultValue)) {
-            $value = $this->DefaultValue;
+            $value            = $this->DefaultValue;
+            $typesWithOptions = [
+                DropdownField::class,
+                OptionsetField::class,
+            ];
+            if (in_array($this->Type, $typesWithOptions)
+             && !is_numeric($value)
+            ) {
+                $option = $this->FormFieldOptions()->filter('Title', $value)->first();
+                if ($option instanceof FormFieldOption) {
+                    $value = $option->ID;
+                }
+            }
         } elseif (!empty($this->PresetWith)) {
             $ctrl         = Controller::curr();
             $object       = null;
