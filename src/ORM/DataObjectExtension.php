@@ -26,6 +26,7 @@ use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\ViewableData;
 use function _t;
 use function singleton;
@@ -90,6 +91,20 @@ class DataObjectExtension extends DataExtension
      * @var array[]
      */
     protected $dropdownSource = [];
+    
+    /**
+     * Returns the table name respecting the current Versioned stage.
+     * 
+     * @return string
+     */
+    public function getStageTableName() : string
+    {
+        $tableName = SilverStripeConfig::inst()->get(get_class($this->owner), 'table_name');
+        if ($this->owner->hasExtension(Versioned::class)) {
+            $tableName = $this->owner->stageTable($tableName, Versioned::get_stage());
+        }
+        return (string) $tableName;
+    }
     
     /**
      * Handles UseAsRootForMainNavigation property (can only be set for a single 
