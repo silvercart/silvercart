@@ -409,9 +409,7 @@ class FormField extends DataObject
                 DropdownField::class,
                 OptionsetField::class,
             ];
-            if (in_array($this->Type, $typesWithOptions)
-             && !is_numeric($value)
-            ) {
+            if (in_array($this->Type, $typesWithOptions)) {
                 $option = $this->FormFieldOptions()->filter('Title', $value)->first();
                 if ($option instanceof FormFieldOption) {
                     $value = $option->ID;

@@ -31,7 +31,8 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * 
  * @method FormField FormField() Returns the related FormField.
  * 
- * @method HasManyList FormFieldOptionTranslations() Return the related FormFieldOptionTranslations.
+ * @method HasManyList FormFieldOptionTranslations() Returns the related FormFieldOptionTranslations.
+ * @method HasManyList DependentFormFields()         Returns the related DependentFormFields.
  */
 class FormFieldOption extends DataObject
 {
