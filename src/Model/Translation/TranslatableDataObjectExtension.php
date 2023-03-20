@@ -115,9 +115,11 @@ class TranslatableDataObjectExtension extends DataExtension
                 $versionedMode  = $dataQuery->getQueryParam('Versioned.mode');
                 $versionedStage = $dataQuery->getQueryParam('Versioned.stage');
                 ReadingMode::validateStage($versionedStage);
-                if (in_array($versionedMode, ['archive', 'latest_versions', 'version', 'all_versions'])) {
+                if (in_array($versionedMode, ['archive', 'latest_version_single', 'latest_versions', 'version', 'all_versions'])) {
                     $baseTableName = "{$baseTableName}_Versions";
-                } elseif ($versionedStage === Versioned::LIVE) {
+                } elseif ($versionedStage === Versioned::LIVE
+                       && $this->owner->hasStages()
+                ) {
                     $baseTableName = "{$baseTableName}_Live";
                 }
             }
