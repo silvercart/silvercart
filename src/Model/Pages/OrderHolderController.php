@@ -12,6 +12,7 @@ use SilverCart\Model\Order\OrderInvoiceAddress;
 use SilverCart\Model\Order\OrderPosition;
 use SilverCart\Model\Order\OrderShippingAddress;
 use SilverCart\Model\Pages\MyAccountHolderController;
+use SilverCart\Model\Product\Product;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Security\Member;
@@ -183,9 +184,22 @@ class OrderHolderController extends MyAccountHolderController
                 if ($orderPosition->Product()->exists()) {
                     $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
                 }
+                else {
+                    $product = Product::get()->filter(['ProductNumberShop' => $orderPosition->ProductNumber])->first();
+                    if ($product->exists()) {
+                        $product->addToCart($cartID, $orderPosition->Quantity);
+                    }
+                }
             }
-        } elseif ($orderPosition->Product()->exists()) {
-            $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
+        } else {
+            if ($orderPosition->Product()->exists()) {
+                $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
+            } else {
+                $product = Product::get()->filter(['ProductNumberShop' => $orderPosition->ProductNumber])->first();
+                if ($product->exists()) {
+                    $product->addToCart($cartID, $orderPosition->Quantity);
+                }
+            }
         }
     }
     
