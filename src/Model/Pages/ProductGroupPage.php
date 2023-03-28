@@ -1087,10 +1087,9 @@ class ProductGroupPage extends Page
      */
     public function getPreorderableProducts(int $limit = null)
     {
-        $tableName = Product::config()->table_name;
         $products  = $this->getProductsInherited()
-                ->where("\"{$tableName}\".ReleaseDate > NOW()")
-                ->sort("\"{$tableName}\".ReleaseDate", "ASC");
+                ->where("ReleaseDate > NOW()")
+                ->sort("ReleaseDate", "ASC");
         if (!is_null($limit)) {
             $products = $products->limit($limit);
         }
