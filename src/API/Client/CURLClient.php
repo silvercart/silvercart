@@ -305,6 +305,34 @@ class CURLClient extends Client
     /**************************************************************************/
     
     /**
+     * Adds the given $header.
+     * 
+     * @return CURLClient
+     */
+    public function addHeader(string $header) : CURLClient
+    {
+        $this->config()->set('headers', array_merge((array) $this->config()->headers, [$header]));
+        return $this;
+    }
+    
+    /**
+     * Removes the given $header.
+     * 
+     * @return CURLClient
+     */
+    public function removeHeader(string $header) : CURLClient
+    {
+        $headers = (array) $this->config()->headers;
+        foreach ($headers as $key => $existingHeader) {
+            if ($header === $existingHeader) {
+                unset($headers[$key]);
+            }
+        }
+        $this->config()->set('headers', $headers);
+        return $this;
+    }
+    
+    /**
      * Returns the default headers.
      * 
      * @return array
