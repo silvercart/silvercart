@@ -622,7 +622,7 @@ class DataObjectExtension extends DataExtension
                 }
                 if (in_array($this->owner->ClassName, (array) SilverStripeConfig::inst()->get($menuItem->controller, 'managed_models'))) {
                     $class = str_replace(['/', '\\'], '-', $this->owner->ClassName);
-                    $link  = Director::makeRelative("{$menuItem->url}/{$class}/EditForm/field/{$class}/item/{$this->owner->ID}/edit");
+                    $link  = Director::absoluteURL("{$menuItem->url}/{$class}/EditForm/field/{$class}/item/{$this->owner->ID}/edit");
                 }
             }
         }

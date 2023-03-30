@@ -562,7 +562,7 @@ class Page extends SiteTree
     {
         $link = '';
         if ($this->canEdit()) {
-            $link = Director::makeRelative("/admin/pages/edit/show/{$this->ID}");
+            $link = Director::absoluteURL("/admin/pages/edit/show/{$this->ID}");
         }
         return $link;
     }
