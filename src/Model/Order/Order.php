@@ -1707,9 +1707,10 @@ class Order extends DataObject implements PermissionProvider
 
                 // Delete the shoppingcart positions
                 foreach ($shoppingCartPositions as $shoppingCartPosition) {
-                    $shoppingCartPosition->delete();
+                    if ($shoppingCartPosition->exists()) {
+                        $shoppingCartPosition->delete();
+                    }
                 }
-            
                 $this->write();
             }
         }
