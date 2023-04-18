@@ -153,6 +153,8 @@ de:
   SilverCart:
     Actions: Aktionen
     Add: Hinzufügen
+    AllIncl: 'Alle angezeigten Preise verstehen sich inkl. MwSt.'
+    AllPlus: 'Alle angezeigten Preise verstehen sich zzgl. MwSt.'
     Buy1: '{title} kaufen'
     Buy2: '{title1} {title2} kaufen'
     Cancel: Stornieren

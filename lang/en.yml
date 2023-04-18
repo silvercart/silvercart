@@ -153,6 +153,8 @@ en:
   SilverCart:
     Actions: Actions
     Add: Add
+    AllIncl: 'All prices shown include VAT.'
+    AllPlus: 'All prices shown are exclusive of VAT.'
     Buy1: 'Buy {title}'
     Buy2: 'Buy {title1} {title2}'
     Cancel: Cancel
