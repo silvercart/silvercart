@@ -186,6 +186,8 @@ en:
     NextPage: 'Next page'
     OurPaymentPartners: 'Our payment methods'
     OurShipmentPartners: 'Our shipment partners'
+    Plus: Plus
+    plus: plus
     PlusTax: 'plus {amount}% VAT'
     PrevPage: 'Previous page'
     Print: Print

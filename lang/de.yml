@@ -186,6 +186,8 @@ de:
     NextPage: 'Nächste Seite'
     OurPaymentPartners: 'Ihre Zahlungsmöglichkeiten'
     OurShipmentPartners: 'Unsere Versandpartner'
+    Plus: 'Zzgl.'
+    plus: 'zzgl.'
     PlusTax: 'zzgl. {amount}% MwSt.'
     PrevPage: 'Vorherige Seite'
     Print: Drucken
