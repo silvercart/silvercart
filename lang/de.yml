@@ -608,11 +608,13 @@ de:
     FieldMustBeDecimal: 'Das Feld {name} darf nur Zahlen sowie "." und "," enthalten.'
     FieldMustBeEmail: 'Bitte geben Sie hier eine gültige Email Adresse an.'
     FieldMustBeEmpty: 'Das Feld "{name}" muss leer sein.'
+    FieldMustContainHTML: 'Das Feld "{name}" muss HTML-Code enthalten.'
     FieldMustContainSpecialSigns: 'Das Feld "{name}" muss Sonderzeichen enthalten (andere Zeichen als Buchstaben, Zahlen und die Zeichen "@" und ".").'
     FieldMustHaveExactlyChars: 'Das Feld "{name}" erfordert genau {count} Zeichen.'
     FieldMustHaveMinChars: 'Bitte mindestens {count} Zeichen eingeben.'
     FieldMustHaveValue: 'Bitte geben Sie den gleichen Wert ein wie im Feld "{name}".'
     FieldMustNotBeEmail: 'Bitte geben Sie hier keine Email Adresse an.'
+    FieldMustNotContainHTML: 'Das Feld "{name}" darf keinen HTML-Code enthalten.'
     FieldMustNotContainSpecialSigns: 'Das Feld "{name}" darf nur Buchstaben, Zahlen und die Zeichen "@" und "." enthalten.'
   SilverCart\Forms\DownloadSearchForm:
     SearchQuery: 'Ihr Suchbegriff...'

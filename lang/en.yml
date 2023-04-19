@@ -606,11 +606,13 @@ en:
     FieldMustBeDecimal: 'The field {name} may consist of numbers and "." or "," only.'
     FieldMustBeEmail: 'Please enter a valid email address.'
     FieldMustBeEmpty: 'The field "{name}" must be empty.'
+    FieldMustContainHTML: 'The field "{name}" must contain HTML code.'
     FieldMustContainSpecialSigns: 'The field "{name}" must contain special signs (other signs than letters, numbers and the signs "@" and ".").'
     FieldMustHaveExactlyChars: 'The field "{name}" requires exactly {count} characters.'
     FieldMustHaveMinChars: 'Enter at least {count} characters.'
     FieldMustHaveValue: 'Please enter the same value as in field "{name}".'
     FieldMustNotBeEmail: 'Please do not enter an email address here.'
+    FieldMustNotContainHTML: 'The field "{name}" must not contain HTML code.'
     FieldMustNotContainSpecialSigns: 'The field "{name}" may only contain letters, numbers and the characters "@" and ".".'
   SilverCart\Forms\DownloadSearchForm:
     SearchQuery: 'Your Search Term...'

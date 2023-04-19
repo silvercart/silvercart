@@ -72,6 +72,7 @@ class ContactForm extends CustomForm
         'Message' => [
             'isFilledIn'   => true,
             'hasMinLength' => 3,
+            'hasHTML'      => false,
         ],
     ];
     

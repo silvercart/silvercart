@@ -378,7 +378,48 @@ class CustomRequiredFields extends RequiredFields
     }
 
     /**
-     * Checks if input containes special chars and if the result corresponds to
+     * Checks if input contains HTML code and if the result corresponds to the 
+     * expected result
+     * 
+     * @param FormField $formField      Form field
+     * @param mixed     $value          Value to check
+     * @param bool      $expectedResult The expected result
+     *
+     * @return array
+     */
+    public function hasHTML(FormField $formField, $value, bool $expectedResult) : array
+    {
+        $errorMessage = '';
+        $stripped     = strip_tags($value);
+        $hasHTML      = $stripped !== $value;
+        if ($hasHTML === $expectedResult) {
+            $error = false;
+        } else {
+            $error = true;
+            if ($hasHTML) {
+                $errorMessage = _t(CustomRequiredFields::class . '.FieldMustNotContainHTML',
+                        'The field "{name}" must not contain HTML code.',
+                        [
+                            'name' => strip_tags($formField->Title() ? $formField->Title() : $formField->getName()),
+                        ]
+                );
+            } else {
+                $errorMessage = _t(CustomRequiredFields::class . '.FieldMustContainHTML',
+                        'The field "{name}" must contain HTML code.',
+                        [
+                            'name' => strip_tags($formField->Title() ? $formField->Title() : $formField->getName()),
+                        ]
+                );
+            }
+        }
+        return [
+            'error'        => $error,
+            'errorMessage' => $errorMessage
+        ];
+    }
+
+    /**
+     * Checks if input contains special chars and if the result corresponds to
      * the expected result
      * 
      * @param FormField $formField      Form field
