@@ -967,6 +967,20 @@ trait CLITask
     }
     
     /**
+     * Returns the log file name.
+     * 
+     * @return string
+     */
+    protected function getLogFileName() : string
+    {
+        if (static::$log_file_name === null) {
+            $reflection            = new ReflectionClass($this);
+            static::$log_file_name = $reflection->getShortName();
+        }
+        return (string) static::$log_file_name;
+    }
+    
+    /**
      * Adds the given prefix to the log file name (separated with a ".").
      * If $force is not set to true, the $prefix won't be added if there already
      * is an added prefix.
@@ -978,14 +992,11 @@ trait CLITask
      */
     protected function setLogFileNamePrefix(string $prefix, bool $force = false) : void
     {
-        if (is_null(static::$log_file_name)) {
-            $reflection            = new ReflectionClass($this);
-            static::$log_file_name = $reflection->getShortName();
-        }
-        if (strpos(static::$log_file_name, '-') === false) {
-            $last  = static::$log_file_name;
+        $logFileName = $this->getLogFileName();
+        if (strpos($logFileName, '-') === false) {
+            $last  = $logFileName;
         } elseif ($force) {
-            $parts = explode('-', static::$log_file_name);
+            $parts = explode('-', $logFileName);
             $last  = array_pop($parts);
         }
         static::$log_file_name = "{$prefix}-{$last}";
@@ -1003,10 +1014,11 @@ trait CLITask
      */
     protected function setLogFileNameSuffix(string $suffix, bool $force = false) : void
     {
-        if (strpos(static::$log_file_name, '.') === false) {
+        $logFileName = $this->getLogFileName();
+        if (strpos($logFileName, '.') === false) {
             static::$log_file_name .= ".{$suffix}";
         } elseif ($force) {
-            $parts = explode('.', static::$log_file_name);
+            $parts = explode('.', $logFileName);
             $first = array_shift($parts);
             static::$log_file_name = "{$first}.{$suffix}";
         }
@@ -1019,16 +1031,10 @@ trait CLITask
      * @param string $text The text to log
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 30.08.2018
      */
-    public function Log($type, $text)
+    public function Log(string $type, string $text) : void
     {
-        $logFileName = static::$log_file_name;
-        if (is_null($logFileName)) {
-            $logFileName = static::class;
-        }
+        $logFileName = $this->getLogFileName();
         Tools::Log($type, $text, $logFileName);
     }
     
