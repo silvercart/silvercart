@@ -5,6 +5,7 @@ namespace SilverCart\Forms;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
+use SilverCart\Forms\Extensions\CloudflareTurnstyleExtension;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
@@ -20,9 +21,11 @@ use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\PasswordField;
+use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 use SilverStripe\Security\Security;
+use function _t;
 
 /**
  * Form for registration of a regular customer.
@@ -33,6 +36,8 @@ use SilverStripe\Security\Security;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @mixin CloudflareTurnstyleExtension
  */
 class RegisterRegularCustomerForm extends CustomForm
 {
@@ -72,6 +77,14 @@ class RegisterRegularCustomerForm extends CustomForm
         'PasswordCheck' => [
             'mustEqual' => 'Password',
         ],
+    ];
+    /**
+     * Extensions.
+     * 
+     * @var string[]
+     */
+    private static $extensions = [
+        CloudflareTurnstyleExtension::class,
     ];
     /**
      * Optional backlink to overwrite the default redirection after a successful submission.
@@ -494,7 +507,7 @@ class RegisterRegularCustomerForm extends CustomForm
      * 
      * @param Member $customer Customer
      * 
-     * @return \SilverCart\Forms\RegisterRegularCustomerForm
+     * @return RegisterRegularCustomerForm
      */
     public function setCustomer(Member $customer) : RegisterRegularCustomerForm
     {

@@ -24,25 +24,25 @@ class CloudflareTurnstyleField extends GoogleRecaptchaField
      *
      * @var string
      */
-    private static $secret_key = '';
+    private static string $secret_key = '';
     /**
      * Cloudflare Turnstyle site key.
      *
      * @var string
      */
-    private static $site_key = '';
+    private static string $site_key = '';
     /**
      * Cloudflare Turnstyle site verify url.
      *
      * @var string
      */
-    private static $siteverify_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+    private static string $siteverify_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
     /**
      * Private Cloudflare Turnstyle theme (light/dark/auto).
      *
      * @var string
      */
-    private static $theme = 'light';
+    private static string $theme = 'light';
     
     /**
      * Returns the private Cloudflare Turnstyle secret.
@@ -117,6 +117,28 @@ class CloudflareTurnstyleField extends GoogleRecaptchaField
     {
         return (string) self::config()->siteverify_url;
     }
+
+    /**
+     * Sets the private Cloudflare Turnstyle siteverify_url.
+     * 
+     * @param string $siteverify_url Private Cloudflare Turnstyle siteverify_url
+     * 
+     * @return void
+     */
+    public static function setSiteverifyURL(string $siteverify_url) : void
+    {
+        self::config()->update('siteverify_url', $siteverify_url);
+    }
+    
+    /**
+     * Returns the private Cloudflare Turnstyle siteverify_url.
+     * 
+     * @return string
+     */
+    public function getSiteverifyURL() : string
+    {
+        return self::SiteverifyURL();
+    }
     
     /**
      * Returns the private Cloudflare Turnstyle theme.
@@ -126,6 +148,28 @@ class CloudflareTurnstyleField extends GoogleRecaptchaField
     public static function Theme() : string
     {
         return (string) self::config()->theme;
+    }
+
+    /**
+     * Sets the private Cloudflare Turnstyle theme.
+     * 
+     * @param string $theme Private Cloudflare Turnstyle theme
+     * 
+     * @return void
+     */
+    public static function setTheme(string $theme) : void
+    {
+        self::config()->update('theme', $theme);
+    }
+    
+    /**
+     * Returns the private Cloudflare Turnstyle theme.
+     * 
+     * @return string
+     */
+    public function getTheme() : string
+    {
+        return self::Theme();
     }
     
     /**

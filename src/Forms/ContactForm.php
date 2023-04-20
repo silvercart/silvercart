@@ -4,12 +4,13 @@ namespace SilverCart\Forms;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
-use SilverCart\Forms\FormFields\CloudflareTurnstyleField;
+use SilverCart\Forms\Extensions\CloudflareTurnstyleExtension;
 use SilverCart\Forms\FormFields\GoogleRecaptchaField;
 use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Forms\FormFields\TextField;
 use SilverCart\Model\ContactMessage;
 use SilverCart\Model\Customer\Customer;
+use SilverCart\Model\Forms\FormField;
 use SilverCart\Model\Forms\FormFieldValue;
 use SilverCart\Model\Pages\ContactFormPage;
 use SilverCart\Model\Pages\Page;
@@ -17,6 +18,7 @@ use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\EmailField;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Security\Member;
+use function _t;
 
 /** 
  * a contact form of the CustomHTMLForms modul.
@@ -27,6 +29,8 @@ use SilverStripe\Security\Member;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @mixin CloudflareTurnstyleExtension
  */
 class ContactForm extends CustomForm
 {
@@ -38,6 +42,14 @@ class ContactForm extends CustomForm
      * @var bool
      */
     private static $spam_check_firstname_surname_enabled = true;
+    /**
+     * Extensions.
+     * 
+     * @var string[]
+     */
+    private static $extensions = [
+        CloudflareTurnstyleExtension::class,
+    ];
     /**
      * Custom extra CSS classes.
      *
@@ -87,7 +99,7 @@ class ContactForm extends CustomForm
         $requiredFields = self::config()->get('requiredFields');
         if ($this->HasCustomFormFields()) {
             foreach ($this->ContactPage()->FormFields() as $dbFormField) {
-                /* @var $dbFormField \SilverCart\Model\Forms\FormField */
+                /* @var $dbFormField FormField */
                 if ($dbFormField->IsRequired) {
                     $requiredFields[] = $dbFormField->Name;
                 }
@@ -127,7 +139,6 @@ class ContactForm extends CustomForm
                     $this->getCustomFormFields(),
                     $this->getSubjectFields(),
                     $this->getGoogleRecaptchaFields(),
-                    $this->getCloudflareTurnstyleFields(),
                     $this->getHoneyPotFields()
             );
         });
@@ -144,7 +155,7 @@ class ContactForm extends CustomForm
         $fields = [];
         if ($this->HasCustomFormFields()) {
             foreach ($this->ContactPage()->FormFields() as $dbFormField) {
-                /* @var $dbFormField \SilverCart\Model\Forms\FormField */
+                /* @var $dbFormField FormField */
                 $fields[] = $dbFormField->getFormField();
             }
         }
@@ -182,20 +193,6 @@ class ContactForm extends CustomForm
         $fields = [];
         if ($this->EnableGoogleRecaptcha()) {
             $fields[] = GoogleRecaptchaField::create('GoogleRecaptcha', $this->fieldLabel('GoogleRecaptcha'));
-        }
-        return $fields;
-    }
-    
-    /**
-     * Returns the Cloudflare Turnstyle related form fields.
-     * 
-     * @return array
-     */
-    protected function getCloudflareTurnstyleFields() : array
-    {
-        $fields = [];
-        if ($this->EnableCloudflareTurnstyle()) {
-            $fields[] = CloudflareTurnstyleField::create('CloudflareTurnstyle', $this->fieldLabel('CloudflareTurnstyle'));
         }
         return $fields;
     }
@@ -246,14 +243,6 @@ class ContactForm extends CustomForm
                 return;
             }
         }
-        if ($this->EnableCloudflareTurnstyle()) {
-            $verified = CloudflareTurnstyleField::verifyRequest();
-            if (!$verified) {
-                $this->setErrorMessage(_t(CloudflareTurnstyleField::class . '.Verify', 'Please verify that you are not a robot.'));
-                $this->setSessionData($this->getData());
-                return;
-            }
-        }
         $customer = Customer::currentRegisteredCustomer();
         if ($customer instanceof Member
          && $customer->exists()
@@ -274,7 +263,7 @@ class ContactForm extends CustomForm
         $contactMessage->write();
         if ($this->HasCustomFormFields()) {
             foreach ($this->ContactPage()->FormFields() as $dbFormField) {
-                /* @var $dbFormField \SilverCart\Model\Forms\FormField */
+                /* @var $dbFormField FormField */
                 if (array_key_exists($dbFormField->Name, $data)) {
                     $value = FormFieldValue::create();
                     $value->FieldTitle  = $dbFormField->Title;
@@ -341,16 +330,6 @@ class ContactForm extends CustomForm
     public function EnableGoogleRecaptcha() : bool
     {
         return GoogleRecaptchaField::isEnabled();
-    }
-    
-    /**
-     * Returns whether Cloudflare Turnstyle is enabled or not.
-     * 
-     * @return bool
-     */
-    public function EnableCloudflareTurnstyle() : bool
-    {
-        return CloudflareTurnstyleField::isEnabled();
     }
     
     /**
