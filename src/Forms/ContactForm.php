@@ -4,6 +4,7 @@ namespace SilverCart\Forms;
 
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\CustomForm;
+use SilverCart\Forms\FormFields\CloudflareTurnstyleField;
 use SilverCart\Forms\FormFields\GoogleRecaptchaField;
 use SilverCart\Forms\FormFields\TextareaField;
 use SilverCart\Forms\FormFields\TextField;
@@ -126,6 +127,7 @@ class ContactForm extends CustomForm
                     $this->getCustomFormFields(),
                     $this->getSubjectFields(),
                     $this->getGoogleRecaptchaFields(),
+                    $this->getCloudflareTurnstyleFields(),
                     $this->getHoneyPotFields()
             );
         });
@@ -185,6 +187,20 @@ class ContactForm extends CustomForm
     }
     
     /**
+     * Returns the Cloudflare Turnstyle related form fields.
+     * 
+     * @return array
+     */
+    protected function getCloudflareTurnstyleFields() : array
+    {
+        $fields = [];
+        if ($this->EnableCloudflareTurnstyle()) {
+            $fields[] = CloudflareTurnstyleField::create('CloudflareTurnstyle', $this->fieldLabel('CloudflareTurnstyle'));
+        }
+        return $fields;
+    }
+    
+    /**
      * Returns the static form fields.
      * 
      * @return array
@@ -226,6 +242,14 @@ class ContactForm extends CustomForm
             $verified = GoogleRecaptchaField::verifyRequest();
             if (!$verified) {
                 $this->setErrorMessage(_t(GoogleRecaptchaField::class . '.Verify', 'Please verify that you are not a robot.'));
+                $this->setSessionData($this->getData());
+                return;
+            }
+        }
+        if ($this->EnableCloudflareTurnstyle()) {
+            $verified = CloudflareTurnstyleField::verifyRequest();
+            if (!$verified) {
+                $this->setErrorMessage(_t(CloudflareTurnstyleField::class . '.Verify', 'Please verify that you are not a robot.'));
                 $this->setSessionData($this->getData());
                 return;
             }
@@ -317,6 +341,16 @@ class ContactForm extends CustomForm
     public function EnableGoogleRecaptcha() : bool
     {
         return GoogleRecaptchaField::isEnabled();
+    }
+    
+    /**
+     * Returns whether Cloudflare Turnstyle is enabled or not.
+     * 
+     * @return bool
+     */
+    public function EnableCloudflareTurnstyle() : bool
+    {
+        return CloudflareTurnstyleField::isEnabled();
     }
     
     /**

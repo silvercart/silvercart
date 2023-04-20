@@ -617,6 +617,8 @@ en:
   SilverCart\Forms\DownloadSearchForm:
     SearchQuery: 'Your Search Term...'
     submitButtonTitle: 'Search for Downloads'
+  SilverCart\Forms\FormFields\CloudflareTurnstyleField:
+    Verify: 'Please verify that you are human.'
   SilverCart\Forms\FormFields\GoogleRecaptchaField:
     Verify: 'Please verify that you are not a robot.'
   SilverCart\Forms\FormFields\TextCheckboxGroupField:

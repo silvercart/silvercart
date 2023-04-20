@@ -619,6 +619,8 @@ de:
   SilverCart\Forms\DownloadSearchForm:
     SearchQuery: 'Ihr Suchbegriff...'
     submitButtonTitle: 'Downloads durchsuchen'
+  SilverCart\Forms\FormFields\CloudflareTurnstyleField:
+    Verify: 'Bitte bestätigen Sie, dass Sie ein Mensch sind.'
   SilverCart\Forms\FormFields\GoogleRecaptchaField:
     Verify: 'Bitte bestätigen Sie, dass Sie kein Roboter sind.'
   SilverCart\Forms\FormFields\TextCheckboxGroupField:

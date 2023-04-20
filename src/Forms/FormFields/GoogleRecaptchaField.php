@@ -4,6 +4,8 @@ namespace SilverCart\Forms\FormFields;
 
 use ReCaptcha\ReCaptcha;
 use SilverStripe\Forms\FormField;
+use SilverStripe\Forms\Validator;
+use function _t;
 
 /**
  * A Google reCAPTCHA field
@@ -122,12 +124,9 @@ class GoogleRecaptchaField extends FormField
     /**
      * Validate by submitting to external service
      *
-     * @param \SilverStripe\Forms\Validator $validator Validator
+     * @param Validator $validator Validator
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 16.09.2019
      */
     public function validate($validator) : bool
     {
@@ -135,7 +134,7 @@ class GoogleRecaptchaField extends FormField
         if (!$valid) {
             $validator->validationError(
                 $this->getName(),
-                _t(self::class . '.Verify', 'Please verify that you are not a robot.'),
+                _t(static::class . '.Verify', _t(self::class . '.Verify', 'Please verify that you are not a robot.')),
                 "validation",
                 false
             );

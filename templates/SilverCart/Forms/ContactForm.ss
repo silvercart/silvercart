@@ -25,6 +25,9 @@
     <% if $EnableGoogleRecaptcha %>
         {$Fields.dataFieldByName('GoogleRecaptcha').FieldHolder}
     <% end_if %>
+    <% if $EnableCloudflareTurnstyle %>
+        {$Fields.dataFieldByName('CloudflareTurnstyle').FieldHolder}
+    <% end_if %>
     <% if $EnableHoneyPot %>
         {$HoneyPotField.FieldHolder}
     <% end_if %>
