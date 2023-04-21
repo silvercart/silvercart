@@ -56,12 +56,14 @@ class CloudflareTurnstyleExtension extends Extension
      */
     public function updateCustomFields(array &$fields) : void
     {
-        foreach ($fields as $field) {
-            if ($field instanceof CloudflareTurnstyleField) {
-                return;
+        if ($this->EnableCloudflareTurnstyle()) {
+            foreach ($fields as $field) {
+                if ($field instanceof CloudflareTurnstyleField) {
+                    return;
+                }
             }
+            $fields = array_merge($fields, $this->getCloudflareTurnstyleFields());
         }
-        $fields = array_merge($fields, $this->getCloudflareTurnstyleFields());
     }
     
     /**
@@ -76,7 +78,9 @@ class CloudflareTurnstyleExtension extends Extension
         if (!$this->owner->config()->cloudflare_use_default_field) {
             return;
         }
-        $renderedFields .= $this->owner->Fields()->dataFieldByName('CloudflareTurnstyle')->forTemplate();
+        if ($this->EnableCloudflareTurnstyle()) {
+            $renderedFields .= $this->owner->Fields()->dataFieldByName('CloudflareTurnstyle')->forTemplate();
+        }
     }
     
     /**
