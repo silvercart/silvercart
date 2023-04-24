@@ -176,6 +176,15 @@ class FormField extends DataObject
         'FormFieldTranslations' => FormFieldTranslation::class,
     ];
     /**
+     * Owned relations.
+     *
+     * @var string[]
+     */
+    private static $owns = [
+        'FormFieldOptions',
+        'FormFieldTranslations',
+    ];
+    /**
      * Default sort
      *
      * @var string
@@ -191,6 +200,33 @@ class FormField extends DataObject
         'Description',
         'IsRequired',
         'TypeLabel',
+    ];
+    /**
+     * Field types.
+     *
+     * @var string[]
+     */
+    private static $field_types = [
+        CheckboxField::class,
+        DateField::class,
+        DatetimeField::class,
+        DropdownField::class,
+        HiddenField::class,
+        LiteralField::class,
+        NumericField::class,
+        OptionsetField::class,
+        TextField::class,
+        TextareaField::class,
+        TimeField::class,
+    ];
+    /**
+     * Field types with options.
+     *
+     * @var string[]
+     */
+    private static $field_types_with_options = [
+        DropdownField::class,
+        OptionsetField::class,
     ];
     /**
      * Extensions.
@@ -281,15 +317,11 @@ class FormField extends DataObject
             asort($types);
             $fields->removeByName('Type');
             $fields->insertAfter('IsRequired', DropdownField::create('Type', $this->fieldLabel('Type'), $types, $this->Type));
-            $typesWithOptions = [
-                DropdownField::class,
-                OptionsetField::class,
-            ];
             $fields->removeByName('FormFieldOptions');
             if (!$this->ParentOption()->exists()) {
                 $fields->removeByName('ParentOptionID');
             }
-            if (in_array($this->Type, $typesWithOptions)) {
+            if (in_array($this->Type, $this->config()->types_with_options)) {
                 FormFieldOption::getFormFieldOptionCMSFields($fields, $this->FormFieldOptions());
             }
             $fields->removeByName('PresetWith');
@@ -351,19 +383,7 @@ class FormField extends DataObject
      */
     public function getAllowedFormFieldTypes() : array
     {
-        $types = [
-            CheckboxField::class,
-            DateField::class,
-            DatetimeField::class,
-            DropdownField::class,
-            HiddenField::class,
-            LiteralField::class,
-            NumericField::class,
-            OptionsetField::class,
-            TextField::class,
-            TextareaField::class,
-            TimeField::class,
-        ];
+        $types = $this->config()->field_types;
         $this->extend('updateAllowedFormFieldTypes', $types);
         return $types;
     }
@@ -404,12 +424,8 @@ class FormField extends DataObject
         } elseif (array_key_exists($this->Name, $customData)) {
             $value = $customData[$this->Name];
         } elseif (!empty($this->DefaultValue)) {
-            $value            = $this->DefaultValue;
-            $typesWithOptions = [
-                DropdownField::class,
-                OptionsetField::class,
-            ];
-            if (in_array($this->Type, $typesWithOptions)) {
+            $value = $this->DefaultValue;
+            if (in_array($this->Type, $this->config()->field_types_with_options)) {
                 $option = $this->FormFieldOptions()->filter('Title', $value)->first();
                 if ($option instanceof FormFieldOption) {
                     $value = $option->ID;
@@ -453,11 +469,7 @@ class FormField extends DataObject
                     $property     = array_shift($parts);
                     $value        = $object->{$relationName}()->{$property};
                 }
-                $typesWithOptions = [
-                    DropdownField::class,
-                    OptionsetField::class,
-                ];
-                if (in_array($this->Type, $typesWithOptions)) {
+                if (in_array($this->Type, $this->config()->field_types_with_options)) {
                     $source = $this->FormFieldOptions()->map('ID', 'Title')->toArray();
                     $key    = array_search($value, $source);
                     if (is_numeric($key)) {
@@ -467,6 +479,32 @@ class FormField extends DataObject
             }
         }
         return $value;
+    }
+    
+    /**
+     * Returns the POST value based option title or the plain value if this is 
+     * no option field.
+     * 
+     * @return string
+     */
+    public function getFormFieldValueNice() : string
+    {
+        $value = '';
+        $customData = self::getCustomFormData();
+        if (array_key_exists($this->Name, $_POST)) {
+            $value = $_POST[$this->Name];
+        } elseif (array_key_exists($this->Name, $customData)) {
+            $value = $customData[$this->Name];
+        }
+        if (!empty($value)) {
+            if (in_array($this->Type, $this->config()->field_types_with_options)) {
+                $option = $this->FormFieldOptions()->byID($value);
+                if ($option instanceof FormFieldOption) {
+                    $value = $option->Title;
+                }
+            }
+        }
+        return (string) $value;
     }
     
     /**
@@ -623,11 +661,7 @@ class FormField extends DataObject
      */
     public function getFormField() : SilverStripeFormField
     {
-        $typesWithOptions = [
-            DropdownField::class,
-            OptionsetField::class,
-        ];
-        if (in_array($this->Type, $typesWithOptions)) {
+        if (in_array($this->Type, $this->config()->field_types_with_options)) {
             $args = [
                 $this->Name,
                 $this->Title,
