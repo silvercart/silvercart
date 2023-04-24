@@ -8,8 +8,12 @@ use SilverCart\Model\Translation\TranslationExtension;
 use SilverCart\ORM\DataObjectCacheExtension;
 use SilverCart\ORM\DataObjectExtension;
 use SilverCart\ORM\ExtensibleDataObject;
+use SilverCart\VersionedDataObject\Extensions\Model\VersionedDataObject;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Versioned\Versioned;
+use SilverStripe\VersionedAdmin\Forms\HistoryViewerField;
+use SilverStripe\View\Requirements;
 use function _t;
 
 /**
@@ -32,8 +36,10 @@ use function _t;
  * 
  * @method Product Product() Returns the related Product.
  * 
- * @mixin TranslationExtension
  * @mixin DataObjectCacheExtension
+ * @mixin DataObjectExtension
+ * @mixin TranslationExtension
+ * @mixin Versioned
  */
 class ProductTranslation extends DataObject
 {
@@ -74,6 +80,8 @@ class ProductTranslation extends DataObject
     private static $extensions = [
         TranslationExtension::class,
         DataObjectCacheExtension::class,
+        Versioned::class . ".versioned",
+        VersionedDataObject::class,
     ];
     
     /**

@@ -351,53 +351,27 @@ class SearchResultsPageController extends ProductGroupPageController
         if (empty($searchQuery)) {
             $searchResultProducts = PaginatedList::create(ArrayList::create());
         } elseif (empty($useExtensionResults)) {
-            $productTable = Tools::get_table_name(Product::class);
-            $productTranslationTable = Tools::get_table_name(ProductTranslation::class);
-            $this->listFilters['original'] = sprintf('
-               "%s"."ProductGroupID" IS NOT NULL AND
-               "%s"."ProductGroupID" > 0 AND
-               "PGPL"."ID" > 0 AND
-               "%s"."isActive" = 1 AND (
-                    (
-                        "%s"."Title" LIKE \'%s%%\' OR
-                        "%s"."ShortDescription" LIKE \'%s%%\' OR
-                        "%s"."LongDescription" LIKE \'%s%%\' OR
-                        "%s"."Title" LIKE \'%%%s%%\' OR
-                        "%s"."ShortDescription" LIKE \'%%%s%%\' OR
-                        "%s"."LongDescription" LIKE \'%%%s%%\'
-                    ) OR
-                   "%s"."Keywords" LIKE \'%%%s%%\' OR
-                   "%s"."ProductNumberShop" LIKE \'%%%s%%\' OR
-                   "%s"."EANCode" LIKE \'%%%s%%\' OR
-                    STRCMP(
-                        SOUNDEX("%s"."Title"), SOUNDEX(\'%s\')
-                    ) = 0
-                )
-                ',
-                $productTable,
-                $productTable,
-                $productTable,
-                $productTranslationTable,
-                $searchQuery,
-                $productTranslationTable,
-                $searchQuery,
-                $productTranslationTable,
-                $searchQuery,
-                $productTranslationTable,
-                $searchQuery,
-                $productTranslationTable,
-                $searchQuery,
-                $productTranslationTable,
-                $searchQuery,
-                $productTable,
-                $searchQuery,// Keywords
-                $productTable,
-                $searchQuery,// ProductNumberShop
-                $productTable,
-                $searchQuery,// EANCode
-                $productTranslationTable,
-                $searchQuery// Title SOUNDEX
-            );
+            $productStageTable             = Product::singleton()->getStageTableName();
+            $productTranslationStageTable  = ProductTranslation::singleton()->getStageTableName();
+            $this->listFilters['original'] = ""
+                    . "{$productStageTable}.ProductGroupID IS NOT NULL"
+                    . " AND {$productStageTable}.ProductGroupID > 0"
+                    . " AND PGPL.ID > 0"
+                    . " AND {$productStageTable}.isActive = 1"
+                    . " AND ("
+                        . " ("
+                            . " {$productTranslationStageTable}.Title LIKE '{$searchQuery}%'"
+                            . " OR {$productTranslationStageTable}.ShortDescription LIKE '{$searchQuery}%'"
+                            . " OR {$productTranslationStageTable}.LongDescription LIKE '{$searchQuery}%'"
+                            . " OR {$productTranslationStageTable}.Title LIKE '%{$searchQuery}%'"
+                            . " OR {$productTranslationStageTable}.ShortDescription LIKE '%{$searchQuery}%'"
+                            . " OR {$productTranslationStageTable}.LongDescription LIKE '%{$searchQuery}%'"
+                        . " )"
+                        . " OR {$productStageTable}.Keywords LIKE '%{$searchQuery}%'"
+                        . " OR {$productStageTable}.ProductNumberShop LIKE '%{$searchQuery}%'"
+                        . " OR {$productStageTable}.EANCode LIKE '%{$searchQuery}%'"
+                        . " OR STRCMP(SOUNDEX({$productTranslationStageTable}.Title), SOUNDEX('{$searchQuery}')) = 0"
+                    . " )";
             if (count($searchTerms) > 1) {
                 $this->listFilters['original-soft'] = $this->getSoftSearchFilter($searchTerms);
             }
@@ -432,7 +406,7 @@ class SearchResultsPageController extends ProductGroupPageController
             if ($searchCategory instanceof ProductGroupPage) {
                 $categoryIDs    = $searchCategory->getFlatChildPageIDsForPage($searchCategory->ID);
                 $categoryIDList = implode(",", $categoryIDs);
-                $filter = "({$filter}) AND {$productTable}.ProductGroupID IN ({$categoryIDList})";
+                $filter = "({$filter}) AND {$productStageTable}.ProductGroupID IN ({$categoryIDList})";
             }
 
             if (Product::defaultSort() == 'relevance') {
@@ -442,12 +416,12 @@ class SearchResultsPageController extends ProductGroupPageController
             }
             
             $searchResultProductsRaw = Product::getProductsList(
-                "{$productTable}.HideFromSearchResults = false AND ({$filter})",
+                "{$productStageTable}.HideFromSearchResults = false AND ({$filter})",
                 $sort,
                 [
                     [
-                        'table' =>  Tools::get_table_name(ProductGroupPage::class) . '_Live',
-                        'on'    => '"PGPL"."ID" = "' . $productTable . '"."ProductGroupID"',
+                        'table' => ProductGroupPage::singleton()->getStageTableName(),
+                        'on'    => "PGPL.ID = {$productStageTable}.ProductGroupID",
                         'alias' => 'PGPL',
                     ]
                 ]
@@ -478,33 +452,18 @@ class SearchResultsPageController extends ProductGroupPageController
      */
     protected function getSoftSearchFilter(array $searchTerms) : string
     {
-        $softSearchQuery         = implode('%', $searchTerms);
-        $productTable            = Tools::get_table_name(Product::class);
-        $productTranslationTable = Tools::get_table_name(ProductTranslation::class);
-        $softSearchFilter        = sprintf('OR (
-                "%s"."Title" LIKE \'%s%%\' OR
-                "%s"."ShortDescription" LIKE \'%s%%\' OR
-                "%s"."LongDescription" LIKE \'%s%%\' OR
-                "%s"."Title" LIKE \'%%%s%%\' OR
-                "%s"."ShortDescription" LIKE \'%%%s%%\' OR
-                "%s"."LongDescription" LIKE \'%%%s%%\' OR
-                "%s"."Keywords" LIKE \'%%%s%%\'
-            )',
-            $productTranslationTable, // Title [starts with]
-            $softSearchQuery,         // Title [starts with]
-            $productTranslationTable, // ShortDescription [starts with]
-            $softSearchQuery,         // ShortDescription [starts with]
-            $productTranslationTable, // LongDescription [starts with]
-            $softSearchQuery,         // LongDescription [starts with]
-            $productTranslationTable, // Title
-            $softSearchQuery,         // Title
-            $productTranslationTable, // ShortDescription
-            $softSearchQuery,         // ShortDescription
-            $productTranslationTable, // LongDescription
-            $softSearchQuery,         // LongDescription
-            $productTable,            // Keywords
-            $softSearchQuery          // Keywords
-        );
+        $softSearchQuery               = implode('%', $searchTerms);
+        $productStageTable             = Product::singleton()->getStageTableName();
+        $productTranslationStageTable  = ProductTranslation::singleton()->getStageTableName();
+        $softSearchFilter              = "OR ("
+                . "{$productTranslationStageTable}.Title LIKE '{$softSearchQuery}%'" 
+                . " OR {$productTranslationStageTable}.ShortDescription LIKE '{$softSearchQuery}%'" 
+                . " OR {$productTranslationStageTable}.LongDescription LIKE '{$softSearchQuery}%'" 
+                . " OR {$productTranslationStageTable}.Title LIKE '%{$softSearchQuery}%'" 
+                . " OR {$productTranslationStageTable}.ShortDescription LIKE '%{$softSearchQuery}%'" 
+                . " OR {$productTranslationStageTable}.LongDescription LIKE '%{$softSearchQuery}%'" 
+                . " OR {$productStageTable}.Keywords LIKE '%{$softSearchQuery}%'"
+                . ")";
         $this->extend('updateSoftSearchFilter', $softSearchFilter, $searchTerms);
         return $softSearchFilter;
     }

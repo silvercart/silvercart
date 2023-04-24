@@ -799,18 +799,19 @@ class ProductGroupPage extends Page
             if (count($filter) == 1) {
                 $filter = [];
             }
-            $productTable       = Product::config()->table_name;
-            $productTransTable  = ProductTranslation::config()->table_name;
-            $productGroupTable  = ProductGroupPage::config()->table_name;
+            $productBaseTable       = Product::config()->table_name;
+            $productStageTable      = Product::singleton()->getStageTableName();
+            $productTransStageTable = ProductTranslation::singleton()->getStageTableName();
+            $productGroupBaseTable  = ProductGroupPage::config()->table_name;
             $filterList         = implode(' AND ', $filter);
             $productGroupIDList = implode(',', $productGroupIDs);
-            $mirrorQuery        = "SELECT {$productTable}ID FROM {$productTable}_ProductGroupMirrorPages WHERE {$productGroupTable}ID IN ({$productGroupIDList})";
+            $mirrorQuery        = "SELECT {$productBaseTable}ID FROM {$productBaseTable}_ProductGroupMirrorPages WHERE {$productGroupBaseTable}ID IN ({$productGroupIDList})";
             $defaultLocale      = SilverCartConfig::Locale();
             $currentLocale      = i18n::get_locale();
             $localeList         = $defaultLocale === $currentLocale ? "'{$currentLocale}'" : "'{$currentLocale}','{$defaultLocale}'";
             $filterString       = "SP.isActive = 1 AND SPT.Locale IN ({$localeList}) AND (SP.ProductGroupID IN ({$productGroupIDList}) OR SP.ID IN ($mirrorQuery)) {$filterList}";
             $this->extend('updateActiveProductsFilter', $filterString);
-            $records            = DB::query("SELECT DISTINCT(SP.ID) FROM {$productTable} SP LEFT JOIN {$productTransTable} SPT ON (SP.ID = SPT.ProductID) WHERE SPT.ProductID IS NOT NULL AND {$filterString}");
+            $records            = DB::query("SELECT DISTINCT(SP.ID) FROM {$productStageTable} SP LEFT JOIN {$productTransStageTable} SPT ON (SP.ID = SPT.ProductID) WHERE SPT.ProductID IS NOT NULL AND {$filterString}");
             
             foreach ($records as $record) {
                 $activeProducts[] = $record['ID'];
@@ -972,11 +973,13 @@ class ProductGroupPage extends Page
         if (is_array($pageIDsToWorkOn)
          && count($pageIDsToWorkOn) > 0
         ) {
-            $productGroupTable   = Tools::get_table_name(self::class);
-            $productTable        = Tools::get_table_name(Product::class);
-            $pageIDsToWorkOnList = implode(',', $pageIDsToWorkOn);
-            $mirrored            = "SELECT PGMP.{$productTable}ID FROM {$productTable}_ProductGroupMirrorPages AS PGMP WHERE PGMP.{$productGroupTable}ID IN ({$pageIDsToWorkOnList})";
-            $filter              = "{$productTable}.ProductGroupID IN ({$pageIDsToWorkOnList}) OR {$productTable}.ID IN ({$mirrored})";
+            $productGroupBaseTable = $this->config()->table_name;
+            $productBaseTable      = Product::config()->table_name;
+            $productStageTable     = Product::singleton()->getStageTableName();
+            $productMirrorTable    = "{$productBaseTable}_ProductGroupMirrorPages";
+            $pageIDsToWorkOnList   = implode(',', $pageIDsToWorkOn);
+            $mirrored              = "SELECT PGMP.{$productBaseTable}ID FROM {$productMirrorTable} AS PGMP WHERE PGMP.{$productGroupBaseTable}ID IN ({$pageIDsToWorkOnList})";
+            $filter                = "{$productStageTable}.ProductGroupID IN ({$pageIDsToWorkOnList}) OR {$productStageTable}.ID IN ({$mirrored})";
         }
         return $filter;
     }
@@ -1087,7 +1090,7 @@ class ProductGroupPage extends Page
      */
     public function getPreorderableProducts(int $limit = null)
     {
-        $products  = $this->getProductsInherited()
+        $products = $this->getProductsInherited()
                 ->where("ReleaseDate > NOW()")
                 ->sort("ReleaseDate", "ASC");
         if (!is_null($limit)) {

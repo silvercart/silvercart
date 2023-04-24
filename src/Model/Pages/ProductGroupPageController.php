@@ -416,9 +416,9 @@ class ProductGroupPageController extends PageController
                 if (empty($mirroredProductIdList)) {
                     $this->listFilters['original'] = "ProductGroupID IN ({$translationProductGroupIDList})";
                 } else {
-                    $pTableName = Product::config()->table_name;
+                    $pStageTable                   = Product::singleton()->getStageTableName();
                     $this->listFilters['original'] = "(ProductGroupID IN ({$translationProductGroupIDList})"
-                                                   . " OR {$pTableName}.ID IN ({$mirroredProductIdList}))";
+                                                   . " OR {$pStageTable}.ID IN ({$mirroredProductIdList}))";
                 }
                 if ($this->data()->config()->load_products_from_children) {
                     $childrenFilter = $this->getProductsFromChildrenFilter();
@@ -543,9 +543,9 @@ class ProductGroupPageController extends PageController
         if (empty($mirroredProductIdList)) {
             $listFilters['original'] = "ProductGroupID = '{$this->ID}'";
         } else {
-            $pTableName = Product::config()->table_name;
+            $pStageTable             = Product::singleton()->getStageTableName();
             $listFilters['original'] = "(ProductGroupID = '{$this->ID}'"
-                                     . " OR {$pTableName}.ID IN ({$mirroredProductIdList}))";
+                                     . " OR {$pStageTable}.ID IN ({$mirroredProductIdList}))";
         }
         foreach ($listFilters as $listFilter) {
             $filter .= " {$listFilter}";

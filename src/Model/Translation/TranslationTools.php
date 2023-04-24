@@ -393,12 +393,10 @@ class TranslationTools {
      * @param array      $mainRecord     Main record data of the multilingual DataObject
      *
      * @return void 
-     * 
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 04.01.2012
      */
-    public static function write_translation_object($translationObj, $mainRecord) {
-        $record = array();
+    public static function write_translation_object($translationObj, $mainRecord) : void
+    {
+        $record              = [];
         $translationDbFields = (array) $translationObj->config()->get('db');
         foreach ($translationDbFields as $dbFieldName => $dbFieldType) {
             if (array_key_exists($dbFieldName, $mainRecord)) {
@@ -406,7 +404,7 @@ class TranslationTools {
             }
         }
         $translationObj->update($record);
-        $translationObj->write();
+        $translationObj->writeTranslation();
     }
     
     /**

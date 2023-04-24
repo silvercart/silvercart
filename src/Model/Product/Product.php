@@ -29,45 +29,57 @@ use SilverCart\Model\Translation\TranslatableDataObjectExtension;
 use SilverCart\Model\Widgets\ProductGroupItemsWidget;
 use SilverCart\ORM\DataObjectCacheExtension;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\ORM\FieldType\DBMoney;
+use SilverCart\VersionedDataObject\Extensions\Model\VersionedDataObject;
+use SilverCart\View\RenderableDataObject;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image as SilverStripeImage;
+use SilverStripe\Assets\Image_Backend;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\Forms\TreeMultiselectField;
-use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
-use SilverStripe\Forms\GridField\GridFieldAddNewButton;
-use SilverStripe\Forms\GridField\GridFieldDeleteAction;
-use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\PaginatedList;
-use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\FieldType\DBDate;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBText;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\PaginatedList;
 use SilverStripe\ORM\Search\SearchContext;
+use SilverStripe\ORM\SS_List;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
+use SilverStripe\VersionedAdmin\Forms\HistoryViewerField;
 use SilverStripe\View\ArrayData;
+use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 use SilverStripe\Widgets\Model\WidgetArea;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 use WidgetSets\Model\WidgetSet;
+use function _t;
+use function utf8_encode;
 
 /**
  * abstract for a product.
@@ -125,22 +137,25 @@ use WidgetSets\Model\WidgetSet;
  * @method ProductCondition   ProductCondition()   Return Product Condition
  * @method QuantityUnit       QuantityUnit()       Return Quantity Unit
  * 
- * @method \SilverStripe\ORM\HasManyList ProductTranslations()   List of Product Translations
- * @method \SilverStripe\ORM\HasManyList StockItemEntries()      List of Stock Item Entries
- * @method \SilverStripe\ORM\HasManyList Images()                List of Images
- * @method \SilverStripe\ORM\HasManyList Files()                 List of Files
- * @method \SilverStripe\ORM\HasManyList ShoppingCartPositions() List of Shopping Cart Positions
+ * @method HasManyList ProductTranslations()   List of Product Translations
+ * @method HasManyList StockItemEntries()      List of Stock Item Entries
+ * @method HasManyList Images()                List of Images
+ * @method HasManyList Files()                 List of Files
+ * @method HasManyList ShoppingCartPositions() List of Shopping Cart Positions
  * 
- * @method \SilverStripe\ORM\ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
- * @method \SilverStripe\ORM\ManyManyList ShoppingCarts()            List of Shopping Carts
- * @method \SilverStripe\ORM\ManyManyList ProductGroupItemsWidgets() List of Product Group Items Widgets
+ * @method ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
+ * @method ManyManyList ShoppingCarts()            List of Shopping Carts
+ * @method ManyManyList ProductGroupItemsWidgets() List of Product Group Items Widgets
  * 
+ * @mixin DataObjectCacheExtension
+ * @mixin DataObjectExtension
  * @mixin TranslatableDataObjectExtension
+ * @mixin Versioned
  */
 class Product extends DataObject implements PermissionProvider
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
-    use \SilverCart\View\RenderableDataObject;
+    use ExtensibleDataObject;
+    use RenderableDataObject;
     
     const DEFAULT_IMAGE_FOLDER = 'product-images';
     const DEFAULT_FILES_FOLDER = 'product-files';
@@ -180,6 +195,15 @@ class Product extends DataObject implements PermissionProvider
         'Keywords'                        => DBText::class,
         'ShowOrderEmailTextAfterCheckout' => 'Boolean(0)',
         'DefaultSortOrder'                => 'Int',
+    ];
+    /**
+     * Optional list of db field names. Changes of the listed fields values won't
+     * cause a new version if nothing else changes.
+     *
+     * @var array
+     */
+    private static $db_ignore_for_versions = [
+        'StockQuantity',
     ];
     /**
      * 1:n relations
@@ -281,6 +305,8 @@ class Product extends DataObject implements PermissionProvider
     private static $extensions = [
         DataObjectCacheExtension::class,
         TranslatableDataObjectExtension::class,
+        Versioned::class . ".versioned",
+        VersionedDataObject::class,
     ];
     /**
      * Grant API access on this item.
@@ -911,10 +937,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns whether the first image of this product has a portrait orientation.
      * 
-     * @return boolean
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.06.2017
+     * @return bool
      */
     public function hasPortraitOrientationImage() : bool
     {
@@ -932,14 +955,14 @@ class Product extends DataObject implements PermissionProvider
                 $orientation = $imageFile->getOrientation();
                 $ratio       = $imageFile->getWidth() / $imageFile->getHeight();
 
-                if ($orientation == \SilverStripe\Assets\Image_Backend::ORIENTATION_LANDSCAPE
+                if ($orientation == Image_Backend::ORIENTATION_LANDSCAPE
                  && ($ratio <= $maxRatio
                   || $imageFile->getWidth() < 400)
                 ) {
                     $hasPortraitOrientationImage = true;
-                } elseif ($orientation == \SilverStripe\Assets\Image_Backend::ORIENTATION_PORTRAIT) {
+                } elseif ($orientation == Image_Backend::ORIENTATION_PORTRAIT) {
                     $hasPortraitOrientationImage = true;
-                } elseif ($orientation != \SilverStripe\Assets\Image_Backend::ORIENTATION_LANDSCAPE) {
+                } elseif ($orientation != Image_Backend::ORIENTATION_LANDSCAPE) {
                     $hasPortraitOrientationImage = true;
                 }
             }
@@ -1148,15 +1171,12 @@ class Product extends DataObject implements PermissionProvider
      * Returns the fields to sort a product by in frontend
      * 
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 26.09.2018
      */
     public function sortableFrontendFields() : array
     {
         if (is_null(self::$sortableFrontendFields)) {
-            $productTable     = Tools::get_table_name(Product::class);
-            $translationTable = Tools::get_table_name(ProductTranslation::class);
+            $productTable     = Product::singleton()->getStageTableName();
+            $translationTable = ProductTranslation::singleton()->getStageTableName();
             $priceType        = ucfirst(strtolower(Config::Pricetype()));
 
             $sortableFrontendFields = array_merge(
@@ -1582,8 +1602,10 @@ class Product extends DataObject implements PermissionProvider
             $sort = self::defaultSort();
         }
         
-        $productTable = Tools::get_table_name(Product::class);
-        $onclause = sprintf('"SPL"."ProductID" = "%s"."ID" AND "SPL"."Locale" = \'%s\'', $productTable, Tools::current_locale());
+        $productTable             = Product::singleton()->getStageTableName();
+        $currentLocale            = Tools::current_locale();
+        $onclause                 = "SPL.ProductID = {$productTable}.ID"
+                                  . " AND SPL.Locale = '{$currentLocale}'";
         $databaseFilteredProducts = Product::get()
                 ->leftJoin(Tools::get_table_name(ProductTranslation::class), $onclause, 'SPL')
                 ->where($filter)
@@ -1944,7 +1966,7 @@ class Product extends DataObject implements PermissionProvider
     {
         if ($this->exists()) {
             $gf = $fields->dataFieldByName('StockItemEntries');
-            /* @var $gf \SilverStripe\Forms\GridField\GridField */
+            /* @var $gf GridField */
             $gf->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
             $gf->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $gf->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
@@ -2011,8 +2033,8 @@ class Product extends DataObject implements PermissionProvider
         $imageGridField->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
         $imageGridField->getConfig()->addComponent(new GridFieldDeleteAction());
         
-        if (class_exists('\Symbiote\GridFieldExtensions\GridFieldOrderableRows')) {
-            $imageGridField->getConfig()->addComponent(new \Symbiote\GridFieldExtensions\GridFieldOrderableRows('SortOrder'));
+        if (class_exists(GridFieldOrderableRows::class)) {
+            $imageGridField->getConfig()->addComponent(GridFieldOrderableRows::create('SortOrder'));
         } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
             $imageGridField->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('SortOrder'));
         }
@@ -2116,7 +2138,7 @@ class Product extends DataObject implements PermissionProvider
      * @param int $cutToLength Limit the length of the result to the given
      *                         number of characters.
      *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
     public function getHtmlEncodedShortDescription($cutToLength = false) : DBHTMLText
     {
@@ -2141,7 +2163,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Clears the price cache.
      * 
-     * @return \SilverCart\Model\Product\Product
+     * @return Product
      */
     public function clearPriceCache() : Product
     {

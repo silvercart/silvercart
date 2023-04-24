@@ -187,9 +187,6 @@ class BargainProductsWidget extends Widget
      * Returns a number of bargain products.
      * 
      * @return SS_List
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 27.03.2012
      */
     public function Elements()
     {
@@ -202,13 +199,13 @@ class BargainProductsWidget extends Widget
             if (Config::Pricetype() === Config::PRICE_TYPE_NET) {
                 $priceField = 'PriceNetAmount';
             }
-            $productTable = Tools::get_table_name(Product::class);
+            $productStageTable = Product::singleton()->getStageTableName();
             switch ($this->fetchMethod) {
                 case 'sortOrderAsc':
-                    $sort = '"' . $productTable . '"."MSRPriceAmount" - "' . $productTable . '"."PriceGrossAmount" ASC';
+                    $sort = "{$productStageTable}.MSRPriceAmount - {$productStageTable}.{$priceField} ASC";
                     break;
                 case 'sortOrderDesc':
-                    $sort = '"' . $productTable . '"."MSRPriceAmount" - "' . $productTable . '"."PriceGrossAmount" DESC';
+                    $sort = "{$productStageTable}.MSRPriceAmount - {$productStageTable}.{$priceField} DESC";
                     break;
                 case 'random':
                 default:
@@ -227,12 +224,9 @@ class BargainProductsWidget extends Widget
                     }
                 }
             }
-            $filter = sprintf(
-                            '"' . $productTable . '"."MSRPriceAmount" IS NOT NULL 
-                            AND "' . $productTable . '"."MSRPriceAmount" > 0
-                            AND "' . $productTable . '"."%s" < "' . $productTable . '"."MSRPriceAmount"',
-                            $priceField
-            );
+            $filter = "{$productStageTable}.MSRPriceAmount IS NOT NULL"
+                    . " AND {$productStageTable}.MSRPriceAmount > 0"
+                    . " AND {$productStageTable}.{$priceField} < {$productStageTable}.MSRPriceAmount";
             foreach ($this->listFilters as $listFilterIdentifier => $listFilter) {
                 $filter .= ' ' . $listFilter;
             }

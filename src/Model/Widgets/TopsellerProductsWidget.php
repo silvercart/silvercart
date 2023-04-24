@@ -61,12 +61,8 @@ class TopsellerProductsWidget extends Widget
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 22.08.2018
      */
-    public function fieldLabels($includerelations = true)
+    public function fieldLabels($includerelations = true) : array
     {
         $fieldLabels = array_merge(
                 parent::fieldLabels($includerelations),
@@ -84,25 +80,20 @@ class TopsellerProductsWidget extends Widget
      * Returns a number of topseller products.
      * 
      * @return ArrayList
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 22.08.2018
      */
-    public function Elements()
+    public function Elements() : ArrayList
     {
         if (!$this->numberOfProductsToShow) {
             $defaults = $this->config()->get('defaults');
             $this->numberOfProductsToShow = $defaults['numberOfProductsToShow'];
         }
-        
-        $orderPositionTable = Tools::get_table_name(OrderPosition::class);
-        $productTable       = Tools::get_table_name(Product::class);
-        
-        $products   = [];
-        $sqlSelect  = SQLSelect::create('SOP.ProductID');
+        $orderPositionStageTable = OrderPosition::singleton()->getStageTableName();
+        $productStageTable       = Product::singleton()->getStageTableName();
+        $products                = [];
+        $sqlSelect               = SQLSelect::create('SOP.ProductID');
         $sqlSelect->selectField('SUM(SOP.Quantity) AS OrderedQuantity');
-        $sqlSelect->addFrom($orderPositionTable . ' SOP');
-        $sqlSelect->addLeftJoin($productTable, 'SP.ID = SOP.ProductID', 'SP');
+        $sqlSelect->addFrom("{$orderPositionStageTable} SOP");
+        $sqlSelect->addLeftJoin($productStageTable, 'SP.ID = SOP.ProductID', 'SP');
         $sqlSelect->addWhere('SP.isActive = 1');
         $sqlSelect->addGroupBy('SOP.ProductID');
         $sqlSelect->addOrderBy('OrderedQuantity', 'DESC');

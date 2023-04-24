@@ -190,6 +190,20 @@ class TranslationExtension extends DataExtension
     }
     
     /**
+     * Special write method called when writing a translation secondary while
+     * writing the main object.
+     * 
+     * @return int|null
+     */
+    public function writeTranslation() : int|null
+    {
+        $this->owner->extend('onBeforeWriteTranslation');
+        $id = $this->owner->write();
+        $this->owner->extend('onAfterWriteTranslation');
+        return $id;
+    }
+    
+    /**
      * Will add missing translations and therefore repair broken objects.
      * 
      * @return void
