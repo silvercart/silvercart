@@ -3,11 +3,12 @@
 namespace SilverCart\Model\Order;
 
 use Moo\HasOneSelector\Form\Field as HasOneSelector;
+use SilverCart\Admin\Forms\MultiDropdownField;
 use SilverCart\Admin\Forms\TableField;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\DataValuable;
 use SilverCart\Forms\FormFields\FieldGroup;
-use SilverCart\Model\ShopEmail;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
@@ -27,12 +28,15 @@ use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\StockItemEntry;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
+use SilverCart\Model\ShopEmail;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\ORM\FieldType\DBMoney as SilverCartDBMoney;
 use SilverCart\ORM\Filters\DateRangeSearchFilter;
 use SilverCart\ORM\Filters\ExactMatchBooleanMultiFilter;
 use SilverCart\ORM\Search\SearchContext;
 use SilverCart\View\Printer\Printer;
+use SilverCart\View\RenderableDataObject;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
@@ -41,11 +45,13 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldConfig_Base;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
@@ -55,12 +61,15 @@ use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\SS_List;
+use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\Security\Security;
 use SilverStripe\View\ViewableData;
+use function _t;
 
 /**
  * abstract for an order.
@@ -115,13 +124,15 @@ use SilverStripe\View\ViewableData;
  * @method Member               Member()          Returns the related Member.
  * @method ShippingFee          ShippingFee()     Returns the related ShippingFee.
  * 
- * @method \SilverStripe\ORM\HasManyList OrderPositions() Returns the related OrderPositions.
- * @method \SilverStripe\ORM\HasManyList OrderLogs()      Returns the related OrderLogs.
+ * @method HasManyList OrderPositions() Returns the related OrderPositions.
+ * @method HasManyList OrderLogs()      Returns the related OrderLogs.
+ * 
+ * @mixin DataValuable
  */
 class Order extends DataObject implements PermissionProvider
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
-    use \SilverCart\View\RenderableDataObject;
+    use ExtensibleDataObject;
+    use RenderableDataObject;
     
     const SESSION_KEY           = 'SilverCart.Order';
     const SESSION_KEY_EDIT_MODE = 'SilverCart.Order.EditMode';
@@ -216,6 +227,14 @@ class Order extends DataObject implements PermissionProvider
      * @var string
      */
     private static $table_name = 'SilvercartOrder';
+    /**
+     * Extensions
+     *
+     * @var string[]
+     */
+    private static $extensions = [
+        DataValuable::class,
+    ];
     /**
      * Grant API access on this item.
      *
@@ -536,12 +555,12 @@ class Order extends DataObject implements PermissionProvider
             'OrderStatusID' => [
                 'title'  => $this->fieldLabel('OrderStatus'),
                 'filter' => ExactMatchBooleanMultiFilter::class,
-                'field'  => \SilverCart\Admin\Forms\MultiDropdownField::class,
+                'field'  => MultiDropdownField::class,
             ],
             'PaymentStatusID' => [
                 'title'  => $this->fieldLabel('PaymentStatus'),
                 'filter' => ExactMatchBooleanMultiFilter::class,
-                'field'  => \SilverCart\Admin\Forms\MultiDropdownField::class,
+                'field'  => MultiDropdownField::class,
             ],
             'PaymentMethodID'              => [
                 'title'  => $this->fieldLabel('PaymentMethod'),
@@ -841,7 +860,7 @@ class Order extends DataObject implements PermissionProvider
     /**
      * return the orders shipping address as complete HTML string.
      *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
     public function getShippingAddressSummaryHtml()
     {
@@ -906,7 +925,7 @@ class Order extends DataObject implements PermissionProvider
     /**
      * return the orders invoice address as complete HTML string.
      *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
     public function getInvoiceAddressSummaryHtml()
     {
@@ -993,7 +1012,7 @@ class Order extends DataObject implements PermissionProvider
 
             //add print preview
             $tabPrint = $fields->findOrMakeTab('Root.PrintPreviewTab', $this->fieldLabel('PrintPreview'));
-            /* @var $tabPrint \SilverStripe\Forms\Tab */
+            /* @var $tabPrint Tab */
             $tabPrint->addExtraClass('h-100')
                     ->push(LiteralField::create(
                             'PrintPreviewField',
@@ -1197,7 +1216,7 @@ class Order extends DataObject implements PermissionProvider
         $message = _t(Order::class . '.ResendOrderConfirmationDone', 'Sent confirmation email to {email}', [
             'email' => $this->CustomersEmail,
         ]);
-        $form->sessionMessage($message, \SilverStripe\ORM\ValidationResult::TYPE_GOOD, \SilverStripe\ORM\ValidationResult::CAST_HTML);
+        $form->sessionMessage($message, ValidationResult::TYPE_GOOD, ValidationResult::CAST_HTML);
         return $itemRequest->edit(Controller::curr()->getRequest());
     }
     
@@ -1446,6 +1465,11 @@ class Order extends DataObject implements PermissionProvider
                 $this->PaymentStatusID = $paymentStatus->ID;
             }
             $this->write();
+            foreach ($shoppingCart->DataValues() as $dataValue) {
+                $dataValue->OrderID        = $this->ID;
+                $dataValue->ShoppingCartID = 0;
+                $dataValue->write();
+            }
             $this->extend('onAfterCreateFromShoppingCart', $shoppingCart);
         }
     }
@@ -1482,6 +1506,11 @@ class Order extends DataObject implements PermissionProvider
             $orderPosition->log                     = false;
             $this->extend('onBeforeConvertSingleShoppingCartPositionToOrderPosition', $shoppingCartPosition, $orderPosition);
             $orderPosition->write();
+            foreach ($shoppingCartPosition->DataValues() as $dataValue) {
+                $dataValue->OrderPositionID        = $orderPosition->ID;
+                $dataValue->ShoppingCartPositionID = 0;
+                $dataValue->write();
+            }
             $this->OrderPositions()->add($orderPosition);
             // Call hook method on product if available
             if ($product->hasMethod('ShoppingCartConvert')) {
@@ -1501,7 +1530,7 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Adds charges and discounts for products.
      * 
-     * @param \SilverCart\Model\Order\ShoppingCart $shoppingCart Shopping cart
+     * @param ShoppingCart $shoppingCart Shopping cart
      * 
      * @return void
      */
@@ -1785,7 +1814,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param int $paymentStatusID Payment status ID
      * 
-     * @return \SilverCart\Model\Order\Order
+     * @return Order
      */
     public function setPaymentStatusByIDOrDefault(int $paymentStatusID = 0) : Order
     {
@@ -1881,7 +1910,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param int $orderStatusID Order status ID
      * 
-     * @return \SilverCart\Model\Order\Order
+     * @return Order
      */
     public function setOrderStatusByIDOrDefault(int $orderStatusID = 0) : Order
     {
@@ -2759,7 +2788,7 @@ class Order extends DataObject implements PermissionProvider
      * Returns plugin output to show in the order detail table right after the 
      * OrderNumber.
      *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2018
@@ -2775,7 +2804,7 @@ class Order extends DataObject implements PermissionProvider
      * Returns output to show in the order confirmation email right after the 
      * order detail table.
      *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 03.07.2019
@@ -2943,7 +2972,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param bool $sendNotification Also send the notification email?
      *
-     * @return \SilverCart\Model\Order\Order
+     * @return Order
      */
     public function sendConfirmationMail(bool $sendNotification = true) : Order
     {
@@ -2990,7 +3019,7 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Send a notification mail with order details to the shop owner.
      *
-     * @return \SilverCart\Model\Order\Order
+     * @return Order
      */
     public function sendNotificationMail(array $params = []) : Order
     {
@@ -3162,7 +3191,7 @@ class Order extends DataObject implements PermissionProvider
      * 
      * @param bool $doWrite Write order?
      * 
-     * @return \SilverCart\Model\Order\Order
+     * @return Order
      */
     public function cancel(bool $doWrite = true) : Order
     {

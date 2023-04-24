@@ -6,19 +6,22 @@ use SilverCart\Admin\Model\Config;
 use SilverCart\Checkout\Checkout;
 use SilverCart\Dev\DateTools;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\DataValuable;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
-use SilverCart\Model\Payment\HandlingCost;
-use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Pages\CartPage;
 use SilverCart\Model\Pages\CartPageController;
-use SilverCart\Model\Product\Tax;
+use SilverCart\Model\Payment\HandlingCost;
+use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Product\Product;
+use SilverCart\Model\Product\Tax;
 use SilverCart\Model\Shipment\ShippingFee;
 use SilverCart\Model\Shipment\ShippingMethod;
+use SilverCart\ORM\ExtensibleDataObject;
+use SilverCart\View\RenderableDataObject;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
@@ -31,16 +34,20 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\ViewableData;
+use function _t;
+use function singleton;
 
 /**
  * abstract for shopping cart.
  *
  * @package SilverCart
- * @subpackage Model_Order
+ * @subpackage Model\Order
  * @author Sebastian Diel <sdiel@pixeltricks.de>
  * @since 27.09.2017
  * @copyright 2017 pixeltricks GmbH
@@ -48,14 +55,16 @@ use SilverStripe\View\ViewableData;
  * 
  * @var int $MemberID Member ID
  * 
- * @method Member                         Member()                Returns the related Member.
- * @method \SilverStripe\ORM\HasManyList  ShoppingCartPositions() Returns the related positions.
- * @method \SilverStripe\ORM\ManyManyList Products()              Returns the related products.
+ * @method Member       Member()                Returns the related Member.
+ * @method HasManyList  ShoppingCartPositions() Returns the related positions.
+ * @method ManyManyList Products()              Returns the related products.
+ * 
+ * @mixin DataValuable
  */
 class ShoppingCart extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
-    use \SilverCart\View\RenderableDataObject;
+    use ExtensibleDataObject;
+    use RenderableDataObject;
     
     const SESSION_KEY = 'SilverCart.ShoppingCart';
 
@@ -117,6 +126,14 @@ class ShoppingCart extends DataObject
     private static $summary_fields = [
         'AmountTotal',
         'ShoppingCartPositions.count',
+    ];
+    /**
+     * Extensions
+     *
+     * @var string[]
+     */
+    private static $extensions = [
+        DataValuable::class,
     ];
     /**
      * Increment quantity when calling @see $this->addaddProduct() ?
@@ -233,7 +250,7 @@ class ShoppingCart extends DataObject
     /**
      * Returns the global shopping cart instance.
      * 
-     * @return \SilverCart\Model\Order\ShoppingCart|null
+     * @return ShoppingCart|null
      */
     public static function getCart() : ?ShoppingCart
     {

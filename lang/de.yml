@@ -1105,6 +1105,19 @@ de:
     PRICETYPE: Preistyp
     ShippingMethodsInfoContent: 'Die hier gelisteten Versandarten sind an diese Kundengruppe gebunden und können nur von Kunden ausgewöhlt werden, die dieser Kundengruppe angehören. Versandarten können mehreren Kundengruppen zugeordnet werden, also ist diese Kundengruppe ggf. nicht die einzige Gruppe, die über diese Zugriffsberechtigung verfügt.'
     ShippingMethodsInfoTitle: 'An diese Kundengruppe gebundene Versandarten.'
+  SilverCart\Model\DataValue:
+    DataName: Name
+    DataTitle: Titel
+    DataType: Typ
+    DataTypeNice: Typ
+    DataType_boolean: Ja/Nein
+    DataType_float: Dezimalzahl
+    DataType_int: Ganzzahl
+    DataType_string: Text
+    DataValue: Wert
+    DataValueNice: Wert
+    PLURALNAME: 'Erweiterte Daten'
+    SINGULARNAME: 'Erweitertes Datum'
   SilverCart\Model\EmailAddress:
     ContactFormSubjects: Betreffe
     Email: E-Mail

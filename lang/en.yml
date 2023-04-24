@@ -1103,6 +1103,19 @@ en:
     PRICETYPE: Pricetype
     ShippingMethodsInfoContent: 'The shipping methods listed below are bound to this customer group and can only be chosen by customers belonging to this group. Shipping methods can be related to multiple customer groups, so this customer group might not be the only group with the permission to use the listed shipping methods.'
     ShippingMethodsInfoTitle: 'Shipping methods bound to this customer group.'
+  SilverCart\Model\DataValue:
+    DataName: Name
+    DataTitle: Title
+    DataType: Type
+    DataTypeNice: Type
+    DataType_boolean: Boolean
+    DataType_float: 'Decimal number'
+    DataType_int: Integer
+    DataType_string: Text
+    DataValue: Value
+    DataValueNice: Value
+    PLURALNAME: 'Extended Data'
+    SINGULARNAME: 'Extended Data'
   SilverCart\Model\EmailAddress:
     ContactFormSubjects: Subjects
     Email: Email

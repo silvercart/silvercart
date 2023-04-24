@@ -4,12 +4,15 @@ namespace SilverCart\Model\Order;
 
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Model\DataValuable;
 use SilverCart\Forms\DecrementPositionQuantityForm;
 use SilverCart\Forms\IncrementPositionQuantityForm;
 use SilverCart\Forms\RemovePositionForm;
 use SilverCart\Model\Order\ShoppingCart;
 use SilverCart\Model\Order\ShoppingCartPositionNotice;
 use SilverCart\Model\Product\Product;
+use SilverCart\ORM\ExtensibleDataObject;
+use SilverCart\View\RenderableDataObject;
 use SilverStripe\Control\Controller;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
@@ -19,6 +22,7 @@ use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\SSViewer;
+use function _t;
 
 /**
  * abstract for shopping cart positions.
@@ -36,11 +40,13 @@ use SilverStripe\View\SSViewer;
  * 
  * @method Product      Product()      Returns the related Product.
  * @method ShoppingCart ShoppingCart() Returns the related ShoppingCart.
+ * 
+ * @mixin DataValuable
  */
 class ShoppingCartPosition extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
-    use \SilverCart\View\RenderableDataObject;
+    use ExtensibleDataObject;
+    use RenderableDataObject;
     /**
      * attributes
      *
@@ -73,6 +79,14 @@ class ShoppingCartPosition extends DataObject
         'Quantity',
         'Product.ProductNumberShop',
         'Product.Title',
+    ];
+    /**
+     * Extensions
+     *
+     * @var string[]
+     */
+    private static $extensions = [
+        DataValuable::class,
     ];
     /**
      * List of different accessed prices
