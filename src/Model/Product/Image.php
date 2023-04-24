@@ -65,6 +65,14 @@ class Image extends DataObject
         'Image'         => SilverStripeImage::class,
     ];
     /**
+     * Owned relationships.
+     *
+     * @var array
+     */
+    private static $owns = [
+        'Image',
+    ];
+    /**
      * 1:n relationships.
      *
      * @var array
