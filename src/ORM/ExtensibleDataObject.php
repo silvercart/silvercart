@@ -150,7 +150,7 @@ trait ExtensibleDataObject
          || empty($this->defaultFieldLabels[$objectName])
         ) {
             $fieldLabels = [];
-            $params      = ['db', 'casting', 'has_one', 'has_many', 'many_many', 'belongs_many_many'];
+            $params      = ['db', 'casting', 'has_one', 'has_many', 'many_many', 'belongs_many_many', 'summary_fields'];
             foreach ($params as $param) {
                 if (method_exists($objectName, 'config')) {
                     $source = $objectName::config()->uninherited($param);
@@ -158,7 +158,18 @@ trait ExtensibleDataObject
                     $source = SilverStripeConfig::inst()->get($objectName, $param);
                 }
                 if (is_array($source)) {
-                    foreach (array_keys($source) as $fieldname) {
+                    if ($param === 'summary_fields') {
+                        $fieldNames = $source;
+                    } else {
+                        $fieldNames = array_keys($source);
+                    }
+                    foreach ($fieldNames as $key => $fieldname) {
+                        if (empty($fieldname)) {
+                            continue;
+                        }
+                        if (!is_numeric($key)) {
+                            $fieldName = $key;
+                        }
                         $fieldLabels[$fieldname]               = _t("{$objectName}.{$fieldname}", $fieldname);
                         $fieldLabels["{$fieldname}Desc"]       = _t("{$objectName}.{$fieldname}Desc", FormField::name_to_label("{$fieldname}Desc"));
                         $fieldLabels["{$fieldname}Default"]    = _t("{$objectName}.{$fieldname}Default", FormField::name_to_label("{$fieldname}Default"));
