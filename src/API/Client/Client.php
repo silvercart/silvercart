@@ -83,15 +83,12 @@ class Client
      * Calls the parent constructor and sets the log file name.
      * 
      * @return void
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 11.02.2019
      */
     public function __construct()
     {
         $reflection = new ReflectionClass($this);
-        $shortName  = $reflection->getShortName();
-        $this->setLogFileName("APIClient.{$shortName}");
+        $name       = str_replace(['/', '\\'], '-', $reflection->getName());
+        $this->setLogFileName("APIClient.{$name}");
     }
 
     /**

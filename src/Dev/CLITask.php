@@ -975,7 +975,8 @@ trait CLITask
     {
         if (static::$log_file_name === null) {
             $reflection            = new ReflectionClass($this);
-            static::$log_file_name = $reflection->getShortName();
+            $name                  = str_replace(['/', '\\'], '-', $reflection->getName());
+            static::$log_file_name = "CLITask.{$name}";
         }
         return (string) static::$log_file_name;
     }
