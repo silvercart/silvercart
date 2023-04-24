@@ -767,9 +767,11 @@ class ProductGroupPage extends Page
                     );
                 }
             }
-            
-            $filter = [''];
-
+            $filter                 = [''];
+            $productBaseTable       = Product::config()->table_name;
+            $productStageTable      = Product::singleton()->getStageTableName();
+            $productTransStageTable = ProductTranslation::singleton()->getStageTableName();
+            $productGroupBaseTable  = ProductGroupPage::config()->table_name;
             if (!empty($requiredAttributes)) {
                 foreach ($requiredAttributes as $requiredAttribute) {
                     //find out if we are dealing with a real attribute or a multilingual field
@@ -790,8 +792,7 @@ class ProductGroupPage extends Page
                         $filter[] = 'ProductGroupID > 0';
                     } else {
                         // if its a multilingual attribute it comes from a relational class
-                        $translationTableName = Tools::get_table_name(ProductTranslation::class);
-                        $filter[] = "{$translationTableName}.{$requiredAttribute} != ''";
+                        $filter[] = "{ProductTranslation::singleton()->getStageTableName()}.{$requiredAttribute} != ''";
                     }
 
                 }
@@ -799,10 +800,6 @@ class ProductGroupPage extends Page
             if (count($filter) == 1) {
                 $filter = [];
             }
-            $productBaseTable       = Product::config()->table_name;
-            $productStageTable      = Product::singleton()->getStageTableName();
-            $productTransStageTable = ProductTranslation::singleton()->getStageTableName();
-            $productGroupBaseTable  = ProductGroupPage::config()->table_name;
             $filterList         = implode(' AND ', $filter);
             $productGroupIDList = implode(',', $productGroupIDs);
             $mirrorQuery        = "SELECT {$productBaseTable}ID FROM {$productBaseTable}_ProductGroupMirrorPages WHERE {$productGroupBaseTable}ID IN ({$productGroupIDList})";

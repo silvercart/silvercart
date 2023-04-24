@@ -1550,7 +1550,7 @@ class Product extends DataObject implements PermissionProvider
                     $filterAddition = ' AND ProductGroupID > 0';
                 } else {
                     // if its a multilingual attribute it comes from a relational class
-                    $tableName = Tools::get_table_name(ProductTranslation::class);
+                    $tableName = ProductTranslation::singleton()->getStageTableName();
                     $filter   .= "{$tableName}.{$requiredAttribute} != '' AND ";
                 }
                 
@@ -1607,7 +1607,7 @@ class Product extends DataObject implements PermissionProvider
         $onclause                 = "SPL.ProductID = {$productTable}.ID"
                                   . " AND SPL.Locale = '{$currentLocale}'";
         $databaseFilteredProducts = Product::get()
-                ->leftJoin(Tools::get_table_name(ProductTranslation::class), $onclause, 'SPL')
+                ->leftJoin(ProductTranslation::singleton()->getStageTableName(), $onclause, 'SPL')
                 ->where($filter)
                 ->sort($sort);
         if (!is_null($joins)
