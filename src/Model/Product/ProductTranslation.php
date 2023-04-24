@@ -80,8 +80,8 @@ class ProductTranslation extends DataObject
     private static $extensions = [
         TranslationExtension::class,
         DataObjectCacheExtension::class,
-        Versioned::class . ".versioned",
-        VersionedDataObject::class,
+        //Versioned::class . ".versioned",
+        //VersionedDataObject::class,
     ];
     
     /**

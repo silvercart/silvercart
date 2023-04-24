@@ -305,8 +305,8 @@ class Product extends DataObject implements PermissionProvider
     private static $extensions = [
         DataObjectCacheExtension::class,
         TranslatableDataObjectExtension::class,
-        Versioned::class . ".versioned",
-        VersionedDataObject::class,
+        //Versioned::class . ".versioned",
+        //VersionedDataObject::class,
     ];
     /**
      * Grant API access on this item.
