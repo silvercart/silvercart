@@ -321,7 +321,7 @@ class FormField extends DataObject
             if (!$this->ParentOption()->exists()) {
                 $fields->removeByName('ParentOptionID');
             }
-            if (in_array($this->Type, $this->config()->types_with_options)) {
+            if (in_array($this->Type, $this->config()->field_types_with_options)) {
                 FormFieldOption::getFormFieldOptionCMSFields($fields, $this->FormFieldOptions());
             }
             $fields->removeByName('PresetWith');
