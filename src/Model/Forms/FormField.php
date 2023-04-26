@@ -671,7 +671,7 @@ class FormField extends DataObject
         } elseif ($this->Type === LiteralField::class) {
             $args = [
                 $this->Name,
-                $this->Description,
+                DBHTMLText::create()->setProcessShortcodes(true)->setValue($this->Description),
             ];
         } else {
             $args = [
