@@ -12,6 +12,7 @@ use SilverCart\Dev\Tools;
 use SilverCart\Extensions\Model\LinkBehaviorExtension;
 use SilverCart\Forms\AddToCartForm;
 use SilverCart\Forms\FormFields\FieldGroup;
+use SilverCart\Forms\HiddenField;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\Order;
@@ -31,6 +32,7 @@ use SilverCart\ORM\DataObjectCacheExtension;
 use SilverCart\ORM\DataObjectExtension;
 use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\ORM\FieldType\DBMoney;
+use SilverCart\ORM\Search\SearchContext as SilverCartSearchContext;
 use SilverCart\VersionedDataObject\Extensions\Model\VersionedDataObject;
 use SilverCart\View\RenderableDataObject;
 use SilverStripe\Assets\Folder;
@@ -90,7 +92,7 @@ use function utf8_encode;
  * @since 29.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
- * 
+ *
  * @property string     $Title                       Title
  * @property string     $ShortDescription            Short Description
  * @property string     $LongDescription             Long Description
@@ -251,8 +253,8 @@ class Product extends DataObject implements PermissionProvider
     ];
     /**
      * Adds database indexes
-     * 
-     * @var array 
+     *
+     * @var array
      */
     private static $indexes = [
         'isActive'          => '("isActive")',
@@ -299,7 +301,7 @@ class Product extends DataObject implements PermissionProvider
     private static $table_name = 'SilvercartProduct';
     /**
      * Extensions
-     * 
+     *
      * @var string[]
      */
     private static $extensions = [
@@ -339,7 +341,7 @@ class Product extends DataObject implements PermissionProvider
      * Map of keywords to automatically add to a product.
      * Example:
      * <code>
-     * // Every product with the word "notebook" or "laptop" in its title gets 
+     * // Every product with the word "notebook" or "laptop" in its title gets
      * // the keywords "notebook laptop" to ensure that both types of titles are
      * // found for each search term
      * Product::config()->update('keyword_map', [
@@ -361,10 +363,30 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Set to true to automatically set the availability status to not-available
      * if a product's IsNotBuyable property is set to true.
-     * 
+     *
      * @var bool
      */
     private static $is_not_available_if_not_buyable = false;
+    /**
+     * Name of the field which is used as a stand-in for searching across all searchable fields.
+     *
+     * If this is a blank string, general search functionality is disabled
+     * and the general search field falls back to using the first field in
+     * the searchable_fields array.
+     */
+    private static string $general_search_field_name = 'q';
+    /**
+     * The search filter to use when searching with the general search field.
+     * If this is an empty string, the search filters configured for each field are used instead.
+     */
+    private static string $general_search_field_filter = PartialMatchFilter::class;
+    /**
+     * If true, the search phrase is split into individual terms, and checks all searchable fields for each search term.
+     * If false, all fields are checked for the entire search phrase as a whole.
+     *
+     * Note that splitting terms may cause unexpected resuls if using an ExactMatchFilter.
+     */
+    private static bool $general_search_split_terms = true;
     /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
@@ -388,7 +410,7 @@ class Product extends DataObject implements PermissionProvider
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_PAGE
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_POPUP
-     * 
+     *
      * @var string
      */
     protected static $linkBehavior = LinkBehaviorExtension::LINK_BEHAVIOR_PAGE;
@@ -407,33 +429,33 @@ class Product extends DataObject implements PermissionProvider
     protected $price = null;
     /**
      * All added product tabs via module
-     * 
-     * @var ArrayList 
+     *
+     * @var ArrayList
      */
     protected $pluggedInTabs = null;
     /**
      * All added product additional information via module
-     * 
-     * @var ArrayList 
+     *
+     * @var ArrayList
      */
     protected $pluggedInProductListAdditionalData = null;
     /**
-     * All added product additional information to display between Images and 
+     * All added product additional information to display between Images and
      * Content.
-     * 
-     * @var ArrayList 
+     *
+     * @var ArrayList
      */
     protected $pluggedInAfterImageContent = null;
     /**
      * All added product information via module
-     * 
-     * @var ArrayList 
+     *
+     * @var ArrayList
      */
     protected $pluggedInProductMetaData = null;
     /**
      * Marker to check whether the CMS fields are called or not
      *
-     * @var bool 
+     * @var bool
      */
     protected $getCMSFieldsIsCalled = false;
     /**
@@ -451,7 +473,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Determines whether the stock quantity is overbookable or not
      *
-     * @var bool 
+     * @var bool
      */
     protected $isStockQuantityOverbookable = null;
     /**
@@ -462,7 +484,7 @@ class Product extends DataObject implements PermissionProvider
      */
     protected $cachedTax = null;
     /**
-     * Cached AvailabilityStatus object. The related status object 
+     * Cached AvailabilityStatus object. The related status object
      * will be stored in this property after its first call.
      *
      * @var AvailabilityStatus
@@ -495,7 +517,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Determines whether to ignore tax exemption or not.
      *
-     * @var bool 
+     * @var bool
      */
     protected $ignoreTaxExemption = false;
     /**
@@ -578,7 +600,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * getter for the Title, looks for set translation
-     * 
+     *
      * @return string
      */
     public function getTitle()
@@ -592,7 +614,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Returns the list title
-     * 
+     *
      * @return string
      */
     public function getListTitle() : string
@@ -620,12 +642,12 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateListTitle', $title);
         return (string) $title;
     }
-    
+
     /**
      * getter for the ShortDescription, looks for set translation
-     * 
+     *
      * @param bool $includeHtml include html tags or remove them from description
-     * 
+     *
      * @return string
      */
     public function getShortDescription(bool $includeHtml = true) : ?string
@@ -639,12 +661,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $shortDescription;
     }
-    
+
     /**
      * getter for the LongDescription, looks for set translation
-     * 
+     *
      * @param bool $includeHtml include html tags or remove them from description
-     * 
+     *
      * @return string
      */
     public function getLongDescription(bool $includeHtml = true) : ?string
@@ -658,12 +680,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $longDescription;
     }
-    
+
     /**
      * Returns the translated CartDescription.
-     * 
+     *
      * @param bool $includeHtml include html tags or remove them from description
-     * 
+     *
      * @return string
      */
     public function getCartDescription(bool $includeHtml = true) : string
@@ -677,11 +699,11 @@ class Product extends DataObject implements PermissionProvider
         }
         return (string) $value;
     }
-    
+
     /**
      * Returns the meta description. If not set, it will be generated by it's
      * related products.
-     * 
+     *
      * @return string
      */
     public function getMetaDescription() : string
@@ -699,11 +721,11 @@ class Product extends DataObject implements PermissionProvider
         }
         return (string) $metaDescription;
     }
-    
+
     /**
      * Returns the meta title. If not set, it will be generated by it's
      * title.
-     * 
+     *
      * @return string
      */
     public function getMetaTitle()
@@ -717,10 +739,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $metaTitle;
     }
-    
+
     /**
      * Returns the OrderEmailText (multilingual).
-     * 
+     *
      * @return DBHTMLText
      */
     public function getOrderEmailText() : DBHTMLText
@@ -737,7 +759,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * getter for the Title, looks for set translation
-     * 
+     *
      * @return float
      */
     public function getStockQuantity()
@@ -751,7 +773,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Returns whether this product is buyable.
-     * 
+     *
      * @return bool
      */
     public function getIsNotBuyable() : bool
@@ -765,30 +787,30 @@ class Product extends DataObject implements PermissionProvider
         }
         return (bool) $is;
     }
-    
+
     /**
      * Returns whether to hide prices for this product.
-     * 
+     *
      * @return bool
      */
     public function HidePrices() : bool
     {
         return Customer::hidePrices();
     }
-    
+
     /**
      * Returns an optional information HTML content to show when hiding prices.
-     * 
+     *
      * @return DBHTMLText
      */
     public function HidePricesInfo() : DBHTMLText
     {
         return Customer::hidePricesInfo();
     }
-    
+
     /**
      * Returns the product prices as a JSON string.
-     * 
+     *
      * @return string
      */
     public function PricesJSON() : string
@@ -807,24 +829,24 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updatePricesJSON', $prices);
         return json_encode($prices);
     }
-    
+
     /**
      * Returns a fallback default country.
-     * 
+     *
      * @return Country|null
      */
     public function getDefaultShippingCountry() : ?Country
     {
         return Customer::currentShippingCountry();
     }
-    
+
     /**
      * Returns the default shipping fee for this product
      *
      * @param Country $country       Country to get fee for
      * @param Group   $customerGroup Group to get fee for
-     * 
-     * @return ShippingFee 
+     *
+     * @return ShippingFee
      */
     public function getDefaultShippingFee(Country $country = null, $customerGroup = null)
     {
@@ -848,10 +870,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $shippingFee;
     }
-    
+
     /**
      * Returns the MSR price.
-     * 
+     *
      * @return Money
      */
     public function getMSRPrice()
@@ -865,20 +887,20 @@ class Product extends DataObject implements PermissionProvider
         }
         return $msrPrice;
     }
-    
+
     /**
      * Returns the MSR price in a nice format
-     * 
+     *
      * @return string
      */
     public function getMSRPriceNice()
     {
         return $this->MSRPrice->Nice();
     }
-    
+
     /**
      * Returns some injected markup to display before the products detail data.
-     * 
+     *
      * @return string
      */
     public function getBeforeProductHtmlInjections()
@@ -887,10 +909,10 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateBeforeProductHtmlInjections', $beforeProductHtmlInjections);
         return $beforeProductHtmlInjections;
     }
-    
+
     /**
      * Returns some injected markup to display after the products detail data.
-     * 
+     *
      * @return string
      */
     public function getAfterProductHtmlInjections()
@@ -899,10 +921,10 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAfterProductHtmlInjections', $afterProductHtmlInjections);
         return $afterProductHtmlInjections;
     }
-    
+
     /**
      * Returns some injected markup to display after the products title.
-     * 
+     *
      * @return DBHTMLText
      */
     public function getAfterProductTitle() : DBHTMLText
@@ -911,10 +933,10 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAfterProductTitle', $content);
         return DBHTMLText::create()->setValue($content);
     }
-    
+
     /**
      * Returns some injected markup to display after the products title.
-     * 
+     *
      * @return DBHTMLText
      */
     public function getAfterProductMetaData() : DBHTMLText
@@ -970,12 +992,12 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateHasPortraitOrientationImage', $hasPortraitOrientationImage, $imageFile);
         return $hasPortraitOrientationImage;
     }
-    
+
     /**
      * Returns whether the first image of this product has a landscape orientation.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 28.06.2017
      */
@@ -989,7 +1011,7 @@ class Product extends DataObject implements PermissionProvider
      * array(
      *   'VIEW_SITE' => 'View the site',
      * );
-     * 
+     *
      * @return array
      */
     public function providePermissions() : array
@@ -1006,14 +1028,14 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updatePermissions', $permissions);
         return $permissions;
     }
-    
+
     /**
      * Checks whether the given member can create a product.
-     * 
+     *
      * @param Member $member Member to check
      *
-     * @return bool 
-     * 
+     * @return bool
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.09.2014
      */
@@ -1026,7 +1048,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Checks whether the given member can edit this product.
-     * 
+     *
      * @param Member $member Member to check
      *
      * @return bool
@@ -1053,7 +1075,7 @@ class Product extends DataObject implements PermissionProvider
      * Is this product viewable in the frontend?
      *
      * @param Member $member the current member
-     * 
+     *
      * @return bool
      *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>,
@@ -1152,9 +1174,9 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Adds temporary extended sortable frontend fields
-     * 
+     *
      * @param array $extendedSortableFrontendFields Temporary extended sortable frontend fields
-     * 
+     *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -1393,7 +1415,7 @@ class Product extends DataObject implements PermissionProvider
      * Sets the default sort order and direction.
      *
      * @param string $defaultSort Default sort order and direction
-     * 
+     *
      * @return void
      */
     public static function setDefaultSort(string $defaultSort) : void
@@ -1401,19 +1423,19 @@ class Product extends DataObject implements PermissionProvider
         Tools::Session()->set('SilvercartProduct.defaultSort', $defaultSort);
         Tools::saveSession();
     }
-    
+
     /**
      * Returns a list of products using the given filter parameters.
-     * The required attributes stored in self::$requiredAttributes will be added 
+     * The required attributes stored in self::$requiredAttributes will be added
      * to the filter parameters.
-     * 
+     *
      * @param string $callerClass    Caller class name
      * @param string $filter         Filter to use
      * @param string $sort           Sort field(s) and direction
      * @param string $join           Join tables
      * @param string $limit          Result limitation
      * @param string $containerClass Container class
-     * 
+     *
      * @return DataList
      */
     public static function get($callerClass = Product::class, $filter = "", $sort = "", $join = "", $limit = null, $containerClass = DataList::class) : DataList
@@ -1430,12 +1452,12 @@ class Product extends DataObject implements PermissionProvider
         self::singleton()->extend('onAfterGet', $products);
         return $products;
     }
-    
+
     /**
      * Returns the product with the given product number.
-     * 
+     *
      * @param string $productNumber Product number
-     * 
+     *
      * @return Product
      */
     public static function get_by_product_number($productNumber) : Product
@@ -1448,13 +1470,13 @@ class Product extends DataObject implements PermissionProvider
         }
         return $product;
     }
-    
+
     /**
      * Uses the required attributes stored in self::$requiredAttributes to build
      * the filter to use to get a product list.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.10.2018
      */
@@ -1517,11 +1539,11 @@ class Product extends DataObject implements PermissionProvider
         }
         return $filter;
     }
-    
+
     /**
      * Returns the SQL filter to prevent to display products which don't match the required
      * attributes.
-     * 
+     *
      * @return string
      */
     public static function get_frontend_sql_filter() : string
@@ -1581,7 +1603,7 @@ class Product extends DataObject implements PermissionProvider
      *      ...
      * )
      * </pre>
-     * 
+     *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
      * @param array   $joins       left join data as multi dimensional array
@@ -1652,7 +1674,7 @@ class Product extends DataObject implements PermissionProvider
      *      ...
      * )
      * </pre>
-     * 
+     *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
      * @param array   $joins       left join data as multi dimensional array
@@ -1692,7 +1714,7 @@ class Product extends DataObject implements PermissionProvider
      *      ...
      * )
      * </pre>
-     * 
+     *
      * @param string  $whereClause to be inserted into the sql where clause
      * @param string  $sort        string with sort clause
      * @param array   $joins       left join data as multi dimensional array
@@ -1785,7 +1807,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds the fields for the MirrorProductGroups tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForProductGroups($fields) : void
@@ -1804,7 +1826,7 @@ class Product extends DataObject implements PermissionProvider
             $productGroupHolderID = 0;
         }
         $silvercartProductGroupDropdown->setTreeBaseID($productGroupHolderID);
-        
+
         if ($this->exists()) {
             $productGroupMirrorPagesField = TreeMultiselectField::create(
                     'ProductGroupMirrorPages',
@@ -1825,7 +1847,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds the fields for the Widgets tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForWidgets($fields) : void
@@ -1838,7 +1860,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds or modifies the fields for the Main tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForMain($fields) : void
@@ -1853,7 +1875,7 @@ class Product extends DataObject implements PermissionProvider
             'Months'    => $this->fieldLabel('Months'),
         ];
         $fields->dataFieldByName('PurchaseTimeUnit')->setSource($purchaseTimeUnitSource);
-        
+
         $productNumberGroup = FieldGroup::create('ProductNumberGroup', '', $fields);
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberShop'));
         $productNumberGroup->push($fields->dataFieldByName('ProductNumberManufacturer'));
@@ -1892,7 +1914,7 @@ class Product extends DataObject implements PermissionProvider
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
         $fields->insertAfter($availabilityGroupToggle, 'ProductBaseDataToggle');
-        
+
         $descriptionToggle = ToggleCompositeField::create(
                 'ProductDescriptionToggle',
                 $this->fieldLabel('LongDescription'),
@@ -1910,7 +1932,7 @@ class Product extends DataObject implements PermissionProvider
         $fields->removeByName('LongDescription');
         $fields->removeByName('CartDescription');
         $fields->insertAfter($descriptionToggle, 'AvailabilityGroupToggle');
-        
+
         $timeGroup = FieldGroup::create('TimeGroup', '', $fields);
         $timeGroup->push(        $fields->dataFieldByName('ReleaseDate'));
         $timeGroup->pushAndBreak(LiteralField::create('ReleaseDateInfo', '<br/><br/>' . $this->fieldLabel('ReleaseDateInfo')));
@@ -1926,7 +1948,7 @@ class Product extends DataObject implements PermissionProvider
                 ]
         )->setHeadingLevel(4)->setStartClosed(true);
         $fields->insertAfter($timeGroupToggle, 'ProductDescriptionToggle');
-        
+
         $miscGroup = FieldGroup::create('MiscGroup', '', $fields);
         $manufactuerField = $fields->dataFieldByName('ManufacturerID');
         if (!is_null($manufactuerField)) {
@@ -1959,7 +1981,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds or modifies the fields for the stock item entries tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForStock($fields) : void
@@ -1978,20 +2000,20 @@ class Product extends DataObject implements PermissionProvider
      * Adds or modifies the fields for the Prices tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForPrices($fields) : void
     {
         Tax::presetDropdownWithDefault($fields->dataFieldByName('TaxID'), $this);
-        
+
         $pricesGroup = FieldGroup::create('PricesGroup', '', $fields);
         $pricesGroup->push($fields->dataFieldByName('PriceGross'));
         $pricesGroup->push($fields->dataFieldByName('PriceNet'));
         $pricesGroup->push($fields->dataFieldByName('MSRPrice'));
         $pricesGroup->push($fields->dataFieldByName('PurchasePrice'));
         $pricesGroup->push($fields->dataFieldByName('TaxID'));
-        
+
         $this->extend('updateFieldsForPrices', $pricesGroup, $fields);
         $fields->insertAfter($pricesGroup, 'ProductNumberGroup');
     }
@@ -2000,7 +2022,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds or modifies the fields for the SEO tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForSeo($fields) : void
@@ -2022,7 +2044,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds or modifies the fields for the Images tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForImages($fields) : void
@@ -2049,7 +2071,7 @@ class Product extends DataObject implements PermissionProvider
      * Adds or modifies the fields for the Files tab
      *
      * @param FieldList $fields FieldList to add fields to
-     * 
+     *
      * @return void
      */
     public function getFieldsForFiles($fields): void
@@ -2059,13 +2081,13 @@ class Product extends DataObject implements PermissionProvider
         $fileGridField->getConfig()->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
         $fileGridField->getConfig()->removeComponentsByType(GridFieldFilterHeader::class);
         $fileGridField->getConfig()->addComponent(new GridFieldDeleteAction());
-        
+
         $fileUploadField = FileUploadField::create('UploadFiles', $this->fieldLabel('AddFile'));
         $fileUploadField->setFolderName(self::DEFAULT_FILES_FOLDER);
-        
+
         $fields->addFieldToTab('Root.Files', $fileUploadField, 'Files');
     }
-    
+
     /**
      * CMS fields of a product
      *
@@ -2108,15 +2130,15 @@ class Product extends DataObject implements PermissionProvider
 
         return Tools::string2html($output);
     }
-    
+
     /**
-     * Returns an array of field/relation names (db, has_one, has_many, 
+     * Returns an array of field/relation names (db, has_one, has_many,
      * many_many, belongs_many_many) to exclude from form scaffolding in
      * backend.
      * This is a performance friendly way to exclude fields.
-     * 
+     *
      * @return array
-     * 
+     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 11.03.2013
      */
@@ -2243,10 +2265,10 @@ class Product extends DataObject implements PermissionProvider
 
         return Tools::string2html($priceNice);
     }
-    
+
     /**
      * Returns the product price addition injected by extensions.
-     * 
+     *
      * @return DBHTMLText
      */
     public function PriceAddition() : DBHTMLText
@@ -2275,9 +2297,81 @@ class Product extends DataObject implements PermissionProvider
             'LongDescription'    => ExactMatchFilter::create('LongDescription'),
             'Manufacturer.Title' => PartialMatchFilter::create('Manufacturer.Title'),
         ];
+        // Only include general search if there are fields it can search on
+        $generalSearch = $this->getGeneralSearchFieldName();
+        if ($generalSearch !== ''
+         && $fields->count() > 0
+        ) {
+            if ($fields->fieldByName($generalSearch)
+             || $fields->dataFieldByName($generalSearch)
+            ) {
+                throw new LogicException('General search field name must be unique.');
+            }
+            $fields->unshift(HiddenField::create($generalSearch, _t(self::class . 'GENERALSEARCH', 'General Search')));
+        }
         return SearchContext::create(get_class($this), $fields, $filters);
     }
-    
+
+    /**
+     * Determine which properties on the DataObject are
+     * searchable, and map them to their default {@link FormField}
+     * representations. Used for scaffolding a searchform for {@link ModelAdmin}.
+     *
+     * Some additional logic is included for switching field labels, based on
+     * how generic or specific the field type is.
+     *
+     * Used by {@link SearchContext}.
+     *
+     * @param array $_params
+     *   'fieldClasses': Associative array of field names as keys and FormField classes as values
+     *   'restrictFields': Numeric array of a field name whitelist
+     * 
+     * @return FieldList
+     */
+    public function scaffoldSearchFields($_params = null) : FieldList
+    {
+        $fields        = parent::scaffoldSearchFields($_params);
+        $generalSearch = $this->getGeneralSearchFieldName();
+        if ($generalSearch !== ''
+         && $fields->count() > 0
+        ) {
+            if ($fields->fieldByName($generalSearch)
+             || $fields->dataFieldByName($generalSearch)
+            ) {
+                throw new LogicException('General search field name must be unique.');
+            }
+            $fields->unshift(HiddenField::create($generalSearch, _t(self::class . 'GENERALSEARCH', 'General Search')));
+        }
+        return $fields;
+    }
+
+    /**
+     * Returns the general search field name.
+     * 
+     * @return string
+     */
+    public function getGeneralSearchFieldName(): string
+    {
+        return (string) $this->config()->general_search_field_name;
+    }
+
+    /**
+     * Set the default search context for this field
+     *
+     * @return SilverCartSearchContext
+     * 
+     * @throws \Exception
+     */
+    public function getDefaultSearchContext() : SilverCartSearchContext
+    {
+
+        return SilverCartSearchContext::create(
+            static::class,
+            $this->scaffoldSearchFields(),
+            $this->defaultSearchFilters()
+        );
+    }
+
     /**
      * Creates the upload folder for Product images if it doesn't exist.
      *
@@ -2298,7 +2392,7 @@ class Product extends DataObject implements PermissionProvider
         }
         return $uploadsFolder;
     }
-    
+
     /**
      * Creates the upload folder for Product files if it doesn't exist.
      *
@@ -2428,58 +2522,58 @@ class Product extends DataObject implements PermissionProvider
     {
         self::$requiredAttributes = [];
     }
-    
+
     /**
      * Returns the current link behavior.
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_PAGE
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_POPUP
-     * 
+     *
      * @return string
      */
     public static function getLinkBehavior() : string
     {
         return self::$linkBehavior;
     }
-    
+
     /**
      * Sets the current link behavior.
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_PAGE
      * @see LinkBehaviorExtension::LINK_BEHAVIOR_POPUP
-     * 
+     *
      * @param string $linkBehavior Link behavior
-     * 
+     *
      * @return void
      */
     public static function setLinkBehavior(string $linkBehavior) : void
     {
         self::$linkBehavior = $linkBehavior;
     }
-    
+
     /**
      * Returns whether the current link behavior is the nolink link behavior.
-     * 
+     *
      * @return bool
      */
     public static function LinkBehaviorNoLink() : bool
     {
         return self::$linkBehavior === LinkBehaviorExtension::LINK_BEHAVIOR_NO_LINK;
     }
-    
+
     /**
      * Returns whether the current link behavior is the page link behavior.
-     * 
+     *
      * @return bool
      */
     public static function LinkBehaviorPage() : bool
     {
         return self::$linkBehavior === LinkBehaviorExtension::LINK_BEHAVIOR_PAGE;
     }
-    
+
     /**
      * Returns whether the current link behavior is the popup link behavior.
-     * 
+     *
      * @return bool
      */
     public static function LinkBehaviorPopup() : bool
@@ -2491,7 +2585,7 @@ class Product extends DataObject implements PermissionProvider
      * Remove chars from the title that are not appropriate for an url
      *
      * @return string
-     * 
+     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 23.10.2010
      */
@@ -2499,12 +2593,12 @@ class Product extends DataObject implements PermissionProvider
     {
         return Tools::string2urlSegment($this->Title);
     }
-    
+
     /**
      * Returns the DataList filter for shopping cart positions related to this product.
-     * 
+     *
      * @param int $cartID ID of the users shopping cart
-     * 
+     *
      * @return array
      */
     public function getAddToCartPositionFilter(int $cartID) : array
@@ -2547,7 +2641,7 @@ class Product extends DataObject implements PermissionProvider
         $shoppingCartPosition = null;
 
         $this->extend('updateAddToCart', $cartID, $quantity, $increment, $addToCartAllowed, $shoppingCartPosition);
-        
+
         if ($this->IsNotBuyable
          || $quantity == 0
          || $cartID == 0
@@ -2566,7 +2660,7 @@ class Product extends DataObject implements PermissionProvider
             $shoppingCartPosition = ShoppingCartPosition::create()
                     ->castedUpdate($filter);
         }
-        
+
         if ($shoppingCartPosition->Quantity < $quantity) {
             if ($increment) {
                 $quantityToAdd  = $quantity;
@@ -2610,24 +2704,24 @@ class Product extends DataObject implements PermissionProvider
 
         return $shoppingCartPosition;
     }
-    
+
     /**
      * Remose this product from the current member's cart.
-     * 
+     *
      * @param ShoppingCartPosition|null &$deletedPosition Position reference
-     * 
+     *
      * @return bool
      */
     public function removeFromCart(?ShoppingCartPosition &$deletedPosition = null) : bool
     {
         return ShoppingCart::removeProduct(['productID' => $this->ID], $deletedPosition);
     }
-    
+
     /**
      * Returns a corrected shopping cart quantity dependend on extenal modules.
-     * 
+     *
      * @param float $quantity Quantity to check and correct
-     * 
+     *
      * @return float
      */
     public function getValidShoppingCartQuantity(float $quantity) : float
@@ -2635,14 +2729,14 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateValidShoppingCartQuantity', $quantity);
         return $quantity;
     }
-    
+
     /**
      * Checks whether the product is inside the cart with the given ID
-     * 
+     *
      * @param int $cartID Cart ID to check positions for
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 11.03.2013
      */
@@ -2655,12 +2749,12 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateIsInCart', $isInCart, $cartID);
         return $isInCart;
     }
-    
+
     /**
      * Returns whether there is a cart notice for this product.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 26.09.2018
      */
@@ -2675,10 +2769,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $hasNotice;
     }
-    
+
     /**
      * returns a string with notices. Notices are seperated by <br />
-     * 
+     *
      * @return DBHTMLText
      */
     public function getCartNotices()
@@ -2692,12 +2786,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $notices;
     }
-    
+
     /**
      * Returns the position of the product in cart
-     * 
+     *
      * @param int $cartID Cart ID to check positions for
-     * 
+     *
      * @return ShoppingCartPosition
      */
     public function getPositionInCart(int $cartID = null) : ?ShoppingCartPosition
@@ -2716,10 +2810,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->positionInCart[$cartID];
     }
-    
+
     /**
      * Returns the minimum quantity of the product to add to cart.
-     * 
+     *
      * @return float
      */
     public function getMinQuantityForCart() : float
@@ -2728,10 +2822,10 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateMinQuantityForCart', $quantity);
         return $quantity;
     }
-    
+
     /**
      * Returns the minimum quantity of the product to add to cart.
-     * 
+     *
      * @return float
      */
     public function getMaxQuantityForCart() : float
@@ -2740,12 +2834,12 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateMaxQuantityForCart', $quantity);
         return $quantity;
     }
-    
+
     /**
      * Returns the quantity of the product in cart
-     * 
+     *
      * @param int $cartID Cart ID to check positions for
-     * 
+     *
      * @return float
      */
     public function getQuantityInCart($cartID = null) : float
@@ -2765,12 +2859,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->quantityInCart[$cartID];
     }
-    
+
     /**
      * Returns the quantity of the product in cart as a human readable string.
-     * 
+     *
      * @param int $cartID Cart ID to check positions for
-     * 
+     *
      * @return string
      */
     public function getQuantityInCartString($cartID = null) : string
@@ -2800,7 +2894,7 @@ class Product extends DataObject implements PermissionProvider
      * Returns the product group of this product dependent on the current locale
      *
      * @return ProductGroupPage
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 09.12.2015
      */
@@ -2817,14 +2911,14 @@ class Product extends DataObject implements PermissionProvider
         }
         return $productGroup;
     }
-    
+
     /**
      * Returns whether this product is in the given group.
-     * 
+     *
      * @param ProductGroupPage $group Group to check.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 17.04.2019
      */
@@ -2843,10 +2937,10 @@ class Product extends DataObject implements PermissionProvider
               && !$is);
         return $is;
     }
-    
+
     /**
      * Returns whether this product is published.
-     * 
+     *
      * @return bool
      */
     public function isPublished() : bool
@@ -2854,13 +2948,13 @@ class Product extends DataObject implements PermissionProvider
         return $this->ProductGroup()->isPublished()
             && $this->ProductGroup()->canView();
     }
-    
+
     /**
      * Builds the product link with the given parameters.
-     * 
+     *
      * @param ProductGroupPage $productGroup Base object to build the link
      * @param string           $urlSegment   URL segment
-     * 
+     *
      * @return string
      */
     public function buildLinkWithGroup($productGroup, $urlSegment) : string
@@ -2874,17 +2968,17 @@ class Product extends DataObject implements PermissionProvider
                     $this->buildLink($link, $urlSegment),
                     "?{$queryargs}"
             );
-            
+
         }
         return $groupLink;
     }
-    
+
     /**
      * Builds the product link with the given parameters.
-     * 
+     *
      * @param string $groupLink  Link of the group to get product link for
      * @param string $urlSegment URL segment
-     * 
+     *
      * @return string
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -2896,7 +2990,7 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updatelinkIdentifier', $linkIdentifier);
         return "{$groupLink}{$linkIdentifier}/{$urlSegment}";
     }
-    
+
     /**
      * Alias for Link()
      *
@@ -2909,11 +3003,11 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Link to this product.
-     * The link is in context of the current controller. If the current 
-     * controller does not match some related product criteria (mirrored product 
+     * The link is in context of the current controller. If the current
+     * controller does not match some related product criteria (mirrored product
      * group, translation of a mirrored product group or translation of main
      * group) the main group will be used as context.
-     * 
+     *
      * @param string $locale Locale to get product link for
      *
      * @return string URL of $this
@@ -2938,7 +3032,7 @@ class Product extends DataObject implements PermissionProvider
         } else {
             $productGroup = $this->ProductGroup();
         }
-        
+
         if ($controller instanceof ProductGroupPageController
          && !($controller instanceof SearchResultsPageController)
         ) {
@@ -2969,7 +3063,7 @@ class Product extends DataObject implements PermissionProvider
             $i18nLink = $this->buildLinkWithGroup($this->ProductGroup(), $this->title2urlSegment());
         }
         $this->i18nLinks[$locale] = $i18nLink;
-        
+
         return $i18nLink;
     }
 
@@ -2990,7 +3084,7 @@ class Product extends DataObject implements PermissionProvider
         }
         return $link;
     }
-    
+
     /**
      * Alias for AbsoluteLink()
      *
@@ -3012,12 +3106,12 @@ class Product extends DataObject implements PermissionProvider
     {
         return Director::absoluteURL($this->Link());
     }
-    
+
     /**
      * Returns the link to send a product question to the shop manager
      *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 31.05.2012
      */
@@ -3025,12 +3119,12 @@ class Product extends DataObject implements PermissionProvider
     {
         return Tools::PageByIdentifierCodeLink(Page::IDENTIFIER_CONTACT_FORM_PAGE) . "productQuestion/{$this->ID}";
     }
-    
+
     /**
      * Returns the link to add this product to cart.
-     * 
+     *
      * @param int $quantity Quantity
-     * 
+     *
      * @return string
      */
     public function AddToCartLink(int $quantity = 1) : string
@@ -3039,12 +3133,12 @@ class Product extends DataObject implements PermissionProvider
         $action     = 'addToCart';
         return Director::makeRelative("/{$urlSegment}/{$action}/{$this->ID}/{$quantity}");
     }
-    
+
     /**
      * Returns whether the current view is a mirrored product detail view
      *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.07.2012
      */
@@ -3062,7 +3156,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * returns the tax amount included in $this
-     * 
+     *
      * @param float $quantity Quantity to get tax amount for
      *
      * @return float
@@ -3100,12 +3194,12 @@ class Product extends DataObject implements PermissionProvider
     {
         return str_replace('.', ',', number_format($this->getTaxAmount(),2)) . ' ' . $this->Price->getSymbol();
     }
-    
+
     /**
      * Creates the product micro data as a JSON string to use for SEO.
-     * 
+     *
      * @param bool $plain Set to true to get the plain JSON string without HTML tag
-     * 
+     *
      * @return DBHTMLText
      */
     public function getMicrodata($plain = false) : DBHTMLText
@@ -3131,13 +3225,13 @@ class Product extends DataObject implements PermissionProvider
             $offers['itemCondition'] = $this->ProductCondition()->MicrodataCode;
         }
 
-        
+
         $listImage = $this->getListImage();
         $imageURL  = '';
         if (is_object($listImage)) {
             $imageURL = $listImage->getAbsoluteURL();
         }
-        
+
         $jsonData = [
             '@context'    => 'http://schema.org',
             '@type'       => 'Product',
@@ -3149,11 +3243,11 @@ class Product extends DataObject implements PermissionProvider
             'image'       => $imageURL,
             'offers'      => $offers,
         ];
-        
+
         if ($this->EANCode) {
             $jsonData["gtin"] = $this->EANCode;
         }
-        
+
         $manufacturer = $this->Manufacturer();
         if ($manufacturer instanceof Manufacturer
          && $manufacturer->exists()
@@ -3167,7 +3261,7 @@ class Product extends DataObject implements PermissionProvider
             }
             $jsonData["brand"] = $manufacturerData;
         }
-        
+
         $this->extend('updateMicrodata', $jsonData);
 
         if (defined('JSON_PRETTY_PRINT')) {
@@ -3180,10 +3274,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return Tools::string2html($output);
     }
-    
+
     /**
      * Returns the purchase min duration in business days.
-     * 
+     *
      * @return int
      */
     public function getPurchaseMinDurationDays() : int
@@ -3196,10 +3290,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $days;
     }
-    
+
     /**
      * Returns the purchase min duration in business days.
-     * 
+     *
      * @return int
      */
     public function getPurchaseMaxDurationDays() : int
@@ -3212,10 +3306,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $days;
     }
-    
+
     /**
      * Returns the count of business days for the related purchase time unit.
-     * 
+     *
      * @return int
      */
     public function getPurchaseTimeUnitBusinessDays() : int
@@ -3240,7 +3334,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @param string $baseCssClass         Base CSS class to use to render the badge (default: label)
      * @param string $additionalCssClasses Additional CSS classes to use to render the badge.
-     * 
+     *
      * @return DBHTMLText
      */
     public function getAvailability($baseCssClass = 'label', $additionalCssClasses = '') : DBHTMLText
@@ -3300,7 +3394,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @param string $baseCssClass         Base CSS class to use to render the badge (default: label)
      * @param string $additionalCssClasses Additional CSS classes to use to render the badge.
-     * 
+     *
      * @return DBHTMLText
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -3314,9 +3408,9 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns the related AvailabilityStatus object.
      * Provides an extension hook to update the status object by decorator.
-     * 
+     *
      * @return AvailabilityStatus
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.06.2018
      */
@@ -3372,7 +3466,7 @@ class Product extends DataObject implements PermissionProvider
      * used to determine weather something should be shown on a template or not
      *
      * @return bool
-     * 
+     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 19.3.2011
      */
@@ -3385,7 +3479,7 @@ class Product extends DataObject implements PermissionProvider
      * Returns the tax rate in percent. The attribute 'Rate' of the relation
      * 'Tax' is not used to handle with complex tax systems without
      * clearly defined product taxes.
-     * 
+     *
      * @param bool $ignoreTaxExemption Determines whether to ignore tax exemption or not.
      *
      * @return float the tax rate in percent
@@ -3404,7 +3498,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns the related Tax object.
      * Provides an extension hook to update the tax object by decorator.
-     * 
+     *
      * @return Tax
      */
     public function Tax() : Tax
@@ -3421,9 +3515,9 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns the related WidgetArea object.
      * If there is no WidgetArea related, a new one will be created and related.
-     * 
+     *
      * @return WidgetArea
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.03.2014
      */
@@ -3502,13 +3596,13 @@ class Product extends DataObject implements PermissionProvider
                 }
             }
         }
-        
+
         if (!$this->isActive) {
             foreach ($this->ShoppingCartPositions() as $position) {
                 $position->delete();
             }
         }
-        
+
         if ($this->TaxID == 0) {
             $defaultTaxRate = Tax::getDefault();
             if ($defaultTaxRate instanceof Tax
@@ -3517,7 +3611,7 @@ class Product extends DataObject implements PermissionProvider
                 $this->TaxID = $defaultTaxRate->ID;
             }
         }
-        
+
         $priceGrossCurrency = $this->PriceGross->getCurrency();
         if (is_null($this->PriceGrossCurrency)
          && is_null($priceGrossCurrency)
@@ -3542,7 +3636,7 @@ class Product extends DataObject implements PermissionProvider
         ) {
             $this->PurchasePriceCurrency = Config::DefaultCurrency();
         }
-        
+
         if (array_key_exists('RefreshCache', $_POST)
          && ($_POST['RefreshCache'] == '1'
           || $_POST['RefreshCache'] == 'on')
@@ -3551,10 +3645,10 @@ class Product extends DataObject implements PermissionProvider
         }
         $this->assignKeywords();
     }
-    
+
     /**
      * Assigns matching keywords from $this->config()->get('keyword_map').
-     * 
+     *
      * @return bool
      */
     public function assignKeywords() : bool
@@ -3575,10 +3669,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $assigned;
     }
-    
+
     /**
      * Extension to add (mirrored) product groups to the cache refesh marker.
-     * 
+     *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -3608,12 +3702,12 @@ class Product extends DataObject implements PermissionProvider
         $this->addWidgetAreaIfNotExists();
         $this->clearPriceCache();
     }
-    
+
     /**
      * Adds a new WidgetArea to the product if not existing yet.
-     * 
+     *
      * @param WidgetArea $widgetArea Optional WidgetArea to use as fallback
-     * 
+     *
      * @return WidgetArea
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -3638,7 +3732,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Sets the cache relevant fields.
-     * 
+     *
      * @return array
      */
     public function getCacheRelevantFields() : array
@@ -3734,10 +3828,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return $images;
     }
-    
+
     /**
      * Returns the list image as a thumbnail Image.
-     * 
+     *
      * @return DBHTMLText
      */
     public function getListImageThumbnail() : DBHTMLText
@@ -3755,7 +3849,7 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * Returns the first image out of the related Images.
-     * 
+     *
      * @return SilverStripeImage
      */
     public function getListImage() : ?SilverStripeImage
@@ -3769,22 +3863,22 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->listImage;
     }
-    
+
     /**
      * Alias for $this->ImagesForSitemap().
-     * 
+     *
      * @return ArrayList
      */
     public function getImagesForSitemap() : ArrayList
     {
         return $this->ImagesForSitemap();
     }
-    
+
     /**
      * Returns the images for the Google XML sitemap.
-     * 
+     *
      * @return ArrayList
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 12.09.2018
      */
@@ -3809,7 +3903,7 @@ class Product extends DataObject implements PermissionProvider
      * @param Order  $order     Order context
      *
      * @return $this
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.01.2019
      */
@@ -3839,7 +3933,7 @@ class Product extends DataObject implements PermissionProvider
      * @param Order  $order     Order context
      *
      * @return $this
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.01.2019
      */
@@ -3857,7 +3951,7 @@ class Product extends DataObject implements PermissionProvider
      * @param Order  $order     Order context
      *
      * @return $this
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 16.01.2019
      */
@@ -3865,10 +3959,10 @@ class Product extends DataObject implements PermissionProvider
     {
         return $this->changeStockQuantityBy($quantity, true, $reason, $origin, $order);
     }
-    
+
     /**
      * Calculates and returns the stock quantity by related item entries.
-     * 
+     *
      * @return int
      */
     public function getStockQuantityByItemEntries() : int
@@ -3944,10 +4038,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return true;
     }
-    
+
     /**
      * Returns the default time difference for new products.
-     * 
+     *
      * @return string
      */
     public static function getIsNewProductDefaultTimeDifference() : string
@@ -3958,7 +4052,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Returns if a product is new dependent on its creation date (Created) and the given
      * time difference ($timeDifference).
-     * 
+     *
      * @param string $timeDifference '+8 month' OR '-8 day' OR '-1 year'
      *
      * @return bool
@@ -3988,13 +4082,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateIsNewProduct', $isNew);
         return $isNew;
     }
-    
+
     /**
      * Returns whether the stock quantity is low.
      * @see self::$stock_quantity_is_low_max
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
@@ -4013,12 +4107,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $stockQuantityIsLow;
     }
-    
+
     /**
      * Returns whether this product has a release date.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 06.10.2018
      */
@@ -4032,12 +4126,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $hasReleaseDate;
     }
-    
+
     /**
      * Returns the products full release date string.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
@@ -4045,10 +4139,10 @@ class Product extends DataObject implements PermissionProvider
     {
         return Tools::getDateNice($this->ReleaseDate, true, true);
     }
-    
+
     /**
      * Returns whether this product has a delivery time.
-     * 
+     *
      * @return bool
      */
     public function HasDeliveryTime() : bool
@@ -4061,10 +4155,10 @@ class Product extends DataObject implements PermissionProvider
         }
         return !empty($deliveryTime);
     }
-    
+
     /**
      * Returns the products delivery time string.
-     * 
+     *
      * @return string
      */
     public function getDeliveryTime() : ?string
@@ -4083,12 +4177,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->deliveryTime;
     }
-    
+
     /**
      * Returns the products earliest delivery date string.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.01.2019
      */
@@ -4108,12 +4202,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->earliestDeliveryDate;
     }
-    
+
     /**
      * Returns the products latest delivery date string.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.01.2019
      */
@@ -4133,12 +4227,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->latestDeliveryDate;
     }
-    
+
     /**
      * Returns the products full delivery date string.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.01.2019
      */
@@ -4158,12 +4252,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->fullDeliveryDate;
     }
-    
+
     /**
      * Returns whether a delivery for free is possible for this product.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 23.01.2019
      */
@@ -4183,12 +4277,12 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->deliveryForFreeIsPossible;
     }
-    
+
     /**
      * Returns an information text for possible free delivery.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 24.09.2018
      */
@@ -4213,14 +4307,14 @@ class Product extends DataObject implements PermissionProvider
         }
         return $info;
     }
-    
+
     /**
-     * Checks whether there is a status change needed and executes the change if 
+     * Checks whether there is a status change needed and executes the change if
      * needed.
-     * 
+     *
      * @param int  $stockQuantityBefore Stock quantity before change.
      * @param bool $doWrite             Set to false to prevent a write.
-     * 
+     *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -4280,7 +4374,7 @@ class Product extends DataObject implements PermissionProvider
 
         return $idList;
     }
-    
+
     /**
      * Checks whether price is lower than MSR
      *
@@ -4299,8 +4393,8 @@ class Product extends DataObject implements PermissionProvider
 
     /**
      * returns all additional product tabs
-     * 
-     * @return ArrayList  
+     *
+     * @return ArrayList
      */
     public function getPluggedInTabs() : ArrayList
     {
@@ -4310,11 +4404,11 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->pluggedInTabs;
     }
-    
+
     /**
      * returns all additional information about a product
-     * 
-     * @return ArrayList 
+     *
+     * @return ArrayList
      */
     public function getPluggedInProductMetaData() : ArrayList
     {
@@ -4324,11 +4418,11 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->pluggedInProductMetaData;
     }
-    
+
     /**
      * returns all additional list information about a product
-     * 
-     * @return ArrayList 
+     *
+     * @return ArrayList
      */
     public function getPluggedInProductListAdditionalData() : ArrayList
     {
@@ -4338,11 +4432,11 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->pluggedInProductListAdditionalData;
     }
-    
+
     /**
      * Returns all additional information to display between Images and Content.
-     * 
-     * @return ArrayList 
+     *
+     * @return ArrayList
      */
     public function getPluggedInAfterImageContent() : ArrayList
     {
@@ -4352,14 +4446,14 @@ class Product extends DataObject implements PermissionProvider
         }
         return $this->pluggedInAfterImageContent;
     }
-    
+
     /**
      * Returns the AddToCartForm.
-     * 
+     *
      * @param string $viewContext View context (for example 'List', 'Detail', 'Title')
-     * 
+     *
      * @return AddToCartForm
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 15.11.2017
      */
@@ -4369,13 +4463,13 @@ class Product extends DataObject implements PermissionProvider
         $form->setViewContext($viewContext);
         return $form;
     }
-    
+
     /**
-     * Returns some additional content to insert right after the out of stock 
+     * Returns some additional content to insert right after the out of stock
      * notification is rendered.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.09.2018
      */
@@ -4385,13 +4479,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAfterOutOfStockNotificationContent', $content);
         return Tools::string2html($content);
     }
-    
+
     /**
-     * Returns some additional content to insert right after the nice price is 
+     * Returns some additional content to insert right after the nice price is
      * rendered.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.09.2018
      */
@@ -4401,13 +4495,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAfterPriceNiceContent', $content);
         return Tools::string2html($content);
     }
-    
+
     /**
-     * Returns some additional content to insert right after the add to cart AJAX 
+     * Returns some additional content to insert right after the add to cart AJAX
      * response default product content.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2018
      */
@@ -4417,13 +4511,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateAfterShoppingCartAjaxResponseContent', $content);
         return Tools::string2html($content);
     }
-    
+
     /**
-     * Returns some additional content to insert right before the nice price is 
+     * Returns some additional content to insert right before the nice price is
      * rendered.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 21.09.2018
      */
@@ -4433,13 +4527,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateBeforePriceNiceContent', $content);
         return Tools::string2html($content);
     }
-    
+
     /**
-     * Returns some additional content to insert right before the add to cart AJAX 
+     * Returns some additional content to insert right before the add to cart AJAX
      * response default product content.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 08.04.2018
      */
@@ -4449,13 +4543,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateBeforeShoppingCartAjaxResponseContent', $content);
         return Tools::string2html($content);
     }
-    
+
     /**
      * Returns optional content to insert instead of the original the add to cart
      * AJAX response default product content.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.04.2018
      */
@@ -4465,13 +4559,13 @@ class Product extends DataObject implements PermissionProvider
         $this->extend('updateOverwriteShoppingCartAjaxResponseContent', $content);
         return Tools::string2html($content);
     }
-    
+
     /**
-     * Sets whether to update the stock quantity without creating a new stock item 
+     * Sets whether to update the stock quantity without creating a new stock item
      * entry.
-     * 
+     *
      * @param bool $update Update or not?
-     * 
+     *
      * @return $this
      */
     public function setUpdateStockQuantity(bool $update) : Product
@@ -4479,23 +4573,23 @@ class Product extends DataObject implements PermissionProvider
         $this->updateStockQuantity = $update;
         return $this;
     }
-    
+
     /**
-     * Returns whether to update the stock quantity without creating a new stock 
+     * Returns whether to update the stock quantity without creating a new stock
      * item entry.
-     * 
+     *
      * @return bool
      */
     public function getUpdateStockQuantity() : bool
     {
         return $this->updateStockQuantity;
     }
-    
+
     /**
      * Sets the origin for a stock qunatity update.
-     * 
+     *
      * @param string $origin Origin for a stock quantity update
-     * 
+     *
      * @return $this
      */
     public function setUpdateStockQuantityOrigin(int $origin) : Product
@@ -4503,22 +4597,22 @@ class Product extends DataObject implements PermissionProvider
         $this->updateStockQuantityOrigin = $origin;
         return $this;
     }
-    
+
     /**
      * Returns the origin for a stock qunatity update.
-     * 
+     *
      * @return string
      */
     public function getUpdateStockQuantityOrigin() : int
     {
         return $this->updateStockQuantityOrigin;
     }
-    
+
     /**
      * Sets the reason for a stock qunatity update.
-     * 
+     *
      * @param string $reason Reason for a stock quantity update
-     * 
+     *
      * @return $this
      */
     public function setUpdateStockQuantityReason(string $reason) : Product
@@ -4526,10 +4620,10 @@ class Product extends DataObject implements PermissionProvider
         $this->updateStockQuantityReason = $reason;
         return $this;
     }
-    
+
     /**
      * Returns the reason for a stock qunatity update.
-     * 
+     *
      * @return string
      */
     public function getUpdateStockQuantityReason() : string

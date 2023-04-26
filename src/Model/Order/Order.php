@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Order;
 
+use LogicException;
 use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Admin\Forms\MultiDropdownField;
 use SilverCart\Admin\Forms\TableField;
@@ -50,6 +51,7 @@ use SilverStripe\Forms\GridField\GridFieldConfig_Base;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TextField;
@@ -80,7 +82,7 @@ use function _t;
  * @since 26.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
- * 
+ *
  * @property SilverCartDBMoney $AmountTotal                      Total Amount
  * @property string            $PriceType                        Price Type
  * @property SilverCartDBMoney $HandlingCostPayment              Handling Cost Payment
@@ -106,7 +108,7 @@ use function _t;
  * @property string            $ExpectedDeliveryMax              Maximum Expected Delivery Date
  * @property string            $PaymentDate                      Payment Date
  * @property string            $ShippingDate                     Shipping Date
- * 
+ *
  * @property int $ShippingAddressID The ID of the related ShippingAddress.
  * @property int $InvoiceAddressID  The ID of the related InvoiceAddress.
  * @property int $PaymentMethodID   The ID of the related PaymentMethod.
@@ -115,7 +117,7 @@ use function _t;
  * @property int $PaymentStatusID   The ID of the related PaymentStatus.
  * @property int $MemberID          The ID of the related Member.
  * @property int $ShippingFeeID     The ID of the related ShippingFee.
- * 
+ *
  * @method OrderShippingAddress ShippingAddress() Returns the related ShippingAddress.
  * @method OrderInvoiceAddress  InvoiceAddress()  Returns the related InvoiceAddress.
  * @method PaymentMethod        PaymentMethod()   Returns the related PaymentMethod.
@@ -242,6 +244,26 @@ class Order extends DataObject implements PermissionProvider
      */
     private static $api_access = true;
     /**
+     * Name of the field which is used as a stand-in for searching across all searchable fields.
+     *
+     * If this is a blank string, general search functionality is disabled
+     * and the general search field falls back to using the first field in
+     * the searchable_fields array.
+     */
+    private static string $general_search_field_name = 'q';
+    /**
+     * The search filter to use when searching with the general search field.
+     * If this is an empty string, the search filters configured for each field are used instead.
+     */
+    private static string $general_search_field_filter = PartialMatchFilter::class;
+    /**
+     * If true, the search phrase is split into individual terms, and checks all searchable fields for each search term.
+     * If false, all fields are checked for the entire search phrase as a whole.
+     *
+     * Note that splitting terms may cause unexpected resuls if using an ExactMatchFilter.
+     */
+    private static bool $general_search_split_terms = true;
+    /**
      * Flag to determine whether the cancel is in progress.
      *
      * @var bool
@@ -262,30 +284,30 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Marker to check whether the CMS fields are called or not
      *
-     * @var bool 
+     * @var bool
      */
     protected $getCMSFieldsIsCalled = false;
-    
+
     /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
-     * 
+     *
      * @return string
      */
     public function singular_name() : string
     {
-        return Tools::singular_name_for($this); 
+        return Tools::singular_name_for($this);
     }
-    
+
     /**
      * Returns the translated plural name of the object. If no translation exists
      * the class name will be returned.
-     * 
+     *
      * @return string
      */
     public function plural_name() : string
     {
-        return Tools::plural_name_for($this); 
+        return Tools::plural_name_for($this);
     }
 
     /**
@@ -320,8 +342,18 @@ class Order extends DataObject implements PermissionProvider
     }
 
     /**
-     * Indicates wether the current user can view this object.
+     * Returns the general search field name.
      * 
+     * @return string
+     */
+    public function getGeneralSearchFieldName(): string
+    {
+        return (string) $this->config()->general_search_field_name;
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     *
      * @param Member $member declated to be compatible with parent
      *
      * @return bool
@@ -341,10 +373,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $canView;
     }
-    
+
     /**
      * Order should not be created via backend
-     * 
+     *
      * @param Member $member Member to check permission for
      *
      * @return false
@@ -356,7 +388,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Indicates wether the current user can edit this object.
-     * 
+     *
      * @param Member $member declated to be compatible with parent
      *
      * @return bool
@@ -368,7 +400,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Indicates wether the current user can delete this object.
-     * 
+     *
      * @param Member $member declated to be compatible with parent
      *
      * @return bool
@@ -380,7 +412,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Indicates wether the current user can delete this object.
-     * 
+     *
      * @param Member $member declated to be compatible with parent
      *
      * @return bool
@@ -404,10 +436,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $can;
     }
-    
+
     /**
      * Returns the CSV export columns.
-     * 
+     *
      * @return array
      */
     public function exportColumns() : array
@@ -448,7 +480,7 @@ class Order extends DataObject implements PermissionProvider
      * Field labels for display in tables.
      *
      * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
-     * 
+     *
      * @return array
      */
     public function fieldLabels($includerelations = true) : array
@@ -529,7 +561,7 @@ class Order extends DataObject implements PermissionProvider
             self::PERMISSION_DELETE . '_HELP'  => _t(Order::class . '.' . self::PERMISSION_DELETE . '_HELP', 'Allows an user to delete any orders (not only owned ones!).'),
         ]);
     }
-    
+
     /**
      * Searchable fields
      *
@@ -623,16 +655,18 @@ class Order extends DataObject implements PermissionProvider
             ) {
                 continue;
             }
+
             $searchableFields[$key] = $value;
         }
+
         $this->extend('updateSearchableFields', $searchableFields);
 
         return $searchableFields;
     }
-    
+
     /**
      * Returns the Title.
-     * 
+     *
      * @return string
      */
     public function getTitle()
@@ -641,10 +675,10 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('updateTitle', $title);
         return $title;
     }
-    
+
     /**
      * Returns the order number.
-     * 
+     *
      * @return string
      */
     public function getOrderNumber() : string
@@ -656,7 +690,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Set the default search context for this field
-     * 
+     *
      * @return SearchContext
      */
     public function getDefaultSearchContext()
@@ -667,7 +701,7 @@ class Order extends DataObject implements PermissionProvider
             $this->defaultSearchFilters()
         );
     }
-    
+
     /**
      * Determine which properties on the DataObject are
      * searchable, and map them to their default {@link FormField}
@@ -686,14 +720,14 @@ class Order extends DataObject implements PermissionProvider
     public function scaffoldSearchFields($_params = null)
     {
         $fields = parent::scaffoldSearchFields($_params);
-        
+
         $fields->dataFieldByName('OrderStatusID')
                 ->setSource(OrderStatus::get()->map()->toArray())
                 ->setEmptyString(Tools::field_label('PleaseChoose'));
         $fields->dataFieldByName('PaymentStatusID')
                 ->setSource(PaymentStatus::get()->map()->toArray())
                 ->setEmptyString(Tools::field_label('PleaseChoose'));
-        
+
         $order                 = Order::singleton();
         $basicLabelField       = HeaderField::create(  'BasicLabelField',       $order->fieldLabel('BasicData'));
         $customerLabelField    = HeaderField::create(  'CustomerLabelField',    $order->fieldLabel('CustomerData'));
@@ -702,7 +736,7 @@ class Order extends DataObject implements PermissionProvider
         $positionQuantityField = TextField::create(    'OrderPositionQuantity', $order->fieldLabel('OrderPositionQuantity'));
         $positionIsLimitField  = CheckboxField::create('OrderPositionIsLimit',  $order->fieldLabel('OrderPositionIsLimit'));
         $limitField            = TextField::create(    'SearchResultsLimit',    $order->fieldLabel('SearchResultsLimit'));
-        
+
         $fields->insertBefore($basicLabelField,                   'OrderNumber');
         $fields->insertAfter($fields->dataFieldByName('Created'), 'OrderNumber');
         $fields->insertBefore($customerLabelField,                'Member__CustomerNumber');
@@ -711,18 +745,26 @@ class Order extends DataObject implements PermissionProvider
         $fields->insertAfter($positionIsLimitField,               'OrderPositionQuantity');
         $fields->insertAfter($miscLabelField,                     'OrderPositionIsLimit');
         $fields->insertAfter($limitField,                         'MiscLabelField');
-        
+
         $fields->dataFieldByName('PaymentMethodID')->setEmptyString(           Tools::field_label('PleaseChoose'));
         $fields->dataFieldByName('ShippingMethodID')->setEmptyString(          Tools::field_label('PleaseChoose'));
-        //fields->dataFieldByName('ShippingAddress__CountryID')->setEmptyString(Tools::field_label('PleaseChoose'));
-        
+        // Only include general search if there are fields it can search on
+        $generalSearch = $this->getGeneralSearchFieldName();
+        if ($generalSearch !== '' && $fields->count() > 0) {
+            if ($fields->fieldByName($generalSearch)
+             || $fields->dataFieldByName($generalSearch)
+            ) {
+                throw new LogicException('General search field name must be unique.');
+            }
+            $fields->unshift(HiddenField::create($generalSearch, _t(self::class . 'GENERALSEARCH', 'General Search')));
+        }
         return $fields;
     }
-    
+
     /**
      * Returns the orders tracking code.
      * Tracking code is extendable by decorator.
-     * 
+     *
      * @return string
      */
     public function getTrackingCode()
@@ -731,11 +773,11 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('updateTrackingCode', $trackingCode);
         return $trackingCode;
     }
-    
+
     /**
      * Returns the orders tracking link.
      * Tracking link is extendable by decorator.
-     * 
+     *
      * @return string
      */
     public function getTrackingLink()
@@ -754,10 +796,10 @@ class Order extends DataObject implements PermissionProvider
     {
         return Tools::getDateWithTimeNice($this->Created);
     }
-    
+
     /**
      * Returns the date the current order status was changed.
-     * 
+     *
      * @return DBDatetime|null
      */
     public function getOrderStatusChangedDate() : ?DBDatetime
@@ -775,10 +817,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $date;
     }
-    
+
     /**
      * Returns the date the current payment status was changed.
-     * 
+     *
      * @return DBDatetime|null
      */
     public function getPaymentStatusChangedDate() : ?DBDatetime
@@ -796,10 +838,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $date;
     }
-    
+
     /**
      * Returns the expected delivery date (span).
-     * 
+     *
      * @return string
      */
     public function getExpectedDelivery()
@@ -810,10 +852,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $expectedDelivery;
     }
-    
+
     /**
      * Returns the expected delivery date (span) in a nice format.
-     * 
+     *
      * @return string
      */
     public function getExpectedDeliveryNice()
@@ -828,7 +870,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * return the orders shipping address as complete string.
-     * 
+     *
      * @param bool $disableUpdate Disable update by decorator?
      *
      * @return string
@@ -869,19 +911,19 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Returns the shipping address rendered with a HTML table
-     * 
+     *
      * @return type
      */
     public function getShippingAddressTable()
     {
         return $this->ShippingAddress()->renderWith('SilverCart/Email/Includes/AddressData');
     }
-    
+
     /**
      * Returns whether the invoice address equals the shipping address.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 05.02.2014
      */
@@ -893,7 +935,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * return the orders invoice address as complete string.
-     * 
+     *
      * @param bool $disableUpdate Disable update by decorator?
      *
      * @return string
@@ -931,10 +973,10 @@ class Order extends DataObject implements PermissionProvider
     {
         return Tools::string2html(str_replace(PHP_EOL, '<br/>', $this->InvoiceAddressSummary));
     }
-    
+
     /**
      * Returns the invoice address rendered with a HTML table
-     * 
+     *
      * @return type
      */
     public function getInvoiceAddressTable()
@@ -944,7 +986,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Returns a limited number of order positions.
-     * 
+     *
      * @param int $numberOfPositions The number of positions to get.
      *
      * @return DataList
@@ -956,11 +998,11 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Returns whether this order has more positions than $numberOfPositions.
-     * 
+     *
      * @param int $numberOfPositions The number of positions to check for.
      *
      * @return bool
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
@@ -968,15 +1010,15 @@ class Order extends DataObject implements PermissionProvider
     {
         return $this->OrderPositions()->count() > $numberOfPositions;
     }
-    
+
     /**
-     * Returns an array of field/relation names (db, has_one, has_many, 
+     * Returns an array of field/relation names (db, has_one, has_many,
      * many_many, belongs_many_many) to exclude from form scaffolding in
      * backend.
      * This is a performance friendly way to exclude fields.
-     * 
+     *
      * @return array
-     * 
+     *
      * @author Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 05.03.2013
      */
@@ -1043,39 +1085,39 @@ class Order extends DataObject implements PermissionProvider
         });
         return DataObjectExtension::getCMSFields($this);
     }
-    
+
     /**
      * Returns the CMS fields to view an order (readonly).
-     * 
+     *
      * @param FieldList $fields Fields to update for view mode
-     * 
+     *
      * @return $this
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
     public function setCMSFieldsView($fields)
     {
         $fields->dataFieldByName('ShippingMethodID')->setSource(ShippingMethod::get()->map('ID', 'TitleWithCarrier')->toArray());
-        
+
         $fields->insertBefore('AmountTotal', $handlingGroup = FieldGroup::create('Handling'));
         $fields->insertBefore('AmountTotal', $dateGroup = FieldGroup::create('Date'));
         $fields->insertBefore('AmountTotal', $trackingGroup = FieldGroup::create('Tracking'));
         $fields->insertBefore('AmountTotal', LiteralField::create('OrderPreview', $this->render()));
-        
+
         $handlingGroup->push($fields->dataFieldByName('OrderStatusID'));
         $handlingGroup->push($fields->dataFieldByName('PaymentStatusID'));
         $handlingGroup->push($fields->dataFieldByName('ShippingMethodID'));
         $handlingGroup->push($fields->dataFieldByName('PaymentMethodID'));
-        
+
         $dateGroup->push($fields->dataFieldByName('ExpectedDeliveryMin'));
         $dateGroup->push($fields->dataFieldByName('ExpectedDeliveryMax'));
         $dateGroup->push($fields->dataFieldByName('PaymentDate'));
         $dateGroup->push($fields->dataFieldByName('ShippingDate'));
-        
+
         $trackingGroup->push($fields->dataFieldByName('TrackingCode'));
         $trackingGroup->push($fields->dataFieldByName('TrackingLink')->setRows(1));
-        
+
         $fields->removeByName('AmountTotal');
         $fields->removeByName('PriceType');
         $fields->removeByName('HandlingCostPayment');
@@ -1094,14 +1136,14 @@ class Order extends DataObject implements PermissionProvider
         $fields->removeByName('OrderNumber');
         return $this;
     }
-    
+
     /**
      * Returns the CMS fields to edit an order.
-     * 
+     *
      * @param FieldList $fields Fields to update for edit mode
-     * 
+     *
      * @return $this
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
@@ -1143,7 +1185,7 @@ class Order extends DataObject implements PermissionProvider
         $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__City',                  $address->fieldLabel('City'),               $this->InvoiceAddress()->City));
         $fields->addFieldToTab('Root.InvoiceAddressTab', DropdownField::create('ia__Country',           $address->fieldLabel('Country'),            Country::get_active()->map()->toArray(), $this->InvoiceAddress()->Country()->ID));
         $fields->addFieldToTab('Root.InvoiceAddressTab', TextField::create('ia__Phone',                 $address->fieldLabel('Phone'),              $this->InvoiceAddress()->Phone));
-        
+
         if (class_exists(HasOneSelector::class)) {
             $saField = HasOneSelector::create('ShippingAddress', $this->fieldLabel('ShippingAddress'), $this, OrderShippingAddress::class)
                     ->setLeftTitle($this->fieldLabel('ShippingAddress'));
@@ -1154,7 +1196,7 @@ class Order extends DataObject implements PermissionProvider
             }
             $fields->addFieldToTab('Root.ShippingAddressTab', $saField, 'sa__Preview');
             $fields->removeByName('sa__Preview');
-            
+
             $iaField = HasOneSelector::create('InvoiceAddress', $this->fieldLabel('InvoiceAddress'), $this, OrderInvoiceAddress::class)
                     ->setLeftTitle($this->fieldLabel('InvoiceAddress'))
                     ->removeLinkable();
@@ -1167,10 +1209,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $this;
     }
-    
+
     /**
      * Returns the CMS actions.
-     * 
+     *
      * @return FieldList
      */
     public function getCMSActions() : FieldList
@@ -1200,14 +1242,14 @@ class Order extends DataObject implements PermissionProvider
         });
         return parent::getCMSActions();
     }
-    
+
     /**
      * Resends the confirmation email to the customer.
-     * 
+     *
      * @param GridFieldDetailForm_ItemRequest $itemRequest GridField item request
      * @param array                           $data        Submitted data
      * @param Form                            $form        Form
-     * 
+     *
      * @return void
      */
     public function resendorderconfirmation(GridFieldDetailForm_ItemRequest $itemRequest, array $data, Form $form)
@@ -1265,29 +1307,29 @@ class Order extends DataObject implements PermissionProvider
         Tools::saveSession();
         return $itemRequest->edit(Controller::curr()->getRequest());
     }
-    
+
     /**
      * Returns whether the current admin mode is view or edit.
-     * 
+     *
      * @return bool
      */
     public function isAdminModeEdit()
     {
         return Tools::Session()->get(self::SESSION_KEY_EDIT_MODE) === self::ADMIN_MODE_EDIT;
     }
-    
+
     /**
      * Returns the quick access fields to display in GridField
-     * 
+     *
      * @return FieldList
      */
     public function getQuickAccessFields()
     {
         $quickAccessFields = FieldList::create();
-        
+
         $threeColField = '<div class="multi-col-field"><strong>%s</strong><span>%s</span><span>%s</span></div>';
         $twoColField   = '<div class="multi-col-field"><strong>%s</strong><span></span><span>%s</span></div>';
-        
+
         $infoField = LiteralField::create('OrderInfo__' . $this->ID,
                 "{$this->fieldLabel('OrderNumber')}: <strong>{$this->OrderNumber}</strong>"
                 . " | {$this->fieldLabel('OrderStatus')}: <strong>{$this->OrderStatus()->Title}</strong>"
@@ -1301,25 +1343,25 @@ class Order extends DataObject implements PermissionProvider
         $shippingField    = LiteralField::create('ShippingMethod__' . $this->ID, sprintf($threeColField, $this->fieldLabel('ShippingMethod'), $this->ShippingMethod()->TitleWithCarrier, $this->HandlingCostShipmentNice));
         $paymentField     = LiteralField::create('PaymentMethod__' . $this->ID,  sprintf($threeColField, $this->fieldLabel('PaymentMethod'),  $this->PaymentMethod()->Title,             $this->HandlingCostPaymentNice));
         $amountTotalField = LiteralField::create('AmountTotal__' . $this->ID,    sprintf($twoColField,   $this->fieldLabel('AmountTotal'),    $this->AmountTotalNice));
-        
+
         $quickAccessFields->push($infoField);
         $quickAccessFields->push($orderPositionTable);
         $quickAccessFields->push($shippingField);
         $quickAccessFields->push($paymentField);
         $quickAccessFields->push($amountTotalField);
-        
+
         $this->extend('updateQuickAccessFields', $quickAccessFields);
-        
+
         return $quickAccessFields;
     }
-    
+
     /**
      * Creates an invoice address for an order from customers data.
      *
      * @param array $addressData Address data from checkout
      *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.04.2018
@@ -1339,7 +1381,7 @@ class Order extends DataObject implements PermissionProvider
      * @param array $addressData Address data from checkout
      *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.04.2018
@@ -1359,7 +1401,7 @@ class Order extends DataObject implements PermissionProvider
      * @param array $addressData Address data from checkout
      *
      * @return object
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 16.04.2018
@@ -1385,7 +1427,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * creates an order from the cart
-     * 
+     *
      * @param ShoppingCart $shoppingCart  Optional shopping cart context
      *
      * @return void
@@ -1476,7 +1518,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Converts the given $shoppingCartPosition to an order position.
-     * 
+     *
      * @param ShoppingCartPosition $shoppingCartPosition Shopping cart position
      *
      * @return OrderPosition|null
@@ -1567,7 +1609,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * convert cart positions in order positions
-     * 
+     *
      * @param ShoppingCart $shoppingCart  Optional shopping cart context
      *
      * @return void
@@ -1581,7 +1623,7 @@ class Order extends DataObject implements PermissionProvider
         if ($this->extend('updateConvertShoppingCartPositionsToOrderPositions')) {
             return true;
         }
-        
+
         $member = Customer::currentUser();
         if ($member instanceof Member) {
             if ($shoppingCart === null) {
@@ -1830,10 +1872,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $this;
     }
-    
+
     /**
      * Returns whether this order has the payment status open.
-     * 
+     *
      * @return bool
      */
     public function isPaymentStatusOpen() : bool
@@ -2009,12 +2051,12 @@ class Order extends DataObject implements PermissionProvider
         $this->CustomersEmail = $email;
         return $this;
     }
-    
+
     /**
      * Set the status of the revocation instructions checkbox field.
      *
      * @param boolean $status The status of the field
-     * 
+     *
      * @return $this
      */
     public function setHasAcceptedRevocationInstruction($status)
@@ -2022,12 +2064,12 @@ class Order extends DataObject implements PermissionProvider
         $this->HasAcceptedRevocationInstruction = $status;
         return $this;
     }
-    
+
     /**
      * Set the status of the terms and conditions checkbox field.
      *
      * @param boolean $status The status of the field
-     * 
+     *
      * @return $this
      */
     public function setHasAcceptedTermsAndConditions($status)
@@ -2085,20 +2127,20 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * returns bills currency
-     * 
+     *
      * @return string
      */
     public function getCurrency()
     {
         return $this->AmountTotal->getCurrency();
     }
-    
+
     /**
      * Returns the Order Positions as a string.
-     * 
+     *
      * @param bool $asHtmlString    Set to true to use HTML inside the string.
      * @param bool $withAmountTotal Set to true add the orders total amount.
-     * 
+     *
      * @return string
      */
     public function getPositionsAsString($asHtmlString = false, $withAmountTotal = false)
@@ -2118,7 +2160,7 @@ class Order extends DataObject implements PermissionProvider
             $shipmentAndPayment = DBMoney::create();
             $shipmentAndPayment->setAmount($this->HandlingCostPayment->getAmount() + $this->HandlingCostShipment->getAmount());
             $shipmentAndPayment->setCurrency($this->HandlingCostPayment->getCurrency());
-            
+
             $positionsAsString .= $seperator . '------------------------' . $seperator;
             $positionsAsString .= $this->fieldLabel('HandlingCost') . ': ' . $shipmentAndPayment->Nice() . $seperator;
             $positionsAsString .= '________________________' . $seperator . $seperator;
@@ -2126,10 +2168,10 @@ class Order extends DataObject implements PermissionProvider
         }
         return $positionsAsString;
     }
-    
+
     /**
      * Returns the gross amount of all order positions.
-     * 
+     *
      * @return DBMoney
      */
     public function getPositionsPriceGross()
@@ -2139,7 +2181,7 @@ class Order extends DataObject implements PermissionProvider
         $positionsPriceGrossObj = DBMoney::create();
         $positionsPriceGrossObj->setAmount($positionsPriceGross);
         $positionsPriceGrossObj->setCurrency(Config::DefaultCurrency());
-        
+
         return $positionsPriceGrossObj;
     }
 
@@ -2155,7 +2197,7 @@ class Order extends DataObject implements PermissionProvider
         $priceNetObj = DBMoney::create();
         $priceNetObj->setAmount($priceNet);
         $priceNetObj->setCurrency(Config::DefaultCurrency());
-        
+
         return $priceNetObj;
     }
 
@@ -2168,12 +2210,12 @@ class Order extends DataObject implements PermissionProvider
     {
         return $this->AmountTotal;
     }
-    
+
     /**
      * Returns all order positions without a tax value.
-     * 
+     *
      * @return ArrayList
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.09.2018
@@ -2181,7 +2223,7 @@ class Order extends DataObject implements PermissionProvider
     public function OrderPositionsWithoutTax()
     {
         $orderPositions = ArrayList::create();
-        
+
         foreach ($this->OrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount
              && $orderPosition->TaxRate == 0
@@ -2189,7 +2231,7 @@ class Order extends DataObject implements PermissionProvider
                 $orderPositions->push($orderPosition);
             }
         }
-        
+
         return $orderPositions;
     }
 
@@ -2220,7 +2262,7 @@ class Order extends DataObject implements PermissionProvider
      * Returns all regular order positions.
      *
      * @return ArrayList
-     * 
+     *
      * @author Sascha Koehler <skoehler@pixeltricks.de>,
      *         Sebastian Diel <sdiel@pixeltricks.de>,
      *         Ramon Kupper <rkupper@pixeltricks.de>
@@ -2229,30 +2271,30 @@ class Order extends DataObject implements PermissionProvider
     public function OrderListPositions()
     {
         $orderPositions = ArrayList::create();
-        
+
         foreach ($this->OrderPositions() as $orderPosition) {
             if (!$orderPosition->isChargeOrDiscount) {
-                
+
                 $orderPositions->push($orderPosition);
             }
         }
-        
+
         return $orderPositions;
     }
-    
+
     /**
-     * Returns all order positions that contain charges and discounts for the 
+     * Returns all order positions that contain charges and discounts for the
      * shopping cart value.
      *
      * @return ArrayList
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.09.2018
      */
     public function OrderChargePositionsTotal() {
         $chargePositions = ArrayList::create();
-        
+
         foreach ($this->OrderPositions() as $orderPosition) {
             if ($orderPosition->isChargeOrDiscount
              && $orderPosition->chargeOrDiscountModificationImpact == 'totalValue'
@@ -2260,16 +2302,16 @@ class Order extends DataObject implements PermissionProvider
                 $chargePositions->push($orderPosition);
             }
         }
-        
+
         return $chargePositions;
     }
-    
+
     /**
      * Returns all order positions that contain charges and discounts for
      * product values.
      *
      * @return ArrayList
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.09.2018
@@ -2277,7 +2319,7 @@ class Order extends DataObject implements PermissionProvider
     public function OrderChargePositionsProduct()
     {
         $chargePositions = ArrayList::create();
-        
+
         foreach ($this->OrderPositions() as $orderPosition) {
             if ($orderPosition->isChargeOrDiscount
              && $orderPosition->chargeOrDiscountModificationImpact == 'productValue'
@@ -2285,7 +2327,7 @@ class Order extends DataObject implements PermissionProvider
                 $chargePositions->push($orderPosition);
             }
         }
-        
+
         return $chargePositions;
     }
 
@@ -2313,7 +2355,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return DBMoney
      */
     public function getTaxableAmountWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2326,7 +2368,7 @@ class Order extends DataObject implements PermissionProvider
         }
         return $taxableAmountWithoutFees;
     }
-    
+
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
      * fees and charges.
@@ -2335,7 +2377,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return DBMoney
      */
     public function getTaxableAmountGrossWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2343,14 +2385,14 @@ class Order extends DataObject implements PermissionProvider
         $priceGross = DBMoney::create();
         $priceGross->setAmount(0);
         $priceGross->setCurrency(Config::DefaultCurrency());
-        
+
         if ($includeChargesForTotal == 'false') {
             $includeChargesForTotal = false;
         }
         if ($includeChargesForProducts == 'false') {
             $includeChargesForProducts = false;
         }
-        
+
         foreach ($this->OrderPositions() as $position) {
             if ((!$includeChargesForProducts
               && $position->isChargeOrDiscount
@@ -2361,14 +2403,14 @@ class Order extends DataObject implements PermissionProvider
             ) {
                 continue;
             }
-            
+
             if ($position->TaxRate > 0
              || $position->IsNonTaxable
             ) {
                 $priceGross->setAmount($priceGross->getAmount() + $position->PriceTotal->getAmount());
             }
         }
-        
+
         return DataObject::create(['Amount' => $priceGross]);
     }
 
@@ -2380,7 +2422,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return DBMoney
      */
     public function getTaxableAmountNetWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2388,14 +2430,14 @@ class Order extends DataObject implements PermissionProvider
         $priceNet = DBMoney::create();
         $priceNet->setAmount(0);
         $priceNet->setCurrency(Config::DefaultCurrency());
-        
+
         if ($includeChargesForTotal == 'false') {
             $includeChargesForTotal = false;
         }
         if ($includeChargesForProducts == 'false') {
             $includeChargesForProducts = false;
         }
-        
+
         foreach ($this->OrderPositions() as $position) {
             if ((!$includeChargesForProducts
               && $position->isChargeOrDiscount
@@ -2406,14 +2448,14 @@ class Order extends DataObject implements PermissionProvider
             ) {
                 continue;
             }
-            
+
             if ($position->TaxRate > 0
              || $position->IsNonTaxable
             ) {
                 $priceNet->setAmount($priceNet->getAmount() + $position->PriceTotal->getAmount());
             }
         }
-        
+
         return DataObject::create(['Amount' => $priceNet]);
     }
 
@@ -2441,7 +2483,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return DBMoney
      */
     public function getTaxableAmountWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2463,7 +2505,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return DBMoney
      */
     public function getTaxableAmountGrossWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2474,9 +2516,9 @@ class Order extends DataObject implements PermissionProvider
         if ($includeChargesForProducts == 'false') {
             $includeChargesForProducts = false;
         }
-        
+
         $priceGross = $this->getTaxableAmountGrossWithoutFees($includeChargesForProducts, $includeChargesForTotal)->Amount;
-        
+
         $priceGross->setAmount(
             $priceGross->getAmount() +
             $this->HandlingCostPayment->getAmount()
@@ -2486,10 +2528,10 @@ class Order extends DataObject implements PermissionProvider
             $priceGross->getAmount() +
             $this->HandlingCostShipment->getAmount()
         );
-        
+
         return DataObject::create(['Amount' => $priceGross]);
     }
-    
+
     /**
      * Returns the order value of all positions with a tax rate > 0 without any
      * charges.
@@ -2498,7 +2540,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return DBMoney
      */
     public function getTaxableAmountNetWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2509,9 +2551,9 @@ class Order extends DataObject implements PermissionProvider
         if ($includeChargesForProducts == 'false') {
             $includeChargesForProducts = false;
         }
-        
+
         $priceGross = $this->getTaxableAmountNetWithoutFees($includeChargesForProducts, $includeChargesForTotal)->Amount;
-        
+
         $priceGross->setAmount(
             $priceGross->getAmount() +
             $this->HandlingCostPayment->getAmount()
@@ -2521,7 +2563,7 @@ class Order extends DataObject implements PermissionProvider
             $priceGross->getAmount() +
             $this->HandlingCostShipment->getAmount()
         );
-        
+
         return DataObject::create(['Amount' => $priceGross]);
     }
 
@@ -2533,7 +2575,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return ArrayList
      */
     public function getTaxRatesWithoutFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2544,9 +2586,9 @@ class Order extends DataObject implements PermissionProvider
         if ($includeChargesForProducts === 'false') {
             $includeChargesForProducts = false;
         }
-        
+
         $taxes = ArrayList::create();
-        
+
         foreach ($this->OrderPositions() as $orderPosition) {
             if ((!$includeChargesForProducts
               && $orderPosition->isChargeOrDiscount
@@ -2557,7 +2599,7 @@ class Order extends DataObject implements PermissionProvider
             ) {
                 continue;
             }
-            
+
             $taxRate = $orderPosition->TaxRate;
             if ($taxRate == '') {
                 $taxRate = 0;
@@ -2581,7 +2623,7 @@ class Order extends DataObject implements PermissionProvider
 
             $tax->Amount = $taxObj;
         }
-        
+
         return $taxes;
     }
 
@@ -2618,12 +2660,12 @@ class Order extends DataObject implements PermissionProvider
 
         return $taxRates->exclude('AmountRaw', 0);
     }
-    
+
     /**
      * Returns the tax total amount
-     * 
+     *
      * @param bool $excludeCharges Exclude charges?
-     * 
+     *
      * @return float
      */
     public function getTaxTotalAmount($excludeCharges = false)
@@ -2635,7 +2677,7 @@ class Order extends DataObject implements PermissionProvider
         }
         return round($amount, 2);
     }
-    
+
     /**
      * Returns the sum of tax amounts grouped by tax rates for the products
      * of the order.
@@ -2644,7 +2686,7 @@ class Order extends DataObject implements PermissionProvider
      *                                           discounts for products
      * @param boolean $includeChargesForTotal    Indicates wether to include charges and
      *                                           discounts for the shopping cart total
-     * 
+     *
      * @return ArrayList
      */
     public function getTaxRatesWithFees($includeChargesForProducts = false, $includeChargesForTotal = false)
@@ -2655,9 +2697,9 @@ class Order extends DataObject implements PermissionProvider
         if ($includeChargesForProducts === 'false') {
             $includeChargesForProducts = false;
         }
-        
+
         $taxes = $this->getTaxRatesWithoutFees($includeChargesForProducts, $includeChargesForTotal);
-        
+
         // Shipping cost tax
         $taxRateShipment = $this->TaxRateShipment;
         if ($taxRateShipment == '') {
@@ -2696,7 +2738,7 @@ class Order extends DataObject implements PermissionProvider
             $taxObj->setCurrency(Config::DefaultCurrency());
             $tax->Amount = $taxObj;
         }
-        
+
         return $taxes;
     }
 
@@ -2722,7 +2764,7 @@ class Order extends DataObject implements PermissionProvider
 
         return $quantity;
     }
-    
+
     /**
      * Returns extension injected order detail actions.
      *
@@ -2734,7 +2776,7 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('updateOrderDetailActions', $actions);
         return DBHTMLText::create()->setValue($actions);
     }
-    
+
     /**
      * Returns plugin output.
      *
@@ -2746,11 +2788,11 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('updateOrderDetailInformation', $orderDetailInformation);
         return DBHTMLText::create()->setValue($orderDetailInformation);
     }
-    
+
     /**
-     * Returns plugin output to show in the order detail table right after the 
+     * Returns plugin output to show in the order detail table right after the
      * OrderNumber.
-     * 
+     *
      * <code>
      * // adding information:
      * public function updateOrderDetailInformationAfterOrderNumber($orderDetailInformation)
@@ -2819,9 +2861,9 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Returns the order positions, shipping method, payment method etc. as
      * HTML table.
-     * 
+     *
      * @return string
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
@@ -2838,13 +2880,13 @@ class Order extends DataObject implements PermissionProvider
 
         return $template;
     }
-    
+
     /**
      * Indicates wether there are positions that are charges or discounts for
      * the product value.
      *
      * @return boolean
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.09.2018
@@ -2860,16 +2902,16 @@ class Order extends DataObject implements PermissionProvider
                 $hasChargePositionsForProduct = true;
             }
         }
-        
+
         return $hasChargePositionsForProduct;
     }
-    
+
     /**
      * Indicates wether there are positions that are charges or discounts for
      * the product value.
      *
      * @return boolean
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Sascha Koehler <skoehler@pixeltricks.de>
      * @since 07.09.2018
@@ -2885,7 +2927,7 @@ class Order extends DataObject implements PermissionProvider
                 $hasChargePositionsForTotal = true;
             }
         }
-        
+
         return $hasChargePositionsForTotal;
     }
 
@@ -2903,7 +2945,7 @@ class Order extends DataObject implements PermissionProvider
     {
         return (bool) $this->OrderIncludedInTotalPositions();
     }
-    
+
     /**
      * Returns the i18n text for the price type
      *
@@ -2916,7 +2958,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Indicates wether this order is gross calculated or not.
-     * 
+     *
      * @return bool
      */
     public function IsPriceTypeGross() : bool
@@ -2928,7 +2970,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Indicates wether this order is net calculated or not.
-     * 
+     *
      * @return bool
      */
     public function IsPriceTypeNet() : bool
@@ -2937,10 +2979,10 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('updateIsPriceTypeNet', $isPriceTypeNet);
         return $isPriceTypeNet;
     }
-    
+
     /**
      * Returns whether this order is a pickup order.
-     * 
+     *
      * @return bool
      */
     public function IsPickup() : bool
@@ -2951,7 +2993,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * writes a log entry
-     * 
+     *
      * @param string $context context for log entry
      * @param string $text    text for log entry
      *
@@ -3050,20 +3092,20 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('onAfterNotificationMail', $params);
         return $this;
     }
-    
+
     /**
      * Returns whether this order has positions with order email text.
-     * 
+     *
      * @return bool
      */
     public function HasPositionsWithOrderEmailText() : bool
     {
         return $this->PositionsWithOrderEmailText()->exists();
     }
-    
+
     /**
      * Returns all positions with order email text.
-     * 
+     *
      * @return DataList
      */
     public function PositionsWithOrderEmailText() : SS_List
@@ -3071,22 +3113,22 @@ class Order extends DataObject implements PermissionProvider
         return $this->OrderPositions()
                 ->exclude('Product.ProductTranslations.OrderEmailText', ['', null]);
     }
-    
+
     /**
-     * Returns whether this order has positions with order email text to show on 
+     * Returns whether this order has positions with order email text to show on
      * order confirmation page.
-     * 
+     *
      * @return bool
      */
     public function HasPositionsWithOrderConfirmationPageText() : bool
     {
         return $this->PositionsWithOrderConfirmationPageText()->exists();
     }
-    
+
     /**
-     * Returns all positions with order email text to show on order confirmation 
+     * Returns all positions with order email text to show on order confirmation
      * page.
-     * 
+     *
      * @return DataList
      */
     public function PositionsWithOrderConfirmationPageText() : DataList
@@ -3098,7 +3140,7 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Set a new/reserved ordernumber before writing and send attributed
      * ShopEmails.
-     * 
+     *
      * @return void
      */
     protected function onBeforeWrite() : void
@@ -3145,10 +3187,10 @@ class Order extends DataObject implements PermissionProvider
         }
         $this->extend('updateOnBeforeWrite');
     }
-    
+
     /**
      * On before delete.
-     * 
+     *
      * @return void
      */
     protected function onBeforeDelete() : void
@@ -3169,10 +3211,10 @@ class Order extends DataObject implements PermissionProvider
             $log->delete();
         }
     }
-    
+
     /**
      * Handles the cancel process before writing an order.
-     * 
+     *
      * @return void
      */
     protected function handleCancelOnBeforeWrite() : void
@@ -3212,12 +3254,12 @@ class Order extends DataObject implements PermissionProvider
         $this->extend('onAfterCancel');
         return $this;
     }
-    
+
     /**
      * Handles a tracking code change.
-     * 
+     *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 10.09.2018
      */
@@ -3241,12 +3283,12 @@ class Order extends DataObject implements PermissionProvider
             $this->extend('onAfterTrackingCodeChange');
         }
     }
-    
+
     /**
      * Sends a tracking information email to the customer.
-     * 
+     *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 29.09.2018
      */
@@ -3266,12 +3308,12 @@ class Order extends DataObject implements PermissionProvider
             ]
         );
     }
-    
+
     /**
      * Handles an order status change.
-     * 
+     *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
@@ -3313,12 +3355,12 @@ class Order extends DataObject implements PermissionProvider
             OrderLog::addChangedLog($this, OrderStatus::class, $orderStatusID, $this->OrderStatusID);
         }
     }
-    
+
     /**
      * Handles a payment status change.
-     * 
+     *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
@@ -3356,7 +3398,7 @@ class Order extends DataObject implements PermissionProvider
      * hook triggered after write
      *
      * @return void
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
      *         Roland Lehmann <rlehmann@pixeltricks.de>
      * @since 07.09.2018
@@ -3371,9 +3413,9 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Returns an order by the given PaymentReferenceID.
-     * 
+     *
      * @param string $paymentReferenceID Payment reference ID
-     * 
+     *
      * @return Order|null
      */
     public static function get_by_payment_reference_id(string $paymentReferenceID) : ?Order
@@ -3384,10 +3426,10 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Returns an order by the given Order ID and Member.
      * If no Member is given, the current logged in Member will be used as fallback.
-     * 
+     *
      * @param int    $orderID  Order ID
      * @param Member $customer Customer
-     * 
+     *
      * @return Order|null
      */
     public static function get_by_customer(int $orderID, Member $customer = null) : ?Order
@@ -3404,10 +3446,10 @@ class Order extends DataObject implements PermissionProvider
     /**
      * Returns an order by the given Order and Member ID.
      * If no Member ID is given, the current logged in Member's ID will be used as fallback.
-     * 
+     *
      * @param int $orderID    Order ID
      * @param int $customerID Customer ID
-     * 
+     *
      * @return Order|null
      */
     public static function get_by_customer_id(int $orderID, int $customerID = null) : ?Order
@@ -3423,10 +3465,10 @@ class Order extends DataObject implements PermissionProvider
             'MemberID' => $customerID,
         ])->first();
     }
-    
+
     /**
      * Calculates the total amount of positions and handling cost.
-     * 
+     *
      * @return float
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -3455,7 +3497,7 @@ class Order extends DataObject implements PermissionProvider
 
     /**
      * Recalculates the order totals for the attributed positions.
-     * 
+     *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>,
@@ -3473,7 +3515,7 @@ class Order extends DataObject implements PermissionProvider
      * Returns the shipping method of this order and injects the shipping address
      *
      * @return ShippingMethod
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 19.04.2012
      */
@@ -3491,7 +3533,7 @@ class Order extends DataObject implements PermissionProvider
      * returns the orders total amount as string incl. currency.
      *
      * @return string
-     * 
+     *
      * @deprecated Use property AmountTotal instead
      */
     public function getAmountTotalNice()
@@ -3530,10 +3572,10 @@ class Order extends DataObject implements PermissionProvider
         $currency = $this->HandlingCostShipment->Currency;
         return DBMoney::create()->setAmount($amount)->setCurrency($currency);
     }
-    
+
     /**
      * Marks the order as seen
-     * 
+     *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -3547,10 +3589,10 @@ class Order extends DataObject implements PermissionProvider
             OrderLog::addMarkedAsSeenLog($this, Order::class);
         }
     }
-    
+
     /**
      * Marks the order as not seen
-     * 
+     *
      * @return void
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
@@ -3564,10 +3606,10 @@ class Order extends DataObject implements PermissionProvider
             OrderLog::addMarkedAsNotSeenLog($this, Order::class);
         }
     }
-    
+
     /**
      * Returns the link to show this complaint.
-     * 
+     *
      * @return string
      */
     public function Link() : string
@@ -3579,12 +3621,12 @@ class Order extends DataObject implements PermissionProvider
         }
         return $link;
     }
-    
+
     /**
      * Renders the order with the default template.
-     * 
+     *
      * @return DBHTMLText
-     * 
+     *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 07.09.2018
      */
