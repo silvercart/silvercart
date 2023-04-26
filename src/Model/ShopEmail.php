@@ -682,8 +682,10 @@ class ShopEmail extends DataObject
         ) {
             return false;
         }
+        $sender = Config::EmailSender();
+        ShopEmail::singleton()->extend('updateSendEmail', $sender, $recipient, $subject, $content);
         $email = Email::create(
-            Config::EmailSender(),
+            $sender,
             $recipient,
             $subject,
             $content
