@@ -295,11 +295,7 @@ class SearchContext extends SilverStripeSearchContext
         $filter->setValue($searchPhrase);
         $searchableFieldSpec = $searchableFields[$searchField] ?? [];
         return $query->alterDataQuery(function ($dataQuery) use ($filter, $searchableFieldSpec) {
-            if (is_array($searchableFieldSpec)
-             && is_array($dataQuery)
-            ){
-                $this->applyFilter($filter, $dataQuery, $searchableFieldSpec);
-            }
+            $this->applyFilter($filter, $dataQuery, $searchableFieldSpec);
         });
     }
 
