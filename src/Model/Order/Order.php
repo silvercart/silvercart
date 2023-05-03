@@ -244,26 +244,6 @@ class Order extends DataObject implements PermissionProvider
      */
     private static $api_access = true;
     /**
-     * Name of the field which is used as a stand-in for searching across all searchable fields.
-     *
-     * If this is a blank string, general search functionality is disabled
-     * and the general search field falls back to using the first field in
-     * the searchable_fields array.
-     */
-    private static string $general_search_field_name = 'q';
-    /**
-     * The search filter to use when searching with the general search field.
-     * If this is an empty string, the search filters configured for each field are used instead.
-     */
-    private static string $general_search_field_filter = PartialMatchFilter::class;
-    /**
-     * If true, the search phrase is split into individual terms, and checks all searchable fields for each search term.
-     * If false, all fields are checked for the entire search phrase as a whole.
-     *
-     * Note that splitting terms may cause unexpected resuls if using an ExactMatchFilter.
-     */
-    private static bool $general_search_split_terms = true;
-    /**
      * Flag to determine whether the cancel is in progress.
      *
      * @var bool
@@ -339,16 +319,6 @@ class Order extends DataObject implements PermissionProvider
         ];
         $this->extend('updateProvidePermissions', $permissions);
         return $permissions;
-    }
-
-    /**
-     * Returns the general search field name.
-     * 
-     * @return string
-     */
-    public function getGeneralSearchFieldName(): string
-    {
-        return (string) $this->config()->general_search_field_name;
     }
 
     /**
@@ -748,16 +718,6 @@ class Order extends DataObject implements PermissionProvider
 
         $fields->dataFieldByName('PaymentMethodID')->setEmptyString(           Tools::field_label('PleaseChoose'));
         $fields->dataFieldByName('ShippingMethodID')->setEmptyString(          Tools::field_label('PleaseChoose'));
-        // Only include general search if there are fields it can search on
-        $generalSearch = $this->getGeneralSearchFieldName();
-        if ($generalSearch !== '' && $fields->count() > 0) {
-            if ($fields->fieldByName($generalSearch)
-             || $fields->dataFieldByName($generalSearch)
-            ) {
-                throw new LogicException('General search field name must be unique.');
-            }
-            $fields->unshift(HiddenField::create($generalSearch, _t(self::class . 'GENERALSEARCH', 'General Search')));
-        }
         return $fields;
     }
 

@@ -3,6 +3,8 @@
 namespace SilverCart\Model\Product;
 
 use DateTime;
+use Exception;
+use LogicException;
 use SilverCart\Admin\Forms\FileUploadField;
 use SilverCart\Admin\Forms\ImageUploadField;
 use SilverCart\Admin\Model\Config;
@@ -33,7 +35,6 @@ use SilverCart\ORM\DataObjectExtension;
 use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\ORM\FieldType\DBMoney;
 use SilverCart\ORM\Search\SearchContext as SilverCartSearchContext;
-use SilverCart\VersionedDataObject\Extensions\Model\VersionedDataObject;
 use SilverCart\View\RenderableDataObject;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image as SilverStripeImage;
@@ -73,9 +74,7 @@ use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\Versioned\Versioned;
-use SilverStripe\VersionedAdmin\Forms\HistoryViewerField;
 use SilverStripe\View\ArrayData;
-use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 use SilverStripe\Widgets\Model\WidgetArea;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
@@ -367,26 +366,6 @@ class Product extends DataObject implements PermissionProvider
      * @var bool
      */
     private static $is_not_available_if_not_buyable = false;
-    /**
-     * Name of the field which is used as a stand-in for searching across all searchable fields.
-     *
-     * If this is a blank string, general search functionality is disabled
-     * and the general search field falls back to using the first field in
-     * the searchable_fields array.
-     */
-    private static string $general_search_field_name = 'q';
-    /**
-     * The search filter to use when searching with the general search field.
-     * If this is an empty string, the search filters configured for each field are used instead.
-     */
-    private static string $general_search_field_filter = PartialMatchFilter::class;
-    /**
-     * If true, the search phrase is split into individual terms, and checks all searchable fields for each search term.
-     * If false, all fields are checked for the entire search phrase as a whole.
-     *
-     * Note that splitting terms may cause unexpected resuls if using an ExactMatchFilter.
-     */
-    private static bool $general_search_split_terms = true;
     /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *
@@ -2313,54 +2292,11 @@ class Product extends DataObject implements PermissionProvider
     }
 
     /**
-     * Determine which properties on the DataObject are
-     * searchable, and map them to their default {@link FormField}
-     * representations. Used for scaffolding a searchform for {@link ModelAdmin}.
-     *
-     * Some additional logic is included for switching field labels, based on
-     * how generic or specific the field type is.
-     *
-     * Used by {@link SearchContext}.
-     *
-     * @param array $_params
-     *   'fieldClasses': Associative array of field names as keys and FormField classes as values
-     *   'restrictFields': Numeric array of a field name whitelist
-     * 
-     * @return FieldList
-     */
-    public function scaffoldSearchFields($_params = null) : FieldList
-    {
-        $fields        = parent::scaffoldSearchFields($_params);
-        $generalSearch = $this->getGeneralSearchFieldName();
-        if ($generalSearch !== ''
-         && $fields->count() > 0
-        ) {
-            if ($fields->fieldByName($generalSearch)
-             || $fields->dataFieldByName($generalSearch)
-            ) {
-                throw new LogicException('General search field name must be unique.');
-            }
-            $fields->unshift(HiddenField::create($generalSearch, _t(self::class . 'GENERALSEARCH', 'General Search')));
-        }
-        return $fields;
-    }
-
-    /**
-     * Returns the general search field name.
-     * 
-     * @return string
-     */
-    public function getGeneralSearchFieldName(): string
-    {
-        return (string) $this->config()->general_search_field_name;
-    }
-
-    /**
      * Set the default search context for this field
      *
      * @return SilverCartSearchContext
      * 
-     * @throws \Exception
+     * @throws Exception
      */
     public function getDefaultSearchContext() : SilverCartSearchContext
     {
