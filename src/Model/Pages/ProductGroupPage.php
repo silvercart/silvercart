@@ -160,7 +160,6 @@ class ProductGroupPage extends Page
      * @var array
      */
     private static $casting = [
-        'BreadcrumbTitle'       => 'Text',
         'ProductsOnPagesString' => 'HTMLText',
     ];
     /**
@@ -1441,22 +1440,24 @@ class ProductGroupPage extends Page
     /**
      * Returns the title including the parent product group titles.
      * 
+     * @param int         $maxDepth       The maximum depth to traverse.
+     * @param bool|string $stopAtPageType ClassName of a page to stop the upwards traversal.
+     * @param callable    $itemCallback   Callback function to call on the breadcrumb items.
+     * 
      * @return string
      */
-    public function getBreadcrumbTitle() : string
+    public function getBreadcrumbTitle(int $maxDepth = 20, bool|string $stopAtPageType = false, callable $itemCallback = null) : string
     {
-        $group = $this->owner;
-        $ctrl  = Controller::curr();
-        /* @var $group ProductGroupPage */
-        /* @var $ctrl ProductGroupPageController */
-        $items = $group->getBreadcrumbItems(20, ProductGroupHolder::class);
-        $map   = $items->map('ID', 'Title')->toArray();
-        if ($ctrl->hasMethod('isProductDetailView')
-         && $ctrl->isProductDetailView()
-        ) {
-            array_pop($map);
-        }
-        return (string) implode($group->config()->get('breadcrumb_title_delimiter'), $map);
+        $stopAtPageType = $stopAtPageType === false ? ProductGroupHolder::class : $stopAtPageType;
+        return parent::getBreadcrumbTitle($maxDepth, $stopAtPageType, function(array &$items) {
+            $ctrl = Controller::curr();
+            /* @var $ctrl ProductGroupPageController */
+            if ($ctrl->hasMethod('isProductDetailView')
+             && $ctrl->isProductDetailView()
+            ) {
+                array_pop($items);
+            }
+        });
     }
     
     /**

@@ -54,6 +54,7 @@ use function _t;
  * @property bool   $DisplayBreadcrumbs         Determines whether to display the breadcrumbs
  * @property bool   $UseAsRootForMainNavigation Determines whether to use this page as root page for the main navigation
  * @property string $IdentifierCode             Page identifier code
+ * @property string $BreadcrumbTitle            Breadcrumb Title
  */
 class Page extends SiteTree
 {
@@ -106,6 +107,14 @@ class Page extends SiteTree
         'IdentifierCode'             => 'Varchar(50)',
     ];
     /**
+     * Casting
+     *
+     * @var array
+     */
+    private static $casting = [
+        'BreadcrumbTitle' => 'Text',
+    ];
+    /**
      * Define indexes.
      *
      * @var array
@@ -119,6 +128,12 @@ class Page extends SiteTree
      * @var string
      */
     private static $table_name = 'SilvercartPage';
+    /**
+     * Delimiter character(s) to use as product group breadcrumb title separation.
+     *
+     * @var string
+     */
+    private static $breadcrumb_title_delimiter = ' > ';
     /**
      * Indicator to check whether getCMSFields is called
      *
@@ -357,6 +372,34 @@ class Page extends SiteTree
     public function getPlainTitle() : string
     {
         return (string) $this->getField('Title');
+    }
+    
+    /**
+     * Returns the title including the parent titles.
+     * 
+     * Example $itemCallback:
+     * <code>
+     *  function(array &$items) {
+     *      if ($foo === $bar) {
+     *          array_pop($items);
+     *      }
+     *  }
+     * </code>
+     * 
+     * @param int         $maxDepth       The maximum depth to traverse.
+     * @param bool|string $stopAtPageType ClassName of a page to stop the upwards traversal.
+     * @param callable    $itemCallback   Callback function to call on the breadcrumb items.
+     * 
+     * @return string
+     */
+    public function getBreadcrumbTitle(int $maxDepth = 20, bool|string $stopAtPageType = false, callable $itemCallback = null) : string
+    {
+        $items = $this->getBreadcrumbItems($maxDepth, $stopAtPageType);
+        $map   = $items->map('ID', 'Title')->toArray();
+        if (is_callable($itemCallback)) {
+            $itemCallback($map);
+        }
+        return (string) implode($this->config()->breadcrumb_title_delimiter, $map);
     }
 
     /**
