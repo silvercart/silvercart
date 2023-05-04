@@ -211,7 +211,7 @@ class ExternalResource extends DataObject implements TemplateGlobalProvider
         if ($extended !== null) {
             return $extended;
         }
-        $can = trim($this->getField('Code')) === '';
+        $can = trim((string) $this->getField('Code')) === '';
         if ($this->RestrictToLiveMode
          && !Director::isLive()
         ) {

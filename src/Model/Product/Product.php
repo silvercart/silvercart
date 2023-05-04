@@ -2146,7 +2146,7 @@ class Product extends DataObject implements PermissionProvider
         $output = str_replace(
             ['&lt;', '&gt;', PHP_EOL, "\n"],
             ['<',    '>',    '<br/>', '<br/>'],
-            htmlentities($this->ShortDescription, ENT_NOQUOTES, 'UTF-8', false)
+            htmlentities((string) $this->ShortDescription, ENT_NOQUOTES, 'UTF-8', false)
         );
 
         if ($cutToLength !== false) {
@@ -2185,7 +2185,7 @@ class Product extends DataObject implements PermissionProvider
     public function getPrice($priceType = '', $ignoreTaxExemption = false) : DBMoney
     {
         $this->extend('onBeforeUpdatePrice', $priceType, $ignoreTaxExemption);
-        $cacheHash    = md5($priceType);
+        $cacheHash    = md5((string) $priceType);
         $cacheKeyPart = $ignoreTaxExemption ? '1' : '0';
         $cacheKey     = "getPrice_{$cacheHash}_{$cacheKeyPart}";
         if (array_key_exists($cacheKey, $this->cacheHashes)) {
