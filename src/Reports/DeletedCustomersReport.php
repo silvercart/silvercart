@@ -2,17 +2,20 @@
 
 namespace SilverCart\Reports;
 
+use IntlDateFormatter;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\DeletedCustomer;
 use SilverCart\Model\Customer\DeletedCustomerReason;
 use SilverCart\Model\Customer\DeletedCustomerReasonTranslation;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Product\Product;
+use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldExportButton;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DB;
 use SilverStripe\Reports\Report;
 use SilverStripe\View\ArrayData;
+use function _t;
 
 /**
  * Report to show reasons for customer deletions.
@@ -49,7 +52,7 @@ class DeletedCustomersReport extends Report
     /**
      * Overwrites the default CSV export columns and returns the report field.
      * 
-     * @return \SilverStripe\Forms\GridField\GridField
+     * @return GridField
      */
     public function getReportField()
     {
@@ -145,7 +148,9 @@ class DeletedCustomersReport extends Report
                 'title'      => _t(Page::class . '.MONTH', 'Month'),
                 'formatting' => function ($value, $item) use ($report) {
                     Tools::switchLocale(false);
-                    $month = strftime('%B', strtotime(date("Y-{$item->Month}-01")));
+                    $formatter = new IntlDateFormatter(Tools::current_locale(), IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+                    $formatter->setPattern('MMMM');
+                    $month     = $formatter->format(strtotime(date("Y-{$item->Month}-01")));
                     Tools::switchLocale(false);
                     return sprintf(
                         '<a class="grid-field__link" href="%s" title="%s">%s</a>',

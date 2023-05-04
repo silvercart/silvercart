@@ -2,26 +2,39 @@
 
 namespace SilverCart\Dev;
 
+use Exception;
+use IntlDateFormatter;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Pages\Page;
+use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
 use SilverStripe\Core\Config\Config as SilverStripeConfig;
+use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Core\Extensible;
+use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Forms\FormField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
+use SilverStripe\View\ArrayData;
 use SilverStripe\View\TemplateGlobalProvider;
 use TractorCow\Fluent\Model\Locale;
 use TractorCow\Fluent\State\FluentState;
+use const FRAMEWORK_DIR;
+use const FRAMEWORK_PATH;
+use const SILVERCART_LOG_PATH;
+use function _t;
+use function mb_strlen;
 
 /**
  * Provides methods for common tasks in SilverCart.
@@ -35,9 +48,9 @@ use TractorCow\Fluent\State\FluentState;
  */
 class Tools implements TemplateGlobalProvider
 {
-    use \SilverStripe\Core\Config\Configurable;
-    use \SilverStripe\Core\Extensible;
-    use \SilverStripe\Core\Injector\Injectable;
+    use Configurable;
+    use Extensible;
+    use Injectable;
     
     const SESSION_KEY_MESSAGE_ERROR   = 'SilverCart.Message.Error';
     const SESSION_KEY_MESSAGE_INFO    = 'SilverCart.Message.Info';
@@ -954,9 +967,11 @@ class Tools implements TemplateGlobalProvider
     {
         $dateNice           = self::getDateNice($date);
         $dateTimestamp      = strtotime($date);
-        $timeNiceFormat     = '%H:%M';
-        $timeNice           = strftime($timeNiceFormat, $dateTimestamp) . ' ' .  _t(Tools::class . '.Oclock', "o'clock");
-        $dateWithTimeNice   = $dateNice . ' ' . $timeNice;
+        $timeNiceFormat     = 'hh:mm';
+        $formatter          = new IntlDateFormatter(self::current_locale(), IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+        $formatter->setPattern($timeNiceFormat);
+        $timeNice           = $formatter->format($dateTimestamp);
+        $dateWithTimeNice   = "{$dateNice} {$timeNice} " . _t(Tools::class . '.Oclock', "o'clock");
         return $dateWithTimeNice;
     }
     
@@ -974,25 +989,30 @@ class Tools implements TemplateGlobalProvider
     {
         self::switchLocale(false);
         if ($fullMonthName) {
-            $month = '%B';
+            $month = 'MMMM';
         } else {
-            $month = '%b.';
+            $month = 'MMM.';
         }
+        $dateNice       = '';
         $dateTimestamp  = strtotime($date);
-        $dateNiceFormat = '%d. ' . $month;
+        $dateNiceFormat = "dd. {$month}";
         if (date('Y', $dateTimestamp) != date('Y')
          || $forceYear
         ) {
-            $dateNiceFormat = '%d. ' . $month . ' %Y';
+            $dateNiceFormat = "{$dateNiceFormat} y";
         } elseif (date('m-d', $dateTimestamp) == date('m-d')) {
-            $dateNiceFormat = ucfirst(_t(Tools::class . '.TODAY', 'today'));
+            $dateNice = ucfirst(_t(Tools::class . '.TODAY', 'today'));
         } elseif (date('m-d', $dateTimestamp) == date('m-d', time() - 24*60*60)) {
-            $dateNiceFormat = ucfirst(_t(Tools::class . '.YESTERDAY', 'yesterday'));
+            $dateNice = ucfirst(_t(Tools::class . '.YESTERDAY', 'yesterday'));
         }
-        if ($withWeekDay) {
-            $dateNiceFormat = '%A, ' . $dateNiceFormat;
+        if ($dateNice === '') {
+            if ($withWeekDay) {
+                $dateNiceFormat = "EEEE, {$dateNiceFormat}";
+            }
+            $formatter = new IntlDateFormatter(self::current_locale(), IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+            $formatter->setPattern($dateNiceFormat);
+            $dateNice  = $formatter->format($dateTimestamp);
         }
-        $dateNice = strftime($dateNiceFormat, $dateTimestamp);
         self::switchLocale();
         return $dateNice;
     }
@@ -1112,7 +1132,7 @@ class Tools implements TemplateGlobalProvider
     /**
      * Returns the available content locales.
      * 
-     * @return \SilverStripe\ORM\ArrayList
+     * @return ArrayList
      *
      * @author Sebastian Diel <sdiel@pixeltricks.de>
      * @since 25.04.2018
@@ -1170,13 +1190,13 @@ class Tools implements TemplateGlobalProvider
      */
     public static function get_translations($original)
     {
-        if ($original instanceof \SilverStripe\CMS\Controllers\ContentController) {
+        if ($original instanceof ContentController) {
             $original = $original->data();
         }
         $translations = [];
         if ($original->hasMethod('Locales')) {
             $locales = $original->Locales();
-            /* @var $locales \SilverStripe\ORM\ArrayList */
+            /* @var $locales ArrayList */
             foreach ($locales as $locale) {
                 /* @var $locale ArrayData */
                 $translation = self::get_translation($original, $locale->Locale);
