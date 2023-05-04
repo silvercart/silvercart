@@ -96,6 +96,15 @@ class ShopEmail extends DataObject
         'TemplateNameTitle'              => 'Text',
     ];
     /**
+     * Casted properties
+     *
+     * @var array
+     */
+    private static $searchable_fields = [
+        'TemplateName',
+        'Subject',
+    ];
+    /**
      * DB table name
      *
      * @var string
