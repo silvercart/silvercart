@@ -647,7 +647,7 @@ class FormField extends DataObject
     public function getTypeLabel() : string
     {
         $label = '';
-        if (class_exists($this->Type)) {
+        if (class_exists((string) $this->Type)) {
             $reflection = new ReflectionClass($this->Type);
             $label = $this->fieldLabel("Type_{$reflection->getShortName()}");
         }
