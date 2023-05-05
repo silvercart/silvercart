@@ -849,7 +849,7 @@ class Order extends DataObject implements PermissionProvider
             $shippingAddressSummary .= $this->ShippingAddress()->Addition == '' ? '' : $this->ShippingAddress()->Addition . PHP_EOL;
             $shippingAddressSummary .= $this->ShippingAddress()->Street . ' ' . $this->ShippingAddress()->StreetNumber . PHP_EOL;
         }
-        $shippingAddressSummary .= strtoupper($this->ShippingAddress()->Country()->ISO2) . '-' . $this->ShippingAddress()->Postcode . ' ' . $this->ShippingAddress()->City . PHP_EOL;
+        $shippingAddressSummary .= strtoupper((string) $this->ShippingAddress()->Country()->ISO2) . '-' . $this->ShippingAddress()->Postcode . ' ' . $this->ShippingAddress()->City . PHP_EOL;
         if (!empty($this->ShippingAddress()->TaxIdNumber)) {
             $shippingAddressSummary .= $this->ShippingAddress()->TaxIdNumber . PHP_EOL;
         }
@@ -914,7 +914,7 @@ class Order extends DataObject implements PermissionProvider
             $invoiceAddressSummary .= $this->InvoiceAddress()->Addition == '' ? '' : $this->InvoiceAddress()->Addition . PHP_EOL;
             $invoiceAddressSummary .= $this->InvoiceAddress()->Street . ' ' . $this->InvoiceAddress()->StreetNumber . PHP_EOL;
         }
-        $invoiceAddressSummary .= strtoupper($this->InvoiceAddress()->Country()->ISO2) . '-' . $this->InvoiceAddress()->Postcode . ' ' . $this->InvoiceAddress()->City . PHP_EOL;
+        $invoiceAddressSummary .= strtoupper((string) $this->InvoiceAddress()->Country()->ISO2) . '-' . $this->InvoiceAddress()->Postcode . ' ' . $this->InvoiceAddress()->City . PHP_EOL;
         if (!empty($this->InvoiceAddress()->TaxIdNumber)) {
             $invoiceAddressSummary .= $this->InvoiceAddress()->TaxIdNumber . PHP_EOL;
         }

@@ -967,7 +967,7 @@ class Tools implements TemplateGlobalProvider
     {
         $dateNice           = self::getDateNice($date);
         $dateTimestamp      = strtotime($date);
-        $timeNiceFormat     = 'hh:mm';
+        $timeNiceFormat     = 'HH:mm';
         $formatter          = new IntlDateFormatter(self::current_locale(), IntlDateFormatter::LONG, IntlDateFormatter::NONE);
         $formatter->setPattern($timeNiceFormat);
         $timeNice           = $formatter->format($dateTimestamp);
