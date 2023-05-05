@@ -773,20 +773,20 @@ class Tools implements TemplateGlobalProvider
     /**
      * Returns the localized salutation string.
      * 
-     * @param string $salutation Enum value for salutation to get i18n for
+     * @param string|null $salutation Enum value for salutation to get i18n for
      *
      * @return string
      */
-    public static function getSalutationText($salutation)
+    public static function getSalutationText(string|null $salutation) : string
     {
         if ($salutation == 'Herr') {
             $salutationText = Address::singleton()->fieldLabel('Mister');
         } elseif ($salutation == 'Frau') {
             $salutationText = Address::singleton()->fieldLabel('Misses');
         } else {
-            $salutationText = Address::singleton()->fieldLabel(strtoupper($salutation));
+            $salutationText = Address::singleton()->fieldLabel(strtoupper((string) $salutation));
         }
-        return $salutationText;
+        return (string) $salutationText;
     }
 
     /**
