@@ -60,7 +60,7 @@ class DBStringExtension extends Extension
      */
     public function StripTags() : string
     {
-        return strip_tags($this->owner->RAW());
+        return strip_tags((string) $this->owner->RAW());
     }
 
     /**

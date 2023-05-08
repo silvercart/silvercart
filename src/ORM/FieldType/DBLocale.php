@@ -2,12 +2,13 @@
 
 namespace SilverCart\ORM\FieldType;
 
-use SilverCart\Dev\Tools;
 use SilverCart\Admin\Model\Config;
+use SilverCart\Dev\Tools;
 use SilverCart\Model\Translation\TranslationTools;
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\FieldType\DBLocale as SilverStripeDBLocale;
+use function _t;
 
 /**
  * This is an extended Money Field to modify scaffolding and add some functions.
@@ -19,8 +20,8 @@ use SilverStripe\i18n\i18n;
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
  */
-class DBLocale extends \SilverStripe\ORM\FieldType\DBLocale {
-
+class DBLocale extends SilverStripeDBLocale
+{
     /**
      * Returns a locale DropdownField instance used as a default for form 
      * scaffolding.
@@ -28,12 +29,10 @@ class DBLocale extends \SilverStripe\ORM\FieldType\DBLocale {
      * @param string $title  Optional. Localized title of the generated instance
      * @param array  $params Optional.
      * 
-     * @return FormField
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.03.2013
+     * @return DropdownField
      */
-    public function scaffoldFormField($title = null, $params = null) {
+    public function scaffoldFormField($title = null, $params = null) : DropdownField
+    {
         if (is_null($title)) {
             $title = _t(Config::class . '.TRANSLATION', 'Translation');
         }
@@ -82,4 +81,28 @@ class DBLocale extends \SilverStripe\ORM\FieldType\DBLocale {
         return $localeDropdown;
     }
 
+    /**
+     * Resolves the locale to a common english-language
+     * name through {@link i18n::get_common_locales()}.
+     *
+     * @return string
+     */
+    public function getShortName() : string
+    {
+        return (string) i18n::getData()->languageName((string) $this->value);
+    }
+
+    /**
+     * Returns the localized name based on the field's value.
+     * Example: "de_DE" returns "Deutsch".
+     *
+     * @return string
+     */
+    public function getNativeName() : string
+    {
+        $locale = (string) $this->value;
+        return (string) i18n::with_locale($locale, function () {
+            return (string) $this->getShortName();
+        });
+    }
 }
