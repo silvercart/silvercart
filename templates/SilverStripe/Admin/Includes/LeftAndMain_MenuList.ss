@@ -28,3 +28,24 @@
         </li>
     <% end_loop %>
 </ul>
+<style>
+.cms-menu__list.collapsed li > .cms-menu__list.collapsed,
+.cms-menu__list.collapsed li > .cms-menu__list.collapsed li {
+  display:none;
+}
+.cms-menu__list.collapsed li:hover {
+  position: relative;
+}
+.cms-menu__list.collapsed li:hover > .cms-menu__list.collapsed {
+  display:block!important;
+  left: 59px;
+  top: 0px;
+}
+.cms-menu__list.collapsed li:hover > .cms-menu__list.collapsed li {
+  display:block!important;
+  float:none!important;
+}
+.cms-menu__list.collapsed li:hover > .cms-menu__list.collapsed span.text {
+  display: inline-block!important;
+}
+</style>
