@@ -1,0 +1,12 @@
+---
+Name: 'silvercart-schema-global'
+After:
+  - '#graphql-schema-global'
+---
+SilverStripe\GraphQL\Schema\Schema:
+  schemas:
+    '*':
+      config:
+        modelConfig:
+          DataObject:
+            type_formatter: 'SilverCart\Core\ClassInfo::longName'
