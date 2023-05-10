@@ -230,7 +230,7 @@ class SearchResultsPage extends ProductGroupPage
             if (!is_null($searchQueryByRequest)) {
                 $searchQuery = $searchQueryByRequest;
             } else {
-                $searchQuery = trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_QUERY));
+                $searchQuery = trim((string) Tools::Session()->get(self::SESSION_KEY_SEARCH_QUERY));
             }
         }
         return (string) $searchQuery;
