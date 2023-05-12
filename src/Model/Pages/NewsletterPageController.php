@@ -92,10 +92,10 @@ class NewsletterPageController extends MetaNavigationHolderController
                     }
                     $statusMessage = $newsletterPage->ConfirmationSuccessMessage;
                     $this->sendConfirmationMail(
-                        $recipient->Salutation,
-                        $recipient->FirstName,
-                        $recipient->Surname,
-                        $recipient->Email,
+                        (string) $recipient->Salutation,
+                        (string) $recipient->FirstName,
+                        (string) $recipient->Surname,
+                        (string) $recipient->Email,
                         $recipient
                     );
                 }

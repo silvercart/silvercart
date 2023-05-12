@@ -256,7 +256,7 @@ class SearchResultsPage extends ProductGroupPage
      */
     public static function getCurrentSearchCategory() : string
     {
-        return trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_CATEGORY));
+        return trim((string) Tools::Session()->get(self::SESSION_KEY_SEARCH_CATEGORY));
     }
     
     /**
