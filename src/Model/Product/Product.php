@@ -2212,7 +2212,7 @@ class Product extends DataObject implements PermissionProvider
             $price->setAmount($price->getAmount() - $this->getTaxAmount());
             $this->ignoreTaxExemption = false;
         }
-        $price->setAmount(round($price->getAmount(), 2));
+        $price->setAmount(round((float) $price->getAmount(), 2));
         if ($price->getAmount() < 0) {
             $price->setAmount(0);
         }
