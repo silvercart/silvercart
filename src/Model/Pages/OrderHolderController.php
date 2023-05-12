@@ -183,10 +183,11 @@ class OrderHolderController extends MyAccountHolderController
                 /* @var $orderPosition \SilverCart\Model\Order\OrderPosition */
                 if ($orderPosition->Product()->exists()) {
                     $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
-                }
-                else {
+                } else {
                     $product = Product::get()->filter(['ProductNumberShop' => $orderPosition->ProductNumber])->first();
-                    if ($product->exists()) {
+                    if ($product instanceof Product
+                     && $product->exists()
+                    ) {
                         $product->addToCart($cartID, $orderPosition->Quantity);
                     }
                 }
