@@ -202,4 +202,14 @@ class FormFieldOption extends DataObject
     {
         return DBHTMLText::create()->setValue($this->getTranslationFieldValue('Content'));
     }
+    
+    /**
+     * Returns whether this option is selected.
+     * 
+     * @return bool
+     */
+    public function isSelectedOption() : bool
+    {
+        return (int) $this->FormField()->getFormFieldValue() === (int) $this->ID;
+    }
 }
