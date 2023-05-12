@@ -6,15 +6,16 @@ use SilverCart\Admin\Dev\ExampleData;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Model\EmailAddress;
-use SilverCart\Model\ShopEmailTranslation;
-use SilverCart\Model\ShopEmail\Content;
 use SilverCart\Model\Order\OrderStatus;
+use SilverCart\Model\ShopEmail\Content;
+use SilverCart\Model\ShopEmailTranslation;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\View\SCTemplateParser;
 use SilverStripe\CMS\Controllers\RootURLController;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
-use SilverStripe\Control\HTTP;
 use SilverStripe\Control\Email\Email;
+use SilverStripe\Control\HTTP;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
@@ -23,11 +24,19 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\PermissionProvider;
+use SilverStripe\Security\Security;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\SSViewer;
 use SilverStripe\View\SSViewer_FromString;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use const THEMES_PATH;
+use function _t;
 
 /**
  * base class for emails.
@@ -44,14 +53,20 @@ use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
  * @property string $Subject                        Subject
  * @property string $AdditionalRecipientsHtmlString Additional Recipients Html String
  * 
- * @method \SilverStripe\ORM\HasManyList  Contents()              Returns the related Contents.
- * @method \SilverStripe\ORM\HasManyList  ShopEmailTranslations() Returns the related ShopEmailTranslations.
- * @method \SilverStripe\ORM\ManyManyList AdditionalReceipients() Returns the related AdditionalReceipients (EmailAddress).
- * @method \SilverStripe\ORM\ManyManyList OrderStatus()           Returns the related OrderStatus.
+ * @method HasManyList  Contents()              Returns the related Contents.
+ * @method HasManyList  ShopEmailTranslations() Returns the related ShopEmailTranslations.
+ * @method ManyManyList AdditionalReceipients() Returns the related AdditionalReceipients (EmailAddress).
+ * @method ManyManyList OrderStatus()           Returns the related OrderStatus.
  */
-class ShopEmail extends DataObject
+class ShopEmail extends DataObject implements PermissionProvider
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
+    
+    public const PERMISSION_CREATE = 'SILVERCART_SHOPEMAIL_CREATE';
+    public const PERMISSION_DELETE = 'SILVERCART_SHOPEMAIL_DELETE';
+    public const PERMISSION_EDIT   = 'SILVERCART_SHOPEMAIL_EDIT';
+    public const PERMISSION_VIEW   = 'SILVERCART_SHOPEMAIL_VIEW';
+    
     /**
      * DB attributes
      *
@@ -161,6 +176,140 @@ class ShopEmail extends DataObject
     protected $variables = [];
 
     /**
+     * Set permissions.
+     *
+     * @return array
+     */
+    public function providePermissions() : array
+    {
+        $permissions = [
+            self::PERMISSION_VIEW   => [
+                'name'     => $this->fieldLabel(self::PERMISSION_VIEW),
+                'help'     => $this->fieldLabel(self::PERMISSION_VIEW . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 10,
+            ],
+            self::PERMISSION_EDIT   => [
+                'name'     => $this->fieldLabel(self::PERMISSION_EDIT),
+                'help'     => $this->fieldLabel(self::PERMISSION_EDIT . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 20,
+            ],
+            self::PERMISSION_CREATE => [
+                'name'     => $this->fieldLabel(self::PERMISSION_CREATE),
+                'help'     => $this->fieldLabel(self::PERMISSION_CREATE . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 30,
+            ],
+            self::PERMISSION_DELETE => [
+                'name'     => $this->fieldLabel(self::PERMISSION_DELETE),
+                'help'     => $this->fieldLabel(self::PERMISSION_DELETE . '_HELP'),
+                'category' => $this->i18n_singular_name(),
+                'sort'     => 40,
+            ],
+        ];
+        $this->extend('updateProvidePermissions', $permissions);
+        return $permissions;
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     */
+    public function canView($member = null) : bool
+    {
+        if ($member === null) {
+            $member = Security::getCurrentUser();
+        }
+        $can     = Permission::checkMember($member, self::PERMISSION_VIEW);
+        $results = $this->extend('canView', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
+    }
+
+    /**
+     * Indicates wether the current user can edit this object.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     */
+    public function canEdit($member = null) : bool
+    {
+        if ($member === null) {
+            $member = Security::getCurrentUser();
+        }
+        $can     = Permission::checkMember($member, self::PERMISSION_EDIT);
+        $results = $this->extend('canView', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
+    }
+
+    /**
+     * Indicates wether the current user can create this object.
+     * 
+     * @param Member $member  Member to check permission for.
+     * @param array  $context Context
+     *
+     * @return bool
+     */
+    public function canCreate($member = null, $context = []) : bool
+    {
+        if ($member === null) {
+            $member = Security::getCurrentUser();
+        }
+        $can     = Permission::checkMember($member, self::PERMISSION_CREATE);
+        $results = $this->extend('canView', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
+    }
+
+    /**
+     * Indicates wether the current user can delete this object.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     */
+    public function canDelete($member = null) : bool
+    {
+        if ($member === null) {
+            $member = Security::getCurrentUser();
+        }
+        $can     = Permission::checkMember($member, self::PERMISSION_DELETE);
+        $results = $this->extend('canView', $member);
+        if ($results
+         && is_array($results)
+        ) {
+            if(!min($results)) {
+                $can = false;
+            }
+        }
+        return $can;
+    }
+
+    /**
      * Returns the translated singular name of the object. If no translation exists
      * the class name will be returned.
      * 
@@ -209,6 +358,14 @@ class ShopEmail extends DataObject
             'Preview'               => _t(ShopEmail::class . '.Preview', 'Preview'),
             'ShopEmailTranslations' => _t(ShopEmailTranslation::class . '.PLURALNAME', 'Translations'),
             'OrderStatus'           => _t(OrderStatus::class . '.PLURALNAME', 'Order status'),
+            self::PERMISSION_CREATE           => _t(self::class . '.' . self::PERMISSION_CREATE, 'Create email templates'),
+            self::PERMISSION_CREATE . '_HELP' => _t(self::class . '.' . self::PERMISSION_CREATE . '_HELP', 'Allows an user to create email templates.'),
+            self::PERMISSION_DELETE           => _t(self::class . '.' . self::PERMISSION_DELETE, 'Delete email templates'),
+            self::PERMISSION_DELETE . '_HELP' => _t(self::class . '.' . self::PERMISSION_DELETE . '_HELP', 'Allows an user to delete email templates.'),
+            self::PERMISSION_EDIT             => _t(self::class . '.' . self::PERMISSION_EDIT, 'Edit email templates'),
+            self::PERMISSION_EDIT . '_HELP'   => _t(self::class . '.' . self::PERMISSION_EDIT . '_HELP', 'Allows an user to edit email templates.'),
+            self::PERMISSION_VIEW             => _t(self::class . '.' . self::PERMISSION_VIEW, 'View email templates'),
+            self::PERMISSION_VIEW . '_HELP'   => _t(self::class . '.' . self::PERMISSION_VIEW . '_HELP', 'Allows an user to view email templates.'),
         ]);
     }
 
@@ -252,7 +409,7 @@ class ShopEmail extends DataObject
             $templateNames     = self::get_email_templates();
             $templateNameField = DropdownField::create('TemplateName', $this->fieldLabel('TemplateName'), $templateNames);
             $fields->addFieldToTab('Root.Main', $templateNameField);
-            $exampleEmail      = ExampleData::render_example_email($this->TemplateName);
+            $exampleEmail      = ExampleData::render_example_email((string) $this->TemplateName);
             if (!empty($exampleEmail)) {
                 $fields->findOrMakeTab('Root.Preview', $this->fieldLabel('Preview'));
                 $frame = '<iframe class="full-height" src="' . Director::absoluteURL('example-data/renderemail/' . $this->TemplateName) . '"></iframe>';
