@@ -75,4 +75,14 @@ class DBStringExtension extends Extension
     {
         return $this->owner->setValue(str_replace($search, $replace, $this->owner->getValue(), $count));
     }
+    
+    /**
+     * Returns the string length of the plain value.
+     * 
+     * @return int
+     */
+    public function Length() : int
+    {
+        return (int) mb_strlen((string) $this->owner->Plain());
+    }
 }
