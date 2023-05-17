@@ -580,7 +580,7 @@ class ProductImageImportTask extends BuildTask
      */
     public static function is_installed() : bool
     {
-        return file_exists(self::get_import_is_installed_file_path());
+        return file_exists((string) self::get_import_is_installed_file_path());
     }
     
     /**
@@ -590,7 +590,7 @@ class ProductImageImportTask extends BuildTask
      */
     public static function is_running() : bool
     {
-        return file_exists(self::get_import_is_running_file_path());
+        return file_exists((string) self::get_import_is_running_file_path());
     }
     
     /**

@@ -51,7 +51,7 @@ class ProductImportTask extends CliController {
             }
         }
 
-        if (!file_exists($file)) {
+        if (!file_exists((string) $file)) {
             printf(
                 "File '%s' not found.\n",
                 $file

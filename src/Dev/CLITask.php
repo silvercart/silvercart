@@ -257,7 +257,7 @@ trait CLITask
      */
     public static function removeActionFilename(string $filename) : void
     {
-        if (file_exists($filename)) {
+        if (file_exists((string) $filename)) {
             unlink($filename);
         }
     }
@@ -479,7 +479,7 @@ trait CLITask
     {
         $isRunning = false;
         $filename  = $this->getRunningActionFilename($action);
-        if (file_exists($filename)) {
+        if (file_exists((string) $filename)) {
             $isRunning = true;
         } elseif ($markAsStarted) {
             file_put_contents($filename, time());
@@ -497,7 +497,7 @@ trait CLITask
     public function finishAction(string $action) : void
     {
         $filename = $this->getRunningActionFilename($action);
-        if (file_exists($filename)) {
+        if (file_exists((string) $filename)) {
             unlink($filename);
         }
     }
@@ -513,7 +513,7 @@ trait CLITask
     {
         $starttime = 0;
         $filename  = $this->getRunningActionFilename($action);
-        if (file_exists($filename)) {
+        if (file_exists((string) $filename)) {
             $starttime = file_get_contents($filename);
         }
         return (int) $starttime;

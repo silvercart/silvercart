@@ -102,13 +102,13 @@ class DBFileExtension extends DataExtension
     public function getFilePath() : string
     {
         $path = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFileID();
-        if (!file_exists($path)) {
+        if (!file_exists((string) $path)) {
             $path = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->getFileID(true);
-            if (!file_exists($path)) {
+            if (!file_exists((string) $path)) {
                 $path = ASSETS_PATH . DIRECTORY_SEPARATOR . ProtectedAssetAdapter::config()->secure_folder . DIRECTORY_SEPARATOR . $this->getFileID();
-                if (!file_exists($path)) {
+                if (!file_exists((string) $path)) {
                     $path = ASSETS_PATH . DIRECTORY_SEPARATOR . ProtectedAssetAdapter::config()->secure_folder . DIRECTORY_SEPARATOR . $this->getFileID(true);
-                    if (!file_exists($path)) {
+                    if (!file_exists((string) $path)) {
                         $path = '';
                     }
                 }

@@ -230,7 +230,7 @@ class ImageExtension extends DataExtension
         $hashPath       = str_replace('//', '/', $targetFolderPath . DIRECTORY_SEPARATOR . $hashDir);
         $targetFilePath = $hashPath . DIRECTORY_SEPARATOR . $targetFilename;
         $targetFolder   = Folder::find_or_make(str_replace(ASSETS_PATH, '', $targetFolderPath));
-        if (!file_exists($hashPath)) {
+        if (!file_exists((string) $hashPath)) {
             mkdir($hashPath, 0777, true);
         }
         file_put_contents($targetFilePath, $fileContent);
@@ -246,7 +246,7 @@ class ImageExtension extends DataExtension
         $file->ParentID     = $targetFolder->ID;
         $file->write();
         $file->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
-        if (!file_exists($targetFilePath)) {
+        if (!file_exists((string) $targetFilePath)) {
             if (!is_dir($hashPath)) {
                 mkdir($hashPath, 0777, true);
             }

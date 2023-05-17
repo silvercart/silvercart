@@ -352,7 +352,7 @@ MESSAGE
                     $combinedData = '';
                     foreach ($fileList as $file) {
                         $filePath = Director::getAbsFile($file);
-                        if (!file_exists($filePath)) {
+                        if (!file_exists((string) $filePath)) {
                             throw new InvalidArgumentException("Combined file {$file} does not exist");
                         }
                         $fileContent = file_get_contents($filePath);

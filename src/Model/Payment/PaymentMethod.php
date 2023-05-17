@@ -1877,7 +1877,7 @@ class PaymentMethod extends DataObject
 
                 if ((!($image instanceof SilverStripeImage)
                   || !$image->exists())
-                 && file_exists($logo)
+                 && file_exists((string) $logo)
                 ) {
                     $uploadsPath = ASSETS_PATH . DIRECTORY_SEPARATOR . $this->uploadsFolder->Filename;
                     ImageExtension::create_from_path($logo, $uploadsPath);

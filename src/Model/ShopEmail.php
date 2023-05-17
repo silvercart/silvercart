@@ -891,13 +891,13 @@ class ShopEmail extends DataObject implements PermissionProvider
                         $attachedFilename   = basename($attachment);
                         $mimetype           = null;
                     }
-                    if (file_exists($filename)) {
+                    if (file_exists((string) $filename)) {
                         $email->addAttachment($filename, $attachedFilename, $mimetype);
                     }
                 }
             } else {
                 $filename = str_replace('//', '/', $attachments);
-                if (file_exists($filename)) {
+                if (file_exists((string) $filename)) {
                     $email->addAttachment($filename, basename($filename));
                 }
             }
