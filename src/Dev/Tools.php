@@ -994,7 +994,7 @@ class Tools implements TemplateGlobalProvider
             $month = 'MMM.';
         }
         $dateNice       = '';
-        $dateTimestamp  = strtotime($date);
+        $dateTimestamp  = strtotime((string) $date);
         $dateNiceFormat = "dd. {$month}";
         if (date('Y', $dateTimestamp) != date('Y')
          || $forceYear
