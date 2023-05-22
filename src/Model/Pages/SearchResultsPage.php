@@ -279,7 +279,7 @@ class SearchResultsPage extends ProductGroupPage
      */
     public static function getCurrentSearchContext() : string
     {
-        return trim(Tools::Session()->get(self::SESSION_KEY_SEARCH_CONTEXT));
+        return trim((string) Tools::Session()->get(self::SESSION_KEY_SEARCH_CONTEXT));
     }
     
     /**
