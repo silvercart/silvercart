@@ -1025,7 +1025,7 @@ class PageController extends ContentController
     public function RefererPage(string $link = null) : ?SiteTree
     {
         if ($link === null) {
-            $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
+            $link = (string) Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
         }
         $originalLink = $link;
         $page         = $this->data();
@@ -1051,9 +1051,9 @@ class PageController extends ContentController
         }
         do {
             $refererPage  = SiteTree::get_by_link($originalLink);
-            $parts        = explode('/', $originalLink);
+            $parts        = explode('/', (string) $originalLink);
             array_pop($parts);
-            $originalLink = implode('/', $parts);
+            $originalLink = implode('/', (array) $parts);
         } while ($refererPage === null
               && !empty($originalLink)
         );
