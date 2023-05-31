@@ -69,9 +69,10 @@ class FormField extends DataObject
 {
     use ExtensibleDataObject;
     
-    public const PRESET_WITH_GENERAL_DATA = 'GeneralData';
-    public const PRESET_WITH_GENERAL_DATA_DATE_TIME  = self::PRESET_WITH_GENERAL_DATA . '.DateTime';
-    public const PRESET_WITH_GENERAL_DATA_IP_ADDRESS = self::PRESET_WITH_GENERAL_DATA . '.IPAddress';
+    public const PRESET_WITH_GENERAL_DATA             = 'GeneralData';
+    public const PRESET_WITH_GENERAL_DATA_DATE_TIME   = self::PRESET_WITH_GENERAL_DATA . '.DateTime';
+    public const PRESET_WITH_GENERAL_DATA_IP_ADDRESS  = self::PRESET_WITH_GENERAL_DATA . '.IPAddress';
+    public const PRESET_WITH_GENERAL_DATA_IP_LOCATION = self::PRESET_WITH_GENERAL_DATA . '.IPLocation';
 
     /**
      * Sets the custom form data.
@@ -528,6 +529,16 @@ class FormField extends DataObject
                         $value = $_SERVER['REMOTE_ADDR'];
                     }
                     break;
+                case 'IPLocation':
+                    if (array_key_exists('HTTP_X_REAL_IP', $_SERVER)) {
+                        $ip = $_SERVER['HTTP_X_REAL_IP'];
+                    } elseif (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                    } elseif (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                    }
+                    $value = Tools::IPLocation($ip);
+                    break;
                 case 'DateTime':
                     $value = date('Y-m-d H:i:s');
                     break;
@@ -585,8 +596,9 @@ class FormField extends DataObject
             'TrackingLink',
         ];
         $generalData = [
-            self::PRESET_WITH_GENERAL_DATA_IP_ADDRESS => _t(self::class . '.GeneralData_IPAddress', 'Customer IP Address'),
-            self::PRESET_WITH_GENERAL_DATA_DATE_TIME  => _t(self::class . '.GeneralData_DateTime', 'Date and Time'),
+            self::PRESET_WITH_GENERAL_DATA_IP_ADDRESS  => _t(self::class . '.GeneralData_IPAddress', 'Customer IP Address'),
+            self::PRESET_WITH_GENERAL_DATA_IP_LOCATION => _t(self::class . '.GeneralData_IPLocation', 'Customer IP based Location'),
+            self::PRESET_WITH_GENERAL_DATA_DATE_TIME   => _t(self::class . '.GeneralData_DateTime', 'Date and Time'),
         ];
         $this->extend('updatePresetWithSourceGeneralData', $generalData);
         $this->extend('updatePresetWithSourceWhitelist', $whitelist);

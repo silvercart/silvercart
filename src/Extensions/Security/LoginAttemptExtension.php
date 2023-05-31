@@ -4,6 +4,7 @@ namespace SilverCart\Extensions\Security;
 
 use SilverCart\Dev\Tools;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\Security\LoginAttempt;
 
 /**
  * Extension for SilverStripe LoginAttempt
@@ -15,7 +16,7 @@ use SilverStripe\ORM\DataExtension;
  * @copyright 2021 pixeltricks GmbH
  * @license see license file in modules root directory
  * 
- * @property \SilverStripe\Security\LoginAttempt $owner Owner
+ * @property LoginAttempt $owner Owner
  */
 class LoginAttemptExtension extends DataExtension
 {
@@ -33,5 +34,35 @@ class LoginAttemptExtension extends DataExtension
             'Status'  => $this->owner->fieldLabel('Status'),
             'IP'      => $this->owner->fieldLabel('IP'),
         ];
+    }
+    
+    /**
+     * Returns the city name matching to the IP.
+     * 
+     * @return string
+     */
+    public function IPCity() : string
+    {
+        return Tools::IPCity($this->owner->IP);
+    }
+    
+    /**
+     * Returns the country name matching to the IP.
+     * 
+     * @return string
+     */
+    public function IPCountry() : string
+    {
+        return Tools::IPCountry($this->owner->IP);
+    }
+    
+    /**
+     * Returns a IP based location string.
+     * 
+     * @return string
+     */
+    public function IPLocation() : string
+    {
+        return Tools::IPLocation($this->owner->IP);
     }
 }

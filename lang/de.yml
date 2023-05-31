@@ -1131,6 +1131,7 @@ de:
     GeneralData: 'Allgemeine Daten'
     GeneralData_DateTime: 'Datum & Uhrzeit'
     GeneralData_IPAddress: 'IP-Adresse des Kunden'
+    GeneralData_IPLocation: 'IP basierter Standort des Kunden (ungefähr)'
     IsRequired: Pflichtfeld
     Name: Name
     ParentOption: Ausgangsoption

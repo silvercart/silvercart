@@ -3,10 +3,12 @@
 namespace SilverCart\Dev;
 
 use Exception;
+use GeoIp2\Database\Reader as GeoIp2Reader;
 use IntlDateFormatter;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Model\Customer\Address;
+use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Pages\Page;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\CMS\Model\SiteTree;
@@ -30,8 +32,10 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\TemplateGlobalProvider;
 use TractorCow\Fluent\Model\Locale;
 use TractorCow\Fluent\State\FluentState;
+use const BASE_PATH;
 use const FRAMEWORK_DIR;
 use const FRAMEWORK_PATH;
+use const GEOIP_PATH;
 use const SILVERCART_LOG_PATH;
 use function _t;
 use function mb_strlen;
@@ -1314,5 +1318,90 @@ class Tools implements TemplateGlobalProvider
     {
         $mb_diff = mb_strlen($input, $encoding) - strlen($input);
         return str_pad($input, $pad_length - $mb_diff, $pad_string, $pad_type);
+    }
+    
+    /**
+     * Returns the city name matching to the IP.
+     * 
+     * @param string $ip IP address
+     * 
+     * @return string
+     */
+    public static function IPCity(string $ip) : string
+    {
+        if (!class_exists(GeoIp2Reader::class)) {
+            return '';
+        }
+        if (!defined('GEOIP_PATH')) {
+            define('GEOIP_PATH', BASE_PATH . '/../geoip');
+        }
+        if (!file_exists(GEOIP_PATH . '/GeoLite2-City.mmdb')) {
+            return '';
+        }
+        $geoip = new GeoIp2Reader(GEOIP_PATH . '/GeoLite2-City.mmdb');
+        $city  = '';
+        try {
+            $reader = $geoip->city($ip);
+            $city   = (string) $reader->city->name;
+        } catch (Exception $e) {
+            
+        }
+        return $city;
+    }
+    
+    /**
+     * Returns the country name matching to the IP.
+     * 
+     * @param string $ip IP address
+     * 
+     * @return string
+     */
+    public static function IPCountry(string $ip) : string
+    {
+        if (!class_exists(GeoIp2Reader::class)) {
+            return '';
+        }
+        if (!defined('GEOIP_PATH')) {
+            define('GEOIP_PATH', BASE_PATH . '/../geoip');
+        }
+        if (!file_exists(GEOIP_PATH . '/GeoLite2-City.mmdb')) {
+            return '';
+        }
+        $geoip   = new GeoIp2Reader(GEOIP_PATH . '/GeoLite2-City.mmdb');
+        $country = '';
+        try {
+            $reader      = $geoip->city($ip);
+            $countryCode = (string) $reader->country->isoCode;
+            $countryObject = Country::get()->filter('ISO2', $countryCode)->first();
+            if ($countryObject instanceof Country) {
+                $country = (string) $countryObject->Title;
+            } else {
+                $country = (string) $reader->country->name;
+            }
+        } catch (Exception $e) {
+            
+        }
+        return $country;
+    }
+    
+    /**
+     * Returns a IP based location string.
+     * 
+     * @param string $ip IP address
+     * 
+     * @return string
+     */
+    public static function IPLocation(string $ip) : string
+    {
+        $city     = self::IPCity($ip);
+        $country  = self::IPCountry($ip);
+        $location = "IP: {$ip}";
+        if (!empty($city)) {
+            $location .= ", {$city}";
+        }
+        if (!empty($country)) {
+            $location .= ", {$country}";
+        }
+        return $location;
     }
 }

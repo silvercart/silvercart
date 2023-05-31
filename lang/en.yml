@@ -1130,6 +1130,7 @@ en:
     GeneralData: 'General Data'
     GeneralData_DateTime: 'Date and Time'
     GeneralData_IPAddress: 'Customer IP Address'
+    GeneralData_IPLocation: 'Customer IP based Location'
     IsRequired: 'Is required'
     Name: Name
     ParentOption: 'Parent option'
