@@ -287,7 +287,8 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      * @var array
      */
     private static $belongs_many_many = [
-        'PaymentMethods' => PaymentMethod::class,
+        'PaymentMethods'       => PaymentMethod::class . '.ShowOnlyForUsers',
+        'HiddenPaymentMethods' => PaymentMethod::class . '.ShowNotForUsers',
     ];
     /**
      * api access
@@ -517,6 +518,9 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             if (!$this->owner->PaymentMethods()->exists()) {
                 $fields->removeByName('PaymentMethods');
             }
+            if (!$this->owner->HiddenPaymentMethods()->exists()) {
+                $fields->removeByName('HiddenPaymentMethods');
+            }
             if ($this->getLoginAttempts()->exists()) {
                 $attemptField = GridField::create('LoginAttempts', LoginAttempt::singleton()->i18n_plural_name(), $this->getLoginAttempts(), GridFieldConfig_RecordEditor::create());
                 $attemptField->getConfig()->removeComponentsByType(GridFieldAddNewButton::class);
@@ -581,6 +585,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
                     'Addresses'                         => Address::singleton()->plural_name(),
                     'Orders'                            => Order::singleton()->plural_name(),
                     'PaymentMethods'                    => PaymentMethod::singleton()->plural_name(),
+                    'HiddenPaymentMethods'              => _t(Customer::class . '.HiddenPaymentMethods', 'Hidden Payment Methods'),
                     'GroupNames'                        => _t(Customer::class . '.TYPE', 'type'),
                     'AddressCountry'                    => Country::singleton()->singular_name(),
                     'IsBusinessAccount'                 => _t(Customer::class . '.ISBUSINESSACCOUNT', 'Is business account'),

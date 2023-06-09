@@ -72,7 +72,7 @@ class ShopEmail extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'TemplateName' => 'Varchar',
     ];
     /**
@@ -80,7 +80,7 @@ class ShopEmail extends DataObject implements PermissionProvider
      * 
      * @var type array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'Contents'              => Content::class,
         'ShopEmailTranslations' => ShopEmailTranslation::class,
     ];
@@ -89,7 +89,7 @@ class ShopEmail extends DataObject implements PermissionProvider
      * 
      * @var type array
      */
-    private static $many_many = [
+    private static array $many_many = [
         'AdditionalReceipients' => EmailAddress::class,
     ];
     /**
@@ -97,15 +97,15 @@ class ShopEmail extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $belongs_many_many = [
-        'OrderStatus' => OrderStatus::class,
+    private static array $belongs_many_many = [
+        'OrderStatus' => OrderStatus::class . '.ShopEmails',
     ];
     /**
      * Casted properties
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'Subject'                        => 'Text',
         'AdditionalRecipientsHtmlString' => 'HTMLText',
         'TemplateNameTitle'              => 'Text',
@@ -115,7 +115,7 @@ class ShopEmail extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $searchable_fields = [
+    private static array $searchable_fields = [
         'TemplateName',
         'Subject',
     ];
@@ -124,44 +124,44 @@ class ShopEmail extends DataObject implements PermissionProvider
      *
      * @var string
      */
-    private static $table_name = 'SilvercartShopEmail';
+    private static string $table_name = 'SilvercartShopEmail';
     /**
      * Alternative email address to use as universal recipient in dev mode.
      * The original recipient address will be overwritten and added to the subject.
      *
      * @var string
      */
-    private static $dev_email_recipient = '';
+    private static string $dev_email_recipient = '';
     /**
      * List of the email templates.
      *
      * @var array
      */
-    private static $email_templates = [];
+    private static array $email_templates = [];
     /**
      * List of the registered email templates.
      *
      * @var array
      */
-    private static $registered_email_templates = [];
+    private static array $registered_email_templates = [];
     /**
      * List of custom email content blocks per email template.
      *
      * @var array
      */
-    private static $custom_content_blocks = [];
+    private static array $custom_content_blocks = [];
     /**
      * Determines to insert the translation CMS fields automatically.
      *
      * @var bool
      */
-    private static $insert_translation_cms_fields = true;
+    private static bool $insert_translation_cms_fields = true;
     /**
      * Field name to insert the translation CMS fields after.
      *
      * @var string
      */
-    private static $insert_translation_cms_fields_after = 'TemplateName';
+    private static string $insert_translation_cms_fields_after = 'TemplateName';
     /**
      * Key value pair of CSS styles to use as inline styles in emails.
      *

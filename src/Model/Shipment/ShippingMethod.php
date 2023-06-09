@@ -70,13 +70,13 @@ class ShippingMethod extends DataObject
      *
      * @var bool
      */
-    private static $include_saturdays_in_delivery_time = true;
+    private static bool $include_saturdays_in_delivery_time = true;
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'isActive'                      => 'Boolean',
         'isPickup'                      => 'Boolean(0)',
         'priority'                      => 'Int',
@@ -90,7 +90,7 @@ class ShippingMethod extends DataObject
      *
      * @var array
      */
-    private static $has_one = [
+    private static array $has_one = [
         'Carrier' => Carrier::class,
         'Logo'    => Image::class,
     ];
@@ -99,7 +99,7 @@ class ShippingMethod extends DataObject
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'Orders'                     => Order::class,
         'ShippingFees'               => ShippingFee::class,
         'ShippingMethodTranslations' => ShippingMethodTranslation::class,
@@ -109,7 +109,7 @@ class ShippingMethod extends DataObject
      *
      * @var array
      */
-    private static $many_many = [
+    private static array $many_many = [
         'Zones'           => Zone::class,
         'CustomerGroups'  => Group::class,
     ];
@@ -118,15 +118,15 @@ class ShippingMethod extends DataObject
      *
      * @var array
      */
-    private static $belongs_many_many = [
-        'PaymentMethods' => PaymentMethod::class,
+    private static array $belongs_many_many = [
+        'PaymentMethods' => PaymentMethod::class . '.ShippingMethods',
     ];
     /**
      * Virtual database columns.
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'AttributedCountries'               => 'Varchar(255)',
         'activatedStatus'                   => 'Varchar(255)',
         'AttributedCustomerGroups'          => 'Text',
@@ -143,31 +143,31 @@ class ShippingMethod extends DataObject
      *
      * @var string
      */
-    private static $table_name = 'SilvercartShippingMethod';
+    private static string $table_name = 'SilvercartShippingMethod';
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
-    private static $api_access = true;
+    private static bool $api_access = true;
     /**
      * Default sort field and direction
      *
      * @var string
      */
-    private static $default_sort = "priority ASC";
+    private static string $default_sort = "priority ASC";
     /**
      * Determines to insert the translation CMS fields by TranslatableDataObjectExtension.
      * 
      * @var bool
      */
-    private static $insert_translation_cms_fields = true;
+    private static bool $insert_translation_cms_fields = true;
     /**
      * Determines to insert the translation CMS fields before this field.
      * 
      * @var string
      */
-    private static $insert_translation_cms_fields_before = 'CarrierID';
+    private static string $insert_translation_cms_fields_before = 'CarrierID';
     /**
      * Shipping address
      *

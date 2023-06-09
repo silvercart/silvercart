@@ -8,8 +8,9 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Admin\Forms\ImageUploadField;
 use SilverCart\Admin\Model\Config;
-use SilverCart\Extensions\Assets\ImageExtension;
+use SilverCart\Checkout\Checkout;
 use SilverCart\Dev\Tools;
+use SilverCart\Extensions\Assets\ImageExtension;
 use SilverCart\Forms\Checkout\CheckoutChoosePaymentMethodForm;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
@@ -23,10 +24,11 @@ use SilverCart\Model\Payment\PaymentMethodTranslation;
 use SilverCart\Model\Product\Image;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\Tax;
-use SilverCart\Model\Shipment\Zone;
 use SilverCart\Model\Shipment\ShippingMethod;
-use SilverCart\ORM\DataObjectExtension;
+use SilverCart\Model\Shipment\Zone;
 use SilverCart\Model\Translation\TranslationTools;
+use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image as SilverStripeImage;
 use SilverStripe\Control\Controller;
@@ -39,6 +41,8 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
@@ -48,17 +52,22 @@ use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
-use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\GreaterThanFilter;
 use SilverStripe\ORM\Filters\LessThanFilter;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
 use SilverStripe\Security\Group;
 use SilverStripe\Security\Member;
+use const ASSETS_PATH;
+use function _t;
+use function array_key_first;
+use function singleton;
 
 /**
  * Base class for payment.
@@ -90,29 +99,29 @@ use SilverStripe\Security\Member;
  * @method PaymentStatus PaymentStatus() Returns the related PaymentStatus.
  * @method Zone          Zone()          Returns the related Zone.
  * 
- * @method \SilverStripe\ORM\HasManyList HandlingCosts() Returns the related HandlingCosts.
- * @method \SilverStripe\ORM\HasManyList Orders()        Returns the related Orders.
- * @method \SilverStripe\ORM\HasManyList PaymentLogos()  Returns the related PaymentLogos.
+ * @method HasManyList HandlingCosts() Returns the related HandlingCosts.
+ * @method HasManyList Orders()        Returns the related Orders.
+ * @method HasManyList PaymentLogos()  Returns the related PaymentLogos.
  * 
- * @method \SilverStripe\ORM\ManyManyList ShippingMethods()        Returns the related ShippingMethods.
- * @method \SilverStripe\ORM\ManyManyList ShowOnlyForGroups()      Returns the related Groups to include to this payment method.
- * @method \SilverStripe\ORM\ManyManyList ShowNotForGroups()       Returns the related Groups to exclude from this payment method.
- * @method \SilverStripe\ORM\ManyManyList ShowOnlyForUsers()       Returns the related Members to include to this payment method.
- * @method \SilverStripe\ORM\ManyManyList ShowNotForUsers()        Returns the related Members to exclude from this payment method.
- * @method \SilverStripe\ORM\ManyManyList OrderRestrictionStatus() Returns the related OrderStatus list to restrict this payment method to.
- * @method \SilverStripe\ORM\ManyManyList Countries()              Returns the related Countries to restrict this payment method to.
+ * @method ManyManyList ShippingMethods()        Returns the related ShippingMethods.
+ * @method ManyManyList ShowOnlyForGroups()      Returns the related Groups to include to this payment method.
+ * @method ManyManyList ShowNotForGroups()       Returns the related Groups to exclude from this payment method.
+ * @method ManyManyList ShowOnlyForUsers()       Returns the related Members to include to this payment method.
+ * @method ManyManyList ShowNotForUsers()        Returns the related Members to exclude from this payment method.
+ * @method ManyManyList OrderRestrictionStatus() Returns the related OrderStatus list to restrict this payment method to.
+ * @method ManyManyList Countries()              Returns the related Countries to restrict this payment method to.
  * 
  */
 class PaymentMethod extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     
     /**
      * Defines the attributes of the class
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'isActive'                              => 'Boolean',
         'minAmountForActivation'                => 'Float',
         'maxAmountForActivation'                => 'Float',
@@ -135,7 +144,7 @@ class PaymentMethod extends DataObject
      *
      * @var array
      */
-    private static $has_one = [
+    private static array $has_one = [
         'PaymentStatus' => PaymentStatus::class,
         'Zone'          => Zone::class,
     ];
@@ -144,7 +153,7 @@ class PaymentMethod extends DataObject
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'HandlingCosts' => HandlingCost::class,
         'Orders'        => Order::class,
         'PaymentLogos'  => Image::class,
@@ -154,7 +163,7 @@ class PaymentMethod extends DataObject
      *
      * @var array
      */
-    private static $many_many = [
+    private static array $many_many = [
         'ShippingMethods'        => ShippingMethod::class,
         'ShowOnlyForGroups'      => Group::class,
         'ShowNotForGroups'       => Group::class,
@@ -167,15 +176,15 @@ class PaymentMethod extends DataObject
      *
      * @var array
      */
-    private static $belongs_many_many = [
-        'Countries' => Country::class,
+    private static array $belongs_many_many = [
+        'Countries' => Country::class . '.PaymentMethods',
     ];
     /**
      * Virtual database columns.
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'AttributedCountries'       => 'Varchar(255)',
         'AttributedZones'           => 'Varchar(255)',
         'activatedStatus'           => 'Varchar(255)',
@@ -188,7 +197,7 @@ class PaymentMethod extends DataObject
      *
      * @var array
      */
-    private static $defaults = [
+    private static array $defaults = [
         'showPaymentLogos'                 => true,
         'ShowFormFieldsOnPaymentSelection' => false,
     ];
@@ -197,19 +206,19 @@ class PaymentMethod extends DataObject
      *
      * @var string
      */
-    private static $table_name = 'SilvercartPaymentMethod';
+    private static string $table_name = 'SilvercartPaymentMethod';
     /*
      * Default sort order / direction
      *
      * @var string
      */
-    private static $default_sort = 'Sort';
+    private static string $default_sort = 'Sort';
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
-    private static $api_access = true;
+    private static bool $api_access = true;
     /**
      * The link to direct after cancelling by user or session expiry.
      *
@@ -2167,7 +2176,7 @@ class PaymentMethod extends DataObject
         }
         $member   = Customer::currentUser();
         $checkout = $controller->getCheckout();
-        /* @var $checkout \SilverCart\Checkout\Checkout */
+        /* @var $checkout Checkout */
         $checkoutData = $checkout->getData();
         $this->setController($controller);
         $this->setCancelLink(Director::absoluteURL($controller->Link('step/3')));
@@ -2258,7 +2267,7 @@ class PaymentMethod extends DataObject
     /**
      * Is called by default checkout right after placing an order.
      * 
-     * @param \SilverCart\Model\Order\Order $order        Order
+     * @param Order $order        Order
      * @param array                         $checkoutData Checkout data
      * 
      * @return void
@@ -2403,8 +2412,8 @@ class PaymentMethod extends DataObject
     /**
      * Is called by default checkout right after placing an order.
      * 
-     * @param \SilverCart\Model\Order\Order $order        Order
-     * @param array                         $checkoutData Checkout data
+     * @param Order $order        Order
+     * @param array $checkoutData Checkout data
      * 
      * @return void
      *
@@ -2469,8 +2478,8 @@ class PaymentMethod extends DataObject
      * Expects an optional string to display additional information to the customer (e.g. showing
      * the shop owners bank account data if the customer chose prepayment).
      * 
-     * @param \SilverCart\Model\Order\Order $order        Order
-     * @param array                         $checkoutData Checkout data
+     * @param Order $order        Order
+     * @param array $checkoutData Checkout data
      * 
      * @return string
      *

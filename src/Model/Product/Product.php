@@ -167,7 +167,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'isActive'                        => 'Boolean(1)',
         'HideFromSearchResults'           => 'Boolean(0)',
         'IsNotBuyable'                    => 'Boolean(0)',
@@ -203,7 +203,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $db_ignore_for_versions = [
+    private static array $db_ignore_for_versions = [
         'StockQuantity',
     ];
     /**
@@ -211,7 +211,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $has_one = [
+    private static array $has_one = [
         'Tax'                => Tax::class,
         'Manufacturer'       => Manufacturer::class,
         'ProductGroup'       => ProductGroupPage::class,
@@ -226,7 +226,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'ProductTranslations'   => ProductTranslation::class,
         'StockItemEntries'      => StockItemEntry::class,
         'Images'                => Image::class,
@@ -238,7 +238,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $many_many = [
+    private static array $many_many = [
         'ProductGroupMirrorPages' => ProductGroupPage::class,
     ];
     /**
@@ -246,16 +246,16 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $belongs_many_many = [
-        'ShoppingCarts'            => ShoppingCart::class,
-        'ProductGroupItemsWidgets' => ProductGroupItemsWidget::class,
+    private static array $belongs_many_many = [
+        'ShoppingCarts'            => ShoppingCart::class . '.Products',
+        'ProductGroupItemsWidgets' => ProductGroupItemsWidget::class . '.Products',
     ];
     /**
      * Adds database indexes
      *
      * @var array
      */
-    private static $indexes = [
+    private static array $indexes = [
         'isActive'          => '("isActive")',
         'PriceGrossAmount'  => '("PriceGrossAmount")',
         'PriceNetAmount'    => '("PriceNetAmount")',
@@ -268,7 +268,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'isActiveString'              => 'Varchar(8)',
         'ProductMirrorGroupIDs'       => 'Text',
         'PriceIsLowerThanMsr'         => 'Boolean',
@@ -291,19 +291,19 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var string
      */
-    private static $default_sort = 'DefaultSortOrder,ProductNumberShop';
+    private static string $default_sort = 'DefaultSortOrder,ProductNumberShop';
     /**
      * DB table name
      *
      * @var string
      */
-    private static $table_name = 'SilvercartProduct';
+    private static string $table_name = 'SilvercartProduct';
     /**
      * Extensions
      *
      * @var string[]
      */
-    private static $extensions = [
+    private static array $extensions = [
         DataObjectCacheExtension::class,
         TranslatableDataObjectExtension::class,
         //Versioned::class . ".versioned",
@@ -314,20 +314,20 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var bool
      */
-    private static $api_access = true;
+    private static bool $api_access = true;
     /**
      * If a products stock quantity is below this value, it's shown as low.
      *
      * @var int
      */
-    private static $stock_quantity_is_low_max = 2;
+    private static int $stock_quantity_is_low_max = 2;
     /**
      * Default time unit for new products.
      * default: month
      *
      * @var string
      */
-    private static $new_product_default_unit = 'month';
+    private static string $new_product_default_unit = 'month';
     /**
      * Default time unit quantity for new products.
      * default: 2
@@ -335,7 +335,7 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var string
      */
-    private static $new_product_default_unit_quantity = '2';
+    private static string $new_product_default_unit_quantity = '2';
     /**
      * Map of keywords to automatically add to a product.
      * Example:
@@ -358,14 +358,14 @@ class Product extends DataObject implements PermissionProvider
      *
      * @var array
      */
-    private static $keyword_map = [];
+    private static array $keyword_map = [];
     /**
      * Set to true to automatically set the availability status to not-available
      * if a product's IsNotBuyable property is set to true.
      *
      * @var bool
      */
-    private static $is_not_available_if_not_buyable = false;
+    private static bool $is_not_available_if_not_buyable = false;
     /**
      * Array of all attributes that must be set to show an product in the frontend and enter it via backend.
      *

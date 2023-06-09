@@ -47,7 +47,7 @@ class Carrier extends DataObject
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'priority'         => 'Int',
         'TrackingLinkBase' => 'Text',
     ];
@@ -56,7 +56,7 @@ class Carrier extends DataObject
      *
      * @var array
      */
-    private static $has_one = [
+    private static array $has_one = [
         'Logo' => Image::class,
     ];
     /**
@@ -64,7 +64,7 @@ class Carrier extends DataObject
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'ShippingMethods'     => ShippingMethod::class,
         'CarrierTranslations' => CarrierTranslation::class,
     ];
@@ -73,15 +73,15 @@ class Carrier extends DataObject
      * 
      * @var array
      */
-    private static $belongs_many_many = [
-        'Zones' => Zone::class,
+    private static array $belongs_many_many = [
+        'Zones' => Zone::class . '.Carriers',
     ];
     /**
      * Virtual database fields.
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'AttributedZones'           => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)',
         'Title'                     => 'Varchar(25)',
@@ -92,13 +92,13 @@ class Carrier extends DataObject
      *
      * @var string
      */
-    private static $default_sort = "priority DESC";
+    private static string $default_sort = "priority DESC";
     /**
      * DB table name
      *
      * @var string
      */
-    private static $table_name = 'SilvercartCarrier';
+    private static string $table_name = 'SilvercartCarrier';
     
     /**
      * retirieves title from related language class depending on the set locale

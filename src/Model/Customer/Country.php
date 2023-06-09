@@ -8,15 +8,19 @@ use SilverCart\Dev\Tools;
 use SilverCart\Model\Customer\CountryTranslation;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Shipment\Zone;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\ORM\FieldType\DBMoney;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\SS_List;
 use SilverStripe\ORM\Filters\ExactMatchFilter;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
+use SilverStripe\ORM\SS_List;
+use function _t;
 
 /**
  * Abstract for a country.
@@ -46,19 +50,19 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @property string  $Title                    Title
  * @property string  $IsPrioritiveText         Is Prioritive Text
  * 
- * @method \SilverStripe\ORM\HasManyList  CountryTranslations() Returns the related translations.
- * @method \SilverStripe\ORM\ManyManyList PaymentMethods()      Returns the related PaymentMethods.
- * @method \SilverStripe\ORM\ManyManyList Zones()               Returns the related Zones.
+ * @method HasManyList  CountryTranslations() Returns the related translations.
+ * @method ManyManyList PaymentMethods()      Returns the related PaymentMethods.
+ * @method ManyManyList Zones()               Returns the related Zones.
  */
 class Country extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     /**
      * Attributes.
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'ISO2'                      => 'Varchar',
         'ISO3'                      => 'Varchar',
         'ISON'                      => 'Int',
@@ -76,7 +80,7 @@ class Country extends DataObject
      *
      * @var array
      */
-    private static $defaults = [
+    private static array $defaults = [
         'Active' => false,
     ];
     /**
@@ -84,7 +88,7 @@ class Country extends DataObject
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'CountryTranslations' => CountryTranslation::class,
     ];
     /**
@@ -92,7 +96,7 @@ class Country extends DataObject
      *
      * @var array
      */
-    private static $many_many = [
+    private static array $many_many = [
         'PaymentMethods' => PaymentMethod::class,
     ];
     /**
@@ -100,15 +104,15 @@ class Country extends DataObject
      *
      * @var array
      */
-    private static $belongs_many_many = [
-        'Zones' => Zone::class,
+    private static array $belongs_many_many = [
+        'Zones' => Zone::class . '.Countries',
     ];
     /**
      * Virtual database columns.
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'AttributedZones'           => 'Varchar(255)',
         'AttributedPaymentMethods'  => 'Varchar(255)',
         'ActivityText'              => 'Varchar',
@@ -120,25 +124,25 @@ class Country extends DataObject
      *
      * @var string
      */
-    private static $default_sort = "SilvercartCountry.Active DESC, SilvercartCountry.IsPrioritive DESC, SilvercartCountryTranslation.Title ASC";
+    private static string $default_sort = "SilvercartCountry.Active DESC, SilvercartCountry.IsPrioritive DESC, SilvercartCountryTranslation.Title ASC";
     /**
      * DB table name
      *
      * @var string
      */
-    private static $table_name = 'SilvercartCountry';
+    private static string $table_name = 'SilvercartCountry';
     /**
      * Determines to insert the translation CMS fields by TranslatableDataObjectExtension.
      * 
      * @var bool
      */
-    private static $insert_translation_cms_fields = true;
+    private static bool $insert_translation_cms_fields = true;
     /**
      * Determines to insert the translation CMS fields before this field.
      * 
      * @var string
      */
-    private static $insert_translation_cms_fields_before = 'ISO2';
+    private static string $insert_translation_cms_fields_before = 'ISO2';
     /**
      * list of prioritive countries
      *

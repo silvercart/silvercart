@@ -2,15 +2,17 @@
 
 namespace SilverCart\Model\Widgets;
 
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Widgets\PageListWidget;
-use SilverStripe\Assets\Image;
 use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\ORM\DataExtension;
+use function _t;
 
 /**
  * PageListWidget Page Extension.
@@ -21,37 +23,39 @@ use SilverStripe\ORM\DataExtension;
  * @since 09.10.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
+ * 
+ * @property Page $owner Owner
  */
-class PageListWidgetPage extends DataExtension {
-
+class PageListWidgetPage extends DataExtension
+{
     /**
      * DB attributes
      *
      * @var array
      */
-    private static $db = array(
+    private static array $db = [
         'widgetTitle'    => 'Varchar(255)',
         'widgetText'     => 'HTMLText',
         'widgetPriority' => 'Int(0)'
-    );
+    ];
     
     /**
      * Has one relations
      *
      * @var array
      */
-    private static $has_one = array(
+    private static array $has_one = [
         'widgetImage' => Image::class,
-    );
+    ];
     
     /**
      * Belongs many many relations
      *
      * @var array
      */
-    private static $belongs_many_many = array(
-        'PageListWidgets' => PageListWidget::class,
-    );
+    private static array $belongs_many_many = [
+        'PageListWidgets' => PageListWidget::class . '.Pages',
+    ];
 
     /**
      * Add labels.
@@ -59,11 +63,9 @@ class PageListWidgetPage extends DataExtension {
      * @param array &$labels The labels
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2013
      */
-    public function updateFieldLabels(&$labels) {
+    public function updateFieldLabels(&$labels) : void
+    {
         $labels = array_merge(
                 $labels,
                 [
@@ -83,23 +85,20 @@ class PageListWidgetPage extends DataExtension {
      * @param FieldList $fields The FieldList
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>, Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 04.04.2013
      */
-    public function updateCMSFields(FieldList $fields) {
+    public function updateCMSFields(FieldList $fields) : void
+    {
         $widgetInfoField = ToggleCompositeField::create(
                 'widgetInfoTab',
                 $this->owner->fieldLabel('widgetInfoTab'),
-                array(
-                    new LiteralField(   'widgetInfoTabExplanation',             '<div class="field">' . $this->owner->fieldLabel('widgetInfoTabInfo') . '</div>'),
-                    new TextField(      'widgetPriority',                       $this->owner->fieldLabel('widgetPriority')),
-                    new TextField(      'widgetTitle',                          $this->owner->fieldLabel('widgetTitle')),
-                    new HTMLEditorField('widgetText',                           $this->owner->fieldLabel('widgetText')),
-                    new UploadField(    'widgetImage',                          $this->owner->fieldLabel('widgetImage')),
-                )
+                [
+                    LiteralField::create(   'widgetInfoTabExplanation',             '<div class="field">' . $this->owner->fieldLabel('widgetInfoTabInfo') . '</div>'),
+                    TextField::create(      'widgetPriority',                       $this->owner->fieldLabel('widgetPriority')),
+                    TextField::create(      'widgetTitle',                          $this->owner->fieldLabel('widgetTitle')),
+                    HTMLEditorField::create('widgetText',                           $this->owner->fieldLabel('widgetText')),
+                    UploadField::create(    'widgetImage',                          $this->owner->fieldLabel('widgetImage')),
+                ]
         )->setHeadingLevel(4);
-
         $fields->addFieldToTab('Root.Widgets', $widgetInfoField);
     }
 }

@@ -152,7 +152,7 @@ class ProductGroupPage extends Page
      * @var array
      */
     private static $belongs_many_many = [
-        'MirrorProducts' => Product::class,
+        'MirrorProducts' => Product::class . '.ProductGroupMirrorPages',
     ];
     /**
      * Casting

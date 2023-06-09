@@ -1055,6 +1055,7 @@ de:
     GROSS: Brutto
     HASACCEPTEDREVOCATIONINSTRUCTION: 'Hat die Widerrufsbelehrung akzeptiert'
     HASACCEPTEDTERMSANDCONDITIONS: 'Hat die AGB akzeptiert'
+    HiddenPaymentMethods: 'Ausgeschlossene Zahlarten'
     INVOICE_DATA: Rechnungs-Adressdaten
     ISBUSINESSACCOUNT: 'Ist Geschäftskunden Konto'
     LoginAttemptFailed: fehlgeschlagen
@@ -1101,6 +1102,7 @@ de:
     HidePricesDesc: 'Wenn diese Einstellung aktiviert ist, werden Artikelpreise vor Kunden, die dieser Gruppe angehören, verborgen.'
     HidePricesInfo: 'Informationstext wenn Preise verborgen werden'
     HidePricesInfoDesc: 'Dieser optionale Informationstext wird angezeigt, wenn ein Kunde auf Grund der Gruppenzugehörigkeit keine Preise sehen darf.'
+    HiddenPaymentMethods: 'Ausgeschlossene Zahlarten'
     NO_PRICETYPE: '---'
     PRICETYPE: Preistyp
     ShippingMethodsInfoContent: 'Die hier gelisteten Versandarten sind an diese Kundengruppe gebunden und können nur von Kunden ausgewöhlt werden, die dieser Kundengruppe angehören. Versandarten können mehreren Kundengruppen zugeordnet werden, also ist diese Kundengruppe ggf. nicht die einzige Gruppe, die über diese Zugriffsberechtigung verfügt.'

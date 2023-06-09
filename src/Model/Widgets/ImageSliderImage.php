@@ -3,11 +3,13 @@
 namespace SilverCart\Model\Widgets;
 
 use SilverCart\Dev\Tools;
+use SilverCart\Model\Product\Image as Image2;
 use SilverCart\Model\Product\Product;
-use SilverCart\Model\Widgets\Widget;
 use SilverCart\Model\Widgets\ImageSliderImageTranslation;
 use SilverCart\Model\Widgets\ImageSliderWidget;
+use SilverCart\Model\Widgets\Widget;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\FieldList;
@@ -15,6 +17,9 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\Filters\PartialMatchFilter;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\ORM\ManyManyList;
+use function _t;
 
 /**
  * DataObject to handle images added to a product or sth. else.
@@ -38,19 +43,19 @@ use SilverStripe\ORM\Filters\PartialMatchFilter;
  * @method Image    Image()    Returns the related Image.
  * @method SiteTree SiteTree() Returns the related SiteTree.
  * 
- * @method \SilverStripe\ORM\HasManyList ImageSliderImageTranslations() Returns the related translations.
+ * @method HasManyList ImageSliderImageTranslations() Returns the related translations.
  * 
- * @method \SilverStripe\ORM\ManyManyList ImageSliderWidgets() Returns the related ImageSliderWidgets.
+ * @method ManyManyList ImageSliderWidgets() Returns the related ImageSliderWidgets.
  */
 class ImageSliderImage extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     /**
      * DB properties
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'ProductNumberToReference'  => 'Varchar(128)',
         'ExternalLink'              => 'Text',
     ];
@@ -59,7 +64,7 @@ class ImageSliderImage extends DataObject
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'Title'             => 'Varchar',
         'Content'           => 'HTMLText',
         'AltText'           => 'Varchar',
@@ -71,7 +76,7 @@ class ImageSliderImage extends DataObject
      * 
      * @var array
      */
-    private static $has_one = [
+    private static array $has_one = [
         'Image'     => Image::class,
         'SiteTree'  => SiteTree::class,
     ];
@@ -80,7 +85,7 @@ class ImageSliderImage extends DataObject
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'ImageSliderImageTranslations' => ImageSliderImageTranslation::class,
     ];
     /**
@@ -88,15 +93,15 @@ class ImageSliderImage extends DataObject
      * 
      * @var array
      */
-    private static $belongs_many_many = [
-        'ImageSliderWidgets' => ImageSliderWidget::class,
+    private static array $belongs_many_many = [
+        'ImageSliderWidgets' => ImageSliderWidget::class . '.slideImages',
     ];
     /**
      * DB table name
      *
      * @var string
      */
-    private static $table_name = 'SilvercartImageSliderImage';
+    private static string $table_name = 'SilvercartImageSliderImage';
     /**
      * Marker to check whether the CMS fields are called or not
      *
@@ -245,9 +250,9 @@ class ImageSliderImage extends DataObject
             'ProductNumberToReference'           => _t(ImageSliderImage::class . '.ProductNumberToReference', 'Productnumber of the product to link to'),
             'ProductNumberToReferenceInfo'       => _t(ImageSliderImage::class . '.ProductNumberToReferenceInfo', 'Will be used instead the page.'),
             'SortOrder'                          => _t(Widget::class . '.SORT_ORDER_LABEL', 'Sort order'),
-            'Thumbnail'                          => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Thumbnail'),
-            'Title'                              => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Title'),
-            'ImageSliderImageTranslations.Title' => \SilverCart\Model\Product\Image::singleton()->fieldLabel('Title'),
+            'Thumbnail'                          => Image2::singleton()->fieldLabel('Thumbnail'),
+            'Title'                              => Image2::singleton()->fieldLabel('Title'),
+            'ImageSliderImageTranslations.Title' => Image2::singleton()->fieldLabel('Title'),
         ]);
     }
     

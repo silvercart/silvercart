@@ -38,7 +38,7 @@ class Zone extends DataObject
      *
      * @var array
      */
-    private static $has_many = [
+    private static array $has_many = [
         'ShippingFees'     => ShippingFee::class,
         'ZoneTranslations' => ZoneTranslation::class,
         'HandlingCosts'    => HandlingCost::class,
@@ -48,7 +48,7 @@ class Zone extends DataObject
      *
      * @var array
      */
-    private static $many_many = [
+    private static array $many_many = [
         'Countries' => Country::class,
         'Carriers'  => Carrier::class,
     ];
@@ -57,15 +57,15 @@ class Zone extends DataObject
      *
      * @var array
      */
-    private static $belongs_many_many = [
-        'ShippingMethods' => ShippingMethod::class,
+    private static array $belongs_many_many = [
+        'ShippingMethods' => ShippingMethod::class . '.Zones',
     ];
     /**
      * Virtual database columns.
      *
      * @var array
      */
-    private static $casting = [
+    private static array $casting = [
         'AttributedCountries'       => 'Varchar(255)',
         'AttributedShippingMethods' => 'Varchar(255)',
         'CarriersAsString'          => 'Text',
@@ -76,13 +76,13 @@ class Zone extends DataObject
      *
      * @var string
      */
-    private static $table_name = 'SilvercartZone';
+    private static string $table_name = 'SilvercartZone';
     /**
      * Insert translation CMS fields.
      * 
      * @var bool
      */
-    private static $insert_translation_cms_fields = true;
+    private static bool $insert_translation_cms_fields = true;
 
 
     /**

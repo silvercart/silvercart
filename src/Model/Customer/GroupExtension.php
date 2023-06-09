@@ -2,19 +2,20 @@
 
 namespace SilverCart\Model\Customer;
 
-use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Admin\Forms\AlertInfoField;
+use SilverCart\Admin\Forms\GridField\GridFieldConfig_RelationEditor;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Payment\PaymentMethod;
 use SilverCart\Model\Shipment\ShippingMethod;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Security\Group;
+use function _t;
 
 /**
  * Decorates the Group class for additional functionality.
@@ -35,7 +36,7 @@ class GroupExtension extends DataExtension
      *
      * @var string[]
      */
-    private static $db = [
+    private static array $db = [
         'Pricetype'      => 'Enum("---,gross,net","---")',
         'HidePrices'     => 'Boolean',
         'HidePricesInfo' => 'HTMLText',
@@ -45,16 +46,17 @@ class GroupExtension extends DataExtension
      *
      * @var string[]
      */
-    private static $belongs_many_many = [
-        'PaymentMethods'  => PaymentMethod::class,
-        'ShippingMethods' => ShippingMethod::class,
+    private static array $belongs_many_many = [
+        'PaymentMethods'       => PaymentMethod::class . '.ShowOnlyForGroups',
+        'HiddenPaymentMethods' => PaymentMethod::class . '.ShowNotForGroups',
+        'ShippingMethods'      => ShippingMethod::class . '.CustomerGroups',
     ];
     /**
      * Grant API access on this item.
      *
      * @var bool
      */
-    private static $api_access = true;
+    private static bool $api_access = true;
     
     /**
      * Adds or removes GUI elements for the backend editing mask.
@@ -100,6 +102,7 @@ class GroupExtension extends DataExtension
             'HidePricesInfoDesc'         => _t(GroupExtension::class . '.HidePricesInfoDesc', 'This optional information text will be displayed if the "Hide rpeices" option is set.'),
             'Pricetype'                  => _t(GroupExtension::class . '.PRICETYPE', 'Pricetype'),
             'PaymentMethods'             => PaymentMethod::singleton()->plural_name(),
+            'HiddenPaymentMethods'       => _t(GroupExtension::class . '.HiddenPaymentMethods', 'Hidden Payment Methods'),
             'ShippingMethods'            => ShippingMethod::singleton()->plural_name(),
             'ShippingMethodsInfoContent' => _t(GroupExtension::class . '.ShippingMethodsInfoContent', 'The shipping methods listed below are bound to this customer group and can only be chosen by customers belonging to this group. Shipping methods can be related to multiple customer groups, so this customer group might not be the only group with the permission to use the listed shipping methods.'),
             'ShippingMethodsInfoTitle'   => _t(GroupExtension::class . '.ShippingMethodsInfoTitle', 'Shipping methods bound to this customer group.'),
