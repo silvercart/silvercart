@@ -39,6 +39,13 @@ class TranslatableDataObjectExtension extends DataExtension
      * @var array
      */
     protected $translationCache = [];
+    /**
+     * Grouped list (by ClassName) of object IDs to write without a translation
+     * update.
+     * 
+     * @var array
+     */
+    protected array $writeWithoutTranslation = [];
     
     /**
      * Updates the CMS fields.
@@ -105,18 +112,24 @@ class TranslatableDataObjectExtension extends DataExtension
     {
         $translationTableName = $this->getTranslationTableName();
         if (!$query->isJoinedTo($translationTableName)) {
+            $idField                  = 'ID';
             $tableName                = $this->getTableName();
             $baseTableName            = $this->getBaseTableName();
             $baseTranslationTableName = $this->getBaseTranslationTableName();
             $relationFieldName        = $this->getRelationFieldName();
             $currentLocale            = Tools::current_locale();
             $silvercartDefaultLocale  = Config::Locale();
+            $addToWhere               = '';
             if ($this->owner->hasExtension(Versioned::class)) {
                 $versionedMode  = $dataQuery->getQueryParam('Versioned.mode');
                 $versionedStage = $dataQuery->getQueryParam('Versioned.stage');
                 ReadingMode::validateStage($versionedStage);
                 if (in_array($versionedMode, ['archive', 'latest_version_single', 'latest_versions', 'version', 'all_versions'])) {
-                    $baseTableName = "{$baseTableName}_Versions";
+                    $baseTableName            = "{$baseTableName}_Versions";
+                    $translationTableName     = "{$translationTableName}_Versions";
+                    $baseTranslationTableName = "{$baseTranslationTableName}_Versions";
+                    $idField                  = 'RecordID';
+                    $addToWhere               = " AND {$baseTableName}.TranslationVersion = {$baseTranslationTableName}.TranslationVersion";
                 } elseif ($versionedStage === Versioned::LIVE
                        && $this->owner->hasStages()
                 ) {
@@ -125,15 +138,14 @@ class TranslatableDataObjectExtension extends DataExtension
             }
             $query->addLeftJoin(
                     $translationTableName,
-                    "({$baseTableName}.ID = {$translationTableName}.{$relationFieldName})"
+                    "({$baseTableName}.{$idField} = {$translationTableName}.{$relationFieldName})"
             );
-            $addToWhere = '';
             if ($baseTranslationTableName != $translationTableName) {
                 $query->addLeftJoin(
                         $baseTranslationTableName,
-                        "({$translationTableName}.ID = {$baseTranslationTableName}.ID)"
+                        "({$translationTableName}.{$idField} = {$baseTranslationTableName}.{$idField})"
                 );
-                $addToWhere = "AND {$baseTranslationTableName}.ID = {$translationTableName}.ID";
+                $addToWhere = "AND {$baseTranslationTableName}.{$idField} = {$translationTableName}.{$idField}{$addToWhere}";
             }
             if (Config::useDefaultLanguageAsFallback()
              && $currentLocale != $silvercartDefaultLocale
@@ -473,12 +485,31 @@ class TranslatableDataObjectExtension extends DataExtension
     }
     
     /**
+     * Writes the main record without a translation.
+     * 
+     * @return void
+     */
+    public function writeWithoutTranslation() : void
+    {
+        if (!array_key_exists($this->owner->ClassName, $this->writeWithoutTranslation)) {
+            $this->writeWithoutTranslation[$this->owner->ClassName] = [];
+        }
+        $this->writeWithoutTranslation[$this->owner->ClassName][] = $this->owner->ID;
+        $this->owner->write();
+    }
+    
+    /**
      * hook
      *
      * @return void
      */
     public function onBeforeWrite() : void
     {
+        if (array_key_exists($this->owner->ClassName, $this->writeWithoutTranslation)
+         && array_key_exists($this->owner->ID, $this->writeWithoutTranslation[$this->owner->ClassName])
+        ) {
+            return;
+        }
         $translation = $this->getTranslation();
         if ($translation instanceof DataObject
          && $translation->exists()
@@ -510,7 +541,7 @@ class TranslatableDataObjectExtension extends DataExtension
     public function onBeforeDelete() : void
     {
         foreach ($this->getTranslationRelation() as $translation) {
-            $translation->delete();
+            $translation->deleteTranslationForced();
         }
     }
     
