@@ -58,6 +58,9 @@ SilverStripe\Security\Member:
 SilverStripe\Security\Member_Validator:
   extensions:
     - SilverCart\Model\Customer\CustomerValidator
+SilverStripe\Security\MemberAuthenticator\MemberAuthenticator:
+  extensions:
+    - SilverCart\Extensions\Security\MemberAuthenticator\MemberAuthenticatorExtension
 SilverStripe\Admin\ModelAdmin:
   extensions:
     - SilverCart\Admin\Controllers\ModelAdminExtension
