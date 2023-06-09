@@ -36,7 +36,7 @@ class TranslationExtension extends DataExtension
      *
      * @var array
      */
-    private static $db = [
+    private static array $db = [
         'Locale' => DBLocale::class,
     ];
     /**
@@ -44,9 +44,15 @@ class TranslationExtension extends DataExtension
      *
      * @var array
      */
-    private static $indexes = [
+    private static array $indexes = [
         'Locale' => '("Locale")',
     ];
+    /**
+     * Grouped list (by ClassName) of translation IDs to force the deletion for.
+     * 
+     * @var array
+     */
+    protected array $deleteForced = [];
     
     /**
      * Field lable for Locale should always be multilingual
@@ -115,6 +121,42 @@ class TranslationExtension extends DataExtension
         $localeDropdown = TranslationTools::prepare_translation_dropdown_field($this->owner);
         $fields->push($localeDropdown);
     }
+
+    /**
+     * Deletes the translation forced (usually used when deleting the main record.
+     * 
+     * @return void
+     */
+    public function deleteTranslationForced() : void
+    {
+        if (!array_key_exists($this->owner->ClassName, $this->deleteForced)) {
+            $this->deleteForced[$this->owner->ClassName] = [];
+        }
+        $this->deleteForced[$this->owner->ClassName][] = $this->owner->ID;
+        $this->owner->delete();
+    }
+    
+    /**
+     * Prevents to delete a translation if it is the default translation or the 
+     * last existing translation.
+     * 
+     * @param array &$queriedTables 
+     * 
+     * @return void
+     */
+    public function updateDeleteTables(array &$queriedTables) : void
+    {
+        if (array_key_exists($this->owner->ClassName, $this->deleteForced)
+         && array_key_exists($this->owner->ID, $this->deleteForced[$this->owner->ClassName])
+        ) {
+            return;
+        }
+        if ($this->owner->Locale === Config::DefaultLanguage()
+         || $this->getTranslations()->count() === 1
+        ) {
+            $queriedTables = [];
+        }
+    }
     
     /**
      * return the locale as native name
@@ -141,11 +183,31 @@ class TranslationExtension extends DataExtension
      *
      * @return string 
      */
-    public function getRelationFieldName() : string
+    public function getRelationName() : string
     {
         $reflection        = new ReflectionClass($this->owner->ClassName);
-        $relationFieldName = substr($reflection->getShortName(), 0, -11) . 'ID';
+        $relationFieldName = substr($reflection->getShortName(), 0, -11);
         return $relationFieldName;
+    }
+    
+    /**
+     * Returns the language class relation field name
+     *
+     * @return string 
+     */
+    public function getRelationFieldName() : string
+    {
+        return "{$this->getRelationName()}ID";
+    }
+    
+    /**
+     * Returns the translations bas object.
+     * 
+     * @return DataObject
+     */
+    public function getTranslationBase() : DataObject
+    {
+        return $this->owner->{$this->getRelationName()}();
     }
     
     /**
