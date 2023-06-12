@@ -511,23 +511,50 @@ class Tools implements TemplateGlobalProvider
      * @param string     $emptyString   String to use for an empty value
      * 
      * @return array
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.05.2018
      */
     public static function enum_i18n_labels($contextObject, $enumFieldName, $emptyString = '')
     {
         $enumValues = $contextObject->dbObject($enumFieldName)->enumValues();
         $i18nLabels = [];
+        $i18nCallbacks = [
+            function(object $contextObject, string $enumFieldName, string $label, bool &$break) {
+                $value = $contextObject->fieldLabel("{$enumFieldName}{$label}");
+                if ($value !== FormField::name_to_label("{$enumFieldName}{$label}")) {
+                    $break = true;
+                }
+                return $value;
+            },
+            function(object $contextObject, string $enumFieldName, string $label, bool &$break) {
+                $value = $contextObject->fieldLabel($enumFieldName . ucfirst($label));
+                if ($value !== FormField::name_to_label($enumFieldName . ucfirst($label))) {
+                    $break = true;
+                }
+                return $value;
+            },
+            function(object $contextObject, string $enumFieldName, string $label, bool &$break) {
+                $value = $contextObject->fieldLabel("{$enumFieldName}_{$label}");
+                if ($value !== FormField::name_to_label("{$enumFieldName}_{$label}")) {
+                    $break = true;
+                }
+                return $value;
+            },
+            function(object $contextObject, string $enumFieldName, string $label, bool &$break) {
+                $value = _t("{$contextObject->ClassName}.{$enumFieldName}_{$label}", "{$enumFieldName}_{$label}");
+                if ($value !== "{$enumFieldName}_{$label}") {
+                    $break = true;
+                }
+                return $value;
+            },
+        ];
         foreach ($enumValues as $value => $label) {
             if (empty($label)) {
                 $i18nLabels[$value] = $emptyString;
             } else {
-                $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . $label);
-                if ($i18nLabels[$value] == FormField::name_to_label($enumFieldName . $label)) {
-                    $i18nLabels[$value] = $contextObject->fieldLabel($enumFieldName . ucfirst($label));
-                    if ($i18nLabels[$value] == FormField::name_to_label($enumFieldName . ucfirst($label))) {
-                        $i18nLabels[$value] = $contextObject->fieldLabel("{$enumFieldName}_{$label}");
+                foreach ($i18nCallbacks as $callback) {
+                    $break = false;
+                    $i18nLabels[$value] = $callback($contextObject, $enumFieldName, $label, $break);
+                    if ($break) {
+                        break;
                     }
                 }
             }
