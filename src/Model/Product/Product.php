@@ -1869,6 +1869,7 @@ class Product extends DataObject implements PermissionProvider
                     $productNumberGroup,
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
+        $this->extend('updateFieldsForProductBaseDataToggle', $baseDataToggle, $fields);
         $fields->removeByName('isActive');
         $fields->removeByName('HideFromSearchResults');
         $fields->removeByName('IsNotBuyable');
@@ -1892,6 +1893,7 @@ class Product extends DataObject implements PermissionProvider
                     $availabilityGroup,
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
+        $this->extend('updateFieldsForAvailabilityGroupToggle', $availabilityGroupToggle, $fields);
         $fields->insertAfter($availabilityGroupToggle, 'ProductBaseDataToggle');
 
         $descriptionToggle = ToggleCompositeField::create(
@@ -1906,6 +1908,7 @@ class Product extends DataObject implements PermissionProvider
                         ->setRows(3),
                 ]
         )->setHeadingLevel(4)->setStartClosed(false);
+        $this->extend('updateFieldsForProductDescriptionToggle', $descriptionToggle, $fields);
         $fields->removeByName('Title');
         $fields->removeByName('ShortDescription');
         $fields->removeByName('LongDescription');
@@ -1926,6 +1929,7 @@ class Product extends DataObject implements PermissionProvider
                     $timeGroup,
                 ]
         )->setHeadingLevel(4)->setStartClosed(true);
+        $this->extend('updateFieldsForTimeGroupToggle', $timeGroupToggle, $fields);
         $fields->insertAfter($timeGroupToggle, 'ProductDescriptionToggle');
 
         $miscGroup = FieldGroup::create('MiscGroup', '', $fields);
@@ -1947,12 +1951,13 @@ class Product extends DataObject implements PermissionProvider
         $miscGroup->breakAndPush(   $fields->dataFieldByName('OrderEmailText')->setDescription($this->fieldLabel('OrderEmailTextDesc')));
         $miscGroup->breakAndPush(   $fields->dataFieldByName('ShowOrderEmailTextAfterCheckout'));
         $miscGroupToggle = ToggleCompositeField::create(
-                'AvailabilityGroupToggle',
+                'MiscGroupToggle',
                 $this->fieldLabel('MiscGroup'),
                 [
                     $miscGroup,
                 ]
         )->setHeadingLevel(4)->setStartClosed(true);
+        $this->extend('updateFieldsForMiscGroupToggle', $miscGroupToggle, $fields);
         $fields->insertAfter($miscGroupToggle, 'TimeGroupToggle');
     }
 
