@@ -1798,10 +1798,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     public function moveShoppingCartTo(Member $customer) : void
     {
-        $ownerPositions = $this->owner->getCart()->ShoppingCartPositions();
+        $ownerCart      = $this->owner->getCart();
+        $ownerPositions = $ownerCart->ShoppingCartPositions();
+        $customerCart   = $customer->getCart();
         if ($ownerPositions->exists()) {
             //delete registered customers cart positions
-            $customerPositions = $customer->getCart()->ShoppingCartPositions();
+            $customerPositions = $customerCart->ShoppingCartPositions();
             if ($customerPositions->exists()) {
                 foreach ($customerPositions as $customerPosition) {
                     $customerPosition->delete();
@@ -1810,6 +1812,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             //add anonymous positions to the registered user
             foreach ($ownerPositions as $ownerPosition) {
                 $customerPositions->add($ownerPosition);
+            }
+        }
+        if ($ownerCart->DataValues()->exists()) {
+            foreach ($ownerCart->DataValues() as $dataValue) {
+                $dataValue->ShoppingCartID = $customerCart->ID;
+                $dataValue->write();
             }
         }
     }
