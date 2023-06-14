@@ -1468,6 +1468,11 @@ class Order extends DataObject implements PermissionProvider
             }
             $this->write();
             foreach ($shoppingCart->DataValues() as $dataValue) {
+                $skipDataValue = false;
+                $this->extend('skipOrderDataValue', $skipDataValue, $dataValue, $shoppingCart);
+                if ($skipDataValue) {
+                    continue;
+                }
                 $dataValue->OrderID        = $this->ID;
                 $dataValue->ShoppingCartID = 0;
                 $dataValue->write();
