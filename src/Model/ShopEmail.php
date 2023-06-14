@@ -787,20 +787,20 @@ class ShopEmail extends DataObject implements PermissionProvider
         }
         foreach ($additionalRecipients as $additionalRecipient) {
             if ($additionalRecipient instanceof EmailAddress) {
-                $to = $additionalRecipient->getMailTo();
-                if ($to === null) {
+                $addTo = $additionalRecipient->getMailTo();
+                if ($addTo === null) {
                     continue;
                 }
             } elseif (Email::is_valid_address($additionalRecipient)) {
-                $to = $additionalRecipient;
+                $addTo = $additionalRecipient;
             } else {
                 continue;
             }
-            self::send_email($to, $subject, $htmlText, $attachments, $replyTo, $replyToName);
+            self::send_email($addTo, $subject, $htmlText, $attachments, $replyTo, $replyToName);
         }
         
         $additionalReceipients = [];
-        ShopEmail::singleton()->extend('addAdditionalRecipients', $additionalReceipients);
+        ShopEmail::singleton()->extend('addAdditionalRecipients', $additionalReceipients, $to);
         if (is_array($additionalReceipients)) {
             foreach ($additionalReceipients as $recipient) {
                 self::send_email($recipient, $subject, $htmlText, $attachments, $replyTo, $replyToName);
