@@ -13,6 +13,8 @@ use SilverCart\Model\Pages\Page;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\Security\Member;
+use function _t;
 
 /**
  * AddressHolder Controller Class;
@@ -101,7 +103,7 @@ class AddressHolderController extends MyAccountHolderController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
+     * @return DBHTMLText
      */
     public function addNewAddress(HTTPRequest $request) : DBHTMLText
     {
@@ -198,18 +200,19 @@ class AddressHolderController extends MyAccountHolderController
      */
     public function setInvoiceAddress(HTTPRequest $request) : HTTPResponse
     {
+        $member = Customer::currentUser();
         $params = $request->allParams();
-        if (array_key_exists('ID', $params)
+        if ($member instanceof Member
+         && array_key_exists('ID', $params)
          && !empty ($params['ID'])
         ) {
             $addressID          = (int) $params['ID'];
-            $membersAddresses   = Customer::currentUser()->Addresses();
+            $membersAddresses   = $member->Addresses();
             $membersAddress     = $membersAddresses->find('ID', $addressID);
             if ($membersAddress instanceof Address
              && $membersAddress->exists()
             ) {
                 // Address contains to logged in user - set as invoice address
-                $member = Customer::currentUser();
                 $member->InvoiceAddressID = $addressID;
                 $member->write();
                 $this->setSuccessMessage(_t(AddressHolder::class . '.UPDATED_INVOICE_ADDRESS', 'Your invoice addres was successfully updated.'));
