@@ -363,6 +363,67 @@ class ProductGroupPageController extends PageController
     /**
      * All products of this group
      * 
+     * @return string
+     */
+    public function getProductsFilter() : string
+    {
+        $this->listFilters          = [];
+        $filter                     = '';
+        $translations               = Tools::get_translations($this);
+        $translationProductGroupIDs = [
+            $this->ID,
+        ];
+        if ($translations
+         && $translations->count() > 0
+        ) {
+            foreach ($translations as $translation) {
+                $translationProductGroupIDs[] = $translation->ID;
+            }
+        }
+        $translationProductGroupIDList = implode(',', $translationProductGroupIDs);
+        $mirroredProductIdList         = implode(',', $this->getMirroredProductIDs());
+        if ($this->isFilteredByManufacturer()) {
+            $manufacturer = Manufacturer::getByUrlSegment($this->urlParams['ID']);
+            if ($manufacturer instanceof Manufacturer
+             && $manufacturer->exists()
+            ) {
+                $this->addListFilter('ManufacturerID', $manufacturer->ID);
+            }
+        }
+        if (empty($mirroredProductIdList)) {
+            $this->listFilters['original'] = "ProductGroupID IN ({$translationProductGroupIDList})";
+        } else {
+            $pStageTable                   = Product::singleton()->getStageTableName();
+            $this->listFilters['original'] = "(ProductGroupID IN ({$translationProductGroupIDList})"
+                                           . " OR {$pStageTable}.ID IN ({$mirroredProductIdList}))";
+        }
+        if ($this->data()->config()->load_products_from_children) {
+            $childrenFilter = $this->getProductsFromChildrenFilter();
+            if (!empty($childrenFilter)) {
+                $this->listFilters['original'] = "({$this->listFilters['original']} OR {$childrenFilter})";
+            }
+        }
+        if (count(self::$registeredFilterPlugins) > 0) {
+            foreach (self::$registeredFilterPlugins as $registeredPlugin) {
+                $pluginFilters = $registeredPlugin->filter();
+                if (is_array($pluginFilters)) {
+                    $this->listFilters = array_merge(
+                        $this->listFilters,
+                        $pluginFilters
+                    );
+                }
+            }
+        }
+        foreach ($this->listFilters as $listFilter) {
+            $filter .= " {$listFilter}";
+        }
+        $this->extend('updateGetProductsFilter', $filter);
+        return $filter;
+    }
+
+    /**
+     * All products of this group
+     * 
      * @param int    $numberOfProducts The number of products to return
      * @param string $sort             An SQL sort statement
      * @param bool   $disableLimit     Disables the product limitation
@@ -387,60 +448,7 @@ class ProductGroupPageController extends PageController
             if (!is_null($products)) {
                 $this->groupProducts[$hashKey] = $products;
             } else {
-                $this->listFilters = [];
-                $filter            = '';
-                if ($numberOfProducts !== false) {
-                    $productsPerPage = (int) $numberOfProducts;
-                }
-                $translations               = Tools::get_translations($this);
-                $translationProductGroupIDs = [
-                    $this->ID,
-                ];
-                if ($translations
-                 && $translations->count() > 0
-                ) {
-                    foreach ($translations as $translation) {
-                        $translationProductGroupIDs[] = $translation->ID;
-                    }
-                }
-                $translationProductGroupIDList = implode(',', $translationProductGroupIDs);
-                $mirroredProductIdList         = implode(',', $this->getMirroredProductIDs());
-                if ($this->isFilteredByManufacturer()) {
-                    $manufacturer = Manufacturer::getByUrlSegment($this->urlParams['ID']);
-                    if ($manufacturer instanceof Manufacturer
-                     && $manufacturer->exists()
-                    ) {
-                        $this->addListFilter('ManufacturerID', $manufacturer->ID);
-                    }
-                }
-                if (empty($mirroredProductIdList)) {
-                    $this->listFilters['original'] = "ProductGroupID IN ({$translationProductGroupIDList})";
-                } else {
-                    $pStageTable                   = Product::singleton()->getStageTableName();
-                    $this->listFilters['original'] = "(ProductGroupID IN ({$translationProductGroupIDList})"
-                                                   . " OR {$pStageTable}.ID IN ({$mirroredProductIdList}))";
-                }
-                if ($this->data()->config()->load_products_from_children) {
-                    $childrenFilter = $this->getProductsFromChildrenFilter();
-                    if (!empty($childrenFilter)) {
-                        $this->listFilters['original'] = "({$this->listFilters['original']} OR {$childrenFilter})";
-                    }
-                }
-                if (count(self::$registeredFilterPlugins) > 0) {
-                    foreach (self::$registeredFilterPlugins as $registeredPlugin) {
-                        $pluginFilters = $registeredPlugin->filter();
-                        if (is_array($pluginFilters)) {
-                            $this->listFilters = array_merge(
-                                $this->listFilters,
-                                $pluginFilters
-                            );
-                        }
-                    }
-                }
-                foreach ($this->listFilters as $listFilter) {
-                    $filter .= " {$listFilter}";
-                }
-                $this->extend('updateGetProductsFilter', $filter);
+                $filter = $this->getProductsFilter();
                 if (!$sort) {
                     $sort = Product::defaultSort();
                     $this->extend('updateGetProductsSort', $sort);

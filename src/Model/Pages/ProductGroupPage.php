@@ -902,6 +902,29 @@ class ProductGroupPage extends Page
     }
 
     /**
+     * Returns the number of products per page according to where it is set.
+     * Highest priority has the customer's configuration setting if available.
+     * Next comes the shop owners setting for this page; if that's not
+     * configured we use the global setting from Config.
+     *
+     * @return int
+     */
+    public function getProductsPerPageSetting() : int
+    {
+        return (int) $this->getContextController()->getProductsPerPageSetting();
+    }
+
+    /**
+     * All products filter of this group
+     * 
+     * @return string
+     */
+    public function getProductsFilter() : string
+    {
+        return (string) $this->getContextController()->getProductsFilter();
+    }
+
+    /**
      * All products of this group
      * 
      * @param int    $numberOfProducts The number of products to return

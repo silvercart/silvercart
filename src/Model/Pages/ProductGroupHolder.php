@@ -7,6 +7,7 @@ use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\FieldGroup;
 use SilverCart\Model\Pages\ProductGroupPage;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\CMS\Model\RedirectorPage;
 use SilverStripe\CMS\Model\SiteTree;
@@ -18,7 +19,10 @@ use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\ToggleCompositeField;
 use SilverStripe\Forms\TreeDropdownField;
 use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\Map;
+use SilverStripe\ORM\PaginatedList;
+use function _t;
 
 /**
  * Page to display a group of products.
@@ -36,32 +40,33 @@ use SilverStripe\ORM\Map;
  * @property string $DefaultGroupView              Default Group View
  * @property string $UseOnlyDefaultGroupView       Use Only Default Group View
  * @property bool   $RedirectToProductGroup        Redirect To Product Group
+ * @property bool   $DoNotShowProducts             Do Not Show Products
  * 
  * @method SiteTree LinkTo() Returns the related page to link to.
  */
 class ProductGroupHolder extends Page
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
-    
+    use ExtensibleDataObject;
     /**
      * Attributes.
      *
-     * @var array
+     * @var string[]
      */
-    private static $db = [
+    private static array $db = [
         'productGroupsPerPage'          => 'Int',
         'DefaultGroupHolderView'        => 'Varchar(255)',
         'UseOnlyDefaultGroupHolderView' => 'Enum("no,yes,inherit","inherit")',
         'DefaultGroupView'              => 'Varchar(255)',
         'UseOnlyDefaultGroupView'       => 'Enum("no,yes,inherit","inherit")',
         'RedirectToProductGroup'        => 'Boolean(0)',
+        'DoNotShowProducts'             => 'Boolean(1)',
     ];
     /**
      * Has one relations.
      *
-     * @var array
+     * @var string[]
      */
-    private static $has_one = [
+    private static array $has_one = [
         'LinkTo' => SiteTree::class,
     ];
     /**
@@ -69,13 +74,13 @@ class ProductGroupHolder extends Page
      *
      * @var string
      */
-    private static $table_name = 'SilvercartProductGroupHolder';
+    private static string $table_name = 'SilvercartProductGroupHolder';
     /**
      * Allowed children in site tree
      *
-     * @var array
+     * @var string[]
      */
-    private static $allowed_children = [
+    private static array $allowed_children = [
         ProductGroupPage::class,
         RedirectorPage::class,
     ];
@@ -84,11 +89,11 @@ class ProductGroupHolder extends Page
      * 
      * @var string
      */
-    private static $icon_class = 'font-icon-p-gallery';
+    private static string $icon_class = 'font-icon-p-gallery';
     /**
      * Indicator to check whether getCMSFields is called
      *
-     * @var boolean
+     * @var bool
      */
     protected $getCMSFieldsIsCalled = false;
     /**
@@ -96,30 +101,41 @@ class ProductGroupHolder extends Page
      * 
      * @var array 
      */
-    protected $cacheKeyParts = null;
+    protected array|null $cacheKeyParts = null;
     /**
      * Cache key for this product group
      * 
      * @var string
      */
-    protected $cacheKey = null;
+    protected string|null$cacheKey = null;
+    /**
+     * Saves the result from $this->getProducts()
+     *
+     * @var array
+     */
+    protected array $cachedProducts = [];
+    /**
+     * Optional pagination context. If not set, the return value of getProducts() will be used.
+     *
+     * @var PaginatedList
+     */
+    protected PaginatedList|null $paginationContext = null;
 
     /**
      * Field labels for display in tables.
      *
-     * @param boolean $includerelations A boolean value to indicate if the labels returned include relation fields
+     * @param bool $includerelations A boolean value to indicate if the labels returned include relation fields
      *
      * @return array
      */
     public function fieldLabels($includerelations = true) : array
     {
         $this->beforeUpdateFieldLabels(function(&$labels) {
-            $labels = array_merge(
-                $labels,
-                array(
+            $labels = array_merge($labels, [
                     'productGroupsPerPage'          => _t(ProductGroupPage::class . '.PRODUCTGROUPSPERPAGE', 'Product groups per page'),
                     'ProductsPerPageHint'           => _t(ProductGroupPage::class . '.PRODUCTSPERPAGEHINT', 'Set products or product groups per page to 0 (zero) to use the default setting.'),
                     'DefaultGroupHolderView'        => _t(ProductGroupPage::class . '.DEFAULTGROUPHOLDERVIEW', 'Default product group view'),
+                    'DoNotShowProducts'             => _t(ProductGroupPage::class . '.DONOTSHOWPRODUCTS', 'do <strong>not</strong> show products of this group'),
                     'UseOnlyDefaultGroupHolderView' => _t(ProductGroupPage::class . '.USEONLYDEFAULTGROUPHOLDERVIEW', 'Allow only default view'),
                     'DefaultGroupView'              => _t(ProductGroupPage::class . '.DEFAULTGROUPVIEW', 'Default product view'),
                     'DefaultGroupViewInherit'       => _t(ProductGroupPage::class . '.DEFAULTGROUPVIEW_DEFAULT', 'Use view from parent pages'),
@@ -130,8 +146,7 @@ class ProductGroupHolder extends Page
                     'LinkTo'                        => _t(ProductGroupHolder::class . '.LinkTo', 'Product group to redirect to'),
                     'Yes'                           => Tools::field_label('Yes'),
                     'No'                            => Tools::field_label('No'),
-                )
-            );
+            ]);
         });
         return parent::fieldLabels($includerelations);
     }
@@ -150,6 +165,7 @@ class ProductGroupHolder extends Page
                 'no'      => $this->fieldLabel('No'),
             ];
 
+            $doNotShowProductsField             = CheckboxField::create('DoNotShowProducts',        Tools::string2html($this->fieldLabel('DoNotShowProducts')));
             $defaultGroupViewField              = GroupViewHandler::getGroupViewDropdownField('DefaultGroupView', $this->fieldLabel('DefaultGroupView'), $this->DefaultGroupView, $this->fieldLabel('DefaultGroupViewInherit'));
             $useOnlyDefaultGroupViewField       = DropdownField::create('UseOnlyDefaultGroupView',  $this->fieldLabel('UseOnlyDefaultGroupView'), $useOnlydefaultGroupviewSource, $this->UseOnlyDefaultGroupView);
             $productGroupsPerPageField          = TextField::create('productGroupsPerPage',         $this->fieldLabel('productGroupsPerPage'));
@@ -162,6 +178,7 @@ class ProductGroupHolder extends Page
 
             $productGroupsPerPageField->setRightTitle($this->fieldLabel('ProductsPerPageHint'));
 
+            $fieldGroup->pushAndBreak($doNotShowProductsField);
             $fieldGroup->push($defaultGroupViewField);
             $fieldGroup->push($useOnlyDefaultGroupViewField);
             $fieldGroup->breakAndPush($productGroupsPerPageField);
@@ -275,6 +292,7 @@ class ProductGroupHolder extends Page
                 $ctrl->getSqlOffsetForProductGroups(),
                 GroupViewHandler::getActiveGroupHolderView(),
                 $lastEditedChildID,
+                array_key_exists('start', $_GET) ? $_GET['start'] : 0,
             ];
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;
@@ -305,5 +323,98 @@ class ProductGroupHolder extends Page
     public function IsProductGroupHolder() : bool
     {
         return true;
+    }
+    
+    /**
+     * Returns the current context controller.
+     * 
+     * @return ProductGroupHolderController
+     */
+    public function getContextController() : ProductGroupHolderController
+    {
+        $ctrl = Controller::curr();
+        if (!$ctrl instanceof ProductGroupHolder
+         || $ctrl->data()->ID !== $this->ID
+        ) {
+            $ctrl = ProductGroupHolderController::create($this);
+        }
+        return $ctrl;
+    }
+
+    /**
+     * All products of this group
+     * 
+     * @param int    $numberOfProducts The number of products to return
+     * @param string $sort             An SQL sort statement
+     * @param bool   $disableLimit     Disables the product limitation
+     * @param bool   $force            Forces to get the products
+     * 
+     * @return DataList|false all products of this group
+     */
+    public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false)
+    {
+        $cacheKey = md5("{$numberOfProducts}-{$sort}-{$disableLimit}-{$force}-" . Tools::current_locale());
+        if (!array_key_exists($cacheKey, $this->cachedProducts)) {
+            $this->cachedProducts[$cacheKey] = $this->getContextController()->getProducts($numberOfProducts, $sort, $disableLimit, $force);
+        }
+        return $this->cachedProducts[$cacheKey];
+    }
+    
+    /**
+     * Returns a string to display how many products on how many pages are found
+     * 
+     * @return string
+     */
+    public function getProductsOnPagesString() : string
+    {
+        $productsOnPagesString = '';
+        $products = $this->getPaginationContext();
+        if ($products->exists()
+         && $products->TotalPages() != 1
+        ) {
+            $singularOrPlural = 'PRODUCTS_ON_PAGES';
+        } elseif ($products->exists()
+               && $products->TotalPages() == 1
+        ) {
+            $singularOrPlural = 'PRODUCTS_ON_PAGE';
+        } else {
+            $singularOrPlural = 'PRODUCTS_ON_PAGES';
+        }
+        if ($products->count() > 0) {
+            $productsOnPagesString = _t(ProductGroupPage::class . ".{$singularOrPlural}",
+                    '{productcount} products on {pagecount} pages',
+                    [
+                        'productcount' => $products->count(),
+                        'pagecount'    => $products->TotalPages(),
+                    ]
+            );
+        }
+        return (string) $productsOnPagesString;
+    }
+    
+    /**
+     * Returns the pagination context.
+     * 
+     * @return PaginatedList
+     */
+    public function getPaginationContext() : PaginatedList
+    {
+        if (is_null($this->paginationContext)) {
+            $this->paginationContext = $this->getProducts();
+        }
+        return $this->paginationContext;
+    }
+    
+    /**
+     * Sets the pagination context.
+     * 
+     * @param PaginatedList $paginationContext Pagination context
+     * 
+     * @return void
+     */
+    public function setPaginationContext(PaginatedList $paginationContext) : ProductGroupHolder
+    {
+        $this->paginationContext = $paginationContext;
+        return $this;
     }
 }
