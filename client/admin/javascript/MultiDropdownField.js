@@ -1,7 +1,7 @@
 
 (function($) {
     $(document).ready(function() {
-        $('.multidropdown select').on('change', function() {
+        $(document).on('change', '.multidropdown select', function() {
             if ($(this).val() === '') {
                 return;
             }
@@ -36,7 +36,7 @@
             selectionMarkup += '</div>';
             $('#' + selectFieldID + '-selection').append(selectionMarkup);
         });
-        $('.multidropdown-remove-selection').on('click', function(event) {
+        $(document).on('click', '.multidropdown-remove-selection', function(event) {
             event.preventDefault();
             var selectFieldID       = $(this).attr('role');
             var selectFieldValue    = $(this).attr('rel');

@@ -1,6 +1,6 @@
 
 (function($) {
-    $('.col-batch-action-selector.action').on('click', function(event) {
+    $(document).on('click', '.col-batch-action-selector.action', function(event) {
         event.preventDefault();
         if ($(event.target).is('input[type="checkbox"]')) {
             scBatchActionEventTarget = $(event.target);
@@ -15,19 +15,19 @@
         }
         return false;
     });
-    $('.col-batch-action-header.check-all').on('click', function(event) {
+    $(document).on('click', '.col-batch-action-header.check-all', function(event) {
         $('.col-batch-action-selector.action').each(function() {
             var checkbox = $('input[type="checkbox"]', $(this));
             checkbox.attr('checked', true);
         });
     });
-    $('.col-batch-action-header.uncheck-all').on('click', function(event) {
+    $(document).on('click', '.col-batch-action-header.uncheck-all', function(event) {
         $('.col-batch-action-selector.action').each(function() {
             var checkbox = $('input[type="checkbox"]', $(this));
             checkbox.attr('checked', false);
         });
     });
-    $('#action_execute_batch_action').on('click', function(event) {
+    $(document).on('click', '#action_execute_batch_action', function(event) {
         var valid       = true,
             button      = $(this).closest('.grid-batch-action-button'),
             select      = $('select', button),
@@ -51,7 +51,7 @@
         }
         return valid;
     });
-    $('.grid-batch-action-button select.grid-batch-action-selector').on('change', function(event) {
+    $(document).on('change', '.grid-batch-action-button select.grid-batch-action-selector', function(event) {
         scBatchActionRecordName = $(event.target).closest('fieldset.ss-gridfield').attr('data-name');
         showScBatchActionLoadingBar(function() {
             $('.grid-batch-action-callback-target').html('');

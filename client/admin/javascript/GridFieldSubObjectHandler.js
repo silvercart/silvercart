@@ -1,5 +1,5 @@
 (function($) {
-    $('.col-add-sub-object.action').on('click', function(event) {
+    $(document).on('click', '.col-add-sub-object.action', function(event) {
         if (($(event.target).hasClass('action') &&
              $(event.target).hasClass('add-sub-object-button')) ||
             $('button.action.add-sub-object-button').has(event.target).length > 0) {
@@ -17,7 +17,7 @@
             return false;
         }
     });
-    $('.sub-list-record-action').on('click', function() {
+    $(document).on('click', '.sub-list-record-action', function() {
         var subList       = $(this).closest('.sub-list'),
             subListRecord = $(this).closest('.sub-list-record'),
             subListRecordAction = $(this),
