@@ -7,6 +7,7 @@ use GeoIp2\Database\Reader as GeoIp2Reader;
 use IntlDateFormatter;
 use ReflectionClass;
 use SilverCart\Admin\Model\Config;
+use SilverCart\IPLocator\IPLocator;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Pages\Page;
@@ -1356,6 +1357,9 @@ class Tools implements TemplateGlobalProvider
      */
     public static function IPCity(string $ip) : string
     {
+        if (class_exists(IPLocator::class)) {
+            return IPLocator::getCity($ip);
+        }
         if (!class_exists(GeoIp2Reader::class)) {
             return '';
         }
@@ -1385,6 +1389,9 @@ class Tools implements TemplateGlobalProvider
      */
     public static function IPCountry(string $ip) : string
     {
+        if (class_exists(IPLocator::class)) {
+            return IPLocator::getCountry($ip);
+        }
         if (!class_exists(GeoIp2Reader::class)) {
             return '';
         }

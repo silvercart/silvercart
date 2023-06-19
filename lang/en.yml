@@ -186,6 +186,7 @@ en:
     IncludingTax: 'incl. VAT'
     LastEdited: 'Last edited'
     NextPage: 'Next page'
+    NotDetectable : 'Not detectable'
     OurPaymentPartners: 'Our payment methods'
     OurShipmentPartners: 'Our shipment partners'
     Plus: Plus
@@ -581,6 +582,9 @@ en:
     Info2Singular: '{totalItems} items on {totalPages} page'
     Info2SingularSingular: '{totalItems} item on {totalPages} page'
     InfoFirstIsLast: 'Page {currentPage}, item {firstItem} - {lastItem}'
+  SilverCart\Extensions\Security\LoginAttemptExtension:
+    City: City
+    Country: Country
   SilverCart\Forms\ChangeLanguageForm:
     CHOOSE: choose
     LANGUAGE: Language
@@ -645,6 +649,14 @@ en:
     OrderNumber: 'Order number'
     RevocationDate: 'Date of revocation'
     RevocationOrderData: 'I/We hereby revoke the concluded contract for buying the following goods / the performance of the following services'
+  SilverCart\Jobs\AssignProductKeywordsJob:
+    Title: 'Assign Product Keywords'
+  SilverCart\Jobs\CleanDatabaseJob:
+    Title: 'Database Cleanup'
+  SilverCart\Jobs\DeleteCustomersJob:
+    Title: 'Delete marked Customer Accounts'
+  SilverCart\Jobs\ResetStockJob:
+    Title: 'Check Corrections'
   SilverCart\Model\BlacklistEntry:
     Content: Content
     ContentDesc: 'A contact message will be marked as spam if its content matches this text.'
@@ -1775,6 +1787,7 @@ en:
     MetaTitleRightTitle: 'The meta title is a SEO relevant value and should not exceed 64 characters. The meta title will be used for Google hits, browser tab titles and more.'
     MetaTitleShort: 'Meta title short'
     MetaTitleShortDesc: 'Will be used for sub pages like new products, popular products and pre-orderable products.'
+    MirrorProducts: 'Mirrored Products'
     NewProducts: 'New Products'
     NewProductsIn: 'New Products in {productgroup}'
     NewProductsLinkTitle: 'Show all new products'

@@ -186,6 +186,7 @@ de:
     IncludingTax: 'inkl. MwSt.'
     LastEdited: 'Zuletzt geändert am'
     NextPage: 'Nächste Seite'
+    NotDetectable : 'Nicht feststellbar'
     OurPaymentPartners: 'Ihre Zahlungsmöglichkeiten'
     OurShipmentPartners: 'Unsere Versandpartner'
     Plus: 'Zzgl.'
@@ -583,6 +584,9 @@ de:
     Info2Singular: '{totalItems} Einträge auf {totalPages} Seite'
     Info2SingularSingular: '{totalItems} Eintrag auf {totalPages} Seite'
     InfoFirstIsLast: 'Seite {currentPage}, Eintrag {firstItem}'
+  SilverCart\Extensions\Security\LoginAttemptExtension:
+    City: Ort
+    Country: Land
   SilverCart\Forms\ChangeLanguageForm:
     CHOOSE: wählen
     LANGUAGE: Sprache
@@ -647,6 +651,14 @@ de:
     OrderNumber: Bestellnummer
     RevocationDate: 'Datum des Widerrufs'
     RevocationOrderData: 'Hiermit widerrufe(n) ich/wir den von mir/uns abgeschlossenen Vertrag über den Kauf der folgenden Waren / die Erbringung der folgenden Dienstleistung'
+  SilverCart\Jobs\AssignProductKeywordsJob:
+    Title: 'Aktualisierung Artikel-Keywords'
+  SilverCart\Jobs\CleanDatabaseJob:
+    Title: Datenbankbereinigung
+  SilverCart\Jobs\DeleteCustomersJob:
+    Title: 'Markierte Kundenkonten löschen'
+  SilverCart\Jobs\ResetStockJob:
+    Title: Bestandskorrektur
   SilverCart\Model\BlacklistEntry:
     Content: Inhalt
     ContentDesc: 'Entspricht der Inhalt einer Kontaktanfrage diesem Text, wird die Anfrage als Spam markiert.'
@@ -1776,6 +1788,7 @@ de:
     MetaTitleRightTitle: 'Der Meta Titel ist SEO relevant und sollte 64 Zeichen nicht überschreiten. Er wird bspw. zur Anzeige von Google Treffern oder als Bezeichnung in Browser-Tabs verwendet.'
     MetaTitleShort: 'Meta Titel Kurzform'
     MetaTitleShortDesc: 'Wird z.B. bei Neuheiten, beliebten Artikeln und Vorbestellern verwendet.'
+    MirrorProducts: 'Gespiegelte Artikel'
     NewProducts: Neuheiten
     NewProductsIn: '{productgroup} Neuheiten'
     NewProductsLinkTitle: 'Alle Neuheiten anzeigen'
