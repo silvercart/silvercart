@@ -121,7 +121,7 @@ class SearchResultsPageController extends ProductGroupPageController
      *
      * @return void
      */
-    public static function addSearchContext(strng $objectClass) : void
+    public static function addSearchContext(string $objectClass) : void
     {
         if (class_exists($objectClass)
          && !in_array($objectClass, self::getRegisteredSearchContexts())
@@ -347,12 +347,16 @@ class SearchResultsPageController extends ProductGroupPageController
         $searchTerms                = explode(' ', $searchQuery);
         $filter                     = '';
         $useExtensionResults        = $this->extend('updateSearchResult', $searchResultProducts, $searchQuery, $SQL_start);
+        $softSearchFilter           = '';
 
         if (empty($searchQuery)) {
             $searchResultProducts = PaginatedList::create(ArrayList::create());
         } elseif (empty($useExtensionResults)) {
             $productStageTable             = Product::singleton()->getStageTableName();
             $productTranslationStageTable  = ProductTranslation::singleton()->getStageTableName();
+            if (count($searchTerms) > 1) {
+                $softSearchFilter = $this->getSoftSearchFilter($searchTerms);
+            }
             $this->listFilters['original'] = ""
                     . "{$productStageTable}.ProductGroupID IS NOT NULL"
                     . " AND {$productStageTable}.ProductGroupID > 0"
@@ -371,10 +375,8 @@ class SearchResultsPageController extends ProductGroupPageController
                         . " OR {$productStageTable}.ProductNumberShop LIKE '%{$searchQuery}%'"
                         . " OR {$productStageTable}.EANCode LIKE '%{$searchQuery}%'"
                         . " OR STRCMP(SOUNDEX({$productTranslationStageTable}.Title), SOUNDEX('{$searchQuery}')) = 0"
+                        . " {$softSearchFilter}"
                     . " )";
-            if (count($searchTerms) > 1) {
-                $this->listFilters['original-soft'] = $this->getSoftSearchFilter($searchTerms);
-            }
 
             if (count(self::$registeredFilterPlugins) > 0) {
                 foreach (self::$registeredFilterPlugins as $registeredPlugin) {
