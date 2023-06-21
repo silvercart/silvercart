@@ -312,9 +312,9 @@ class Product extends DataObject implements PermissionProvider
     /**
      * Grant API access on this item.
      *
-     * @var bool
+     * @var bool|array
      */
-    private static bool $api_access = true;
+    private static bool|array $api_access = true;
     /**
      * If a products stock quantity is below this value, it's shown as low.
      *

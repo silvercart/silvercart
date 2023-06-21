@@ -83,6 +83,12 @@ class ProductTranslation extends DataObject
         //Versioned::class . ".versioned",
         //VersionedDataObject::class,
     ];
+    /**
+     * Grant API access on this item.
+     *
+     * @var bool|array
+     */
+    private static bool|array $api_access = true;
     
     /**
      * Returns the translated singular name of the object. If no translation exists
