@@ -2,6 +2,7 @@
 
 namespace SilverCart\Jobs;
 
+use SilverCart\Admin\Model\Config as SilverCartConfig;
 use SilverCart\Services\ResetStockService;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Injector\Injectable;
@@ -94,6 +95,9 @@ class ResetStockJob extends AbstractQueuedJob
      */
     private function queueNextJob() : void
     {
+        if (!SilverCartConfig::EnableStockManagement()) {
+            return;
+        }
         $startTime = time() + self::config()->job_interval;
         QueuedJobService::singleton()->queueJob(
             self::create(),
