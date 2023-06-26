@@ -241,6 +241,12 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     protected $doesNotHaveToPayTaxes = [];
     /**
+     * Skip change password info message?
+     * 
+     * @var bool
+     */
+    protected bool $skipChangePasswordInfo = false;
+    /**
      * DB attributes
      *
      * @return array
@@ -1576,7 +1582,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
      */
     public function onAfterChangePassword(string $password, ValidationResult $result) : void
     {
-        if (!$result->isValid()) {
+        if (!$result->isValid()
+         || $this->skipChangePasswordInfo
+        ) {
+            $this->skipChangePasswordInfo = false;
             return;
         }
         $ctrl    = ModelAsController::controller_for(Page::singleton());
@@ -1593,6 +1602,17 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             $result->addMessage($message);
             $ctrl->setInfoMessage($message);
         }
+    }
+
+    /**
+     * Sets the @see $this->skipChangePasswordInfo to true.
+     * 
+     * @return Member
+     */
+    public function skipChangePasswordInfo() : Member
+    {
+        $this->skipChangePasswordInfo = true;
+        return $this->owner;
     }
 
     /**
