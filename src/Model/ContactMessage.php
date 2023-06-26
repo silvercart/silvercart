@@ -12,10 +12,14 @@ use SilverCart\Model\Forms\FormFieldValue;
 use SilverCart\Model\Pages\ContactFormPage\Subject;
 use SilverCart\Model\ShopEmail;
 use SilverCart\ORM\DataObjectExtension;
+use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\ORM\HasManyList;
 use SilverStripe\Security\Member;
+use function _t;
 
 /**
  * A contact message object. There's a storeadmin view for this object, too.
@@ -40,11 +44,11 @@ use SilverStripe\Security\Member;
  * @method Member  Member()         Returns the related Member.
  * @method Subject ContactMessage() Returns the related Subject.
  * 
- * @method \SilverStripe\ORM\HasManyList FormFieldValues() Returns the related FormFieldValues.
+ * @method HasManyList FormFieldValues() Returns the related FormFieldValues.
  */
 class ContactMessage extends DataObject
 {
-    use \SilverCart\ORM\ExtensibleDataObject;
+    use ExtensibleDataObject;
     /**
      * Configuration parameter to determine whether to send an acknowledgement of
      * receipt to the customer or not.
@@ -117,6 +121,17 @@ class ContactMessage extends DataObject
      * @var string
      */
     private static $table_name = 'SilvercartContactMessage';
+    /**
+     * Searchable fields.
+     * 
+     * @var array
+     */
+    private static array $searchable_fields = [
+        'Email',
+        'FirstName',
+        'Surname',
+        'Created',
+    ];
     
     /**
      * Returns the translated singular name.
@@ -364,6 +379,7 @@ class ContactMessage extends DataObject
     public function getCMSFields() : FieldList
     {
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            $fields->insertBefore(ReadonlyField::create('CreatedNice', $this->fieldLabel('Created'), $this->CreatedNice), 'SubjectText');
             $salutationDropdown = DropdownField::create('Salutation', $this->fieldLabel('Salutation'), Tools::getSalutationMap());
             $fields->insertBefore($salutationDropdown, 'FirstName');
             if (empty($this->SubjectText)) {
