@@ -85,7 +85,7 @@ class ContactMessageAdmin extends ModelAdmin
      */
     public function getList() : DataList
     {
-        return $this->getTabbedList($this->getCurrentTab());
+        return $this->getTabbedList((string) $this->getCurrentTab());
     }
     
     /**
@@ -101,7 +101,7 @@ class ContactMessageAdmin extends ModelAdmin
     protected function getTabbedList(string $tab, string $modelClass = null) : DataList
     {
         $restoreModelClass = null;
-        if (class_exists($modelClass)) {
+        if (class_exists((string) $modelClass)) {
             $restoreModelClass = $this->modelClass;
             $this->modelClass  = $modelClass;
         }
@@ -110,7 +110,7 @@ class ContactMessageAdmin extends ModelAdmin
         } else {
             $list = parent::getList();
         }
-        if (class_exists($restoreModelClass)) {
+        if (class_exists((string) $restoreModelClass)) {
             $this->modelClass  = $restoreModelClass;
         }
         return $list;
