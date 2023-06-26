@@ -10,6 +10,7 @@ use SilverCart\Forms\RegisterRegularCustomerForm;
 use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverStripe\Control\Director;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
@@ -158,14 +159,11 @@ class RegistrationPageController extends PageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return DBHTMLText|null
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2019
+     * @return HTTPResponse
      */
-    public function optinfailed(HTTPRequest $request) : ?DBHTMLText
+    public function optinfailed(HTTPRequest $request) : HTTPResponse
     {
-        return $this->defaultOptInHandling();
+        return $this->defaultOptInHandling($request);
     }
     
     /**
@@ -173,14 +171,11 @@ class RegistrationPageController extends PageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return DBHTMLText|null
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2019
+     * @return HTTPResponse
      */
-    public function optinpending(HTTPRequest $request) : ?DBHTMLText
+    public function optinpending(HTTPRequest $request) : HTTPResponse
     {
-        return $this->defaultOptInHandling();
+        return $this->defaultOptInHandling($request);
     }
     
     /**
@@ -188,14 +183,11 @@ class RegistrationPageController extends PageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return DBHTMLText|null
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2019
+     * @return HTTPResponse
      */
-    public function welcome(HTTPRequest $request) : ?DBHTMLText
+    public function welcome(HTTPRequest $request) : HTTPResponse
     {
-        return $this->defaultOptInHandling();
+        return $this->defaultOptInHandling($request);
     }
     
     /**
@@ -203,24 +195,23 @@ class RegistrationPageController extends PageController
      * 
      * @param HTTPRequest $request Request
      * 
-     * @return DBHTMLText|null
-     * 
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 03.07.2019
+     * @return HTTPResponse
      */
-    public function defaultOptInHandling() : ?DBHTMLText
+    public function defaultOptInHandling(HTTPRequest $request) : HTTPResponse
     {
         $customer = Security::getCurrentUser();
         if ($customer instanceof Member
          && $customer->RegistrationOptInConfirmed
         ) {
             $link = Tools::Session()->get(self::SESSION_KEY_HTTP_REFERER);
-            if (empty($link)) {
+            if (empty($link)
+             || Director::absoluteURL($link) === Director::absoluteURL($request->getURL())
+            ) {
                 $link = $this->PageByIdentifierCodeLink(SilverCartPage::IDENTIFIER_MY_ACCOUNT_HOLDER);
             }
-            $this->redirect($link);
+            return $this->redirect($link);
         }
-        return $this->render();
+        return HTTPResponse::create()->setBody($this->render());
     }
     
     /**
