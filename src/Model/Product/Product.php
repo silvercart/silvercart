@@ -976,9 +976,6 @@ class Product extends DataObject implements PermissionProvider
      * Returns whether the first image of this product has a landscape orientation.
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 28.06.2017
      */
     public function hasLandscapeOrientationImage() : bool
     {
@@ -1014,9 +1011,6 @@ class Product extends DataObject implements PermissionProvider
      * @param Member $member Member to check
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.09.2014
      */
     public function canCreate($member = null, $context = []) : bool
     {
@@ -1031,9 +1025,6 @@ class Product extends DataObject implements PermissionProvider
      * @param Member $member Member to check
      *
      * @return bool
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.11.2014
      */
     public function canEdit($member = null) : bool
     {
@@ -1056,10 +1047,6 @@ class Product extends DataObject implements PermissionProvider
      * @param Member $member the current member
      *
      * @return bool
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 20.02.2013
      */
     public function canView($member = null) : bool
     {
@@ -1075,6 +1062,31 @@ class Product extends DataObject implements PermissionProvider
             $canView = false;
         }
         return $canView;
+    }
+    
+    /**
+     * Returns whether this product can be added to cart.
+     *
+     * @param Member|null $member Member
+     * 
+     * @return bool
+     */
+    public function canAddToCart(Member|null $member = null) : bool
+    {
+        $extended = $this->extendedCan('canAddToCart', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        $can = true;
+        if (!$this->isActive
+         || $this->IsNotBuyable
+         || !$this->ProductGroup()->exists()
+         || !$this->isBuyableDueToStockManagementSettings()
+        ) {
+            $can = false;
+        }
+        $this->extend('updateCanAddToCart', $can);
+        return $can;
     }
 
     /**
@@ -1455,9 +1467,6 @@ class Product extends DataObject implements PermissionProvider
      * the filter to use to get a product list.
      *
      * @return string
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 06.10.2018
      */
     public static function buildRequiredAttributesFilter() : string
     {
@@ -1732,10 +1741,6 @@ class Product extends DataObject implements PermissionProvider
      * @param array $params Parameters to manipulate the scaffolding
      *
      * @return FieldList
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.12.2013
      */
     public function scaffoldFormFields($params = null) : FieldList
     {
@@ -2122,9 +2127,6 @@ class Product extends DataObject implements PermissionProvider
      * This is a performance friendly way to exclude fields.
      *
      * @return array
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 11.03.2013
      */
     public function excludeFromScaffolding() : array
     {
@@ -2317,9 +2319,6 @@ class Product extends DataObject implements PermissionProvider
      * Creates the upload folder for Product images if it doesn't exist.
      *
      * @return Folder
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.10.2018
      */
     public static function getImageUploadFolder() : Folder
     {
@@ -2338,9 +2337,6 @@ class Product extends DataObject implements PermissionProvider
      * Creates the upload folder for Product files if it doesn't exist.
      *
      * @return Folder
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 19.10.2018
      */
     public static function getFileUploadFolder() : Folder
     {
@@ -2403,9 +2399,6 @@ class Product extends DataObject implements PermissionProvider
      * @param string $attribute The attribute to add
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 17.12.2012
      */
     public static function addRequiredAttribute(string $attribute) : void
     {
@@ -2422,9 +2415,6 @@ class Product extends DataObject implements PermissionProvider
      * @param string $attributeName The name of the attribute to blacklist
      *
      * @return void
-     *
-     * @author Sascha Koehler <skoehler@pixeltricks.de>
-     * @since 28.03.2012
      */
     public static function blacklistRequiredAttribute($attributeName) : void
     {
@@ -2439,9 +2429,6 @@ class Product extends DataObject implements PermissionProvider
      * @param string $attributeName The name of the attribute to remove
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 02.04.2019
      */
     public static function removeRequiredAttribute($attributeName) : void
     {
@@ -2455,9 +2442,6 @@ class Product extends DataObject implements PermissionProvider
      * Resets the required attributes list.
      *
      * @return void
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 25.01.2013
      */
     public static function resetRequiredAttributes() : void
     {
@@ -2526,9 +2510,6 @@ class Product extends DataObject implements PermissionProvider
      * Remove chars from the title that are not appropriate for an url
      *
      * @return string
-     *
-     * @author Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 23.10.2010
      */
     private function title2urlSegment() : string
     {
@@ -2562,19 +2543,14 @@ class Product extends DataObject implements PermissionProvider
      * -If the stock quantity of a product is NOT overbookable and the products
      *  stock quantity is less than zero false will be returned.
      *
-     * @param int     $cartID    ID of the users shopping cart
-     * @param float   $quantity  Amount of products to be added
-     * @param boolean $increment Set to true to increment the quantity instead
+     * @param int   $cartID    ID of the users shopping cart
+     * @param float $quantity  Amount of products to be added
+     * @param bool  $increment Set to true to increment the quantity instead
      *                           of setting it absolutely
      *
-     * @return ShoppingCartPosition
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>,
-     *         Sascha Koehler <skoehler@pixeltricks.de>,
-     *         Roland Lehmann <rlehmann@pixeltricks.de>
-     * @since 30.08.2018
+     * @return ShoppingCartPosition|null
      */
-    public function addToCart($cartID, $quantity = 1, $increment = false) : ?ShoppingCartPosition
+    public function addToCart($cartID, $quantity = 1, $increment = false) : ShoppingCartPosition|null
     {
         $addToCartAllowed     = true;
         $isNewPosition        = false;
@@ -2583,11 +2559,10 @@ class Product extends DataObject implements PermissionProvider
 
         $this->extend('updateAddToCart', $cartID, $quantity, $increment, $addToCartAllowed, $shoppingCartPosition);
 
-        if ($this->IsNotBuyable
+        if (!$this->canAddToCart()
          || $quantity == 0
          || $cartID == 0
          || !$addToCartAllowed
-         || !$this->isBuyableDueToStockManagementSettings()
         ) {
             return $shoppingCartPosition;
         }

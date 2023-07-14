@@ -2,7 +2,6 @@
 
 namespace SilverCart\Model\Order;
 
-use LogicException;
 use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Admin\Forms\MultiDropdownField;
 use SilverCart\Admin\Forms\TableField;
@@ -21,6 +20,8 @@ use SilverCart\Model\Order\OrderShippingAddress;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\AddressHolder;
+use SilverCart\Model\Pages\OrderHolder;
+use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Pages\Page as SilverCartPage;
 use SilverCart\Model\Payment\HandlingCost;
 use SilverCart\Model\Payment\PaymentMethod;
@@ -51,7 +52,6 @@ use SilverStripe\Forms\GridField\GridFieldConfig_Base;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\HeaderField;
-use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TextField;
@@ -378,6 +378,36 @@ class Order extends DataObject implements PermissionProvider
     public function canDelete($member = null) : bool
     {
         return Permission::checkMember($member, self::PERMISSION_DELETE);
+    }
+
+    /**
+     * Indicates wether at least one of the products can be reordered.
+     *
+     * @param Member|null $member Member
+     *
+     * @return bool
+     */
+    public function canReorder(Member|null$member = null) : bool
+    {
+        $extended = $this->extendedCan('canReorder', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        $holder = Page::PageByIdentifierCode('SilvercartOrderHolder');
+        $can    = false;
+        if ($holder instanceof OrderHolder
+         && $holder->AllowReorder
+        ) {
+            foreach ($this->OrderPositions() as $position) {
+                /* @var $position OrderPosition */
+                if ($position->canReorder()) {
+                    $can = true;
+                    break;
+                }
+            }
+        }
+        $this->extend('updateCanReorder', $can);
+        return $can;
     }
 
     /**

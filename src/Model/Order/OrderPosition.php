@@ -6,6 +6,7 @@ use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Dev\Tools;
 use SilverCart\Extensions\Model\DataValuable;
 use SilverCart\Model\Order\Order;
+use SilverCart\Model\Pages\OrderHolder;
 use SilverCart\Model\Pages\Page;
 use SilverCart\Model\Product\Product;
 use SilverCart\Model\Product\QuantityUnit;
@@ -205,12 +206,9 @@ class OrderPosition extends DataObject
      * 
      * @param Member $member current member
      *
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @return bool
      */
-    public function canView($member = null)
+    public function canView($member = null) : bool
     {
         return $this->Order()->canView($member);
     }
@@ -220,12 +218,9 @@ class OrderPosition extends DataObject
      * 
      * @param Member $member current member
      *
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @return bool
      */
-    public function canEdit($member = null)
+    public function canEdit($member = null) : bool
     {
         return $this->Order()->canEdit($member);
     }
@@ -235,14 +230,32 @@ class OrderPosition extends DataObject
      * 
      * @param Member $member current member
      *
-     * @return boolean
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 13.07.2012
+     * @return bool
      */
-    public function canDelete($member = null)
+    public function canDelete($member = null) : bool
     {
         return $this->Order()->canDelete($member);
+    }
+
+    /**
+     * Indicates wether the product can be reordered.
+     *
+     * @param Member|null $member Member
+     *
+     * @return bool
+     */
+    public function canReorder(Member|null $member = null) : bool
+    {
+        $extended = $this->extendedCan('canReorder', $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        $holder = Page::PageByIdentifierCode('SilvercartOrderHolder');
+        $can    = $holder instanceof OrderHolder
+               && $holder->AllowReorder
+               && $this->Product()->canAddToCart();
+        $this->extend('updateCanReorder', $can);
+        return $can;
     }
     
     /**
@@ -264,9 +277,6 @@ class OrderPosition extends DataObject
      * Summaryfields for display in tables.
      *
      * @return array
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 15.06.2012
      */
     public function summaryFields() : array
     {

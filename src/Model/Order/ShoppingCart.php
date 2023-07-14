@@ -337,12 +337,19 @@ class ShoppingCart extends DataObject
      */
     protected function cleanUp() : void
     {
+        /* @var $position ShoppingCartPosition */
         $this->extend('onBeforeCleanUp');
         $positionTable = ShoppingCartPosition::config()->table_name;
+        $productTable  = Product::singleton()->getStageTableName();
         $positionIDs   = DB::query("SELECT ID FROM {$positionTable} WHERE {$positionTable}.ShoppingCartID = {$this->ID} AND (ProductID = 0 OR Quantity = 0)");
         if ($positionIDs->numRecords() > 0) {
             foreach ($positionIDs as $positionID) {
                 $position = ShoppingCartPosition::get()->byID($positionID);
+                $position->delete();
+            }
+        }
+        foreach (ShoppingCartPosition::get()->filter('ShoppingCartID', $this->ID) as $position) {
+            if (!$position->Product()->canAddToCart()) {
                 $position->delete();
             }
         }

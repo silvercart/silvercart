@@ -105,6 +105,9 @@ class OrderHolderController extends MyAccountHolderController
         if ($response instanceof HTTPResponse) {
             return $response;
         }
+        if (!$order->canReorder()) {
+            return $this->redirectBack();
+        }
         $this->doPlaceOrder();
         $customer        = Security::getCurrentUser();
         $order           = $this->CustomersOrder();
@@ -178,9 +181,15 @@ class OrderHolderController extends MyAccountHolderController
         $customer = Security::getCurrentUser();
         $order    = $this->CustomersOrder();
         $cartID   = $customer->getCart()->ID;
+        if (!$order->canReorder()) {
+            return;
+        }
         if ($orderPosition === null) {
             foreach ($order->OrderPositions() as $orderPosition) {
                 /* @var $orderPosition \SilverCart\Model\Order\OrderPosition */
+                if (!$orderPosition->canReorder()) {
+                    continue;
+                }
                 if ($orderPosition->Product()->exists()) {
                     $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
                 } else {
@@ -193,6 +202,9 @@ class OrderHolderController extends MyAccountHolderController
                 }
             }
         } else {
+            if (!$orderPosition->canReorder()) {
+                return;
+            }
             if ($orderPosition->Product()->exists()) {
                 $orderPosition->Product()->addToCart($cartID, $orderPosition->Quantity);
             } else {
