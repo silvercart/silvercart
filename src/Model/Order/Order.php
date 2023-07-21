@@ -671,7 +671,7 @@ class Order extends DataObject implements PermissionProvider
      */
     public function getTitle()
     {
-        $title = $this->fieldLabel('OrderNumber') . ': ' . $this->OrderNumber . ' | ' . $this->fieldLabel('Created') . ': ' . date($this->fieldLabel('DateFormat'), strtotime($this->Created)) . ' | ' . $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
+        $title = $this->fieldLabel('OrderNumber') . ': ' . $this->OrderNumber . ' | ' . $this->fieldLabel('Created') . ': ' . date((string) $this->fieldLabel('DateFormat'), strtotime((string) $this->Created)) . ' | ' . $this->fieldLabel('AmountTotal') . ': ' . $this->AmountTotal->Nice();
         $this->extend('updateTitle', $title);
         return $title;
     }
