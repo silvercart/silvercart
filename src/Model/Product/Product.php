@@ -102,7 +102,7 @@ use function utf8_encode;
  * @property bool       $isActive                    Is this product active?
  * @property bool       $HideFromSearchResults       Hide from search results?
  * @property bool       $IsNotBuyable                Is Not Buyable
- * @property string     $ProductNumberShop Product   Number Shop
+ * @property string     $ProductNumberShop           Product Number Shop
  * @property string     $ProductNumberManufacturer   Product Number Manufacturer
  * @property string     $EANCode                     EAN Code
  * @property DBMoney    $PriceGross                  Price Gross
@@ -123,6 +123,8 @@ use function utf8_encode;
  * @property bool       $ExcludeFromPaymentDiscounts Exclude From Payment Discounts
  * @property DBText     $Keywords                    Keywords
  * @property int        $DefaultSortOrder            Default Sort Order
+ * @property string     $ProductNumberWithTitle      Product Number with Title
+ * @property string     $ProductNumberWithTitleAndID Product Number with Title and ID
  *
  * @property int $TaxID                Tax ID
  * @property int $ManufacturerID       Manufacturer ID
@@ -4545,5 +4547,25 @@ class Product extends DataObject implements PermissionProvider
     public function getUpdateStockQuantityReason() : string
     {
         return $this->updateStockQuantityReason;
+    }
+    
+    /**
+     * Returns the product number with title
+     * 
+     * @return string
+     */
+    public function getProductNumberWithTitle() : string
+    {
+        return "{$this->ProductNumberShop}: {$this->Title}";
+    }
+    
+    /**
+     * Returns the product number with title and ID
+     * 
+     * @return string
+     */
+    public function getProductNumberWithTitleAndID() : string
+    {
+        return "{$this->ProductNumberWithTitle} [#{$this->ID}]";
     }
 }
