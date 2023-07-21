@@ -286,6 +286,7 @@ class SearchResultsPageController extends ProductGroupPageController
         $product = Product::get_by_product_number((string) $this->getSearchQuery());
         if ($product instanceof Product
          && $product->exists()
+         && !$product->HideFromSearchResults
         ) {
             return $this->redirect($product->Link());
         }
