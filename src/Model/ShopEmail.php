@@ -133,6 +133,12 @@ class ShopEmail extends DataObject implements PermissionProvider
      */
     private static string $dev_email_recipient = '';
     /**
+     * Disables the Email transport.
+     *
+     * @var bool
+     */
+    private static bool $disable_email_transport = false;
+    /**
      * List of the email templates.
      *
      * @var array
@@ -862,6 +868,9 @@ class ShopEmail extends DataObject implements PermissionProvider
         $email->setFrom(Config::EmailSender(), Config::EmailSenderName());
         if (!is_null($attachments)) {
             self::attachFiles($email, $attachments);
+        }
+        if (self::config()->disable_email_transport === true) {
+            return false;
         }
         return $email->send();
     }
