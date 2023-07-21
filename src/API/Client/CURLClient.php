@@ -45,6 +45,12 @@ class CURLClient extends Client
      */
     private static $use_curl_authentification = true;
     /**
+     * Enable verbose logging?
+     *
+     * @var bool
+     */
+    private static bool $enable_verbose_logging = false;
+    /**
      * Last API request string
      *
      * @var string
@@ -224,6 +230,30 @@ class CURLClient extends Client
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         }
         $response = curl_exec($ch);
+        if (self::config()->enable_verbose_logging) {
+            $protocol   = curl_getinfo($ch, CURLINFO_PROTOCOL);
+            $logString  = '';
+            $logString .= PHP_EOL;
+            $logString  = 'Request data:';
+            $logString .= PHP_EOL;
+            $logString .= "HTTP {$protocol} {$method} {$url}" . PHP_EOL;
+            $logString .= PHP_EOL;
+            if (!empty($headers)) {
+                $logString .= "HEADERS:" . PHP_EOL;
+                foreach ($headers as $header) {
+                    $logString .= "{$header}" . PHP_EOL;
+                }
+                $logString .= PHP_EOL;
+            }
+            if (!empty($postFields)) {
+                $logString .= "POST:" . PHP_EOL;
+                foreach ($postFields as $postFieldName => $postFieldValue) {
+                    $logString .= "{$postFieldName}: {$postFieldValue}" . PHP_EOL;
+                }
+                $logString .= PHP_EOL;
+            }
+            $this->log($logString, 'verbose');
+        }
         $info     = curl_getinfo($ch);
         $error    = curl_error($ch);
         $errno    = curl_errno($ch);
