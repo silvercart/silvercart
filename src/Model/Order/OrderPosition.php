@@ -557,7 +557,7 @@ class OrderPosition extends DataObject
         } elseif (!$this->objectCreated) {
             $this->saveChanges($changedFields);
         }
-        $this->Title = strip_tags($this->Title);
+        $this->Title = strip_tags((string) $this->Title);
         $this->extend('updateOnBeforeWrite', $changedFields, $this->doRecalculate);
         parent::onBeforeWrite();
     }
