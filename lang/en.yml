@@ -194,6 +194,7 @@ en:
     PlusTax: 'plus {amount}% VAT'
     PrevPage: 'Previous page'
     Print: Print
+    Priority: Priority
     ProductAddedToCart: 'The product was added to your cart.'
     ProductRemovedFromCart: 'The product was removed from your cart.'
     Show: Show

@@ -46,24 +46,11 @@ class SearchResultsPageController extends ProductGroupPageController
         'ProductGroupPageSelectorsForm',
     ];
     /**
-     * Contains a list of all registered filter plugins.
-     *
-     * @var array
-     */
-    public static $registeredFilterPlugins = [];
-    /**
      * pagination start value
      * 
      * @var integer 
      */
     protected $SQL_start = 0;
-    /**
-     * Contains filters for the SQL query that retrieves the products for this
-     * page.
-     *
-     * @var array
-     */
-    protected $listFilters = [];
     /**
      * Contains the list of found products for this search. This is used for
      * caching purposes.
@@ -206,23 +193,6 @@ class SearchResultsPageController extends ProductGroupPageController
     public function IsDefaultSearchContext() : bool
     {
         return $this->getCurrentSearchContext() === Product::class;
-    }
-
-    /**
-     * Registers an object as a filter plugin. Before getting the result set
-     * the method 'filter' is called on the plugin. It has to return an array
-     * with filters to deploy on the query.
-     *
-     * @param string $plugin The filter plugin object name
-     *
-     * @return void
-     */
-    public static function registerFilterPlugin(string $plugin) : void
-    {
-        $reflectionClass = new ReflectionClass($plugin);
-        if ($reflectionClass->hasMethod('filter')) {
-            self::$registeredFilterPlugins[] = new $plugin();
-        }
     }
     
     /**

@@ -7,6 +7,7 @@ use SilverCart\Dev\SeoTools;
 use SilverCart\Dev\Tools;
 use SilverCart\Forms\FormFields\FieldGroup;
 use SilverCart\Model\Pages\ProductGroupPage;
+use SilverCart\Model\Product\Product;
 use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\View\GroupView\GroupViewHandler;
 use SilverStripe\CMS\Model\RedirectorPage;
@@ -33,7 +34,7 @@ use function _t;
  * @since 28.09.2017
  * @copyright 2017 pixeltricks GmbH
  * @license see license file in modules root directory
- * 
+ *
  * @property int    $productGroupsPerPage          product Groups Per Page
  * @property string $DefaultGroupHolderView        Default Group Holder View
  * @property string $UseOnlyDefaultGroupHolderView Use Only Default Group Holder View
@@ -41,7 +42,7 @@ use function _t;
  * @property string $UseOnlyDefaultGroupView       Use Only Default Group View
  * @property bool   $RedirectToProductGroup        Redirect To Product Group
  * @property bool   $DoNotShowProducts             Do Not Show Products
- * 
+ *
  * @method SiteTree LinkTo() Returns the related page to link to.
  */
 class ProductGroupHolder extends Page
@@ -86,7 +87,7 @@ class ProductGroupHolder extends Page
     ];
     /**
      * Class attached to page icons in the CMS page tree. Also supports font-icon set.
-     * 
+     *
      * @var string
      */
     private static string $icon_class = 'font-icon-p-gallery';
@@ -98,13 +99,13 @@ class ProductGroupHolder extends Page
     protected $getCMSFieldsIsCalled = false;
     /**
      * Cache key parts for this product group
-     * 
-     * @var array 
+     *
+     * @var array
      */
     protected array|null $cacheKeyParts = null;
     /**
      * Cache key for this product group
-     * 
+     *
      * @var string
      */
     protected string|null$cacheKey = null;
@@ -150,7 +151,7 @@ class ProductGroupHolder extends Page
         });
         return parent::fieldLabels($includerelations);
     }
-    
+
     /**
      * Return all fields of the backend.
      *
@@ -213,10 +214,10 @@ class ProductGroupHolder extends Page
         $this->getCMSFieldsIsCalled = true;
         return parent::getCMSFields();
     }
-    
+
     /**
      * Returns a dynamic meta description.
-     * 
+     *
      * @return string
      */
     public function getMetaDescription()
@@ -243,7 +244,7 @@ class ProductGroupHolder extends Page
     /**
      * Return the link that we should redirect to.
      * Only return a value if there is a legal redirection destination.
-     * 
+     *
      * @return void
      */
     public function redirectionLink()
@@ -273,7 +274,7 @@ class ProductGroupHolder extends Page
 
     /**
      * Returns the cache key parts for this product group holder
-     * 
+     *
      * @return array
      */
     public function CacheKeyParts() : array
@@ -293,16 +294,17 @@ class ProductGroupHolder extends Page
                 GroupViewHandler::getActiveGroupHolderView(),
                 $lastEditedChildID,
                 array_key_exists('start', $_GET) ? $_GET['start'] : 0,
+                str_replace('-', '_', Tools::string2urlSegment(Product::defaultSort())),
             ];
             $this->extend('updateCacheKeyParts', $cacheKeyParts);
             $this->cacheKeyParts = $cacheKeyParts;
         }
         return (array) $this->cacheKeyParts;
     }
-    
+
     /**
      * Returns the cache key for this product group holder
-     * 
+     *
      * @return string
      */
     public function CacheKey() : string
@@ -314,20 +316,20 @@ class ProductGroupHolder extends Page
         }
         return (string) $this->cacheKey;
     }
-    
+
     /**
      * Returns whether this is a ProductGroupHolder, so true..
-     * 
+     *
      * @return bool
      */
     public function IsProductGroupHolder() : bool
     {
         return true;
     }
-    
+
     /**
      * Returns the current context controller.
-     * 
+     *
      * @return ProductGroupHolderController
      */
     public function getContextController() : ProductGroupHolderController
@@ -343,12 +345,12 @@ class ProductGroupHolder extends Page
 
     /**
      * All products of this group
-     * 
+     *
      * @param int    $numberOfProducts The number of products to return
      * @param string $sort             An SQL sort statement
      * @param bool   $disableLimit     Disables the product limitation
      * @param bool   $force            Forces to get the products
-     * 
+     *
      * @return DataList|false all products of this group
      */
     public function getProducts($numberOfProducts = false, $sort = false, $disableLimit = false, $force = false)
@@ -359,10 +361,10 @@ class ProductGroupHolder extends Page
         }
         return $this->cachedProducts[$cacheKey];
     }
-    
+
     /**
      * Returns a string to display how many products on how many pages are found
-     * 
+     *
      * @return string
      */
     public function getProductsOnPagesString() : string
@@ -391,10 +393,10 @@ class ProductGroupHolder extends Page
         }
         return (string) $productsOnPagesString;
     }
-    
+
     /**
      * Returns the pagination context.
-     * 
+     *
      * @return PaginatedList
      */
     public function getPaginationContext() : PaginatedList
@@ -404,12 +406,12 @@ class ProductGroupHolder extends Page
         }
         return $this->paginationContext;
     }
-    
+
     /**
      * Sets the pagination context.
-     * 
+     *
      * @param PaginatedList $paginationContext Pagination context
-     * 
+     *
      * @return void
      */
     public function setPaginationContext(PaginatedList $paginationContext) : ProductGroupHolder
