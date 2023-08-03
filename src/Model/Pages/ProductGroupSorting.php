@@ -711,7 +711,7 @@ trait ProductGroupSorting
         $translationProductGroupIDList = implode(',', $translationProductGroupIDs);
         $mirroredProductIdList         = '';
         if ($this->hasMethod('getMirroredProductIDs')) {
-            implode(',', $this->getMirroredProductIDs());
+            $mirroredProductIdList = implode(',', $this->getMirroredProductIDs());
         }
         if ($this->isFilteredByManufacturer()) {
             $manufacturer = Manufacturer::getByUrlSegment($this->urlParams['ID']);
