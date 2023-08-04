@@ -584,7 +584,8 @@ class PageController extends ContentController
         $has      = false;
         $customer = Security::getCurrentUser();
         if ($customer instanceof Member) {
-            $has = Order::get()->filter('MemberID', $customer->ID)->exists();
+            $has = $this->CurrentMembersOrders() !== null
+                && $this->CurrentMembersOrders()->exists();
         }
         return $has;
     }
@@ -600,10 +601,14 @@ class PageController extends ContentController
     {
         $customer = Security::getCurrentUser();
         if ($customer instanceof Member) {
+            $filter = [
+                'MemberID' => $customer->ID,
+            ];
+            $this->extend('updateCurrentMembersOrdersFilter', $filter);
             if ($limit) {
-                $orders = Order::get()->filter('MemberID', $customer->ID)->limit($limit);
+                $orders = Order::get()->filter($filter)->limit($limit);
             } else {
-                $orders = Order::get()->filter('MemberID', $customer->ID);
+                $orders = Order::get()->filter($filter);
             }
             if (array_key_exists('oq', $_GET)) {
                 $query  = trim($_GET['oq']);
@@ -613,7 +618,7 @@ class PageController extends ContentController
                     'OrderPositions.ProductDescription:PartialMatch' => $query,
                     'OrderPositions.ProductNumber:PartialMatch'      => $query,
                 ];
-                $this->extend('updateCurrentMembersOrdersFilter', $filter, $query);
+                $this->extend('updateCurrentMembersOrdersQueryFilter', $filter, $query);
                 return $orders->filterAny($filter);
             }
             return $orders;
