@@ -570,17 +570,21 @@ class TranslatableDataObjectExtension extends DataExtension
     {
         $translationClassName = $this->getTranslationClassName();
         $emptyTranslation     = $this->owner->getTranslationRelation()->first();
-        if ($emptyTranslation instanceof DataObject
-         && $emptyTranslation->exists()
-        ) {
-            $emptyTranslation->delete();
-        }
         foreach ($original->getTranslationRelation() as $translation) {
             $clonedTranslation = new $translationClassName();
             $clonedTranslation->castedUpdate($translation->toMap());
             $clonedTranslation->ID = 0;
             $clonedTranslation->write();
             $this->owner->getTranslationRelation()->add($clonedTranslation);
+        }
+        if ($emptyTranslation instanceof DataObject
+         && $emptyTranslation->exists()
+        ) {
+            $emptyTranslation->deleteTranslationForced();
+            $translationCacheKey = get_class($this->owner) . '-' . $this->owner->ID;
+            if (array_key_exists($translationCacheKey, $this->translationCache)) {
+                unset($this->translationCache[$translationCacheKey]);
+            }
         }
     }
     

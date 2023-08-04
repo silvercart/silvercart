@@ -76,7 +76,8 @@ class TranslationExtension extends DataExtension
      */
     public function canDelete($member) : bool|null
     {
-        if ($this->owner->Locale === Config::DefaultLanguage()
+        if (($this->owner->Locale === Config::DefaultLanguage()
+          && $this->getTranslations()->filter('Locale', Config::DefaultLanguage())->count() === 1)
          || $this->getTranslations()->count() === 1
         ) {
             return false;
@@ -151,7 +152,8 @@ class TranslationExtension extends DataExtension
         ) {
             return;
         }
-        if ($this->owner->Locale === Config::DefaultLanguage()
+        if (($this->owner->Locale === Config::DefaultLanguage()
+          && $this->getTranslations()->filter('Locale', Config::DefaultLanguage())->count() === 1)
          || $this->getTranslations()->count() === 1
         ) {
             $queriedTables = [];
