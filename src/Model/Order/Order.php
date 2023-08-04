@@ -1082,17 +1082,24 @@ class Order extends DataObject implements PermissionProvider
      * @param FieldList $fields Fields to update for view mode
      *
      * @return $this
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function setCMSFieldsView($fields)
+    public function setCMSFieldsView(FieldList $fields) : Order
     {
         $fields->dataFieldByName('ShippingMethodID')->setSource(ShippingMethod::get()->map('ID', 'TitleWithCarrier')->toArray());
 
         $fields->insertBefore('AmountTotal', $handlingGroup = FieldGroup::create('Handling'));
         $fields->insertBefore('AmountTotal', $dateGroup = FieldGroup::create('Date'));
         $fields->insertBefore('AmountTotal', $trackingGroup = FieldGroup::create('Tracking'));
+        if (class_exists(HasOneSelector::class)) {
+            $memberField = HasOneSelector::create('Member', $this->fieldLabel('Member'), $this, Member::class)
+                    ->setLeftTitle($this->fieldLabel('Member'));
+            $memberField->removeLinkable();
+            $memberField->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+            if ($this->Member()->exists()) {
+                $memberField->removeAddable();
+            }
+            $fields->addFieldToTab('Root.Main', $memberField, 'AmountTotal');
+        }
         $fields->insertBefore('AmountTotal', LiteralField::create('OrderPreview', $this->render()));
 
         $handlingGroup->push($fields->dataFieldByName('OrderStatusID'));
@@ -1133,11 +1140,8 @@ class Order extends DataObject implements PermissionProvider
      * @param FieldList $fields Fields to update for edit mode
      *
      * @return $this
-     *
-     * @author Sebastian Diel <sdiel@pixeltricks.de>
-     * @since 07.09.2018
      */
-    public function setCMSFieldsEdit($fields)
+    public function setCMSFieldsEdit(FieldList $fields) : Order
     {
         //add the shipping/invloice address fields as own tab
         $address = Address::singleton();
@@ -1196,6 +1200,15 @@ class Order extends DataObject implements PermissionProvider
             }
             $fields->addFieldToTab('Root.InvoiceAddressTab', $iaField, 'ia__Preview');
             $fields->removeByName('ia__Preview');
+            
+            $memberField = HasOneSelector::create('Member', $this->fieldLabel('Member'), $this, Member::class)
+                    ->setLeftTitle($this->fieldLabel('Member'));
+            $memberField->removeLinkable();
+            $memberField->getConfig()->removeComponentsByType(GridFieldDeleteAction::class);
+            if ($this->Member()->exists()) {
+                $memberField->removeAddable();
+            }
+            $fields->addFieldToTab('Root.Main', $memberField, 'OrderNumber');
         }
         return $this;
     }
