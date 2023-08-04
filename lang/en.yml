@@ -203,6 +203,7 @@ en:
     Subjects: Subjects
     Translation: Translation
     Translations: Translations
+    Unknown: Unknown
     Until: until
     go: go
     since: since
@@ -1305,6 +1306,8 @@ en:
     SINGULARNAME: 'Order Log'
   SilverCart\Model\Order\OrderPosition:
     CHARGEORDISCOUNTMODIFICATIONIMPACT: 'Charge/Discount Type'
+    ExternalID: 'External ID'
+    ExternalIDDesc: 'External reference ID of a thirdparty application.'
     ISCHARGEORDISCOUNT: 'Is charge or discount'
     PLURALNAME: 'Order positions'
     PRICE: Price

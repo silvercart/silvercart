@@ -203,6 +203,7 @@ de:
     Subjects: Betreffe
     Translation: Übersetzung
     Translations: Übersetzungen
+    Unknown: Unbekannt
     Until: bis
     go: los
     since: seit
@@ -1306,6 +1307,8 @@ de:
     SINGULARNAME: Bestellungs-Log
   SilverCart\Model\Order\OrderPosition:
     CHARGEORDISCOUNTMODIFICATIONIMPACT: Auf-/Abschlags-Typ
+    ExternalID: 'Externe ID'
+    ExternalIDDesc: 'Externe Referenz ID-Nummer einer Dritt-Applikation (z.B. Warenwirtschaftssystem).'
     ISCHARGEORDISCOUNT: 'Ist Auf-/Abschlag'
     PLURALNAME: Bestellpositionen
     PRICE: Preis

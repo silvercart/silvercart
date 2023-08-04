@@ -50,6 +50,7 @@ use function _t;
  * @property string            $ProductNumber                      Product number
  * @property int               $numberOfDecimalPlaces              Number of decimal places
  * @property bool              $IsNonTaxable                       Is non taxable
+ * @property int               $ExternalID                         External ID
  * @property int               $OrderID                            Order ID
  * @property int               $ProductID                          Product ID
  * 
@@ -108,6 +109,7 @@ class OrderPosition extends DataObject
         'ProductNumber'                      => 'Varchar',
         'numberOfDecimalPlaces'              => 'Int',
         'IsNonTaxable'                       => 'Boolean(0)',
+        'ExternalID'                         => 'Varchar(64)',
     ];
     /**
      * 1:n relations
@@ -532,6 +534,11 @@ class OrderPosition extends DataObject
                         ->removeComponentsByType(GridFieldDeleteAction::class)
                         ->addComponent(new GridFieldTitleHeader());
                 $fields->replaceField('ProductID', $productField);
+            }
+            if (empty($this->ExternalID)) {
+                $fields->removeByName('ExternalID');
+            } else {
+                $fields->dataFieldByName('ExternalID')->setDescription($this->fieldLabel('ExternalIDDesc'));
             }
         });
         return parent::getCMSFields();
