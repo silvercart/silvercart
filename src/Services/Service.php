@@ -2,12 +2,15 @@
 
 namespace SilverCart\Services;
 
+use ReflectionClass;
 use SilverCart\Dev\CLITask;
+use SilverCart\Dev\Tools;
 use SilverStripe\Control\CliController;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\Dev\Debug;
 use Symbiote\QueuedJobs\Services\AbstractQueuedJob;
 
 class Service
@@ -97,6 +100,8 @@ class Service
                 default:
                     $job->printString($job, '33', $severity);
             }
+        } else {
+            Debug::message("{$severity}: {$message}");
         }
         if ($this->config()->enable_file_logging) {
             
