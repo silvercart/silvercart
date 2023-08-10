@@ -2,6 +2,7 @@
 
 namespace SilverCart\Model\Order;
 
+use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverCart\Extensions\Model\DataValuable;
@@ -14,6 +15,8 @@ use SilverCart\Model\Product\Product;
 use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\View\RenderableDataObject;
 use SilverStripe\Control\Controller;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDecimal;
@@ -22,6 +25,7 @@ use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 use SilverStripe\View\SSViewer;
+use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
 use function _t;
 
 /**
@@ -176,6 +180,32 @@ class ShoppingCartPosition extends DataObject
             'PositionDeleted'           => _t(ShoppingCartPosition::class . '.PositionDeletedMessage', 'One or more positions were deleted from your shoppping cart because they are no more available.'),
             'RemainingQuantityAdded'    => _t(ShoppingCartPosition::class . '.REMAINING_QUANTITY_ADDED_MESSAGE', 'We do NOT have enough products in stock. We just added the remaining quantity to your cart.'),
         ]);
+    }
+    
+    /**
+     * Returns the CMS fields.
+     * 
+     * @return FieldList
+     */
+    public function getCMSFields() : FieldList
+    {
+        $this->beforeUpdateCMSFields(function(FieldList $fields) {
+            if (class_exists(HasOneSelector::class)) {
+                /* @var $productField HasOneSelector */
+                /* @var $cartField HasOneSelector */
+                $productField = Product::getHasOneSelectorFor($this, 'Product');
+                $cartField    = HasOneSelector::create('ShoppingCart', $this->fieldLabel('ShoppingCart'), $this, ShoppingCart::class)
+                        ->setLeftTitle($this->fieldLabel('ShoppingCart'))
+                        ->removeAddable()
+                        ->removeLinkable();
+                $cartField->getConfig()
+                        ->removeComponentsByType(GridFieldDeleteAction::class)
+                        ->addComponent(new GridFieldTitleHeader());
+                $fields->replaceField('ProductID', $productField);
+                $fields->replaceField('ShoppingCartID', $cartField);
+            }
+        });
+        return parent::getCMSFields();
     }
 
     /**

@@ -389,9 +389,10 @@ class ShoppingCart extends DataObject
     public function fieldLabels($includerelations = true) : array
     {
         return $this->defaultFieldLabels($includerelations, [
-            'AmountTotal'           => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
-            'Products'              => Product::singleton()->plural_name(),
-            'ShoppingCartPositions' => ShoppingCartPosition::singleton()->plural_name(),
+            'AmountTotal'                 => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
+            'Products'                    => Product::singleton()->plural_name(),
+            'ShoppingCartPositions'       => ShoppingCartPosition::singleton()->plural_name(),
+            'ShoppingCartPositions.count' => ShoppingCartPosition::singleton()->plural_name(),
         ]);
     }
     

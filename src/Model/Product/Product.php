@@ -5,6 +5,7 @@ namespace SilverCart\Model\Product;
 use DateTime;
 use Exception;
 use LogicException;
+use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverCart\Admin\Forms\FileUploadField;
 use SilverCart\Admin\Forms\ImageUploadField;
 use SilverCart\Admin\Model\Config;
@@ -48,6 +49,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldFilterHeader;
 use SilverStripe\Forms\LiteralField;
@@ -78,6 +80,7 @@ use SilverStripe\View\ArrayData;
 use SilverStripe\View\SSViewer;
 use SilverStripe\Widgets\Model\WidgetArea;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
 use WidgetSets\Model\WidgetSet;
 use function _t;
 use function utf8_encode;
@@ -556,6 +559,32 @@ class Product extends DataObject implements PermissionProvider
      * @var string
      */
     protected $updateStockQuantityReason = '';
+    
+    /**
+     * Returns the default HasOneSelector for the given $context.
+     * 
+     * @param DataObject $context Context to get field for
+     * @param string     $name    Field name
+     * 
+     * @return HasOneSelector|null
+     */
+    public static function getHasOneSelectorFor(DataObject $context, string $name) : HasOneSelector|null
+    {
+        if (!class_exists(HasOneSelector::class)) {
+            return null;
+        }
+        /* @var $field HasOneSelector */
+        /* @var $config GridFieldConfig */
+        /* @var $autoCompleter GridFieldAddExistingAutocompleter */
+        $field          = HasOneSelector::create($name, $context->fieldLabel($name), $context, self::class)
+                            ->setLeftTitle($context->fieldLabel($name))
+                            ->removeAddable();
+        $config         = $field->getConfig();
+        $autoCompleter  = $config->getComponentByType(GridFieldAddExistingAutocompleter::class);
+        $autoCompleter->setResultsFormat('$ProductNumberWithTitleAndID');
+        $config->addComponent(new GridFieldTitleHeader());
+        return $field;
+    }
 
     /**
      * Returns the translated singular name of the object. If no translation exists
