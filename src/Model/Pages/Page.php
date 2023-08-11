@@ -14,6 +14,7 @@ use SilverCart\Model\Translation\TranslationTools;
 use SilverCart\ORM\ExtensibleDataObject;
 use SilverStripe\Assets\Image;
 use SilverStripe\CMS\Controllers\RootURLController;
+use SilverStripe\CMS\Model\RedirectorPage;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
@@ -654,6 +655,9 @@ class Page extends SiteTree
      */
     public function OriginalLink(string $action = null) : string
     {
+        if ($this instanceof RedirectorPage) {
+            return parent::Link($action);
+        }
         return $this->Link($action);
     }
 
