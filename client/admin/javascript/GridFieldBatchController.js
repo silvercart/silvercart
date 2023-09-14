@@ -8,9 +8,9 @@
         } else {
             var checkbox = $('input[type="checkbox"]', $(event.target));
             if (checkbox.is(':checked')) {
-                checkbox.attr('checked', false);
+                checkbox.prop('checked', false);
             } else {
-                checkbox.attr('checked', true);
+                checkbox.prop('checked', true);
             }
         }
         return false;
@@ -18,13 +18,13 @@
     $(document).on('click', '.col-batch-action-header.check-all', function(event) {
         $('.col-batch-action-selector.action').each(function() {
             var checkbox = $('input[type="checkbox"]', $(this));
-            checkbox.attr('checked', true);
+            checkbox.prop('checked', true);
         });
     });
     $(document).on('click', '.col-batch-action-header.uncheck-all', function(event) {
         $('.col-batch-action-selector.action').each(function() {
             var checkbox = $('input[type="checkbox"]', $(this));
-            checkbox.attr('checked', false);
+            checkbox.prop('checked', false);
         });
     });
     $(document).on('click', '#action_execute_batch_action', function(event) {
@@ -39,7 +39,7 @@
         } else {
             var checkedAtLeastOne = false;
             $(checkboxes).each(function() {
-                if ($(this).attr('checked')) {
+                if ($(this).prop('checked')) {
                     checkedAtLeastOne = true;
                 }
             });
