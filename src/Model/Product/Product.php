@@ -788,7 +788,7 @@ class Product extends DataObject implements PermissionProvider
      */
     public function getIsNotBuyable() : bool
     {
-        $is = $this->getField('IsNotBuyable');
+        $is = (bool) $this->getField('IsNotBuyable');
         if (!$this->getCMSFieldsIsCalled) {
             if ($this->HidePrices()) {
                 $is = true;
