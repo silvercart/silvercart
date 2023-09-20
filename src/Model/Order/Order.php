@@ -506,6 +506,8 @@ class Order extends DataObject implements PermissionProvider
             'InvoiceAddress'                   => _t(Address::class . '.InvoiceAddress', 'Invoice address'),
             'OrderStatus'                      => _t(Order::class . '.STATUS', 'order status'),
             'AmountTotal'                      => _t(Order::class . '.AMOUNTTOTAL', 'Amount total'),
+            'AmountSubtotal'                   => _t(SilverCartPage::class . '.SUBTOTAL', 'Subtotal'),
+            'Subtotal'                         => _t(SilverCartPage::class . '.SUBTOTAL', 'Subtotal'),
             'PriceType'                        => _t(Order::class . '.PRICETYPE', 'Price-Display-Type'),
             'HandlingCost'                     => _t(Order::class . '.HandlingCost', 'Handling cost'),
             'HandlingCostPayment'              => _t(Order::class . '.HANDLINGCOSTPAYMENT', 'Payment handling costs'),
