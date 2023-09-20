@@ -12,6 +12,7 @@ use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Dev\Debug;
 use Symbiote\QueuedJobs\Services\AbstractQueuedJob;
+use const BASE_PATH;
 
 class Service
 {
@@ -25,11 +26,23 @@ class Service
      */
     private static bool $enable_file_logging = false;
     /**
+     * Log file name.
+     * 
+     * @var string
+     */
+    protected static string|null $log_file_name = null;
+    /**
      * Context job
      * 
      * @var BuildTask|CliController|AbstractQueuedJob|null
      */
     protected BuildTask|CliController|AbstractQueuedJob|null $job = null;
+    /**
+     * Prefix to set before every message.
+     * 
+     * @var string
+     */
+    protected string $messagePrefix = '';
 
     /**
      * Returns the context job.
@@ -70,6 +83,29 @@ class Service
     }
     
     /**
+     * Returns the message prefix to use.
+     * 
+     * @return string
+     */
+    public function getMessagePrefix() : string
+    {
+        return $this->messagePrefix;
+    }
+
+    /**
+     * Sets the message prefix.
+     * 
+     * @param string $messagePrefix Message prefix
+     * 
+     * @return Service
+     */
+    public function setMessagePrefix(string $messagePrefix) : Service
+    {
+        $this->messagePrefix = $messagePrefix;
+        return $this;
+    }
+    
+    /**
      * Adds a $message to the given $job.
      * 
      * @param string $message  Message
@@ -80,8 +116,11 @@ class Service
     public function addMessage(string $message, string $severity = 'INFO') : void
     {
         $job = $this->getJob();
-        if ($job instanceof AbstractQueuedJob) {
-            $job->addMessage($message, $severity);
+        if ($job instanceof AbstractQueuedJob
+         || ($job !== null
+          && method_exists($job, 'addMessage'))
+        ) {
+            $job->addMessage("{$this->messagePrefix}{$message}", $severity);
         } elseif (in_array(CLITask::class, (array) class_uses($job))
                || (method_exists($job, 'printInfo')
                 && method_exists($job, 'printError')
@@ -89,22 +128,22 @@ class Service
         ) {
             switch ($severity) {
                 case 'INFO':
-                    $job->printInfo($message);
+                    $job->printInfo("{$this->messagePrefix}{$message}");
                     break;
                 case 'ERROR':
-                    $job->printError($message);
+                    $job->printError("{$this->messagePrefix}{$message}");
                     break;
                 case 'PROGRESS':
-                    $job->printProgressInfo($message);
+                    $job->printProgressInfo("{$this->messagePrefix}{$message}");
                     break;
                 default:
-                    $job->printString($job, '33', $severity);
+                    $job->printString("{$this->messagePrefix}{$message}", '33', $severity);
             }
         } else {
-            Debug::message("{$severity}: {$message}");
+            Debug::message("{$this->messagePrefix}{$severity}: {$message}", false);
         }
         if ($this->config()->enable_file_logging) {
-            
+            $this->logMessage($message, $severity);
         }
     }
     
@@ -118,6 +157,58 @@ class Service
     public function addProgressMessage(string $message) : void
     {
         $this->addMessage($message, 'PROGRESS');
+    }
+    
+    /**
+     * Updates the job's total steps.
+     * 
+     * @param int $totalSteps Total step count
+     * 
+     * @return void
+     */
+    public function updateTotalSteps(int $totalSteps) : void
+    {
+        $job = $this->getJob();
+        if (method_exists($job, 'updateTotalSteps')
+         || (method_exists($job, 'hasMethod')
+          && $job->hasMethod('updateTotalSteps'))
+        ) {
+            $job->updateTotalSteps($totalSteps);
+        }
+    }
+    
+    /**
+     * Appends the job's total steps.
+     * 
+     * @param int $totalSteps Total step count
+     * 
+     * @return void
+     */
+    public function appendTotalSteps(int $totalSteps) : void
+    {
+        $job = $this->getJob();
+        if (method_exists($job, 'updateTotalSteps')
+         || (method_exists($job, 'hasMethod')
+          && $job->hasMethod('updateTotalSteps'))
+        ) {
+            $job->updateTotalSteps($job->getTotalSteps() + $totalSteps);
+        }
+    }
+    
+    /**
+     * Increases the job's steps processed count.
+     * 
+     * @return void
+     */
+    public function increaseStepsProcessed() : void
+    {
+        $job = $this->getJob();
+        if (method_exists($job, 'increaseStepsProcessed')
+         || (method_exists($job, 'hasMethod')
+          && $job->hasMethod('increaseStepsProcessed'))
+        ) {
+            $job->increaseStepsProcessed();
+        }
     }
     
     /**
@@ -182,15 +273,25 @@ class Service
     /**
      * Writes a log entry
      *
-     * @param string $type The type to log
-     * @param string $text The text to log
+     * @param string $message  Message
+     * @param string $severity Severity
      *
      * @return void
      */
-    public function Log(string $type, string $text) : void
+    public function logMessage(string $message, string $severity = 'INFO') : void
     {
+        $basePath = BASE_PATH;
+        $sep      = DIRECTORY_SEPARATOR;
+        $logPath  = "{$basePath}{$sep}..{$sep}log";
+        if (!is_dir($logPath)) {
+            $logPath = "{$basePath}{$sep}log";
+            if (!is_dir($logPath)) {
+                mkdir($logPath);
+            }
+        }
         $logFileName = $this->getLogFileName();
-        Tools::Log($type, $text, $logFileName);
+        $datetime    = date('Y-m-d H:i:s');
+        file_put_contents("{$logPath}{$sep}{$logFileName}", "{$datetime} - {$severity}: {$this->messagePrefix}{$message}" . PHP_EOL, FILE_APPEND);
     }
     
     /**
