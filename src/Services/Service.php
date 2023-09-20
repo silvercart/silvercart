@@ -307,4 +307,41 @@ class Service
         $padded = str_pad($x, strlen($y), " ", STR_PAD_LEFT);
         return "{$padded}/{$y}";
     }
+    
+    
+    /**
+     * Prints the given error.
+     * 
+     * @param string $error Error to print
+     * 
+     * @return void
+     */
+    public function printError($error)
+    {
+        $this->addMessage($info, 'ERROR');
+    }
+    
+    /**
+     * Prints the given info.
+     * 
+     * @param string $info  Info to print
+     * 
+     * @return void
+     */
+    public function printInfo(string $info) : void
+    {
+        $this->addMessage($info);
+    }
+
+    /**
+     * Prints the given progess info.
+     * 
+     * @param string $progress Progress to print
+     * 
+     * @return void
+     */
+    public function printProgressInfo(string $progress) : void
+    {
+        $this->addProgressMessage($progress);
+    }
 }
