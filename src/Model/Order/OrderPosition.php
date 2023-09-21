@@ -270,7 +270,15 @@ class OrderPosition extends DataObject
         $exportColumns = [];
         $this->extend('updateExportColumns', $exportColumns);
         if (empty($exportColumns)) {
-            $exportColumns = $this->summaryFields();
+            $exportColumns = array_merge(
+                    [
+                        'Order.Created' => $this->Order()->fieldLabel('Created'),
+                    ],
+                    $this->summaryFields()
+            );
+            if (array_key_exists('Order.CreatedNice', $exportColumns)) {
+                unset($exportColumns['Order.CreatedNice']);
+            }
         }
         return $exportColumns;
     }
@@ -283,7 +291,7 @@ class OrderPosition extends DataObject
     public function summaryFields() : array
     {
         $summaryFields = [
-            'CreatedNice'                 => $this->Order()->fieldLabel('Created'),
+            'Order.CreatedNice'           => $this->Order()->fieldLabel('Created'),
             'Order.OrderNumber'           => $this->Order()->fieldLabel('OrderNumber'),
             'Order.Member.CustomerNumber' => $this->Order()->Member()->fieldLabel('CustomerNumber'),
             'ProductNumber'               => $this->fieldLabel('ProductNumber'),

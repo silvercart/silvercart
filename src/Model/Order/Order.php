@@ -447,7 +447,15 @@ class Order extends DataObject implements PermissionProvider
         $exportColumns = [];
         $this->extend('updateExportColumns', $exportColumns);
         if (empty($exportColumns)) {
-            $exportColumns = $this->summaryFields();
+            $exportColumns = array_merge(
+                    [
+                        'Created' => $this->fieldLabel('Created'),
+                    ],
+                    $this->summaryFields()
+            );
+            if (array_key_exists('CreatedNice', $exportColumns)) {
+                unset($exportColumns['CreatedNice']);
+            }
         }
         return $exportColumns;
     }
