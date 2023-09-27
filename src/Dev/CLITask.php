@@ -994,9 +994,10 @@ trait CLITask
     protected function setLogFileNamePrefix(string $prefix, bool $force = false) : void
     {
         $logFileName = $this->getLogFileName();
-        if (strpos($logFileName, '-') === false) {
-            $last  = $logFileName;
-        } elseif ($force) {
+        $last        = $logFileName;
+        if ($force
+         || strpos($logFileName, '-') !== false
+        ) {
             $parts = explode('-', $logFileName);
             $last  = array_pop($parts);
         }
