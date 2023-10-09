@@ -4,7 +4,6 @@ namespace SilverCart\Services;
 
 use ReflectionClass;
 use SilverCart\Dev\CLITask;
-use SilverCart\Dev\Tools;
 use SilverStripe\Control\CliController;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extensible;
@@ -34,9 +33,9 @@ class Service
     /**
      * Context job
      * 
-     * @var BuildTask|CliController|AbstractQueuedJob|null
+     * @var BuildTask|CLITask|CliController|AbstractQueuedJob|null
      */
-    protected BuildTask|CliController|AbstractQueuedJob|null $job = null;
+    protected BuildTask|CLITask|CliController|AbstractQueuedJob|null $job = null;
     /**
      * Prefix to set before every message.
      * 
@@ -47,9 +46,9 @@ class Service
     /**
      * Returns the context job.
      * 
-     * @return BuildTask|CliController|AbstractQueuedJob|null
+     * @return BuildTask|CLITask|CliController|AbstractQueuedJob|null
      */
-    public function getJob() : BuildTask|CliController|AbstractQueuedJob|null
+    public function getJob() : BuildTask|CLITask|CliController|AbstractQueuedJob|null
     {
         return $this->job;
     }
@@ -57,11 +56,11 @@ class Service
     /**
      * Set the context job.
      * 
-     * @param BuildTask|CliController|AbstractQueuedJob $job Job
+     * @param BuildTask|CLITask|CliController|AbstractQueuedJob $job Job
      * 
      * @return Service
      */
-    public function setJob(BuildTask|CliController|AbstractQueuedJob $job) : Service
+    public function setJob(BuildTask|CLITask|CliController|AbstractQueuedJob $job) : Service
     {
         $this->job = $job;
         return $this;
@@ -318,7 +317,7 @@ class Service
      */
     public function printError($error)
     {
-        $this->addMessage($info, 'ERROR');
+        $this->addMessage($error, 'ERROR');
     }
     
     /**
