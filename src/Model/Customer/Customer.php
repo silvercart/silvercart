@@ -629,6 +629,10 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
                         'title'     => $this->owner->fieldLabel('CustomerNumber'),
                         'filter'    => PartialMatchFilter::class,
                     ],
+                    'ID' => [
+                        'title'     => $this->owner->fieldLabel('ID'),
+                        'filter'    => PartialMatchFilter::class,
+                    ],
                 ],
                 $fields,
                 [

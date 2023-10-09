@@ -1654,6 +1654,9 @@ class Order extends DataObject implements PermissionProvider
 
             if ($shoppingCartPositions->exists()) {
                 foreach ($shoppingCartPositions as $shoppingCartPosition) {
+                    if (!$shoppingCartPosition->canConvert()) {
+                        continue;
+                    }
                     $orderPosition = $this->convertShoppingCartPositionToOrderPosition($shoppingCartPosition, $member);
                     unset($orderPosition);
                 }

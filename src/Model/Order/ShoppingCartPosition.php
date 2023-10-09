@@ -132,6 +132,22 @@ class ShoppingCartPosition extends DataObject
     }
 
     /**
+     * Indicates wether the position can be converted into an order position.
+     * 
+     * @param Member|null $member Member to check permission for.
+     *
+     * @return bool
+     */
+    public function canConvert(Member|null $member = null) : bool
+    {
+        $extended = $this->owner->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        return true;
+    }
+
+    /**
      * Indicates wether the current user can delete this object.
      * 
      * @param Member $member Member to check permission for.

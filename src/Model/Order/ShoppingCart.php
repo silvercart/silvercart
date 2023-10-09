@@ -805,6 +805,7 @@ class ShoppingCart extends DataObject
                 $quantity += $position->Quantity;
             }
         }
+        $this->extend('updateQuantity', $quantity, $productId);
         return $quantity;
     }
     
