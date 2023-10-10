@@ -4,7 +4,7 @@ namespace SilverCart\Services;
 
 use ReflectionClass;
 use SilverCart\Dev\CLITask;
-use SilverStripe\Control\CliController;
+use SilverStripe\Control\Controller;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
@@ -33,9 +33,9 @@ class Service
     /**
      * Context job
      * 
-     * @var BuildTask|CLITask|CliController|AbstractQueuedJob|null
+     * @var BuildTask|Controller|AbstractQueuedJob|null
      */
-    protected BuildTask|CLITask|CliController|AbstractQueuedJob|null $job = null;
+    protected BuildTask|Controller|AbstractQueuedJob|null $job = null;
     /**
      * Prefix to set before every message.
      * 
@@ -46,9 +46,9 @@ class Service
     /**
      * Returns the context job.
      * 
-     * @return BuildTask|CLITask|CliController|AbstractQueuedJob|null
+     * @return BuildTask|Controller|AbstractQueuedJob|null
      */
-    public function getJob() : BuildTask|CLITask|CliController|AbstractQueuedJob|null
+    public function getJob() : BuildTask|Controller|AbstractQueuedJob|null
     {
         return $this->job;
     }
@@ -56,11 +56,11 @@ class Service
     /**
      * Set the context job.
      * 
-     * @param BuildTask|CLITask|CliController|AbstractQueuedJob $job Job
+     * @param BuildTask|Controller|AbstractQueuedJob $job Job
      * 
      * @return Service
      */
-    public function setJob(BuildTask|CLITask|CliController|AbstractQueuedJob $job) : Service
+    public function setJob(BuildTask|Controller|AbstractQueuedJob $job) : Service
     {
         $this->job = $job;
         return $this;
