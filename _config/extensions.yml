@@ -34,6 +34,9 @@ SilverStripe\ORM\PaginatedList:
 SilverStripe\Forms\GridField\GridField:
   extensions:
     - SilverCart\Extensions\Forms\GridField\GridFieldExtension
+SilverStripe\Forms\GridField\GridFieldDetailForm:
+  extensions:
+    - SilverCart\Extensions\Forms\GridField\GridFieldDetailFormExtension
 SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest:
   extensions:
     - SilverCart\Admin\Forms\GridField\GridFieldDetailForm_ItemRequest

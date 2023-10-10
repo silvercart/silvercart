@@ -120,10 +120,11 @@ class Service
           && method_exists($job, 'addMessage'))
         ) {
             $job->addMessage("{$this->messagePrefix}{$message}", $severity);
-        } elseif (in_array(CLITask::class, (array) class_uses($job))
-               || (method_exists($job, 'printInfo')
-                && method_exists($job, 'printError')
-                && method_exists($job, 'printString'))
+        } elseif ($job !== null
+               && (in_array(CLITask::class, (array) class_uses($job))
+                || (method_exists($job, 'printInfo')
+                 && method_exists($job, 'printError')
+                 && method_exists($job, 'printString')))
         ) {
             switch ($severity) {
                 case 'INFO':

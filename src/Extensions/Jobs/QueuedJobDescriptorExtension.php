@@ -6,6 +6,7 @@ use Moo\HasOneSelector\Form\Field as HasOneSelector;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
 use SilverStripe\Security\Member;
 use Symbiote\QueuedJobs\DataObjects\QueuedJobDescriptor;
 use Symbiote\QueuedJobs\Services\AbstractQueuedJob;
@@ -25,17 +26,24 @@ use function singleton;
  */
 class QueuedJobDescriptorExtension extends Extension
 {
-    public function updateCMSFields_(FieldList $fields) : void
+    /**
+     * Updates the GridFieldDetailForm.
+     *
+     * @param GridFieldDetailForm $form Form to update
+     * 
+     * @return void
+     */
+    public function updateGridFieldDetailForm(GridFieldDetailForm $form) : void
     {
         if (class_exists(HasOneSelector::class)) {
-            $runAsField = HasOneSelector::create('RunAs2', $this->owner->fieldLabel('RunAs'), $this->owner, Member::class)->setLeftTitle($this->owner->fieldLabel('RunAs'));
+            $fields     = $this->owner->getCMSFields();
+            $runAsField = HasOneSelector::create('RunAs', $this->owner->fieldLabel('RunAs'), $this->owner, Member::class)->setLeftTitle($this->owner->fieldLabel('RunAs'));
             $runAsField->removeAddable();
-            $fields->addFieldToTab('Root.Main', $runAsField);
-            $fields->dataFieldByName('RunAsID')->setReadonly(true);
-            //$fields->replaceField('RunAsID', $runAsField);
-            //$fields->insertAfter('RunAs', \SilverStripe\Forms\HiddenField::create('RunAsID', 'RunAsID', $this->owner->RunAsID));
+            $fields->replaceField('RunAsID', $runAsField);
+            $form->setFields($fields);
         }
     }
+
     /**
      * Requires all default jobs.
      * 
