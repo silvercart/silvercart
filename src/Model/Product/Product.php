@@ -489,7 +489,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * The quantity of the product in cart as a human readable string.
      *
-     * @var string
+     * @var string[]
      */
     protected $quantityInCartString = [];
     /**
@@ -1753,7 +1753,8 @@ class Product extends DataObject implements PermissionProvider
             $pageLength = Config::ProductsPerPage();
         }
         $products = self::getProducts($whereClause, $sort, $joins, $limit);
-        if ($products instanceof SS_List
+        if (($products instanceof ArrayList
+          || $products instanceof DataList)
          && $products->exists()
         ) {
             if ($products instanceof PaginatedList) {
@@ -2077,8 +2078,6 @@ class Product extends DataObject implements PermissionProvider
         
         if (class_exists(GridFieldOrderableRows::class)) {
             $imageGridField->getConfig()->addComponent(GridFieldOrderableRows::create('SortOrder'));
-        } elseif (class_exists('\UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows')) {
-            $imageGridField->getConfig()->addComponent(new \UndefinedOffset\SortableGridField\Forms\GridFieldSortableRows('SortOrder'));
         }
         
         $imageUploadField = ImageUploadField::create('UploadImages', $this->fieldLabel('AddImage'));
@@ -3714,14 +3713,14 @@ class Product extends DataObject implements PermissionProvider
      * visualitation defined in Config and returns the defined image
      * as ArrayList. As last resort boolean false is returned.
      *
-     * @return SS_List
+     * @return DataList|ArrayList
      */
     public function getImages()
     {
         if (is_null($this->images)) {
-            $images = false;
+            $images = null;
             $this->extend('overwriteImages', $images);
-            if ($images == false) {
+            if ($images === null) {
                 $images = $this->Images();
                 $this->extend('updateGetImages', $images);
                 if ($images->count() > 0) {
@@ -3741,7 +3740,7 @@ class Product extends DataObject implements PermissionProvider
                 }
             }
             if (!($images instanceof ArrayList)
-             || $images->count() == 0
+             || $images->count() === 0
             ) {
                 $noImageObj = Config::getNoImage();
                 if ($noImageObj->exists()) {
