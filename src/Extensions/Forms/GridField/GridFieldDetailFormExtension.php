@@ -2,7 +2,7 @@
 
 namespace SilverCart\Extensions\Forms\GridField;
 
-use SilverStripe\Control\Controller;
+use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\Extension;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\ORM\DataObject;
@@ -22,15 +22,15 @@ class GridFieldDetailFormExtension extends Extension
     /**
      * Updates the ItemRequestClass.
      *
-     * @param string      $class          Item class
-     * @param GridField   $gridField      GridField
-     * @param DataObject  $record         Record
-     * @param Controller  $requestHandler Request handle
-     * @param string|null $assignedClass  Assigned class
+     * @param string         $class          Item class
+     * @param GridField      $gridField      GridField
+     * @param DataObject     $record         Record
+     * @param RequestHandler $requestHandler Request handle
+     * @param string|null    $assignedClass  Assigned class
      * 
      * @return void
      */
-    public function updateItemRequestClass(string $class, GridField $gridField, DataObject $record, Controller $requestHandler, string|null $assignedClass) : void
+    public function updateItemRequestClass(string $class, GridField $gridField, DataObject $record, RequestHandler $requestHandler, string|null $assignedClass) : void
     {
         $record->extend('updateGridFieldDetailForm', $this->owner);
     }
