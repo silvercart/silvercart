@@ -1151,7 +1151,16 @@ class Product extends DataObject implements PermissionProvider
      */
     public function searchableFields() {
         $this->beforeUpdateSearchableFields(function(array &$fields) {
-            $fields = [
+            unset($fields['Title']);
+            unset($fields['FontAwesomeIconHTML']);
+            unset($fields['ListImageThumbnail']);
+            unset($fields['isActiveString']);
+            unset($fields['PriceGross']);
+            unset($fields['PriceNet']);
+            unset($fields['ProductGroup.Title']);
+            unset($fields['Manufacturer.Title']);
+            unset($fields['AvailabilityStatus.Title']);
+            $fields = array_merge($fields, [
                 'ProductNumberShop' => [
                     'title'     => $this->fieldLabel('ProductNumberShop'),
                     'filter'    => PartialMatchFilter::class,
@@ -1192,7 +1201,7 @@ class Product extends DataObject implements PermissionProvider
                     'title'     => $this->fieldLabel('AvailabilityStatus'),
                     'filter'    => ExactMatchFilter::class,
                 ],
-            ];
+            ]);
         });
         return parent::searchableFields();
     }
