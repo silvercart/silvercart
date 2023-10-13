@@ -148,6 +148,7 @@ use function utf8_encode;
  * @method HasManyList Images()                List of Images
  * @method HasManyList Files()                 List of Files
  * @method HasManyList ShoppingCartPositions() List of Shopping Cart Positions
+ * @method HasManyList SlaveProducts()         List of Slave Products
  * 
  * @method ManyManyList ProductGroupMirrorPages()  List of Mirrored Product Groups
  * @method ManyManyList ShoppingCarts()            List of Shopping Carts
@@ -237,6 +238,7 @@ class Product extends DataObject implements PermissionProvider
         'Images'                => Image::class,
         'Files'                 => File::class,
         'ShoppingCartPositions' => ShoppingCartPosition::class,
+        'SlaveProducts'         => self::class . '.MasterProduct',
     ];
     /**
      * Belongs-many-many relations.
@@ -1148,50 +1150,51 @@ class Product extends DataObject implements PermissionProvider
      * @return array
      */
     public function searchableFields() {
-        $searchableFields = [
-            'ProductNumberShop' => [
-                'title'     => $this->fieldLabel('ProductNumberShop'),
-                'filter'    => PartialMatchFilter::class,
-            ],
-            'ProductTranslations.Title' => [
-                'title'     => $this->fieldLabel('Title'),
-                'filter'    => PartialMatchFilter::class,
-            ],
-            'ProductTranslations.ShortDescription' => [
-                'title'     => $this->fieldLabel('ShortDescription'),
-                'filter'    => PartialMatchFilter::class,
-            ],
-            'ProductTranslations.LongDescription' => [
-                'title'     => $this->fieldLabel('LongDescription'),
-                'filter'    => PartialMatchFilter::class,
-            ],
-            'Manufacturer.Title' => [
-                'title'     => $this->fieldLabel('Manufacturer'),
-                'filter'    => PartialMatchFilter::class,
-             ],
-            'ProductNumberManufacturer' => [
-                'title'     => $this->fieldLabel('ProductNumberManufacturer'),
-                'filter'    => PartialMatchFilter::class,
-             ],
-            'isActive' => [
-                'title'     => $this->fieldLabel('isActive'),
-                'filter'    => ExactMatchFilter::class,
-            ],
-            'ProductGroup.ID' => [
-                'title'     => $this->fieldLabel('ProductGroup'),
-                'filter'    => ExactMatchFilter::class,
-            ],
-            'ProductGroupMirrorPages.ID' => [
-                'title'     => $this->fieldLabel('ProductGroupMirrorPages'),
-                'filter'    => ExactMatchFilter::class,
-            ],
-            'AvailabilityStatus.ID' => [
-                'title'     => $this->fieldLabel('AvailabilityStatus'),
-                'filter'    => ExactMatchFilter::class,
-            ],
-        ];
-        $this->extend('updateSearchableFields', $searchableFields);
-        return $searchableFields;
+        $this->beforeUpdateSearchableFields(function(array &$fields) {
+            $fields = [
+                'ProductNumberShop' => [
+                    'title'     => $this->fieldLabel('ProductNumberShop'),
+                    'filter'    => PartialMatchFilter::class,
+                ],
+                'ProductTranslations.Title' => [
+                    'title'     => $this->fieldLabel('Title'),
+                    'filter'    => PartialMatchFilter::class,
+                ],
+                'ProductTranslations.ShortDescription' => [
+                    'title'     => $this->fieldLabel('ShortDescription'),
+                    'filter'    => PartialMatchFilter::class,
+                ],
+                'ProductTranslations.LongDescription' => [
+                    'title'     => $this->fieldLabel('LongDescription'),
+                    'filter'    => PartialMatchFilter::class,
+                ],
+                'Manufacturer.Title' => [
+                    'title'     => $this->fieldLabel('Manufacturer'),
+                    'filter'    => PartialMatchFilter::class,
+                 ],
+                'ProductNumberManufacturer' => [
+                    'title'     => $this->fieldLabel('ProductNumberManufacturer'),
+                    'filter'    => PartialMatchFilter::class,
+                 ],
+                'isActive' => [
+                    'title'     => $this->fieldLabel('isActive'),
+                    'filter'    => ExactMatchFilter::class,
+                ],
+                'ProductGroup.ID' => [
+                    'title'     => $this->fieldLabel('ProductGroup'),
+                    'filter'    => ExactMatchFilter::class,
+                ],
+                'ProductGroupMirrorPages.ID' => [
+                    'title'     => $this->fieldLabel('ProductGroupMirrorPages'),
+                    'filter'    => ExactMatchFilter::class,
+                ],
+                'AvailabilityStatus.ID' => [
+                    'title'     => $this->fieldLabel('AvailabilityStatus'),
+                    'filter'    => ExactMatchFilter::class,
+                ],
+            ];
+        });
+        return parent::searchableFields();
     }
 
     /**
@@ -2118,6 +2121,7 @@ class Product extends DataObject implements PermissionProvider
         $this->beforeUpdateCMSFields(function(FieldList $fields) {
             $fields->removeByName('ProductGroupItemsWidgets');
             $fields->removeByName('MasterProductID');
+            $fields->removeByName('SlaveProducts');
             $fields->removeByName('Keywords');
             $fields->removeByName('DefaultSortOrder');
             $this->getFieldsForMain($fields);

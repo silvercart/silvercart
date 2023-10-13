@@ -19,6 +19,12 @@ use SilverStripe\Forms\FormField;
 trait ExtensibleDataObject
 {
     /**
+     * Cached field labels.
+     *
+     * @var array
+     */
+    protected static $_cache_field_labels = [];
+    /**
      * Default field labels.
      *
      * @var array
@@ -87,6 +93,19 @@ trait ExtensibleDataObject
     protected function beforeUpdateProvidePermissions(callable $callback) : void
     {
         $this->beforeExtending('updateProvidePermissions', $callback);
+    }
+    
+    /**
+     * Allows user code to hook into DataObject::searchableFields() prior to 
+     * updateSearchableFields being called on extensions.
+     *
+     * @param callable $callback The callback to execute
+     * 
+     * @return void
+     */
+    protected function beforeUpdateSearchableFields($callback) : void
+    {
+        $this->beforeExtending('updateSearchableFields', $callback);
     }
     
     /**
