@@ -8,12 +8,16 @@ SilverStripe\Core\Injector\Injector:
     class: SilverCart\ORM\Filters\StartsWithOrNullFilter
   DataListFilter.LowerCase:
     class: SilverCart\ORM\Filters\LowerCaseFilter
+  DataListFilter.DateIsEmpty:
+    class: SilverCart\ORM\Filters\DateIsEmptyFilter
   DataListFilter.SilverCart\ORM\Filters\PartialMatchOrNull:
     class: SilverCart\ORM\Filters\PartialMatchOrNullFilter
   DataListFilter.SilverCart\ORM\Filters\StartsWithOrNull:
     class: SilverCart\ORM\Filters\StartsWithOrNullFilter
   DataListFilter.SilverCart\ORM\Filters\LowerCase:
     class: SilverCart\ORM\Filters\LowerCaseFilter
+  DataListFilter.SilverCart\ORM\Filters\DateIsEmpty:
+    class: SilverCart\ORM\Filters\DateIsEmptyFilter
 ---
 Name: coresearchfilterfixes
 ---
@@ -45,6 +49,7 @@ SilverStripe\Core\Injector\Injector:
   PartialMatchOrNullFilter: '%$DataListFilter.PartialMatchOrNull'
   StartsWithOrNullFilter: '%$DataListFilter.StartsWithOrNull'
   LowerCaseFilter: '%$DataListFilter.LowerCase'
+  DateIsEmptyFilter: '%$DataListFilter.DateIsEmpty'
 ---
 Name: silvercart-customer
 ---
