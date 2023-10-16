@@ -96,7 +96,7 @@ class Tools implements TemplateGlobalProvider
     /**
      * Cache for the page hierarchy model.
      *
-     * @var ArrayList
+     * @var array
      */
     public static $pageHierarchy = [];
     /**
@@ -763,7 +763,7 @@ class Tools implements TemplateGlobalProvider
      */
     public static function getPageHierarchy($currPage)
     {
-        if (!array_key_exists('SiteTree_'.$currPage->ID, self::$pageHierarchy)) {
+        if (!array_key_exists('SiteTree_'.$currPage->ID, (array) self::$pageHierarchy)) {
             $level      = 0;
             $hierarchy  = [
                 'SiteTree_'.$currPage->ID => [

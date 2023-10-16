@@ -23,6 +23,7 @@ use SilverStripe\ORM\FieldType\DBDecimal;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\FieldType\DBMoney;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 use SilverStripe\View\SSViewer;
 use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
@@ -145,6 +146,35 @@ class ShoppingCartPosition extends DataObject
             return $extended;
         }
         return true;
+    }
+
+    /**
+     * Indicates wether the current user can view this object.
+     * 
+     * @param Member $member Member to check permission for.
+     *
+     * @return bool
+     */
+    public function canView($member = null) : bool
+    {
+        $extended = $this->extendedCan(__FUNCTION__, $member);
+        if ($extended !== null) {
+            return $extended;
+        }
+        if (Permission::check('ADMIN')) {
+            return true;
+        }
+        $can = false;
+        if (is_null($member)) {
+            $member = Security::getCurrentUser();
+        }
+        if ($member instanceof Member
+         && $member->ID === $this->ShoppingCart()->Member()->ID
+         && !is_null($this->ShoppingCart()->Member()->ID)
+        ) {
+            $can = true;
+        }
+        return $can;
     }
 
     /**
