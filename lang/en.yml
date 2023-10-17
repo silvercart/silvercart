@@ -2674,6 +2674,9 @@ en:
     UseAsSlider: 'Use as a slider'
   SilverCart\Reports\DeletedCustomersReport:
     Title: 'Deleted customers'
+  SilverCart\Security\LostPasswordAttempt:
+    PLURALNAME: Lost-Password-Attempts
+    SINGULARNAME: Lost-Password-Attempt
   SilverCart\View\GroupView\GroupViewBase:
     LIST: List
     TABLE: Table

@@ -2675,6 +2675,9 @@ de:
     UseAsSlider: 'Als Slider verwenden'
   SilverCart\Reports\DeletedCustomersReport:
     Title: 'Gelöschte Kunden'
+  SilverCart\Security\LostPasswordAttempt:
+    PLURALNAME: Passwort-Zurücksetzen-Versuche
+    SINGULARNAME: Passwort-Zurücksetzen-Versuch
   SilverCart\View\GroupView\GroupViewBase:
     LIST: Liste
     TABLE: Tabelle
