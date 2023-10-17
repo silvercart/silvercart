@@ -180,6 +180,7 @@ en:
     EditPage: 'Edit page'
     EditProduct: 'Edit product'
     Empty: Empty
+    From: from
     Go: Go
     GoToTop: 'Go to top'
     InclTax: 'incl. {amount}% VAT'

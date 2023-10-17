@@ -479,6 +479,8 @@ class Tools implements TemplateGlobalProvider
             'Priority'     => _t(Tools::class . '.PRIORITY', 'Priority (the higher the more important)'),
             'To'           => _t(Tools::class . '.To', 'To'),
             'Yes'          => _t(Tools::class . '.YES', 'Yes'),
+            'From'         => _t('SilverCart.From', 'from'),
+            'Until'        => _t('SilverCart.Until', 'until'),
         ];
         self::singleton()->extend('updateFieldLabels', $labels);
         return $labels;

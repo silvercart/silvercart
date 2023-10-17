@@ -36,12 +36,12 @@ use SilverCart\ORM\ExtensibleDataObject;
 use SilverCart\ORM\FieldType\DBMoney as SilverCartDBMoney;
 use SilverCart\ORM\Filters\DateRangeSearchFilter;
 use SilverCart\ORM\Filters\ExactMatchBooleanMultiFilter;
-use SilverCart\ORM\Search\SearchContext;
 use SilverCart\View\Printer\Printer;
 use SilverCart\View\RenderableDataObject;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
@@ -53,7 +53,6 @@ use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm_ItemRequest;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
@@ -584,7 +583,7 @@ class Order extends DataObject implements PermissionProvider
             'Created' => [
                 'title' => $this->fieldLabel('Created'),
                 'filter' => DateRangeSearchFilter::class,
-                'field' => TextField::class,
+                'field' => DateField::class,
             ],
             'OrderNumber' => [
                 'title' => $this->fieldLabel('OrderNumber'),
@@ -699,20 +698,6 @@ class Order extends DataObject implements PermissionProvider
     }
 
     /**
-     * Set the default search context for this field
-     *
-     * @return SearchContext
-     */
-    public function getDefaultSearchContext()
-    {
-        return SearchContext::create(
-            static::class,
-            $this->scaffoldSearchFields(),
-            $this->defaultSearchFilters()
-        );
-    }
-
-    /**
      * Determine which properties on the DataObject are
      * searchable, and map them to their default {@link FormField}
      * representations. Used for scaffolding a searchform for {@link ModelAdmin}.
@@ -739,7 +724,6 @@ class Order extends DataObject implements PermissionProvider
                 ->setEmptyString(Tools::field_label('PleaseChoose'));
 
         $order                 = Order::singleton();
-        $basicLabelField       = HeaderField::create(  'BasicLabelField',       $order->fieldLabel('BasicData'));
         $customerLabelField    = HeaderField::create(  'CustomerLabelField',    $order->fieldLabel('CustomerData'));
         $positionLabelField    = HeaderField::create(  'PositionLabelField',    $order->fieldLabel('OrderPositionData'));
         $miscLabelField        = HeaderField::create(  'MiscLabelField',        $order->fieldLabel('MiscData'));
@@ -747,17 +731,18 @@ class Order extends DataObject implements PermissionProvider
         $positionIsLimitField  = CheckboxField::create('OrderPositionIsLimit',  $order->fieldLabel('OrderPositionIsLimit'));
         $limitField            = TextField::create(    'SearchResultsLimit',    $order->fieldLabel('SearchResultsLimit'));
 
-        $fields->insertBefore($basicLabelField,                   'OrderNumber');
-        $fields->insertAfter($fields->dataFieldByName('Created'), 'OrderNumber');
-        $fields->insertBefore($customerLabelField,                'Member__CustomerNumber');
-        $fields->insertBefore($positionLabelField,                'OrderPositions__ProductNumber');
-        $fields->insertAfter($positionQuantityField,              'OrderPositions__ProductNumber');
-        $fields->insertAfter($positionIsLimitField,               'OrderPositionQuantity');
-        $fields->insertAfter($miscLabelField,                     'OrderPositionIsLimit');
-        $fields->insertAfter($limitField,                         'MiscLabelField');
+        $fields->insertAfter('OrderNumber', $fields->dataFieldByName('Created'));
+        $fields->insertAfter('Created', DateField::create('Created__End', "{$this->fieldLabel('Created')} (" . Tools::field_label('Until') . ")"));
+        $fields->insertBefore('Member__CustomerNumber', $customerLabelField);
+        $fields->insertBefore('OrderPositions__ProductNumber', $positionLabelField);
+        $fields->insertAfter('OrderPositions__ProductNumber', $positionQuantityField);
+        $fields->insertAfter('OrderPositionQuantity', $positionIsLimitField);
+        $fields->insertAfter('OrderPositionIsLimit', $miscLabelField);
+        $fields->insertAfter('MiscLabelField', $limitField);
 
-        $fields->dataFieldByName('PaymentMethodID')->setEmptyString(           Tools::field_label('PleaseChoose'));
-        $fields->dataFieldByName('ShippingMethodID')->setEmptyString(          Tools::field_label('PleaseChoose'));
+        $fields->dataFieldByName('Created')->setTitle("{$this->fieldLabel('Created')} (" . Tools::field_label('From') . ")");
+        $fields->dataFieldByName('PaymentMethodID')->setEmptyString(Tools::field_label('PleaseChoose'));
+        $fields->dataFieldByName('ShippingMethodID')->setEmptyString(Tools::field_label('PleaseChoose'));
         return $fields;
     }
 
