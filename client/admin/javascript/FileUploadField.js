@@ -37,6 +37,7 @@ var checkForUploadedFiles = function() {
                             url: this.data('url'),
                             dataType: 'html',
                             success: function(data) {
+                                form.find('#Form_ItemEditForm_Upload' + fileGridField.data('name') + '_Holder .uploadfield-item__remove-btn').trigger('click');
                                 // Replace the grid field with response, not the form.
                                 // TODO Only replaces all its children, to avoid replacing the current scope
                                 // of the executing method. Means that it doesn't retrigger the onmatch() on the main container.
