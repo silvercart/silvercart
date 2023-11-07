@@ -460,7 +460,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         $can     = $this->owner->MarkForDeletion
                 && strtotime("{$this->owner->MarkForDeletionDate} 00:00:00") < strtotime(date('Y-m-d 00:00:00'))
                 && !$this->hasOpenOrders();
-        $results = $this->owner->extend('canBeDeletedAutomatically');
+        $results = $this->owner->extend('updateCanBeDeletedAutomatically');
         if ($results
          && is_array($results)
         ) {
