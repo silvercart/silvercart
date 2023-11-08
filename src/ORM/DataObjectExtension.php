@@ -628,4 +628,21 @@ class DataObjectExtension extends DataExtension
         }
         return $link;
     }
+
+    /**
+     * Returns whether this item is the requested item (admin area).
+     * 
+     * @return bool
+     */
+    public function isRequestedItem() : bool
+    {
+        if (Controller::has_curr()) {
+            $ctrl    = Controller::curr();
+            $request = $ctrl->getRequest();
+            if ((int) $this->owner->ID === (int) $request->param('ID')) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
