@@ -1349,6 +1349,29 @@ class Tools implements TemplateGlobalProvider
         $mb_diff = mb_strlen($input, $encoding) - strlen($input);
         return str_pad($input, $pad_length - $mb_diff, $pad_string, $pad_type);
     }
+
+    /**
+     * Returns the current client IP.
+     * 
+     * @param string|null $originIP Origin IP address to overwrite
+     * 
+     * @return string|null
+     */
+    public static function getClientIP(string|null $originIP = null) : string|null
+    {
+        $ip = $originIP;
+        if (array_key_exists('HTTP_X_REAL_IP', $_SERVER)) {
+            $ip = $_SERVER['HTTP_X_REAL_IP'];
+        } elseif (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        if ($ip !== $originIP) {
+            $originIP = $ip;
+        }
+        return $originIP;
+    }
     
     /**
      * Returns the city name matching to the IP.

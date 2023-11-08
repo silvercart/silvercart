@@ -231,7 +231,7 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
     /**
      * Group ID string to use as cache key part
      *
-     * @var string
+     * @var string[]
      */
     protected $groupCacheKey = [];
     /**

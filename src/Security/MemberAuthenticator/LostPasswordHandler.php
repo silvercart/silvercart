@@ -56,7 +56,7 @@ class LostPasswordHandler extends SilverStripeLostPasswordHandler
         
         $attempt        = LostPasswordAttempt::create();
         $attempt->Email = $data['Email'];
-        $attempt->IP    = $this->getRequest()->getIP();
+        $attempt->IP    = Tools::getClientIP($this->getRequest()->getIP());
         if ($member) {
             $token = $member->generateAutologinTokenAndStoreHash();
 
