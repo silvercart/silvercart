@@ -188,7 +188,7 @@ trait ExtensibleDataObject
                             continue;
                         }
                         if (!is_numeric($key)) {
-                            $fieldName = $key;
+                            $fieldname = $key;
                         }
                         $fieldLabels[$fieldname]               = _t("{$objectName}.{$fieldname}", $fieldname);
                         $fieldLabels["{$fieldname}Desc"]       = _t("{$objectName}.{$fieldname}Desc", FormField::name_to_label("{$fieldname}Desc"));

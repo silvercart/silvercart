@@ -121,7 +121,7 @@ class CleanDatabaseService extends Service
                     /* @var $product Product */
                     $currentIndex++;
                     if ($product->isStockQuantityOverbookable()) {
-                        $this->addMessage("\t [{$this->getXofY($currentIndex, $totalProductCount)}] Product #{$product->ID} [SKU#{$product->ProductNumberShop}] is overbookable, skip.", self::$CLI_COLOR_MAGENTA);
+                        $this->addMessage("\t [{$this->getXofY($currentIndex, $totalProductCount)}] Product #{$product->ID} [SKU#{$product->ProductNumberShop}] is overbookable, skip.");
                         continue;
                     }
                     $this->addMessage("\t [{$this->getXofY($currentIndex, $totalProductCount)}] Updating product #{$product->ID} [SKU#{$product->ProductNumberShop}] with a stock of {$product->StockQuantity}.");

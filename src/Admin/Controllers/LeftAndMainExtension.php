@@ -7,6 +7,7 @@ use SilverCart\Admin\Dev\Install\RequireDefaultRecords;
 use SilverCart\Admin\Model\Config;
 use SilverCart\Dev\Tools;
 use SilverStripe\Admin\CMSMenu;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config as SilverStripeConfig;
 use SilverStripe\Core\Convert;
@@ -14,6 +15,7 @@ use SilverStripe\Core\Extension;
 use SilverStripe\Core\Manifest\ModuleResourceLoader;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\SecurityToken;
 use SilverStripe\View\ArrayData;
 use SilverStripe\View\Requirements;
 

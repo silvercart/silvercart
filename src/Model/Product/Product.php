@@ -509,7 +509,7 @@ class Product extends DataObject implements PermissionProvider
     /**
      * The first image out of the related Images.
      *
-     * @var Image
+     * @var Image|SilverStripeImage|null
      */
     protected $listImage = null;
     /**

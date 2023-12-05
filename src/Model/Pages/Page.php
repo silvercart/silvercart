@@ -1096,6 +1096,7 @@ class Page extends SiteTree
          && $image->exists()
         ) {
             $padded = $image->Pad(250,250);
+            /** @var Image $padded */
             if (is_object($padded)
              && $padded->hasMethod('getAbsoluteURL')
             ) {
