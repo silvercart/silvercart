@@ -98,12 +98,14 @@ class CustomerAdmin extends ModelAdmin
     public function getList() : DataList
     {
         $this->beforeExtending('updateList', function(DataList &$list) {
-            $list = $list->exclude([
-                'Groups.Code' => [
-                    Customer::GROUP_CODE_ANONYMOUS,
-                    null
-                ],
-            ]);
+            if ($list->dataClass() === Member::class) {
+                $list = $list->exclude([
+                    'Groups.Code' => [
+                        Customer::GROUP_CODE_ANONYMOUS,
+                        null
+                    ],
+                ]);
+            }
         });
         return parent::getList();
     }
