@@ -48,6 +48,7 @@ use SilverStripe\Security\Security;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\TemplateGlobalProvider;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\IdentityStore;
 use SilverStripe\Security\LoginAttempt;
 use SilverStripe\Security\PermissionProvider;
@@ -1606,6 +1607,21 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
             $result->addMessage($message);
             $ctrl->setInfoMessage($message);
         }
+    }
+
+    /**
+     * Returns the minutes left for the LockedOutUntil property.
+     * 
+     * @return int
+     */
+    public function LockedOutUntilMinutes() : int
+    {
+        /** @var DBDatetime $lockedOutUntilObj */
+        $lockedOutUntilObj = $this->owner->dbObject('LockedOutUntil');
+        $now               = DBDatetime::now()->getTimestamp();
+        $time              = $lockedOutUntilObj->getTimestamp();
+        $ago               = abs($time - $now);
+        return round($ago / 60);
     }
 
     /**

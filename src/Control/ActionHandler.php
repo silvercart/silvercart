@@ -421,11 +421,12 @@ class ActionHandler extends Controller
                 $authenticator->getLoginHandler($postVars['redirect_to'])->performLogin($customer, $loginData, $this->getRequest());
             } else {
                 if ($member->isLockedOut()) {
+                    $minutes = $member->LockedOutUntilMinutes();
                     $loginForm->setErrorMessage(_t(
                         Member::class . '.ERRORLOCKEDOUT2',
                         'Your account has been temporarily disabled because of too many failed attempts at ' . 'logging in. Please try again in {count} minutes.',
                         null,
-                        ['count' => Member::config()->get('lock_out_delay_mins')]
+                        ['count' => $minutes > 1 ? $minutes : 2]
                     ));
                     $this->redirectBack($postVars['redirect_to']);
                     return;
