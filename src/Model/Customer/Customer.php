@@ -51,6 +51,7 @@ use SilverStripe\Core\Injector\Injector;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\IdentityStore;
 use SilverStripe\Security\LoginAttempt;
+use SilverStripe\Security\Member_Validator;
 use SilverStripe\Security\PermissionProvider;
 
 /**
@@ -537,6 +538,19 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
                 $fields->addFieldToTab('Root.LoginAttempts', $attemptField);
             }
         }
+    }
+
+    /**
+     * Returns the CMS validator.
+     * 
+     * @return Member_Validator
+     */
+    public function getCMSValidator() : Member_Validator
+    {
+        $validator = Member_Validator::create();
+        $validator->setForMember($this->owner);
+        $this->owner->extend('updateValidator', $validator);
+        return $validator;
     }
     
     /**
