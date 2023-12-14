@@ -411,7 +411,7 @@ class ShoppingCart extends DataObject
                 $positionFieldConfig = $positionsField->getConfig();
                 $positionFieldConfig->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
                 $deleteAction        = $positionFieldConfig->getComponentByType(GridFieldDeleteAction::class);
-                /* @var $deleteAction GridFieldDeleteAction */
+                /** @var GridFieldDeleteAction $deleteAction */
                 $deleteAction->setRemoveRelation(false);
             }
             $productsField = $fields->dataFieldByName('Products');
@@ -454,7 +454,7 @@ class ShoppingCart extends DataObject
      */
     public function Link() : string
     {
-        return CartPageController::PageByIdentifierCodeLink(CartPage::IDENTIFIER_CART_PAGE);
+        return Tools::PageByIdentifierCodeLink(CartPage::IDENTIFIER_CART_PAGE);
     }
 
     /**
