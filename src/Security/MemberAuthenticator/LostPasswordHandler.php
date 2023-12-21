@@ -10,6 +10,7 @@ use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Security\MemberAuthenticator\LostPasswordForm;
 use SilverStripe\Security\MemberAuthenticator\LostPasswordHandler as SilverStripeLostPasswordHandler;
 use SilverStripe\Security\Security;
+use SilverStripe\Security\SecurityToken;
 
 /**
  * Alternative class for SilverStripe LostPasswordHandler.
@@ -24,6 +25,28 @@ use SilverStripe\Security\Security;
  */
 class LostPasswordHandler extends SilverStripeLostPasswordHandler
 {
+    /**
+     * Disable security token?
+     * 
+     * @var bool
+     */
+    private static bool $disable_security_token = false;
+
+    /**
+     * Constructor.
+     * 
+     * @param string $link The URL to recreate this request handler
+     * 
+     * @return void
+     */
+    public function __construct($link)
+    {
+        if ($this->config()->disable_security_token) {
+            SecurityToken::disable();
+        }
+        parent::__construct($link);
+    }
+
     /**
      * Forgot password form handler method.
      * Called when the user clicks on "I've lost my password".
