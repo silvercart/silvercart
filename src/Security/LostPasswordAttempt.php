@@ -76,6 +76,12 @@ class LostPasswordAttempt extends DataObject
      * @var string
      */
     private static $table_name = "LostPasswordAttempt";
+    /**
+     * Default sort
+     * 
+     * @var string[]
+     */
+    private static $default_sort = "Created DESC";
     
     /**
      * Returns the summary fields.
