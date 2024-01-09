@@ -9,10 +9,12 @@ use SilverCart\Model\ShopEmail;
 use SilverCart\Model\Customer\Address;
 use SilverCart\Model\Customer\Country;
 use SilverCart\Model\Customer\CustomerConfig;
+use SilverCart\Model\DataValue;
 use SilverCart\Model\Order\NumberRange;
 use SilverCart\Model\Order\Order;
 use SilverCart\Model\Order\OrderStatus;
 use SilverCart\Model\Order\ShoppingCart;
+use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\CheckoutStepController;
 use SilverCart\Model\Pages\CustomerDataPage;
 use SilverCart\Model\Pages\Page;
@@ -1855,24 +1857,29 @@ class Customer extends DataExtension implements TemplateGlobalProvider, Permissi
         $ownerCart      = $this->owner->getCart();
         $ownerPositions = $ownerCart->ShoppingCartPositions();
         $customerCart   = $customer->getCart();
+        /** @var ShoppingCart $customerCart */
         if ($ownerPositions->exists()) {
             //delete registered customers cart positions
             $customerPositions = $customerCart->ShoppingCartPositions();
             if ($customerPositions->exists()) {
                 foreach ($customerPositions as $customerPosition) {
+                    /** @var ShoppingCartPosition $customerPosition */
                     $customerPosition->delete();
                 }
             }
             //add anonymous positions to the registered user
             foreach ($ownerPositions as $ownerPosition) {
+                /** @var ShoppingCartPosition $ownerPosition */
                 $customerPositions->add($ownerPosition);
             }
         }
         if ($ownerCart->DataValues()->exists()) {
             foreach ($ownerCart->DataValues() as $dataValue) {
+                /** @var DataValue $dataValue */
                 $dataValue->ShoppingCartID = $customerCart->ID;
                 $dataValue->write();
             }
         }
+        $this->owner->extend('updateMoveShoppingCartTo', $customer);
     }
 }
