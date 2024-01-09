@@ -8,7 +8,6 @@ use SilverCart\Dev\Tools;
 use SilverCart\Forms\DecrementPositionQuantityForm;
 use SilverCart\Forms\IncrementPositionQuantityForm;
 Use SilverCart\Forms\RemovePositionForm;
-use SilverCart\Forms\Checkout\CheckoutFormStep2;
 use SilverCart\Model\Customer\Customer;
 use SilverCart\Model\Order\ShoppingCartPosition;
 use SilverCart\Model\Pages\Page;
@@ -217,20 +216,6 @@ class CartPageController extends \PageController
             $this->checkout = Checkout::create_from_session($this);
         }
         return $this->checkout;
-    }
-    
-    /**
-     * Returns an instance of CheckoutFormStep2 to represent a valid 
-     * checkout context.
-     * 
-     * @return CheckoutFormStep2
-     */
-    public function getCheckoutContext() : CheckoutFormStep2
-    {
-        $checkoutStepPage = Tools::PageByIdentifierCode(Page::IDENTIFIER_CHECKOUT_PAGE);
-        $checkoutStepPageController = ModelAsController::controller_for($checkoutStepPage);
-        $checkoutStepPageController->handleRequest($this->getRequest());
-        return CheckoutFormStep2::create($checkoutStepPageController);
     }
     
     /**
