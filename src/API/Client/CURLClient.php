@@ -5,6 +5,7 @@ namespace SilverCart\API\Client;
 use SilverCart\API\Response\Response;
 use SilverStripe\Control\Director;
 use SimpleXMLElement;
+use stdClass;
 
 /**
  * Main handler for CURL client calls.
@@ -130,6 +131,21 @@ class CURLClient extends Client
     }
     
     /**
+     * Sends an API PATCH request.
+     * 
+     * @param string $target                API target endpoint
+     * @param array  $postFields            Post fields to submit
+     * @param string $requestString         Request string to use instead of $postFields
+     * @param array  $additionalCURLOptions Additional CURL options
+     * 
+     * @return Response
+     */
+    protected function sendPatchRequest(string $target, array $postFields = [], string $requestString = '', array $additionalCURLOptions = []) : Response
+    {
+        return $this->sendRequest($target, 'PATCH', $postFields, $requestString, $additionalCURLOptions);
+    }
+    
+    /**
      * Sends an API PUT request.
      * 
      * @param string $target                API target endpoint
@@ -212,6 +228,9 @@ class CURLClient extends Client
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
         } elseif ($method === 'PUT') {
             curl_setopt($ch, CURLOPT_PUT, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        } elseif ($method === 'PATCH') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
         } elseif ($method === 'DELETE') {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -307,7 +326,14 @@ class CURLClient extends Client
                 }
             } elseif (empty($diffXML)) {
                 $data = new SimpleXMLElement($response);
+            } else {
+                $data = new stdClass;
             }
+        } elseif (!in_array($httpCode, (array) $this->config()->error_http_codes)
+               && !$diffJSON
+               && !$diffXML
+        ) {
+            $data = new stdClass;
         }
         if (!$isError
          && is_null($data)
