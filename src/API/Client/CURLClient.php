@@ -310,7 +310,7 @@ class CURLClient extends Client
                 $errorMessage .= "Raw response output (tags removed):" . PHP_EOL;
                 $errorMessage .= strip_tags($response) . PHP_EOL;
                 $errorCode     = 'HNDL-0002';
-            } elseif (empty($diffJSON)) {
+            } elseif (count($diffJSON) < count($headers)) {
                 $data = json_decode($response);
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     $isError      = true;
@@ -324,16 +324,18 @@ class CURLClient extends Client
                     $errorMessage = $data->message;
                     $errorCode    = $data->error;
                 }
-            } elseif (empty($diffXML)) {
+            } elseif (count($diffXML) < count($headers)) {
                 $data = new SimpleXMLElement($response);
             } else {
                 $data = new stdClass;
+                $data->Body = $response;
             }
         } elseif (!in_array($httpCode, (array) $this->config()->error_http_codes)
                && !$diffJSON
                && !$diffXML
         ) {
             $data = new stdClass;
+            $data->Body = NULL;
         }
         if (!$isError
          && is_null($data)
